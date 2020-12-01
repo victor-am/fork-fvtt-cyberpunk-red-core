@@ -11,7 +11,7 @@ todo..
  - https://code.visualstudio.com/
  - https://git-scm.com/
 
- 1. Clone the repo!
+ 1. Clone the repo! 
  2. Check the Trello!
  3. Chat with use on Discord!
  4. Profit???
