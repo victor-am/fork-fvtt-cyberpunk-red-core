@@ -4,7 +4,7 @@ import {
 
 import {
   environmentSettings
-} from "../environment.js"
+} from "../../environment.js"
 
 
 /**

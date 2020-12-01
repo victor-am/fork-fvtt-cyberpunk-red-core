@@ -7,7 +7,7 @@
   "compatibleCoreVersion": "0.7.7",
   "templateVersion": 2,
   "author": "The Project Red Team",
-  "esmodules": ["module/cyberpunkred.js"],
+  "esmodules": ["cpr.js"],
   "styles": ["css/cyberpunkred.css"],
   "packs": [],
   "languages": [
