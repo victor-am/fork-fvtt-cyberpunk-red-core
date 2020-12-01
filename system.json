@@ -1,0 +1,28 @@
+{
+  "version": 0.41,
+  "name": "cyberpunk-red-core",
+  "title": "Cyberpunk RED - CORE",
+  "description": "Implementation of the Cyberpunk RED Core Rules for FVTT",
+  "minimumCoreVersion": "0.7.5",
+  "compatibleCoreVersion": "0.7.7",
+  "templateVersion": 2,
+  "author": "The Project Red Team",
+  "esmodules": ["module/cyberpunkred.js"],
+  "styles": ["css/cyberpunkred.css"],
+  "packs": [],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }          
+  ],
+  "gridDistance": 1,
+  "gridUnits": "m",
+  "primaryTokenAttribute": "",
+  "secondaryTokenAttribute": "",
+  "url": "",
+  "manifest": "",
+  "download": "",
+  "license": ""
+}

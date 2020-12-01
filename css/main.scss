@@ -1,0 +1,728 @@
+@import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
+
+/* Primary Color Variables: */
+
+:root {
+  --cpr-red-color: #700000; /* var(--cpr-red-color) */
+  --cpr-light-bak-color: #FFFFFF; /* var(--cpr-light-bak-color) */
+  --cpr-app-bak-color: rgba(200,200,200,1.00); /* var(--cpr-app-bak-color) */
+  --cpr-default-text-size: .85em;
+  --cpr-default-small-text-size: .80em;
+}
+
+/* IS THIS USED? WAHT WAS INTENT? */
+/* Damage Track and Luck Track */
+.cyberpunkred .cpr-dot-track {
+  padding: 10px 0px 10px 5px;
+  margin: 0px;
+  white-space: nowrap;
+}
+
+
+/* Hide the roll select as the character sheet has .js for this */
+/*
+.roll-type-select {
+	display: none;
+}
+*/
+
+/* Set default font */
+.window-app {
+  font-family: "Roboto", sans-serif;
+}
+
+/* Add graphical border around this block */
+.cyberpunkred .cprgraphics, #chat-log .message {
+  border: 10px ridge #FF1010;
+	border-image-source: url("crredborder.jpg?ver1"); /* source url */
+	border-image-source: url("crredborder.jpg?ver1"); /* source url */
+	border-image-slice: 17 0 17 9;
+	border-image-width: 17px 0px 17px 9px;
+	border-image-outset: 0px;
+	border-image-repeat: stretch;
+  background: white;
+  color: var(--cpr-red-color);
+  padding-top: 5px !important;
+  padding-bottom: 3px !important; 
+  box-sizing: border-box;
+  image-rendering: crisp-edges;
+}
+
+/* Redefine look of screen elements */
+#hotbar .macro {
+  border: 1px solid var(--cpr-red-color);
+  background: var(--cpr-app-bak-color);
+}
+
+#hotbat .macro.inactive {
+  box-shadow: 0 0 5px #400000 inset;
+}
+
+.app {
+  background: var(--cpr-app-bak-color);
+  color: var(--cpr-red-color);
+}
+
+#sidebar-tabs > .item.active, #sidebar-tabs > .item, #players {
+  color: var(--cpr-red-color);
+  border: 1px solid var(--cpr-red-color);
+  background: var(--cpr-app-bak-color);
+}
+
+.button {
+  background: var(--cpr-app-bak-color);
+  color: var(--cpr-red-color);
+}
+
+.sidebar-tab .directory-list .entity {
+  background: var(--cpr-app-bak-color);
+}
+
+/* Make sure this block has room to edit */
+.cyberpunkred .roomtoedit {
+  height: 400px;
+}
+
+.cyberpunkred .roomtoedit .editor {
+  margin-top: 10px;
+  height: 100%;
+}
+
+#players ol .player-name.self {
+ color: var(--cpr-red-color); 
+}
+
+#combat #combat-round .encounters a {
+ color: var(--cpr-red-color); 
+}
+
+#combat #combat-round .encounters h4 {
+ color: var(--cpr-red-color);   
+}
+
+/* General Style Elements */
+
+.cyberpunkred h1 {
+  display: block;
+  font-size: 2.15em;
+  margin-block-start: 5px;
+  margin-block-end: 0px;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
+.cyberpunkred h2 {
+  display: block;
+  font-size: 1.75em;
+  margin-block-start: 5px;
+  margin-block-end: 0px;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
+.cyberpunkred h3 {
+  display: block;
+  font-size: 1.15em;
+  margin-block-start: 5px;
+  margin-block-end: 0px;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
+.cyberpunkred h4 {
+  display: block;
+  font-size: 1em;
+  margin-block-start: 5px;
+  margin-block-end: 0px;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
+.cyberpunkred h5 {
+  display: block;
+  font-size: 0.83em;
+  margin-block-start: 5px;
+  margin-block-end: 0px;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
+/* Main grid with header, left nav, and right content */
+.cyberpunkred .cpr-grid {
+  display: grid;
+  grid-template-columns: 90px auto;
+  grid-template-rows: 40px auto;;
+  padding: 3px;
+}
+
+.cyberpunkred .cpr-header {
+  grid-column: 1 / span 2;
+  grid-row: 1;
+  border: none;
+  border-bottom: 1px solid #AAA;
+  padding: 3px;
+}
+
+.cyberpunkred .cpr-nav {
+  grid-column: 1 / span 1;
+  grid-row: 2;
+  border: none;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  align-content: start;
+  border-right: 1px solid #AAA;
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+}
+.cyberpunkred .cpr-content {
+  grid-column: 2;
+  grid-row: 2;
+  border: none;
+  padding: 3px;
+  vertical-align: top;
+  text-align: left;
+}
+
+/* Navigation grid styles */
+.cyberpunkred .cpr-nav .cpr-nav-item {
+  justify-self: start;
+  display: block;
+  height: 25px;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.cyberpunkred .cpr-nav .cpr-nav-item .item {
+  font-weight: normal;
+  display: block;
+  width: 100%;
+  padding: 5px 5px 5px 5px;
+  margin: 0px;
+  height: 25px;
+  background: var(--cpr-light-bak-color);
+  border-left: 1px solid var(--cpr-red-color);
+  border-top: 1px solid var(--cpr-red-color);
+  border-bottom: 1px solid var(--cpr-red-color);
+  border-radius: 10px 0px 0px 0px;
+  font-size: var(--cpr-default-text-size);
+  white-space: nowrap;
+}
+
+.cyberpunkred .cpr-nav .cpr-nav-item .item.active {
+  text-decoration: underline;
+  text-shadow: none;
+  font-weight: bold;
+  padding: 5px 5px 5px 5px;
+  margin: 0px;
+  height: 25px;
+  background: linear-gradient(#D0D0D0,#E0E0E0);
+  border-left: 1px solid var(--cpr-red-color);
+  border-top: 1px solid var(--cpr-red-color);
+  border-bottom: 1px solid var(--cpr-red-color);
+  border-radius: 10px 0px 0px 0px;
+  font-size: var(--cpr-default-text-size);
+}
+
+/* General code for hover indications of rollable and clickable */
+.cyberpunkred .rollable:before {
+  content: "\f6cf\00a0\00a0";
+  font-family: "Font Awesome 5 Free";
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-weight: 900;
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-weight: 900;
+  font-display: auto;
+  src: url(../webfonts/fa-solid-900.eot);
+  src: url(../webfonts/fa-solid-900.eot?#iefix) format("embedded-opentype"), url(../webfonts/fa-solid-900.woff2) format("woff2"), url(../webfonts/fa-solid-900.woff) format("woff"), url(../webfonts/fa-solid-900.ttf) format("truetype"), url(../webfonts/fa-solid-900.svg#fontawesome) format("svg")
+}
+
+.cyberpunkred .npcrollable:hover, .cyberpunkred .npcrollable:focus, .cyberpunkred .rollable:hover, .cyberpunkred .rollable:focus, .cyberpunkred .clickable:focus, .cyberpunkred .clickable:hover, .cyberpunkred .cpr-nav .cpr-nav-item .item:hover, .cpr-roll-showtagslink:hover {
+  color: var(--cpr-red-color);
+  cursor: pointer;
+  text-shadow:
+    0 0 1px #fff,
+    0 0 2px #fff,
+    0 0 3px #fff,
+    0 0 4px #f00,
+    0 0 5px #f00,
+    0 0 6px #f00,
+    0 0 70px #f00,
+    0 0 8px #f00;
+
+}
+
+/* Welcome and Conversion Status Grid */
+.cyberpunkred .conversion-row {
+  display: grid;
+  grid-template-columns: 100px auto;
+  grid-template-rows: auto;
+  padding: 3px;
+}
+
+.cyberpunkred .conversion-section {
+  grid-column: 1 / span 1;
+  grid-row: 1;
+  border:none;
+  padding: 3px;
+  font-weight: bolder;
+}
+
+.cyberpunkred .conversion-status {
+  grid-column: 2 / span 1;
+  grid-row: 1;
+  border: none;
+  padding: 3px;
+}
+
+
+/* Generic control classes */
+.cyberpunkred .cpr-nowrap {
+  white-space: nowrap;
+}
+
+.cyberpunkred .cpr-center {
+  align-content: center;
+  align-items: center;
+}
+
+
+/* Humanity Tab */
+.cyberpunkred .humanity-grid {
+  display: grid;
+  grid-row-gap: 5px;
+  margin: 0px;
+  padding: 0px;
+  grid-template-columns: 50px 250px 50px;
+  align-items: center;
+  justify-items: left;
+  font-size: var(--cpr-default-text-size);
+}
+
+.cyberpunkred .humanityButton {
+  background-color: #FF9799;
+  color: black;
+}
+
+/* Attributes and Skills Tab */
+.cyberpunkred .width50 {
+  width: 50px;
+}
+.cyberpunkred .attrnskill-label {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.cyberpunkred .attrnskill-content {
+  font-weight: normal;
+}
+.cyberpunkred .atrnskill-grid {
+  display: grid;
+  grid-row-gap: 5px;
+  margin: 0px;
+  padding: 0px;
+  grid-template-columns: 200px 50px 50px 50px 50px;
+  align-items: center;
+  justify-items: left;
+  font-size: var(--cpr-default-text-size);
+}
+.cyberpunkred .atrnskill-grid input {
+  text-align: center;
+}
+
+/* Combat Setup Tab */
+.cyberpunkred .combatsetup-head {
+    font-weight: bold;
+}
+
+
+/* Items List for Inventory Tab */
+.cyberpunkred .items-list {
+  list-style: none;
+  margin: 7px 0;
+  padding: 0;
+  overflow-y: auto;
+}
+.cyberpunkred .items-list .item-header {
+  font-weight: bold;
+}
+.cyberpunkred .items-list .item {
+  height: 30px;
+  line-height: 24px;
+  padding: 0px 0;
+  border-bottom: 1px solid #BBB;
+}
+.cyberpunkred .items-list .item .item-image {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 24px;
+  flex: 0 0 24px;
+  margin-right: 5px;
+}
+.cyberpunkred .items-list .item img {
+  display: block;
+}
+.cyberpunkred .items-list .item-name {
+  margin: 0;
+}
+.cyberpunkred .items-list .item-controls {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 86px;
+  flex: 0 0 86px;
+  text-align: right;
+}
+
+/* Weapon list on Combat Tab */
+.cyberpunkred .cpr-weaponbox {
+  border: 1px solid var(--cpr-red-color);
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+  font-size: var(--cpr-default-text-size);
+}
+
+.cyberpunkred .cpr-weaponinlinebox {
+  border: 1px solid var(--cpr-red-color);
+  padding: 2px;
+  margin: 0px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: var(--cpr-default-text-size);
+}
+
+/* Damage Track and Luck Track */
+.cyberpunkred  {
+  padding: 10px;
+  margin: 10px;
+}
+
+/* Skill List on Combat Tab */
+.cyberpunkred .skilllist-grid {
+  display: grid;
+  gap: 0px;
+  margin: 0px;
+  padding: 0px;
+  grid-column: span 4 / span 4;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+  font-size: var(--cpr-default-small-text-size);
+}
+
+.cyberpunkred .skilllist-item {
+  display: grid;
+  gap: 0px;
+  margin: 0px;
+  padding: 3px;
+  display: grid;
+  border: 1px solid var(--cpr-red-color); 
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  align-self: center;
+  justify-self: center;
+  text-align: left;
+  font-size: var(--cpr-default-small-text-size);
+}
+
+.cyberpunkred .specialroll-grid {
+  display: grid;
+  gap: 0px;
+  margin: 0px;
+  padding: 0px;
+  grid-column: span 2 / span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+}
+
+.cyberpunkred .specialroll-item {
+  display: grid;
+  gap: 0px;
+  margin: 0px;
+  padding: 0px;
+  display: grid;
+  border: 1px solid var(--cpr-red-color); 
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  align-self: center;
+  justify-self: center;
+  text-align: center;
+}
+
+/* Settings list - Also works for generic boxes */
+.cyberpunkred .settings-grid {
+  display: grid;
+  gap: 0px;
+  margin: 0px;
+  padding: 0px;
+  grid-column: span 3 / span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+  font-size: var(--cpr-default-text-size);
+}
+
+.cyberpunkred .settings-item {
+  display: grid;
+  gap: 0px;
+  margin: 0px;
+  padding: 0px;
+  display: grid;
+  border: 1px solid var(--cpr-red-color); 
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  align-self: center;
+  justify-self: center;
+  text-align: center;
+  font-size: var(--cpr-default-text-size);
+}
+
+.cyberpunkred input.settings[type=checkbox] {
+	position: absolute;
+	left: -999px;
+  display: none;
+}
+
+.cyberpunkred input.settings[type=checkbox]:checked + label {
+  background-color: #90FF90;
+	font-weight: bold;
+  border: 1px solid var(--cpr-red-color);
+  border-color: var(--cpr-red-color);
+  padding: 3px;
+  margin: 0px;
+}
+
+.cyberpunkred input.settings[type=checkbox]:not(:checked) + label {
+  background-color: transparent;
+	font-weight: normal;
+  border: 1px solid var(--cpr-red-color);
+  border-color: var(--cpr-red-color);
+  padding: 3px;
+  margin: 0px;
+}
+
+
+/* Modification Lists on Combat Tab */
+.cyberpunkred .cpr-manualmodentry {
+  width: 60%;
+  display: inline;
+  margin: 2px 0
+}
+
+.cyberpunkred .cpr-totalmoddisplay {
+  width: 7em;
+  display: inline;
+  font-size: var(--cpr-default-text-size);
+  font-weight: bold;
+}
+
+.cyberpunkred .modlist-grid {
+  display: grid;
+  gap: 0px;
+  margin: 0px;
+  padding: 0px;
+  grid-column: span 3 / span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+  font-size: var(--cpr-default-text-size);
+}
+
+.cyberpunkred .modlist-item {
+  display: grid;
+  gap: 0px;
+  margin: 0px;
+  padding: 0px;
+  display: grid;
+  border: 1px solid var(--cpr-red-color); 
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  align-self: center;
+  justify-self: center;
+  text-align: left;
+  font-size: var(--cpr-default-text-size);
+}
+
+.cyberpunkred input.modlist[type=checkbox] {
+	position: absolute;
+	left: -999px;
+  display: none;
+	width: 15px;
+	height: 15px;
+}
+
+.cyberpunkred input.modlist[type=checkbox]:checked + label {
+  background-color: #FF9090;
+	font-weight: bold;
+  border: 1px solid var(--cpr-red-color);
+  border-color: var(--cpr-red-color);
+  padding: 3px 3px 3px 5px;
+  margin: 0px;
+}
+
+.cyberpunkred input.modlist[type=checkbox]:not(:checked) + label {
+  background-color: transparent;
+	font-weight: normal;
+  border: 1px solid var(--cpr-red-color);
+  border-color: var(--cpr-red-color);
+  padding: 3px 3px 3px 5px;
+  margin: 0px;
+}
+
+.cyberpunkred input:read-only {
+  background-color: #DCA9AA;
+}
+
+/* Grid Setups */
+.grid {
+  display: grid;
+  gap: 3px;
+  margin: 3px 0;
+  padding: 0;
+}
+.grid-1col {
+  grid-column: span 1 / span 1;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+.grid-2col {
+  grid-column: span 2 / span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.grid-3col {
+  grid-column: span 3 / span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.grid-4col {
+  grid-column: span 4 / span 4;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.grid-5col {
+  grid-column: span 5 / span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.grid-6col {
+  grid-column: span 6 / span 6;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.grid-7col {
+  grid-column: span 7 / span 7;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.grid-8col {
+  grid-column: span 8 / span 8;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+.grid-9col {
+  grid-column: span 9 / span 9;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+.grid-10col {
+  grid-column: span 10 / span 10;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+.grid-11col {
+  grid-column: span 11 / span 11;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+.grid-12col {
+  grid-column: span 12 / span 12;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+
+
+/* NPC Sheet*/
+.cyberpunkred .npc-buttonlabel {
+  width: 30%;
+  display: inline-block;
+}
+.cyberpunkred .npc-value {
+  width: 10%;
+  display: inline-block;
+}
+.cyberpunkred .npc-description {
+  width: 50%;
+  display: inline-block;
+}
+
+.cyberpunkred .npc-button-array button {
+  border: 0px solid green; /* Green border */
+  color: white;
+  background-color: #702020;
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+  box-sizing: border-box;
+  align-content: center;
+  z-index: 1;
+  margin: 2px;
+}
+
+.cyberpunkred .npc-basic-box {
+	display: inline-block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding: 0px;
+	width: 137px;
+}
+
+.cyberpunkred .npc-custom-box {
+	display: inline-block;
+	width: 270px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.cyberpunkred .npc-small-button {
+	width: 23px;
+  padding: 1px;
+  margin: 1px;
+  text-align: center;
+}
+
+.cyberpunkred .npc-button-array:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.cyberpunkred .npc-button-array button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+.cyberpunkred .npc-button-array button:hover {
+  color: var(--cpr-red-color);
+  z-index: 2;
+  text-shadow: 0 0 6px red;
+  cursor: pointer;
+  box-shadow: 0 0 5px 5px red;
+}
+
+
+
+/* Legacy CSS left over from Boilerplate */
+.cyberpunkred .tox .tox-editor-container {
+  background: #fff;
+}
+.cyberpunkred .tox .tox-edit-area {
+  padding: 0 8px;
+}
+
