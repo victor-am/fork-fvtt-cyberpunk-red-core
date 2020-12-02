@@ -21,8 +21,8 @@
   "gridUnits": "m",
   "primaryTokenAttribute": "",
   "secondaryTokenAttribute": "",
-  "url": "",
-  "manifest": "",
+  "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
+  "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/system.json",
   "download": "",
-  "license": ""
+  "license": "Copyright 2020, The Project Red Team"
 }
