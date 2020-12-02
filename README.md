@@ -13,7 +13,7 @@ todo..
 
  1. Clone the repo! 
  2. Check the Trello!
- 3. Chat with use on Discord!
+ 3. Chat with us on Discord!
  4. Profit???
 
 # Features Planned
