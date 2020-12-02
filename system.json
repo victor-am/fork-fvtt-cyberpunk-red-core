@@ -7,6 +7,7 @@
   "compatibleCoreVersion": "0.7.7",
   "templateVersion": 2,
   "author": "The Project Red Team",
+  "background": "header.jpg",
   "esmodules": ["cpr.js"],
   "styles": ["styles/cpr.scss"],
   "packs": [],
