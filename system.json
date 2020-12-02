@@ -9,7 +9,7 @@
   "author": "The Project Red Team",
   "background": "header.jpg",
   "esmodules": ["cpr.js"],
-  "styles": ["styles/cpr.scss"],
+  "styles": ["main.css"],
   "packs": [],
   "languages": [
     {
