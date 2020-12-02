@@ -8,7 +8,7 @@
   "templateVersion": 2,
   "author": "The Project Red Team",
   "esmodules": ["cpr.js"],
-  "styles": ["css/cyberpunkred.css"],
+  "styles": ["styles/cpr.scss"],
   "packs": [],
   "languages": [
     {
