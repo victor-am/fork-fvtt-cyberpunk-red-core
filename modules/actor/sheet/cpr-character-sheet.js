@@ -12,8 +12,6 @@ export class CPRCharacterActorSheet extends CPRActorSheet {
       template: "systems/cyberpunk-red-core/templates/actor/cpr-character-sheet.html",
       width: 600,
       height: 600,
-      tabs: [],
-      scrollY: []
     });
   }
 
