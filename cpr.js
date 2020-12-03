@@ -4,6 +4,10 @@ import { CPRCharacterActorSheet } from "./modules/actor/sheet/cpr-character-shee
 import { CPRMookActorSheet } from "./modules/actor/sheet/cpr-mook-sheet.js";
 import registerHooks from "./modules/system/hooks.js";
 
+import { sqrt } from 'mathjs'
+
+console.log(sqrt(-4).toString()) // 2i
+
 Hooks.once("init", async function () {
     // Register sheet application classes
     Actors.unregisterSheet("core", ActorSheet);
