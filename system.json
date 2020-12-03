@@ -7,9 +7,8 @@
   "compatibleCoreVersion": "0.7.7",
   "templateVersion": 2,
   "author": "The Project Red Team",
-  "background": "header.jpg",
   "esmodules": ["cpr.js"],
-  "styles": ["styles/cpr.scss"],
+  "styles": ["css/cyberpunkred.css"],
   "packs": [],
   "languages": [
     {
@@ -22,6 +21,7 @@
   "gridUnits": "m",
   "primaryTokenAttribute": "",
   "secondaryTokenAttribute": "",
+  "background" : "Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
   "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/system.json",
   "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/master/fvtt-cyberpunk-red-core-master.zip",
