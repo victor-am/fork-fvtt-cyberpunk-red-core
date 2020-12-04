@@ -1,7 +1,5 @@
-// TODO-- MAKE SURE WE CAN USE SCSS
-
 const gulp = require('gulp');
-const less = require('gulp-scss');
+const less = require('gulp-less');
 
 /* ----------------------------------------- */
 /*  Compile LESS
@@ -9,7 +7,7 @@ const less = require('gulp-scss');
 
 const CPR_LESS = ["less/*.less"];
 function compileLESS() {
-  return gulp.src("less/cpr.less")
+  return gulp.src("less/main.less")
     .pipe(less())
     .pipe(gulp.dest("./"))
 }

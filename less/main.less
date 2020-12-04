@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import "colors.less";
+@import "actor-sheet.less";
+
+:root {
+  font-family: 'Ubuntu Mono', monospace;
+}
+
+
+.window-app .window-content {
+  background: @white;
+}
+
+form {
+  .horz-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+  }
+  .stat-label {
+    background-color: @maximum-red;
+    color: black;
+    padding: 8px;
+    border: 2px black;
+    border-radius: 10%;
+    margin: 5px;
+  }
+}
