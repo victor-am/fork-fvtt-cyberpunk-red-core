@@ -21,6 +21,7 @@ todo..
  Be sure to browse the foundry API to learn a bit about how to use it.
  - https://foundryvtt.com/api/
  - https://foundryvtt.com/article/system-development/
+ - https://handlebarsjs.com/
 
  Updating CSS~
  We are using less files, and gulp to manage our project CSS.
