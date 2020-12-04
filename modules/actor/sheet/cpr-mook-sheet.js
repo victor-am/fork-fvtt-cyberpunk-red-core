@@ -9,12 +9,9 @@ export class CPRMookActorSheet extends CPRActorSheet {
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["sheet", "actor"],
       template: "systems/cyberpunk-red-core/templates/actor/cpr-mook-sheet.html",
       width: 600,
       height: 600,
-      tabs: [],
-      scrollY: []
     });
   }
 
