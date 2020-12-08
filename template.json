@@ -1,541 +1,384 @@
 {
-    "Actor": {
-      "types": [
-        "character",
-        "mook"
-      ],
-      "templates": {
-        "stats": {
-          "attributes": {
-            "int": {
-              "value": 6
-            },
-            "ref": {
-              "value": 6
-            },
-            "dex": {
-              "value": 6
-            },
-            "tech": {
-              "value": 6
-            },
-            "cool": {
-              "value": 6
-            },
-            "will": {
-              "value": 6
-            },
-            "move": {
-              "value": 6
-            },
-            "body": {
-              "value": 6
-            },
-            "luck": {
-              "value": 6,
-              "max": 6
-            },
-            "emp": {
-              "value": 6,
-              "max": 6
-            }
+  "Actor": {
+    "types": [
+      "character",
+      "mook"
+    ],
+    "templates": {
+      "stats": {
+        "attributes": {
+          "int": 6,
+          "ref": 6,
+          "dex": 6,
+          "tech": 6,
+          "cool": 6,
+          "will": 6,
+          "move": 6,
+          "body": 6,
+          "luck": {
+            "value": 6,
+            "max": 6
           },
-          "derived": {
-            "hp": {
-              "value": 40,
-              "max": 40
-            },
-            "seriously-wounded": {
-              "value": 20
-            },
-            "death-save": {
-              "value": 6,
-              "max": 6
-            },
-            "wound-state": {
-              "lightly-wounded": false,
-              "seriously-wounded": false,
-              "mortally-wounded": false,
-              "dead": false
-            },
-            "humanity": {
-              "value": 60,
-              "max": 60
-            }
+          "emp": {
+            "value": 6,
+            "max": 6
+          }
+        },
+        "derived": {
+          "hp": {
+            "value": 40,
+            "max": 40
           },
-          "skills": {
-            "athletics": {
-              "value": 0
-            },
-            "basictech": {
-              "value": 0
-            },
-            "brawling": {
-              "value": 0
-            },
-            "bribery": {
-              "value": 0
-            },
-            "concentration": {
-              "value": 0
-            },
-            "conversation": {
-              "value": 0
-            },
-            "cybertech": {
-              "value": 0
-            },
-            "driving": {
-              "value": 0
-            },
-            "education": {
-              "value": 0
-            },
-            "evasion": {
-              "value": 0
-            },
-            "firstaid": {
-              "value": 0
-            },
-            "humanperception": {
-              "value": 0
-            },
-            "interrogation": {
-              "value": 0
-            },
-            "localexpert": {
-              "value": 0
-            },
-            "marksmanship": {
-              "value": 0
-            },
-            "meleeweapon": {
-              "value": 0
-            },
-            "perception": {
-              "value": 0
-            },
-            "persuasion": {
-              "value": 0
-            },
-            "playinstrument": {
-              "value": 0
-            },
-            "stealth": {
-              "value": 0
-            },
-            "tracking": {
-              "value": 0
-            },
-            "accounting": {
-              "value": 0
-            },
-            "acting": {
-              "value": 0
-            },
-            "airvehicletech": {
-              "value": 0
-            },
-            "animalhandling": {
-              "value": 0
-            },
-            "archery": {
-              "value": 0
-            },
-            "autofire": {
-              "value": 0
-            },
-            "bureaucracy": {
-              "value": 0
-            },
-            "business": {
-              "value": 0
-            },
-            "composition": {
-              "value": 0
-            },
-            "concealorrevealobject": {
-              "value": 0
-            },
-            "contortionist": {
-              "value": 0
-            },
-            "criminology": {
-              "value": 0
-            },
-            "cryptography": {
-              "value": 0
-            },
-            "dance": {
-              "value": 0
-            },
-            "deduction": {
-              "value": 0
-            },
-            "demolitions": {
-              "value": 0
-            },
-            "drivelandvehicle": {
-              "value": 0
-            },
-            "electronicsandsecuritytech": {
-              "value": 0
-            },
-            "endurance": {
-              "value": 0
-            },
-            "forgery": {
-              "value": 0
-            },
-            "gamble": {
-              "value": 0
-            },
-            "handgun": {
-              "value": 0
-            },
-            "heavyweapons": {
-              "value": 0
-            },
-            "landvehicletech": {
-              "value": 0
-            },
-            "language": {
-              "value": 0
-            },
-            "librarysearch": {
-              "value": 0
-            },
-            "lipreading": {
-              "value": 0
-            },
-            "martialarts": {
-              "value": 0
-            },
-            "paintordraworsculpt": {
-              "value": 0
-            },
-            "paramedic": {
-              "value": 0
-            },
-            "personalgrooming": {
-              "value": 0
-            },
-            "photographyandfilm": {
-              "value": 0
-            },
-            "picklock": {
-              "value": 0
-            },
-            "pickpocket": {
-              "value": 0
-            },
-            "pilotairvehicle": {
-              "value": 0
-            },
-            "pilotseavehicle": {
-              "value": 0
-            },
-            "resisttortureordrugs": {
-              "value": 0
-            },
-            "riding": {
-              "value": 0
-            },
-            "science": {
-              "value": 0
-            },
-            "seavehicletech": {
-              "value": 0
-            },
-            "shoulderarms": {
-              "value": 0
-            },
-            "streetwise": {
-              "value": 0
-            },
-            "tactics": {
-              "value": 0
-            },
-            "trading": {
-              "value": 0
-            },
-            "wardrobeandstyle": {
-              "value": 0
-            },
-            "weaponstech": {
-              "value": 0
-            },
-            "wildernesssurvival": {
-              "value": 0
-            }
-          }
+          "seriously-wounded": 20,
+          "death-save": 6
         },
-        "lifepath": {
-          "lifepath": {
-            "cultural-origin": "",
-            "personality": "",
-            "clothing-style": "",
-            "hair-style": "",
-            "affectations": "",
-            "value-most": "",
-            "about-people": "",
-            "valued-person": "",
-            "valued-possession": "",
-            "family-backgrond": "",
-            "childhood-environment": "",
-            "family-crisis": "",
-            "life-goals": "",
-            "role-lifepath": "",
-            "friends": [],
-            "tragic-love-affairs": [],
-            "enemies": []
-          }
+        "wound-state": {
+          "lightly-wounded": false,
+          "seriously-wounded": false,
+          "mortally-wounded": false,
+          "dead": false
         },
-        "agent": {
-          "agent": {
-            "notes": "",
-            "eb": 0
-          }
-        },
-        "information": {
-          "description": {
-            "appearance": "",
-            "eyes": "",
-            "height": "",
-            "weight": ""
-          },
-          "biography": {
-            "about": ""
-          }
-        },
-        "roleinfo": {
-          "role": "",
-          "roleskills": {
-            "netrunner": {
-              "interface": {
-                "value": 0
-              },
-              "speed": {
-                "value": 0
-              }
-            },
-            "rockerboy": {
-              "charismaticimpact": {
-                "value": 0
-              }
-            },
-            "solo": {
-              "combatawareness": {
-                "value": 0
-              }
-            },
-            "tech": {
-              "maker": {
-                "value": 0
-              },
-              "fieldexpertise": {
-                "value": 0
-              },
-              "upgradeexpertise": {
-                "value": 0
-              },
-              "fabricationexpertise": {
-                "value": 0
-              },
-              "inventionexpertise": {
-                "value": 0
-              }
-            },
-            "medtech": {
-              "medicine": {
-                "value": 0
-              },
-              "surgery": {
-                "value": 0
-              },
-              "medtechpharma": {
-                "value": 0
-              },
-              "medtechcryo": {
-                "value": 0
-              },
-              "medicaltech": {
-                "value": 0
-              }
-            },
-            "media": {
-              "credibility": {
-                "value": 0
-              }
-            },
-            "exec": {
-              "teamwork": {
-                "value": 0
-              }
-            },
-            "lawman": {
-              "backup": {
-                "value": 0
-              }
-            },
-            "fixer": {
-              "operator": {
-                "value": 0
-              }
-            },
-            "nomad": {
-              "moto": {
-                "value": 0
-              }
-            }
-          }
+        "humanity": {
+          "value": 60,
+          "max": 60
         }
       },
-      "character": {
-        "templates": [
-          "stats",
-          "roleskills",
-          "information",
-          "lifepath",
-          "agent"
-        ]
-      },
-      "mook": {
-        "templates": [
-          "stats",
-          "roleskills",
-          "information"
-        ]
+      "skills": {
+        "athletics": 0,
+        "basictech": 0,
+        "brawling": 0,
+        "bribery": 0,
+        "concentration": 0,
+        "conversation": 0,
+        "cybertech": 0,
+        "driving": 0,
+        "education": 0,
+        "evasion": 0,
+        "firstaid": 0,
+        "humanperception": 0,
+        "interrogation": 0,
+        "localexpert": 0,
+        "marksmanship": 0,
+        "meleeweapon": 0,
+        "perception": 0,
+        "persuasion": 0,
+        "playinstrument": 0,
+        "stealth": 0,
+        "tracking": 0,
+        "accounting": 0,
+        "acting": 0,
+        "airvehicletech": 0,
+        "animalhandling": 0,
+        "archery": 0,
+        "autofire": 0,
+        "bureaucracy": 0,
+        "business": 0,
+        "composition": 0,
+        "concealorrevealobject": 0,
+        "contortionist": 0,
+        "criminology": 0,
+        "cryptography": 0,
+        "dance": 0,
+        "deduction": 0,
+        "demolitions": 0,
+        "drivelandvehicle": 0,
+        "electronicsandsecuritytech": 0,
+        "endurance": 0,
+        "forgery": 0,
+        "gamble": 0,
+        "handgun": 0,
+        "heavyweapons": 0,
+        "landvehicletech": 0,
+        "language": 0,
+        "librarysearch": 0,
+        "lipreading": 0,
+        "martialarts": 0,
+        "paintordraworsculpt": 0,
+        "paramedic": 0,
+        "personalgrooming": 0,
+        "photographyandfilm": 0,
+        "picklock": 0,
+        "pickpocket": 0,
+        "pilotairvehicle": 0,
+        "pilotseavehicle": 0,
+        "resisttortureordrugs": 0,
+        "riding": 0,
+        "science": 0,
+        "seavehicletech": 0,
+        "shoulderarms": 0,
+        "streetwise": 0,
+        "tactics": 0,
+        "trading": 0,
+        "wardrobeandstyle": 0,
+        "weaponstech": 0,
+        "wildernesssurvival": 0
       }
     },
-    "Item": {
-      "types": [
-        "cyberware",
-        "weapon",
-        "armor",
-        "ammo",
-        "gear",
-        "skill",
-        "vehicle",
-        "program",
-        "netarch",
-        "loot"
-      ],
-      "templates": {
-        "common": {
-          "tags": [],
-          "description": "",
-          "source": ""
-        },
-        "physicalItem": {
-          "price": {
-            "market": 0,
-            "category": ""
+    "lifepath": {
+      "lifepath": {
+        "cultural-origin": "",
+        "personality": "",
+        "clothing-style": "",
+        "hair-style": "",
+        "affectations": "",
+        "value-most": "",
+        "about-people": "",
+        "valued-person": "",
+        "valued-possession": "",
+        "family-backgrond": "",
+        "childhood-environment": "",
+        "family-crisis": "",
+        "life-goals": "",
+        "role-lifepath": "",
+        "friends": [],
+        "tragic-love-affairs": [],
+        "enemies": []
+      }
+    },
+    "agent": {
+      "agent": {
+        "notes": "",
+        "eb": 0
+      }
+    },
+    "information": {
+      "description": {
+        "appearance": "",
+        "eyes": "",
+        "height": "",
+        "weight": ""
+      },
+      "biography": {
+        "about": ""
+      }
+    },
+    "roleinfo": {
+      "role": "",
+      "roleskills": {
+        "netrunner": {
+          "interface": {
+            "value": 0
+          },
+          "speed": {
+            "value": 0
           }
         },
-        "action": {
-          "isRanged": false,
-          "isMelee": false,
-          "rangedAction": {},
-          "meleeAction": {}
+        "rockerboy": {
+          "charismaticimpact": {
+            "value": 0
+          }
         },
-        "mods": {
-          "list": [],
-          "mod": {
-            "category": "",
-            "item": "",
-            "value": 0,
-            "isActive": false
+        "solo": {
+          "combatawareness": {
+            "value": 0
+          }
+        },
+        "tech": {
+          "maker": {
+            "value": 0
+          },
+          "fieldexpertise": {
+            "value": 0
+          },
+          "upgradeexpertise": {
+            "value": 0
+          },
+          "fabricationexpertise": {
+            "value": 0
+          },
+          "inventionexpertise": {
+            "value": 0
+          }
+        },
+        "medtech": {
+          "medicine": {
+            "value": 0
+          },
+          "surgery": {
+            "value": 0
+          },
+          "medtechpharma": {
+            "value": 0
+          },
+          "medtechcryo": {
+            "value": 0
+          },
+          "medicaltech": {
+            "value": 0
+          }
+        },
+        "media": {
+          "credibility": {
+            "value": 0
+          }
+        },
+        "exec": {
+          "teamwork": {
+            "value": 0
+          }
+        },
+        "lawman": {
+          "backup": {
+            "value": 0
+          }
+        },
+        "fixer": {
+          "operator": {
+            "value": 0
+          }
+        },
+        "nomad": {
+          "moto": {
+            "value": 0
           }
         }
-      },
-      "cyberware": {
-        "templates": [
-          "common"
-        ],
-        "type": "type",
-        "install": "install",
-        "humanity-loss": {
-          "cgen": 0,
-          "roll": ""
-        }
-      },
-      "weapon": {
-        "templates": [
-          "common",
-          "physicalItem"
-        ],
-        "rof": 1,
-        "weapon-type": "",
-        "ammo-type": "",
-        "ammo-capacity": 0,
-        "hands-req": 0,
-        "damage": ""
-      },
-      "armor": {
-        "templates": [
-          "common",
-          "physicalItem"
-        ],
-        "head-sp": 0,
-        "body-sp": 0
-      },
-      "ammo": {
-        "templates": [
-          "common",
-          "physicalItem"
-        ],
-        "type": ""
-      },
-      "gear": {
-        "templates": [
-          "common",
-          "physicalItem"
-        ]
-      },
-      "skill": {
-        "templates": [
-          "common"
-        ],
-        "value": 0,
-        "stat": "",
-        "category": "",
-        "basic": false,
-        "cost": 1
-      },
-      "vehicle": {
-        "templates": [
-          "common",
-          "physicalItem"
-        ],
-        "spd": "",
-        "seats": "",
-        "speedCombat": 0,
-        "speedNarrative": ""
-      },
-      "program": {
-        "templates": [
-          "common",
-          "physicalItem"
-        ],
-        "class": "",
-        "per": 0,
-        "spd": 0,
-        "atk": 0,
-        "def": 0,
-        "rez": 0
-      },
-      "netarch": {
-        "floors": [],
-        "floor": {
-          "dv": 0
-        }
-      },
-      "loot": {
-        "templates": [
-          "common",
-          "physicalItem"
-        ]
       }
     }
+  },
+  "character": {
+    "templates": [
+      "stats",
+      "roleskills",
+      "information",
+      "lifepath",
+      "agent"
+    ]
+  },
+  "mook": {
+    "templates": [
+      "stats",
+      "roleskills",
+      "information"
+    ]
+  },
+  "Item": {
+    "types": [
+      "cyberware",
+      "weapon",
+      "armor",
+      "ammo",
+      "gear",
+      "skill",
+      "vehicle",
+      "program",
+      "netarch",
+      "loot"
+    ],
+    "templates": {
+      "common": {
+        "tags": [],
+        "description": "",
+        "source": ""
+      },
+      "physicalItem": {
+        "price": {
+          "market": 0,
+          "category": ""
+        }
+      },
+      "action": {
+        "isRanged": false,
+        "isMelee": false,
+        "rangedAction": {},
+        "meleeAction": {}
+      },
+      "mods": {
+        "list": [],
+        "mod": {
+          "category": "",
+          "item": "",
+          "value": 0,
+          "isActive": false
+        }
+      }
+    },
+    "cyberware": {
+      "templates": [
+        "common"
+      ],
+      "type": "type",
+      "install": "install",
+      "humanity-loss": {
+        "cgen": 0,
+        "roll": ""
+      }
+    },
+    "weapon": {
+      "templates": [
+        "common",
+        "physicalItem"
+      ],
+      "rof": 1,
+      "weapon-type": "",
+      "ammo-type": "",
+      "ammo-capacity": 0,
+      "hands-req": 0,
+      "damage": ""
+    },
+    "armor": {
+      "templates": [
+        "common",
+        "physicalItem"
+      ],
+      "head-sp": 0,
+      "body-sp": 0
+    },
+    "ammo": {
+      "templates": [
+        "common",
+        "physicalItem"
+      ],
+      "type": ""
+    },
+    "gear": {
+      "templates": [
+        "common",
+        "physicalItem"
+      ]
+    },
+    "skill": {
+      "templates": [
+        "common"
+      ],
+      "value": 0,
+      "stat": "",
+      "category": "",
+      "basic": false,
+      "cost": 1
+    },
+    "vehicle": {
+      "templates": [
+        "common",
+        "physicalItem"
+      ],
+      "spd": "",
+      "seats": "",
+      "speedCombat": 0,
+      "speedNarrative": ""
+    },
+    "program": {
+      "templates": [
+        "common",
+        "physicalItem"
+      ],
+      "class": "",
+      "per": 0,
+      "spd": 0,
+      "atk": 0,
+      "def": 0,
+      "rez": 0
+    },
+    "netarch": {
+      "floors": [],
+      "floor": {
+        "dv": 0
+      }
+    },
+    "loot": {
+      "templates": [
+        "common",
+        "physicalItem"
+      ]
+    }
   }
+}
