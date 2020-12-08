@@ -3,8 +3,12 @@ import { CPRActorSheet } from "./modules/actor/sheet/cpr-actor-sheet.js";
 import { CPRCharacterActorSheet } from "./modules/actor/sheet/cpr-character-sheet.js";
 import { CPRMookActorSheet } from "./modules/actor/sheet/cpr-mook-sheet.js";
 import registerHooks from "./modules/system/hooks.js";
+import { LOGGER } from "./modules/utils/cpr-logger.js";
+
+
 
 Hooks.once("init", async function () {
+    LOGGER.error(`Why no logs?`);
     // Register sheet application classes
     Actors.unregisterSheet("core", ActorSheet);
     Actors.registerSheet("cyberpunk-red-core", CPRCharacterActorSheet, { types: ["character"], makeDefault: true });
