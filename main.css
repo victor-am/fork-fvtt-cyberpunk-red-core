@@ -28,11 +28,58 @@
 }
 /* LESS RGB */
 /* LESS Gradient */
+form .item-desc-body {
+  display: flex;
+  flex-direction: row;
+  min-height: 100%;
+  align-items: stretch;
+}
+form .item-desc-body .info-pane {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+form .item-desc-body .info-pane .info-pane-item {
+  min-width: 120px;
+  padding: 2px;
+  margin: 2px;
+  background-color: #d02b23;
+  color: white;
+}
+form .item-header-flex-parent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+form .item-icon {
+  min-width: 64px;
+  min-height: 64px;
+  max-width: 64px;
+  max-height: 64px;
+}
+form .item-name {
+  background-color: #d02b23;
+  height: 64px;
+  width: 100%;
+  color: white;
+  font-size: 24pt;
+  flex-grow: 2;
+}
 :root {
   font-family: 'Ubuntu Mono', monospace;
 }
 .window-app .window-content {
   background: #ffffff;
+}
+.editor {
+  flex-grow: 1;
+  min-height: 100%;
+}
+.content {
+  height: 100%;
+}
+.tab {
+  height: 100%;
 }
 form .horz-container {
   display: flex;
