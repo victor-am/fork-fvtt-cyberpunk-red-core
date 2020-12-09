@@ -1,4 +1,4 @@
-export class LOGGER {
+export default class LOGGER {
   static log(msg) {
     console.log(`CPR LOG | ${msg}`);
   };
