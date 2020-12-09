@@ -14,7 +14,13 @@
       {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
     </div>
     <div class="tab" data-group="primary" data-tab="details">
-      PROGRAM DETAILS GO HERE FAM.
+      Price: <input data.price.market="price-market" class="" type="text" value="{{data.price.market}}"
+        placeholder="50">
+      PER: <input data.per="per" class="" type="text" value="{{data.per}}" placeholder="5">
+      SPD: <input data.spd="spd" class="" type="text" value="{{data.spd}}" placeholder="5">
+      ATK: <input data.atk="atk" class="" type="text" value="{{data.atk}}" placeholder="5">
+      DEF: <input data.def="def" class="" type="text" value="{{data.def}}" placeholder="5">
+      REZ: <input data.rez="rez" class="" type="text" value="{{data.rez}}" placeholder="5">
     </div>
   </section>
 </form>

@@ -14,7 +14,11 @@
       {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
     </div>
     <div class="tab" data-group="primary" data-tab="details">
-      CYBERWARE DETAILS GO HERE FAM.
-    </div>
+      Price: <input data.price.market="price-market" class="" type="text" value="{{data.price.market}}"
+        placeholder="50">
+      Install: <input data.install="install" class="" type="text" value="{{data.install}}">
+      Humanity Loss: <input data.humanity-loss.cgen="humanity-loss.cgen" class="" type="text"
+        value="{{humanity-loss.cgen}}">
+      HL Roll: <input data.humanity-loss.roll="humanity-loss.roll" class="" type="" value="{{humanity-loss.roll}}">
   </section>
 </form>

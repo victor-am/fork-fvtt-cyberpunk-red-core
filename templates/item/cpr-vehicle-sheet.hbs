@@ -14,7 +14,16 @@
       {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
     </div>
     <div class="tab" data-group="primary" data-tab="details">
-      VEHICLE DETAILS GO HERE FAM.
+      Tags: <input data.vehicle.tags="vehicle-tags" class="" type="text" value="{{data.vehicle.tags}}">
+      Source: <input data.source="source" class="" type="text" value="{{data.source}}" placeholder="Desc">
+      Price: <input data.price.market="price-market" class="" type="text" value="{{data.price.market}}"
+        placeholder="50">
+      Spd: <input data.spd="spd" class="" type="text" value="{{data.spd}}" placeholder="50">
+      Seats: <input data.seats="seats" class="" type="text" value="{{data.seats}}" placeholder="50">
+      speedCombat: <input data.speedCombat="speedCombat" class="" type="text" value="{{data.speedCombat}}"
+        placeholder="50">
+      speedNarrative: <input data.speedNarrative="speedNarrative" class="" type="text" value="{{data.speedNarrative}}"
+        placeholder="50">
     </div>
   </section>
 </form>
