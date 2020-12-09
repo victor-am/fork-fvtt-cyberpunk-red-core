@@ -1,0 +1,23 @@
+<form>
+  {{!-- Ammo Header Navigation --}}
+  {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-header.hbs"}}
+  {{!-- Ammo Sheet Navigation --}}
+  <nav class="tabs" data-group="primary">
+    <a class="" data-tab="description">DESCRIPTION</a>
+    <a class="" data-tab="details">DETAILS</a>
+  </nav>
+
+  {{!-- Ammo Sheet Body --}}
+  <section class="content">
+    {{!-- Inventory Tab --}}
+    <div class="tab" data-group="primary" data-tab="description">
+      {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
+    </div>
+    <div class="tab" data-group="primary" data-tab="details">
+      <section class="">
+        Price: <input data.price.market="price-market" class="" type="text" value="{{data.price.market}}" placeholder="50">
+        Type: <input data.type="type" class="" type="text" value="{{type}}" placeholder="basic">
+      </section>
+    </div>
+  </section>
+</form>
