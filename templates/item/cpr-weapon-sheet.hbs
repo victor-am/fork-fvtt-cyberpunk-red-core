@@ -14,7 +14,40 @@
       {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
     </div>
     <div class="tab" data-group="primary" data-tab="details">
-      WEAPON DETAILS GO HERE FAM.
+      Price: <input data.weapon.tags="weapon-tags" class="" type="text" value="{{data.weapon.tags}}">
+      source: <input data.source="source" class="" type="text" value="{{data.source}}" placeholder="Desc">
+      Price: <input data.price.market="price-market" class="" type="text" value="{{data.price.market}}"
+        placeholder="50">
+      Rate of Fire: <input data.rof="ROF" class="" type="text" value="{{data.rof}}" placeholder="Desc">
+      <label for="weapon-type">Choose a Weapon Type</label>
+      <select name="weapon-type" id="weapon-type">
+        <option value="melee">Melee Weapon</option>
+        <option value="handgun">Handgun</option>
+        <option value="shldrarm">Shoulder Arms</option>
+        <option value="archery">Archery</option>
+        <option value="heavywep">Heavy Weapon</option>
+      </select>
+      <div><label for="ammo-type">Choose an Ammunition Type</label>
+        <select name="ammo-type" id="ammo-type">
+          <option value="none">None</option>
+          <option value="medpistol">Medium Pistol</option>
+          <option value="hvypistol">Heavy Pistol</option>
+          <option value="vhvpistol">V. Heavy Pistol</option>
+          <option value="shotslug">Shotgun Slug</option>
+          <option value="shotshell">Shotgun Shell</option>
+          <option value="rifleround">Rifle Round</option>
+          <option value="arrow">Arrow</option>
+          <option value="grenade">Grenade</option>
+          <option value="rocket">Rocket</option>
+        </select></div>
+      Ammo Capacity: <input data.ammo-capacity="ammo-capacity" class="" type="text" value="{{data.ammo-capacity}}"
+        placeholder="Desc">
+      <div><label for="hands-req">Number of Hands Required</label>
+        <select name="hands-req" id="hands-req">
+          <option value="One">One</option>
+          <option value="Two">Two</option>
+        </select></div>
+      Damage: <input data.damage="damage" class="" type="text" value="{{data.damage}}" placeholder="Desc">
     </div>
   </section>
 </form>
