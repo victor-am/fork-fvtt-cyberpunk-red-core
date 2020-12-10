@@ -1,82 +1,82 @@
 <form>
   {{!-- Sheet Header --}}
-    <header class="">
+  <header class="sheet-header">
+    {{!-- Header stuff goes here --}}
+    <img class="actor-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
+    <div class="header-fields">
+      <h1 class="handle-field">Handle: <input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></h1>
+    </div>
+    <div>
+      <p class="alias-field">Alias: <input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></p>
+      <p class="role-field">Role: <input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></p>
+    </div>
+  </header>
 
-        <img class="avatar" src="{{actor.img}}" title="{{actor.name}}" data-edit="img"/>
-        <div>
-          <label for="handle">Male</label>
-          <input type="text" name="handle" id="handle" value="Some Name"> 
-        </div>
-        <div>
-          <label for="role">Male</label>
-          <input type="text" name="role" id="role" value="Some Role"> 
-        </div>
-        <section class="horz-container">
-          <div class="stat-label">
-            STAT
-          </div>
-          <div class="stat-label">
-            STAT
-          </div>
-          <div class="stat-label">
-            STAT
-          </div>
-          <div class="stat-label">
-            STAT
-          </div>
-          <div class="stat-label">
-            STAT
-          </div>
-          <div class="stat-label">
-            STAT
-          </div>
-          <div class="stat-label">
-            STAT
-          </div>
-          <div class="stat-label">
-            STAT
-          </div>
-          <div class="stat-label">
-            STAT
-          </div>
-        </section>
-        <div class="horz-container">
-          <div class="">
-            SOME OTHER DIV
-          </div>
-        </div>
-    </header>
+  <div class="horz-container">
+    <label class="stat-label">
+      STAT <input type="text">
+    </label>
+    <div class="stat-label">
+      STAT <input type="text">
+    </div>
+    <div class="stat-label">
+      STAT <input type="text">
+    </div>
+    <div class="stat-label">
+      STAT <input type="text">
+    </div>
+    <div class="stat-label">
+      STAT <input type="text">
+    </div>
+    <div class="stat-label">
+      STAT <input type="text">
+    </div>
+    <div class="stat-label">
+      STAT <input type="text">
+    </div>
+    <div class="stat-label">
+      STAT <input type="text">
+    </div>
+    <div class="stat-label">
+      STAT <input type="text">
+    </div>
+  </div>
+  <div class="horz-container">
+    <div class="">
+      SOME OTHER DIV
+    </div>
+  </div>
 
-    {{!-- Character Sheet Navigation --}}
-    <nav class="tabs" data-group="primary">
-        <a class="" data-tab="skills">SKILLS</a>
-        <a class="" data-tab="role">ROLE</a>
-        <a class="" data-tab="combat">COMBAT</a>
-        <a class="" data-tab="inventory">INVENTORY</a>
-        <a class="" data-tab="cyberware">CYBERWARE</a>
-        <a class="" data-tab="information">INFO</a>
-    </nav>
 
-    {{!-- Character Sheet Body --}}
-    <section class="content">
-        {{!-- Inventory Tab --}}
-        <div class="tab" data-group="primary" data-tab="skills">
-          {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-skills.hbs"}}
-        </div>
-        <div class="tab" data-group="primary" data-tab="role">
-          {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-role.hbs"}}
-        </div>
-        <div class="tab" data-group="primary" data-tab="combat">
-          {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-combat.hbs"}}
-        </div>
-        <div class="tab" data-group="primary" data-tab="inventory">
-          {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-inventory.hbs"}}
-        </div>
-        <div class="tab" data-group="primary" data-tab="cyberware">
-          {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-cyberware.hbs"}}
-        </div>
-        <div class="tab" data-group="primary" data-tab="information">
-          {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-information.hbs"}}
-        </div>
-    </section>
+  {{!-- Character Sheet Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="" data-tab="skills">SKILLS</a>
+    <a class="" data-tab="role">ROLE</a>
+    <a class="" data-tab="combat">COMBAT</a>
+    <a class="" data-tab="inventory">INVENTORY</a>
+    <a class="" data-tab="cyberware">CYBERWARE</a>
+    <a class="" data-tab="information">INFO</a>
+  </nav>
+
+  {{!-- Character Sheet Body --}}
+  <div class="content">
+    <div class="tab" data-group="primary" data-tab="skills">
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-skills.hbs"}}
+    </div>
+    <div class="tab" data-group="primary" data-tab="role">
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-role.hbs"}}
+    </div>
+    <div class="tab" data-group="primary" data-tab="combat">
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-combat.hbs"}}
+    </div>
+    <div class="tab" data-group="primary" data-tab="inventory">
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-inventory.hbs"}}
+    </div>
+    <div class="tab" data-group="primary" data-tab="cyberware">
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-cyberware.hbs"}}
+    </div>
+    <div class="tab" data-group="primary" data-tab="information">
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-information.hbs"}}
+    </div>
+  </div>
 </form>

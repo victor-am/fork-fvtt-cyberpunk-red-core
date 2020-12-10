@@ -10,6 +10,32 @@ export default class CPRActor extends Actor {
   prepareData() {
     LOGGER.trace("Prepare Data | CPRActor | Called.");
     super.prepareData();
+    const actorData = this.data;
+
+    // Make separate methods for each Actor type (character, mook, etc.) to keep
+    // things organized.
+    if (actorData.type === 'character') this._prepareCharacterData(actorData);
+    if (actorData.type === 'mook') this._prepareMookData(actorData); 
+  }
+
+  _prepareCharacterData(actorData) {
+    LOGGER.trace("Prepare Character Data | CPRActor | Called.");
+    const data = actorData.data;
+    LOGGER.trace("Prepare Character Data | CPRActor | Checking on contents of `actorData.data`.");
+    console.log(data)
+    const filteredItems = this._filterItems(actorData.data);
+    LOGGER.trace("Prepare Character Data | CPRActor | Checking on contents of `filteredItems`.");
+    console.log(filteredItems)
+  }
+
+  _prepareMookData(actorData) {
+    LOGGER.trace("Prepare Mook Data | CPRActor | Called.");
+    const data = actorData.data;
+    LOGGER.trace("Prepare Mook Data | CPRActor | Checking on contents of `actorData.data`.");
+    console.log(data)
+    const filteredItems = this._filterItems();
+    LOGGER.trace("Prepare Mook Data | CPRActor | Checking on contents of `filteredItems`.");
+    console.log(filteredItems)
   }
 
   /** @override */
@@ -17,5 +43,11 @@ export default class CPRActor extends Actor {
     LOGGER.trace("Get Roll Data | CPRActor | Called.");
     const data = super.getRollData();
     return data;
+  }
+
+  /** METHODS */
+  _filterItems() {
+    // Filter items into arrays based on item type.
+    return this.items;
   }
 }

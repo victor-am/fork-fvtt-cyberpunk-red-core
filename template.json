@@ -279,16 +279,16 @@
       ],
       "head": false,
       "body": false,
-      "sp": 0,
-      "penalty": 0
-
+      "penalty": 0,
+      "sp": 0
     },
     "ammo": {
       "templates": [
         "common",
         "physicalItem"
       ],
-      "type": ""
+      "variety": "",
+      "types": []
     },
     "gear": {
       "templates": [
