@@ -59,6 +59,10 @@ export default class CPRActorSheet extends ActorSheet {
       }
     });
 
+    html.find(".roll").click(ev => {
+      this._onRoll.bind(this)
+    });
+
   }
 
 }

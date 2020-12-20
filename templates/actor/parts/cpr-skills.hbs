@@ -4,14 +4,15 @@
     {{!-- FOR EACH CATEGORY --}}
     {{#each skillCategories as |category c|}}
     <div class="skill-category">
-        {{localize category}}
+        <h1>{{localize category}}</h1>
     </div>
     {{#each ../actor.filteredItems.skill as |skill s|}}
     {{!-- IF SKILL IS OF CATEGORY --}}
     {{#ifEquals skill.data.category c}}
     {{!-- DISPLAY SKILL --}}
     <div>
-        {{skill.name}} | {{skill.data.stat}} | {{skill.data.basic}} | {{skill.data.difficulty}}
+        {{skill.name}} | Stat: {{skill.data.stat}} | {{skill.data.basic}} | {{skill.data.difficulty}}
+        <button id="roll"> ROLL </button>
     </div>
     {{/ifEquals}}
     {{/each}}
