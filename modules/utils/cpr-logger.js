@@ -14,4 +14,16 @@ export default class LOGGER {
   static error(msg) {
     console.log(`CPR ERR | ${msg}`);
   };
+
+  static credits() {
+    console.log(`SPECIAL THANKS TO MOO MAN FOR HIS PATIENCE AND HELP!`)
+    console.log(`
+          (__)             (__)             (__)             (__)
+          (oo)             (oo)             (oo)             (oo)
+   /-------\\/       /-------\\/       /-------\\/       /-------\\/
+  / |     ||       / |     ||       / |     ||       / |     ||
+ *  ||----||      *  ||W---||      *  ||w---||      *  ||V---||
+    ^^    ^^ 
+    `)
+  }
 };
