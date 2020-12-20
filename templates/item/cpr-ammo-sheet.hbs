@@ -15,8 +15,20 @@
     </div>
     <div class="tab" data-group="primary" data-tab="details">
       <section class="">
-        Price: <input name="data.price.market" class="" type="text" value="{{data.price.market}}" placeholder="50">
-        Variety: <input name="data.variety" class="" type="text" value="{{data.variety}}" placeholder="basic">
+        Price: <input data.price.market="price-market" class="" type="text" value="{{data.price.market}}"
+          placeholder="50">
+        <label for="variety">Choose an Ammunition Variety</label>
+        <select name="variety" id="variety">
+          <option value="medpistol">Medium Pistol</option>
+          <option value="hvypistol">Heavy Pistol</option>
+          <option value="vhvpistol">V. Heavy Pistol</option>
+          <option value="shotslug">Shotgun Slug</option>
+          <option value="shotshell">Shotgun Shell</option>
+          <option value="rifleround">Rifle Round</option>
+          <option value="arrow">Arrow</option>
+          <option value="grenade">Grenade</option>
+          <option value="rocket">Rocket</option>
+        </select>
       </section>
     </div>
   </section>

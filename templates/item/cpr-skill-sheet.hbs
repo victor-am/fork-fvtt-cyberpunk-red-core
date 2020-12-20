@@ -15,45 +15,13 @@
       {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
     </div>
     <div class="tab" data-group="primary" data-tab="details">
-      <section class="">
-        {{!-- WHAT STAT DOES THIS SKILL USE --}}
-        Stat:
-        <select name="data.stat" data-dtype="{{data.stat}}">
-          {{#select data.stat}}
-          <option value="">NONE</option>
-          {{#each statList as |stat s|}}
-          <option value="{{s}}">{{localize stat}}</option>
-          {{/each}}
-          {{/select}}
-        </select>
-        {{!-- WHAT CATEGORY IS THIS SKILL --}}
-        Category:
-        <select name="data.category" data-dtype="{{data.category}}">
-          {{#select data.category}}
-          <option value="">NONE</option>
-          {{#each skillCategories as |category c|}}
-          <option value="{{c}}">{{localize category}}</option>
-          {{/each}}
-          {{/select}}
-        </select>
-        {{!-- WHAT TRAINING DIFFICULTY IS THIS SKILL --}}
-        Difficulty:
-        <select name="data.difficulty" data-dtype="{{data.difficulty}}">
-          {{#select data.details.culture.value}}
-          <option value="">NONE</option>
-          {{#each skillDifficulties as |difficulty d|}}
-          <option value="{{d}}">{{localize difficulty}}</option>
-          {{/each}}
-          {{/select}}
-        </select>
-        {{!-- IS THIS A BASIC SKILL? --}}
-        <label class="label-text">{{localize CPR.Basic}}</label>
-        {{#if data.basic}}
-        <a class="item-checkbox" data-target="data.basic"><i class="far fa-check-circle"></i></a>
-        {{else}}
-        <a class="item-checkbox" data-target="data.basic"><i class="far fa-circle"></i></a>
-        {{/if}}
-      </section>
+      <div>Tags:<input data.skill.tags="skill.tags" class="" type="" value="{{data.skill.tags}}"></div>
+      Source: <input data.source="source" class="" type="text" value="{{data.source}}" placeholder="Desc">
+      Value: <input data.value="value" class="" type="text" value="{{data.value}}" placeholder="Desc">
+      Stat: <input data.stat="stat" class="" type="text" value="{{data.stat}}" placeholder="Desc">
+      Category: <input data.category="category" class="" type="text" value="{{data.category}}" placeholder="Desc">
+      Basic: <input data.basic="basic" class="" type="text" value="{{data.basic}}" placeholder="false">
+      Cost: <input data.cost="cost" class="" type="text" value="{{data.cost}}" placeholder="1">
     </div>
   </section>
 </form>
