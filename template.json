@@ -109,7 +109,7 @@
           "wildernesssurvival": 0
         },
         "role-info": {
-          "roles": [],
+          "role": "mook",
           "roleskills": {
             "netrunner": {
               "interface": 0
@@ -151,6 +151,7 @@
           }
         },
         "information": {
+          "alias": "",
           "description": "",
           "notes": "",
           "history": ""
@@ -300,11 +301,10 @@
       "templates": [
         "common"
       ],
-      "value": 0,
       "stat": "",
       "category": "",
       "basic": false,
-      "cost": 1
+      "difficulty": 1
     },
     "vehicle": {
       "templates": [

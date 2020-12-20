@@ -1,4 +1,12 @@
 <div>
     {{!-- FOR ALL SKILL ITEMS, RENDER SKILL CARD --}}
-    SKILLS
+    {{log actor.filteredItems}}
+    {{!-- FOR EACH CATEGORY --}}
+    
+    {{!-- FOR EACH SKILL IN CATEGORY --}}
+    {{#each actor.filteredItems.skill as |skill s|}}
+    <div>
+        {{skill.name}} | {{s}}
+    </div>
+    {{/each}}
 </div>

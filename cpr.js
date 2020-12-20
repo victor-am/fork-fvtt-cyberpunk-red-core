@@ -14,6 +14,8 @@ import registerHooks from "./modules/system/hooks.js";
 import preloadHandlebarsTemplates from "./modules/system/preload-templates.js";
 
 Hooks.once("init", async function () {
+  LOGGER.log("THANK YOU TO EVERYONE WHO HELPED!!!!");
+  LOGGER.credits();
   // Register Actor Sheet Application Classes
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("cyberpunk-red-core", CPRCharacterActorSheet, { types: ["character"], makeDefault: true });

@@ -1,3 +1,26 @@
 <form>
-  <p>Humble Beginnings.</p>
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    {{!-- Header stuff goes here --}}
+    <img class="actor-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
+    <div class="header-fields">
+      <p class="handle-field">Handle: <input name="name" type="text" value="{{actor.name}}" placeholder="Handle" /></p>
+      <p class="alias-field">Alias: <input name="data.alias" type="text" value="{{data.alias}}" placeholder="AKA"
+          data-dtype="String" /></p>
+      <p class="role-field">Role: <input name="data.role" type="text" value="{{data.role}}" placeholder="Role"
+          data-dtype="String" /></p>
+    </div>
+  </header>
+
+  {{!-- Stat Block --}}
+  <div class="horz-container">
+    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs"}} 
+  </div>
+
+  {{!-- Derived Stat Block --}}
+  <div class="horz-container">
+    <div class="">
+      MAIN BODY
+    </div>
+  </div>
 </form>
