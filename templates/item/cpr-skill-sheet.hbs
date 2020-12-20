@@ -15,6 +15,7 @@
       {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
     </div>
     <div class="tab" data-group="primary" data-tab="details">
+<<<<<<< Updated upstream
       <div>Tags:<input data.skill.tags="skill.tags" class="" type="" value="{{data.skill.tags}}"></div>
       Source: <input data.source="source" class="" type="text" value="{{data.source}}" placeholder="Desc">
       Value: <input data.value="value" class="" type="text" value="{{data.value}}" placeholder="Desc">
@@ -22,6 +23,55 @@
       Category: <input data.category="category" class="" type="text" value="{{data.category}}" placeholder="Desc">
       Basic: <input data.basic="basic" class="" type="text" value="{{data.basic}}" placeholder="false">
       Cost: <input data.cost="cost" class="" type="text" value="{{data.cost}}" placeholder="1">
+=======
+      <section class="">
+        {{!-- WHAT STAT DOES THIS SKILL USE --}}
+        <div>
+          Stat:
+          <select name="data.stat" data-dtype="{{data.stat}}">
+            {{#select data.stat}}
+            <option value="">NONE</option>
+            {{#each statList as |stat s|}}
+            <option value="{{s}}">{{localize stat}}</option>
+            {{/each}}
+            {{/select}}
+          </select>
+        </div>
+        {{!-- WHAT CATEGORY IS THIS SKILL --}}
+        <div>
+          Category:
+          <select name="data.category" data-dtype="{{data.category}}">
+            {{#select data.category}}
+            <option value="">NONE</option>
+            {{#each skillCategories as |category c|}}
+            <option value="{{c}}">{{localize category}}</option>
+            {{/each}}
+            {{/select}}
+          </select>
+        </div>
+        {{!-- WHAT TRAINING DIFFICULTY IS THIS SKILL --}}
+        <div>
+          Difficulty:
+          <select name="data.difficulty" data-dtype="{{data.difficulty}}">
+            {{#select data.difficulty}}
+            <option value="">NONE</option>
+            {{#each skillDifficulties as |difficulty d|}}
+            <option value="{{d}}">{{localize difficulty}}</option>
+            {{/each}}
+            {{/select}}
+          </select>
+        </div>
+        {{!-- IS THIS A BASIC SKILL? --}}
+        <div>
+          <label class="label-text">Basic</label>
+          {{#if data.basic}}
+          <a class="item-checkbox" data-target="data.basic"><i class="far fa-check-circle"></i></a>
+          {{else}}
+          <a class="item-checkbox" data-target="data.basic"><i class="far fa-circle"></i></a>
+          {{/if}}
+        </div>
+      </section>
+>>>>>>> Stashed changes
     </div>
   </section>
 </form>
