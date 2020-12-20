@@ -4,17 +4,19 @@ form {
         flex-direction: row;
         min-height: 100%;
         align-items: stretch;
-        .info-pane {
-            display: flex;
-            flex-direction: column;
-            padding: 5px;
-            .info-pane-item {
-                min-width: 120px;
-                padding: 2px;
-                margin: 2px;
-                background-color: @maximum-red;
-                color: white;
-            }
+        
+    }
+
+    .item-info-pane {
+        display: flex;
+        flex-direction: row;
+        padding: 5px;
+        .info-pane-item {
+            min-width: 120px;
+            padding: 2px;
+            margin: 2px;
+            background-color: @maximum-red;
+            color: white;
         }
     }
 
