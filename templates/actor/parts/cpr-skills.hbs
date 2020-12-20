@@ -2,11 +2,19 @@
     {{!-- FOR ALL SKILL ITEMS, RENDER SKILL CARD --}}
     {{log actor.filteredItems}}
     {{!-- FOR EACH CATEGORY --}}
-    
-    {{!-- FOR EACH SKILL IN CATEGORY --}}
-    {{#each actor.filteredItems.skill as |skill s|}}
-    <div>
-        {{skill.name}} | {{s}}
+    {{#each skillCategories as |category c|}}
+    <div class="skill-category">
+        {{localize category}}
     </div>
+    {{#each ../actor.filteredItems.skill as |skill s|}}
+    {{!-- IF SKILL IS OF CATEGORY --}}
+    {{#ifEquals skill.data.category c}}
+    {{!-- DISPLAY SKILL --}}
+    <div>
+        {{skill.name}} | {{skill.data.stat}} | {{skill.data.basic}} | {{skill.data.difficulty}}
+    </div>
+    {{/ifEquals}}
     {{/each}}
+    {{/each}}
+    {{!-- FOR EACH SKILL IN CATEGORY --}}
 </div>
