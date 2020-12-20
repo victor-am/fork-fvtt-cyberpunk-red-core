@@ -1,28 +1,28 @@
 export const CPR = {};
 
 CPR.statList = {
-    "int": "CPR.int",
-    "ref": "CPR.ref",
-    "dex": "CPR.dex",
-    "tech": "CPR.tech",
-    "cool": "CPR.cool",
-    "will": "CPR.will",
-    "move": "CPR.move",
-    "body": "CPR.body",
-    "luck": "CPR.luck",
-    "emp": "CPR.emp"
+    "INT": "CPR.int",
+    "REF": "CPR.ref",
+    "DEX": "CPR.dex",
+    "TECH": "CPR.tech",
+    "COOL": "CPR.cool",
+    "WILL": "CPR.will",
+    "MOVE": "CPR.move",
+    "BODY": "CPR.body",
+    "LUCK": "CPR.luck",
+    "EMP": "CPR.emp"
 }
 
 CPR.skillCategories = {
-    "awareness": "CPR.awareness",
-    "body": "CPR.body",
-    "control": "CPR.control",
-    "education": "CPR.education",
-    "fighting": "CPR.fighting",
-    "performance": "CPR.performance",
-    "ranged": "CPR.ranged",
-    "social": "CPR.social",
-    "technique": "CPR.technique",
+    "Awareness": "CPR.awareness",
+    "Body": "CPR.body",
+    "Control": "CPR.control",
+    "Education": "CPR.education",
+    "Fighting": "CPR.fighting",
+    "Performance": "CPR.performance",
+    "Ranged Weapon": "CPR.ranged",
+    "Social": "CPR.social",
+    "Technique": "CPR.technique",
 }
 
 // ???? TODO -- Does this accomplish what we want for skill training cost? ????
