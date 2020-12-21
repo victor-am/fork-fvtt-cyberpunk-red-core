@@ -37,7 +37,7 @@ form .bio-block {
 form .bio-block .image-block {
   background-color: white;
   margin: 10px 5px 5px 5px;
-  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%, 0 20%);
+  clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 10%);
   width: 300px;
 }
 form .bio-block .image-block img {
