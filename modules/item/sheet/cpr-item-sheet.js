@@ -44,6 +44,7 @@ export default class CPRItemSheet extends ItemSheet {
     sheetData.skillCategories = CPR.skillCategories;
     sheetData.statList = CPR.statList;
     sheetData.skillDifficulties = CPR.skillDifficulties;
+    sheetData.ammoVariety = CPR.ammoVariety;
   }
 
   /* -------------------------------------------- */
