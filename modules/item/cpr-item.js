@@ -10,8 +10,7 @@ export default class CPRItem extends Item {
     prepareData() {
         LOGGER.trace("Prepare Data | CPRItem | Called.");
         // Why call super here?
-        super.prepareData();   
-
+        super.prepareData();
         const itemData = this.data.data;
         // Dangerous??? 
         const actorData = this.actor ? this.actor.data : {};

@@ -8,7 +8,7 @@
 
 // RENDER DIALOG
 
-export async function BaseRoll(rollData) {
+export function BaseRoll(rollData) {
     // SKILL.val + STAT.val + [MODS]
     // 5 + 4 + [-2, 1, 1]
     // base = skill.value + stat.value
@@ -24,18 +24,17 @@ export async function BaseRoll(rollData) {
     }
 }
 
-export async function DamageRoll() {
+export function DamageRoll() {
 
 }
 
-export async function DeathSave() {
+export function DeathSave() {
 
 }
 
-export async function Initiative() {
+export function Initiative() {
 
 }
-
 
 // BASE: 1d10(w crits) + SOME + SOME + MOD
 // DMG: xd6(two or more six, crit injury table) 
