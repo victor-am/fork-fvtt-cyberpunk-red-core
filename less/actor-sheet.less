@@ -7,14 +7,15 @@ form {
 
   .stat-block {
     background-color: @maximum-red;
-    padding: 10px 5px 5px 5px;
-    justify-content: space-evenly;
+    padding: 10px 2.5px 5px 2.5px;
+    overflow: hidden;
     .stat-unit {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      flex: 1;
       clip-path: polygon(
-        20% 0, 
+        10px 0, 
         100% 0,
         100% 100%,
         0 100%, 
@@ -23,6 +24,7 @@ form {
       width: 50px;
       height: 50px;
       background-color: white;
+      margin: 0 2.5px;
       p {
         text-align: end;
         font-weight: bold;
@@ -45,7 +47,7 @@ form {
     };
     .stat-unit.has-max {
       clip-path: polygon(
-        20% 0, 
+        10px 0, 
         100% 0,
         100% 100%,
         55% 100%,
@@ -58,6 +60,37 @@ form {
       .stat-input {
         font-size: 1.5em;
       };
+    };
+  };
+
+  .skill-block {
+    background-color: @maximum-red;
+    padding: 5px;
+    .skill-category {
+      background-color: black;
+      display: flex;
+      justify-content: space-between;
+      color: white;
+      span {
+        padding: 5px;
+      };
+      .name {
+        width: 70%;
+      };
+    };
+    .skill {
+      display: flex;
+      background-color: white;
+      justify-content: space-between;
+      .name {
+        width: 70%;
+        padding: 5px;
+        text-transform: capitalize;
+
+      };
+      .bold {
+        font-weight: bold;
+      }
     };
   };
 };

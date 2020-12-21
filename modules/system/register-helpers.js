@@ -9,5 +9,10 @@ export default async function registerHandlebarsHelpers() {
     Handlebars.registerHelper("loud", function(string) {
       return string.toUpperCase()
     });
+
+    Handlebars.registerHelper("getProp", (thing, props) => {
+      const property = getProperty(thing, props)
+      return property 
+    });
     
 }

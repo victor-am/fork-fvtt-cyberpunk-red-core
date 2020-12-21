@@ -1,18 +1,26 @@
-<div>
+<div class="skill-block">
     {{!-- FOR ALL SKILL ITEMS, RENDER SKILL CARD --}}
-    {{log actor.filteredItems}}
     {{!-- FOR EACH CATEGORY --}}
     {{#each skillCategories as |category c|}}
     <div class="skill-category">
-        <h1>{{localize category}}</h1>
+        <span class="name">{{localize category}}</span>
+        <span>LVL</span>
+        <span>STAT</span>
+        <span>BASE</span>
     </div>
     {{#each ../actor.filteredItems.skill as |skill s|}}
     {{!-- IF SKILL IS OF CATEGORY --}}
     {{#ifEquals skill.data.category c}}
     {{!-- DISPLAY SKILL --}}
-    <div>
-        {{skill.name}} | Stat: {{skill.data.stat}} | {{skill.data.basic}} | {{skill.data.difficulty}}
-        <button id="roll"> ROLL </button>
+    <div class="skill">
+        <a class="name">
+          <span class="{{#if skill.data.basic}}bold{{/if}}">
+            {{localize skill.name}} <strong>({{loud skill.data.stat}})</strong>
+          </span>
+        </a>
+        <span class="level">{{skill.data.level}}</span>
+        <span class="stat">{{getProp (getProp ../../actor.data.stats skill.data.stat) 'value'}}</span>
+        <span class="base">{{getProp ../../actor.data.skills skill.name}}</span>
     </div>
     {{/ifEquals}}
     {{/each}}

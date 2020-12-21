@@ -2,7 +2,7 @@
 
 {{#each data.stats as |stat name|}}
   <div class="stat-unit {{#if stat.max}}has-max{{/if}}">
-    <p>{{loud name}}</p>
+    <p>{{loud (localize name)}}</p>
     <div class="stat-values">
       <input
         class="stat-input"
