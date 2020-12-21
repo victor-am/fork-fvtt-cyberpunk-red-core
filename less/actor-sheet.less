@@ -1,8 +1,215 @@
 form {
+  .bio-block {
+    background-color: @maximum-red;
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+
+    .image-block {
+      background-color: white;
+      margin: 10px 5px 5px 5px;
+      clip-path: polygon(
+        20% 0, 
+        100% 0,
+        100% 100%,
+        0 100%, 
+        0 20%
+      );
+      width: 300px;
+      img {
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+      }
+    };
+    .info-block {
+      padding: 10px 5px 5px 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .info-unit {
+        background-color: white;
+      }
+    };
+  };
+  
   .horz-container {
       display: flex;
       flex-wrap: nowrap;
       justify-content: center;
+  };
+
+  .derived-stats-block {
+    font-size: 0.8em;
+    display: flex;
+    flex-direction: column;
+    .humanity-block {
+      background-color: @maximum-red;
+      margin: 5px;
+      padding: 10px 5px 5px 5px;
+
+      .humanity-unit {
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        clip-path: polygon(
+          10px 0, 
+          100% 0,
+          100% 100%,
+          55% 100%,
+          55% 45%,
+          45% 45%,
+          45% 100%,
+          0 100%, 
+          0 20%
+        );
+        p {
+          text-align: end;
+          padding-right: 5px;
+          font-weight: bold;
+          text-transform: uppercase;
+          margin: 0;
+        };
+
+        .inputs {
+          display: flex;
+          justify-content: space-around;
+        };
+        .current, .max {
+          width: 3em;
+          text-align: center;
+          font-size: 2em;
+          border: none;
+          outline: none;
+        };
+        .current:focus, .max:focus {
+          box-shadow: none;
+        }
+      };
+    };
+
+    .health-block {
+      margin: 5px;
+      background-color: @maximum-red;
+      display: flex;
+      flex-direction: row;
+      padding: 10px 5px 5px 5px;
+      p {
+        margin: 0; 
+        font-weight: bold;
+      };
+      .left {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        .hp-block {
+          clip-path: polygon(7% 0, 0 25%, 0 100%, 47.5% 100%, 47.5% 40%, 52.5% 40%, 52.5% 100%, 100% 100%, 100% 0);
+          background: white;
+          display: flex;
+          flex-direction: column;
+          p {
+            text-align: end;
+            margin-right: 5px;
+          }
+          .inputs {
+            display: flex;
+            justify-content: space-around;
+            input {
+              font-size: 2em;
+              padding-bottom: 3px;
+              width: 50px;
+              outline: none;
+              border: none;
+            };
+            input:focus {
+              box-shadow: none;
+            }
+          };
+        };
+        .serious-block {
+          background: white;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          .label {
+            padding-left: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+          };
+          h3 {
+            font-size: 2em;
+            margin: 0;
+            margin: 5px 0 4px 0;
+            margin-right: 22px;
+
+          };
+        };
+        .save-block {
+          background: white;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 0 5px 0 28px;
+          clip-path: polygon(0 0, 0 100%, 0 85%, 5% 100%, 100% 100%, 100% 0);
+          p {
+            text-align: end;
+          }
+          h3 {
+            font-size: 2em;
+            margin: 0;
+          };
+        };
+      };
+      .right {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-left: 2.5px;
+        width: 50%;
+        .crits-block {
+          background: white;
+          display: flex;
+          flex-direction: column;
+          p {
+            padding-left: 5px;
+          };
+          .row {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 10px;
+          };
+          h3 {
+            font-size: 2em;
+          };
+          a {
+            font-size: 1.5em;
+          };
+        };
+        .addictions-block {
+          background: white;
+          display: flex;
+          flex-direction: column;
+          padding-bottom: 0;
+          p {
+            padding-left: 5px;
+          };
+          .row {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 12px;
+          };
+          h3 {
+            font-size: 2em;
+          };
+          a {
+            font-size: 1.5em;
+          };
+        };
+      };
+    };
   };
 
   .stat-block {

@@ -1,0 +1,48 @@
+<div class="image-block">
+  <img
+  src="{{actor.img}}"
+  data-edit="img"
+  title="{{actor.name}}"
+  height="300"
+  />
+</div>
+
+<div class="info-block">
+  <div class="info-unit">
+    <label>
+      <span>Handle</span>
+    </label>
+    <input
+      name="name"
+      type="text"
+      value="{{actor.name}}"
+      placeholder="Name"
+    />
+  </div>
+  <div class="info-unit">
+    <label>
+      <span>Role</span>
+    </label>
+    <input name="data.role" type="text" value="{{data.role}}" />
+  </div>
+  <div class="info-unit">
+    <label>
+      <span>Ability</span>
+    </label>
+    <div class="role-unit">
+      <input
+        name="data.roleAbility"
+        type="text"
+        value="{{data.roleAbility}}"
+      />
+      <input
+        id="rank"
+        class="num-input"
+        name="data.roleAbilityRank"
+        type="number"
+        value="{{data.roleAbilityRank}}"
+        data-dtype="Number"
+      />
+    </div>
+  </div>
+</div>

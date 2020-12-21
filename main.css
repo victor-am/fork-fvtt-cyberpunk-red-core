@@ -28,10 +28,196 @@
 }
 /* LESS RGB */
 /* LESS Gradient */
+form .bio-block {
+  background-color: #d02b23;
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+}
+form .bio-block .image-block {
+  background-color: white;
+  margin: 10px 5px 5px 5px;
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%, 0 20%);
+  width: 300px;
+}
+form .bio-block .image-block img {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+}
+form .bio-block .info-block {
+  padding: 10px 5px 5px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+form .bio-block .info-block .info-unit {
+  background-color: white;
+}
 form .horz-container {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
+}
+form .derived-stats-block {
+  font-size: 0.8em;
+  display: flex;
+  flex-direction: column;
+}
+form .derived-stats-block .humanity-block {
+  background-color: #d02b23;
+  margin: 5px;
+  padding: 10px 5px 5px 5px;
+}
+form .derived-stats-block .humanity-block .humanity-unit {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 55% 100%, 55% 45%, 45% 45%, 45% 100%, 0 100%, 0 20%);
+}
+form .derived-stats-block .humanity-block .humanity-unit p {
+  text-align: end;
+  padding-right: 5px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 0;
+}
+form .derived-stats-block .humanity-block .humanity-unit .inputs {
+  display: flex;
+  justify-content: space-around;
+}
+form .derived-stats-block .humanity-block .humanity-unit .current,
+form .derived-stats-block .humanity-block .humanity-unit .max {
+  width: 3em;
+  text-align: center;
+  font-size: 2em;
+  border: none;
+  outline: none;
+}
+form .derived-stats-block .humanity-block .humanity-unit .current:focus,
+form .derived-stats-block .humanity-block .humanity-unit .max:focus {
+  box-shadow: none;
+}
+form .derived-stats-block .health-block {
+  margin: 5px;
+  background-color: #d02b23;
+  display: flex;
+  flex-direction: row;
+  padding: 10px 5px 5px 5px;
+}
+form .derived-stats-block .health-block p {
+  margin: 0;
+  font-weight: bold;
+}
+form .derived-stats-block .health-block .left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+form .derived-stats-block .health-block .left .hp-block {
+  clip-path: polygon(7% 0, 0 25%, 0 100%, 47.5% 100%, 47.5% 40%, 52.5% 40%, 52.5% 100%, 100% 100%, 100% 0);
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+form .derived-stats-block .health-block .left .hp-block p {
+  text-align: end;
+  margin-right: 5px;
+}
+form .derived-stats-block .health-block .left .hp-block .inputs {
+  display: flex;
+  justify-content: space-around;
+}
+form .derived-stats-block .health-block .left .hp-block .inputs input {
+  font-size: 2em;
+  padding-bottom: 3px;
+  width: 50px;
+  outline: none;
+  border: none;
+}
+form .derived-stats-block .health-block .left .hp-block .inputs input:focus {
+  box-shadow: none;
+}
+form .derived-stats-block .health-block .left .serious-block {
+  background: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+form .derived-stats-block .health-block .left .serious-block .label {
+  padding-left: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+form .derived-stats-block .health-block .left .serious-block h3 {
+  font-size: 2em;
+  margin: 0;
+  margin: 5px 0 4px 0;
+  margin-right: 22px;
+}
+form .derived-stats-block .health-block .left .save-block {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 5px 0 28px;
+  clip-path: polygon(0 0, 0 100%, 0 85%, 5% 100%, 100% 100%, 100% 0);
+}
+form .derived-stats-block .health-block .left .save-block p {
+  text-align: end;
+}
+form .derived-stats-block .health-block .left .save-block h3 {
+  font-size: 2em;
+  margin: 0;
+}
+form .derived-stats-block .health-block .right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 2.5px;
+  width: 50%;
+}
+form .derived-stats-block .health-block .right .crits-block {
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+form .derived-stats-block .health-block .right .crits-block p {
+  padding-left: 5px;
+}
+form .derived-stats-block .health-block .right .crits-block .row {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 10px;
+}
+form .derived-stats-block .health-block .right .crits-block h3 {
+  font-size: 2em;
+}
+form .derived-stats-block .health-block .right .crits-block a {
+  font-size: 1.5em;
+}
+form .derived-stats-block .health-block .right .addictions-block {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+}
+form .derived-stats-block .health-block .right .addictions-block p {
+  padding-left: 5px;
+}
+form .derived-stats-block .health-block .right .addictions-block .row {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 12px;
+}
+form .derived-stats-block .health-block .right .addictions-block h3 {
+  font-size: 2em;
+}
+form .derived-stats-block .health-block .right .addictions-block a {
+  font-size: 1.5em;
 }
 form .stat-block {
   background-color: #d02b23;

@@ -4,6 +4,8 @@ export default async function preloadHandlebarsTemplates() {
     return loadTemplates([
       // Shared Actor Partials
       "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs",
+      "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-derivedstats.hbs",
+      "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-bioblock.hbs",
       // Character Sheet Partials
       "systems/cyberpunk-red-core/templates/actor/parts/cpr-skills.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/cpr-role.hbs",
