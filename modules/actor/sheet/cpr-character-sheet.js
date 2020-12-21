@@ -25,14 +25,17 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     /* ---------------------------------------------- */
     /* Render the skills on the character sheet */
     /* ---------------------------------------------- */
-    const skillItems = data.items.filter(function(item) {return item.type === "skill"});
-    console.log(skillItems)
+
+    const filteredItems = this.object.data.filteredItems
+
+    const skillItems = filteredItems.skill;
+
     const stats = data.data.stats;
     const bases = data.data.skills;
 
     for (let [skill, value] of Object.entries(bases)) {
       // filter the relevant skill out of the skillItems
-      const relevantSkill = skillItems.filter(function(item) {return item.name.toLowerCase() === skill});
+      const relevantSkill = skillItems.filter(function(item) {return item.data.name === skill});
 
       // get the relevant stat
       let relevantStat = ""
@@ -40,10 +43,10 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       let relevantSkillName = ""
       let relevantSkillLevel = 0
       try {
-        relevantStat = relevantSkill[0].data.stat;
+        relevantStat = relevantSkill[0].data.data.stat;
         relevantStatValue = stats[relevantStat].value;
-        relevantSkillName = relevantSkill[0].name;
-        relevantSkillLevel = relevantSkill[0].data.level;
+        relevantSkillName = relevantSkill[0].data.name;
+        relevantSkillLevel = relevantSkill[0].data.data.level;
       } catch (err) {
         // console.log(err)
       }

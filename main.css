@@ -98,7 +98,6 @@ form .skill-block .skill {
 form .skill-block .skill .name {
   width: 70%;
   padding: 5px;
-  text-transform: capitalize;
 }
 form .skill-block .skill .bold {
   font-weight: bold;
