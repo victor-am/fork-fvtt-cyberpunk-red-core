@@ -1,28 +1,63 @@
 form {
-    .horz-container {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: center;
-    }
+  .horz-container {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+  };
 
-    .stat-label {
-        background-color: @maximum-red;
-        color: black;
-        padding: 8px;
-        // TODO NEED BOTH P and INPUT to be fixed width.
-        p {
-            padding: 4px;
-            text-align: center;
-            background-color: white;
-            border-radius: 0;
-            border: none;
-        }
-        input {
-            text-align: center;
-            padding: 4px;
-            background-color: white;
-            border-radius: 0;
-            border: none;
-        }
-    }
-}
+  .stat-block {
+    background-color: @maximum-red;
+    padding: 10px 5px 5px 5px;
+    justify-content: space-evenly;
+    .stat-unit {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      clip-path: polygon(
+        20% 0, 
+        100% 0,
+        100% 100%,
+        0 100%, 
+        0 20%
+      );
+      width: 50px;
+      height: 50px;
+      background-color: white;
+      p {
+        text-align: end;
+        font-weight: bold;
+        margin: 0;
+        padding-right: 5px;
+        font-size: 0.8em;
+      };
+      .stat-values {
+        display: flex;
+        justify-content: space-between;
+
+        .stat-input, .stat-input:focus {
+          border: none;
+          outline: 0 !important;
+          box-shadow: none;
+          text-align: center;
+          font-size: 2em;
+        };
+      };
+    };
+    .stat-unit.has-max {
+      clip-path: polygon(
+        20% 0, 
+        100% 0,
+        100% 100%,
+        55% 100%,
+        55% 45%,
+        45% 45%,
+        45% 100%,
+        0 100%, 
+        0 20%
+      );
+      .stat-input {
+        font-size: 1.5em;
+      };
+    };
+  };
+};

@@ -33,24 +33,44 @@ form .horz-container {
   flex-wrap: nowrap;
   justify-content: center;
 }
-form .stat-label {
+form .stat-block {
   background-color: #d02b23;
-  color: black;
-  padding: 8px;
+  padding: 10px 5px 5px 5px;
+  justify-content: space-evenly;
 }
-form .stat-label p {
-  padding: 4px;
-  text-align: center;
+form .stat-block .stat-unit {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%, 0 20%);
+  width: 50px;
+  height: 50px;
   background-color: white;
-  border-radius: 0;
-  border: none;
 }
-form .stat-label input {
-  text-align: center;
-  padding: 4px;
-  background-color: white;
-  border-radius: 0;
+form .stat-block .stat-unit p {
+  text-align: end;
+  font-weight: bold;
+  margin: 0;
+  padding-right: 5px;
+  font-size: 0.8em;
+}
+form .stat-block .stat-unit .stat-values {
+  display: flex;
+  justify-content: space-between;
+}
+form .stat-block .stat-unit .stat-values .stat-input,
+form .stat-block .stat-unit .stat-values .stat-input:focus {
   border: none;
+  outline: 0 !important;
+  box-shadow: none;
+  text-align: center;
+  font-size: 2em;
+}
+form .stat-block .stat-unit.has-max {
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 55% 100%, 55% 45%, 45% 45%, 45% 100%, 0 100%, 0 20%);
+}
+form .stat-block .stat-unit.has-max .stat-input {
+  font-size: 1.5em;
 }
 form .item-desc-body {
   display: flex;
@@ -91,6 +111,7 @@ form .item-name {
 }
 :root {
   font-family: 'Ubuntu Mono', monospace;
+  font-size: 10px;
 }
 .window-app .window-content {
   background: #ffffff;
