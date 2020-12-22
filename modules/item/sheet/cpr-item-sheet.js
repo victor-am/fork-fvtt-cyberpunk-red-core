@@ -56,7 +56,8 @@ export default class CPRItemSheet extends ItemSheet {
     $("input[type=text]").focusin(function () {
       $(this).select();
     });
-
+    
+    // We should extract listeners to something else, otherwise this gets messy...
     // item sheet -> object assigned (item)
     html.find(".item-checkbox").click(ev => {
       LOGGER.trace(`Item Listener Called | .checkbox click | Called with type ${this.item}.`);

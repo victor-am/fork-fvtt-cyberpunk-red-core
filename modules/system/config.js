@@ -13,6 +13,7 @@ CPR.statList = {
     "emp": "CPR.emp"
 }
 
+// TODO - Data formatting, it's likely a problem to have data with spaces.
 CPR.skillCategories = {
     "awareness": "CPR.catawareness",
     "body": "CPR.catbody",

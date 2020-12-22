@@ -1,23 +1,20 @@
 {{!-- Partials to create stat-units from template --}}
-
-{{#each data.stats as |stat name|}}
-  <div class="stat-unit {{#if stat.max}}has-max{{/if}}">
-    <p>{{loud (localize name)}}</p>
+{{#each data.stats as |stat s|}}
+  <div class="stat-unit {{#if this.max}}has-max{{/if}}">
+    <p>{{localize (lookup ../this.statList s)}}</p>
     <div class="stat-values">
       <input
         class="stat-input"
-        name="data.stats.{{name}}.value"
+        name="data.stats.{{s}}.value"
         type="number"
-        value="{{stat.value}}"
-        data-dtype="Number"
+        value="{{this.value}}"
       />
-      {{#if stat.max}}
+      {{#if this.max}}
         <input
           class="stat-input"
-          name="data.stats.{{name}}.max"
+          name="data.stats.{{s}}.max"
           type="number"
-          value="{{stat.max}}"
-          data-dtype="Number"
+          value="{{this.max}}"
         />
       {{/if}}
     </div>

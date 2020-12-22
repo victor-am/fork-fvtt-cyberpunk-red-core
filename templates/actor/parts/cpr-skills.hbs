@@ -15,8 +15,8 @@
     <div class="skill">
         <a class="name open-item-popup">
           <span class="{{#if skill.data.basic}}bold{{/if}}">
-            {{log (localize skill.name)}}
-            {{localize skill.name}} <strong>({{loud skill.data.stat}})</strong>
+            {{log this}}
+            {{localize skill.name}} <strong>({{skill.stat}})</strong>
           </span>
         </a>
         <span class="level">{{skill.data.level}}</span>
