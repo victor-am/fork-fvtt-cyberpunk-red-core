@@ -1,26 +1,143 @@
 <form>
   {{!-- Sheet Header --}}
   <header class="sheet-header">
-    {{!-- Header stuff goes here --}}
-    <img class="actor-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
-    <div class="header-fields">
-      <p class="handle-field">Handle: <input name="name" type="text" value="{{actor.name}}" placeholder="Handle" /></p>
-      <p class="alias-field">Alias: <input name="data.alias" type="text" value="{{data.alias}}" placeholder="AKA"
-          data-dtype="String" /></p>
-      <p class="role-field">Role: <input name="data.role" type="text" value="{{data.role}}" placeholder="Role"
-          data-dtype="String" /></p>
+    <div class="top-block">
+      {{!-- IMAGE --}}
+      <div class="image-block">
+        <img
+          src="{{actor.img}}"
+          data-edit="img"
+          title="{{actor.name}}"
+        />
+      </div>
+      {{!-- HANDLE --}}
+      {{!-- ROLE --}}
+      {{!-- ABILITY --}}
+      <div class="info-block">
+        <div class="block">
+          <div class="unit">
+            <p>Handle</p>
+            <div class="inputs">
+              <input
+                name=""
+                type="text"
+                value=""
+                placeholder="Handle"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="block">
+          <div class="unit">
+            <p>Role</p>
+            <div class="inputs">
+              <input
+                name=""
+                type="text"
+                value=""
+                placeholder="Role"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="block">
+          <div class="unit right-split">
+            <p>Ability</p>
+            <div class="inputs">
+              <input
+                name=""
+                type="text"
+                value=""
+                placeholder="Ability"
+              />
+              <input
+                class="rank"
+                name=""
+                type="number"
+                value=""
+                data-dtype="4"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      {{!-- HITPOINTS --}}
+      <div class="derived-stats">
+        <div class="block">
+          <div class="unit mid-split">
+            <p>Humanity</p>
+            <div class="inputs">
+              <input
+                class="derived"
+                name=""
+                type="number"
+                value=""
+                data-dtype="Number"
+              />
+              <input
+                class="derived"
+                name=""
+                type="number"
+                value=""
+                data-dtype="Number"
+              />
+            </div>
+          </div>
+        </div>
+        {{!-- HUMANITY --}}
+        <div class="block">
+          <div class="unit mid-split">
+            <p>Hit Points</p>
+            <div class="inputs">
+              <input
+                class="derived"
+                name=""
+                type="number"
+                value=""
+                data-dtype="Number"
+              />
+              <input
+                class="derived"
+                name=""
+                type="number"
+                value=""
+                data-dtype="Number"
+              />
+            </div>
+          </div>
+        </div>
+        {{!-- DEATH SAVE --}}
+        <div class="block">
+          <div class="unit mid-split">
+            <p>Death Save</p>
+            <div class="inputs">
+              <input
+                class="derived"
+                name=""
+                type="number"
+                value=""
+                data-dtype="Number"
+              />
+              <input
+                class="derived"
+                name=""
+                type="number"
+                value=""
+                data-dtype="Number"
+              />
+            </div>
+          </div>
+        </div>
+      </div>  
     </div>
+    {{!-- STATS --}}
+    <div class="stat-block">
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs"}} 
+    </div>
+
+    
   </header>
-  {{!-- Stat Block --}}
-  <div class="horz-container">
-    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs"}} 
-  </div>
-  {{!-- Derived Stat Block --}}
-  <div class="horz-container">
-    <div class="">
-      MAIN BODY
-    </div>
-  </div>
+  
 
   {{!-- Character Sheet Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">

@@ -26,6 +26,8 @@
           {{/each}}
           {{/select}}
         </select>
+        {{!-- What level is this skill --}}
+        <input value="{{data.level}}" data-dtype="Number" type="number" name="data.level" />
         {{!-- WHAT CATEGORY IS THIS SKILL --}}
         Category:
         <select name="data.category" data-dtype="{{data.category}}">

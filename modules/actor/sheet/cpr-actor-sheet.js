@@ -34,6 +34,8 @@ export default class CPRActorSheet extends ActorSheet {
     sheetData.skillCategories = CPR.skillCategories;
     sheetData.statList = CPR.statList;
     sheetData.skillDifficulties = CPR.skillDifficulties;
+    sheetData.skillList = CPR.skillList;
+    LOGGER.debug(this);
   }
 
   /* -------------------------------------------- */
