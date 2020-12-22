@@ -59,11 +59,18 @@ export default class CPRActorSheet extends ActorSheet {
       }
     });
 
-    html.find(".roll").click(ev => {
-      this._onRoll.bind(this)
-    });
+    html.find(".rollable").click(this._onRoll.bind(this));
 
   }
 
+  _onRoll(event) {
+    LOGGER.trace(`Actor _onRoll | .rollable click | Called with ${this}.`);
+    const button = event.currentTarget;
+    switch( button.dataset.action ) {
+      case "rollStatCheck":
+        let roll = this.actor.rollStat(button.dataset.name);
+        LOGGER.trace(`Roll result: ` + roll.result);
+    }
+  }
 }
 
