@@ -1,18 +1,121 @@
 <form>
   {{!-- Sheet Header --}}
   <header class="sheet-header">
-    {{!-- Header stuff goes here --}}
-    <div class="bio-block">
-      {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-bioblock.hbs"}}
+    <div class="top-block">
+      {{!-- IMAGE --}}
+      <div class="image-block">
+        <img
+          src="{{actor.img}}"
+          data-edit="img"
+          title="{{actor.name}}"
+        />
+      </div>
+      {{!-- HANDLE --}}
+      {{!-- ROLE --}}
+      {{!-- ABILITY --}}
+      <div class="info-block">
+        <div class="block">
+          <div class="unit">
+            <p>Handle</p>
+            <div class="inputs">
+              <input
+                name=""
+                type="text"
+                value=""
+                placeholder="Handle"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="block">
+          <div class="unit">
+            <p>Role</p>
+            <div class="inputs">
+              <input
+                name=""
+                type="text"
+                value=""
+                placeholder="Role"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="block">
+          <div class="unit right-split">
+            <p>Ability</p>
+            <div class="inputs">
+              <input
+                name=""
+                type="text"
+                value=""
+                placeholder="Ability"
+              />
+              <input
+                class="rank"
+                name=""
+                type="number"
+                value=""
+                data-dtype="4"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      {{!-- HITPOINTS --}}
+      <div class="derived-stats">
+        <div class="block">
+          <div class="unit mid-split">
+            <p>Humanity</p>
+            <div class="inputs">
+              <input
+                class="derived"
+                name=""
+                type="number"
+                value=""
+                data-dtype="Number"
+              />
+              <input
+                class="derived"
+                name=""
+                type="number"
+                value=""
+                data-dtype="Number"
+              />
+            </div>
+          </div>
+        </div>
+        {{!-- HUMANITY --}}
+        <div class="block">
+          <div class="unit mid-split">
+            <p>Hit Points</p>
+            <div class="inputs">
+              <input
+                class="derived"
+                name=""
+                type="number"
+                value=""
+                data-dtype="Number"
+              />
+              <input
+                class="derived"
+                name=""
+                type="number"
+                value=""
+                data-dtype="Number"
+              />
+            </div>
+          </div>
+        </div>
+      </div>  
     </div>
-    <div class="derived-stats-block">
-      {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-derivedstats.hbs"}}
+    {{!-- STATS --}}
+    <div class="stat-block">
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs"}} 
     </div>
+
+    
   </header>
-  {{!-- Stat Block --}}
-  <div class="horz-container stat-block">
-    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs"}} 
-  </div>
+  
 
   {{!-- Character Sheet Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
