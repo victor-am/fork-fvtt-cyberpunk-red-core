@@ -14,8 +14,14 @@ todo..
  - https://nodejs.org/en/
 
  1. Clone the repo! 
+    git clone git@gitlab.com:JasonAlanTerry/fvtt-cyberpunk-red-core.git
+
  2. Check the Trello!
+    https://trello.com/b/zb5FBnKS/project-red-roadmap-todo
+
  3. Chat with us on Discord!
+    https://discord.gg/gASBkXWm
+
  4. Profit???
 
  Be sure to browse the foundry API to learn a bit about how to use it.

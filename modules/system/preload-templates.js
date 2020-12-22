@@ -1,5 +1,5 @@
 import LOGGER from "../utils/cpr-logger.js";
-export default async function preloadHandlebarsTemplates() {
+export default function preloadHandlebarsTemplates() {
   LOGGER.log("Calling Preload Handlebars")
     return loadTemplates([
       // Shared Actor Partials
