@@ -8,21 +8,24 @@ Manifest: https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/s
 # Release Notes
 todo..
 # Join the team!
- Useful Tools
- - https://code.visualstudio.com/
- - https://git-scm.com/
- - https://nodejs.org/en/
+ 
+ 1. Clone the repo!
+     > git clone git@gitlab.com:JasonAlanTerry/fvtt-cyberpunk-red-core.git
 
- 1. Clone the repo! 
-    git clone git@gitlab.com:JasonAlanTerry/fvtt-cyberpunk-red-core.git
+      Conventions and more details on contributing to the process can be found in CONTRIBUTING.md
 
- 2. Check the Trello!
+ 2. Check the Trello!<br>
     https://trello.com/b/zb5FBnKS/project-red-roadmap-todo
 
- 3. Chat with us on Discord!
+ 3. Chat with us on Discord!<br>
     https://discord.gg/gASBkXWm
 
  4. Profit???
+
+Useful Tools
+ - https://code.visualstudio.com/
+ - https://git-scm.com/
+ - https://nodejs.org/en/
 
  Be sure to browse the foundry API to learn a bit about how to use it.
  - https://foundryvtt.com/api/
