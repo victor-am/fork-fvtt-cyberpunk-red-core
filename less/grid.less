@@ -1,5 +1,3 @@
-//_grid.less
-
 .container {
   width: @container-width; // Set the width to the one we will set in the variables
   display: block; // Reset the display
@@ -37,13 +35,15 @@
     }
 
     [class^='col-'] {
-      box-sizing: border-box;
+      box-sizing: border-box; // Se to border-box for padding and borders to count as width
+      // Set flex-grow and shrink to 0 so that these columns always have the size we tell them in the loop
       flex-grow: 0;
       flex-shrink: 0;
-      padding-right: @gutter / 2;
+      padding-right: @gutter / 2; // Set paddings to half the gutter for a little spacing
       padding-left: @gutter / 2;
     }
 
+    // Call our loop
     .generateCols(@cols);
   }
 }
