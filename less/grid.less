@@ -1,0 +1,49 @@
+//_grid.less
+
+.container {
+  width: @container-width; // Set the width to the one we will set in the variables
+  display: block; // Reset the display
+  margin: auto; // Always align it to the center
+
+  // Set the directions for the row, columns and reverse versions of them using flex-direction
+  .row {
+    flex-direction: row;
+
+    &.reverse {
+      flex-direction: row-reverse;
+    }
+  }
+
+  .column {
+    flex-direction: column;
+
+    &.reverse {
+      flex-direction: column-reverse;
+    }
+  }
+
+  .row,
+  .column {
+    box-sizing: border-box; // Set to border-box for padding and borders to count as width
+    display: flex;
+    flex: 0 1 auto; // In here we set the flex-shrink so that our columns are never smaller then what we set
+    // Then we are setting flex-grow to one to have them grow if needed and setting our basis to auto so it fills the space it has.
+    flex-wrap: wrap; // Wrap the elements so that it doesn't overflow the container
+    margin-right: @gutter; // Here we place the gutters that the user can customize
+    margin-left: @gutter;
+
+    &.no-wrap {
+      flex-wrap: nowrap;
+    }
+
+    [class^='col-'] {
+      box-sizing: border-box;
+      flex-grow: 0;
+      flex-shrink: 0;
+      padding-right: @gutter / 2;
+      padding-left: @gutter / 2;
+    }
+
+    .generateCols(@cols);
+  }
+}

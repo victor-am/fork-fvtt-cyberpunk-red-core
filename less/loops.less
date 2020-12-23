@@ -1,0 +1,20 @@
+// Call this loop when the counter is bigger than 0
+.generateCols(@counter) when (@counter > 0) {
+  // In here we define the width
+  // and this will be the number of the column we are in divided by the number of columns we have.
+  // Imagine this is column 6 and this will give us 0.5 and if multiply it by 100 we will get 50%
+  @width: (@counter / @cols) * 100;
+  // Prepend the number of the column with col- to get our class
+  .col-@{counter} {
+    // Set flex-basis and max width to that value
+    flex-basis: ~'@{width}%';
+    max-width: ~'@{width}%';
+  }
+  // After our main columns
+  // add this to create our offset columns
+  .col-offset-@{counter} {
+    margin-left: ~'@{width}%';
+  }
+  // Decrease the counter by one so we don't have an infinite loop
+  .generateCols((@counter - 1));
+}
