@@ -7,14 +7,30 @@
     "templates": {
       "common": {
         "stats": {
-          "int": 6,
-          "ref": 6,
-          "dex": 6,
-          "tech": 6,
-          "cool": 6,
-          "will": 6,
-          "move": 6,
-          "body": 6,
+          "int": {
+            "value": 6
+          },
+          "ref": {
+            "value": 6
+          },
+          "dex": {
+            "value": 6
+          },
+          "tech": {
+            "value": 6
+          },
+          "cool": {
+            "value": 6
+          },
+          "will": {
+            "value": 6
+          },
+          "move": {
+            "value": 6
+          },
+          "body": {
+            "value": 6
+          },
           "luck": {
             "value": 6,
             "max": 6
@@ -302,6 +318,7 @@
         "common"
       ],
       "stat": "",
+      "level": 0,
       "category": "",
       "basic": false,
       "difficulty": 1
