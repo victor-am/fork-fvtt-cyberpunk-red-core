@@ -13,12 +13,9 @@ export default class CPRItem extends Item {
         // Why call super here?
         super.prepareData();   
         const itemData = this.data.data;  
-        // Dangerous? 
         const actorData = this.actor ? this.actor.data : {};
         LOGGER.debug("Prepare Data | CPRItem | Checking itemData.");
         console.log(itemData);
-        LOGGER.debug("Prepare Data | CPRItem | Checking actorData.");
-        console.log(actorData);
         // Do things yonder...
     }
 
