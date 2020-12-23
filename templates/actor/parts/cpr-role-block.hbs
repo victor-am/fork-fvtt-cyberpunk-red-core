@@ -1,0 +1,34 @@
+<div class="block">
+  <div class="unit">
+    <p>Role</p>
+    <div class="inputs">
+      <select name="data.role-info.role">
+      {{#select data.role-info.role}}
+      {{#each roleList as |name n|}}
+        <option value="{{n}}">{{localize name}}</option>
+      {{/each}}
+      {{/select}}
+      </select>
+    </div>
+  </div>
+</div>
+<div class="block">
+  <div class="unit">
+    <p>Ability</p>
+    <table>
+      {{!-- for every skill in character's role --}}
+      {{#each (lookup data.role-info.roleskills data.role-info.role) as |rank name|}}
+        <tr>
+          <td>
+            {{!-- show localized name --}}
+            {{localize (lookup ../this.roleAbilityList name)}}
+          </td>
+          <td>
+            {{!-- and rank value --}}
+            {{rank}}
+          </td>
+        </tr>
+      {{/each}}
+    </table>
+  </div>
+</div>

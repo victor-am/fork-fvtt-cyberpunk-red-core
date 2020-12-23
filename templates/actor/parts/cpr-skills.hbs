@@ -3,7 +3,7 @@
     {{!-- FOR EACH CATEGORY --}}
     {{#each skillCategories as |category c|}}
     <div class="skill-category">
-        <span class="name">{{localize category}}</span>
+        <span class="name">{{localize (lookup ../this.skillCategories c)}}</span>
         <span>LVL</span>
         <span>STAT</span>
         <span>BASE</span>
@@ -15,8 +15,8 @@
     <div class="skill">
         <a class="name open-item-popup">
           <span class="{{#if skill.data.basic}}bold{{/if}}">
-            {{log this}}
-            {{localize skill.name}} <strong>({{skill.stat}})</strong>
+            {{log skill}}
+            {{localize (lookup ../../this.skillList this.name)}} <strong>({{localize (lookup ../../this.statList this.data.stat)}})</strong>
           </span>
         </a>
         <span class="level">{{skill.data.level}}</span>

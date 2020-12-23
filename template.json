@@ -40,18 +40,21 @@
             "max": 6
           }
         },
-        "derived-stats": {
+        "derivedStats": {
           "hp": {
-            "value": 40,
-            "max": 40
+            "value":0
           },
-          "seriously-wounded": 20,
-          "death-save": 6
+          "humanity": {
+            "value":0
+          },
+          "deathSave": {
+            "value":0
+          }
         },
-        "wound-state": {
-          "lightly-wounded": false,
-          "seriously-wounded": false,
-          "mortally-wounded": false,
+        "woundState": {
+          "lightlyWounded": false,
+          "seriouslyWounded": false,
+          "mortallyWounded": false,
           "dead": false
         },
         "skills": {
@@ -125,29 +128,27 @@
           "wildernesssurvival": 0
         },
         "role-info": {
-          "role": "mook",
+          "role": "solo",
           "roleskills": {
             "netrunner": {
               "interface": 0
             },
             "rockerboy": {
-              "charismatic-impact": 0
+              "charismaticimpact": 0
             },
             "solo": {
-              "combat-awareness": 0
+              "combatawareness": 0
             },
             "tech": {
               "maker": 0,
-              "field-expertise": 0,
-              "upgrade-expertise": 0,
-              "fabrication-expertise": 0,
-              "invention-expertise": 0
+              "fieldexpertise": 0,
+              "upgradeexpertise": 0,
+              "fabricationexpertise": 0,
+              "inventionexpertise": 0
             },
             "medtech": {
               "medicine": 0,
-              "surgery": 0,
-              "medtech-pharma": 0,
-              "medtech-cryo": 0
+              "surgery": 0
             },
             "media": {
               "credibility": 0

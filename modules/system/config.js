@@ -1,16 +1,28 @@
 export const CPR = {};
 
 CPR.statList = {
-    "int": "CPR.int",
-    "ref": "CPR.ref",
-    "dex": "CPR.dex",
-    "tech": "CPR.tech",
-    "cool": "CPR.cool",
-    "will": "CPR.will",
-    "move": "CPR.move",
-    "body": "CPR.body",
-    "luck": "CPR.luck",
-    "emp": "CPR.emp"
+  "int": "CPR.int",
+  "ref": "CPR.ref",
+  "dex": "CPR.dex",
+  "tech": "CPR.tech",
+  "cool": "CPR.cool",
+  "will": "CPR.will",
+  "move": "CPR.move",
+  "body": "CPR.body",
+  "luck": "CPR.luck",
+  "emp": "CPR.emp"
+}
+CPR.roleList = {
+  "netrunner": "CPR.netrunnerrole",
+  "solo": "CPR.solorole",
+  "fixer": "CPR.fixerrole",
+  "nomad": "CPR.nomadrole",
+  "media": "CPR.mediarole",
+  "exec": "CPR.execrole",
+  "lawman": "CPR.lawmanrole",
+  "rockerboy": "CPR.rockerboyrole",
+  "tech": "CPR.techrole",
+  "medtech": "CPR.medtechrole",
 }
 
 // TODO - Data formatting, it's likely a problem to have data with spaces.
@@ -102,4 +114,22 @@ CPR.skillDifficulties = {
     "typical": "CPR.typical",
     "difficult": "CPR.difficult",
     "role": "CPR.role"
+}
+
+CPR.roleAbilityList = {
+  "operator": "CPR.operator",
+  "interface": "CPR.interface",
+  "backup": "CPR.backup",
+  "moto": "CPR.moto",
+  "combatawareness": "CPR.combatawareness",
+  "credibility": "CPR.credibility",
+  "teamwork": "CPR.teamwork",
+  "charismaticimpact": "CPR.charismaticimpact",
+  "medicine": "CPR.medicine",
+  "maker": "CPR.maker",
+  "fabricationexpertise": "CPR.fabricationexpertise",
+  "fieldexpertise": "CPR.fieldexpertise",
+  "inventionexpertise": "CPR.inventionexpertise",
+  "upgradeexpertise": "CPR.upgradeexpertise",
+  "surgery": "CPR.surgery"
 }

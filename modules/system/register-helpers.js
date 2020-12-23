@@ -15,5 +15,13 @@ export default function registerHandlebarsHelpers() {
       const property = getProperty(thing, props)
       return property 
     });
+
+    Handlebars.registerHelper("getKeyValue", (obj, prop) => {
+      if (prop === "key") {
+        return Object.keys(obj);
+      } else if (prop === "value") {
+        return Object.values(obj)
+      }
+    });
     
 }
