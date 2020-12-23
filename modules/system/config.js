@@ -99,7 +99,23 @@ CPR.skillList = {
 
 // ???? TODO -- Does this accomplish what we want for skill training cost? ????
 CPR.skillDifficulties = {
-    "typical": "CPR.typical",
-    "difficult": "CPR.difficult",
-    "role": "CPR.role"
+    "typical": "CPR.SkillDifficultyTypical",
+    "difficult": "CPR.SkillDifficultyDifficult",
+    "role": "CPR.SkillDifficultyRole"
+}
+
+CPR.ammoVariety = {
+    "med-pistol": "CPR.ammovarmediumpistol",
+    "heavy-pistol": "CPR.ammovarheavypistol",
+    "v-heavy-pistol": "CPR.ammovarvheavypistol",
+    "shotgun-slug": "CPR.ammovarslug",
+    "shotgun-shell": "CPR.ammovarshell",
+    "rifle": "CPR.ammvarrifle",
+    "arrow": "CPR.ammovararrow",
+    "grenade": "CPR.ammovargrenade",
+    "rocket": "CPR.ammovarrocket"
+}
+
+CPR.ammoType = {
+    "Basic": "CPR.ammotypebasic"
 }

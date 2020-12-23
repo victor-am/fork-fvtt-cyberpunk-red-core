@@ -17,44 +17,49 @@
     <div class="tab" data-group="primary" data-tab="details">
       <section class="">
         {{!-- WHAT STAT DOES THIS SKILL USE --}}
-        Stat:
-        <select name="data.stat" data-dtype="{{data.stat}}">
-          {{#select data.stat}}
-          <option value="">NONE</option>
-          {{#each statList as |stat s|}}
-          <option value="{{s}}">{{localize stat}}</option>
-          {{/each}}
-          {{/select}}
-        </select>
-        {{!-- What level is this skill --}}
-        <input value="{{data.level}}" data-dtype="Number" type="number" name="data.level" />
+        <div>
+          Stat:
+          <select name="data.stat" data-dtype="{{data.stat}}">
+            {{#select data.stat}}
+            <option value="">N/A</option>
+            {{#each statList as |stat s|}}
+            <option value="{{s}}">{{localize stat}}</option>
+            {{/each}}
+            {{/select}}
+          </select>
+        </div>
         {{!-- WHAT CATEGORY IS THIS SKILL --}}
-        Category:
-        <select name="data.category" data-dtype="{{data.category}}">
-          {{#select data.category}}
-          <option value="">NONE</option>
-          {{#each skillCategories as |category c|}}
-          <option value="{{c}}">{{localize category}}</option>
-          {{/each}}
-          {{/select}}
-        </select>
+        <div>
+          Category:
+          <select name="data.category" data-dtype="{{data.category}}">
+            {{#select data.category}}
+            <option value="">N/A</option>
+            {{#each skillCategories as |category c|}}
+            <option value="{{c}}">{{localize category}}</option>
+            {{/each}}
+            {{/select}}
+          </select>
+        </div>
         {{!-- WHAT TRAINING DIFFICULTY IS THIS SKILL --}}
-        Difficulty:
-        <select name="data.difficulty" data-dtype="{{data.difficulty}}">
-          {{#select data.details.culture.value}}
-          <option value="">NONE</option>
-          {{#each skillDifficulties as |difficulty d|}}
-          <option value="{{d}}">{{localize difficulty}}</option>
-          {{/each}}
-          {{/select}}
-        </select>
+        <div>
+          Difficulty:
+          <select name="data.difficulty" data-dtype="{{data.difficulty}}">
+            {{#select data.difficulty}}
+            {{#each skillDifficulties as |difficulty d|}}
+            <option value="{{d}}">{{localize difficulty}}</option>
+            {{/each}}
+            {{/select}}
+          </select>
+        </div>
         {{!-- IS THIS A BASIC SKILL? --}}
-        <label class="label-text">{{localize CPR.Basic}}</label>
-        {{#if data.basic}}
-        <a class="item-checkbox" data-target="data.basic"><i class="far fa-check-circle"></i></a>
-        {{else}}
-        <a class="item-checkbox" data-target="data.basic"><i class="far fa-circle"></i></a>
-        {{/if}}
+        <div>
+          <label class="label-text">Basic</label>
+          {{#if data.basic}}
+          <a class="item-checkbox" data-target="data.basic"><i class="far fa-check-circle"></i></a>
+          {{else}}
+          <a class="item-checkbox" data-target="data.basic"><i class="far fa-circle"></i></a>
+          {{/if}}
+        </div>
       </section>
     </div>
   </section>

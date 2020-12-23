@@ -305,6 +305,7 @@
         "physicalItem"
       ],
       "variety": "",
+      "amount": 0,
       "types": []
     },
     "gear": {
@@ -317,11 +318,10 @@
       "templates": [
         "common"
       ],
-      "stat": "",
-      "level": 0,
-      "category": "",
-      "basic": false,
-      "difficulty": 1
+      "stat": "none",
+      "category": "none",
+      "difficulty": "typical",
+      "basic": false
     },
     "vehicle": {
       "templates": [
