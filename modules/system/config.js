@@ -15,15 +15,15 @@ CPR.statList = {
 
 // TODO - Data formatting, it's likely a problem to have data with spaces.
 CPR.skillCategories = {
-    "awareness": "CPR.catawareness",
-    "body": "CPR.catbody",
-    "control": "CPR.catcontrol",
-    "education": "CPR.cateducation",
-    "fighting": "CPR.catfighting",
-    "performance": "CPR.catperformance",
-    "ranged Weapon": "CPR.catrangedweapon",
-    "social": "CPR.catsocial",
-    "technique": "CPR.cattech",
+    "awareness": "CPR.awarenessskills",
+    "body": "CPR.bodyskills",
+    "control": "CPR.controlskills",
+    "education": "CPR.educationskills",
+    "fighting": "CPR.fightingskills",
+    "performance": "CPR.performanceskills",
+    "rangedweapon": "CPR.rangedweaponskills",
+    "social": "CPR.socialskills",
+    "technique": "CPR.techniqueskills",
 }
 
 CPR.skillList = {
