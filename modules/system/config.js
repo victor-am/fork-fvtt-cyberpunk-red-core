@@ -14,34 +14,34 @@ CPR.statList = {
 }
 
 CPR.skillCategories = {
-    "Awareness Skills": "CPR.catawareness",
-    "Body Skills": "CPR.catbody",
-    "Control Skills": "CPR.catcontrol",
-    "Education Skills": "CPR.cateducation",
-    "Fighting Skills": "CPR.catfighting",
-    "Performance Skills": "CPR.catperformance",
-    "Ranged Weapon Skills": "CPR.catrangedweapon",
-    "Social Skill": "CPR.catsocial",
-    "Technique Skills": "CPR.cattechnique",
+    "catawareness": "CPR.catawareness",
+    "catbody": "CPR.catbody",
+    "catcontrol": "CPR.catcontrol",
+    "cateducation": "CPR.cateducation",
+    "catfighting": "CPR.catfighting",
+    "catperformance": "CPR.catperformance",
+    "catrangedweapon": "CPR.catrangedweapon",
+    "catsocial": "CPR.catsocial",
+    "cattechniquegit": "CPR.cattechnique",
 }
 
 // ???? TODO -- Does this accomplish what we want for skill training cost? ????
 CPR.skillDifficulties = {
-    "Typical": "CPR.SkillDifficultyTypical",
-    "Difficult": "CPR.SkillDifficultyDifficult",
-    "Role": "CPR.SkillDifficultyRole"
+    "typical": "CPR.SkillDifficultyTypical",
+    "difficult": "CPR.SkillDifficultyDifficult",
+    "role": "CPR.SkillDifficultyRole"
 }
 
 CPR.ammoVariety = {
-    "Medium Pistol": "CPR.ammovarmediumpistol",
-    "Heavy Pistol": "CPR.ammovarheavypistol",
-    "V. Heavy Pistol": "CPR.ammovarvheavypistol",
-    "Shotgun Slug": "CPR.ammovarslug",
-    "Shotgun Shell": "CPR.ammovarshell",
-    "Rifle Round": "CPR.ammvarrifle",
-    "Arrow": "CPR.ammovararrow",
-    "Grenade": "CPR.ammovargrenade",
-    "Rocket": "CPR.ammovarrocket"
+    "med-pistol": "CPR.ammovarmediumpistol",
+    "heavy-pistol": "CPR.ammovarheavypistol",
+    "v-heavy-pistol": "CPR.ammovarvheavypistol",
+    "shotgun-slug": "CPR.ammovarslug",
+    "shotgun-shell": "CPR.ammovarshell",
+    "rifle": "CPR.ammvarrifle",
+    "arrow": "CPR.ammovararrow",
+    "grenade": "CPR.ammovargrenade",
+    "rocket": "CPR.ammovarrocket"
 }
 
 CPR.ammoType = {

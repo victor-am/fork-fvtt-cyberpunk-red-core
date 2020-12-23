@@ -21,7 +21,7 @@
           Stat:
           <select name="data.stat" data-dtype="{{data.stat}}">
             {{#select data.stat}}
-            <option value="">NONE</option>
+            <option value="">N/A</option>
             {{#each statList as |stat s|}}
             <option value="{{s}}">{{localize stat}}</option>
             {{/each}}
@@ -33,7 +33,7 @@
           Category:
           <select name="data.category" data-dtype="{{data.category}}">
             {{#select data.category}}
-            <option value="">NONE</option>
+            <option value="">N/A</option>
             {{#each skillCategories as |category c|}}
             <option value="{{c}}">{{localize category}}</option>
             {{/each}}
@@ -45,7 +45,6 @@
           Difficulty:
           <select name="data.difficulty" data-dtype="{{data.difficulty}}">
             {{#select data.difficulty}}
-            <option value="">NONE</option>
             {{#each skillDifficulties as |difficulty d|}}
             <option value="{{d}}">{{localize difficulty}}</option>
             {{/each}}
