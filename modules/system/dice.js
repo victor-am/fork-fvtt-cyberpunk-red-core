@@ -13,7 +13,7 @@ import LOGGER from "../utils/cpr-logger";
 // Base roll should calculate Critical by default.
 // Base roll should expect a stat value, a skillBase value, and a list of mods to apply.
 export async function BaseRoll(calculateCritical = true, stat = 0, skillBase = 0, mods = []) {
-    LOGGER.trace()
+  LOGGER.trace(`Calling getProp Helper | Dice BaseRoll | Arg1:${arg1} Arg2:${arg2}, Arg3:${arg3}, Arg4:${arg4}`);
     // SKILL.val + STAT.val + [MODS]
     // 5 + 4 + sum([-2, 1, 1])
 
@@ -25,11 +25,14 @@ export async function BaseRoll(calculateCritical = true, stat = 0, skillBase = 0
     
     // Adjust for crit
     if (calculateCritical) {
+      LOGGER.debug(`Checking Critical Chance | Dice BaseRoll | Initial Roll:${initialRoll}`);
       if (roll._total == 1) {
-        criticalRoll = new Roll(`1d10`).roll();
+        criticalRoll -= new Roll(`1d10`).roll();
+        LOGGER.debug(`Critical Failure! | Dice BaseRoll | Critical Roll:${criticalRoll}`);
       }
       if (roll._total == 10) {
-        criticalRoll = new Roll("1d10 + ").roll();
+        criticalRoll += new Roll("1d10 + ").roll();
+        LOGGER.debug(`Critical Success | Dice BaseRoll | Critical Roll:${criticalRoll}`);
       }
     }
 
@@ -38,6 +41,8 @@ export async function BaseRoll(calculateCritical = true, stat = 0, skillBase = 0
     rollResult.criticalRoll = criticalRoll;
     rollResult.rollMods = mods;
     rollResult.result = initialRoll + criticalRoll + sum(mods)
+    LOGGER.debug(`Roll Result | Dice BaseRoll`);
+    console.log(rollResult);
     return rollResult;
 }
 
