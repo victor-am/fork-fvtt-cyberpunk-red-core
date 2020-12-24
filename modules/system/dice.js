@@ -1,6 +1,6 @@
 // SETUP A DIALOG
 
-import LOGGER from "../utils/cpr-logger";
+import LOGGER from "../utils/cpr-logger.js";
 
 // DETERIMNE ROLL TYPE
 
