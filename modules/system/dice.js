@@ -31,6 +31,8 @@ export function BaseRoll(stat = 0, skillLevel = 0, mods = [], calculateCritical 
     if (rollResult.initialRoll._total == 1) {
       rollResult.isCritical = true;
       rollResult.criticalRoll = new Roll(`1d10`).roll();
+      // Make roll negative
+      rollResult.criticalRoll._total = 0 - rollResult.criticalRoll._total;
       LOGGER.debug(`Critical Failure! | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll._total}`);
     }
     if (rollResult.initialRoll._total == 10) {
@@ -48,6 +50,7 @@ export function BaseRoll(stat = 0, skillLevel = 0, mods = [], calculateCritical 
   rollResult.finalRollResult = rollResult.initialRoll._total + (rollResult.isCritical ? rollResult.criticalRoll._total : 0);
   LOGGER.debug(`Calculate Total! | Dice BaseRoll | Roll:${rollResult.finalRollResult} Skill:${skillLevel} + Stat:${stat} + Mods:${mods}=${mods.reduce((a, b) => numOr0(a) + numOr0(b))}`);
   rollResult.total = rollResult.finalRollResult + skillLevel + stat + mods.reduce((a, b) => numOr0(a) + numOr0(b));
+  console.log(rollResult);
   return rollResult;
 }
 
