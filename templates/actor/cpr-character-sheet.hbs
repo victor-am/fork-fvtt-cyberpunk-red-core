@@ -2,6 +2,7 @@
   {{!-- Sheet Header --}}
   <header class="sheet-header">
     <div class="top-block">
+<<<<<<< HEAD
       {{!-- IMAGE --}}
       <div class="image-block">
         <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
@@ -68,6 +69,26 @@
           </div>
         </div>
       </div>
+=======
+      <div class="info-block">
+        {{!-- IMAGE --}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-image-block.hbs"}}
+        {{!-- HANDLE --}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-handle-block.hbs"}}
+      </div>
+      <div class="role-block">
+        {{!-- ROLE --}}{{!-- ABILITY --}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-role-block.hbs"}}
+      </div>
+      <div class="derived-block">
+        {{!-- HITPOINTS --}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-hitpoint-block.hbs"}}
+        {{!-- HUMANITY --}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-humanity-block.hbs"}}
+        {{!-- DEATH SAVE --}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-deathsave-block.hbs"}}
+      </div>  
+>>>>>>> c01f9ca808771323f61329688768ef3f5fd4f164
     </div>
     {{!-- STATS --}}
     <div class="stat-block">
