@@ -42,19 +42,16 @@
         },
         "derivedStats": {
           "hp": {
-            "value":0
+            "value": 40,
+            "max": 40
           },
-          "humanity": {
-            "value":0
-          },
-          "deathSave": {
-            "value":0
-          }
+          "seriously-wounded": 20,
+          "death-save": 6
         },
         "woundState": {
-          "lightlyWounded": false,
-          "seriouslyWounded": false,
-          "mortallyWounded": false,
+          "lightly-wounded": false,
+          "seriously-wounded": false,
+          "mortally-wounded": false,
           "dead": false
         },
         "skills": {
