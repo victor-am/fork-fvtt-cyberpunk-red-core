@@ -1,5 +1,7 @@
 // SETUP A DIALOG
 
+import LOGGER from "../utils/cpr-logger";
+
 // DETERIMNE ROLL TYPE
 
 // MAKE ROLL OF TYPE WITH ARGS
@@ -11,7 +13,7 @@
 // Base roll should calculate Critical by default.
 // Base roll should expect a stat value, a skillBase value, and a list of mods to apply.
 export async function BaseRoll(calculateCritical = true, stat = 0, skillBase = 0, mods = []) {
-    
+    LOGGER.trace()
     // SKILL.val + STAT.val + [MODS]
     // 5 + 4 + sum([-2, 1, 1])
 
