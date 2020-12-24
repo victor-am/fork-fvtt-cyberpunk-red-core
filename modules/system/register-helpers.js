@@ -12,10 +12,10 @@ export default function registerHandlebarsHelpers() {
     return string.toUpperCase()
   });
 
-  Handlebars.registerHelper("getProp", (thing, props) => {
+  Handlebars.registerHelper("getProp", (arg1, arg2) => {
     LOGGER.trace(`Calling getProp Helper | Arg1:${arg1} Arg2:${arg2}`);
-    const property = getProperty(thing, props)
-    return property
+    const prop = getProperty(arg1, arg2);
+    return prop;
   });
 
 }

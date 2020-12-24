@@ -28,33 +28,33 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
     const filteredItems = this.object.data.filteredItems
 
-    const skillItems = filteredItems.skill;
+    // const skillItems = filteredItems.skill;
 
-    const stats = data.data.stats;
-    const bases = data.data.skills;
+    // const stats = data.data.stats;
+    // const bases = data.data.skills;
 
-    for (let [skill, value] of Object.entries(bases)) {
-      // filter the relevant skill out of the skillItems
-      const relevantSkill = skillItems.filter(function(item) {return item.data.name === skill});
+    // for (let [skill, value] of Object.entries(bases)) {
+    //   // filter the relevant skill out of the skillItems
+    //   const relevantSkill = skillItems.filter(function(item) {return item.data.name === skill});
 
-      // get the relevant stat
-      let relevantStat = ""
-      let relevantStatValue = 0
-      let relevantSkillName = ""
-      let relevantSkillLevel = 0
-      try {
-        relevantStat = relevantSkill[0].data.data.stat;
-        relevantStatValue = stats[relevantStat].value;
-        relevantSkillName = relevantSkill[0].data.name;
-        relevantSkillLevel = relevantSkill[0].data.data.level;
-      } catch (err) {
-        // console.log(err)
-      }
+    //   // get the relevant stat
+    //   let relevantStat = ""
+    //   let relevantStatValue = 0
+    //   let relevantSkillName = ""
+    //   let relevantSkillLevel = 0
+    //   try {
+    //     relevantStat = relevantSkill[0].data.data.stat;
+    //     relevantStatValue = stats[relevantStat].value;
+    //     relevantSkillName = relevantSkill[0].data.name;
+    //     relevantSkillLevel = relevantSkill[0].data.data.level;
+    //   } catch (err) {
+    //     // console.log(err)
+    //   }
       
-      //set skill base to total
-      bases[skill] = relevantSkillLevel + relevantStatValue;
-    }
-    /* ----------------------------------------------- */
+    //   //set skill base to total
+    //   bases[skill] = relevantSkillLevel + relevantStatValue;
+    // }
+    // /* ----------------------------------------------- */
 
     return data;
   }

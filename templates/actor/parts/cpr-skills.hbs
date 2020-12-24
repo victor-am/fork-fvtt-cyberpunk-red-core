@@ -9,20 +9,20 @@
     <span>BASE</span>
   </div>
   {{#each ../actor.filteredItems.skill as |skill s|}}
-  {{log "WHAT IS GOING ON?"}}
-  {{log ../../this.data.stats}}
   {{!-- IF SKILL IS OF CATEGORY --}}
   {{#ifEquals skill.data.category c}}
   {{!-- DISPLAY SKILL ENTRY --}}
+  {{log ../../this}}
+  {{log skill}}
   <div class="skill">
-    <a class="name rollable">
+    <a class="{{skill.name}} rollable">
       <span class="{{#if skill.data.basic}}bold{{/if}}">
         {{localize skill.name}} <strong>({{skill.data.stat}})</strong>
       </span>
     </a>
     <span class="level">{{???}}</span>
-    <span class="stat">{{lookup ../../this.data.stats skill.data.stat}}</span>
-    <span class="base">{{??}} + {{lookup ../../this.data.stats skill.data.stat}}</span>
+    <span class="stat">{{getProp (lookup ../../this.data.stats skill.data.stat) "value"}}</span>
+    <span class="base">{{??}} + {{getProp (lookup ../../this.data.stats skill.data.stat) "value"}}</span>
   </div>
   {{/ifEquals}}
   {{/each}}
