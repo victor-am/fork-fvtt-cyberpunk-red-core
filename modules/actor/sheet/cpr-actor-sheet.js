@@ -1,5 +1,5 @@
 import LOGGER from "../../utils/cpr-logger.js";
-import {CPR} from "../../system/config.js";
+import { CPR } from "../../system/config.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -22,14 +22,35 @@ export default class CPRActorSheet extends ActorSheet {
   getData() {
     LOGGER.trace("Get Data | CPRActorSheet | Called.");
     const data = super.getData();
-    this.addConfigData(data);
+    this._addConfigData(data);
     // data.isGM = game.user.isGM;
     return data;
   }
 
+  /* -------------------------------------------- */
+  /** @override */
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    // Only on edit below here...
+    if (!this.options.editable) return;
+    
+    // Moo Man Maigc...
+    $("input[type=text]").focusin(function () {
+      $(this).select();
+    });
+
+    html.find(".rollable").click(this._onRoll.bind(this));
+
+  }
+
+
+  /*
+  INTERNAL METHODS BELOW HERE
+  */
 
   /* -------------------------------------------- */
-  addConfigData(sheetData) {
+  _addConfigData(sheetData) {
     LOGGER.trace(`Add Config Data | CPRActorSheet | Called with ${this}.`);
     sheetData.skillCategories = CPR.skillCategories;
     sheetData.statList = CPR.statList;
@@ -38,41 +59,12 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.debug(this);
   }
 
-  /* -------------------------------------------- */
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-    if (!this.options.editable) return;
-    $("input[type=text]").focusin(function () {
-      $(this).select();
-    });
-
-    // item sheet -> object assigned (item)
-    html.find(".item-checkbox").click(ev => {
-      LOGGER.trace(`Actor Listener Called | .checkbox click | Called with ${this}.`);
-      // Duplcate item object for work
-      let itemData = duplicate(this.item.data)
-      // ID our target value to change
-      let target = $(ev.currentTarget).attr("data-target")
-      // If target exists, attempt to setProperty for target of itemData
-      if (hasProperty(itemData, target)) {
-        setProperty(itemData, target, !getProperty(itemData, target))
-        this.item.update(itemData);
-      }
-    });
-
-    html.find(".rollable").click(this._onRoll.bind(this));
-
-  }
-
   _onRoll(event) {
-    LOGGER.trace(`Actor _onRoll | .rollable click | Called with ${this}.`);
+    LOGGER.trace(`Actor _onRoll | .rollable click | Called.`);
+    console.log(event);
     const button = event.currentTarget;
-    switch( button.dataset.action ) {
-      case "makeSkillRoll":
-        let roll = this.actor.rollStat(button.dataset.name);
-        LOGGER.trace(`Roll result: ` + roll.result);
-    }
+    console.log(button);
+    // Get actor, get Item?
   }
 }
 
