@@ -1,30 +1,36 @@
 <div class="skill-block">
+  <table>
+    <colgroup>
+      <col1 span></col1>
+    </colgroup>
+    <tbody>
     {{!-- FOR ALL SKILL ITEMS, RENDER SKILL CARD --}}
     {{!-- FOR EACH CATEGORY --}}
-    {{#each skillCategories as |category c|}}
-    <div class="skill-category">
-        <span class="name">{{localize (lookup ../this.skillCategories c)}}</span>
-        <span>LVL</span>
-        <span>STAT</span>
-        <span>BASE</span>
-    </div>
-    {{#each ../actor.filteredItems.skill as |skill s|}}
-    {{!-- IF SKILL IS OF CATEGORY --}}
-    {{#ifEquals skill.data.category c}}
-    {{!-- DISPLAY SKILL --}}
-    <div class="skill">
-        <a class="name open-item-popup">
-          <span class="{{#if skill.data.basic}}bold{{/if}}">
-            {{log skill}}
-            {{localize (lookup ../../this.skillList this.name)}} <strong>({{localize (lookup ../../this.statList this.data.stat)}})</strong>
-          </span>
-        </a>
-        <span class="level">{{skill.data.level}}</span>
-        <span class="stat">{{getProp (getProp ../../actor.data.stats skill.data.stat) 'value'}}</span>
-        <span class="base">{{getProp ../../actor.data.skills skill.name}}</span>
-    </div>
-    {{/ifEquals}}
-    {{/each}}
-    {{/each}}
-    {{!-- FOR EACH SKILL IN CATEGORY --}}
+      {{#each skillCategories as |category c|}}
+      <tr class="skill-category">
+          <td class="name">{{localize (lookup ../this.skillCategories c)}}</td>
+          <td class="level">LVL</td>
+          <td class="stat">STAT</td>
+          <td class="base">BASE</td>
+      </tr>
+      {{#each ../actor.filteredItems.skill as |skill s|}}
+      {{!-- IF SKILL IS OF CATEGORY --}}
+      {{#ifEquals skill.data.category c}}
+      {{!-- DISPLAY SKILL --}}
+      <tr class="skill">
+          <td class="name"><a class="name open-item-popup">
+            <span class="{{#if skill.data.basic}}bold{{/if}}">
+              {{localize (lookup ../../this.skillList this.name)}} <strong>({{localize (lookup ../../this.statList this.data.stat)}})</strong>
+            </span>
+          </a></td>
+          <td class="level">{{skill.data.level}}</td>
+          <td class="stat">{{getProp (getProp ../../actor.data.stats skill.data.stat) 'value'}}</td>
+          <td class="base">{{getProp ../../actor.data.skills skill.name}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{/each}}
+      {{/each}}
+    </tbody>
+  </table>  
 </div>
+

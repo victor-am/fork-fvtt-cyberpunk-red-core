@@ -203,9 +203,9 @@ form {
           text-align: center;
           font-size: 2em;
           background-color: transparent;
-        };
-      };
-    };
+        }
+      }
+    }
     .stat-unit.has-max {
       clip-path: polygon(
         10px 0, 
@@ -221,36 +221,42 @@ form {
       .stat-input {
         font-size: 1.5em;
         background: transparent;
-      };
-    };
-  };
+      }
+    }
+  }
 
   .skill-block {
+    font-size: 0.8em;
     background-color: @maximum-red;
     padding: 5px;
+    table {
+      margin: 0;
+      outline: 0;
+      border: 0;
+      width: 50%;
+      
+    }
     .skill-category {
-      background-color: black;
-      display: flex;
-      justify-content: space-between;
+      background-color: @raisin-black;
       color: white;
-      span {
-        padding: 5px;
-      };
       .name {
-        width: 70%;
-      };
-    };
-    .skill {
-      display: flex;
-      background-color: white;
-      justify-content: space-between;
-      .name {
-        width: 70%;
-        padding: 5px;
-      };
-      .bold {
-        font-weight: bold;
+        width: 55%
       }
-    };
-  };
-};
+      .level, .stat, .base {
+        width: 15%;
+        text-align:center;
+      }
+    }
+    .skill {
+      background-color: white;
+      .name {
+        width: 55%
+      }
+      .level, .stat, .base {
+        width: 15%;
+        text-align:center;
+      }
+    }
+    
+  }
+}

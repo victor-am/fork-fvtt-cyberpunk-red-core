@@ -194,32 +194,40 @@ form .stat-block .stat-unit.has-max .stat-input {
   background: transparent;
 }
 form .skill-block {
+  font-size: 0.8em;
   background-color: #d02b23;
   padding: 5px;
 }
+form .skill-block table {
+  margin: 0;
+  outline: 0;
+  border: 0;
+  width: 50%;
+}
 form .skill-block .skill-category {
-  background-color: black;
-  display: flex;
-  justify-content: space-between;
+  background-color: #231f20;
   color: white;
 }
-form .skill-block .skill-category span {
-  padding: 5px;
-}
 form .skill-block .skill-category .name {
-  width: 70%;
+  width: 55%;
+}
+form .skill-block .skill-category .level,
+form .skill-block .skill-category .stat,
+form .skill-block .skill-category .base {
+  width: 15%;
+  text-align: center;
 }
 form .skill-block .skill {
-  display: flex;
   background-color: white;
-  justify-content: space-between;
 }
 form .skill-block .skill .name {
-  width: 70%;
-  padding: 5px;
+  width: 55%;
 }
-form .skill-block .skill .bold {
-  font-weight: bold;
+form .skill-block .skill .level,
+form .skill-block .skill .stat,
+form .skill-block .skill .base {
+  width: 15%;
+  text-align: center;
 }
 form .item-desc-body {
   display: flex;
@@ -261,6 +269,7 @@ form .item-name {
 :root {
   font-family: 'Ubuntu Mono', monospace;
   font-size: 10px;
+  color: #231f20;
 }
 .window-app .window-content {
   background: #ffffff;

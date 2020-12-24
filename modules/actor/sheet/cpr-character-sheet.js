@@ -33,7 +33,6 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       // HP
       hp.max = 10 + 5*(Math.ceil((willStat + bodyStat) / 2));
       if (hp.value > hp.max) hp.value = hp.max;
-      console.log(`${hp.value} out of ${hp.max}`)
 
       // Humanity
       hum.max = 10 * empStat;
@@ -44,7 +43,6 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
       // Death save
       deathSave.max = Number(bodyStat);
-      console.log(deathSave)
       if (deathSave.value > deathSave.max) deathSave.value = deathSave.max;
 
     /* ---------------------------------------------- */
