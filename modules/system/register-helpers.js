@@ -8,14 +8,13 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("loud", function (string) {
-    LOGGER.trace(`Calling loud Helper | Arg1:${arg1}`);
+    LOGGER.trace(`Calling loud Helper | Arg1:${string}`);
     return string.toUpperCase()
   });
 
-  Handlebars.registerHelper("getProp", (arg1, arg2) => {
-    LOGGER.trace(`Calling getProp Helper | Arg1:${arg1} Arg2:${arg2}`);
-    const prop = getProperty(arg1, arg2);
-    return prop;
+  Handlebars.registerHelper("getProp", (object, property) => {
+    LOGGER.trace(`Calling getProp Helper | Arg1:${object} Arg2:${property}`);
+    return getProperty(object, property);
   });
 
 }

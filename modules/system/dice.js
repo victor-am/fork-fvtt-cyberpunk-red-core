@@ -57,7 +57,7 @@ export function DamageRoll(rollFormula = '1d6', location = "body") {
     location: location,
     criticalInjury: "",
     initialRoll: new Roll(rollFormula).roll(),
-    finalResult = 0
+    finalResult: 0
   };
 
   // Check for sixes choom!

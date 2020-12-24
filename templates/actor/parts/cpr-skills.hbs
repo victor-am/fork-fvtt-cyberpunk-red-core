@@ -17,12 +17,12 @@
   <div class="skill">
     <a class="{{skill.name}} rollable">
       <span class="{{#if skill.data.basic}}bold{{/if}}">
-        {{localize skill.name}} <strong>({{skill.data.stat}})</strong>
+        {{localize skill.name}} <strong>({{loud skill.data.stat}})</strong>
       </span>
     </a>
-    <span class="level">{{???}}</span>
+    <span class="level">LEVEL</span>
     <span class="stat">{{getProp (lookup ../../this.data.stats skill.data.stat) "value"}}</span>
-    <span class="base">{{??}} + {{getProp (lookup ../../this.data.stats skill.data.stat) "value"}}</span>
+    <span class="base">STAT + {{getProp (lookup ../../this.data.stats skill.data.stat) "value"}}</span>
   </div>
   {{/ifEquals}}
   {{/each}}
