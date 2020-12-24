@@ -13,16 +13,16 @@
   {{log ../../this.data.stats}}
   {{!-- IF SKILL IS OF CATEGORY --}}
   {{#ifEquals skill.data.category c}}
-  {{!-- DISPLAY SKILL --}}
+  {{!-- DISPLAY SKILL ENTRY --}}
   <div class="skill">
     <a class="name open-item-popup">
       <span class="{{#if skill.data.basic}}bold{{/if}}">
         {{localize skill.name}} <strong>({{skill.data.stat}})</strong>
       </span>
     </a>
-    <span class="level">{{lookup ../../this.data.stats skill.data.stat}}</span>
-    <span class="stat">{{STAT}}</span>
-    <span class="base">{{BASE}}</span>
+    <span class="level">{{???}}</span>
+    <span class="stat">{{lookup ../../this.data.stats skill.data.stat}}</span>
+    <span class="base">{{??}} + {{lookup ../../this.data.stats skill.data.stat}}</span>
   </div>
   {{/ifEquals}}
   {{/each}}
