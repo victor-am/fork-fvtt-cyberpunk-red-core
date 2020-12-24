@@ -8,26 +8,35 @@
 
 // RENDER DIALOG
 
-export async function BaseRoll(rollData = "1d10", calculateCritical = false) {
+// Base roll should calculate Critical by default.
+// Base roll should expect a stat value, a skillBase value, and a list of mods to apply.
+export async function BaseRoll(calculateCritical = true, stat = 0, skillBase = 0, mods = []) {
+    
     // SKILL.val + STAT.val + [MODS]
-    // 5 + 4 + [-2, 1, 1]
-    // base = skill.value + stat.value
-    // for mod in mods [base+=mod]
-    // roll result + base
-    // result
-    let roll = new Roll(rollData).roll(); // Use input roll if exists, otherwise, roll randomly (used for editing a test result)
+    // 5 + 4 + sum([-2, 1, 1])
+
+    // todo getChatDialog??
+
+    let rollResult = {};
+    let criticalRoll = 0;
+    let initialRoll = new Roll(`1d10`).roll(); // Use input roll if exists, otherwise, roll randomly (used for editing a test result)
+    
     // Adjust for crit
     if (calculateCritical) {
       if (roll._total == 1) {
-        roll = new Roll("1d10 - " + roll.result).roll();
+        criticalRoll = new Roll(`1d10`).roll();
       }
-      let rollData = baseRollData.split("d", 2);
-      let maxRoll = parseInt(rollData[0]) * parseInt(rollData[1]);
-      if (roll._total == maxRoll) {
-        roll = new Roll("1d10 + " + roll.result).roll();
+      if (roll._total == 10) {
+        criticalRoll = new Roll("1d10 + ").roll();
       }
     }
-    return roll;
+
+    // Build results object for the dialog.
+    rollResult.initialRoll = initialRoll;
+    rollResult.criticalRoll = criticalRoll;
+    rollResult.rollMods = mods;
+    rollResult.result = initialRoll + criticalRoll + sum(mods)
+    return rollResult;
 }
 
 export async function DamageRoll() {

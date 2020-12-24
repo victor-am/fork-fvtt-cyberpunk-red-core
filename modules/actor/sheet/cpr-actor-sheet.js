@@ -67,7 +67,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`Actor _onRoll | .rollable click | Called with ${this}.`);
     const button = event.currentTarget;
     switch( button.dataset.action ) {
-      case "rollStatCheck":
+      case "makeSkillRoll":
         let roll = this.actor.rollStat(button.dataset.name);
         LOGGER.trace(`Roll result: ` + roll.result);
     }
