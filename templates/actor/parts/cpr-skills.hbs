@@ -1,30 +1,32 @@
 <div class="skill-block">
-    {{!-- FOR ALL SKILL ITEMS, RENDER SKILL CARD --}}
-    {{!-- FOR EACH CATEGORY --}}
-    {{#each skillCategories as |category c|}}
-    <div class="skill-category">
-        <span class="name">{{localize category}}</span>
-        <span>LVL</span>
-        <span>STAT</span>
-        <span>BASE</span>
-    </div>
-    {{#each ../actor.filteredItems.skill as |skill s|}}
-    {{!-- IF SKILL IS OF CATEGORY --}}
-    {{#ifEquals skill.data.category c}}
-    {{!-- DISPLAY SKILL --}}
-    <div class="skill">
-        <a class="name open-item-popup">
-          <span class="{{#if skill.data.basic}}bold{{/if}}">
-            {{log this}}
-            {{localize skill.name}} <strong>({{skill.stat}})</strong>
-          </span>
-        </a>
-        <span class="level">{{skill.data.level}}</span>
-        <span class="stat">{{getProp (getProp ../../actor.data.stats skill.data.stat) 'value'}}</span>
-        <span class="base">{{getProp ../../actor.data.skills skill.name}}</span>
-    </div>
-    {{/ifEquals}}
-    {{/each}}
-    {{/each}}
-    {{!-- FOR EACH SKILL IN CATEGORY --}}
+  {{!-- FOR ALL SKILL ITEMS, RENDER SKILL CARD --}}
+  {{!-- FOR EACH CATEGORY --}}
+  {{#each skillCategories as |category c|}}
+  <div class="skill-category">
+    <span class="name">{{localize category}}</span>
+    <span>LVL</span>
+    <span>STAT</span>
+    <span>BASE</span>
+  </div>
+  {{#each ../actor.filteredItems.skill as |skill s|}}
+  {{!-- IF SKILL IS OF CATEGORY --}}
+  {{#ifEquals skill.data.category c}}
+  {{!-- DISPLAY SKILL ENTRY --}}
+  <div class="skill">
+    {{log skill}}
+    <a class="rollable" data-item-id={{skill._id}}>
+      <span class="{{#if skill.data.basic}}bold{{/if}}">
+        {{localize skill.name}} <strong>({{loud skill.data.stat}})</strong>
+      </span>
+    </a>
+    <span class="level">LEVEL</span>
+    <span class="stat">{{getProp (lookup ../../this.data.stats skill.data.stat) "value"}}</span>
+    <span class="base">LEVEL + {{getProp (lookup ../../this.data.stats skill.data.stat) "value"}}</span>
+  </div>
+  {{/ifEquals}}
+  {{/each}}
+  {{/each}}
+  {{!-- FOR EACH SKILL IN CATEGORY --}}
 </div>
+
+

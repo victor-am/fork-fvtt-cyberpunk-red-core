@@ -1,5 +1,7 @@
 export const CPR = {};
 
+
+// TODO - VERIFY ALL CONFIG VALUES LINK TO A LOCALIZATION VALUE!!!
 CPR.statList = {
     "int": "CPR.int",
     "ref": "CPR.ref",
@@ -13,17 +15,17 @@ CPR.statList = {
     "emp": "CPR.emp"
 }
 
-// TODO - Data formatting, it's likely a problem to have data with spaces.
+// Griff - Great job on the localization names man!
 CPR.skillCategories = {
-    "awareness": "CPR.catawareness",
-    "body": "CPR.catbody",
-    "control": "CPR.catcontrol",
-    "education": "CPR.cateducation",
-    "fighting": "CPR.catfighting",
-    "performance": "CPR.catperformance",
-    "ranged Weapon": "CPR.catrangedweapon",
-    "social": "CPR.catsocial",
-    "technique": "CPR.cattech",
+    "awarenessskills": "CPR.awarenessskills",
+    "bodyskills": "CPR.bodyskills",
+    "controlskills": "CPR.controlskills",
+    "educationskills": "CPR.educationskills",
+    "fightingskills": "CPR.fightingskills",
+    "performanceskills": "CPR.performanceskills",
+    "rangedweaponskills": "CPR.rangedweaponskills",
+    "socialskills": "CPR.socialskills",
+    "techniqueskills": "CPR.techniqueskills",
 }
 
 CPR.skillList = {
@@ -98,10 +100,13 @@ CPR.skillList = {
 }
 
 // ???? TODO -- Does this accomplish what we want for skill training cost? ????
+// Switch based on skill difficulty?
+// If role skill? Don't allow IP improvement??
+// Needs discussed...
 CPR.skillDifficulties = {
-    "typical": "CPR.SkillDifficultyTypical",
-    "difficult": "CPR.SkillDifficultyDifficult",
-    "role": "CPR.SkillDifficultyRole"
+    "typical": "CPR.skilldifficultytypical",
+    "difficult": "CPR.skilldifficultydifficult",
+    "role": "CPR.skilldifficultyrole"
 }
 
 CPR.ammoVariety = {
@@ -117,5 +122,5 @@ CPR.ammoVariety = {
 }
 
 CPR.ammoType = {
-    "Basic": "CPR.ammotypebasic"
+    "basic": "CPR.ammotypebasic"
 }

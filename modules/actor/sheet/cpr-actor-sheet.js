@@ -1,5 +1,6 @@
 import LOGGER from "../../utils/cpr-logger.js";
-import {CPR} from "../../system/config.js";
+import { CPR } from "../../system/config.js";
+import { BaseRoll } from "../../system/dice.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -22,50 +23,48 @@ export default class CPRActorSheet extends ActorSheet {
   getData() {
     LOGGER.trace("Get Data | CPRActorSheet | Called.");
     const data = super.getData();
-    this.addConfigData(data);
+    this._addConfigData(data);
     // data.isGM = game.user.isGM;
     return data;
-  }
-
-
-  /* -------------------------------------------- */
-  addConfigData(sheetData) {
-    LOGGER.trace(`Add Config Data | CPRActorSheet | Called with ${this}.`);
-    sheetData.skillCategories = CPR.skillCategories;
-    sheetData.statList = CPR.statList;
-    sheetData.skillDifficulties = CPR.skillDifficulties;
-    sheetData.skillList = CPR.skillList;
-    LOGGER.debug(this);
   }
 
   /* -------------------------------------------- */
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
+
+    // Only on edit below here...
     if (!this.options.editable) return;
+    
+    // Moo Man Maigc...
     $("input[type=text]").focusin(function () {
       $(this).select();
     });
 
-    // item sheet -> object assigned (item)
-    html.find(".item-checkbox").click(ev => {
-      LOGGER.trace(`Actor Listener Called | .checkbox click | Called with ${this}.`);
-      // Duplcate item object for work
-      let itemData = duplicate(this.item.data)
-      // ID our target value to change
-      let target = $(ev.currentTarget).attr("data-target")
-      // If target exists, attempt to setProperty for target of itemData
-      if (hasProperty(itemData, target)) {
-        setProperty(itemData, target, !getProperty(itemData, target))
-        this.item.update(itemData);
-      }
-    });
-
-    html.find(".roll").click(ev => {
-      this._onRoll.bind(this)
-    });
+    html.find(".rollable").click(this._onRoll.bind(this));
 
   }
 
+
+  /*
+  INTERNAL METHODS BELOW HERE
+  */
+
+  /* -------------------------------------------- */
+  _addConfigData(sheetData) {
+    LOGGER.trace(`Add Config Data | CPRActorSheet | Called with ${this}.`);
+    sheetData.skillCategories = CPR.skillCategories;
+    sheetData.statList = CPR.statList;
+    sheetData.skillDifficulties = CPR.skillDifficulties;
+    sheetData.skillList = CPR.skillList;
+  }
+
+  _onRoll(event) {
+    let actorData = this.getData();
+    LOGGER.trace(`Actor _onRoll | .rollable click | Called.`);
+    const id = $(event.currentTarget).attr("data-item-id");
+    BaseRoll(6, 6, [2, -3], true);
+    // Get actor, get Item?
+  }
 }
 

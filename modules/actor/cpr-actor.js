@@ -1,4 +1,5 @@
 import LOGGER from "../utils/cpr-logger.js";
+import { BaseRoll } from "../system/dice.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -39,5 +40,11 @@ export default class CPRActor extends Actor {
     LOGGER.trace("Get Roll Data | CPRActor | Called.");
     const data = super.getRollData();
     return data;
+  }
+
+  rollStat(statName, options={}) {
+    LOGGER.trace("Roll Stat | CPRActor | Called.");
+    let roll = BaseRoll("1d10 + " + this.data.data.stats[statName]);
+    console.log(roll);
   }
 }
