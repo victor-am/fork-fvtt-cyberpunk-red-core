@@ -39,15 +39,15 @@ export async function BaseRoll(calculateCritical = true, stat = 0, skillBase = 0
     return rollResult;
 }
 
-export async function DamageRoll() {
+export function DamageRoll() {
 
 }
 
-export async function DeathSave() {
+export function DeathSave() {
 
 }
 
-export async function Initiative() {
+export function Initiative() {
 
 }
 

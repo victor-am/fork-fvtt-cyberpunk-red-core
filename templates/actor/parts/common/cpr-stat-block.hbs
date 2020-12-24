@@ -1,40 +1,22 @@
-<label class="stat-label" for="int-stat-input">
-    <p class="rollable" data-action="rollStatCheck" data-name="int">INT</p>
-    <input id="int-stat-input" class="stat-input" type="text" name="data.stats.int" type="text" value="{{data.stats.int}}">
-</label>
-<label class="stat-label" for="ref-stat-input">
-    <p class="rollable" data-action="rollStatCheck" data-name="ref">REF</p> <input id="ref-stat-input" class="stat-input" type="text" name="data.stats.ref" type="text"
-        value="{{data.stats.ref}}">
-</label>
-<div class="stat-label" for="dex-stat-input">
-    <p class="rollable" data-action="rollStatCheck" data-name="dex">DEX</p> <input id="dex-stat-input" class="stat-input" type="text" name="data.stats.dex" type="text"
-        value="{{data.stats.dex}}">
-</div>
-<div class="stat-label" for="tech-stat-input">
-    <p class="rollable" data-action="rollStatCheck" data-name="tech">TECH</p> <input id="tech-stat-input" class="stat-input" type="text" name="data.stats.tech" type="text"
-        value="{{data.stats.tech}}">
-</div>
-<div class="stat-label" for="cool-stat-input">
-    <p class="rollable" data-action="rollStatCheck" data-name="cool">COOL</p> <input id="cool-stat-input" class="stat-input" type="text" name="data.stats.cool" type="text"
-        value="{{data.stats.cool}}">
-</div>
-<div class="stat-label" for="will-stat-input">
-    <p class="rollable" data-action="rollStatCheck" data-name="will">WILL</p> <input id="will-stat-input" class="stat-input" type="text" name="data.stats.will" type="text"
-        value="{{data.stats.will}}">
-</div>
-<div class="stat-label" for="body-stat-input">
-    <p class="rollable" data-action="rollStatCheck" data-name="body">BODY</p> <input id="body-stat-input" class="stat-input" type="text" name="data.stats.body" type="text"
-        value="{{data.stats.body}}">
-</div>
-<div class="stat-label" for="move-stat-input">
-    <p class="rollable" data-action="rollStatCheck" data-name="move">MOVE</p> <input id="move-stat-input" class="stat-input" type="text" name="data.stats.move" type="text"
-        value="{{data.stats.move}}">
-</div>
-<div class="stat-label" for="luck-stat-input">
-    <p class="rollable" data-action="rollStatCheck" data-name="luck">LUCK</p> <input id="luck-stat-input" class="stat-input" type="text" name="data.stats.luck.value" type="text"
-        value="{{data.stats.luck.value}}">
-</div>
-<div class="stat-label" for="emp-stat-input">
-    <p class="rollable" data-action="rollStatCheck" data-name="emp">EMP</p> <input id="emp-stat-input" class="stat-input" type="text" name="data.stats.emp.value" type="text"
-        value="{{data.stats.emp.value}}">
-</div>
+{{!-- Partials to create stat-units from template --}}
+{{#each data.stats as |stat s|}}
+  <div class="stat-unit {{#if this.max}}has-max{{/if}}">
+    <p>{{localize (lookup ../this.statList s)}}</p>
+    <div class="stat-values">
+      <input
+        class="stat-input"
+        name="data.stats.{{s}}.value"
+        type="number"
+        value="{{this.value}}"
+      />
+      {{#if this.max}}
+        <input
+          class="stat-input"
+          name="data.stats.{{s}}.max"
+          type="number"
+          value="{{this.max}}"
+        />
+      {{/if}}
+    </div>
+  </div>
+{{/each}}
