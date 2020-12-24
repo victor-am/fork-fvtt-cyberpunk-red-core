@@ -1,5 +1,6 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import { CPR } from "../../system/config.js";
+import { BaseRoll } from "../../system/dice.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -61,9 +62,8 @@ export default class CPRActorSheet extends ActorSheet {
   _onRoll(event) {
     let actorData = this.getData();
     LOGGER.trace(`Actor _onRoll | .rollable click | Called.`);
-    console.log(event);
     const id = $(event.currentTarget).attr("data-item-id");
-    console.log(actorData.items.filter(skill => { return skill._id === id})[0]);
+    BaseRoll(6, 6, [2, -3], true);
     // Get actor, get Item?
   }
 }
