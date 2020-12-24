@@ -58,6 +58,7 @@ export default class CPRActorSheet extends ActorSheet {
     sheetData.skillDifficulties = CPR.skillDifficulties;
     sheetData.skillList = CPR.skillList;
     sheetData.roleAbilityList = CPR.roleAbilityList;
+    sheetData.roleList = CPR.roleList;
   }
 
   _onRoll(event) {
