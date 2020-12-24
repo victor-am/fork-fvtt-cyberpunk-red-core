@@ -100,10 +100,13 @@ CPR.skillList = {
 }
 
 // ???? TODO -- Does this accomplish what we want for skill training cost? ????
+// Switch based on skill difficulty?
+// If role skill? Don't allow IP improvement??
+// Needs discussed...
 CPR.skillDifficulties = {
-    "typical": "CPR.SkillDifficultyTypical",
-    "difficult": "CPR.SkillDifficultyDifficult",
-    "role": "CPR.SkillDifficultyRole"
+    "typical": "CPR.skilldifficultytypical",
+    "difficult": "CPR.skilldifficultydifficult",
+    "role": "CPR.skilldifficultyrole"
 }
 
 CPR.ammoVariety = {

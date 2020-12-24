@@ -1,30 +1,31 @@
 <div class="skill-block">
-    {{!-- FOR ALL SKILL ITEMS, RENDER SKILL CARD --}}
-    {{!-- FOR EACH CATEGORY --}}
-    {{#each skillCategories as |category c|}}
-    <div class="skill-category">
-        <span class="name">{{localize category}}</span>
-        <span>LVL</span>
-        <span>STAT</span>
-        <span>BASE</span>
-    </div>
-    {{#each ../actor.filteredItems.skill as |skill s|}}
-    {{!-- IF SKILL IS OF CATEGORY --}}
-    {{#ifEquals skill.data.category c}}
-    {{!-- DISPLAY SKILL --}}
-    <div class="skill">
-        <a class="name open-item-popup">
-          <span class="{{#if skill.data.basic}}bold{{/if}}">
-            {{log this}}
-            {{localize skill.name}} <strong>({{skill.stat}})</strong>
-          </span>
-        </a>
-        <span class="level">{{skill.data.level}}</span>
-        <span class="stat">{{getProp (getProp ../../actor.data.stats skill.data.stat) 'value'}}</span>
-        <span class="base">{{getProp ../../actor.data.skills skill.name}}</span>
-    </div>
-    {{/ifEquals}}
-    {{/each}}
-    {{/each}}
-    {{!-- FOR EACH SKILL IN CATEGORY --}}
+  {{!-- FOR ALL SKILL ITEMS, RENDER SKILL CARD --}}
+  {{!-- FOR EACH CATEGORY --}}
+  {{#each skillCategories as |category c|}}
+  <div class="skill-category">
+    <span class="name">{{localize category}}</span>
+    <span>LVL</span>
+    <span>STAT</span>
+    <span>BASE</span>
+  </div>
+  {{#each ../actor.filteredItems.skill as |skill s|}}
+  {{log "WHAT IS GOING ON?"}}
+  {{log ../../this.data.stats}}
+  {{!-- IF SKILL IS OF CATEGORY --}}
+  {{#ifEquals skill.data.category c}}
+  {{!-- DISPLAY SKILL --}}
+  <div class="skill">
+    <a class="name open-item-popup">
+      <span class="{{#if skill.data.basic}}bold{{/if}}">
+        {{localize skill.name}} <strong>({{skill.data.stat}})</strong>
+      </span>
+    </a>
+    <span class="level">{{lookup ../../this.data.stats skill.data.stat}}</span>
+    <span class="stat">{{STAT}}</span>
+    <span class="base">{{BASE}}</span>
+  </div>
+  {{/ifEquals}}
+  {{/each}}
+  {{/each}}
+  {{!-- FOR EACH SKILL IN CATEGORY --}}
 </div>

@@ -12,6 +12,7 @@ export default function registerHandlebarsHelpers() {
     });
 
     Handlebars.registerHelper("getProp", (thing, props) => {
+      LOGGER.trace(`Calling getProp Helper | Arg1:${arg1} Arg2:${arg2}`);
       const property = getProperty(thing, props)
       return property 
     });
