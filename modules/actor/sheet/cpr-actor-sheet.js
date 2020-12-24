@@ -59,10 +59,11 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _onRoll(event) {
+    let actorData = this.getData();
     LOGGER.trace(`Actor _onRoll | .rollable click | Called.`);
     console.log(event);
-    const button = event.currentTarget;
-    console.log(button);
+    const id = $(event.currentTarget).attr("data-item-id");
+    console.log(actorData.items.filter(skill => { return skill._id === id})[0]);
     // Get actor, get Item?
   }
 }

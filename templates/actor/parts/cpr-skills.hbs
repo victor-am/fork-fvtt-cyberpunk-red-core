@@ -12,17 +12,16 @@
   {{!-- IF SKILL IS OF CATEGORY --}}
   {{#ifEquals skill.data.category c}}
   {{!-- DISPLAY SKILL ENTRY --}}
-  {{log ../../this}}
-  {{log skill}}
   <div class="skill">
-    <a class="{{skill.name}} rollable">
+    {{log skill}}
+    <a class="rollable" data-item-id={{skill._id}}>
       <span class="{{#if skill.data.basic}}bold{{/if}}">
         {{localize skill.name}} <strong>({{loud skill.data.stat}})</strong>
       </span>
     </a>
     <span class="level">LEVEL</span>
     <span class="stat">{{getProp (lookup ../../this.data.stats skill.data.stat) "value"}}</span>
-    <span class="base">STAT + {{getProp (lookup ../../this.data.stats skill.data.stat) "value"}}</span>
+    <span class="base">LEVEL + {{getProp (lookup ../../this.data.stats skill.data.stat) "value"}}</span>
   </div>
   {{/ifEquals}}
   {{/each}}
