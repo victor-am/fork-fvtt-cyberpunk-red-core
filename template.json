@@ -124,7 +124,7 @@
           "weaponstech": 0,
           "wildernesssurvival": 0
         },
-        "role-info": {
+        "roleInfo": {
           "role": "solo",
           "roleskills": {
             "netrunner": {
@@ -177,29 +177,29 @@
         "common"
       ],
       "lifepath": {
-        "cultural-origin": "",
+        "culturalOrigin": "",
         "personality": "",
-        "clothing-style": "",
-        "hair-style": "",
+        "clothingStyle": "",
+        "hairStyle": "",
         "affectations": "",
-        "value-most": "",
-        "about-people": "",
-        "valued-person": "",
-        "valued-possession": "",
-        "family-backgrond": "",
-        "childhood-environment": "",
-        "family-crisis": "",
-        "life-goals": "",
-        "role-lifepath": "",
+        "valueMost": "",
+        "aboutPeople": "",
+        "valuedPerson": "",
+        "valuedPossession": "",
+        "familyBackgrond": "",
+        "childhoodEnvironment": "",
+        "familyCrisis": "",
+        "lifeGoals": "",
+        "roleLifepath": "",
         "friends": [],
-        "tragic-love-affairs": [],
+        "tragicLoveAffairs": [],
         "enemies": []
       },
       "reputation:": {
         "events": [],
         "value": 0
       },
-      "improvement-points": {
+      "improvementPoints": {
         "total": 0
       },
       "humanity": {
@@ -207,7 +207,8 @@
         "max": 60
       },
       "wealth": {
-        "cash": 0
+        "eddies": 0,
+        "transactions": []
       },
       "lifestyle": {
         "fasion": "",
@@ -270,7 +271,7 @@
       ],
       "type": "type",
       "install": "install",
-      "humanity-loss": {
+      "humanityLoss": {
         "cgen": 0,
         "roll": ""
       }
@@ -281,10 +282,10 @@
         "physicalItem"
       ],
       "rof": 1,
-      "weapon-type": "",
-      "ammo-type": "",
-      "ammo-capacity": 0,
-      "hands-req": 0,
+      "weaponType": "",
+      "ammoType": "",
+      "ammoCapacity": 0,
+      "handsReq": 0,
       "damage": ""
     },
     "armor": {
