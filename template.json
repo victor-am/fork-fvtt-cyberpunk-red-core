@@ -204,7 +204,8 @@
       },
       "humanity": {
         "value": 60,
-        "max": 60
+        "max": 60,
+        "events": []
       },
       "wealth": {
         "eddies": 0,
@@ -317,6 +318,7 @@
       "templates": [
         "common"
       ],
+      "level": 0,
       "stat": "none",
       "category": "none",
       "difficulty": "typical",
@@ -349,10 +351,7 @@
         "common",
         "physicalItem"
       ],
-      "floors": [],
-      "floor": {
-        "dv": 0
-      }
+      "floors": []
     },
     "loot": {
       "templates": [
