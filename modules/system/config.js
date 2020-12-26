@@ -121,13 +121,31 @@ CPR.skillDifficulties = {
     "role": "CPR.skilldifficultyrole"
 }
 
+CPR.weaponType = {
+  "lightMelee": "CPR.lightmelee",
+  "medmelee": "CPR.medmelee",
+  "heavyMelee": "CPR.heavymelee",
+  "vheavyMelee": "CPR.vheavymelee",
+  "medPistol": "CPR.mediumpistol",
+  "heavyPistol": "CPR.heavypistol",
+  "vHeavyPistol": "CPR.vheavypistol",
+  "smg": "CPR.smg",
+  "heavysmg": "CPR.heavysmg",
+  "shotgun": "CPR.shotgun",
+  "assualtRifle": "CPR.assualtrifle",
+  "sniperRifler": "CPR.sniperrifle",
+  "bows": "CPR.bows",
+  "grenadelauncher": "CPR.grenadelauncher",
+  "rocketlauncher": "CPR.rocketlauncher"
+}
+
 CPR.ammoVariety = {
-    "med-pistol": "CPR.ammovarmediumpistol",
-    "heavy-pistol": "CPR.ammovarheavypistol",
-    "v-heavy-pistol": "CPR.ammovarvheavypistol",
-    "shotgun-slug": "CPR.ammovarslug",
-    "shotgun-shell": "CPR.ammovarshell",
-    "rifle": "CPR.ammvarrifle",
+    "medPistol": "CPR.ammovarmediumpistol",
+    "heavyPistol": "CPR.ammovarheavypistol",
+    "vHeavyPistol": "CPR.ammovarvheavypistol",
+    "shotgunSlug": "CPR.ammovarslug",
+    "shotgunShell": "CPR.ammovarshell",
+    "rifle": "CPR.ammovarrifle",
     "arrow": "CPR.ammovararrow",
     "grenade": "CPR.ammovargrenade",
     "rocket": "CPR.ammovarrocket"
