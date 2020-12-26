@@ -12,7 +12,7 @@ import LOGGER from "../utils/cpr-logger.js";
 
 // Base roll should calculate Critical by default.
 // Base roll should expect a stat value, a skillBase value, and a list of mods to apply.
-export function BaseRoll(stat = 0, skillLevel = 0, mods = [], calculateCritical = true) {
+export function baseRoll(stat = 0, skillLevel = 0, mods = [], calculateCritical = true) {
   LOGGER.trace(`Calling BaseRoll | Dice BaseRoll | Arg1:${stat} Arg2:${skillLevel}, Arg3:${mods}, Arg4:${calculateCritical}`);
 
   // TODO- Roll Results could be constructed as objects outside of this.
@@ -48,20 +48,19 @@ export function BaseRoll(stat = 0, skillLevel = 0, mods = [], calculateCritical 
   // Build results object for the dialog.
   LOGGER.debug(`Calculate Final Roll Result! | Roll:${rollResult.initialRoll._total} + Crit:${rollResult.isCritical ? rollResult.criticalRoll._total : 0}`);
   rollResult.finalRollResult = rollResult.initialRoll._total + (rollResult.isCritical ? rollResult.criticalRoll._total : 0);
-  LOGGER.debug(`Calculate Total! | Dice BaseRoll | Roll:${rollResult.finalRollResult} Skill:${skillLevel} + Stat:${stat} + Mods:${mods}=${mods.reduce((a, b) => numOr0(a) + numOr0(b))}`);
+  LOGGER.debug(`Calculate Total! | Dice BaseRoll | Roll:${rollResult.finalRollResult} Skill:${skillLevel} + Stat:${stat} + Mods:${mods} (${mods.reduce((a, b) => numOr0(a) + numOr0(b))})`);
   rollResult.total = rollResult.finalRollResult + skillLevel + stat + mods.reduce((a, b) => numOr0(a) + numOr0(b));
   console.log(rollResult);
   return rollResult;
 }
 
-export function DamageRoll(rollFormula = '1d6', location = "body") {
+export function damageRoll(rollFormula = '1d6', location = "body") {
   LOGGER.trace(`Calling DamageRoll | Dice DamageRoll | Arg1:${rollFormula}`);
 
   // TODO- Roll Results could be constructed as objects outside of this.
   let rollResult = {
     isCriticalInjury: false,
     location: location,
-    criticalInjury: "",
     initialRoll: new Roll(rollFormula).roll(),
     finalResult: 0
   };
@@ -79,7 +78,6 @@ export function DamageRoll(rollFormula = '1d6', location = "body") {
   if (sixes >= 2) {
     LOGGER.debug(`Critical Injury! | Dice DamageRoll | Sixes:${sixes}`);
     rollResult.isCriticalInjury = true;
-    rollResult.criticalInjury = "Something Bad";
   }
 
   // Build results object for the dialog.
@@ -89,10 +87,11 @@ export function DamageRoll(rollFormula = '1d6', location = "body") {
   return rollResult;
 }
 
-export function DeathSave() {
+export function deathSaveRoll() {
 
 }
 
-export function Initiative() {
+// Do we need this?
+export function initiativeRoll() {
 
 }

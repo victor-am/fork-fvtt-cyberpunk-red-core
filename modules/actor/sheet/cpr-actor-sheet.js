@@ -78,14 +78,14 @@ export default class CPRActorSheet extends ActorSheet {
 
       // Death save
       deathSave.max = body.value;
-      if ( .value > deathSave.max) deathSave.value = deathSave.max;
+      if (deathSave.value > deathSave.max) deathSave.value = deathSave.max;
   }
 
   _onRoll(event) {
     LOGGER.trace(`Actor _onRoll | .rollable click | Called.`);
     let actorData = this.getData();
     const id = this._getItemId(event);
-    (6, 6, [2, -3], true);
+    baseRoll(6, 6, [2, -3], true);
     // Get actor, get Item?
   }
 
