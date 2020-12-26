@@ -14,7 +14,6 @@ export default class CPRActor extends Actor {
     const actorData = this.data;
     this.data.filteredItems = this.itemTypes;
     LOGGER.trace("Prepare Character Data | CPRActor | Checking on contents of `filteredItems`.");
-    console.log(this.data.filteredItems)
     // Make separate methods for each Actor type (character, mook, etc.) to keep
     // things organized.
     if (actorData.type === 'character') this._prepareCharacterData(actorData);

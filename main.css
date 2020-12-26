@@ -229,6 +229,9 @@ form .skill-block .skill .base {
   width: 15%;
   text-align: center;
 }
+form .skill-block .skill .hidden {
+  visibility: hidden;
+}
 form .item-desc-body {
   display: flex;
   flex-direction: row;
