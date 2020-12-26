@@ -23,6 +23,7 @@ export default function preloadHandlebarsTemplates() {
       // Item Sheet Partials
       "systems/cyberpunk-red-core/templates/item/parts/cpr-header.hbs",
       "systems/cyberpunk-red-core/templates/item/parts/cpr-info-pane-skill.hbs",
+      "systems/cyberpunk-red-core/templates/item/parts/cpr-info-pane-armor.hbs",
       "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"
     ]);
   }
