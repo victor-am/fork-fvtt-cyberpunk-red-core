@@ -14,40 +14,74 @@
       {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
     </div>
     <div class="tab" data-group="primary" data-tab="details">
-      Price: <input data.weapon.tags="weapon-tags" class="" type="text" value="{{data.weapon.tags}}">
-      source: <input data.source="source" class="" type="text" value="{{data.source}}" placeholder="Desc">
-      Price: <input data.price.market="price-market" class="" type="text" value="{{data.price.market}}"
-        placeholder="50">
-      Rate of Fire: <input data.rof="ROF" class="" type="text" value="{{data.rof}}" placeholder="Desc">
-      <label for="weapon-type">Choose a Weapon Type</label>
-      <select name="weapon-type" id="weapon-type">
-        <option value="melee">Melee Weapon</option>
-        <option value="handgun">Handgun</option>
-        <option value="shldrarm">Shoulder Arms</option>
-        <option value="archery">Archery</option>
-        <option value="heavywep">Heavy Weapon</option>
-      </select>
-      <div><label for="ammo-type">Choose an Ammunition Type</label>
-        <select name="ammo-type" id="ammo-type">
-          <option value="none">None</option>
-          <option value="medpistol">Medium Pistol</option>
-          <option value="hvypistol">Heavy Pistol</option>
-          <option value="vhvpistol">V. Heavy Pistol</option>
-          <option value="shotslug">Shotgun Slug</option>
-          <option value="shotshell">Shotgun Shell</option>
-          <option value="rifleround">Rifle Round</option>
-          <option value="arrow">Arrow</option>
-          <option value="grenade">Grenade</option>
-          <option value="rocket">Rocket</option>
-        </select></div>
-      Ammo Capacity: <input data.ammo-capacity="ammo-capacity" class="" type="text" value="{{data.ammo-capacity}}"
-        placeholder="Desc">
-      <div><label for="hands-req">Number of Hands Required</label>
-        <select name="hands-req" id="hands-req">
-          <option value="One">One</option>
-          <option value="Two">Two</option>
-        </select></div>
-      Damage: <input data.damage="damage" class="" type="text" value="{{data.damage}}" placeholder="Desc">
+      {{!-- MARKET PRICE INPUT --}}
+      <div>
+        Price: <input name="data.price.market" class="" type="text" value="{{data.price.market}}">
+      </div>
+      {{!-- ROF INPUT --}}
+      <div>
+        ROF: <input name="data.rof" class="" type="text" value="{{data.rof}}">
+      </div>
+      {{!-- CONCEALABLE CHECKBOX --}}
+      <div>
+        <label class="label-text">Concealable</label>
+        {{#if data.concealable}}
+        <a class="item-checkbox" data-target="data.concealable"><i class="far fa-check-circle"></i></a>
+        {{else}}
+        <a class="item-checkbox" data-target="data.concealable"><i class="far fa-circle"></i></a>
+        {{/if}}
+      </div>
+      {{!-- WEAPON TYPE DROPDOWN --}}
+      <div>
+        Weapon Type:
+        <select name="data.weaponType" data-dtype="{{data.weaponType}}">
+          {{#select data.weaponType}}
+          <option value="">N/A</option>
+          {{#each statList as |stat s|}}
+          <option value="{{s}}">{{localize stat}}</option>
+          {{/each}}
+          {{/select}}
+        </select>
+      </div>
+      {{!-- WEAPON SKILL DROPDOWN --}}
+      <div>
+        Weapon Skill:
+        <select name="data.weaponSkill" data-dtype="{{data.weaponSkill}}">
+          {{#select data.weaponSkill}}
+          <option value="">N/A</option>
+          {{#each statList as |stat s|}}
+          <option value="{{s}}">{{localize stat}}</option>
+          {{/each}}
+          {{/select}}
+        </select>
+      </div>
+      {{!-- DAMAGE INPUT --}}
+      <div>
+        Damage: <input name="data.damage" class="" type="text" value="{{data.damage}}">
+      </div>
+      {{!-- # HANDS REQ INPUT --}}
+      <div>
+        Hands Required: <input name="data.handsReq" class="" type="text" value="{{data.handsReq}}">
+      </div>
+      {{!-- IS RANGED CHECKBOX --}}
+      <div>
+        <label class="label-text">Ranged Weapon</label>
+        {{#if data.isRanged}}
+        <a class="item-checkbox" data-target="data.isRanged"><i class="far fa-check-circle"></i></a>
+        {{else}}
+        <a class="item-checkbox" data-target="data.isRanged"><i class="far fa-circle"></i></a>
+        {{/if}}
+      </div>
+      {{#if data.isRanged}}
+      {{!-- # ALT FIRE MODES INPUT --}}
+      <div>
+        Alt Fire Modes: <input name="data.altFireModes" class="" type="text" value="{{data.altFireModes}}">
+      </div>
+      {{!-- # MAG SIZE INPUT --}}
+      <div>
+        Magazine Size: <input name="data.magSize" class="" type="text" value="{{data.magSize}}">
+      </div>
+      {{/if}}
     </div>
   </section>
 </form>
