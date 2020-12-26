@@ -1,6 +1,6 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import { CPR } from "../../system/config.js";
-import { BaseRoll } from "../../system/dice.js";
+import { baseRoll } from "../../system/dice.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -89,7 +89,7 @@ export default class CPRActorSheet extends ActorSheet {
     // Get actor, get Item?
   }
 
-  _itemUpdate(event) {
+  _updateItem(event) {
     LOGGER.trace(`Actor _itemUpdate | .item-edit click | Called.`);
     let itemId = this._getItemId(event);
     const item = this.actor.items.find(i => i.data._id == itemId)

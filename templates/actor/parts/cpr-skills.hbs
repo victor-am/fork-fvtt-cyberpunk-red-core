@@ -21,9 +21,18 @@
               {{localize (lookup ../../this.skillList this.name)}} <strong>({{localize (lookup ../../this.statList this.data.stat)}})</strong>
             </span>
           </a></td>
-          <td class="level">{{skill.data.level}}</td>
+          <td class="level">
+            {{log skill}}
+            <input 
+              class="lvl-input"
+              name="skill.data.level"
+              value="{{skill.data.level}}"
+              type="number"
+              data-dtype="Number"
+            />   
+          </td>
           <td class="stat">{{getProp (getProp ../../actor.data.stats skill.data.stat) 'value'}}</td>
-          <td class="base">{{getProp ../../actor.data.skills skill.name}}</td>
+          <td class="base">{{add skill.data.level (lookup (getProp ../../actor.data.stats skill.data.stat) 'value')}}</td>
       </tr>
       {{/ifEquals}}
       {{/each}}
