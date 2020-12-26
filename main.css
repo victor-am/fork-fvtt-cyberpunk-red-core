@@ -281,9 +281,3 @@ form .item-name {
   flex-grow: 1;
   min-height: 100%;
 }
-.content {
-  height: 100%;
-}
-.tab {
-  height: 100%;
-}

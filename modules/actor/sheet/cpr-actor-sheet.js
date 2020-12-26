@@ -113,17 +113,12 @@ export default class CPRActorSheet extends ActorSheet {
     itemList.forEach(item => {if (item.data._id === itemId) item.delete()});
   }
 
-  async _addSkill(event) {
+  _addSkill(event) {
     LOGGER.trace(`Actor _addSkill | .add-skill click | called.`);
-    let data = {
-      name: "New Skill", type: 'skill', _id: randomID
+    let itemData = {
+      name: "skill", type: 'skill', data: {}
     };
-    let newSkill = await Item.createOwned(data, this.actor);
-    // console.log(newSkill)
-
-    this.actor.items.set(this.actor.items.size, newSkill)
-    console.log(this.actor.items)
-    newSkill.sheet.render(true);
+    this.actor.createOwnedItem(itemData, {renderSheet: true})
   }
 }
 
