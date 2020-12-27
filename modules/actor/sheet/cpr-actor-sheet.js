@@ -101,15 +101,17 @@ export default class CPRActorSheet extends ActorSheet {
 
     let actorData = this.getData();
     const itemId = this._getItemId(event);
-
+    
     switch (rollType) {
       case "stat": {
         statValue = actorData.data.stats[rollTitle].value;
         LOGGER.trace(`Actor _onRoll | rolling stat: ` + rollTitle + ` | ` + statValue);
+        break;
       }
       case "skill": {
         // Get Skill Base Stat & Skill Level to pass to roll
         LOGGER.trace(`Actor _onRoll | rolling skill: ` + rollTitle + ` | ` + skillValue);
+        break;
       }
     }
     
