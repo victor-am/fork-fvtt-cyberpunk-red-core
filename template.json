@@ -300,7 +300,8 @@
       "head": false,
       "body": false,
       "penalty": 0,
-      "sp": 0
+      "sp": 0,
+      "ablation": 0
     },
     "ammo": {
       "templates": [
