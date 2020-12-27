@@ -194,7 +194,7 @@ form .stat-block .stat-unit.has-max .stat-input {
   background: transparent;
 }
 form .skill-block {
-  font-size: 0.8em;
+  font-size: 1em;
   background-color: #d02b23;
   padding: 5px;
 }
@@ -222,6 +222,9 @@ form .skill-block .skill {
 }
 form .skill-block .skill .name {
   width: 55%;
+}
+form .skill-block .skill .bold {
+  font-weight: bold;
 }
 form .skill-block .skill .level,
 form .skill-block .skill .stat,
