@@ -1,7 +1,7 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import { CPR } from "../../system/config.js";
 import { baseRoll } from "../../system/dice.js";
-
+import CPRItem from "../../item/cpr-item.js";
 /**
  * Extend the basic ActorSheet.
  * @extends {ActorSheet}
@@ -45,7 +45,12 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Update Inventory Item
     html.find('.item-edit').click(this._updateItem.bind(this));
+    
+    // delete item
+    html.find('.item-delete').click(this._deleteOwnedItem.bind(this));
 
+    // add a new skill from sheet
+    html.find('.add-skill').click(this._addSkill.bind(this));
   }
 
 
@@ -89,6 +94,7 @@ export default class CPRActorSheet extends ActorSheet {
     const itemId = this._getItemId(event);
     baseRoll(6, 6, [2, -3], true);
     // Get actor, get Item?
+    console.log(this)
   }
 
   _updateItem(event) {
@@ -100,6 +106,21 @@ export default class CPRActorSheet extends ActorSheet {
 
   _getItemId(event) {
     return $(event.currentTarget).attr("data-item-id")
+  }
+
+  _deleteOwnedItem(event) {
+    LOGGER.trace(`Actor _deleteOwnedItem | .item-delete click | Called.`);
+    let itemId = this._getItemId(event);
+    let itemList = this.actor.items;
+    itemList.forEach(item => {if (item.data._id === itemId) item.delete()});
+  }
+
+  _addSkill(event) {
+    LOGGER.trace(`Actor _addSkill | .add-skill click | called.`);
+    let itemData = {
+      name: "skill", type: 'skill', data: {}
+    };
+    this.actor.createOwnedItem(itemData, {renderSheet: true})
   }
 }
 

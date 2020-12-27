@@ -17,4 +17,9 @@ export default function registerHandlebarsHelpers() {
     return getProperty(object, property);
   });
 
+  Handlebars.registerHelper("add", (x, y) => {
+    LOGGER.trace(`Calling add Helper | Arg1:${x} Arg2:${y}`)
+    return x + y;
+  })
+
 }

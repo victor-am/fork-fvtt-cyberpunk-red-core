@@ -229,6 +229,9 @@ form .skill-block .skill .base {
   width: 15%;
   text-align: center;
 }
+form .skill-block .skill .hidden {
+  visibility: hidden;
+}
 form .item-desc-body {
   display: flex;
   flex-direction: row;
@@ -277,10 +280,4 @@ form .item-name {
 .editor {
   flex-grow: 1;
   min-height: 100%;
-}
-.content {
-  height: 100%;
-}
-.tab {
-  height: 100%;
 }
