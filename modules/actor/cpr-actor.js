@@ -1,5 +1,4 @@
 import LOGGER from "../utils/cpr-logger.js";
-import { BaseRoll } from "../system/dice.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -13,8 +12,6 @@ export default class CPRActor extends Actor {
     super.prepareData();
     const actorData = this.data;
     this.data.filteredItems = this.itemTypes;
-    LOGGER.trace("Prepare Character Data | CPRActor | Checking on contents of `filteredItems`.");
-    console.log(this.data.filteredItems)
     // Make separate methods for each Actor type (character, mook, etc.) to keep
     // things organized.
     if (actorData.type === 'character') this._prepareCharacterData(actorData);
@@ -40,11 +37,5 @@ export default class CPRActor extends Actor {
     LOGGER.trace("Get Roll Data | CPRActor | Called.");
     const data = super.getRollData();
     return data;
-  }
-
-  rollStat(statName, options={}) {
-    LOGGER.trace("Roll Stat | CPRActor | Called.");
-    let roll = BaseRoll("1d10 + " + this.data.data.stats[statName]);
-    console.log(roll);
   }
 }

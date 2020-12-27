@@ -35,7 +35,9 @@
   font-size: 0.8em;
   background-color: #d02b23;
   padding: 10px 5px 5px 5px;
-  width: 95%;
+  flex: -1 -1;
+  width: 180px;
+  min-height: 55px;
 }
 .block .unit {
   background-color: white;
@@ -59,16 +61,24 @@
   font-size: 1.5em;
   border: none;
   outline: none;
+  background-color: transparent;
 }
 .block .unit .inputs input:focus {
   box-shadow: none;
 }
-.block .unit .inputs input.rank {
-  width: 38%;
-  text-align: center;
-}
 .block .unit .inputs input.derived {
   text-align: center;
+  width: 3em;
+}
+.block .unit select {
+  width: 100%;
+  border: none;
+  outline: 0;
+  background: transparent;
+  font-size: 1.4em;
+}
+.block .unit select:focus {
+  box-shadow: none;
 }
 .block .unit.mid-split {
   clip-path: polygon(15px 0, 100% 0, 100% 100%, 53% 100%, 53% 45%, 47% 45%, 47% 100%, 0 100%, 0 15px);
@@ -80,37 +90,62 @@ form .sheet-header {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 250px;
+  height: 345px;
 }
 form .sheet-header .top-block {
   display: flex;
   justify-content: space-between;
+  height: 240px;
 }
 form .sheet-header .top-block .image-block {
   background-color: #d02b23;
   padding: 10px 5px 5px 5px;
-  height: 165px;
-  width: 165px;
+  height: 180px;
+  width: 180px;
 }
 form .sheet-header .top-block .image-block img {
-  height: 150px;
-  min-width: 150px;
+  height: 165px;
+  min-width: 165px;
   border: none;
   outline: none;
   clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 10%);
   margin: 0;
 }
-form .sheet-header .top-block .info-block {
+form .sheet-header .top-block .info-block,
+form .sheet-header .top-block .role-block {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
 }
-form .sheet-header .top-block .derived-stats {
+form .sheet-header .top-block .derived-block {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
+}
+form .sheet-header .top-block .derived-block .hitpoint {
+  height: 90px;
+  clip-path: polygon(15px 0, 100% 0, 100% 100%, 53% 100%, 53% 30%, 47% 30%, 47% 100%, 0 100%, 0 15px);
+}
+form .sheet-header .top-block .derived-block .hitpoint input {
+  font-size: 5em;
+  height: 100%;
+}
+form .sheet-header .top-block .role-block table {
+  margin: 0;
+  height: 26px;
+  background: transparent;
+  border: none;
+  outline: 0;
+  font-size: 1.4em;
+}
+form .sheet-header .top-block .role-block table td,
+form .sheet-header .top-block .role-block table tr {
+  height: 26px;
+  background: transparent;
+  border: none;
+  outline: 0;
 }
 form .stat-block {
   display: flex;
@@ -149,40 +184,50 @@ form .stat-block .stat-unit .stat-values .stat-input:focus {
   box-shadow: none;
   text-align: center;
   font-size: 2em;
+  background-color: transparent;
 }
 form .stat-block .stat-unit.has-max {
   clip-path: polygon(10px 0, 100% 0, 100% 100%, 55% 100%, 55% 45%, 45% 45%, 45% 100%, 0 100%, 0 20%);
 }
 form .stat-block .stat-unit.has-max .stat-input {
   font-size: 1.5em;
+  background: transparent;
 }
 form .skill-block {
+  font-size: 0.8em;
   background-color: #d02b23;
   padding: 5px;
 }
+form .skill-block table {
+  margin: 0;
+  outline: 0;
+  border: 0;
+  width: 50%;
+}
 form .skill-block .skill-category {
-  background-color: black;
-  display: flex;
-  justify-content: space-between;
+  background-color: #231f20;
   color: white;
 }
-form .skill-block .skill-category span {
-  padding: 5px;
-}
 form .skill-block .skill-category .name {
-  width: 70%;
+  width: 55%;
+}
+form .skill-block .skill-category .level,
+form .skill-block .skill-category .stat,
+form .skill-block .skill-category .base {
+  width: 15%;
+  text-align: center;
 }
 form .skill-block .skill {
-  display: flex;
   background-color: white;
-  justify-content: space-between;
 }
 form .skill-block .skill .name {
-  width: 70%;
-  padding: 5px;
+  width: 55%;
 }
-form .skill-block .skill .bold {
-  font-weight: bold;
+form .skill-block .skill .level,
+form .skill-block .skill .stat,
+form .skill-block .skill .base {
+  width: 15%;
+  text-align: center;
 }
 form .item-desc-body {
   display: flex;
@@ -224,6 +269,7 @@ form .item-name {
 :root {
   font-family: 'Ubuntu Mono', monospace;
   font-size: 10px;
+  color: #231f20;
 }
 .window-app .window-content {
   background: #ffffff;

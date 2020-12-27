@@ -3,29 +3,42 @@ export const CPR = {};
 
 // TODO - VERIFY ALL CONFIG VALUES LINK TO A LOCALIZATION VALUE!!!
 CPR.statList = {
-    "int": "CPR.int",
-    "ref": "CPR.ref",
-    "dex": "CPR.dex",
-    "tech": "CPR.tech",
-    "cool": "CPR.cool",
-    "will": "CPR.will",
-    "move": "CPR.move",
-    "body": "CPR.body",
-    "luck": "CPR.luck",
-    "emp": "CPR.emp"
+  "int": "CPR.int",
+  "ref": "CPR.ref",
+  "dex": "CPR.dex",
+  "tech": "CPR.tech",
+  "cool": "CPR.cool",
+  "will": "CPR.will",
+  "move": "CPR.move",
+  "body": "CPR.body",
+  "luck": "CPR.luck",
+  "emp": "CPR.emp"
+}
+
+CPR.roleList = {
+  "netrunner": "CPR.netrunnerrole",
+  "solo": "CPR.solorole",
+  "fixer": "CPR.fixerrole",
+  "nomad": "CPR.nomadrole",
+  "media": "CPR.mediarole",
+  "exec": "CPR.execrole",
+  "lawman": "CPR.lawmanrole",
+  "rockerboy": "CPR.rockerboyrole",
+  "tech": "CPR.techrole",
+  "medtech": "CPR.medtechrole",
 }
 
 // Griff - Great job on the localization names man!
 CPR.skillCategories = {
-    "awarenessskills": "CPR.awarenessskills",
-    "bodyskills": "CPR.bodyskills",
-    "controlskills": "CPR.controlskills",
-    "educationskills": "CPR.educationskills",
-    "fightingskills": "CPR.fightingskills",
-    "performanceskills": "CPR.performanceskills",
-    "rangedweaponskills": "CPR.rangedweaponskills",
-    "socialskills": "CPR.socialskills",
-    "techniqueskills": "CPR.techniqueskills",
+  "awarenessskills": "CPR.awarenessskills",
+  "bodyskills": "CPR.bodyskills",
+  "controlskills": "CPR.controlskills",
+  "educationskills": "CPR.educationskills",
+  "fightingskills": "CPR.fightingskills",
+  "performanceskills": "CPR.performanceskills",
+  "rangedweaponskills": "CPR.rangedweaponskills",
+  "socialskills": "CPR.socialskills",
+  "techniqueskills": "CPR.techniqueskills",
 }
 
 CPR.skillList = {
@@ -104,23 +117,59 @@ CPR.skillList = {
 // If role skill? Don't allow IP improvement??
 // Needs discussed...
 CPR.skillDifficulties = {
-    "typical": "CPR.skilldifficultytypical",
-    "difficult": "CPR.skilldifficultydifficult",
-    "role": "CPR.skilldifficultyrole"
+  "typical": "CPR.skilldifficultytypical",
+  "difficult": "CPR.skilldifficultydifficult",
+  "role": "CPR.skilldifficultyrole"
+}
+
+CPR.weaponTypeList = {
+  "lightMelee": "CPR.lightmelee",
+  "medMelee": "CPR.medmelee",
+  "heavyMelee": "CPR.heavymelee",
+  "vHeavyMelee": "CPR.vheavymelee",
+  "medPistol": "CPR.mediumpistol",
+  "heavyPistol": "CPR.heavypistol",
+  "vHeavyPistol": "CPR.vheavypistol",
+  "smg": "CPR.smg",
+  "heavysmg": "CPR.heavysmg",
+  "shotgun": "CPR.shotgun",
+  "assualtRifle": "CPR.assualtrifle",
+  "sniperRifler": "CPR.sniperrifle",
+  "bows": "CPR.bows",
+  "grenadelauncher": "CPR.grenadelauncher",
+  "rocketlauncher": "CPR.rocketlauncher"
 }
 
 CPR.ammoVariety = {
-    "med-pistol": "CPR.ammovarmediumpistol",
-    "heavy-pistol": "CPR.ammovarheavypistol",
-    "v-heavy-pistol": "CPR.ammovarvheavypistol",
-    "shotgun-slug": "CPR.ammovarslug",
-    "shotgun-shell": "CPR.ammovarshell",
-    "rifle": "CPR.ammvarrifle",
-    "arrow": "CPR.ammovararrow",
-    "grenade": "CPR.ammovargrenade",
-    "rocket": "CPR.ammovarrocket"
+  "medPistol": "CPR.ammovarmediumpistol",
+  "heavyPistol": "CPR.ammovarheavypistol",
+  "vHeavyPistol": "CPR.ammovarvheavypistol",
+  "shotgunSlug": "CPR.ammovarslug",
+  "shotgunShell": "CPR.ammovarshell",
+  "rifle": "CPR.ammovarrifle",
+  "arrow": "CPR.ammovararrow",
+  "grenade": "CPR.ammovargrenade",
+  "rocket": "CPR.ammovarrocket"
 }
 
 CPR.ammoType = {
-    "basic": "CPR.ammotypebasic"
+  "basic": "CPR.ammotypebasic"
+}
+
+CPR.roleAbilityList = {
+  "operator": "CPR.operator",
+  "interface": "CPR.interface",
+  "backup": "CPR.backup",
+  "moto": "CPR.moto",
+  "combatawareness": "CPR.combatawareness",
+  "credibility": "CPR.credibility",
+  "teamwork": "CPR.teamwork",
+  "charismaticimpact": "CPR.charismaticimpact",
+  "medicine": "CPR.medicine",
+  "maker": "CPR.maker",
+  "fabricationexpertise": "CPR.fabricationexpertise",
+  "fieldexpertise": "CPR.fieldexpertise",
+  "inventionexpertise": "CPR.inventionexpertise",
+  "upgradeexpertise": "CPR.upgradeexpertise",
+  "surgery": "CPR.surgery"
 }

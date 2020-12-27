@@ -1,6 +1,6 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import { CPR } from "../../system/config.js";
-import { BaseRoll } from "../../system/dice.js";
+import { baseRoll } from "../../system/dice.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -43,6 +43,9 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".rollable").click(this._onRoll.bind(this));
 
+    // Update Inventory Item
+    html.find('.item-edit').click(this._updateItem.bind(this));
+
   }
 
 
@@ -57,14 +60,46 @@ export default class CPRActorSheet extends ActorSheet {
     sheetData.statList = CPR.statList;
     sheetData.skillDifficulties = CPR.skillDifficulties;
     sheetData.skillList = CPR.skillList;
+    sheetData.roleAbilityList = CPR.roleAbilityList;
+    sheetData.roleList = CPR.roleList;
+    sheetData.weaponTypeList = CPR.weaponTypeList;
+    sheetData.ammoVariety = CPR.ammoVariety;
+  }
+  
+  _calculateDerivedStats() {
+      // Calculate MAX HP
+      hp.max = 10 + 5*(Math.ceil((will.value + body.value) / 2));
+      if (hp.value > hp.max) hp.value = hp.max;
+
+      // Humanity
+      hum.max = 10 * emp.value;
+      if (hum.value > hum.max) hum.value = hum.max;
+
+      // Seriously wounded
+      data.data.derivedStats.seriouslyWounded = Math.ceil(hp.max / 2);
+
+      // Death save
+      deathSave.max = body.value;
+      if (deathSave.value > deathSave.max) deathSave.value = deathSave.max;
   }
 
   _onRoll(event) {
-    let actorData = this.getData();
     LOGGER.trace(`Actor _onRoll | .rollable click | Called.`);
-    const id = $(event.currentTarget).attr("data-item-id");
-    BaseRoll(6, 6, [2, -3], true);
+    let actorData = this.getData();
+    const itemId = this._getItemId(event);
+    baseRoll(6, 6, [2, -3], true);
     // Get actor, get Item?
+  }
+
+  _updateItem(event) {
+    LOGGER.trace(`Actor _itemUpdate | .item-edit click | Called.`);
+    let itemId = this._getItemId(event);
+    const item = this.actor.items.find(i => i.data._id == itemId)
+    item.sheet.render(true);
+  }
+
+  _getItemId(event) {
+    return $(event.currentTarget).attr("data-item-id")
   }
 }
 

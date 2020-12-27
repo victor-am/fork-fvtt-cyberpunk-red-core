@@ -40,7 +40,7 @@
             "max": 6
           }
         },
-        "derived-stats": {
+        "derivedStats": {
           "hp": {
             "value": 40,
             "max": 40
@@ -48,7 +48,7 @@
           "seriously-wounded": 20,
           "death-save": 6
         },
-        "wound-state": {
+        "woundState": {
           "lightly-wounded": false,
           "seriously-wounded": false,
           "mortally-wounded": false,
@@ -124,30 +124,28 @@
           "weaponstech": 0,
           "wildernesssurvival": 0
         },
-        "role-info": {
-          "role": "mook",
+        "roleInfo": {
+          "role": "solo",
           "roleskills": {
             "netrunner": {
               "interface": 0
             },
             "rockerboy": {
-              "charismatic-impact": 0
+              "charismaticimpact": 0
             },
             "solo": {
-              "combat-awareness": 0
+              "combatawareness": 0
             },
             "tech": {
               "maker": 0,
-              "field-expertise": 0,
-              "upgrade-expertise": 0,
-              "fabrication-expertise": 0,
-              "invention-expertise": 0
+              "fieldexpertise": 0,
+              "upgradeexpertise": 0,
+              "fabricationexpertise": 0,
+              "inventionexpertise": 0
             },
             "medtech": {
               "medicine": 0,
-              "surgery": 0,
-              "medtech-pharma": 0,
-              "medtech-cryo": 0
+              "surgery": 0
             },
             "media": {
               "credibility": 0
@@ -179,37 +177,39 @@
         "common"
       ],
       "lifepath": {
-        "cultural-origin": "",
+        "culturalOrigin": "",
         "personality": "",
-        "clothing-style": "",
-        "hair-style": "",
+        "clothingStyle": "",
+        "hairStyle": "",
         "affectations": "",
-        "value-most": "",
-        "about-people": "",
-        "valued-person": "",
-        "valued-possession": "",
-        "family-backgrond": "",
-        "childhood-environment": "",
-        "family-crisis": "",
-        "life-goals": "",
-        "role-lifepath": "",
+        "valueMost": "",
+        "aboutPeople": "",
+        "valuedPerson": "",
+        "valuedPossession": "",
+        "familyBackgrond": "",
+        "childhoodEnvironment": "",
+        "familyCrisis": "",
+        "lifeGoals": "",
+        "roleLifepath": "",
         "friends": [],
-        "tragic-love-affairs": [],
+        "tragicLoveAffairs": [],
         "enemies": []
       },
       "reputation:": {
         "events": [],
         "value": 0
       },
-      "improvement-points": {
+      "improvementPoints": {
         "total": 0
       },
       "humanity": {
         "value": 60,
-        "max": 60
+        "max": 60,
+        "events": []
       },
       "wealth": {
-        "cash": 0
+        "eddies": 0,
+        "transactions": []
       },
       "lifestyle": {
         "fasion": "",
@@ -272,7 +272,7 @@
       ],
       "type": "type",
       "install": "install",
-      "humanity-loss": {
+      "humanityLoss": {
         "cgen": 0,
         "roll": ""
       }
@@ -283,11 +283,14 @@
         "physicalItem"
       ],
       "rof": 1,
-      "weapon-type": "",
-      "ammo-type": "",
-      "ammo-capacity": 0,
-      "hands-req": 0,
-      "damage": ""
+      "weaponType": "",
+      "weaponSkill": "",
+      "damage": "1d6",
+      "concealable": false,
+      "handsReq": 1,
+      "isRanged": false,
+      "altFireModes": "",
+      "magSize": 0
     },
     "armor": {
       "templates": [
@@ -297,7 +300,8 @@
       "head": false,
       "body": false,
       "penalty": 0,
-      "sp": 0
+      "sp": 0,
+      "ablation": 0
     },
     "ammo": {
       "templates": [
@@ -318,6 +322,7 @@
       "templates": [
         "common"
       ],
+      "level": 0,
       "stat": "none",
       "category": "none",
       "difficulty": "typical",
@@ -350,10 +355,7 @@
         "common",
         "physicalItem"
       ],
-      "floors": [],
-      "floor": {
-        "dv": 0
-      }
+      "floors": []
     },
     "loot": {
       "templates": [

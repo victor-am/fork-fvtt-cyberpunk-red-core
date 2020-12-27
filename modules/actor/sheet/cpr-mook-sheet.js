@@ -12,6 +12,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     LOGGER.trace("Default Options | CPRMookActorSheet | Called.");
     return mergeObject(super.defaultOptions, {
       template: "systems/cyberpunk-red-core/templates/actor/cpr-mook-sheet.hbs",
+      tabs: [{ navSelector: ".tabs", contentSelector: ".content", initial: "skills" }],
     });
   }
 
@@ -19,6 +20,9 @@ export default class CPRMookActorSheet extends CPRActorSheet {
   getData() {
     LOGGER.trace("Get Data | CPRMookActorSheet | Called.");
     const data = super.getData();
+
+    
+
     return data;
   }
 }

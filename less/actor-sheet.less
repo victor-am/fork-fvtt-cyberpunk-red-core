@@ -6,7 +6,9 @@
   font-size: 0.8em;
   background-color: @maximum-red;
   padding: 10px 5px 5px 5px;
-  width: 95%;
+  flex: -1 -1;
+  width: 180px;
+  min-height: 55px;
   .unit {
     background-color: white;
     display: flex;
@@ -25,27 +27,34 @@
       text-transform: uppercase;
       margin: 0;
     };
-
     .inputs {
       display: flex;
       justify-content: space-around;
-
+      
       input {
         width: 100%;
         font-size: 1.5em;
         border: none;
         outline: none;
+        background-color: transparent;
       };
       input:focus {
         box-shadow: none;
       };
-      input.rank {
-        width: 38%;
-        text-align: center;
-      };
       input.derived {
         text-align: center;
+        width: 3em;
       };
+    };
+    select {
+      width: 100%;
+      border: none;
+      outline: 0;
+      background: transparent;
+      font-size: 1.4em;
+    };
+    select:focus {
+      box-shadow: none;
     };
   };
   .unit.mid-split {
@@ -76,25 +85,24 @@
   };
 };
 
-
-
 form {
   .sheet-header {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 250px;
+    height: 345px;
     .top-block {
       display: flex;
       justify-content: space-between;
+      height: 240px;
       .image-block {
         background-color: @maximum-red;
         padding: 10px 5px 5px 5px;
-        height: 165px;
-        width: 165px;
+        height: 180px;
+        width: 180px;
         img {
-          height: 150px;
-          min-width: 150px;
+          height: 165px;
+          min-width: 165px;
           border: none;
           outline: none;
           clip-path: polygon(
@@ -107,18 +115,50 @@ form {
           margin: 0;
         };
       };
-      .info-block {
+      .info-block, .role-block {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: flex-end;
       };
-      .derived-stats {
+      .derived-block {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: flex-end;
+        .hitpoint {
+          height: 90px;
+          input {
+            font-size: 5em;
+            height: 100%;
+          };
+          clip-path: polygon(
+            15px 0, 
+            100% 0,
+            100% 100%,
+            53% 100%,
+            53% 30%,
+            47% 30%,
+            47% 100%,
+            0 100%, 
+            0 15px
+          );
+        };
       };
+      .role-block table {
+        margin: 0;
+        height: 26px;
+        background: transparent;
+        border: none;
+        outline: 0;
+        font-size: 1.4em;
+        td, tr{
+          height: 26px;
+          background: transparent;
+          border: none;
+          outline: 0;
+        }
+      }
     };
   };
 
@@ -162,9 +202,10 @@ form {
           box-shadow: none;
           text-align: center;
           font-size: 2em;
-        };
-      };
-    };
+          background-color: transparent;
+        }
+      }
+    }
     .stat-unit.has-max {
       clip-path: polygon(
         10px 0, 
@@ -179,36 +220,43 @@ form {
       );
       .stat-input {
         font-size: 1.5em;
-      };
-    };
-  };
+        background: transparent;
+      }
+    }
+  }
 
   .skill-block {
+    font-size: 0.8em;
     background-color: @maximum-red;
     padding: 5px;
+    table {
+      margin: 0;
+      outline: 0;
+      border: 0;
+      width: 50%;
+      
+    }
     .skill-category {
-      background-color: black;
-      display: flex;
-      justify-content: space-between;
+      background-color: @raisin-black;
       color: white;
-      span {
-        padding: 5px;
-      };
       .name {
-        width: 70%;
-      };
-    };
-    .skill {
-      display: flex;
-      background-color: white;
-      justify-content: space-between;
-      .name {
-        width: 70%;
-        padding: 5px;
-      };
-      .bold {
-        font-weight: bold;
+        width: 55%
       }
-    };
-  };
-};
+      .level, .stat, .base {
+        width: 15%;
+        text-align:center;
+      }
+    }
+    .skill {
+      background-color: white;
+      .name {
+        width: 55%
+      }
+      .level, .stat, .base {
+        width: 15%;
+        text-align:center;
+      }
+    }
+    
+  }
+}
