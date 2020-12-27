@@ -20,9 +20,12 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   getData() {
     LOGGER.trace("Get Data | CPRCharacterActorSheet | Called.");
     const data = super.getData();
-    // /*----------------------------------------------
-    //   Calculate derived stats
-    //   --------------------------------------------  */
+
+    
+    
+
+    
+    
     return data;
   }
 }

@@ -4,8 +4,8 @@
   <div class="unit">
     <p>Role</p>
     <div class="inputs">
-      <select name="data.role-info.role">
-      {{#select data.role-info.role}}
+      <select name="data.roleInfo.role">
+      {{#select data.roleInfo.role}}
       {{#each roleList as |name n|}}
         <option value="{{n}}">{{localize name}}</option>
       {{/each}}
@@ -19,7 +19,7 @@
     <p>Ability</p>
     <table>
       {{!-- for every skill in character's role --}}
-      {{#each (lookup data.role-info.roleskills data.role-info.role) as |rank name|}}
+      {{#each (lookup data.roleInfo.roleskills data.roleInfo.role) as |rank name|}}
         <tr>
           <td>
             {{!-- show localized name --}}

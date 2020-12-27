@@ -24,7 +24,9 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("Get Data | CPRActorSheet | Called.");
     const data = super.getData();
     this._addConfigData(data);
+    this._calculateDerivedStats(data);
     // data.isGM = game.user.isGM;
+
     return data;
   }
 
@@ -71,21 +73,22 @@ export default class CPRActorSheet extends ActorSheet {
     sheetData.ammoVariety = CPR.ammoVariety;
   }
   
-  _calculateDerivedStats() {
-      // Calculate MAX HP
-      hp.max = 10 + 5*(Math.ceil((will.value + body.value) / 2));
-      if (hp.value > hp.max) hp.value = hp.max;
-
-      // Humanity
-      hum.max = 10 * emp.value;
-      if (hum.value > hum.max) hum.value = hum.max;
-
-      // Seriously wounded
-      data.data.derivedStats.seriouslyWounded = Math.ceil(hp.max / 2);
-
-      // Death save
-      deathSave.max = body.value;
-      if (deathSave.value > deathSave.max) deathSave.value = deathSave.max;
+  _calculateDerivedStats(data) {
+    // Calculate MAX HP
+    let will = data.data.stats.will;
+    let hp = data.data.derivedStats.hp;
+    let body = data.data.stats.body;
+    let hum = data.data.humanity;
+    let emp = data.data.stats.emp;
+    hp.max = 10 + 5*(Math.ceil((will.value + body.value) / 2));
+    if (hp.value > hp.max) hp.value = hp.max;
+    // Humanity
+    hum.max = 10 * emp.value;
+    if (hum.value > hum.max) hum.value = hum.max;
+    // Seriously wounded
+    data.data.derivedStats.seriouslyWounded = Math.ceil(hp.max / 2);
+    // Death save
+    data.data.derivedStats.deathSave = body.value;
   }
 
   _onRoll(event) {
@@ -115,12 +118,21 @@ export default class CPRActorSheet extends ActorSheet {
     itemList.forEach(item => {if (item.data._id === itemId) item.delete()});
   }
 
-  _addSkill(event) {
+  _addSkill(event, itemData={name: 'skill', type: 'skill', data: {category: 'none', stat: 'none'}}) {
     LOGGER.trace(`Actor _addSkill | .add-skill click | called.`);
-    let itemData = {
-      name: "skill", type: 'skill', data: {}
-    };
-    this.actor.createOwnedItem(itemData, {renderSheet: true})
+    const skillList = this.actor.data.filteredItems.skill;
+    // determine if actor currently has a skill by name supplied in itemData
+    let hasSkill = false;
+    skillList.forEach(i => {
+      hasSkill = i.data.name === itemData.name ? true : hasSkill; 
+    });
+    // If no skill data supplied, create blank skill and open skill info popup
+    if (!hasSkill) {
+      if (itemData.name === 'skill') {
+        this.actor.createOwnedItem(itemData, {renderSheet: true});
+      }
+    // If skill info supplied add the skill
+      else this.actor.createOwnedItem(itemData, {renderSheet: false});
+    }
   }
 }
-
