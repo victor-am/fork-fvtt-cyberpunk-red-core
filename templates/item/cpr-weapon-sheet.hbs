@@ -37,8 +37,8 @@
         <select name="data.weaponType" data-dtype="{{data.weaponType}}">
           {{#select data.weaponType}}
           <option value="">N/A</option>
-          {{#each statList as |stat s|}}
-          <option value="{{s}}">{{localize stat}}</option>
+          {{#each weaponTypeList as |type t|}}
+          <option value="{{t}}">{{localize type}}</option>
           {{/each}}
           {{/select}}
         </select>
@@ -49,8 +49,8 @@
         <select name="data.weaponSkill" data-dtype="{{data.weaponSkill}}">
           {{#select data.weaponSkill}}
           <option value="">N/A</option>
-          {{#each statList as |stat s|}}
-          <option value="{{s}}">{{localize stat}}</option>
+          {{#each skillList as |skill s|}}
+          <option value="{{s}}">{{localize skill}}</option>
           {{/each}}
           {{/select}}
         </select>

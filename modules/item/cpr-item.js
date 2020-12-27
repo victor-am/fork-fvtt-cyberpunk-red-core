@@ -15,7 +15,6 @@ export default class CPRItem extends Item {
         const itemData = this.data.data;  
         const actorData = this.actor ? this.actor.data : {};
         LOGGER.debug("Prepare Data | CPRItem | Checking itemData.");
-        console.log(itemData);
         // Do things yonder...
     }
 

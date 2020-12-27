@@ -14,6 +14,7 @@ CPR.statList = {
   "luck": "CPR.luck",
   "emp": "CPR.emp"
 }
+
 CPR.roleList = {
   "netrunner": "CPR.netrunnerrole",
   "solo": "CPR.solorole",
@@ -121,11 +122,11 @@ CPR.skillDifficulties = {
     "role": "CPR.skilldifficultyrole"
 }
 
-CPR.weaponType = {
+CPR.weaponTypeList = {
   "lightMelee": "CPR.lightmelee",
-  "medmelee": "CPR.medmelee",
+  "medMelee": "CPR.medmelee",
   "heavyMelee": "CPR.heavymelee",
-  "vheavyMelee": "CPR.vheavymelee",
+  "vHeavyMelee": "CPR.vheavymelee",
   "medPistol": "CPR.mediumpistol",
   "heavyPistol": "CPR.heavypistol",
   "vHeavyPistol": "CPR.vheavypistol",
