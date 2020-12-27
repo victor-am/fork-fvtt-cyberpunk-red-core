@@ -61,9 +61,4 @@
       {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-information.hbs"}}
     </div>
   </div>
-
-  {{!-- Show owned items at bottom of sheet for easy debugging --}}
-  {{#each this.items as |item|}}
-  <p>{{item.name}} {{item.type}} {{item.data.stat}} {{item.data.level}} {{item.data.category}}</p>
-  {{/each}}
 </form>
