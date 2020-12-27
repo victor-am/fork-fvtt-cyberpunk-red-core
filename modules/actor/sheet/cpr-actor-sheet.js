@@ -25,8 +25,8 @@ export default class CPRActorSheet extends ActorSheet {
     const data = super.getData();
     this._addConfigData(data);
     this._calculateDerivedStats(data);
+    if (this.actor.items.size === 0) this._addBasicSkills();
     // data.isGM = game.user.isGM;
-
     return data;
   }
 
@@ -54,6 +54,8 @@ export default class CPRActorSheet extends ActorSheet {
     // add a new skill from sheet
     html.find('.add-skill').click(this._addSkill.bind(this));
   }
+
+  
 
 
   /*
@@ -134,5 +136,20 @@ export default class CPRActorSheet extends ActorSheet {
     // If skill info supplied add the skill
       else this.actor.createOwnedItem(itemData, {renderSheet: false});
     }
+  }
+
+  _addBasicSkills() {
+    let x = this.actor;
+    x.createOwnedItem({name: 'concentration', type: 'skill', data: {category: 'awarenessskills', stat: 'will', level: 2, basic: true}}, {renderSheet: false});
+    x.createOwnedItem({name: 'perception', type: 'skill', data: {category: 'awarenessskills', stat: 'int', level: 2, basic: true}}, {renderSheet: false});
+    x.createOwnedItem({name: 'athletics', type: 'skill', data: {category: 'bodyskills', stat: 'dex', level: 2, basic: true}}, {renderSheet: false});
+    x.createOwnedItem({name: 'stealth', type: 'skill', data: {category: 'bodyskills', stat: 'dex', level: 2, basic: true}}, {renderSheet: false});
+    x.createOwnedItem({name: 'education', type: 'skill', data: {category: 'educationskills', stat: 'int', level: 2, basic: true}}, {renderSheet: false});
+    x.createOwnedItem({name: 'brawling', type: 'skill', data: {category: 'fightingskills', stat: 'dex', level: 2, basic: true}}, {renderSheet: false});
+    x.createOwnedItem({name: 'evasion', type: 'skill', data: {category: 'fightingskills', stat: 'dex', level: 2, basic: true}}, {renderSheet: false});
+    x.createOwnedItem({name: 'conversation', type: 'skill', data: {category: 'socialskills', stat: 'emp', level: 2, basic: true}}, {renderSheet: false});
+    x.createOwnedItem({name: 'humanperception', type: 'skill', data: {category: 'socialskills', stat: 'emp', level: 2, basic: true}}, {renderSheet: false});
+    x.createOwnedItem({name: 'persuasion', type: 'skill', data: {category: 'socialskills', stat: 'cool', level: 2, basic: true}}, {renderSheet: false});
+    x.createOwnedItem({name: 'firstaid', type: 'skill', data: {category: 'techniqueskills', stat: 'tech', level: 2, basic: true}}, {renderSheet: false});
   }
 }
