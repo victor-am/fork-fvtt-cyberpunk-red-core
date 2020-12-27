@@ -284,10 +284,13 @@
       ],
       "rof": 1,
       "weaponType": "",
-      "ammoType": "",
-      "ammoCapacity": 0,
-      "handsReq": 0,
-      "damage": ""
+      "weaponSkill": "",
+      "damage": "1d6",
+      "concealable": false,
+      "handsReq": 1,
+      "isRanged": false,
+      "altFireModes": "",
+      "magSize": 0
     },
     "armor": {
       "templates": [
@@ -297,7 +300,8 @@
       "head": false,
       "body": false,
       "penalty": 0,
-      "sp": 0
+      "sp": 0,
+      "ablation": 0
     },
     "ammo": {
       "templates": [

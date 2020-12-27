@@ -11,16 +11,41 @@
   <section class="content">
     {{!-- Inventory Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
+      {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-info-pane-armor.hbs"}}
       {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
     </div>
     <div class="tab" data-group="primary" data-tab="details">
       <section class="">
-        Price: <input data.price.market="price-market" class="" type="text" value="{{data.price.market}}"
-          placeholder="50">
-        <div><label for="head">Head Armor<input type="checkbox" id="head" name="head"></label></div>
-        <div><label for="body">Body Armor<input type="checkbox" id="body" name="body"></label></div>
-        <div><label for="sp">SP<input type="text" id="sp" name="sp"> </label></div>
-        <div><label for="armorpen">Armor Penalty<input type="text" id="armorpen" name="armorpen"></label></div>
+        {{!-- MARKET PRICE --}}
+        <div>
+          Price: <input name="data.price.market" class="" type="text" value="{{data.price.market}}">
+        </div>
+        {{!-- ARMOR SP --}}
+        <div>
+          Armor SP: <input name="data.sp" class="" type="text" value="{{data.sp}}">
+        </div>
+        {{!-- ARMOR PENALTY --}}
+        <div>
+          Armor Penalty: <input name="data.armorpen" class="" type="text" value="{{data.armorpen}}">
+        </div>
+        {{!-- HEAD ARMOR CHECKBOX --}}
+        <div>
+          <label class="label-text">Head Armor</label>
+          {{#if data.head}}
+          <a class="item-checkbox" data-target="data.head"><i class="far fa-check-circle"></i></a>
+          {{else}}
+          <a class="item-checkbox" data-target="data.head"><i class="far fa-circle"></i></a>
+          {{/if}}
+        </div>
+        {{!-- BODY ARMOR CHECKBOX --}}
+        <div>
+          <label class="label-text">Basic</label>
+          {{#if data.body}}
+          <a class="item-checkbox" data-target="data.body"><i class="far fa-check-circle"></i></a>
+          {{else}}
+          <a class="item-checkbox" data-target="data.body"><i class="far fa-circle"></i></a>
+          {{/if}}
+        </div>
       </section>
     </div>
   </section>

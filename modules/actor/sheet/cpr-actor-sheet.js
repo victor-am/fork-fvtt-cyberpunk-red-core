@@ -67,6 +67,8 @@ export default class CPRActorSheet extends ActorSheet {
     sheetData.skillList = CPR.skillList;
     sheetData.roleAbilityList = CPR.roleAbilityList;
     sheetData.roleList = CPR.roleList;
+    sheetData.weaponTypeList = CPR.weaponTypeList;
+    sheetData.ammoVariety = CPR.ammoVariety;
   }
   
   _calculateDerivedStats() {
@@ -89,7 +91,7 @@ export default class CPRActorSheet extends ActorSheet {
   _onRoll(event) {
     LOGGER.trace(`Actor _onRoll | .rollable click | Called.`);
     let actorData = this.getData();
-    const id = this._getItemId(event);
+    const itemId = this._getItemId(event);
     baseRoll(6, 6, [2, -3], true);
     // Get actor, get Item?
     console.log(this)

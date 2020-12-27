@@ -1,5 +1,5 @@
 import LOGGER from "../../utils/cpr-logger.js";
-import {CPR} from "../../system/config.js";
+import { CPR } from "../../system/config.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -44,6 +44,10 @@ export default class CPRItemSheet extends ItemSheet {
     sheetData.skillCategories = CPR.skillCategories;
     sheetData.statList = CPR.statList;
     sheetData.skillDifficulties = CPR.skillDifficulties;
+    sheetData.skillList = CPR.skillList;
+    sheetData.roleAbilityList = CPR.roleAbilityList;
+    sheetData.roleList = CPR.roleList;
+    sheetData.weaponTypeList = CPR.weaponTypeList;
     sheetData.ammoVariety = CPR.ammoVariety;
   }
 
@@ -55,7 +59,7 @@ export default class CPRItemSheet extends ItemSheet {
     $("input[type=text]").focusin(function () {
       $(this).select();
     });
-    
+
     // We should extract listeners to something else, otherwise this gets messy...
     // item sheet -> object assigned (item)
     html.find(".item-checkbox").click(ev => {
