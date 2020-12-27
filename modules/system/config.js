@@ -30,15 +30,15 @@ CPR.roleList = {
 
 // Griff - Great job on the localization names man!
 CPR.skillCategories = {
-    "awarenessskills": "CPR.awarenessskills",
-    "bodyskills": "CPR.bodyskills",
-    "controlskills": "CPR.controlskills",
-    "educationskills": "CPR.educationskills",
-    "fightingskills": "CPR.fightingskills",
-    "performanceskills": "CPR.performanceskills",
-    "rangedweaponskills": "CPR.rangedweaponskills",
-    "socialskills": "CPR.socialskills",
-    "techniqueskills": "CPR.techniqueskills",
+  "awarenessskills": "CPR.awarenessskills",
+  "bodyskills": "CPR.bodyskills",
+  "controlskills": "CPR.controlskills",
+  "educationskills": "CPR.educationskills",
+  "fightingskills": "CPR.fightingskills",
+  "performanceskills": "CPR.performanceskills",
+  "rangedweaponskills": "CPR.rangedweaponskills",
+  "socialskills": "CPR.socialskills",
+  "techniqueskills": "CPR.techniqueskills",
 }
 
 CPR.skillList = {
@@ -117,9 +117,9 @@ CPR.skillList = {
 // If role skill? Don't allow IP improvement??
 // Needs discussed...
 CPR.skillDifficulties = {
-    "typical": "CPR.skilldifficultytypical",
-    "difficult": "CPR.skilldifficultydifficult",
-    "role": "CPR.skilldifficultyrole"
+  "typical": "CPR.skilldifficultytypical",
+  "difficult": "CPR.skilldifficultydifficult",
+  "role": "CPR.skilldifficultyrole"
 }
 
 CPR.weaponTypeList = {
@@ -141,19 +141,19 @@ CPR.weaponTypeList = {
 }
 
 CPR.ammoVariety = {
-    "medPistol": "CPR.ammovarmediumpistol",
-    "heavyPistol": "CPR.ammovarheavypistol",
-    "vHeavyPistol": "CPR.ammovarvheavypistol",
-    "shotgunSlug": "CPR.ammovarslug",
-    "shotgunShell": "CPR.ammovarshell",
-    "rifle": "CPR.ammovarrifle",
-    "arrow": "CPR.ammovararrow",
-    "grenade": "CPR.ammovargrenade",
-    "rocket": "CPR.ammovarrocket"
+  "medPistol": "CPR.ammovarmediumpistol",
+  "heavyPistol": "CPR.ammovarheavypistol",
+  "vHeavyPistol": "CPR.ammovarvheavypistol",
+  "shotgunSlug": "CPR.ammovarslug",
+  "shotgunShell": "CPR.ammovarshell",
+  "rifle": "CPR.ammovarrifle",
+  "arrow": "CPR.ammovararrow",
+  "grenade": "CPR.ammovargrenade",
+  "rocket": "CPR.ammovarrocket"
 }
 
 CPR.ammoType = {
-    "basic": "CPR.ammotypebasic"
+  "basic": "CPR.ammotypebasic"
 }
 
 CPR.roleAbilityList = {

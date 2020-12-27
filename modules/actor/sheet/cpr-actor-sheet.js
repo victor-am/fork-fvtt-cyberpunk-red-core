@@ -62,6 +62,8 @@ export default class CPRActorSheet extends ActorSheet {
     sheetData.skillList = CPR.skillList;
     sheetData.roleAbilityList = CPR.roleAbilityList;
     sheetData.roleList = CPR.roleList;
+    sheetData.weaponTypeList = CPR.weaponTypeList;
+    sheetData.ammoVariety = CPR.ammoVariety;
   }
   
   _calculateDerivedStats() {
