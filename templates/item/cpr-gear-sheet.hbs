@@ -6,16 +6,20 @@
     <a class="" data-tab="description">DESCRIPTION</a>
     <a class="" data-tab="details">DETAILS</a>
   </nav>
-
   {{!-- Item Sheet Body --}}
   <section class="content">
-    {{!-- Inventory Tab --}}
+    {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
       {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
     </div>
+    {{!-- Details Tab --}}
     <div class="tab" data-group="primary" data-tab="details">
-     Price: <input data.price.market="price-market" class="" type="text" value="{{data.price.market}}"
-        placeholder="50">
+      <section class="">
+        {{!-- MARKET PRICE --}}
+        <div>
+          Price: <input name="data.price.market" class="" type="text" value="{{data.price.market}}" placeholder="100">
+        </div>
+      </section>
     </div>
   </section>
 </form>

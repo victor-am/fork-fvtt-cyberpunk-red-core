@@ -40,6 +40,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   /* -------------------------------------------- */
   addConfigData(sheetData) {
+    // TODO - sheetData config additions should be added in a less procedural way.
     LOGGER.trace(`Add Config Data | CPRItemSheet | Called with type ${this.item.type}.`);
     sheetData.skillCategories = CPR.skillCategories;
     sheetData.statList = CPR.statList;
@@ -56,25 +57,26 @@ export default class CPRItemSheet extends ItemSheet {
   activateListeners(html) {
     super.activateListeners(html);
     if (!this.options.editable) return;
+
+    // Select all text when grabing text input.
     $("input[type=text]").focusin(function () {
       $(this).select();
     });
 
-    // We should extract listeners to something else, otherwise this gets messy...
-    // item sheet -> object assigned (item)
-    html.find(".item-checkbox").click(ev => {
-      LOGGER.trace(`Item Listener Called | .checkbox click | Called with type ${this.item}.`);
-      // Duplcate item object for work
-      let itemData = duplicate(this.item.data)
-      // ID our target value to change
-      let target = $(ev.currentTarget).attr("data-target")
-      // If target exists, attempt to setProperty for target of itemData
-      if (hasProperty(itemData, target)) {
-        setProperty(itemData, target, !getProperty(itemData, target))
-        this.item.update(itemData);
-      }
-    });
-
+    html.find(".item-checkbox").click(event => this._itemCheckboxToggle(event));
   }
 
+/*
+  INTERNAL METHODS BELOW HERE
+*/
+
+  _itemCheckboxToggle(event) {
+    LOGGER.trace(`Item Listener Called | .checkbox click | Called with type ${this.item}.`);
+    let itemData = duplicate(this.item.data)
+    let target = $(event.currentTarget).attr("data-target")
+    if (hasProperty(itemData, target)) {
+      setProperty(itemData, target, !getProperty(itemData, target))
+      this.item.update(itemData);
+    }
+  }
 }

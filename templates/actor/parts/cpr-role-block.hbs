@@ -23,7 +23,7 @@
         <tr>
           <td>
             {{!-- show localized name --}}
-            {{localize (lookup ../this.roleAbilityList name)}}
+            <div class="rollable" data-roll-type="roleAbility" data-roll-title="{{name}}">{{localize (lookup ../this.roleAbilityList name)}}</div>
           </td>
           <td>
             {{!-- and rank value --}}

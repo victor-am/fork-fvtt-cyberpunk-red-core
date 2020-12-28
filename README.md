@@ -1,4 +1,3 @@
-
 # Cyberpunk RED - Welcome to The Street!
 A implementation for the Cyberpunk RED TRPG Core Roles for FoundryVTT.
 More to come!
@@ -11,7 +10,7 @@ todo..
  
  1. Clone the repo!
      > git clone git@gitlab.com:JasonAlanTerry/fvtt-cyberpunk-red-core.git
-
+     
       Conventions and more details on contributing to the process can be found in CONTRIBUTING.md
 
  2. Check the Trello!<br>
@@ -35,16 +34,8 @@ Useful Tools
 
  Updating CSS~
  We are using less files, and gulp to manage our project CSS.
+
+ `DO NOT PUT CSS INTO MAIN.CSS! EVER! DON'T EVEN THINK ABOUT IT!`
  
  run: `npm i -g gulp gulp-less` to install gulp and gulp less (you will need node.js installed)
  run: `gulp` to run the gulp command, this will also run watch, which will watch the project for changes.
-
-# Features Planned
-todo..
-  
-# General Design Plans
-todo...
-
-# License and Credits
-todo...
-

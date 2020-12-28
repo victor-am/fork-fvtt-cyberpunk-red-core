@@ -20,9 +20,6 @@ export default class CPRMookActorSheet extends CPRActorSheet {
   getData() {
     LOGGER.trace("Get Data | CPRMookActorSheet | Called.");
     const data = super.getData();
-
-    
-
     return data;
   }
 }

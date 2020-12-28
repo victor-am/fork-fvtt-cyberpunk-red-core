@@ -168,6 +168,18 @@ form {
     background-color: @maximum-red;
     padding: 7.5px 2.5px 2.5px 2.5px;
     flex-wrap: nowrap;
+    .stat-title {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-transform: uppercase;
+      clip-path: polygon(
+        10px 0, 
+        100% 0,
+        100% 100%,
+        0 100%, 
+        0 20%
+      );
     .stat-unit {
       display: flex;
       flex-direction: column;
