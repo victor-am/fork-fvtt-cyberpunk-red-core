@@ -50,7 +50,7 @@ Hooks.once("init", async function () {
     entities: {
       CPRActor,
       CPRItem
-    },
+    }
   }
 
   // Assign the actor class to the CONFIG

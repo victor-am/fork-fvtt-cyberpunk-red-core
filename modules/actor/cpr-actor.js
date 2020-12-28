@@ -31,15 +31,10 @@ export default class CPRActor extends Actor {
   /** @override */
   static async create(data, options) {
     LOGGER.trace(`Create | CPRActor | called.`);
-    
-    
-    console.log(data)
     data.items = [];
     switch (data.type) {
-      case 'character': ActorUtils.addBasicSkills(this);
-      default: ActorUtils.addBasicSkills(this)
+      default: data.items = data.items.concat(await ActorUtils.getBasicSkills());
     }
-    
     super.create(data, options);
   }
 
