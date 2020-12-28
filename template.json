@@ -45,13 +45,13 @@
             "value": 40,
             "max": 40
           },
-          "seriously-wounded": 20,
-          "death-save": 6
+          "seriouslyWounded": 20,
+          "deathSave": 6
         },
         "woundState": {
-          "lightly-wounded": false,
-          "seriously-wounded": false,
-          "mortally-wounded": false,
+          "lightlyWounded": false,
+          "seriouslyWounded": false,
+          "mortallyWounded": false,
           "dead": false
         },
         "skills": {
