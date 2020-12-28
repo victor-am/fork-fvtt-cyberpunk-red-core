@@ -138,18 +138,22 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  _addBasicSkills() {
+  async _addBasicSkills() {
+    LOGGER.trace(`Actor _addBasicSkills | new character created | called.`)
     let x = this.actor;
-    x.createOwnedItem({name: 'concentration', type: 'skill', data: {category: 'awarenessskills', stat: 'will', level: 2, basic: true}}, {renderSheet: false});
-    x.createOwnedItem({name: 'perception', type: 'skill', data: {category: 'awarenessskills', stat: 'int', level: 2, basic: true}}, {renderSheet: false});
-    x.createOwnedItem({name: 'athletics', type: 'skill', data: {category: 'bodyskills', stat: 'dex', level: 2, basic: true}}, {renderSheet: false});
-    x.createOwnedItem({name: 'stealth', type: 'skill', data: {category: 'bodyskills', stat: 'dex', level: 2, basic: true}}, {renderSheet: false});
-    x.createOwnedItem({name: 'education', type: 'skill', data: {category: 'educationskills', stat: 'int', level: 2, basic: true}}, {renderSheet: false});
-    x.createOwnedItem({name: 'brawling', type: 'skill', data: {category: 'fightingskills', stat: 'dex', level: 2, basic: true}}, {renderSheet: false});
-    x.createOwnedItem({name: 'evasion', type: 'skill', data: {category: 'fightingskills', stat: 'dex', level: 2, basic: true}}, {renderSheet: false});
-    x.createOwnedItem({name: 'conversation', type: 'skill', data: {category: 'socialskills', stat: 'emp', level: 2, basic: true}}, {renderSheet: false});
-    x.createOwnedItem({name: 'humanperception', type: 'skill', data: {category: 'socialskills', stat: 'emp', level: 2, basic: true}}, {renderSheet: false});
-    x.createOwnedItem({name: 'persuasion', type: 'skill', data: {category: 'socialskills', stat: 'cool', level: 2, basic: true}}, {renderSheet: false});
-    x.createOwnedItem({name: 'firstaid', type: 'skill', data: {category: 'techniqueskills', stat: 'tech', level: 2, basic: true}}, {renderSheet: false});
+    const basicSkills = [
+      {name: 'concentration', type: 'skill', data: {category: 'awarenessskills', stat: 'will', level: 2, basic: true}},
+      {name: 'perception', type: 'skill', data: {category: 'awarenessskills', stat: 'int', level: 2, basic: true}},
+      {name: 'athletics', type: 'skill', data: {category: 'bodyskills', stat: 'dex', level: 2, basic: true}},
+      {name: 'stealth', type: 'skill', data: {category: 'bodyskills', stat: 'dex', level: 2, basic: true}},
+      {name: 'education', type: 'skill', data: {category: 'educationskills', stat: 'int', level: 2, basic: true}},
+      {name: 'brawling', type: 'skill', data: {category: 'fightingskills', stat: 'dex', level: 2, basic: true}},
+      {name: 'evasion', type: 'skill', data: {category: 'fightingskills', stat: 'dex', level: 2, basic: true}},
+      {name: 'conversation', type: 'skill', data: {category: 'socialskills', stat: 'emp', level: 2, basic: true}},
+      {name: 'humanperception', type: 'skill', data: {category: 'socialskills', stat: 'emp', level: 2, basic: true}},
+      {name: 'persuasion', type: 'skill', data: {category: 'socialskills', stat: 'cool', level: 2, basic: true}},
+      {name: 'firstaid', type: 'skill', data: {category: 'techniqueskills', stat: 'tech', level: 2, basic: true}}
+    ];
+    for (let skill of basicSkills) await x.createOwnedItem(skill, {renderSheet: false})
   }
 }
