@@ -25,6 +25,7 @@ export function baseRoll(stat = 0, skillLevel = 0, mods = [0], calculateCritical
     resultMods: mods
   };
 
+  // Choom
   // Adjust for crit
   if (calculateCritical) {
     LOGGER.debug(`Checking Critical Chance | Dice baseRoll | Initial Roll:${rollResult.initialRoll._total}`);
