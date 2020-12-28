@@ -1,29 +1,29 @@
 <form>
   {{!-- Sheet Header --}}
   <header class="sheet-header">
-     <div class="top-block">
-      {{!-- IMAGE --}}
-      {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-image-block.hbs"}}
+    <div class="top-block">
       <div class="info-block">
+        {{!-- IMAGE --}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-image-block.hbs"}}
         {{!-- HANDLE --}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-handle-block.hbs"}}
       </div>
-      <div class="derived-stats">
+      <div class="derived-block">
         {{!-- HITPOINTS --}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-hitpoint-block.hbs"}}
         {{!-- DEATH SAVE --}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-deathsave-block.hbs"}}
-      </div>  
+      </div>
     </div>
     {{!-- STATS --}}
     <div class="stat-block">
-      {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs"}} 
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs"}}
     </div>
   </header>
 
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="" data-tab="skills">SKILLS</a>
-    <a class="" data-tab="combat">COMBAT</a> {{!-- Should be movied to main body --}}
+    <a class="" data-tab="combat">COMBAT</a> {{!-- Should be moved to main body --}}
   </nav>
 
   <div class="content">
@@ -34,5 +34,5 @@
       {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-skills.hbs"}}
     </div>
   </div>
-    
+
 </form>

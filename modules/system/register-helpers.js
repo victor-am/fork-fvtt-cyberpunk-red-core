@@ -20,6 +20,6 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("add", (x, y) => {
     LOGGER.trace(`Calling add Helper | Arg1:${x} Arg2:${y}`);
     return parseInt(x) + parseInt(y);
-  })
+  });
 
 }

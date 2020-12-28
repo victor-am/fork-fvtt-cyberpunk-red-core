@@ -1,23 +1,12 @@
-// SETUP A DIALOG
-
 import LOGGER from "../utils/cpr-logger.js";
 
-// DETERIMNE ROLL TYPE
-
-// MAKE ROLL OF TYPE WITH ARGS
-
-// MERGE ROLL DATA INTO DIALOG
-
-// RENDER DIALOG
-
-// Base roll should calculate Critical by default.
-// Base roll should expect a stat value, a skillBase value, and a list of mods to apply.
 export function BaseRoll(stat = 0, skillLevel = 0, mods = [0], calculateCritical = true) {
-  LOGGER.trace(`Calling baseRoll | Dice baseRoll | Stat:${stat} SkillLevel:${skillLevel}, Mods:${mods}, CalculateCritical:${calculateCritical}`);
+  LOGGER.trace(`Calling baseRoll | Dice BaseRoll | Stat:${stat} SkillLevel:${skillLevel}, Mods:${mods}, CalculateCritical:${calculateCritical}`);
 
   // TODO- Roll Results could be constructed as objects outside of this.
+  // TODO- Roll Results object structure needs revisted.
   let rollResult = {
-    rollType: "basicRoll",
+    rollType: "BasicRoll",
     isCritical: false,
     criticalRoll: null,
     initialRoll: new Roll(`1d10`).roll().total,
@@ -26,13 +15,10 @@ export function BaseRoll(stat = 0, skillLevel = 0, mods = [0], calculateCritical
     resultMods: mods
   };
 
-  // Choom
-  // Adjust for crit
   if (calculateCritical) {
     LOGGER.debug(`Checking Critical Chance | Dice baseRoll | Initial Roll:${rollResult.initialRoll}`);
     if (rollResult.initialRoll == 1) {
       rollResult.isCritical = true;
-      // Make our critical failure roll a negative number.
       rollResult.criticalRoll = -1 * new Roll(`1d10`).roll().total;
       LOGGER.debug(`Critical Failure! | Dice baseRoll | Critical Roll:${rollResult.criticalRoll}`);
     }
@@ -45,27 +31,26 @@ export function BaseRoll(stat = 0, skillLevel = 0, mods = [0], calculateCritical
 
   // TODO-- Move util function to a util class?
   let numOr0 = n => isNaN(n) ? 0 : parseInt(n)
-  
-  // Build results object for the dialog.
-  LOGGER.debug(`Calculate Final Roll Result! | Roll:${rollResult.initialRoll} + Crit:${rollResult.isCritical ? rollResult.criticalRoll : 0}`);
+
+  LOGGER.debug(`Calculate Roll Result! | Roll:${rollResult.initialRoll} + Crit:${rollResult.isCritical ? rollResult.criticalRoll : 0}`);
   rollResult.finalRollResult = rollResult.initialRoll + (rollResult.isCritical ? rollResult.criticalRoll : 0);
   
-  LOGGER.debug(`Calculate Total! | Roll:${rollResult.finalRollResult} Skill:${skillLevel} + Stat:${stat} + Mods:${mods} (${mods.reduce((a, b) => numOr0(a) + numOr0(b))})`);
+  LOGGER.debug(`Calculate Check Total! | Roll:${rollResult.finalRollResult} Skill:${skillLevel} + Stat:${stat} + Mods:${mods} (${mods.reduce((a, b) => numOr0(a) + numOr0(b))})`);
   rollResult.total = parseInt(rollResult.finalRollResult) + parseInt(skillLevel) + parseInt(stat) + parseInt(mods.reduce((a, b) => numOr0(a) + numOr0(b)));
 
-  LOGGER.debug(`Final Check! | Total:${rollResult.total}`);
-  
-  console.log(rollResult);
-  
+  LOGGER.debug(`Check Total! | Total:${rollResult.total}`);
+
   return rollResult;
 }
 
+// TODO- Do not use as is.
 export function DamageRoll(rollFormula = '1d6', location = "body") {
   LOGGER.trace(`Calling DamageRoll | Dice DamageRoll | RollFormula:${rollFormula} Location: ${location}`);
 
   // TODO- Roll Results could be constructed as objects outside of this.
+  // TODO- Roll Results object structure needs revisted.
   let rollResult = {
-    rollType: "damageRoll",
+    rollType: "DamageRoll",
     isCriticalInjury: false,
     location: location,
     initialRoll: new Roll(rollFormula).roll(),
