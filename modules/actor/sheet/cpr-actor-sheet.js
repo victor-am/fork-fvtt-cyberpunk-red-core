@@ -99,7 +99,7 @@ export default class CPRActorSheet extends ActorSheet {
     let statValue = 0;
     let skillValue = 0;
     let rollCritical = true;
-    console.log(event);
+    
     let rollType = $(event.currentTarget).attr("data-roll-type");
     let rollTitle = $(event.currentTarget).attr("data-roll-title");
     const itemId = this._getItemId(event);
@@ -122,6 +122,13 @@ export default class CPRActorSheet extends ActorSheet {
         statValue = actorData.data.stats[item.data.data.stat].value;
         skillValue = item.data.data.level;
         LOGGER.trace(`Actor _onRoll | rolling skill: ` + rollTitle + ` | ` + skillValue);
+        break;
+      }
+      case "roleAbility": {
+        const roleInfo = actorData.data.roleInfo;
+        const role = roleInfo["role"];
+        skillValue = roleInfo.roleskills[role][rollTitle];
+        LOGGER.trace(`Actor _onRoll | rolling ability: ` + rollTitle + ` | ` + skillValue);
         break;
       }
     }
