@@ -139,7 +139,7 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   async _addBasicSkills() {
-    LOGGER.trace(`Actor _addBasicSkills | new character created | called.`)
+    LOGGER.trace(`Actor _addBasicSkills | new character ${this.actor.data.name} created | called.`)
     let x = this.actor;
     const basicSkills = [
       {name: 'concentration', type: 'skill', data: {category: 'awarenessskills', stat: 'will', level: 2, basic: true}},
