@@ -96,7 +96,7 @@ export default class CPRActorSheet extends ActorSheet {
     let rollCritical = true;
     let mods = [0];
 
-    let rollType = event.currentTarget.dataset["type"];
+    let rollType = event.currentTarget.dataset["rolltype"];
     let rollTitle = event.currentTarget.dataset["title"];
 
     let actorData = this.getData();
@@ -110,15 +110,15 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "skill": {
         // Get Skill Base Stat & Skill Level to pass to roll
+        const item = this.actor.items.find(i => i.data._id == itemId);
+        statValue =  actorData.data.stats[item.data.data.stat].value;
+        skillValue = item.data.data.level;
         LOGGER.trace(`Actor _onRoll | rolling skill: ` + rollTitle + ` | ` + skillValue);
-        
         break;
       }
     }
     
     baseRoll(statValue, skillValue, mods, rollCritical);
-    // Get actor, get Item?
-    console.log(this)
   }
 
   _updateItem(event) {
