@@ -1,6 +1,8 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import { CPR } from "../../system/config.js";
 import { BaseRoll } from "../../system/dice.js";
+import { RollModiferPromptDiag } from "../../dialog/cpr-rollmod-dialog.js";
+import { RollCard } from "../../chat/cpr-rollcard.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -40,17 +42,18 @@ export default class CPRActorSheet extends ActorSheet {
     $("input[type=text]").focusin(function () {
       $(this).select();
     });
-
-    html.find(".rollable").click(this._onRoll.bind(this));
+    
+    // 
+    html.find(".rollable").click(event => this._onRoll(event));
 
     // Update Inventory Item
-    html.find('.item-edit').click(this._updateItem.bind(this));
+    html.find('.item-edit').click(event => this._updateItem(event));
     
     // delete item
-    html.find('.item-delete').click(this._deleteOwnedItem.bind(this));
+    html.find('.item-delete').click(event => this._deleteOwnedItem(event));
 
     // add a new skill from sheet
-    html.find('.add-skill').click(this._addSkill.bind(this));
+    html.find('.add-skill').click(event => this._addSkill(event));
   }
 
 
@@ -88,20 +91,24 @@ export default class CPRActorSheet extends ActorSheet {
       if (deathSave.value > deathSave.max) deathSave.value = deathSave.max;
   }
 
-  _onRoll(event) {
+  async _onRoll(event) {
     LOGGER.trace(`Actor _onRoll | .rollable click | Called.`);
     
+    let totalMods = [0];
     let statValue = 0;
     let skillValue = 0;
     let rollCritical = true;
-    let mods = [0];
+    console.log(event);
     let rollType = $(event.currentTarget).attr("data-roll-type");
     let rollTitle = $(event.currentTarget).attr("data-roll-title");
-    
     const itemId = this._getItemId(event);
     
     // Do I need this?
     let actorData = this.getData();
+
+    if (!event.ctrlKey) {
+      totalMods.push(await RollModiferPromptDiag());
+    }
     
     switch (rollType) {
       case "stat": {
@@ -118,7 +125,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
     }
     
-    BaseRoll(statValue, skillValue, mods, rollCritical);
+    RollCard(BaseRoll(statValue, skillValue, totalMods, rollCritical)); 
   }
 
   _updateItem(event) {

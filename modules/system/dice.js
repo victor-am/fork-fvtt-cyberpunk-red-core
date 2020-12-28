@@ -20,7 +20,7 @@ export function BaseRoll(stat = 0, skillLevel = 0, mods = [0], calculateCritical
     rollType: "basicRoll",
     isCritical: false,
     criticalRoll: null,
-    initialRoll: new Roll(`1d10`).roll(),
+    initialRoll: new Roll(`1d10`).roll().total,
     total: 0,
     finalRollResult: 0,
     resultMods: mods
@@ -29,31 +29,34 @@ export function BaseRoll(stat = 0, skillLevel = 0, mods = [0], calculateCritical
   // Choom
   // Adjust for crit
   if (calculateCritical) {
-    LOGGER.debug(`Checking Critical Chance | Dice baseRoll | Initial Roll:${rollResult.initialRoll._total}`);
-    if (rollResult.initialRoll._total == 1) {
+    LOGGER.debug(`Checking Critical Chance | Dice baseRoll | Initial Roll:${rollResult.initialRoll}`);
+    if (rollResult.initialRoll == 1) {
       rollResult.isCritical = true;
-      rollResult.criticalRoll = new Roll(`1d10`).roll();
-      // Make roll negative
-      rollResult.criticalRoll._total = 0 - rollResult.criticalRoll._total;
-      LOGGER.debug(`Critical Failure! | Dice baseRoll | Critical Roll:${rollResult.criticalRoll._total}`);
+      // Make our critical failure roll a negative number.
+      rollResult.criticalRoll = -1 * new Roll(`1d10`).roll().total;
+      LOGGER.debug(`Critical Failure! | Dice baseRoll | Critical Roll:${rollResult.criticalRoll}`);
     }
-    if (rollResult.initialRoll._total == 10) {
+    if (rollResult.initialRoll == 10) {
       rollResult.isCritical = true;
-      rollResult.criticalRoll = new Roll(`1d10`).roll();
-      LOGGER.debug(`Critical Success | Dice baseRoll | Critical Roll:${rollResult.criticalRoll._total}`);
+      rollResult.criticalRoll = new Roll(`1d10`).roll().total;
+      LOGGER.debug(`Critical Success | Dice baseRoll | Critical Roll:${rollResult.criticalRoll}`);
     }
   }
 
   // TODO-- Move util function to a util class?
-  let numOr0 = n => isNaN(n) ? 0 : n
+  let numOr0 = n => isNaN(n) ? 0 : parseInt(n)
   
   // Build results object for the dialog.
-  LOGGER.debug(`Calculate Final Roll Result! | Roll:${rollResult.initialRoll._total} + Crit:${rollResult.isCritical ? rollResult.criticalRoll._total : 0}`);
-  rollResult.finalRollResult = rollResult.initialRoll._total + (rollResult.isCritical ? rollResult.criticalRoll._total : 0);
+  LOGGER.debug(`Calculate Final Roll Result! | Roll:${rollResult.initialRoll} + Crit:${rollResult.isCritical ? rollResult.criticalRoll : 0}`);
+  rollResult.finalRollResult = rollResult.initialRoll + (rollResult.isCritical ? rollResult.criticalRoll : 0);
   
-  LOGGER.debug(`Calculate Total! | Dice baseRoll | Roll:${rollResult.finalRollResult} Skill:${skillLevel} + Stat:${stat} + Mods:${mods} (${mods.reduce((a, b) => numOr0(a) + numOr0(b))})`);
-  rollResult.total = rollResult.finalRollResult + skillLevel + stat + mods.reduce((a, b) => numOr0(a) + numOr0(b));
+  LOGGER.debug(`Calculate Total! | Roll:${rollResult.finalRollResult} Skill:${skillLevel} + Stat:${stat} + Mods:${mods} (${mods.reduce((a, b) => numOr0(a) + numOr0(b))})`);
+  rollResult.total = parseInt(rollResult.finalRollResult) + parseInt(skillLevel) + parseInt(stat) + parseInt(mods.reduce((a, b) => numOr0(a) + numOr0(b)));
+
+  LOGGER.debug(`Final Check! | Total:${rollResult.total}`);
+  
   console.log(rollResult);
+  
   return rollResult;
 }
 
