@@ -9,7 +9,16 @@
   "author": "The Project Red Team",
   "esmodules": ["cpr.js"],
   "styles": ["main.css"],
-  "packs": [],
+  "packs": [
+    {
+      "label": "Skills",
+      "entity": "Item",
+      "name": "skills",
+      "path": "packs/skills.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    }
+  ],
   "languages": [
     {
       "lang": "en",

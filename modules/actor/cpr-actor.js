@@ -1,4 +1,7 @@
 import LOGGER from "../utils/cpr-logger.js";
+import { baseRoll } from "../system/dice.js";
+import ActorUtils from "../utils/actorUtils.js";
+
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
@@ -16,6 +19,23 @@ export default class CPRActor extends Actor {
     if (actorData.type === 'mook') this._prepareMookData(actorData); 
   }
 
+  /** @override */
+  getRollData() {
+    LOGGER.trace("Get Roll Data | CPRActor | Called.");
+    const data = super.getRollData();
+    return data;
+  }
+
+  /** @override */
+  static async create(data, options) {
+    LOGGER.trace(`Create | CPRActor | called.`);
+    data.items = [];
+    switch (data.type) {
+      default: data.items = data.items.concat(await ActorUtils.getBasicSkills());
+    }
+    super.create(data, options);
+  }
+
   _prepareCharacterData(actorData) {
     LOGGER.trace("Prepare Character Data | CPRActor | Called.");
     const data = actorData.data;
@@ -30,10 +50,5 @@ export default class CPRActor extends Actor {
     console.log(data)
   }
 
-  /** @override */
-  getRollData() {
-    LOGGER.trace("Get Roll Data | CPRActor | Called.");
-    const data = super.getRollData();
-    return data;
-  }
+  
 }

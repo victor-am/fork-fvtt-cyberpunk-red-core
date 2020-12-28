@@ -54,6 +54,8 @@ export default class CPRActorSheet extends ActorSheet {
     html.find('.add-skill').click(event => this._addSkill(event));
   }
 
+  
+
 
   /*
     INTERNAL METHODS BELOW HERE
@@ -72,22 +74,23 @@ export default class CPRActorSheet extends ActorSheet {
     sheetData.weaponTypeList = CPR.weaponTypeList;
     sheetData.ammoVariety = CPR.ammoVariety;
   }
-
-  _calculateDerivedStats() {
+  
+  _calculateDerivedStats(data) {
     // Calculate MAX HP
-    hp.max = 10 + 5 * (Math.ceil((will.value + body.value) / 2));
+    let will = data.data.stats.will;
+    let hp = data.data.derivedStats.hp;
+    let body = data.data.stats.body;
+    let hum = data.data.humanity;
+    let emp = data.data.stats.emp;
+    hp.max = 10 + 5*(Math.ceil((will.value + body.value) / 2));
     if (hp.value > hp.max) hp.value = hp.max;
-
     // Humanity
     hum.max = 10 * emp.value;
     if (hum.value > hum.max) hum.value = hum.max;
-
     // Seriously wounded
     data.data.derivedStats.seriouslyWounded = Math.ceil(hp.max / 2);
-
     // Death save
-    deathSave.max = body.value;
-    if (deathSave.value > deathSave.max) deathSave.value = deathSave.max;
+    data.data.derivedStats.deathSave = body.value;
   }
 
   async _onRoll(event) {
@@ -154,12 +157,13 @@ export default class CPRActorSheet extends ActorSheet {
     itemList.forEach(item => { if (item.data._id === itemId) item.delete() });
   }
 
-  _addSkill(event) {
+  _addSkill(event, itemData={name: 'skill', type: 'skill', data: {category: 'none', stat: 'none'}}) {
     LOGGER.trace(`Actor _addSkill | .add-skill click | called.`);
     let itemData = {
       name: "skill", type: 'skill', data: {}
     };
     this.actor.createOwnedItem(itemData, { renderSheet: true })
   }
-}
 
+  
+}
