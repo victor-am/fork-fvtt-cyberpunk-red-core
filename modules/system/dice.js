@@ -16,16 +16,16 @@ export function BaseRoll(stat = 0, skillLevel = 0, mods = [0], calculateCritical
   };
 
   if (calculateCritical) {
-    LOGGER.debug(`Checking Critical Chance | Dice baseRoll | Initial Roll:${rollResult.initialRoll}`);
+    LOGGER.debug(`Checking Critical Chance | Dice BaseRoll | Initial Roll:${rollResult.initialRoll}`);
     if (rollResult.initialRoll == 1) {
       rollResult.isCritical = true;
       rollResult.criticalRoll = -1 * new Roll(`1d10`).roll().total;
-      LOGGER.debug(`Critical Failure! | Dice baseRoll | Critical Roll:${rollResult.criticalRoll}`);
+      LOGGER.debug(`Critical Failure! | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
     }
     if (rollResult.initialRoll == 10) {
       rollResult.isCritical = true;
       rollResult.criticalRoll = new Roll(`1d10`).roll().total;
-      LOGGER.debug(`Critical Success | Dice baseRoll | Critical Roll:${rollResult.criticalRoll}`);
+      LOGGER.debug(`Critical Success | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
     }
   }
 

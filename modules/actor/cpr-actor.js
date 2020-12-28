@@ -1,5 +1,5 @@
 import LOGGER from "../utils/cpr-logger.js";
-import { baseRoll } from "../system/dice.js";
+import { BaseRoll } from "../system/dice.js";
 import ActorUtils from "../utils/actorUtils.js";
 
 /**
