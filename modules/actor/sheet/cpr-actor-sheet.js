@@ -157,7 +157,7 @@ export default class CPRActorSheet extends ActorSheet {
     itemList.forEach(item => { if (item.data._id === itemId) item.delete() });
   }
 
-  _addSkill(event, itemData={name: 'skill', type: 'skill', data: {category: 'none', stat: 'none'}}) {
+  _addSkill() {
     LOGGER.trace(`Actor _addSkill | .add-skill click | called.`);
     let itemData = {
       name: "skill", type: 'skill', data: {}
