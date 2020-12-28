@@ -1,7 +1,5 @@
 export const CPR = {};
 
-
-
 CPR.statList = {
   "int": "CPR.int",
   "ref": "CPR.ref",
