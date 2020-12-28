@@ -1,7 +1,7 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import { CPR } from "../../system/config.js";
-import { baseRoll } from "../../system/dice.js";
-import CPRItem from "../../item/cpr-item.js";
+import { BaseRoll } from "../../system/dice.js";
+
 /**
  * Extend the basic ActorSheet.
  * @extends {ActorSheet}
@@ -118,7 +118,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
     }
     
-    baseRoll(statValue, skillValue, mods, rollCritical);
+    BaseRoll(statValue, skillValue, mods, rollCritical);
   }
 
   _updateItem(event) {
