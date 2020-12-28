@@ -32,7 +32,7 @@
   "secondaryTokenAttribute": "",
   "background" : "Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
-  "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/dev/system.json",
+  "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/dev/system-dev.json",
   "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/dev/fvtt-cyberpunk-red-core-master.zip",
   "license": "Copyright 2020, The Project Red Team"
 }
