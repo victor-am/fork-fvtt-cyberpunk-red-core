@@ -12,7 +12,7 @@ import LOGGER from "../utils/cpr-logger.js";
 
 // Base roll should calculate Critical by default.
 // Base roll should expect a stat value, a skillBase value, and a list of mods to apply.
-export function baseRoll(stat = 0, skillLevel = 0, mods = [], calculateCritical = true) {
+export function baseRoll(stat = 0, skillLevel = 0, mods = [0], calculateCritical = true) {
   LOGGER.trace(`Calling baseRoll | Dice baseRoll | Arg1:${stat} Arg2:${skillLevel}, Arg3:${mods}, Arg4:${calculateCritical}`);
 
   // TODO- Roll Results could be constructed as objects outside of this.

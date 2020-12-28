@@ -90,11 +90,35 @@ export default class CPRActorSheet extends ActorSheet {
 
   _onRoll(event) {
     LOGGER.trace(`Actor _onRoll | .rollable click | Called.`);
+    
+    let statValue = 0;
+    let skillValue = 0;
+    let rollCritical = true;
+    let mods = [0];
+
+    let rollType = event.currentTarget.dataset["rolltype"];
+    let rollTitle = event.currentTarget.dataset["title"];
+
     let actorData = this.getData();
     const itemId = this._getItemId(event);
-    baseRoll(6, 6, [2, -3], true);
-    // Get actor, get Item?
-    console.log(this)
+    
+    switch (rollType) {
+      case "stat": {
+        statValue = actorData.data.stats[rollTitle].value;
+        LOGGER.trace(`Actor _onRoll | rolling stat: ` + rollTitle + ` | ` + statValue);
+        break;
+      }
+      case "skill": {
+        // Get Skill Base Stat & Skill Level to pass to roll
+        const item = this.actor.items.find(i => i.data._id == itemId);
+        statValue =  actorData.data.stats[item.data.data.stat].value;
+        skillValue = item.data.data.level;
+        LOGGER.trace(`Actor _onRoll | rolling skill: ` + rollTitle + ` | ` + skillValue);
+        break;
+      }
+    }
+    
+    baseRoll(statValue, skillValue, mods, rollCritical);
   }
 
   _updateItem(event) {
