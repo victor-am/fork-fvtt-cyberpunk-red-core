@@ -38,6 +38,7 @@
     <a class="" data-tab="inventory">INVENTORY</a>
     <a class="" data-tab="cyberware">CYBERWARE</a>
     <a class="" data-tab="information">INFO</a>
+    <a class="" data-tab="debug">DEBUG</a>
   </nav>
 
   {{!-- Character Sheet Body --}}
@@ -60,10 +61,8 @@
     <div class="tab" data-group="primary" data-tab="information">
       {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-information.hbs"}}
     </div>
+    <div class="tab" data-group="primary" data-tab="debug">
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-item-debug.hbs"}}
+    </div>
   </div>
-
-  {{!-- Show owned items at bottom of sheet for easy debugging --}}
-  {{#each this.items as |item|}}
-  <p>{{item.name}} {{item.type}} {{item.data.stat}} {{item.data.level}} {{item.data.category}}</p>
-  {{/each}}
 </form>
