@@ -17,7 +17,7 @@
       {{#ifEquals skill.data.category c}}
       {{!-- DISPLAY SKILL --}}
       <tr class="skill">
-          <td class="name"><a class="name rollable" data-rolltype="skill" data-item-id={{skill._id}}>
+          <td class="name"><a class="name rollable" data-roll-type="skill" data-item-id={{skill._id}}>
             <span class="{{#if skill.data.basic}}bold{{/if}}">
               {{localize (lookup ../../this.skillList this.name)}} <strong>({{localize (lookup ../../this.statList this.data.stat)}})</strong>
             </span>

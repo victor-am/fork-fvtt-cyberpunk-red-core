@@ -95,12 +95,13 @@ export default class CPRActorSheet extends ActorSheet {
     let skillValue = 0;
     let rollCritical = true;
     let mods = [0];
-
-    let rollType = event.currentTarget.dataset["rolltype"];
-    let rollTitle = event.currentTarget.dataset["title"];
-
-    let actorData = this.getData();
+    let rollType = $(event.currentTarget).attr("data-roll-type");
+    let rollTitle = $(event.currentTarget).attr("data-roll-title");
+    
     const itemId = this._getItemId(event);
+    
+    // Do I need this?
+    let actorData = this.getData();
     
     switch (rollType) {
       case "stat": {
@@ -109,7 +110,6 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
       case "skill": {
-        // Get Skill Base Stat & Skill Level to pass to roll
         const item = this.actor.items.find(i => i.data._id == itemId);
         statValue =  actorData.data.stats[item.data.data.stat].value;
         skillValue = item.data.data.level;
