@@ -111,6 +111,7 @@ export default class CPRActorSheet extends ActorSheet {
       case "skill": {
         // Get Skill Base Stat & Skill Level to pass to roll
         LOGGER.trace(`Actor _onRoll | rolling skill: ` + rollTitle + ` | ` + skillValue);
+        
         break;
       }
     }
