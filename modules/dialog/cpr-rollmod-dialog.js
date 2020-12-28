@@ -1,4 +1,5 @@
-// Give this input data
+// TODO - Revist this method of dialog creation.
+// TODO - Revist name of function.
 export async function RollModiferPromptDiag() {
     return new Promise(resolve => { 
         renderTemplate('systems/cyberpunk-red-core/templates/dialog/cpr-rollmod-dialog.hbs').then(html => {
