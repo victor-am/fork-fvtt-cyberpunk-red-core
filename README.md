@@ -26,7 +26,8 @@ Useful Tools
  - https://git-scm.com/
  - https://nodejs.org/en/
 
- Be sure to browse the foundry API to learn a bit about how to use it.
+ Useful and helpful links to learn what you need to get started with helping!
+ - https://dzone.com/articles/top-20-git-commands-with-examples
  - https://foundryvtt.com/api/
  - https://foundryvtt.com/article/system-development/
  - https://handlebarsjs.com/
