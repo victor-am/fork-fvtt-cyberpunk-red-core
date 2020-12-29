@@ -27,7 +27,15 @@
           </td>
           <td>
             {{!-- and rank value --}}
-            {{rank}}
+            <input 
+            {{log ../data.roleInfo.role}}
+            {{log name}}
+              name="data.roleInfo.roleskills.{{../data.roleInfo.role}}.{{name}}"
+              value="{{rank}}"
+              type="number"
+              data-dtype="Number"
+              class="ability-rank-input"
+            />
           </td>
         </tr>
       {{/each}}

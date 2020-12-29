@@ -1,0 +1,38 @@
+{
+  "version": 0.41,
+  "name": "cyberpunk-red-core",
+  "title": "Cyberpunk RED - CORE",
+  "description": "Implementation of the Cyberpunk RED Core Rules for FVTT",
+  "minimumCoreVersion": "0.7.5",
+  "compatibleCoreVersion": "0.7.7",
+  "templateVersion": 2,
+  "author": "The Project Red Team",
+  "esmodules": ["cpr.js"],
+  "styles": ["main.css"],
+  "packs": [
+    {
+      "label": "Skills",
+      "entity": "Item",
+      "name": "skills",
+      "path": "packs/skills.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }          
+  ],
+  "gridDistance": 1,
+  "gridUnits": "m",
+  "primaryTokenAttribute": "",
+  "secondaryTokenAttribute": "",
+  "background" : "Header.jpg",
+  "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
+  "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/dev/system-dev.json",
+  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/dev/fvtt-cyberpunk-red-core-master.zip",
+  "license": "Copyright 2020, The Project Red Team"
+}
