@@ -141,17 +141,31 @@ form {
         border: none;
         outline: 0;
         font-size: 1.4em;
+<<<<<<< HEAD
         td,
         tr {
+=======
+        tr, td{
+>>>>>>> 03a0d31daf0e7dc98579b081707ff1626a0cf995
           height: 26px;
           background: transparent;
           border: none;
           outline: 0;
+          padding: 1px 0;
+        }
+        .ability-rank-input {
+          width: 1.5em;
+          padding: 0;
         }
       }
+<<<<<<< HEAD
     }
   }
 
+=======
+    };
+  };
+>>>>>>> 03a0d31daf0e7dc98579b081707ff1626a0cf995
   .stat-block {
     display: flex;
     justify-content: space-between;
@@ -163,11 +177,48 @@ form {
       flex-direction: column;
       justify-content: space-between;
       text-transform: uppercase;
+<<<<<<< HEAD
       clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 20%);
       .stat-unit {
+=======
+      clip-path: polygon(
+        10px 0, 
+        100% 0,
+        100% 100%,
+        0 100%, 
+        0 20%
+      );
+    }
+    .stat-unit {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      clip-path: polygon(
+        10px 0, 
+        100% 0,
+        100% 100%,
+        0 100%, 
+        0 20%
+      );
+      width: 50px;
+      height: 50px;
+      flex-grow: 0;
+      flex-shrink: 0;
+      background-color: white;
+      margin: 2.5px;
+      p {
+        text-align: end;
+        font-weight: bold;
+        margin: 0;
+        padding-right: 5px;
+        font-size: 0.8em;
+      };
+      .stat-values {
+>>>>>>> 03a0d31daf0e7dc98579b081707ff1626a0cf995
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+<<<<<<< HEAD
         clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 20%);
         width: 50px;
         height: 50px;
@@ -195,6 +246,15 @@ form {
             font-size: 2em;
             background-color: transparent;
           }
+=======
+        .stat-input, .stat-input:focus {
+          border: none;
+          outline: 0 !important;
+          box-shadow: none;
+          text-align: center;
+          font-size: 2em;
+          background-color: transparent;
+>>>>>>> 03a0d31daf0e7dc98579b081707ff1626a0cf995
         }
       }
       .stat-unit.has-max {
@@ -215,6 +275,7 @@ form {
         }
       }
     }
+<<<<<<< HEAD
 
     .skill-block {
       font-size: 1em;
@@ -225,6 +286,38 @@ form {
         outline: 0;
         border: 0;
         width: 100%;
+=======
+  }
+  .skill-block {
+    font-size: 1em;
+    background-color: @maximum-red;
+    padding: 5px;
+    table {
+      margin: 0;
+      outline: 0;
+      border: 0;
+      width: 100%;
+      
+    }
+    .skill-category {
+      background-color: @raisin-black;
+      color: white;
+      .name {
+        width: 55%
+      }
+      .level, .stat, .base {
+        width: 15%;
+        text-align:center;
+      }
+    }
+    .skill {
+      background-color: white;
+      .name {
+        width: 55%
+      }
+      .bold {
+        font-weight: bold;
+>>>>>>> 03a0d31daf0e7dc98579b081707ff1626a0cf995
       }
       .skill-category {
         background-color: @raisin-black;

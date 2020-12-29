@@ -114,6 +114,10 @@ export default class CPRActorSheet extends ActorSheet {
       totalMods.push(await RollModiferPromptDiag());
     }
 
+    if (totalMods.includes("cancel")) {
+      rollType = "cancel";
+    }
+
     switch (rollType) {
       case "stat": {
         statValue = actorData.data.stats[rollTitle].value;
@@ -133,6 +137,10 @@ export default class CPRActorSheet extends ActorSheet {
         skillValue = roleInfo.roleskills[role][rollTitle];
         LOGGER.trace(`Actor _onRoll | rolling ability: ` + rollTitle + ` | ` + skillValue);
         break;
+      }
+      case "cancel": {
+        // Catch all if we want a way to cancel out of a roll.
+        return;
       }
     }
 
@@ -164,6 +172,4 @@ export default class CPRActorSheet extends ActorSheet {
     };
     this.actor.createOwnedItem(itemData, { renderSheet: true })
   }
-
-  
 }
