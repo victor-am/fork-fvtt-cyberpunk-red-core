@@ -29,6 +29,25 @@ CPR.roleList = {
 }
 
 // Sorted A-Z
+CPR.roleAbilityList = {
+  "backup": "CPR.backup",
+  "charismaticImpact": "CPR.charismaticimpact",
+  "combatAwareness": "CPR.combatawareness",
+  "credibility": "CPR.credibility",
+  "fabricationExpertise": "CPR.fabricationexpertise",
+  "fieldExpertise": "CPR.fieldexpertise",
+  "operator": "CPR.operator",
+  "interface": "CPR.interface",
+  "inventionExpertise": "CPR.inventionexpertise",
+  "maker": "CPR.maker",
+  "medicine": "CPR.medicine",
+  "moto": "CPR.moto",
+  "surgery": "CPR.surgery",
+  "teamwork": "CPR.teamwork",
+  "upgradeExpertise": "CPR.upgradeexpertise"
+}
+
+// Sorted A-Z
 CPR.skillCategories = {
   "awarenessSkills": "CPR.awarenessskills",
   "bodySkills": "CPR.bodyskills",
@@ -157,21 +176,3 @@ CPR.ammoType = {
   "basic": "CPR.ammotypebasic"
 }
 
-// Sorted A-Z
-CPR.roleAbilityList = {
-  "backup": "CPR.backup",
-  "charismaticImpact": "CPR.charismaticimpact",
-  "combatAwareness": "CPR.combatawareness",
-  "credibility": "CPR.credibility",
-  "fabricationExpertise": "CPR.fabricationexpertise",
-  "fieldExpertise": "CPR.fieldexpertise",
-  "operator": "CPR.operator",
-  "interface": "CPR.interface",
-  "inventionExpertise": "CPR.inventionexpertise",
-  "maker": "CPR.maker",
-  "medicine": "CPR.medicine",
-  "moto": "CPR.moto",
-  "surgery": "CPR.surgery",
-  "teamwork": "CPR.teamwork",
-  "upgradeExpertise": "CPR.upgradeexpertise"
-}
