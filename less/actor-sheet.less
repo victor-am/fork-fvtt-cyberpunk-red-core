@@ -13,77 +13,71 @@
     background-color: white;
     display: flex;
     flex-direction: column;
-    clip-path: polygon(
-      15px 0, 
-      100% 0,
-      100% 100%,
-      0 100%, 
-      0 15px
-    );
+    clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
     p {
       text-align: end;
       padding-right: 5px;
       font-weight: bold;
       text-transform: uppercase;
       margin: 0;
-    };
+    }
     .inputs {
       display: flex;
       justify-content: space-around;
-      
+
       input {
         width: 100%;
         font-size: 1.5em;
         border: none;
         outline: none;
         background-color: transparent;
-      };
+      }
       input:focus {
         box-shadow: none;
-      };
+      }
       input.derived {
         text-align: center;
         width: 3em;
-      };
-    };
+      }
+    }
     select {
       width: 100%;
       border: none;
       outline: 0;
       background: transparent;
       font-size: 1.4em;
-    };
+    }
     select:focus {
       box-shadow: none;
-    };
-  };
+    }
+  }
   .unit.mid-split {
     clip-path: polygon(
-      15px 0, 
+      15px 0,
       100% 0,
       100% 100%,
       53% 100%,
       53% 45%,
       47% 45%,
       47% 100%,
-      0 100%, 
+      0 100%,
       0 15px
     );
-  };
+  }
   .unit.right-split {
     clip-path: polygon(
-      15px 0, 
+      15px 0,
       100% 0,
       100% 100%,
       75% 100%,
       75% 45%,
       69% 45%,
       69% 100%,
-      0 100%, 
+      0 100%,
       0 15px
     );
-  };
-};
+  }
+}
 
 form {
   .sheet-header {
@@ -105,22 +99,17 @@ form {
           min-width: 165px;
           border: none;
           outline: none;
-          clip-path: polygon(
-            10% 0, 
-            100% 0,
-            100% 100%,
-            0 100%, 
-            0 10%
-          );
+          clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 10%);
           margin: 0;
-        };
-      };
-      .info-block, .role-block {
+        }
+      }
+      .info-block,
+      .role-block {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: flex-end;
-      };
+      }
       .derived-block {
         display: flex;
         flex-direction: column;
@@ -131,20 +120,20 @@ form {
           input {
             font-size: 5em;
             height: 100%;
-          };
+          }
           clip-path: polygon(
-            15px 0, 
+            15px 0,
             100% 0,
             100% 100%,
             53% 100%,
             53% 30%,
             47% 30%,
             47% 100%,
-            0 100%, 
+            0 100%,
             0 15px
           );
-        };
-      };
+        }
+      }
       .role-block table {
         margin: 0;
         height: 26px;
@@ -152,15 +141,16 @@ form {
         border: none;
         outline: 0;
         font-size: 1.4em;
-        td, tr{
+        td,
+        tr {
           height: 26px;
           background: transparent;
           border: none;
           outline: 0;
         }
       }
-    };
-  };
+    }
+  }
 
   .stat-block {
     display: flex;
@@ -173,106 +163,99 @@ form {
       flex-direction: column;
       justify-content: space-between;
       text-transform: uppercase;
-      clip-path: polygon(
-        10px 0, 
-        100% 0,
-        100% 100%,
-        0 100%, 
-        0 20%
-      );
-    .stat-unit {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      clip-path: polygon(
-        10px 0, 
-        100% 0,
-        100% 100%,
-        0 100%, 
-        0 20%
-      );
-      width: 50px;
-      height: 50px;
-      flex-grow: 0;
-      flex-shrink: 0;
-      background-color: white;
-      margin: 2.5px;
-      p {
-        text-align: end;
-        font-weight: bold;
-        margin: 0;
-        padding-right: 5px;
-        font-size: 0.8em;
-      };
-      .stat-values {
+      clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 20%);
+      .stat-unit {
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
+        clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 20%);
+        width: 50px;
+        height: 50px;
+        flex-grow: 0;
+        flex-shrink: 0;
+        background-color: white;
+        margin: 2.5px;
+        p {
+          text-align: end;
+          font-weight: bold;
+          margin: 0;
+          padding-right: 5px;
+          font-size: 0.8em;
+        }
+        .stat-values {
+          display: flex;
+          justify-content: space-between;
 
-        .stat-input, .stat-input:focus {
-          border: none;
-          outline: 0 !important;
-          box-shadow: none;
-          text-align: center;
-          font-size: 2em;
-          background-color: transparent;
+          .stat-input,
+          .stat-input:focus {
+            border: none;
+            outline: 0 !important;
+            box-shadow: none;
+            text-align: center;
+            font-size: 2em;
+            background-color: transparent;
+          }
+        }
+      }
+      .stat-unit.has-max {
+        clip-path: polygon(
+          10px 0,
+          100% 0,
+          100% 100%,
+          55% 100%,
+          55% 45%,
+          45% 45%,
+          45% 100%,
+          0 100%,
+          0 20%
+        );
+        .stat-input {
+          font-size: 1.5em;
+          background: transparent;
         }
       }
     }
-    .stat-unit.has-max {
-      clip-path: polygon(
-        10px 0, 
-        100% 0,
-        100% 100%,
-        55% 100%,
-        55% 45%,
-        45% 45%,
-        45% 100%,
-        0 100%, 
-        0 20%
-      );
-      .stat-input {
-        font-size: 1.5em;
-        background: transparent;
-      }
-    }
-  }
 
-  .skill-block {
-    font-size: 1em;
-    background-color: @maximum-red;
-    padding: 5px;
-    table {
-      margin: 0;
-      outline: 0;
-      border: 0;
-      width: 100%;
-      
-    }
-    .skill-category {
-      background-color: @raisin-black;
-      color: white;
-      .name {
-        width: 55%
+    .skill-block {
+      font-size: 1em;
+      background-color: @maximum-red;
+      padding: 5px;
+      table {
+        margin: 0;
+        outline: 0;
+        border: 0;
+        width: 100%;
       }
-      .level, .stat, .base {
-        width: 15%;
-        text-align:center;
+      .skill-category {
+        background-color: @raisin-black;
+        color: white;
+        .name {
+          width: 55%;
+        }
+        .level,
+        .stat,
+        .base {
+          width: 15%;
+          text-align: center;
+        }
       }
-    }
-    .skill {
-      background-color: white;
-      .name {
-        width: 55%
-      }
-      .bold {
-        font-weight: bold;
-      }
-      .level, .stat, .base {
-        width: 15%;
-        text-align:center;
-      }
-      .hidden {
-        visibility: hidden
+      .skill {
+        background-color: white;
+        .name {
+          width: 55%;
+        }
+        .bold {
+          font-weight: bold;
+        }
+        .level,
+        .stat,
+        .base {
+          width: 15%;
+          text-align: center;
+        }
+        .hidden {
+          visibility: hidden;
+        }
       }
     }
   }
