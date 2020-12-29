@@ -14,7 +14,8 @@ export default class CPRActor extends Actor {
     super.prepareData();
     const actorData = this.data;
     actorData.filteredItems = this.itemTypes;
-    LOGGER.trace("Prepare Character Data | CPRActor | Checking on contents of `filteredItems`.");
+    LOGGER.debug("Prepare Character Data | CPRActor | Checking on contents of `filteredItems`.");
+    console.log(actorData.filteredItems);
     if (actorData.type === 'character') this._prepareCharacterData(actorData);
     if (actorData.type === 'mook') this._prepareMookData(actorData); 
   }

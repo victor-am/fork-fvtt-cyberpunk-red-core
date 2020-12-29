@@ -20,8 +20,8 @@ export async function RollModiferPromptDiag() {
                     }
                 },
                 default: "confirm",
-                render: html => console.log("Register interactivity in the rendered dialog"),
-                close: html => { resolve(totalMod); }
+                render: console.log("Register interactivity in the rendered dialog"),
+                close: resolve(totalMod)
             }).render(true);
         });
     });
