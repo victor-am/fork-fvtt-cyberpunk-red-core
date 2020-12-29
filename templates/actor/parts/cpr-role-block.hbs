@@ -1,15 +1,15 @@
+{{log "CPR-ROLE-BLOCK.HBS"}}
 {{log roleList}}
-
 <div class="block">
   <div class="unit">
     <p>Role</p>
     <div class="inputs">
       <select name="data.roleInfo.role">
-      {{#select data.roleInfo.role}}
-      {{#each roleList as |name n|}}
+        {{#select data.roleInfo.role}}
+        {{#each roleList as |name n|}}
         <option value="{{n}}">{{localize name}}</option>
-      {{/each}}
-      {{/select}}
+        {{/each}}
+        {{/select}}
       </select>
     </div>
   </div>
@@ -17,18 +17,20 @@
 <div class="block">
   <div class="unit">
     <p>Ability</p>
-       {{!-- for every skill in character's role --}}
-      {{#each (lookup data.roleInfo.roleskills data.roleInfo.role) as |rank name|}}
-            {{!-- show localized name --}}
-            <div class="rollable" data-roll-type="roleAbility" data-roll-title="{{name}}">{{localize (lookup ../this.roleAbilityList name)}}</div>
-            {{!-- and rank value --}}
-            <input
-              name="data.roleInfo.roleskills.{{../data.roleInfo.role}}.{{name}}"
-              value="{{rank}}"
-              type="number"
-              data-dtype="Number"
-              class="ability-rank-input"
-            />
-      {{/each}}
-    </div>
+    {{!-- for every skill in character's role --}}
+    {{log "THIS OUTSIDE OF ROLE SKILL LOOP"}}
+    {{log this}}
+    {{#each (lookup data.roleInfo.roleskills data.roleInfo.role) as |rank name|}}
+    {{log "THIS OUTSIDE OF ROLE SKILL LOOP"}}
+    {{log this}}
+    {{log name}}
+    {{!-- show localized name --}}
+    <div class="rollable" data-roll-type="roleAbility" data-roll-title="{{name}}">{{localize (lookup
+      ../this.roleAbilityList name)}}</div>
+    {{!-- and rank value --}}
+    <input name="data.roleInfo.roleskills.{{../data.roleInfo.role}}.{{name}}" value="{{rank}}" type="number"
+      data-dtype="Number" class="ability-rank-input" />
+    {{/each}}
+  </div>
 </div>
+{{log "END CPR-ROLE-BLOCK.HBS"}}
