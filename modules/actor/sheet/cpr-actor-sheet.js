@@ -164,6 +164,4 @@ export default class CPRActorSheet extends ActorSheet {
     };
     this.actor.createOwnedItem(itemData, { renderSheet: true })
   }
-
-  
 }
