@@ -3,7 +3,7 @@
 export async function RollModiferPromptDiag() {
     return new Promise(resolve => { 
         renderTemplate('systems/cyberpunk-red-core/templates/dialog/cpr-rollmod-dialog.hbs').then(html => {
-            let totalMod = 0;
+            let totalMod = "cancel";
             new Dialog({
                 title: "Input Modifiers",
                 content: html,
@@ -11,7 +11,7 @@ export async function RollModiferPromptDiag() {
                     cancel: {
                         icon: '<i class="fas fa-times"></i>',
                         label: "Cancel",
-                        callback: (html) => totalMod = 0
+                        callback: (html) => totalMod = "cancel"
                     },
                     confirm: {
                         icon: '<i class="fas fa-check"></i>',
