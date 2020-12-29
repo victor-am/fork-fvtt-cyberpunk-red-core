@@ -17,15 +17,10 @@
 <div class="block">
   <div class="unit">
     <p>Ability</p>
-    <table>
-      {{!-- for every skill in character's role --}}
+       {{!-- for every skill in character's role --}}
       {{#each (lookup data.roleInfo.roleskills data.roleInfo.role) as |rank name|}}
-        <tr>
-          <td>
             {{!-- show localized name --}}
             <div class="rollable" data-roll-type="roleAbility" data-roll-title="{{name}}">{{localize (lookup ../this.roleAbilityList name)}}</div>
-          </td>
-          <td>
             {{!-- and rank value --}}
             <input 
             {{log ../data.roleInfo.role}}
@@ -36,9 +31,6 @@
               data-dtype="Number"
               class="ability-rank-input"
             />
-          </td>
-        </tr>
       {{/each}}
-    </table>
-  </div>
+    </div>
 </div>
