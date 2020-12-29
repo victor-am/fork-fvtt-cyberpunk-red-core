@@ -150,7 +150,9 @@ export default class CPRActorSheet extends ActorSheet {
   _updateItem(event) {
     LOGGER.trace(`Actor _itemUpdate | .item-edit click | Called.`);
     let itemId = this._getItemId(event);
+    LOGGER.debug(`Actor _itemUpdate | Item ID:${itemId}.`);    
     const item = this.actor.items.find(i => i.data._id == itemId)
+    console.log(item);
     item.sheet.render(true);
   }
 
