@@ -46,6 +46,7 @@
         width: 3em;
       };
     };
+<<<<<<< HEAD
     select {
       width: 100%;
       border: none;
@@ -55,6 +56,16 @@
     };
     select:focus {
       box-shadow: none;
+=======
+    .info-block {
+      padding: 10px 5px 5px 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .info-unit {
+        background-color: var(--main-bg-color);
+      }
+>>>>>>> origin/craig-custom-tags
     };
   };
   .unit.mid-split {
@@ -89,6 +100,7 @@ form {
   .sheet-header {
     display: flex;
     flex-direction: column;
+<<<<<<< HEAD
     justify-content: space-between;
     height: 345px;
     .top-block {
@@ -103,6 +115,44 @@ form {
         img {
           height: 165px;
           min-width: 165px;
+=======
+    .humanity-block {
+      background-color: @maximum-red;
+      margin: 5px;
+      padding: 10px 5px 5px 5px;
+
+      .humanity-unit {
+        background-color: var(--main-bg-color);
+        display: flex;
+        flex-direction: column;
+        clip-path: polygon(
+          10px 0, 
+          100% 0,
+          100% 100%,
+          55% 100%,
+          55% 45%,
+          45% 45%,
+          45% 100%,
+          0 100%, 
+          0 20%
+        );
+        p {
+          text-align: end;
+          padding-right: 5px;
+          font-weight: bold;
+          text-transform: uppercase;
+          margin: 0;
+        };
+
+        .inputs {
+          display: flex;
+          justify-content: space-around;
+        };
+        .current, .max {
+          width: 3em;
+          text-align: center;
+          font-size: 2em;
+>>>>>>> origin/craig-custom-tags
           border: none;
           outline: none;
           clip-path: polygon(
@@ -119,18 +169,122 @@ form {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+<<<<<<< HEAD
         align-items: flex-end;
+=======
+        width: 100%;
+        .hp-block {
+          clip-path: polygon(7% 0, 0 25%, 0 100%, 47.5% 100%, 47.5% 40%, 52.5% 40%, 52.5% 100%, 100% 100%, 100% 0);
+          background: var(--main-bg-color);
+          display: flex;
+          flex-direction: column;
+          p {
+            text-align: end;
+            margin-right: 5px;
+          }
+          .inputs {
+            display: flex;
+            justify-content: space-around;
+            input {
+              font-size: 2em;
+              padding-bottom: 3px;
+              width: 50px;
+              outline: none;
+              border: none;
+            };
+            input:focus {
+              box-shadow: none;
+            }
+          };
+        };
+        .serious-block {
+          background: var(--main-bg-color);
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          .label {
+            padding-left: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+          };
+          h3 {
+            font-size: 2em;
+            margin: 0;
+            margin: 5px 0 4px 0;
+            margin-right: 22px;
+
+          };
+        };
+        .save-block {
+          background: var(--main-bg-color);
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 0 5px 0 28px;
+          clip-path: polygon(0 0, 0 100%, 0 85%, 5% 100%, 100% 100%, 100% 0);
+          p {
+            text-align: end;
+          }
+          h3 {
+            font-size: 2em;
+            margin: 0;
+          };
+        };
+>>>>>>> origin/craig-custom-tags
       };
       .derived-block {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+<<<<<<< HEAD
         align-items: flex-end;
         .hitpoint {
           height: 90px;
           input {
             font-size: 5em;
             height: 100%;
+=======
+        padding-left: 2.5px;
+        width: 50%;
+        .crits-block {
+          background: var(--main-bg-color);
+          display: flex;
+          flex-direction: column;
+          p {
+            padding-left: 5px;
+          };
+          .row {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 10px;
+          };
+          h3 {
+            font-size: 2em;
+          };
+          a {
+            font-size: 1.5em;
+          };
+        };
+        .addictions-block {
+          background: var(--main-bg-color);
+          display: flex;
+          flex-direction: column;
+          padding-bottom: 0;
+          p {
+            padding-left: 5px;
+          };
+          .row {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 12px;
+          };
+          h3 {
+            font-size: 2em;
+          };
+          a {
+            font-size: 1.5em;
+>>>>>>> origin/craig-custom-tags
           };
           clip-path: polygon(
             15px 0, 
@@ -198,10 +352,15 @@ form {
       );
       width: 50px;
       height: 50px;
+<<<<<<< HEAD
       flex-grow: 0;
       flex-shrink: 0;
       background-color: white;
       margin: 2.5px;
+=======
+      background-color: var(--main-bg-color);
+      margin: 0 2.5px;
+>>>>>>> origin/craig-custom-tags
       p {
         text-align: end;
         font-weight: bold;
@@ -263,7 +422,13 @@ form {
       }
     }
     .skill {
+<<<<<<< HEAD
       background-color: white;
+=======
+      display: flex;
+      background-color: var(--main-bg-color);
+      justify-content: space-between;
+>>>>>>> origin/craig-custom-tags
       .name {
         width: 55%
       }
