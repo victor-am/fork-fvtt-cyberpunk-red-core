@@ -19,12 +19,12 @@ export default class CPRItemSheet extends ItemSheet {
   }
 
   get template() {
-    LOGGER.trace(`Get Template | CPRItemSheet | Called with type ${this.item.type}.`);
+    LOGGER.trace(`Get Template | CPRItemSheet | Called with type [${this.item.type}].`);
     return `systems/cyberpunk-red-core/templates/item/cpr-${this.item.type}-sheet.hbs`;
   }
 
   get classes() {
-    LOGGER.trace(`Get Classes | CPRItemSheet | Called with type ${this.item.type}.`);
+    LOGGER.trace(`Get Classes | CPRItemSheet | Called with type [${this.item.type}].`);
     return super.defaultOptions.classes.concat(["sheet", "item", `${this.item.type}`]);
   }
 
