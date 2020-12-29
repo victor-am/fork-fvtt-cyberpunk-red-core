@@ -140,12 +140,17 @@ form .sheet-header .top-block .role-block table {
   outline: 0;
   font-size: 1.4em;
 }
-form .sheet-header .top-block .role-block table td,
-form .sheet-header .top-block .role-block table tr {
+form .sheet-header .top-block .role-block table tr,
+form .sheet-header .top-block .role-block table td {
   height: 26px;
   background: transparent;
   border: none;
   outline: 0;
+  padding: 1px 0;
+}
+form .sheet-header .top-block .role-block table .ability-rank-input {
+  width: 1.5em;
+  padding: 0;
 }
 form .stat-block {
   display: flex;
@@ -153,6 +158,13 @@ form .stat-block {
   background-color: #d02b23;
   padding: 7.5px 2.5px 2.5px 2.5px;
   flex-wrap: nowrap;
+}
+form .stat-block .stat-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-transform: uppercase;
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 20%);
 }
 form .stat-block .stat-unit {
   display: flex;

@@ -152,16 +152,20 @@ form {
         border: none;
         outline: 0;
         font-size: 1.4em;
-        td, tr{
+        tr, td{
           height: 26px;
           background: transparent;
           border: none;
           outline: 0;
+          padding: 1px 0;
+        }
+        .ability-rank-input {
+          width: 1.5em;
+          padding: 0;
         }
       }
     };
   };
-
   .stat-block {
     display: flex;
     justify-content: space-between;
@@ -180,6 +184,7 @@ form {
         0 100%, 
         0 20%
       );
+    }
     .stat-unit {
       display: flex;
       flex-direction: column;
@@ -207,7 +212,6 @@ form {
       .stat-values {
         display: flex;
         justify-content: space-between;
-
         .stat-input, .stat-input:focus {
           border: none;
           outline: 0 !important;
@@ -236,7 +240,6 @@ form {
       }
     }
   }
-
   .skill-block {
     font-size: 1em;
     background-color: @maximum-red;
