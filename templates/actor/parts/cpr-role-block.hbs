@@ -22,9 +22,7 @@
             {{!-- show localized name --}}
             <div class="rollable" data-roll-type="roleAbility" data-roll-title="{{name}}">{{localize (lookup ../this.roleAbilityList name)}}</div>
             {{!-- and rank value --}}
-            <input 
-            {{log ../data.roleInfo.role}}
-            {{log name}}
+            <input
               name="data.roleInfo.roleskills.{{../data.roleInfo.role}}.{{name}}"
               value="{{rank}}"
               type="number"
