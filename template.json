@@ -131,17 +131,17 @@
               "interface": 0
             },
             "rockerboy": {
-              "charismaticimpact": 0
+              "charismaticImpact": 0
             },
             "solo": {
-              "combatawareness": 0
+              "combatAwareness": 0
             },
             "tech": {
               "maker": 0,
-              "fieldexpertise": 0,
-              "upgradeexpertise": 0,
-              "fabricationexpertise": 0,
-              "inventionexpertise": 0
+              "fieldExpertise": 0,
+              "upgradeExpertise": 0,
+              "fabricationExpertise": 0,
+              "inventionExpertise": 0
             },
             "medtech": {
               "medicine": 0,
