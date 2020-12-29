@@ -22,11 +22,9 @@
         </div>
         {{!-- WHAT STAT DOES THIS SKILL USE --}}
         <div>
-          <input name="data.level" data-dtype="{{data.level}}" value="{{data.level}}" type="number" />
           Stat:
           <select name="data.stat" data-dtype="{{data.stat}}">
             {{#select data.stat}}
-            <option value="">N/A</option>
             {{#each statList as |stat s|}}
             <option value="{{s}}">{{localize stat}}</option>
             {{/each}}
@@ -38,7 +36,6 @@
           Category:
           <select name="data.category" data-dtype="{{data.category}}">
             {{#select data.category}}
-            <option value="">N/A</option>
             {{#each skillCategories as |category c|}}
             <option value="{{c}}">{{localize category}}</option>
             {{/each}}
