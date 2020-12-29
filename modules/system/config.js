@@ -1,5 +1,6 @@
 export const CPR = {};
 
+// Sorted as shown on char sheet (with resources pushed to bottom)
 CPR.statList = {
   "int": "CPR.int",
   "ref": "CPR.ref",
@@ -13,20 +14,21 @@ CPR.statList = {
   "emp": "CPR.emp"
 }
 
+// Sorted A-Z
 CPR.roleList = {
-  "netrunner": "CPR.netrunnerrole",
-  "solo": "CPR.solorole",
-  "fixer": "CPR.fixerrole",
-  "nomad": "CPR.nomadrole",
-  "media": "CPR.mediarole",
   "exec": "CPR.execrole",
+  "fixer": "CPR.fixerrole",
   "lawman": "CPR.lawmanrole",
-  "rockerboy": "CPR.rockerboyrole",
-  "tech": "CPR.techrole",
+  "media": "CPR.mediarole",
   "medtech": "CPR.medtechrole",
+  "netrunner": "CPR.netrunnerrole",
+  "nomad": "CPR.nomadrole",
+  "rockerboy": "CPR.rockerboyrole",
+  "solo": "CPR.solorole",
+  "tech": "CPR.techrole",
 }
 
-
+// Sorted A-Z
 CPR.skillCategories = {
   "awarenessSkills": "CPR.awarenessskills",
   "bodySkills": "CPR.bodyskills",
@@ -39,6 +41,7 @@ CPR.skillCategories = {
   "techniqueSkills": "CPR.techniqueskills",
 }
 
+// Sorted A-Z
 CPR.skillList = {
   "athletics": "CPR.athletics",
   "basicTech": "CPR.basictech",
@@ -110,12 +113,14 @@ CPR.skillList = {
 
 // TODO - Does 'role' need to be listed here? 
 // TODO - Discuss how this will be used to count IP.
+// Unsorted
 CPR.skillDifficulties = {
   "typical": "CPR.skilldifficultytypical",
   "difficult": "CPR.skilldifficultydifficult",
   "role": "CPR.skilldifficultyrole"
 }
 
+// Sorted as listed in core rule book
 CPR.weaponTypeList = {
   "lightMelee": "CPR.lightmeleeweapon",
   "medMelee": "CPR.mediummeleeweapon",
@@ -134,6 +139,7 @@ CPR.weaponTypeList = {
   "rocketLauncher": "CPR.rocketlauncher"
 }
 
+// Sorted as listed in core rule book
 CPR.ammoVariety = {
   "medPistol": "CPR.ammovarmediumpistol",
   "heavyPistol": "CPR.ammovarheavypistol",
@@ -146,24 +152,26 @@ CPR.ammoVariety = {
   "rocket": "CPR.ammovarrocket"
 }
 
+// Not sorted
 CPR.ammoType = {
   "basic": "CPR.ammotypebasic"
 }
 
+// Sorted A-Z
 CPR.roleAbilityList = {
-  "operator": "CPR.operator",
-  "interface": "CPR.interface",
   "backup": "CPR.backup",
-  "moto": "CPR.moto",
+  "charismaticImpact": "CPR.charismaticimpact",
   "combatAwareness": "CPR.combatawareness",
   "credibility": "CPR.credibility",
-  "teamwork": "CPR.teamwork",
-  "charismaticImpact": "CPR.charismaticimpact",
-  "medicine": "CPR.medicine",
-  "maker": "CPR.maker",
   "fabricationExpertise": "CPR.fabricationexpertise",
   "fieldExpertise": "CPR.fieldexpertise",
+  "operator": "CPR.operator",
+  "interface": "CPR.interface",
   "inventionExpertise": "CPR.inventionexpertise",
-  "upgradeExpertise": "CPR.upgradeexpertise",
-  "surgery": "CPR.surgery"
+  "maker": "CPR.maker",
+  "medicine": "CPR.medicine",
+  "moto": "CPR.moto",
+  "surgery": "CPR.surgery",
+  "teamwork": "CPR.teamwork",
+  "upgradeExpertise": "CPR.upgradeexpertise"
 }
