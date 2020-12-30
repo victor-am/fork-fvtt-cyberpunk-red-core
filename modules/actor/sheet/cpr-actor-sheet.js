@@ -1,7 +1,7 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import { CPR } from "../../system/config.js";
 import { BaseRoll } from "../../system/dice.js";
-import { RollModiferPromptDiag } from "../../dialog/cpr-rollmod-dialog.js";
+import { RollModifierPromptDiag } from "../../dialog/cpr-rollmod-dialog.js";
 import { RollCard } from "../../chat/cpr-rollcard.js";
 
 /**
@@ -111,7 +111,7 @@ export default class CPRActorSheet extends ActorSheet {
     let actorData = this.getData();
 
     if (!event.ctrlKey) {
-      totalMods.push(await RollModiferPromptDiag());
+      totalMods.push(await RollModifierPromptDiag());
     }
 
     if (totalMods.includes("cancel")) {
