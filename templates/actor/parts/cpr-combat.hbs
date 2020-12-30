@@ -1,3 +1,25 @@
 <div>
-   COMBAT TAB.
+   <div><h1>Attack</h1>
+      {{#each actor.filteredItems.weapon as |weapon|}}
+      {{log weapon}}
+      <div>
+         <span>{{weapon.name}}</span>
+         <span><a class="rollable" data-attack-skill="{{weapon.data.weaponSkill}}"  data-roll-type="attack" data-weapon-name="{{weapon.name}}">[ATTACK]</a></span>
+         <span><a class="rollable" data-damage="{{weapon.data.damage}}" data-roll-type="damage">[{{weapon.data.damage}}]</a></span>
+         <span>ROF {{weapon.data.rof}}</span>
+         <span>{{weapon.data.magSize}} rounds</span>
+      </div>
+      {{/each}}
+   </div>
+   <div><h1>Defense</h1>
+      {{#each actor.filteredItems.armor as |armor| }}
+      {{log armor}}
+      <div>
+         <span>{{armor.name}}</span>
+         <span>{{armor.data.sp}}</span>
+         <span>{{armor.data.ablation}}</span>
+         <span><a class="rollable">[DEFEND]</a></span>
+      </div>
+      {{/each}}
+   </div>
 </div>

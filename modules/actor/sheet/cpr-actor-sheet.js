@@ -52,6 +52,7 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Add New Skill Item To Sheet
     html.find('.add-skill').click(event => this._addSkill(event));
+
   }
 
   
@@ -137,6 +138,22 @@ export default class CPRActorSheet extends ActorSheet {
         skillValue = roleInfo.roleskills[role][rollTitle];
         LOGGER.trace(`Actor _onRoll | rolling ability: ` + rollTitle + ` | ` + skillValue);
         break;
+      }
+      case "attack": {
+        const skillName = $(event.currentTarget).attr("data-attack-skill");
+        skillValue =
+          this.actor.data.filteredItems.skill.find(i => i.data.name.toLowerCase() === skillName).data.data.level;
+        const statName = this.actor.data.filteredItems.skill
+          .find((i) => i.data.name.toLowerCase() === skillName)
+          .data.data.stat;
+        statValue = this.actor.data.data.stats[statName].value;
+        LOGGER.trace(
+          `Actor _onRoll | rolling ${$(event.currentTarget).attr("data-weapon-name")} attack | skillName: ${skillName} skillValue: ${skillValue} statName: ${statName} statValue: ${statValue}`
+        );
+        break;
+      }
+      case "damage": {
+
       }
       case "cancel": {
         // Catch all if we want a way to cancel out of a roll.
