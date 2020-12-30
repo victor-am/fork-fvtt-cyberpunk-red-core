@@ -1,6 +1,6 @@
 // TODO - Revist this method of dialog creation.
 // TODO - Revist name of function.
-export async function RollModiferPromptDiag() {
+export async function RollModifierPromptDiag() {
     return new Promise(resolve => { 
         renderTemplate('systems/cyberpunk-red-core/templates/dialog/cpr-rollmod-dialog.hbs').then(html => {
             let totalMod = "cancel";
@@ -21,7 +21,7 @@ export async function RollModiferPromptDiag() {
                 },
                 default: "confirm",
                 render: console.log("Register interactivity in the rendered dialog"),
-                close: resolve(totalMod)
+                close: () => { resolve(totalMod); }
             }).render(true);
         });
     });
