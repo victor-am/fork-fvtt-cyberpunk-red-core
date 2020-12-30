@@ -260,13 +260,18 @@
           "item": "",
           "value": 0,
           "isActive": false
-        }
+        },
+      "upgradable": {
+        "isUpgraded": false,
+        "upgrade": ""
+       }
       }
     },
     "cyberware": {
       "templates": [
         "common",
-        "physicalItem"
+        "physicalItem",
+        "upgradable"
       ],
       "type": "type",
       "install": "install",
@@ -278,7 +283,8 @@
     "weapon": {
       "templates": [
         "common",
-        "physicalItem"
+        "physicalItem",
+        "upgradable"
       ],
       "rof": 1,
       "weaponType": "",
@@ -288,12 +294,16 @@
       "handsReq": 1,
       "isRanged": false,
       "altFireModes": "",
-      "magSize": 0
+      "magSize": 0,
+      "quality": "standard",
+      "ammoVariety": [],
+      "attachmentSlots": 0
     },
     "armor": {
       "templates": [
         "common",
-        "physicalItem"
+        "physicalItem",
+        "upgradable"
       ],
       "head": false,
       "body": false,
@@ -308,7 +318,7 @@
       ],
       "variety": "",
       "amount": 0,
-      "types": []
+      "type": ""
     },
     "gear": {
       "templates": [
@@ -329,7 +339,8 @@
     "vehicle": {
       "templates": [
         "common",
-        "physicalItem"
+        "physicalItem",
+        "upgradable"
       ],
       "spd": 0,
       "seats": 0,
