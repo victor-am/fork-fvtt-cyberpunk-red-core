@@ -141,12 +141,26 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "attack": {
         const skillName = $(event.currentTarget).attr("data-attack-skill");
-        skillValue =
-          this.actor.data.filteredItems.skill.find(i => i.data.name.toLowerCase() === skillName).data.data.level;
-        const statName = this.actor.data.filteredItems.skill
-          .find((i) => i.data.name.toLowerCase() === skillName)
-          .data.data.stat;
+        const statName = 'dex';
+
+        try {
+          skillValue = this.actor.data.filteredItems.skill.find(
+            (i) => i.data.name === skillName
+          ).data.data.level;
+        } catch (err) {
+          skillValue = 0;
+        }
+
+        try {
+          statName = this.actor.data.filteredItems.skill
+            .find((i) => i.data.name === skillName)
+            .data.data.stat;
+        } catch (err) {
+          null
+        }
+        
         statValue = this.actor.data.data.stats[statName].value;
+        
         LOGGER.trace(
           `Actor _onRoll | rolling ${$(event.currentTarget).attr("data-weapon-name")} attack | skillName: ${skillName} skillValue: ${skillValue} statName: ${statName} statValue: ${statValue}`
         );
