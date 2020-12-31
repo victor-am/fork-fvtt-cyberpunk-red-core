@@ -307,11 +307,17 @@
         "physicalItem",
         "upgradable"
       ],
-      "head": false,
-      "body": false,
+      "isHeadLocation": false,
+      "headLocation": {
+        "sp": 0,
+        "ablation": 0
+      },
+      "isBodyLocation": false,
+      "bodyLocation": {
+        "sp": 0,
+        "ablation": 0
+      },
       "penalty": 0,
-      "sp": 0,
-      "ablation": 0
     },
     "ammo": {
       "templates": [
@@ -333,7 +339,7 @@
         "common"
       ],
       "level": 0,
-      "stat": "INT",
+      "stat": "int",
       "category": "none",
       "difficulty": "typical",
       "basic": false

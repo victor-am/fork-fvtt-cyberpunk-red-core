@@ -24,6 +24,10 @@
         <div>
           Armor SP: <input name="data.sp" class="" type="text" value="{{data.sp}}">
         </div>
+        {{!-- ARMOR SP --}}
+        <div>
+          Ablation: <input name="data.sp" class="" type="text" value="{{data.sp}}">
+        </div>
         {{!-- ARMOR PENALTY --}}
         <div>
           Armor Penalty: <input name="data.armorpen" class="" type="text" value="{{data.armorpen}}">
@@ -39,7 +43,7 @@
         </div>
         {{!-- BODY ARMOR CHECKBOX --}}
         <div>
-          <label class="label-text">Basic</label>
+          <label class="label-text">Body Armor</label>
           {{#if data.body}}
           <a class="item-checkbox" data-target="data.body"><i class="far fa-check-circle"></i></a>
           {{else}}
