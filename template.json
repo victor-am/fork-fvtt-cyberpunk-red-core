@@ -46,9 +46,11 @@
             "max": 40
           },
           "seriouslyWounded": 20,
-          "deathSave": 6
+          "deathSave": 6,
+          "deathSavePenlty": 0
         },
         "woundState": {
+          "notWounded": true,
           "lightlyWounded": false,
           "seriouslyWounded": false,
           "mortallyWounded": false,
@@ -194,8 +196,8 @@
         "enemies": []
       },
       "reputation:": {
-        "events": [],
-        "value": 0
+        "value": 0,
+        "events": []
       },
       "improvementPoints": {
         "total": 0
@@ -261,10 +263,10 @@
           "value": 0,
           "isActive": false
         },
-      "upgradable": {
-        "isUpgraded": false,
-        "upgrade": ""
-       }
+        "upgradable": {
+          "isUpgraded": false,
+          "upgrade": ""
+        }
       }
     },
     "cyberware": {
