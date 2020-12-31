@@ -1,7 +1,8 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import { CPR } from "../../system/config.js";
-import { BaseRoll } from "../../system/dice.js";
-import { RollModifierPromptDiag } from "../../dialog/cpr-rollmod-dialog.js";
+import CPRRolls from "../../rolls/cpr-rolls.js";
+import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
+import { VerifyRollPrompt } from "../../dialog/cpr-verify-roll-prompt.js";
 import { RollCard } from "../../chat/cpr-rollcard.js";
 
 /**
@@ -12,7 +13,7 @@ export default class CPRActorSheet extends ActorSheet {
 
   /** @override */
   static get defaultOptions() {
-    LOGGER.trace("Default Options | CPRActorSheet | Called.");
+    LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
     return mergeObject(super.defaultOptions, {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
       width: 600,
@@ -24,7 +25,7 @@ export default class CPRActorSheet extends ActorSheet {
   /** @override */
   getData() {
     // TODO - Understand how to use getData and when.
-    LOGGER.trace("Get Data | CPRActorSheet | Called.");
+    LOGGER.trace("AcotrID getData | CPRActorSheet | Called.");
     const data = super.getData();
     this._addConfigData(data);
     return data;
@@ -54,17 +55,14 @@ export default class CPRActorSheet extends ActorSheet {
     html.find('.add-skill').click(event => this._addSkill(event));
   }
 
-  
-
-
-  /*
-    INTERNAL METHODS BELOW HERE
-  */
-
   /* -------------------------------------------- */
+  //  INTERNAL METHODS BELOW HERE
+  /* -------------------------------------------- */
+
+
   _addConfigData(sheetData) {
     // TODO - sheetData config additions should be added in a less procedural way.
-    LOGGER.trace(`Add Config Data | CPRActorSheet | Called with ${this}.`);
+    LOGGER.trace(`ActorID _addConfigData | CPRActorSheet | Called.`);
     sheetData.skillCategories = CPR.skillCategories;
     sheetData.statList = CPR.statList;
     sheetData.skillDifficulties = CPR.skillDifficulties;
@@ -74,101 +72,92 @@ export default class CPRActorSheet extends ActorSheet {
     sheetData.weaponTypeList = CPR.weaponTypeList;
     sheetData.ammoVariety = CPR.ammoVariety;
   }
-  
-  _calculateDerivedStats(data) {
-    // Calculate MAX HP
-    let will = data.data.stats.will;
-    let hp = data.data.derivedStats.hp;
-    let body = data.data.stats.body;
-    let hum = data.data.humanity;
-    let emp = data.data.stats.emp;
-    hp.max = 10 + 5*(Math.ceil((will.value + body.value) / 2));
-    if (hp.value > hp.max) hp.value = hp.max;
-    // Humanity
-    hum.max = 10 * emp.value;
-    if (hum.value > hum.max) hum.value = hum.max;
-    // Seriously wounded
-    data.data.derivedStats.seriouslyWounded = Math.ceil(hp.max / 2);
-    // Death save
-    data.data.derivedStats.deathSave = body.value;
-  }
 
+  // TODO - Function is getting far to long, we need to find ways to condense it.
   async _onRoll(event) {
-    LOGGER.trace(`Actor _onRoll | .rollable click | Called.`);
+    LOGGER.trace(`ActorID _onRoll | CPRActorSheet | Called.`);
 
     // TODO - Cleaner way to init all this fields?
-    // TODO - Create a input object to encompass these fields?
-    let totalMods = [0];
-    let statValue = 0;
-    let skillValue = 0;
-    let rollCritical = true;
+    // TODO - Create a input object to encompass these fields?\
+    let rollRequest = new CPRBaseRollRequest();    
     
-    let rollType = $(event.currentTarget).attr("data-roll-type");
-    let rollTitle = $(event.currentTarget).attr("data-roll-title");
-    const itemId = this._getItemId(event);
-
-    // Do I need this?
-    let actorData = this.getData();
-
+    // TODO-- Where do these go?
+    rollRequest.rollType = $(event.currentTarget).attr("data-roll-type");
+    rollRequest.rollTitle = $(event.currentTarget).attr("data-roll-title");    
+    
     if (!event.ctrlKey) {
-      totalMods.push(await RollModifierPromptDiag());
+      rollRequest.mods.push(...await VerifyRollPrompt());
     }
-
-    if (totalMods.includes("cancel")) {
+    
+    // TODO-- better way to handle this..
+    if (rollRequest.mods.includes("cancel")) {
       rollType = "cancel";
     }
-
-    switch (rollType) {
+    
+    let actorData = this.getData().data;
+    switch (rollRequest.rollType) {
       case "stat": {
-        statValue = actorData.data.stats[rollTitle].value;
-        LOGGER.trace(`Actor _onRoll | rolling stat: ` + rollTitle + ` | ` + statValue);
+        rollRequest.statValue = actorData.stats[rollRequest.rollTitle].value;
+        LOGGER.trace(`ActorID _onRoll | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
         break;
       }
       case "skill": {
-        const item = this.actor.items.find(i => i.data._id == itemId);
-        statValue = actorData.data.stats[item.data.data.stat].value;
-        skillValue = item.data.data.level;
-        LOGGER.trace(`Actor _onRoll | rolling skill: ` + rollTitle + ` | ` + skillValue);
+        const itemId = this._getItemId(event);
+        const item = this._getOwnedItem(itemId); 
+        rollRequest.statValue = actorData.stats[item.data.data.stat].value;
+        rollRequest.skillValue = item.data.data.level;
+        LOGGER.trace(`ActorID _onRoll | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
+        console.log(this);
         break;
       }
       case "roleAbility": {
-        const roleInfo = actorData.data.roleInfo;
+        const roleInfo = actorData.roleInfo;
         const role = roleInfo["role"];
-        skillValue = roleInfo.roleskills[role][rollTitle];
-        LOGGER.trace(`Actor _onRoll | rolling ability: ` + rollTitle + ` | ` + skillValue);
+        rollRequest.skillValue = roleInfo.roleskills[role][rollRequest.rollTitle];
+        LOGGER.trace(`ActorID _onRoll | rolling ability: ` + rollRequest.rollTitle + ` | ` + rollRequest.skillValue);
         break;
       }
+      // Q: Do we ever need to cancel a roll? 
+      // This really only applys if we display the mods dialog, and then they wish to NOT enter a mod.
+      // If we want to have this really be a function of the system, we should ALWAYS display the dialog, as it's the only control available to trigger canceling a roll.
       case "cancel": {
         // Catch all if we want a way to cancel out of a roll.
         return;
       }
     }
 
-    RollCard(BaseRoll(statValue, skillValue, totalMods, rollCritical));
+    RollCard(CPRRolls.BaseRoll(rollRequest));
   }
 
+  // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
+
   _updateItem(event) {
-    LOGGER.trace(`Actor _itemUpdate | .item-edit click | Called.`);
+    LOGGER.trace(`ActorID _itemUpdate | CPRActorSheet | Called.`);
     let itemId = this._getItemId(event);
-    LOGGER.debug(`Actor _itemUpdate | Item ID:${itemId}.`);    
+    LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);    
     const item = this.actor.items.find(i => i.data._id == itemId)
     console.log(item);
     item.sheet.render(true);
   }
 
   _getItemId(event) {
+    LOGGER.trace(`ActorID _getItemId | CPRActorSheet | Called.`);
     return $(event.currentTarget).attr("data-item-id")
   }
 
+  _getOwnedItem(itemId) {
+    return this.actor.items.find(i => i.data._id == itemId);
+  }
+
   _deleteOwnedItem(event) {
-    LOGGER.trace(`Actor _deleteOwnedItem | .item-delete click | Called.`);
+    LOGGER.trace(`ActorID _deleteOwnedItem | CPRActorSheet | Called.`);
     let itemId = this._getItemId(event);
     let itemList = this.actor.items;
     itemList.forEach(item => { if (item.data._id === itemId) item.delete() });
   }
 
   _addSkill() {
-    LOGGER.trace(`Actor _addSkill | .add-skill click | called.`);
+    LOGGER.trace(`ActorID _addSkill | CPRActorSheet | called.`);
     let itemData = {
       name: "skill", type: 'skill', data: {}
     };

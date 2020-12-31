@@ -4,7 +4,6 @@ export default class ActorUtils {
 
   static async getBasicSkills() {
     LOGGER.trace(`Actor _addBasicSkills | ActorUtils | called.`);
-    let basicSkills;
     // grab basic skills from compendium
     const pack = game.packs.get("cyberpunk-red-core.skills");
     // put into basickSkills array
