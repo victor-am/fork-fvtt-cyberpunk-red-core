@@ -168,12 +168,7 @@ form {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        clip-path: polygon(
-          15px 0, 
-          100% 0, 
-          100% 100%, 
-          0 100%, 
-          0 15px);
+        clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
         background-color: #ffffff;
         width: 60px;
         height: 60px;
@@ -206,12 +201,12 @@ form {
       }
       .has-max {
         clip-path: polygon(
-          0 15px, 
-          0 100%, 
+          0 15px,
+          0 100%,
           45% 100%,
           45% 50%,
           55% 50%,
-          55% 100%, 
+          55% 100%,
           100% 100%,
           100% 0,
           15px 0
@@ -228,12 +223,13 @@ form {
     }
     .skill {
       background-color: #ffffff;
-
     }
     .bold {
       font-weight: bold;
     }
-    .level, .stat, .base {
+    .level,
+    .stat,
+    .base {
       text-align: center;
       width: 40px;
     }
@@ -245,6 +241,25 @@ form {
     }
     td {
       border: 3px @maximum-red solid;
+    }
+  }
+  .tab-block {
+    background-color: @maximum-red;
+    padding: 5px;
+    table {
+      .row-header {
+        background-color: @raisin-black;
+        color: @white;
+        .center {
+          text-align: center;
+        }
+      }
+      .row-item {
+        background-color: @white;
+      }
+      .bold {
+        font-weight: bold;
+      }
     }
   }
 }
