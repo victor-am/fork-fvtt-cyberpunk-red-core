@@ -60,24 +60,24 @@ export default class CPRActor extends Actor {
 
   _calculateDerivedStats(actorData) {
     // Calculate MAX HP
-    LOGGER.trace(`ActorID _calculateDerivedStats | CPRActorSheet | Called.`);
+    LOGGER.trace(`ActorID _calculateDerivedStats | CPRActor | Called.`);
     let stats = actorData.stats;
     let derivedStats = actorData.derivedStats;
 
     // Set max HP
     derivedStats.hp.max = 10 + 5*(Math.ceil((stats.will.value + stats.body.value) / 2));
-    if (derivedStats.hp.value > derivedStats.hp.max) derivedStats.hp.value = derivedStats.hp.max;
+    if (derivedStats.hp.value > derivedStats.hp.max) { derivedStats.hp.value = derivedStats.hp.max; };
 
     // Seriously wounded
-    derivedStats.seriouslyWounded = Math.ceil(hp.max / 2);
+    derivedStats.seriouslyWounded = Math.ceil(derivedStats.hp.max / 2);
 
     // Death save
-    derivedStats.deathSave = body.value;
+    derivedStats.deathSave = stats.body.value;
     
     // Max Humanity
     // TODO-- Subtract installed cyberware...
-    hum.max = 10 * emp.value;
-    if (hum.value > hum.max) hum.value = hum.max;
+    derivedStats.hum.max = 10 * stats.emp.value;
+    if (derivedStats.hum.value > derivedStats.hum.max) { derivedStats.hum.value = derivedStats.hum.max; };
   }
 
 }
