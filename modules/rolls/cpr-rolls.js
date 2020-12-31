@@ -43,6 +43,28 @@ export default class CPRRolls {
     rollResult.resultTotal = rollResult.rollTotal + rollResult.skillValue + rollResult.statValue + rollResult.modsTotal;
 
     LOGGER.debug(`Check Total! | Total:${rollResult.total}`);
+    const data = {
+      throws:[{
+          dice:[
+              {
+                  result:7,
+                  resultLabel:7,
+                  type: "d20",
+                  vectors:[],
+                  options:{}
+              },
+              {
+                  result:0,
+                  resultLabel:"T",
+                  type: "dc",
+                  vectors:[],
+                  options:{}
+              }
+          ]
+      }]
+  };
+  game.dice3d.show(data).then(displayed => { /* do your stuff after the animation */  });
+  
     return rollResult;
   }
 
