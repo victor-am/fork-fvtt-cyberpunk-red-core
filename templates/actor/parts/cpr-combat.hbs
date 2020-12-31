@@ -4,7 +4,7 @@
       {{log weapon}}
       <div>
          <span>{{weapon.name}}</span>
-         <span><a class="rollable" data-attack-skill="{{weapon.data.weaponSkill}}"  data-roll-type="attack" data-weapon-name="{{weapon.name}}">[ATTACK]</a></span>
+         <span><a class="rollable" data-attack-skill="{{weapon.data.weaponSkill}}" data-is-ranged="{{weapon.data.isRanged}}" data-roll-type="attack" data-weapon-name="{{weapon.name}}">[ATTACK]</a></span>
          <span><a class="rollable" data-damage="{{weapon.data.damage}}" data-roll-type="damage">[{{weapon.data.damage}}]</a></span>
          <span>ROF {{weapon.data.rof}}</span>
          <span>{{weapon.data.magSize}} rounds</span>
