@@ -15,7 +15,7 @@ export async function VerifyRollPrompt() {
             let _onConfirm = function (html) {
                 LOGGER.trace(`Actor _onConfirm | VerifyRollPrompt | called.`);
                 if (html.find('[name="mods"]').val() != "") {
-                    totalMod.push(html.find('[name="mods"]').val());
+                    totalMod.push(Number(html.find('[name="mods"]').val()));
                 };
             };
             
