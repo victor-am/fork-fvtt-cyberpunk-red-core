@@ -200,33 +200,33 @@ form .sheet-header .stats-block .stats-unit .stat-values .max {
 form .sheet-header .stats-block .has-max {
   clip-path: polygon(0 15px, 0 100%, 45% 100%, 45% 50%, 55% 50%, 55% 100%, 100% 100%, 100% 0, 15px 0);
 }
-form .skill-block {
+form .tab-block {
   background-color: #d02b23;
   padding: 5px;
 }
-form .skill-block .skill-category {
-  background-color: #231f20;
-  color: #ffffff;
-}
-form .skill-block .skill {
-  background-color: #ffffff;
-}
-form .skill-block .bold {
-  font-weight: bold;
-}
-form .skill-block .level,
-form .skill-block .stat,
-form .skill-block .base {
-  text-align: center;
-  width: 40px;
-}
-form .skill-block table {
+form .tab-block table {
   border: 0;
   outline: 0;
   margin: 0;
   padding: 0;
 }
-form .skill-block td {
+form .tab-block table .row-header {
+  background-color: #231f20;
+  color: #ffffff;
+}
+form .tab-block table .row-item {
+  background-color: #ffffff;
+}
+form .tab-block table .bold {
+  font-weight: bold;
+}
+form .tab-block table .skill-level,
+form .tab-block table .skill-stat,
+form .tab-block table .skill-base {
+  text-align: center;
+  width: 40px;
+}
+form .tab-block table td {
   border: 3px #d02b23 solid;
 }
 form .item-desc-body {
