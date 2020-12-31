@@ -1,6 +1,6 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import { CPR } from "../../system/config.js";
-import { BaseRoll } from "../../system/dice.js";
+import CPRRolls from "../../rolls/cpr-rolls.js";
 import { RollModifierPromptDiag } from "../../dialog/cpr-rollmod-dialog.js";
 import { RollCard } from "../../chat/cpr-rollcard.js";
 
@@ -108,10 +108,11 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "skill": {
         const itemId = this._getItemId(event);
-        const item = 
+        const item = this._getOwnedItem(itemId); 
         statValue = actorData.data.stats[item.data.data.stat].value;
         skillValue = item.data.data.level;
         LOGGER.trace(`ActorID _onRoll | rolling ${rollTitle} | Stat Value: ${statValue} + Skill Value:${skillValue}`);
+        console.log(this);
         break;
       }
       case "roleAbility": {
@@ -130,7 +131,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
     }
 
-    RollCard(BaseRoll(statValue, skillValue, totalMods, rollCritical));
+    RollCard(CPRRolls.BaseRoll(statValue, skillValue, totalMods, rollCritical));
   }
 
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
