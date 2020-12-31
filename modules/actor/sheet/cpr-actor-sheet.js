@@ -130,17 +130,17 @@ export default class CPRActorSheet extends ActorSheet {
         if (isRanged === 'true') statName = 'ref'
         // if char owns relevant skill, get skill value
         try {
-          skillValue = this.actor.data.filteredItems.skill.find(
+          rollRequest.skillValue = this.actor.data.filteredItems.skill.find(
             (i) => i.data.name === skillName
           ).data.data.level;
         // set skill value to 0 if not
         } catch (err) {
-          skillValue = 0;
+          rollRequest.skillValue = 0;
         }
         // get stat value
-        statValue = this.actor.data.data.stats[statName].value;
+        rollRequest.statValue = this.actor.data.data.stats[statName].value;
         LOGGER.trace(
-          `Actor _onRoll | rolling ${$(event.currentTarget).attr("data-weapon-name")} attack | skillName: ${skillName} skillValue: ${skillValue} statName: ${statName} statValue: ${statValue}`
+          `Actor _onRoll | rolling ${$(event.currentTarget).attr("data-weapon-name")} attack | skillName: ${skillName} skillValue: ${rollRequest.skillValue} statName: ${statName} statValue: ${rollRequest.statValue}`
         );
         break;
       }
