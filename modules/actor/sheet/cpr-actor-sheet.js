@@ -2,7 +2,7 @@ import LOGGER from "../../utils/cpr-logger.js";
 import { CPR } from "../../system/config.js";
 import CPRRolls from "../../rolls/cpr-rolls.js";
 import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
-import { RollModifierPromptDiag } from "../../dialog/cpr-verify-roll-prompt.js";
+import { VerifyRollPrompt } from "../../dialog/cpr-verify-roll-prompt.js";
 import { RollCard } from "../../chat/cpr-rollcard.js";
 
 /**
@@ -86,7 +86,7 @@ export default class CPRActorSheet extends ActorSheet {
     let rollTitle = $(event.currentTarget).attr("data-roll-title");    
     
     if (!event.ctrlKey) {
-      rollRequest.mods.push(await RollModifierPromptDiag());
+      rollRequest.mods.push(...await VerifyRollPrompt());
     }
     
     // TODO-- better way to handle this..

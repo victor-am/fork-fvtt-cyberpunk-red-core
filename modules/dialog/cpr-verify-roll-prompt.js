@@ -1,6 +1,6 @@
 // TODO - Revist this method of dialog creation.
 
-import LOGGER from "../utils/cpr-logger";
+import LOGGER from "../utils/cpr-logger.js";
 
 // TODO - Revist name of function.
 export async function VerifyRollPrompt() {
