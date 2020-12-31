@@ -1,19 +1,20 @@
 {{!-- Partials to create stat-units from template --}}
 {{#each data.stats as |stat s|}}
-  <div class="stat-unit {{#if this.max}}has-max{{/if}}">
+{{log stat}}
+  <div class="stats-unit {{#if this.max}}has-max{{/if}}">
     <div class="stat-title rollable" data-roll-type="stat" data-roll-title="{{s}}">
       <p>{{localize (lookup ../this.statList s)}}</p>
     </div>
     <div class="stat-values">
       <input
-        class="stat-input"
+        class="stat-input {{#if this.max}}max{{/if}}"
         name="data.stats.{{s}}.value"
         type="number"
         value="{{this.value}}"
       />
       {{#if this.max}}
         <input
-          class="stat-input"
+          class="stat-input max"
           name="data.stats.{{s}}.max"
           type="number"
           value="{{this.max}}"
