@@ -1,5 +1,5 @@
 export default class DiceSoNice {
-    static async ShowDiceSoNice(roll, rollMode) {
+    static async ShowDiceSoNice(roll, rollMode = "roll") {
         if (game.modules.get("dice-so-nice") && game.modules.get("dice-so-nice").active) {
           let whisper = null;
           let blind = false;
