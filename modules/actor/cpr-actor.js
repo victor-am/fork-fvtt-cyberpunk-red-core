@@ -1,5 +1,4 @@
 import LOGGER from "../utils/cpr-logger.js";
-import { BaseRoll } from "../system/dice.js";
 import ActorUtils from "../utils/cpr-actorUtils.js";
 
 /**
