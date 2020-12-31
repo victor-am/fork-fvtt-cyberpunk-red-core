@@ -1,11 +1,15 @@
 {{log "CPR-ROLLCARD.HBS"}}
+<h1>{{rollTitle}}</h1>
 <section>
     {{log this}}
-    Roll: {{initialRoll}} <br>
     {{#if wasCritical}}
+    Roll: {{initialRoll}} <br>
     Critical Roll: {{criticalRoll}} <br>
-    Total Roll: {{rollTotal}} <br>
+    Total: {{rollTotal}} <br>
+    {{else}}
+    Roll: {{initialRoll}} <br>
     {{/if}}
+    
     {{#if mods}}
     Mods: {{mods}} <br>
     Mods Total: {{modsTotal}} <br>

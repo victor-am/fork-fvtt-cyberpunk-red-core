@@ -82,8 +82,8 @@ export default class CPRActorSheet extends ActorSheet {
     let rollRequest = new CPRBaseRollRequest();    
     
     // TODO-- Where do these go?
-    let rollType = $(event.currentTarget).attr("data-roll-type");
-    let rollTitle = $(event.currentTarget).attr("data-roll-title");    
+    rollRequest.rollType = $(event.currentTarget).attr("data-roll-type");
+    rollRequest.rollTitle = $(event.currentTarget).attr("data-roll-title");    
     
     if (!event.ctrlKey) {
       rollRequest.mods.push(...await VerifyRollPrompt());
@@ -95,10 +95,10 @@ export default class CPRActorSheet extends ActorSheet {
     }
     
     let actorData = this.getData().data;
-    switch (rollType) {
+    switch (rollRequest.rollType) {
       case "stat": {
-        rollRequest.statValue = actorData.stats[rollTitle].value;
-        LOGGER.trace(`ActorID _onRoll | rolling ${rollTitle} | Stat Value: ${rollRequest.statValue}`);
+        rollRequest.statValue = actorData.stats[rollRequest.rollTitle].value;
+        LOGGER.trace(`ActorID _onRoll | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
         break;
       }
       case "skill": {
@@ -106,15 +106,15 @@ export default class CPRActorSheet extends ActorSheet {
         const item = this._getOwnedItem(itemId); 
         rollRequest.statValue = actorData.stats[item.data.data.stat].value;
         rollRequest.skillValue = item.data.data.level;
-        LOGGER.trace(`ActorID _onRoll | rolling ${rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
+        LOGGER.trace(`ActorID _onRoll | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
         console.log(this);
         break;
       }
       case "roleAbility": {
         const roleInfo = actorData.roleInfo;
         const role = roleInfo["role"];
-        rollRequest.skillValue = roleInfo.roleskills[role][rollTitle];
-        LOGGER.trace(`ActorID _onRoll | rolling ability: ` + rollTitle + ` | ` + rollRequest.skillValue);
+        rollRequest.skillValue = roleInfo.roleskills[role][rollRequest.rollTitle];
+        LOGGER.trace(`ActorID _onRoll | rolling ability: ` + rollRequest.rollTitle + ` | ` + rollRequest.skillValue);
         break;
       }
       // Q: Do we ever need to cancel a roll? 
@@ -126,7 +126,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
     }
 
-    RollCard(rollTitle, CPRRolls.BaseRoll(rollRequest));
+    RollCard(CPRRolls.BaseRoll(rollRequest));
   }
 
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.

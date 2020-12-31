@@ -31,12 +31,12 @@ export default class CPRRolls {
       LOGGER.debug(`Checking Critical Chance | Dice BaseRoll | Initial Roll:${rollResult.initialRoll}`);
       if (rollResult.initialRoll == 1) {
         rollResult.wasCritical = true;
-        rollResult.criticalRoll = -1 * this.CPRRoll(`1d10`);
+        rollResult.criticalRoll = -1 * this.CPRRoll(`1d10[fire]`);
         LOGGER.debug(`Critical Failure! | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
       }
       if (rollResult.initialRoll == 10) {
         rollResult.wasCritical = true;
-        rollResult.criticalRoll = this.CPRRoll(`1d10`);
+        rollResult.criticalRoll = this.CPRRoll(`1d10[fire]`);
         LOGGER.debug(`Critical Success | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
       }
     }
