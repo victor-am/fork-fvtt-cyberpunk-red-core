@@ -1,6 +1,6 @@
 import LOGGER from "../utils/cpr-logger.js";
 import { BaseRoll } from "../system/dice.js";
-import ActorUtils from "../utils/actorUtils.js";
+import ActorUtils from "../utils/cpr-actorUtils.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
