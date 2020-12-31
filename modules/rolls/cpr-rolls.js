@@ -8,6 +8,12 @@ import CPRBaseRollResult from "./cpr-baseroll-result.js";
 
 
 export default class CPRRolls {
+  static Roll(formula, rollMode) {
+    let roll = new Roll(formula).roll();
+    ShowDiceSoNice(roll, rollMode)
+    return roll.total();
+  }
+
   static BaseRoll(rollRequest) {
     LOGGER.trace(`Calling baseRoll | Dice BaseRoll | Stat:${rollRequest.statValue} SkillLevel:${rollRequest.skillValue}, Mods:${rollRequest.mods}, CalculateCritical:${rollRequest.calculateCritical}`);
 
@@ -15,7 +21,8 @@ export default class CPRRolls {
     let rollResult = new CPRBaseRollResult();
     mergeObject(rollResult, rollRequest, {overwrite: true});
     LOGGER.debug(`Checking RollRequest | Dice BaseRoll | `);
-    console.log(rollResult);
+    rollResult.initialRoll = Roll(`1d10`, rollMode);
+
     
     // With the above, below this line we ONLY need to use our Result!
     // Is this ideal? Or is this Heresy?
@@ -23,12 +30,12 @@ export default class CPRRolls {
       LOGGER.debug(`Checking Critical Chance | Dice BaseRoll | Initial Roll:${rollResult.initialRoll}`);
       if (rollResult.initialRoll == 1) {
         rollResult.wasCritical = true;
-        rollResult.criticalRoll = -1 * new Roll(`1d10`).roll().total;
+        rollResult.criticalRoll = -1 * Roll(`1d10`, rollMode);
         LOGGER.debug(`Critical Failure! | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
       }
       if (rollResult.initialRoll == 10) {
         rollResult.wasCritical = true;
-        rollResult.criticalRoll = new Roll(`1d10`).roll().total;
+        rollResult.criticalRoll = Roll(`1d10`, rollMode);
         LOGGER.debug(`Critical Success | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
       }
     }
@@ -43,28 +50,6 @@ export default class CPRRolls {
     rollResult.resultTotal = rollResult.rollTotal + rollResult.skillValue + rollResult.statValue + rollResult.modsTotal;
 
     LOGGER.debug(`Check Total! | Total:${rollResult.total}`);
-    const data = {
-      throws:[{
-          dice:[
-              {
-                  result:7,
-                  resultLabel:7,
-                  type: "d20",
-                  vectors:[],
-                  options:{}
-              },
-              {
-                  result:0,
-                  resultLabel:"T",
-                  type: "dc",
-                  vectors:[],
-                  options:{}
-              }
-          ]
-      }]
-  };
-  game.dice3d.show(data).then(displayed => { /* do your stuff after the animation */  });
-  
     return rollResult;
   }
 
