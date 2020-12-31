@@ -13,7 +13,6 @@ export default class CPRRolls {
   static CPRRoll(formula, rollMode) {
     let roll = new Roll(formula).roll();
     DiceSoNice.ShowDiceSoNice(roll);
-    DiceEvenNicer.ShowDiceEvenNicer(roll);
     return roll.total;
   }
 
