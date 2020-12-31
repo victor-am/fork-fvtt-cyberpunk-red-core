@@ -61,8 +61,9 @@ export default class CPRActor extends Actor {
   _calculateDerivedStats(actorData) {
     // Calculate MAX HP
     LOGGER.trace(`ActorID _calculateDerivedStats | CPRActor | Called.`);
-    let stats = actorData.stats;
-    let derivedStats = actorData.derivedStats;
+    let stats = actorData.data.stats;
+    let derivedStats = actorData.data.derivedStats;
+    let humanity = actorData.data.humanity
 
     // Set max HP
     derivedStats.hp.max = 10 + 5*(Math.ceil((stats.will.value + stats.body.value) / 2));
@@ -76,8 +77,9 @@ export default class CPRActor extends Actor {
     
     // Max Humanity
     // TODO-- Subtract installed cyberware...
-    derivedStats.hum.max = 10 * stats.emp.value;
-    if (derivedStats.hum.value > derivedStats.hum.max) { derivedStats.hum.value = derivedStats.hum.max; };
+    humanity.max = 10 * stats.emp.max;
+    if (humanity.value > humanity.max) { humanity.value = humanity.max; };
+    // Setting EMP to value based on current humannity.
+    stats.emp.value = Math.floor(humanity.value / 10);
   }
-
 }
