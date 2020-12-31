@@ -1,5 +1,5 @@
 import LOGGER from "../utils/cpr-logger.js";
-import BaseRollResult from "./cpr-baseroll-result.js";
+import CPRBaseRollResult from "./cpr-baseroll-result.js";
 
 // RollRequest (per type)
 // --> Work
@@ -8,35 +8,41 @@ import BaseRollResult from "./cpr-baseroll-result.js";
 
 
 export default class CPRRolls {
-  static BaseRoll(stat = 0, skillLevel = 0, mods = [0], calculateCritical = true) {
-    LOGGER.trace(`Calling baseRoll | Dice BaseRoll | Stat:${stat} SkillLevel:${skillLevel}, Mods:${mods}, CalculateCritical:${calculateCritical}`);
+  static BaseRoll(rollRequest) {
+    LOGGER.trace(`Calling baseRoll | Dice BaseRoll | Stat:${rollRequest.statValue} SkillLevel:${rollRequest.skillValue}, Mods:${rollRequest.mods}, CalculateCritical:${rollRequest.calculateCritical}`);
 
-    // TODO- Roll Results could be constructed as objects outside of this.
-    // TODO- Roll Results object structure needs revisted.
-    let rollResult = new BaseRollResult();
+    // TODO- Verify use of mergeObject.
+    let rollResult = new CPRBaseRollResult();
+    mergeObject(rollResult, rollRequest, {overwrite: true});
+    LOGGER.debug(`Checking RollRequest | Dice BaseRoll | `);
+    console.log(rollResult);
     
-    if (calculateCritical) {
+    // With the above, below this line we ONLY need to use our Result!
+    // Is this ideal? Or is this Heresy?
+    if (rollResult.calculateCritical) {
       LOGGER.debug(`Checking Critical Chance | Dice BaseRoll | Initial Roll:${rollResult.initialRoll}`);
       if (rollResult.initialRoll == 1) {
-        rollResult.isCritical = true;
+        rollResult.wasCritical = true;
         rollResult.criticalRoll = -1 * new Roll(`1d10`).roll().total;
         LOGGER.debug(`Critical Failure! | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
       }
       if (rollResult.initialRoll == 10) {
-        rollResult.isCritical = true;
+        rollResult.wasCritical = true;
         rollResult.criticalRoll = new Roll(`1d10`).roll().total;
         LOGGER.debug(`Critical Success | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
       }
     }
 
-    LOGGER.debug(`Calculate Roll Result! | Roll:${rollResult.initialRoll} + Crit:${rollResult.isCritical ? rollResult.criticalRoll : 0}`);
-    rollResult.finalRollResult = rollResult.initialRoll + (rollResult.isCritical ? rollResult.criticalRoll : 0);
+    LOGGER.debug(`Calculate Roll Result! | Roll:${rollResult.initialRoll} + Crit:${rollResult.criticalRoll}`);
+    rollResult.rollTotal = rollResult.initialRoll + rollResult.criticalRoll;
+    
+    LOGGER.debug(`Calculate Mods Total! | Mods:${rollResult.mods}`);
+    rollResult.modsTotal = rollResult.mods.length > 0 ? rollResult.mods.reduce((a, b) => a + b) : 0;
 
-    LOGGER.debug(`Calculate Check Total! | Roll:${rollResult.finalRollResult} Skill:${skillLevel} + Stat:${stat} + Mods:${mods} (${mods.reduce((a, b) => a + b)})`);
-    rollResult.total = rollResult.finalRollResult + skillLevel + stat + mods.reduce((a, b) => a + b);
+    LOGGER.debug(`Calculate Check Total! | Roll:${rollResult.rollTotal} Skill:${rollResult.skillValue} + Stat:${rollResult.statValue} + Mods:${rollResult.mods} (${rollResult.modsTotal})`);
+    rollResult.resultTotal = rollResult.rollTotal + rollResult.skillValue + rollResult.statValue + rollResult.modsTotal;
 
     LOGGER.debug(`Check Total! | Total:${rollResult.total}`);
-
     return rollResult;
   }
 

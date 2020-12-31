@@ -1,9 +1,17 @@
+{{log "CPR-ROLLCARD.HBS"}}
 <section>
-    Roll Type: {{rollType}}
-    Critical: {{isCritical}}
-    Initial Roll: {{initialRoll}} 
-    Critical Roll: {{criticalRoll}}
-    Roll Total: {{finalRollResult}}
-    Mods: [{{resultMods}}]
-    Check Total: {{total}}
+    {{log this}}
+    Roll: {{initialRoll}} <br>
+    {{#if wasCritical}}
+    Critical Roll: {{criticalRoll}} <br>
+    Total Roll: {{rollTotal}} <br>
+    {{/if}}
+    {{#if mods}}
+    Mods: {{mods}} <br>
+    Mods Total: {{modsTotal}} <br>
+    {{/if}}
+    Stat: {{statValue}} <br>
+    Skill: {{skillValue}} <br>
+    Result Total: {{resultTotal}} <br>
 </section>
+{{log "END CPR-ROLLCARD.HBS"}}

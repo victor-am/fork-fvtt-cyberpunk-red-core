@@ -1,7 +1,8 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import { CPR } from "../../system/config.js";
 import CPRRolls from "../../rolls/cpr-rolls.js";
-import { RollModifierPromptDiag } from "../../dialog/cpr-rollmod-dialog.js";
+import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
+import { RollModifierPromptDiag } from "../../dialog/cpr-verify-roll-prompt.js";
 import { RollCard } from "../../chat/cpr-rollcard.js";
 
 /**
@@ -77,49 +78,43 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID _onRoll | CPRActorSheet | Called.`);
 
     // TODO - Cleaner way to init all this fields?
-    // TODO - Create a input object to encompass these fields?
-    let totalMods = [0];
-    let statValue = 0;
-    let skillValue = 0;
-    let rollCritical = true;
+    // TODO - Create a input object to encompass these fields?\
+    let rollRequest = new CPRBaseRollRequest();    
     
+    // TODO-- Where do these go?
     let rollType = $(event.currentTarget).attr("data-roll-type");
-    let rollTitle = $(event.currentTarget).attr("data-roll-title");
-
-    // If we are rolling a stat this will be null... SHould only 
+    let rollTitle = $(event.currentTarget).attr("data-roll-title");    
     
-
-    // Do I need this?
-    let actorData = this.getData();
-
     if (!event.ctrlKey) {
-      totalMods.push(await RollModifierPromptDiag());
+      rollRequest.mods.push(await RollModifierPromptDiag());
     }
-
-    if (totalMods.includes("cancel")) {
+    
+    // TODO-- better way to handle this..
+    if (rollRequest.mods.includes("cancel")) {
       rollType = "cancel";
     }
-
+    
+    let actorData = this.getData().data;
     switch (rollType) {
       case "stat": {
-        statValue = actorData.data.stats[rollTitle].value;
-        LOGGER.trace(`ActorID _onRoll | rolling ${rollTitle} | Stat Value: ${statValue}`);
+        rollRequest.statValue = actorData.stats[rollTitle].value;
+        LOGGER.trace(`ActorID _onRoll | rolling ${rollTitle} | Stat Value: ${rollRequest.statValue}`);
         break;
       }
       case "skill": {
         const itemId = this._getItemId(event);
         const item = this._getOwnedItem(itemId); 
-        statValue = actorData.data.stats[item.data.data.stat].value;
-        skillValue = item.data.data.level;
-        LOGGER.trace(`ActorID _onRoll | rolling ${rollTitle} | Stat Value: ${statValue} + Skill Value:${skillValue}`);
+        rollRequest.statValue = actorData.stats[item.data.data.stat].value;
+        rollRequest.skillValue = item.data.data.level;
+        LOGGER.trace(`ActorID _onRoll | rolling ${rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
         console.log(this);
         break;
       }
       case "roleAbility": {
-        const roleInfo = actorData.data.roleInfo;
+        const roleInfo = actorData.roleInfo;
         const role = roleInfo["role"];
-        skillValue = roleInfo.roleskills[role][rollTitle];
-        LOGGER.trace(`ActorID _onRoll | rolling ability: ` + rollTitle + ` | ` + skillValue);
+        rollRequest.skillValue = roleInfo.roleskills[role][rollTitle];
+        LOGGER.trace(`ActorID _onRoll | rolling ability: ` + rollTitle + ` | ` + rollRequest.skillValue);
         break;
       }
       // Q: Do we ever need to cancel a roll? 
@@ -131,7 +126,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
     }
 
-    RollCard(CPRRolls.BaseRoll(statValue, skillValue, totalMods, rollCritical));
+    RollCard(rollTitle, CPRRolls.BaseRoll(rollRequest));
   }
 
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
