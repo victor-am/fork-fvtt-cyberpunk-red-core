@@ -266,6 +266,24 @@ form .item-name {
   font-size: 24pt;
   flex-grow: 2;
 }
+.chat-rollCard .chat-rollTitle-stat {
+  text-transform: capitalize;
+}
+.chat-rollCard .chat-rollTotal {
+  font-weight: bold;
+}
+.chat-rollCard tr {
+  vertical-align: top;
+}
+.chat-rollCard td {
+  width: 50%;
+}
+.chat-rollCard td .chat-rollResult {
+  text-align: center;
+}
+.chat-rollCard h1 {
+  border-bottom: none;
+}
 :root {
   font-family: 'Ubuntu Mono', monospace;
   font-size: 10px;
