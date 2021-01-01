@@ -144,9 +144,6 @@ export default class CPRActorSheet extends ActorSheet {
         );
         break;
       }
-      case "damage": {
-
-      }
       case "cancel": {
         // Catch all if we want a way to cancel out of a roll.
         return;
