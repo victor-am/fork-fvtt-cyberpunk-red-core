@@ -71,6 +71,7 @@ export default class CPRActorSheet extends ActorSheet {
     sheetData.roleList = CPR.roleList;
     sheetData.weaponTypeList = CPR.weaponTypeList;
     sheetData.ammoVariety = CPR.ammoVariety;
+    sheetData.inventoryCategories = CPR.inventoryCategories;
   }
 
   // TODO - Function is getting far to long, we need to find ways to condense it.
@@ -115,6 +116,16 @@ export default class CPRActorSheet extends ActorSheet {
         const role = roleInfo["role"];
         rollRequest.skillValue = roleInfo.roleskills[role][rollRequest.rollTitle];
         LOGGER.trace(`ActorID _onRoll | rolling ability: ` + rollRequest.rollTitle + ` | ` + rollRequest.skillValue);
+        break;
+      }
+      case "weapon": {
+        const weaponItem = this.actor.items.find(i => i.data._id == itemId);
+        const weaponSkill = weaponItem.data.data.weaponSkill;
+        const skillId = this.actor.items.find(i => i.name == weaponSkill )
+
+        console.log("item");
+        console.log(item);
+        console.log(weaponSkill);
         break;
       }
       // Q: Do we ever need to cancel a roll? 

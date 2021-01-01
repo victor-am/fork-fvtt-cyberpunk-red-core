@@ -229,6 +229,23 @@ form .tab-block table .skill-base {
 form .tab-block table td {
   border: 3px #d02b23 solid;
 }
+form .tab-block {
+  background-color: #d02b23;
+  padding: 5px;
+}
+form .tab-block table .row-header {
+  background-color: #231f20;
+  color: #ffffff;
+}
+form .tab-block table .row-header .center {
+  text-align: center;
+}
+form .tab-block table .row-item {
+  background-color: #ffffff;
+}
+form .tab-block table .bold {
+  font-weight: bold;
+}
 form .item-desc-body {
   display: flex;
   flex-direction: row;
