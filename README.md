@@ -33,10 +33,11 @@ Useful Tools
  - https://handlebarsjs.com/
  - https://foundryvtt.wiki/en/home
 
- Updating CSS~
+ # Updating CSS!!
  We are using less files, and gulp to manage our project CSS.
 
  `DO NOT PUT CSS INTO MAIN.CSS! EVER! DON'T EVEN THINK ABOUT IT!`
  
- run: `npm i -g gulp gulp-less` to install gulp and gulp less (you will need node.js installed)
- run: `gulp` to run the gulp command, this will also run watch, which will watch the project for changes.
+ > run: `npm i -g gulp gulp-less` to install gulp and gulp less (you will need node.js installed).  On Linux, you will need to execute this with sudo privs.
+ 
+ > run: `gulp` to run the gulp command, this will also run watch, which will watch the project for changes.

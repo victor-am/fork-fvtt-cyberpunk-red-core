@@ -119,3 +119,27 @@ The first thing you are going to want to do is double check the destination bran
 If this says anything other than **dev** you are making a request to the wrong branch most likely. *But we trust you.*
 
 The **Title** and **Description** should contain information from your commit, however, if you want to update/change them at this time or you didn't really put good information in the commit description (*not as uncommon as you would think!*), go agead and update it now before submitting.
+
+# CSS Work/Development/Changes
+
+We are **not** editing the main.css file directly. Instead, in order to keep CSS code in a manageable, organized fashion, we are using .less files in the _less_ directory structure and utilizing a utility called **gulp** to construct the main.css file.
+
+For whatever platform you are developing on, install Node.js if you have not already done so.  Downloads can be found here:
+
+https://nodejs.org/en/download/
+
+Once Node.js is installed, you will use the Node.js Package Manager to install the following Node.js packages:
+_Note: On linux, you will need to do this as the superuser, so ensure you use sudo._
+
+> npm install -g gulp gulp-less less
+
+By default, we have gulp configured so you can open a window, run it in the background and it will automatically re-compile main.css as you edit and save .less files.  When you execute gulp, you will see something that looks like:
+
+> [you@machine cyberpunk-red-core{dev}]$ gulp
+> [10:26:01] Using gulpfile ~/Personal/Apps/FoundryVTT/data/Data/systems/cyberpunk-red-core/gulpfile.js
+> [10:26:01] Starting 'default'...
+> [10:26:01] Starting 'compileLESS'...
+> [10:26:02] Finished 'compileLESS' after 242 ms
+> [10:26:02] Starting 'watchUpdates'...
+
+It will sit there watching for changes in the .less files.  As you can see, it runs the compileLESS at startup, so if you don't want to keep this running in the background, you can always just run it and Ctrl-C out of it after the compile.
