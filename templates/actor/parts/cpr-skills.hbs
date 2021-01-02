@@ -4,9 +4,9 @@
     <tbody>
       {{!-- FOR ALL SKILL ITEMS, RENDER SKILL CARD --}}
       {{!-- FOR EACH CATEGORY --}}
-      {{#each skillCategories as |category c|}}
+      {{#each (findConfigObj "skillCategories") as |category c|}}
       <tr class="row-header">
-        <td class="skill-name">{{localize (lookup ../this.skillCategories c)}}</td>
+        <td class="skill-name">{{localize (findConfigValue "skillCategories" c)}}</td>
         <td class="skill-level">LVL</td>
         <td class="skill-stat">STAT</td>
         <td class="skill-base">BASE</td>
@@ -19,18 +19,17 @@
         <td class="name"><a class="name rollable" data-roll-type="skill"
             data-roll-title="{{skill.name}}" data-item-id={{skill._id}}>
             <span class="{{#if skill.data.basic}}bold{{/if}}">
-              {{log this}}
-              {{localize (lookup ../../this.skillList skill.name)}} <strong>({{localize (lookup ../../this.statList skill.data.stat)}})</strong>
+              {{skill.name}} <strong>({{localize (findConfigValue "statList" skill.data.stat)}})</strong>
             </span>
 
           </a>
           <a class="item-edit" data-item-id={{skill._id}}>[edit]</a>
           <a class="item-delete" data-item-id={{skill._id}}>[del]</a>
         </td>
-
-        <td class="skill-level">{{skill.data.level}}</td>
-        <td class="skill-stat">{{getProp (getProp ../../actor.data.stats skill.data.stat) 'value'}}</td>
-        <td class="skill-base">{{add skill.data.level (lookup (getProp ../../actor.data.stats skill.data.stat) 'value')}}</td>
+        {{!-- TODO- Investigate use of getProp vs lookup --}}
+        <td class="level">{{skill.data.level}}</td>
+        <td class="stat">{{getProp (getProp ../../actor.data.stats skill.data.stat) 'value'}}</td>
+        <td class="base">{{add skill.data.level (lookup (getProp ../../actor.data.stats skill.data.stat) 'value')}}</td>
       </tr>
       {{/ifEquals}}
       {{/each}}

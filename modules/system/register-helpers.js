@@ -1,4 +1,5 @@
 import LOGGER from "../utils/cpr-logger.js";
+import { CPR } from "./config.js"
 export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers")
 
@@ -18,8 +19,26 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("add", (x, y) => {
-    // LOGGER.trace(`Calling add Helper | Arg1:${x} Arg2:${y}`);
+    LOGGER.trace(`Calling add Helper | Arg1:${x} Arg2:${y}`);
     return parseInt(x) + parseInt(y);
+  });
+
+  Handlebars.registerHelper("findConfigValue", (obj, key) => {
+    LOGGER.trace(`Calling findConfigValue Helper | Arg1:${obj} Arg2:${key}`);
+    console.log(obj in CPR);
+    if (obj in CPR) {
+      return CPR[obj][key];
+    }
+    return "INVALID_KEY";
+  });
+
+  Handlebars.registerHelper("findConfigObj", (obj) => {
+    LOGGER.trace(`Calling findConfigObj Helper | Arg1:${obj}`);
+    console.log(obj in CPR);
+    if (obj in CPR) {
+      return CPR[obj];
+    }
+    return "INVALID_LIST";
   });
 
 }
