@@ -1,4 +1,4 @@
-import CPRConfigUtils from "../utils/cpr-configUtils.js";
+import CPRConfigUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
 
 export async function RollCard(rollResult) {

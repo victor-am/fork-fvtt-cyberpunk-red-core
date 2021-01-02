@@ -3,7 +3,7 @@ import CPRRolls from "../../rolls/cpr-rolls.js";
 import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
 import { VerifyRollPrompt } from "../../dialog/cpr-verify-roll-prompt.js";
 import { RollCard } from "../../chat/cpr-rollcard.js";
-import CPRConfigUtils from "../../utils/cpr-configUtils.js"
+import CPRConfigUtils from "../../utils/cpr-systemUtils.js"
 
 /**
  * Extend the basic ActorSheet.
@@ -59,15 +59,6 @@ export default class CPRActorSheet extends ActorSheet {
   //  INTERNAL METHODS BELOW HERE
   /* -------------------------------------------- */
 
-
-  _addConfigData(sheetData) {
-    // TODO - sheetData config additions should be added in a less procedural way.
-    LOGGER.trace(`ActorID _addConfigData | CPRActorSheet | Called.`);
-    CPRConfigUtils.AddConfigData(sheetData);
-    // sheetData.cpr = config;
-    
-  }
-
   // TODO - Function is getting far to long, we need to find ways to condense it.
   async _onRoll(event) {
     LOGGER.trace(`ActorID _onRoll | CPRActorSheet | Called.`);
@@ -84,11 +75,6 @@ export default class CPRActorSheet extends ActorSheet {
       rollRequest.mods.push(...await VerifyRollPrompt());
     }
     
-    // TODO-- better way to handle this..
-    if (rollRequest.mods.includes("cancel")) {
-      rollType = "cancel";
-    }
-    
     let actorData = this.getData().data;
     switch (rollRequest.rollType) {
       case "stat": {
@@ -102,7 +88,6 @@ export default class CPRActorSheet extends ActorSheet {
         rollRequest.statValue = actorData.stats[item.data.data.stat].value;
         rollRequest.skillValue = item.data.data.level;
         LOGGER.trace(`ActorID _onRoll | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
-        console.log(this);
         break;
       }
       case "roleAbility": {
@@ -115,11 +100,7 @@ export default class CPRActorSheet extends ActorSheet {
       case "weapon": {
         const weaponItem = this.actor.items.find(i => i.data._id == itemId);
         const weaponSkill = weaponItem.data.data.weaponSkill;
-        const skillId = this.actor.items.find(i => i.name == weaponSkill )
-
-        console.log("item");
-        console.log(item);
-        console.log(weaponSkill);
+        const skillId = this.actor.items.find(i => i.name == weaponSkill);
         break;
       }
       // Q: Do we ever need to cancel a roll? 
