@@ -27,7 +27,6 @@ export default class CPRActorSheet extends ActorSheet {
     // TODO - Understand how to use getData and when.
     LOGGER.trace("AcotrID getData | CPRActorSheet | Called.");
     const data = super.getData();
-    this._addConfigData(data);
     return data;
   }
 

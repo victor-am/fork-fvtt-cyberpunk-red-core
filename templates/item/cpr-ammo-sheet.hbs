@@ -24,7 +24,7 @@
           Variety:
           <select name="data.variety" data-dtype="{{data.variety}}">
             {{#select data.variety}}
-            {{#each ammoVariety as |variety v|}}
+            {{#each (findConfigObj "ammoVariety") as |variety v|}}
             <option value="{{v}}">{{localize variety}}</option>
             {{/each}}
             {{/select}}

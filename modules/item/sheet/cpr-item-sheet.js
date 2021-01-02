@@ -1,5 +1,4 @@
 import LOGGER from "../../utils/cpr-logger.js";
-import { CPR } from "../../system/config.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -32,24 +31,8 @@ export default class CPRItemSheet extends ItemSheet {
   /** @override */
   getData() {
     const data = super.getData();
-    this.addConfigData(data);
     // data.isGM = game.user.isGM;
     return data;
-  }
-
-
-  /* -------------------------------------------- */
-  addConfigData(sheetData) {
-    // TODO - sheetData config additions should be added in a less procedural way.
-    LOGGER.trace(`Add Config Data | CPRItemSheet | Called with type ${this.item.type}.`);
-    sheetData.skillCategories = CPR.skillCategories;
-    sheetData.statList = CPR.statList;
-    sheetData.skillDifficulties = CPR.skillDifficulties;
-    sheetData.skillList = CPR.skillList;
-    sheetData.roleAbilityList = CPR.roleAbilityList;
-    sheetData.roleList = CPR.roleList;
-    sheetData.weaponTypeList = CPR.weaponTypeList;
-    sheetData.ammoVariety = CPR.ammoVariety;
   }
 
   /* -------------------------------------------- */
