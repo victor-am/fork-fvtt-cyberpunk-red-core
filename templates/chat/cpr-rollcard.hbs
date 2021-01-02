@@ -1,5 +1,4 @@
 {{log "CPR-ROLLCARD.HBS"}}
-{{!-- TODO APPLY GRID CLASSES --}}
 <div class="chat-rollCard" data-roll-type="{{rollType}}">
     <h1 class="chat-rollTitle-{{rollType}}">{{rollTitle}}
     </h1>
@@ -9,7 +8,7 @@
                 <td>
                     <h1>{{resultTotal}}</h1>
                 </td>
-                <td>
+                <td>{{log this}}
                     {{#if wasCritical}}
                     Roll: {{initialRoll}} <br>
                     Critical Roll: {{criticalRoll}} <br>
@@ -17,6 +16,7 @@
                     {{else}}
                     Roll: {{initialRoll}} <br>
                     {{/if}}
+
                     {{#if mods}}
                     Roll Modifiers: {{mods}} <br>
                     <div class="chat-rollTotal">Mods Total: {{modsTotal}}</div><br>
@@ -25,6 +25,7 @@
                     Skill Level: {{skillValue}} <br>
                     <div class="chat-rollTotal">Result Total: {{resultTotal}}</div><br>
                 </td>
+
             </tr>
         </table>
     </section>

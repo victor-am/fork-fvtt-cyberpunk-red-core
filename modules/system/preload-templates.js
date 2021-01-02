@@ -7,7 +7,7 @@ export default function preloadHandlebarsTemplates() {
       "systems/cyberpunk-red-core/templates/chat/cpr-rollcard.hbs",
 
       // Dialog Partials
-      "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-prompt.hbs",
+      "systems/cyberpunk-red-core/templates/dialog/cpr-rollmod-dialog.hbs",
 
       // Shared Actor Partials
       "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs",
