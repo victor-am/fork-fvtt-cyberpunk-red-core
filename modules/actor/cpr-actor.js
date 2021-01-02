@@ -38,7 +38,7 @@ export default class CPRActor extends Actor {
     LOGGER.trace(`Create | CPRActor | called.`);
     data.items = [];
     switch (data.type) {
-      default: data.items = data.items.concat(await ActorUtils.getSkills());
+      default: data.items = data.items.concat(await ActorUtils.GetAllSkills());
     }
     super.create(data, options);
   }

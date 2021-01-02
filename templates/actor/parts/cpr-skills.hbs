@@ -4,7 +4,7 @@
     <tbody>
       {{!-- FOR ALL SKILL ITEMS, RENDER SKILL CARD --}}
       {{!-- FOR EACH CATEGORY --}}
-      {{#each (findConfigObj "skillCategories" as |category c|}}
+      {{#each (findConfigObj "skillCategories") as |category c|}}
       <tr class="row-header">
         <td class="skill-name">{{localize (findConfigValue "skillCategories" c)}}</td>
         <td class="skill-level">LVL</td>
