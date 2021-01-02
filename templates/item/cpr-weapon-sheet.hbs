@@ -37,7 +37,7 @@
         <select name="data.weaponType" data-dtype="{{data.weaponType}}">
           {{#select data.weaponType}}
           <option value="">N/A</option>
-          {{#each (findConfigObj "weaponTypeList") as |type t|}}
+          {{#each weaponTypeList as |type t|}}
           <option value="{{t}}">{{localize type}}</option>
           {{/each}}
           {{/select}}
@@ -49,7 +49,7 @@
         <select name="data.weaponSkill" data-dtype="{{data.weaponSkill}}">
           {{#select data.weaponSkill}}
           <option value="">N/A</option>
-          {{#each (findConfigObj "skillList") as |skill s|}}
+          {{#each skillList as |skill s|}}
           <option value="{{s}}">{{localize skill}}</option>
           {{/each}}
           {{/select}}

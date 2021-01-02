@@ -1,5 +1,4 @@
 import LOGGER from "../../utils/cpr-logger.js";
-import { CPR } from "../../system/config.js";
 import CPRRolls from "../../rolls/cpr-rolls.js";
 import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
 import { VerifyRollPrompt } from "../../dialog/cpr-verify-roll-prompt.js";
@@ -58,21 +57,6 @@ export default class CPRActorSheet extends ActorSheet {
   /* -------------------------------------------- */
   //  INTERNAL METHODS BELOW HERE
   /* -------------------------------------------- */
-
-
-  _addConfigData(sheetData) {
-    // TODO - sheetData config additions should be added in a less procedural way.
-    LOGGER.trace(`ActorID _addConfigData | CPRActorSheet | Called.`);
-    sheetData.skillCategories = CPR.skillCategories;
-    sheetData.statList = CPR.statList;
-    sheetData.skillDifficulties = CPR.skillDifficulties;
-    sheetData.skillList = CPR.skillList;
-    sheetData.roleAbilityList = CPR.roleAbilityList;
-    sheetData.roleList = CPR.roleList;
-    sheetData.weaponTypeList = CPR.weaponTypeList;
-    sheetData.ammoVariety = CPR.ammoVariety;
-    sheetData.inventoryCategories = CPR.inventoryCategories;
-  }
 
   // TODO - Function is getting far to long, we need to find ways to condense it.
   async _onRoll(event) {

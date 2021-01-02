@@ -1,13 +1,11 @@
 {{log "CPR-ROLE-BLOCK.HBS"}}
-{{log roleList}}
-{{log roleAbilityList}}
 <div class="block">
   <div class="unit">
     <p>Role</p>
     <div class="inputs">
       <select name="data.roleInfo.role">
         {{#select data.roleInfo.role}}
-        {{#each roleList as |name n|}}
+        {{#each (findConfigObj "roleList") as |name n|}}
         <option value="{{n}}">{{localize name}}</option>
         {{/each}}
         {{/select}}
@@ -19,15 +17,10 @@
   <div class="unit">
     <p>Ability</p>
     {{!-- for every skill in character's role --}}
-    {{log "THIS OUTSIDE OF ROLE SKILL LOOP"}}
-    {{log this}}
     {{#each (lookup data.roleInfo.roleskills data.roleInfo.role) as |rank name|}}
-    {{log "THIS INSIDE OF ROLE SKILL LOOP"}}
-    {{log rank}}
-    {{log name}}
-    {{log (lookup ../this.roleAbilityList name)}}
     {{!-- show localized role ability name --}}
-    <div class="rollable" data-roll-type="roleAbility" data-roll-title="{{name}}">{{localize (lookup ../this.roleAbilityList name)}}</div>
+    <div class="rollable" data-roll-type="roleAbility" data-roll-title="{{name}}">{{findConfigValue "roleAbilityList"
+      name}}</div>
     {{!-- show role ability rank --}}
     <input name="data.roleInfo.roleskills.{{../data.roleInfo.role}}.{{name}}" value="{{rank}}" type="number"
       data-dtype="Number" class="ability-rank-input" />
