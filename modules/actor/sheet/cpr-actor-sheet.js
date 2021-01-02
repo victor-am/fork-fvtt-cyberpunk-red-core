@@ -1,9 +1,9 @@
 import LOGGER from "../../utils/cpr-logger.js";
-import { CPR } from "../../system/config.js";
 import CPRRolls from "../../rolls/cpr-rolls.js";
 import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
 import { VerifyRollPrompt } from "../../dialog/cpr-verify-roll-prompt.js";
 import { RollCard } from "../../chat/cpr-rollcard.js";
+import CPRConfigUtils from "../../utils/cpr-configUtils.js"
 
 /**
  * Extend the basic ActorSheet.
@@ -63,17 +63,9 @@ export default class CPRActorSheet extends ActorSheet {
   _addConfigData(sheetData) {
     // TODO - sheetData config additions should be added in a less procedural way.
     LOGGER.trace(`ActorID _addConfigData | CPRActorSheet | Called.`);
-    Utils.addConfigData(sheetData);
+    CPRConfigUtils.AddConfigData(sheetData);
     // sheetData.cpr = config;
-    sheetData.skillCategories = CPR.skillCategories;
-    sheetData.statList = CPR.statList;
-    sheetData.skillDifficulties = CPR.skillDifficulties;
-    sheetData.skillList = CPR.skillList;
-    sheetData.roleAbilityList = CPR.roleAbilityList;
-    sheetData.roleList = CPR.roleList;
-    sheetData.weaponTypeList = CPR.weaponTypeList;
-    sheetData.ammoVariety = CPR.ammoVariety;
-    sheetData.inventoryCategories = CPR.inventoryCategories;
+    
   }
 
   // TODO - Function is getting far to long, we need to find ways to condense it.

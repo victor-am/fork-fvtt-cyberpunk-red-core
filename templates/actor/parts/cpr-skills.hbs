@@ -5,9 +5,9 @@
     <tbody>
       {{!-- FOR ALL SKILL ITEMS, RENDER SKILL CARD --}}
       {{!-- FOR EACH CATEGORY --}}
-      {{#each skillCategories as |category c|}}
+      {{#each cpr.skillCategories as |category c|}}
       <tr class="row-header">
-        <td class="skill-name">{{localize (lookup ../this.skillCategories c)}}</td>
+        <td class="skill-name">{{localize (lookup ../this.cpr.skillCategories c)}}</td>
         <td class="skill-level">LVL</td>
         <td class="skill-stat">STAT</td>
         <td class="skill-base">BASE</td>
@@ -20,7 +20,7 @@
         <td class="name"><a class="name rollable" data-roll-type="skill"
             data-roll-title="{{skill.name}}" data-item-id={{skill._id}}>
             <span class="{{#if skill.data.basic}}bold{{/if}}">
-              {{skill.name}} <strong>({{localize (lookup ../../this.statList skill.data.stat)}})</strong>
+              {{skill.name}} <strong>({{localize (lookup ../../this.cpr.statList skill.data.stat)}})</strong>
             </span>
 
           </a>

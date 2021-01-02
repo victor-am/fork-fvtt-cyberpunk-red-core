@@ -1,8 +1,5 @@
 export const CPR = {};
 
-
-{{getProp this.statList roleAbility}}
-
 // Sorted as shown on char sheet (with resources pushed to bottom)
 CPR.statList = {
   "int": "CPR.int",
