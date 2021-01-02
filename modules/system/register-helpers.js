@@ -25,7 +25,7 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("findConfigValue", (obj, key) => {
     LOGGER.trace(`Calling findConfigValue Helper | Arg1:${obj} Arg2:${key}`);
-    console.log(obj in CPR);
+    
     if (obj in CPR) {
       return CPR[obj][key];
     }
@@ -34,7 +34,7 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("findConfigObj", (obj) => {
     LOGGER.trace(`Calling findConfigObj Helper | Arg1:${obj}`);
-    console.log(obj in CPR);
+    
     if (obj in CPR) {
       return CPR[obj];
     }
