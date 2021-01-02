@@ -214,52 +214,34 @@ form {
       }
     }
   }
+  
   .tab-block {
     background-color: @maximum-red;
+    max-height: 300px;
     padding: 5px;
-    table {
-      border: 0;
-      outline: 0;
-      margin: 0;
-      padding: 0;
-      .row-header {
-        background-color: @raisin-black;
-        color: @white;
+    padding-right: 0;
+    font-size: 0.8em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    .row {
+      display: flex;
+      width: 49%;
+      padding: 2px;
+      .skill-name {
+        width: 67%;
       }
-      .row-item {
-        background-color: @white;
-      }
-      .bold {
-        font-weight: bold;
-      }
-      .skill-level,
-      .skill-stat,
-      .skill-base {
+      .skill-level, .skill-stat, .skill-base {
+        width: 11%;
         text-align: center;
-        width: 40px;
-      }
-      td {
-        border: 3px @maximum-red solid;
       }
     }
-  }
-  .tab-block {
-    background-color: @maximum-red;
-    padding: 5px;
-    table {
-      .row-header {
-        background-color: @raisin-black;
-        color: @white;
-        .center {
-          text-align: center;
-        }
-      }
-      .row-item {
-        background-color: @white;
-      }
-      .bold {
-        font-weight: bold;
-      }
+    .header {
+      background-color: @raisin-black;
+      color: #ffffff;
+    }
+    .item {
+      background-color: #ffffff;
     }
   }
 }

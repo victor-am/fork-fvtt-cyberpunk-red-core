@@ -202,49 +202,34 @@ form .sheet-header .stats-block .has-max {
 }
 form .tab-block {
   background-color: #d02b23;
+  max-height: 300px;
   padding: 5px;
+  padding-right: 0;
+  font-size: 0.8em;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
-form .tab-block table {
-  border: 0;
-  outline: 0;
-  margin: 0;
-  padding: 0;
+form .tab-block .row {
+  display: flex;
+  width: 49%;
+  padding: 2px;
 }
-form .tab-block table .row-header {
+form .tab-block .row .skill-name {
+  width: 67%;
+}
+form .tab-block .row .skill-level,
+form .tab-block .row .skill-stat,
+form .tab-block .row .skill-base {
+  width: 11%;
+  text-align: center;
+}
+form .tab-block .header {
   background-color: #231f20;
   color: #ffffff;
 }
-form .tab-block table .row-item {
+form .tab-block .item {
   background-color: #ffffff;
-}
-form .tab-block table .bold {
-  font-weight: bold;
-}
-form .tab-block table .skill-level,
-form .tab-block table .skill-stat,
-form .tab-block table .skill-base {
-  text-align: center;
-  width: 40px;
-}
-form .tab-block table td {
-  border: 3px #d02b23 solid;
-}
-form .tab-block {
-  background-color: #d02b23;
-  padding: 5px;
-}
-form .tab-block table .row-header {
-  background-color: #231f20;
-  color: #ffffff;
-}
-form .tab-block table .row-header .center {
-  text-align: center;
-}
-form .tab-block table .row-item {
-  background-color: #ffffff;
-}
-form .tab-block table .bold {
-  font-weight: bold;
 }
 form .item-desc-body {
   display: flex;
