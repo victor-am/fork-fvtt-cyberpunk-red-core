@@ -28,9 +28,9 @@
           <a class="item-delete" data-item-id={{skill._id}}>[del]</a>
         </td>
 
-        <td class="level">{{skill.data.level}}</td>
-        <td class="stat">{{getProp (getProp ../../actor.data.stats skill.data.stat) 'value'}}</td>
-        <td class="base">{{add skill.data.level (lookup (getProp ../../actor.data.stats skill.data.stat) 'value')}}</td>
+        <td class="skill-level">{{skill.data.level}}</td>
+        <td class="skill-stat">{{getProp (getProp ../../actor.data.stats skill.data.stat) 'value'}}</td>
+        <td class="skill-base">{{add skill.data.level (lookup (getProp ../../actor.data.stats skill.data.stat) 'value')}}</td>
       </tr>
       {{/ifEquals}}
       {{/each}}

@@ -53,6 +53,7 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Add New Skill Item To Sheet
     html.find('.add-skill').click(event => this._addSkill(event));
+
   }
 
   /* -------------------------------------------- */
@@ -131,6 +132,29 @@ export default class CPRActorSheet extends ActorSheet {
       // Q: Do we ever need to cancel a roll? 
       // This really only applys if we display the mods dialog, and then they wish to NOT enter a mod.
       // If we want to have this really be a function of the system, we should ALWAYS display the dialog, as it's the only control available to trigger canceling a roll.
+      case "attack": {
+        // Get data from the charsheet
+        const skillName = $(event.currentTarget).attr("data-attack-skill");
+        let statName = 'dex';
+        const isRanged = $(event.currentTarget).attr("data-is-ranged");
+        // if weapon is ranged, change stat to ref
+        if (isRanged === 'true') statName = 'ref'
+        // if char owns relevant skill, get skill value
+        try {
+          rollRequest.skillValue = this.actor.data.filteredItems.skill.find(
+            (i) => i.data.name === skillName
+          ).data.data.level;
+        // set skill value to 0 if not
+        } catch (err) {
+          rollRequest.skillValue = 0;
+        }
+        // get stat value
+        rollRequest.statValue = this.actor.data.data.stats[statName].value;
+        LOGGER.trace(
+          `Actor _onRoll | rolling ${$(event.currentTarget).attr("data-weapon-name")} attack | skillName: ${skillName} skillValue: ${rollRequest.skillValue} statName: ${statName} statValue: ${rollRequest.statValue}`
+        );
+        break;
+      }
       case "cancel": {
         // Catch all if we want a way to cancel out of a roll.
         return;
