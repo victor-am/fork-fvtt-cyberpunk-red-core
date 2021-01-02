@@ -54,6 +54,14 @@ export default class CPRActorSheet extends ActorSheet {
     // Add New Skill Item To Sheet
     html.find('.add-skill').click(event => this._addSkill(event));
 
+    // Show edit and delete buttons
+    html.find(".row.item").hover(event => {
+      // show edit and delete buttons
+      $(event.currentTarget).contents().contents().addClass('show')
+    }, event => {
+      // hide edit and delete buttons
+      $(event.currentTarget).contents().contents().removeClass('show')
+    });
   }
 
   /* -------------------------------------------- */

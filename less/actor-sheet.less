@@ -217,7 +217,7 @@ form {
   
   .tab-block {
     background-color: @maximum-red;
-    max-height: 300px;
+    max-height: 700px;
     padding: 5px;
     padding-right: 0;
     font-size: 0.8em;
@@ -229,11 +229,17 @@ form {
       width: 49%;
       padding: 2px;
       .skill-name {
-        width: 67%;
+        width: 70%;
       }
       .skill-level, .skill-stat, .skill-base {
-        width: 11%;
+        width: 15%;
         text-align: center;
+      }
+      .item-edit, .item-delete {
+        visibility: hidden;
+      }
+      .show {
+        visibility: visible;
       }
     }
     .header {

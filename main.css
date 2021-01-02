@@ -202,7 +202,7 @@ form .sheet-header .stats-block .has-max {
 }
 form .tab-block {
   background-color: #d02b23;
-  max-height: 300px;
+  max-height: 700px;
   padding: 5px;
   padding-right: 0;
   font-size: 0.8em;
@@ -216,13 +216,20 @@ form .tab-block .row {
   padding: 2px;
 }
 form .tab-block .row .skill-name {
-  width: 67%;
+  width: 70%;
 }
 form .tab-block .row .skill-level,
 form .tab-block .row .skill-stat,
 form .tab-block .row .skill-base {
-  width: 11%;
+  width: 15%;
   text-align: center;
+}
+form .tab-block .row .item-edit,
+form .tab-block .row .item-delete {
+  visibility: hidden;
+}
+form .tab-block .row .show {
+  visibility: visible;
 }
 form .tab-block .header {
   background-color: #231f20;
