@@ -63,6 +63,8 @@ export default class CPRActorSheet extends ActorSheet {
   _addConfigData(sheetData) {
     // TODO - sheetData config additions should be added in a less procedural way.
     LOGGER.trace(`ActorID _addConfigData | CPRActorSheet | Called.`);
+    Utils.addConfigData(sheetData);
+    // sheetData.cpr = config;
     sheetData.skillCategories = CPR.skillCategories;
     sheetData.statList = CPR.statList;
     sheetData.skillDifficulties = CPR.skillDifficulties;
