@@ -9,11 +9,11 @@ export async function VerifyRollPrompt() {
             let totalMod = [];
             
             let _onCancel = function (html) {
-                LOGGER.trace(`Actor _onCancel | VerifyRollPrompt | called.`);
+                LOGGER.trace(`_onCancel | Dialog VerifyRollPrompt | called.`);
             };
             
             let _onConfirm = function (html) {
-                LOGGER.trace(`Actor _onConfirm | VerifyRollPrompt | called.`);
+                LOGGER.trace(`_onConfirm | Dialog VerifyRollPrompt | called.`);
                 if (html.find('[name="mods"]').val() != "") {
                     totalMod.push(Number(html.find('[name="mods"]').val()));
                 };
@@ -35,7 +35,7 @@ export async function VerifyRollPrompt() {
                     }
                 },
                 default: "confirm",
-                render: LOGGER.trace(`Actor _onCancel | VerifyRollPrompt | called.`),
+                render: LOGGER.trace(`confirm | Dialog VerifyRollPrompt | called.`),
                 close: () => { resolve(totalMod); }
             }).render(true);
         });

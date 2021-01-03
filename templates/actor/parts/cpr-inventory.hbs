@@ -5,7 +5,7 @@
     {{!-- FOR EACH CATEGORY --}}
       {{#each (findConfigObj "inventoryCategories") as |category c|}}
       <tr class="row-header">
-          <td class="row-header" width="55%">{{localize (lookup ../this.inventoryCategories c)}}</td>
+          <td class="row-header" width="55%">{{localize (findConfigValue "inventoryCategories" c)}}</td>
           <td class="row-header-center" width="30%">Data</td>
           <td class="row-header-center" width="15%">Quantity</td>
       </tr>

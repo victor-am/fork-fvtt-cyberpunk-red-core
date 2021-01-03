@@ -9,7 +9,7 @@ export default class CPRItemSheet extends ItemSheet {
   /* -------------------------------------------- */
   /** @override */
   static get defaultOptions() {
-    LOGGER.trace("Default Options | CPRItemSheet | Called.");
+    LOGGER.trace("defaultOptions | CPRItemSheet | Called.");
     return mergeObject(super.defaultOptions, {
       tabs: [{ navSelector: ".tabs", contentSelector: ".content", initial: "main" }],
       width: 450,
@@ -18,12 +18,12 @@ export default class CPRItemSheet extends ItemSheet {
   }
 
   get template() {
-    LOGGER.trace(`Get Template | CPRItemSheet | Called with type [${this.item.type}].`);
+    LOGGER.trace(`template | CPRItemSheet | Called with type [${this.item.type}].`);
     return `systems/cyberpunk-red-core/templates/item/cpr-${this.item.type}-sheet.hbs`;
   }
 
   get classes() {
-    LOGGER.trace(`Get Classes | CPRItemSheet | Called with type [${this.item.type}].`);
+    LOGGER.trace(`classes | CPRItemSheet | Called with type [${this.item.type}].`);
     return super.defaultOptions.classes.concat(["sheet", "item", `${this.item.type}`]);
   }
 
@@ -41,7 +41,7 @@ export default class CPRItemSheet extends ItemSheet {
     super.activateListeners(html);
     if (!this.options.editable) return;
 
-    // Select all text when grabing text input.
+    // Select all text when grabbing text input.
     $("input[type=text]").focusin(function () {
       $(this).select();
     });
@@ -54,7 +54,7 @@ export default class CPRItemSheet extends ItemSheet {
 */
 
   _itemCheckboxToggle(event) {
-    LOGGER.trace(`Item Listener Called | .checkbox click | Called with type ${this.item}.`);
+    LOGGER.trace(`_itemCheckboxToggle Called | .checkbox click | Called with type ${this.item}.`);
     let itemData = duplicate(this.item.data)
     let target = $(event.currentTarget).attr("data-target")
     if (hasProperty(itemData, target)) {
