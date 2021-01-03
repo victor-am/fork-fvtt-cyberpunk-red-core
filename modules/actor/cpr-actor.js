@@ -9,14 +9,14 @@ export default class CPRActor extends Actor {
 
   /** @override */
   prepareData() {
-    LOGGER.trace("Prepare Data | CPRActor | Called.");
+    LOGGER.trace("prepareData | CPRActor | Called.");
     LOGGER.debug(this);
     super.prepareData();
     const actorData = this.data;
     actorData.filteredItems = this.itemTypes;
 
     LOGGER.debug("Prepare Character Data | CPRActor | Checking on contents of `filteredItems`.");
-    console.log(actorData.filteredItems);
+
     
     // Prepare data for both types
     this._calculateDerivedStats(actorData);
@@ -28,38 +28,36 @@ export default class CPRActor extends Actor {
 
   /** @override */
   getRollData() {
-    LOGGER.trace("Get Roll Data | CPRActor | Called.");
+    LOGGER.trace("getRollData | CPRActor | Called.");
     const data = super.getRollData();
     return data;
   }
 
   /** @override */
   static async create(data, options) {
-    LOGGER.trace(`Create | CPRActor | called.`);
+    LOGGER.trace(`create | CPRActor | called.`);
     data.items = [];
     switch (data.type) {
-      default: data.items = data.items.concat(await ActorUtils.getSkills());
+      default: data.items = data.items.concat(await ActorUtils.GetAllSkills());
     }
     super.create(data, options);
   }
 
   _prepareCharacterData(actorData) {
-    LOGGER.trace("Prepare Character Data | CPRActor | Called.");
+    LOGGER.trace("_prepareCharacterData | CPRActor | Called.");
     const data = actorData.data;
-    LOGGER.trace("Prepare Character Data | CPRActor | Checking on contents of `actorData.data`.");
-    console.log(data)
+    LOGGER.trace("_prepareCharacterData | CPRActor | Checking on contents of `actorData.data`.");
   }
 
   _prepareMookData(actorData) {
-    LOGGER.trace("Prepare Mook Data | CPRActor | Called.");
+    LOGGER.trace("_prepareMookData | CPRActor | Called.");
     const data = actorData.data;
-    LOGGER.trace("Prepare Mook Data | CPRActor | Checking on contents of `actorData.data`.");
-    console.log(data)
+    LOGGER.trace("_prepareMookData | CPRActor | Checking on contents of `actorData.data`.");
   }
 
   _calculateDerivedStats(actorData) {
     // Calculate MAX HP
-    LOGGER.trace(`ActorID _calculateDerivedStats | CPRActor | Called.`);
+    LOGGER.trace(`_calculateDerivedStats | CPRActor | Called.`);
     let stats = actorData.data.stats;
     let derivedStats = actorData.data.derivedStats;
     let humanity = actorData.data.humanity

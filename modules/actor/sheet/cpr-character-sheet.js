@@ -9,7 +9,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
   /** @override */
   static get defaultOptions() {
-    LOGGER.trace("Default Options | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("defaultOptions | CPRCharacterActorSheet | Called.");
     return mergeObject(super.defaultOptions, {
       template: "systems/cyberpunk-red-core/templates/actor/cpr-character-sheet.hbs",
       tabs: [{ navSelector: ".tabs", contentSelector: ".content", initial: "skills" }],
@@ -18,7 +18,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
   /** @override */
   getData() {
-    LOGGER.trace("Get Data | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("getData | CPRCharacterActorSheet | Called.");
     const data = super.getData();
     return data;
   }
