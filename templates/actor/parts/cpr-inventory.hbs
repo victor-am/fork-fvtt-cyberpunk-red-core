@@ -4,17 +4,17 @@
     <tbody>
     {{!-- FOR EACH CATEGORY --}}
       {{#each (findConfigObj "inventoryCategories") as |category c|}}
-      <tr class="row-header">
-          <td class="row-header" width="55%">{{localize (findConfigValue "inventoryCategories" c)}}</td>
-          <td class="row-header-center" width="30%">Data</td>
-          <td class="row-header-center" width="15%">Quantity</td>
+      <tr class="header">
+          <td class="header" width="55%">{{localize (findConfigValue "inventoryCategories" c)}}</td>
+          <td class="header" width="30%">Data</td>
+          <td class="header" width="15%">Quantity</td>
       </tr>
       {{#each ../actor.items as |item i|}}
       {{!-- IF ITEM IS OF CATEGORY --}}
       {{#ifEquals item.type c}}
       
       {{!-- DISPLAY ITEM --}}
-      <tr class="row-item">
+      <tr class="item">
           <td class="name"><a class="name rollable" data-roll-type="{{c}}" data-roll-title="{{item.type}}" data-item-id={{item._id}}>
             {{item.name}}
             <a class="item-edit" data-item-id={{item._id}}>[edit]</a>
@@ -22,15 +22,15 @@
           </td>
           {{!-- TODO remove if ifEquals, add partials per category if display needs to change --}}
           {{#ifEquals item.type "weapon"}}
-            <td class="row-item-center">{{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}</td>
-            <td class="row-item-center">1</td>
+            <td class="item">{{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}</td>
+            <td class="item">1</td>
           {{else}}
             {{#ifEquals item.type "ammo"}}
-               <td class="row-item-center">{{localize (findConfigValue "ammoVariety" item.data.variety)}}</td>
-               <td class="row-item-center">{{item.data.amount}}</td>
+               <td class="item">{{localize (findConfigValue "ammoVariety" item.data.variety)}}</td>
+               <td class="item">{{item.data.amount}}</td>
             {{else}}
-               <td class="row-item-center"></td>
-               <td class="row-item-center">1</td>
+               <td class="item"></td>
+               <td class="item">1</td>
             {{/ifEquals}}
            {{/ifEquals}}
       </tr>
