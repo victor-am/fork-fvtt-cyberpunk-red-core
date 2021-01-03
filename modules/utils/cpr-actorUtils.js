@@ -4,7 +4,7 @@ export default class CPRActorUtils {
 
   // Optional
   static async GetBasicSkills() {
-    LOGGER.trace(`CPRActorUtils getBasicSkills | CPRActorUtils | called.`);
+    LOGGER.trace(`CPRActorUtils GetBasicSkills | CPRActorUtils | called.`);
     // grab basic skills from compendium
     const pack = game.packs.get("cyberpunk-red-core.skills");
     // put into basickSkills array

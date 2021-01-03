@@ -24,7 +24,7 @@ export default class CPRActorSheet extends ActorSheet {
   /** @override */
   getData() {
     // TODO - Understand how to use getData and when.
-    LOGGER.trace("AcotrID getData | CPRActorSheet | Called.");
+    LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
     const data = super.getData();
     return data;
   }
@@ -63,7 +63,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID _onRoll | CPRActorSheet | Called.`);
 
     // TODO - Cleaner way to init all this fields?
-    // TODO - Create a input object to encompass these fields?\
+    // TODO - Create a input object to encompass these fields?
     let rollRequest = new CPRBaseRollRequest();    
     
     // TODO-- Where do these go?
@@ -72,11 +72,6 @@ export default class CPRActorSheet extends ActorSheet {
     
     if (!event.ctrlKey) {
       rollRequest.mods.push(...await VerifyRollPrompt());
-    }
-    
-    // TODO-- better way to handle this..
-    if (rollRequest.mods.includes("cancel")) {
-      rollType = "cancel";
     }
     
     let actorData = this.getData().data;
@@ -92,7 +87,6 @@ export default class CPRActorSheet extends ActorSheet {
         rollRequest.statValue = actorData.stats[item.data.data.stat].value;
         rollRequest.skillValue = item.data.data.level;
         LOGGER.trace(`ActorID _onRoll | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
-        console.log(this);
         break;
       }
       case "roleAbility": {
@@ -106,15 +100,8 @@ export default class CPRActorSheet extends ActorSheet {
         const weaponItem = this.actor.items.find(i => i.data._id == itemId);
         const weaponSkill = weaponItem.data.data.weaponSkill;
         const skillId = this.actor.items.find(i => i.name == weaponSkill )
-
-        console.log("item");
-        console.log(item);
-        console.log(weaponSkill);
         break;
       }
-      // Q: Do we ever need to cancel a roll? 
-      // This really only applys if we display the mods dialog, and then they wish to NOT enter a mod.
-      // If we want to have this really be a function of the system, we should ALWAYS display the dialog, as it's the only control available to trigger canceling a roll.
       case "attack": {
         // Get data from the charsheet
         const skillName = $(event.currentTarget).attr("data-attack-skill");
@@ -138,6 +125,9 @@ export default class CPRActorSheet extends ActorSheet {
         );
         break;
       }
+      // Q: Do we ever need to cancel a roll? 
+      // This really only applys if we display the mods dialog, and then they wish to NOT enter a mod.
+      // If we want to have this really be a function of the system, we should ALWAYS display the dialog, as it's the only control available to trigger canceling a roll.
       case "cancel": {
         // Catch all if we want a way to cancel out of a roll.
         return;
@@ -154,7 +144,7 @@ export default class CPRActorSheet extends ActorSheet {
     let itemId = this._getItemId(event);
     LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);    
     const item = this.actor.items.find(i => i.data._id == itemId)
-    console.log(item);
+    
     item.sheet.render(true);
   }
 

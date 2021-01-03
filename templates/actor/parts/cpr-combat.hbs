@@ -1,7 +1,7 @@
 <div>
    <div><h1>Attack</h1>
       {{#each actor.filteredItems.weapon as |weapon|}}
-      {{log weapon}}
+      
       <div style="display: flex; justify-content: space-between">
          <span>{{weapon.name}}</span>
          <span>
@@ -31,7 +31,7 @@
    </div>
    <div><h1>Defense</h1>
       {{#each actor.filteredItems.armor as |armor| }}
-      {{log armor}}
+      
       <div>
          <span>{{armor.name}}</span>
          <span>{{armor.data.sp}}</span>
