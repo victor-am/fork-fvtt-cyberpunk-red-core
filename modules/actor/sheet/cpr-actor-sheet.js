@@ -52,6 +52,8 @@ export default class CPRActorSheet extends ActorSheet {
     // Add New Skill Item To Sheet
     html.find('.add-skill').click(event => this._addSkill(event));
 
+    html.find(`.skill-level-input`).click(event => event.target.select()).change(event => this._updateItemProp(event));
+
     // Show edit and delete buttons
     html.find(".row.item").hover(event => {
       // show edit and delete buttons
@@ -126,17 +128,36 @@ export default class CPRActorSheet extends ActorSheet {
     let itemId = this._getItemId(event);
     LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);    
     const item = this.actor.items.find(i => i.data._id == itemId)
-    
     item.sheet.render(true);
+  }
+
+  _updateItemProp(event) {
+    LOGGER.trace(`ActorID _updateItemProp | CPRActorSheet | Called.`);
+    
+    let itemId = this._getItemId(event);
+    const item = this._getOwnedItem(itemId);
+
+    let prop = this._getObjProp(event); // return prop or undef
+    let value = Math.clamped(-99, parseInt(event.target.value), 99);
+    
+    LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);
+    setProperty(item.data, prop, value);
+
+    this.actor.updateEmbeddedEntity("OwnedItem", item.data)
   }
 
   _getItemId(event) {
     LOGGER.trace(`ActorID _getItemId | CPRActorSheet | Called.`);
-    return $(event.currentTarget).attr("data-item-id")
+    console.log($(event.currentTarget).parents(`.skill-item`).attr(`data-item-id`));
+    return $(event.currentTarget).parents(`.item`).attr(`data-item-id`);
   }
 
   _getOwnedItem(itemId) {
     return this.actor.items.find(i => i.data._id == itemId);
+  }
+
+  _getObjProp(event) {
+    return $(event.currentTarget).attr(`data-item-prop`);
   }
 
   _deleteOwnedItem(event) {
