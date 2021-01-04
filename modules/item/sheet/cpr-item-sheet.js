@@ -32,6 +32,13 @@ export default class CPRItemSheet extends ItemSheet {
   getData() {
     const data = super.getData();
     // data.isGM = game.user.isGM;
+    data.isGM = game.user.isGM;
+    data.isOwned = this.object.isOwned;
+    if (this.isOwned) {
+      data.actor = this.object.actor;
+    }
+    console.log(this);
+    console.log(data);
     return data;
   }
 
