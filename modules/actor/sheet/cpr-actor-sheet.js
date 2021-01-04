@@ -83,54 +83,28 @@ export default class CPRActorSheet extends ActorSheet {
     }
     
     let actorData = this.getData().data;
+
+    // Moving cases to their own functions, per request from Jay
+
     switch (rollRequest.rollType) {
       case "stat": {
-        rollRequest.statValue = actorData.stats[rollRequest.rollTitle].value;
-        LOGGER.trace(`ActorID _onRoll | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
+        this._prepareRollStat(rollRequest);
         break;
       }
       case "skill": {
         const itemId = this._getItemId(event);
-        const item = this._getOwnedItem(itemId); 
-        rollRequest.statValue = actorData.stats[item.data.data.stat].value;
-        rollRequest.skillValue = item.data.data.level;
-        LOGGER.trace(`ActorID _onRoll | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
+        this._prepareRollSkill(rollRequest, itemId);
         break;
       }
       case "roleAbility": {
-        const roleInfo = actorData.roleInfo;
-        const role = roleInfo["role"];
-        rollRequest.skillValue = roleInfo.roleskills[role][rollRequest.rollTitle];
-        LOGGER.trace(`ActorID _onRoll | rolling ability: ` + rollRequest.rollTitle + ` | ` + rollRequest.skillValue);
+        this._prepareRollAbility(rollRequest);
         break;
       }
-      case "weapon": {
-        const weaponItem = this.actor.items.find(i => i.data._id == itemId);
-        const weaponSkill = weaponItem.data.data.weaponSkill;
-        const skillId = this.actor.items.find(i => i.name == weaponSkill )
-        break;
-      }
+      case "weapon": 
       case "attack": {
-        // Get data from the charsheet
-        const skillName = $(event.currentTarget).attr("data-attack-skill");
-        let statName = 'dex';
-        const isRanged = $(event.currentTarget).attr("data-is-ranged");
-        // if weapon is ranged, change stat to ref
-        if (isRanged === 'true') statName = 'ref'
-        // if char owns relevant skill, get skill value
-        try {
-          rollRequest.skillValue = this.actor.data.filteredItems.skill.find(
-            (i) => i.data.name === skillName
-          ).data.data.level;
-        // set skill value to 0 if not
-        } catch (err) {
-          rollRequest.skillValue = 0;
-        }
-        // get stat value
-        rollRequest.statValue = this.actor.data.data.stats[statName].value;
-        LOGGER.trace(
-          `Actor _onRoll | rolling ${$(event.currentTarget).attr("data-weapon-name")} attack | skillName: ${skillName} skillValue: ${rollRequest.skillValue} statName: ${statName} statValue: ${rollRequest.statValue}`
-        );
+        const itemId = this._getItemId(event);
+        const weaponItem = this.actor.items.find(i => i.data._id == itemId);
+        this._prepareRollAttack(rollRequest, weaponItem);
         break;
       }
       // Q: Do we ever need to cancel a roll? 
@@ -179,4 +153,44 @@ export default class CPRActorSheet extends ActorSheet {
     };
     this.actor.createOwnedItem(itemData, { renderSheet: true })
   }
+
+  _prepareRollStat(rollRequest) {
+    rollRequest.statValue = this.getData().data.stats[rollRequest.rollTitle].value;
+    LOGGER.trace(`ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
+  }
+
+  _prepareRollSkill(rollRequest, itemId) {
+    LOGGER.trace(`ActorID _prepareRollSkill | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
+    const item = this._getOwnedItem(itemId); 
+    rollRequest.statValue = this.getData().data.stats[item.data.data.stat].value;
+    rollRequest.skillValue = item.data.data.level;
+  }
+
+  _prepareRollAbility(rollRequest) {
+    LOGGER.trace(`ActorID _onRoll | rolling ability: ` + rollRequest.rollTitle + ` | ` + rollRequest.skillValue);
+    const actorData = this.getData().data;
+    rollRequest.skillValue = actorData.roleInfo.roleskills[actorData.roleInfo["role"]][rollRequest.rollTitle];
+  }
+
+  _prepareRollAttack(rollRequest, weaponItem) {
+    rollRequest.rollTitle = weaponItem.data.name;
+    const isRanged = weaponItem.data.data.isRanged;
+    const weaponSkill = weaponItem.data.data.weaponSkill;
+    const skillId = this.actor.items.find(i => i.name == weaponSkill);
+    rollRequest.statValue = this.getData().data.stats["dex"].value;
+    // if weapon is ranged, change stat to ref
+    if (isRanged === 'true') {
+      rollRequest.statValue = this.getData().data.stats["ref"].value;
+    }
+    // if char owns relevant skill, get skill value
+    if (skillId == null) {
+      rollRequest.skillValue = 0;
+    }
+    else
+    {
+      rollRequest.skillValue = skillId.data.data.level;
+    }
+    LOGGER.trace(`Actor _prepareRollAttack | rolling attack | skillName: ${weaponSkill} skillValue: ${rollRequest.skillValue} statValue: ${rollRequest.statValue}`);
+  }
+
 }
