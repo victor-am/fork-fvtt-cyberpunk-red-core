@@ -38,11 +38,14 @@ Have a look through here to get a sense of what you'll be using when contributin
  - Of course, you'll need to be aware of the [FoundryVTT API](https://foundryvtt.com/api/), and read through how to do [system development](https://foundryvtt.com/article/system-development/) in it. Lastly, there's always the [Foundry wiki](https://foundryvtt.wiki/en/home) for more help.
 
 ### Quick Project Tour
- - *system.json* and *template.json* are necessary pieces to building a game system with Foundry. Check out the Foundry documentation for details on what those files are for.
- - *less* this is where all of our css fragments are kept, and we use a combination of gulp and less to compile it into *main.css*. If you want to mess with the style and presentation of the UIs, this is the place.
- - in *lang*, we'll keep internationalization templates, but we only support English today
- - *templates* is where the Handlebars templates live, which are transformed into HTML documents by Foundry when the time is right. Folks with an interest in improving the UIs will work in here.
- - Lastly, the *modules* directory is where the JavaScript that extends Foundry functionality is kept. This is where the plumbing exists to make the UIs do useful things.
+We manage our roadmap and plans in a [Trello board](https://trello.com/b/zb5FBnKS/project-red-roadmap-todo). Bugs and defects are in the [Gitlab issue list](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues). For your first contribution, please make sure it is aligned with something in Trello first. If you have other things in mind, bring them in up Discord and see what the team thinks. More seasoned and regular contributors will get additional permissions in Trello to help steer and guide the project.
+
+#### Repository Layout
+ - **system.json** and **template.json** are necessary pieces to building a game system with Foundry. Check out the Foundry documentation for details on what those files are for.
+ - **less** this is where all of our css fragments are kept, and we use a combination of gulp and less to compile it into **main.css**. If you want to mess with the style and presentation of the UIs, this is the place.
+ - in **lang**, we'll keep internationalization templates, but we only support English today
+ - **templates** is where the Handlebars templates live, which are transformed into HTML documents by Foundry when the time is right. Folks with an interest in improving the UIs will work in here.
+ - Lastly, the **modules** directory is where the JavaScript that extends Foundry functionality is kept. This is where the plumbing exists to make the UIs do useful things.
 
 ### Setting Up Your Development Environment
 This is covered in [CONTRIBUTING.md](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/blob/dev/CONTRIBUTING.md) now.
