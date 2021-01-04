@@ -85,7 +85,7 @@ export default class CPRActorSheet extends ActorSheet {
     let actorData = this.getData().data;
 
     // Moving cases to their own functions, per request from Jay
-
+    console.log(event);
     switch (rollRequest.rollType) {
       case "stat": {
         this._prepareRollStat(rollRequest);

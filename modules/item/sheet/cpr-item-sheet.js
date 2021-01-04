@@ -1,4 +1,5 @@
 import LOGGER from "../../utils/cpr-logger.js";
+import SystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -34,8 +35,15 @@ export default class CPRItemSheet extends ItemSheet {
     // data.isGM = game.user.isGM;
     data.isGM = game.user.isGM;
     data.isOwned = this.object.isOwned;
-    if (this.isOwned) {
-      data.actor = this.object.actor;
+    // data.filteredItems will be other items relevant to this one.
+    // For owned objects, the item list will come from the character owner
+    // For unowned objects, the item list will come from the core list of objects
+    if (data.isOwned) {
+      data.filteredItems = this.object.actor.itemTypes;
+    }
+    else
+    {
+      data.filteredItems = {};
     }
     console.log(this);
     console.log(data);

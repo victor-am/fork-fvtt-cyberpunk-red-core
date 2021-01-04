@@ -1,5 +1,6 @@
 import LOGGER from "../utils/cpr-logger.js";
 import ActorUtils from "../utils/cpr-actorUtils.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -38,7 +39,8 @@ export default class CPRActor extends Actor {
     LOGGER.trace(`create | CPRActor | called.`);
     data.items = [];
     switch (data.type) {
-      default: data.items = data.items.concat(await ActorUtils.GetAllSkills());
+      //default: data.items = data.items.concat(await ActorUtils.GetAllSkills());
+      default: data.items = data.items.concat(await SystemUtils.GetCoreSkills());
     }
     super.create(data, options);
   }
