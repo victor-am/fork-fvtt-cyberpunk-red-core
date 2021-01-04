@@ -28,9 +28,12 @@ export default class CPRItemSheet extends ItemSheet {
     return super.defaultOptions.classes.concat(["sheet", "item", `${this.item.type}`]);
   }
 
-  /* -------------------------------------------- */
+  /* --------------------------------------------
+  Had to make this async to get await to work on the GetCoreSkills?  Not
+  sure if that is the right way to do this?
+  */
   /** @override */
-  getData() {
+  async getData() {
     const data = super.getData();
     // data.isGM = game.user.isGM;
     data.isGM = game.user.isGM;
@@ -38,15 +41,14 @@ export default class CPRItemSheet extends ItemSheet {
     // data.filteredItems will be other items relevant to this one.
     // For owned objects, the item list will come from the character owner
     // For unowned objects, the item list will come from the core list of objects
+    data.filteredItems = {};
     if (data.isOwned) {
       data.filteredItems = this.object.actor.itemTypes;
     }
     else
     {
-      data.filteredItems = {};
+      data.filteredItems['skill'] = (await SystemUtils.GetCoreSkills());
     }
-    console.log(this);
-    console.log(data);
     return data;
   }
 
