@@ -21,23 +21,29 @@ todo..
 
  4. Profit???
 
-Useful Tools
- - https://code.visualstudio.com/
- - https://git-scm.com/
- - https://nodejs.org/en/
 
- Useful and helpful links to learn what you need to get started with helping!
- - https://dzone.com/articles/top-20-git-commands-with-examples
- - https://foundryvtt.com/api/
- - https://foundryvtt.com/article/system-development/
- - https://handlebarsjs.com/
- - https://foundryvtt.wiki/en/home
+## Contributing to the Project
+If you're interested in helping out, we would love to hear from you! Even if you're not a coder
+we can help you get started. Never too late to start a new hobby! 
 
- # Updating CSS!!
- We are using less files, and gulp to manage our project CSS.
+Read on to get a sense of the project's direction, the tools we use, and how we're organized. If you're still interested, continue to [CONTRIBUTING.md](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/blob/dev/CONTRIBUTING.md) to set up your environment.
 
- `DO NOT PUT CSS INTO MAIN.CSS! EVER! DON'T EVEN THINK ABOUT IT!`
- 
- > run: `npm i -g gulp gulp-less` to install gulp and gulp less (you will need node.js installed).  On Linux, you will need to execute this with sudo privs.
- 
- > run: `gulp` to run the gulp command, this will also run watch, which will watch the project for changes.
+### Useful Tools
+Have a look through here to get a sense of what you'll be using when contributing code to this project. You do not need to be an expert in all these things, they're provided as an overview.
+ - Our recommended IDE is [Visual Studio](https://code.visualstudio.com/) for editing JavaScript, CSS, and HTML.
+ - Since our source code lives in gitlab, you'll need to understand [git](https://git-scm.com/). This [article](https://dzone.com/articles/top-20-git-commands-with-examples) helps with understanding the concepts.
+ - To manage our CSS, we use [Gulp](https://gulpjs.com/) and [LESS](http://lesscss.org/). Do not make changes directly to main.css! Ever! Don't even think about it!
+ - [nodejs](https://nodejs.org/en/) is a big deal too. You'll use npm to manage packages.
+ - Foundry uses [Handlebars](https://handlebarsjs.com/) to product HTML templates.
+ - Of course, you'll need to be aware of the [FoundryVTT API](https://foundryvtt.com/api/), and read through how to do [system development](https://foundryvtt.com/article/system-development/) in it. Lastly, there's always the [Foundry wiki](https://foundryvtt.wiki/en/home) for more help.
+
+### Quick Project Tour
+ - *system.json* and *template.json* are necessary pieces to building a game system with Foundry. Check out the Foundry documentation for details on what those files are for.
+ - *less* this is where all of our css fragments are kept, and we use a combination of gulp and less to compile it into *main.css*. If you want to mess with the style and presentation of the UIs, this is the place.
+ - in *lang*, we'll keep internationalization templates, but we only support English today
+ - *templates* is where the Handlebars templates live, which are transformed into HTML documents by Foundry when the time is right. Folks with an interest in improving the UIs will work in here.
+ - Lastly, the *modules* directory is where the JavaScript that extends Foundry functionality is kept. This is where the plumbing exists to make the UIs do useful things.
+
+### Setting Up Your Development Environment
+This is covered in [CONTRIBUTING.md](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/blob/dev/CONTRIBUTING.md) now.
+
