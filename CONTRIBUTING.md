@@ -20,7 +20,7 @@ This document will walk through the installation/configuration of a development 
 
 The assumption of this document is you already have FoundryVTT installed and running on a system and you're planning to utilize that system to do your development work on.  This is the easiest option, as you can test your changes in real time.
 
-# Working Environment Configuartion
+# Working Environment Configuration
 
 We will cover configuring both Linux and Windows in this document.  Regardless of which environment you're using, you will need the FoundryVTT location where it is storing the User Data. If you don't remember where that directory is, pop open your browser, connect to your FoundryVTT system, go into Setup and look at the Configuration Tab to see what *User Data Path* is set to. Make a note of this as your **Foundry User Data Path** when it is referenced in the configuration section below.
 # Development on Linux
@@ -69,7 +69,7 @@ Checkout this blog which outlines the must-know commands of git, with examples!
 To do development work, simply change into the cyberpunk-red-core directory in your FoundryVTT systems location and then create a new code branch in git:
 > `git checkout -b` \<`personal-identifier`\>-\<`what-you-are-working-on`\>
 
-This is going to create a local branch on your development system and is not visible or saved on Gitlab.  When you're done working, or you want to take a break or something, you'll want to save your changes up to Gitlab and typically you would use **git push** to do this however as this is a local branch, it doesn't exist yet on the project on Gitlab.  To push it to the project and set the remote Gitlab as upstream, run:
+This is going to create a local branch on your development system and is not visible or saved on Gitlab.  When you're done working, or you want to take a break or something, you'll want to save your changes up to Gitlab and typically you would use **git push** to do this however as this is a local branch, it doesn't exist yet on the project on Gitlab.  First, you'll need to request *Developer* permissions on Gitlab. On the project page, click the *Request Access* link in the center-top of the page. Your request will enter a queue and the team will reach out to better understand your intent. Once that is out of the way, push your branch to the project and set the remote Gitlab as upstream like so:
 > `git push --set-upstream origin` \<`personal-identifier`\>-\<`what-you-are-working-on`\>
 
 Once you have done this, you can now see the branch on the project web page here:<br>
@@ -98,7 +98,7 @@ After your commit gets merged into dev, or any other time you want to ensure you
 
 # Merging to the dev branch
 
-Before Creating a MR!
+**Always do this before creating a merge request!**
 It's important you merge your work with dev locally before creating your merge request.
 
 > `git fetch` to get all latests info on the repo. <br>

@@ -50,8 +50,9 @@
         <select name="data.weaponSkill" data-dtype="{{data.weaponSkill}}">
           {{#select data.weaponSkill}}
           <option value="">N/A</option>
-          {{#each (findConfigObj "skillList") as |skill s|}}
-          <option value="{{s}}">{{localize skill}}</option>
+          {{!-- Would be nice if this was sorted, but not sure how to do that. --}}
+          {{#each (getProp this.filteredItems 'skill') as |skillOption| }}
+          <option value="{{skillOption.data.name}}">{{skillOption.data.name}}</option>
           {{/each}}
           {{/select}}
         </select>
