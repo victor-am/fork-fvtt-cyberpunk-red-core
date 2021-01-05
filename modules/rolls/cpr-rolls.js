@@ -1,6 +1,6 @@
 import LOGGER from "../utils/cpr-logger.js";
 import CPRBaseRollResult from "./cpr-baseroll-result.js";
-import DiceSoNice from "./cpr-dice-so-nice.js";
+import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 
 // RollRequest (per type)
 // --> Work
@@ -9,9 +9,10 @@ import DiceSoNice from "./cpr-dice-so-nice.js";
 
 
 export default class CPRRolls {
+
   static CPRRoll(formula, rollMode) {
     let roll = new Roll(formula).roll();
-    DiceSoNice.ShowDiceSoNice(roll)
+    DiceSoNice.ShowDiceSoNice(roll);
     return roll.total;
   }
 

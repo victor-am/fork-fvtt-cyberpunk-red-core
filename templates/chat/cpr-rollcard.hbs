@@ -1,21 +1,33 @@
 {{log "CPR-ROLLCARD.HBS"}}
-<h1>{{rollTitle}}</h1>
-<section>
-    {{log this}}
-    {{#if wasCritical}}
-    Roll: {{initialRoll}} <br>
-    Critical Roll: {{criticalRoll}} <br>
-    Total: {{rollTotal}} <br>
-    {{else}}
-    Roll: {{initialRoll}} <br>
-    {{/if}}
-    
-    {{#if mods}}
-    Mods: {{mods}} <br>
-    Mods Total: {{modsTotal}} <br>
-    {{/if}}
-    Stat: {{statValue}} <br>
-    Skill: {{skillValue}} <br>
-    Result Total: {{resultTotal}} <br>
-</section>
+<div class="chat-rollCard" data-roll-type="{{rollType}}">
+    <h1 class="chat-rollTitle-{{rollType}}">{{rollTitle}}
+    </h1>
+    <section>
+        <table>
+            <tr>
+                <td>
+                    <h1>{{resultTotal}}</h1>
+                </td>
+                <td>
+                    {{#if wasCritical}}
+                    Roll: {{initialRoll}} <br>
+                    Critical Roll: {{criticalRoll}} <br>
+                    <div class="chat-rollTotal">Total: {{rollTotal}}</div> <br>
+                    {{else}}
+                    Roll: {{initialRoll}} <br>
+                    {{/if}}
+
+                    {{#if mods}}
+                    Roll Modifiers: {{mods}} <br>
+                    <div class="chat-rollTotal">Mods Total: {{modsTotal}}</div><br>
+                    {{/if}}
+                    Stat Level: {{statValue}} <br>
+                    Skill Level: {{skillValue}} <br>
+                    <div class="chat-rollTotal">Result Total: {{resultTotal}}</div><br>
+                </td>
+
+            </tr>
+        </table>
+    </section>
+</div>
 {{log "END CPR-ROLLCARD.HBS"}}

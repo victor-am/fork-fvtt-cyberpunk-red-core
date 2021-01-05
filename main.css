@@ -140,112 +140,103 @@ form .sheet-header .top-block .role-block table {
   outline: 0;
   font-size: 1.4em;
 }
-form .sheet-header .top-block .role-block table tr,
-form .sheet-header .top-block .role-block table td {
+form .sheet-header .top-block .role-block table td tr,
+form .sheet-header .top-block .role-block table tr tr,
+form .sheet-header .top-block .role-block table td td,
+form .sheet-header .top-block .role-block table tr td {
   height: 26px;
   background: transparent;
   border: none;
   outline: 0;
   padding: 1px 0;
 }
-form .sheet-header .top-block .role-block table .ability-rank-input {
+form .sheet-header .top-block .role-block table td .ability-rank-input,
+form .sheet-header .top-block .role-block table tr .ability-rank-input {
   width: 1.5em;
   padding: 0;
 }
-form .stat-block {
+form .sheet-header .stats-block {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   background-color: #d02b23;
-  padding: 7.5px 2.5px 2.5px 2.5px;
-  flex-wrap: nowrap;
+  padding: 10px 5px 5px 5px;
+  min-width: 665px;
 }
-form .stat-block .stat-title {
+form .sheet-header .stats-block .stats-unit {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  text-transform: uppercase;
-  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 20%);
-}
-form .stat-block .stat-unit {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 20%);
-  width: 50px;
-  height: 50px;
-  flex-grow: 0;
+  clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
+  background-color: #ffffff;
+  width: 60px;
+  height: 60px;
   flex-shrink: 0;
-  background-color: white;
-  margin: 2.5px;
 }
-form .stat-block .stat-unit p {
-  text-align: end;
-  font-weight: bold;
-  margin: 0;
-  padding-right: 5px;
-  font-size: 0.8em;
-}
-form .stat-block .stat-unit .stat-values {
+form .sheet-header .stats-block .stats-unit .stat-title {
   display: flex;
-  justify-content: space-between;
-}
-form .stat-block .stat-unit .stat-values .stat-input,
-form .stat-block .stat-unit .stat-values .stat-input:focus {
-  border: none;
-  outline: 0 !important;
-  box-shadow: none;
-  text-align: center;
-  font-size: 2em;
-  background-color: transparent;
-}
-form .stat-block .stat-unit.has-max {
-  clip-path: polygon(10px 0, 100% 0, 100% 100%, 55% 100%, 55% 45%, 45% 45%, 45% 100%, 0 100%, 0 20%);
-}
-form .stat-block .stat-unit.has-max .stat-input {
-  font-size: 1.5em;
-  background: transparent;
-}
-form .skill-block {
-  font-size: 1em;
-  background-color: #d02b23;
-  padding: 5px;
-}
-form .skill-block table {
-  margin: 0;
-  outline: 0;
-  border: 0;
-  width: 100%;
-}
-form .skill-block .skill-category {
-  background-color: #231f20;
-  color: white;
-}
-form .skill-block .skill-category .name {
-  width: 55%;
-}
-form .skill-block .skill-category .level,
-form .skill-block .skill-category .stat,
-form .skill-block .skill-category .base {
-  width: 15%;
-  text-align: center;
-}
-form .skill-block .skill {
-  background-color: white;
-}
-form .skill-block .skill .name {
-  width: 55%;
-}
-form .skill-block .skill .bold {
+  flex-direction: row-reverse;
   font-weight: bold;
+  padding-right: 3px;
 }
-form .skill-block .skill .level,
-form .skill-block .skill .stat,
-form .skill-block .skill .base {
+form .sheet-header .stats-block .stats-unit .stat-title p {
+  margin: 0;
+}
+form .sheet-header .stats-block .stats-unit .stat-values {
+  display: flex;
+  justify-content: space-around;
+}
+form .sheet-header .stats-block .stats-unit .stat-values .stat-input {
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 3em;
+  text-align: center;
+  height: 100%;
+}
+form .sheet-header .stats-block .stats-unit .stat-values .max {
+  font-size: 1.5em;
+}
+form .sheet-header .stats-block .has-max {
+  clip-path: polygon(0 15px, 0 100%, 45% 100%, 45% 50%, 55% 50%, 55% 100%, 100% 100%, 100% 0, 15px 0);
+}
+form .tab-block {
+  background-color: #d02b23;
+  max-height: 700px;
+  padding: 5px;
+  padding-right: 0;
+  font-size: 0.8em;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+form .tab-block .row {
+  display: flex;
+  width: 49%;
+  padding: 2px;
+}
+form .tab-block .row .skill-name {
+  width: 70%;
+}
+form .tab-block .row .skill-level,
+form .tab-block .row .skill-stat,
+form .tab-block .row .skill-base {
   width: 15%;
   text-align: center;
 }
-form .skill-block .skill .hidden {
+form .tab-block .row .item-edit,
+form .tab-block .row .item-delete {
   visibility: hidden;
+}
+form .tab-block .row .show {
+  visibility: visible;
+}
+form .tab-block .header {
+  background-color: #231f20;
+  color: #ffffff;
+}
+form .tab-block .item {
+  background-color: #ffffff;
 }
 form .item-desc-body {
   display: flex;
@@ -263,7 +254,7 @@ form .item-info-pane .info-pane-item {
   padding: 2px;
   margin: 2px;
   background-color: #d02b23;
-  color: white;
+  color: #ffffff;
 }
 form .item-header-flex-parent {
   display: flex;
@@ -284,10 +275,29 @@ form .item-name {
   font-size: 24pt;
   flex-grow: 2;
 }
+.chat-rollCard .chat-rollTitle-stat {
+  text-transform: capitalize;
+}
+.chat-rollCard .chat-rollTotal {
+  font-weight: bold;
+}
+.chat-rollCard tr {
+  vertical-align: top;
+}
+.chat-rollCard td {
+  width: 50%;
+}
+.chat-rollCard td .chat-rollResult {
+  text-align: center;
+}
+.chat-rollCard h1 {
+  border-bottom: none;
+}
 :root {
   font-family: 'Ubuntu Mono', monospace;
   font-size: 10px;
   color: #231f20;
+  --main-bg-color: #ffffff;
 }
 .window-app .window-content {
   background: #ffffff;
@@ -295,4 +305,7 @@ form .item-name {
 .editor {
   flex-grow: 1;
   min-height: 100%;
+}
+.tab {
+  height: 100%;
 }

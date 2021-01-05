@@ -176,3 +176,10 @@ CPR.ammoType = {
   "basic": "CPR.ammotypebasic"
 }
 
+CPR.inventoryCategories = {
+  "weapon": "CPR.weapon",
+  "ammo": "CPR.ammo",
+  "armor": "CPR.armor",
+  "drug": "CPR.drug",
+  "gear": "CPR.gear"
+}

@@ -1,5 +1,4 @@
 import LOGGER from "../../utils/cpr-logger.js";
-import { CPR } from "../../system/config.js";
 import CPRRolls from "../../rolls/cpr-rolls.js";
 import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
 import { VerifyRollPrompt } from "../../dialog/cpr-verify-roll-prompt.js";
@@ -25,9 +24,8 @@ export default class CPRActorSheet extends ActorSheet {
   /** @override */
   getData() {
     // TODO - Understand how to use getData and when.
-    LOGGER.trace("AcotrID getData | CPRActorSheet | Called.");
+    LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
     const data = super.getData();
-    this._addConfigData(data);
     return data;
   }
 
@@ -53,32 +51,27 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Add New Skill Item To Sheet
     html.find('.add-skill').click(event => this._addSkill(event));
+
+    // Show edit and delete buttons
+    html.find(".row.item").hover(event => {
+      // show edit and delete buttons
+      $(event.currentTarget).contents().contents().addClass('show')
+    }, event => {
+      // hide edit and delete buttons
+      $(event.currentTarget).contents().contents().removeClass('show')
+    });
   }
 
   /* -------------------------------------------- */
   //  INTERNAL METHODS BELOW HERE
   /* -------------------------------------------- */
 
-
-  _addConfigData(sheetData) {
-    // TODO - sheetData config additions should be added in a less procedural way.
-    LOGGER.trace(`ActorID _addConfigData | CPRActorSheet | Called.`);
-    sheetData.skillCategories = CPR.skillCategories;
-    sheetData.statList = CPR.statList;
-    sheetData.skillDifficulties = CPR.skillDifficulties;
-    sheetData.skillList = CPR.skillList;
-    sheetData.roleAbilityList = CPR.roleAbilityList;
-    sheetData.roleList = CPR.roleList;
-    sheetData.weaponTypeList = CPR.weaponTypeList;
-    sheetData.ammoVariety = CPR.ammoVariety;
-  }
-
   // TODO - Function is getting far to long, we need to find ways to condense it.
   async _onRoll(event) {
     LOGGER.trace(`ActorID _onRoll | CPRActorSheet | Called.`);
 
     // TODO - Cleaner way to init all this fields?
-    // TODO - Create a input object to encompass these fields?\
+    // TODO - Create a input object to encompass these fields?
     let rollRequest = new CPRBaseRollRequest();    
     
     // TODO-- Where do these go?
@@ -89,32 +82,29 @@ export default class CPRActorSheet extends ActorSheet {
       rollRequest.mods.push(...await VerifyRollPrompt());
     }
     
-    // TODO-- better way to handle this..
-    if (rollRequest.mods.includes("cancel")) {
-      rollType = "cancel";
-    }
-    
     let actorData = this.getData().data;
+
+    // Moving cases to their own functions, per request from Jay
+    console.log(event);
     switch (rollRequest.rollType) {
       case "stat": {
-        rollRequest.statValue = actorData.stats[rollRequest.rollTitle].value;
-        LOGGER.trace(`ActorID _onRoll | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
+        this._prepareRollStat(rollRequest);
         break;
       }
       case "skill": {
         const itemId = this._getItemId(event);
-        const item = this._getOwnedItem(itemId); 
-        rollRequest.statValue = actorData.stats[item.data.data.stat].value;
-        rollRequest.skillValue = item.data.data.level;
-        LOGGER.trace(`ActorID _onRoll | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
-        console.log(this);
+        this._prepareRollSkill(rollRequest, itemId);
         break;
       }
       case "roleAbility": {
-        const roleInfo = actorData.roleInfo;
-        const role = roleInfo["role"];
-        rollRequest.skillValue = roleInfo.roleskills[role][rollRequest.rollTitle];
-        LOGGER.trace(`ActorID _onRoll | rolling ability: ` + rollRequest.rollTitle + ` | ` + rollRequest.skillValue);
+        this._prepareRollAbility(rollRequest);
+        break;
+      }
+      case "weapon": 
+      case "attack": {
+        const itemId = this._getItemId(event);
+        const weaponItem = this.actor.items.find(i => i.data._id == itemId);
+        this._prepareRollAttack(rollRequest, weaponItem);
         break;
       }
       // Q: Do we ever need to cancel a roll? 
@@ -136,7 +126,7 @@ export default class CPRActorSheet extends ActorSheet {
     let itemId = this._getItemId(event);
     LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);    
     const item = this.actor.items.find(i => i.data._id == itemId)
-    console.log(item);
+    
     item.sheet.render(true);
   }
 
@@ -163,4 +153,44 @@ export default class CPRActorSheet extends ActorSheet {
     };
     this.actor.createOwnedItem(itemData, { renderSheet: true })
   }
+
+  _prepareRollStat(rollRequest) {
+    rollRequest.statValue = this.getData().data.stats[rollRequest.rollTitle].value;
+    LOGGER.trace(`ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
+  }
+
+  _prepareRollSkill(rollRequest, itemId) {
+    LOGGER.trace(`ActorID _prepareRollSkill | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
+    const item = this._getOwnedItem(itemId); 
+    rollRequest.statValue = this.getData().data.stats[item.data.data.stat].value;
+    rollRequest.skillValue = item.data.data.level;
+  }
+
+  _prepareRollAbility(rollRequest) {
+    LOGGER.trace(`ActorID _onRoll | rolling ability: ` + rollRequest.rollTitle + ` | ` + rollRequest.skillValue);
+    const actorData = this.getData().data;
+    rollRequest.skillValue = actorData.roleInfo.roleskills[actorData.roleInfo["role"]][rollRequest.rollTitle];
+  }
+
+  _prepareRollAttack(rollRequest, weaponItem) {
+    rollRequest.rollTitle = weaponItem.data.name;
+    const isRanged = weaponItem.data.data.isRanged;
+    const weaponSkill = weaponItem.data.data.weaponSkill;
+    const skillId = this.actor.items.find(i => i.name == weaponSkill);
+    rollRequest.statValue = this.getData().data.stats["dex"].value;
+    // if weapon is ranged, change stat to ref
+    if (isRanged === 'true') {
+      rollRequest.statValue = this.getData().data.stats["ref"].value;
+    }
+    // if char owns relevant skill, get skill value
+    if (skillId == null) {
+      rollRequest.skillValue = 0;
+    }
+    else
+    {
+      rollRequest.skillValue = skillId.data.data.level;
+    }
+    LOGGER.trace(`Actor _prepareRollAttack | rolling attack | skillName: ${weaponSkill} skillValue: ${rollRequest.skillValue} statValue: ${rollRequest.statValue}`);
+  }
+
 }
