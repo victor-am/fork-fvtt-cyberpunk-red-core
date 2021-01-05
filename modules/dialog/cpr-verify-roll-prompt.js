@@ -1,6 +1,7 @@
 // TODO - Revist this method of dialog creation.
 
 import LOGGER from "../utils/cpr-logger.js";
+import { CPRArrayUtils } from "../utils/cpr-misc.js";
 
 // TODO - Revist name of function.
 export async function VerifyRollPrompt(rollRequest) {
@@ -12,8 +13,6 @@ export async function VerifyRollPrompt(rollRequest) {
                 LOGGER.trace(`_onCancel | Dialog VerifyRollPrompt | called.`);
                 console.log(html);
                 rollRequest.rollType = "abort";
-                // return rollType of cancel?
-                // methods on rollRequest
             };
             
             let _onConfirm = function (html) {
@@ -29,7 +28,7 @@ export async function VerifyRollPrompt(rollRequest) {
                     rollRequest.roleValue = Number(html.find('[name="roleValue"]').val());
                 };
                 if (html.find('[name="mods"]').val() != "") {
-                    rollRequest.mods.push(Number(html.find('[name="mods"]').val()));
+                    rollRequest.mods = CPRArrayUtils.PushMultipleNumbersFromString(rollRequest.mods, html.find('[name="mods"]').val(), [` `, `,`]);
                 };
             };
             
