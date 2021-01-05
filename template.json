@@ -31,10 +31,6 @@
           "body": {
             "value": 6
           },
-          "luck": {
-            "value": 6,
-            "max": 6
-          },
           "emp": {
             "value": 6,
             "max": 6
@@ -176,6 +172,12 @@
       "templates": [
         "common"
       ],
+      "stats": {
+        "luck": {
+          "value": 6,
+          "max": 6
+        }
+      },
       "lifepath": {
         "culturalOrigin": "",
         "personality": "",
