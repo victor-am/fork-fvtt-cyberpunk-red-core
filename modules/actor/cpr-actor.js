@@ -53,7 +53,6 @@ export default class CPRActor extends Actor {
 
   _prepareMookData(actorData) {
     LOGGER.trace("_prepareMookData | CPRActor | Called.");
-    console.log(actorData);
     const data = actorData.data;
     LOGGER.trace("_prepareMookData | CPRActor | Checking on contents of `actorData.data`.");
   }
