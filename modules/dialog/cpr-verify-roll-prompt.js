@@ -3,19 +3,24 @@
 import LOGGER from "../utils/cpr-logger.js";
 
 // TODO - Revist name of function.
-export async function VerifyRollPrompt() {
+export async function VerifyRollPrompt(rollRequest) {
+    console.log(rollRequest);
     return new Promise(resolve => {
-        renderTemplate('systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-prompt.hbs').then(html => {
-            let totalMod = [];
+        renderTemplate('systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-prompt.hbs', rollRequest).then(html => {
             
             let _onCancel = function (html) {
                 LOGGER.trace(`_onCancel | Dialog VerifyRollPrompt | called.`);
+                console.log(html);
+                rollRequest.rollType = "abort";
+                // return rollType of cancel?
+                // methods on rollRequest
             };
             
             let _onConfirm = function (html) {
                 LOGGER.trace(`_onConfirm | Dialog VerifyRollPrompt | called.`);
+                // Assign Mods
                 if (html.find('[name="mods"]').val() != "") {
-                    totalMod.push(Number(html.find('[name="mods"]').val()));
+                    rollRequest.mods.push(Number(html.find('[name="mods"]').val()));
                 };
             };
             
@@ -36,7 +41,7 @@ export async function VerifyRollPrompt() {
                 },
                 default: "confirm",
                 render: LOGGER.trace(`confirm | Dialog VerifyRollPrompt | called.`),
-                close: () => { resolve(totalMod); }
+                close: () => { resolve(rollRequest); }
             }).render(true);
         });
     });

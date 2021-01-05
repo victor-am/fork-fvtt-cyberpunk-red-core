@@ -1,23 +1,26 @@
+{{log "VERIFY-ROLL-PROMPT.HBS"}}
 <form action="">
+    {{log this}}
     <div>
-        Roll Type: <input name="rollType" class="" type="number" data-dtype="Number" value="rollType">
+        Roll Type: <input name="rollType" class="" type="text" data-dtype="Text" value={{rollType}}>
     </div>
     <div>
-        Roll Title: <input name="rollTitle" class="" type="number" data-dtype="Number" value="rollTitle" >
+        Roll Title: <input name="rollTitle" class="" type="text" data-dtype="Text" value={{rollTitle}} >
     </div>
     <div>
-        Stat Value: <input name="statValue" class="" type="number" data-dtype="Number" value="statValue" >
+        Stat Value: <input name="statValue" class="" type="number" data-dtype="Number" value={{statValue}} >
     </div>
     <div>
-        Skill Value: <input name="skillValue" class="" type="number" data-dtype="Number" value="skillValue" >
+        Skill Value: <input name="skillValue" class="" type="number" data-dtype="Number" value={{skillValue}} >
     </div>
     <div>
-        Role Value: <input name="roleValue" class="" type="number" data-dtype="Number" value="roleValue">
+        Role Value: <input name="roleValue" class="" type="number" data-dtype="Number" value={{roleValue}}>
     </div>    
     <div>
-        Mods: <input name="mods" class="" type="number" data-dtype="Number" value="mods">
+        Mods: <input name="mods" class="" type="text" data-dtype="Text" value={{mods}}>
     </div>
     <div>
         Should Roll Criticals: <input name="calculateCritical" class="" type="number" data-dtype="Number" >
     </div>
 </form>
+{{log "END VERIFY-ROLL-PROMPT.HBS"}}

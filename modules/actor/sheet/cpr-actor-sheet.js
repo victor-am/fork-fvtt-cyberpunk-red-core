@@ -78,16 +78,9 @@ export default class CPRActorSheet extends ActorSheet {
     
     // TODO-- Where do these go?
     rollRequest.rollType = $(event.currentTarget).attr("data-roll-type");
-    rollRequest.rollTitle = $(event.currentTarget).attr("data-roll-title");    
-    
-    if (!event.ctrlKey) {
-      rollRequest.mods.push(...await VerifyRollPrompt());
-    }
-    
-    let actorData = this.getData().data;
+    rollRequest.rollTitle = $(event.currentTarget).attr("data-roll-title");        
 
     // Moving cases to their own functions, per request from Jay
-
     switch (rollRequest.rollType) {
       case "stat": {
         this._prepareRollStat(rollRequest);
@@ -109,13 +102,16 @@ export default class CPRActorSheet extends ActorSheet {
         this._prepareRollAttack(rollRequest, weaponItem);
         break;
       }
-      // Q: Do we ever need to cancel a roll? 
-      // This really only applys if we display the mods dialog, and then they wish to NOT enter a mod.
-      // If we want to have this really be a function of the system, we should ALWAYS display the dialog, as it's the only control available to trigger canceling a roll.
-      case "cancel": {
-        // Catch all if we want a way to cancel out of a roll.
-        return;
-      }
+    }
+    
+    if (!event.ctrlKey) {
+      rollRequest = await VerifyRollPrompt(rollRequest);
+      LOGGER.debug(`ActorID _onRoll | CPRActorSheet | Checking rollRequest post VerifyRollPrompt.`);
+      console.log(rollRequest)
+    }
+
+    if (rollRequest.rollType == "abort") {
+      return;
     }
 
     RollCard(CPRRolls.BaseRoll(rollRequest));
