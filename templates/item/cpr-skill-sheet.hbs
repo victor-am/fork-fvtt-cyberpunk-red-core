@@ -25,7 +25,7 @@
           Stat:
           <select name="data.stat" data-dtype="{{data.stat}}">
             {{#select data.stat}}
-            {{#each statList as |stat s|}}
+            {{#each (findConfigObj "statList") as |stat s|}}
             <option value="{{s}}">{{localize stat}}</option>
             {{/each}}
             {{/select}}
@@ -36,7 +36,7 @@
           Category:
           <select name="data.category" data-dtype="{{data.category}}">
             {{#select data.category}}
-            {{#each skillCategories as |category c|}}
+            {{#each (findConfigObj "skillCategories") as |category c|}}
             <option value="{{c}}">{{localize category}}</option>
             {{/each}}
             {{/select}}
@@ -47,7 +47,7 @@
           Difficulty:
           <select name="data.difficulty" data-dtype="{{data.difficulty}}">
             {{#select data.difficulty}}
-            {{#each skillDifficulties as |difficulty d|}}
+            {{#each (findConfigObj "skillDifficulties") as |difficulty d|}}
             <option value="{{d}}">{{localize difficulty}}</option>
             {{/each}}
             {{/select}}

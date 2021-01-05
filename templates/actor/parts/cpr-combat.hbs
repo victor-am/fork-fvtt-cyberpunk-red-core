@@ -1,7 +1,7 @@
 <div>
    <div><h1>Attack</h1>
       {{#each actor.filteredItems.weapon as |weapon|}}
-      {{log weapon}}
+      
       <div style="display: flex; justify-content: space-between">
          <span>{{weapon.name}}</span>
          <span>
@@ -11,7 +11,8 @@
             data-is-ranged="{{weapon.data.isRanged}}" 
             data-roll-type="attack" 
             data-roll-title="{{weapon.name}} attack!"
-            data-weapon-name="{{weapon.name}}">
+            data-weapon-name="{{weapon.name}}"
+            data-item-id={{weapon._id}}>
                [ATTACK]
                <i class="fas fa-dice"></i>
             </a>
@@ -31,7 +32,7 @@
    </div>
    <div><h1>Defense</h1>
       {{#each actor.filteredItems.armor as |armor| }}
-      {{log armor}}
+      
       <div>
          <span>{{armor.name}}</span>
          <span>{{armor.data.sp}}</span>

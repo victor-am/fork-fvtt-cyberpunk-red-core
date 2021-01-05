@@ -1,4 +1,5 @@
 import LOGGER from "../utils/cpr-logger.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -9,17 +10,16 @@ export default class CPRItem extends Item {
     /* -------------------------------------------- */
     /** @override */
     prepareData() {
-        LOGGER.trace("Prepare Data | CPRItem | Called.");
+        LOGGER.trace("prepareData | CPRItem | Called.");
         super.prepareData();   
         const itemData = this.data.data;  
-        LOGGER.debug("Prepare Data | CPRItem | Checking itemData.");
-        console.log(itemData);
+        LOGGER.debug("prepareData | CPRItem | Checking itemData.");
     }
 
     /* -------------------------------------------- */
     /** @override */
     getRollData() {
-        LOGGER.trace("Get Roll Data | CPRItem | Called.");
+        LOGGER.trace("getRollData | CPRItem | Called.");
         const data = super.getRollData();
         return data;
     }
