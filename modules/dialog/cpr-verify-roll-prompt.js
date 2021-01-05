@@ -19,6 +19,15 @@ export async function VerifyRollPrompt(rollRequest) {
             let _onConfirm = function (html) {
                 LOGGER.trace(`_onConfirm | Dialog VerifyRollPrompt | called.`);
                 // Assign Mods
+                if (html.find('[name="statValue"]').val() != "") {
+                    rollRequest.mods.push(Number(html.find('[name="statValue"]').val()));
+                };
+                if (html.find('[name="skillValue"]').val() != "") {
+                    rollRequest.mods.push(Number(html.find('[name="skillValue"]').val()));
+                };
+                if (html.find('[name="roleValue"]').val() != "") {
+                    rollRequest.mods.push(Number(html.find('[name="roleValue"]').val()));
+                };
                 if (html.find('[name="mods"]').val() != "") {
                     rollRequest.mods.push(Number(html.find('[name="mods"]').val()));
                 };
