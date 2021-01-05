@@ -124,11 +124,11 @@ form .sheet-header .top-block .derived-block {
   justify-content: space-between;
   align-items: flex-end;
 }
-form .sheet-header .top-block .derived-block .hitpoint {
+form .sheet-header .top-block .derived-block .hitpoint-block {
   height: 90px;
   clip-path: polygon(15px 0, 100% 0, 100% 100%, 53% 100%, 53% 30%, 47% 30%, 47% 100%, 0 100%, 0 15px);
 }
-form .sheet-header .top-block .derived-block .hitpoint input {
+form .sheet-header .top-block .derived-block .hitpoint-block input {
   font-size: 5em;
   height: 100%;
 }
