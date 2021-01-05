@@ -13,8 +13,8 @@ todo..
      
       Conventions and more details on contributing to the process can be found in CONTRIBUTING.md
 
- 2. Check the Trello!<br>
-    https://trello.com/b/zb5FBnKS/project-red-roadmap-todo
+ 2. Check the Trello!<br> 
+   Be sure to check out our current Roadmap if you want to help with high priotity functionality https://trello.com/b/zb5FBnKS/project-red-roadmap-todo
 
  3. Chat with us on Discord!<br>
     https://discord.gg/gASBkXWm
