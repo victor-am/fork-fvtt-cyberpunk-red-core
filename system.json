@@ -1,7 +1,7 @@
 {
   "version": 0.41,
   "name": "cyberpunk-red-core",
-  "title": "Cyberpunk RED - CORE",
+  "title": "Cyberpunk RED",
   "description": "Implementation of the Cyberpunk RED Core Rules for FVTT",
   "minimumCoreVersion": "0.7.5",
   "compatibleCoreVersion": "0.7.7",
