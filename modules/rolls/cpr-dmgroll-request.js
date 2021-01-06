@@ -5,14 +5,11 @@ export default class CPRDmgRollRequest {
 
         // To change the flow of _onRoll()
         this.rollType = "damage" 
-        
-        this.formula = "0d6";
-        this.rollTitle = "";
-        this.attackSkill = "";
-        this.weaponType = "";
+
         this.mods = [];
         this.location = "body";
         this.isRanged = true;
-
+        this.ablates = true;
+        this.ignoreSP = "none";
     }
 };

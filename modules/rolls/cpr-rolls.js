@@ -63,12 +63,12 @@ export default class CPRRolls {
     mergeObject(rollResult, rollRequest, { overwrite: true });
     LOGGER.debug(`Checking RollRequest | Dice DmgRoll | `);
 
-    // create roll
+    // create roll and show Dice So Nice!
     let roll = new Roll(rollRequest.formula).evaluate();
-    
+    DiceSoNice.ShowDiceSoNice(roll);
+
     // get result array
     rollResult.diceResults = roll.terms[0].results.map(roll => roll.result);
-    DiceSoNice.ShowDiceSoNice(roll);
 
     // dice total 
     rollResult.diceTotal = rollResult.diceResults.reduce((a, b) => a + b);
@@ -85,9 +85,6 @@ export default class CPRRolls {
     // get total attack damage
     rollResult.resultTotal = rollResult.diceTotal + rollResult.bonusDamage;
 
-
-
-    console.log(rollResult)
     return rollResult;
   }
 
