@@ -236,6 +236,7 @@ form .tab-block .row .skill-level-input {
   padding: 0px;
   margin: 0px;
   height: 1.4rem;
+  background: unset;
 }
 form .tab-block .row .skill-level,
 form .tab-block .row .skill-stat,
