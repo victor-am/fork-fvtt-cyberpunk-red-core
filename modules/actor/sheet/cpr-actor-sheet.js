@@ -117,6 +117,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
     }
     
+    // TODO needs separate ATTACK and DAMAGE prompts
     if (!event.ctrlKey && rollRequest.rollType !== "damage") {
       rollRequest = await VerifyRollPrompt(rollRequest);
       LOGGER.debug(`ActorID _onRoll | CPRActorSheet | Checking rollRequest post VerifyRollPrompt.`);
