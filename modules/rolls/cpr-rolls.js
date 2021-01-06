@@ -56,40 +56,11 @@ export default class CPRRolls {
     return rollResult;
   }
 
-  // TODO- Do not use as is.
-  static DamageRoll(rollFormula = '0d6', location = "body") {
-    LOGGER.trace(`Calling DamageRoll | Dice DamageRoll | RollFormula:${rollFormula} Location: ${location}`);
+  static DamageRoll(rollRequest) {
+    LOGGER.trace(`Calling DamageRoll | Dice DamageRoll | RollFormula:${rollRequest.formula} Location: ${rollRequest.location}`);
 
-    // TODO- Roll Results could be constructed as objects outside of this.
-    // TODO- Roll Results object structure needs revisted.
-    let rollResult = {
-      rollType: "DamageRoll",
-      isCriticalInjury: false,
-      location: location,
-      initialRoll: new Roll(rollFormula).roll(),
-      finalResult: 0
-    };
+    let rollResult = new CPRDmgRollResult();
 
-    // Check for sixes choom!
-    let sixes = 0;
-    for (let roll in rollResult.initialRoll.terms.results) {
-      LOGGER.debug(`Checking for Two Sixes | Dice DamageRoll | Current Result:${result}`);
-      if (roll.result == 6) {
-        sixes++
-      }
-    }
-
-    // If sixes, set some info on this sick critical injury choom!
-    if (sixes >= 2) {
-      LOGGER.debug(`Critical Injury! | Dice DamageRoll | Sixes:${sixes}`);
-      rollResult.isCriticalInjury = true;
-    }
-
-    // Build results object for the dialog.
-    rollResult.finalResult += initialRoll._total;
-    LOGGER.debug(`Roll Result | Dice baseRoll`);
-    console.log(rollResult);
-    return rollResult;
   }
 
   static DeathSaveRoll() {

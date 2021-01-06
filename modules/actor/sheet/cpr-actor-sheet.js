@@ -77,7 +77,12 @@ export default class CPRActorSheet extends ActorSheet {
 
     // TODO - Cleaner way to init all this fields?
     // TODO - Create a input object to encompass these fields?
-    let rollRequest = new CPRBaseRollRequest();    
+    let rollRequest;
+    if ($(event.currentTarget).attr("data-roll-type") === "damage") {
+      rollRequest = new CPRDmgRollRequest();
+    } else {
+      rollRequest = new CPRBaseRollRequest();    
+    }
     
     // TODO-- Where do these go?
     rollRequest.rollType = $(event.currentTarget).attr("data-roll-type");
@@ -100,14 +105,19 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "weapon": 
       case "attack": {
-        const itemId = this._getItemId(event);
-        const weaponItem = this.actor.items.find(i => i.data._id == itemId);
-        this._prepareRollAttack(rollRequest, weaponItem);
+        const itemId = $(event.currentTarget).attr("data-item-id");
+        console.log(itemId)
+        this._prepareRollAttack(rollRequest, itemId);
         break;
+      }
+      case "damage": {
+        const itemId = $(event.currentTarget).attr("data-item-id");
+        this._prepareRollDamage(rollRequest, itemId);
+        break
       }
     }
     
-    if (!event.ctrlKey) {
+    if (!event.ctrlKey && rollRequest.rollType !== "damage") {
       rollRequest = await VerifyRollPrompt(rollRequest);
       LOGGER.debug(`ActorID _onRoll | CPRActorSheet | Checking rollRequest post VerifyRollPrompt.`);
     }
@@ -115,8 +125,11 @@ export default class CPRActorSheet extends ActorSheet {
     if (rollRequest.rollType == "abort") {
       return;
     }
-
-    RollCard(CPRRolls.BaseRoll(rollRequest));
+    if (rollRequest.rollType === "damage") {
+      RollCard(CPRRolls.DamageRoll(rollRequest));
+    } else {
+      RollCard(CPRRolls.BaseRoll(rollRequest));
+    }
   }
 
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
@@ -192,7 +205,9 @@ export default class CPRActorSheet extends ActorSheet {
     rollRequest.rollTitle=game.i18n.localize(CPR['roleAbilityList'][rollRequest.rollTitle]);
   }
 
-  _prepareRollAttack(rollRequest, weaponItem) {
+  _prepareRollAttack(rollRequest, itemId) {
+    const weaponItem = this._getOwnedItem(itemId);
+    console.log(itemId);
     rollRequest.rollTitle = weaponItem.data.name;
     const isRanged = weaponItem.data.data.isRanged;
     const weaponSkill = weaponItem.data.data.weaponSkill;
@@ -211,6 +226,14 @@ export default class CPRActorSheet extends ActorSheet {
       rollRequest.skillValue = skillId.data.data.level;
     }
     LOGGER.trace(`Actor _prepareRollAttack | rolling attack | skillName: ${weaponSkill} skillValue: ${rollRequest.skillValue} statValue: ${rollRequest.statValue}`);
+  }
+
+  _prepareRollDamage(rollRequest, itemId) {
+    const weaponItem = this._getOwnedItem(itemId);
+    rollRequest.rollTitle = weaponItem.data.name;
+    const weaponSkill = weaponItem.data.data.weaponSkill;
+    const weaponType = weaponItem.data.data.weaponType;
+    console.log(`Skill: ${weaponSkill} Type: ${weaponType}`);
   }
 
 }
