@@ -183,3 +183,11 @@ CPR.inventoryCategories = {
   "drug": "CPR.drug",
   "gear": "CPR.gear"
 }
+
+CPR.woundState = {
+  "notWounded": "CPR.notwounded",
+  "lightlyWounded": "CPR.lightlywounded",
+  "seriouslyWounded": "CPR.seriouslywounded",
+  "mortallyWounded": "CPR.mortallywounded",
+  "dead": "CPR.dead"
+}

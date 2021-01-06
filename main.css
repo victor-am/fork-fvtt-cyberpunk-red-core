@@ -118,6 +118,14 @@ form .sheet-header .top-block .role-block {
   justify-content: space-between;
   align-items: flex-end;
 }
+form .sheet-header .top-block .info-block .role-ability .ability-name,
+form .sheet-header .top-block .role-block .role-ability .ability-name {
+  text-align: left;
+}
+form .sheet-header .top-block .info-block .role-ability .ability-value,
+form .sheet-header .top-block .role-block .role-ability .ability-value {
+  text-align: right;
+}
 form .sheet-header .top-block .derived-block {
   display: flex;
   flex-direction: column;
@@ -132,13 +140,18 @@ form .sheet-header .top-block .derived-block .hitpoint-block input {
   font-size: 5em;
   height: 100%;
 }
+form .sheet-header .top-block .derived-block .save-block .wound-state {
+  text-align: left;
+  word-spacing: 9999rem;
+}
 form .sheet-header .top-block .role-block table {
   margin: 0;
   height: 26px;
   background: transparent;
   border: none;
   outline: 0;
-  font-size: 1.4em;
+  font-size: 1.2em;
+  display: contents;
 }
 form .sheet-header .top-block .role-block table td tr,
 form .sheet-header .top-block .role-block table tr tr,
@@ -152,8 +165,7 @@ form .sheet-header .top-block .role-block table tr td {
 }
 form .sheet-header .top-block .role-block table td .ability-rank-input,
 form .sheet-header .top-block .role-block table tr .ability-rank-input {
-  width: 1.5em;
-  padding: 0;
+  font-size: 1.2em;
 }
 form .sheet-header .stats-block {
   display: flex;
@@ -224,6 +236,7 @@ form .tab-block .row .skill-level-input {
   padding: 0px;
   margin: 0px;
   height: 1.4rem;
+  background: unset;
 }
 form .tab-block .row .skill-level,
 form .tab-block .row .skill-stat,
