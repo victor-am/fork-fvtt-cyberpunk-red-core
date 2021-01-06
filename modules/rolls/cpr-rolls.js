@@ -1,5 +1,6 @@
 import LOGGER from "../utils/cpr-logger.js";
 import CPRBaseRollResult from "./cpr-baseroll-result.js";
+import CPRDmgRollResult from "./cpr-dmgroll-result.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 
 // RollRequest (per type)
@@ -56,7 +57,7 @@ export default class CPRRolls {
   }
 
   // TODO- Do not use as is.
-  static DamageRoll(rollFormula = '1d6', location = "body") {
+  static DamageRoll(rollFormula = '0d6', location = "body") {
     LOGGER.trace(`Calling DamageRoll | Dice DamageRoll | RollFormula:${rollFormula} Location: ${location}`);
 
     // TODO- Roll Results could be constructed as objects outside of this.

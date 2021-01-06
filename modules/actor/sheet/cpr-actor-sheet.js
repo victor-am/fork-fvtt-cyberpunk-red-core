@@ -2,6 +2,7 @@ import LOGGER from "../../utils/cpr-logger.js";
 import CPRRolls from "../../rolls/cpr-rolls.js";
 import { CPR } from "../../system/config.js"
 import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
+import CPRDmgRollRequest from "../../rolls/cpr-dmgroll-request.js";
 import { VerifyRollPrompt } from "../../dialog/cpr-verify-roll-prompt.js";
 import { RollCard } from "../../chat/cpr-rollcard.js";
 
