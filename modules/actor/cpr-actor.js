@@ -63,7 +63,7 @@ export default class CPRActor extends Actor {
 
     let stats = actorData.data.stats;
     let derivedStats = actorData.data.derivedStats;
-    
+
 
     // Set max HP
     derivedStats.hp.max = 10 + 5 * (Math.ceil((stats.will.value + stats.body.value) / 2));
@@ -72,8 +72,12 @@ export default class CPRActor extends Actor {
     //if (derivedStats.hp.value > derivedStats.hp.max) { derivedStats.hp.value = derivedStats.hp.max; };
 
     // Seriously wounded
+    // Do we really need to store this or can we just calculate it dynamically as needed???
     derivedStats.seriouslyWounded = Math.ceil(derivedStats.hp.max / 2);
 
+    if (derivedStats.hp.value < derivedStats.hp.max) {
+      this.setWoundState();
+    }
     // Death save
     derivedStats.deathSave = stats.body.value;
 
@@ -87,5 +91,40 @@ export default class CPRActor extends Actor {
       // Setting EMP to value based on current humannity.
       stats.emp.value = Math.floor(humanity.value / 10);
     }
+  }
+
+  getWoundState() {
+    LOGGER.trace("getWoundState | CPRActor | Obtaining Wound State.");
+    console.log(this);
+    for (var key in this.data.data.woundState) {
+      if (this.data.data.woundState[key]) {
+        return key;
+      }
+    }
+    return null;
+  }
+
+  setWoundState(actorData) {
+    LOGGER.trace("setWoundState | CPRActor | Setting Wound State.");
+    
+    let derivedStats = this.data.data.derivedStats;
+
+    // First reset wound state
+    for (var key in this.data.data.woundState) {
+      this.data.data.woundState[key] = false;
+    }
+
+    let currentWoundState = "notWounded";
+
+    if (derivedStats.hp.value < derivedStats.hp.max) {
+      currentWoundState = "lightlyWounded";
+    }
+    if (derivedStats.hp.value < derivedStats.seriouslyWounded) {
+      currentWoundState = "seriouslyWounded";
+    }
+    if (derivedStats.hp.value < 1) {
+       currentWoundState = "mortallyWounded";
+    }
+    this.data.data.woundState[currentWoundState] = true;
   }
 }

@@ -132,6 +132,10 @@ form .sheet-header .top-block .derived-block .hitpoint-block input {
   font-size: 5em;
   height: 100%;
 }
+form .sheet-header .top-block .derived-block .save-block .wound-state {
+  text-align: left;
+  word-spacing: 9999rem;
+}
 form .sheet-header .top-block .role-block table {
   margin: 0;
   height: 26px;

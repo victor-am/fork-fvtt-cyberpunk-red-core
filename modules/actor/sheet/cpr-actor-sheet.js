@@ -26,6 +26,7 @@ export default class CPRActorSheet extends ActorSheet {
     // TODO - Understand how to use getData and when.
     LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
     const data = super.getData();
+    data.data.currentWoundState = this.actor.getWoundState(this.actor.data);
     return data;
   }
 

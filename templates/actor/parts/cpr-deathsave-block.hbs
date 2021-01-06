@@ -1,7 +1,12 @@
 <div class="block">
-  <div class="unit">
-    <p>Death Save</p>
+  <div class="unit mid-split">
+    <div class="save-block">
+      <p class="inputs">
+      <span style="text-align: center">Wound State</span>
+      <span style="text-align: center">Death Save</span>
+      </p>
       <div class="inputs">
+        <span class="wound-state">{{localize (findConfigValue "woundState" this.data.currentWoundState)}}</span>
         <input class="derived" name="data.derivedStats.deathSave" type="number" value="{{data.derivedStats.deathSave}}" data-dtype="Number" />
       </div>
     </div>
