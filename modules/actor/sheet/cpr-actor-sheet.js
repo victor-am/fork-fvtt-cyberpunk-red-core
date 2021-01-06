@@ -40,7 +40,7 @@ export default class CPRActorSheet extends ActorSheet {
     if (!this.options.editable) return;
 
     $("input[type=text]").focusin(function () {
-      $(this).select();
+      $(this).select(); 
     });
 
     // Make a roll
@@ -78,6 +78,7 @@ export default class CPRActorSheet extends ActorSheet {
     // TODO - Cleaner way to init all this fields?
     // TODO - Create a input object to encompass these fields?
     let rollRequest;
+    // Short circuit function to use damagerollrequest instead
     if ($(event.currentTarget).attr("data-roll-type") === "damage") {
       rollRequest = new CPRDmgRollRequest();
     } else {
@@ -230,11 +231,16 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _prepareRollDamage(rollRequest, itemId) {
+    // setup data
     const weaponItem = this._getOwnedItem(itemId);
     rollRequest.rollTitle = weaponItem.data.name;
-    const weaponSkill = weaponItem.data.data.weaponSkill;
+    const attackSkill = weaponItem.data.data.weaponSkill;
     const weaponType = weaponItem.data.data.weaponType;
-    console.log(`Skill: ${weaponSkill} Type: ${weaponType}`);
+    
+    // adjust roleRequest object
+    rollRequest.formula = weaponItem.data.data.damage;
+    rollRequest.attackSkill = attackSkill;
+    rollRequest.weaponType = weaponType;
   }
-
+  
 }

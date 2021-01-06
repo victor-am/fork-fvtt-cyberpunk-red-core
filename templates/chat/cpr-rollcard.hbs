@@ -1,4 +1,30 @@
 {{log "CPR-ROLLCARD.HBS"}}
+{{#ifEquals rollType "damage"}}
+<div class="chat-rollCard" data-roll-type="{{rollType}}">
+    <h1 class="chat-rollTitle-{{rollType}}">{{rollTitle}}
+    </h1>
+    <section>
+        <table>
+            <tr>
+                <td>
+                    <h1>{{resultTotal}}{{#if wasCritical}}!{{/if}}</h1>
+                </td>
+                <td>
+                    {{#if wasCritical}}
+                    Roll: {{diceTotal}} <br>
+                    Criticals: {{crits}} <br>
+                    Bonus Damage: {{bonusDamage}} <br>
+                    {{else}}
+                    Roll: {{diceTotal}} <br>
+                    {{/if}}
+                    <div class="chat-rollTotal">Result Total: {{resultTotal}}</div><br>
+                    Location: {{location}} <br>
+                </td>
+            </tr>
+        </table>
+    </section>
+</div>
+{{else}}
 <div class="chat-rollCard" data-roll-type="{{rollType}}">
     <h1 class="chat-rollTitle-{{rollType}}">{{rollTitle}}
     </h1>
@@ -30,4 +56,5 @@
         </table>
     </section>
 </div>
+{{/ifEquals}}
 {{log "END CPR-ROLLCARD.HBS"}}

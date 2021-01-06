@@ -59,8 +59,36 @@ export default class CPRRolls {
   static DamageRoll(rollRequest) {
     LOGGER.trace(`Calling DamageRoll | Dice DamageRoll | RollFormula:${rollRequest.formula} Location: ${rollRequest.location}`);
 
-    let rollResult = new CPRDmgRollResult();
+    let rollResult = {};
+    mergeObject(rollResult, rollRequest, { overwrite: true });
+    LOGGER.debug(`Checking RollRequest | Dice DmgRoll | `);
 
+    // create roll
+    let roll = new Roll(rollRequest.formula).evaluate();
+    
+    // get result array
+    rollResult.diceResults = roll.terms[0].results.map(roll => roll.result);
+    DiceSoNice.ShowDiceSoNice(roll);
+
+    // dice total 
+    rollResult.diceTotal = rollResult.diceResults.reduce((a, b) => a + b);
+
+    // count crits and bonus damage
+    let sixes = 0;
+    rollResult.diceResults.forEach(r => {
+      if (r === 6) sixes++;
+    });
+    rollResult.crits = Math.floor(sixes/2);
+    rollResult.bonusDamage = rollResult.crits*5;
+    rollResult.wasCritical = !!rollResult.crits > 0;
+
+    // get total attack damage
+    rollResult.resultTotal = rollResult.diceTotal + rollResult.bonusDamage;
+
+
+
+    console.log(rollResult)
+    return rollResult;
   }
 
   static DeathSaveRoll() {
