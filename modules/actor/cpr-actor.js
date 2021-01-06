@@ -95,8 +95,7 @@ export default class CPRActor extends Actor {
 
   getWoundState() {
     LOGGER.trace("getWoundState | CPRActor | Obtaining Wound State.");
-    console.log(this);
-    for (var key in this.data.data.woundState) {
+     for (var key in this.data.data.woundState) {
       if (this.data.data.woundState[key]) {
         return key;
       }

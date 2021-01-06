@@ -1,5 +1,6 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import CPRRolls from "../../rolls/cpr-rolls.js";
+import { CPR } from "../../system/config.js"
 import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
 import { VerifyRollPrompt } from "../../dialog/cpr-verify-roll-prompt.js";
 import { RollCard } from "../../chat/cpr-rollcard.js";
@@ -108,7 +109,6 @@ export default class CPRActorSheet extends ActorSheet {
     if (!event.ctrlKey) {
       rollRequest = await VerifyRollPrompt(rollRequest);
       LOGGER.debug(`ActorID _onRoll | CPRActorSheet | Checking rollRequest post VerifyRollPrompt.`);
-      console.log(rollRequest)
     }
 
     if (rollRequest.rollType == "abort") {
@@ -145,7 +145,6 @@ export default class CPRActorSheet extends ActorSheet {
 
   _getItemId(event) {
     LOGGER.trace(`ActorID _getItemId | CPRActorSheet | Called.`);
-    console.log($(event.currentTarget).parents(`.skill-item`).attr(`data-item-id`));
     return $(event.currentTarget).parents(`.item`).attr(`data-item-id`);
   }
 
@@ -185,9 +184,11 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _prepareRollAbility(rollRequest) {
-    LOGGER.trace(`ActorID _onRoll | rolling ability: ` + rollRequest.rollTitle + ` | ` + rollRequest.skillValue);
+    LOGGER.trace(`ActorID _prepareRollAbility | rolling ability: ` + rollRequest.rollTitle + ` | ` + rollRequest.skillValue);
     const actorData = this.getData().data;
+    
     rollRequest.skillValue = actorData.roleInfo.roleskills[actorData.roleInfo["role"]][rollRequest.rollTitle];
+    rollRequest.rollTitle=game.i18n.localize(CPR['roleAbilityList'][rollRequest.rollTitle]);
   }
 
   _prepareRollAttack(rollRequest, weaponItem) {
