@@ -5,14 +5,21 @@
     {{!-- FOR EACH CATEGORY --}}
       {{#each (findConfigObj "inventoryCategories") as |category c|}}
       <tr class="header">
-          <td class="header" width="55%">{{localize (findConfigValue "inventoryCategories" c)}}</td>
-          <td class="header" width="30%">Data</td>
-          <td class="header" width="15%">Quantity</td>
+          <td class="header" width="25%">{{localize (findConfigValue "inventoryCategories" c)}}</td>
+          <td class="header" width="25%">Type</td>
+          {{#ifEquals c "gear"}}
+            <td class="header" width="25%"></td>
+            <td class="header" width="25%">Value</td>
+          {{else}}
+            <td class="header" width="25%">Info</td>
+            <td class="header" width="25%">Action</td>
+          {{/ifEquals}}
       </tr>
       {{#each ../actor.items as |item i|}}
       {{!-- IF ITEM IS OF CATEGORY --}}
       {{#ifEquals item.type c}}
-      
+      {{log "INVENTORY ITEM"}}
+      {{log item}}
       {{!-- DISPLAY ITEM --}}
       <tr class="item" data-item-id={{item._id}}>
           <td class="name"><a class="name rollable" data-roll-type="{{c}}" data-roll-title="{{item.type}}" data-item-id={{item._id}}>
@@ -22,17 +29,28 @@
           </td>
           {{!-- TODO remove if ifEquals, add partials per category if display needs to change --}}
           {{#ifEquals item.type "weapon"}}
-            <td class="item">{{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}</td>
-            <td class="item">1</td>
-          {{else}}
-            {{#ifEquals item.type "ammo"}}
-               <td class="item">{{localize (findConfigValue "ammoVariety" item.data.variety)}}</td>
-               <td class="item">{{item.data.amount}}</td>
-            {{else}}
-               <td class="item"></td>
-               <td class="item">1</td>
-            {{/ifEquals}}
-           {{/ifEquals}}
+            <td class="item inventory-center">{{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}</td>
+            <td class="item inventory-center">LOADED AMMO TYPE AND AMOUNT</td>
+            <td class="item inventory-center">EQUIP/UNEQUIP CONCEAL RELOAD CHANGE_AMMO</td>
+          {{/ifEquals}}
+          {{#ifEquals item.type "ammo"}}
+            {{log "AMMO"}}
+            {{log item}}
+            <td class="item inventory-center">{{localize (findConfigValue "ammoVariety" item.data.variety)}}</td>
+            <td class="item inventory-center"></td>
+            <td class="item inventory-center">{{item.data.amount}}</td>
+          {{/ifEquals}}
+          {{#ifEquals item.type "armor"}}
+            <td class="item inventory-center">COVERAGE LOCATION</td>
+            <td class="item inventory-center">SP VALUE</td>
+            <td class="item inventory-center">EQUIP/UNEQUIP</td>
+          {{/ifEquals}}
+          {{#ifEquals item.type "gear"}}
+            <td class="item inventory-center"></td>
+            <td class="item inventory-center"></td>
+            <td class="item inventory-center">{{item.data.price.market}}</td>
+          {{/ifEquals}}
+          
       </tr>
       {{/ifEquals}}
       {{/each}}
