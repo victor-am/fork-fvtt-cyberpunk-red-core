@@ -1,6 +1,5 @@
 import LOGGER from "../utils/cpr-logger.js";
 import CPRBaseRollResult from "./cpr-baseroll-result.js";
-import CPRDmgRollResult from "./cpr-dmgroll-result.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 
 // RollRequest (per type)
@@ -83,13 +82,13 @@ export default class CPRRolls {
     LOGGER.debug(`Checking RollRequest | Dice DmgRoll | `);
 
     // create roll and show Dice So Nice!
-    let roll = this.CPRRoll(rollRequest.formula).array;
+    let roll = this.CPRRoll(rollRequest.formula);
 
     // get result array
-    rollResult.diceResults = roll;
+    rollResult.diceResults = roll.array;
 
     // get dice total
-    rollResult.diceTotal = roll.reduce((a, b) => a + b);
+    rollResult.diceTotal = roll.total;
 
     // count crits and bonus damage
     let sixes = 0;

@@ -112,7 +112,6 @@ export default class CPRActorSheet extends ActorSheet {
       case "weapon":
       case "attack": {
         const itemId = $(event.currentTarget).attr("data-item-id");
-        console.log(itemId);
         this._prepareRollAttack(rollRequest, itemId);
         break;
       }
@@ -124,7 +123,7 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     // TODO needs separate ATTACK and DAMAGE prompts
-    if (!event.ctrlKey && rollRequest.rollType !== "damage") {
+    if (!event.ctrlKey) {
       rollRequest = await VerifyRollPrompt(rollRequest);
       LOGGER.debug(
         `ActorID _onRoll | CPRActorSheet | Checking rollRequest post VerifyRollPrompt.`
