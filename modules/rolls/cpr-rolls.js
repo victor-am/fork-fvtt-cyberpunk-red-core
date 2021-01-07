@@ -8,78 +8,96 @@ import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 // RollResult (per type)
 // --> Output To Chat
 
-
 export default class CPRRolls {
-
   static CPRRoll(formula, rollMode) {
     let roll = new Roll(formula).roll();
     DiceSoNice.ShowDiceSoNice(roll);
-    return roll.total;
+    return {
+      total: roll.total,
+      array: roll.terms[0].results.map((roll) => roll.result)
+    };
   }
 
   static BaseRoll(rollRequest) {
-    LOGGER.trace(`Calling baseRoll | Dice BaseRoll | Stat:${rollRequest.statValue} SkillLevel:${rollRequest.skillValue}, Mods:${rollRequest.mods}, CalculateCritical:${rollRequest.calculateCritical}`);
+    LOGGER.trace(
+      `Calling baseRoll | Dice BaseRoll | Stat:${rollRequest.statValue} SkillLevel:${rollRequest.skillValue}, Mods:${rollRequest.mods}, CalculateCritical:${rollRequest.calculateCritical}`
+    );
 
     // TODO- Verify use of mergeObject.
     let rollResult = new CPRBaseRollResult();
     mergeObject(rollResult, rollRequest, { overwrite: true });
     LOGGER.debug(`Checking RollRequest | Dice BaseRoll | `);
-    rollResult.initialRoll = this.CPRRoll(`1d10`);
-
+    rollResult.initialRoll = this.CPRRoll(`1d10`).total;
 
     // With the above, below this line we ONLY need to use our Result!
     // Is this ideal? Or is this Heresy?
     if (rollResult.calculateCritical) {
-      LOGGER.debug(`Checking Critical Chance | Dice BaseRoll | Initial Roll:${rollResult.initialRoll}`);
+      LOGGER.debug(
+        `Checking Critical Chance | Dice BaseRoll | Initial Roll:${rollResult.initialRoll}`
+      );
       if (rollResult.initialRoll == 1) {
         rollResult.wasCritical = true;
-        rollResult.criticalRoll = -1 * this.CPRRoll(`1d10[fire]`);
-        LOGGER.debug(`Critical Failure! | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
+        rollResult.criticalRoll = -1 * this.CPRRoll(`1d10[fire]`).total;
+        LOGGER.debug(
+          `Critical Failure! | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`
+        );
       }
       if (rollResult.initialRoll == 10) {
         rollResult.wasCritical = true;
-        rollResult.criticalRoll = this.CPRRoll(`1d10[fire]`);
-        LOGGER.debug(`Critical Success | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
+        rollResult.criticalRoll = this.CPRRoll(`1d10[fire]`).total;
+        LOGGER.debug(
+          `Critical Success | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`
+        );
       }
     }
 
-    LOGGER.debug(`Calculate Roll Result! | Roll:${rollResult.initialRoll} + Crit:${rollResult.criticalRoll}`);
+    LOGGER.debug(
+      `Calculate Roll Result! | Roll:${rollResult.initialRoll} + Crit:${rollResult.criticalRoll}`
+    );
     rollResult.rollTotal = rollResult.initialRoll + rollResult.criticalRoll;
 
     LOGGER.debug(`Calculate Mods Total! | Mods:${rollResult.mods}`);
-    rollResult.modsTotal = rollResult.mods.length > 0 ? rollResult.mods.reduce((a, b) => a + b) : 0;
+    rollResult.modsTotal =
+      rollResult.mods.length > 0 ? rollResult.mods.reduce((a, b) => a + b) : 0;
 
-    LOGGER.debug(`Calculate Check Total! | Roll:${rollResult.rollTotal} Skill:${rollResult.skillValue} + Stat:${rollResult.statValue} + Mods:${rollResult.mods} (${rollResult.modsTotal})`);
-    rollResult.resultTotal = rollResult.rollTotal + rollResult.skillValue + rollResult.statValue + rollResult.modsTotal;
+    LOGGER.debug(
+      `Calculate Check Total! | Roll:${rollResult.rollTotal} Skill:${rollResult.skillValue} + Stat:${rollResult.statValue} + Mods:${rollResult.mods} (${rollResult.modsTotal})`
+    );
+    rollResult.resultTotal =
+      rollResult.rollTotal +
+      rollResult.skillValue +
+      rollResult.statValue +
+      rollResult.modsTotal;
 
     LOGGER.debug(`Check Total! | Total:${rollResult.total}`);
     return rollResult;
   }
 
   static DamageRoll(rollRequest) {
-    LOGGER.trace(`Calling DamageRoll | Dice DamageRoll | RollFormula:${rollRequest.formula} Location: ${rollRequest.location}`);
+    LOGGER.trace(
+      `Calling DamageRoll | Dice DamageRoll | RollFormula:${rollRequest.formula} Location: ${rollRequest.location}`
+    );
 
     let rollResult = {};
     mergeObject(rollResult, rollRequest, { overwrite: true });
     LOGGER.debug(`Checking RollRequest | Dice DmgRoll | `);
 
     // create roll and show Dice So Nice!
-    let roll = new Roll(rollRequest.formula).evaluate();
-    DiceSoNice.ShowDiceSoNice(roll);
+    let roll = this.CPRRoll(rollRequest.formula).array;
 
     // get result array
-    rollResult.diceResults = roll.terms[0].results.map(roll => roll.result);
+    rollResult.diceResults = roll;
 
-    // dice total 
-    rollResult.diceTotal = rollResult.diceResults.reduce((a, b) => a + b);
+    // get dice total
+    rollResult.diceTotal = roll.reduce((a, b) => a + b);
 
     // count crits and bonus damage
     let sixes = 0;
-    rollResult.diceResults.forEach(r => {
+    rollResult.diceResults.forEach((r) => {
       if (r === 6) sixes++;
     });
-    rollResult.crits = Math.floor(sixes/2);
-    rollResult.bonusDamage = rollResult.crits*5;
+    rollResult.crits = Math.floor(sixes / 2);
+    rollResult.bonusDamage = rollResult.crits * 5;
     rollResult.wasCritical = !!rollResult.crits > 0;
 
     // get total attack damage
@@ -88,12 +106,8 @@ export default class CPRRolls {
     return rollResult;
   }
 
-  static DeathSaveRoll() {
-
-  }
+  static DeathSaveRoll() {}
 
   // Do we need this?
-  static InitiateRoll() {
-
-  }
+  static InitiateRoll() {}
 }
