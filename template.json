@@ -258,7 +258,7 @@
         "meleeAction": {}
       },
       "equippable": {
-         "isEquipped": false
+         "vicinity": "carried"
       },
       "mods": {
         "list": [],
