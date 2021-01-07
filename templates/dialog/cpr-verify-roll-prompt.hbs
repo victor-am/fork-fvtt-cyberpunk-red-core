@@ -1,5 +1,11 @@
 {{log "VERIFY-ROLL-PROMPT.HBS"}}
 <form action="">
+    {{#ifEquals rollType "damage"}}
+    <div>
+      <label for="autofire">Autofire?</label>
+      <input type="checkbox" id="autofire" name="autofire">
+    </div>
+    {{else}}
     <div>
         Roll Type: <input name="rollType" class="" type="text" data-dtype="Text" value={{rollType}}>
     </div>
@@ -21,5 +27,6 @@
     <div>
         Should Roll Criticals: <input name="calculateCritical" class="" type="number" data-dtype="Number" >
     </div>
+    {{/ifEquals}}
 </form>
 {{log "END VERIFY-ROLL-PROMPT.HBS"}}

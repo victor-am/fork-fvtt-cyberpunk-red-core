@@ -113,11 +113,14 @@ export default class CPRActorSheet extends ActorSheet {
       case "attack": {
         const itemId = $(event.currentTarget).attr("data-item-id");
         this._prepareRollAttack(rollRequest, itemId);
+        console.log("Attack Roll below");
+        console.log(rollRequest);
         break;
       }
       case "damage": {
         const itemId = $(event.currentTarget).attr("data-item-id");
         this._prepareRollDamage(rollRequest, itemId);
+        console.log("Damage Roll below");
         break;
       }
     }
@@ -133,6 +136,7 @@ export default class CPRActorSheet extends ActorSheet {
     if (rollRequest.rollType == "abort") {
       return;
     }
+    console.log(rollRequest)
     if (rollRequest.rollType === "damage") {
       RollCard(CPRRolls.DamageRoll(rollRequest));
     } else {

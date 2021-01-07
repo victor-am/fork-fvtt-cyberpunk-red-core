@@ -1,5 +1,6 @@
 import LOGGER from "../utils/cpr-logger.js";
 import CPRBaseRollResult from "./cpr-baseroll-result.js";
+import CPRDamageRollResult from "./cpr-dmgroll-result.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 
 // RollRequest (per type)
@@ -77,7 +78,7 @@ export default class CPRRolls {
       `Calling DamageRoll | Dice DamageRoll | RollFormula:${rollRequest.formula} Location: ${rollRequest.location}`
     );
 
-    let rollResult = {};
+    let rollResult = new CPRDamageRollResult();
     mergeObject(rollResult, rollRequest, { overwrite: true });
     LOGGER.debug(`Checking RollRequest | Dice DmgRoll | `);
 
@@ -85,7 +86,7 @@ export default class CPRRolls {
     let roll = this.CPRRoll(rollRequest.formula);
 
     // get result array
-    rollResult.diceResults = roll.array;
+    roll.array.forEach(r => rollResult.diceResults.push(r));
 
     // get dice total
     rollResult.diceTotal = roll.total;
@@ -101,7 +102,6 @@ export default class CPRRolls {
 
     // get total attack damage
     rollResult.resultTotal = rollResult.diceTotal + rollResult.bonusDamage;
-
     return rollResult;
   }
 

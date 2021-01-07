@@ -5,11 +5,15 @@ export default class CPRDmgRollRequest {
 
         // To change the flow of _onRoll()
         this.rollType = "damage" 
-
+        this.isAutofire = false;
         this.mods = [];
         this.location = "body";
         this.isRanged = true;
         this.ablates = true;
-        this.ignoreSP = "none";
+        this.ignoreSP = 0;  // 0=none, 1=half, 2=all
+        this.aimData = {
+            aimed: false,
+            location: ""
+        }
     }
 };
