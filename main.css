@@ -144,6 +144,9 @@ form .sheet-header .top-block .derived-block .save-block .wound-state {
   text-align: left;
   word-spacing: 9999rem;
 }
+form .sheet-header .top-block .derived-block .save-block .death-save {
+  padding-right: 0.5em;
+}
 form .sheet-header .top-block .role-block table {
   margin: 0;
   height: 26px;
