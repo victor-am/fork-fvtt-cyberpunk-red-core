@@ -175,17 +175,17 @@ CPR.ammoVariety = {
 CPR.ammoType = {
   "basic": "CPR.ammotypebasic",
   "armorPiercing": "CPR.ammotypearmorpiercing",
-  "biotoxin": "CPR.ammotypeBiotoxin",
+  "biotoxin": "CPR.ammotypebiotoxin",
   "emp": "CPR.ammotypeemp",
-  "expansive": "CPR.ammotypeExpansive",
-  "flashbang": "CPR.ammotypeFlashbang",
-  "incindiary": "CPR.ammotypeIncindiary",
-  "poison": "CPR.ammotypePoison",
-  "rubber": "CPR.ammotypeRubber",
-  "sleep": "CPR.ammotypeSleep",
-  "smart": "CPR.ammotypeSmart",
-  "smoke": "CPR.ammotypeSmoke",
-  "teargas": "CPR.ammotypeTeargas"
+  "expansive": "CPR.ammotypeexpansive",
+  "flashbang": "CPR.ammotypeflashbang",
+  "incindiary": "CPR.ammotypeincindiary",
+  "poison": "CPR.ammotypepoison",
+  "rubber": "CPR.ammotyperubber",
+  "sleep": "CPR.ammotypesleep",
+  "smart": "CPR.ammotypesmart",
+  "smoke": "CPR.ammotypesmoke",
+  "teargas": "CPR.ammotypeteargas"
 }
 
 CPR.inventoryCategories = {
