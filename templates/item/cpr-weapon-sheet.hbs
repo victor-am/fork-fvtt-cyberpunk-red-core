@@ -84,6 +84,17 @@
         Magazine Size: <input name="data.magSize" class="" type="text" value="{{data.magSize}}">
       </div>
       {{/if}}
+      {{!-- VICINITY --}}
+        <div>
+          <label class="label-text">Vicinity</label>
+          <select name="data.equippable.vicinity" data-dtype="{{data.equippable.vicinity}}">
+            {{#select data.equippable.vicinity}}
+            {{#each (findConfigObj "vicinity") as |vic v|}}
+            <option value="{{v}}">{{localize vic}}</option>
+            {{/each}}
+            {{/select}}
+          </select>
+        </div>
     </div>
   </section>
 </form>
