@@ -1,6 +1,23 @@
 {
-  "dependencies": {
+  "name": "fvtt-cyberpunk-red-core",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url":"https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/"
+  },
+  "license": "UNLICENSED",
+  "scripts": {
+    "test": "echo are there tests??",
+    "build": "npx gulp css && echo any other packaging?",
+    "start": "npx gulp"
+  },
+  "devDependencies": {
     "gulp": "^4.0.2",
+    "gulp-cli": "^2.3.0",
     "gulp-less": "^4.0.1"
+  },
+  "engines": {
+    "node": ">=15.0",
+    "npm": ">7.0"
   }
 }
