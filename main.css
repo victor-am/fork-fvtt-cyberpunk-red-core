@@ -326,8 +326,14 @@ form .item-name {
   background: #ffffff;
 }
 .editor {
-  flex-grow: 1;
-  min-height: 100%;
+  height: 100%;
+}
+.editor .tox-toolbar-overlord,
+.editor .tox-toolbar__primary {
+  background: none;
+}
+.content {
+  height: 100%;
 }
 .tab {
   height: 100%;
