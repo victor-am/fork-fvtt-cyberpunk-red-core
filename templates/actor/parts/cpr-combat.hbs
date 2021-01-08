@@ -21,8 +21,10 @@
             <a 
             class="rollable" 
             data-damage="{{weapon.data.damage}}" 
-            data-roll-type="damage">
-               [{{weapon.data.damage}}]
+            data-roll-type="damage"
+            data-item-id={{weapon._id}}>
+               [DAMAGE]
+               <i class="fas fa-dice"></i>
             </a>
          </span>
          <span>ROF {{weapon.data.rof}}</span>
