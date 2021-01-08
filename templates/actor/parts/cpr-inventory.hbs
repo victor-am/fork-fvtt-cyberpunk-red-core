@@ -6,9 +6,10 @@
       {{#each (findConfigObj "inventoryCategories") as |category c|}}
       <tr class="header">
           <td class="header" width="55%">{{localize (findConfigValue "inventoryCategories" c)}}</td>
-          <td class="header" width="25%">Data</td>
-          <td class="header" width="15%">Quantity</td>
-          <td class="header" width="10%"></td>
+          <td class="header" width="30%">Data</td>
+          <td class="header" width="9%">Quantity</td>
+          <td class="header" width="5%"></td> {{!-- equipped icon --}}
+          <td class="header" width="1%"></td> {{!-- padding to make the border better --}}
       </tr>
       {{#each ../actor.items as |item i|}}
       {{!-- IF ITEM IS OF CATEGORY --}}
@@ -36,9 +37,12 @@
            {{/ifEquals}}
           {{#ifEquals item.type "weapon"}}
             <td>{{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}}</td>
-          {{/ifEquals}}
-          {{#ifEquals item.type "armor"}}
-            <td>{{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}}</td>
+          {{else}}
+            {{#ifEquals item.type "armor"}}
+              <td>{{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}}</td>
+            {{else}}
+              <td></td>
+            {{/ifEquals}}
           {{/ifEquals}}
       </tr>
       {{/ifEquals}}
