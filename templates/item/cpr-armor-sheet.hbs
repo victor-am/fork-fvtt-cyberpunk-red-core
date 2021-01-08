@@ -59,12 +59,12 @@
           <a class="item-checkbox" data-target="data.isBodyLocation"><i class="far fa-circle"></i></a>
           {{/if}}
         </div>
-        {{!-- VICINITY --}}
+        {{!-- EQUIPPED --}}
         <div>
-          <label class="label-text">Vicinity</label>
-          <select name="data.equippable.vicinity" data-dtype="{{data.equippable.vicinity}}">
-            {{#select data.equippable.vicinity}}
-            {{#each (findConfigObj "vicinity") as |vic v|}}
+          <label class="label-text">equipped</label>
+          <select name="data.equippable.equipped" data-dtype="{{data.equippable.equipped}}">
+            {{#select data.equippable.equipped}}
+            {{#each (findConfigObj "equipped") as |vic v|}}
             <option value="{{v}}">{{localize vic}}</option>
             {{/each}}
             {{/select}}

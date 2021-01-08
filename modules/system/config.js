@@ -193,7 +193,7 @@ CPR.woundState = {
 }
 
 // Sorted A-Z
-CPR.vicinity = {
+CPR.equipped = {
   "carried": "CPR.carried",
   "equipped": "CPR.equipped",
   "owned": "CPR.owned"
