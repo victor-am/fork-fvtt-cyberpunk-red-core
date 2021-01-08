@@ -257,6 +257,9 @@
         "rangedAction": {},
         "meleeAction": {}
       },
+      "equippable": {
+         "equipped": "owned"
+      },
       "mods": {
         "list": [],
         "mod": {

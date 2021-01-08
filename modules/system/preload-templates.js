@@ -14,6 +14,7 @@ export default function preloadHandlebarsTemplates() {
       "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-image-block.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-hitpoint-block.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-handle-block.hbs",
+      "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs",
 
       // Character Sheet Partials
       "systems/cyberpunk-red-core/templates/actor/parts/cpr-skills.hbs",
