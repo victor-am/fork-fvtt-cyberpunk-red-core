@@ -24,9 +24,8 @@ todo..
     Be sure to check out our current Roadmap if you want to help with high priotity functionality https://trello.com/b/zb5FBnKS/project-red-roadmap-todo
 
 3.  Chat with us on Discord!<br>
-    https://discord.gg/gASBkXWm
+    https://discord.gg/akpdW2kt
 
-4.  Profit???
 
 Useful Tools
 
