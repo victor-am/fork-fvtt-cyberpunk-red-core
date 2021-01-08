@@ -45,6 +45,9 @@ export default class CPRActorSheet extends ActorSheet {
     // Make a roll
     html.find(".rollable").click(event => this._onRoll(event));
 
+    // Update equipment
+    html.find(".equip").click(event => this._equip(event));
+
     // Update Item
     html.find('.item-edit').click(event => this._updateItem(event));
 
@@ -116,6 +119,34 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     RollCard(CPRRolls.BaseRoll(rollRequest));
+  }
+
+  async _equip(event) {
+    LOGGER.trace(`ActorID _equip | CPRActorSheet | Called.`);
+    const curr_equip = $(event.currentTarget).attr("curr_equip");
+    const item_id = $(event.currentTarget).attr("item_id");
+    let item = this._getOwnedItem(item_id);
+    LOGGER.trace(item_id);
+    LOGGER.trace(item);
+
+    switch (curr_equip) {
+      case "owned": {
+        // set next to carried
+        
+        break;
+      }
+      case "carried": {
+        // check there are free hands for weapons
+        // set next to equipped if so, otherwise error out
+        // for armor, update SP and armor penalty
+        break;
+      }
+      case "equipped": {
+        // set next to owned
+
+        break;
+      }
+    }
   }
 
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
