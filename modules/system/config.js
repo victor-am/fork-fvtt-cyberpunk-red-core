@@ -191,3 +191,10 @@ CPR.woundState = {
   "mortallyWounded": "CPR.mortallywounded",
   "dead": "CPR.dead"
 }
+
+// Sorted A-Z
+CPR.equipped = {
+  "carried": "CPR.carried",
+  "equipped": "CPR.equipped",
+  "owned": "CPR.owned"
+}

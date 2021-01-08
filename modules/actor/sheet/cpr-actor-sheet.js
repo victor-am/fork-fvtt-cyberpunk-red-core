@@ -45,6 +45,9 @@ export default class CPRActorSheet extends ActorSheet {
     // Make a roll
     html.find(".rollable").click((event) => this._onRoll(event));
 
+    // Update equipment
+    html.find(".equip").click(event => this._updateEquip(event));
+
     // Update Item
     html.find(".item-edit").click((event) => this._updateItem(event));
 
@@ -54,10 +57,7 @@ export default class CPRActorSheet extends ActorSheet {
     // Add New Skill Item To Sheet
     html.find(".add-skill").click((event) => this._addSkill(event));
 
-    html
-      .find(`.skill-level-input`)
-      .click((event) => event.target.select())
-      .change((event) => this._updateItemProp(event));
+    html.find(`.skill-level-input`).click(event => event.target.select()).change(event => this._updateSkill(event));
 
     // Show edit and delete buttons
     html.find(".row.item").hover(
@@ -144,30 +144,72 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
+  async _updateEquip(event) {
+    /**
+     * Equip or Unequip an item. Make stat changes and check
+     * conditions (like free hands) as necessary.
+     */
+    LOGGER.trace(`ActorID _equip | CPRActorSheet | Called.`);
+    const item_id = $(event.currentTarget).attr("data-item-id");
+    const item = this._getOwnedItem(item_id);
+    const curr_equip = $(event.currentTarget).attr("curr-equip");
+    let prop = this._getObjProp(event); // panic if undefined
 
-  _updateItem(event) {
-    LOGGER.trace(`ActorID _itemUpdate | CPRActorSheet | Called.`);
-
-    let itemId = this._getItemId(event);
-    LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);
-    const item = this.actor.items.find((i) => i.data._id == itemId);
-    item.sheet.render(true);
+    switch (curr_equip) {
+      case "owned": {
+        // set next to carried
+        this._updateOwnedItemProp(item, prop, "carried");
+        break;
+      }
+      case "carried": {
+        // check there are free hands for weapons
+        // set next to equipped if so, otherwise error out
+        this._updateOwnedItemProp(item, prop, "equipped");
+        // for armor, update SP and armor penalty
+        break;
+      }
+      case "equipped": {
+        // set next to owned
+        this._updateOwnedItemProp(item, prop, "owned");
+        break;
+      }
+    }
   }
 
-  _updateItemProp(event) {
-    LOGGER.trace(`ActorID _updateItemProp | CPRActorSheet | Called.`);
+  // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
 
+  _updateSkill(event) {
+    LOGGER.trace(`ActorID _updateSkill | CPRActorSheet | Called.`);
+    
     let itemId = this._getItemId(event);
     const item = this._getOwnedItem(itemId);
 
     let prop = this._getObjProp(event); // return prop or undef
     let value = Math.clamped(-99, parseInt(event.target.value), 99);
 
-    LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);
-    setProperty(item.data, prop, value);
+    this._updateOwnedItemProp(item, prop, value)
+  }
 
-    this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+  _updateOwnedItemProp(item, prop, value) {
+    /**
+     * Update an item property with a value
+     */
+    LOGGER.debug(`ActorID _updateOwnedItemProp | Item:${item}.`);
+    LOGGER.debug(`Updating ${prop} to ${value}`)
+    setProperty(item.data, prop, value);
+    this.actor.updateEmbeddedEntity("OwnedItem", item.data)
+  }
+
+  _updateItem(event) {
+    /**
+     * Pop up a form for an item to update its data
+     */
+    LOGGER.trace(`ActorID _itemUpdate | CPRActorSheet | Called.`);
+
+    let itemId = this._getItemId(event);
+    LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);    
+    const item = this.actor.items.find(i => i.data._id == itemId)
+    item.sheet.render(true);
   }
 
   _getItemId(event) {
