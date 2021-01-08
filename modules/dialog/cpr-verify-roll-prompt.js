@@ -20,13 +20,22 @@ export async function VerifyRollPrompt(rollRequest) {
         LOGGER.trace(`_onConfirm | Dialog VerifyRollPrompt | called.`);
 
         if (rollRequest.rollType === "damage") {
-          if (html.find('[name="autofire"]')[0].checked) {
-            rollRequest.isAutofire = true;
+          if (rollRequest.weaponType === "assaultRifle" ||
+              rollRequest.weaponType === "heavySmg" ||
+              rollRequest.weaponType === "smg") {
+            if (html.find('[name="autofire"]')[0].checked) {
+              rollRequest.isAutofire = true;
+            }
             rollRequest.formula = "2d6";
             rollRequest.multiplier = Number(
               html.find('[name="autofire-multiplier"]').val()
             );
           };
+          if (html.find('[name="final-mods"]').val() != "") {
+            rollRequest.mods.push(Number(
+              html.find('[name="final-mods"]').val()
+            ));
+          }
         } else {
           // Assign Mods
           if (html.find('[name="statValue"]').val() != "") {

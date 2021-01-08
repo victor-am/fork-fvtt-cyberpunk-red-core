@@ -90,6 +90,8 @@ export default class CPRRolls {
 
     // get dice total
     rollResult.diceTotal = roll.total;
+
+    // apply autofire multiplier
     if (rollResult.isAutofire) rollResult.diceTotal *= rollResult.multiplier
 
     // count crits and bonus damage
@@ -103,6 +105,14 @@ export default class CPRRolls {
 
     // get total attack damage
     rollResult.resultTotal = rollResult.diceTotal + rollResult.bonusDamage;
+
+    // add all mods!
+    if (rollResult.mods.length !== 0) {
+      rollResult.mods = rollResult.mods.reduce((a, b) => a + b);
+      rollResult.resultTotal += rollResult.mods;
+    }
+    
+
     return rollResult;
   }
 

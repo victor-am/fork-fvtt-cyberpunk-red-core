@@ -1,12 +1,13 @@
 {{log "CPR-ROLLCARD.HBS"}}
+{{!-- If this is a damage roll --}}
 {{#ifEquals rollType "damage"}}
 <div class="chat-rollCard" data-roll-type="{{rollType}}">
-    <h1 class="chat-rollTitle-{{rollType}}">{{rollTitle}}</h1>
+    <h2 class="chat-rollTitle-{{rollType}}">{{rollTitle}}</h2>
     <section>
         <table>
             <tr>
                 <td>
-                    <h2>{{resultTotal}}{{#if wasCritical}}!{{/if}}</h2>
+                    <h3>{{resultTotal}}{{#if wasCritical}}!{{/if}}</h3>
                     {{#each diceResults as |die|}}
                     <span>{{die}}</span>
                     {{/each}}
@@ -19,6 +20,9 @@
                     {{else}}
                     Roll: {{diceTotal}} <br>
                     {{/if}}
+                    {{#if (gt mods 0)}}
+                    <div>Mods: {{mods}}</div><br>
+                    {{/if}}
                     <div class="chat-rollTotal">Result Total: {{resultTotal}}</div><br>
                     Location: {{location}} <br>
                 </td>
@@ -26,6 +30,7 @@
         </table>
     </section>
 </div>
+{{!-- And if it's any other kind of roll --}}
 {{else}}
 <div class="chat-rollCard" data-roll-type="{{rollType}}">
     <h2 class="chat-rollTitle-{{rollType}}">{{rollTitle}}</h2>
@@ -33,7 +38,7 @@
         <table>
             <tr>
                 <td>
-                    <h1>{{resultTotal}}</h1>
+                    <h3>{{resultTotal}}</h3>
                 </td>
                 <td>
                     {{#if wasCritical}}

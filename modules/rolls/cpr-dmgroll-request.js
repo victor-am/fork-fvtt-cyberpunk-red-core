@@ -16,5 +16,6 @@ export default class CPRDmgRollRequest {
             aimed: false,
             location: ""
         }
+        this.weaponType = "";
     }
 };
