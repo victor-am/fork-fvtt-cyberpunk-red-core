@@ -23,4 +23,9 @@ export default class CPRItem extends Item {
         const data = super.getRollData();
         return data;
     }
+
+    reloadWeapon(ammoObject) {
+        console.log("reload weapon");
+        console.log(this);
+    }
 }
