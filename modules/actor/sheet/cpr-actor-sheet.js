@@ -122,15 +122,15 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   async _updateEquip(event) {
+    /**
+     * Equip or Unequip an item. Make stat changes and check
+     * conditions (like free hands) as necessary.
+     */
     LOGGER.trace(`ActorID _equip | CPRActorSheet | Called.`);
     const item_id = $(event.currentTarget).attr("data-item-id");
     const item = this._getOwnedItem(item_id);
     const curr_equip = $(event.currentTarget).attr("curr-equip");
     let prop = this._getObjProp(event); // panic if undefined
-    LOGGER.trace(item_id);
-    LOGGER.trace(prop);
-    LOGGER.trace(item);
-    LOGGER.trace(curr_equip);
 
     switch (curr_equip) {
       case "owned": {
@@ -171,7 +171,8 @@ export default class CPRActorSheet extends ActorSheet {
     /**
      * Update an item property with a value
      */
-    LOGGER.debug(`ActorID _updateOwnedItemProp | Item ID:${itemId}.`);
+    LOGGER.debug(`ActorID _updateOwnedItemProp | Item:${item}.`);
+    LOGGER.debug(`Updating ${prop} to ${value}`)
     setProperty(item.data, prop, value);
     this.actor.updateEmbeddedEntity("OwnedItem", item.data)
   }
