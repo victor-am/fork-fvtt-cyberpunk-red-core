@@ -30,6 +30,16 @@
             {{/select}}
           </select>
         </div>
+                <div>
+          Type:
+          <select name="data.type" data-dtype="{{data.type}}">
+            {{#select data.type}}
+            {{#each (findConfigObj "ammoType") as |type t|}}
+            <option value="{{t}}">{{localize type}}</option>
+            {{/each}}
+            {{/select}}
+          </select>
+        </div>
         {{!-- WHAT STAT DOES THIS SKILL USE --}}
         <div>
           Amount: <input name="data.amount" class="" type="text" value="{{data.amount}}" placeholder="10">

@@ -12,7 +12,11 @@
             <td class="header" width="25%">Value</td>
           {{else}}
             <td class="header" width="25%">Info</td>
-            <td class="header" width="25%">Action</td>
+            {{#ifEquals c "ammo"}} 
+              <td class="header" width="25%">Quantity</td>           
+            {{else}}
+              <td class="header" width="25%">Action</td>
+            {{/ifEquals}}
           {{/ifEquals}}
       </tr>
       {{#each ../actor.items as |item i|}}
@@ -37,7 +41,7 @@
             {{log "AMMO"}}
             {{log item}}
             <td class="item inventory-center">{{localize (findConfigValue "ammoVariety" item.data.variety)}}</td>
-            <td class="item inventory-center"></td>
+            <td class="item inventory-center">{{localize (findConfigValue "ammoType" item.data.type)}}</td>
             <td class="item inventory-center">{{item.data.amount}}</td>
           {{/ifEquals}}
           {{#ifEquals item.type "armor"}}
