@@ -5,7 +5,6 @@
     {{!-- FOR EACH CATEGORY --}}
       {{#each (findConfigObj "inventoryCategories") as |category c|}}
       <tr class="header">
-<<<<<<< HEAD
           <td class="header" width="25%">{{localize (findConfigValue "inventoryCategories" c)}}</td>
           <td class="header" width="25%">Type</td>
           {{#ifEquals c "gear"}}
@@ -19,12 +18,6 @@
               <td class="header" width="25%">Action</td>
             {{/ifEquals}}
           {{/ifEquals}}
-=======
-          <td class="header" width="55%">{{localize (findConfigValue "inventoryCategories" c)}}</td>
-          <td class="header" width="30%">Data</td>
-          <td class="header" width="9%">Quantity</td>
-          <td class="header" width="5%"></td> {{!-- equipped icon --}}
->>>>>>> origin/dev
       </tr>
       {{#each ../actor.items as |item i|}}
       {{!-- IF ITEM IS OF CATEGORY --}}
@@ -40,10 +33,9 @@
           </td>
           {{!-- TODO remove if ifEquals, add partials per category if display needs to change --}}
           {{#ifEquals item.type "weapon"}}
-<<<<<<< HEAD
             <td class="item inventory-center">{{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}</td>
             <td class="item inventory-center">LOADED AMMO TYPE AND AMOUNT</td>
-            <td class="item inventory-center">EQUIP/UNEQUIP CONCEAL RELOAD CHANGE_AMMO</td>
+            <td class="item inventory-center">{{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}} CONCEAL RELOAD CHANGE_AMMO</td>
           {{/ifEquals}}
           {{#ifEquals item.type "ammo"}}
             {{log "AMMO"}}
@@ -55,7 +47,7 @@
           {{#ifEquals item.type "armor"}}
             <td class="item inventory-center">COVERAGE LOCATION</td>
             <td class="item inventory-center">SP VALUE</td>
-            <td class="item inventory-center">EQUIP/UNEQUIP</td>
+            <td class="item inventory-center">{{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}}</td>
           {{/ifEquals}}
           {{#ifEquals item.type "gear"}}
             <td class="item inventory-center"></td>
@@ -63,28 +55,6 @@
             <td class="item inventory-center">{{item.data.price.market}}</td>
           {{/ifEquals}}
           
-=======
-            <td class="item">{{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}</td>
-            <td class="item">1</td>
-          {{else}}
-            {{#ifEquals item.type "ammo"}}
-               <td class="item">{{localize (findConfigValue "ammoVariety" item.data.variety)}}</td>
-               <td class="item">{{item.data.amount}}</td>
-            {{else}}
-               <td class="item"></td>
-               <td class="item">1</td>
-            {{/ifEquals}}
-           {{/ifEquals}}
-          {{#ifEquals item.type "weapon"}}
-            <td>{{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}}</td>
-          {{else}}
-            {{#ifEquals item.type "armor"}}
-              <td>{{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}}</td>
-            {{else}}
-              <td></td>
-            {{/ifEquals}}
-          {{/ifEquals}}
->>>>>>> origin/dev
       </tr>
       {{/ifEquals}}
       {{/each}}
