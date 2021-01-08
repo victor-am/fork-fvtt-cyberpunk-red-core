@@ -313,6 +313,9 @@ form .item-name {
 .chat-rollCard h1 {
   border-bottom: none;
 }
+form input.number {
+  width: 30px;
+}
 :root {
   font-family: 'Ubuntu Mono', monospace;
   font-size: 10px;

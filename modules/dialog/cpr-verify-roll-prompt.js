@@ -23,6 +23,9 @@ export async function VerifyRollPrompt(rollRequest) {
           if (html.find('[name="autofire"]')[0].checked) {
             rollRequest.isAutofire = true;
             rollRequest.formula = "2d6";
+            rollRequest.multiplier = Number(
+              html.find('[name="autofire-multiplier"]').val()
+            );
           };
         } else {
           // Assign Mods

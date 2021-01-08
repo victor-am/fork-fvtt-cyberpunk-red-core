@@ -6,6 +6,7 @@ export default class CPRDmgRollRequest {
         // To change the flow of _onRoll()
         this.rollType = "damage" 
         this.isAutofire = false;
+        this.multiplier = 1;
         this.mods = [];
         this.location = "body";
         this.isRanged = true;

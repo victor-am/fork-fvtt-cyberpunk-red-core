@@ -90,6 +90,7 @@ export default class CPRRolls {
 
     // get dice total
     rollResult.diceTotal = roll.total;
+    if (rollResult.isAutofire) rollResult.diceTotal *= rollResult.multiplier
 
     // count crits and bonus damage
     let sixes = 0;
