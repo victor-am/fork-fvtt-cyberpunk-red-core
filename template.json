@@ -303,6 +303,10 @@
       "altFireModes": "",
       "magSize": 0,
       "quality": "standard",
+      "loadout": {
+        "ammoQuantity": 0,
+        "ammoType": ""
+      }
       "ammoVariety": [],
       "attachmentSlots": 0
     },

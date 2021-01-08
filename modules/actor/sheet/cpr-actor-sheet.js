@@ -152,7 +152,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID _equip | CPRActorSheet | Called.`);
     const item_id = $(event.currentTarget).attr("data-item-id");
     const item = this._getOwnedItem(item_id);
-    const curr_equip = $(event.currentTarget).attr("curr-equip");
+    const curr_equip = $(event.currentTarget).attr("data-curr-equip");
     let prop = this._getObjProp(event); // panic if undefined
 
     switch (curr_equip) {

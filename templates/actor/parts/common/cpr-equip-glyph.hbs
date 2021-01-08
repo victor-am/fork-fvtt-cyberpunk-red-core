@@ -2,7 +2,7 @@
 {{!-- <a class="item-control item-toggle {{item.toggleClass}}" title='{{item.toggleTitle}}'><i
         class="fas fa-shield-alt"></i></a> --}}
 <div>
-    <a class="equip" data-item-id="{{this._id}}" data-item-prop="data.equippable.equipped" curr-equip="{{data.equippable.equipped}}">
+    <a class="equip" data-item-id="{{this._id}}" data-item-prop="data.equippable.equipped" data-curr-equip="{{data.equippable.equipped}}">
         {{#ifEquals data.equippable.equipped "equipped" }}
             <i class="fas fa-hand-paper" title={{localize "CPR.equipped" }}></i>
         {{/ifEquals}}
