@@ -110,7 +110,7 @@ export default class CPRActorSheet extends ActorSheet {
       rollRequest = await VerifyRollPrompt(rollRequest);
       LOGGER.debug(`ActorID _onRoll | CPRActorSheet | Checking rollRequest post VerifyRollPrompt.`);
     }
-
+    console.log(rollRequest);
     if (rollRequest.rollType == "abort") {
       return;
     }
@@ -188,7 +188,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID _prepareRollAbility | rolling ability: ` + rollRequest.rollTitle + ` | ` + rollRequest.skillValue);
     const actorData = this.getData().data;
     
-    rollRequest.skillValue = actorData.roleInfo.roleskills[actorData.roleInfo["role"]][rollRequest.rollTitle];
+    rollRequest.roleValue = actorData.roleInfo.roleskills[actorData.roleInfo["role"]][rollRequest.rollTitle];
     rollRequest.rollTitle=game.i18n.localize(CPR['roleAbilityList'][rollRequest.rollTitle]);
   }
 

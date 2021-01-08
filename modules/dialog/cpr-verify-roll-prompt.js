@@ -30,6 +30,7 @@ export async function VerifyRollPrompt(rollRequest) {
                 if (html.find('[name="mods"]').val() != "") {
                     rollRequest.mods = CPRArrayUtils.PushMultipleNumbersFromString(rollRequest.mods, html.find('[name="mods"]').val(), [` `, `,`]);
                 };
+                rollRequest.calculateCritical = html.find('[name="calculateCritical"]')[0].checked;
             };
             
             new Dialog({
