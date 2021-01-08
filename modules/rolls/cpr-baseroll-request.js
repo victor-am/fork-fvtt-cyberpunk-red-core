@@ -8,5 +8,6 @@ export default class CPRBaseRollRequest {
         this.roleValue = 0;
         this.calculateCritical = true;
         this.mods = [];
+        this.debug = false;
     }
 };
