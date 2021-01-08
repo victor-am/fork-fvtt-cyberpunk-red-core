@@ -305,7 +305,7 @@
       "quality": "standard",
       "loadout": {
         "ammoQuantity": 0,
-        "ammoType": ""
+        "ammoObject": ""
       }
       "ammoVariety": [],
       "attachmentSlots": 0

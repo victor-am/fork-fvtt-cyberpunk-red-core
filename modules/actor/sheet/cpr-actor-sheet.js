@@ -311,4 +311,10 @@ export default class CPRActorSheet extends ActorSheet {
     rollRequest.attackSkill = attackSkill;
     rollRequest.weaponType = weaponType;
   }
+
+  _onLoadWeapon(event) {
+
+    
+
+  }
 }

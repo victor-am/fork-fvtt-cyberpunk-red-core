@@ -35,7 +35,7 @@
           {{#ifEquals item.type "weapon"}}
             <td class="item inventory-center">{{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}</td>
             <td class="item inventory-center">LOADED AMMO TYPE AND AMOUNT</td>
-            <td class="item inventory-center">{{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}} CONCEAL RELOAD CHANGE_AMMO</td>
+            <td class="item inventory-center">{{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}}<i class="fas fa-redo-alt" title="Reload"></i><i class="fas fa-exchange-alt" title="Change Ammo"></i> CONCEAL </td>
           {{/ifEquals}}
           {{#ifEquals item.type "ammo"}}
             {{log "AMMO"}}
