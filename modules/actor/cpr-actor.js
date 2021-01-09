@@ -15,7 +15,6 @@ export default class CPRActor extends Actor {
     super.prepareData();
     const actorData = this.data;
     actorData.filteredItems = this.itemTypes;
-
     LOGGER.debug("Prepare Character Data | CPRActor | Checking on contents of `filteredItems`.");
 
 
@@ -64,7 +63,6 @@ export default class CPRActor extends Actor {
     let stats = actorData.data.stats;
     let derivedStats = actorData.data.derivedStats;
 
-
     // Set max HP
     derivedStats.hp.max = 10 + 5 * (Math.ceil((stats.will.value + stats.body.value) / 2));
 
@@ -95,35 +93,23 @@ export default class CPRActor extends Actor {
 
   getWoundState() {
     LOGGER.trace("getWoundState | CPRActor | Obtaining Wound State.");
-     for (var key in this.data.data.woundState) {
-      if (this.data.data.woundState[key]) {
-        return key;
-      }
-    }
-    return null;
+    return this.data.data.woundState.currentWoundState;
   }
 
   setWoundState(actorData) {
     LOGGER.trace("setWoundState | CPRActor | Setting Wound State.");
-    
+
     let derivedStats = this.data.data.derivedStats;
-
-    // First reset wound state
-    for (var key in this.data.data.woundState) {
-      this.data.data.woundState[key] = false;
-    }
-
-    let currentWoundState = "notWounded";
-
-    if (derivedStats.hp.value < derivedStats.hp.max) {
-      currentWoundState = "lightlyWounded";
-    }
-    if (derivedStats.hp.value < derivedStats.seriouslyWounded) {
-      currentWoundState = "seriouslyWounded";
-    }
+    let newState = "invalidState";
     if (derivedStats.hp.value < 1) {
-       currentWoundState = "mortallyWounded";
-    }
-    this.data.data.woundState[currentWoundState] = true;
+      newState = "mortallyWounded";
+    } else if (derivedStats.hp.value < derivedStats.seriouslyWounded) {
+      newState = "seriouslyWounded";
+    } else if (derivedStats.hp.value < derivedStats.hp.max) {
+      newState = "lightlyWounded";
+    } else if (derivedStats.hp.value == derivedStats.hp.max) {
+      newState = "notWounded";
+    } 
+    this.data.data.woundState.currentWoundState = newState;
   }
 }

@@ -46,11 +46,7 @@
           "deathSavePenlty": 0
         },
         "woundState": {
-          "notWounded": true,
-          "lightlyWounded": false,
-          "seriouslyWounded": false,
-          "mortallyWounded": false,
-          "dead": false
+          "currentWoundState": "notWounded"
         },
         "skills": {
           "accounting": 0,
