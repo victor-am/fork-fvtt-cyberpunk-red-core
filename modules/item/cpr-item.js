@@ -12,7 +12,12 @@ export default class CPRItem extends Item {
     prepareData() {
         LOGGER.trace("prepareData | CPRItem | Called.");
         super.prepareData();   
+        if (this.data.type === "weapon") {
+            this.data.data.ammoVariety = ["medPistol"];
+        }
         const itemData = this.data.data;  
+        console.log(this);
+        console.log(itemData);
         LOGGER.debug("prepareData | CPRItem | Checking itemData.");
     }
 

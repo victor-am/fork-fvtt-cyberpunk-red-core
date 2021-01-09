@@ -303,7 +303,7 @@
       "altFireModes": "",
       "magSize": 0,
       "quality": "standard",
-      "loadout": {
+      "magState": {
         "ammoQuantity": 0,
         "ammoObject": ""
       },

@@ -182,37 +182,81 @@ export default class CPRActorSheet extends ActorSheet {
 
   async _loadWeapon(event) {
     LOGGER.trace(`ActorID _loadWeapon | CPRActorSheet | Called.`);
-    
+
     const itemId = $(event.currentTarget).attr("data-item-id");
     const loadAction = $(event.currentTarget).attr("data-load-action");
     const item = this._getOwnedItem(itemId);
     const ownedAmmo = this.actor.data.filteredItems['ammo'];
     console.log(item);
-    let validAmmo = [];
 
-    for (let a of ownedAmmo) {
-      console.log(a);
-      if (a.data.data.variety === item.data.data.weaponType) {
-        validAmmo.push(a);
+    let magSize = Number(item.data.data.magSize);
+    let magAmmo = Number(item.data.data.magState.ammoQuantity);
+    let magAmmoObject = item.data.data.magState.ammoObject;
+
+    if (loadAction === "new-ammo") {
+
+      // Return any ammo in the gun back to the ammo object
+      if (magAmmo > 0) {
+        magAmmoObject = this._getOwnedItem(magAmmoObject);
+        console.log(magAmmoObject);
+        magAmmoObject.data.data.amount += magAmmo;
+        item.data.data.magState.ammoQuantity = 0;
+      }
+
+      let validAmmo = [];
+
+      for (let a of ownedAmmo) {
+        console.log(a);
+        let ammoVariety = item.data.data.ammoVariety;
+        console.log(ammoVariety);
+        if (ammoVariety.includes(a.data.data.variety)) {
+          //if (a.data.data.variety === item.data.data.ammoVariety) {
+          validAmmo.push(a);
+        }
+      }
+
+      let dialogData = {
+        "weapon": item,
+        "ammoList": validAmmo,
+        "selectedAmmo": ""
+      };
+      dialogData = await SelectAmmoForWeapon(dialogData);
+      magAmmoObject = dialogData.selectedAmmo;
+      if (dialogData.selectedAmmo === "") {
+        return;
       }
     }
 
-    let dialogData = {
-      "weapon": item,
-      "ammoList": validAmmo,
-      "selectedAmmo": ""};
-    let selectedAmmo = await SelectAmmoForWeapon(dialogData);
-    console.log("=============================");
-    console.log(selectedAmmo);
-    //let ammoList = this.actor.filtere
-    
+    let ammoObject = this._getOwnedItem(magAmmoObject);
+    magAmmo = Number(item.data.data.magState.ammoQuantity);
 
+    if (ammoObject.data.data.amount > 0) {
+      let ammoQuantity = ammoObject.data.data.amount;
+      let maxLoadSize = magSize - magAmmo;
+      this._updateOwnedItemProp(item, "magState.ammoObject", magAmmoObject);
+ //     item.data.data.magState.ammoObject = magAmmoObject;
+      if (ammoQuantity >= maxLoadSize) {
+        //item.data.data.magState.ammoQuantity = magSize;
+        this._updateOwnedItemProp(item, "magState.ammoQuantity", magSize);
+        //ammoObject.amount -= maxLoadSize;
+        this._updateOwnedItemProp(ammoObject, "amount", maxLoadSize);
+      }
+      else {
+        this._updateOwnedItemProp(item, "magState.ammoQuantity", (magAmmo + ammoQuantity));
+        //item.data.data.magState.ammoQuantity = magAmmo + ammoQuantity;
+        this._updateOwnedItemProp(ammoObject, "amount", 0);
+      }
+    }
+
+    this._updateOwnedItemProp(item, prop, value)
+    console.log("=============================");
+    console.log(item);
   }
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
 
   _updateSkill(event) {
     LOGGER.trace(`ActorID _updateSkill | CPRActorSheet | Called.`);
-    
+
     let itemId = this._getItemId(event);
     const item = this._getOwnedItem(itemId);
 
@@ -239,7 +283,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID _itemUpdate | CPRActorSheet | Called.`);
 
     let itemId = this._getItemId(event);
-    LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);    
+    LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);
     const item = this.actor.items.find(i => i.data._id == itemId)
     item.sheet.render(true);
   }
@@ -299,13 +343,13 @@ export default class CPRActorSheet extends ActorSheet {
   _prepareRollAbility(rollRequest) {
     LOGGER.trace(
       `ActorID _prepareRollAbility | rolling ability: ` +
-        rollRequest.rollTitle +
-        ` | ` +
-        rollRequest.skillValue
+      rollRequest.rollTitle +
+      ` | ` +
+      rollRequest.skillValue
     );
     const actorData = this.getData().data;
     rollRequest.roleValue = actorData.roleInfo.roleskills[actorData.roleInfo["role"]][rollRequest.rollTitle];
-    rollRequest.rollTitle=game.i18n.localize(CPR['roleAbilityList'][rollRequest.rollTitle]);
+    rollRequest.rollTitle = game.i18n.localize(CPR['roleAbilityList'][rollRequest.rollTitle]);
   }
 
   _prepareRollAttack(rollRequest, itemId) {
@@ -346,7 +390,7 @@ export default class CPRActorSheet extends ActorSheet {
 
   _onLoadWeapon(event) {
 
-    
+
 
   }
 }
