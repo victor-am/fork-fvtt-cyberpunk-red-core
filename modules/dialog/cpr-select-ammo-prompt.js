@@ -1,6 +1,6 @@
 import LOGGER from "../utils/cpr-logger.js";
 
-export async function SelectAmmoForWeapon(dialogData) {
+export async function SelectAmmoPrompt(dialogData) {
     LOGGER.trace(`_loadWeapon | Dialog SelectAmmoForWeapon | called.`);
     
     return new Promise((resolve) => {
@@ -10,13 +10,19 @@ export async function SelectAmmoForWeapon(dialogData) {
         ).then((html) => {
           let _onCancel = function (html) {
             LOGGER.trace(`_loadWeapon | Dialog SelectAmmoForWeapon | called.`);
-            console.log(html);
+            
             dialogData.selectedAmmo = "abort";
           };
     
           let _onConfirm = function (html) {
             LOGGER.trace(`_loadWeapon | Dialog SelectAmmoForWeapon | called.`);
-            dialogData.selectedAmmo =  html.find('[name="selectedAmmo"]').val();
+            const rButtons = html.find('[name="selectedAmmo"');
+            for (const rb of rButtons) {
+                if (rb.checked) {
+                    dialogData.selectedAmmo = rb.value;
+                    break;
+                }
+            }
           };
     
           new Dialog({

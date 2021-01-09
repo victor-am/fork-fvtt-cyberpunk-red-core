@@ -5,7 +5,6 @@ import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
 import CPRDmgRollRequest from "../../rolls/cpr-dmgroll-request.js";
 import { VerifyRollPrompt } from "../../dialog/cpr-verify-roll-prompt.js";
 import { RollCard } from "../../chat/cpr-rollcard.js";
-import { SelectAmmoForWeapon } from "../../dialog/cpr-select-ammo-prompt.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -49,8 +48,8 @@ export default class CPRActorSheet extends ActorSheet {
     // Update equipment
     html.find(".equip").click(event => this._updateEquip(event));
 
-    // Load/re-load Weapon
-    html.find(".load-weapon").click(event => this._loadWeapon(event));
+    // Generic item action
+    html.find(".item-action").click(event => this._itemAction(event));
 
     // Update Item
     html.find(".item-edit").click((event) => this._updateItem(event));
@@ -180,84 +179,18 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  async _loadWeapon(event) {
-    LOGGER.trace(`ActorID _loadWeapon | CPRActorSheet | Called.`);
-
+  async _itemAction(event) {
     const itemId = $(event.currentTarget).attr("data-item-id");
-    const loadAction = $(event.currentTarget).attr("data-load-action");
     const item = this._getOwnedItem(itemId);
-    const ownedAmmo = this.actor.data.filteredItems['ammo'];
-    console.log(item);
-
-    let magSize = Number(item.data.data.magSize);
-    let magAmmo = Number(item.data.data.magState.ammoQuantity);
-    let magAmmoObject = item.data.data.magState.ammoObject;
-
-    if (loadAction === "new-ammo") {
-
-      // Return any ammo in the gun back to the ammo object
-      if (magAmmo > 0) {
-        magAmmoObject = this._getOwnedItem(magAmmoObject);
-        console.log(magAmmoObject);
-        //magAmmoObject.data.data.amount += magAmmo;
-        this._updateOwnedItemProp(ammoObject, "data.amount", (magAmmoObject.data.data.amount + magAmmo));
-        //item.data.data.magState.ammoQuantity = 0;
-        this._updateOwnedItemProp(item, "data.magState.ammoQuantity", 0);
-      }
-
-      let validAmmo = [];
-
-      for (let a of ownedAmmo) {
-        console.log(a);
-        let ammoVariety = item.data.data.ammoVariety;
-        console.log(ammoVariety);
-        if (ammoVariety.includes(a.data.data.variety)) {
-          //if (a.data.data.variety === item.data.data.ammoVariety) {
-          validAmmo.push(a);
-        }
-      }
-
-      let dialogData = {
-        "weapon": item,
-        "ammoList": validAmmo,
-        "selectedAmmo": ""
-      };
-      dialogData = await SelectAmmoForWeapon(dialogData);
-      magAmmoObject = dialogData.selectedAmmo;
-      if (dialogData.selectedAmmo === "") {
-        return;
-      }
+    if (item) {
+      item.doAction(this.actor, (event.currentTarget).attributes);
+      console.log("_itemAction Dump");
+      console.log(item);
+      this.actor.updateEmbeddedEntity("OwnedItem", item.data);
     }
-
-    let ammoObject = this._getOwnedItem(magAmmoObject);
-    magAmmo = Number(item.data.data.magState.ammoQuantity);
-
-    if (ammoObject.data.data.amount > 0) {
-      let ammoQuantity = ammoObject.data.data.amount;
-      let maxLoadSize = magSize - magAmmo;
-      console.log("HERE1");
-      this._updateOwnedItemProp(item, "data.magState['ammoObject']", magAmmoObject);
- //     item.data.data.magState.ammoObject = magAmmoObject;
-      if (ammoQuantity >= maxLoadSize) {
-        //item.data.data.magState.ammoQuantity = magSize;
-        console.log("HERE2");
-        this._updateOwnedItemProp(item, "data.magState.['ammoQuantity']", magSize);
-        //ammoObject.amount -= maxLoadSize;
-        console.log("HERE3");
-        this._updateOwnedItemProp(ammoObject, "data.amount", (ammoQuantity - maxLoadSize));
-      }
-      else {
-        console.log("HERE4");
-        this._updateOwnedItemProp(item, "data.magState.['ammoQuantity']", (magAmmo + ammoQuantity));
-        //item.data.data.magState.ammoQuantity = magAmmo + ammoQuantity;
-        console.log("HERE5");
-        this._updateOwnedItemProp(ammoObject, "data.amount", 0);
-      }
-    }
-
-    console.log("=============================");
-    console.log(item);
   }
+
+  
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
 
   _updateSkill(event) {
@@ -395,11 +328,5 @@ export default class CPRActorSheet extends ActorSheet {
     rollRequest.formula = weaponItem.data.data.damage;
     rollRequest.attackSkill = attackSkill;
     rollRequest.weaponType = weaponType;
-  }
-
-  _onLoadWeapon(event) {
-
-
-
   }
 }
