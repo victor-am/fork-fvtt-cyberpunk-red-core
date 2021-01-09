@@ -28,10 +28,13 @@ export default function preloadHandlebarsTemplates() {
       "systems/cyberpunk-red-core/templates/actor/parts/cpr-humanity-block.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/cpr-role-block.hbs",
       // Inventory Partials
-      "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-weapon-inventory.hbs",
-      "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-armor-inventory.hbs",
-      "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-ammo-inventory.hbs",
-      "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-gear-inventory.hbs",
+      "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-weapon-inventory-header.hbs",
+      "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-weapon-inventory-content.hbs",
+      "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-ammo-inventory-header.hbs",
+      "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-ammo-inventory-content.hbs",
+      //"systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-armor-inventory.hbs",
+      //"systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-ammo-inventory.hbs",
+      //"systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-gear-inventory.hbs",
       // Mook Sheet Partials
 
       // Item Sheet Partials

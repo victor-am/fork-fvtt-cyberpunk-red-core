@@ -48,6 +48,9 @@ export default class CPRActorSheet extends ActorSheet {
     // Update equipment
     html.find(".equip").click(event => this._updateEquip(event));
 
+    // Load/re-load Weapon
+    html.find(".load-weapon").click(event => this._loadWeapon(event));
+
     // Update Item
     html.find(".item-edit").click((event) => this._updateItem(event));
 
@@ -176,6 +179,18 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
+  async _loadWeapon(event) {
+    LOGGER.trace(`ActorID _loadWeapon | CPRActorSheet | Called.`);
+    console.log(event);
+    const itemId = $(event.currentTarget).attr("data-item-id");
+    const loadAction = $(event.currentTarget).attr("data-load-action");
+    const item = this._getOwnedItem(itemId);
+    console.log(itemId);
+    console.log(loadAction);
+    console.log(item);
+    
+
+  }
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
 
   _updateSkill(event) {

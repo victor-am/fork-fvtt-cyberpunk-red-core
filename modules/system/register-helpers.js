@@ -52,8 +52,8 @@ export default function registerHandlebarsHelpers() {
     return arg1.replace("VAR", arg2);
   });
 
-  handlebars.registerHelper("setVar", function(varName, varValue, options) {
-    options.data.root[varName] = varValue;
+  Handlebars.registerHelper("dumpObj", (obj) => {
+    LOGGER.trace(`Calling dumpObj Helper | Arg1:${obj}`);
+    console.log(obj);
   });
-
 }

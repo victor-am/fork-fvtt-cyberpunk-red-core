@@ -60,6 +60,7 @@ export async function VerifyRollPrompt(rollRequest) {
               [` `, `,`]
             );
           }
+          rollRequest.roleValue = html.find('[name="calculateCritical"]')[0].checked;
         }
       };
 
