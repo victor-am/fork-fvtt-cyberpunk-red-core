@@ -27,9 +27,7 @@
           <a class="item-delete"><i class="fas fa-trash-alt"></i></a>
           {{/ifEquals}}
         </div>
-
-        <span class="skill-level">{{skill.data.level}}</span>
-        {{!-- <span class="skill-stat">{{getProp (getProp ../../actor.data.stats skill.data.stat) 'value'}}</span> --}}
+        <span class="skill-level"><input class="skill-level-input" value="{{skill.data.level}}" type="number" data-item-prop="data.level" data-dtype="Number"></span>
         <span class="skill-base">{{add skill.data.level (lookup (getProp ../../actor.data.stats skill.data.stat) 'value')}}</span>
       </div>
       {{/ifEquals}}

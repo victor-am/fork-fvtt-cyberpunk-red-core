@@ -151,9 +151,9 @@ CPR.weaponTypeList = {
   "smg": "CPR.smg",
   "heavySmg": "CPR.heavysmg",
   "shotgun": "CPR.shotgun",
-  "assualtRifle": "CPR.assaultrifle",
-  "sniperRifler": "CPR.sniperrifle",
-  "bows": "CPR.bowsandcrossbows",
+  "assaultRifle": "CPR.assaultrifle",
+  "sniperRifle": "CPR.sniperrifle",
+  "bow": "CPR.bowsandcrossbows",
   "grenadeLauncher": "CPR.grenadelauncher",
   "rocketLauncher": "CPR.rocketlauncher"
 }
@@ -182,4 +182,19 @@ CPR.inventoryCategories = {
   "armor": "CPR.armor",
   "drug": "CPR.drug",
   "gear": "CPR.gear"
+}
+
+CPR.woundState = {
+  "notWounded": "CPR.notwounded",
+  "lightlyWounded": "CPR.lightlywounded",
+  "seriouslyWounded": "CPR.seriouslywounded",
+  "mortallyWounded": "CPR.mortallywounded",
+  "dead": "CPR.dead"
+}
+
+// Sorted A-Z
+CPR.equipped = {
+  "carried": "CPR.carried",
+  "equipped": "CPR.equipped",
+  "owned": "CPR.owned"
 }

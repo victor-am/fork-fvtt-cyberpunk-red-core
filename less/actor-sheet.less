@@ -83,7 +83,7 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 345px;
+    height: 325px;
     .top-block {
       display: flex;
       justify-content: space-between;
@@ -108,14 +108,23 @@ form {
         flex-direction: column;
         justify-content: space-between;
         align-items: flex-end;
+        .role-ability {
+          //display: inline-flex;
+          .ability-name {
+            text-align: left;
+          }
+          .ability-value {
+            text-align: right;
+          }
+        }
       }
       .derived-block {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: flex-end;
-        .hitpoint {
-          height: 90px;
+        .hitpoint-block {
+          height: 80px;
           input {
             font-size: 5em;
             height: 100%;
@@ -132,6 +141,18 @@ form {
             0 15px
           );
         }
+        .humanity-block {
+
+        }
+        .save-block {
+          .wound-state {
+            text-align: left;
+            word-spacing: 9999rem;
+          }
+          .death-save {
+            padding-right: 0.5em;
+          }
+        }
       }
       .role-block table {
         margin: 0;
@@ -139,7 +160,8 @@ form {
         background: transparent;
         border: none;
         outline: 0;
-        font-size: 1.4em;
+        font-size: 1.2em;
+        display: contents;
         td,
         tr {
           tr,
@@ -151,8 +173,8 @@ form {
             padding: 1px 0;
           }
           .ability-rank-input {
-            width: 1.5em;
-            padding: 0;
+            font-size: 1.2em;
+            
           }
         }
       }
@@ -163,21 +185,21 @@ form {
       justify-content: space-between;
       background-color: @maximum-red;
       padding: 10px 5px 5px 5px;
-      min-width: 665px;
+      min-width: 400px;
       .stats-unit {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
         background-color: #ffffff;
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
         flex-shrink: 0;
         .stat-title {
           display: flex;
           flex-direction: row-reverse;
           font-weight: bold;
-          padding-right: 3px;
+          padding-right: 2px;
           p {
             margin: 0;
           }
@@ -192,7 +214,7 @@ form {
             outline: 0;
             font-size: 3em;
             text-align: center;
-            height: 100%;
+            height: 65%;
           }
           .max {
             font-size: 1.5em;
@@ -231,7 +253,14 @@ form {
       .skill-name {
         width: 70%;
       }
-      .skill-level, .skill-stat, .skill-base {
+      .skill-level-input {
+        text-align: center;
+        border: none;
+        padding: 0px;
+        margin: 0px;
+        height: 1.4rem;
+        background: unset;
+      } .skill-level, .skill-stat, .skill-base {
         width: 15%;
         text-align: center;
       }
@@ -244,10 +273,10 @@ form {
     }
     .header {
       background-color: @raisin-black;
-      color: #ffffff;
+      color: @white;
     }
     .item {
-      background-color: #ffffff;
+      background-color: @white;
     }
   }
 }

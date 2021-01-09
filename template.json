@@ -31,10 +31,6 @@
           "body": {
             "value": 6
           },
-          "luck": {
-            "value": 6,
-            "max": 6
-          },
           "emp": {
             "value": 6,
             "max": 6
@@ -50,11 +46,7 @@
           "deathSavePenlty": 0
         },
         "woundState": {
-          "notWounded": true,
-          "lightlyWounded": false,
-          "seriouslyWounded": false,
-          "mortallyWounded": false,
-          "dead": false
+          "currentWoundState": "notWounded"
         },
         "skills": {
           "accounting": 0,
@@ -176,6 +168,12 @@
       "templates": [
         "common"
       ],
+      "stats": {
+        "luck": {
+          "value": 6,
+          "max": 6
+        }
+      },
       "lifepath": {
         "culturalOrigin": "",
         "personality": "",
@@ -254,6 +252,9 @@
         "isMelee": false,
         "rangedAction": {},
         "meleeAction": {}
+      },
+      "equippable": {
+         "equipped": "owned"
       },
       "mods": {
         "list": [],

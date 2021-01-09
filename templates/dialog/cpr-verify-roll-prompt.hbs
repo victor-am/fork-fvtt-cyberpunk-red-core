@@ -1,5 +1,42 @@
+{{log "VERIFY-ROLL-PROMPT.HBS"}}
 <form action="">
+    {{#ifEquals rollType "damage"}}
+    {{#ifIn weaponType "assaultRifle,smg,heavySmg"}}
     <div>
-        Total Mods: <input name="mods" class="" type="number" data-dtype="Number" >
+      <label for="autofire">Autofire? </label>
+      <input type="checkbox" id="autofire" name="autofire">
+      <label for="autofire-multiplier"> Multiplier: </label>
+      {{!-- Ensure multiplier input is between 1 and either 3 or 4 depending on weapon type --}}
+      <input type="number" class="number" name="autofire-multiplier" data-dtype="Number" value={{multiplier}} 
+      max="{{#ifEquals weaponType "assaultRifle"}}4{{else}}3{{/ifEquals}}" min="1">
     </div>
+    {{/ifIn}}
+    <div>
+      <label for="final-mods">Final Mods: </label>
+      <input name="final-mods" type="number" data-dtype="Number" >
+    </div>
+    {{else}}
+    <div>
+        Roll Type: <input name="rollType" class="" type="text" data-dtype="Text" value={{rollType}}>
+    </div>
+    <div>
+        Roll Title: <input name="rollTitle" class="" type="text" data-dtype="Text" value={{rollTitle}} >
+    </div>
+    <div>
+        Stat Value: <input name="statValue" class="" type="number" data-dtype="Number" value={{statValue}} >
+    </div>
+    <div>
+        Skill Value: <input name="skillValue" class="" type="number" data-dtype="Number" value={{skillValue}} >
+    </div>
+    <div>
+        Role Value: <input name="roleValue" class="" type="number" data-dtype="Number" value={{roleValue}}>
+    </div>    
+    <div>
+        Mods: <input name="mods" class="" type="text" data-dtype="Text" value={{mods}}>
+    </div>
+    <div>
+        Should Roll Criticals: <input name="calculateCritical" class="" type="checkbox" data-dtype="Checkbox" checked>
+    </div>
+    {{/ifEquals}}
 </form>
+{{log "END VERIFY-ROLL-PROMPT.HBS"}}

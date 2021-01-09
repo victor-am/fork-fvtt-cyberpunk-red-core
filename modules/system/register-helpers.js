@@ -41,4 +41,11 @@ export default function registerHandlebarsHelpers() {
     return "INVALID_LIST";
   });
 
+  Handlebars.registerHelper("ifIn", function (arg1, arg2, options) {
+    // LOGGER.trace(`Calling ifIn Helper | Arg1:${arg1} Arg2:${arg2}`);
+    let array = arg2.split(',');
+    return array.includes(arg1) ? options.fn(this) : options.inverse(this);
+  });
+  
+
 }
