@@ -147,49 +147,4 @@ export default class CPRItem extends Item {
         }
 
     }
-
-
-    async _useForReferenceOnly() {
-
-        let dialogData = {
-            "weapon": item,
-            "ammoList": validAmmo,
-            "selectedAmmo": ""
-        };
-        dialogData = await SelectAmmoForWeapon(dialogData);
-        magAmmoObject = dialogData.selectedAmmo;
-        if (dialogData.selectedAmmo === "") {
-            return;
-        }
-
-
-        let ammoObject = this._getOwnedItem(magAmmoObject);
-        magAmmo = Number(item.data.data.magState.ammoQuantity);
-
-        if (ammoObject.data.data.amount > 0) {
-            let ammoQuantity = ammoObject.data.data.amount;
-            let maxLoadSize = magSize - magAmmo;
-            console.log("HERE1");
-            this._updateOwnedItemProp(item, "data.magState['ammoObject']", magAmmoObject);
-            //     item.data.data.magState.ammoObject = magAmmoObject;
-            if (ammoQuantity >= maxLoadSize) {
-                //item.data.data.magState.ammoQuantity = magSize;
-                console.log("HERE2");
-                this._updateOwnedItemProp(item, "data.magState.['ammoQuantity']", magSize);
-                //ammoObject.amount -= maxLoadSize;
-                console.log("HERE3");
-                this._updateOwnedItemProp(ammoObject, "data.amount", (ammoQuantity - maxLoadSize));
-            }
-            else {
-                console.log("HERE4");
-                this._updateOwnedItemProp(item, "data.magState.['ammoQuantity']", (magAmmo + ammoQuantity));
-                //item.data.data.magState.ammoQuantity = magAmmo + ammoQuantity;
-                console.log("HERE5");
-                this._updateOwnedItemProp(ammoObject, "data.amount", 0);
-            }
-        }
-
-        console.log("=============================");
-        console.log(item);
-    }
 }
