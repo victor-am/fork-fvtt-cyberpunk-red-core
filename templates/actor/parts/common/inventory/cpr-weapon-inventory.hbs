@@ -1,0 +1,29 @@
+{{!-- FOR EACH CATEGORY --}}
+{{log this}}
+<tr class="header">
+    <td class="header">{{localize (findConfigValue "inventoryCategories" category)}}</td>
+    <td class="header">Type</td>
+    <td class="header">Loadout</td>
+    <td class="header">Action</td>
+</tr>
+{{#each ../actor.items as |item i|}}
+{{!-- IF ITEM IS OF CATEGORY --}}
+{{#ifEquals item.type category}}
+{{log "INVENTORY ITEM"}}
+{{log item}}
+{{!-- DISPLAY ITEM --}}
+<tr class="item" data-item-id={{item._id}}>
+    <td class="name"><a class="name rollable" data-roll-type="{{c}}" data-roll-title="{{item.type}}"
+            data-item-id={{item._id}}>
+            {{item.name}}</a>
+        <a class="item-edit"><i class="fas fa-edit"></i></a>
+        <a class="item-delete"><i class="fas fa-trash-alt"></i></a>
+    </td>
+    <td class="item inventory-center">{{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}</td>
+    <td class="item inventory-center">LOADED AMMO TYPE AND AMOUNT</td>
+    <td class="item inventory-center">{{>
+        "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}}<i class="fas fa-redo-alt"
+            title="Reload"></i><i class="fas fa-exchange-alt" title="Change Ammo"></i> CONCEAL </td>
+</tr>
+{{/ifEquals}}
+{{/each}}

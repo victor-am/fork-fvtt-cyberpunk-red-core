@@ -1,65 +1,13 @@
 {{log "CPR-INVENTORY.HBS"}}
 <div class="tab-block">
+  {{#each (findConfigObj "inventoryCategories") as |category c|}}
   <table>
     <tbody>
-    {{!-- FOR EACH CATEGORY --}}
-      {{#each (findConfigObj "inventoryCategories") as |category c|}}
-      <tr class="header">
-          <td class="header" width="25%">{{localize (findConfigValue "inventoryCategories" c)}}</td>
-          <td class="header" width="25%">Type</td>
-          {{#ifEquals c "gear"}}
-            <td class="header" width="25%"></td>
-            <td class="header" width="25%">Value</td>
-          {{else}}
-            <td class="header" width="25%">Info</td>
-            {{#ifEquals c "ammo"}} 
-              <td class="header" width="25%">Quantity</td>           
-            {{else}}
-              <td class="header" width="25%">Action</td>
-            {{/ifEquals}}
-          {{/ifEquals}}
-      </tr>
-      {{#each ../actor.items as |item i|}}
-      {{!-- IF ITEM IS OF CATEGORY --}}
-      {{#ifEquals item.type c}}
-      {{log "INVENTORY ITEM"}}
-      {{log item}}
-      {{!-- DISPLAY ITEM --}}
-      <tr class="item" data-item-id={{item._id}}>
-          <td class="name"><a class="name rollable" data-roll-type="{{c}}" data-roll-title="{{item.type}}" data-item-id={{item._id}}>
-            {{item.name}}</a>
-            <a class="item-edit"><i class="fas fa-edit"></i></a>
-            <a class="item-delete"><i class="fas fa-trash-alt"></i></a>
-          </td>
-          {{!-- TODO remove if ifEquals, add partials per category if display needs to change --}}
-          {{#ifEquals item.type "weapon"}}
-            <td class="item inventory-center">{{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}</td>
-            <td class="item inventory-center">LOADED AMMO TYPE AND AMOUNT</td>
-            <td class="item inventory-center">{{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}}<i class="fas fa-redo-alt" title="Reload"></i><i class="fas fa-exchange-alt" title="Change Ammo"></i> CONCEAL </td>
-          {{/ifEquals}}
-          {{#ifEquals item.type "ammo"}}
-            {{log "AMMO"}}
-            {{log item}}
-            <td class="item inventory-center">{{localize (findConfigValue "ammoVariety" item.data.variety)}}</td>
-            <td class="item inventory-center">{{localize (findConfigValue "ammoType" item.data.type)}}</td>
-            <td class="item inventory-center">{{item.data.amount}}</td>
-          {{/ifEquals}}
-          {{#ifEquals item.type "armor"}}
-            <td class="item inventory-center">COVERAGE LOCATION</td>
-            <td class="item inventory-center">SP VALUE</td>
-            <td class="item inventory-center">{{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}}</td>
-          {{/ifEquals}}
-          {{#ifEquals item.type "gear"}}
-            <td class="item inventory-center"></td>
-            <td class="item inventory-center"></td>
-            <td class="item inventory-center">{{item.data.price.market}}</td>
-          {{/ifEquals}}
-          
-      </tr>
-      {{/ifEquals}}
-      {{/each}}
-      {{/each}}
+      {{!-- FOR EACH CATEGORY --}}
+      {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-VAR-inventory.hbs" c)}}
+
     </tbody>
-  </table>  
+  </table>
+  {{/each}}
 </div>
 {{log "END CPR-INVENTORY.HBS"}}
