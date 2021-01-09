@@ -199,8 +199,10 @@ export default class CPRActorSheet extends ActorSheet {
       if (magAmmo > 0) {
         magAmmoObject = this._getOwnedItem(magAmmoObject);
         console.log(magAmmoObject);
-        magAmmoObject.data.data.amount += magAmmo;
-        item.data.data.magState.ammoQuantity = 0;
+        //magAmmoObject.data.data.amount += magAmmo;
+        this._updateOwnedItemProp(ammoObject, "data.amount", (magAmmoObject.data.data.amount + magAmmo));
+        //item.data.data.magState.ammoQuantity = 0;
+        this._updateOwnedItemProp(item, "data.magState.ammoQuantity", 0);
       }
 
       let validAmmo = [];
@@ -233,22 +235,26 @@ export default class CPRActorSheet extends ActorSheet {
     if (ammoObject.data.data.amount > 0) {
       let ammoQuantity = ammoObject.data.data.amount;
       let maxLoadSize = magSize - magAmmo;
-      this._updateOwnedItemProp(item, "magState.ammoObject", magAmmoObject);
+      console.log("HERE1");
+      this._updateOwnedItemProp(item, "data.magState['ammoObject']", magAmmoObject);
  //     item.data.data.magState.ammoObject = magAmmoObject;
       if (ammoQuantity >= maxLoadSize) {
         //item.data.data.magState.ammoQuantity = magSize;
-        this._updateOwnedItemProp(item, "magState.ammoQuantity", magSize);
+        console.log("HERE2");
+        this._updateOwnedItemProp(item, "data.magState.['ammoQuantity']", magSize);
         //ammoObject.amount -= maxLoadSize;
-        this._updateOwnedItemProp(ammoObject, "amount", maxLoadSize);
+        console.log("HERE3");
+        this._updateOwnedItemProp(ammoObject, "data.amount", (ammoQuantity - maxLoadSize));
       }
       else {
-        this._updateOwnedItemProp(item, "magState.ammoQuantity", (magAmmo + ammoQuantity));
+        console.log("HERE4");
+        this._updateOwnedItemProp(item, "data.magState.['ammoQuantity']", (magAmmo + ammoQuantity));
         //item.data.data.magState.ammoQuantity = magAmmo + ammoQuantity;
-        this._updateOwnedItemProp(ammoObject, "amount", 0);
+        console.log("HERE5");
+        this._updateOwnedItemProp(ammoObject, "data.amount", 0);
       }
     }
 
-    this._updateOwnedItemProp(item, prop, value)
     console.log("=============================");
     console.log(item);
   }
@@ -272,6 +278,9 @@ export default class CPRActorSheet extends ActorSheet {
      */
     LOGGER.debug(`ActorID _updateOwnedItemProp | Item:${item}.`);
     LOGGER.debug(`Updating ${prop} to ${value}`)
+    console.log(item);
+    console.log(prop);
+    console.log(value);
     setProperty(item.data, prop, value);
     this.actor.updateEmbeddedEntity("OwnedItem", item.data)
   }

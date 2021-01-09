@@ -1,4 +1,5 @@
 {{log "CPR-WEAPON-INV-CONTENT.HBS"}}
+{{log this}}
 <tr class="item" data-item-id={{this._id}}>
     <td class="name"><a class="name rollable" data-roll-type="{{this.type}}" data-roll-title="{{this.type}}"
             data-item-id={{this._id}}>
@@ -8,7 +9,7 @@
     </td>
     <td class="item inventory-center">{{localize (findConfigValue "weaponTypeList" this.data.weaponType)}}</td>
     <td class="item inventory-center">
-        {{#if this.data.loadout.ammoObject}}
+        {{#if this.data.magState.ammoObject}}
         {{this.data.loadout.ammoObject}}
         {{/if}}
     </td>
