@@ -5,6 +5,7 @@ import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
 import CPRDmgRollRequest from "../../rolls/cpr-dmgroll-request.js";
 import { VerifyRollPrompt } from "../../dialog/cpr-verify-roll-prompt.js";
 import { RollCard } from "../../chat/cpr-rollcard.js";
+import { SelectAmmoForWeapon } from "../../dialog/cpr-select-ammo-prompt.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -181,13 +182,29 @@ export default class CPRActorSheet extends ActorSheet {
 
   async _loadWeapon(event) {
     LOGGER.trace(`ActorID _loadWeapon | CPRActorSheet | Called.`);
-    console.log(event);
+    
     const itemId = $(event.currentTarget).attr("data-item-id");
     const loadAction = $(event.currentTarget).attr("data-load-action");
     const item = this._getOwnedItem(itemId);
-    console.log(itemId);
-    console.log(loadAction);
+    const ownedAmmo = this.actor.data.filteredItems['ammo'];
     console.log(item);
+    let validAmmo = [];
+
+    for (let a of ownedAmmo) {
+      console.log(a);
+      if (a.data.data.variety === item.data.data.weaponType) {
+        validAmmo.push(a);
+      }
+    }
+
+    let dialogData = {
+      "weapon": item,
+      "ammoList": validAmmo,
+      "selectedAmmo": ""};
+    let selectedAmmo = await SelectAmmoForWeapon(dialogData);
+    console.log("=============================");
+    console.log(selectedAmmo);
+    //let ammoList = this.actor.filtere
     
 
   }
