@@ -14,7 +14,7 @@
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}}
         {{#if this.data.isRanged}}
         {{#if (lt this.data.magazine.value this.data.magazine.max)}}
-        {{#if (gt this.data.magazine.value 0)}}
+        {{#if (ne this.data.magazine.ammoId "")}}
         <a class="item-action" data-item-id="{{this._id}}" data-action="reload-ammo"><i class="fas fa-redo-alt"
                 title="Reload"></i></a>
         {{/if}}
