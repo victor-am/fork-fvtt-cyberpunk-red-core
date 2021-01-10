@@ -48,6 +48,9 @@ export default class CPRActorSheet extends ActorSheet {
     // Update equipment
     html.find(".equip").click(event => this._updateEquip(event));
 
+    // Generic item action
+    html.find(".item-action").click(event => this._itemAction(event));
+
     // Update Item
     html.find(".item-edit").click((event) => this._updateItem(event));
 
@@ -141,6 +144,15 @@ export default class CPRActorSheet extends ActorSheet {
       RollCard(CPRRolls.DamageRoll(rollRequest));
     } else {
       RollCard(CPRRolls.BaseRoll(rollRequest));
+      if (rollRequest.rollType === "attack" || rollRequest.rollType === "weapon") {
+        const weaponId = $(event.currentTarget).attr("data-item-id");
+        let weaponItem = this.actor.items.find((i) => i.data._id == weaponId);
+        if (weaponItem.data.data.isRanged) {
+          // Need to figure out how to determine which we are doing here, single, autofire and suppressive
+          // Defaulting to Single
+          weaponItem.fireRangedWeapon("single");
+        }
+      }
     }
   }
 
@@ -152,7 +164,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID _equip | CPRActorSheet | Called.`);
     const item_id = $(event.currentTarget).attr("data-item-id");
     const item = this._getOwnedItem(item_id);
-    const curr_equip = $(event.currentTarget).attr("curr-equip");
+    const curr_equip = $(event.currentTarget).attr("data-curr-equip");
     let prop = this._getObjProp(event); // panic if undefined
 
     switch (curr_equip) {
@@ -176,11 +188,23 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
+  async _itemAction(event) {
+    const itemId = $(event.currentTarget).attr("data-item-id");
+    const item = this._getOwnedItem(itemId);
+    if (item) {
+      item.doAction(this.actor, (event.currentTarget).attributes);
+      console.log("_itemAction Dump");
+      console.log(item);
+      this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+    }
+  }
+
+  
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
 
   _updateSkill(event) {
     LOGGER.trace(`ActorID _updateSkill | CPRActorSheet | Called.`);
-    
+
     let itemId = this._getItemId(event);
     const item = this._getOwnedItem(itemId);
 
@@ -196,6 +220,9 @@ export default class CPRActorSheet extends ActorSheet {
      */
     LOGGER.debug(`ActorID _updateOwnedItemProp | Item:${item}.`);
     LOGGER.debug(`Updating ${prop} to ${value}`)
+    console.log(item);
+    console.log(prop);
+    console.log(value);
     setProperty(item.data, prop, value);
     this.actor.updateEmbeddedEntity("OwnedItem", item.data)
   }
@@ -207,7 +234,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID _itemUpdate | CPRActorSheet | Called.`);
 
     let itemId = this._getItemId(event);
-    LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);    
+    LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);
     const item = this.actor.items.find(i => i.data._id == itemId)
     item.sheet.render(true);
   }
@@ -267,13 +294,13 @@ export default class CPRActorSheet extends ActorSheet {
   _prepareRollAbility(rollRequest) {
     LOGGER.trace(
       `ActorID _prepareRollAbility | rolling ability: ` +
-        rollRequest.rollTitle +
-        ` | ` +
-        rollRequest.skillValue
+      rollRequest.rollTitle +
+      ` | ` +
+      rollRequest.skillValue
     );
     const actorData = this.getData().data;
     rollRequest.roleValue = actorData.roleInfo.roleskills[actorData.roleInfo["role"]][rollRequest.rollTitle];
-    rollRequest.rollTitle=game.i18n.localize(CPR['roleAbilityList'][rollRequest.rollTitle]);
+    rollRequest.rollTitle = game.i18n.localize(CPR['roleAbilityList'][rollRequest.rollTitle]);
   }
 
   _prepareRollAttack(rollRequest, itemId) {

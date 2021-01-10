@@ -1,0 +1,13 @@
+{{log "CPR-AMMO-INV-CONTENT.HBS"}}
+<tr class="item" data-item-id={{this._id}}>
+    <td class="name"><a class="name rollable" data-roll-type="{{c}}" data-roll-title="{{this.type}}"
+            data-item-id={{this._id}}>
+            {{this.name}}</a>
+        <a class="item-edit"><i class="fas fa-edit"></i></a>
+        <a class="item-delete"><i class="fas fa-trash-alt"></i></a>
+    </td>
+    <td class="item inventory-center">{{localize (findConfigValue "ammoVariety" this.data.variety)}}</td>
+    <td class="item inventory-center">{{localize (findConfigValue "ammoType" this.data.type)}}</td>
+    <td class="item inventory-center">{{this.data.amount}}</td>
+</tr>
+{{log "END CPR-AMMO-INV-CONTENT.HBS"}}

@@ -1,4 +1,5 @@
 {{log "CPR-WEAPON-SHEET.HBS"}}
+{{log data}}
 <form>
   {{!-- Item Header Navigation --}}
   {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-header.hbs"}}
@@ -81,7 +82,7 @@
       </div>
       {{!-- # MAG SIZE INPUT --}}
       <div>
-        Magazine Size: <input name="data.magSize" class="" type="text" value="{{data.magSize}}">
+        Magazine Size: <input name="data.magazine.max" class="" type="text" value="{{data.magazine.max}}">
       </div>
       {{/if}}
       {{!-- EQUIPPED --}}
