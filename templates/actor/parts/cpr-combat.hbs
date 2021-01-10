@@ -1,7 +1,8 @@
 <div>
    <div><h1>Attack</h1>
       {{#each actor.filteredItems.weapon as |weapon|}}
-      
+      {{log weapon}}
+      {{#if (ne weapon.data.equippable.equipped "owned")}}
       <div style="display: flex; justify-content: space-between">
          <span>{{weapon.name}}</span>
          <span>
@@ -30,6 +31,7 @@
          <span>ROF {{weapon.data.rof}}</span>
          <span>{{weapon.data.magSize}} rounds</span>
       </div>
+      {{/if}}
       {{/each}}
    </div>
    <div><h1>Defense</h1>
