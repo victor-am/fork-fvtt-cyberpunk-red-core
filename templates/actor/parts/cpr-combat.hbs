@@ -1,7 +1,7 @@
 <div>
    <div><h1>Attack</h1>
       {{#each actor.filteredItems.weapon as |weapon|}}
-      {{log weapon}}
+      
       {{#if (ne weapon.data.equippable.equipped "owned")}}
       <div style="display: flex; justify-content: space-between">
          <span>{{weapon.name}}</span>
@@ -36,6 +36,7 @@
    </div>
    <div><h1>Defense</h1>
       {{#each actor.filteredItems.armor as |armor| }}
+      {{#if (ne armor.data.equippable.equipped "owned")}}
       
       <div>
          <span>{{armor.name}}</span>
@@ -43,6 +44,7 @@
          <span>{{armor.data.ablation}}</span>
          <span><a class="rollable">[DEFEND]</a></span>
       </div>
+      {{/if}}
       {{/each}}
    </div>
 </div>
