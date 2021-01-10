@@ -161,7 +161,7 @@ export default class CPRActorSheet extends ActorSheet {
      * Equip or Unequip an item. Make stat changes and check
      * conditions (like free hands) as necessary.
      */
-    LOGGER.trace(`ActorID _equip | CPRActorSheet | Called.`);
+    LOGGER.trace(`ActorID _updateEquip | CPRActorSheet | Called.`);
     const item_id = $(event.currentTarget).attr("data-item-id");
     const item = this._getOwnedItem(item_id);
     const curr_equip = $(event.currentTarget).attr("data-curr-equip");
@@ -200,6 +200,51 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   
+  getEquippedArmors(loc) {
+    /**
+     * game.actors.entities[].sheet.getEquippedArmors
+     * Get equipped armors at the given loc (location; "body" or "head")
+     * Returns an array of Item objects with type "armor"
+     */
+    LOGGER.trace(`ActorID getEquippedArmors | CPRActorSheet | Called.`);
+
+    // Console trick to get at this data:
+    // game.actors.entities[0].items.filter((a) => a.data.type == "armor" && 
+    //      a.data.data.equippable.equipped == "equipped" &&
+    //      a.data.data.isHeadLocation)
+    const armors = this.actor.items.filter((a) => a.data.type == "armor");
+    const eq_armors = armors.filter((a) => a.data.data.equippable.equipped == "equipped");
+
+    if (loc == "body") {
+      return eq_armors.filter((a) => a.data.data.isBodyLocation);
+    } else if (loc == "head") {
+      return eq_armors.filter((a) => a.data.data.isHeadLocation);
+    } else {
+      throw new Error(`Bad location given: ${loc}`);
+    }
+  }
+
+  getMaxSP(loc) {
+    /**
+     * game.actors.entities[].sheet.getMaxSP
+     * Given a list of armor items, find the highest SP of them.
+     * Return a 0 if nothing is equipped.
+     */
+    LOGGER.trace(`ActorID getMaxSP | CPRActorSheet | Called.`);
+    
+    let armors = this.getEquippedArmors(loc);
+    console.log(armors);
+    var sps;
+    if (loc == "body") {
+      sps = armors.map(a => a.data.data.bodyLocation.sp);
+    } else if (loc == "head") {
+      sps = armors.map(a => a.data.data.headLocation.sp);
+    } // we assume getEquippedArmors will throw an error with a bad loc
+
+    sps.push(0);                // force a 0 if nothing is equipped
+    return Math.max(...sps);    // Math.max treats null values in array as 0
+  }
+
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
 
   _updateSkill(event) {
