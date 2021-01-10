@@ -1,6 +1,6 @@
 import LOGGER from "../utils/cpr-logger.js";
 import { SelectAmmoPrompt } from "../dialog/cpr-select-ammo-prompt.js";
-import SystemUtils from "../utils/cpr-systemUtils.js";
+
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -55,9 +55,6 @@ export default class CPRItem extends Item {
 
     async _ammoAction(actionAttributes) {
         LOGGER.debug("_ammoAction | CPRItem | Called.");
-        console.log("_ammoAction | CPRItem | Called.");
-        console.log("Ammo BeforeAction")
-        console.log(this);
 
         const actionData = actionAttributes['data-action'].nodeValue;
         const ammoAmount = actionAttributes['data-amount'].nodeValue;
@@ -75,8 +72,6 @@ export default class CPRItem extends Item {
         if (this.actor) {
             await this.actor.updateEmbeddedEntity("OwnedItem", this.data);
         }
-        console.log("Ammo AfterAction");
-        console.log(this);
     }
 
     async _ammoDecrement(changeAmount) {
@@ -84,7 +79,6 @@ export default class CPRItem extends Item {
         let currentValue = this.data.data.amount;
         let newValue = Math.max(0, (Number(currentValue) - Number(changeAmount)));
         this.data.data.amount = newValue;
-        console.log(this);
         if (this.actor) {
             await this.actor.updateEmbeddedEntity("OwnedItem", this.data);
         }
@@ -122,8 +116,8 @@ export default class CPRItem extends Item {
                 await this._weaponLoad();
                 break;
             }
-            case "reload": {
-                this._weaponLoad(this.data.data.magazine.ammoId);
+            case "reload-ammo": {
+                await this._weaponLoad(this.data.data.magazine.ammoId);
                 break;
             }
 
@@ -143,7 +137,6 @@ export default class CPRItem extends Item {
 
             if (this.data.data.magazine.value > 0) {
                 if (ammoId) {
-                    console.log(ammo);
                     await ammo._ammoIncrement(this.data.data.magazine.value);
                     this.data.data.magazine.value = 0;
                     this.data.data.magazine.ammoId = "";
@@ -211,5 +204,32 @@ export default class CPRItem extends Item {
             }
             await this.actor.updateEmbeddedEntity("OwnedItem", loadUpdate);
         }
+    }
+
+    async fireRangedWeapon(rateOfFire) {
+        LOGGER.debug("fireRangedWeapon | CPRItem | Called.");
+        console.log(rateOfFire);
+        let bulletCount = 0;
+        switch (rateOfFire) {
+            case "single": {
+                bulletCount = 1;
+                break;
+            }
+            case "suppressive":
+            case "autofire": {
+                bulletCount = 10;
+                break;
+            }
+        }
+
+        if (this.data.data.magazine.value < bulletCount) {
+            // CLICK?!
+        }
+        else {
+            console.log(this.data.data.magazine.value);
+            this.data.data.magazine.value -= bulletCount;
+            console.log(this.data.data.magazine.value);
+        }
+        await this.actor.updateEmbeddedEntity("OwnedItem", this.data);
     }
 }

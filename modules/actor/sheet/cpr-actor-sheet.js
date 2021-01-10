@@ -144,6 +144,15 @@ export default class CPRActorSheet extends ActorSheet {
       RollCard(CPRRolls.DamageRoll(rollRequest));
     } else {
       RollCard(CPRRolls.BaseRoll(rollRequest));
+      if (rollRequest.rollType === "attack" || rollRequest.rollType === "weapon") {
+        const weaponId = $(event.currentTarget).attr("data-item-id");
+        let weaponItem = this.actor.items.find((i) => i.data._id == weaponId);
+        if (weaponItem.data.data.isRanged) {
+          // Need to figure out how to determine which we are doing here, single, autofire and suppressive
+          // Defaulting to Single
+          weaponItem.fireRangedWeapon("single");
+        }
+      }
     }
   }
 

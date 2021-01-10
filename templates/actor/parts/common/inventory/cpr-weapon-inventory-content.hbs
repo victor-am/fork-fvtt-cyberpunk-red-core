@@ -14,7 +14,7 @@
     <td class="item inventory-center">
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}}
         {{#if this.data.isRanged}}
-        {{#if this.data.loadout.ammoObject}}
+        {{#if (lt this.data.magazine.value this.data.magazine.max)}}
         <a class="item-action" data-item-id="{{this._id}}" data-action="reload-ammo"><i class="fas fa-redo-alt" title="Reload"></i></a>
         {{/if}}
         <a class="item-action" data-item-id="{{this._id}}" data-action="new-ammo"><i class="fas fa-exchange-alt" title="Change Ammo"></i></a>
