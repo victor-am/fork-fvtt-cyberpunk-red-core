@@ -11,7 +11,7 @@ export default class CPRActor extends Actor {
   /** @override */
   prepareData() {
     LOGGER.trace("prepareData | CPRActor | Called.");
-    console.log(this);
+    
     super.prepareData();
     const actorData = this.data;
     actorData.filteredItems = this.itemTypes;
