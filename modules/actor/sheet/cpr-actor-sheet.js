@@ -199,7 +199,7 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  
+
   _getEquippedArmors(loc) {
     /**
      * game.actors.entities[].sheet.getEquippedArmors
@@ -224,6 +224,39 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
+  _getArmorValue(valueType, location) {
+    /**
+     * game.actors.entities[].sheet.getArmorValue
+     * Given a list of armor items, find the highest valueType (sp or penalty) of them.
+     * Return a 0 if nothing is equipped.
+     */
+    LOGGER.trace(`ActorID _getArmorValue| CPRActorSheet | Called.`);
+
+    const armors = this._getEquippedArmors(location);
+    let sps;
+    let penalties;
+
+    if (location === "body") {
+      sps = armors.map(a => a.data.data.bodyLocation.sp);
+    } else if (location === "head") {
+      sps = armors.map(a => a.data.data.headLocation.sp);
+    } // we assume getEquippedArmors will throw an error with a bad loc
+    penalties = armors.map(a => a.data.data.penalty);
+    
+    penalties.push(0);
+    sps.push(0);                // force a 0 if nothing is equipped
+
+    if (valueType === "sp") {
+      return Math.max(...sps);    // Math.max treats null values in array as 0  
+    }
+    if (valueType === "penalty") {
+      return Math.max(...penalties);    // Math.max treats null values in array as 0  
+    }
+    return 0;    
+  }
+
+
+  // Leaving this in for backwards compat, but let's move to _getArmorValue()
   _getMaxSP(loc) {
     /**
      * game.actors.entities[].sheet.getMaxSP
@@ -231,7 +264,7 @@ export default class CPRActorSheet extends ActorSheet {
      * Return a 0 if nothing is equipped.
      */
     LOGGER.trace(`ActorID _getMaxSP | CPRActorSheet | Called.`);
-    
+
     const armors = this._getEquippedArmors(loc);
     let sps;
 
@@ -317,12 +350,14 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _prepareRollStat(rollRequest) {
-    rollRequest.statValue = this.getData().data.stats[
-      rollRequest.rollTitle
-    ].value;
-    LOGGER.trace(
-      `ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`
-    );
+    rollRequest.statValue = this.getData().data.stats[rollRequest.rollTitle].value;
+    let penaltyStats = ['ref', 'dex', 'move'];
+    if (penaltyStats.includes(rollRequest.rollTitle)) {
+      for (let location of ["head","body"]) {
+        rollRequest.mods.push((0 - Number(this._getArmorValue("penalty", location))));
+      }
+    }
+    LOGGER.trace(`ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
   }
 
   _prepareRollSkill(rollRequest, itemId) {
