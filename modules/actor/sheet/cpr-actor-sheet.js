@@ -245,6 +245,38 @@ export default class CPRActorSheet extends ActorSheet {
     return Math.max(...sps);    // Math.max treats null values in array as 0
   }
 
+  _getHands() {
+    /**
+     * game.actors.entities[].sheet._getHands
+     * Return the number of hands an actor has. For now, this is always 2,
+     * but in the future it should consider borgware upgrades.
+     */
+    return 2;
+  }
+
+  _getEquippedWeapons() {
+    /**
+     * game.actors.entities[].sheet._getEquippedWeapons
+     * Return a list of equipped weapons on this actor.
+     */
+    const weapons = this.actor.items.filter((a) => a.data.type == "weapon");
+    return weapons.filter((a) => a.data.data.equippable.equipped == "equipped");
+  }
+    
+  _getFreeHands() {
+    /**
+     * game.actors.entities[].sheet._getFreeHands
+     * Return the number of free hands this actor has
+     */
+    const weapons = this._getEquippedWeapons();
+    console.log(weapons);
+    const needed = weapons.map(w => w.data.data.handsReq);
+    console.log(needed);
+    const used_hands = needed.reduce((a, b) => a + b, 0)
+    console.log(used_hands);
+    return this._getHands() - used_hands;
+  }
+  
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
 
   _updateSkill(event) {
