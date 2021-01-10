@@ -141,11 +141,11 @@ export default class CPRItem extends Item {
             if (this.data.data.magazine.value > 0) {
                 if (ammoId) {
                     await ammo._ammoIncrement(this.data.data.magazine.value);
-                    this.data.data.magazine.value = 0;
-                    this.data.data.magazine.ammoId = "";
                 }
             }
         }
+        this.data.data.magazine.value = 0;
+        this.data.data.magazine.ammoId = "";
         if (this.actor) {
             await this.actor.updateEmbeddedEntity("OwnedItem", this.data);
         }
@@ -181,7 +181,11 @@ export default class CPRItem extends Item {
 
             if (selectedAmmoId) {
 
-                loadUpdate.push({ _id: this.data._id, "data.magazine.ammoId": selectedAmmoId });
+                let magazineData = this.data.data.magazine;
+
+                magazineData.ammoId = selectedAmmoId;
+
+                //loadUpdate.push({ _id: this.data._id, "data.magazine.ammoId": selectedAmmoId });
 
                 let ammo = this.actor.items.find((i) => i.data._id == selectedAmmoId);
 
@@ -192,18 +196,21 @@ export default class CPRItem extends Item {
 
                 if (magazineSpace > 0) {
                     if (Number(ammo.data.data.amount) >= magazineSpace) {
-                        loadUpdate.push({ _id: this.data._id, "data.magazine.value": this.data.data.magazine.max });
+                        magazineData.value = magazineData.max;
+                        //loadUpdate.push({ _id: this.data._id, "data.magazine.value": this.data.data.magazine.max });
                         let ammoUsed = Number(ammo.data.data.amount) - magazineSpace;
                         loadUpdate.push({ _id: ammo.data._id, "data.amount": ammoUsed });
                     }
                     else {
-                        let newAmmoValue = Number(this.data.data.magazine['value']) + Number(ammo.data.data.amount);
-                        loadUpdate.push({ _id: this.data._id, "data.magazine.value": newAmmoValue });
+                        
+                        magazineData.value = Number(this.data.data.magazine['value']) + Number(ammo.data.data.amount);
+                        //loadUpdate.push({ _id: this.data._id, "data.magazine.value": newAmmoValue });
                         loadUpdate.push({ _id: ammo.data._id, "data.amount": 0 });
                     }
 
                 }
-                
+                loadUpdate.push({ _id: this.data._id, "data.magazine": magazineData });
+             
             }
             await this.actor.updateEmbeddedEntity("OwnedItem", loadUpdate);
         }
