@@ -54,6 +54,7 @@ export async function VerifyRollPrompt(rollRequest) {
             );
           }
           if (html.find('[name="mods"]').val() != "") {
+            rollRequest.mods = [];
             rollRequest.mods = CPRArrayUtils.PushMultipleNumbersFromString(
               rollRequest.mods,
               html.find('[name="mods"]').val(),
