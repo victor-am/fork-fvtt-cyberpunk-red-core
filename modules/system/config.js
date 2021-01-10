@@ -192,7 +192,8 @@ CPR.inventoryCategories = {
   "weapon": "CPR.weapon",
   "ammo": "CPR.ammo",
   "armor": "CPR.armor",
-  "gear": "CPR.gear"
+  "gear": "CPR.gear",
+  "vehicle": "CPR.vehicle"
 }
 
 CPR.woundState = {
