@@ -200,13 +200,13 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   
-  getEquippedArmors(loc) {
+  _getEquippedArmors(loc) {
     /**
      * game.actors.entities[].sheet.getEquippedArmors
      * Get equipped armors at the given loc (location; "body" or "head")
      * Returns an array of Item objects with type "armor"
      */
-    LOGGER.trace(`ActorID getEquippedArmors | CPRActorSheet | Called.`);
+    LOGGER.trace(`ActorID _getEquippedArmors | CPRActorSheet | Called.`);
 
     // Console trick to get at this data:
     // game.actors.entities[0].items.filter((a) => a.data.type == "armor" && 
@@ -224,15 +224,15 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  getMaxSP(loc) {
+  _getMaxSP(loc) {
     /**
      * game.actors.entities[].sheet.getMaxSP
      * Given a list of armor items, find the highest SP of them.
      * Return a 0 if nothing is equipped.
      */
-    LOGGER.trace(`ActorID getMaxSP | CPRActorSheet | Called.`);
+    LOGGER.trace(`ActorID _getMaxSP | CPRActorSheet | Called.`);
     
-    let armors = this.getEquippedArmors(loc);
+    let armors = this._getEquippedArmors(loc);
     var sps;
 
     if (loc == "body") {
