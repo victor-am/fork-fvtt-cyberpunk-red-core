@@ -233,8 +233,8 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID getMaxSP | CPRActorSheet | Called.`);
     
     let armors = this.getEquippedArmors(loc);
-    console.log(armors);
     var sps;
+
     if (loc == "body") {
       sps = armors.map(a => a.data.data.bodyLocation.sp);
     } else if (loc == "head") {
