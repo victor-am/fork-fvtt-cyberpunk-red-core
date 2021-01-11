@@ -112,15 +112,12 @@ export default class CPRActorSheet extends ActorSheet {
         this._prepareRollAbility(rollRequest);
         break;
       }
-      case "weapon":
       case "attack": {
         const itemId = $(event.currentTarget).attr("data-item-id");
         // check whether the weapon is equipped before allowing an attack
         const weap = this._getOwnedItem(itemId);
         if (weap.data.data.equippable.equipped === "equipped") {
           this._prepareRollAttack(rollRequest, itemId);
-          console.log("Attack Roll below");
-          console.log(rollRequest);
         } else {
           ui.notifications.warn("This weapon is not equipped!");
           return;
@@ -130,7 +127,6 @@ export default class CPRActorSheet extends ActorSheet {
       case "damage": {
         const itemId = $(event.currentTarget).attr("data-item-id");
         this._prepareRollDamage(rollRequest, itemId);
-        console.log("Damage Roll below");
         break;
       }
     }
@@ -142,25 +138,28 @@ export default class CPRActorSheet extends ActorSheet {
         `ActorID _onRoll | CPRActorSheet | Checking rollRequest post VerifyRollPrompt.`
       );
     }
-    console.log(rollRequest);
+
     if (rollRequest.rollType == "abort") {
       return;
     }
-    console.log(rollRequest)
+
+    if (rollRequest.rollType === "attack") {
+      const weaponId = $(event.currentTarget).attr("data-item-id");
+      let weaponItem = this.actor.items.find((i) => i.data._id == weaponId);
+      if (weaponItem.data.data.isRanged) {
+        // Need to figure out how to determine which we are doing here, single, autofire and suppressive
+        // Defaulting to Single
+        weaponItem.fireRangedWeapon("single");
+      }
+    }
+
+
     if (rollRequest.rollType === "damage") {
       RollCard(CPRRolls.DamageRoll(rollRequest));
     } else {
       RollCard(CPRRolls.BaseRoll(rollRequest));
-      if (rollRequest.rollType === "attack" || rollRequest.rollType === "weapon") {
-        const weaponId = $(event.currentTarget).attr("data-item-id");
-        let weaponItem = this.actor.items.find((i) => i.data._id == weaponId);
-        if (weaponItem.data.data.isRanged) {
-          // Need to figure out how to determine which we are doing here, single, autofire and suppressive
-          // Defaulting to Single
-          weaponItem.fireRangedWeapon("single");
-        }
-      }
     }
+
   }
 
   async _updateEquip(event) {
@@ -183,7 +182,7 @@ export default class CPRActorSheet extends ActorSheet {
       case "carried": {
         // check there are free hands for weapons
         if (item.data.type == "weapon") {
-          if (! this._canHoldWeapon(item)) {
+          if (!this._canHoldWeapon(item)) {
             // ui.n.error and notify work too
             ui.notifications.warn("You are using more hands than you have!");
           }
@@ -201,12 +200,11 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   async _itemAction(event) {
+    LOGGER.trace(`ActorID _itemAction | CPRActorSheet | Called.`);
     const itemId = $(event.currentTarget).attr("data-item-id");
     const item = this._getOwnedItem(itemId);
     if (item) {
       item.doAction(this.actor, (event.currentTarget).attributes);
-      console.log("_itemAction Dump");
-      console.log(item);
       this.actor.updateEmbeddedEntity("OwnedItem", item.data);
     }
   }
@@ -235,6 +233,39 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
+  _getArmorValue(valueType, location) {
+    /**
+     * game.actors.entities[].sheet.getArmorValue
+     * Given a list of armor items, find the highest valueType (sp or penalty) of them.
+     * Return a 0 if nothing is equipped.
+     */
+    LOGGER.trace(`ActorID _getArmorValue| CPRActorSheet | Called.`);
+
+    const armors = this._getEquippedArmors(location);
+    let sps;
+    let penalties;
+
+    if (location === "body") {
+      sps = armors.map(a => a.data.data.bodyLocation.sp);
+    } else if (location === "head") {
+      sps = armors.map(a => a.data.data.headLocation.sp);
+    } // we assume getEquippedArmors will throw an error with a bad loc
+    penalties = armors.map(a => a.data.data.penalty);
+
+    penalties.push(0);
+    sps.push(0);                // force a 0 if nothing is equipped
+
+    if (valueType === "sp") {
+      return Math.max(...sps);    // Math.max treats null values in array as 0  
+    }
+    if (valueType === "penalty") {
+      return Math.max(...penalties);    // Math.max treats null values in array as 0  
+    }
+    return 0;
+  }
+
+
+  // Leaving this in for backwards compat, but let's move to _getArmorValue()
   _getMaxSP(loc) {
     /**
      * game.actors.entities[].sheet.getMaxSP
@@ -242,7 +273,7 @@ export default class CPRActorSheet extends ActorSheet {
      * Return a 0 if nothing is equipped.
      */
     LOGGER.trace(`ActorID _getMaxSP | CPRActorSheet | Called.`);
-    
+
     const armors = this._getEquippedArmors(loc);
     let sps;
 
@@ -275,7 +306,7 @@ export default class CPRActorSheet extends ActorSheet {
     const weapons = this.actor.items.filter((a) => a.data.type == "weapon");
     return weapons.filter((a) => a.data.data.equippable.equipped == "equipped");
   }
-    
+
   _getFreeHands() {
     /**
      * game.actors.entities[].sheet._getFreeHands
@@ -304,7 +335,7 @@ export default class CPRActorSheet extends ActorSheet {
     }
     return true;
   }
-  
+
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
 
   _updateSkill(event) {
@@ -323,11 +354,7 @@ export default class CPRActorSheet extends ActorSheet {
     /**
      * Update an item property with a value
      */
-    LOGGER.debug(`ActorID _updateOwnedItemProp | Item:${item}.`);
-    LOGGER.debug(`Updating ${prop} to ${value}`)
-    console.log(item);
-    console.log(prop);
-    console.log(value);
+    LOGGER.trace(`ActorID _updateOwnedItemProp | Item:${item}.`);
     setProperty(item.data, prop, value);
     this.actor.updateEmbeddedEntity("OwnedItem", item.data)
   }
@@ -377,12 +404,14 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _prepareRollStat(rollRequest) {
-    rollRequest.statValue = this.getData().data.stats[
-      rollRequest.rollTitle
-    ].value;
-    LOGGER.trace(
-      `ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`
-    );
+    rollRequest.statValue = this.getData().data.stats[rollRequest.rollTitle].value;
+    let penaltyStats = ['ref', 'dex', 'move'];
+    if (penaltyStats.includes(rollRequest.rollTitle)) {
+      for (let location of ["head", "body"]) {
+        rollRequest.mods.push((0 - Number(this._getArmorValue("penalty", location))));
+      }
+    }
+    LOGGER.trace(`ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
   }
 
   _prepareRollSkill(rollRequest, itemId) {
@@ -410,7 +439,7 @@ export default class CPRActorSheet extends ActorSheet {
 
   _prepareRollAttack(rollRequest, itemId) {
     const weaponItem = this._getOwnedItem(itemId);
-    console.log(itemId);
+    
     rollRequest.rollTitle = weaponItem.data.name;
     const isRanged = weaponItem.data.data.isRanged;
     const weaponSkill = weaponItem.data.data.weaponSkill;

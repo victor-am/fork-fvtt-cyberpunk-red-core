@@ -12,7 +12,7 @@ export async function VerifyRollPrompt(rollRequest) {
     ).then((html) => {
       let _onCancel = function (html) {
         LOGGER.trace(`_onCancel | Dialog VerifyRollPrompt | called.`);
-        console.log(html);
+        
         rollRequest.rollType = "abort";
       };
 
@@ -54,6 +54,7 @@ export async function VerifyRollPrompt(rollRequest) {
             );
           }
           if (html.find('[name="mods"]').val() != "") {
+            rollRequest.mods = [];
             rollRequest.mods = CPRArrayUtils.PushMultipleNumbersFromString(
               rollRequest.mods,
               html.find('[name="mods"]').val(),

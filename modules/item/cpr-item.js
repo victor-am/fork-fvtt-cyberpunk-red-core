@@ -218,7 +218,7 @@ export default class CPRItem extends Item {
 
     async fireRangedWeapon(rateOfFire) {
         LOGGER.debug("fireRangedWeapon | CPRItem | Called.");
-        console.log(rateOfFire);
+        
         let bulletCount = 0;
         switch (rateOfFire) {
             case "single": {
@@ -236,9 +236,7 @@ export default class CPRItem extends Item {
             // CLICK?!
         }
         else {
-            console.log(this.data.data.magazine.value);
             this.data.data.magazine.value -= bulletCount;
-            console.log(this.data.data.magazine.value);
         }
         await this.actor.updateEmbeddedEntity("OwnedItem", this.data);
     }
