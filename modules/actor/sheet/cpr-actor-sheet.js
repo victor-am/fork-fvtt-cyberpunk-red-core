@@ -115,9 +115,15 @@ export default class CPRActorSheet extends ActorSheet {
       case "weapon":
       case "attack": {
         const itemId = $(event.currentTarget).attr("data-item-id");
-        this._prepareRollAttack(rollRequest, itemId);
-        console.log("Attack Roll below");
-        console.log(rollRequest);
+        // check whether the weapon is equipped before allowing an attack
+        const weap = this._getOwnedItem(itemId);
+        if (weap.data.data.equippable.equipped === "equipped") {
+          this._prepareRollAttack(rollRequest, itemId);
+          console.log("Attack Roll below");
+          console.log(rollRequest);
+        } else {
+          ui.notifications.warn("This weapon is not equipped!");
+        }
         break;
       }
       case "damage": {
