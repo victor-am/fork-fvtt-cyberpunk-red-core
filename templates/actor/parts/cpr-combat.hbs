@@ -29,7 +29,9 @@
             </a>
          </span>
          <span>ROF {{weapon.data.rof}}</span>
-         <span>{{weapon.data.magSize}} rounds</span>
+         {{#if weapon.data.isRanged}}
+         <span>{{weapon.data.magazine.value}}/{{weapon.data.magazine.max}} rounds</span>
+         {{/if}}
       </div>
       {{/if}}
       {{/each}}
