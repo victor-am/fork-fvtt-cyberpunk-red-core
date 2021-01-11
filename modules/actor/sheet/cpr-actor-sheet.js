@@ -123,6 +123,7 @@ export default class CPRActorSheet extends ActorSheet {
           console.log(rollRequest);
         } else {
           ui.notifications.warn("This weapon is not equipped!");
+          return;
         }
         break;
       }
