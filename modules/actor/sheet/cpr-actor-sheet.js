@@ -120,7 +120,7 @@ export default class CPRActorSheet extends ActorSheet {
         if (weap.data.data.equippable.equipped === "equipped") {
           this._prepareRollAttack(rollRequest, itemId);
         } else {
-          CPRSystemUtils.SendWarningMessage("CPR.warningweaponnotequipped");
+          CPRSystemUtils.DisplayMessage("warn", "CPR.warningweaponnotequipped");
           return;
         }
         break;
@@ -186,7 +186,7 @@ export default class CPRActorSheet extends ActorSheet {
         if (item.data.type == "weapon") {
           if (!this._canHoldWeapon(item)) {
             // ui.n.error and notify work too
-            CPRSystemUtils.SendWarningMessage("CPR.warningnohands");
+            CPRSystemUtils.DisplayMessage("warn", "CPR.warningtoomanyhands");
           }
         }
         this._updateOwnedItemProp(item, prop, "equipped");
@@ -405,14 +405,24 @@ export default class CPRActorSheet extends ActorSheet {
     this.actor.createOwnedItem(itemData, { renderSheet: true });
   }
 
-  _prepareRollStat(rollRequest) {
-    rollRequest.statValue = this.getData().data.stats[rollRequest.rollTitle].value;
+  _getArmorPenaltyMods(stat) {
     let penaltyStats = ['ref', 'dex', 'move'];
-    if (penaltyStats.includes(rollRequest.rollTitle)) {
+    let penaltyMods = [];
+    if (penaltyStats.includes(stat)) {
       for (let location of ["head", "body"]) {
-        rollRequest.mods.push((0 - Number(this._getArmorValue("penalty", location))));
+        let penaltyValue = Number(this._getArmorValue("penalty", location));
+        if (penaltyValue > 0) {
+          penaltyMods.push((0 - penaltyValue));
+        }
       }
     }
+    return penaltyMods;
+  }
+
+
+  _prepareRollStat(rollRequest) {
+    rollRequest.statValue = this.getData().data.stats[rollRequest.rollTitle].value;
+    rollRequest.mods.push(this._getArmorPenaltyMods(rollRequest.rollTitle));
     LOGGER.trace(`ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
   }
 
@@ -421,10 +431,11 @@ export default class CPRActorSheet extends ActorSheet {
       `ActorID _prepareRollSkill | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`
     );
     const item = this._getOwnedItem(itemId);
-    rollRequest.statValue = this.getData().data.stats[
-      item.data.data.stat
-    ].value;
+
+    rollRequest.statValue = this.getData().data.stats[item.data.data.stat].value;
     rollRequest.skillValue = item.data.data.level;
+
+    rollRequest.mods.push(this._getArmorPenaltyMods(item.data.data.stat));
   }
 
   _prepareRollAbility(rollRequest) {
@@ -441,7 +452,7 @@ export default class CPRActorSheet extends ActorSheet {
 
   _prepareRollAttack(rollRequest, itemId) {
     const weaponItem = this._getOwnedItem(itemId);
-    
+
     rollRequest.rollTitle = weaponItem.data.name;
     const isRanged = weaponItem.data.data.isRanged;
     const weaponSkill = weaponItem.data.data.weaponSkill;
