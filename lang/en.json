@@ -714,6 +714,8 @@
     "CPR.vrizzbolt": "Vrizzbolt",
     "CPR.walking": "Walking",
     "CPR.wardrobeandstyle": "Wardrobe & Style",
+    "CPR.warningtoomanyhands":"You are using more hands than you have!",
+    "CPR.warningweaponnotequipped": "This weapon is not equipped!",
     "CPR.weapon": "Weapon",
     "CPR.weaponsandarmor": "Weapons and Armor",
     "CPR.weaponsexotic": "Exotic Weapons",

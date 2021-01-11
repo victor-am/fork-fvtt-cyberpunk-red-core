@@ -1,4 +1,5 @@
 import LOGGER from "../../utils/cpr-logger.js";
+import CPRSystemUtils from "../../utils/cpr-systemUtils.js";
 import CPRRolls from "../../rolls/cpr-rolls.js";
 import { CPR } from "../../system/config.js";
 import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
@@ -119,7 +120,7 @@ export default class CPRActorSheet extends ActorSheet {
         if (weap.data.data.equippable.equipped === "equipped") {
           this._prepareRollAttack(rollRequest, itemId);
         } else {
-          ui.notifications.warn("This weapon is not equipped!");
+          CPRSystemUtils.SendWarningMessage("CPR.warningweaponnotequipped");
           return;
         }
         break;
@@ -185,7 +186,7 @@ export default class CPRActorSheet extends ActorSheet {
         if (item.data.type == "weapon") {
           if (!this._canHoldWeapon(item)) {
             // ui.n.error and notify work too
-            ui.notifications.warn("You are using more hands than you have!");
+            CPRSystemUtils.SendWarningMessage("CPR.warningnohands");
           }
         }
         this._updateOwnedItemProp(item, prop, "equipped");
