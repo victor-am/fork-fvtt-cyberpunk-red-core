@@ -12,7 +12,7 @@ export async function VerifyRollPrompt(rollRequest) {
     ).then((html) => {
       let _onCancel = function (html) {
         LOGGER.trace(`_onCancel | Dialog VerifyRollPrompt | called.`);
-        console.log(html);
+        
         rollRequest.rollType = "abort";
       };
 

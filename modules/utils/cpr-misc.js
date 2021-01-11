@@ -4,7 +4,7 @@ export class CPRArrayUtils {
         let result = array.map(function (x) {
             return parseInt(x);
         });
-        console.log(array);
+
         return result;
     }
 }
