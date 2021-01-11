@@ -1,7 +1,8 @@
-{{log "CPR-EQUIP-GLYPH.HBS"}}
+{{log "CPR-RELOAD-GLYPH.HBS"}}
 {{!-- <a class="item-control item-toggle {{item.toggleClass}}" title='{{item.toggleTitle}}'><i
         class="fas fa-shield-alt"></i></a> --}}
-    <a class="equip" data-item-id="{{this._id}}" data-item-prop="data.equippable.equipped" data-curr-equip="{{data.equippable.equipped}}">
+<div>
+    <a class="equip" data-item-id="{{this._id}}">
         {{#ifEquals data.equippable.equipped "equipped" }}
             <i class="fas fa-hand-paper" title={{localize "CPR.equipped" }}></i>
         {{/ifEquals}}
@@ -12,4 +13,5 @@
             <i class="fas fa-circle-notch" title={{localize "CPR.owned" }}></i>
         {{/ifEquals}}
     </a>
-{{log "END CPR-EQUIP-GLYPH.HBS"}}
+</div>
+{{log "END CPR-RELOAD-GLYPH.HBS"}}

@@ -26,10 +26,11 @@
       "path": "lang/en.json"
     }          
   ],
+  "initiative": "1d10 + @stats.ref.value",
   "gridDistance": 1,
   "gridUnits": "m",
-  "primaryTokenAttribute": "",
-  "secondaryTokenAttribute": "",
+  "primaryTokenAttribute": "derivedStats.hp",
+  "secondaryTokenAttribute": null,
   "background" : "Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
   "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/dev/system-dev.json",
