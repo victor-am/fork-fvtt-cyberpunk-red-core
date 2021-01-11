@@ -2,7 +2,7 @@
    <div><h1>Attack</h1>
       {{#each actor.filteredItems.weapon as |weapon|}}
       
-      {{#if (ne weapon.data.equippable.equipped "owned")}}
+      {{#if (eq weapon.data.equippable.equipped "equipped")}}
       <div style="display: flex; justify-content: space-between">
          <span>{{weapon.name}}</span>
          <span>
@@ -36,7 +36,7 @@
    </div>
    <div><h1>Defense</h1>
       {{#each actor.filteredItems.armor as |armor| }}
-      {{#if (ne armor.data.equippable.equipped "owned")}}
+      {{#if (eq armor.data.equippable.equipped "equipped")}}
       
       <div>
          <span>{{armor.name}}</span>
