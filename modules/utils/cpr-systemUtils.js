@@ -14,4 +14,9 @@ export default class CPRSystemUtils {
         let localizedMessage = game.i18n.localize(msg);
         ui.notifications.warn(localizedMessage);
       }
+
+      static async SendErrorMessage (msg) {
+        let localizedMessage = game.i18n.localize(msg);
+        ui.notifications.error(localizedMessage);
+      }
 }
