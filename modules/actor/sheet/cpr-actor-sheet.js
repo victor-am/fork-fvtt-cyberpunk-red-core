@@ -157,6 +157,7 @@ export default class CPRActorSheet extends ActorSheet {
     if (rollRequest.rollType === "damage") {
       RollCard(CPRRolls.DamageRoll(rollRequest));
     } else {
+      // outputs to chat 
       RollCard(CPRRolls.BaseRoll(rollRequest));
     }
 
