@@ -177,7 +177,8 @@ export default class CPRActorSheet extends ActorSheet {
         // check there are free hands for weapons
         if (item.data.type == "weapon") {
           if (! this._canHoldWeapon(item)) {
-            throw new Error("not enough free hands!")
+            // ui.n.error and notify work too
+            ui.notifications.warn("You are using more hands than you have!");
           }
         }
         this._updateOwnedItemProp(item, prop, "equipped");
