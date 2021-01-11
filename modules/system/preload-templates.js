@@ -37,7 +37,9 @@ export default function preloadHandlebarsTemplates() {
       "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-armor-inventory-content.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-gear-inventory-header.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-gear-inventory-content.hbs",
-      
+      "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-vehicle-inventory-header.hbs",
+      "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-vehicle-inventory-content.hbs",
+
       // Mook Sheet Partials
 
       // Item Sheet Partials
