@@ -116,8 +116,6 @@ export default class CPRActorSheet extends ActorSheet {
       case "attack": {
         const itemId = $(event.currentTarget).attr("data-item-id");
         this._prepareRollAttack(rollRequest, itemId);
-        console.log("Attack Roll below");
-        console.log(rollRequest);
         break;
       }
       case "damage": {
@@ -135,14 +133,18 @@ export default class CPRActorSheet extends ActorSheet {
         `ActorID _onRoll | CPRActorSheet | Checking rollRequest post VerifyRollPrompt.`
       );
     }
+
     console.log(rollRequest);
     if (rollRequest.rollType == "abort") {
       return;
     }
+
+    
     console.log(rollRequest)
     if (rollRequest.rollType === "damage") {
       RollCard(CPRRolls.DamageRoll(rollRequest));
     } else {
+      // outputs to chat 
       RollCard(CPRRolls.BaseRoll(rollRequest));
       if (rollRequest.rollType === "attack" || rollRequest.rollType === "weapon") {
         const weaponId = $(event.currentTarget).attr("data-item-id");
