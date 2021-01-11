@@ -416,6 +416,7 @@ export default class CPRActorSheet extends ActorSheet {
         }
       }
     }
+    penaltyMods = [(Math.min(...penaltyMods))];
     return penaltyMods;
   }
 
