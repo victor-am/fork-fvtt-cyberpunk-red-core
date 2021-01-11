@@ -9,4 +9,14 @@ export default class CPRSystemUtils {
         let content = await pack.getContent();
         return content;
       }
+
+      static async SendWarningMessage (msg) {
+        let localizedMessage = game.i18n.localize(msg);
+        ui.notifications.warn(localizedMessage);
+      }
+
+      static async SendErrorMessage (msg) {
+        let localizedMessage = game.i18n.localize(msg);
+        ui.notifications.error(localizedMessage);
+      }
 }
