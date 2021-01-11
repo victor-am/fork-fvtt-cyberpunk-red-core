@@ -120,7 +120,7 @@ export default class CPRActorSheet extends ActorSheet {
         if (weap.data.data.equippable.equipped === "equipped") {
           this._prepareRollAttack(rollRequest, itemId);
         } else {
-          CPRSystemUtils.SendWarningMessage("CPR.warningweaponnotequipped");
+          CPRSystemUtils.DisplayMessage("warn","CPR.warningweaponnotequipped");
           return;
         }
         break;
@@ -186,7 +186,7 @@ export default class CPRActorSheet extends ActorSheet {
         if (item.data.type == "weapon") {
           if (!this._canHoldWeapon(item)) {
             // ui.n.error and notify work too
-            CPRSystemUtils.SendWarningMessage("CPR.warningnohands");
+            CPRSystemUtils.DisplayMessage("warn", "CPR.warningtoomanyhands");
           }
         }
         this._updateOwnedItemProp(item, prop, "equipped");
