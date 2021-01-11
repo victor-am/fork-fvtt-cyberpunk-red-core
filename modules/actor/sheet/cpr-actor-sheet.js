@@ -115,9 +115,16 @@ export default class CPRActorSheet extends ActorSheet {
       case "weapon":
       case "attack": {
         const itemId = $(event.currentTarget).attr("data-item-id");
-        this._prepareRollAttack(rollRequest, itemId);
-        console.log("Attack Roll below");
-        console.log(rollRequest);
+        // check whether the weapon is equipped before allowing an attack
+        const weap = this._getOwnedItem(itemId);
+        if (weap.data.data.equippable.equipped === "equipped") {
+          this._prepareRollAttack(rollRequest, itemId);
+          console.log("Attack Roll below");
+          console.log(rollRequest);
+        } else {
+          ui.notifications.warn("This weapon is not equipped!");
+          return;
+        }
         break;
       }
       case "damage": {
@@ -175,7 +182,12 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "carried": {
         // check there are free hands for weapons
-        // set next to equipped if so, otherwise error out
+        if (item.data.type == "weapon") {
+          if (! this._canHoldWeapon(item)) {
+            // ui.n.error and notify work too
+            ui.notifications.warn("You are using more hands than you have!");
+          }
+        }
         this._updateOwnedItemProp(item, prop, "equipped");
         // for armor, update SP and armor penalty
         break;
@@ -198,7 +210,6 @@ export default class CPRActorSheet extends ActorSheet {
       this.actor.updateEmbeddedEntity("OwnedItem", item.data);
     }
   }
-
 
   _getEquippedArmors(loc) {
     /**
@@ -278,6 +289,55 @@ export default class CPRActorSheet extends ActorSheet {
     return Math.max(...sps);    // Math.max treats null values in array as 0
   }
 
+  _getHands() {
+    /**
+     * game.actors.entities[].sheet._getHands
+     * Return the number of hands an actor has. For now, this is always 2,
+     * but in the future it should consider borgware upgrades.
+     */
+    LOGGER.trace(`ActorID _getHands | CPRActorSheet | Called.`);
+    return 2;
+  }
+
+  _getEquippedWeapons() {
+    /**
+     * game.actors.entities[].sheet._getEquippedWeapons
+     * Return a list of equipped weapons on this actor.
+     */
+    LOGGER.trace(`ActorID _getEquippedWeapons | CPRActorSheet | Called.`);
+    const weapons = this.actor.items.filter((a) => a.data.type == "weapon");
+    return weapons.filter((a) => a.data.data.equippable.equipped == "equipped");
+  }
+    
+  _getFreeHands() {
+    /**
+     * game.actors.entities[].sheet._getFreeHands
+     * Return the number of free hands this actor has
+     */
+    LOGGER.trace(`ActorID _getFreeHands | CPRActorSheet | Called.`);
+    const weapons = this._getEquippedWeapons();
+    const needed = weapons.map(w => w.data.data.handsReq);
+
+    // add up the # of used hands. If nothing is equipped, default to the
+    // number of hands the actor has.
+    const free_hands = this._getHands() - needed.reduce((a, b) => a + b, 0);
+    return free_hands
+  }
+
+  _canHoldWeapon(weapon) {
+    /**
+     * game.actors.entities[].sheet._canHoldWeapon
+     * Check if the actor can hold (equip) the given weapon. Return true if
+     * the actor has enough free hands, false if not.
+     */
+    LOGGER.trace(`ActorID _canHoldWeapon | CPRActorSheet | Called.`);
+    const needed = weapon.data.data.handsReq;
+    if (needed > this._getFreeHands()) {
+      return false;
+    }
+    return true;
+  }
+  
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
 
   _updateSkill(event) {
