@@ -48,6 +48,9 @@ export default class CPRActorSheet extends ActorSheet {
     // Update equipment
     html.find(".equip").click(event => this._updateEquip(event));
 
+    // Generic item action
+    html.find(".item-action").click(event => this._itemAction(event));
+
     // Update Item
     html.find(".item-edit").click((event) => this._updateItem(event));
 
@@ -109,18 +112,21 @@ export default class CPRActorSheet extends ActorSheet {
         this._prepareRollAbility(rollRequest);
         break;
       }
-      case "weapon":
       case "attack": {
         const itemId = $(event.currentTarget).attr("data-item-id");
-        this._prepareRollAttack(rollRequest, itemId);
-        console.log("Attack Roll below");
-        console.log(rollRequest);
+        // check whether the weapon is equipped before allowing an attack
+        const weap = this._getOwnedItem(itemId);
+        if (weap.data.data.equippable.equipped === "equipped") {
+          this._prepareRollAttack(rollRequest, itemId);
+        } else {
+          ui.notifications.warn("This weapon is not equipped!");
+          return;
+        }
         break;
       }
       case "damage": {
         const itemId = $(event.currentTarget).attr("data-item-id");
         this._prepareRollDamage(rollRequest, itemId);
-        console.log("Damage Roll below");
         break;
       }
     }
@@ -132,16 +138,29 @@ export default class CPRActorSheet extends ActorSheet {
         `ActorID _onRoll | CPRActorSheet | Checking rollRequest post VerifyRollPrompt.`
       );
     }
-    console.log(rollRequest);
+
     if (rollRequest.rollType == "abort") {
       return;
     }
-    console.log(rollRequest)
+
+    if (rollRequest.rollType === "attack") {
+      const weaponId = $(event.currentTarget).attr("data-item-id");
+      let weaponItem = this.actor.items.find((i) => i.data._id == weaponId);
+      if (weaponItem.data.data.isRanged) {
+        // Need to figure out how to determine which we are doing here, single, autofire and suppressive
+        // Defaulting to Single
+        weaponItem.fireRangedWeapon("single");
+      }
+    }
+
+
     if (rollRequest.rollType === "damage") {
       RollCard(CPRRolls.DamageRoll(rollRequest));
     } else {
+      // outputs to chat 
       RollCard(CPRRolls.BaseRoll(rollRequest));
     }
+
   }
 
   async _updateEquip(event) {
@@ -149,10 +168,10 @@ export default class CPRActorSheet extends ActorSheet {
      * Equip or Unequip an item. Make stat changes and check
      * conditions (like free hands) as necessary.
      */
-    LOGGER.trace(`ActorID _equip | CPRActorSheet | Called.`);
+    LOGGER.trace(`ActorID _updateEquip | CPRActorSheet | Called.`);
     const item_id = $(event.currentTarget).attr("data-item-id");
     const item = this._getOwnedItem(item_id);
-    const curr_equip = $(event.currentTarget).attr("curr-equip");
+    const curr_equip = $(event.currentTarget).attr("data-curr-equip");
     let prop = this._getObjProp(event); // panic if undefined
 
     switch (curr_equip) {
@@ -163,7 +182,12 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "carried": {
         // check there are free hands for weapons
-        // set next to equipped if so, otherwise error out
+        if (item.data.type == "weapon") {
+          if (!this._canHoldWeapon(item)) {
+            // ui.n.error and notify work too
+            ui.notifications.warn("You are using more hands than you have!");
+          }
+        }
         this._updateOwnedItemProp(item, prop, "equipped");
         // for armor, update SP and armor penalty
         break;
@@ -176,11 +200,148 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
+  async _itemAction(event) {
+    LOGGER.trace(`ActorID _itemAction | CPRActorSheet | Called.`);
+    const itemId = $(event.currentTarget).attr("data-item-id");
+    const item = this._getOwnedItem(itemId);
+    if (item) {
+      item.doAction(this.actor, (event.currentTarget).attributes);
+      this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+    }
+  }
+
+  _getEquippedArmors(loc) {
+    /**
+     * game.actors.entities[].sheet.getEquippedArmors
+     * Get equipped armors at the given loc (location; "body" or "head")
+     * Returns an array of Item objects with type "armor"
+     */
+    LOGGER.trace(`ActorID _getEquippedArmors | CPRActorSheet | Called.`);
+
+    // Console trick to get at this data:
+    // game.actors.entities[0].items.filter((a) => a.data.type == "armor" && 
+    //      a.data.data.equippable.equipped == "equipped" &&
+    //      a.data.data.isHeadLocation)
+    const armors = this.actor.items.filter((a) => a.data.type == "armor");
+    const eq_armors = armors.filter((a) => a.data.data.equippable.equipped == "equipped");
+
+    if (loc == "body") {
+      return eq_armors.filter((a) => a.data.data.isBodyLocation);
+    } else if (loc == "head") {
+      return eq_armors.filter((a) => a.data.data.isHeadLocation);
+    } else {
+      throw new Error(`Bad location given: ${loc}`);
+    }
+  }
+
+  _getArmorValue(valueType, location) {
+    /**
+     * game.actors.entities[].sheet.getArmorValue
+     * Given a list of armor items, find the highest valueType (sp or penalty) of them.
+     * Return a 0 if nothing is equipped.
+     */
+    LOGGER.trace(`ActorID _getArmorValue| CPRActorSheet | Called.`);
+
+    const armors = this._getEquippedArmors(location);
+    let sps;
+    let penalties;
+
+    if (location === "body") {
+      sps = armors.map(a => a.data.data.bodyLocation.sp);
+    } else if (location === "head") {
+      sps = armors.map(a => a.data.data.headLocation.sp);
+    } // we assume getEquippedArmors will throw an error with a bad loc
+    penalties = armors.map(a => a.data.data.penalty);
+
+    penalties.push(0);
+    sps.push(0);                // force a 0 if nothing is equipped
+
+    if (valueType === "sp") {
+      return Math.max(...sps);    // Math.max treats null values in array as 0  
+    }
+    if (valueType === "penalty") {
+      return Math.max(...penalties);    // Math.max treats null values in array as 0  
+    }
+    return 0;
+  }
+
+
+  // Leaving this in for backwards compat, but let's move to _getArmorValue()
+  _getMaxSP(loc) {
+    /**
+     * game.actors.entities[].sheet.getMaxSP
+     * Given a list of armor items, find the highest SP of them.
+     * Return a 0 if nothing is equipped.
+     */
+    LOGGER.trace(`ActorID _getMaxSP | CPRActorSheet | Called.`);
+
+    const armors = this._getEquippedArmors(loc);
+    let sps;
+
+    if (loc == "body") {
+      sps = armors.map(a => a.data.data.bodyLocation.sp);
+    } else if (loc == "head") {
+      sps = armors.map(a => a.data.data.headLocation.sp);
+    } // we assume getEquippedArmors will throw an error with a bad loc
+
+    sps.push(0);                // force a 0 if nothing is equipped
+    return Math.max(...sps);    // Math.max treats null values in array as 0
+  }
+
+  _getHands() {
+    /**
+     * game.actors.entities[].sheet._getHands
+     * Return the number of hands an actor has. For now, this is always 2,
+     * but in the future it should consider borgware upgrades.
+     */
+    LOGGER.trace(`ActorID _getHands | CPRActorSheet | Called.`);
+    return 2;
+  }
+
+  _getEquippedWeapons() {
+    /**
+     * game.actors.entities[].sheet._getEquippedWeapons
+     * Return a list of equipped weapons on this actor.
+     */
+    LOGGER.trace(`ActorID _getEquippedWeapons | CPRActorSheet | Called.`);
+    const weapons = this.actor.items.filter((a) => a.data.type == "weapon");
+    return weapons.filter((a) => a.data.data.equippable.equipped == "equipped");
+  }
+
+  _getFreeHands() {
+    /**
+     * game.actors.entities[].sheet._getFreeHands
+     * Return the number of free hands this actor has
+     */
+    LOGGER.trace(`ActorID _getFreeHands | CPRActorSheet | Called.`);
+    const weapons = this._getEquippedWeapons();
+    const needed = weapons.map(w => w.data.data.handsReq);
+
+    // add up the # of used hands. If nothing is equipped, default to the
+    // number of hands the actor has.
+    const free_hands = this._getHands() - needed.reduce((a, b) => a + b, 0);
+    return free_hands
+  }
+
+  _canHoldWeapon(weapon) {
+    /**
+     * game.actors.entities[].sheet._canHoldWeapon
+     * Check if the actor can hold (equip) the given weapon. Return true if
+     * the actor has enough free hands, false if not.
+     */
+    LOGGER.trace(`ActorID _canHoldWeapon | CPRActorSheet | Called.`);
+    const needed = weapon.data.data.handsReq;
+    if (needed > this._getFreeHands()) {
+      return false;
+    }
+    return true;
+  }
+
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
 
   _updateSkill(event) {
     LOGGER.trace(`ActorID _updateSkill | CPRActorSheet | Called.`);
-    
+
     let itemId = this._getItemId(event);
     const item = this._getOwnedItem(itemId);
 
@@ -194,8 +355,7 @@ export default class CPRActorSheet extends ActorSheet {
     /**
      * Update an item property with a value
      */
-    LOGGER.debug(`ActorID _updateOwnedItemProp | Item:${item}.`);
-    LOGGER.debug(`Updating ${prop} to ${value}`)
+    LOGGER.trace(`ActorID _updateOwnedItemProp | Item:${item}.`);
     setProperty(item.data, prop, value);
     this.actor.updateEmbeddedEntity("OwnedItem", item.data)
   }
@@ -207,7 +367,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID _itemUpdate | CPRActorSheet | Called.`);
 
     let itemId = this._getItemId(event);
-    LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);    
+    LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);
     const item = this.actor.items.find(i => i.data._id == itemId)
     item.sheet.render(true);
   }
@@ -245,12 +405,14 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _prepareRollStat(rollRequest) {
-    rollRequest.statValue = this.getData().data.stats[
-      rollRequest.rollTitle
-    ].value;
-    LOGGER.trace(
-      `ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`
-    );
+    rollRequest.statValue = this.getData().data.stats[rollRequest.rollTitle].value;
+    let penaltyStats = ['ref', 'dex', 'move'];
+    if (penaltyStats.includes(rollRequest.rollTitle)) {
+      for (let location of ["head", "body"]) {
+        rollRequest.mods.push((0 - Number(this._getArmorValue("penalty", location))));
+      }
+    }
+    LOGGER.trace(`ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
   }
 
   _prepareRollSkill(rollRequest, itemId) {
@@ -267,18 +429,18 @@ export default class CPRActorSheet extends ActorSheet {
   _prepareRollAbility(rollRequest) {
     LOGGER.trace(
       `ActorID _prepareRollAbility | rolling ability: ` +
-        rollRequest.rollTitle +
-        ` | ` +
-        rollRequest.skillValue
+      rollRequest.rollTitle +
+      ` | ` +
+      rollRequest.skillValue
     );
     const actorData = this.getData().data;
     rollRequest.roleValue = actorData.roleInfo.roleskills[actorData.roleInfo["role"]][rollRequest.rollTitle];
-    rollRequest.rollTitle=game.i18n.localize(CPR['roleAbilityList'][rollRequest.rollTitle]);
+    rollRequest.rollTitle = game.i18n.localize(CPR['roleAbilityList'][rollRequest.rollTitle]);
   }
 
   _prepareRollAttack(rollRequest, itemId) {
     const weaponItem = this._getOwnedItem(itemId);
-    console.log(itemId);
+    
     rollRequest.rollTitle = weaponItem.data.name;
     const isRanged = weaponItem.data.data.isRanged;
     const weaponSkill = weaponItem.data.data.weaponSkill;

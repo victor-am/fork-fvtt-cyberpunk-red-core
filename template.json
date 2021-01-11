@@ -297,8 +297,12 @@
       "handsReq": 1,
       "isRanged": false,
       "altFireModes": "",
-      "magSize": 0,
       "quality": "standard",
+      "magazine": {
+        "value": 0,
+        "max": 0,
+        "ammoId": ""
+      },
       "ammoVariety": [],
       "attachmentSlots": 0
     },

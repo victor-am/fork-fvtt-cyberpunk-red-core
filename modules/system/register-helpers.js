@@ -1,16 +1,31 @@
 import LOGGER from "../utils/cpr-logger.js";
-import { CPR } from "./config.js"
+import { CPR } from "./config.js";
 export default function registerHandlebarsHelpers() {
-  LOGGER.log("Calling Register Handlebars Helpers")
+  LOGGER.log("Calling Register Handlebars Helpers");
 
-  Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
+  Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
     // LOGGER.trace(`Calling ifEquals Helper | Arg1:${arg1} Arg2:${arg2}`);
-    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+    return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+  });
+
+  Handlebars.registerHelper({
+    eq: (v1, v2) => v1 === v2,
+    ne: (v1, v2) => v1 !== v2,
+    lt: (v1, v2) => v1 < v2,
+    gt: (v1, v2) => v1 > v2,
+    lte: (v1, v2) => v1 <= v2,
+    gte: (v1, v2) => v1 >= v2,
+    and() {
+        return Array.prototype.every.call(arguments, Boolean);
+    },
+    or() {
+        return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+    }
   });
 
   Handlebars.registerHelper("loud", function (string) {
     // LOGGER.trace(`Calling loud Helper | Arg1:${string}`);
-    return string.toUpperCase()
+    return string.toUpperCase();
   });
 
   Handlebars.registerHelper("getProp", (object, property) => {
@@ -25,7 +40,7 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("findConfigValue", (obj, key) => {
     LOGGER.trace(`Calling findConfigValue Helper | Arg1:${obj} Arg2:${key}`);
-    
+
     if (obj in CPR) {
       return CPR[obj][key];
     }
@@ -34,7 +49,7 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("findConfigObj", (obj) => {
     LOGGER.trace(`Calling findConfigObj Helper | Arg1:${obj}`);
-    
+
     if (obj in CPR) {
       return CPR[obj];
     }
@@ -43,9 +58,17 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("ifIn", function (arg1, arg2, options) {
     // LOGGER.trace(`Calling ifIn Helper | Arg1:${arg1} Arg2:${arg2}`);
-    let array = arg2.split(',');
+    let array = arg2.split(",");
     return array.includes(arg1) ? options.fn(this) : options.inverse(this);
   });
-  
 
+  Handlebars.registerHelper("generatePartial", function (arg1, arg2) {
+    LOGGER.trace(`Calling generatePartial Helper | Arg1:${arg1} Arg2:${arg2}`);
+    return arg1.replace("VAR", arg2);
+  });
+
+  Handlebars.registerHelper("dumpObj", (obj) => {
+    LOGGER.trace(`Calling dumpObj Helper | Arg1:${obj}`);
+    console.log(obj);
+  });
 }

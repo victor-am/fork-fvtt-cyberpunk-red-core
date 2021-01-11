@@ -257,9 +257,13 @@ form .tab-block .row .show {
 form .tab-block .header {
   background-color: #231f20;
   color: #ffffff;
+  text-align: center;
 }
 form .tab-block .item {
   background-color: #ffffff;
+}
+form .tab-block .item .inventory-center {
+  text-align: center;
 }
 form .item-desc-body {
   display: flex;

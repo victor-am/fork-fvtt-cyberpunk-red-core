@@ -2,52 +2,16 @@
 <div class="tab-block">
   <table>
     <tbody>
-    {{!-- FOR EACH CATEGORY --}}
       {{#each (findConfigObj "inventoryCategories") as |category c|}}
-      <tr class="header">
-          <td class="header" width="55%">{{localize (findConfigValue "inventoryCategories" c)}}</td>
-          <td class="header" width="30%">Data</td>
-          <td class="header" width="9%">Quantity</td>
-          <td class="header" width="5%"></td> {{!-- equipped icon --}}
-      </tr>
-      {{#each ../actor.items as |item i|}}
-      {{!-- IF ITEM IS OF CATEGORY --}}
-      {{#ifEquals item.type c}}
       
-      {{!-- DISPLAY ITEM --}}
-      <tr class="item" data-item-id={{item._id}}>
-          <td class="name"><a class="name rollable" data-roll-type="{{c}}" data-roll-title="{{item.type}}" data-item-id={{item._id}}>
-            {{item.name}}</a>
-            <a class="item-edit"><i class="fas fa-edit"></i></a>
-            <a class="item-delete"><i class="fas fa-trash-alt"></i></a>
-          </td>
-          {{!-- TODO remove if ifEquals, add partials per category if display needs to change --}}
-          {{#ifEquals item.type "weapon"}}
-            <td class="item">{{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}</td>
-            <td class="item">1</td>
-          {{else}}
-            {{#ifEquals item.type "ammo"}}
-               <td class="item">{{localize (findConfigValue "ammoVariety" item.data.variety)}}</td>
-               <td class="item">{{item.data.amount}}</td>
-            {{else}}
-               <td class="item"></td>
-               <td class="item">1</td>
+        {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-VAR-inventory-header.hbs" c)}}
+          {{#each ../actor.items as |item i|}}
+            {{#ifEquals item.type c}}
+              {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-VAR-inventory-content.hbs" c)}}
             {{/ifEquals}}
-           {{/ifEquals}}
-          {{#ifEquals item.type "weapon"}}
-            <td>{{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}}</td>
-          {{else}}
-            {{#ifEquals item.type "armor"}}
-              <td>{{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-equip-glyph.hbs"}}</td>
-            {{else}}
-              <td></td>
-            {{/ifEquals}}
-          {{/ifEquals}}
-      </tr>
-      {{/ifEquals}}
-      {{/each}}
+          {{/each}}
       {{/each}}
     </tbody>
-  </table>  
+  </table>
 </div>
 {{log "END CPR-INVENTORY.HBS"}}
