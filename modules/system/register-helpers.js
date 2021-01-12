@@ -1,5 +1,6 @@
 import LOGGER from "../utils/cpr-logger.js";
 import { CPR } from "./config.js";
+import CPRSystemUtils from "../utils/cpr-systemUtils.js";
 export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers");
 
@@ -12,10 +13,10 @@ export default function registerHandlebarsHelpers() {
     lte: (v1, v2) => v1 <= v2,
     gte: (v1, v2) => v1 >= v2,
     and() {
-        return Array.prototype.every.call(arguments, Boolean);
+      return Array.prototype.every.call(arguments, Boolean);
     },
     or() {
-        return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+      return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
     }
   });
 
@@ -61,6 +62,12 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("generatePartial", function (arg1, arg2) {
     LOGGER.trace(`Calling generatePartial Helper | Arg1:${arg1} Arg2:${arg2}`);
     return arg1.replace("VAR", arg2);
+  });
+
+  Handlebars.registerHelper("sortList", (objs, property) => {
+    LOGGER.trace(`Calling sortList Helper | Arg1:${objs} Arg2:${property}`);
+    objs.sort((a,b) => (a[property] > b[property]) ? 1 : ((b[property] > a[property]) ? -1 : 0)); 
+    return objs;
   });
 
   Handlebars.registerHelper("dumpObj", (obj) => {
