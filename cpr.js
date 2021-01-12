@@ -35,7 +35,6 @@ Hooks.once("init", async function () {
       "vehicle",
       "program",
       "netarch",
-      "loot"
     ], makeDefault: true
   });
 

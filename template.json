@@ -228,7 +228,6 @@
       "armor",
       "cyberware",
       "gear",
-      "loot",
       "netarch",
       "program",
       "skill",
@@ -379,12 +378,6 @@
         "physicalItem"
       ],
       "floors": []
-    },
-    "loot": {
-      "templates": [
-        "common",
-        "physicalItem"
-      ]
     }
   }
 }
