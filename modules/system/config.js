@@ -196,6 +196,22 @@ CPR.inventoryCategories = {
   "vehicle": "CPR.vehicle"
 }
 
+// 
+CPR.cyberwareCategories = {
+  "cyberAudioSuite": "CPR.cyberAudioSuite",
+  "cyberEyeRight": "CPR.cyberEyeRight",
+  "cyberEyeLeft": "CPR.cyberEyeLeft",
+  "cyberArmRight": "CPR.cyberArmRight",
+  "cyberArmLeft": "CPR.cyberArmLeft",
+  "cyberLegRight": "CPR.cyberLegRight",
+  "cyberLegLeft": "CPR.cyberLegLeft",
+  "neuralLink": "CPR.neuralLink",
+  "cyberwareInternal": "CPR.cyberwareInternal",
+  "cyberwareInternal": "CPR.cyberwareInternal",
+  "fasionware": "CPR.fasionware",
+  "borgware": "CPR.borgware"
+}
+
 CPR.woundState = {
   "notWounded": "CPR.notwounded",
   "lightlyWounded": "CPR.lightlywounded",
