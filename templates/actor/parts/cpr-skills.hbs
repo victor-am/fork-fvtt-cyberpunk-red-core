@@ -9,8 +9,7 @@
         {{!-- <span class="skill-stat">STAT</span> --}}
         <span class="skill-base">BASE</span>
       </div>
-
-      {{#each ../actor.filteredItems.skill as |skill s|}}
+      {{#each (sortList ../actor.filteredItems.skill "name") as |skill s|}}
       {{!-- IF SKILL IS OF CATEGORY --}}
       {{#ifEquals skill.data.category c}}
       {{!-- DISPLAY SKILL --}}

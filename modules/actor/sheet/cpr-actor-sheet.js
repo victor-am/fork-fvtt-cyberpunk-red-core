@@ -463,6 +463,11 @@ export default class CPRActorSheet extends ActorSheet {
     if (isRanged === "true") {
       rollRequest.statValue = this.getData().data.stats["ref"].value;
     }
+    // +1 to attack on Excellent Quality Weapons
+    if (weaponItem.data.data.quality == "excellent")
+    {
+      rollRequest.mods.push(1);
+    }
     // if char owns relevant skill, get skill value
     if (skillId == null) {
       rollRequest.skillValue = 0;
