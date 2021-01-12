@@ -53,8 +53,12 @@
                     Roll Modifiers: {{mods}} <br>
                     <div class="chat-rollTotal">Mods Total: {{modsTotal}}</div><br>
                     {{/if}}
+                    {{#if (gt roleValue 0)}}
+                    Role Ability: {{roleValue}} <br>
+                    {{else}}
                     Stat Level: {{statValue}} <br>
                     Skill Level: {{skillValue}} <br>
+                    {{/if}}
                     <div class="chat-rollTotal">Result Total: {{resultTotal}}</div><br>
                 </td>
 
