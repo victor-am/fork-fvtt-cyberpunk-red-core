@@ -19,7 +19,7 @@
           <a class="name rollable" data-roll-type="skill"
             data-roll-title="{{skill.name}}">
             <span class="{{#if skill.data.basic}}bold{{/if}}">
-              {{skill.name}} <strong>({{localize (findConfigValue "statList" skill.data.stat)}})</strong>
+              {{skill.name}} {{#if (eq skill.data.difficulty "difficult")}}(x2) {{/if}}<strong>({{localize (findConfigValue "statList" skill.data.stat)}})</strong>
             </span>
           </a>
           {{#if (eq skill.data.core false)}}
