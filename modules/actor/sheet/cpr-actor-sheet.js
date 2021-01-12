@@ -407,7 +407,7 @@ export default class CPRActorSheet extends ActorSheet {
 
   _getArmorPenaltyMods(stat) {
     let penaltyStats = ['ref', 'dex', 'move'];
-    let penaltyMods = [];
+    let penaltyMods = [0];
     if (penaltyStats.includes(stat)) {
       for (let location of ["head", "body"]) {
         let penaltyValue = Number(this._getArmorValue("penalty", location));
@@ -417,6 +417,9 @@ export default class CPRActorSheet extends ActorSheet {
       }
     }
     penaltyMods = [(Math.min(...penaltyMods))];
+    if (penaltyMods == 0) {
+      penaltyMods = "";
+    }
     return penaltyMods;
   }
 
