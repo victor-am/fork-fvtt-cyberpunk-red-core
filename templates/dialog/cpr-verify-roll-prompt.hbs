@@ -1,6 +1,6 @@
 {{log "VERIFY-ROLL-PROMPT.HBS"}}
 <form action="">
-    {{#ifEquals rollType "damage"}}
+    {{#if (eq rollType "damage")}}
     {{#ifIn weaponType "assaultRifle,smg,heavySmg"}}
     <div>
       <label for="autofire">Autofire? </label>
@@ -8,7 +8,7 @@
       <label for="autofire-multiplier"> Multiplier: </label>
       {{!-- Ensure multiplier input is between 1 and either 3 or 4 depending on weapon type --}}
       <input type="number" class="number" name="autofire-multiplier" data-dtype="Number" value={{multiplier}} 
-      max="{{#ifEquals weaponType "assaultRifle"}}4{{else}}3{{/ifEquals}}" min="1">
+      max="{{#if (eq weaponType "assaultRifle")}}4{{else}}3{{/if}}" min="1">
     </div>
     {{/ifIn}}
     <div>
@@ -37,6 +37,6 @@
     <div>
         Should Roll Criticals: <input name="calculateCritical" class="" type="checkbox" data-dtype="Checkbox" checked>
     </div>
-    {{/ifEquals}}
+    {{/if}}
 </form>
 {{log "END VERIFY-ROLL-PROMPT.HBS"}}

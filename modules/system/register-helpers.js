@@ -3,11 +3,7 @@ import { CPR } from "./config.js";
 export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers");
 
-  Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
-    // LOGGER.trace(`Calling ifEquals Helper | Arg1:${arg1} Arg2:${arg2}`);
-    return arg1 == arg2 ? options.fn(this) : options.inverse(this);
-  });
-
+// Removed ifEquals in favor of a more universal comparison helper
   Handlebars.registerHelper({
     eq: (v1, v2) => v1 === v2,
     ne: (v1, v2) => v1 !== v2,

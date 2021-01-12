@@ -1,6 +1,6 @@
 {{log "CPR-ROLLCARD.HBS"}}
 {{!-- If this is a damage roll --}}
-{{#ifEquals rollType "damage"}}
+{{#if (eq rollType "damage")}}
 <div class="chat-rollCard" data-roll-type="{{rollType}}">
     <h2 class="chat-rollTitle-{{rollType}}">{{rollTitle}}</h2>
     <section>
@@ -62,5 +62,5 @@
         </table>
     </section>
 </div>
-{{/ifEquals}}
+{{/if}}
 {{log "END CPR-ROLLCARD.HBS"}}
