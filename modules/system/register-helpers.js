@@ -53,6 +53,15 @@ export default function registerHandlebarsHelpers() {
     return "INVALID_LIST";
   });
 
+  Handlebars.registerHelper("getObjId", (arr, propName, propValue) => {
+    LOGGER.trace(`Calling findObj Helper | Arg1:${arr} Arg2:${propName} Arg3:${propValue}`);
+    let result = arr.find(o => o[propName] == propValue);
+    if (typeof result == 'object' && result.hasOwnProperty('_id')) {
+      return result._id;
+    }
+    return;
+  });
+
   Handlebars.registerHelper("ifIn", function (arg1, arg2, options) {
     // LOGGER.trace(`Calling ifIn Helper | Arg1:${arg1} Arg2:${arg2}`);
     let array = arg2.split(",");
