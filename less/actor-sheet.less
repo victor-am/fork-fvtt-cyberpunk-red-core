@@ -1,121 +1,40 @@
-.sheet {
-  min-width: fit-content;
-  max-width: fit-content;
+// .sheet {
+//   max-width: fit-content;
+//   min-width: fit-content;
+// }
+
+.header {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 65px);
+  grid-template-areas: 
+    "image handle hitpoints",
+    "image role humanity",
+    "image ability deathsave",
 }
 
+.stats-block {
 
+}
 
-form {
-  .sheet-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 325px;
-    .top-block {
-      display: grid;
-    }  
-    .stats-block {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      background-color: @maximum-red;
-      padding: 10px 5px 5px 5px;
-      min-width: 400px;
-      .stats-unit {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
-        background-color: #ffffff;
-        width: 50px;
-        height: 50px;
-        flex-shrink: 0;
-        .stat-title {
-          display: flex;
-          flex-direction: row-reverse;
-          font-weight: bold;
-          padding-right: 2px;
-          p {
-            margin: 0;
-          }
-        }
-        .stat-values {
-          display: flex;
-          justify-content: space-around;
-          .stat-input {
-            // width: 40px;
-            background-color: transparent;
-            border: 0;
-            outline: 0;
-            font-size: 3em;
-            text-align: center;
-            height: 65%;
-          }
-          .max {
-            font-size: 1.5em;
-          }
-        }
-      }
-      .has-max {
-        clip-path: polygon(
-          0 15px,
-          0 100%,
-          45% 100%,
-          45% 50%,
-          55% 50%,
-          55% 100%,
-          100% 100%,
-          100% 0,
-          15px 0
-        );
-      }
-    }
+// edgecase tweaks
+
+.character-image-block {
+  img {
+    max-height: 175px;
+    max-width: 175px;
   }
+  max-width: 185px;
+  max-height: 190px;
+ 
+}
+
+.ability-table {
+  background: #ffffff;
+  outline: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  td {padding: 5px}
   
-  .tab-block {
-    background-color: @maximum-red;
-    max-height: 700px;
-    padding: 5px;
-    padding-right: 0;
-    font-size: 0.8em;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    .row {
-      display: flex;
-      width: 49%;
-      padding: 2px;
-      .skill-name {
-        width: 70%;
-      }
-      .skill-level-input {
-        text-align: center;
-        border: none;
-        padding: 0px;
-        margin: 0px;
-        height: 1.4rem;
-        background: unset;
-      } .skill-level, .skill-stat, .skill-base {
-        width: 15%;
-        text-align: center;
-      }
-      .item-edit, .item-delete {
-        visibility: hidden;
-      }
-      .show {
-        visibility: visible;
-      }
-    }
-    .header {
-      background-color: @raisin-black;
-      color: @white;
-      text-align: center;
-    }
-    .item {
-      background-color: @white;
-      .inventory-center {
-        text-align: center;
-      }
-    }
-  }
 }

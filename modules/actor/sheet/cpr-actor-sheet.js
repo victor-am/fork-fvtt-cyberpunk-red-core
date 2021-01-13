@@ -63,6 +63,17 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(`.skill-level-input`).click(event => event.target.select()).change(event => this._updateSkill(event));
 
+    html.find(".expand-button").click(event => {
+      let block = $(event.currentTarget.parentElement);
+      if (block.hasClass("expand")) {
+        block.removeClass("expand")
+      } else {
+        block.addClass("expand")
+      }
+    })
+
+    
+
     // Show edit and delete buttons
     html.find(".row.item").hover(
       (event) => {

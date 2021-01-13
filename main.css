@@ -28,113 +28,103 @@
 }
 /* LESS RGB */
 /* LESS Gradient */
-.sheet {
-  min-width: fit-content;
-  max-width: fit-content;
-}
-form .sheet-header {
+.CPR-block {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 325px;
-}
-form .sheet-header .top-block {
-  display: grid;
-}
-form .sheet-header .stats-block {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: #d02b23;
-  padding: 10px 5px 5px 5px;
-  min-width: 400px;
-}
-form .sheet-header .stats-block .stats-unit {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
+  border: solid #d02b23 5px;
+  border-top: 10px solid #d02b23;
+  height: 60px;
   background-color: #ffffff;
-  width: 50px;
-  height: 50px;
-  flex-shrink: 0;
+  position: relative;
+  box-sizing: border-box;
+  margin: 5px;
+  overflow: hidden;
 }
-form .sheet-header .stats-block .stats-unit .stat-title {
-  display: flex;
-  flex-direction: row-reverse;
-  font-weight: bold;
-  padding-right: 2px;
-}
-form .sheet-header .stats-block .stats-unit .stat-title p {
+.CPR-block p,
+.CPR-block input,
+.CPR-block a {
+  padding: 0;
   margin: 0;
 }
-form .sheet-header .stats-block .stats-unit .stat-values {
+.CPR-block p,
+.CPR-block a {
+  text-align: end;
+  padding-left: 15px;
+  font-weight: bold;
+}
+.CPR-block input,
+.CPR-block select {
+  display: block;
+  text-align: center;
+  background: transparent;
+  outline: none;
+  border: none;
+  font-size: 1.5em;
+  font-family: "Signika";
+}
+.CPR-block input:focus {
+  box-shadow: none;
+}
+.CPR-block input[type="text"] {
+  text-align: start;
+}
+.CPR-block::after {
+  content: "";
+  position: absolute;
+  top: -2;
+  left: -2;
+  background-color: #d02b23;
+  height: 17px;
+  width: 17px;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+.stat {
+  width: 60px;
+}
+.fit-content {
+  height: fit-content;
+}
+.resource div {
   display: flex;
   justify-content: space-around;
 }
-form .sheet-header .stats-block .stats-unit .stat-values .stat-input {
-  background-color: transparent;
-  border: 0;
+.resource div input {
+  max-width: 50%;
+  min-width: 50%;
+}
+.resource div span {
+  font-size: 0.85em;
+  text-align: center;
+  width: 100%;
+}
+.expand {
+  height: fit-content;
+  min-height: 60px;
+  z-index: 10;
+}
+.header {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 65px);
+  grid-template-areas: "image handle hitpoints", "image role humanity", "image ability deathsave";
+}
+.character-image-block {
+  max-width: 185px;
+  max-height: 190px;
+}
+.character-image-block img {
+  max-height: 175px;
+  max-width: 175px;
+}
+.ability-table {
+  background: #ffffff;
   outline: 0;
-  font-size: 3em;
-  text-align: center;
-  height: 65%;
+  border: 0;
+  padding: 0;
+  margin: 0;
 }
-form .sheet-header .stats-block .stats-unit .stat-values .max {
-  font-size: 1.5em;
-}
-form .sheet-header .stats-block .has-max {
-  clip-path: polygon(0 15px, 0 100%, 45% 100%, 45% 50%, 55% 50%, 55% 100%, 100% 100%, 100% 0, 15px 0);
-}
-form .tab-block {
-  background-color: #d02b23;
-  max-height: 700px;
+.ability-table td {
   padding: 5px;
-  padding-right: 0;
-  font-size: 0.8em;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-form .tab-block .row {
-  display: flex;
-  width: 49%;
-  padding: 2px;
-}
-form .tab-block .row .skill-name {
-  width: 70%;
-}
-form .tab-block .row .skill-level-input {
-  text-align: center;
-  border: none;
-  padding: 0px;
-  margin: 0px;
-  height: 1.4rem;
-  background: unset;
-}
-form .tab-block .row .skill-level,
-form .tab-block .row .skill-stat,
-form .tab-block .row .skill-base {
-  width: 15%;
-  text-align: center;
-}
-form .tab-block .row .item-edit,
-form .tab-block .row .item-delete {
-  visibility: hidden;
-}
-form .tab-block .row .show {
-  visibility: visible;
-}
-form .tab-block .header {
-  background-color: #231f20;
-  color: #ffffff;
-  text-align: center;
-}
-form .tab-block .item {
-  background-color: #ffffff;
-}
-form .tab-block .item .inventory-center {
-  text-align: center;
 }
 form .item-desc-body {
   display: flex;

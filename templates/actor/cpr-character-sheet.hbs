@@ -1,28 +1,20 @@
 <form>
-  {{!-- Sheet Header --}}
-  <header class="sheet-header">
-    <div class="top-block">
-      <div class="info-block">
-        {{!-- IMAGE --}}
+  <header class="header">
+      <div>
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-image-block.hbs"}}
-        {{!-- HANDLE --}}
+      </div>
+      <div>
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-handle-block.hbs"}}
-      </div>
-      <div class="role-block">
-        {{!-- ROLE --}}{{!-- ABILITY --}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-role-block.hbs"}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-ability-block.hbs"}}
       </div>
-      <div class="derived-block">
-        {{!-- HITPOINTS --}}
+      <div>
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-hitpoint-block.hbs"}}
-        {{!-- HUMANITY --}}
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-humanity-block.hbs"}}
-        {{!-- DEATH SAVE --}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-deathsave-block.hbs"}}
-      </div>  
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-humanity-block.hbs"}}
+      </div> 
     </div>
-    {{!-- STATS --}}
-    <div class="stats-block">
+    <div class="row stats-block">
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs"}}
     </div>
   </header>
