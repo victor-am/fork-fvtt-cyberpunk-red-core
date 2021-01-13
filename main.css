@@ -29,62 +29,8 @@
 /* LESS RGB */
 /* LESS Gradient */
 .sheet {
-  min-width: 580px;
-}
-.block {
-  font-size: 0.8em;
-  background-color: #d02b23;
-  padding: 10px 5px 5px 5px;
-  flex: -1 -1;
-  width: 180px;
-  min-height: 55px;
-}
-.block .unit {
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
-}
-.block .unit p {
-  text-align: end;
-  padding-right: 5px;
-  font-weight: bold;
-  text-transform: uppercase;
-  margin: 0;
-}
-.block .unit .inputs {
-  display: flex;
-  justify-content: space-around;
-}
-.block .unit .inputs input {
-  width: 100%;
-  font-size: 1.5em;
-  border: none;
-  outline: none;
-  background-color: transparent;
-}
-.block .unit .inputs input:focus {
-  box-shadow: none;
-}
-.block .unit .inputs input.derived {
-  text-align: center;
-  width: 3em;
-}
-.block .unit select {
-  width: 100%;
-  border: none;
-  outline: 0;
-  background: transparent;
-  font-size: 1.4em;
-}
-.block .unit select:focus {
-  box-shadow: none;
-}
-.block .unit.mid-split {
-  clip-path: polygon(15px 0, 100% 0, 100% 100%, 53% 100%, 53% 45%, 47% 45%, 47% 100%, 0 100%, 0 15px);
-}
-.block .unit.right-split {
-  clip-path: polygon(15px 0, 100% 0, 100% 100%, 75% 100%, 75% 45%, 69% 45%, 69% 100%, 0 100%, 0 15px);
+  min-width: fit-content;
+  max-width: fit-content;
 }
 form .sheet-header {
   display: flex;
@@ -93,82 +39,7 @@ form .sheet-header {
   height: 325px;
 }
 form .sheet-header .top-block {
-  display: flex;
-  justify-content: space-between;
-  height: 240px;
-}
-form .sheet-header .top-block .image-block {
-  background-color: #d02b23;
-  padding: 10px 5px 5px 5px;
-  height: 180px;
-  width: 180px;
-}
-form .sheet-header .top-block .image-block img {
-  height: 165px;
-  min-width: 165px;
-  border: none;
-  outline: none;
-  clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 10%);
-  margin: 0;
-}
-form .sheet-header .top-block .info-block,
-form .sheet-header .top-block .role-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-form .sheet-header .top-block .info-block .role-ability .ability-name,
-form .sheet-header .top-block .role-block .role-ability .ability-name {
-  text-align: left;
-}
-form .sheet-header .top-block .info-block .role-ability .ability-value,
-form .sheet-header .top-block .role-block .role-ability .ability-value {
-  text-align: right;
-}
-form .sheet-header .top-block .derived-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-form .sheet-header .top-block .derived-block .hitpoint-block {
-  height: 80px;
-  clip-path: polygon(15px 0, 100% 0, 100% 100%, 53% 100%, 53% 30%, 47% 30%, 47% 100%, 0 100%, 0 15px);
-}
-form .sheet-header .top-block .derived-block .hitpoint-block input {
-  font-size: 5em;
-  height: 100%;
-}
-form .sheet-header .top-block .derived-block .save-block .wound-state {
-  text-align: left;
-  word-spacing: 9999rem;
-}
-form .sheet-header .top-block .derived-block .save-block .death-save {
-  padding-right: 0.5em;
-}
-form .sheet-header .top-block .role-block table {
-  margin: 0;
-  height: 26px;
-  background: transparent;
-  border: none;
-  outline: 0;
-  font-size: 1.2em;
-  display: contents;
-}
-form .sheet-header .top-block .role-block table td tr,
-form .sheet-header .top-block .role-block table tr tr,
-form .sheet-header .top-block .role-block table td td,
-form .sheet-header .top-block .role-block table tr td {
-  height: 26px;
-  background: transparent;
-  border: none;
-  outline: 0;
-  padding: 1px 0;
-}
-form .sheet-header .top-block .role-block table td .ability-rank-input,
-form .sheet-header .top-block .role-block table tr .ability-rank-input {
-  font-size: 1.2em;
+  display: grid;
 }
 form .sheet-header .stats-block {
   display: flex;
