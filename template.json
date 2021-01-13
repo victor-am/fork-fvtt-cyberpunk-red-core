@@ -161,12 +161,18 @@
           "description": "",
           "notes": "",
           "history": ""
+        },
+        "cyberware": {
+          "cyberware": {
+            "installed": []
+          }
         }
       }
     },
     "character": {
       "templates": [
-        "common"
+        "common",
+        "cyberware"
       ],
       "stats": {
         "luck": {
@@ -277,8 +283,11 @@
       ],
       "type": "type",
       "install": "install",
+      "isInstalled": false,
+      "isFoundational": false,
+      "optionSlots": 0,
       "humanityLoss": {
-        "cgen": 0,
+        "static": 0,
         "roll": ""
       }
     },

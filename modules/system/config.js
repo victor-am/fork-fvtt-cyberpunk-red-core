@@ -197,19 +197,22 @@ CPR.inventoryCategories = {
 }
 
 // 
-CPR.cyberwareCategories = {
+CPR.cyberwareTypeList = {
   "cyberAudioSuite": "CPR.cyberAudioSuite",
-  "cyberEyeRight": "CPR.cyberEyeRight",
-  "cyberEyeLeft": "CPR.cyberEyeLeft",
-  "cyberArmRight": "CPR.cyberArmRight",
-  "cyberArmLeft": "CPR.cyberArmLeft",
-  "cyberLegRight": "CPR.cyberLegRight",
-  "cyberLegLeft": "CPR.cyberLegLeft",
+  "cyberEye": "CPR.cyberEye",
+  "cyberArm": "CPR.cyberArm",
+  "cyberLeg": "CPR.cyberLeg",
   "neuralLink": "CPR.neuralLink",
   "cyberwareInternal": "CPR.cyberwareInternal",
-  "cyberwareInternal": "CPR.cyberwareInternal",
-  "fasionware": "CPR.fasionware",
+  "cyberwareExternal": "CPR.cyberwareExternal",
+  "fashionware": "CPR.fashionware",
   "borgware": "CPR.borgware"
+}
+
+CPR.cyberwareInstallList = {
+  "mall": "CPR.mall",
+  "clinic": "CPR.clinic",
+  "hospital": "CPR.hospital"
 }
 
 CPR.woundState = {
