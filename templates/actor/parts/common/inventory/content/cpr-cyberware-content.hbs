@@ -9,10 +9,7 @@
     <td class="inventory-center"></td>
     <td class="inventory-center">
         {{!-- INSTALL ACTION --}}
-        {{#unless this.data.isInstalled}}
-        <i class="fas fa-microchip install icon-button" title="Install"></i>
-        {{/unless}}
-        {{!-- CONCEAL ACTION --}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-install-glyph.hbs"}}
     </td>
 </tr>
 {{log "END CPR-CYBERWARE-INV-CONTENT.HBS"}}

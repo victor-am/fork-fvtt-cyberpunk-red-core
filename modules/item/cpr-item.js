@@ -13,12 +13,6 @@ export default class CPRItem extends Item {
     prepareData() {
         LOGGER.debug(`prepareData | CPRItem | Called for type: ${this.type}.`);
         super.prepareData();
-        // If you want to test/see ammo working before we can set ammoVariety
-        // uncomment these 3 lines
-/*        if (this.data.type === "weapon") {
-            this.data.data.ammoVariety = ["medPistol"];
-        }
-        */
         const itemData = this.data.data;
         LOGGER.debug(`prepareData | CPRItem | Checking itemData.`);
     }

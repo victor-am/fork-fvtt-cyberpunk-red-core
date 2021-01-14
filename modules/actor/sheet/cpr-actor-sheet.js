@@ -5,7 +5,8 @@ import { CPR } from "../../system/config.js";
 import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
 import CPRDmgRollRequest from "../../rolls/cpr-dmgroll-request.js";
 import { VerifyRollPrompt } from "../../dialog/cpr-verify-roll-prompt.js";
-import { CPRChat } from "../../chat/cpr-chat.js";
+import CPRChat from "../../chat/cpr-chat.js";
+import Rules from "../../utils/cpr-rules.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -47,7 +48,7 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".rollable").click((event) => this._onRoll(event));
 
     // Update equipment
-    html.find(".equip").click(event => this._updateEquip(event));
+    html.find(".equip").click(event => this._cycleEquipState(event));
 
     // Install Cyberware
     html.find(".install").click(event => this._installCyberware(event));
@@ -58,8 +59,8 @@ export default class CPRActorSheet extends ActorSheet {
     // Generic item action
     html.find(".item-action").click(event => this._itemAction(event));
 
-    // Update Item
-    html.find(".item-edit").click((event) => this._updateItem(event));
+    // Render Item Card
+    html.find(".item-edit").click((event) => this._renderItemCard(event));
 
     // Delete item
     html.find(".item-delete").click((event) => this._deleteOwnedItem(event));
@@ -173,38 +174,33 @@ export default class CPRActorSheet extends ActorSheet {
   // TODO - Simplfy
   // TODO - Revist hands restrictions, possibly remove.
   // TODO - Refactor switch
-  _updateEquip(event) {
+  // TODO - IMPORTANT - FIX
+  _cycleEquipState(event) {
     /**
      * Equip or Unequip an item. Make stat changes and check
      * conditions (like free hands) as necessary.
      */
-    LOGGER.trace(`ActorID _updateEquip | CPRActorSheet | Called.`);
-    const item_id = $(event.currentTarget).attr("data-item-id");
-    const item = this._getOwnedItem(item_id);
-    const curr_equip = $(event.currentTarget).attr("data-curr-equip");
-    let prop = this._getObjProp(event); // panic if undefined
-
-    switch (curr_equip) {
+    LOGGER.trace(`ActorID _cycleEquipState | CPRActorSheet | Called.`);
+    const item = this._getOwnedItem(this._getItemId(event));
+    let prop = this._getObjProp(event);
+    switch (item.data.data.equippable.equipped) {
       case "owned": {
-        // set next to carried
         this._updateOwnedItemProp(item, prop, "carried");
         break;
       }
       case "carried": {
-        // check there are free hands for weapons
         if (item.data.type == "weapon") {
-          if (!this._canHoldWeapon(item)) {
-            // ui.n.error and notify work too
-            CPRSystemUtils.DisplayMessage("warn", "CPR.warningtoomanyhands");
-          }
+          Rules.lawyer(this._canHoldWeapon(item));
         }
         this._updateOwnedItemProp(item, prop, "equipped");
-        // for armor, update SP and armor penalty
         break;
       }
       case "equipped": {
-        // set next to owned
         this._updateOwnedItemProp(item, prop, "owned");
+        break;
+      }
+      default: {
+        this._updateOwnedItemProp(item, prop, "carried");
         break;
       }
     }
@@ -213,6 +209,14 @@ export default class CPRActorSheet extends ActorSheet {
   _installCyberware(event) {
     LOGGER.trace(`ActorID _installCyberware | CPRActorSheet | Called.`);
     let item = this._getOwnedItem(this._getItemId(event));
+
+    // TODO - REMOVE
+    LOGGER.debug(`ActorID _installCyberware | CPRActorSheet | Checking Item Entitiy.`);
+    console.log(item);
+
+    this._updateOwnedItemProp(item, "isInstalled", true);
+
+    // TODO - REMOVE
     LOGGER.debug(`ActorID _installCyberware | CPRActorSheet | Checking Item Entitiy.`);
     console.log(item);
   }
@@ -220,11 +224,13 @@ export default class CPRActorSheet extends ActorSheet {
   _uninstallCyberware(event) {
     LOGGER.trace(`ActorID _uninstallCyberware | CPRActorSheet | Called.`);
     let item = this._getOwnedItem(this._getItemId(event));
+
+    // TODO - REMOVE
+    cyberpunkAssert(actor.cyberwareInstalled.arms > game.settings.maxArms).thenNotify("warn");
     LOGGER.debug(`ActorID _uninstallCyberware | CPRActorSheet | Checking Item Entitiy.`);
     console.log(item);
   }
 
-  // 
   _itemAction(event) {
     LOGGER.trace(`ActorID _itemAction | CPRActorSheet | Called.`);
     const itemId = $(event.currentTarget).attr("data-item-id");
@@ -235,6 +241,7 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
+  // TODO - Move to cpr-actor
   _getEquippedArmors(loc) {
     /**
      * game.actors.entities[].sheet.getEquippedArmors
@@ -261,6 +268,7 @@ export default class CPRActorSheet extends ActorSheet {
 
 
   // ARMOR HELPERS
+  // TODO - Move to cpr-actor
   _getArmorValue(valueType, location) {
     /**
      * game.actors.entities[].sheet.getArmorValue
@@ -316,6 +324,7 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   // TODO - Revist hands restrictions, possibly remove.
+  // TODO - Move to cpr-actor
   _getHands() {
     /**
      * game.actors.entities[].sheet._getHands
@@ -327,6 +336,7 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   // TODO - Revist hands restrictions, possibly remove.
+  // TODO - Move to cpr-actor
   _getFreeHands() {
     /**
      * game.actors.entities[].sheet._getFreeHands
@@ -342,7 +352,7 @@ export default class CPRActorSheet extends ActorSheet {
     return free_hands
   }
 
-
+  // TODO - Move to cpr-actor
   _canHoldWeapon(weapon) {
     /**
      * game.actors.entities[].sheet._canHoldWeapon
@@ -357,6 +367,7 @@ export default class CPRActorSheet extends ActorSheet {
     return true;
   }
 
+  // TODO - Move to cpr-actor
   _getEquippedWeapons() {
     /**
      * game.actors.entities[].sheet._getEquippedWeapons
@@ -367,34 +378,25 @@ export default class CPRActorSheet extends ActorSheet {
     return weapons.filter((a) => a.data.data.equippable.equipped == "equipped");
   }
 
-
-
-
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
-
+  // TODO - Move to cpr-actor
   _updateSkill(event) {
     LOGGER.trace(`ActorID _updateSkill | CPRActorSheet | Called.`);
-
-    let itemId = this._getItemId(event);
-    const item = this._getOwnedItem(itemId);
-
+    const item = this._getOwnedItem(this._getItemId(event));
     let prop = this._getObjProp(event); // return prop or undef
     let value = Math.clamped(-99, parseInt(event.target.value), 99);
-
     this._updateOwnedItemProp(item, prop, value)
   }
 
   // OWNED ITEM HELPER FUNCTIONS
+  // TODO - Assert all usage correct.
   _updateOwnedItemProp(item, prop, value) {
-    /**
-     * Update an item property with a value
-     */
-    LOGGER.trace(`ActorID _updateOwnedItemProp | Item:${item}.`);
+    LOGGER.trace(`ActorID _updateOwnedItemProp | Called.`);
     setProperty(item.data, prop, value);
-    this.actor.updateEmbeddedEntity("OwnedItem", item.data)
+    this.actor.updateEmbeddedEntity("OwnedItem", item.data);
   }
 
-  _updateItem(event) {
+  _renderItemCard(event) {
     /**
      * Pop up a form for an item to update its data
      */
@@ -408,7 +410,6 @@ export default class CPRActorSheet extends ActorSheet {
 
   _getItemId(event) {
     LOGGER.trace(`ActorID _getItemId | CPRActorSheet | Called.`);
-    console.log($(event.currentTarget).parents(`.item`));
     return $(event.currentTarget).parents(`.item`).attr(`data-item-id`);
   }
 

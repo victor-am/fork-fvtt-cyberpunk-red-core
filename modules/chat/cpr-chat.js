@@ -1,13 +1,7 @@
 import LOGGER from "../utils/cpr-logger.js";
 
-export class CPRChat {
-    /**
-    * Helper function to set up chat data (set roll mode and content).
-    * 
-    * @param {String} content 
-    * @param {String} modeOverride 
-    * @param {Boolean} isRoll 
-    */
+export default class CPRChat {
+    
     static ChatDataSetup(content, modeOverride, isRoll = false, forceWhisper) {
         let chatData = {
             user: game.user._id,

@@ -261,6 +261,10 @@
       "equippable": {
          "equipped": "owned"
       },
+      "upgradable": {
+        "isUpgraded": false,
+        "upgrade": ""
+      },
       "mods": {
         "list": [],
         "mod": {
@@ -268,10 +272,6 @@
           "item": "",
           "value": 0,
           "isActive": false
-        },
-        "upgradable": {
-          "isUpgraded": false,
-          "upgrade": ""
         }
       }
     },
@@ -295,7 +295,8 @@
       "templates": [
         "common",
         "physicalItem",
-        "upgradable"
+        "upgradable",
+        "equippable"        
       ],
       "rof": 1,
       "weaponType": "",
@@ -318,7 +319,8 @@
       "templates": [
         "common",
         "physicalItem",
-        "upgradable"
+        "upgradable",
+        "equippable"
       ],
       "isHeadLocation": false,
       "headLocation": {
@@ -335,7 +337,8 @@
     "ammo": {
       "templates": [
         "common",
-        "physicalItem"
+        "physicalItem",
+        "upgradable"
       ],
       "variety": "",
       "amount": 0,
@@ -344,7 +347,9 @@
     "gear": {
       "templates": [
         "common",
-        "physicalItem"
+        "physicalItem",
+        "upgradable",
+        "equippable"
       ]
     },
     "skill": {
@@ -372,7 +377,8 @@
     "program": {
       "templates": [
         "common",
-        "physicalItem"
+        "physicalItem",
+        "equippable"
       ],
       "class": "",
       "per": 0,
