@@ -33,6 +33,11 @@ export default class CPRActor extends Actor {
     return data;
   }
 
+  getData() {
+    LOGGER.trace("getData | CPRActor | Called.");
+    return this.data.data;
+  }
+
   /** @override */
   static async create(data, options) {
     LOGGER.trace(`create | CPRActor | called.`);
@@ -115,11 +120,36 @@ export default class CPRActor extends Actor {
   }
 
   // ADD AND REMOVE CYBERWARE FROM ACTOR
-  addCyberware(item) {
+  // TODO - Refactor to map struct?
 
+  // Current implementation is as follows.
+  // Each foundational cyberware added creates a new array in cyberware.
+  // the foundational item is the 0th element of the array.
+  // when optional cyberware looks for places to go.
+  // look at all arrays in cyberware.installed
+  // if 0th element for type = optional.type && array.length < 0th.slots + 1
+  // display in list of possibly locations to install
+  // confirm will install and push optional.id into selected array
+  addCyberware(item) {
+    LOGGER.trace("addCyberware | CPRActor | Called.");
+    const data = this.getData();
+    console.log(data);
+    // add this as foundational
+    if (item.getData().isFoundational) {
+      LOGGER.debug("addCyberware | CPRActor | Adding new foundational Cyberware to struct.");
+      // TODO - Logic to warn of rules breaking.
+      data.cyberware.installed.push([item._id]);
+    // add this as optional
+    } else {
+      // display prompt
+    }
   }
 
   removeCyberware(item) {
        
+  }
+
+  _getOwnedItem(itemId) {
+    return this.actor.items.find((i) => i.data._id == itemId);
   }
 }

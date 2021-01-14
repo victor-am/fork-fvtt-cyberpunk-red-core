@@ -209,26 +209,18 @@ export default class CPRActorSheet extends ActorSheet {
   _installCyberware(event) {
     LOGGER.trace(`ActorID _installCyberware | CPRActorSheet | Called.`);
     let item = this._getOwnedItem(this._getItemId(event));
+    let prop = this._getObjProp(event);
 
     // TODO - REMOVE
     LOGGER.debug(`ActorID _installCyberware | CPRActorSheet | Checking Item Entitiy.`);
-    console.log(item);
 
-    this._updateOwnedItemProp(item, "isInstalled", true);
-
-    // TODO - REMOVE
-    LOGGER.debug(`ActorID _installCyberware | CPRActorSheet | Checking Item Entitiy.`);
-    console.log(item);
+    this._updateOwnedItemProp(item, prop, true);
+    this.actor.addCyberware(item);
   }
 
   _uninstallCyberware(event) {
     LOGGER.trace(`ActorID _uninstallCyberware | CPRActorSheet | Called.`);
     let item = this._getOwnedItem(this._getItemId(event));
-
-    // TODO - REMOVE
-    cyberpunkAssert(actor.cyberwareInstalled.arms > game.settings.maxArms).thenNotify("warn");
-    LOGGER.debug(`ActorID _uninstallCyberware | CPRActorSheet | Checking Item Entitiy.`);
-    console.log(item);
   }
 
   _itemAction(event) {

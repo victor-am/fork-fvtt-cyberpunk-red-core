@@ -19,10 +19,15 @@ export default class CPRItem extends Item {
 
     /* -------------------------------------------- */
     /** @override */
-    async getRollData() {
+    getRollData() {
         LOGGER.trace("getRollData | CPRItem | Called.");
         const data = super.getRollData();
         return data;
+    }
+    
+    getData() {
+        LOGGER.trace("getData | CPRItem | Called.");
+        return this.data.data;
     }
 
     // Generic item.doAction() method so any idem can be called to
