@@ -68,7 +68,7 @@ export default class CPRRolls {
     mergeObject(rollResult, rollRequest, { overwrite: true });
 
     // create roll and show Dice So Nice!
-    let roll = this.CPRRoll(rollRequest.formula);
+    let roll = this.CPRRoll(`${rollRequest.formula}[fire]`);
 
     // Push all results into diceResults
     roll.array.forEach(r => rollResult.diceResults.push(r));

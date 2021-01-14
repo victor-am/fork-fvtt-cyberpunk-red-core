@@ -192,6 +192,7 @@ CPR.inventoryCategories = {
   "weapon": "CPR.weapon",
   "ammo": "CPR.ammo",
   "armor": "CPR.armor",
+  "cyberware": "CPR.cyberware",
   "gear": "CPR.gear",
   "vehicle": "CPR.vehicle"
 }

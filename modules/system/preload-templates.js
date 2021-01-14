@@ -28,6 +28,7 @@ export default function preloadHandlebarsTemplates() {
       "systems/cyberpunk-red-core/templates/actor/parts/cpr-deathsave-block.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/cpr-humanity-block.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/cpr-role-block.hbs",
+
       // Inventory Partials
       "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-weapon-inventory-header.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-weapon-inventory-content.hbs",
@@ -37,8 +38,11 @@ export default function preloadHandlebarsTemplates() {
       "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-armor-inventory-content.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-gear-inventory-header.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-gear-inventory-content.hbs",
+      "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-cyberware-inventory-header.hbs",
+      "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-cyberware-inventory-content.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-vehicle-inventory-header.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-vehicle-inventory-content.hbs",
+
       // Cyberware Partials
       "systems/cyberpunk-red-core/templates/actor/parts/common/cyberware/cpr-cyberware-header.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/common/cyberware/cpr-cyberware-content.hbs",

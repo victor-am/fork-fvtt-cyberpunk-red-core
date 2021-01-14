@@ -49,6 +49,12 @@ export default class CPRActorSheet extends ActorSheet {
     // Update equipment
     html.find(".equip").click(event => this._updateEquip(event));
 
+    // Install Cyberware
+    html.find(".install").click(event => this._installCyberware(event));
+
+    // Uninstall Cyberware
+    html.find(".uninstall").click(event => this._uninstallCyberware(event));
+
     // Generic item action
     html.find(".item-action").click(event => this._itemAction(event));
 
@@ -164,7 +170,10 @@ export default class CPRActorSheet extends ActorSheet {
 
   }
 
-  async _updateEquip(event) {
+  // TODO - Simplfy
+  // TODO - Revist hands restrictions, possibly remove.
+  // TODO - Refactor switch
+  _updateEquip(event) {
     /**
      * Equip or Unequip an item. Make stat changes and check
      * conditions (like free hands) as necessary.
@@ -201,7 +210,22 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  async _itemAction(event) {
+  _installCyberware(event) {
+    LOGGER.trace(`ActorID _installCyberware | CPRActorSheet | Called.`);
+    let item = this._getOwnedItem(this._getItemId(event));
+    LOGGER.debug(`ActorID _installCyberware | CPRActorSheet | Checking Item Entitiy.`);
+    console.log(item);
+  }
+
+  _uninstallCyberware(event) {
+    LOGGER.trace(`ActorID _uninstallCyberware | CPRActorSheet | Called.`);
+    let item = this._getOwnedItem(this._getItemId(event));
+    LOGGER.debug(`ActorID _uninstallCyberware | CPRActorSheet | Checking Item Entitiy.`);
+    console.log(item);
+  }
+
+  // 
+  _itemAction(event) {
     LOGGER.trace(`ActorID _itemAction | CPRActorSheet | Called.`);
     const itemId = $(event.currentTarget).attr("data-item-id");
     const item = this._getOwnedItem(itemId);
@@ -235,6 +259,8 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
+
+  // ARMOR HELPERS
   _getArmorValue(valueType, location) {
     /**
      * game.actors.entities[].sheet.getArmorValue
@@ -266,8 +292,8 @@ export default class CPRActorSheet extends ActorSheet {
     return 0;
   }
 
-
   // Leaving this in for backwards compat, but let's move to _getArmorValue()
+  // !!!! DIVEST
   _getMaxSP(loc) {
     /**
      * game.actors.entities[].sheet.getMaxSP
@@ -289,6 +315,7 @@ export default class CPRActorSheet extends ActorSheet {
     return Math.max(...sps);    // Math.max treats null values in array as 0
   }
 
+  // TODO - Revist hands restrictions, possibly remove.
   _getHands() {
     /**
      * game.actors.entities[].sheet._getHands
@@ -299,16 +326,7 @@ export default class CPRActorSheet extends ActorSheet {
     return 2;
   }
 
-  _getEquippedWeapons() {
-    /**
-     * game.actors.entities[].sheet._getEquippedWeapons
-     * Return a list of equipped weapons on this actor.
-     */
-    LOGGER.trace(`ActorID _getEquippedWeapons | CPRActorSheet | Called.`);
-    const weapons = this.actor.items.filter((a) => a.data.type == "weapon");
-    return weapons.filter((a) => a.data.data.equippable.equipped == "equipped");
-  }
-
+  // TODO - Revist hands restrictions, possibly remove.
   _getFreeHands() {
     /**
      * game.actors.entities[].sheet._getFreeHands
@@ -324,6 +342,7 @@ export default class CPRActorSheet extends ActorSheet {
     return free_hands
   }
 
+
   _canHoldWeapon(weapon) {
     /**
      * game.actors.entities[].sheet._canHoldWeapon
@@ -337,6 +356,19 @@ export default class CPRActorSheet extends ActorSheet {
     }
     return true;
   }
+
+  _getEquippedWeapons() {
+    /**
+     * game.actors.entities[].sheet._getEquippedWeapons
+     * Return a list of equipped weapons on this actor.
+     */
+    LOGGER.trace(`ActorID _getEquippedWeapons | CPRActorSheet | Called.`);
+    const weapons = this.actor.items.filter((a) => a.data.type == "weapon");
+    return weapons.filter((a) => a.data.data.equippable.equipped == "equipped");
+  }
+
+
+
 
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
 
@@ -374,9 +406,9 @@ export default class CPRActorSheet extends ActorSheet {
     item.sheet.render(true);
   }
 
-
   _getItemId(event) {
     LOGGER.trace(`ActorID _getItemId | CPRActorSheet | Called.`);
+    console.log($(event.currentTarget).parents(`.item`));
     return $(event.currentTarget).parents(`.item`).attr(`data-item-id`);
   }
 

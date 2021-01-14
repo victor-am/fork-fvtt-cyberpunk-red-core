@@ -1,17 +1,6 @@
 {{log "CPR-CYBERWARE.HBS"}}
 <div class="tab-block">
-   <table>
-      <tbody>
-         {{#each (findConfigObj "cyberwareCategories") as |category c|}}
-         {{>"systems/cyberpunk-red-core/templates/actor/parts/common/cyberware/cpr-cyberware-header.hbs"}}
-         {{log ../actor}}
-         {{#each ../actor.filteredItems.cyberware as |cyber i|}}
-         {{#ifEquals cyber.type c}}
-         {{>"systems/cyberpunk-red-core/templates/actor/parts/common/cyberware/cpr-cyberware-content.hbs"}}
-         {{/ifEquals}}
-         {{/each}}
-         {{/each}}
-      </tbody>
-   </table>
+   {{log this}}
+   TODO
 </div>
 {{log "END CPR-CYBERWARE.HBS"}}

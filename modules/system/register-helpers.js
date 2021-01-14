@@ -8,20 +8,30 @@ export default function registerHandlebarsHelpers() {
     return arg1 == arg2 ? options.fn(this) : options.inverse(this);
   });
 
-  Handlebars.registerHelper({
-    eq: (v1, v2) => v1 === v2,
-    ne: (v1, v2) => v1 !== v2,
-    lt: (v1, v2) => v1 < v2,
-    gt: (v1, v2) => v1 > v2,
-    lte: (v1, v2) => v1 <= v2,
-    gte: (v1, v2) => v1 >= v2,
-    and() {
-        return Array.prototype.every.call(arguments, Boolean);
-    },
-    or() {
-        return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+  Handlebars.registerHelper('compare', function (v1, operator, v2, options) {
+    switch (operator) {
+        case '==':
+            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+        case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '!==':
+            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+        case '<':
+            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+        case '<=':
+            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+        case '>':
+            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+        case '>=':
+            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        case '&&':
+            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+        case '||':
+            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+        default:
+            return options.inverse(this);
     }
-  });
+});
 
   Handlebars.registerHelper("loud", function (string) {
     // LOGGER.trace(`Calling loud Helper | Arg1:${string}`);
@@ -56,8 +66,8 @@ export default function registerHandlebarsHelpers() {
     return "INVALID_LIST";
   });
 
-  Handlebars.registerHelper("ifIn", function (arg1, arg2, options) {
-    // LOGGER.trace(`Calling ifIn Helper | Arg1:${arg1} Arg2:${arg2}`);
+  Handlebars.registerHelper("contains", function (arg1, arg2, options) {
+    // LOGGER.trace(`Calling contains Helper | Arg1:${arg1} Arg2:${arg2}`);
     let array = arg2.split(",");
     return array.includes(arg1) ? options.fn(this) : options.inverse(this);
   });
@@ -67,8 +77,4 @@ export default function registerHandlebarsHelpers() {
     return arg1.replace("VAR", arg2);
   });
 
-  Handlebars.registerHelper("dumpObj", (obj) => {
-    LOGGER.trace(`Calling dumpObj Helper | Arg1:${obj}`);
-    console.log(obj);
-  });
 }
