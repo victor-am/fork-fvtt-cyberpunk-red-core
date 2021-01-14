@@ -375,9 +375,12 @@ export default class CPRActorSheet extends ActorSheet {
   _updateSkill(event) {
     LOGGER.trace(`ActorID _updateSkill | CPRActorSheet | Called.`);
     const item = this._getOwnedItem(this._getItemId(event));
-    let prop = this._getObjProp(event); // return prop or undef
-    let value = Math.clamped(-99, parseInt(event.target.value), 99);
-    this._updateOwnedItemProp(item, prop, value)
+    item.setSkillValue(parseInt(event.target.value))
+    // Clamp the value
+    // TODO - Temp removal of setting value via control.
+    // let prop = this._getObjProp(event); // return prop or undef
+    // let value = Math.clamped(-99, value, 99);
+    // this._updateOwnedItemProp(item, prop, value);
   }
 
   // OWNED ITEM HELPER FUNCTIONS
@@ -485,7 +488,6 @@ export default class CPRActorSheet extends ActorSheet {
 
   _prepareRollAttack(rollRequest, itemId) {
     const weaponItem = this._getOwnedItem(itemId);
-
     rollRequest.rollTitle = weaponItem.data.name;
     const isRanged = weaponItem.data.data.isRanged;
     const weaponSkill = weaponItem.data.data.weaponSkill;

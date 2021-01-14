@@ -33,6 +33,11 @@ export default class CPRItem extends Item {
     // Generic item.doAction() method so any idem can be called to
     // perform an action.  This can be easily extended in the 
     // switch statement and adding additional methods for each item.
+    // Prepatory work for
+    // Click to Consume (Apply mods / effect / state change)
+    // Opening Agent Dialog
+    // Any calls to functions not related to rolls, triggered from actions.
+    // actorSheet UX gets actived -> actorSheet.eventFunction(event) -> 
     doAction(actor, actionAttributes) {
         LOGGER.debug("doAction | CPRItem | Called.");
         const itemType = this.data.type;
@@ -73,6 +78,17 @@ export default class CPRItem extends Item {
         }
     }
 
+    // SKILL FUNCTIONS
+    setSkillLevel(value) {
+        LOGGER.debug("setSkillLevel | CPRItem | Called.");
+        if (this.type == "skill") {
+            this.getData().level = Math.clamped(-99, value, 99);
+        } else {
+            LOGGER.warn(`setSkillLevel | CPRItem | Called with type. ${this.type}`);
+        }
+    }
+    // AMMO FUNCTIONS
+    
     _ammoDecrement(changeAmount) {
         LOGGER.debug("_ammoDecrement | CPRItem | Called.");
         let currentValue = this.data.data.amount;
