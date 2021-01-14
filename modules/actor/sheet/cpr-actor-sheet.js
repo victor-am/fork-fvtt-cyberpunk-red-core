@@ -5,7 +5,7 @@ import { CPR } from "../../system/config.js";
 import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
 import CPRDmgRollRequest from "../../rolls/cpr-dmgroll-request.js";
 import { VerifyRollPrompt } from "../../dialog/cpr-verify-roll-prompt.js";
-import { RollCard } from "../../chat/cpr-rollcard.js";
+import { CPRChat } from "../../chat/cpr-chat.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -156,10 +156,10 @@ export default class CPRActorSheet extends ActorSheet {
 
 
     if (rollRequest.rollType === "damage") {
-      RollCard(CPRRolls.DamageRoll(rollRequest));
+      CPRChat.RenderRollCard(CPRRolls.DamageRoll(rollRequest));
     } else {
       // outputs to chat 
-      RollCard(CPRRolls.BaseRoll(rollRequest));
+      CPRChat.RenderRollCard(CPRRolls.BaseRoll(rollRequest));
     }
 
   }
@@ -352,6 +352,7 @@ export default class CPRActorSheet extends ActorSheet {
     this._updateOwnedItemProp(item, prop, value)
   }
 
+  // OWNED ITEM HELPER FUNCTIONS
   _updateOwnedItemProp(item, prop, value) {
     /**
      * Update an item property with a value
@@ -372,6 +373,7 @@ export default class CPRActorSheet extends ActorSheet {
     const item = this.actor.items.find(i => i.data._id == itemId)
     item.sheet.render(true);
   }
+
 
   _getItemId(event) {
     LOGGER.trace(`ActorID _getItemId | CPRActorSheet | Called.`);
@@ -395,6 +397,7 @@ export default class CPRActorSheet extends ActorSheet {
     });
   }
 
+  // TODO - Revist, do we need template data? Is function used.
   _addSkill() {
     LOGGER.trace(`ActorID _addSkill | CPRActorSheet | called.`);
     let itemData = {
@@ -405,6 +408,7 @@ export default class CPRActorSheet extends ActorSheet {
     this.actor.createOwnedItem(itemData, { renderSheet: true });
   }
 
+  // TODO - Fix
   _getArmorPenaltyMods(stat) {
     let penaltyStats = ['ref', 'dex', 'move'];
     let penaltyMods = [0];
@@ -423,7 +427,7 @@ export default class CPRActorSheet extends ActorSheet {
     return penaltyMods;
   }
 
-
+  // PREPARE ROLLS
   _prepareRollStat(rollRequest) {
     rollRequest.statValue = this.getData().data.stats[rollRequest.rollTitle].value;
     rollRequest.mods.push(this._getArmorPenaltyMods(rollRequest.rollTitle));
@@ -472,9 +476,7 @@ export default class CPRActorSheet extends ActorSheet {
     } else {
       rollRequest.skillValue = skillId.data.data.level;
     }
-    LOGGER.trace(
-      `Actor _prepareRollAttack | rolling attack | skillName: ${weaponSkill} skillValue: ${rollRequest.skillValue} statValue: ${rollRequest.statValue}`
-    );
+    LOGGER.trace(`Actor _prepareRollAttack | rolling attack | skillName: ${weaponSkill} skillValue: ${rollRequest.skillValue} statValue: ${rollRequest.statValue}`);
   }
 
   _prepareRollDamage(rollRequest, itemId) {

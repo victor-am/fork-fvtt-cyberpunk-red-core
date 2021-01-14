@@ -8,8 +8,14 @@ import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 // RollResult (per type)
 // --> Output To Chat
 
+// 1dp
+
+// /r 1d10 + 10
+
 export default class CPRRolls {
-  static CPRRoll(formula, rollMode) {
+
+  // Generic roll handler for CPR
+  static CPRRoll(formula) {
     let roll = new Roll(formula).roll();
     DiceSoNice.ShowDiceSoNice(roll);
     return {
@@ -46,15 +52,10 @@ export default class CPRRolls {
     rollResult.rollTotal = rollResult.initialRoll + rollResult.criticalRoll;
 
     LOGGER.debug(`Calculate Mods Total! | Mods:${rollResult.mods}`);
-    rollResult.modsTotal =
-      rollResult.mods.length > 0 ? rollResult.mods.reduce((a, b) => a + b) : 0;
+    rollResult.modsTotal = rollResult.mods.length > 0 ? rollResult.mods.reduce((a, b) => a + b) : 0;
 
     LOGGER.debug(`Calculate Check Total! | Roll:${rollResult.rollTotal} Skill:${rollResult.skillValue} + Stat:${rollResult.statValue} + Mods:${rollResult.mods} (${rollResult.modsTotal})`);
-    rollResult.resultTotal =
-      rollResult.rollTotal +
-      rollResult.skillValue +
-      rollResult.statValue +
-      rollResult.modsTotal;
+    rollResult.resultTotal = rollResult.rollTotal + rollResult.skillValue + rollResult.statValue + rollResult.modsTotal;
 
     LOGGER.debug(`Check Total! | Total:${rollResult.total}`);
     return rollResult;
@@ -69,13 +70,13 @@ export default class CPRRolls {
     // create roll and show Dice So Nice!
     let roll = this.CPRRoll(rollRequest.formula);
 
-    // get result array
+    // Push all results into diceResults
     roll.array.forEach(r => rollResult.diceResults.push(r));
 
-    // get dice total
+    // Get roll Total
     rollResult.diceTotal = roll.total;
 
-    // apply autofire multiplier
+    // If autofire, apply multiplier.
     if (rollResult.isAutofire) rollResult.diceTotal *= rollResult.multiplier
 
     // count crits and bonus damage
@@ -83,6 +84,7 @@ export default class CPRRolls {
     rollResult.diceResults.forEach((r) => {
       if (r === 6) sixes++;
     });
+    
     rollResult.crits = Math.floor(sixes / 2);
     rollResult.bonusDamage = rollResult.crits * 5;
     rollResult.wasCritical = !!rollResult.crits > 0;
@@ -100,8 +102,7 @@ export default class CPRRolls {
     return rollResult;
   }
 
-  static DeathSaveRoll() {}
-
-  // Do we need this?
-  static InitiateRoll() {}
+  static DeathSaveRoll() {
+    // TODO - Jay, fix me.
+  }
 }
