@@ -28,11 +28,9 @@ export default class CPRItem extends Item {
     // Generic item.doAction() method so any idem can be called to
     // perform an action.  This can be easily extended in the 
     // switch statement and adding additional methods for each item.
-    doAction(actor, actionAttributes) {
+    _doAction(actor, actionAttributes) {
         LOGGER.debug("doAction | CPRItem | Called.");
-
         const itemType = this.data.type;
-
         let changedItems = [];
         switch (itemType) {
             case "weapon": {
@@ -42,90 +40,85 @@ export default class CPRItem extends Item {
             case "ammo": {
                 this._ammoAction(actionAttributes);
                 break;
-
             }
         }
         return;
     }
 
-    // ammo Item Methofs
-
-    async _ammoAction(actionAttributes) {
+    // ammo Item Methods
+    // TODO - REFACTOR, do not do this...
+    _ammoAction(actionAttributes) {
         LOGGER.debug("_ammoAction | CPRItem | Called.");
-
         const actionData = actionAttributes['data-action'].nodeValue;
         const ammoAmount = actionAttributes['data-amount'].nodeValue;
         switch (actionData) {
             case "ammo-decrement": {
-                await this._ammoDecrement(ammoAmount);
+                this._ammoDecrement(ammoAmount);
                 break;
             }
             case "ammo-increment": {
-                await this._ammoIncrement(ammoAmount);
+                this._ammoIncrement(ammoAmount);
                 break;
             }
         }
 
         if (this.actor) {
-            await this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+            this.actor.updateEmbeddedEntity("OwnedItem", this.data);
         }
     }
 
-    async _ammoDecrement(changeAmount) {
+    _ammoDecrement(changeAmount) {
         LOGGER.debug("_ammoDecrement | CPRItem | Called.");
         let currentValue = this.data.data.amount;
         let newValue = Math.max(0, (Number(currentValue) - Number(changeAmount)));
         this.data.data.amount = newValue;
         if (this.actor) {
-            await this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+            this.actor.updateEmbeddedEntity("OwnedItem", this.data);
         }
     }
 
-    async _ammoIncrement(changeAmount) {
+    _ammoIncrement(changeAmount) {
         LOGGER.debug("_ammoIncrement | CPRItem | Called.");
         let currentValue = this.data.data.amount;
         let newValue = Number(currentValue) + Number(changeAmount);
         this.data.data.amount = newValue;
         if (this.actor) {
-            await this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+            this.actor.updateEmbeddedEntity("OwnedItem", this.data);
         }
     }
 
     // Weapon Item Methods
-
-    async _weaponAction(actionAttributes) {
+    // TODO - Refactor
+    _weaponAction(actionAttributes) {
         LOGGER.debug("_weaponAction | CPRItem | Called.");
         const actionData = actionAttributes['data-action'].nodeValue;
-
-        let weaponUpdate = [];
-
         switch (actionData) {
             case "new-ammo": {
-                await this._weaponUnload();
-                await this._weaponLoad();
+                this._weaponUnload();
+                this._weaponLoad();
                 break;
             }
             case "unload": {
-                await this._weaponUnload();
+                this._weaponUnload();
                 break;
             }
             case "load": {
-                await this._weaponLoad();
+                this._weaponLoad();
                 break;
             }
             case "reload-ammo": {
-                await this._weaponLoad(this.data.data.magazine.ammoId);
+                this._weaponLoad(this.data.data.magazine.ammoId);
                 break;
             }
-
         }
         if (this.actor) {
-            await this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+            this.actor.updateEmbeddedEntity("OwnedItem", this.data);
         }
         return;
     }
 
-    async _weaponUnload() {
+    // TODO - Refactor
+    _weaponUnload() {
         LOGGER.debug("_weaponUnload | CPRItem | Called.");
         if (this.actor) {
             //recover the ammo to the right object
@@ -134,21 +127,21 @@ export default class CPRItem extends Item {
 
             if (this.data.data.magazine.value > 0) {
                 if (ammoId) {
-                    await ammo._ammoIncrement(this.data.data.magazine.value);
+                    ammo._ammoIncrement(this.data.data.magazine.value);
                 }
             }
         }
         this.data.data.magazine.value = 0;
         this.data.data.magazine.ammoId = "";
         if (this.actor) {
-            await this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+            this.actor.updateEmbeddedEntity("OwnedItem", this.data);
         }
     }
 
-    async _weaponLoad(selectedAmmoId) {
+    // TODO - Refactor
+    _weaponLoad(selectedAmmoId) {
         LOGGER.debug("_weaponLoad | CPRItem | Called.");
         let loadUpdate = [];
-
         if (this.actor) {
             if (!selectedAmmoId) {
                 const ownedAmmo = this.actor.data.filteredItems['ammo'];
@@ -196,7 +189,7 @@ export default class CPRItem extends Item {
                         loadUpdate.push({ _id: ammo.data._id, "data.amount": ammoUsed });
                     }
                     else {
-                        
+
                         magazineData.value = Number(this.data.data.magazine['value']) + Number(ammo.data.data.amount);
                         //loadUpdate.push({ _id: this.data._id, "data.magazine.value": newAmmoValue });
                         loadUpdate.push({ _id: ammo.data._id, "data.amount": 0 });
@@ -204,15 +197,15 @@ export default class CPRItem extends Item {
 
                 }
                 loadUpdate.push({ _id: this.data._id, "data.magazine": magazineData });
-             
+
             }
-            await this.actor.updateEmbeddedEntity("OwnedItem", loadUpdate);
+            this.actor.updateEmbeddedEntity("OwnedItem", loadUpdate);
         }
     }
 
-    async fireRangedWeapon(rateOfFire) {
+    // TODO - Refactor
+    _fireRangedWeapon(rateOfFire) {
         LOGGER.debug("fireRangedWeapon | CPRItem | Called.");
-        
         let bulletCount = 0;
         switch (rateOfFire) {
             case "single": {
@@ -227,11 +220,11 @@ export default class CPRItem extends Item {
         }
 
         if (this.data.data.magazine.value < bulletCount) {
-            // CLICK?!
-        }
-        else {
+            // PLAY CLICK SOUND?!
+        } else {
+            // PLAY GUN SOUND!!
             this.data.data.magazine.value -= bulletCount;
         }
-        await this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+        this.actor.updateEmbeddedEntity("OwnedItem", this.data);
     }
 }
