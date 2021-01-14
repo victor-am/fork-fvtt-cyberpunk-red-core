@@ -27,9 +27,11 @@ export default class CPRActorSheet extends ActorSheet {
   /** @override */
   getData() {
     // TODO - Understand how to use getData and when.
+    // INFO - Only add new data points to getData when you need a complex struct.
+    // DO NOT add new data points into getData to shorten dataPaths
     LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
     const data = super.getData();
-    data.data.currentWoundState = this.actor.getWoundState(this.actor.data);
+    data.data.cyberwareInstalled = this.actor.getInstalledCyberware();
     return data;
   }
 
@@ -176,10 +178,6 @@ export default class CPRActorSheet extends ActorSheet {
   // TODO - Refactor switch
   // TODO - IMPORTANT - FIX
   _cycleEquipState(event) {
-    /**
-     * Equip or Unequip an item. Make stat changes and check
-     * conditions (like free hands) as necessary.
-     */
     LOGGER.trace(`ActorID _cycleEquipState | CPRActorSheet | Called.`);
     const item = this._getOwnedItem(this._getItemId(event));
     let prop = this._getObjProp(event);
@@ -210,10 +208,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID _installCyberware | CPRActorSheet | Called.`);
     let item = this._getOwnedItem(this._getItemId(event));
     let prop = this._getObjProp(event);
-
     // TODO - REMOVE
-    LOGGER.debug(`ActorID _installCyberware | CPRActorSheet | Checking Item Entitiy.`);
-
     this._updateOwnedItemProp(item, prop, true);
     this.actor.addCyberware(item);
   }

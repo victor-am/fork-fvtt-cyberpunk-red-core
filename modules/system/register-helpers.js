@@ -79,7 +79,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("sort", (object, property) => {
-    LOGGER.trace(`Calling sort Helper | Arg1:${object} Arg2:${property}`);
+    LOGGER.trace(`Calling sort Helper | Sorting by ${property}`);
     object.sort((a,b) => (a[property] > b[property]) ? 1 : ((b[property] > a[property]) ? -1 : 0)); 
     return object;
   });

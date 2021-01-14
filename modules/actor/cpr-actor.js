@@ -119,6 +119,10 @@ export default class CPRActor extends Actor {
     this.data.data.woundState.currentWoundState = newState;
   }
 
+  getInstalledCyberware() {
+    return []
+  }
+
   // ADD AND REMOVE CYBERWARE FROM ACTOR
   // TODO - Refactor to map struct?
 

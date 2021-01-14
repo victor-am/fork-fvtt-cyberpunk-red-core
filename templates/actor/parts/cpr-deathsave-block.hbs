@@ -1,3 +1,4 @@
+{{log "CPR-DEATHSAVE-BLOCK.HBS"}}
 <div class="block">
   <div class="unit mid-split">
     <div class="save-block">
@@ -6,9 +7,10 @@
       <span style="text-align: center">Death Save</span>
       </p>
       <div class="inputs">
-        <span class="wound-state">{{localize (findConfigValue "woundState" this.data.currentWoundState)}}</span>
+        <span class="wound-state">{{localize (findConfigValue "woundState" this.data.woundState.currentWoundState)}}</span>
         <span class="death-state"><input class="derived" name="data.derivedStats.deathSave" type="number" value="{{data.derivedStats.deathSave}}" data-dtype="Number" /></span>
       </div>
     </div>
   </div>
 </div>
+{{log "END CPR-DEATHSAVE-BLOCK.HBS"}}
