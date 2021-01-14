@@ -136,9 +136,9 @@ export default class CPRActor extends Actor {
     console.log(data);
     // add this as foundational
     if (item.getData().isFoundational) {
-      LOGGER.debug("addCyberware | CPRActor | Adding new foundational Cyberware to struct.");
+      LOGGER.debug(`addCyberware | CPRActor | Adding new foundational Cyberware to struct.`);
       // TODO - Logic to warn of rules breaking.
-      data.cyberware.installed.push([item._id]);
+      data.cyberware.installed[item._id] = [];
     // add this as optional
     } else {
       // display prompt
@@ -146,7 +146,12 @@ export default class CPRActor extends Actor {
   }
 
   removeCyberware(item) {
-       
+    LOGGER.debug(`removeCyberware | CPRActor | Called.`);
+    if (item.getData().isFoundational) {
+      // TODO - disallow removal if has optional slots occupied.
+    } else {
+      // TODO - remove optional
+    }
   }
 
   _getOwnedItem(itemId) {

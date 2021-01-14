@@ -37,9 +37,6 @@
    <div>
       <h1>Armor</h1>
       <table>
-         {{!-- Default Skill Rolls --}}
-         {{!-- Skills to show actions for }}
-         {{!-- Brawling, Martial Arts, Evasion}}
          {{#each actor.filteredItems.armor as |armor| }}
          {{#if (eq armor.data.equippable.equipped "equipped")}}
          <tr class="item row">
@@ -58,8 +55,8 @@
       <h1>Combat Skills</h1>
       <table>
          {{!-- Default Skill Rolls --}}
-         {{!-- Skills to show actions for }}
-         {{!-- Brawling, Martial Arts, Evasion}}
+         {{!-- Skills to show actions for --}}
+         {{!-- Brawling, Martial Arts, Evasion --}}
          <tr>
             <td>
                TODO

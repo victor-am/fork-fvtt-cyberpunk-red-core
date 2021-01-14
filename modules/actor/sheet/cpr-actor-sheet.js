@@ -234,27 +234,18 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   // TODO - Move to cpr-actor
-  _getEquippedArmors(loc) {
-    /**
-     * game.actors.entities[].sheet.getEquippedArmors
-     * Get equipped armors at the given loc (location; "body" or "head")
-     * Returns an array of Item objects with type "armor"
-     */
+  _getEquippedArmors(location) {
     LOGGER.trace(`ActorID _getEquippedArmors | CPRActorSheet | Called.`);
+    // TODO - Helper function on ACTOR to get equipedArmors
+    const armors = this.actor.items.filter((item) => item.data.type == "armor");
+    const equipped = armors.filter((item) => item.data.data.equippable.equipped == "equipped");
 
-    // Console trick to get at this data:
-    // game.actors.entities[0].items.filter((a) => a.data.type == "armor" && 
-    //      a.data.data.equippable.equipped == "equipped" &&
-    //      a.data.data.isHeadLocation)
-    const armors = this.actor.items.filter((a) => a.data.type == "armor");
-    const eq_armors = armors.filter((a) => a.data.data.equippable.equipped == "equipped");
-
-    if (loc == "body") {
-      return eq_armors.filter((a) => a.data.data.isBodyLocation);
-    } else if (loc == "head") {
-      return eq_armors.filter((a) => a.data.data.isHeadLocation);
+    if (location == "body") {
+      return equipped.filter((item) => item.data.data.isBodyLocation);
+    } else if (location == "head") {
+      return equipped.filter((item) => item.data.data.isHeadLocation);
     } else {
-      throw new Error(`Bad location given: ${loc}`);
+      throw new Error(`Bad location given: ${location}`);
     }
   }
 
@@ -292,37 +283,9 @@ export default class CPRActorSheet extends ActorSheet {
     return 0;
   }
 
-  // Leaving this in for backwards compat, but let's move to _getArmorValue()
-  // !!!! DIVEST
-  _getMaxSP(loc) {
-    /**
-     * game.actors.entities[].sheet.getMaxSP
-     * Given a list of armor items, find the highest SP of them.
-     * Return a 0 if nothing is equipped.
-     */
-    LOGGER.trace(`ActorID _getMaxSP | CPRActorSheet | Called.`);
-
-    const armors = this._getEquippedArmors(loc);
-    let sps;
-
-    if (loc == "body") {
-      sps = armors.map(a => a.data.data.bodyLocation.sp);
-    } else if (loc == "head") {
-      sps = armors.map(a => a.data.data.headLocation.sp);
-    } // we assume getEquippedArmors will throw an error with a bad loc
-
-    sps.push(0);                // force a 0 if nothing is equipped
-    return Math.max(...sps);    // Math.max treats null values in array as 0
-  }
-
   // TODO - Revist hands restrictions, possibly remove.
   // TODO - Move to cpr-actor
   _getHands() {
-    /**
-     * game.actors.entities[].sheet._getHands
-     * Return the number of hands an actor has. For now, this is always 2,
-     * but in the future it should consider borgware upgrades.
-     */
     LOGGER.trace(`ActorID _getHands | CPRActorSheet | Called.`);
     return 2;
   }
@@ -330,27 +293,15 @@ export default class CPRActorSheet extends ActorSheet {
   // TODO - Revist hands restrictions, possibly remove.
   // TODO - Move to cpr-actor
   _getFreeHands() {
-    /**
-     * game.actors.entities[].sheet._getFreeHands
-     * Return the number of free hands this actor has
-     */
     LOGGER.trace(`ActorID _getFreeHands | CPRActorSheet | Called.`);
     const weapons = this._getEquippedWeapons();
     const needed = weapons.map(w => w.data.data.handsReq);
-
-    // add up the # of used hands. If nothing is equipped, default to the
-    // number of hands the actor has.
     const free_hands = this._getHands() - needed.reduce((a, b) => a + b, 0);
     return free_hands
   }
 
   // TODO - Move to cpr-actor
   _canHoldWeapon(weapon) {
-    /**
-     * game.actors.entities[].sheet._canHoldWeapon
-     * Check if the actor can hold (equip) the given weapon. Return true if
-     * the actor has enough free hands, false if not.
-     */
     LOGGER.trace(`ActorID _canHoldWeapon | CPRActorSheet | Called.`);
     const needed = weapon.data.data.handsReq;
     if (needed > this._getFreeHands()) {
@@ -361,10 +312,6 @@ export default class CPRActorSheet extends ActorSheet {
 
   // TODO - Move to cpr-actor
   _getEquippedWeapons() {
-    /**
-     * game.actors.entities[].sheet._getEquippedWeapons
-     * Return a list of equipped weapons on this actor.
-     */
     LOGGER.trace(`ActorID _getEquippedWeapons | CPRActorSheet | Called.`);
     const weapons = this.actor.items.filter((a) => a.data.type == "weapon");
     return weapons.filter((a) => a.data.data.equippable.equipped == "equipped");
@@ -375,12 +322,8 @@ export default class CPRActorSheet extends ActorSheet {
   _updateSkill(event) {
     LOGGER.trace(`ActorID _updateSkill | CPRActorSheet | Called.`);
     const item = this._getOwnedItem(this._getItemId(event));
-    item.setSkillValue(parseInt(event.target.value))
-    // Clamp the value
-    // TODO - Temp removal of setting value via control.
-    // let prop = this._getObjProp(event); // return prop or undef
-    // let value = Math.clamped(-99, value, 99);
-    // this._updateOwnedItemProp(item, prop, value);
+    item.setSkillLevel(parseInt(event.target.value));
+    this._updateOwnedItem(item);
   }
 
   // OWNED ITEM HELPER FUNCTIONS
@@ -388,17 +331,17 @@ export default class CPRActorSheet extends ActorSheet {
   _updateOwnedItemProp(item, prop, value) {
     LOGGER.trace(`ActorID _updateOwnedItemProp | Called.`);
     setProperty(item.data, prop, value);
+    this._updateOwnedItem(item);
+  }
+  
+  _updateOwnedItem(item) {
+    LOGGER.trace(`ActorID _updateOwnedItemProp | Called.`);
     this.actor.updateEmbeddedEntity("OwnedItem", item.data);
   }
 
   _renderItemCard(event) {
-    /**
-     * Pop up a form for an item to update its data
-     */
     LOGGER.trace(`ActorID _itemUpdate | CPRActorSheet | Called.`);
-
     let itemId = this._getItemId(event);
-    LOGGER.debug(`ActorID _itemUpdate | Item ID:${itemId}.`);
     const item = this.actor.items.find(i => i.data._id == itemId)
     item.sheet.render(true);
   }
