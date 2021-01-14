@@ -2,7 +2,6 @@ import LOGGER from "../utils/cpr-logger.js";
 
 export async function SelectAmmoPrompt(dialogData) {
     LOGGER.trace(`_loadWeapon | Dialog SelectAmmoForWeapon | called.`);
-    
     return new Promise((resolve) => {
         renderTemplate(
           "systems/cyberpunk-red-core/templates/dialog/cpr-select-ammo-prompt.hbs",

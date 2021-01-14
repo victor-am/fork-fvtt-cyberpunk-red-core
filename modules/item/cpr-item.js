@@ -28,7 +28,7 @@ export default class CPRItem extends Item {
     // Generic item.doAction() method so any idem can be called to
     // perform an action.  This can be easily extended in the 
     // switch statement and adding additional methods for each item.
-    _doAction(actor, actionAttributes) {
+    doAction(actor, actionAttributes) {
         LOGGER.debug("doAction | CPRItem | Called.");
         const itemType = this.data.type;
         let changedItems = [];
@@ -62,6 +62,7 @@ export default class CPRItem extends Item {
             }
         }
 
+        // If the actor, is updating his owned item, this logic should live within the actor.
         if (this.actor) {
             this.actor.updateEmbeddedEntity("OwnedItem", this.data);
         }
@@ -139,7 +140,7 @@ export default class CPRItem extends Item {
     }
 
     // TODO - Refactor
-    _weaponLoad(selectedAmmoId) {
+    async _weaponLoad(selectedAmmoId) {
         LOGGER.debug("_weaponLoad | CPRItem | Called.");
         let loadUpdate = [];
         if (this.actor) {

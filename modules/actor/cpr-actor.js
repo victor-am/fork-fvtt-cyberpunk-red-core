@@ -91,6 +91,7 @@ export default class CPRActor extends Actor {
     }
   }
 
+  // GET AND SET WOUND STATE
   getWoundState() {
     LOGGER.trace("getWoundState | CPRActor | Obtaining Wound State.");
     return this.data.data.woundState.currentWoundState;
@@ -111,5 +112,14 @@ export default class CPRActor extends Actor {
       newState = "notWounded";
     } 
     this.data.data.woundState.currentWoundState = newState;
+  }
+
+  // ADD AND REMOVE CYBERWARE FROM ACTOR
+  addCyberware(item) {
+
+  }
+
+  removeCyberware(item) {
+       
   }
 }
