@@ -1,39 +1,118 @@
-.sheet-container {
-display: grid;
-grid-template-columns: 30% repeat(6, 1fr);
-grid-template-rows: 5% 25% repeat(5, 1fr);
-grid-column-gap: 5px;
-grid-row-gap: 5px;
+.app.window-app.sheet.sheet.actor {
+  max-height: 606px;
+  min-height: 606px;
+  min-width: 1028px;
 }
 
-.image { 
-  grid-area: 1 / 1 / 3 / 2; 
+.sheet-content {
+  margin: 5px;
+  display: grid;
+  grid-template-columns: 200px 60px 1fr;
+  grid-template-rows: 30px 190px repeat(5, 60px);
+  grid-template-areas: 
+    "image stats tabs "
+    "image stats content "
+    "handle stats content "
+    "role stats content "
+    "hitpoints stats content "
+    "deathsave stats content "
+    "humanity stats content "
+  ;
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+
+  .image-div { 
+    grid-area: image;
+    img {
+      border: 0;
+      outline: 0
+    }
+  }
+
+  .handle-div { 
+    grid-area: handle; 
+  }
+
+  .role-div { 
+    grid-area: role; 
+  }
+
+  .hitpoints-div { 
+    grid-area: hitpoints; 
+  }
+
+  .deathsave-div { 
+    grid-area: deathsave; 
+  }
+
+  .humanity-div { 
+    grid-area: humanity; 
+  }
+
+  .tabs-div { 
+    grid-area: tabs; 
+    box-shadow: 0;
+
+    .navtab {
+      padding: 0;
+      padding: 1px 4px 0 4px;
+      margin-left: 15px;
+      margin-right: 15px;
+      text-align: center;
+    }
+    .selected {
+      background-color: @raisin-black;
+      color: #ffffff;
+    }
+  }
+
+  .stats-div {
+    grid-area: stats;
+
+  }
+
+  .content { 
+    grid-area: content; 
+    overflow-y:hidden;
+    min-width: 740px;
+    // Tab content
+    .skill-tab {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+
+      .row {
+        width: calc(100%/3);
+        height: 20px;
+        // border: solid 3px @maximum-red;
+        // border-top: solid 1.5px @maximum-red;
+        // border-bottom: solid 1.5px @maximum-red;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.8em;
+        padding: 0 3px;
+        .skill-name {
+          width: 80%;
+        }
+        .skill-level, .skill-base {
+          text-align: center;
+          width: 10%;
+        }
+        input {
+          background: 0;
+          outline: 0;
+          border: 0;
+          width: 20px;
+        }
+        &.header {
+          background: @raisin-black;
+          color: white;
+        }
+      }
+    }
+  }
+
 }
 
-.handle { 
-  grid-area: 3 / 1 / 4 / 2; 
-}
 
-.role { 
-  grid-area: 4 / 1 / 5 / 2; 
-}
-
-.hitpoints { 
-  grid-area: 5 / 1 / 6 / 2; 
-}
-
-.deathsave { 
-  grid-area: 6 / 1 / 7 / 2; 
-}
-
-.humanity { 
-  grid-area: 7 / 1 / 8 / 2; 
-}
-
-.tabs { 
-  grid-area: 1 / 2 / 2 / 8; 
-}
-
-.tab-content { 
-  grid-area: 2 / 2 / 8 / 8; 
-}
