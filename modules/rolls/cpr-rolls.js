@@ -52,10 +52,16 @@ export default class CPRRolls {
     rollResult.rollTotal = rollResult.initialRoll + rollResult.criticalRoll;
 
     LOGGER.debug(`Calculate Mods Total! | Mods:${rollResult.mods}`);
-    rollResult.modsTotal = rollResult.mods.length > 0 ? rollResult.mods.reduce((a, b) => a + b) : 0;
+    rollResult.modsTotal =
+      rollResult.mods.length > 0 ? rollResult.mods.reduce((a, b) => a + b) : 0;
 
     LOGGER.debug(`Calculate Check Total! | Roll:${rollResult.rollTotal} Skill:${rollResult.skillValue} + Stat:${rollResult.statValue} + Mods:${rollResult.mods} (${rollResult.modsTotal})`);
-    rollResult.resultTotal = rollResult.rollTotal + rollResult.skillValue + rollResult.statValue + rollResult.modsTotal;
+
+    if (rollResult.roleValue > 0) { 
+      rollResult.resultTotal =       rollResult.rollTotal + rollResult.roleValue + rollResult.modsTotal;
+    } else {
+      rollResult.resultTotal = rollResult.rollTotal + rollResult.skillValue + rollResult.statValue + rollResult.modsTotal;
+    }
 
     LOGGER.debug(`Check Total! | Total:${rollResult.total}`);
     return rollResult;

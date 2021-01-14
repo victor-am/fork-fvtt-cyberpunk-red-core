@@ -1,5 +1,6 @@
 import LOGGER from "../utils/cpr-logger.js";
 import { CPR } from "./config.js";
+import CPRSystemUtils from "../utils/cpr-systemUtils.js";
 export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers");
 
@@ -77,4 +78,9 @@ export default function registerHandlebarsHelpers() {
     return arg1.replace("VAR", arg2);
   });
 
+  Handlebars.registerHelper("sort", (object, property) => {
+    LOGGER.trace(`Calling sort Helper | Arg1:${object} Arg2:${property}`);
+    object.sort((a,b) => (a[property] > b[property]) ? 1 : ((b[property] > a[property]) ? -1 : 0)); 
+    return object;
+  });
 }

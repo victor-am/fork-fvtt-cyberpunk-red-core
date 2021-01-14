@@ -61,7 +61,7 @@ export async function VerifyRollPrompt(rollRequest) {
               [` `, `,`]
             );
           }
-          rollRequest.roleValue = html.find('[name="calculateCritical"]')[0].checked;
+          rollRequest.calculateCritical = html.find('[name="calculateCritical"]')[0].checked;
         }
       };
 

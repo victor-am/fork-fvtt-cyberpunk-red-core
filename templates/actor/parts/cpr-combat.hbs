@@ -1,3 +1,4 @@
+{{log "CPR-COMBAT.HBS"}}
 <div>
    <div>
       <h1>Attack</h1>
@@ -41,6 +42,15 @@
    <div>
       <h1>Defense</h1>
       <table>
+         <tr class="item row" data-item-id="{{getObjId actor.filteredItems.skill "name" "Brawling" }}">
+            <td class="item row" data-item-id="{{getObjId actor.filteredItems.skill "name" "Brawling" }}"><a class="name rollable" data-roll-type="skill" data-roll-title="Brawling">Brawling</a></td>
+            <td class="item row" data-item-id="{{getObjId actor.filteredItems.skill "name" "Brawling" }}" colspan="3">Choombah, defend against a grapple!</td>
+         </tr>
+         {{log actor}}
+         <tr class="item row" data-item-id="{{getObjId actor.filteredItems.skill "name" "Evasion" }}">
+            <td class="item row" data-item-id="{{getObjId actor.filteredItems.skill "name" "Evasion" }}"><a class="name rollable" data-roll-type="skill" data-roll-title="Evasion">Evasion</a></td>
+            <td class="item row" data-item-id="{{getObjId actor.filteredItems.skill "name" "Evasion" }}" colspan="3">Choombah, defend against Martial Arts{{#if (gte actor.data.stats.ref.value 8)}} or Dodge Bullets{{/if}}!</td>
+         </tr>
          {{#each actor.filteredItems.armor as |armor| }}
          {{#if (eq armor.data.equippable.equipped "equipped")}}
          <tr class="item row">
@@ -48,7 +58,7 @@
                <td><span>{{armor.name}}</span></td>
                <td><span>{{armor.data.sp}}</span></td>
                <td><span>{{armor.data.ablation}}</span></td>
-               <td><span><a class="rollable">[DEFEND]</a></span></td>
+               <td>ABLATE_PLACEHOLDER</td>
             </div>
          </tr>
          {{/if}}
@@ -56,3 +66,4 @@
       </table>
    </div>
 </div>
+{{log "END CPR-COMBAT.HBS"}}

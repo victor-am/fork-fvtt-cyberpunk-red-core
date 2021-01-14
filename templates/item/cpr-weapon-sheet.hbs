@@ -60,6 +60,17 @@
           {{/select}}
         </select>
       </div>
+      {{!-- WEAPON QUALITY --}}
+      <div>
+        Weapon Quality:
+         <select name="data.quality" data-dtype="{{data.quality}}">
+           {{#select data.quality}}
+           <option value="standard">standard</option>
+           <option value="excellent">excellent</option>
+           <option value="poor">poor</option>
+           {{/select}}
+         </select>
+      </div>
       {{!-- DAMAGE INPUT --}}
       <div>
         Damage: <input name="data.damage" class="" type="text" value="{{data.damage}}">
