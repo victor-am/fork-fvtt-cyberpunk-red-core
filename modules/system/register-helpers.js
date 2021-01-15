@@ -51,7 +51,6 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("findConfigValue", (obj, key) => {
     LOGGER.trace(`Calling findConfigValue Helper | Arg1:${obj} Arg2:${key}`);
-
     if (obj in CPR) {
       return CPR[obj][key];
     }
@@ -83,4 +82,19 @@ export default function registerHandlebarsHelpers() {
     object.sort((a, b) => (a[property] > b[property]) ? 1 : ((b[property] > a[property]) ? -1 : 0));
     return object;
   });
+
+  Handlebars.registerHelper("maths", function() {
+    LOGGER.trace(`Calling math Helper | Arg1:${arguments}`);
+    let mathArgs = [...arguments];
+    let mathFunction = mathArgs[0];
+    mathArgs.shift();
+    mathArgs.pop();
+    mathArgs = mathArgs.map(Number);
+    if (typeof Math[mathFunction] === 'function') {
+      return Math[mathFunction].apply(null, mathArgs);
+    }
+    return `!ERR: Not a Math function: ${mathFunction}`;
+  });
+
+
 }

@@ -265,6 +265,7 @@ export default class CPRActorSheet extends ActorSheet {
       sps = armors.map(a => a.data.data.headLocation.sp);
     } // we assume getEquippedArmors will throw an error with a bad loc
     penalties = armors.map(a => a.data.data.penalty);
+    penalties = penalties.map(Math.abs);
 
     penalties.push(0);
     sps.push(0);                // force a 0 if nothing is equipped
