@@ -54,10 +54,10 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".equip").click(event => this._cycleEquipState(event));
 
     // Install Cyberware
-    html.find(".install").click(event => this._installCyberware(event));
+    html.find(".install").click(event => this._installCyberwareAction(event));
 
     // Uninstall Cyberware
-    html.find(".uninstall").click(event => this._uninstallCyberware(event));
+    html.find(".uninstall").click(event => this._uninstallCyberwareAction(event));
 
     // Generic item action
     html.find(".item-action").click(event => this._itemAction(event));
@@ -185,7 +185,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "carried": {
         if (item.data.type == "weapon") {
-          Rules.lawyer(this._canHoldWeapon(item));
+          Rules.lawyer(this._canHoldWeapon(item), "CPR.warningtoomanyhands");
         }
         this._updateOwnedItemProp(item, prop, "equipped");
         break;
@@ -201,10 +201,40 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  async _installCyberware(event) {
+  _addOptionalCyberware(item, formData) {
+    LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | Called.`);
+    item.getData().isInstalled = true;
+    LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundatioinalId}.`);
+    let foundationalCyberware = this._getOwnedItem(foundatioinalId);
+    foundationalCyberware.getData().optionalIds.push(item.data._id);
+    this._updateOwnedItem(item)
+    this._updateOwnedItem(foundationalCyberware)
+  }
+
+  _addFoundationalCyberware(item, formData) {
+    LOGGER.trace(`ActorID _addFoundationalCyberware | CPRActorSheet | Called.`);
+    item.getData().isInstalled = true;
+    LOGGER.trace(`ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.`);
+    this._updateOwnedItem(item)
+
+  }
+
+  _removeCyberware(item, formdata) {
+
+  }
+
+  async _installCyberwareAction(event) {
     LOGGER.trace(`ActorID _installCyberware | CPRActorSheet | Called.`);
     let item = this._getOwnedItem(this._getItemId(event));
-    let data = await InstallCyberwarePrompt({ item: item.data, cyberware: this.actor.getInstalledFoundationalCyberware(item.getData().type)});
+    let installedFoundationalCyberware = this.actor.getInstalledFoundationalCyberware(item.getData().type);
+    if (installedFoundationalCyberware.length > 1 && !item.getData().isFoundational) {
+      formData = await InstallCyberwarePrompt({ item: item.data, cyberware: installedFoundationalCyberware });
+      this._addOptionalCyberware(item, formData);
+    } else if (item.getData().isFoundational) {
+      this._addFoundationalCyberware(item, formdata);
+    } else {
+      Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
+    }
     // id of the selected foundational && HL type selection
   }
 
@@ -248,11 +278,6 @@ export default class CPRActorSheet extends ActorSheet {
   // ARMOR HELPERS
   // TODO - Move to cpr-actor
   _getArmorValue(valueType, location) {
-    /**
-     * game.actors.entities[].sheet.getArmorValue
-     * Given a list of armor items, find the highest valueType (sp or penalty) of them.
-     * Return a 0 if nothing is equipped.
-     */
     LOGGER.trace(`ActorID _getArmorValue| CPRActorSheet | Called.`);
 
     const armors = this._getEquippedArmors(location);
@@ -329,7 +354,7 @@ export default class CPRActorSheet extends ActorSheet {
     setProperty(item.data, prop, value);
     this._updateOwnedItem(item);
   }
-  
+
   _updateOwnedItem(item) {
     LOGGER.trace(`ActorID _updateOwnedItemProp | Called.`);
     this.actor.updateEmbeddedEntity("OwnedItem", item.data);
@@ -437,8 +462,7 @@ export default class CPRActorSheet extends ActorSheet {
       rollRequest.statValue = this.getData().data.stats["ref"].value;
     }
     // +1 to attack on Excellent Quality Weapons
-    if (weaponItem.data.data.quality == "excellent")
-    {
+    if (weaponItem.data.data.quality == "excellent") {
       rollRequest.mods.push(1);
     }
     // if char owns relevant skill, get skill value
