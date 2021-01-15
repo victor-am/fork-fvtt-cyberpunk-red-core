@@ -120,7 +120,19 @@ export default class CPRActor extends Actor {
   }
 
   getInstalledCyberware() {
-    return []
+    return this.filteredItems.cyberware.filter((item) => item.isInstalled);
+  }
+
+  /**
+   * 
+   * @param {string} type uses the type of a cyberware item to return a list of compatiable foundational cyberware installed.
+   */
+  getInstalledFoundationalCyberware(type) {
+    // TODO - Assert type is actually a fucking cyberware type... -__-
+    if (type) {
+      return this.data.filteredItems.cyberware.filter((item) => item.isInstalled && item.isFoundational && item.type == type);
+    }
+    return this.data.filteredItems.cyberware.filter((item) => item.isInstalled && item.isFoundational);
   }
 
   // ADD AND REMOVE CYBERWARE FROM ACTOR

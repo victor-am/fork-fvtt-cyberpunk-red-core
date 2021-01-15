@@ -83,12 +83,10 @@ export default class CPRItem extends Item {
         LOGGER.debug("setSkillLevel | CPRItem | Called.");
         if (this.type == "skill") {
             this.getData().level = Math.clamped(-99, value, 99);
-        } else {
-            LOGGER.warn(`setSkillLevel | CPRItem | Called with type. ${this.type}`);
         }
     }
-    // AMMO FUNCTIONS
-    
+
+    // AMMO FUNCTIONS    
     _ammoDecrement(changeAmount) {
         LOGGER.debug("_ammoDecrement | CPRItem | Called.");
         let currentValue = this.data.data.amount;

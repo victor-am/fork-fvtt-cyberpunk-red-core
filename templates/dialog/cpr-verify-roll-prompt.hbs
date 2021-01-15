@@ -1,7 +1,7 @@
 {{log "VERIFY-ROLL-PROMPT.HBS"}}
 <form action="">
     {{#if (eq rollType "damage")}}
-    {{#ifIn weaponType "assaultRifle,smg,heavySmg"}}
+    {{#contains weaponType "assaultRifle, smg, heavySmg"}}
     <div>
       <label for="autofire">Autofire? </label>
       <input type="checkbox" id="autofire" name="autofire">

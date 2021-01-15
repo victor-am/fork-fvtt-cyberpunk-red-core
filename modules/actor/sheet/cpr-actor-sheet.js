@@ -7,6 +7,7 @@ import CPRDmgRollRequest from "../../rolls/cpr-dmgroll-request.js";
 import { VerifyRollPrompt } from "../../dialog/cpr-verify-roll-prompt.js";
 import CPRChat from "../../chat/cpr-chat.js";
 import Rules from "../../utils/cpr-rules.js";
+import { InstallCyberwarePrompt } from "../../dialog/cpr-cyberware-install-prompt.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -200,13 +201,11 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  _installCyberware(event) {
+  async _installCyberware(event) {
     LOGGER.trace(`ActorID _installCyberware | CPRActorSheet | Called.`);
     let item = this._getOwnedItem(this._getItemId(event));
-    let prop = this._getObjProp(event);
-    // show dialog
-    
-    this._updateOwnedItemProp(item, prop, true);
+    let data = await InstallCyberwarePrompt({ item: item.data, cyberware: this.actor.getInstalledFoundationalCyberware(item.getData().type)});
+    // id of the selected foundational && HL type selection
   }
 
   _uninstallCyberware(event) {
@@ -215,7 +214,8 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _getInstalledCyberware() {
-
+    // TODO
+    return [];
   }
 
   _itemAction(event) {
@@ -308,7 +308,7 @@ export default class CPRActorSheet extends ActorSheet {
   // TODO - Move to cpr-actor
   _getEquippedWeapons() {
     LOGGER.trace(`ActorID _getEquippedWeapons | CPRActorSheet | Called.`);
-    const weapons = this.actor.items.filter((a) => a.data.type == "weapon");
+    const weapons = this.actor.data.filteredItems.weapon;
     return weapons.filter((a) => a.data.data.equippable.equipped == "equipped");
   }
 
