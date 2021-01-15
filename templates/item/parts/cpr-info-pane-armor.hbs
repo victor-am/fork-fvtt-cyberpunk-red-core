@@ -24,6 +24,11 @@
         </div>
     </div>
     <div class="info-pane-item">
-        Penalty: {{data.penalty}}
+        Penalty: 
+        {{#if (gt (math "abs" data.penalty) 0)}}
+            -{{math "abs" data.penalty}}
+        {{else}}
+            None
+        {{/if}}
     </div>
 </div>
