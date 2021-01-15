@@ -253,6 +253,7 @@ export default class CPRActorSheet extends ActorSheet {
       sps = armors.map(a => a.data.data.headLocation.sp);
     } // we assume getEquippedArmors will throw an error with a bad loc
     penalties = armors.map(a => a.data.data.penalty);
+    penalties = penalties.map(Math.abs);
 
     penalties.push(0);
     sps.push(0);                // force a 0 if nothing is equipped
@@ -266,28 +267,6 @@ export default class CPRActorSheet extends ActorSheet {
     return 0;
   }
 
-
-  // Leaving this in for backwards compat, but let's move to _getArmorValue()
-  _getMaxSP(loc) {
-    /**
-     * game.actors.entities[].sheet.getMaxSP
-     * Given a list of armor items, find the highest SP of them.
-     * Return a 0 if nothing is equipped.
-     */
-    LOGGER.trace(`ActorID _getMaxSP | CPRActorSheet | Called.`);
-
-    const armors = this._getEquippedArmors(loc);
-    let sps;
-
-    if (loc == "body") {
-      sps = armors.map(a => a.data.data.bodyLocation.sp);
-    } else if (loc == "head") {
-      sps = armors.map(a => a.data.data.headLocation.sp);
-    } // we assume getEquippedArmors will throw an error with a bad loc
-
-    sps.push(0);                // force a 0 if nothing is equipped
-    return Math.max(...sps);    // Math.max treats null values in array as 0
-  }
 
   _getHands() {
     /**

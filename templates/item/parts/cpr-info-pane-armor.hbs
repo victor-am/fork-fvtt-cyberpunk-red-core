@@ -4,12 +4,26 @@
         Cost: {{data.price.market}}
     </div>
     <div class="info-pane-item">
-        SP: {{data.sp}}
+        SP:
+        <div>{{#if data.isBodyLocation}}
+            Body ({{data.bodyLocation.sp}})
+            {{/if}}
+            {{#if data.isHeadLocation}}
+            Head ({{data.headLocation.sp}})
+            {{/if}}
+        </div>
     </div>
     <div class="info-pane-item">
-        Ablation: 0
+        Ablation:
+        <div>{{#if data.isBodyLocation}}
+            Body ({{data.bodyLocation.ablation}})
+            {{/if}}
+            {{#if data.isHeadLocation}}
+            Head ({{data.headLocation.ablation}})
+            {{/if}}
+        </div>
     </div>
     <div class="info-pane-item">
-        Penalty: {{data.armorpen}}
+        Penalty: {{data.penalty}}
     </div>
 </div>
