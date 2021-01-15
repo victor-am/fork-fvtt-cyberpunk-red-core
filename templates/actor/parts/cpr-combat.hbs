@@ -49,7 +49,7 @@
          {{log actor}}
          <tr class="item row" data-item-id="{{getObjId actor.filteredItems.skill "name" "Evasion" }}">
             <td class="item row" data-item-id="{{getObjId actor.filteredItems.skill "name" "Evasion" }}"><a class="name rollable" data-roll-type="skill" data-roll-title="Evasion">Evasion</a></td>
-            <td class="item row" data-item-id="{{getObjId actor.filteredItems.skill "name" "Evasion" }}" colspan="3">Choombah, defend against Martial Arts{{#if (gte actor.data.stats.ref.value 8)}} or Dodge Bullets{{/if}}!</td>
+            <td class="item row" data-item-id="{{getObjId actor.filteredItems.skill "name" "Evasion" }}" colspan="3">Choombah, defend against Melee Attacks and Martial Arts{{#if (gte actor.data.stats.ref.value 8)}} or Dodge Bullets{{/if}}!</td>
          </tr>
          {{#each actor.filteredItems.armor as |armor| }}
          {{#if (eq armor.data.equippable.equipped "equipped")}}
