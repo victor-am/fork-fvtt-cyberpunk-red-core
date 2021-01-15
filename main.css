@@ -179,39 +179,51 @@
   grid-area: content;
   overflow-y: hidden;
   min-width: 740px;
+  max-height: 515px;
+  padding: 2px;
+  background-color: #d02b23;
 }
 .sheet-content .content .tab-block {
+  height: 100%;
+  background-color: #ffffff;
+}
+.sheet-content .content .tab-block.skills {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  max-height: 515px;
 }
-.sheet-content .content .tab-block .row {
+.sheet-content .content .tab-block.skills .row {
   width: calc(100%/3);
-  height: 20px;
+  height: calc(100% / 28);
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 0.8em;
   padding: 0 3px;
+  background-color: #ffffff;
+  border: solid #d02b23 1px;
 }
-.sheet-content .content .tab-block .row .skill-name {
+.sheet-content .content .tab-block.skills .row .skill-name {
   width: 80%;
 }
-.sheet-content .content .tab-block .row .skill-level,
-.sheet-content .content .tab-block .row .skill-base {
+.sheet-content .content .tab-block.skills .row .skill-level,
+.sheet-content .content .tab-block.skills .row .skill-base {
   text-align: center;
   width: 10%;
 }
-.sheet-content .content .tab-block .row input {
+.sheet-content .content .tab-block.skills .row input {
   background: 0;
   outline: 0;
   border: 0;
   width: 20px;
 }
-.sheet-content .content .tab-block .row.header {
+.sheet-content .content .tab-block.skills .row.header {
   background: #231f20;
   color: white;
+}
+.sheet-content .content .tab-block.skills .remaining-skill-points {
+  border: solid #d02b23 1px;
+  flex-grow: 1;
 }
 form .item-desc-body {
   display: flex;

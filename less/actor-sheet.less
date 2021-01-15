@@ -75,39 +75,54 @@
     grid-area: content; 
     overflow-y:hidden;
     min-width: 740px;
-
+    max-height: 515px;
+    padding: 2px;
+    background-color: @maximum-red;
+    
     .tab-block { 
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      max-height: 515px;
-      .row {
-        width: calc(100%/3);
-        height: 20px;
-        // border: solid 3px @maximum-red;
-        // border-top: solid 1.5px @maximum-red;
-        // border-bottom: solid 1.5px @maximum-red;
+      height: 100%;
+      background-color: #ffffff;
+
+
+      &.skills {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 0.8em;
-        padding: 0 3px;
-        .skill-name {
-          width: 80%;
+        flex-direction: column;
+        flex-wrap: wrap;
+        .row {
+          width: calc((100%/3));
+          height: calc(100% / 28);
+          // border: solid 3px @maximum-red;
+          // border-top: solid 1.5px @maximum-red;
+          // border-bottom: solid 1.5px @maximum-red;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.8em;
+          padding: 0 3px;
+          background-color: #ffffff;
+          border: solid @maximum-red 1px;
+          
+          .skill-name {
+            width: 80%;
+          }
+          .skill-level, .skill-base {
+            text-align: center;
+            width: 10%;
+          }
+          input {
+            background: 0;
+            outline: 0;
+            border: 0;
+            width: 20px;
+          }
+          &.header {
+            background: @raisin-black;
+            color: white;
+          }
         }
-        .skill-level, .skill-base {
-          text-align: center;
-          width: 10%;
-        }
-        input {
-          background: 0;
-          outline: 0;
-          border: 0;
-          width: 20px;
-        }
-        &.header {
-          background: @raisin-black;
-          color: white;
+        .remaining-skill-points {
+          border: solid @maximum-red 1px;
+          flex-grow: 1
         }
       }
     }
