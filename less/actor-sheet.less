@@ -71,16 +71,16 @@
 
   }
 
-  .content { 
+  .content {
     grid-area: content; 
     overflow-y:hidden;
     min-width: 740px;
-    // Tab content
-    .skill-tab {
+
+    .tab-block { 
       display: flex;
       flex-direction: column;
       flex-wrap: wrap;
-
+      max-height: 515px;
       .row {
         width: calc(100%/3);
         height: 20px;
@@ -112,7 +112,4 @@
       }
     }
   }
-
 }
-
-

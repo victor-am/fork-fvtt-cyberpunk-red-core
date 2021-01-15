@@ -180,12 +180,13 @@
   overflow-y: hidden;
   min-width: 740px;
 }
-.sheet-content .content .skill-tab {
+.sheet-content .content .tab-block {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  max-height: 515px;
 }
-.sheet-content .content .skill-tab .row {
+.sheet-content .content .tab-block .row {
   width: calc(100%/3);
   height: 20px;
   display: flex;
@@ -194,21 +195,21 @@
   font-size: 0.8em;
   padding: 0 3px;
 }
-.sheet-content .content .skill-tab .row .skill-name {
+.sheet-content .content .tab-block .row .skill-name {
   width: 80%;
 }
-.sheet-content .content .skill-tab .row .skill-level,
-.sheet-content .content .skill-tab .row .skill-base {
+.sheet-content .content .tab-block .row .skill-level,
+.sheet-content .content .tab-block .row .skill-base {
   text-align: center;
   width: 10%;
 }
-.sheet-content .content .skill-tab .row input {
+.sheet-content .content .tab-block .row input {
   background: 0;
   outline: 0;
   border: 0;
   width: 20px;
 }
-.sheet-content .content .skill-tab .row.header {
+.sheet-content .content .tab-block .row.header {
   background: #231f20;
   color: white;
 }
