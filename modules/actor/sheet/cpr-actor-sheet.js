@@ -31,7 +31,7 @@ export default class CPRActorSheet extends ActorSheet {
     // DO NOT add new data points into getData to shorten dataPaths
     LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
     const data = super.getData();
-    data.data.cyberwareInstalled = this.actor.getInstalledCyberware();
+    data.installedCyberware = this._getInstalledCyberware();
     return data;
   }
 
@@ -173,10 +173,6 @@ export default class CPRActorSheet extends ActorSheet {
 
   }
 
-  // TODO - Simplfy
-  // TODO - Revist hands restrictions, possibly remove.
-  // TODO - Refactor switch
-  // TODO - IMPORTANT - FIX
   _cycleEquipState(event) {
     LOGGER.trace(`ActorID _cycleEquipState | CPRActorSheet | Called.`);
     const item = this._getOwnedItem(this._getItemId(event));
@@ -208,14 +204,18 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID _installCyberware | CPRActorSheet | Called.`);
     let item = this._getOwnedItem(this._getItemId(event));
     let prop = this._getObjProp(event);
-    // TODO - REMOVE
+    // show dialog
+    
     this._updateOwnedItemProp(item, prop, true);
-    this.actor.addCyberware(item);
   }
 
   _uninstallCyberware(event) {
     LOGGER.trace(`ActorID _uninstallCyberware | CPRActorSheet | Called.`);
     let item = this._getOwnedItem(this._getItemId(event));
+  }
+
+  _getInstalledCyberware() {
+
   }
 
   _itemAction(event) {

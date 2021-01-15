@@ -9,7 +9,6 @@ export async function SelectAmmoPrompt(dialogData) {
         ).then((html) => {
           let _onCancel = function (html) {
             LOGGER.trace(`_loadWeapon | Dialog SelectAmmoForWeapon | called.`);
-            
             dialogData.selectedAmmo = "abort";
           };
     
