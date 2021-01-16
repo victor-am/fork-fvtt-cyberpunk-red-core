@@ -33,6 +33,11 @@ export default class CPRActor extends Actor {
     return data;
   }
 
+  getData() {
+    LOGGER.trace("getData | CPRActor | Called.");
+    return this.data.data;
+  }
+
   /** @override */
   static async create(data, options) {
     LOGGER.trace(`create | CPRActor | called.`);
@@ -91,6 +96,7 @@ export default class CPRActor extends Actor {
     }
   }
 
+  // GET AND SET WOUND STATE
   getWoundState() {
     LOGGER.trace("getWoundState | CPRActor | Obtaining Wound State.");
     return this.data.data.woundState.currentWoundState;
@@ -111,5 +117,60 @@ export default class CPRActor extends Actor {
       newState = "notWounded";
     } 
     this.data.data.woundState.currentWoundState = newState;
+  }
+
+  getInstalledCyberware() {
+    return this.filteredItems.cyberware.filter((item) => item.isInstalled);
+  }
+
+  /**
+   * 
+   * @param {string} type uses the type of a cyberware item to return a list of compatiable foundational cyberware installed.
+   */
+  getInstalledFoundationalCyberware(type) {
+    // TODO - Assert type is actually a fucking cyberware type... -__-
+    if (type) {
+      return this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled && item.getData().isFoundational && item.getData().type == type);
+    }
+    return this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled && item.getData().isFoundational);
+  }
+
+  // ADD AND REMOVE CYBERWARE FROM ACTOR
+  // TODO - Refactor to map struct?
+
+  // Current implementation is as follows.
+  // Each foundational cyberware added creates a new array in cyberware.
+  // the foundational item is the 0th element of the array.
+  // when optional cyberware looks for places to go.
+  // look at all arrays in cyberware.installed
+  // if 0th element for type = optional.type && array.length < 0th.slots + 1
+  // display in list of possibly locations to install
+  // confirm will install and push optional.id into selected array
+  addCyberware(item) {
+    LOGGER.trace("addCyberware | CPRActor | Called.");
+    const data = this.getData();
+    console.log(data);
+    // add this as foundational
+    if (item.getData().isFoundational) {
+      LOGGER.debug(`addCyberware | CPRActor | Adding new foundational Cyberware to struct.`);
+      // TODO - Logic to warn of rules breaking.
+      data.cyberware.installed[item._id] = [];
+    // add this as optional
+    } else {
+      // display prompt
+    }
+  }
+
+  removeCyberware(item) {
+    LOGGER.debug(`removeCyberware | CPRActor | Called.`);
+    if (item.getData().isFoundational) {
+      // TODO - disallow removal if has optional slots occupied.
+    } else {
+      // TODO - remove optional
+    }
+  }
+
+  _getOwnedItem(itemId) {
+    return this.actor.items.find((i) => i.data._id == itemId);
   }
 }
