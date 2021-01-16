@@ -1,0 +1,18 @@
+{{log "CPR-EQUIP-GLYPH.HBS"}}
+<a class="equip" data-item-id="{{this._id}}" data-item-prop="data.equippable.equipped">
+    {{#ifEquals data.equippable.equipped "equipped" }}
+    {{log "equipped"}}
+    <i class="fas fa-hand-paper" title={{localize "CPR.equipped" }}></i>
+    {{/ifEquals}}
+
+    {{#ifEquals data.equippable.equipped "carried"}}
+    {{log "carried"}}
+    <i class="fas fa-suitcase" title={{localize "CPR.carried" }}></i>
+    {{/ifEquals}}
+
+    {{#ifEquals data.equippable.equipped "owned"}}
+    {{log "owned"}}
+    <i class="fas fa-circle-notch" title={{localize "CPR.owned" }}></i>
+    {{/ifEquals}}
+</a>
+{{log "END CPR-EQUIP-GLYPH.HBS"}}

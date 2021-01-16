@@ -192,8 +192,28 @@ CPR.inventoryCategories = {
   "weapon": "CPR.weapon",
   "ammo": "CPR.ammo",
   "armor": "CPR.armor",
+  "cyberware": "CPR.cyberware",
   "gear": "CPR.gear",
   "vehicle": "CPR.vehicle"
+}
+
+// 
+CPR.cyberwareTypeList = {
+  "cyberAudioSuite": "CPR.cyberAudioSuite",
+  "cyberEye": "CPR.cyberEye",
+  "cyberArm": "CPR.cyberArm",
+  "cyberLeg": "CPR.cyberLeg",
+  "neuralLink": "CPR.neuralLink",
+  "cyberwareInternal": "CPR.cyberwareInternal",
+  "cyberwareExternal": "CPR.cyberwareExternal",
+  "fashionware": "CPR.fashionware",
+  "borgware": "CPR.borgware"
+}
+
+CPR.cyberwareInstallList = {
+  "mall": "CPR.mall",
+  "clinic": "CPR.clinic",
+  "hospital": "CPR.hospital"
 }
 
 CPR.woundState = {

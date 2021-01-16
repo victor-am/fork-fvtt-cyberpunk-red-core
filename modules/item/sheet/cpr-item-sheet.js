@@ -71,7 +71,7 @@ export default class CPRItemSheet extends ItemSheet {
 */
 
   _itemCheckboxToggle(event) {
-    LOGGER.trace(`_itemCheckboxToggle Called | .checkbox click | Called with type ${this.item}.`);
+    LOGGER.trace(`_itemCheckboxToggle Called | .checkbox click | Called.`);
     let itemData = duplicate(this.item.data)
     let target = $(event.currentTarget).attr("data-target")
     if (hasProperty(itemData, target)) {

@@ -1,7 +1,7 @@
 {{log "VERIFY-ROLL-PROMPT.HBS"}}
 <form action="">
     {{#if (eq rollType "damage")}}
-    {{#ifIn weaponType "assaultRifle,smg,heavySmg"}}
+    {{#contains weaponType "assaultRifle, smg, heavySmg"}}
     <div>
       <label for="autofire">Autofire? </label>
       <input type="checkbox" id="autofire" name="autofire">
@@ -10,7 +10,7 @@
       <input type="number" class="number" name="autofire-multiplier" data-dtype="Number" value={{multiplier}} 
       max="{{#if (eq weaponType "assaultRifle")}}4{{else}}3{{/if}}" min="1">
     </div>
-    {{/ifIn}}
+    {{/contains}}
     <div>
       <label for="final-mods">Final Mods: </label>
       <input name="final-mods" type="number" data-dtype="Number" >

@@ -1,8 +1,9 @@
 export default class DiceSoNice {
-  static async ShowDiceSoNice(roll, rollMode = "roll", options = {}) {
+  static async ShowDiceSoNice(roll, rollModeOverride) {
     if (game.modules.get("dice-so-nice") && game.modules.get("dice-so-nice").active) {
       let whisper = null;
       let blind = false;
+      let rollMode =  rollModeOverride || game.settings.get("core", "rollMode")
       switch (rollMode) {
         case "blindroll": //GM only
           blind = true;
