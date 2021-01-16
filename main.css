@@ -31,9 +31,10 @@
 .CPR-block {
   display: flex;
   flex-direction: column;
+  height: 100%;
+  flex-grow: 1;
   border: solid #d02b23 4px;
   border-top: 8px solid #d02b23;
-  height: 60px;
   background-color: #ffffff;
   position: relative;
   box-sizing: border-box;
@@ -124,13 +125,14 @@
 .app.window-app.sheet.sheet.actor {
   max-height: 606px;
   min-height: 606px;
-  min-width: 1028px;
+  min-width: 1056px;
+  max-width: 1056px;
 }
 .sheet-content {
   margin: 5px;
   display: grid;
   grid-template-columns: 200px 60px 1fr;
-  grid-template-rows: 30px 190px repeat(5, 60px);
+  grid-template-rows: 30px 165px repeat(5, 65px);
   grid-template-areas: "image stats tabs " "image stats content " "handle stats content " "role stats content " "hitpoints stats content " "deathsave stats content " "humanity stats content ";
   grid-column-gap: 5px;
   grid-row-gap: 5px;
