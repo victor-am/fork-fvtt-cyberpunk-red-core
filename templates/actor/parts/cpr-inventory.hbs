@@ -1,16 +1,12 @@
 {{log "CPR-INVENTORY.HBS"}}
-<div class="tab-block">
-  <table>
-    <tbody>
+<div class="tab-block inventory">
       {{#each (findConfigObj "inventoryCategories") as |category c|}}
-      {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/headers/cpr-VAR-header.hbs" c)}}
-      {{#each ../actor.items as |item i|}}
-      {{#ifEquals item.type c}}
-      {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c)}}
-      {{/ifEquals}}
+            {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/headers/cpr-VAR-header.hbs" c)}}
+            {{#each ../actor.items as |item i|}}
+                  {{#ifEquals item.type c}}
+                        {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c)}}
+                  {{/ifEquals}}
+            {{/each}}
       {{/each}}
-      {{/each}}
-    </tbody>
-  </table>
 </div>
 {{log "END CPR-INVENTORY.HBS"}}

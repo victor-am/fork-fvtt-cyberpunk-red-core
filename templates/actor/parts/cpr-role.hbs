@@ -5,7 +5,7 @@
     <div class="">
         Abilities:
     </div>
-    <div class="row item">
+    <div class="row">
         {{#each (getProp data.roleInfo.roleskills data.roleInfo.role) as |roleskill rs|}}
         {{localize (findConfigValue "roleAbilityList" rs)}}:
         <input name="data.roleInfo.roleskills.{{../data.roleInfo.role}}.{{rs}}" value="{{roleskill}}" type="number">
