@@ -18,6 +18,12 @@ export async function VerifyRollPrompt(rollRequest) {
       let _onConfirm = function (html) {
         LOGGER.trace(`_onConfirm | Dialog VerifyRollPrompt | called.`);
         let formData = new FormDataExtended(html.find("form")[0]).toObject();
+        if (formData.mods) {
+          formData.mods = formData.mods.split(',').map(Number);
+        }
+        else {
+          formData.mods = [];
+        }
         resolve(formData);
         // if (rollRequest.rollType === "damage") {
         //   if (rollRequest.weaponType === "assaultRifle" ||

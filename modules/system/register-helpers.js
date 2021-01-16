@@ -83,7 +83,7 @@ export default function registerHandlebarsHelpers() {
     return object;
   });
 
-  Handlebars.registerHelper("maths", function() {
+  Handlebars.registerHelper("math", function() {
     LOGGER.trace(`Calling math Helper | Arg1:${arguments}`);
     let mathArgs = [...arguments];
     let mathFunction = mathArgs[0];
