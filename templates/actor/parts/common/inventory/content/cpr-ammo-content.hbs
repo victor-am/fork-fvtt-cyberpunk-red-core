@@ -1,12 +1,12 @@
 {{log "CPR-AMMO-INV-CONTENT.HBS"}}
 <div class="row row-section item inventory" data-item-id={{this._id}}>
-    <div class="name"><a class="name">
+    <span class="name"><a class="name">
             {{this.name}}</a>
         <a class="item-edit"><i class="fas fa-edit"></i></a>
         <a class="item-delete"><i class="fas fa-trash-alt"></i></a>
-    </div>
-    <div class="inventory-center">{{localize (findConfigValue "ammoVariety" this.data.variety)}}</div>
-    <div class="inventory-center">{{localize (findConfigValue "ammoType" this.data.type)}}</div>
-    <div class="inventory-center">{{this.data.amount}}</div>
-<div>
+    </span>
+    <span class="inventory-center">{{localize (findConfigValue "ammoVariety" this.data.variety)}}</span>
+    <span class="inventory-center">{{localize (findConfigValue "ammoType" this.data.type)}}</span>
+    <span class="inventory-center">{{this.data.amount}}</span>
+</div>
 {{log "END CPR-AMMO-INV-CONTENT.HBS"}}

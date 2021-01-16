@@ -195,6 +195,10 @@ app.window-app.sheet.actor {
 }
 .sheet-content .inventory {
   flex: 100%;
+  text-align: center;
+}
+.sheet-content .inventory .action {
+  width: 10%;
 }
 .sheet-content .border-red {
   border: solid #d02b23 1px;
