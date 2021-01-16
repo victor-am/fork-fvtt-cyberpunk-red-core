@@ -1,7 +1,7 @@
 {{log "CPR-STATS-BLOCK.HBS"}}
 {{!-- Partials to create stat-units from template --}}
 {{#each data.stats as |stat s|}}
-  <div class="stats-unit {{#if this.max}}has-max{{/if}}">
+  <div class="CPR-block stat {{#if this.max}}has-max{{/if}} {{#if  (eq s 'luck')}}last{{/if}}">
     <div class="stat-title rollable" data-roll-type="stat" data-roll-title="{{s}}">
       <p>{{localize (findConfigValue "statList" s)}}</p>
     </div>

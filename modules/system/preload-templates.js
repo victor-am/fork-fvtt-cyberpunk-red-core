@@ -27,7 +27,9 @@ export default function preloadHandlebarsTemplates() {
       "systems/cyberpunk-red-core/templates/actor/parts/cpr-deathsave-block.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/cpr-humanity-block.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/cpr-role-block.hbs",
+      "systems/cyberpunk-red-core/templates/actor/parts/cpr-ability-block.hbs",
 
+      
       // Inventory Item Display Partials
       "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/headers/cpr-weapon-header.hbs",
       "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-weapon-content.hbs",
