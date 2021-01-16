@@ -24,7 +24,6 @@ export async function VerifyRollPrompt(rollRequest) {
         else {
           formData.mods = [];
         }
-        console.log(formData);
         resolve(formData);
         // if (rollRequest.rollType === "damage") {
         //   if (rollRequest.weaponType === "assaultRifle" ||
