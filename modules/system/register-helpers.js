@@ -79,8 +79,18 @@ export default function registerHandlebarsHelpers() {
     return objs;
   });
 
-  Handlebars.registerHelper("dumpObj", (obj) => {
-    LOGGER.trace(`Calling dumpObj Helper | Arg1:${obj}`);
-    console.log(obj);
+  Handlebars.registerHelper("math", function() {
+    LOGGER.trace(`Calling math Helper | Arg1:${arguments}`);
+    let mathArgs = [...arguments];
+    let mathFunction = mathArgs[0];
+    mathArgs.shift();
+    mathArgs.pop();
+    mathArgs = mathArgs.map(Number);
+    if (typeof Math[mathFunction] === 'function') {
+      return Math[mathFunction].apply(null, mathArgs);
+    }
+    return `!ERR: Not a Math function: ${mathFunction}`;
   });
+
+
 }
