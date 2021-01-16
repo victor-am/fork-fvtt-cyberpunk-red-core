@@ -183,6 +183,16 @@ app.window-app.sheet.actor {
   padding: 0 3px;
   font-size: 0.8em;
   background-color: #ffffff;
+}
+.sheet-content .row .skill-name {
+  width: 60%;
+}
+.sheet-content .row .skill-level,
+.sheet-content .row .skill-base {
+  width: 10%;
+  text-align: center;
+}
+.sheet-content .border-red {
   border: solid #d02b23 1px;
 }
 .sheet-content .row-header {
