@@ -9,15 +9,18 @@
   position: relative;
   box-sizing: border-box;
   overflow: hidden;
+
   p, input, a {
     padding: 0; 
     margin: 0;
   }
+
   p, a {
     text-align: end;
     padding-left: 15px;
     font-weight: bold;
   }
+  
   input, select {
     display: block;
     text-align:center; 
@@ -51,7 +54,6 @@
   }
 
   // modifiers to the block
-
   &.stat {
     width: 55px;
     height: 55px;
@@ -92,12 +94,12 @@
       }
     }
   }
+
   // could animate?
   &.expand {
     height: fit-content; 
     min-height: 60px;
     z-index: 10;
-    
   }
 }
 

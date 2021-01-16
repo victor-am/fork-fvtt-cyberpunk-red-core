@@ -19,7 +19,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
     return mergeObject(super.defaultOptions, {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
-      width: 600,
+      width: 840,
       height: 600,
     });
   }

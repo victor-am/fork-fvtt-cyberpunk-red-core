@@ -122,11 +122,9 @@
   min-height: 60px;
   z-index: 10;
 }
-.app.window-app.sheet.sheet.actor {
-  max-height: 606px;
-  min-height: 606px;
-  min-width: 1056px;
-  max-width: 1056px;
+app.window-app.sheet.actor {
+  min-width: 840px;
+  min-height: 600px;
 }
 .sheet-content {
   margin: 5px;
@@ -177,55 +175,40 @@
 .sheet-content .stats-div {
   grid-area: stats;
 }
-.sheet-content .content {
-  grid-area: content;
-  overflow-y: hidden;
-  min-width: 740px;
-  max-height: 515px;
-  padding: 2px;
-  background-color: #d02b23;
-}
-.sheet-content .content .tab-block {
-  height: 100%;
-  background-color: #ffffff;
-}
-.sheet-content .content .tab-block.skills {
+.sheet-content .row {
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-.sheet-content .content .tab-block.skills .row {
-  width: calc(100%/3);
-  height: calc(100% / 28);
-  display: flex;
+  flex: 50%;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.8em;
   padding: 0 3px;
+  font-size: 0.8em;
   background-color: #ffffff;
   border: solid #d02b23 1px;
 }
-.sheet-content .content .tab-block.skills .row .skill-name {
-  width: 80%;
+.sheet-content .row-header {
+  background: #231f20;
+  color: #ffffff;
 }
-.sheet-content .content .tab-block.skills .row .skill-level,
-.sheet-content .content .tab-block.skills .row .skill-base {
+.sheet-content .row-section {
+  flex-grow: 1;
+}
+.sheet-content .content {
+  grid-area: content;
+  min-width: 512px;
+}
+.sheet-content .content .tab-block {
+  background-color: #d02b23;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.sheet-content .content .tab-block.skills .text-normal {
   text-align: center;
-  width: 10%;
 }
-.sheet-content .content .tab-block.skills .row input {
+.sheet-content .content .tab-block.skills input {
   background: 0;
   outline: 0;
   border: 0;
-  width: 20px;
-}
-.sheet-content .content .tab-block.skills .row.header {
-  background: #231f20;
-  color: white;
-}
-.sheet-content .content .tab-block.skills .remaining-skill-points {
-  border: solid #d02b23 1px;
-  flex-grow: 1;
 }
 form .item-desc-body {
   display: flex;
@@ -302,8 +285,5 @@ form input.number {
   background: none;
 }
 .content {
-  height: 100%;
-}
-.tab {
-  height: 100%;
+  overflow-y: scroll;
 }

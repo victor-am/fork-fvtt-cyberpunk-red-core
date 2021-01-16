@@ -1,18 +1,14 @@
-.app.window-app.sheet.sheet.actor {
-  max-height: 606px;
-  min-height: 606px;
-  min-width: 1056px;
-  max-width: 1056px;
+app.window-app.sheet.actor {
+  min-width: 840px;
+  min-height: 600px;
 }
 
-
-
 .sheet-content {
-  margin: 5px;
-  display: grid;
+  margin               : 5px;
+  display              : grid;
   grid-template-columns: 200px 60px 1fr;
-  grid-template-rows: 30px 165px repeat(5, 65px);
-  grid-template-areas: 
+  grid-template-rows   : 30px 165px repeat(5, 65px);
+  grid-template-areas  :
     "image stats tabs "
     "image stats content "
     "handle stats content "
@@ -22,110 +18,107 @@
     "humanity stats content "
   ;
   grid-column-gap: 5px;
-  grid-row-gap: 5px;
+  grid-row-gap   : 5px;
 
-  .image-div { 
+  .image-div {
     grid-area: image;
+
     img {
-      border: 0;
+      border : 0;
       outline: 0
     }
   }
 
-  .handle-div { 
-    grid-area: handle; 
+  .handle-div {
+    grid-area: handle;
   }
 
-  .role-div { 
-    grid-area: role; 
+  .role-div {
+    grid-area: role;
   }
 
-  .hitpoints-div { 
-    grid-area: hitpoints; 
+  .hitpoints-div {
+    grid-area: hitpoints;
   }
 
-  .deathsave-div { 
-    grid-area: deathsave; 
+  .deathsave-div {
+    grid-area: deathsave;
   }
 
-  .humanity-div { 
-    grid-area: humanity; 
+  .humanity-div {
+    grid-area: humanity;
   }
 
-  .tabs-div { 
-    grid-area: tabs; 
+  .tabs-div {
+    grid-area : tabs;
     box-shadow: 0;
 
     .navtab {
-      padding: 0;
-      padding: 1px 4px 0 4px;
-      margin-left: 15px;
+      padding     : 0;
+      padding     : 1px 4px 0 4px;
+      margin-left : 15px;
       margin-right: 15px;
-      text-align: center;
+      text-align  : center;
     }
+
     .selected {
       background-color: @raisin-black;
-      color: #ffffff;
+      color           : @white;
     }
   }
 
   .stats-div {
     grid-area: stats;
+  }
 
+  .row {
+    // border: solid 3px @maximum-red;
+    // border-top: solid 1.5px @maximum-red;
+    // border-bottom: solid 1.5px @maximum-red;
+    display         : flex;
+    flex: 50%;
+    justify-content : space-between;
+    align-items     : center;
+    padding         : 0 3px;
+    font-size       : 0.8em;
+    background-color: @white;
+    border          : solid @maximum-red 1px;
+  }
+
+  .row-header {
+    background: @raisin-black;
+    color     : @white;
+  }
+
+  .row-section {
+    flex-grow: 1;
   }
 
   .content {
-    grid-area: content; 
-    overflow-y:hidden;
-    min-width: 740px;
-    max-height: 515px;
-    padding: 2px;
-    background-color: @maximum-red;
-    
-    .tab-block { 
-      height: 100%;
-      background-color: #ffffff;
+    grid-area       : content;
+    min-width       : 512px;
+
+    .tab-block {
+      background-color: @maximum-red;
+      display       : flex;
+        flex-direction: row;
+        flex-wrap     : wrap;
 
 
       &.skills {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        .row {
-          width: calc((100%/3));
-          height: calc(100% / 28);
-          // border: solid 3px @maximum-red;
-          // border-top: solid 1.5px @maximum-red;
-          // border-bottom: solid 1.5px @maximum-red;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          font-size: 0.8em;
-          padding: 0 3px;
-          background-color: #ffffff;
-          border: solid @maximum-red 1px;
-          
-          .skill-name {
-            width: 80%;
-          }
-          .skill-level, .skill-base {
-            text-align: center;
-            width: 10%;
-          }
-          input {
-            background: 0;
-            outline: 0;
-            border: 0;
-            width: 20px;
-          }
-          &.header {
-            background: @raisin-black;
-            color: white;
-          }
+        .text-normal { 
+          text-align: center;
         }
-        .remaining-skill-points {
-          border: solid @maximum-red 1px;
-          flex-grow: 1
+
+        .skill-level,
+        .skill-base {
+          
+        }
+
+        input {
+          background: 0;
+          outline   : 0;
+          border    : 0;
         }
       }
     }
