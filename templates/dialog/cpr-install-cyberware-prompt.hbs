@@ -2,6 +2,7 @@
 <form id="installCyberware">
     {{log this}}
     {{!-- Select HL --}}
+    <div>
         Humanity Loss:
         <select name="humanityLoss">
             <option selected value="{{item.data.humanityLoss.roll}}">Roll: {{item.data.humanityLoss.roll}}</option>
@@ -15,7 +16,8 @@
         <select name="foundationalId">
             {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
             {{#each cyberware as |cyberware c|}}
-            <option value="{{cyberware._id}}">{{cyberware.name}}</option>
+            {{log cyberware.data._id}}
+            <option value="{{cyberware.data._id}}">{{cyberware.name}}</option>
             {{/each}}
         </select>
     </div>

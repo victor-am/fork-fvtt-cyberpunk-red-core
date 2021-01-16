@@ -130,9 +130,9 @@ export default class CPRActor extends Actor {
   getInstalledFoundationalCyberware(type) {
     // TODO - Assert type is actually a fucking cyberware type... -__-
     if (type) {
-      return this.data.filteredItems.cyberware.filter((item) => item.isInstalled && item.isFoundational && item.type == type);
+      return this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled && item.getData().isFoundational && item.getData().type == type);
     }
-    return this.data.filteredItems.cyberware.filter((item) => item.isInstalled && item.isFoundational);
+    return this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled && item.getData().isFoundational);
   }
 
   // ADD AND REMOVE CYBERWARE FROM ACTOR

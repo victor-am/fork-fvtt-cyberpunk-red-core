@@ -204,8 +204,8 @@ export default class CPRActorSheet extends ActorSheet {
   _addOptionalCyberware(item, formData) {
     LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | Called.`);
     item.getData().isInstalled = true;
-    LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundatioinalId}.`);
-    let foundationalCyberware = this._getOwnedItem(foundatioinalId);
+    LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
+    let foundationalCyberware = this._getOwnedItem(formData.foundationalId);
     foundationalCyberware.getData().optionalIds.push(item.data._id);
     this._updateOwnedItem(item)
     this._updateOwnedItem(foundationalCyberware)
@@ -216,10 +216,9 @@ export default class CPRActorSheet extends ActorSheet {
     item.getData().isInstalled = true;
     LOGGER.trace(`ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.`);
     this._updateOwnedItem(item)
-
   }
 
-  _removeCyberware(item, formdata) {
+  _removeCyberware(item, formData) {
 
   }
 
@@ -227,11 +226,11 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID _installCyberware | CPRActorSheet | Called.`);
     let item = this._getOwnedItem(this._getItemId(event));
     let installedFoundationalCyberware = this.actor.getInstalledFoundationalCyberware(item.getData().type);
+    let formData = await InstallCyberwarePrompt({ item: item.data, cyberware: installedFoundationalCyberware });
     if (installedFoundationalCyberware.length > 1 && !item.getData().isFoundational) {
-      formData = await InstallCyberwarePrompt({ item: item.data, cyberware: installedFoundationalCyberware });
       this._addOptionalCyberware(item, formData);
     } else if (item.getData().isFoundational) {
-      this._addFoundationalCyberware(item, formdata);
+      this._addFoundationalCyberware(item, formData);
     } else {
       Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
     }
@@ -244,8 +243,16 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _getInstalledCyberware() {
-    // TODO
-    return [];
+    LOGGER.trace(`ActorID _getInstalledCyberware | CPRActorSheet | Called.`);
+    let allCyberware = this.actor.data.filteredItems.cyberware;
+    let installedFoundationalCyberware = allCyberware.filter((cyberware) => cyberware.getData().isInstalled && cyberware.getData().isFoundational);
+    installedFoundationalCyberware = installedFoundationalCyberware.map((cyberware) => {
+      return { foundation: cyberware, optionals: [] }
+    });
+    installedFoundationalCyberware.forEach((entry) => {
+      entry.foundation.getData().optionalIds.forEach((id) => entry.optionals.push(this._getOwnedItem(id)));
+    });
+    return installedFoundationalCyberware;
   }
 
   _itemAction(event) {
