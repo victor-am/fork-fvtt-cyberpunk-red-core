@@ -4,7 +4,8 @@
   <span>Death Save</span>
   </p>
   <div>
-    <span>{{localize (findConfigValue "woundState" this.data.currentWoundState)}}</span>
+    {{log this}}
+    <span>{{localize (findConfigValue "woundState" this.data.woundState.currentWoundState)}}</span>
     <input name="data.derivedStats.deathSave" type="number" value="{{data.derivedStats.deathSave}}" data-dtype="Number" />
   </div>
 </div>
