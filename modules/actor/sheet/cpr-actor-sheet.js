@@ -463,9 +463,17 @@ export default class CPRActorSheet extends ActorSheet {
       ` | ` +
       rollRequest.skillValue
     );
-    const actorData = this.getData().data;
-    rollRequest.roleValue = actorData.roleInfo.roleskills[actorData.roleInfo["role"]][rollRequest.rollTitle];
-    rollRequest.rollTitle = game.i18n.localize(CPR['roleAbilityList'][rollRequest.rollTitle]);
+
+    let roles = this.getData().data.roleInfo.roleskills;
+    let roleAbility = rollRequest.rollTitle;
+    for (const roleName in roles) {
+      if (roles[roleName].hasOwnProperty(roleAbility))
+      {
+        rollRequest.roleValue = roles[roleName][roleAbility];
+        rollRequest.rollTitle = game.i18n.localize(CPR['roleAbilityList'][roleAbility]);
+        break;
+      }
+    }
   }
 
   _prepareRollAttack(rollRequest, itemId) {

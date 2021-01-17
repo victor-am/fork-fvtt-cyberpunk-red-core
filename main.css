@@ -177,17 +177,36 @@ app.window-app.sheet.actor {
 }
 .sheet-content .row {
   display: flex;
-  flex: 50%;
   justify-content: space-between;
   align-items: center;
   padding: 0 3px;
-  font-size: 0.8em;
   background-color: #ffffff;
+}
+.sheet-content .skills {
+  flex: 50%;
+}
+.sheet-content .skills .skill-name {
+  width: 60%;
+}
+.sheet-content .skills .skill-level,
+.sheet-content .skills .skill-base {
+  width: 10%;
+  text-align: center;
+}
+.sheet-content .inventory {
+  flex: 100%;
+  text-align: center;
+}
+.sheet-content .inventory .action {
+  width: 10%;
+}
+.sheet-content .border-red {
   border: solid #d02b23 1px;
 }
 .sheet-content .row-header {
   background: #231f20;
   color: #ffffff;
+  font-weight: bold;
 }
 .sheet-content .row-section {
   flex-grow: 1;
@@ -202,10 +221,7 @@ app.window-app.sheet.actor {
   flex-direction: row;
   flex-wrap: wrap;
 }
-.sheet-content .content .tab-block.skills .text-normal {
-  text-align: center;
-}
-.sheet-content .content .tab-block.skills input {
+.sheet-content input {
   background: 0;
   outline: 0;
   border: 0;

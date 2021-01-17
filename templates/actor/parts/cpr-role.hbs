@@ -1,3 +1,33 @@
-<div class="tab-block">
-    ROLE TAB.
+{{log "CPR-ROLE-TAB-CONTENT.HBS"}}
+<div class="">
+    {{log this}}
+    <div>
+        <h1>Role: {{localize (findConfigValue "roleList" data.roleInfo.role)}}</h1>
+    </div>
+    <div class="">
+        Abilities:
+    </div>
+    <div class="row">
+        {{#each (getProp data.roleInfo.roleskills data.roleInfo.role) as |roleskill rs|}}
+        <span class="rollable ability-name" data-roll-type="roleAbility" data-roll-title="{{rs}}">{{localize (findConfigValue "roleAbilityList" rs)}}</span>:
+        <input name="data.roleInfo.roleskills.{{../data.roleInfo.role}}.{{rs}}" value="{{roleskill}}" type="number">
+        {{/each}}
+        
+    </div>
+    <div>
+        <h1>Other Role Abilities:</h1>
+        {{#each (findConfigObj "roleList") as |name n|}}
+        {{#each (getProp ../data.roleInfo.roleskills n) as |roleskill rs|}}
+        {{#compare n "!==" ../../data.roleInfo.role}}
+        {{#compare roleskill ">" 0}}
+        <div>
+            <span class="rollable ability-name" data-roll-type="roleAbility" data-roll-title="{{rs}}">{{localize (findConfigValue "roleAbilityList" rs)}}</span>: {{roleskill}} (Role: {{localize (findConfigValue
+            "roleList" n)}})
+        </div>
+        {{/compare}}
+        {{/compare}}
+        {{/each}}
+        {{/each}}
+    </div>
 </div>
+{{log "END CPR-ROLE-TAB-CONTENT.HBS"}}
