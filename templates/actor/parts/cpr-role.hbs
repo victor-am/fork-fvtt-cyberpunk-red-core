@@ -1,4 +1,6 @@
+{{log "CPR-ROLE-TAB-CONTENT.HBS"}}
 <div class="">
+    {{log this}}
     <div>
         <h1>Role: {{localize (findConfigValue "roleList" data.roleInfo.role)}}</h1>
     </div>
@@ -7,7 +9,7 @@
     </div>
     <div class="row">
         {{#each (getProp data.roleInfo.roleskills data.roleInfo.role) as |roleskill rs|}}
-        {{localize (findConfigValue "roleAbilityList" rs)}}:
+        <span class="rollable ability-name" data-roll-type="roleAbility" data-roll-title="{{rs}}">{{localize (findConfigValue "roleAbilityList" rs)}}</span>:
         <input name="data.roleInfo.roleskills.{{../data.roleInfo.role}}.{{rs}}" value="{{roleskill}}" type="number">
         {{/each}}
         
@@ -19,7 +21,7 @@
         {{#compare n "!==" ../../data.roleInfo.role}}
         {{#compare roleskill ">" 0}}
         <div>
-            {{localize (findConfigValue "roleAbilityList" rs)}} {{roleskill}} (Role: {{localize (findConfigValue
+            <span class="rollable ability-name" data-roll-type="roleAbility" data-roll-title="{{rs}}">{{localize (findConfigValue "roleAbilityList" rs)}}</span>: {{roleskill}} (Role: {{localize (findConfigValue
             "roleList" n)}})
         </div>
         {{/compare}}
@@ -28,3 +30,4 @@
         {{/each}}
     </div>
 </div>
+{{log "END CPR-ROLE-TAB-CONTENT.HBS"}}
