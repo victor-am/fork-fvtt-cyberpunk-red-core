@@ -191,7 +191,7 @@ export default class CPRActorSheet extends ActorSheet {
   _repairArmor(event) {
     LOGGER.trace(`ActorID _repairArmor | CPRActorSheet | Called.`);
     const item = this._getOwnedItem(this._getItemId(event));
-    console.log(item)
+    // XXX: cannot use _getObjProp since we need to update 2 props
     this._updateOwnedItemProp(item, "data.headLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
   }
