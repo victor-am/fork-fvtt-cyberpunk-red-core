@@ -50,8 +50,11 @@ export default class CPRActorSheet extends ActorSheet {
     // Make a roll
     html.find(".rollable").click((event) => this._onRoll(event));
 
-    // Update equipment
+    // Cycle equipment status
     html.find(".equip").click(event => this._cycleEquipState(event));
+
+    // Repair Armor
+    html.find(".repair").click(event => this._repairArmor(event));
 
     // Install Cyberware
     html.find(".install").click(event => this._installCyberwareAction(event));
@@ -183,6 +186,14 @@ export default class CPRActorSheet extends ActorSheet {
       CPRChat.RenderRollCard(CPRRolls.BaseRoll(rollRequest));
     }
 
+  }
+
+  _repairArmor(event) {
+    LOGGER.trace(`ActorID _repairArmor | CPRActorSheet | Called.`);
+    const item = this._getOwnedItem(this._getItemId(event));
+    console.log(item)
+    this._updateOwnedItemProp(item, "data.headLocation.ablation", 0);
+    this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
   }
 
   _cycleEquipState(event) {
