@@ -8,9 +8,9 @@ CPR.statList = {
   "tech": "CPR.tech",
   "cool": "CPR.cool",
   "will": "CPR.will",
+  "luck": "CPR.luck",
   "move": "CPR.move",
   "body": "CPR.body",
-  "luck": "CPR.luck",
   "emp": "CPR.emp"
 }
 

@@ -1,88 +1,95 @@
 /*--------------------
-  Main sheet content
+  Globals
 ---------------------*/
+::-webkit-scrollbar {
+  display: none;
+}
+
 .sheet-content {
-  
-  // individual elements
-  input {
-    font-size: 1em;
-    width: 30px;
-    height: 15px;
-    outline: 0;
-    border: 0;
-    background: transparent;
-    &.text {
-      width: 100%;
-      padding-left: 7px;
-      &.large {
-        font-size: 1.8em;
-        height: 30px;
-      }
-    }
-
-    &.number {
-      text-align: center;
-      &.large {
-        font-size: 2.5em;
-        height: 30px;
-        width: 40px;
-      }
-    }
-  }
-  select {
-    font-family: inherit;
-    font-size: 1.8em;
-    color: @raisin-black;
-  }
-
-  &.character {
-    
-    .image-container {}
-
-    .main-container {}
-
-    .stats-container {}
-
-    .nav-container {}
-
-    .combat-container {}
-
-    // Stylng for individual content tabs
-    .content-container {
-
-      .dynamic-list {
-
-        .row {
-          background-color: @chrome-white;
-          color: @raisin-black;
-          border-radius: 3px;
-          &.header {
-            background-color: @raisin-black;
-            color: @chrome-white;
-          }
-
-          .section {
-
-            &.small {
-            }
-          }
-        }
-
-        &.skills {
-          .row {
-          }
-        }
-      }
-    }
-  }
-
-  &.mook {
-    //TODO
-  }
+  color: @flint-black;
+  background-color: @chrome-white;
+  font-size: 14px;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-variant: small-caps;
 }
 
 /*--------------------
-  cpr-block element
+  Color modifiers
+---------------------*/
+.black-fg {
+  color: @flint-black;
+}
+.black-bg {
+  background-color: @flint-black;
+}
+.white-fg {
+  color: @chrome-white;
+}
+.white-bg {
+  background-color: @chrome-white;
+}
+.red-fg {
+  color: @wyrm-red;
+}
+.red-bg {
+  background-color: @wyrm-red;
+}
+.blue-fg {
+  color: @holo-blue;
+}
+.blue-bg {
+  background-color: @holo-blue;
+}
+.yellow-fg {
+  color: @chip-in-yellow;
+}
+.yellow-bg {
+  background-color: @chip-in-yellow;
+}
+.pink-fg {
+  color: @meat-space-pink;
+}
+.pink-bg {
+  background-color: @meat-space-pink;
+}
+
+/*--------------------
+  Text modifiers
+---------------------*/
+.smallest-text {
+  font-size: 0.5em;
+}
+.smaller-text {
+  font-size: 0.7em;
+}
+.small-text {
+  font-size: 0.9em;
+}
+.normal-text {
+  font-size: 1em;
+}
+.large-text {
+  font-size: 1.2em;
+}
+.larger-text {
+  font-size: 1.5em;
+}
+.largest-text {
+  font-size: 1.8em;
+}
+.center-text {
+  text-align: center;
+}
+.right-text {
+  text-align: right;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+/*--------------------
+  cpr-block element styling
 ---------------------*/
 .cpr-block {
   background-color: @wyrm-red;
@@ -105,11 +112,6 @@
       z-index: -1;
   }
 
-  // Children
-  .title {
-    font-weight: bold;
-  }
-
   // Modifiers
   &.stat {
     clip-path: polygon(
@@ -122,28 +124,19 @@
     .title {
       font-size: 0.8em;
     }
-    .input {
-      font-size: 1.2em;
-    }
+    
   }
 
   &.image {
     img {
-      border: 0;
-      outline: 0;
       clip-path: polygon(
         0 14px,
         0 100%,
         100% 100%,
         100% 0,
-        14px 0);
+        14px 0
+      );
     }
   }
 }
 
-/*--------------------
-  Dynamic Lists
----------------------*/
-.dynamic-list {
-  .row {}
-}

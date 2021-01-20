@@ -103,7 +103,7 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".skills .header").click(event => {
       let header = $(event.currentTarget);
       let category = header.attr("data-skill-category-name");
-      for (let i of html.find(".row.item.skill")) {
+      for (let i of html.find(".row.skill")) {
         if (i.attributes[2].nodeValue === category) {
           i.classList.contains("hide") ? i.classList.remove("hide") : i.classList.add("hide")
         };
@@ -550,9 +550,13 @@ export default class CPRActorSheet extends ActorSheet {
       container.removeClass(currentSetting);
       container.addClass("col-2");
     }
-    else {
+    else if (currentWidth >= 990 && currentWidth < 1320) {
       container.removeClass(currentSetting);
       container.addClass("col-3");
     }
+    else {
+      container.removeClass(currentSetting);
+      container.addClass("col-4");
+    };
   }
 }
