@@ -1,29 +1,30 @@
-import LOGGER from "../utils/cpr-logger.js";
-import ActorUtils from "../utils/cpr-actorUtils.js";
-import SystemUtils from "../utils/cpr-systemUtils.js";
+/* globals Actor */
+import LOGGER from "../utils/cpr-logger";
+// import ActorUtils from "../utils/cpr-actorUtils";
+import SystemUtils from "../utils/cpr-systemUtils";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
 export default class CPRActor extends Actor {
-
   /** @override */
   prepareData() {
     LOGGER.trace("prepareData | CPRActor | Called.");
-    
+
     super.prepareData();
     const actorData = this.data;
     actorData.filteredItems = this.itemTypes;
-    LOGGER.debug("Prepare Character Data | CPRActor | Checking on contents of `filteredItems`.");
-
+    LOGGER.debug(
+      "Prepare Character Data | CPRActor | Checking on contents of `filteredItems`.",
+    );
 
     // Prepare data for both types
     this._calculateDerivedStats(actorData);
 
     // Prepare type data
-    if (actorData.type === 'character') this._prepareCharacterData(actorData);
-    if (actorData.type === 'mook') this._prepareMookData(actorData);
+    if (actorData.type === "character") this._prepareCharacterData(actorData);
+    if (actorData.type === "mook") this._prepareMookData(actorData);
   }
 
   /** @override */
@@ -40,39 +41,43 @@ export default class CPRActor extends Actor {
 
   /** @override */
   static async create(data, options) {
-    LOGGER.trace(`create | CPRActor | called.`);
+    LOGGER.trace("create | CPRActor | called.");
     data.items = [];
     switch (data.type) {
-      //default: data.items = data.items.concat(await ActorUtils.GetAllSkills());
-      default: data.items = data.items.concat(await SystemUtils.GetCoreSkills());
+      // default: data.items = data.items.concat(await ActorUtils.GetAllSkills());
+      default:
+        data.items = data.items.concat(await SystemUtils.GetCoreSkills());
     }
     super.create(data, options);
   }
 
   _prepareCharacterData(actorData) {
     LOGGER.trace("_prepareCharacterData | CPRActor | Called.");
-    const data = actorData.data;
+    const { data } = actorData;
     LOGGER.trace("_prepareCharacterData | CPRActor | Checking on contents of `actorData.data`.");
   }
 
   _prepareMookData(actorData) {
     LOGGER.trace("_prepareMookData | CPRActor | Called.");
-    const data = actorData.data;
+    const { data } = actorData;
     LOGGER.trace("_prepareMookData | CPRActor | Checking on contents of `actorData.data`.");
   }
 
   _calculateDerivedStats(actorData) {
     // Calculate MAX HP
-    LOGGER.trace(`_calculateDerivedStats | CPRActor | Called.`);
+    LOGGER.trace("_calculateDerivedStats | CPRActor | Called.");
 
-    let stats = actorData.data.stats;
-    let derivedStats = actorData.data.derivedStats;
+    const { stats } = actorData.data;
+    const { derivedStats } = actorData.data;
 
     // Set max HP
-    derivedStats.hp.max = 10 + 5 * (Math.ceil((stats.will.value + stats.body.value) / 2));
+    derivedStats.hp.max = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
 
-    derivedStats.hp.value = Math.min(derivedStats.hp.value, derivedStats.hp.max);
-    //if (derivedStats.hp.value > derivedStats.hp.max) { derivedStats.hp.value = derivedStats.hp.max; };
+    derivedStats.hp.value = Math.min(
+      derivedStats.hp.value,
+      derivedStats.hp.max,
+    );
+    // if (derivedStats.hp.value > derivedStats.hp.max) { derivedStats.hp.value = derivedStats.hp.max; };
 
     // Seriously wounded
     // Do we really need to store this or can we just calculate it dynamically as needed???
@@ -86,11 +91,13 @@ export default class CPRActor extends Actor {
 
     // Humanity is a character statistic, not a Mook
     if (actorData.type === "character") {
-      let humanity = actorData.data.humanity
+      const { humanity } = actorData.data;
       // Max Humanity
       // TODO-- Subtract installed cyberware...
       humanity.max = 10 * stats.emp.max;
-      if (humanity.value > humanity.max) { humanity.value = humanity.max; };
+      if (humanity.value > humanity.max) {
+        humanity.value = humanity.max;
+      }
       // Setting EMP to value based on current humannity.
       stats.emp.value = Math.floor(humanity.value / 10);
     }
@@ -105,7 +112,7 @@ export default class CPRActor extends Actor {
   setWoundState(actorData) {
     LOGGER.trace("setWoundState | CPRActor | Setting Wound State.");
 
-    let derivedStats = this.data.data.derivedStats;
+    const { derivedStats } = this.data.data;
     let newState = "invalidState";
     if (derivedStats.hp.value < 1) {
       newState = "mortallyWounded";
@@ -113,9 +120,9 @@ export default class CPRActor extends Actor {
       newState = "seriouslyWounded";
     } else if (derivedStats.hp.value < derivedStats.hp.max) {
       newState = "lightlyWounded";
-    } else if (derivedStats.hp.value == derivedStats.hp.max) {
+    } else if (derivedStats.hp.value === derivedStats.hp.max) {
       newState = "notWounded";
-    } 
+    }
     this.data.data.woundState.currentWoundState = newState;
   }
 
@@ -124,15 +131,21 @@ export default class CPRActor extends Actor {
   }
 
   /**
-   * 
+   *
    * @param {string} type uses the type of a cyberware item to return a list of compatiable foundational cyberware installed.
    */
   getInstalledFoundationalCyberware(type) {
     // TODO - Assert type is actually a fucking cyberware type... -__-
     if (type) {
-      return this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled && item.getData().isFoundational && item.getData().type == type);
+      return this.data.filteredItems.cyberware.filter(
+        (item) => item.getData().isInstalled
+          && item.getData().isFoundational
+          && item.getData().type === type,
+      );
     }
-    return this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled && item.getData().isFoundational);
+    return this.data.filteredItems.cyberware.filter(
+      (item) => item.getData().isInstalled && item.getData().isFoundational,
+    );
   }
 
   // ADD AND REMOVE CYBERWARE FROM ACTOR
@@ -149,20 +162,22 @@ export default class CPRActor extends Actor {
   addCyberware(item) {
     LOGGER.trace("addCyberware | CPRActor | Called.");
     const data = this.getData();
-    console.log(data);
+    LOGGER.trace(data);
     // add this as foundational
     if (item.getData().isFoundational) {
-      LOGGER.debug(`addCyberware | CPRActor | Adding new foundational Cyberware to struct.`);
+      LOGGER.debug(
+        "addCyberware | CPRActor | Adding new foundational Cyberware to struct.",
+      );
       // TODO - Logic to warn of rules breaking.
       data.cyberware.installed[item._id] = [];
-    // add this as optional
+      // add this as optional
     } else {
       // display prompt
     }
   }
 
   removeCyberware(item) {
-    LOGGER.debug(`removeCyberware | CPRActor | Called.`);
+    LOGGER.debug("removeCyberware | CPRActor | Called.");
     if (item.getData().isFoundational) {
       // TODO - disallow removal if has optional slots occupied.
     } else {
@@ -171,6 +186,6 @@ export default class CPRActor extends Actor {
   }
 
   _getOwnedItem(itemId) {
-    return this.actor.items.find((i) => i.data._id == itemId);
+    return this.actor.items.find((i) => i.data._id === itemId);
   }
 }

@@ -8,4 +8,4 @@ export default class CPRBaseRollResult {
     this.modsTotal = 0;
     this.resultTotal = 0;
   }
-};
+}
