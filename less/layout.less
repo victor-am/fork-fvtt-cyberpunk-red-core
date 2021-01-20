@@ -1,71 +1,85 @@
+/*--------------------
+  Global Tweaks
+---------------------*/
+.app.window-app.sheet.sheet.actor {
+  // minimum window size
+  min-width: 600px;
+  min-height: 706px;
+
+  // pull resize handle further forwards
+  .window-resizable-handle {
+    z-index: 10;
+  }
+}
+
+/*--------------------
+  Main sheet content
+---------------------*/
 .sheet-content {
+
   // character sheet layout
   &.character {
     display: grid;
     grid-template-columns: 200px 50px 1fr;
-    grid-template-rows: 
-      30px 165px minmax(250px, 1fr) 300px;;
-    grid-template-areas: 
-      "image stats nav" 
+    grid-template-rows:
+      30px 165px minmax(250px, 1fr) 200px;
+    grid-template-areas:
+      "image stats nav"
       "image stats content"
       "main stats content"
       "combat combat combat"
-      ;
+    ;
     grid-gap: 5px;
+
     .image-container {
       grid-area: image;
       background-color: @meat-space-pink;
-    }  
+    }
+
     .main-container {
       grid-area: main;
       background-color: @meat-space-pink;
-    }  
+    }
+
     .stats-container {
       grid-area: stats;
       background-color: @meat-space-pink;
-    }  
+    }
+
     .nav-container {
       grid-area: nav;
       background-color: @meat-space-pink;
-    }  
+    }
+
     .content-container {
       grid-area: content;
       background-color: @meat-space-pink;
-    }  
+    }
+
     .combat-container {
       grid-area: combat;
       background-color: @meat-space-pink;
     }
 
     // Image layout
-    .image-container {
-
-    }
+    .image-container {}
 
     // Main layout
-    .main-container {
-
-    }
+    .main-container {}
 
     // Stats layout
-    .stats-container {
-
-    }
+    .stats-container {}
 
     // Nav layout
-    .nav-container {
-
-    }
+    .nav-container {}
 
     // Combat layout
     .combat-container {
       z-index: 1;
     }
-    
-    // Layouts for individual content tabs
+
     .content-container {
       overflow: scroll;
-      
     }
   }
 
@@ -74,19 +88,65 @@
   }
 }
 
-// Main block element
+/*--------------------
+  Main block element
+---------------------*/
 .cpr-block {
+  // remove padding and margins
+  p, input {
+    padding: 0;
+    margin: 0;
+  }
+  height: 50px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  &.horizontal {flex-direction: row;}
+  
+  &::before {
+    position: absolute;
+    height: 42px;
+    width: 192px;
+    top: 4px;
+    left: 4px;
+  }
+  &.horizontal {
+    flex-direction: row;
+  }
 
+  .title {
+    height: 30%;
+    flex: 0;
+  }
+
+  .content {
+    height: 70%;
+    flex: 0;
+  }
 }
 
-// Dynamic Lists
+/*--------------------
+  Dynamic Lists
+---------------------*/
 .dynamic-list {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+
+  &.col-1 {
+    display: grid;
+  }
+
+  &.col-2 {
+    display: grid;
+    grid-template-rows: repeat(40, 1fr);
+    grid-auto-flow: column;
+  }
+
+  &.col-3 {
+    display: grid;
+    grid-template-rows: repeat(27, 1fr);
+    grid-auto-flow: column;
+  }
 
   .row {
     display: flex;
@@ -97,20 +157,17 @@
     &.header {}
 
     .section {
-      // flex: 1 0 auto;
       &.small {
         width: 12%;
       }
+
       &.grow {
         flex: 1 0 auto;
       }
     }
-  }
 
-  &.skills {
-    .row {
-      max-width: 300px
+    &.hide {
+      display: none;
     }
   }
 }
-

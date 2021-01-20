@@ -1,11 +1,11 @@
 {{log "CPR-SKILLS.HBS"}}
-<div class="dynamic-list skills">
+<div class="dynamic-list skills col-1">
   {{!-- FOR ALL SKILL ITEMS, RENDER SKILL CARD --}}
   {{!-- FOR EACH CATEGORY --}}
   {{#each (findConfigObj "skillCategories") as |category c|}}
   
 
-  <div class="row header">
+  <div class="row header" data-skill-category-name={{c}}>
     <span class="section grow skill-name">{{localize (findConfigValue "skillCategories" c)}}</span>
     <span class="section small skill-level">LVL</span>
     <span class="section small skill-base">BASE</span>
@@ -18,7 +18,7 @@
   {{!-- DISPLAY SKILL --}}
 
 
-  <div class="row item" data-item-id={{skill._id}}>
+  <div class="row item skill" data-item-id={{skill._id}} data-skill-category={{skill.data.category}}>
     <div class="section grow skill-name">
       <a class="name rollable" data-roll-type="skill" data-roll-title="{{skill.name}}">
         <span class="{{#if skill.data.basic}}bold{{/if}}">
@@ -31,7 +31,7 @@
       <a class="item-delete"><i class="fas fa-trash-alt"></i></a>
       {{/if}}
     </div>
-    <span class="section small skill-level"><input class=" number" value="{{skill.data.level}}" type="number"
+    <span class="section small skill-level"><input class="number skill-level-input" value="{{skill.data.level}}" type="number"
         data-item-prop="data.level" data-dtype="Number"></span>
     <span class="section small skill-base">{{add skill.data.level (lookup (getProp ../../actor.data.stats skill.data.stat)
       'value')}}</span>

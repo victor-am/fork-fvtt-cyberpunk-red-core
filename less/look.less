@@ -1,3 +1,6 @@
+/*--------------------
+  Main sheet content
+---------------------*/
 .sheet-content {
   
   // individual elements
@@ -61,12 +64,34 @@
   }
 }
 
-// Main block element
+/*--------------------
+  Main block element
+---------------------*/
 .cpr-block {
-  &.horizontal {}
+  background-color: @wyrm-red;
+  clip-path: polygon(
+    0 15px,
+    0 100%,
+    100% 100%,
+    100% 0,
+    15px 0 
+  );
+  &::before {
+    content: "";
+    background-color: @chrome-white;
+    clip-path: polygon(
+      0 14px,
+      0 100%,
+      100% 100%,
+      100% 0,
+      14px 0);
+      z-index: -1;
+  }
 }
 
-// Dynamic Lists
+/*--------------------
+  Dynamic Lists
+---------------------*/
 .dynamic-list {
   .row {}
 }

@@ -19,8 +19,8 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
     return mergeObject(super.defaultOptions, {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
-      width: 840,
-      height: 600,
+      width: 600,
+      height: 706,
     });
   }
 
@@ -85,8 +85,6 @@ export default class CPRActorSheet extends ActorSheet {
       }
     })
 
-    
-
     // Show edit and delete buttons
     html.find(".row.item").hover(
       (event) => {
@@ -98,6 +96,19 @@ export default class CPRActorSheet extends ActorSheet {
         $(event.currentTarget).contents().contents().removeClass("show");
       }
     );
+
+    
+
+    // hide skills by category on clicking header
+    html.find(".skills .header").click(event => {
+      let header = $(event.currentTarget);
+      let category = header.attr("data-skill-category-name");
+      for (let i of html.find(".row.item.skill")) {
+        if (i.attributes[2].nodeValue === category) {
+          i.classList.contains("hide") ? i.classList.remove("hide") : i.classList.add("hide")
+        };
+      }
+    });
   }
 
   /* -------------------------------------------- */
@@ -522,5 +533,26 @@ export default class CPRActorSheet extends ActorSheet {
     rollRequest.formula = weaponItem.data.data.damage;
     rollRequest.attackSkill = attackSkill;
     rollRequest.weaponType = weaponType;
+  }
+
+
+  // adjust dynamic list columns based on width of container
+  /** @override */
+  _onResize(event) {
+    let container = $(".dynamic-list.skills");
+    let currentWidth = container.innerWidth();
+    let currentSetting = container[0].classList[2];
+    if (currentWidth < 660) {
+      container.removeClass(currentSetting);
+      container.addClass("col-1");
+    }
+    else if (currentWidth >= 660 && currentWidth < 990) {
+      container.removeClass(currentSetting);
+      container.addClass("col-2");
+    }
+    else {
+      container.removeClass(currentSetting);
+      container.addClass("col-3");
+    }
   }
 }
