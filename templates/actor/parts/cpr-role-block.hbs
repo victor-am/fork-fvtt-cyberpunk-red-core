@@ -1,6 +1,6 @@
 {{log "CPR-ROLE-BLOCK.HBS"}}
 <div class="CPR-block">
-  <p>Role</p>
+  <p>{{localize "CPR.role"}}</p>
   <select name="data.roleInfo.role">
     {{#select data.roleInfo.role}}
     {{#each (findConfigObj "roleList") as |name n|}}
