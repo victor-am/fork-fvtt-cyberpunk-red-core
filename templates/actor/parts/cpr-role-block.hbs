@@ -1,7 +1,9 @@
 {{log "CPR-ROLE-BLOCK.HBS"}}
-<div class="CPR-block">
-  <p>Role</p>
-  <select name="data.roleInfo.role">
+<div class="cpr-block">
+  <div class="title">
+    <p>Role</p>
+  </div>
+  <select class="select" name="data.roleInfo.role">
     {{#select data.roleInfo.role}}
     {{#each (findConfigObj "roleList") as |name n|}}
     <option value="{{n}}">{{localize name}}</option>

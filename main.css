@@ -33,7 +33,7 @@
 ---------------------*/
 .app.window-app.sheet.sheet.actor {
   min-width: 600px;
-  min-height: 706px;
+  min-height: 770px;
 }
 .app.window-app.sheet.sheet.actor .window-resizable-handle {
   z-index: 10;
@@ -44,71 +44,103 @@
 .sheet-content.character {
   display: grid;
   grid-template-columns: 200px 50px 1fr;
-  grid-template-rows: 30px 165px minmax(250px, 1fr) 200px;
+  grid-template-rows: 30px 165px minmax(300px, 1fr) 200px;
   grid-template-areas: "image stats nav" "image stats content" "main stats content" "combat combat combat";
   grid-gap: 5px;
 }
 .sheet-content.character .image-container {
   grid-area: image;
-  background-color: #ffc3b6ff;
 }
 .sheet-content.character .main-container {
   grid-area: main;
-  background-color: #ffc3b6ff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .sheet-content.character .stats-container {
   grid-area: stats;
-  background-color: #ffc3b6ff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .sheet-content.character .nav-container {
   grid-area: nav;
-  background-color: #ffc3b6ff;
 }
 .sheet-content.character .content-container {
   grid-area: content;
-  background-color: #ffc3b6ff;
 }
 .sheet-content.character .combat-container {
   grid-area: combat;
-  background-color: #ffc3b6ff;
-}
-.sheet-content.character .combat-container {
-  z-index: 1;
+  z-index: 5;
 }
 .sheet-content.character .content-container {
   overflow: scroll;
 }
 /*--------------------
-  Main block element
+  cpr-block element
 ---------------------*/
 .cpr-block {
-  height: 50px;
+  height: 60px;
   position: relative;
   display: flex;
   flex-direction: column;
+  padding: 6px;
 }
 .cpr-block p,
+.cpr-block span,
 .cpr-block input {
   padding: 0;
   margin: 0;
 }
 .cpr-block::before {
   position: absolute;
-  height: 42px;
+  height: 52px;
   width: 192px;
   top: 4px;
   left: 4px;
 }
-.cpr-block.horizontal {
-  flex-direction: row;
-}
 .cpr-block .title {
-  height: 30%;
+  padding-left: 12px;
+  display: flex;
+  flex-direction: row-reverse;
   flex: 0;
+  justify-content: space-between;
 }
 .cpr-block .content {
-  height: 70%;
+  display: flex;
+  justify-content: space-around;
   flex: 0;
+}
+.cpr-block .select {
+  background: transparent;
+  outline: 0;
+  border: 0;
+}
+.cpr-block.stat {
+  width: 50px;
+  height: 50px;
+}
+.cpr-block.stat::before {
+  position: absolute;
+  height: 42px;
+  width: 42px;
+  top: 4px;
+  left: 4px;
+}
+.cpr-block.image {
+  height: 200px;
+  width: 200px;
+  padding: 0;
+}
+.cpr-block.image img {
+  height: 192px;
+  width: 192px;
+  position: absolute;
+  left: 4px;
+  top: 4px;
+}
+.cpr-block.horizontal {
+  flex-direction: row;
 }
 /*--------------------
   Dynamic Lists
@@ -151,14 +183,32 @@
 ---------------------*/
 .sheet-content input {
   font-size: 1em;
-  height: 1em;
   width: 30px;
+  height: 15px;
+  outline: 0;
+  border: 0;
+  background: transparent;
 }
 .sheet-content input.text {
   width: 100%;
+  padding-left: 7px;
+}
+.sheet-content input.text.large {
+  font-size: 1.8em;
+  height: 30px;
 }
 .sheet-content input.number {
   text-align: center;
+}
+.sheet-content input.number.large {
+  font-size: 2.5em;
+  height: 30px;
+  width: 40px;
+}
+.sheet-content select {
+  font-family: inherit;
+  font-size: 1.8em;
+  color: #231f20;
 }
 .sheet-content.character .content-container .dynamic-list .row {
   background-color: #eaeaeaff;
@@ -170,7 +220,7 @@
   color: #eaeaeaff;
 }
 /*--------------------
-  Main block element
+  cpr-block element
 ---------------------*/
 .cpr-block {
   background-color: #b90202ff;
@@ -181,6 +231,23 @@
   background-color: #eaeaeaff;
   clip-path: polygon(0 14px, 0 100%, 100% 100%, 100% 0, 14px 0);
   z-index: -1;
+}
+.cpr-block .title {
+  font-weight: bold;
+}
+.cpr-block.stat {
+  clip-path: polygon(0 16px, 0 100%, 100% 100%, 100% 0, 16px 0);
+}
+.cpr-block.stat .title {
+  font-size: 0.8em;
+}
+.cpr-block.stat .input {
+  font-size: 1.2em;
+}
+.cpr-block.image img {
+  border: 0;
+  outline: 0;
+  clip-path: polygon(0 14px, 0 100%, 100% 100%, 100% 0, 14px 0);
 }
 /*--------------------
   Dynamic Lists
@@ -242,4 +309,7 @@ form .item-name {
 }
 form input.number {
   width: 30px;
+}
+.window-app .window-content {
+  background: #eaeaeaff;
 }

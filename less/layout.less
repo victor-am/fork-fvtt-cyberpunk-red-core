@@ -4,8 +4,8 @@
 .app.window-app.sheet.sheet.actor {
   // minimum window size
   min-width: 600px;
-  min-height: 706px;
-
+  min-height: 770px;
+  
   // pull resize handle further forwards
   .window-resizable-handle {
     z-index: 10;
@@ -16,13 +16,14 @@
   Main sheet content
 ---------------------*/
 .sheet-content {
+  
 
   // character sheet layout
   &.character {
     display: grid;
     grid-template-columns: 200px 50px 1fr;
     grid-template-rows:
-      30px 165px minmax(250px, 1fr) 200px;
+      30px 165px minmax(300px, 1fr) 200px;
     grid-template-areas:
       "image stats nav"
       "image stats content"
@@ -33,32 +34,33 @@
 
     .image-container {
       grid-area: image;
-      background-color: @meat-space-pink;
     }
 
     .main-container {
       grid-area: main;
-      background-color: @meat-space-pink;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .stats-container {
       grid-area: stats;
-      background-color: @meat-space-pink;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .nav-container {
       grid-area: nav;
-      background-color: @meat-space-pink;
     }
 
     .content-container {
       grid-area: content;
-      background-color: @meat-space-pink;
     }
 
     .combat-container {
       grid-area: combat;
-      background-color: @meat-space-pink;
+      z-index: 5;
     }
 
     // Image layout
@@ -75,7 +77,7 @@
 
     // Combat layout
     .combat-container {
-      z-index: 1;
+      
     }
 
     .content-container {
@@ -89,39 +91,78 @@
 }
 
 /*--------------------
-  Main block element
+  cpr-block element
 ---------------------*/
 .cpr-block {
   // remove padding and margins
-  p, input {
+  p, span, input {
     padding: 0;
     margin: 0;
   }
-  height: 50px;
+  height: 60px;
   position: relative;
   display: flex;
   flex-direction: column;
-  
+  padding: 6px;
   &::before {
     position: absolute;
-    height: 42px;
+    height: 52px;
     width: 192px;
     top: 4px;
     left: 4px;
   }
+  
+  // Children
+  .title {
+    padding-left: 12px;
+    display: flex;
+    flex-direction: row-reverse;
+    flex: 0;
+    justify-content: space-between;
+  }
+
+  .content {
+    display: flex;
+    justify-content: space-around;
+    flex: 0;
+  }
+
+  .select {
+    background: transparent;
+    outline: 0;
+    border: 0;
+  }
+
+  // Modifiers
+  &.stat {
+    width: 50px;
+    height: 50px;
+    &::before {
+      position: absolute;
+      height: 42px;
+      width: 42px;
+      top: 4px;
+      left: 4px;
+    }
+  }
+
+  &.image {
+    height: 200px;
+    width: 200px;
+    padding: 0;
+    img {
+      height: 192px;
+      width: 192px;
+      position: absolute;
+      left: 4px;
+      top: 4px;
+    }
+  }
+
   &.horizontal {
     flex-direction: row;
   }
 
-  .title {
-    height: 30%;
-    flex: 0;
-  }
-
-  .content {
-    height: 70%;
-    flex: 0;
-  }
 }
 
 /*--------------------

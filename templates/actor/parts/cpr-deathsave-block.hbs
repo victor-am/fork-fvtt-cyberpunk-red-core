@@ -1,12 +1,12 @@
-<div class="CPR-block resource">
-  <p>
-  <span style="float: left; padding-left: 10px" >State</span>
+<div class="cpr-block">
+  <div class="title">
   <span>Death Save</span>
-  </p>
-  <div>
+  <span>State</span>
+  </div>
+  <div class="content">
     {{log this}}
     <span>{{localize (findConfigValue "woundState" this.data.woundState.currentWoundState)}}</span>
-    <input name="data.derivedStats.deathSave" type="number" value="{{data.derivedStats.deathSave}}" data-dtype="Number" />
+    <input class="input number large" name="data.derivedStats.deathSave" type="number" value="{{data.derivedStats.deathSave}}" data-dtype="Number" />
   </div>
 </div>
 {{log "END CPR-DEATHSAVE-BLOCK.HBS"}}
