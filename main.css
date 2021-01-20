@@ -26,205 +26,91 @@
   font-display: swap;
   src: url(https://fonts.gstatic.com/s/ubuntumono/v10/KFO-CneDtsqEr0keqCMhbC-BL-Hy.ttf) format('truetype');
 }
-/* LESS RGB */
+/* LESS HEX */
 /* LESS Gradient */
-.CPR-block {
+.sheet-content.character {
+  display: grid;
+  grid-template-columns: 200px 50px 1fr;
+  grid-template-rows: 30px 165px minmax(250px, 1fr) 300px;
+  grid-template-areas: "image stats nav" "image stats content" "main stats content" "combat combat combat";
+  grid-gap: 5px;
+}
+.sheet-content.character .image-container {
+  grid-area: image;
+  background-color: #ffc3b6ff;
+}
+.sheet-content.character .main-container {
+  grid-area: main;
+  background-color: #ffc3b6ff;
+}
+.sheet-content.character .stats-container {
+  grid-area: stats;
+  background-color: #ffc3b6ff;
+}
+.sheet-content.character .nav-container {
+  grid-area: nav;
+  background-color: #ffc3b6ff;
+}
+.sheet-content.character .content-container {
+  grid-area: content;
+  background-color: #ffc3b6ff;
+}
+.sheet-content.character .combat-container {
+  grid-area: combat;
+  background-color: #ffc3b6ff;
+}
+.sheet-content.character .combat-container {
+  z-index: 1;
+}
+.sheet-content.character .content-container {
+  overflow: scroll;
+}
+.cpr-block {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  flex-grow: 1;
-  border: solid #d02b23 4px;
-  border-top: 8px solid #d02b23;
-  background-color: #ffffff;
-  position: relative;
-  box-sizing: border-box;
-  overflow: hidden;
 }
-.CPR-block p,
-.CPR-block input,
-.CPR-block a {
-  padding: 0;
-  margin: 0;
-}
-.CPR-block p,
-.CPR-block a {
-  text-align: end;
-  padding-left: 15px;
-  font-weight: bold;
-}
-.CPR-block input,
-.CPR-block select {
-  display: block;
-  text-align: center;
-  background: transparent;
-  outline: none;
-  border: none;
-  font-size: 1.5em;
-  font-family: "Signika";
-}
-.CPR-block input:focus {
-  box-shadow: none;
-}
-.CPR-block input[type="text"] {
-  text-align: start;
-}
-.CPR-block::after {
-  content: "";
-  position: absolute;
-  top: -2;
-  left: -2;
-  background-color: #d02b23;
-  height: 17px;
-  width: 17px;
-  clip-path: polygon(0 0, 100% 0, 0 100%);
-}
-.CPR-block.stat {
-  width: 55px;
-  height: 55px;
-  border-bottom: 0;
-}
-.CPR-block.stat p {
-  font-size: 0.8em;
-}
-.CPR-block.stat .stat-values {
-  display: flex;
-}
-.CPR-block.stat .stat-values input {
-  font-size: 1.8em;
-}
-.CPR-block.stat .stat-values .max {
-  font-size: 1.4em;
-}
-.CPR-block.last {
-  border-bottom: solid 4px #d02b23;
-}
-.CPR-block.fit-content {
-  height: fit-content;
-}
-.CPR-block.no-height {
-  height: 100%;
-}
-.CPR-block.resource div {
-  display: flex;
-  justify-content: space-around;
-}
-.CPR-block.resource div input {
-  max-width: 50%;
-  min-width: 50%;
-}
-.CPR-block.resource div span {
-  font-size: 0.85em;
-  text-align: center;
-  width: 100%;
-}
-.CPR-block.expand {
-  height: fit-content;
-  min-height: 60px;
-  z-index: 10;
-}
-app.window-app.sheet.actor {
-  min-width: 840px;
-  min-height: 600px;
-}
-.sheet-content {
-  margin: 5px;
-  display: grid;
-  grid-template-columns: 200px 60px 1fr;
-  grid-template-rows: 30px 165px repeat(5, 65px);
-  grid-template-areas: "image stats tabs " "image stats content " "handle stats content " "role stats content " "hitpoints stats content " "deathsave stats content " "humanity stats content ";
-  grid-column-gap: 5px;
-  grid-row-gap: 5px;
-}
-.sheet-content .image-div {
-  grid-area: image;
-}
-.sheet-content .image-div img {
-  border: 0;
-  outline: 0;
-}
-.sheet-content .handle-div {
-  grid-area: handle;
-}
-.sheet-content .role-div {
-  grid-area: role;
-}
-.sheet-content .hitpoints-div {
-  grid-area: hitpoints;
-}
-.sheet-content .deathsave-div {
-  grid-area: deathsave;
-}
-.sheet-content .humanity-div {
-  grid-area: humanity;
-}
-.sheet-content .tabs-div {
-  grid-area: tabs;
-  box-shadow: 0;
-}
-.sheet-content .tabs-div .navtab {
-  padding: 0;
-  padding: 1px 4px 0 4px;
-  margin-left: 15px;
-  margin-right: 15px;
-  text-align: center;
-}
-.sheet-content .tabs-div .selected {
-  background-color: #231f20;
-  color: #ffffff;
-}
-.sheet-content .stats-div {
-  grid-area: stats;
-}
-.sheet-content .row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 3px;
-  background-color: #ffffff;
-}
-.sheet-content .skills {
-  flex: 50%;
-}
-.sheet-content .skills .skill-name {
-  width: 60%;
-}
-.sheet-content .skills .skill-level,
-.sheet-content .skills .skill-base {
-  width: 10%;
-  text-align: center;
-}
-.sheet-content .inventory {
-  flex: 100%;
-  text-align: center;
-}
-.sheet-content .inventory .action {
-  width: 10%;
-}
-.sheet-content .border-red {
-  border: solid #d02b23 1px;
-}
-.sheet-content .row-header {
-  background: #231f20;
-  color: #ffffff;
-  font-weight: bold;
-}
-.sheet-content .row-section {
-  flex-grow: 1;
-}
-.sheet-content .content {
-  grid-area: content;
-  min-width: 512px;
-}
-.sheet-content .content .tab-block {
-  background-color: #d02b23;
-  display: flex;
+.cpr-block.horizontal {
   flex-direction: row;
+}
+.dynamic-list {
+  display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
 }
+.dynamic-list .row {
+  display: flex;
+  justify-content: stretch;
+  margin: 2px;
+  padding: 2px;
+}
+.dynamic-list .row .section.small {
+  width: 12%;
+}
+.dynamic-list .row .section.grow {
+  flex: 1 0 auto;
+}
+.dynamic-list.skills .row {
+  max-width: 300px;
+}
 .sheet-content input {
-  background: 0;
-  outline: 0;
-  border: 0;
+  font-size: 1em;
+  height: 1em;
+  width: 30px;
+}
+.sheet-content input.text {
+  width: 100%;
+}
+.sheet-content input.number {
+  text-align: center;
+}
+.sheet-content.character .content-container .dynamic-list .row {
+  background-color: #eaeaeaff;
+  color: #231f20;
+  border-radius: 3px;
+}
+.sheet-content.character .content-container .dynamic-list .row.header {
+  background-color: #231f20;
+  color: #eaeaeaff;
 }
 form .item-desc-body {
   display: flex;
@@ -283,23 +169,4 @@ form .item-name {
 }
 form input.number {
   width: 30px;
-}
-:root {
-  font-family: 'Ubuntu Mono', monospace;
-  font-size: 10px;
-  color: #231f20;
-  --main-bg-color: #ffffff;
-}
-.window-app .window-content {
-  background: #ffffff;
-}
-.editor {
-  height: 100%;
-}
-.editor .tox-toolbar-overlord,
-.editor .tox-toolbar__primary {
-  background: none;
-}
-.content {
-  overflow-y: scroll;
 }

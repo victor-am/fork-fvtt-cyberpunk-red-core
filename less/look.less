@@ -1,0 +1,72 @@
+.sheet-content {
+  
+  // individual elements
+  input {
+    font-size: 1em;
+    height: 1em;
+    width: 30px;
+
+    &.text {
+      width: 100%;
+    }
+
+    &.number {
+      text-align: center;
+    }
+  }
+
+  &.character {
+    
+    .image-container {}
+
+    .main-container {}
+
+    .stats-container {}
+
+    .nav-container {}
+
+    .combat-container {}
+
+    // Stylng for individual content tabs
+    .content-container {
+
+      .dynamic-list {
+
+        .row {
+          background-color: @chrome-white;
+          color: @raisin-black;
+          border-radius: 3px;
+          &.header {
+            background-color: @raisin-black;
+            color: @chrome-white;
+          }
+
+          .section {
+
+            &.small {
+            }
+          }
+        }
+
+        &.skills {
+          .row {
+          }
+        }
+      }
+    }
+  }
+
+  &.mook {
+    //TODO
+  }
+}
+
+// Main block element
+.cpr-block {
+  &.horizontal {}
+}
+
+// Dynamic Lists
+.dynamic-list {
+  .row {}
+}
