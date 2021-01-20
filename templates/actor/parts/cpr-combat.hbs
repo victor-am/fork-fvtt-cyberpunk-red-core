@@ -1,10 +1,9 @@
 {{log "CPR-COMBAT.HBS"}}
-<div class="tab-block">
-  <div>
-    <h1>Weapons</h1>
-    <table>
+  <div class="weapons">
+    <div class=" bold black-bg white-fg larger-text center-text">Weapons</div>
+    <table class="dynamic-list">
       {{#each actor.filteredItems.weapon as |weapon|}}
-      <tr class="item row">
+      <tr class="item row ">
         {{#if (eq weapon.data.equippable.equipped "equipped")}}
         <div style="display: flex; justify-content: space-between">
           <td><span>{{weapon.name}}</span></td>
@@ -38,8 +37,11 @@
       {{/each}}
     </table>
   </div>
-  <div>
-    <h1>Armor</h1>
+
+
+
+  <div class="armor">
+    <div class=" bold black-bg white-fg larger-text center-text">Armor</div>
     <table>
       {{#each actor.filteredItems.armor as |armor| }}
       {{#if (eq armor.data.equippable.equipped "equipped")}}
@@ -55,8 +57,11 @@
       {{/each}}
     </table>
   </div>
-  <div>
-    <h1>Combat Skills</h1>
+
+
+
+  <div class="combat-skills">
+    <div class=" bold black-bg white-fg larger-text center-text">Combat Skills</div>
     <table>
       {{!-- Default Skill Rolls --}}
       {{!-- Skills to show actions for --}}
@@ -68,5 +73,4 @@
       </tr>
     </table>
   </div>
-</div>
 {{log "END CPR-COMBAT.HBS"}}

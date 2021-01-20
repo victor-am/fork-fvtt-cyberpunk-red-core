@@ -33,7 +33,7 @@
 ---------------------*/
 .app.window-app.sheet.sheet.actor {
   min-width: 600px;
-  min-height: 770px;
+  min-height: 870px;
 }
 .app.window-app.sheet.sheet.actor .window-resizable-handle {
   z-index: 10;
@@ -57,7 +57,7 @@
 .sheet-content.character {
   display: grid;
   grid-template-columns: 200px 50px 1fr;
-  grid-template-rows: 30px 165px minmax(300px, 1fr) 200px;
+  grid-template-rows: 20px 175px minmax(300px, 1fr) 300px;
   grid-template-areas: "image stats nav" "image stats content" "main stats content" "combat combat combat";
   grid-gap: 5px;
 }
@@ -80,15 +80,7 @@
   grid-area: nav;
 }
 .sheet-content.character .nav-container nav {
-  display: flex;
-  flex: 1 0 auto;
-}
-.sheet-content.character .nav-container nav .navtab:hover {
-  text-shadow: none;
-}
-.sheet-content.character .nav-container nav .navtab.active {
-  color: #eaeaeaff;
-  background: #b90202ff;
+  height: 20px;
 }
 .sheet-content.character .content-container {
   grid-area: content;
@@ -99,6 +91,24 @@
 .sheet-content.character .combat-container {
   grid-area: combat;
   z-index: 5;
+}
+.sheet-content.character .combat-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: "critical weapons" "armor skills";
+}
+.sheet-content.character .combat-container .armor {
+  grid-area: armor;
+}
+.sheet-content.character .combat-container .weapons {
+  grid-area: weapons;
+}
+.sheet-content.character .combat-container .combat-skills {
+  grid-area: skills;
+}
+.sheet-content.character .combat-container .critical-injuries {
+  grid-area: critical;
 }
 .sheet-content.character .content-container {
   overflow: scroll;
@@ -175,16 +185,6 @@
   top: 4px;
   left: 4px;
 }
-.cpr-block.nav {
-  height: 30px;
-}
-.cpr-block.nav::before {
-  position: absolute;
-  height: 22px;
-  width: calc(100% - 8px);
-  top: 4px;
-  left: 4px;
-}
 .cpr-block.horizontal {
   flex-direction: row;
 }
@@ -249,6 +249,35 @@
   font-size: 14px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-variant: small-caps;
+}
+.sheet-content .navtab.active {
+  background-color: #ffff3fff;
+  color: #2d2f2fff;
+}
+.sheet-content .navtab:hover {
+  text-shadow: none;
+}
+/*--------------------
+  cpr-block element styling
+---------------------*/
+.cpr-block {
+  background-color: #b90202ff;
+  clip-path: polygon(0 15px, 0 100%, 100% 100%, 100% 0, 15px 0);
+}
+.cpr-block::before {
+  content: "";
+  background-color: #eaeaeaff;
+  clip-path: polygon(0 14px, 0 100%, 100% 100%, 100% 0, 14px 0);
+  z-index: -1;
+}
+.cpr-block.stat {
+  clip-path: polygon(0 16px, 0 100%, 100% 100%, 100% 0, 16px 0);
+}
+.cpr-block.stat .title {
+  font-size: 0.8em;
+}
+.cpr-block.image img {
+  clip-path: polygon(0 14px, 0 100%, 100% 100%, 100% 0, 14px 0);
 }
 /*--------------------
   Color modifiers
@@ -321,28 +350,6 @@
 }
 .bold {
   font-weight: bold;
-}
-/*--------------------
-  cpr-block element styling
----------------------*/
-.cpr-block {
-  background-color: #b90202ff;
-  clip-path: polygon(0 15px, 0 100%, 100% 100%, 100% 0, 15px 0);
-}
-.cpr-block::before {
-  content: "";
-  background-color: #eaeaeaff;
-  clip-path: polygon(0 14px, 0 100%, 100% 100%, 100% 0, 14px 0);
-  z-index: -1;
-}
-.cpr-block.stat {
-  clip-path: polygon(0 16px, 0 100%, 100% 100%, 100% 0, 16px 0);
-}
-.cpr-block.stat .title {
-  font-size: 0.8em;
-}
-.cpr-block.image img {
-  clip-path: polygon(0 14px, 0 100%, 100% 100%, 100% 0, 14px 0);
 }
 form .item-desc-body {
   display: flex;

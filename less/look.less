@@ -11,6 +11,64 @@
   font-size: 14px;
   font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-variant: small-caps;
+
+  .navtab {
+    &.active {
+      background-color: @chip-in-yellow;
+      color: @flint-black;
+    }
+
+    &:hover {
+      text-shadow: none;
+    }
+  }
+}
+
+/*--------------------
+  cpr-block element styling
+---------------------*/
+.cpr-block {
+  background-color: @wyrm-red;
+  clip-path: polygon(0 15px,
+      0 100%,
+      100% 100%,
+      100% 0,
+      15px 0);
+
+  &::before {
+    content: "";
+    background-color: @chrome-white;
+    clip-path: polygon(0 14px,
+        0 100%,
+        100% 100%,
+        100% 0,
+        14px 0);
+    z-index: -1;
+  }
+
+  // Modifiers
+  &.stat {
+    clip-path: polygon(0 16px,
+        0 100%,
+        100% 100%,
+        100% 0,
+        16px 0);
+
+    .title {
+      font-size: 0.8em;
+    }
+
+  }
+
+  &.image {
+    img {
+      clip-path: polygon(0 14px,
+          0 100%,
+          100% 100%,
+          100% 0,
+          14px 0);
+    }
+  }
 }
 
 /*--------------------
@@ -88,55 +146,5 @@
   font-weight: bold;
 }
 
-/*--------------------
-  cpr-block element styling
----------------------*/
-.cpr-block {
-  background-color: @wyrm-red;
-  clip-path: polygon(
-    0 15px,
-    0 100%,
-    100% 100%,
-    100% 0,
-    15px 0 
-  );
-  &::before {
-    content: "";
-    background-color: @chrome-white;
-    clip-path: polygon(
-      0 14px,
-      0 100%,
-      100% 100%,
-      100% 0,
-      14px 0);
-      z-index: -1;
-  }
 
-  // Modifiers
-  &.stat {
-    clip-path: polygon(
-      0 16px,
-      0 100%,
-      100% 100%,
-      100% 0,
-      16px 0
-    );
-    .title {
-      font-size: 0.8em;
-    }
-    
-  }
-
-  &.image {
-    img {
-      clip-path: polygon(
-        0 14px,
-        0 100%,
-        100% 100%,
-        100% 0,
-        14px 0
-      );
-    }
-  }
-}
 

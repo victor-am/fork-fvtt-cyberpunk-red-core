@@ -4,7 +4,7 @@
 .app.window-app.sheet.sheet.actor {
   // minimum window size
   min-width: 600px;
-  min-height: 770px;
+  min-height: 870px;
   
   // pull resize handle further forwards
   .window-resizable-handle {
@@ -37,7 +37,7 @@
     display: grid;
     grid-template-columns: 200px 50px 1fr;
     grid-template-rows:
-      30px 165px minmax(300px, 1fr) 200px;
+      20px 175px minmax(300px, 1fr) 300px;
     grid-template-areas:
       "image stats nav"
       "image stats content"
@@ -67,17 +67,8 @@
     .nav-container {
       grid-area: nav;
       nav {
-        display: flex;
-        flex: 1 0 auto;
-        .navtab {
-          &:hover {
-            text-shadow: none;
-          }
-          &.active {
-            color: @chrome-white;
-            background: @wyrm-red;
-          }
-        }
+        height: 20px;
+        
       }
     }
 
@@ -103,11 +94,31 @@
     .stats-container {}
 
     // Nav layout
-    .nav-container {}
+    .nav-container {
+     
+    }
 
     // Combat layout
     .combat-container {
-      
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      grid-template-areas: 
+        "critical weapons"
+        "armor skills"
+      ;
+      .armor {
+        grid-area: armor;
+      }
+      .weapons {
+        grid-area: weapons;
+      }
+      .combat-skills {
+        grid-area: skills
+      }
+      .critical-injuries {
+        grid-area: critical;
+      }
     }
 
     .content-container {
@@ -193,17 +204,6 @@
       position: absolute;
       height: 192px;
       width: 192px;
-      top: 4px;
-      left: 4px;
-    }
-  }
-
-  &.nav {
-    height: 30px;
-    &::before {
-      position: absolute;
-      height: 22px;
-      width: calc(100% - 8px);
       top: 4px;
       left: 4px;
     }
