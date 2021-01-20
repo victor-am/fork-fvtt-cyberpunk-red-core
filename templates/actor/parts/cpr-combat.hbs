@@ -1,7 +1,7 @@
 {{log "CPR-COMBAT.HBS"}}
 <div class="tab-block">
    <div>
-      <h1>Weapons</h1>
+      <h1>{{localize "CPR.weapons"}}</h1>
       <table>
          {{#each actor.filteredItems.weapon as |weapon|}}
          <tr class="item row">
@@ -35,7 +35,7 @@
       </table>
    </div>
    <div>
-      <h1>Armor</h1>
+      <h1>{{localize "CPR.armor"}}</h1>
       <table>
          {{#each actor.filteredItems.armor as |armor| }}
          {{#if (eq armor.data.equippable.equipped "equipped")}}
