@@ -52,7 +52,6 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("findConfigObj", (obj) => {
     LOGGER.trace(`Calling findConfigObj Helper | Arg1:${obj}`);
-
     if (obj in CPR) {
       return CPR[obj];
     }
