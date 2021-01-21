@@ -400,7 +400,7 @@
   font-size: 1.8em;
 }
 .massive-text {
-  font-size: 3em;
+  font-size: 4em;
 }
 .center-text {
   text-align: center;
@@ -468,10 +468,28 @@ form .item-name {
   background: #eaeaeaff;
 }
 .rollcard-body {
-  font-size: 18px;
+  font-size: 16px;
+  font-variant: small-caps;
   display: grid;
+  padding: 15px;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(6, 1fr);
+  grid-template-areas: "dice dice dice info info info" "dice dice dice info info info" "dice dice dice info info info" "dice dice dice info info info" "dice dice dice total total total" "dice dice dice total total total";
+}
+.rollcard-body .dice-div {
+  grid-area: dice;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.rollcard-body .total-div {
+  grid-area: total;
+}
+.rollcard-body .info-div {
+  grid-area: info;
+  display: flex;
+  flex-direction: column;
 }
 form input.number {
   width: 30px;
