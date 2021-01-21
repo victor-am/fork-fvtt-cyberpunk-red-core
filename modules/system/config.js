@@ -199,7 +199,7 @@ CPR.inventoryCategories = {
 
 //
 CPR.cyberwareTypeList = {
-  cyberAudioSuite": "CPR.cyberaudiosuite",
+  cyberAudioSuite: "CPR.cyberaudiosuite",
   cyberEye: "CPR.cybereye",
   cyberArm: "CPR.cyberarm",
   cyberLeg: "CPR.cyberleg",
