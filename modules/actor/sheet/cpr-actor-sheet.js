@@ -2,12 +2,10 @@
 /* global mergeObject, $, setProperty, game */
 /* eslint no-prototype-builtins: ["warn"] */
 import LOGGER from "../../utils/cpr-logger.js";
-import CPRSystemUtils from "../../utils/cpr-systemUtils.js";
 import CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
-import CPRRollResult from "../../rolls/cpr-roll-result.js";
 import CPRRollRequest from "../../rolls/cpr-roll-request.js";
-import VerifyRollPrompt from "../../dialog/cpr-verify-roll-prompt.js";
+import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
 import CPRChat from "../../chat/cpr-chat.js";
 import Rules from "../../utils/cpr-rules.js";
 import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js";
@@ -139,7 +137,9 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Handle skipping of the user verification step
     if (!event.ctrlKey) {
-      rollRequest = await VerifyRollPrompt(rollRequest);
+      // TODO - Charles save us....
+      const formData = await VerifyRoll.RenderVerifyRollPrompt(rollRequest);
+      mergeObject(rollRequest, formData, { overwrite: true });
     }
 
     // TODO - Is this ideal for handling breaking out of the roll on cancel from verifyRollPrompt
@@ -150,13 +150,13 @@ export default class CPRActorSheet extends ActorSheet {
 
     // State changes?
     // ?? Why more attack stuff?
-    if (rollRequest.rollType === "attack") {
-      const weaponId = $(event.currentTarget).attr("data-item-id");
-      const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
-      if (weaponItem.data.data.isRanged) {
-        weaponItem.fireWeapon(rollRequest.fireMode);
-      }
-    }
+    // if (rollRequest.rollType === "attack") {
+    //   const weaponId = $(event.currentTarget).attr("data-item-id");
+    //   const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
+    //   if (rollRequest.isRanged) {
+    //     // weaponItem.fireWeapon(rollRequest.fireMode);
+    //   }
+    // }
 
     // Damage
     // CPRChat.RenderRollCard(CPRRolls.HandleRoll(rollRequest));
@@ -226,12 +226,12 @@ export default class CPRActorSheet extends ActorSheet {
 
     // if char owns relevant skill, get skill value, else assign None: 0
     const skillItem = this.actor.items.find((i) => i.name === weaponItem.getData().weaponSkill);
-    if (skillId == null) {
-      rollRequest.skillValue = 0;
-      rollRequest.skill = "None";
-    } else {
+    if (skillItem) {
       rollRequest.skillValue = skillItem.getData().level;
       rollRequest.skill = skillItem.getData().name;
+    } else {
+      rollRequest.skillValue = 0;
+      rollRequest.skill = "None";
     }
     LOGGER.trace(`Actor _prepareRollAttack | rolling attack | skillName: ${skillItem.name} skillValue: ${rollRequest.skillValue} statValue: ${rollRequest.statValue}`);
   }
