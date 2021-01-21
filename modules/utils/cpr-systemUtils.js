@@ -1,30 +1,29 @@
+/* global game, ui */
 import LOGGER from "./cpr-logger.js";
 
 export default class CPRSystemUtils {
   static async GetCoreSkills() {
-    LOGGER.trace(`CPRSystemUtils GetCoreSkills | CPRSystemUtils | called.`);
+    LOGGER.trace("CPRSystemUtils GetCoreSkills | CPRSystemUtils | called.");
     // grab basic skills from compendium
     const pack = game.packs.get("cyberpunk-red-core.skills");
     // put into basickSkills array
-    let content = await pack.getContent();
+    const content = await pack.getContent();
     return content;
   }
 
   static async DisplayMessage(msgType, msg) {
-    let localizedMessage = game.i18n.localize(msg);
+    const localizedMessage = game.i18n.localize(msg);
     switch (msgType) {
-      case "warn": {
+      case "warn":
         ui.notifications.warn(localizedMessage);
         break;
-      }
-      case "error": {
+      case "error":
         ui.notifications.error(localizedMessage);
         break;
-      }
-      case "notify": {
+      case "notify":
         ui.notifications.notify(localizedMessage);
         break;
-      }
+      default:
     }
   }
 }

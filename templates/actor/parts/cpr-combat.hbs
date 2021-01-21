@@ -1,6 +1,6 @@
 {{log "CPR-COMBAT.HBS"}}
 <div class="weapons">
-  <div class=" bold black-bg white-fg larger-text center-text">Weapons</div>
+  <div class=" bold black-bg white-fg larger-text center-text">{{localize "CPR.weapons"}}</div>
   <div class="dynamic-list">
     {{#each actor.filteredItems.weapon as |weapon|}}
     <div class="item row" data-item-id={{weapon._id}}>
@@ -34,7 +34,7 @@
 
 
 <div class="armor">
-  <div class=" bold black-bg white-fg larger-text center-text">Armor</div>
+  <div class=" bold black-bg white-fg larger-text center-text">{{localize "CPR.armor"}}</div>
   {{#each actor.filteredItems.armor as |armor| }}
   {{#if (eq armor.data.equippable.equipped "equipped")}}
   <div class="item row">
