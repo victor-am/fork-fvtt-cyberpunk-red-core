@@ -5,5 +5,5 @@ export default class Rules {
     if (!rule) {
       CPRSystemUtils.DisplayMessage("warn", msg);
     }
-  };
-};
+  }
+}
