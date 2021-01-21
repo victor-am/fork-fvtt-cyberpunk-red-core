@@ -1,11 +1,11 @@
 {{log "CPR-ARMOR-INV-CONTENT.HBS"}}
 <div class="row row-section item inventory" data-item-id={{this._id}}>
-    <span class="name"><a class="name">
-            {{this.name}}</a>
+    <div class="row-section name text-align-left">
+        <a class="name">{{this.name}}</a>
         <a class="item-edit"><i class="fas fa-edit"></i></a>
         <a class="item-delete"><i class="fas fa-trash-alt"></i></a>
-    </span>
-    <span class="inventory-center">
+    </div>
+    <div class="row-section data text-align-left">
         {{#if this.data.isHeadLocation}}
         <span></span>Head SP/Ablation: {{this.data.headLocation.sp}}/{{this.data.headLocation.ablation}}</span>
         {{/if}}
@@ -13,11 +13,10 @@
         <span></span>Body SP/Ablation: {{this.data.bodyLocation.sp}}/{{this.data.bodyLocation.ablation}}</span>
         {{/if}}
         
-    </span>
-    <span class="inventory-center"></span>
-    <span class="inventory-center">
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-equip-glyph.hbs"}}
+    </div>
+    <div class="row-section action text-align-right">
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-repair-glyph.hbs"}}
-    </span>
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-equip-glyph.hbs"}}
+    </div>
 </div>
 {{log "END CPR-ARMOR-INV-CONTENT.HBS"}}
