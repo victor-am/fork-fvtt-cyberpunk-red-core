@@ -103,7 +103,36 @@
 
       {{#if wasCritical}}
         {{!-- die image for criticalRoll --}}
-        <i class="d10 one"></i>
+        {{#if (eq criticalRoll 1)}}
+        <i class="d10 one black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll 2)}}
+        <i class="d10 two black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll 3)}}
+        <i class="d10 three black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll 4)}}
+        <i class="d10 four black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll 5)}}
+        <i class="d10 five black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll 6)}}
+        <i class="d10 six black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll 7)}}
+        <i class="d10 seven black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll 8)}}
+        <i class="d10 eight black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll 9)}}
+        <i class="d10 nine black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll 10)}}
+        <i class="d10 ten black"></i>
+        {{/if}}
       {{/if}}
     </div>
 
