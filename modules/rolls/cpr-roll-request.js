@@ -1,23 +1,22 @@
+/* eslint-disable no-undef */
 export default class CPRRollRequest {
-  constructor() {
+  constructor(event) {
     this.user = null;
-    // To change the flow of _onRoll()
-    this.rollTitle = "";
-    this.rollType = "";
+    this.rollTitle = $(event.currentTarget).attr("data-roll-title");
+    this.rollType = $(event.currentTarget).attr("data-roll-type");
     this.calculateCritical = true;
+    this.stat = "";
     this.statValue = 0;
+    this.skill = "";
     this.skillValue = 0;
+    this.roleAbility = "";
     this.roleAbilityValue = 0;
     this.mods = [];
-    // FUTURE PROOFING, NOT IN USE
-    this.shouldAblate = true;
-    this.ignoreSP = 0;
-    this.fireMode = "";
     this.isAimed = false;
     this.location = "body";
-    this.isRanged = true;
+    this.isRanged = false;
+    this.fireMode = "single";
     this.weaponType = "";
-    this.user = null;
     this.debug = false;
   }
 }

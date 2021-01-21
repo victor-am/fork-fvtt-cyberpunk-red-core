@@ -1,7 +1,6 @@
 /* global Roll, mergeObject */
 import LOGGER from "../utils/cpr-logger.js";
-import CPRBaseRollResult from "./cpr-baseroll-result.js";
-import CPRDamageRollResult from "./cpr-dmgroll-result.js";
+import CPRRollResult from "./cpr-roll-result.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 
 // RollRequest (per type)
@@ -28,7 +27,7 @@ export default class CPRRolls {
     LOGGER.trace(`Calling baseRoll | Dice BaseRoll | Stat:${rollRequest.statValue} SkillLevel:${rollRequest.skillValue}, Mods:${rollRequest.mods}, CalculateCritical:${rollRequest.calculateCritical}`);
 
     // TODO- Verify use of mergeObject.
-    const rollResult = new CPRBaseRollResult();
+    const rollResult = new CPRRollResult();
     mergeObject(rollResult, rollRequest, { overwrite: true });
     rollResult.initialRoll = this.CPRRoll("1d10").total;
 
@@ -70,7 +69,7 @@ export default class CPRRolls {
   static DamageRoll(rollRequest) {
     LOGGER.trace(`Calling DamageRoll | Dice DamageRoll | RollFormula:${rollRequest.formula} Location: ${rollRequest.location}`);
 
-    const rollResult = new CPRDamageRollResult();
+    const rollResult = new CPRRollResult();
     mergeObject(rollResult, rollRequest, { overwrite: true });
 
     // create roll and show Dice So Nice!
