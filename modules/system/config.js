@@ -199,15 +199,15 @@ CPR.inventoryCategories = {
 
 //
 CPR.cyberwareTypeList = {
-  "cyberAudioSuite": "CPR.cyberaudiosuite",
-  "cyberEye": "CPR.cybereye",
-  "cyberArm": "CPR.cyberarm",
-  "cyberLeg": "CPR.cyberleg",
-  "neuralLink": "CPR.neurallink",
-  "cyberwareInternal": "CPR.cyberwareinternal",
-  "cyberwareExternal": "CPR.cyberwareexternal",
-  "fashionware": "CPR.fashionware",
-  "borgware": "CPR.borgware",
+  cyberAudioSuite": "CPR.cyberaudiosuite",
+  cyberEye: "CPR.cybereye",
+  cyberArm: "CPR.cyberarm",
+  cyberLeg: "CPR.cyberleg",
+  neuralLink: "CPR.neurallink",
+  cyberwareInternal: "CPR.cyberwareinternal",
+  cyberwareExternal: "CPR.cyberwareexternal",
+  fashionware: "CPR.fashionware",
+  borgware: "CPR.borgware",
 };
 
 CPR.cyberwareInstallList = {
