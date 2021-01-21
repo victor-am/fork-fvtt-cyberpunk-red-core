@@ -148,8 +148,8 @@
   padding: 6px;
   &::before {
     position: absolute;
-    height: 52px;
-    width: 192px;
+    height: calc(100% - 8px);
+    width: calc(100% - 8px);
     top: 4px;
     left: 4px;
   }
@@ -169,37 +169,6 @@
     display: flex;
     justify-content: space-around;
     flex: 0;
-    .sixteenth {
-      width: 6.25%;
-    }
-
-    .eighth {
-      width: 12.5%;
-    }
-
-    .sixth {
-      width: calc(100% / 6)
-    }
-
-    .quarter {
-      width: 25%;
-    }
-
-    .third {
-      width: calc(100% / 3);
-    }
-
-    .half {
-      width: 50%;
-    }
-
-    .grow {
-      flex: 1 0 auto;
-    }
-
-    .no-grow {
-      flex-grow: 0;
-    }
   }
 
   .select {
@@ -245,6 +214,14 @@
     flex-direction: row;
   }
 
+  &.half-height {
+    height: 50%;
+  }
+
+  &.rollcard {
+    height: 200px;
+    margin-top: 5px;
+  }
 }
 
 /*--------------------
@@ -292,44 +269,46 @@
       justify-content: flex-end;
     }
 
-    .section {
-      flex: 1 0 auto;
-
-      &.sixteenth {
-        width: 6.25%;
-      }
-
-      &.eighth {
-        width: 12.5%;
-      }
-
-      &.sixth {
-        width: calc(100% / 6)
-      }
-
-      &.quarter {
-        width: 25%;
-      }
-
-      &.third {
-        width: calc(100% / 3);
-      }
-
-      &.half {
-        width: 50%;
-      }
-
-      &.grow {
-        flex: 1 0 auto;
-      }
-
-      &.no-grow {
-        flex-grow: 0;
-      }
-    }
-
     &.hide {
       display: none;
     }
+  }
+}
+
+.width- {
+  display: flex;
+  justify-content: space-around;
+  flex: 0;
+
+  &sixteenth {
+    width: 6.25%;
+  }
+
+  &eighth {
+    width: 12.5%;
+  }
+
+  &sixth {
+    width: calc(100% / 6)
+  }
+
+  &quarter {
+    width: 25%;
+  }
+
+  &third {
+    width: calc(100% / 3);
+  }
+
+  &half {
+    width: 50%;
+  }
+
+  &grow {
+    flex: 1 0 auto;
+  }
+
+  &no-grow {
+    flex-grow: 0;
   }
 }

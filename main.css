@@ -132,8 +132,8 @@
 }
 .cpr-block::before {
   position: absolute;
-  height: 52px;
-  width: 192px;
+  height: calc(100% - 8px);
+  width: calc(100% - 8px);
   top: 4px;
   left: 4px;
 }
@@ -150,30 +150,6 @@
   display: flex;
   justify-content: space-around;
   flex: 0;
-}
-.cpr-block .content .sixteenth {
-  width: 6.25%;
-}
-.cpr-block .content .eighth {
-  width: 12.5%;
-}
-.cpr-block .content .sixth {
-  width: calc(100% / 6);
-}
-.cpr-block .content .quarter {
-  width: 25%;
-}
-.cpr-block .content .third {
-  width: calc(100% / 3);
-}
-.cpr-block .content .half {
-  width: 50%;
-}
-.cpr-block .content .grow {
-  flex: 1 0 auto;
-}
-.cpr-block .content .no-grow {
-  flex-grow: 0;
 }
 .cpr-block .select {
   background: transparent;
@@ -212,6 +188,13 @@
 }
 .cpr-block.horizontal {
   flex-direction: row;
+}
+.cpr-block.half-height {
+  height: 50%;
+}
+.cpr-block.rollcard {
+  height: 200px;
+  margin-top: 5px;
 }
 /*--------------------
   Dynamic Lists
@@ -253,35 +236,37 @@
 .dynamic-list .row.flex-end {
   justify-content: flex-end;
 }
-.dynamic-list .row .section {
-  flex: 1 0 auto;
-}
-.dynamic-list .row .section.sixteenth {
-  width: 6.25%;
-}
-.dynamic-list .row .section.eighth {
-  width: 12.5%;
-}
-.dynamic-list .row .section.sixth {
-  width: calc(100% / 6);
-}
-.dynamic-list .row .section.quarter {
-  width: 25%;
-}
-.dynamic-list .row .section.third {
-  width: calc(100% / 3);
-}
-.dynamic-list .row .section.half {
-  width: 50%;
-}
-.dynamic-list .row .section.grow {
-  flex: 1 0 auto;
-}
-.dynamic-list .row .section.no-grow {
-  flex-grow: 0;
-}
 .dynamic-list .row.hide {
   display: none;
+}
+.width- {
+  display: flex;
+  justify-content: space-around;
+  flex: 0;
+}
+.width-sixteenth {
+  width: 6.25%;
+}
+.width-eighth {
+  width: 12.5%;
+}
+.width-sixth {
+  width: calc(100% / 6);
+}
+.width-quarter {
+  width: 25%;
+}
+.width-third {
+  width: calc(100% / 3);
+}
+.width-half {
+  width: 50%;
+}
+.width-grow {
+  flex: 1 0 auto;
+}
+.width-no-grow {
+  flex-grow: 0;
 }
 /*--------------------
   Globals and tweaks
@@ -312,15 +297,6 @@
   text-shadow: none;
   text-shadow: 0px 0px 5px #13ebf3ff;
 }
-.sheet-content .fa-smile {
-  color: #53dd6c;
-}
-.sheet-content .fa-meh {
-  color: orange;
-}
-.sheet-content .fa-frown {
-  color: #b90202ff;
-}
 /*--------------------
   cpr-block element styling
 ---------------------*/
@@ -348,7 +324,7 @@
   transform: rotate(-90deg);
   color: #eaeaeaff;
   font-size: 0.5em;
-  left: 44%;
+  left: 43.5%;
   top: 65%;
 }
 .cpr-block.stat {
@@ -423,6 +399,9 @@
 .largest-text {
   font-size: 1.8em;
 }
+.massive-text {
+  font-size: 3em;
+}
 .center-text {
   text-align: center;
 }
@@ -431,6 +410,22 @@
 }
 .bold {
   font-weight: bold;
+}
+/*--------------------
+  FA Glyph  modifiers
+---------------------*/
+.fa-smile {
+  color: #53dd6c;
+}
+.fa-meh {
+  color: orange;
+}
+.fa-frown {
+  color: #b90202ff;
+}
+[class^="fas fa-dice"] {
+  color: #b90202ff;
+  font-size: 2em;
 }
 form .item-desc-body {
   display: flex;
@@ -469,23 +464,14 @@ form .item-name {
   font-size: 24pt;
   flex-grow: 2;
 }
-.chat-rollCard .chat-rollTitle-stat {
-  text-transform: capitalize;
+.chat-message.message.flexcol {
+  background: #eaeaeaff;
 }
-.chat-rollCard .chat-rollTotal {
-  font-weight: bold;
-}
-.chat-rollCard tr {
-  vertical-align: top;
-}
-.chat-rollCard td {
-  width: 50%;
-}
-.chat-rollCard td .chat-rollResult {
-  text-align: center;
-}
-.chat-rollCard h1 {
-  border-bottom: none;
+.rollcard-body {
+  font-size: 18px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
 }
 form input.number {
   width: 30px;

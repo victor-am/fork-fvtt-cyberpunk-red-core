@@ -1,20 +1,10 @@
-.chat-rollCard {
-  .chat-rollTitle-stat {
-    text-transform: capitalize;
-  }
-  .chat-rollTotal {
-      font-weight: bold;
-  }
-  tr {
-      vertical-align: top;
-  }
-  td {
-      width: 50%;
-      .chat-rollResult{
-          text-align: center;
-      }
-  }
-  h1 {
-      border-bottom: none;
-  }
+.chat-message.message.flexcol {
+  background: @chrome-white;
+}
+
+.rollcard-body {
+  font-size: 18px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
 }
