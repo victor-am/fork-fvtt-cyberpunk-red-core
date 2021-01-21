@@ -99,17 +99,17 @@ export default class CPRActorSheet extends ActorSheet {
     );
 
     // hide skills by category on clicking header
-    html.find(".skills .header").click(event => {
-      let header = $(event.currentTarget);
-      let category = header.attr("data-skill-category-name");
-      for (let i of html.find(".row.skill")) {
+    html.find(".skills .header").click((event) => {
+      const header = $(event.currentTarget);
+      const category = header.attr("data-skill-category-name");
+      for (const i of html.find(".row.skill")) {
         if (i.attributes[2].nodeValue === category) {
-          i.classList.contains("hide") ? i.classList.remove("hide") : i.classList.add("hide")
-        };
+          i.classList.contains("hide") ? i.classList.remove("hide") : i.classList.add("hide");
+        }
       }
     });
 
-    //TODO make this better
+    // TODO make this better
     // force columns to adjust every click because I can't find an _onReload method...
     $(window).click(this._adjustColumns());
   }
@@ -402,7 +402,6 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _updateOwnedItemProp | Called.");
     this.actor.updateEmbeddedEntity("OwnedItem", item.data);
     this._adjustColumns();
-
   }
 
   _renderItemCard(event) {
@@ -536,30 +535,26 @@ export default class CPRActorSheet extends ActorSheet {
     rollRequest.weaponType = weaponType;
   }
 
-
   // adjust dynamic list columns based on width of container
   _adjustColumns() {
     LOGGER.debug("adjusting columns");
-    let container = $(".dynamic-list.skills");
-    let currentWidth = container.innerWidth();
-    let currentSetting = container[0].classList[2];
+    const container = $(".dynamic-list.skills");
+    const currentWidth = container.innerWidth();
+    const currentSetting = container[0].classList[2];
     if (currentWidth < 640) {
       container.removeClass(currentSetting);
       container.addClass("col-1");
-    }
-    else if (currentWidth >= 640 && currentWidth < 960) {
+    } else if (currentWidth >= 640 && currentWidth < 960) {
       container.removeClass(currentSetting);
       container.addClass("col-2");
-    }
-    else if (currentWidth >= 960 && currentWidth < 1280) {
+    } else if (currentWidth >= 960 && currentWidth < 1280) {
       container.removeClass(currentSetting);
       container.addClass("col-3");
-    }
-    else {
+    } else {
       container.removeClass(currentSetting);
       container.addClass("col-4");
-    };
-    LOGGER.debug("columns adjusted")
+    }
+    LOGGER.debug("columns adjusted");
   }
 
   /** @override */
