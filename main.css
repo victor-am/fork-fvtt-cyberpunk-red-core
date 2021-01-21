@@ -284,6 +284,19 @@
   border: 4px solid #b90202ff;
   padding: 5px;
 }
+.sheet-content a:hover {
+  text-shadow: none;
+  text-shadow: 0px 0px 5px #13ebf3ff;
+}
+.sheet-content .fa-smile {
+  color: #53dd6c;
+}
+.sheet-content .fa-meh {
+  color: orange;
+}
+.sheet-content .fa-frown {
+  color: #b90202ff;
+}
 /*--------------------
   cpr-block element styling
 ---------------------*/

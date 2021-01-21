@@ -5,7 +5,10 @@
   </div>
   <div class="content larger-text center-text">
     {{log this}}
-    <span style="font-size: 12px; flex-basis: 50%">{{localize (findConfigValue "woundState" this.data.woundState.currentWoundState)}}</span>
+    {{!-- <span>{{localize (findConfigValue "woundState" this.data.woundState.currentWoundState)}}</span> --}}
+    {{#with this.data.woundState.currentWoundState as |state| }}
+    <i class="large-text fas fa-{{#if (eq state "notWounded")}}smile{{/if}}{{#if (eq state "lightlyWounded")}}meh{{/if}}{{#if (eq state "seriouslyWounded")}}frown{{/if}}{{#if (eq state "mortallyWounded")}}skull{{/if}}"></i>
+    {{/with}}
     <input name="data.derivedStats.deathSave" type="number" value="{{data.derivedStats.deathSave}}" data-dtype="Number" style="flex-basis: 50%;  " />
   </div>
 </div>
