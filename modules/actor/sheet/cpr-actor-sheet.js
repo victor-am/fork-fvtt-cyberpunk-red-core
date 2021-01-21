@@ -475,10 +475,12 @@ export default class CPRActorSheet extends ActorSheet {
   _prepareRollSkill(rollRequest, itemId) {
     LOGGER.trace(`ActorID _prepareRollSkill | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
     const item = this._getOwnedItem(itemId);
-
+    console.log(item)
+    rollRequest.statName = item.data.data.stat;
     rollRequest.statValue = this.getData().data.stats[
       item.data.data.stat
     ].value;
+    rollRequest.skillName = item.data.name;
     rollRequest.skillValue = item.data.data.level;
 
     rollRequest.mods.push(this._getArmorPenaltyMods(item.data.data.stat));
@@ -504,10 +506,13 @@ export default class CPRActorSheet extends ActorSheet {
     const { isRanged } = weaponItem.data.data;
     const { weaponSkill } = weaponItem.data.data;
     const skillId = this.actor.items.find((i) => i.name === weaponSkill);
+    rollRequest.skillName = weaponSkill;
     rollRequest.statValue = this.getData().data.stats.dex.value;
+    rollRequest.statName = "dex";
     // if weapon is ranged, change stat to ref
     if (isRanged === "true") {
       rollRequest.statValue = this.getData().data.stats.ref.value;
+      rollRequest.statName = "ref";
     }
     // +1 to attack on Excellent Quality Weapons
     if (weaponItem.data.data.quality === "excellent") {
