@@ -1,5 +1,5 @@
 /* global game, ui */
-import LOGGER from "./cpr-logger";
+import LOGGER from "./cpr-logger.js";
 
 export default class CPRSystemUtils {
   static async GetCoreSkills() {

@@ -21,6 +21,7 @@
         ],
         "quotes": [
             "warn",
+            "backtick",
             "double"
         ],
         "no-underscore-dangle": "off",
@@ -42,6 +43,14 @@
         ],
         "no-restricted-syntax": [
             "warn"
+        ],
+        "linebreak-style": 0,
+        "import/extension": [
+            "error",
+            "never",
+            {
+                "js": "always"
+            }
         ]
     }
 }

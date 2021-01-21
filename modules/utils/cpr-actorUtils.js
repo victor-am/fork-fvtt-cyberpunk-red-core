@@ -1,5 +1,6 @@
 /* global game */
-import LOGGER from "./cpr-logger";
+
+import LOGGER from "./cpr-logger.js";
 
 export default class CPRActorUtils {
   // Optional

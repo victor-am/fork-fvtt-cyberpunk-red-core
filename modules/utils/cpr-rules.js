@@ -1,4 +1,4 @@
-import CPRSystemUtils from "./cpr-systemUtils";
+import CPRSystemUtils from "./cpr-systemUtils.js";
 
 export default class Rules {
   static lawyer(rule = false, msg) {
