@@ -1,232 +1,234 @@
-export const CPR = {};
+const CPR = {};
 
 // Sorted as shown on char sheet (with resources pushed to bottom)
 CPR.statList = {
-  "int": "CPR.int",
-  "ref": "CPR.ref",
-  "dex": "CPR.dex",
-  "tech": "CPR.tech",
-  "cool": "CPR.cool",
-  "will": "CPR.will",
-  "luck": "CPR.luck",
-  "move": "CPR.move",
-  "body": "CPR.body",
-  "emp": "CPR.emp"
-}
+  int: "CPR.int",
+  ref: "CPR.ref",
+  dex: "CPR.dex",
+  tech: "CPR.tech",
+  cool: "CPR.cool",
+  will: "CPR.will",
+  move: "CPR.move",
+  body: "CPR.body",
+  luck: "CPR.luck",
+  emp: "CPR.emp",
+};
 
 // Sorted A-Z
 CPR.roleList = {
-  "exec": "CPR.execrole",
-  "fixer": "CPR.fixerrole",
-  "lawman": "CPR.lawmanrole",
-  "media": "CPR.mediarole",
-  "medtech": "CPR.medtechrole",
-  "netrunner": "CPR.netrunnerrole",
-  "nomad": "CPR.nomadrole",
-  "rockerboy": "CPR.rockerboyrole",
-  "solo": "CPR.solorole",
-  "tech": "CPR.techrole",
-}
+  exec: "CPR.execrole",
+  fixer: "CPR.fixerrole",
+  lawman: "CPR.lawmanrole",
+  media: "CPR.mediarole",
+  medtech: "CPR.medtechrole",
+  netrunner: "CPR.netrunnerrole",
+  nomad: "CPR.nomadrole",
+  rockerboy: "CPR.rockerboyrole",
+  solo: "CPR.solorole",
+  tech: "CPR.techrole",
+};
 
 // Sorted A-Z
 CPR.roleAbilityList = {
-  "backup": "CPR.backup",
-  "charismaticImpact": "CPR.charismaticimpact",
-  "combatAwareness": "CPR.combatawareness",
-  "credibility": "CPR.credibility",
-  "fabricationExpertise": "CPR.fabricationexpertise",
-  "fieldExpertise": "CPR.fieldexpertise",
-  "operator": "CPR.operator",
-  "interface": "CPR.interface",
-  "inventionExpertise": "CPR.inventionexpertise",
-  "maker": "CPR.maker",
-  "medicine": "CPR.medicine",
-  "moto": "CPR.moto",
-  "surgery": "CPR.surgery",
-  "teamwork": "CPR.teamwork",
-  "upgradeExpertise": "CPR.upgradeexpertise"
-}
+  backup: "CPR.backup",
+  charismaticImpact: "CPR.charismaticimpact",
+  combatAwareness: "CPR.combatawareness",
+  credibility: "CPR.credibility",
+  fabricationExpertise: "CPR.fabricationexpertise",
+  fieldExpertise: "CPR.fieldexpertise",
+  operator: "CPR.operator",
+  interface: "CPR.interface",
+  inventionExpertise: "CPR.inventionexpertise",
+  maker: "CPR.maker",
+  medicine: "CPR.medicine",
+  moto: "CPR.moto",
+  surgery: "CPR.surgery",
+  teamwork: "CPR.teamwork",
+  upgradeExpertise: "CPR.upgradeexpertise",
+};
 
 // Sorted A-Z
 CPR.skillCategories = {
-  "awarenessSkills": "CPR.awarenessskills",
-  "bodySkills": "CPR.bodyskills",
-  "controlSkills": "CPR.controlskills",
-  "educationSkills": "CPR.educationskills",
-  "fightingSkills": "CPR.fightingskills",
-  "performanceSkills": "CPR.performanceskills",
-  "rangedweaponSkills": "CPR.rangedweaponskills",
-  "socialSkills": "CPR.socialskills",
-  "techniqueSkills": "CPR.techniqueskills",
-}
+  awarenessSkills: "CPR.awarenessskills",
+  bodySkills: "CPR.bodyskills",
+  controlSkills: "CPR.controlskills",
+  educationSkills: "CPR.educationskills",
+  fightingSkills: "CPR.fightingskills",
+  performanceSkills: "CPR.performanceskills",
+  rangedweaponSkills: "CPR.rangedweaponskills",
+  socialSkills: "CPR.socialskills",
+  techniqueSkills: "CPR.techniqueskills",
+};
 
 // Sorted A-Z
 CPR.skillList = {
-  "athletics": "CPR.athletics",
-  "basicTech": "CPR.basictech",
-  "brawling": "CPR.brawling",
-  "bribery": "CPR.bribery",
-  "concentration": "CPR.concentration",
-  "conversation": "CPR.conversation",
-  "cyberTech": "CPR.cybertech",
-  "education": "CPR.education",
-  "evasion": "CPR.evasion",
-  "firstAid": "CPR.firstaid",
-  "humanPerception": "CPR.humanperception",
-  "interrogation": "CPR.interrogation",
-  "localExpert": "CPR.localexpert",
-  "meleeWeapon": "CPR.meleeweapon",
-  "perception": "CPR.perception",
-  "persuasion": "CPR.persuasion",
-  "playInstrument": "CPR.playinstrument",
-  "stealth": "CPR.stealth",
-  "tracking": "CPR.tracking",
-  "accounting": "CPR.accounting",
-  "acting": "CPR.acting",
-  "airVehicleTech": "CPR.airvehicletech",
-  "animalHandling": "CPR.animalhandling",
-  "archery": "CPR.archery",
-  "autofire": "CPR.autofire",
-  "bureaucracy": "CPR.bureaucracy",
-  "business": "CPR.business",
-  "composition": "CPR.composition",
-  "concealOrRevealObject": "CPR.concealorrevealobject",
-  "contortionist": "CPR.contortionist",
-  "criminology": "CPR.criminology",
-  "cryptography": "CPR.cryptography",
-  "dance": "CPR.dance",
-  "deduction": "CPR.deduction",
-  "demolitions": "CPR.demolitions",
-  "driveLandVehicle": "CPR.drivelandvehicle",
-  "electronicsAndSecurityTech": "CPR.electronicsandsecuritytech",
-  "endurance": "CPR.endurance",
-  "forgery": "CPR.forgery",
-  "gamble": "CPR.gamble",
-  "handgun": "CPR.handgun",
-  "heavyWeapons": "CPR.heavyweapons",
-  "landVehicleTech": "CPR.landvehicletech",
-  "language": "CPR.language",
-  "librarySearch": "CPR.librarysearch",
-  "lipReading": "CPR.lipreading",
-  "martialArts": "CPR.martialarts",
-  "paintOrDrawOrSculpt": "CPR.paintordraworsculpt",
-  "paramedic": "CPR.paramedic",
-  "personalGrooming": "CPR.personalgrooming",
-  "photographyAndFilm": "CPR.photographyandfilm",
-  "pickLock": "CPR.picklock",
-  "pickPocket": "CPR.pickpocket",
-  "pilotAirVehicle": "CPR.pilotairvehicle",
-  "pilotSeaVehicle": "CPR.pilotseavehicle",
-  "resistTortureOrDrugs": "CPR.resisttortureordrugs",
-  "riding": "CPR.riding",
-  "science": "CPR.science",
-  "seaVehicleTech": "CPR.seavehicletech",
-  "shoulderArms": "CPR.shoulderarms",
-  "streetWise": "CPR.streetwise",
-  "tactics": "CPR.tactics",
-  "trading": "CPR.trading",
-  "wardrobeAndStyle": "CPR.wardrobeandstyle",
-  "weaponsTech": "CPR.weaponstech",
-  "wildernessSurvival": "CPR.wildernesssurvival"
-}
+  athletics: "CPR.athletics",
+  basicTech: "CPR.basictech",
+  brawling: "CPR.brawling",
+  bribery: "CPR.bribery",
+  concentration: "CPR.concentration",
+  conversation: "CPR.conversation",
+  cyberTech: "CPR.cybertech",
+  education: "CPR.education",
+  evasion: "CPR.evasion",
+  firstAid: "CPR.firstaid",
+  humanPerception: "CPR.humanperception",
+  interrogation: "CPR.interrogation",
+  localExpert: "CPR.localexpert",
+  meleeWeapon: "CPR.meleeweapon",
+  perception: "CPR.perception",
+  persuasion: "CPR.persuasion",
+  playInstrument: "CPR.playinstrument",
+  stealth: "CPR.stealth",
+  tracking: "CPR.tracking",
+  accounting: "CPR.accounting",
+  acting: "CPR.acting",
+  airVehicleTech: "CPR.airvehicletech",
+  animalHandling: "CPR.animalhandling",
+  archery: "CPR.archery",
+  autofire: "CPR.autofire",
+  bureaucracy: "CPR.bureaucracy",
+  business: "CPR.business",
+  composition: "CPR.composition",
+  concealOrRevealObject: "CPR.concealorrevealobject",
+  contortionist: "CPR.contortionist",
+  criminology: "CPR.criminology",
+  cryptography: "CPR.cryptography",
+  dance: "CPR.dance",
+  deduction: "CPR.deduction",
+  demolitions: "CPR.demolitions",
+  driveLandVehicle: "CPR.drivelandvehicle",
+  electronicsAndSecurityTech: "CPR.electronicsandsecuritytech",
+  endurance: "CPR.endurance",
+  forgery: "CPR.forgery",
+  gamble: "CPR.gamble",
+  handgun: "CPR.handgun",
+  heavyWeapons: "CPR.heavyweapons",
+  landVehicleTech: "CPR.landvehicletech",
+  language: "CPR.language",
+  librarySearch: "CPR.librarysearch",
+  lipReading: "CPR.lipreading",
+  martialArts: "CPR.martialarts",
+  paintOrDrawOrSculpt: "CPR.paintordraworsculpt",
+  paramedic: "CPR.paramedic",
+  personalGrooming: "CPR.personalgrooming",
+  photographyAndFilm: "CPR.photographyandfilm",
+  pickLock: "CPR.picklock",
+  pickPocket: "CPR.pickpocket",
+  pilotAirVehicle: "CPR.pilotairvehicle",
+  pilotSeaVehicle: "CPR.pilotseavehicle",
+  resistTortureOrDrugs: "CPR.resisttortureordrugs",
+  riding: "CPR.riding",
+  science: "CPR.science",
+  seaVehicleTech: "CPR.seavehicletech",
+  shoulderArms: "CPR.shoulderarms",
+  streetWise: "CPR.streetwise",
+  tactics: "CPR.tactics",
+  trading: "CPR.trading",
+  wardrobeAndStyle: "CPR.wardrobeandstyle",
+  weaponsTech: "CPR.weaponstech",
+  wildernessSurvival: "CPR.wildernesssurvival",
+};
 
-// TODO - Does 'role' need to be listed here? 
+// TODO - Does 'role' need to be listed here?
 // TODO - Discuss how this will be used to count IP.
 // Unsorted
 CPR.skillDifficulties = {
-  "typical": "CPR.skilldifficultytypical",
-  "difficult": "CPR.skilldifficultydifficult",
-  "role": "CPR.skilldifficultyrole"
-}
+  typical: "CPR.skilldifficultytypical",
+  difficult: "CPR.skilldifficultydifficult",
+  role: "CPR.skilldifficultyrole",
+};
 
 // Sorted as listed in core rule book
 CPR.weaponTypeList = {
-  "lightMelee": "CPR.lightmeleeweapon",
-  "medMelee": "CPR.mediummeleeweapon",
-  "heavyMelee": "CPR.heavymeleeweapon",
-  "vHeavyMelee": "CPR.veryheavymeleeweapon",
-  "medPistol": "CPR.mediumpistol",
-  "heavyPistol": "CPR.heavypistol",
-  "vHeavyPistol": "CPR.veryheavypistol",
-  "smg": "CPR.smg",
-  "heavySmg": "CPR.heavysmg",
-  "shotgun": "CPR.shotgun",
-  "assaultRifle": "CPR.assaultrifle",
-  "sniperRifle": "CPR.sniperrifle",
-  "bow": "CPR.bowsandcrossbows",
-  "grenadeLauncher": "CPR.grenadelauncher",
-  "rocketLauncher": "CPR.rocketlauncher"
-}
+  lightMelee: "CPR.lightmeleeweapon",
+  medMelee: "CPR.mediummeleeweapon",
+  heavyMelee: "CPR.heavymeleeweapon",
+  vHeavyMelee: "CPR.veryheavymeleeweapon",
+  medPistol: "CPR.mediumpistol",
+  heavyPistol: "CPR.heavypistol",
+  vHeavyPistol: "CPR.veryheavypistol",
+  smg: "CPR.smg",
+  heavySmg: "CPR.heavysmg",
+  shotgun: "CPR.shotgun",
+  assaultRifle: "CPR.assaultrifle",
+  sniperRifle: "CPR.sniperrifle",
+  bow: "CPR.bowsandcrossbows",
+  grenadeLauncher: "CPR.grenadelauncher",
+  rocketLauncher: "CPR.rocketlauncher",
+};
 
 // Sorted as listed in core rule book
 CPR.ammoVariety = {
-  "medPistol": "CPR.ammovarmediumpistol",
-  "heavyPistol": "CPR.ammovarheavypistol",
-  "vHeavyPistol": "CPR.ammovarvheavypistol",
-  "shotgunSlug": "CPR.ammovarslug",
-  "shotgunShell": "CPR.ammovarshell",
-  "rifle": "CPR.ammovarrifle",
-  "arrow": "CPR.ammovararrow",
-  "grenade": "CPR.ammovargrenade",
-  "rocket": "CPR.ammovarrocket"
-}
+  medPistol: "CPR.ammovarmediumpistol",
+  heavyPistol: "CPR.ammovarheavypistol",
+  vHeavyPistol: "CPR.ammovarvheavypistol",
+  shotgunSlug: "CPR.ammovarslug",
+  shotgunShell: "CPR.ammovarshell",
+  rifle: "CPR.ammovarrifle",
+  arrow: "CPR.ammovararrow",
+  grenade: "CPR.ammovargrenade",
+  rocket: "CPR.ammovarrocket",
+};
 
 // Not sorted
 CPR.ammoType = {
-  "basic": "CPR.ammotypebasic",
-  "armorPiercing": "CPR.ammotypearmorpiercing",
-  "biotoxin": "CPR.ammotypebiotoxin",
-  "emp": "CPR.ammotypeemp",
-  "expansive": "CPR.ammotypeexpansive",
-  "flashbang": "CPR.ammotypeflashbang",
-  "incindiary": "CPR.ammotypeincindiary",
-  "poison": "CPR.ammotypepoison",
-  "rubber": "CPR.ammotyperubber",
-  "sleep": "CPR.ammotypesleep",
-  "smart": "CPR.ammotypesmart",
-  "smoke": "CPR.ammotypesmoke",
-  "teargas": "CPR.ammotypeteargas"
-}
+  basic: "CPR.ammotypebasic",
+  armorPiercing: "CPR.ammotypearmorpiercing",
+  biotoxin: "CPR.ammotypebiotoxin",
+  emp: "CPR.ammotypeemp",
+  expansive: "CPR.ammotypeexpansive",
+  flashbang: "CPR.ammotypeflashbang",
+  incindiary: "CPR.ammotypeincindiary",
+  poison: "CPR.ammotypepoison",
+  rubber: "CPR.ammotyperubber",
+  sleep: "CPR.ammotypesleep",
+  smart: "CPR.ammotypesmart",
+  smoke: "CPR.ammotypesmoke",
+  teargas: "CPR.ammotypeteargas",
+};
 
 CPR.inventoryCategories = {
-  "weapon": "CPR.weapon",
-  "ammo": "CPR.ammo",
-  "armor": "CPR.armor",
-  "cyberware": "CPR.cyberware",
-  "gear": "CPR.gear",
-  "vehicle": "CPR.vehicle"
-}
+  weapon: "CPR.weapon",
+  ammo: "CPR.ammo",
+  armor: "CPR.armor",
+  cyberware: "CPR.cyberware",
+  gear: "CPR.gear",
+  vehicle: "CPR.vehicle",
+};
 
-// 
+//
 CPR.cyberwareTypeList = {
-  "cyberAudioSuite": "CPR.cyberAudioSuite",
-  "cyberEye": "CPR.cyberEye",
-  "cyberArm": "CPR.cyberArm",
-  "cyberLeg": "CPR.cyberLeg",
-  "neuralLink": "CPR.neuralLink",
-  "cyberwareInternal": "CPR.cyberwareInternal",
-  "cyberwareExternal": "CPR.cyberwareExternal",
-  "fashionware": "CPR.fashionware",
-  "borgware": "CPR.borgware"
-}
+  cyberAudioSuite: "CPR.cyberaudiosuite",
+  cyberEye: "CPR.cybereye",
+  cyberArm: "CPR.cyberarm",
+  cyberLeg: "CPR.cyberleg",
+  neuralLink: "CPR.neurallink",
+  cyberwareInternal: "CPR.cyberwareinternal",
+  cyberwareExternal: "CPR.cyberwareexternal",
+  fashionware: "CPR.fashionware",
+  borgware: "CPR.borgware",
+};
 
 CPR.cyberwareInstallList = {
-  "mall": "CPR.mall",
-  "clinic": "CPR.clinic",
-  "hospital": "CPR.hospital"
-}
+  mall: "CPR.mall",
+  clinic: "CPR.clinic",
+  hospital: "CPR.hospital",
+};
 
 CPR.woundState = {
-  "notWounded": "CPR.notwounded",
-  "lightlyWounded": "CPR.lightlywounded",
-  "seriouslyWounded": "CPR.seriouslywounded",
-  "mortallyWounded": "CPR.mortallywounded",
-  "dead": "CPR.dead"
-}
+  notWounded: "CPR.notwounded",
+  lightlyWounded: "CPR.lightlywounded",
+  seriouslyWounded: "CPR.seriouslywounded",
+  mortallyWounded: "CPR.mortallywounded",
+  dead: "CPR.dead",
+};
 
 // Sorted A-Z
 CPR.equipped = {
-  "carried": "CPR.carried",
-  "equipped": "CPR.equipped",
-  "owned": "CPR.owned"
-}
+  carried: "CPR.carried",
+  equipped: "CPR.equipped",
+  owned: "CPR.owned",
+};
+
+export default CPR;

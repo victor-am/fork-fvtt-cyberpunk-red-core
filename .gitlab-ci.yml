@@ -1,17 +1,32 @@
 default:
-  image: node:14.15.4-alpine3.12
+  image: node:latest
+
+cache:
+  paths:
+    - node_modules/
 
 stages:
+  - init
   - build
   - test
+
+init:
+  stage: init
+  script:
+    - echo "Installing dependencies..."
+    - npm i
 
 build-css:
   stage: build
   script:
-    - echo "Installing dependencies..."
-    - npm i
-    - echo "Building..."
-    - npm run build
+    - echo "Building CSS..."
+    - npm run build:css
+
+lint:
+  stage: test
+  script:
+    - echo "Linting code..."
+    - npm run lint
 
 unit-test:
   stage: test

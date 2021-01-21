@@ -3,15 +3,19 @@
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url":"https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/"
+    "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/"
   },
   "license": "UNLICENSED",
   "scripts": {
     "test": "echo are there tests??",
-    "build": "npx gulp css && echo any other packaging?",
-    "start": "npx gulp"
+    "build:css": "npx gulp css",
+    "start": "npx gulp",
+    "lint": "npx eslint modules"
   },
   "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.3.0",
     "gulp-less": "^4.0.1"

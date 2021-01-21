@@ -33,7 +33,7 @@
     </div>
     <div class="section width-eighth no-grow skill-level center-text"><input class="number skill-level-input" value="{{skill.data.level}}" type="number"
         data-item-prop="data.level" data-dtype="Number"></div>
-    <div class="section width-eighth no-grow skill-base center-text">{{add skill.data.level (lookup (getProp ../../actor.data.stats skill.data.stat)
+    <div class="section width-eighth no-grow skill-base center-text">{{math "sum" skill.data.level (lookup (getProp ../../actor.data.stats skill.data.stat)
       'value')}}</div>
   </div>
 

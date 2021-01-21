@@ -1,3 +1,4 @@
+/* global mergeObject */
 import CPRActorSheet from "./cpr-actor-sheet.js";
 import LOGGER from "../../utils/cpr-logger.js";
 
@@ -6,7 +7,6 @@ import LOGGER from "../../utils/cpr-logger.js";
  * @extends {CPRActorSheet}
  */
 export default class CPRCharacterActorSheet extends CPRActorSheet {
-
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("defaultOptions | CPRCharacterActorSheet | Called.");

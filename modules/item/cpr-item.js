@@ -1,250 +1,236 @@
+/* global Item */
 import LOGGER from "../utils/cpr-logger.js";
-import { SelectAmmoPrompt } from "../dialog/cpr-select-ammo-prompt.js";
-
+import SelectAmmoPrompt from "../dialog/cpr-select-ammo-prompt.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
 export default class CPRItem extends Item {
+  /* -------------------------------------------- */
+  /** @override */
+  prepareData() {
+    LOGGER.debug(`prepareData | CPRItem | Called for type: ${this.type}.`);
+    super.prepareData();
+    // const itemData = this.data.data;
+    LOGGER.debug("prepareData | CPRItem | Checking itemData.");
+  }
 
-    /* -------------------------------------------- */
-    /** @override */
-    prepareData() {
-        LOGGER.debug(`prepareData | CPRItem | Called for type: ${this.type}.`);
-        super.prepareData();
-        const itemData = this.data.data;
-        LOGGER.debug(`prepareData | CPRItem | Checking itemData.`);
+  /* -------------------------------------------- */
+  /** @override */
+  getRollData() {
+    LOGGER.trace("getRollData | CPRItem | Called.");
+    const data = super.getRollData();
+    return data;
+  }
+
+  getData() {
+    LOGGER.trace("getData | CPRItem | Called.");
+    return this.data.data;
+  }
+
+  // Generic item.doAction() method so any idem can be called to
+  // perform an action.  This can be easily extended in the
+  // switch statement and adding additional methods for each item.
+  // Prepatory work for
+  // Click to Consume (Apply mods / effect / state change)
+  // Opening Agent Dialog
+  // Any calls to functions not related to rolls, triggered from actions.
+  // actorSheet UX gets actived -> actorSheet.eventFunction(event) ->
+  doAction(actor, actionAttributes) {
+    LOGGER.debug("doAction | CPRItem | Called.");
+    const itemType = this.data.type;
+    // const changedItems = [];
+    switch (itemType) {
+      case "weapon":
+        this._weaponAction(actionAttributes);
+        break;
+      case "ammo":
+        this._ammoAction(actionAttributes);
+        break;
+      default:
+    }
+  }
+
+  // ammo Item Methods
+  // TODO - REFACTOR, do not do this...
+  _ammoAction(actionAttributes) {
+    LOGGER.debug("_ammoAction | CPRItem | Called.");
+    const actionData = actionAttributes["data-action"].nodeValue;
+    const ammoAmount = actionAttributes["data-amount"].nodeValue;
+    switch (actionData) {
+      case "ammo-decrement":
+        this._ammoDecrement(ammoAmount);
+        break;
+      case "ammo-increment":
+        this._ammoIncrement(ammoAmount);
+        break;
+      default:
     }
 
-    /* -------------------------------------------- */
-    /** @override */
-    getRollData() {
-        LOGGER.trace("getRollData | CPRItem | Called.");
-        const data = super.getRollData();
-        return data;
+    // If the actor, is updating his owned item, this logic should live within the actor.
+    if (this.actor) {
+      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
     }
-    
-    getData() {
-        LOGGER.trace("getData | CPRItem | Called.");
-        return this.data.data;
+  }
+
+  // SKILL FUNCTIONS
+  setSkillLevel(value) {
+    LOGGER.debug("setSkillLevel | CPRItem | Called.");
+    if (this.type === "skill") {
+      this.getData().level = Math.clamped(-99, value, 99);
     }
+  }
 
-    // Generic item.doAction() method so any idem can be called to
-    // perform an action.  This can be easily extended in the 
-    // switch statement and adding additional methods for each item.
-    // Prepatory work for
-    // Click to Consume (Apply mods / effect / state change)
-    // Opening Agent Dialog
-    // Any calls to functions not related to rolls, triggered from actions.
-    // actorSheet UX gets actived -> actorSheet.eventFunction(event) -> 
-    doAction(actor, actionAttributes) {
-        LOGGER.debug("doAction | CPRItem | Called.");
-        const itemType = this.data.type;
-        let changedItems = [];
-        switch (itemType) {
-            case "weapon": {
-                this._weaponAction(actionAttributes);
-                break;
-            }
-            case "ammo": {
-                this._ammoAction(actionAttributes);
-                break;
-            }
-        }
-        return;
+  // AMMO FUNCTIONS
+  _ammoDecrement(changeAmount) {
+    LOGGER.debug("_ammoDecrement | CPRItem | Called.");
+    const currentValue = this.data.data.amount;
+    const newValue = Math.max(0, Number(currentValue) - Number(changeAmount));
+    this.data.data.amount = newValue;
+    if (this.actor) {
+      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
     }
+  }
 
-    // ammo Item Methods
-    // TODO - REFACTOR, do not do this...
-    _ammoAction(actionAttributes) {
-        LOGGER.debug("_ammoAction | CPRItem | Called.");
-        const actionData = actionAttributes['data-action'].nodeValue;
-        const ammoAmount = actionAttributes['data-amount'].nodeValue;
-        switch (actionData) {
-            case "ammo-decrement": {
-                this._ammoDecrement(ammoAmount);
-                break;
-            }
-            case "ammo-increment": {
-                this._ammoIncrement(ammoAmount);
-                break;
-            }
-        }
-
-        // If the actor, is updating his owned item, this logic should live within the actor.
-        if (this.actor) {
-            this.actor.updateEmbeddedEntity("OwnedItem", this.data);
-        }
+  _ammoIncrement(changeAmount) {
+    LOGGER.debug("_ammoIncrement | CPRItem | Called.");
+    const currentValue = this.data.data.amount;
+    const newValue = Number(currentValue) + Number(changeAmount);
+    this.data.data.amount = newValue;
+    if (this.actor) {
+      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
     }
+  }
 
-    // SKILL FUNCTIONS
-    setSkillLevel(value) {
-        LOGGER.debug("setSkillLevel | CPRItem | Called.");
-        if (this.type == "skill") {
-            this.getData().level = Math.clamped(-99, value, 99);
-        }
+  // Weapon Item Methods
+  // TODO - Refactor
+  _weaponAction(actionAttributes) {
+    LOGGER.debug("_weaponAction | CPRItem | Called.");
+    const actionData = actionAttributes["data-action"].nodeValue;
+    switch (actionData) {
+      case "new-ammo":
+        this._weaponUnload();
+        this._weaponLoad();
+        break;
+      case "unload":
+        this._weaponUnload();
+        break;
+      case "load":
+        this._weaponLoad();
+        break;
+      case "reload-ammo":
+        this._weaponLoad(this.data.data.magazine.ammoId);
+        break;
+      default:
     }
-
-    // AMMO FUNCTIONS    
-    _ammoDecrement(changeAmount) {
-        LOGGER.debug("_ammoDecrement | CPRItem | Called.");
-        let currentValue = this.data.data.amount;
-        let newValue = Math.max(0, (Number(currentValue) - Number(changeAmount)));
-        this.data.data.amount = newValue;
-        if (this.actor) {
-            this.actor.updateEmbeddedEntity("OwnedItem", this.data);
-        }
+    if (this.actor) {
+      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
     }
+  }
 
-    _ammoIncrement(changeAmount) {
-        LOGGER.debug("_ammoIncrement | CPRItem | Called.");
-        let currentValue = this.data.data.amount;
-        let newValue = Number(currentValue) + Number(changeAmount);
-        this.data.data.amount = newValue;
-        if (this.actor) {
-            this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+  // TODO - Refactor
+  _weaponUnload() {
+    LOGGER.debug("_weaponUnload | CPRItem | Called.");
+    if (this.actor) {
+      // recover the ammo to the right object
+      const { ammoId } = this.data.data.magazine;
+      const ammo = this.actor.items.find((i) => i.data._id === ammoId);
+
+      if (this.data.data.magazine.value > 0) {
+        if (ammoId) {
+          ammo._ammoIncrement(this.data.data.magazine.value);
         }
+      }
     }
-
-    // Weapon Item Methods
-    // TODO - Refactor
-    _weaponAction(actionAttributes) {
-        LOGGER.debug("_weaponAction | CPRItem | Called.");
-        const actionData = actionAttributes['data-action'].nodeValue;
-        switch (actionData) {
-            case "new-ammo": {
-                this._weaponUnload();
-                this._weaponLoad();
-                break;
-            }
-            case "unload": {
-                this._weaponUnload();
-                break;
-            }
-            case "load": {
-                this._weaponLoad();
-                break;
-            }
-            case "reload-ammo": {
-                this._weaponLoad(this.data.data.magazine.ammoId);
-                break;
-            }
-        }
-        if (this.actor) {
-            this.actor.updateEmbeddedEntity("OwnedItem", this.data);
-        }
-        return;
+    this.data.data.magazine.value = 0;
+    this.data.data.magazine.ammoId = "";
+    if (this.actor) {
+      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
     }
+  }
 
-    // TODO - Refactor
-    _weaponUnload() {
-        LOGGER.debug("_weaponUnload | CPRItem | Called.");
-        if (this.actor) {
-            //recover the ammo to the right object
-            let ammoId = this.data.data.magazine.ammoId;
-            let ammo = this.actor.items.find((i) => i.data._id == ammoId);
+  // TODO - Refactor
+  async _weaponLoad(selectedAmmoId) {
+    LOGGER.debug("_weaponLoad | CPRItem | Called.");
+    const loadUpdate = [];
+    if (this.actor) {
+      if (!selectedAmmoId) {
+        const ownedAmmo = this.actor.data.filteredItems.ammo;
+        const validAmmo = [];
+        for (const a of ownedAmmo) {
+          if (this.data.data.ammoVariety.includes(a.data.data.variety)) {
+            validAmmo.push(a);
+          }
+        }
 
-            if (this.data.data.magazine.value > 0) {
-                if (ammoId) {
-                    ammo._ammoIncrement(this.data.data.magazine.value);
-                }
-            }
+        let dialogData = {
+          weapon: this,
+          ammoList: validAmmo,
+          selectedAmmo: "",
+        };
+
+        dialogData = await SelectAmmoPrompt(dialogData);
+
+        if (dialogData.selectedAmmo === "") {
+          return;
         }
-        this.data.data.magazine.value = 0;
-        this.data.data.magazine.ammoId = "";
-        if (this.actor) {
-            this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+        selectedAmmoId = dialogData.selectedAmmo;
+      }
+
+      if (selectedAmmoId) {
+        const magazineData = this.data.data.magazine;
+
+        magazineData.ammoId = selectedAmmoId;
+
+        // loadUpdate.push({ _id: this.data._id, "data.magazine.ammoId": selectedAmmoId });
+
+        const ammo = this.actor.items.find((i) => i.data._id === selectedAmmoId);
+
+        // By the time we reach here, we know the weapon and ammo we are loading
+        // Let's find out how much space is in the gun.
+
+        const magazineSpace = Number(this.data.data.magazine.max) - Number(this.data.data.magazine.value);
+
+        if (magazineSpace > 0) {
+          if (Number(ammo.data.data.amount) >= magazineSpace) {
+            magazineData.value = magazineData.max;
+            // loadUpdate.push({ _id: this.data._id, "data.magazine.value": this.data.data.magazine.max });
+            const ammoUsed = Number(ammo.data.data.amount) - magazineSpace;
+            loadUpdate.push({ _id: ammo.data._id, "data.amount": ammoUsed });
+          } else {
+            magazineData.value = Number(this.data.data.magazine.value) + Number(ammo.data.data.amount);
+            // loadUpdate.push({ _id: this.data._id, "data.magazine.value": newAmmoValue });
+            loadUpdate.push({ _id: ammo.data._id, "data.amount": 0 });
+          }
         }
+        loadUpdate.push({ _id: this.data._id, "data.magazine": magazineData });
+      }
+      this.actor.updateEmbeddedEntity("OwnedItem", loadUpdate);
     }
+  }
 
-    // TODO - Refactor
-    async _weaponLoad(selectedAmmoId) {
-        LOGGER.debug("_weaponLoad | CPRItem | Called.");
-        let loadUpdate = [];
-        if (this.actor) {
-            if (!selectedAmmoId) {
-                const ownedAmmo = this.actor.data.filteredItems['ammo'];
-                let validAmmo = [];
-                for (let a of ownedAmmo) {
-                    if (this.data.data.ammoVariety.includes(a.data.data.variety)) {
-                        validAmmo.push(a);
-                    }
-                }
-
-                let dialogData = {
-                    "weapon": this,
-                    "ammoList": validAmmo,
-                    "selectedAmmo": ""
-                };
-
-                dialogData = await SelectAmmoPrompt(dialogData);
-
-                if (dialogData.selectedAmmo === "") {
-                    return;
-                }
-                selectedAmmoId = dialogData.selectedAmmo;
-            }
-
-            if (selectedAmmoId) {
-
-                let magazineData = this.data.data.magazine;
-
-                magazineData.ammoId = selectedAmmoId;
-
-                //loadUpdate.push({ _id: this.data._id, "data.magazine.ammoId": selectedAmmoId });
-
-                let ammo = this.actor.items.find((i) => i.data._id == selectedAmmoId);
-
-                // By the time we reach here, we know the weapon and ammo we are loading
-                // Let's find out how much space is in the gun.
-
-                const magazineSpace = Number(this.data.data.magazine['max']) - Number(this.data.data.magazine['value']);
-
-                if (magazineSpace > 0) {
-                    if (Number(ammo.data.data.amount) >= magazineSpace) {
-                        magazineData.value = magazineData.max;
-                        //loadUpdate.push({ _id: this.data._id, "data.magazine.value": this.data.data.magazine.max });
-                        let ammoUsed = Number(ammo.data.data.amount) - magazineSpace;
-                        loadUpdate.push({ _id: ammo.data._id, "data.amount": ammoUsed });
-                    }
-                    else {
-
-                        magazineData.value = Number(this.data.data.magazine['value']) + Number(ammo.data.data.amount);
-                        //loadUpdate.push({ _id: this.data._id, "data.magazine.value": newAmmoValue });
-                        loadUpdate.push({ _id: ammo.data._id, "data.amount": 0 });
-                    }
-
-                }
-                loadUpdate.push({ _id: this.data._id, "data.magazine": magazineData });
-
-            }
-            this.actor.updateEmbeddedEntity("OwnedItem", loadUpdate);
-        }
+  // TODO - Refactor
+  _fireRangedWeapon(rateOfFire) {
+    LOGGER.debug("fireRangedWeapon | CPRItem | Called.");
+    let bulletCount = 0;
+    switch (rateOfFire) {
+      case "single":
+        bulletCount = 1;
+        break;
+      case "suppressive":
+      case "autofire":
+        bulletCount = 10;
+        break;
+      default:
     }
 
-    // TODO - Refactor
-    _fireRangedWeapon(rateOfFire) {
-        LOGGER.debug("fireRangedWeapon | CPRItem | Called.");
-        let bulletCount = 0;
-        switch (rateOfFire) {
-            case "single": {
-                bulletCount = 1;
-                break;
-            }
-            case "suppressive":
-            case "autofire": {
-                bulletCount = 10;
-                break;
-            }
-        }
-
-        if (this.data.data.magazine.value < bulletCount) {
-            // PLAY CLICK SOUND?!
-        } else {
-            // PLAY GUN SOUND!!
-            this.data.data.magazine.value -= bulletCount;
-        }
-        this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+    if (this.data.data.magazine.value < bulletCount) {
+      // PLAY CLICK SOUND?!
+    } else {
+      // PLAY GUN SOUND!!
+      this.data.data.magazine.value -= bulletCount;
     }
+    this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+  }
 }

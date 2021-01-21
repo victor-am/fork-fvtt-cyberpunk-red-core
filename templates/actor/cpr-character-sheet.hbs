@@ -1,5 +1,5 @@
 {{!-- New Layout --}}
-
+{{log "CPR-CHARACTER-SHEET.HBS"}}
 <form style="max-height: 100%">
   <div class="sheet-content character" style="max-height: 100%">
     <div class="image-container">
@@ -17,11 +17,11 @@
     </div>
     <div class="nav-container black-bg">
       <nav class="tabs nav" data-group="primary">
-        <a class="navtab center-text bold white-fg" data-tab="skills">SKILL</a>
-        <a class="navtab center-text bold white-fg" data-tab="role">ROLE</a>
-        <a class="navtab center-text bold white-fg" data-tab="inventory">GEAR</a>
-        <a class="navtab center-text bold white-fg" data-tab="cyberware">CYBER</a>
-        <a class="navtab center-text bold white-fg" data-tab="information">INFO</a>
+        <a class="navtab center-text bold white-fg" data-tab="skills">{{localize "CPR.skills"}}</a>
+        <a class="navtab center-text bold white-fg" data-tab="role">{{localize "CPR.role"}}</a>
+        <a class="navtab center-text bold white-fg" data-tab="inventory">{{localize "CPR.gear"}}</a>
+        <a class="navtab center-text bold white-fg" data-tab="cyberware">{{localize "CPR.cyber"}}</a>
+        <a class="navtab center-text bold white-fg" data-tab="information">{{localize "CPR.info"}}</a>
         <a class="navtab center-text bold white-fg" data-tab="debug">DEBUG</a>
       </nav>
     </div>
@@ -50,3 +50,4 @@
     </div>
   </div>
 </form>
+{{log "END CPR-CHARACTER-SHEET.HBS"}}
