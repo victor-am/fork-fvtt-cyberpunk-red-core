@@ -207,8 +207,8 @@ CPR.cyberwareTypeList = {
   "cyberwareInternal": "CPR.cyberwareinternal",
   "cyberwareExternal": "CPR.cyberwareexternal",
   "fashionware": "CPR.fashionware",
-  "borgware": "CPR.borgware"
-}
+  "borgware": "CPR.borgware",
+};
 
 CPR.cyberwareInstallList = {
   mall: "CPR.mall",

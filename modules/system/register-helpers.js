@@ -92,9 +92,9 @@ export default function registerHandlebarsHelpers() {
     switch (mathFunction) {
       case "sum":
         return mathArgs.reduce((a, b) => a + b, 0);
+      default:
+        LOGGER.error(`!ERR: Not a Math function: ${mathFunction}`);
+        return "null";
     }
-
-    LOGGER.error(`!ERR: Not a Math function: ${mathFunction}`);
-    return "null";
   });
 }
