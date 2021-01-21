@@ -7,9 +7,9 @@
                   <span class="row-section action text-align-right">{{localize "CPR.actions"}}</span>
             </div>
             {{#each ../actor.items as |item i|}}
-                  {{#ifEquals item.type c}}
+                  {{#if (compare item.type "===" c)}}
                         {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c)}}
-                  {{/ifEquals}}
+                  {{/if}}
             {{/each}}
       {{/each}}
 </div>

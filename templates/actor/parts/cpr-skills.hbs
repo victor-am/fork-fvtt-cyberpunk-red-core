@@ -26,7 +26,7 @@
       {{/if}}
     </div>
     <span class="row-section skill-level"><input class="skill-level-input" value="{{skill.data.level}}" type="number" data-item-prop="data.level" data-dtype="Number"></span>
-    <span class="row-section skill-base">{{add skill.data.level (lookup (getProp ../../actor.data.stats skill.data.stat) 'value')}}</span>
+    <span class="row-section skill-base">{{math "sum" skill.data.level (lookup (getProp ../../actor.data.stats skill.data.stat) 'value')}}</span>
   </div>
   {{/if}}
   {{/each}}

@@ -6,10 +6,6 @@ import CPR from "./config.js";
 export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers");
 
-  // eslint-disable-next-line max-len
-  // DIVEST!
-  Handlebars.registerHelper("ifEquals", (arg1, arg2, options) => (arg1 === arg2 ? options.fn(this) : options.inverse(this)));
-
   Handlebars.registerHelper("compare", (v1, operator, v2) => {
     switch (operator) {
       case "==":
@@ -35,16 +31,7 @@ export default function registerHandlebarsHelpers() {
     }
   });
 
-  // DIVEST!
-  Handlebars.registerHelper("loud", (string) => string.toUpperCase());
-
   Handlebars.registerHelper("getProp", (object, property) => getProperty(object, property));
-
-  // DIVEST!
-  Handlebars.registerHelper("add", (x, y) => {
-    LOGGER.trace(`Calling add Helper | Arg1:${x} Arg2:${y}`);
-    return parseInt(x, 10) + parseInt(y, 10);
-  });
 
   Handlebars.registerHelper("findConfigValue", (obj, key) => {
     LOGGER.trace(`Calling findConfigValue Helper | Arg1:${obj} Arg2:${key}`);
@@ -100,6 +87,13 @@ export default function registerHandlebarsHelpers() {
     if (typeof Math[mathFunction] === "function") {
       return Math[mathFunction].apply(null, mathArgs);
     }
+    // Math doesn't have basic functions, we can account
+    // for those here as needed:
+    switch (mathFunction) {
+      case "sum":
+        return mathArgs.reduce((a, b) => a + b, 0);
+    }
+
     LOGGER.error(`!ERR: Not a Math function: ${mathFunction}`);
     return "null";
   });
