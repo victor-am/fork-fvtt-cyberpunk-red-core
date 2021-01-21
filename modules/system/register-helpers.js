@@ -6,41 +6,32 @@ import CPR from "./config.js";
 export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers");
 
-  Handlebars.registerHelper("ifEquals", (arg1, arg2, options) => (arg1 === arg2 ? options.fn(this) : options.inverse(this)));
-
-  Handlebars.registerHelper("compare", (v1, operator, v2, options) => {
+  Handlebars.registerHelper("compare", (v1, operator, v2) => {
     switch (operator) {
       case "==":
-        return v1 == v2 ? options.fn(this) : options.inverse(this); // eslint-disable-line eqeqeq
+        return v1 == v2; // eslint-disable-line eqeqeq
       case "===":
-        return v1 === v2 ? options.fn(this) : options.inverse(this);
+        return v1 === v2;
       case "!==":
-        return v1 !== v2 ? options.fn(this) : options.inverse(this);
+        return v1 !== v2;
       case "<":
-        return v1 < v2 ? options.fn(this) : options.inverse(this);
+        return v1 < v2;
       case "<=":
-        return v1 <= v2 ? options.fn(this) : options.inverse(this);
+        return v1 <= v2;
       case ">":
-        return v1 > v2 ? options.fn(this) : options.inverse(this);
+        return v1 > v2;
       case ">=":
-        return v1 >= v2 ? options.fn(this) : options.inverse(this);
+        return v1 >= v2;
       case "&&":
-        return v1 && v2 ? options.fn(this) : options.inverse(this);
+        return v1 && v2;
       case "||":
-        return v1 || v2 ? options.fn(this) : options.inverse(this);
+        return v1 || v2;
       default:
-        return options.inverse(this);
+        return false;
     }
   });
 
-  Handlebars.registerHelper("loud", (string) => string.toUpperCase());
-
   Handlebars.registerHelper("getProp", (object, property) => getProperty(object, property));
-
-  Handlebars.registerHelper("add", (x, y) => {
-    LOGGER.trace(`Calling add Helper | Arg1:${x} Arg2:${y}`);
-    return parseInt(x, 10) + parseInt(y, 10);
-  });
 
   Handlebars.registerHelper("findConfigValue", (obj, key) => {
     LOGGER.trace(`Calling findConfigValue Helper | Arg1:${obj} Arg2:${key}`);
@@ -59,12 +50,14 @@ export default function registerHandlebarsHelpers() {
     return "INVALID_LIST";
   });
 
-  Handlebars.registerHelper("contains", function (arg1, arg2, options) {
+  // TODO - Refactor / Revist
+  Handlebars.registerHelper("contains", (arg1, arg2, options) => {
     // LOGGER.trace(`Calling contains Helper | Arg1:${arg1} Arg2:${arg2}`);
     const array = arg2.split(",");
     return array.includes(arg1) ? options.fn(this) : options.inverse(this);
   });
 
+  // TODO - Rename?
   Handlebars.registerHelper("generatePartial", (arg1, arg2) => {
     LOGGER.trace(`Calling generatePartial Helper | Arg1:${arg1} Arg2:${arg2}`);
     return arg1.replace("VAR", arg2);
@@ -94,6 +87,14 @@ export default function registerHandlebarsHelpers() {
     if (typeof Math[mathFunction] === "function") {
       return Math[mathFunction].apply(null, mathArgs);
     }
-    return `!ERR: Not a Math function: ${mathFunction}`;
+    // Math doesn't have basic functions, we can account
+    // for those here as needed:
+    switch (mathFunction) {
+      case "sum":
+        return mathArgs.reduce((a, b) => a + b, 0);
+      default:
+        LOGGER.error(`!ERR: Not a Math function: ${mathFunction}`);
+        return "null";
+    }
   });
 }

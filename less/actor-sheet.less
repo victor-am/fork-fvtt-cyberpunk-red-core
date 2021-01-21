@@ -84,6 +84,7 @@ app.window-app.sheet.actor {
 
   .skills {
     flex: 50%;
+
     .skill-name {
       width: 60%;
     }
@@ -96,8 +97,17 @@ app.window-app.sheet.actor {
   }
 
   .inventory {
-    flex: 100%;
+    flex      : 100%;
     text-align: center;
+
+    .name {
+      width: 200px;
+    }
+
+    .data {
+      text-align: left;
+    }
+
     .action {
       width: 10%;
     }
@@ -131,10 +141,24 @@ app.window-app.sheet.actor {
     }
   }
 
+  .text-align-left {
+    text-align: left;
+  }
 
+  .text-align-center {
+    text-align: center;
+  }
+
+  .text-align-right {
+    text-align: right;
+  }
   input {
     background: 0;
     outline   : 0;
     border    : 0;
   }
+}
+
+.text-align-left {
+  text-align: left;
 }

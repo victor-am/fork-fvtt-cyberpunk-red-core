@@ -197,6 +197,12 @@ app.window-app.sheet.actor {
   flex: 100%;
   text-align: center;
 }
+.sheet-content .inventory .name {
+  width: 200px;
+}
+.sheet-content .inventory .data {
+  text-align: left;
+}
 .sheet-content .inventory .action {
   width: 10%;
 }
@@ -221,10 +227,22 @@ app.window-app.sheet.actor {
   flex-direction: row;
   flex-wrap: wrap;
 }
+.sheet-content .text-align-left {
+  text-align: left;
+}
+.sheet-content .text-align-center {
+  text-align: center;
+}
+.sheet-content .text-align-right {
+  text-align: right;
+}
 .sheet-content input {
   background: 0;
   outline: 0;
   border: 0;
+}
+.text-align-left {
+  text-align: left;
 }
 form .item-desc-body {
   display: flex;

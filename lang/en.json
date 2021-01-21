@@ -200,6 +200,8 @@
     "CPR.cybersnake": "Cybersnake",
     "CPR.cybertech": "Cybertech",
     "CPR.cyberware": "Cyberware",
+    "CPR.cyberwareinternal": "Internal Cyberware",
+    "CPR.cyberwareexternal": "External Cyberware",
     "CPR.damagedear": "Damaged Ear",
     "CPR.damagedeflection": "Damage Deflection",
     "CPR.damagedeye": "Damaged Eye",
