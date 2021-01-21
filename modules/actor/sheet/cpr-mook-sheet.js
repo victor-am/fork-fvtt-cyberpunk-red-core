@@ -1,6 +1,6 @@
 /* global mergeObject */
-import CPRActorSheet from "./cpr-actor-sheet";
-import LOGGER from "../../utils/cpr-logger";
+import CPRActorSheet from "./cpr-actor-sheet.js";
+import LOGGER from "../../utils/cpr-logger.js";
 
 /**
  * Extend the basic CPRActorSheet.

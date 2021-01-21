@@ -1,7 +1,7 @@
 /* global renderTemplate, FormDataExtended, Dialog */
 // TODO - Revist this method of dialog creation.
 
-import LOGGER from "../utils/cpr-logger";
+import LOGGER from "../utils/cpr-logger.js";
 
 // TODO - Revist name of function.
 const InstallCyberwarePrompt = async (data) => new Promise((resolve, reject) => {

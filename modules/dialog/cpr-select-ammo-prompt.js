@@ -1,5 +1,5 @@
 /* global Dialog, renderTemplate */
-import LOGGER from "../utils/cpr-logger";
+import LOGGER from "../utils/cpr-logger.js";
 
 const SelectAmmoPrompt = async (dialogData) => {
   LOGGER.trace("_loadWeapon | Dialog SelectAmmoForWeapon | called.");

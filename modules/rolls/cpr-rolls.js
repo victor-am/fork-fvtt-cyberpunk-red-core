@@ -1,8 +1,8 @@
 /* global Roll, mergeObject */
-import LOGGER from "../utils/cpr-logger";
-import CPRBaseRollResult from "./cpr-baseroll-result";
-import CPRDamageRollResult from "./cpr-dmgroll-result";
-import DiceSoNice from "../extern/cpr-dice-so-nice";
+import LOGGER from "../utils/cpr-logger.js";
+import CPRBaseRollResult from "./cpr-baseroll-result.js";
+import CPRDamageRollResult from "./cpr-dmgroll-result.js";
+import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 
 // RollRequest (per type)
 // --> Work

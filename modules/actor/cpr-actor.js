@@ -1,7 +1,7 @@
 /* globals Actor */
-import LOGGER from "../utils/cpr-logger";
+import LOGGER from "../utils/cpr-logger.js";
 // import ActorUtils from "../utils/cpr-actorUtils";
-import SystemUtils from "../utils/cpr-systemUtils";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.

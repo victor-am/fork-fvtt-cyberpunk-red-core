@@ -1,7 +1,7 @@
 /* global ItemSheet */
 /* global mergeObject, game, $, hasProperty, getProperty, setProperty, duplicate */
-import LOGGER from "../../utils/cpr-logger";
-import SystemUtils from "../../utils/cpr-systemUtils";
+import LOGGER from "../../utils/cpr-logger.js";
+import SystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
  * Extend the basic ActorSheet.

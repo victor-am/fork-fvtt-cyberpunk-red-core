@@ -1,16 +1,16 @@
 /* global ActorSheet */
 /* global mergeObject, $, setProperty, game */
 /* eslint no-prototype-builtins: ["warn"] */
-import LOGGER from "../../utils/cpr-logger";
-import CPRSystemUtils from "../../utils/cpr-systemUtils";
-import CPRRolls from "../../rolls/cpr-rolls";
-import CPR from "../../system/config";
-import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request";
-import CPRDmgRollRequest from "../../rolls/cpr-dmgroll-request";
-import VerifyRollPrompt from "../../dialog/cpr-verify-roll-prompt";
-import CPRChat from "../../chat/cpr-chat";
-import Rules from "../../utils/cpr-rules";
-import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt";
+import LOGGER from "../../utils/cpr-logger.js";
+import CPRSystemUtils from "../../utils/cpr-systemUtils.js";
+import CPRRolls from "../../rolls/cpr-rolls.js";
+import CPR from "../../system/config.js";
+import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
+import CPRDmgRollRequest from "../../rolls/cpr-dmgroll-request.js";
+import VerifyRollPrompt from "../../dialog/cpr-verify-roll-prompt.js";
+import CPRChat from "../../chat/cpr-chat.js";
+import Rules from "../../utils/cpr-rules.js";
+import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js";
 
 /**
  * Extend the basic ActorSheet.
