@@ -1,5 +1,5 @@
-<div class="cpr-block bar">
-  <div class="title double large-text bold">
+<div class="cpr-block">
+  <div class="title double bold">
   <span>State</span>
   <span>Death Save</span>
   </div>
@@ -7,9 +7,9 @@
     {{log this}}
     {{!-- <span>{{localize (findConfigValue "woundState" this.data.woundState.currentWoundState)}}</span> --}}
     {{#with this.data.woundState.currentWoundState as |state| }}
-    <i class="large-text fas fa-{{#if (eq state "notWounded")}}smile{{/if}}{{#if (eq state "lightlyWounded")}}meh{{/if}}{{#if (eq state "seriouslyWounded")}}frown{{/if}}{{#if (eq state "mortallyWounded")}}skull{{/if}}"></i>
+    <i class="half large-text fas fa-{{#if (eq state "notWounded")}}smile{{/if}}{{#if (eq state "lightlyWounded")}}meh{{/if}}{{#if (eq state "seriouslyWounded")}}frown{{/if}}{{#if (eq state "mortallyWounded")}}skull{{/if}}"></i>
     {{/with}}
-    <input name="data.derivedStats.deathSave" type="number" value="{{data.derivedStats.deathSave}}" data-dtype="Number" style="flex-basis: 50%;  " />
+    <input class+"half" name="data.derivedStats.deathSave" type="number" value="{{data.derivedStats.deathSave}}" data-dtype="Number" style="flex-basis: 50%;  " />
   </div>
 </div>
 {{log "END CPR-DEATHSAVE-BLOCK.HBS"}}

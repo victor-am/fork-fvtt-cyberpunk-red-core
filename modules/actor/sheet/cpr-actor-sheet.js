@@ -97,8 +97,6 @@ export default class CPRActorSheet extends ActorSheet {
       }
     );
 
-    
-
     // hide skills by category on clicking header
     html.find(".skills .header").click(event => {
       let header = $(event.currentTarget);
@@ -109,6 +107,10 @@ export default class CPRActorSheet extends ActorSheet {
         };
       }
     });
+
+    //TODO make this better
+    // force columns to adjust every click because I can't find an _onReload method...
+    $(window).click(this._adjustColumns());
   }
 
   /* -------------------------------------------- */
@@ -182,6 +184,7 @@ export default class CPRActorSheet extends ActorSheet {
     if (rollRequest.rollType === "attack") {
       const weaponId = $(event.currentTarget).attr("data-item-id");
       let weaponItem = this.actor.items.find((i) => i.data._id == weaponId);
+      console.log(weaponItem)
       if (weaponItem.data.data.isRanged) {
         // Need to figure out how to determine which we are doing here, single, autofire and suppressive
         // Defaulting to Single
@@ -491,8 +494,7 @@ export default class CPRActorSheet extends ActorSheet {
     let roles = this.getData().data.roleInfo.roleskills;
     let roleAbility = rollRequest.rollTitle;
     for (const roleName in roles) {
-      if (roles[roleName].hasOwnProperty(roleAbility))
-      {
+      if (roles[roleName].hasOwnProperty(roleAbility)) {
         rollRequest.roleValue = roles[roleName][roleAbility];
         rollRequest.rollTitle = game.i18n.localize(CPR['roleAbilityList'][roleAbility]);
         break;
