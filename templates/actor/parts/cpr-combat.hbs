@@ -1,76 +1,62 @@
 {{log "CPR-COMBAT.HBS"}}
-  <div class="weapons">
-    <div class=" bold black-bg white-fg larger-text center-text">Weapons</div>
-    <table class="dynamic-list">
-      {{#each actor.filteredItems.weapon as |weapon|}}
-      <tr class="item row ">
-        {{#if (eq weapon.data.equippable.equipped "equipped")}}
-        <div style="display: flex; justify-content: space-between">
-          <td><span>{{weapon.name}}</span></td>
-          <td><span>
-              <a class="rollable" data-attack-skill="{{weapon.data.weaponSkill}}"
-                data-is-ranged="{{weapon.data.isRanged}}" data-roll-type="attack"
-                data-roll-title="{{weapon.name}} attack!" data-weapon-name="{{weapon.name}}"
-                data-item-id={{weapon._id}}>
-                [ATTACK]
-                <i class="fas fa-dice"></i>
-              </a>
-            </span>
-          </td>
-          <td><span>
-              <a class="rollable" data-damage="{{weapon.data.damage}}" data-roll-type="damage"
-                data-item-id={{weapon._id}}>
-                [DAMAGE]
-                <i class="fas fa-dice"></i>
-              </a>
-            </span>
-          </td>
-          <td><span>ROF {{weapon.data.rof}}</span></td>
-          <td>
-            {{#if weapon.data.isRanged}}
-            <span>{{weapon.data.magazine.value}}/{{weapon.data.magazine.max}} rounds</span>
-            {{/if}}
-          </td>
-        </div>
-        {{/if}}
-      </tr>
-      {{/each}}
-    </table>
-  </div>
+<div class="weapons">
+  <div class=" bold black-bg white-fg larger-text center-text">Weapons</div>
+  <div class="dynamic-list">
+    {{#each actor.filteredItems.weapon as |weapon|}}
+    <div class="item row ">
+      {{#if (eq weapon.data.equippable.equipped "equipped")}}
 
+      <div class="section third">{{weapon.name}}</div>
 
+      <div class="section">
+        <a class="rollable" data-attack-skill="{{weapon.data.weaponSkill}}" data-is-ranged="{{weapon.data.isRanged}}"
+          data-roll-type="attack" data-roll-title="{{weapon.name}}" data-weapon-name="{{weapon.name}}"
+          data-item-id={{weapon._id}}>
+          [ATK]
+        </a>
+      </div>
 
-  <div class="armor">
-    <div class=" bold black-bg white-fg larger-text center-text">Armor</div>
-    <table>
-      {{#each actor.filteredItems.armor as |armor| }}
-      {{#if (eq armor.data.equippable.equipped "equipped")}}
-      <tr class="item row">
-        <div>
-          <td><span>{{armor.name}}</span></td>
-          <td><span>{{armor.data.sp}}</span></td>
-          <td><span>{{armor.data.ablation}}</span></td>
-          <td>ABLATE_PLACEHOLDER</td>
-        </div>
-      </tr>
+      <div class="section">
+        <a class="rollable" data-damage="{{weapon.data.damage}}" data-roll-type="damage" data-item-id={{weapon._id}}>
+          [DMG]
+        </a>
+      </div>
+      
+      <div class="section eighth">{{#if weapon.data.isRanged}}{{weapon.data.magazine.value}}/{{weapon.data.magazine.max}}{{/if}}</div>
+      
+      <div class="section eighth">ROF {{weapon.data.rof}}</div>
+
       {{/if}}
-      {{/each}}
-    </table>
+    </div>
+    {{/each}}
   </div>
+</div>
 
 
 
-  <div class="combat-skills">
-    <div class=" bold black-bg white-fg larger-text center-text">Combat Skills</div>
-    <table>
-      {{!-- Default Skill Rolls --}}
-      {{!-- Skills to show actions for --}}
-      {{!-- Brawling, Martial Arts, Evasion --}}
-      <tr>
-        <td>
-          TODO
-        </td>
-      </tr>
-    </table>
+<div class="armor">
+  <div class=" bold black-bg white-fg larger-text center-text">Armor</div>
+  {{#each actor.filteredItems.armor as |armor| }}
+  {{#if (eq armor.data.equippable.equipped "equipped")}}
+  <div class="item row">
+    <div>
+      <span>{{armor.name}}</span>
+      <span>{{armor.data.sp}}</span>
+      <span>{{armor.data.ablation}}</span>
+      ABLATE_PLACEHOLDER
+    </div>
   </div>
+  {{/if}}
+  {{/each}}
+</div>
+
+
+
+<div class="combat-skills">
+  <div class=" bold black-bg white-fg larger-text center-text">Combat Skills</div>
+  {{!-- Default Skill Rolls --}}
+  {{!-- Skills to show actions for --}}
+  {{!-- Brawling, Martial Arts, Evasion --}}
+  TODO
+</div>
 {{log "END CPR-COMBAT.HBS"}}

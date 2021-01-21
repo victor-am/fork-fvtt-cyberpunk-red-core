@@ -225,14 +225,29 @@
   padding: 2px;
   max-height: 20px;
 }
-.dynamic-list .row .section.small {
-  width: 12%;
+.dynamic-list .row.flex-end {
+  justify-content: flex-end;
 }
-.dynamic-list .row .section.medium {
+.dynamic-list .row .section {
+  flex: 1 0 auto;
+}
+.dynamic-list .row .section.eighth {
+  width: 12.5%;
+}
+.dynamic-list .row .section.quarter {
   width: 25%;
+}
+.dynamic-list .row .section.third {
+  width: calc(100% / 3);
+}
+.dynamic-list .row .section.half {
+  width: 50%;
 }
 .dynamic-list .row .section.grow {
   flex: 1 0 auto;
+}
+.dynamic-list .row .section.no-grow {
+  flex-grow: 0;
 }
 .dynamic-list .row.hide {
   display: none;

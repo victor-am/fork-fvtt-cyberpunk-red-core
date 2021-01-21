@@ -256,17 +256,35 @@
     padding: 2px;
     max-height: 20px;
 
+    &.flex-end {
+      justify-content: flex-end;
+    }
+
     .section {
-      &.small {
-        width: 12%;
+      flex: 1 0 auto;
+
+      &.eighth {
+        width: 12.5%;
       }
 
-      &.medium {
+      &.quarter {
         width: 25%;
+      }
+
+      &.third {
+        width: calc(100% / 3);
+      }
+
+      &.half {
+        width: 50%;
       }
 
       &.grow {
         flex: 1 0 auto;
+      }
+
+      &.no-grow {
+        flex-grow: 0;
       }
     }
 
