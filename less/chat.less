@@ -7,22 +7,21 @@
   font-variant: small-caps;
   display: grid;
   padding: 15px;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 2fr 1fr;
   grid-template-areas: 
     "dice dice dice info info info"
-    "dice dice dice info info info"
-    "dice dice dice info info info"
-    "dice dice dice info info info"
-    "dice dice dice total total total"
     "dice dice dice total total total";
   .dice-div {
     grid-area: dice;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    justify-content: space-around;;
-
+    justify-content: start;
+    height: 180px;
+    width: 130px;
+    flex-shrink: 0;
+    flex-grow: 0;
   }
   .total-div {
     grid-area: total
@@ -32,10 +31,65 @@
     display: flex;
     flex-direction: column;
   }
-  i {
-    .d10.one {
-      background: url("../icons/d10_1.png");
-    }
+  .d10.one {
+    background-image: url("icons/d10_1.png");
+    height: 70px;
+    width: 70px;
+    display: block;
+  }
+  .d10.two {
+    background-image: url("icons/d10_2.png");
+    height: 70px;
+    width: 70px;
+    display: block;
+  }
+  .d10.three {
+    background-image: url("icons/d10_3.png");
+    height: 70px;
+    width: 70px;
+    display: block;
+  }
+  .d10.four {
+    background-image: url("icons/d10_4.png");
+    height: 70px;
+    width: 70px;
+    display: block;
+  }
+  .d10.five {
+    background-image: url("icons/d10_5.png");
+    height: 70px;
+    width: 70px;
+    display: block;
+  }
+  .d10.six {
+    background-image: url("icons/d10_6.png");
+    height: 70px;
+    width: 70px;
+    display: block;
+  }
+  .d10.seven {
+    background-image: url("icons/d10_7.png");
+    height: 70px;
+    width: 70px;
+    display: block;
+  }
+  .d10.eight {
+    background-image: url("icons/d10_8.png");
+    height: 70px;
+    width: 70px;
+    display: block;
+  }
+  .d10.nine {
+    background-image: url("icons/d10_9.png");
+    height: 70px;
+    width: 70px;
+    display: block;
+  }
+  .d10.ten {
+    background-image: url("icons/d10_10.png");
+    height: 70px;
+    width: 70px;
+    display: block;
   }
 
 }

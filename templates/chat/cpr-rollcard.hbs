@@ -68,13 +68,42 @@
       <span class="massive-text">{{resultTotal}}{{#if wasCritical}}!{{/if}}</span>
     </div>
 
-    <div class="dice-div large-text">
-      <i class="d10 one"></i>
+    <div class="dice-div">
+        {{!-- die image for initialRoll --}}
+        {{#if (eq initialRoll 1)}}
+        <i class="d10 one"></i>
+        {{/if}}
+        {{#if (eq initialRoll 2)}}
+        <i class="d10 two"></i>
+        {{/if}}
+        {{#if (eq initialRoll 3)}}
+        <i class="d10 three"></i>
+        {{/if}}
+        {{#if (eq initialRoll 4)}}
+        <i class="d10 four"></i>
+        {{/if}}
+        {{#if (eq initialRoll 5)}}
+        <i class="d10 five"></i>
+        {{/if}}
+        {{#if (eq initialRoll 6)}}
+        <i class="d10 six"></i>
+        {{/if}}
+        {{#if (eq initialRoll 7)}}
+        <i class="d10 seven"></i>
+        {{/if}}
+        {{#if (eq initialRoll 8)}}
+        <i class="d10 eight"></i>
+        {{/if}}
+        {{#if (eq initialRoll 9)}}
+        <i class="d10 nine"></i>
+        {{/if}}
+        {{#if (eq initialRoll 10)}}
+        <i class="d10 ten"></i>
+        {{/if}}
+
       {{#if wasCritical}}
-        {{!-- die image for initialRoll --}}
         {{!-- die image for criticalRoll --}}
-      {{else}}
-        {{!-- die image for initialRoll --}}
+        <i class="d10 one"></i>
       {{/if}}
     </div>
 
