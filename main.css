@@ -299,8 +299,9 @@ form .item-name {
 .chat-rollCard h1 {
   border-bottom: none;
 }
-form input.number {
-  width: 30px;
+.sheet-content .row.row-header {
+  background: #d02b23;
+  color: #ffffff;
 }
 :root {
   font-family: 'Ubuntu Mono', monospace;
