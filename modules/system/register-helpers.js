@@ -7,6 +7,7 @@ export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers");
 
   // eslint-disable-next-line max-len
+  // DIVEST!
   Handlebars.registerHelper("ifEquals", (arg1, arg2, options) => (arg1 === arg2 ? options.fn(this) : options.inverse(this)));
 
   Handlebars.registerHelper("compare", (v1, operator, v2) => {
@@ -34,10 +35,12 @@ export default function registerHandlebarsHelpers() {
     }
   });
 
+  // DIVEST!
   Handlebars.registerHelper("loud", (string) => string.toUpperCase());
 
   Handlebars.registerHelper("getProp", (object, property) => getProperty(object, property));
 
+  // DIVEST!
   Handlebars.registerHelper("add", (x, y) => {
     LOGGER.trace(`Calling add Helper | Arg1:${x} Arg2:${y}`);
     return parseInt(x, 10) + parseInt(y, 10);
@@ -60,12 +63,14 @@ export default function registerHandlebarsHelpers() {
     return "INVALID_LIST";
   });
 
-  Handlebars.registerHelper("contains", function (arg1, arg2, options) {
+  // TODO - Refactor / Revist
+  Handlebars.registerHelper("contains", (arg1, arg2, options) => {
     // LOGGER.trace(`Calling contains Helper | Arg1:${arg1} Arg2:${arg2}`);
     const array = arg2.split(",");
     return array.includes(arg1) ? options.fn(this) : options.inverse(this);
   });
 
+  // TODO - Rename?
   Handlebars.registerHelper("generatePartial", (arg1, arg2) => {
     LOGGER.trace(`Calling generatePartial Helper | Arg1:${arg1} Arg2:${arg2}`);
     return arg1.replace("VAR", arg2);
@@ -95,6 +100,7 @@ export default function registerHandlebarsHelpers() {
     if (typeof Math[mathFunction] === "function") {
       return Math[mathFunction].apply(null, mathArgs);
     }
-    return `!ERR: Not a Math function: ${mathFunction}`;
+    LOGGER.error(`!ERR: Not a Math function: ${mathFunction}`);
+    return "null";
   });
 }
