@@ -398,6 +398,8 @@ export default class CPRActorSheet extends ActorSheet {
   _updateOwnedItem(item) {
     LOGGER.trace(`ActorID _updateOwnedItemProp | Called.`);
     this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+    this._adjustColumns();
+
   }
 
   _renderItemCard(event) {
@@ -537,20 +539,20 @@ export default class CPRActorSheet extends ActorSheet {
 
 
   // adjust dynamic list columns based on width of container
-  /** @override */
-  _onResize(event) {
+  _adjustColumns() {
+    LOGGER.debug("adjusting columns");
     let container = $(".dynamic-list.skills");
     let currentWidth = container.innerWidth();
     let currentSetting = container[0].classList[2];
-    if (currentWidth < 660) {
+    if (currentWidth < 640) {
       container.removeClass(currentSetting);
       container.addClass("col-1");
     }
-    else if (currentWidth >= 660 && currentWidth < 990) {
+    else if (currentWidth >= 640 && currentWidth < 960) {
       container.removeClass(currentSetting);
       container.addClass("col-2");
     }
-    else if (currentWidth >= 990 && currentWidth < 1320) {
+    else if (currentWidth >= 960 && currentWidth < 1280) {
       container.removeClass(currentSetting);
       container.addClass("col-3");
     }
@@ -558,5 +560,11 @@ export default class CPRActorSheet extends ActorSheet {
       container.removeClass(currentSetting);
       container.addClass("col-4");
     };
+    LOGGER.debug("columns adjusted")
+  }
+
+  /** @override */
+  _onResize(event) {
+    this._adjustColumns();
   }
 }

@@ -33,7 +33,7 @@
 ---------------------*/
 .app.window-app.sheet.sheet.actor {
   min-width: 600px;
-  min-height: 870px;
+  min-height: 770px;
 }
 .app.window-app.sheet.sheet.actor .window-resizable-handle {
   z-index: 10;
@@ -57,7 +57,7 @@
 .sheet-content.character {
   display: grid;
   grid-template-columns: 200px 50px 1fr;
-  grid-template-rows: 20px 175px minmax(300px, 1fr) 300px;
+  grid-template-rows: 20px 175px minmax(300px, 1fr) 200px;
   grid-template-areas: "image stats nav" "image stats content" "main stats content" "combat combat combat";
   grid-gap: 5px;
 }
@@ -97,6 +97,7 @@
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   grid-template-areas: "critical weapons" "armor skills";
+  grid-gap: 10px;
 }
 .sheet-content.character .combat-container .armor {
   grid-area: armor;
@@ -231,8 +232,14 @@
 .dynamic-list .row .section {
   flex: 1 0 auto;
 }
+.dynamic-list .row .section.sixteenth {
+  width: 6.25%;
+}
 .dynamic-list .row .section.eighth {
   width: 12.5%;
+}
+.dynamic-list .row .section.sixth {
+  width: calc(100% / 6);
 }
 .dynamic-list .row .section.quarter {
   width: 25%;
@@ -253,7 +260,7 @@
   display: none;
 }
 /*--------------------
-  Globals
+  Globals and tweaks
 ---------------------*/
 ::-webkit-scrollbar {
   display: none;
@@ -272,18 +279,40 @@
 .sheet-content .navtab:hover {
   text-shadow: none;
 }
+.sheet-content .combat-container,
+.sheet-content .content-container {
+  border: 4px solid #b90202ff;
+  padding: 5px;
+}
 /*--------------------
   cpr-block element styling
 ---------------------*/
 .cpr-block {
   background-color: #b90202ff;
+  position: relative;
   clip-path: polygon(0 15px, 0 100%, 100% 100%, 100% 0, 15px 0);
+  /*--------------------
+    Bar modifier
+  ---------------------*/
+  /*-------------------*/
 }
 .cpr-block::before {
   content: "";
   background-color: #eaeaeaff;
   clip-path: polygon(0 14px, 0 100%, 100% 100%, 100% 0, 14px 0);
   z-index: -1;
+}
+.cpr-block.bar::before {
+  clip-path: polygon(0 14px, 0 100%, calc(50% - 7.5px) 100%, calc(50% - 7.5px) 50%, calc(50% + 7.5px) 50%, calc(50% + 7.5px) 100%, 100% 100%, 100% 0, 14px 0);
+}
+.cpr-block.bar.out-of::after {
+  content: "OUT OF";
+  position: absolute;
+  transform: rotate(-90deg);
+  color: #eaeaeaff;
+  font-size: 0.5em;
+  left: 44%;
+  top: 65%;
 }
 .cpr-block.stat {
   clip-path: polygon(0 16px, 0 100%, 100% 100%, 100% 0, 16px 0);
