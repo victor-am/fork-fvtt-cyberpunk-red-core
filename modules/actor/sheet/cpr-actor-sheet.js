@@ -431,7 +431,7 @@ export default class CPRActorSheet extends ActorSheet {
   // TODO - Fix
   _getArmorPenaltyMods(stat) {
     const penaltyStats = ["ref", "dex", "move"];
-    let penaltyMods = [0];
+    const penaltyMods = [0];
     if (penaltyStats.includes(stat)) {
       const coverage = ["head", "body"];
       coverage.forEach((location) => {
@@ -449,9 +449,10 @@ export default class CPRActorSheet extends ActorSheet {
     rollRequest.statValue = this.getData().data.stats[
       rollRequest.rollTitle
     ].value;
-    const apMods = this._getArmorPenaltyMods(item.data.data.stat);
-    if (apMods)
-    {
+
+    const apMods = this._getArmorPenaltyMods(rollRequest.rollTitle);
+
+    if (apMods) {
       rollRequest.mods.push(apMods);
     }
     LOGGER.trace(`ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
@@ -461,13 +462,11 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID _prepareRollSkill | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
     const item = this._getOwnedItem(itemId);
 
-    rollRequest.statValue = this.getData().data.stats[
-      item.data.data.stat
-    ].value;
+    rollRequest.statValue = this.getData().data.stats[item.data.data.stat].value;
     rollRequest.skillValue = item.data.data.level;
     const apMods = this._getArmorPenaltyMods(item.data.data.stat);
-    if (apMods)
-    {
+
+    if (apMods) {
       rollRequest.mods.push(apMods);
     }
   }
