@@ -18,14 +18,14 @@
         <h1>Other Role Abilities:</h1>
         {{#each (findConfigObj "roleList") as |name n|}}
         {{#each (getProp ../data.roleInfo.roleskills n) as |roleskill rs|}}
-        {{#compare n "!==" ../../data.roleInfo.role}}
-        {{#compare roleskill ">" 0}}
+        {{#if (compare n "!==" ../../data.roleInfo.role)}}
+        {{#if (compare roleskill ">" 0)}}
         <div>
             <span class="rollable ability-name" data-roll-type="roleAbility" data-roll-title="{{rs}}">{{localize (findConfigValue "roleAbilityList" rs)}}</span>: {{roleskill}} (Role: {{localize (findConfigValue
             "roleList" n)}})
         </div>
-        {{/compare}}
-        {{/compare}}
+        {{/if}}
+        {{/if}}
         {{/each}}
         {{/each}}
     </div>
