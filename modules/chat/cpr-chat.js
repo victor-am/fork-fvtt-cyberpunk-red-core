@@ -1,5 +1,5 @@
 /* global game, CONFIG, ChatMessage, renderTemplate */
-import LOGGER from "../utils/cpr-logger";
+import LOGGER from "../utils/cpr-logger.js";
 
 export default class CPRChat {
   static ChatDataSetup(content, modeOverride, isRoll = false, forceWhisper) {

@@ -1,6 +1,6 @@
 /* global Handlebars, getProperty */
-import LOGGER from "../utils/cpr-logger";
-import CPR from "./config";
+import LOGGER from "../utils/cpr-logger.js";
+import CPR from "./config.js";
 // import CPRSystemUtils from "../utils/cpr-systemUtils";
 
 export default function registerHandlebarsHelpers() {

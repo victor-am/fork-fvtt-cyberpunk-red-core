@@ -21,8 +21,10 @@
         ],
         "quotes": [
             "warn",
-            "backtick",
-            "double"
+            "double",
+            {
+                "allowTemplateLiterals": true
+            }
         ],
         "no-underscore-dangle": "off",
         "max-len": [
@@ -45,12 +47,12 @@
             "warn"
         ],
         "linebreak-style": 0,
-        "import/extension": [
-            "error",
-            "never",
-            {
-                "js": "always"
-            }
+        "import/extensions": ["warn", "always"]
+
+    },
+    "settings": {
+        "import/extensions": [
+            ".js"
         ]
     }
 }

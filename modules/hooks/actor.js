@@ -1,6 +1,6 @@
 /* global Hooks */
 /* eslint no-unused-vars:1 */
-import LOGGER from "../utils/cpr-logger";
+import LOGGER from "../utils/cpr-logger.js";
 
 const actorPreHooks = () => {
   Hooks.on("preCreateActor", (createData) => {

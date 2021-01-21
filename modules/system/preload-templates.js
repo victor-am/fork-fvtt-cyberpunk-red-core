@@ -1,5 +1,5 @@
 /* global loadTemplates */
-import LOGGER from "../utils/cpr-logger";
+import LOGGER from "../utils/cpr-logger.js";
 
 export default function preloadHandlebarsTemplates() {
   LOGGER.log("Calling Preload Handlebars");

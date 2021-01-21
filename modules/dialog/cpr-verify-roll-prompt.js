@@ -1,7 +1,7 @@
 /* global renderTemplate, FormDataExtended, Dialog */
 // TODO - Finish Refactor, See cyberware-install-prompt.js
 
-import LOGGER from "../utils/cpr-logger";
+import LOGGER from "../utils/cpr-logger.js";
 
 // TODO - Revist name of function.
 const VerifyRollPrompt = async (rollRequest) => new Promise((resolve, reject) => {
