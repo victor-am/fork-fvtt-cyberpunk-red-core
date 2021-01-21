@@ -6,46 +6,31 @@ import CPR from "./config.js";
 export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers");
 
+  // eslint-disable-next-line max-len
   Handlebars.registerHelper("ifEquals", (arg1, arg2, options) => (arg1 === arg2 ? options.fn(this) : options.inverse(this)));
 
-  Handlebars.registerHelper({
-    eq: (v1, v2) => v1 === v2,
-    ne: (v1, v2) => v1 !== v2,
-    lt: (v1, v2) => v1 < v2,
-    gt: (v1, v2) => v1 > v2,
-    lte: (v1, v2) => v1 <= v2,
-    gte: (v1, v2) => v1 >= v2,
-    and() {
-        return Array.prototype.every.call(arguments, Boolean);
-    },
-    or() {
-        return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
-    }
-  });
-
-  
-  Handlebars.registerHelper('compare', function (v1, operator, v2, options) {
+  Handlebars.registerHelper("compare", (v1, operator, v2) => {
     switch (operator) {
       case "==":
-        return v1 == v2 ? options.fn(this) : options.inverse(this); // eslint-disable-line eqeqeq
+        return v1 == v2; // eslint-disable-line eqeqeq
       case "===":
-        return v1 === v2 ? options.fn(this) : options.inverse(this);
+        return v1 === v2;
       case "!==":
-        return v1 !== v2 ? options.fn(this) : options.inverse(this);
+        return v1 !== v2;
       case "<":
-        return v1 < v2 ? options.fn(this) : options.inverse(this);
+        return v1 < v2;
       case "<=":
-        return v1 <= v2 ? options.fn(this) : options.inverse(this);
+        return v1 <= v2;
       case ">":
-        return v1 > v2 ? options.fn(this) : options.inverse(this);
+        return v1 > v2;
       case ">=":
-        return v1 >= v2 ? options.fn(this) : options.inverse(this);
+        return v1 >= v2;
       case "&&":
-        return v1 && v2 ? options.fn(this) : options.inverse(this);
+        return v1 && v2;
       case "||":
-        return v1 || v2 ? options.fn(this) : options.inverse(this);
+        return v1 || v2;
       default:
-        return options.inverse(this);
+        return false;
     }
   });
 
