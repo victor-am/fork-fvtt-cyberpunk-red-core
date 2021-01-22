@@ -33,6 +33,12 @@
     text-shadow: 0px 0px 5px @holo-blue;
   }
 
+  textarea {
+    border: 0;
+    outline: 0;
+    height: calc(100% - 20px);
+    width: 100%;
+  }
   
 
 }
@@ -185,6 +191,10 @@
 .bold {
   font-weight: bold;
 }
+.hide-overflow {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
 
 
 /*--------------------
@@ -207,8 +217,4 @@
 [class^="fas fa-dice"] {
   color: @wyrm-red;
   font-size: 2em;
-}
-
-.overflow-hide {
-  overflow: hidden;
 }

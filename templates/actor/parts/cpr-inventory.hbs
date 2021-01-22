@@ -1,10 +1,10 @@
 {{log "CPR-INVENTORY.HBS"}}
 <div class="dynamic-list inventory">
       {{#each (findConfigObj "inventoryCategories") as |category c|}}
-      <div class="row row-header inventory">
-            <span class="row-section name text-align-center">{{localize category}}</span>
-            <span class="row-section data text-align-left">{{localize "CPR.data"}}</span>
-            <span class="row-section action text-align-right">{{localize "CPR.actions"}}</span>
+      <div class="row header black-bg white-fg bold inventory">
+            <span class="section name width-quarter">{{localize category}}</span>
+            <span class="section data width-grow">{{localize "CPR.data"}}</span>
+            <span class="section action width-quarter right-text">{{localize "CPR.actions"}}</span>
       </div>
       {{#each ../actor.items as |item i|}}
       {{#if (compare item.type "===" c)}}

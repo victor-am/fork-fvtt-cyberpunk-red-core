@@ -3,7 +3,7 @@
 ---------------------*/
 .app.window-app.sheet.sheet.actor {
   // minimum window size
-  min-width: 600px;
+  min-width: 624px;
   min-height: 770px;
   
   // pull resize handle further forwards
@@ -264,7 +264,6 @@
     margin: 2px;
     padding: 2px;
     max-height: 20px;
-
     &.flex-end {
       justify-content: flex-end;
     }
@@ -274,8 +273,19 @@
     }
 
     .section {
-      max-height: 100%;
+      max-height: 20px;
+      height: 20px;
+      padding: 0 5px;
+      a, span, input, div{
+        display: inline-block;
+        max-height: 20px;
+        height:20px;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+      }
     }
+
+   
   }
 }
 
@@ -315,4 +325,37 @@
   &no-grow {
     flex-grow: 0;
   }
+
+  &shrink {
+    flex-shrink: 1;
+  }
+
+  &no-shrink {
+    flex-shrink: 0;
+  }
+
+  &fit {
+    width: fit-content;
+    padding: 0 2px;
+  }
+
+  &max-half {
+    max-width: 50%;
+  }
+  &max-quarter {
+    max-width: 25%;
+  }
+  &max-eighth {
+    max-width: 12.5%;
+  }
+  &max-three-quarters {
+    max-width: 75%;
+  }
+  &max-third {
+    max-width: calc(100%/3);
+  }
+  &max-two-thirds {
+    max-width: calc((100%/3)*2);
+  }
 }
+
