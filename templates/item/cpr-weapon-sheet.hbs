@@ -1,15 +1,13 @@
 {{log "CPR-WEAPON-SHEET.HBS"}}
-{{log data}}
 <div class="sheet-content item weapon">
   <form>
     {{!-- Item Header Navigation --}}
     {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-header.hbs"}}
     {{!-- Item Sheet Navigation --}}
     <nav class="cpr-block horizontal fit tabs margin-bottom" data-group="primary">
-      <a class="" data-tab="description">DESCRIPTION</a>
-      <a class="" data-tab="details">DETAILS</a>
+      <a class="" data-tab="description">{{localize "CPR.description"}}</a>
+      <a class="" data-tab="details">{{localize "CPR.details"}}</a>
     </nav>
-
     {{!-- Item Sheet Body --}}
     <section class="content">
       {{!-- Inventory Tab --}}
