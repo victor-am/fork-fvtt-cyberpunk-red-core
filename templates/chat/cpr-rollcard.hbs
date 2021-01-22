@@ -11,7 +11,7 @@
   <div class="rollcard-body cpr-block rollcard">
 
     <div class="total-div right-text">
-      <span class="massive-text">{{resultTotal}}{{#if wasCritical}}!{{/if}}</span>
+      <span class="massive-text {{#if wasCritical}}red-fg bold{{/if}}">{{resultTotal}}</span>
     </div>
 
     <div class="dice-div large-text">
@@ -40,8 +40,6 @@
 
     <div class="info-div right-text">
       {{#if wasCritical}}
-      <span>Roll: {{diceTotal}}</span>
-      <span>Criticals: {{crits}}</span>
       <span>Bonus Damage: {{bonusDamage}}</span>
       {{else}}
       <span>Roll: {{diceTotal}}</span>
@@ -64,8 +62,8 @@
   {{!-- rollcard body --}}
   <div class="rollcard-body cpr-block rollcard">
 
-    <div class="total-div right-text">
-      <span class="massive-text">{{resultTotal}}{{#if wasCritical}}!{{/if}}</span>
+    <div class="total-div right-text ">
+      <span class="massive-text {{#if wasCritical}}red-fg bold{{/if}}">{{resultTotal}}</span>
     </div>
 
     <div class="dice-div">
@@ -104,33 +102,83 @@
       {{#if wasCritical}}
         {{!-- die image for criticalRoll --}}
         {{#if (eq criticalRoll 1)}}
+        <i class="fas fa-plus"></i>
         <i class="d10 one black"></i>
         {{/if}}
         {{#if (eq criticalRoll 2)}}
+        <i class="fas fa-plus"></i>
         <i class="d10 two black"></i>
         {{/if}}
         {{#if (eq criticalRoll 3)}}
+        <i class="fas fa-plus"></i>
         <i class="d10 three black"></i>
         {{/if}}
         {{#if (eq criticalRoll 4)}}
+        <i class="fas fa-plus"></i>
         <i class="d10 four black"></i>
         {{/if}}
         {{#if (eq criticalRoll 5)}}
+        <i class="fas fa-plus"></i>
         <i class="d10 five black"></i>
         {{/if}}
         {{#if (eq criticalRoll 6)}}
+        <i class="fas fa-plus"></i>
         <i class="d10 six black"></i>
         {{/if}}
         {{#if (eq criticalRoll 7)}}
+        <i class="fas fa-plus"></i>
         <i class="d10 seven black"></i>
         {{/if}}
         {{#if (eq criticalRoll 8)}}
+        <i class="fas fa-plus"></i>
         <i class="d10 eight black"></i>
         {{/if}}
         {{#if (eq criticalRoll 9)}}
+        <i class="fas fa-plus"></i>
         <i class="d10 nine black"></i>
         {{/if}}
         {{#if (eq criticalRoll 10)}}
+        <i class="fas fa-plus"></i>
+        <i class="d10 ten black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll -1)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 one black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll -2)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 two black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll -3)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 three black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll -4)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 four black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll -5)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 five black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll -6)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 six black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll -7)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 seven black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll -8)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 eight black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll -9)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 nine black"></i>
+        {{/if}}
+        {{#if (eq criticalRoll -10)}}
+        <i class="fas fa-minus"></i>
         <i class="d10 ten black"></i>
         {{/if}}
       {{/if}}
