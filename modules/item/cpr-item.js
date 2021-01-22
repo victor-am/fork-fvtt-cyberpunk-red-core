@@ -160,11 +160,12 @@ export default class CPRItem extends Item {
       if (!selectedAmmoId) {
         const ownedAmmo = this.actor.data.filteredItems.ammo;
         const validAmmo = [];
-        for (const a of ownedAmmo) {
-          if (this.data.data.ammoVariety.includes(a.data.data.variety)) {
-            validAmmo.push(a);
+        Object.keys(ownedAmmo).forEach((index) => {
+          const ammo = ownedAmmo[index];
+          if (this.getData().ammoVariety.includes(ammo.getData().variety)) {
+            validAmmo.push(ammo);
           }
-        }
+        });
 
         let dialogData = {
           weapon: this,
