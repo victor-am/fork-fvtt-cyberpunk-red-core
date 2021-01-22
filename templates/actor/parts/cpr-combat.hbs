@@ -28,7 +28,7 @@
       
       <div class="section width-eighth width-no-grow center-text">{{#if weapon.data.isRanged}}{{weapon.data.magazine.value}}/{{weapon.data.magazine.max}}{{/if}}</div>
       
-      <div class="section width-eighth width-no-grow center-text">ROF {{weapon.data.rof}}</div>
+      <div class="section width-eighth width-no-grow center-text">{{localize "CPR.rof"}} {{weapon.data.rof}}</div>
 
       <div class="section width-sixth">
         {{!-- TODO iterate over an array of fire modes and create <a> for each --}}

@@ -3,7 +3,7 @@
     {{log this}}
     {{!-- Select HL --}}
     <div>
-        Humanity Loss:
+        {{localize "CPR.homanityloss"}}:
         <select name="humanityLoss">
             <option selected value="{{item.data.humanityLoss.roll}}">Roll: {{item.data.humanityLoss.roll}}</option>
             <option value="{{item.data.humanityLoss.static}}">Static: {{item.data.humanityLoss.static}}</option>
@@ -12,7 +12,7 @@
     {{#unless item.data.isFoundational}}
     <div>
     {{!-- Select Foundational Cyberware --}}
-        Foundational Cyberware:
+        {{localize "CPR.foundational"}} {{localize "CPR.cyberware"}}:
         <select name="foundationalId">
             {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
             {{#each cyberware as |cyberware c|}}
