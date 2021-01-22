@@ -9,5 +9,6 @@ export default class CPRBaseRollResult {
     this.rollResults = [];
     this.bonusDamage = 0;
     this.checkTotal = 0;
+    this.damageTotal = 0;
   }
 }

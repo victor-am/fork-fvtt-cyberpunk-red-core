@@ -19,7 +19,7 @@ export default class CPRRolls {
     DiceSoNice.ShowDiceSoNice(roll);
     return {
       total: roll.total,
-      array: roll.terms[0].results.map((r) => r.result),
+      faces: roll.terms[0].results.map((r) => r.result),
     };
   }
 
@@ -77,25 +77,22 @@ export default class CPRRolls {
     const roll = this.CPRRoll(`${rollRequest.formula}[fire]`);
 
     // Push all results into diceResults
-    rollResult.rollResults = roll.array;
+    rollResult.rollResults = roll.faces;
     rollResult.diceTotal = roll.total;
 
-    // count crits and bonus damage
-    let sixes = 0;
-    rollResult.diceResults.forEach((r) => {
-      if (r === 6) sixes += 1;
-    });
+    // If we have 2 or more sixes on a damage roll, was critical is true.
+    rollResult.wasCritical = rollResult.rollResults.filter((x) => x === 6).length >= 2;
+    if (rollResult.wasCritical) {
+      rollResult.bonusDamage = 5;
+    }
 
-    rollResult.wasCritical = !!rollResult.crits > 0;
-    rollResult.bonusDamage = 5;
+    // Calculate total damage from attack.
+    rollResult.damageTotal = rollResult.diceTotal + rollResult.bonusDamage;
 
-    // get total attack damage
-    rollResult.resultTotal = rollResult.diceTotal + rollResult.bonusDamage;
-
-    // add all mods!
+    // Calculate sum of all misc damage mods!
     if (rollResult.mods.length !== 0) {
-      rollResult.mods = rollResult.mods.reduce((a, b) => a + b);
-      rollResult.resultTotal += rollResult.mods;
+      rollResult.modsTotal = rollResult.mods.reduce((a, b) => a + b);
+      rollResult.damageTotal += rollResult.modsTotal;
     }
 
     return rollResult;
