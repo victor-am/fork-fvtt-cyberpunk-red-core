@@ -210,13 +210,12 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID _prepareRollAbility | rolling ability: ${rollRequest.rollTitle} | ${rollRequest.skillValue}`);
     const { roleskills: roles } = this.getData().data.roleInfo;
     const roleAbility = rollRequest.rollTitle;
-    for (const roleName in roles) {
-      if (roles[roleName].hasOwnProperty(roleAbility)) {
+    Object.keys(roles).forEach((roleName) => {
+      if (Object.prototype.hasOwnProperty.call(roles[roleName], roleAbility)) {
         rollRequest.roleValue = roles[roleName][roleAbility];
         rollRequest.rollTitle = game.i18n.localize(CPR.roleAbilityList[roleAbility]);
-        break;
       }
-    }
+    });
   }
 
   _prepareRollAttack(rollRequest, itemId) {
@@ -340,6 +339,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _getInstalledCyberware | CPRActorSheet | Called.");
     const allCyberware = this.actor.data.filteredItems.cyberware;
     let installedFoundationalCyberware = allCyberware.filter((cyberware) => cyberware.getData().isInstalled && cyberware.getData().isFoundational);
+
     installedFoundationalCyberware = installedFoundationalCyberware.map(
       (cyberware) => ({ foundation: cyberware, optionals: [] }),
     );
