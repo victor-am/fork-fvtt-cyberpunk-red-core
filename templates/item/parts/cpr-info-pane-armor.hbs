@@ -1,10 +1,10 @@
 <div class="item-info-pane">
     {{!-- IS PHYSICAL ITEM? ---}}
     <div class="info-pane-item">
-        Cost: {{data.price.market}}
+        {{localize "CPR.price"}}: {{data.price.market}}
     </div>
     <div class="info-pane-item">
-        SP:
+        {{localize "CPR.sp"}}:
         <div>{{#if data.isBodyLocation}}
             Body ({{data.bodyLocation.sp}})
             {{/if}}
@@ -14,21 +14,21 @@
         </div>
     </div>
     <div class="info-pane-item">
-        Ablation:
+        {{localize "CPR.ablation"}}:
         <div>{{#if data.isBodyLocation}}
-            Body ({{data.bodyLocation.ablation}})
+            {{localize "CPR.bodylocation"}} ({{data.bodyLocation.ablation}})
             {{/if}}
             {{#if data.isHeadLocation}}
-            Head ({{data.headLocation.ablation}})
+            {{localize "CPR.head"}} ({{data.headLocation.ablation}})
             {{/if}}
         </div>
     </div>
     <div class="info-pane-item">
-        Penalty: 
+        {{localize "CPR.penalty"}}: 
         {{#if (gt (math "abs" data.penalty) 0)}}
             -{{math "abs" data.penalty}}
         {{else}}
-            None
+            {{localize "CPR.none"}}
         {{/if}}
     </div>
 </div>

@@ -3,8 +3,8 @@
   {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-header.hbs"}}
   {{!-- Item Sheet Navigation --}}
   <nav class="tabs" data-group="primary">
-    <a class="" data-tab="description">DESCRIPTION</a>
-    <a class="" data-tab="details">DETAILS</a>
+    <a class="" data-tab="description">{{localize "CPR.description"}}</a>
+    <a class="" data-tab="details">{{localize "CPR.details"}}</a>
   </nav>
   <section class="content">
     {{!-- Inventory Tab --}}
@@ -16,15 +16,15 @@
       <section class="">
         {{!-- MARKET PRICE --}}
         <div>
-          Price: <input name="data.price.market" class="" type="text" value="{{data.price.market}}">
+          {{localize "CPR.price"}}: <input name="data.price.market" class="" type="text" value="{{data.price.market}}">
         </div>
         {{!-- MARKET PRICE --}}
         <div>
-          Static Humanity Loss: <input name="data.humanityLoss.static" class="" type="text" value="{{data.humanityLoss.static}}">
+          {{localize "CPR.static"}} {{localize "CPR.humanityloss"}}: <input name="data.humanityLoss.static" class="" type="text" value="{{data.humanityLoss.static}}">
         </div>
         {{!-- MARKET PRICE --}}
         <div>
-          Rolled Humanity Loss: <input name="data.humanityLoss.roll" class="" type="text" value="{{data.humanityLoss.roll}}">
+          {{localize "CPR.rolled"}} {{localize "CPR.humanityloss"}}: <input name="data.humanityLoss.roll" class="" type="text" value="{{data.humanityLoss.roll}}">
         </div>
         {{!-- IS THIS FOUNDATIONAL CYBERWARE --}}
         <div>
@@ -33,7 +33,7 @@
           <a class="item-checkbox" data-target="data.isFoundational"><i class="far fa-check-circle"></i></a>
           {{!-- OPTIONAL SLOTS --}}
           <div>
-            Optional Slots: <input name="data.optionSlots" class="" type="text" value="{{data.optionSlots}}">
+            {{localize "CPR.optionalslots"}}: <input name="data.optionSlots" class="" type="text" value="{{data.optionSlots}}">
           </div>
           {{else}}
           <a class="item-checkbox" data-target="data.isFoundational"><i class="far fa-circle"></i></a>
@@ -41,7 +41,7 @@
         </div>
         {{!-- WHAT INSTALL LOCATION IS REQUIRED --}}
         <div>
-          Install:
+          {{localize "CPR.install"}}:
           <select name="data.install" data-dtype="{{data.install}}">
             {{#select data.install}}
             {{#each (findConfigObj "cyberwareInstallList") as |install i|}}

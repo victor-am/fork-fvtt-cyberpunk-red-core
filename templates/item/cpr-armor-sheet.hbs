@@ -18,24 +18,24 @@
       <section class="">
         {{!-- MARKET PRICE --}}
         <div>
-          Price: <input name="data.price.market" class="" type="text" value="{{data.price.market}}">
+          {{localize "CPR.price"}}: <input name="data.price.market" class="" type="text" value="{{data.price.market}}">
         </div>
         {{!-- ARMOR PENALTY --}}
         <div>
-          Armor Penalty: <input name="data.penalty" class="" type="text" value="{{data.penalty}}">
+          {{localize "CPR.armorpenalty"}}: <input name="data.penalty" class="" type="text" value="{{data.penalty}}">
         </div>
         {{!-- HEAD ARMOR CHECKBOX --}}
         <div>
-          <label class="label-text">Head Armor</label>
+          <label class="label-text">{{localize "CPR.head"}} {{localize "CPR.armor"}}</label>
           {{#if data.isHeadLocation}}
           <a class="item-checkbox" data-target="data.isHeadLocation"><i class="far fa-check-circle"></i></a>
           {{!-- LOCATION SP --}}
           <div>
-            Armor SP: <input name="data.headLocation.sp" class="" type="number" value="{{data.headLocation.sp}}">
+            {{localize "CPR.armor"}} {{localize "CPR.sp"}}: <input name="data.headLocation.sp" class="" type="number" value="{{data.headLocation.sp}}">
           </div>
           {{!-- LOCATION ABLATION --}}
           <div>
-            Ablation: <input name="data.headLocation.ablation" class="" type="number" value="{{data.headLocation.ablation}}">
+            {{localize "CPR.ablation"}}: <input name="data.headLocation.ablation" class="" type="number" value="{{data.headLocation.ablation}}">
           </div>
           {{else}}
           <a class="item-checkbox" data-target="data.isHeadLocation"><i class="far fa-circle"></i></a>
@@ -44,16 +44,16 @@
         
         {{!-- BODY ARMOR LOCATION CHECKBOX --}}
         <div>
-          <label class="label-text">Body Armor</label>
+          <label class="label-text">{{localize "CPR.bodylocation"}} {{localize "CPR.armor"}}</label>
           {{#if data.isBodyLocation}}
           <a class="item-checkbox" data-target="data.isBodyLocation"><i class="far fa-check-circle"></i></a>
           {{!-- LOCATION SP --}}
           <div>
-            Armor SP: <input name="data.bodyLocation.sp" class="" type="number" value="{{data.bodyLocation.sp}}">
+            {{localize "CPR.armor"}} {{localize "CPR.sp"}}: <input name="data.bodyLocation.sp" class="" type="number" value="{{data.bodyLocation.sp}}">
           </div>
           {{!-- LOCATION ABLATION --}}
           <div>
-            Ablation: <input name="data.bodyLocation.ablation" class="" type="number" value="{{data.bodyLocation.ablation}}">
+            {{localize "CPR.ablation"}}: <input name="data.bodyLocation.ablation" class="" type="number" value="{{data.bodyLocation.ablation}}">
           </div>
           {{else}}
           <a class="item-checkbox" data-target="data.isBodyLocation"><i class="far fa-circle"></i></a>
@@ -61,7 +61,7 @@
         </div>
         {{!-- EQUIPPED --}}
         <div>
-          <label class="label-text">equipped</label>
+          <label class="label-text">{{localize "CPR.equipped"}}</label>
           <select name="data.equippable.equipped" data-dtype="{{data.equippable.equipped}}">
             {{#select data.equippable.equipped}}
             {{#each (findConfigObj "equipped") as |vic v|}}
