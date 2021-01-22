@@ -9,17 +9,10 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/chat/cpr-damage-rollcard.hbs",
 
     // Dialog Partials
-<<<<<<< HEAD
     "systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-select-ammo-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-verify-base-roll-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-verify-damage-roll-prompt.hbs",
-=======
-    "systems/cyberpunk-red-core/templates/dialog/cpr-verify-damage-roll-prompt.hbs",
-    "systems/cyberpunk-red-core/templates/dialog/cpr-verify-base-roll-prompt.hbs",
-    "systems/cyberpunk-red-core/templates/dialog/cpr-select-ammo-prompt.hbs",
-    "systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs",
->>>>>>> origin/dev
 
     // Shared Actor Partials
     "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs",
