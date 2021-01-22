@@ -94,9 +94,9 @@
 }
 .sheet-content.character .combat-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  grid-template-areas: "critical weapons" "armor skills";
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-areas: "critical weapons weapons weapons" "armor armor skills  skills";
   grid-gap: 10px;
 }
 .sheet-content.character .combat-container .armor {
@@ -238,6 +238,9 @@
 }
 .dynamic-list .row.hide {
   display: none;
+}
+.dynamic-list .row .section {
+  max-height: 100%;
 }
 .width- {
   display: flex;
@@ -426,6 +429,9 @@
 [class^="fas fa-dice"] {
   color: #b90202ff;
   font-size: 2em;
+}
+.overflow-hide {
+  overflow: hidden;
 }
 form .item-desc-body {
   display: flex;

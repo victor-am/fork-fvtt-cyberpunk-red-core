@@ -1,12 +1,12 @@
 {{log "CPR-COMBAT.HBS"}}
 <div class="weapons">
-  <div class=" bold black-bg white-fg larger-text center-text">{{localize "CPR.weapons"}}</div>
+  <div class="bold black-bg white-fg center-text">{{localize "CPR.weapons"}}</div>
   <div class="dynamic-list">
     {{#each actor.filteredItems.weapon as |weapon|}}
     <div class="item row" data-item-id={{weapon._id}}>
     {{#if (eq weapon.data.equippable.equipped "equipped")}}
 
-      <div class="section width-third"><a class="item-edit">{{weapon.name}}</a></div>
+      <div class="section width-half" ><a class="item-edit">{{weapon.name}}</a></div>
 
       <div class="section width-sixteenth width-no-grow center-text">
         <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
@@ -20,11 +20,13 @@
         </a>
       </div>
       
-      <div class="section width-sixth width-no-grow center-text">{{#if weapon.data.isRanged}}{{weapon.data.magazine.value}}/{{weapon.data.magazine.max}}{{/if}}</div>
+      <div class="section width-eighth width-no-grow center-text">{{#if weapon.data.isRanged}}{{weapon.data.magazine.value}}/{{weapon.data.magazine.max}}{{/if}}</div>
       
-      <div class="section width-sixth width-no-grow center-text">ROF {{weapon.data.rof}}</div>
+      <div class="section width-eighth width-no-grow center-text">ROF {{weapon.data.rof}}</div>
 
-      <div class="section width-quarter">{{weapon.data.altFireModes}}</div>
+      <div class="section width-sixth">
+        {{weapon.data.altFireModes}}
+      </div>
     {{/if}}
     </div>
     {{/each}}
@@ -34,7 +36,7 @@
 
 
 <div class="armor">
-  <div class=" bold black-bg white-fg larger-text center-text">{{localize "CPR.armor"}}</div>
+  <div class=" bold black-bg white-fg center-text">{{localize "CPR.armor"}}</div>
   {{#each actor.filteredItems.armor as |armor| }}
   {{#if (eq armor.data.equippable.equipped "equipped")}}
   <div class="item row">
@@ -52,10 +54,14 @@
 
 
 <div class="combat-skills">
-  <div class=" bold black-bg white-fg larger-text center-text">Combat Skills</div>
+  <div class=" bold black-bg white-fg center-text">Combat Skills</div>
   {{!-- Default Skill Rolls --}}
   {{!-- Skills to show actions for --}}
   {{!-- Brawling, Martial Arts, Evasion --}}
   TODO
+</div>
+
+<div class="critical-injuries">
+  <div class="bold black-bg white-fg center-text">Critical Injuries</div>
 </div>
 {{log "END CPR-COMBAT.HBS"}}
