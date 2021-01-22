@@ -105,7 +105,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _onRoll(event) {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
-    let rollRequest = new CPRRollRequest(event);
+    const rollRequest = new CPRRollRequest(event);
 
     // Prepare data relative to the roll type
     switch (rollRequest.rollType) {
@@ -168,7 +168,6 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-
   // PREPARE ROLLS
   _prepareRollStat(rollRequest) {
     rollRequest.stat = rollRequest.rollTitle;
@@ -217,7 +216,7 @@ export default class CPRActorSheet extends ActorSheet {
       rollRequest.statValue = this.getData().data.stats.dex.value;
     }
 
-    // DIVEST! 
+    // DIVEST!
     // TEMP: For now we will get the mods like so, but ideally we would have a
     // single function that would compile mods from all sources.
     if (weaponItem.getData().quality === "excellent") {
