@@ -77,11 +77,11 @@ export default class CPRRolls {
     const roll = this.CPRRoll(`${rollRequest.formula}[fire]`);
 
     // Push all results into diceResults
-    rollResult.rollResults = roll.faces;
+    rollResult.faces = roll.faces;
     rollResult.diceTotal = roll.total;
 
     // If we have 2 or more sixes on a damage roll, was critical is true.
-    rollResult.wasCritical = rollResult.rollResults.filter((x) => x === 6).length >= 2;
+    rollResult.wasCritical = rollResult.faces.filter((x) => x === 6).length >= 2;
     if (rollResult.wasCritical) {
       rollResult.bonusDamage = 5;
     }
