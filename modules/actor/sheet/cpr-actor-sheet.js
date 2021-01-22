@@ -187,9 +187,7 @@ export default class CPRActorSheet extends ActorSheet {
   _prepareRollStat(rollRequest) {
     rollRequest.stat = rollRequest.rollTitle;
     rollRequest.statValue = this.getData().data.stats[rollRequest.rollTitle].value;
-    // TEMP REMOVAL
-    // Armor pen should apply directly to stat, not be fetched.
-    // rollRequest.mods.push(this._getArmorPenaltyMods(rollRequest.rollTitle));
+    rollRequest.mods.push(this._getArmorPenaltyMods(rollRequest.stat));
     LOGGER.trace(`ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
   }
 
@@ -242,7 +240,7 @@ export default class CPRActorSheet extends ActorSheet {
     const skillItem = this.actor.items.find((i) => i.name === weaponItem.getData().weaponSkill);
     if (skillItem) {
       rollRequest.skillValue = skillItem.getData().level;
-      rollRequest.skill = skillItem.getData().name;
+      rollRequest.skill = skillItem.data.name;
     } else {
       rollRequest.skillValue = 0;
       rollRequest.skill = "None";

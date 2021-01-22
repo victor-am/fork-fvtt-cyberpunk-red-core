@@ -1,0 +1,50 @@
+{{log "CPR-DAMAGE-ROLLCARD.HBS"}}
+<div class="white-bg" data-roll-type="{{rollType}}">
+    <div class="cpr-block horizontal half-height chat-rollTitle-{{rollType}}">
+        <p class="center-text width-grow largest-text">{{rollTitle}} Damage</p>
+    </div>
+
+    {{!-- rollcard body --}}
+    <div class="rollcard-body cpr-block rollcard">
+
+        <div class="total-div right-text">
+            <span class="massive-text {{#if wasCritical}}red-fg bold{{/if}}">{{resultTotal}}</span>
+        </div>
+
+        <div class="dice-div large-text">
+            {{#each faces as |die|}}
+            {{log die}}
+            {{#if (eq die 1)}}
+            <i class="fas fa-dice-one"></i>
+            {{/if}}
+            {{#if (eq die 2)}}
+            <i class="fas fa-dice-two"></i>
+            {{/if}}
+            {{#if (eq die 3)}}
+            <i class="fas fa-dice-three"></i>
+            {{/if}}
+            {{#if (eq die 4)}}
+            <i class="fas fa-dice-four"></i>
+            {{/if}}
+            {{#if (eq die 5)}}
+            <i class="fas fa-dice-five"></i>
+            {{/if}}
+            {{#if (eq die 6)}}
+            <i class="fas fa-dice-six"></i>
+            {{/if}}
+            {{/each}}
+        </div>
+
+        <div class="info-div right-text">
+            {{#if wasCritical}}
+            <span>Bonus Damage: {{bonusDamage}}</span>
+            {{else}}
+            {{/if}}
+            <span>Location: {{location}}</span>
+            {{#if (gt mods 0)}}
+            <span>Mods: {{mods}}</span>
+            {{/if}}
+        </div>
+    </div>
+</div>
+{{log "END CPR-DAMAGE-ROLLCARD.HBS"}}
