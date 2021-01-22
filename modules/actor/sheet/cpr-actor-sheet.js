@@ -100,8 +100,10 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".skills .header").click((event) => {
       const header = $(event.currentTarget);
       const category = header.attr("data-skill-category-name");
+      // eslint-disable-next-line no-restricted-syntax
       for (const i of html.find(".row.skill")) {
         if (i.attributes[2].nodeValue === category) {
+          // eslint-disable-next-line no-unused-expressions
           i.classList.contains("hide") ? i.classList.remove("hide") : i.classList.add("hide");
         }
       }
