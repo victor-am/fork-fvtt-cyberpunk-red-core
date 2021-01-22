@@ -4,7 +4,7 @@
 {{#if (eq rollType "damage")}}
 <div class="white-bg" data-roll-type="{{rollType}}">
   <div class="cpr-block horizontal half-height chat-rollTitle-{{rollType}}">
-    <p class="center-text width-grow large-text">Damage</p>
+    <p class="center-text width-grow largest-text">{{rollTitle}} Damage</p>
   </div>
 
   {{!-- rollcard body --}}
@@ -55,7 +55,7 @@
 {{else}}
 <div class="white-bg" data-roll-type="{{rollType}}">
   <div class="cpr-block horizontal half-height chat-rollTitle-{{rollType}}">
-    <p class="center-text width-grow large-text">{{rollTitle}}</p>
+    <p class="center-text width-grow largest-text">{{rollTitle}}</p>
   </div>
 
   {{!-- rollcard body --}}
@@ -184,15 +184,15 @@
     </div>
 
     <div class="info-div right-text">
-      {{#if (gt roleValue 0)}}
-      <div>Ability: {{roleValue}}</div> 
-      {{else}}
-      <div>{{statName}} <strong>{{#if (gt statValue -1)}}+{{/if}}{{statValue}}</strong></div>
-      <div>{{skillName}} <strong>{{#if (gt skillValue -1)}}+{{/if}}{{skillValue}}</strong></div>
+      {{#if mods}}
+      Roll Modifiers: {{mods}} <br>
+      <div class="chat-rollTotal">Mods Total: {{modsTotal}}</div><br>
       {{/if}}
-      {{#if modsTotal }}
-      {{!-- <div>Roll Modifiers: {{mods}}</div> --}}
-      <div class="chat-rollTotal">Modifiers: <strong>{{modsTotal}}</strong></div>
+      {{#if (gt roleValue 0)}}
+      Role Ability: {{roleValue}} <br>
+      {{else}}
+      {{statName}} +{{statValue}} <br>
+      {{skillName}} +{{skillValue}} <br>
       {{/if}}
     </div>
   </div>

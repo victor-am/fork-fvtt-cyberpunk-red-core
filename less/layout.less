@@ -16,7 +16,6 @@
   Main sheet content
 ---------------------*/
 .sheet-content {
-  height: 100%;
   // remove annoying styling
   input,
   p,
@@ -35,7 +34,6 @@
 
   // character sheet layout
   &.character {
-    min-height: 100%;
     display: grid;
     grid-template-columns: 200px 50px 1fr;
     grid-template-rows:
@@ -76,10 +74,8 @@
 
     .content-container {
       grid-area: content;
-      min-height: 100%;
       .tab {
-        min-height: 100%;
-        height: 100%;
+        min-height: 800px;
       }
     }
 
@@ -133,23 +129,6 @@
 
   &.mook {
     //TODO
-  }
-
-  &.item {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    .content {
-      display: grid;
-      height: 100%;
-      grid-template-columns: repeat(2, 50%);
-      grid-template-rows: 1fr;
-      
-      &.weapon {
-        grid-template-areas: 
-          "physical other ";
-      }
-    }
   }
 }
 
@@ -211,37 +190,24 @@
     }
   }
 
-  &.fit {
-    height:fit-content;
-    width: 100%;
-  }
-
   &.image {
     height: 200px;
     width: 200px;
     padding: 0;
     img {
-      height: calc(100% - 8px);
-      width: calc(100% - 8px);
+      height: 192px;
+      width: 192px;
       position: absolute;
       left: 4px;
       top: 4px;
     }
     &::before {
       position: absolute;
-      height: calc(100% - 8px);
-      width: calc(100% - 8px);
+      height: 192px;
+      width: 192px;
       top: 4px;
       left: 4px;
     }
-    &.small {
-      height: 60px;
-      width: 60px;
-    }
-  }
-
-  &.margin-bottom {
-    margin-bottom: 5px;
   }
 
   &.horizontal {
@@ -286,13 +252,13 @@
 
   &.col-4 {
     display: grid;
-    grid-template-rows: repeat(23, 1fr);
+    grid-template-rows: repeat(19, 1fr);
     grid-auto-flow: column;
   }
 
   .row {
     display: flex;
-    justify-content: space-between;
+    justify-content: stretch;
     align-items: center;
     align-content: stretch;
     margin: 2px;
@@ -392,24 +358,4 @@
     max-width: calc((100%/3)*2);
   }
 }
-
-.height- {
-  &max {
-    height: 100%;
-  }
-}
-
-.row-reverse {
-  flex-direction: row-reverse;
-}
-
-.container- {
-  display: flex;
-  &center {
-    flex: 1 0 auto;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-}
-
 
