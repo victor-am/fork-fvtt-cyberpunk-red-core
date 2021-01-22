@@ -135,18 +135,20 @@ export default class CPRItem extends Item {
     if (this.actor) {
       // recover the ammo to the right object
       const { ammoId } = this.data.data.magazine;
-      const ammo = this.actor.items.find((i) => i.data._id === ammoId);
+      if (ammoId) {
+        const ammo = this.actor.items.find((i) => i.data._id === ammoId);
 
-      if (this.data.data.magazine.value > 0) {
-        if (ammoId) {
-          ammo._ammoIncrement(this.data.data.magazine.value);
+        if (this.data.data.magazine.value > 0) {
+          if (ammoId) {
+            ammo._ammoIncrement(this.data.data.magazine.value);
+          }
         }
       }
-    }
-    this.data.data.magazine.value = 0;
-    this.data.data.magazine.ammoId = "";
-    if (this.actor) {
-      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      this.data.data.magazine.value = 0;
+      this.data.data.magazine.ammoId = "";
+      if (this.actor) {
+        this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      }
     }
   }
 
@@ -172,7 +174,7 @@ export default class CPRItem extends Item {
 
         dialogData = await SelectAmmoPrompt(dialogData);
 
-        if (dialogData.selectedAmmo === "") {
+        if (dialogData.selectedAmmo === "abort") {
           return;
         }
         selectedAmmoId = dialogData.selectedAmmo;
