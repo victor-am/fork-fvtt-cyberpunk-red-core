@@ -1,7 +1,6 @@
 /* global Roll, mergeObject */
 import LOGGER from "../utils/cpr-logger.js";
-import CPRBaseRollResult from "./cpr-baseroll-result.js";
-import CPRDamageRollResult from "./cpr-dmgroll-result.js";
+import CPRRollResult from "./cpr-roll-result.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 
 // RollRequest (per type)
@@ -20,7 +19,7 @@ export default class CPRRolls {
     DiceSoNice.ShowDiceSoNice(roll);
     return {
       total: roll.total,
-      array: roll.terms[0].results.map((r) => r.result),
+      faces: roll.terms[0].results.map((r) => r.result),
     };
   }
 
@@ -28,7 +27,7 @@ export default class CPRRolls {
     LOGGER.trace(`Calling baseRoll | Dice BaseRoll | Stat:${rollRequest.statValue} SkillLevel:${rollRequest.skillValue}, Mods:${rollRequest.mods}, CalculateCritical:${rollRequest.calculateCritical}`);
 
     // TODO- Verify use of mergeObject.
-    const rollResult = new CPRBaseRollResult();
+    const rollResult = new CPRRollResult();
     mergeObject(rollResult, rollRequest, { overwrite: true });
     rollResult.initialRoll = this.CPRRoll("1d10").total;
 
@@ -67,41 +66,33 @@ export default class CPRRolls {
     return rollResult;
   }
 
+  // TODO - Refactor Function
   static DamageRoll(rollRequest) {
     LOGGER.trace(`Calling DamageRoll | Dice DamageRoll | RollFormula:${rollRequest.formula} Location: ${rollRequest.location}`);
 
-    const rollResult = new CPRDamageRollResult();
+    const rollResult = new CPRRollResult();
     mergeObject(rollResult, rollRequest, { overwrite: true });
 
     // create roll and show Dice So Nice!
     const roll = this.CPRRoll(`${rollRequest.formula}[fire]`);
 
     // Push all results into diceResults
-    roll.array.forEach((r) => rollResult.diceResults.push(r));
-
-    // Get roll Total
+    rollResult.rollResults = roll.faces;
     rollResult.diceTotal = roll.total;
 
-    // If autofire, apply multiplier.
-    if (rollResult.isAutofire) rollResult.diceTotal *= rollResult.multiplier;
+    // If we have 2 or more sixes on a damage roll, was critical is true.
+    rollResult.wasCritical = rollResult.rollResults.filter((x) => x === 6).length >= 2;
+    if (rollResult.wasCritical) {
+      rollResult.bonusDamage = 5;
+    }
 
-    // count crits and bonus damage
-    let sixes = 0;
-    rollResult.diceResults.forEach((r) => {
-      if (r === 6) sixes += 1;
-    });
+    // Calculate total damage from attack.
+    rollResult.damageTotal = rollResult.diceTotal + rollResult.bonusDamage;
 
-    rollResult.crits = Math.floor(sixes / 2);
-    rollResult.bonusDamage = rollResult.crits * 5;
-    rollResult.wasCritical = !!rollResult.crits > 0;
-
-    // get total attack damage
-    rollResult.resultTotal = rollResult.diceTotal + rollResult.bonusDamage;
-
-    // add all mods!
+    // Calculate sum of all misc damage mods!
     if (rollResult.mods.length !== 0) {
-      rollResult.mods = rollResult.mods.reduce((a, b) => a + b);
-      rollResult.resultTotal += rollResult.mods;
+      rollResult.modsTotal = rollResult.mods.reduce((a, b) => a + b);
+      rollResult.damageTotal += rollResult.modsTotal;
     }
 
     return rollResult;

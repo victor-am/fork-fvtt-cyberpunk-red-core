@@ -2,12 +2,10 @@
 /* global mergeObject, $, setProperty, game */
 /* eslint no-prototype-builtins: ["warn"] */
 import LOGGER from "../../utils/cpr-logger.js";
-import CPRSystemUtils from "../../utils/cpr-systemUtils.js";
 import CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
-import CPRBaseRollRequest from "../../rolls/cpr-baseroll-request.js";
-import CPRDmgRollRequest from "../../rolls/cpr-dmgroll-request.js";
-import VerifyRollPrompt from "../../dialog/cpr-verify-roll-prompt.js";
+import CPRRollRequest from "../../rolls/cpr-roll-request.js";
+import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
 import CPRChat from "../../chat/cpr-chat.js";
 import Rules from "../../utils/cpr-rules.js";
 import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js";
@@ -122,21 +120,9 @@ export default class CPRActorSheet extends ActorSheet {
   async _onRoll(event) {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
-    // TODO - Cleaner way to init all this fields?
-    // TODO - Create a input object to encompass these fields?
-    let rollRequest;
-    // Short circuit function to use damagerollrequest instead
-    if ($(event.currentTarget).attr("data-roll-type") === "damage") {
-      rollRequest = new CPRDmgRollRequest();
-    } else {
-      rollRequest = new CPRBaseRollRequest();
-    }
+    const rollRequest = new CPRRollRequest(event);
 
-    // TODO-- Where do these go?
-    rollRequest.rollType = $(event.currentTarget).attr("data-roll-type");
-    rollRequest.rollTitle = $(event.currentTarget).attr("data-roll-title");
-
-    // Moving cases to their own functions, per request from Jay
+    // Prepare data relative to the roll type
     switch (rollRequest.rollType) {
       case "stat": {
         this._prepareRollStat(rollRequest);
@@ -153,14 +139,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "attack": {
         const itemId = $(event.currentTarget).attr("data-item-id");
-        // check whether the weapon is equipped before allowing an attack
-        const weap = this._getOwnedItem(itemId);
-        if (weap.data.data.equippable.equipped === "equipped") {
-          this._prepareRollAttack(rollRequest, itemId);
-        } else {
-          CPRSystemUtils.DisplayMessage("warn", "CPR.warningweaponnotequipped");
-          return;
-        }
+        this._prepareRollAttack(rollRequest, itemId);
         break;
       }
       case "damage": {
@@ -171,34 +150,112 @@ export default class CPRActorSheet extends ActorSheet {
       default:
     }
 
-    // TODO needs separate ATTACK and DAMAGE prompts
+    // Handle skipping of the user verification step
     if (!event.ctrlKey) {
-      rollRequest = await VerifyRollPrompt(rollRequest);
-      LOGGER.debug(
-        "ActorID _onRoll | CPRActorSheet | Checking rollRequest post VerifyRollPrompt.",
-      );
+      // TODO - Charles save us....
+      const formData = await VerifyRoll.RenderVerifyRollPrompt(rollRequest);
+      mergeObject(rollRequest, formData, { overwrite: true });
     }
 
+    // TODO - Is this ideal for handling breaking out of the roll on cancel from verifyRollPrompt
+    // Handle exiting without making a roll or affecting any entitiy state.
     if (rollRequest.rollType === "abort") {
       return;
     }
 
-    if (rollRequest.rollType === "attack") {
-      const weaponId = $(event.currentTarget).attr("data-item-id");
-      const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
-      if (weaponItem.data.data.isRanged) {
-        // Need to figure out how to determine which we are doing here, single, autofire and suppressive
-        // Defaulting to Single
-        weaponItem.fireRangedWeapon("single");
-      }
-    }
+    // State changes?
+    // ?? Why more attack stuff?
+    // if (rollRequest.rollType === "attack") {
+    //   const weaponId = $(event.currentTarget).attr("data-item-id");
+    //   const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
+    //   if (rollRequest.isRanged) {
+    //     // weaponItem.fireWeapon(rollRequest.fireMode);
+    //   }
+    // }
 
+    // Damage
+    // CPRChat.RenderRollCard(CPRRolls.HandleRoll(rollRequest));
     if (rollRequest.rollType === "damage") {
       CPRChat.RenderRollCard(CPRRolls.DamageRoll(rollRequest));
     } else {
       // outputs to chat
       CPRChat.RenderRollCard(CPRRolls.BaseRoll(rollRequest));
     }
+  }
+
+  // PREPARE ROLLS
+  _prepareRollStat(rollRequest) {
+    rollRequest.stat = rollRequest.rollTitle;
+    rollRequest.statValue = this.getData().data.stats[rollRequest.rollTitle].value;
+    // TEMP REMOVAL
+    // Armor pen should apply directly to stat, not be fetched.
+    // rollRequest.mods.push(this._getArmorPenaltyMods(rollRequest.rollTitle));
+    LOGGER.trace(`ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
+  }
+
+  _prepareRollSkill(rollRequest, itemId) {
+    LOGGER.trace(`ActorID _prepareRollSkill | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
+    const item = this._getOwnedItem(itemId);
+    rollRequest.stat = item.getData().stat;
+    rollRequest.statValue = this.getData().data.stats[item.getData().stat].value;
+    rollRequest.skill = item.name;
+    rollRequest.skillValue = item.getData().level;
+    // TEMP REMOVAL
+    // Armor pen should apply directly to stat, not be fetched.
+    // rollRequest.mods.push(this._getArmorPenaltyMods(item.getData().stat));
+  }
+
+  // TODO - Revisit / Refactor
+  _prepareRollAbility(rollRequest) {
+    LOGGER.trace(`ActorID _prepareRollAbility | rolling ability: ${rollRequest.rollTitle} | ${rollRequest.skillValue}`);
+    const { roleskills: roles } = this.getData().data.roleInfo;
+    const roleAbility = rollRequest.rollTitle;
+    for (const roleName in roles) {
+      if (roles[roleName].hasOwnProperty(roleAbility)) {
+        rollRequest.roleValue = roles[roleName][roleAbility];
+        rollRequest.rollTitle = game.i18n.localize(CPR.roleAbilityList[roleAbility]);
+        break;
+      }
+    }
+  }
+
+  _prepareRollAttack(rollRequest, itemId) {
+    const weaponItem = this._getOwnedItem(itemId);
+    rollRequest.rollTitle = weaponItem.data.name;
+    rollRequest.isRanged = weaponItem.getData().isRanged;
+    if (rollRequest.isRanged) {
+      rollRequest.stat = "ref";
+      rollRequest.statValue = this.getData().data.stats.ref.value;
+    } else {
+      rollRequest.stat = "dex";
+      rollRequest.statValue = this.getData().data.stats.dex.value;
+    }
+
+    // DIVEST!
+    // TEMP: For now we will get the mods like so, but ideally we would have a
+    // single function that would compile mods from all sources.
+    if (weaponItem.getData().quality === "excellent") {
+      rollRequest.mods.push(1);
+    }
+
+    // if char owns relevant skill, get skill value, else assign None: 0
+    const skillItem = this.actor.items.find((i) => i.name === weaponItem.getData().weaponSkill);
+    if (skillItem) {
+      rollRequest.skillValue = skillItem.getData().level;
+      rollRequest.skill = skillItem.getData().name;
+    } else {
+      rollRequest.skillValue = 0;
+      rollRequest.skill = "None";
+    }
+    LOGGER.trace(`Actor _prepareRollAttack | rolling attack | skillName: ${skillItem.name} skillValue: ${rollRequest.skillValue} statValue: ${rollRequest.statValue}`);
+  }
+
+  _prepareRollDamage(rollRequest, itemId) {
+    const weaponItem = this._getOwnedItem(itemId);
+    rollRequest.rollTitle = weaponItem.data.name;
+    rollRequest.formula = weaponItem.getData().damage;
+    rollRequest.attackSkill = weaponItem.getData().weaponSkill;
+    rollRequest.weaponType = weaponItem.getData().weaponType;
   }
 
   _repairArmor(event) {
@@ -447,95 +504,17 @@ export default class CPRActorSheet extends ActorSheet {
   // TODO - Fix
   _getArmorPenaltyMods(stat) {
     const penaltyStats = ["ref", "dex", "move"];
-    let penaltyMods = [0];
+    const penaltyMods = [0];
     if (penaltyStats.includes(stat)) {
-      for (const location of ["head", "body"]) {
+      const coverage = ["head", "body"];
+      coverage.forEach((location) => {
         const penaltyValue = Number(this._getArmorValue("penalty", location));
         if (penaltyValue > 0) {
           penaltyMods.push(0 - penaltyValue);
         }
-      }
+      });
     }
-    penaltyMods = [Math.min(...penaltyMods)];
-    if (penaltyMods === 0) {
-      penaltyMods = "";
-    }
-    return penaltyMods;
-  }
-
-  // PREPARE ROLLS
-  _prepareRollStat(rollRequest) {
-    rollRequest.statValue = this.getData().data.stats[
-      rollRequest.rollTitle
-    ].value;
-    rollRequest.mods.push(this._getArmorPenaltyMods(rollRequest.rollTitle));
-    LOGGER.trace(`ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
-  }
-
-  _prepareRollSkill(rollRequest, itemId) {
-    LOGGER.trace(`ActorID _prepareRollSkill | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
-    const item = this._getOwnedItem(itemId);
-    console.log(item);
-    rollRequest.statValue = this.getData().data.stats[
-      item.data.data.stat
-    ].value;
-    rollRequest.skillValue = item.data.data.level;
-
-    rollRequest.mods.push(this._getArmorPenaltyMods(item.data.data.stat));
-  }
-
-  _prepareRollAbility(rollRequest) {
-    LOGGER.trace(`ActorID _prepareRollAbility | rolling ability: ${rollRequest.rollTitle} | ${rollRequest.skillValue}`);
-
-    const { roleskills: roles } = this.getData().data.roleInfo;
-    const roleAbility = rollRequest.rollTitle;
-    for (const roleName in roles) {
-      if (roles[roleName].hasOwnProperty(roleAbility)) {
-        rollRequest.roleValue = roles[roleName][roleAbility];
-        rollRequest.rollTitle = game.i18n.localize(CPR.roleAbilityList[roleAbility]);
-        break;
-      }
-    }
-  }
-
-  _prepareRollAttack(rollRequest, itemId) {
-    const weaponItem = this._getOwnedItem(itemId);
-    rollRequest.rollTitle = weaponItem.data.name;
-    const { isRanged } = weaponItem.data.data;
-    const { weaponSkill } = weaponItem.data.data;
-    const skillId = this.actor.items.find((i) => i.name === weaponSkill);
-    rollRequest.skillName = weaponSkill;
-    rollRequest.statValue = this.getData().data.stats.dex.value;
-    rollRequest.statName = "dex";
-    // if weapon is ranged, change stat to ref
-    if (isRanged === "true") {
-      rollRequest.statValue = this.getData().data.stats.ref.value;
-      rollRequest.statName = "ref";
-    }
-    // +1 to attack on Excellent Quality Weapons
-    if (weaponItem.data.data.quality === "excellent") {
-      rollRequest.mods.push(1);
-    }
-    // if char owns relevant skill, get skill value
-    if (skillId == null) {
-      rollRequest.skillValue = 0;
-    } else {
-      rollRequest.skillValue = skillId.data.data.level;
-    }
-    LOGGER.trace(`Actor _prepareRollAttack | rolling attack | skillName: ${weaponSkill} skillValue: ${rollRequest.skillValue} statValue: ${rollRequest.statValue}`);
-  }
-
-  _prepareRollDamage(rollRequest, itemId) {
-    // setup data
-    const weaponItem = this._getOwnedItem(itemId);
-    rollRequest.rollTitle = weaponItem.data.name;
-    const attackSkill = weaponItem.data.data.weaponSkill;
-    const { weaponType } = weaponItem.data.data;
-
-    // adjust roleRequest object
-    rollRequest.formula = weaponItem.data.data.damage;
-    rollRequest.attackSkill = attackSkill;
-    rollRequest.weaponType = weaponType;
+    return Math.min(...penaltyMods);
   }
 
   // adjust dynamic list columns based on width of container
