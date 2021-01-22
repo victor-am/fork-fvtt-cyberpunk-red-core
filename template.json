@@ -25,15 +25,15 @@
           "will": {
             "value": 6
           },
+          "luck": {
+            "value": 6,
+            "max": 6
+          },
           "move": {
             "value": 6
           },
           "body": {
             "value": 6
-          },
-          "luck": {
-            "value": 6,
-            "max": 6
           },
           "emp": {
             "value": 6,

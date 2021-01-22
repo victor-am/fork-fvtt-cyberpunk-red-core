@@ -1,11 +1,15 @@
 {{log "CPR-HANDLE-BLOCK.HBS"}}
-<div class="CPR-block">
-  <p>{{localize "CPR.handle"}}</p>
-  <input
-    name="name"
-    type="text"
-    value="{{actor.name}}"
-    placeholder="Handle"
-  />
+<div class="cpr-block">
+  <div class="title large-text bold">
+    <p>{{localize "CPR.handle"}}</p>
+  </div>
+  <div class="content larger-text">
+    <input
+      name="name"
+      type="text"
+      value="{{actor.name}}"
+      placeholder="Handle"
+    />
+  </div>
 </div>
 {{log "END CPR-HANDLE-BLOCK.HBS"}}

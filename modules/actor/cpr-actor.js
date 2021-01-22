@@ -15,9 +15,6 @@ export default class CPRActor extends Actor {
     super.prepareData();
     const actorData = this.data;
     actorData.filteredItems = this.itemTypes;
-    LOGGER.debug(
-      "Prepare Character Data | CPRActor | Checking on contents of `filteredItems`.",
-    );
 
     // Prepare data for both types
     this._calculateDerivedStats(actorData);

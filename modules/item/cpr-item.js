@@ -211,7 +211,7 @@ export default class CPRItem extends Item {
   }
 
   // TODO - Refactor
-  _fireRangedWeapon(rateOfFire) {
+  fireRangedWeapon(rateOfFire) {
     LOGGER.debug("fireRangedWeapon | CPRItem | Called.");
     let bulletCount = 0;
     switch (rateOfFire) {

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* global game, CONFIG, ChatMessage, renderTemplate */
 import LOGGER from "../utils/cpr-logger.js";
 
@@ -31,11 +32,30 @@ export default class CPRChat {
     return chatData;
   }
 
+  static GetTemplate(rollType) {
+    switch (rollType) {
+      case "damage": {
+        return "systems/cyberpunk-red-core/templates/chat/cpr-damage-rollcard.hbs";
+      }
+      case "attack":
+      case "stat":
+      case "roleAbility":
+      case "skill": {
+        return "systems/cyberpunk-red-core/templates/chat/cpr-base-rollcard.hbs";
+      }
+      default: {
+        return "systems/cyberpunk-red-core/templates/chat/cpr-base-rollcard.hbs";
+      }
+    }
+  }
+
   static RenderRollCard(rollResult) {
     LOGGER.trace("RenderRollCard | Chat | Called.");
+    const template = this.GetTemplate(rollResult.rollType);
+    const data = duplicate(rollResult);
     return renderTemplate(
-      "systems/cyberpunk-red-core/templates/chat/cpr-rollcard.hbs",
-      rollResult,
+      template,
+      data,
     ).then((html) => {
       const chatOptions = this.ChatDataSetup(html);
       return ChatMessage.create(chatOptions, false);
