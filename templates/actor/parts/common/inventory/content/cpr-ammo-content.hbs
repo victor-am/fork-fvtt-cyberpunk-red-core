@@ -6,9 +6,10 @@
         ({{this.data.amount}})
         {{/if}}
     </div>
-    <div class="section data  hide-overflow">
+    <div class="section data hide-overflow width-grow width-shrink">
+      <i class="fas fa-grip-lines-vertical"></i>
         {{localize (findConfigValue "ammoVariety" this.data.variety)}}
-        | c c c c c c c c c c c c c c c c c c c c c c c c c s d f a a a a d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d ddddddddddddddddd
+        <i class="fas fa-grip-lines-vertical"></i>
         {{localize (findConfigValue "ammoType" this.data.type)}}
     </div>
     <div class="section action right-text width-fit">

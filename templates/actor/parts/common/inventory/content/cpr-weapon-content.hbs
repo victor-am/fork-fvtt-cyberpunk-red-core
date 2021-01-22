@@ -6,14 +6,13 @@
         
     </span>
     <div class="section data width-grow">
-      |
+      <i class="fas fa-grip-lines-vertical"></i>
       {{localize (findConfigValue "weaponTypeList" this.data.weaponType)}}
       {{#if this.data.isRanged}}
       {{#if this.data.magazine.ammoId}}
       {{this.data.magazine.ammoId}} ({{this.data.magazine.value}}/{{this.data.magazine.max}})
       {{/if}}
       {{/if}}
-      
     </div>
     <span class="section action right-text width-fit">
 
