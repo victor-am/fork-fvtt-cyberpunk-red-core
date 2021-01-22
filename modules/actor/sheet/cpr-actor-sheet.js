@@ -475,12 +475,10 @@ export default class CPRActorSheet extends ActorSheet {
   _prepareRollSkill(rollRequest, itemId) {
     LOGGER.trace(`ActorID _prepareRollSkill | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
     const item = this._getOwnedItem(itemId);
-    console.log(item)
-    rollRequest.statName = item.data.data.stat;
+    console.log(item);
     rollRequest.statValue = this.getData().data.stats[
       item.data.data.stat
     ].value;
-    rollRequest.skillName = item.data.name;
     rollRequest.skillValue = item.data.data.level;
 
     rollRequest.mods.push(this._getArmorPenaltyMods(item.data.data.stat));
@@ -541,6 +539,7 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   // adjust dynamic list columns based on width of container
+  // eslint-disable-next-line class-methods-use-this
   _adjustColumns() {
     LOGGER.debug("adjusting columns");
     const container = $(".dynamic-list.skills");
@@ -563,7 +562,7 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   /** @override */
-  _onResize(event) {
+  _onResize() {
     this._adjustColumns();
   }
 }
