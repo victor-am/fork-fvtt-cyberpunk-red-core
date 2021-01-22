@@ -11,7 +11,7 @@ export default class VerifyRollDialog {
   static GetVerifyRollTemplate(rollType) {
     switch (rollType) {
       case "damage": {
-        return "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-prompt.hbs";
+        return "systems/cyberpunk-red-core/templates/dialog/cpr-verify-damage-roll-prompt.hbs";
       }
       case "attack": {
         return "systems/cyberpunk-red-core/templates/dialog/cpr-verify-base-roll-prompt.hbs";

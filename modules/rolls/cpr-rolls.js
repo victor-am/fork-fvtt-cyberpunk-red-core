@@ -66,6 +66,7 @@ export default class CPRRolls {
     return rollResult;
   }
 
+  // TODO - Refactor Function
   static DamageRoll(rollRequest) {
     LOGGER.trace(`Calling DamageRoll | Dice DamageRoll | RollFormula:${rollRequest.formula} Location: ${rollRequest.location}`);
 
@@ -76,13 +77,8 @@ export default class CPRRolls {
     const roll = this.CPRRoll(`${rollRequest.formula}[fire]`);
 
     // Push all results into diceResults
-    roll.array.forEach((r) => rollResult.diceResults.push(r));
-
-    // Get roll Total
+    rollResult.rollResults = roll.array;
     rollResult.diceTotal = roll.total;
-
-    // If autofire, apply multiplier.
-    if (rollResult.isAutofire) rollResult.diceTotal *= rollResult.multiplier;
 
     // count crits and bonus damage
     let sixes = 0;
@@ -90,9 +86,8 @@ export default class CPRRolls {
       if (r === 6) sixes += 1;
     });
 
-    rollResult.crits = Math.floor(sixes / 2);
-    rollResult.bonusDamage = rollResult.crits * 5;
     rollResult.wasCritical = !!rollResult.crits > 0;
+    rollResult.bonusDamage = 5;
 
     // get total attack damage
     rollResult.resultTotal = rollResult.diceTotal + rollResult.bonusDamage;
