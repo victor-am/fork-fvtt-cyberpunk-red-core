@@ -14,13 +14,12 @@
       {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
     </div>
     <div class="tab" data-group="primary" data-tab="details">
-      {{localize "CPR.price"}}: <input data.price.market="price-market" class="" type="text" value="{{data.price.market}}"
-        placeholder="50">
-      {{localize "CPR.per"}}: <input data.per="per" class="" type="text" value="{{data.per}}" placeholder="5">
-      {{localize "CPR.spd"}}: <input data.spd="spd" class="" type="text" value="{{data.spd}}" placeholder="5">
-      {{localize "CPR.atk"}}: <input data.atk="atk" class="" type="text" value="{{data.atk}}" placeholder="5">
-      {{localize "CPR.def"}}: <input data.def="def" class="" type="text" value="{{data.def}}" placeholder="5">
-      {{localize "CPR.rez"}}: <input data.rez="rez" class="" type="text" value="{{data.rez}}" placeholder="5">
+      Price: <input name="data.price.market" class="" type="text" value="{{data.price.market}}" placeholder="100">
+      PER: <input name="data.per" class="" type="number" value="{{data.per}}" placeholder="5">
+      SPD: <input name="data.spd" class="" type="number" value="{{data.spd}}" placeholder="5">
+      ATK: <input name="data.atk" class="" type="number" value="{{data.atk}}" placeholder="5">
+      DEF: <input name="data.def" class="" type="number" value="{{data.def}}" placeholder="5">
+      REZ: <input name="data.rez" class="" type="number" value="{{data.rez}}" placeholder="5">
     </div>
   </section>
 </form>
