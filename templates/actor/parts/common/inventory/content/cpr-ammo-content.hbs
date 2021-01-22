@@ -1,14 +1,14 @@
 {{log "CPR-AMMO-INV-CONTENT.HBS"}}
-<div class="row white-bg black-fg" data-item-id={{this._id}}>
+<div class="row item white-bg black-fg" data-item-id={{this._id}}>
     <div class="section name width-quarter">
         <a class="name item-edit">{{this.name}}</a>
         {{#if (gt this.data.amount 0 )}}
         ({{this.data.amount}})
         {{/if}}
     </div>
-    <div class="section data  hide-overflow">
+    <div class="section data width-grow hide-overflow">
         {{localize (findConfigValue "ammoVariety" this.data.variety)}}
-        | c c c c c c c c c c c c c c c c c c c c c c c c c s d f a a a a d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d ddddddddddddddddd
+        | 
         {{localize (findConfigValue "ammoType" this.data.type)}}
     </div>
     <div class="section action right-text width-fit">
