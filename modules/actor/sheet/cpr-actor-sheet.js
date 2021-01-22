@@ -20,8 +20,8 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
     return mergeObject(super.defaultOptions, {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
-      width: 840,
-      height: 600,
+      width: 600,
+      height: 706,
     });
   }
 
@@ -95,6 +95,23 @@ export default class CPRActorSheet extends ActorSheet {
         $(event.currentTarget).contents().contents().removeClass("show");
       },
     );
+
+    // hide skills by category on clicking header
+    html.find(".skills .header").click((event) => {
+      const header = $(event.currentTarget);
+      const category = header.attr("data-skill-category-name");
+      // eslint-disable-next-line no-restricted-syntax
+      for (const i of html.find(".row.skill")) {
+        if (i.attributes[2].nodeValue === category) {
+          // eslint-disable-next-line no-unused-expressions
+          i.classList.contains("hide") ? i.classList.remove("hide") : i.classList.add("hide");
+        }
+      }
+    });
+
+    // TODO make this better
+    // force columns to adjust every click because I can't find an _onReload method...
+    $(window).click(this._adjustColumns());
   }
 
   /* -------------------------------------------- */
@@ -172,9 +189,7 @@ export default class CPRActorSheet extends ActorSheet {
   _prepareRollStat(rollRequest) {
     rollRequest.stat = rollRequest.rollTitle;
     rollRequest.statValue = this.getData().data.stats[rollRequest.rollTitle].value;
-    // TEMP REMOVAL
-    // Armor pen should apply directly to stat, not be fetched.
-    // rollRequest.mods.push(this._getArmorPenaltyMods(rollRequest.rollTitle));
+    rollRequest.mods.push(this._getArmorPenaltyMods(rollRequest.stat));
     LOGGER.trace(`ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
   }
 
@@ -226,7 +241,7 @@ export default class CPRActorSheet extends ActorSheet {
     const skillItem = this.actor.items.find((i) => i.name === weaponItem.getData().weaponSkill);
     if (skillItem) {
       rollRequest.skillValue = skillItem.getData().level;
-      rollRequest.skill = skillItem.getData().name;
+      rollRequest.skill = skillItem.data.name;
     } else {
       rollRequest.skillValue = 0;
       rollRequest.skill = "None";
@@ -443,6 +458,7 @@ export default class CPRActorSheet extends ActorSheet {
   _updateOwnedItem(item) {
     LOGGER.trace("ActorID _updateOwnedItemProp | Called.");
     this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+    this._adjustColumns();
   }
 
   _renderItemCard(event) {
@@ -499,5 +515,33 @@ export default class CPRActorSheet extends ActorSheet {
       });
     }
     return Math.min(...penaltyMods);
+  }
+
+  // adjust dynamic list columns based on width of container
+  // eslint-disable-next-line class-methods-use-this
+  _adjustColumns() {
+    const containers = [$(".dynamic-list.skills")];
+    containers.forEach((container) => {
+      const currentWidth = container.innerWidth();
+      const currentSetting = container[0].classList[2];
+      if (currentWidth < 640) {
+        container.removeClass(currentSetting);
+        container.addClass("col-1");
+      } else if (currentWidth >= 640 && currentWidth < 960) {
+        container.removeClass(currentSetting);
+        container.addClass("col-2");
+      } else if (currentWidth >= 960 && currentWidth < 1280) {
+        container.removeClass(currentSetting);
+        container.addClass("col-3");
+      } else {
+        container.removeClass(currentSetting);
+        container.addClass("col-4");
+      }
+    });
+  }
+
+  /** @override */
+  _onResize() {
+    this._adjustColumns();
   }
 }
