@@ -489,19 +489,16 @@ export default class CPRActorSheet extends ActorSheet {
   // TODO - Fix
   _getArmorPenaltyMods(stat) {
     const penaltyStats = ["ref", "dex", "move"];
-    let penaltyMods = [0];
+    const penaltyMods = [0];
     if (penaltyStats.includes(stat)) {
-      for (const location of ["head", "body"]) {
+      const coverage = ["head", "body"];
+      coverage.forEach((location) => {
         const penaltyValue = Number(this._getArmorValue("penalty", location));
         if (penaltyValue > 0) {
           penaltyMods.push(0 - penaltyValue);
         }
-      }
+      });
     }
-    penaltyMods = [Math.min(...penaltyMods)];
-    if (penaltyMods === 0) {
-      penaltyMods = "";
-    }
-    return penaltyMods;
+    return Math.min(...penaltyMods);
   }
 }
