@@ -1,21 +1,19 @@
 {{log "CPR-WEAPON-INV-CONTENT.HBS"}}
-{{log this}}
-<div class="row item inventory" data-item-id={{this._id}}>
-    <span class="section name width-quarter">
-        <a class="name item-edit">{{this.name}}</a>
-        
-    </span>
-    <div class="section data width-grow">
-      |
+<div class="row item white-bg black-fg" data-item-id={{this._id}}>
+    <div class="section name width-quarter">
+        <a class="name item-edit">{{this.name}}</a>        
+    </div>
+    <div class="section data width-grow hide-overflow">
       {{localize (findConfigValue "weaponTypeList" this.data.weaponType)}}
       {{#if this.data.isRanged}}
       {{#if this.data.magazine.ammoId}}
+      |
       {{this.data.magazine.ammoId}} ({{this.data.magazine.value}}/{{this.data.magazine.max}})
       {{/if}}
       {{/if}}
       
     </div>
-    <span class="section action right-text width-fit">
+    <div class="section action right-text width-fit">
 
         {{!-- LOAD ACTION --}}
         {{#if this.data.isRanged}}
@@ -36,6 +34,6 @@
         {{!-- ITEM MANAGEMENT --}}
         <a class="item-delete"><i class="fas fa-trash-alt red-fg"></i></a>
 
-    </span>
+    </div>
 </div>
 {{log "END CPR-WEAPON-INV-CONTENT.HBS"}}

@@ -1,9 +1,9 @@
 {{log "CPR-WEAPON-INV-CONTENT.HBS"}}
-<div class="row item inventory" data-item-id={{this._id}}>
-    <div class="section name item-edit width-quarter">
-        <a class="name">{{this.name}}</a>
+<div class="row item white-bg black-fg" data-item-id={{this._id}}>
+    <div class="section name width-quarter">
+        <a class="name item-edit">{{this.name}}</a>
     </div>
-    <div class="section data width-grow">
+    <div class="section data width-grow hide-overflow">
         Seats: {{data.seats}}
         |
         Speed: {{data.spd}}
