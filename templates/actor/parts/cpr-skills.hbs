@@ -1,5 +1,5 @@
 {{log "CPR-SKILLS.HBS"}}
-<div class="dynamic-list skills col-1">
+<div class="dynamic-list skills">
   {{!-- FOR ALL SKILL ITEMS, RENDER SKILL CARD --}}
   {{!-- FOR EACH CATEGORY --}}
   {{#each (findConfigObj "skillCategories") as |category c|}}
@@ -7,7 +7,7 @@
 
   <div class="row flex-end skills header white-fg black-bg bold" data-skill-category-name={{c}}>
     <span class="section width-grow skill-name">{{localize (findConfigValue "skillCategories" c)}}</span>
-    <span class="section width-eighth no-grow center-text">{{localize "CPR.base"}}</span>
+    <span class="section width-eighth no-grow center-text">{{localize "CPR.level"}}</span>
     <span class="section width-eighth no-grow center-text">{{localize "CPR.base"}}</span>
   </div>
 

@@ -108,10 +108,6 @@ export default class CPRActorSheet extends ActorSheet {
         }
       }
     });
-
-    // TODO make this better
-    // force columns to adjust every click because I can't find an _onReload method...
-    $(window).click(this._adjustColumns());
   }
 
   /* -------------------------------------------- */
@@ -515,33 +511,5 @@ export default class CPRActorSheet extends ActorSheet {
       });
     }
     return Math.min(...penaltyMods);
-  }
-
-  // adjust dynamic list columns based on width of container
-  // eslint-disable-next-line class-methods-use-this
-  _adjustColumns() {
-    const containers = [$(".dynamic-list.skills")];
-    containers.forEach((container) => {
-      const currentWidth = container.innerWidth();
-      const currentSetting = container[0].classList[2];
-      if (currentWidth < 640) {
-        container.removeClass(currentSetting);
-        container.addClass("col-1");
-      } else if (currentWidth >= 640 && currentWidth < 960) {
-        container.removeClass(currentSetting);
-        container.addClass("col-2");
-      } else if (currentWidth >= 960 && currentWidth < 1280) {
-        container.removeClass(currentSetting);
-        container.addClass("col-3");
-      } else {
-        container.removeClass(currentSetting);
-        container.addClass("col-4");
-      }
-    });
-  }
-
-  /** @override */
-  _onResize() {
-    this._adjustColumns();
   }
 }
