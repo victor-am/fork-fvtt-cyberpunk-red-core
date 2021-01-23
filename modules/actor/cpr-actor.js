@@ -15,9 +15,6 @@ export default class CPRActor extends Actor {
     super.prepareData();
     const actorData = this.data;
     actorData.filteredItems = this.itemTypes;
-    LOGGER.debug(
-      "Prepare Character Data | CPRActor | Checking on contents of `filteredItems`.",
-    );
 
     // Prepare data for both types
     this._calculateDerivedStats(actorData);
@@ -84,7 +81,7 @@ export default class CPRActor extends Actor {
     derivedStats.seriouslyWounded = Math.ceil(derivedStats.hp.max / 2);
 
     if (derivedStats.hp.value < derivedStats.hp.max) {
-      this.setWoundState();
+      this._setWoundState();
     }
     // Death save
     derivedStats.deathSave = stats.body.value;
@@ -109,7 +106,7 @@ export default class CPRActor extends Actor {
     return this.data.data.woundState.currentWoundState;
   }
 
-  setWoundState(actorData) {
+  _setWoundState() {
     LOGGER.trace("setWoundState | CPRActor | Setting Wound State.");
 
     const { derivedStats } = this.data.data;
@@ -132,7 +129,8 @@ export default class CPRActor extends Actor {
 
   /**
    *
-   * @param {string} type uses the type of a cyberware item to return a list of compatiable foundational cyberware installed.
+   * @param {string} type uses the type of a cyberware item to return a list of
+   *                      compatiable foundational cyberware installed.
    */
   getInstalledFoundationalCyberware(type) {
     // TODO - Assert type is actually a fucking cyberware type... -__-

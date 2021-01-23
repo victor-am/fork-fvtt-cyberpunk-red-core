@@ -47,7 +47,7 @@ export default class VerifyRollDialog {
           resolve(formData);
         };
         new Dialog({
-          title: "Input Modifiers",
+          title: "Are you sure?",
           content: html,
           buttons: {
             cancel: {

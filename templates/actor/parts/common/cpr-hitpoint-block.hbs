@@ -1,9 +1,11 @@
-<div class="CPR-block resource">
-  <p>{{localize "CPR.hitpoints"}}</p>
-  <div class="inputs">
-    <input class="derived" name="data.derivedStats.hp.value" type="number" value="{{data.derivedStats.hp.value}}"
+<div class="cpr-block bar out-of">
+  <div class="title large-text bold">
+    <span>{{localize "CPR.hitpoints"}}</span>
+  </div>
+  <div class="content largest-text center-text">
+    <input name="data.derivedStats.hp.value" type="number" value="{{data.derivedStats.hp.value}}"
       data-dtype="Number" />
-    <input class="derived" name="data.derivedStats.hp.max" type="number" value="{{data.derivedStats.hp.max}}"
-      data-dtype="Number" />
+    <input name="data.derivedStats.hp.max" type="number" value="{{data.derivedStats.hp.max}}"
+      data-dtype="Number" readonly/>
   </div>
 </div>

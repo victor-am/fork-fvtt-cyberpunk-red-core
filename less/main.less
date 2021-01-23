@@ -1,24 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import 'colors.less';
-@import 'block.less';
-@import 'actor-sheet.less';
-@import 'item-sheet.less';
+@import 'layout.less';
+@import 'look.less';
 @import 'chat.less';
 @import 'dialog.less';
 
-:root {
-  font-family: 'Ubuntu Mono', monospace;
-  font-size: 10px;
-  color: @raisin-black;
-  --main-bg-color: @white;
-}
-
 .window-app .window-content {
-  background: @white;
+  background: @chrome-white;
 }
 
-// THIS IS BAD....
+
+
 .editor {
+  flex-grow: 1;
+  min-height: 100%;
   height: 100%;
   .tox-toolbar-overlord,
   .tox-toolbar__primary {
@@ -26,12 +21,6 @@
   }
 }
 
-// Scrollable tab content screens.
 .content {
-  overflow-y: scroll;
+  height: 100%;
 }
-
-.tab {
-}
-
-

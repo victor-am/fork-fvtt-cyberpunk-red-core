@@ -17,12 +17,11 @@ const SelectAmmoPrompt = async (dialogData) => {
         /* eslint-enable no-shadow */
         LOGGER.trace("_loadWeapon | Dialog SelectAmmoForWeapon | called.");
         const rButtons = html.find("[name=\"selectedAmmo\"");
-        for (const rb of rButtons) {
-          if (rb.checked) {
-            dialogData.selectedAmmo = rb.value;
-            break;
+        Object.keys(rButtons).forEach((rb) => {
+          if (rButtons[rb].checked) {
+            dialogData.selectedAmmo = rButtons[rb].value;
           }
-        }
+        });
       };
 
       new Dialog({

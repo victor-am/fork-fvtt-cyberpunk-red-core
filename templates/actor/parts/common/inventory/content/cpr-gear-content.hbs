@@ -1,15 +1,13 @@
 {{log "CPR-GEAR-INV-CONTENT.HBS"}}
-<div class="row row-section item inventory" data-item-id={{this._id}}>
-    <div class="row-section name text-align-left">
-        <a class="name">{{this.name}}</a>
-        <a class="item-edit"><i class="fas fa-edit"></i></a>
-        <a class="item-delete"><i class="fas fa-trash-alt"></i></a>
+<div class="row item white-bg black-fg" data-item-id={{this._id}}>
+    <div class="section name width-quarter">
+        <a class="name item-edit">{{this.name}}</a>
     </div>
-    <div class="row-section data text-align-left">
-        Value: {{data.price.market}}
+    <div class="section data width-grow hide-overflow">
+        {{localize "CPR.value"}}: {{data.price.market}}
     </div>
-    <div class="row-section action text-align-right">
-
+    <div class="section action right-text width-fit">
+        <a class="item-delete"><i class="fas fa-trash-alt red-fg"></i></a>
     </div>
 </div>
 {{log "END CPR-GEAR-INV-CONTENT.HBS"}}

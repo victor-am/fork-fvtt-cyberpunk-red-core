@@ -1,11 +1,10 @@
 {{log "CPR-ROLE-TAB-CONTENT.HBS"}}
 <div class="">
-    {{log this}}
     <div>
-        <h1>Role: {{localize (findConfigValue "roleList" data.roleInfo.role)}}</h1>
+        <h1>{{localize "CPR.role"}}: {{localize (findConfigValue "roleList" data.roleInfo.role)}}</h1>
     </div>
     <div class="">
-        Abilities:
+        {{localize "CPR.abilities"}}:
     </div>
     <div class="row">
         {{#each (getProp data.roleInfo.roleskills data.roleInfo.role) as |roleskill rs|}}
@@ -15,7 +14,7 @@
         
     </div>
     <div>
-        <h1>Other Role Abilities:</h1>
+        <h1>{{localize "CPR.other"}} {{localize "CPR.roleabilities"}}:</h1>
         {{#each (findConfigObj "roleList") as |name n|}}
         {{#each (getProp ../data.roleInfo.roleskills n) as |roleskill rs|}}
         {{#if (compare n "!==" ../../data.roleInfo.role)}}

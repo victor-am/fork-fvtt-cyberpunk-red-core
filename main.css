@@ -26,293 +26,669 @@
   font-display: swap;
   src: url(https://fonts.gstatic.com/s/ubuntumono/v10/KFO-CneDtsqEr0keqCMhbC-BL-Hy.ttf) format('truetype');
 }
-/* LESS RGB */
+/* LESS HEX */
 /* LESS Gradient */
-.CPR-block {
+/*--------------------
+  Global Tweaks
+---------------------*/
+.app.window-app.sheet.sheet.actor {
+  min-width: 624px;
+  min-height: 770px;
+}
+.app.window-app.sheet.sheet.actor .window-resizable-handle {
+  z-index: 10;
+}
+/*--------------------
+  Main sheet content
+---------------------*/
+.sheet-content {
+  height: 100%;
+}
+.sheet-content input,
+.sheet-content p,
+.sheet-content span,
+.sheet-content select,
+.sheet-content button,
+.sheet-content a,
+.sheet-content img {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  outline: 0;
+  border: 0;
+}
+.sheet-content.character {
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: 200px 50px 1fr;
+  grid-template-rows: 20px 175px minmax(300px, 1fr) 200px;
+  grid-template-areas: "image stats nav" "image stats content" "main stats content" "combat combat combat";
+  grid-gap: 5px;
+}
+.sheet-content.character .image-container {
+  grid-area: image;
+}
+.sheet-content.character .main-container {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.sheet-content.character .stats-container {
+  grid-area: stats;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.sheet-content.character .nav-container {
+  grid-area: nav;
+}
+.sheet-content.character .nav-container nav {
+  height: 20px;
+}
+.sheet-content.character .content-container {
+  grid-area: content;
+  min-height: 100%;
+}
+.sheet-content.character .content-container .tab {
+  min-height: 100%;
+  height: 100%;
+}
+.sheet-content.character .combat-container {
+  grid-area: combat;
+  z-index: 5;
+}
+.sheet-content.character .combat-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-areas: "critical weapons weapons weapons" "armor armor skills  skills";
+  grid-gap: 10px;
+}
+.sheet-content.character .combat-container .armor {
+  grid-area: armor;
+}
+.sheet-content.character .combat-container .weapons {
+  grid-area: weapons;
+}
+.sheet-content.character .combat-container .combat-skills {
+  grid-area: skills;
+}
+.sheet-content.character .combat-container .critical-injuries {
+  grid-area: critical;
+}
+.sheet-content.character .content-container {
+  overflow: scroll;
+}
+.sheet-content.item {
   display: flex;
   flex-direction: column;
   height: 100%;
-  flex-grow: 1;
-  border: solid #d02b23 4px;
-  border-top: 8px solid #d02b23;
-  background-color: #ffffff;
-  position: relative;
-  box-sizing: border-box;
-  overflow: hidden;
 }
-.CPR-block p,
-.CPR-block input,
-.CPR-block a {
+.sheet-content.item .content {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(2, 50%);
+  grid-template-rows: 1fr;
+}
+.sheet-content.item .content.weapon {
+  grid-template-areas: "physical other ";
+}
+/*--------------------
+  cpr-block element
+---------------------*/
+.cpr-block {
+  height: 60px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+}
+.cpr-block p,
+.cpr-block span,
+.cpr-block input {
   padding: 0;
   margin: 0;
 }
-.CPR-block p,
-.CPR-block a {
-  text-align: end;
-  padding-left: 15px;
-  font-weight: bold;
-}
-.CPR-block input,
-.CPR-block select {
-  display: block;
-  text-align: center;
-  background: transparent;
-  outline: none;
-  border: none;
-  font-size: 1.5em;
-  font-family: "Signika";
-}
-.CPR-block input:focus {
-  box-shadow: none;
-}
-.CPR-block input[type="text"] {
-  text-align: start;
-}
-.CPR-block::after {
-  content: "";
+.cpr-block::before {
   position: absolute;
-  top: -2;
-  left: -2;
-  background-color: #d02b23;
-  height: 17px;
-  width: 17px;
-  clip-path: polygon(0 0, 100% 0, 0 100%);
+  height: calc(100% - 8px);
+  width: calc(100% - 8px);
+  top: 4px;
+  left: 4px;
 }
-.CPR-block.stat {
-  width: 55px;
-  height: 55px;
-  border-bottom: 0;
-}
-.CPR-block.stat p {
-  font-size: 0.8em;
-}
-.CPR-block.stat .stat-values {
+.cpr-block .title {
+  padding-left: 12px;
   display: flex;
+  flex: 0;
+  justify-content: center;
 }
-.CPR-block.stat .stat-values input {
-  font-size: 1.8em;
-}
-.CPR-block.stat .stat-values .max {
-  font-size: 1.4em;
-}
-.CPR-block.last {
-  border-bottom: solid 4px #d02b23;
-}
-.CPR-block.fit-content {
-  height: fit-content;
-}
-.CPR-block.no-height {
-  height: 100%;
-}
-.CPR-block.resource div {
-  display: flex;
+.cpr-block .title.double {
   justify-content: space-around;
 }
-.CPR-block.resource div input {
-  max-width: 50%;
-  min-width: 50%;
+.cpr-block .content {
+  display: flex;
+  justify-content: space-around;
+  flex: 0;
 }
-.CPR-block.resource div span {
-  font-size: 0.85em;
-  text-align: center;
+.cpr-block .select {
+  background: transparent;
+  outline: 0;
+  border: 0;
+}
+.cpr-block.stat {
+  width: 50px;
+  height: 50px;
+}
+.cpr-block.stat::before {
+  position: absolute;
+  height: 42px;
+  width: 42px;
+  top: 4px;
+  left: 4px;
+}
+.cpr-block.fit {
+  height: fit-content;
   width: 100%;
 }
-.CPR-block.expand {
-  height: fit-content;
-  min-height: 60px;
-  z-index: 10;
-}
-app.window-app.sheet.actor {
-  min-width: 840px;
-  min-height: 600px;
-}
-.sheet-content {
-  margin: 5px;
-  display: grid;
-  grid-template-columns: 200px 60px 1fr;
-  grid-template-rows: 30px 165px repeat(5, 65px);
-  grid-template-areas: "image stats tabs " "image stats content " "handle stats content " "role stats content " "hitpoints stats content " "deathsave stats content " "humanity stats content ";
-  grid-column-gap: 5px;
-  grid-row-gap: 5px;
-}
-.sheet-content .image-div {
-  grid-area: image;
-}
-.sheet-content .image-div img {
-  border: 0;
-  outline: 0;
-}
-.sheet-content .handle-div {
-  grid-area: handle;
-}
-.sheet-content .role-div {
-  grid-area: role;
-}
-.sheet-content .hitpoints-div {
-  grid-area: hitpoints;
-}
-.sheet-content .deathsave-div {
-  grid-area: deathsave;
-}
-.sheet-content .humanity-div {
-  grid-area: humanity;
-}
-.sheet-content .tabs-div {
-  grid-area: tabs;
-  box-shadow: 0;
-}
-.sheet-content .tabs-div .navtab {
+.cpr-block.image {
+  height: 200px;
+  width: 200px;
   padding: 0;
-  padding: 1px 4px 0 4px;
-  margin-left: 15px;
-  margin-right: 15px;
-  text-align: center;
 }
-.sheet-content .tabs-div .selected {
-  background-color: #231f20;
-  color: #ffffff;
+.cpr-block.image img {
+  height: calc(100% - 8px);
+  width: calc(100% - 8px);
+  position: absolute;
+  left: 4px;
+  top: 4px;
 }
-.sheet-content .stats-div {
-  grid-area: stats;
+.cpr-block.image::before {
+  position: absolute;
+  height: calc(100% - 8px);
+  width: calc(100% - 8px);
+  top: 4px;
+  left: 4px;
 }
-.sheet-content .row {
+.cpr-block.image.small {
+  height: 60px;
+  width: 60px;
+}
+.cpr-block.margin-bottom {
+  margin-bottom: 5px;
+}
+.cpr-block.horizontal {
+  flex-direction: row;
+}
+.cpr-block.half-height {
+  height: 50%;
+}
+.cpr-block.rollcard {
+  height: 200px;
+  margin-top: 5px;
+}
+/*--------------------
+  Dynamic Lists
+---------------------*/
+.dynamic-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.dynamic-list.col-1 {
+  display: grid;
+  grid-template-rows: repeat(80, 1fr);
+  grid-auto-flow: column;
+}
+.dynamic-list.col-2 {
+  display: grid;
+  grid-template-rows: repeat(40, 1fr);
+  grid-auto-flow: column;
+}
+.dynamic-list.col-3 {
+  display: grid;
+  grid-template-rows: repeat(27, 1fr);
+  grid-auto-flow: column;
+}
+.dynamic-list.col-4 {
+  display: grid;
+  grid-template-rows: repeat(23, 1fr);
+  grid-auto-flow: column;
+}
+.dynamic-list .row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 3px;
-  background-color: #ffffff;
-}
-.sheet-content .skills {
-  flex: 50%;
-}
-.sheet-content .skills .skill-name {
-  width: 60%;
-}
-.sheet-content .skills .skill-level,
-.sheet-content .skills .skill-base {
-  width: 10%;
-  text-align: center;
-}
-.sheet-content .inventory {
-  flex: 100%;
-  text-align: center;
-}
-.sheet-content .inventory .name {
-  width: 200px;
-}
-.sheet-content .inventory .data {
-  text-align: left;
-}
-.sheet-content .inventory .action {
-  width: 10%;
-}
-.sheet-content .border-red {
-  border: solid #d02b23 1px;
-}
-.sheet-content .row-header {
-  background: #231f20;
-  color: #ffffff;
-  font-weight: bold;
-}
-.sheet-content .row-section {
-  flex-grow: 1;
-}
-.sheet-content .content {
-  grid-area: content;
-  min-width: 512px;
-}
-.sheet-content .content .tab-block {
-  background-color: #d02b23;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-.sheet-content .text-align-left {
-  text-align: left;
-}
-.sheet-content .text-align-center {
-  text-align: center;
-}
-.sheet-content .text-align-right {
-  text-align: right;
-}
-.sheet-content input {
-  background: 0;
-  outline: 0;
-  border: 0;
-}
-.text-align-left {
-  text-align: left;
-}
-form .item-desc-body {
-  display: flex;
-  flex-direction: row;
-  min-height: 100%;
-  align-items: stretch;
-}
-form .item-info-pane {
-  display: flex;
-  flex-direction: row;
-  padding: 5px;
-}
-form .item-info-pane .info-pane-item {
-  min-width: 120px;
-  padding: 2px;
+  align-content: stretch;
   margin: 2px;
-  background-color: #d02b23;
-  color: #ffffff;
+  padding: 2px;
+  max-height: 20px;
 }
-form .item-header-flex-parent {
+.dynamic-list .row.flex-end {
+  justify-content: flex-end;
+}
+.dynamic-list .row.hide {
+  display: none;
+}
+.dynamic-list .row .section {
+  max-height: 20px;
+  height: 20px;
+  padding: 0 5px;
+}
+.dynamic-list .row .section a,
+.dynamic-list .row .section span,
+.dynamic-list .row .section input,
+.dynamic-list .row .section div {
+  display: inline-block;
+  max-height: 20px;
+  height: 20px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+.width- {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  justify-content: space-around;
+  flex: 0;
 }
-form .item-icon {
-  min-width: 64px;
-  min-height: 64px;
-  max-width: 64px;
-  max-height: 64px;
+.width-sixteenth {
+  width: 6.25%;
 }
-form .item-name {
-  background-color: #d02b23;
-  height: 64px;
-  width: 100%;
-  color: white;
-  font-size: 24pt;
-  flex-grow: 2;
+.width-eighth {
+  width: 12.5%;
 }
-.chat-rollCard .chat-rollTitle-stat {
-  text-transform: capitalize;
+.width-sixth {
+  width: calc(100% / 6);
 }
-.chat-rollCard .chat-rollTotal {
-  font-weight: bold;
+.width-quarter {
+  width: 25%;
 }
-.chat-rollCard tr {
-  vertical-align: top;
+.width-third {
+  width: calc(100% / 3);
 }
-.chat-rollCard td {
+.width-half {
   width: 50%;
 }
-.chat-rollCard td .chat-rollResult {
+.width-grow {
+  flex: 1 0 auto;
+}
+.width-no-grow {
+  flex-grow: 0;
+}
+.width-shrink {
+  flex-shrink: 1;
+}
+.width-no-shrink {
+  flex-shrink: 0;
+}
+.width-fit {
+  width: fit-content;
+  padding: 0 2px;
+}
+.width-max-half {
+  max-width: 50%;
+}
+.width-max-quarter {
+  max-width: 25%;
+}
+.width-max-eighth {
+  max-width: 12.5%;
+}
+.width-max-three-quarters {
+  max-width: 75%;
+}
+.width-max-third {
+  max-width: calc(100%/3);
+}
+.width-max-two-thirds {
+  max-width: calc((100%/3)*2);
+}
+.height-max {
+  height: 100%;
+}
+.row-reverse {
+  flex-direction: row-reverse;
+}
+.container- {
+  display: flex;
+}
+.container-center {
+  flex: 1 0 auto;
+  justify-content: space-evenly;
+  align-items: center;
+}
+/*--------------------
+  Globals and tweaks
+---------------------*/
+::-webkit-scrollbar {
+  display: none;
+}
+.sheet-content {
+  color: #2d2f2fff;
+  background-color: #eaeaeaff;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-variant: small-caps;
+}
+.sheet-content .navtab.active {
+  background-color: #ffff3fff;
+  color: #2d2f2fff;
+}
+.sheet-content .navtab:hover {
+  text-shadow: none;
+}
+.sheet-content .combat-container,
+.sheet-content .content-container {
+  border: 4px solid #b90202ff;
+  padding: 5px;
+}
+.sheet-content a:hover {
+  text-shadow: none;
+  text-shadow: 0px 0px 5px #ffc3b6ff;
+}
+.sheet-content textarea {
+  border: 0;
+  outline: 0;
+  height: calc(100% - 20px);
+  width: 100%;
+}
+/*--------------------
+  cpr-block element styling
+---------------------*/
+.cpr-block {
+  background-color: #b90202ff;
+  position: relative;
+  clip-path: polygon(0 15px, 0 100%, 100% 100%, 100% 0, 15px 0);
+  /*--------------------
+    Bar modifier
+  ---------------------*/
+  /*-------------------*/
+}
+.cpr-block::before {
+  content: "";
+  background-color: #eaeaeaff;
+  clip-path: polygon(0 14px, 0 100%, 100% 100%, 100% 0, 14px 0);
+  z-index: -1;
+}
+.cpr-block.bar::before {
+  clip-path: polygon(0 14px, 0 100%, calc(50% - 7.5px) 100%, calc(50% - 7.5px) 50%, calc(50% + 7.5px) 50%, calc(50% + 7.5px) 100%, 100% 100%, 100% 0, 14px 0);
+}
+.cpr-block.bar.out-of::after {
+  content: "OUT OF";
+  position: absolute;
+  transform: rotate(-90deg);
+  color: #eaeaeaff;
+  font-size: 0.5em;
+  left: 43.5%;
+  top: 65%;
+}
+.cpr-block.stat {
+  clip-path: polygon(0 16px, 0 100%, 100% 100%, 100% 0, 16px 0);
+}
+.cpr-block.stat .title {
+  font-size: 0.8em;
+}
+.cpr-block.image img {
+  clip-path: polygon(0 14px, 0 100%, 100% 100%, 100% 0, 14px 0);
+}
+/*--------------------
+  Color modifiers
+---------------------*/
+.black-fg {
+  color: #2d2f2fff;
+}
+.black-bg {
+  background-color: #2d2f2fff;
+}
+.white-fg {
+  color: #eaeaeaff;
+}
+.white-bg {
+  background-color: #eaeaeaff;
+}
+.red-fg {
+  color: #b90202ff;
+}
+.red-bg {
+  background-color: #b90202ff;
+}
+.blue-fg {
+  color: #13ebf3ff;
+}
+.blue-bg {
+  background-color: #13ebf3ff;
+}
+.yellow-fg {
+  color: #ffff3fff;
+}
+.yellow-bg {
+  background-color: #ffff3fff;
+}
+.pink-fg {
+  color: #ffc3b6ff;
+}
+.pink-bg {
+  background-color: #ffc3b6ff;
+}
+/*--------------------
+  Text modifiers
+---------------------*/
+.smallcaps {
+  font-variant: small-caps;
+}
+.smallest-text {
+  font-size: 0.5em;
+}
+.smaller-text {
+  font-size: 0.7em;
+}
+.small-text {
+  font-size: 0.8em;
+}
+.normal-text {
+  font-size: 1em;
+}
+.large-text {
+  font-size: 1.3em;
+}
+.larger-text {
+  font-size: 1.7em;
+}
+.largest-text {
+  font-size: 2em;
+}
+.massive-text {
+  font-size: 4em;
+}
+.center-text {
   text-align: center;
 }
-.chat-rollCard h1 {
-  border-bottom: none;
+.right-text {
+  text-align: right;
+}
+.bold {
+  font-weight: bold;
+}
+.hide-overflow {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+/*--------------------
+  FA Glyph  modifiers
+---------------------*/
+.fa-smile {
+  color: #53dd6c;
+}
+.fa-meh {
+  color: orange;
+}
+.fa-frown {
+  color: #b90202ff;
+}
+[class^="fas fa-dice"] {
+  color: #b90202ff;
+  font-size: 2em;
+}
+.chat-message.message.flexcol {
+  background: #eaeaeaff;
+}
+.rollcard-body {
+  font-size: 16px;
+  font-variant: small-caps;
+  display: grid;
+  padding: 15px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 2fr 1fr;
+  grid-template-areas: "dice dice dice info info info" "dice dice dice total total total";
+}
+.rollcard-body .dice-div {
+  grid-area: dice;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: start;
+  height: 180px;
+  width: 130px;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+.rollcard-body .total-div {
+  grid-area: total;
+}
+.rollcard-body .info-div {
+  grid-area: info;
+  display: flex;
+  flex-direction: column;
+}
+.rollcard-body .d10.one {
+  background-image: url("icons/d10_1.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.two {
+  background-image: url("icons/d10_2.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.three {
+  background-image: url("icons/d10_3.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.four {
+  background-image: url("icons/d10_4.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.five {
+  background-image: url("icons/d10_5.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.six {
+  background-image: url("icons/d10_6.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.seven {
+  background-image: url("icons/d10_7.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.eight {
+  background-image: url("icons/d10_8.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.nine {
+  background-image: url("icons/d10_9.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.ten {
+  background-image: url("icons/d10_10.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.one.black {
+  background-image: url("icons/black_d10_1.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.two.black {
+  background-image: url("icons/black_d10_2.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.three.black {
+  background-image: url("icons/black_d10_3.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.four.black {
+  background-image: url("icons/black_d10_4.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.five.black {
+  background-image: url("icons/black_d10_5.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.six.black {
+  background-image: url("icons/black_d10_6.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.seven.black {
+  background-image: url("icons/black_d10_7.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.eight.black {
+  background-image: url("icons/black_d10_8.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.nine.black {
+  background-image: url("icons/black_d10_9.png");
+  height: 70px;
+  width: 70px;
+  display: block;
+}
+.rollcard-body .d10.ten.black {
+  background-image: url("icons/black_d10_10.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
 .sheet-content .row.row-header {
   background: #d02b23;
   color: #ffffff;
 }
-:root {
-  font-family: 'Ubuntu Mono', monospace;
-  font-size: 10px;
-  color: #231f20;
-  --main-bg-color: #ffffff;
-}
 .window-app .window-content {
-  background: #ffffff;
+  background: #eaeaeaff;
 }
 .editor {
+  flex-grow: 1;
+  min-height: 100%;
   height: 100%;
 }
 .editor .tox-toolbar-overlord,
@@ -320,5 +696,5 @@ form .item-name {
   background: none;
 }
 .content {
-  overflow-y: scroll;
+  height: 100%;
 }
