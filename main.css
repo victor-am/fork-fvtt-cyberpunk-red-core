@@ -679,9 +679,8 @@
   width: 70px;
   display: block;
 }
-.sheet-content .row.row-header {
-  background: #d02b23;
-  color: #ffffff;
+form input.number {
+  width: 30px;
 }
 .window-app .window-content {
   background: #eaeaeaff;
