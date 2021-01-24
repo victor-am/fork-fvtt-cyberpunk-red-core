@@ -14,22 +14,22 @@ import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 
 export default class CPRRolls {
   // Generic roll handler for CPR
-  static CPRRoll(formula) {
+  static async CPRRoll(formula) {
     const roll = new Roll(formula).roll();
-    DiceSoNice.ShowDiceSoNice(roll);
+    await DiceSoNice.ShowDiceSoNice(roll);
     return {
       total: roll.total,
       faces: roll.terms[0].results.map((r) => r.result),
     };
   }
 
-  static BaseRoll(rollRequest) {
+  static async BaseRoll(rollRequest) {
     LOGGER.trace(`Calling baseRoll | Dice BaseRoll | Stat:${rollRequest.statValue} SkillLevel:${rollRequest.skillValue}, Mods:${rollRequest.mods}, CalculateCritical:${rollRequest.calculateCritical}`);
 
     // TODO- Verify use of mergeObject.
     const rollResult = new CPRRollResult();
     mergeObject(rollResult, rollRequest, { overwrite: true });
-    rollResult.initialRoll = this.CPRRoll("1d10").total;
+    rollResult.initialRoll = (await this.CPRRoll("1d10")).total;
 
     // With the above, below this line we ONLY need to use our Result!
     // Is this ideal? Or is this Heresy?
@@ -37,12 +37,12 @@ export default class CPRRolls {
       LOGGER.debug(`Checking Critical Chance | Dice BaseRoll | Initial Roll:${rollResult.initialRoll}`);
       if (rollResult.initialRoll === 1) {
         rollResult.wasCritical = true;
-        rollResult.criticalRoll = -1 * this.CPRRoll("1d10[fire]").total;
+        rollResult.criticalRoll = -1 * (await this.CPRRoll("1d10[fire]")).total;
         LOGGER.debug(`Critical Failure! | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
       }
       if (rollResult.initialRoll === 10) {
         rollResult.wasCritical = true;
-        rollResult.criticalRoll = this.CPRRoll("1d10[fire]").total;
+        rollResult.criticalRoll = (await this.CPRRoll("1d10[fire]")).total;
         LOGGER.debug(`Critical Success | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
       }
     }
