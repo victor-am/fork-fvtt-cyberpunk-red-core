@@ -226,6 +226,8 @@
     "CPR.def": "DEF",
     "CPR.defender": "Defender",
     "CPR.defense": "Defense",
+    "CPR.deleteconfirmation": "Are you sure you want to delete",
+    "CPR.deletedialogtitle": "Confirm delete",
     "CPR.demolitions": "Demolitions",
     "CPR.demon": "Demon",
     "CPR.deployablespikestrip": "Deployable Spike Strip",

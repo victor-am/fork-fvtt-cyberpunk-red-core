@@ -9,6 +9,7 @@ import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
 import CPRChat from "../../chat/cpr-chat.js";
 import Rules from "../../utils/cpr-rules.js";
 import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js";
+import ConfirmationPrompt from "../../dialog/cpr-confirmation-prompt.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -22,6 +23,7 @@ export default class CPRActorSheet extends ActorSheet {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
       width: 600,
       height: 706,
+      scrollY: [".content-container"],
     });
   }
 
@@ -108,10 +110,6 @@ export default class CPRActorSheet extends ActorSheet {
         }
       }
     });
-
-    // TODO make this better
-    // force columns to adjust every click because I can't find an _onReload method...
-    $(window).click(this._adjustColumns());
   }
 
   /* -------------------------------------------- */
@@ -458,7 +456,6 @@ export default class CPRActorSheet extends ActorSheet {
   _updateOwnedItem(item) {
     LOGGER.trace("ActorID _updateOwnedItemProp | Called.");
     this.actor.updateEmbeddedEntity("OwnedItem", item.data);
-    this._adjustColumns();
   }
 
   _renderItemCard(event) {
@@ -481,13 +478,25 @@ export default class CPRActorSheet extends ActorSheet {
     return $(event.currentTarget).attr("data-item-prop");
   }
 
-  _deleteOwnedItem(event) {
+  async _deleteOwnedItem(event) {
     LOGGER.trace("ActorID _deleteOwnedItem | CPRActorSheet | Called.");
     const itemId = this._getItemId(event);
     const itemList = this.actor.items;
-    itemList.forEach((item) => {
-      if (item.data._id === itemId) item.delete();
-    });
+    const promptText = game.i18n.localize("CPR.deleteconfirmation");
+
+    return Promise.all(itemList.map(async (item) => {
+      if (item.data._id === itemId) {
+        const promptData = {
+          promptTitle: game.i18n.localize("CPR.deletedialogtitle"),
+          promptText: promptText.concat(" ", item.name, "?"),
+          item,
+        };
+        const confirmDelete = await ConfirmationPrompt(promptData);
+        if (confirmDelete) {
+          this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
+        }
+      }
+    }));
   }
 
   // TODO - Revist, do we need template data? Is function used.
@@ -515,33 +524,5 @@ export default class CPRActorSheet extends ActorSheet {
       });
     }
     return Math.min(...penaltyMods);
-  }
-
-  // adjust dynamic list columns based on width of container
-  // eslint-disable-next-line class-methods-use-this
-  _adjustColumns() {
-    const containers = [$(".dynamic-list.skills")];
-    containers.forEach((container) => {
-      const currentWidth = container.innerWidth();
-      const currentSetting = container[0].classList[2];
-      if (currentWidth < 640) {
-        container.removeClass(currentSetting);
-        container.addClass("col-1");
-      } else if (currentWidth >= 640 && currentWidth < 960) {
-        container.removeClass(currentSetting);
-        container.addClass("col-2");
-      } else if (currentWidth >= 960 && currentWidth < 1280) {
-        container.removeClass(currentSetting);
-        container.addClass("col-3");
-      } else {
-        container.removeClass(currentSetting);
-        container.addClass("col-4");
-      }
-    });
-  }
-
-  /** @override */
-  _onResize() {
-    this._adjustColumns();
   }
 }

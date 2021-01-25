@@ -15,7 +15,7 @@ export default class CPRItemSheet extends ItemSheet {
     return mergeObject(super.defaultOptions, {
       tabs: [{ navSelector: ".tabs", contentSelector: ".content", initial: "main" }],
       width: 450,
-      height: 300,
+      height: 450,
     });
   }
 
