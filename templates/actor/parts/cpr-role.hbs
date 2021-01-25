@@ -3,7 +3,7 @@
     <div>
         <h1>{{localize "CPR.role"}}: {{localize (findConfigValue "roleList" data.roleInfo.role)}}</h1>
     </div>
-    <div class="dynamic-list">
+
         <div class="row header white-fg black-bg bold col-1">
             {{localize "CPR.abilities"}}:
         </div>
@@ -36,6 +36,5 @@
             {{/each}}
             {{/each}}
         </div>
-    </div>
 </div>
 {{log "END CPR-ROLE-TAB-CONTENT.HBS"}}
