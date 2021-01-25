@@ -7,14 +7,16 @@ import LOGGER from "../utils/cpr-logger.js";
 const InstallCyberwarePrompt = async (data) => new Promise((resolve, reject) => {
   renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs", data).then((html) => {
     /* eslint-disable no-shadow */
-    const _onCancel = (html) => { // TODO fix no-shadow
+    const _onCancel = (html) => {
+      // TODO fix no-shadow
       /* eslint-enable no-shadow */
       LOGGER.trace("_onCancel | Dialog VerifyRollPrompt | called.");
       reject();
     };
 
     /* eslint-disable no-shadow */
-    const _onConfirm = (html) => { // TODO fix no-shadow
+    const _onConfirm = (html) => {
+      // TODO fix no-shadow
       /* eslint-enable no-shadow */
       LOGGER.trace("_onConfirm | Dialog VerifyRollPrompt | called.");
       const formData = new FormDataExtended(html.find("form")[0]).toObject();
