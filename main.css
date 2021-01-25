@@ -230,6 +230,12 @@
   height: 200px;
   margin-top: 5px;
 }
+.cpr-block.pad-left {
+  padding-left: 12px;
+}
+.cpr-block.editor {
+  height: 200px;
+}
 /*--------------------
   Dynamic Lists
 ---------------------*/
