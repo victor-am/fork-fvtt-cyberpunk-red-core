@@ -10,19 +10,19 @@
 
       <div class="section width-fit width-no-grow center-text">
         <a class="rollable smallest-text" data-roll-type="attack" data-aimed="false" data-item-id={{weapon._id}}>
-          <i class="fas fa-dice-d20  red-fg" style="padding-top: 3px;"></i>
+          <i class="fas fa-dice-d20  red-fg" title="Standard Attack" style="padding-top: 3px;"></i>
         </a>
       </div>
 
       <div class="section width-fit width-no-grow center-text">
         <a class="rollable" data-roll-type="attack" data-aimed="true" data-item-id={{weapon._id}}>
-          <i class="fas fa-crosshairs red-fg"></i>
+          <i class="fas fa-crosshairs red-fg" title="Aimed Attack"></i>
         </a>
       </div>
 
       <div class="section width-fit width-no-grow center-text">
         <a class="rollable" data-damage="{{weapon.data.damage}}" data-roll-type="damage" data-item-id={{weapon._id}}>
-          <i class="fas fa-tint red-fg"></i>
+          <i class="fas fa-tint red-fg" title="Damage"></i>
         </a>
       </div>
       
