@@ -230,6 +230,9 @@
 .cpr-block.pad-left {
   padding-left: 12px;
 }
+.cpr-block.editor {
+  height: 200px;
+}
 /*--------------------
   Dynamic Lists
 ---------------------*/
