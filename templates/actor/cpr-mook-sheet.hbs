@@ -1,7 +1,7 @@
 {{!-- New Layout --}}
-
-<form>
-  <div class="sheet-content">
+{{log "CPR-MOOK-SHEET.HBS"}}
+<form style="max-height: 100%">
+  <div class="sheet-content character" style="max-height: 100%">
     <div class="image-container">
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-image-block.hbs"}}
     </div>
@@ -15,8 +15,8 @@
     <div class="stats-container">
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs"}}
     </div>
-    <div class="nav-container">
-      <nav class="tabs CPR-block no-height" data-group="primary">
+    <div class="nav-container black-bg">
+      <nav class="tabs nav" data-group="primary">
         <a class="navtab center-text bold white-fg" data-tab="skills">{{localize "CPR.skills"}}</a>
         <a class="navtab center-text bold white-fg" data-tab="role">{{localize "CPR.role"}}</a>
         <a class="navtab center-text bold white-fg" data-tab="inventory">{{localize "CPR.gear"}}</a>
@@ -46,7 +46,8 @@
       </div>
     </div>
     <div class="combat-container">
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-combat.hbs"}}
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-combat.hbs"}}
     </div>
   </div>
 </form>
+{{log "END CPR-CHARACTER-SHEET.HBS"}}
