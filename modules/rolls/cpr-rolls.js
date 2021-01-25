@@ -73,6 +73,11 @@ export default class CPRRolls {
     const rollResult = new CPRRollResult();
     mergeObject(rollResult, rollRequest, { overwrite: true });
 
+    // If this is autofire, the damage formula is 2d6
+    if (rollResult.fireMode === "autofire") {
+      rollRequest.formula = "2d6";
+    }
+
     // create roll and show Dice So Nice!
     const roll = await this.CPRRoll(`${rollRequest.formula}[fire]`);
 
@@ -80,9 +85,11 @@ export default class CPRRolls {
     rollResult.faces = roll.faces;
     rollResult.diceTotal = roll.total;
 
-    // If this was autofire, multiply the roll
+    // If this was autofire, add multiplier to the roll, otherwise just add the roll.
     if (rollResult.fireMode === "autofire") {
-      rollResult.diceTotal *= rollResult.autofireMultiplier;
+      rollResult.damageTotal = rollResult.diceTotal * rollResult.autofireMultiplier;
+    } else {
+      rollResult.damageTotal = rollResult.diceTotal;
     }
 
     // If we have 2 or more sixes on a damage roll, was critical is true.
@@ -92,7 +99,7 @@ export default class CPRRolls {
     }
 
     // Calculate total damage from attack.
-    rollResult.damageTotal = rollResult.diceTotal + rollResult.bonusDamage;
+    rollResult.damageTotal += rollResult.bonusDamage;
 
     // Calculate sum of all misc damage mods!
     if (rollResult.mods.length !== 0) {
