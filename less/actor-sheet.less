@@ -1,0 +1,164 @@
+app.window-app.sheet.actor {
+  min-width : 840px;
+  min-height: 600px;
+}
+
+.sheet-content {
+  margin               : 5px;
+  display              : grid;
+  grid-template-columns: 200px 60px 1fr;
+  grid-template-rows   : 30px 165px repeat(5, 65px);
+  grid-template-areas  :
+    "image stats tabs "
+    "image stats content "
+    "handle stats content "
+    "role stats content "
+    "hitpoints stats content "
+    "deathsave stats content "
+    "humanity stats content "
+  ;
+  grid-column-gap: 5px;
+  grid-row-gap   : 5px;
+
+  .image-div {
+    grid-area: image;
+
+    img {
+      border : 0;
+      outline: 0
+    }
+  }
+
+  .handle-div {
+    grid-area: handle;
+  }
+
+  .role-div {
+    grid-area: role;
+  }
+
+  .hitpoints-div {
+    grid-area: hitpoints;
+  }
+
+  .deathsave-div {
+    grid-area: deathsave;
+  }
+
+  .humanity-div {
+    grid-area: humanity;
+  }
+
+  .tabs-div {
+    grid-area : tabs;
+    box-shadow: 0;
+
+    .navtab {
+      padding     : 0;
+      padding     : 1px 4px 0 4px;
+      margin-left : 15px;
+      margin-right: 15px;
+      text-align  : center;
+    }
+
+    .selected {
+      background-color: @raisin-black;
+      color           : @white;
+    }
+  }
+
+  .stats-div {
+    grid-area: stats;
+  }
+
+  .row {
+    // border: solid 3px @maximum-red;
+    // border-top: solid 1.5px @maximum-red;
+    // border-bottom: solid 1.5px @maximum-red;
+    display         : flex;
+    justify-content : space-between;
+    align-items     : center;
+    padding         : 0 3px;
+    background-color: @white;
+  }
+
+  .skills {
+    flex: 50%;
+
+    .skill-name {
+      width: 60%;
+    }
+
+    .skill-level,
+    .skill-base {
+      width     : 10%;
+      text-align: center;
+    }
+  }
+
+  .inventory {
+    flex      : 100%;
+    text-align: center;
+
+    .name {
+      width: 200px;
+    }
+
+    .data {
+      text-align: left;
+    }
+
+    .action {
+      width: 10%;
+    }
+
+  }
+
+  .border-red {
+    border: solid @maximum-red 1px;
+  }
+
+  .row-header {
+    background : @raisin-black;
+    color      : @white;
+    font-weight: bold;
+  }
+
+  .row-section {
+    flex-grow: 1;
+  }
+
+  .content {
+    grid-area: content;
+    min-width: 512px;
+
+    .tab-block {
+      background-color: @maximum-red;
+      display         : flex;
+      flex-direction  : row;
+      flex-wrap       : wrap;
+
+    }
+  }
+
+  .text-align-left {
+    text-align: left;
+  }
+
+  .text-align-center {
+    text-align: center;
+  }
+
+  .text-align-right {
+    text-align: right;
+  }
+  input {
+    background: 0;
+    outline   : 0;
+    border    : 0;
+  }
+}
+
+.text-align-left {
+  text-align: left;
+}

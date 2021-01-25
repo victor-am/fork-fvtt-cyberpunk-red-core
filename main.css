@@ -252,6 +252,9 @@
 .dynamic-list .row.flex-end {
   justify-content: flex-end;
 }
+.dynamic-list .row.flex-start {
+  justify-content: flex-start;
+}
 .dynamic-list .row.hide {
   display: none;
 }
@@ -264,7 +267,6 @@
 .dynamic-list .row .section span,
 .dynamic-list .row .section input,
 .dynamic-list .row .section div {
-  display: inline-block;
   max-height: 20px;
   height: 20px;
   overflow-x: hidden;

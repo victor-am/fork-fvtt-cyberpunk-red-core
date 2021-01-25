@@ -9,6 +9,7 @@ import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
 import CPRChat from "../../chat/cpr-chat.js";
 import Rules from "../../utils/cpr-rules.js";
 import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js";
+import ConfirmationPrompt from "../../dialog/cpr-confirmation-prompt.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -477,13 +478,25 @@ export default class CPRActorSheet extends ActorSheet {
     return $(event.currentTarget).attr("data-item-prop");
   }
 
-  _deleteOwnedItem(event) {
+  async _deleteOwnedItem(event) {
     LOGGER.trace("ActorID _deleteOwnedItem | CPRActorSheet | Called.");
     const itemId = this._getItemId(event);
     const itemList = this.actor.items;
-    itemList.forEach((item) => {
-      if (item.data._id === itemId) item.delete();
-    });
+    const promptText = game.i18n.localize("CPR.deleteconfirmation");
+
+    return Promise.all(itemList.map(async (item) => {
+      if (item.data._id === itemId) {
+        const promptData = {
+          promptTitle: game.i18n.localize("CPR.deletedialogtitle"),
+          promptText: promptText.concat(" ", item.name, "?"),
+          item,
+        };
+        const confirmDelete = await ConfirmationPrompt(promptData);
+        if (confirmDelete) {
+          this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
+        }
+      }
+    }));
   }
 
   // TODO - Revist, do we need template data? Is function used.
