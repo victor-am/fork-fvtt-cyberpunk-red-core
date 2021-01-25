@@ -44,6 +44,14 @@ export default class VerifyRollDialog {
           } else {
             formData.mods = [];
           }
+          if (rollRequest.rollType === "damage") {
+            if (formData.autofire) {
+              formData.fireMode = "autofire";
+            }
+            if (formData.suppressive) {
+              formData.fireMode = "suppressive";
+            }
+          }
           resolve(formData);
         };
         new Dialog({

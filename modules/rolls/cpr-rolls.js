@@ -80,6 +80,11 @@ export default class CPRRolls {
     rollResult.faces = roll.faces;
     rollResult.diceTotal = roll.total;
 
+    // If this was autofire, multiply the roll
+    if (rollResult.fireMode === "autofire") {
+      rollResult.diceTotal *= rollResult.autofireMultiplier;
+    }
+
     // If we have 2 or more sixes on a damage roll, was critical is true.
     rollResult.wasCritical = rollResult.faces.filter((x) => x === 6).length >= 2;
     if (rollResult.wasCritical) {
