@@ -106,16 +106,6 @@
       <div>
         {{localize "CPR.magazine"}} {{localize "CPR.size"}}: <input name="data.magazine.max" class="" type="number" value="{{data.magazine.max}}">
       </div>
-      <div>
-        {{localize "CPR.selectAmmoVariety"}}:
-        {{#each (findConfigObj "ammoVariety") as |ammoVariety v|}}
-        {{#if data.isRanged}}
-        <a class="item-checkbox" data-target="data.isRanged"><i class="far fa-check-circle"></i></a>
-        {{else}}
-        <a class="item-checkbox" data-target="data.isRanged"><i class="far fa-circle"></i></a>
-        {{/each}}
-        {{/select}}
-      </div>
       {{/if}}
     </div>
   </section>
