@@ -6,8 +6,9 @@
             <span class="section data width-grow">{{localize "CPR.data"}}</span>
             <span class="section action width-quarter right-text">{{localize "CPR.actions"}}</span>
       </div>
+      {{!-- Revist...? --}}
       {{#if (eq (getProp (getProp ../actor.filteredItems c) 'length') 0)}}
-        <div class="row">You got no {{c}}{{#contains c "weapon,vehicle"}}s{{/contains}}, choomba!</div>
+        <div class="row">You got no {{c}}{{#if (listContains "weapon,vehicle" c)}}s{{/if}}, choomba!</div>
       {{else}}
       {{#each ../actor.items as |item i|}}
       {{#if (compare item.type "===" c)}}

@@ -63,6 +63,8 @@ export default class CPRItemSheet extends ItemSheet {
     });
 
     html.find(".item-checkbox").click((event) => this._itemCheckboxToggle(event));
+
+    html.find(".item-multi-option").click((event) => this._itemMultiSelect(event));
   }
 
   /*
@@ -70,10 +72,31 @@ export default class CPRItemSheet extends ItemSheet {
 */
 
   _itemCheckboxToggle(event) {
-    LOGGER.trace("_itemCheckboxToggle Called | .checkbox click | Called.");
+    LOGGER.trace("CPRItemID _itemCheckboxToggle Called | CPRItemSheet | Called.");
     const itemData = duplicate(this.item.data);
     const target = $(event.currentTarget).attr("data-target");
     if (hasProperty(itemData, target)) {
+      setProperty(itemData, target, !getProperty(itemData, target));
+      this.item.update(itemData);
+    }
+  }
+
+  async _itemMultiSelect(event) {
+    LOGGER.trace("CPRItemID _itemMultiSelect Called | CPRItemSheet | Called.");
+    const itemData = duplicate(this.item.data);
+    // the target the option wants to be put into
+    const target = $(event.currentTarget).attr("data-target");
+    // the option we wish to toggle
+    const value = $(event.currentTarget).attr("data-value");
+
+    // if has prop
+    if (hasProperty(itemData, target)) {
+      // get current prop state
+
+      let array = getProperty(itemData, target);
+      // if target contains value, remove it.
+
+      // else add it
       setProperty(itemData, target, !getProperty(itemData, target));
       this.item.update(itemData);
     }
