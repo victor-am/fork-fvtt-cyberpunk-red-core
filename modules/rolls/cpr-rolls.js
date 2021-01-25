@@ -67,14 +67,14 @@ export default class CPRRolls {
   }
 
   // TODO - Refactor Function
-  static DamageRoll(rollRequest) {
+  static async DamageRoll(rollRequest) {
     LOGGER.trace(`Calling DamageRoll | Dice DamageRoll | RollFormula:${rollRequest.formula} Location: ${rollRequest.location}`);
 
     const rollResult = new CPRRollResult();
     mergeObject(rollResult, rollRequest, { overwrite: true });
 
     // create roll and show Dice So Nice!
-    const roll = this.CPRRoll(`${rollRequest.formula}[fire]`);
+    const roll = await this.CPRRoll(`${rollRequest.formula}[fire]`);
 
     // Push all results into diceResults
     rollResult.faces = roll.faces;
