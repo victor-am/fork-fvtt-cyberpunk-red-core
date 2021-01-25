@@ -108,21 +108,24 @@
         {{localize "CPR.magazine"}} {{localize "CPR.size"}}: <input name="data.magazine.max" class="" type="number" value="{{data.magazine.max}}">
       </div>
       {{/if}}
-      {{!-- BUILD AMMO ALLOWED ARRAY }}
+      {{!-- BUILD AMMO ALLOWED ARRAY --}}
       <div>
         {{!-- Label for multiselect option, also defines target array--}}
         <label>Configure Compatible Ammo</label>
-        <div class="item-multi-select" data-target="data.ammoVariety">
+        <div class="dynamic-list item-multi-select" data-target="data.ammoVariety">
           {{#each (findConfigObj "ammoVariety") as |ammoVariety a|}}
-          <label>{{localize ammoVariety}}</label>
-          {{log a}}
-          {{#if (listContains (getProp ../this.data "ammoVariety") a)}}
-          {{log a}}
-          <a class="item-multi-option" data-value="{{a}}"><i class="far fa-check-circle"></i></a>
-          {{else}}
-          {{log a}}
-          <a class="item-multi-option" data-value="{{a}}"><i class="far fa-circle"></i></a>
-          {{/if}}
+          <div class="row item white-bg black-fg">
+            <div class="section flex-start width-half">
+              <label>{{localize ammoVariety}}</label>
+            </div>
+            <div class="section name width-grow">
+              {{#if (listContains (getProp ../this.data "ammoVariety") a)}}
+              <a class="item-multi-option" data-value={{a}}><i class="far fa-check-circle"></i></a>
+              {{else}}
+              <a class="item-multi-option" data-value={{a}}><i class="far fa-circle"></i></a>
+              {{/if}}
+            </div>
+          </div>
           {{/each}}
         </div>
       </div>
