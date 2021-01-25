@@ -263,9 +263,13 @@
   margin: 2px;
   padding: 2px;
   max-height: 20px;
+  white-space: nowrap;
 }
 .dynamic-list .row.flex-end {
   justify-content: flex-end;
+}
+.dynamic-list .row.flex-start {
+  justify-content: flex-start;
 }
 .dynamic-list .row.hide {
   display: none;
@@ -279,7 +283,6 @@
 .dynamic-list .row .section span,
 .dynamic-list .row .section input,
 .dynamic-list .row .section div {
-  display: inline-block;
   max-height: 20px;
   height: 20px;
   overflow-x: hidden;
@@ -679,9 +682,8 @@
   width: 70px;
   display: block;
 }
-.sheet-content .row.row-header {
-  background: #d02b23;
-  color: #ffffff;
+form input.number {
+  width: 30px;
 }
 .window-app .window-content {
   background: #eaeaeaff;
