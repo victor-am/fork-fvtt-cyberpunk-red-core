@@ -164,15 +164,17 @@ export default class CPRActorSheet extends ActorSheet {
       return;
     }
 
-    // State changes?
-    // ?? Why more attack stuff?
-    // if (rollRequest.rollType === "attack") {
-    //   const weaponId = $(event.currentTarget).attr("data-item-id");
-    //   const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
-    //   if (rollRequest.isRanged) {
-    //     // weaponItem.fireWeapon(rollRequest.fireMode);
-    //   }
-    // }
+    // If this is an attack roll and they did not cancel it
+    // via the VerifyRollPrompt, and it is ranged, we should
+    // decrement the ammo for the weapon. We can't do this in
+    // the prepareRollAttack because they might abort it.
+    if (rollRequest.rollType === "attack") {
+      if (rollRequest.isRanged) {
+        const weaponId = $(event.currentTarget).attr("data-item-id");
+        const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
+        weaponItem.fireRangedWeapon(rollRequest.fireMode);
+      }
+    }
 
     // Damage
     // CPRChat.RenderRollCard(CPRRolls.HandleRoll(rollRequest));

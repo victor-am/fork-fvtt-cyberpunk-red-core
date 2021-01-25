@@ -6,6 +6,7 @@
 // TODO - Revist this method of dialog creation.
 
 import LOGGER from "../utils/cpr-logger.js";
+
 export default class CyberwareInstallPrompt {
   // TODO - Revist name of function.
   static async RenderPrompt(data) {
