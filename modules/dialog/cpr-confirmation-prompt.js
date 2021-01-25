@@ -3,46 +3,45 @@
 /* eslint-disable no-shadow */
 /* eslint-disable class-methods-use-this */
 /* global renderTemplate, FormDataExtended, Dialog */
-// TODO - Revist this method of dialog creation.
 
 import LOGGER from "../utils/cpr-logger.js";
-export default class CyberwareInstallPrompt {
-  // TODO - Revist name of function.
-  static async RenderPrompt(data) {
-    // setup
+
+// Make this generic to be used as a Cancel/Confirm for any action (delete item, etc
+export default class DeleteConfirmationPrompt {
+  // INFO - ConfirmPrompt is a generic prompt to display on confirming an action.
+  // Based on type of action, setup data to display based on given input.
+  // Call to RenderPrompt should take one object as input, based on input type, prepare template and titles...
+  static async RenderPrompt() {
+    const template = "systems/cyberpunk-red-core/templates/dialog/cpr-confirmation-prompt.hbs";
     return new Promise((resolve, reject) => {
-      const template = "systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs";
-      renderTemplate(template, data).then((html) => {
+      renderTemplate(template).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog VerifyRollPrompt | called.");
-          reject();
+          resolve(false);
         };
-        const _onConfirm = (html) => {
+        const _onConfirm = () => {
           LOGGER.trace("_onConfirm | Dialog VerifyRollPrompt | called.");
-          const formData = new FormDataExtended(html.find("form")[0]).toObject();
-          resolve(formData);
+          resolve(true);
         };
         new Dialog({
-          title: game.i18n.localize("CPR.installcyberware"),
+          title: game.i18n.localize("CPR.deleteconfirmation"),
           content: html,
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
               label: "Cancel",
               /* eslint-disable no-shadow */
-              callback: (html) => _onCancel(html), // TODO fix no-shadow
-              /* eslint-enable no-shadow */
+              callback: () => _onCancel(),
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: "Install",
+              label: "Confirm",
               /* eslint-disable no-shadow */
-              callback: (html) => _onConfirm(html), // TODO fix no-shadow
-              /* eslint-enable no-shadow */
+              callback: () => _onConfirm(),
             },
           },
-          default: "confirm",
-          render: LOGGER.trace("render | Dialog InstallCyberWare | Called."),
+          default: "cancel",
+          render: LOGGER.trace("confirm | Dialog VerifyRollPrompt | called."),
           close: () => {
             reject();
           },

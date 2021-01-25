@@ -10,7 +10,7 @@ import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
 import CPRChat from "../../chat/cpr-chat.js";
 import Rules from "../../utils/cpr-rules.js";
 import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js";
-import DeleteConfirmPrompt from "../../dialog/cpr-delete-confirmation-prompt.js";
+import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -154,7 +154,7 @@ export default class CPRActorSheet extends ActorSheet {
     // Handle skipping of the user verification step
     if (!event.ctrlKey) {
       // TODO - Charles save us....
-      const formData = await VerifyRoll.RenderVerifyRollPrompt(rollRequest);
+      const formData = await VerifyRoll.RenderPrompt(rollRequest);
       mergeObject(rollRequest, formData, { overwrite: true });
     }
 
@@ -484,10 +484,15 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _deleteOwnedItem | CPRActorSheet | Called.");
     const itemId = this._getItemId(event);
     const item = this._getOwnedItem(itemId);
-    // const promptText = game.i18n.localize("CPR.deleteconfirmation");
-    // const promptTitle = game.i18n.localize("CPR.deletedialogtitle");
-    const confirmDelete = await DeleteConfirmPrompt(item);
-    if (confirmDelete) {
+    // TODO - Need to get setting from const game system setting
+    const setting = true;
+    // If setting is true, prompt before delete, else delete.
+    if (setting) {
+      const confirmDelete = await ConfirmPrompt.RenderPrompt();
+      if (confirmDelete) {
+        this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
+      }
+    } else {
       this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
     }
   }

@@ -7,7 +7,7 @@
 
 import LOGGER from "../utils/cpr-logger.js";
 
-export default class VerifyRollDialog {
+export default class VerifyRollPrompt {
   static GetVerifyRollTemplate(rollType) {
     switch (rollType) {
       case "damage": {
@@ -27,7 +27,7 @@ export default class VerifyRollDialog {
     }
   }
 
-  static async RenderVerifyRollPrompt(rollRequest) {
+  static async RenderPrompt(rollRequest) {
     const template = this.GetVerifyRollTemplate(rollRequest.rollType);
     const data = duplicate(rollRequest);
     return new Promise((resolve, reject) => {
