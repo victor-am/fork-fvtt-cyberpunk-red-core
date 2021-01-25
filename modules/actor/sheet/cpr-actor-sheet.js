@@ -23,6 +23,7 @@ export default class CPRActorSheet extends ActorSheet {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
       width: 600,
       height: 706,
+      scrollY: [".content-container"],
     });
   }
 
@@ -455,7 +456,6 @@ export default class CPRActorSheet extends ActorSheet {
   _updateOwnedItem(item) {
     LOGGER.trace("ActorID _updateOwnedItemProp | Called.");
     this.actor.updateEmbeddedEntity("OwnedItem", item.data);
-    this._adjustColumns();
   }
 
   _renderItemCard(event) {
