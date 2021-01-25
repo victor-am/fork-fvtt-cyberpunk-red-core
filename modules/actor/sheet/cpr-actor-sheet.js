@@ -198,9 +198,10 @@ export default class CPRActorSheet extends ActorSheet {
     rollRequest.statValue = this.getData().data.stats[item.getData().stat].value;
     rollRequest.skill = item.name;
     rollRequest.skillValue = item.getData().level;
-    // TEMP REMOVAL
+    // TODO: Do not remove functionality during a refactor. Adding in until a "better way"
+    // is implemented.
     // Armor pen should apply directly to stat, not be fetched.
-    // rollRequest.mods.push(this._getArmorPenaltyMods(item.getData().stat));
+    rollRequest.mods.push(this._getArmorPenaltyMods(item.getData().stat));
   }
 
   // TODO - Revisit / Refactor
