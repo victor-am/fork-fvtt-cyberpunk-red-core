@@ -1,20 +1,4 @@
 {{log "CPR-INVENTORY.HBS"}}
-<<<<<<< HEAD
-<div class="tab-block">
-  <table>
-    <tbody>
-      {{#each (findConfigObj "inventoryCategories") as |category c|}}
-      
-        {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-VAR-inventory-header.hbs" c)}}
-          {{#each ../actor.items as |item i|}}
-            {{#ifEquals item.type c}}
-              {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/cpr-VAR-inventory-content.hbs" c)}}
-            {{/ifEquals}}
-          {{/each}}
-      {{/each}}
-    </tbody>
-  </table>
-=======
 <div class="dynamic-list inventory">
       {{#each (findConfigObj "inventoryCategories") as |category c|}}
       <div class="row header black-bg white-fg bold inventory">
@@ -33,6 +17,5 @@
       {{/each}}
       {{/if}}
       {{/each}}
->>>>>>> dev
 </div>
 {{log "END CPR-INVENTORY.HBS"}}

@@ -1,42 +1,11 @@
 /* eslint-disable no-else-return */
 /* global Handlebars, getProperty */
 import LOGGER from "../utils/cpr-logger.js";
-<<<<<<< HEAD
-import { CPR } from "./config.js";
-export default function registerHandlebarsHelpers() {
-  LOGGER.log("Calling Register Handlebars Helpers");
-
-  Handlebars.registerHelper("ifEquals", function (arg1, arg2, options) {
-    // LOGGER.trace(`Calling ifEquals Helper | Arg1:${arg1} Arg2:${arg2}`);
-    return arg1 == arg2 ? options.fn(this) : options.inverse(this);
-  });
-
-  Handlebars.registerHelper({
-    eq: (v1, v2) => v1 === v2,
-    ne: (v1, v2) => v1 !== v2,
-    lt: (v1, v2) => v1 < v2,
-    gt: (v1, v2) => v1 > v2,
-    lte: (v1, v2) => v1 <= v2,
-    gte: (v1, v2) => v1 >= v2,
-    and() {
-        return Array.prototype.every.call(arguments, Boolean);
-    },
-    or() {
-        return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
-    }
-  });
-
-  Handlebars.registerHelper("loud", function (string) {
-    // LOGGER.trace(`Calling loud Helper | Arg1:${string}`);
-    return string.toUpperCase();
-  });
-=======
 import CPR from "./config.js";
 // import CPRSystemUtils from "../utils/cpr-systemUtils";
 
 export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers");
->>>>>>> dev
 
   Handlebars.registerHelper("compare", (v1, operator, v2) => {
     switch (operator) {
@@ -67,10 +36,6 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("findConfigValue", (obj, key) => {
     LOGGER.trace(`Calling findConfigValue Helper | Arg1:${obj} Arg2:${key}`);
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
     if (obj in CPR) {
       return CPR[obj][key];
     }
@@ -79,25 +44,12 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("findConfigObj", (obj) => {
     LOGGER.trace(`Calling findConfigObj Helper | Arg1:${obj}`);
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
     if (obj in CPR) {
       return CPR[obj];
     }
     return "INVALID_LIST";
   });
 
-<<<<<<< HEAD
-  Handlebars.registerHelper("ifIn", function (arg1, arg2, options) {
-    // LOGGER.trace(`Calling ifIn Helper | Arg1:${arg1} Arg2:${arg2}`);
-    let array = arg2.split(",");
-    return array.includes(arg1) ? options.fn(this) : options.inverse(this);
-  });
-
-  Handlebars.registerHelper("generatePartial", function (arg1, arg2) {
-=======
   // TODO - Refactor / Revist
   Handlebars.registerHelper("listContains", (list, val) => {
     // LOGGER.trace(`Calling contains Helper | Arg1:${arg1} Arg2:${arg2}`);
@@ -113,16 +65,10 @@ export default function registerHandlebarsHelpers() {
 
   // TODO - Rename?
   Handlebars.registerHelper("generatePartial", (arg1, arg2) => {
->>>>>>> dev
     LOGGER.trace(`Calling generatePartial Helper | Arg1:${arg1} Arg2:${arg2}`);
     return arg1.replace("VAR", arg2);
   });
 
-<<<<<<< HEAD
-  Handlebars.registerHelper("dumpObj", (obj) => {
-    LOGGER.trace(`Calling dumpObj Helper | Arg1:${obj}`);
-    console.log(obj);
-=======
   Handlebars.registerHelper("sort", (object, property) => {
     LOGGER.trace(`Calling sort Helper | Sorting by ${property}`);
     object.sort((a, b) => {
@@ -156,6 +102,5 @@ export default function registerHandlebarsHelpers() {
         LOGGER.error(`!ERR: Not a Math function: ${mathFunction}`);
         return "null";
     }
->>>>>>> dev
   });
 }

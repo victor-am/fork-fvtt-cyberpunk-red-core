@@ -44,33 +44,6 @@ export default class VerifyRollPrompt {
           } else {
             formData.mods = [];
           }
-<<<<<<< HEAD
-          if (html.find('[name="roleValue"]').val() != "") {
-            rollRequest.roleValue = Number(
-              html.find('[name="roleValue"]').val()
-            );
-          }
-          if (html.find('[name="mods"]').val() != "") {
-            rollRequest.mods = [];
-            rollRequest.mods = CPRArrayUtils.PushMultipleNumbersFromString(
-              rollRequest.mods,
-              html.find('[name="mods"]').val(),
-              [` `, `,`]
-            );
-          }
-          rollRequest.roleValue = html.find('[name="calculateCritical"]')[0].checked;
-        }
-      };
-
-      new Dialog({
-        title: "Input Modifiers",
-        content: html,
-        buttons: {
-          cancel: {
-            icon: '<i class="fas fa-times"></i>',
-            label: "Cancel",
-            callback: (html) => _onCancel(html),
-=======
           if (rollRequest.rollType === "damage") {
             if (formData.autofire) {
               formData.fireMode = "autofire";
@@ -99,7 +72,6 @@ export default class VerifyRollPrompt {
               callback: (html) => _onConfirm(html), // TODO fix no-shadow
               /* eslint-enable no-shadow */
             },
->>>>>>> dev
           },
           default: "confirm",
           render: LOGGER.trace("confirm | Dialog VerifyRollPrompt | called."),

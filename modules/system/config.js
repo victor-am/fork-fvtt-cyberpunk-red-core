@@ -173,30 +173,6 @@ CPR.ammoVariety = {
 
 // Not sorted
 CPR.ammoType = {
-<<<<<<< HEAD
-  "basic": "CPR.ammotypebasic",
-  "armorPiercing": "CPR.ammotypearmorpiercing",
-  "biotoxin": "CPR.ammotypebiotoxin",
-  "emp": "CPR.ammotypeemp",
-  "expansive": "CPR.ammotypeexpansive",
-  "flashbang": "CPR.ammotypeflashbang",
-  "incindiary": "CPR.ammotypeincindiary",
-  "poison": "CPR.ammotypepoison",
-  "rubber": "CPR.ammotyperubber",
-  "sleep": "CPR.ammotypesleep",
-  "smart": "CPR.ammotypesmart",
-  "smoke": "CPR.ammotypesmoke",
-  "teargas": "CPR.ammotypeteargas"
-}
-
-CPR.inventoryCategories = {
-  "weapon": "CPR.weapon",
-  "ammo": "CPR.ammo",
-  "armor": "CPR.armor",
-  "gear": "CPR.gear",
-  "vehicle": "CPR.vehicle"
-}
-=======
   basic: "CPR.ammotypebasic",
   armorPiercing: "CPR.ammotypearmorpiercing",
   biotoxin: "CPR.ammotypebiotoxin",
@@ -239,7 +215,6 @@ CPR.cyberwareInstallList = {
   clinic: "CPR.clinic",
   hospital: "CPR.hospital",
 };
->>>>>>> dev
 
 CPR.woundState = {
   notWounded: "CPR.notwounded",

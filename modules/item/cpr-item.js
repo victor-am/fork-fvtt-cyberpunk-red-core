@@ -1,11 +1,6 @@
 /* global Item */
 import LOGGER from "../utils/cpr-logger.js";
-<<<<<<< HEAD
-import { SelectAmmoPrompt } from "../dialog/cpr-select-ammo-prompt.js";
-
-=======
 import SelectAmmoPrompt from "../dialog/cpr-select-ammo-prompt.js";
->>>>>>> dev
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
