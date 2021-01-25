@@ -1,6 +1,6 @@
 {{log "INSTALL-CYBERWARE-PROMPT.HBS"}}
 <form id="installCyberware">
-    {{log this}}
+    
     {{!-- Select HL --}}
     <div>
         {{localize "CPR.homanityloss"}}:
@@ -16,7 +16,7 @@
         <select name="foundationalId">
             {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
             {{#each cyberware as |cyberware c|}}
-            {{log cyberware.data._id}}
+            
             <option value="{{cyberware.data._id}}">{{cyberware.name}}</option>
             {{/each}}
         </select>
