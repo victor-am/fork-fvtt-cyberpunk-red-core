@@ -17,6 +17,10 @@ export default class DiceSoNice {
           whisper = gmIDList;
           break;
         }
+        case "selfroll": {
+          whisper = [game.user.id];
+          break;
+        }
         case "roll": { // everybody
           const userList = game.users.filter((user) => user.active);
           const userIDList = [];
