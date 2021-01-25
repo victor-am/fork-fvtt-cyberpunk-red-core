@@ -227,6 +227,9 @@
   height: 200px;
   margin-top: 5px;
 }
+.cpr-block.pad-left {
+  padding-left: 12px;
+}
 /*--------------------
   Dynamic Lists
 ---------------------*/
