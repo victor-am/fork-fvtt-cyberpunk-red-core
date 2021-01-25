@@ -233,7 +233,7 @@
 /*--------------------
   Dynamic Lists
 ---------------------*/
-.dynamic-list {
+.dynamic-list.columns {
   columns: 330px 5;
 }
 .dynamic-list .row {
