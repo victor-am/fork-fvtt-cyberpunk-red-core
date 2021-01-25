@@ -4,9 +4,9 @@
     <div>
         <label for="autofire">{{localize "CPR.autofire"}}? </label>
         <input type="checkbox" id="autofire" name="autofire">
-        <label for="autofire-multiplier"> {{localize "CPR.multiplier"}}: </label>
+        <label for="autofireMultiplier"> {{localize "CPR.multiplier"}}: </label>
         {{!-- Ensure multiplier input is between 1 and either 3 or 4 depending on weapon type --}}
-        <input type="number" class="number" name="autofire-multiplier" data-dtype="Number" value={{multiplier}} max="{{#if (eq weaponType " assaultRifle")}}4{{else}}3{{/if}}" min="1">
+        <input type="number" class="number" name="autofireMultiplier" data-dtype="Number" value={{multiplier}} max="{{#if (eq weaponType " assaultRifle")}}4{{else}}3{{/if}}" min="1">
     </div>
     {{/contains}}
     <div>
