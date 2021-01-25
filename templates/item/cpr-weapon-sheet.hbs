@@ -111,14 +111,17 @@
       {{!-- BUILD AMMO ALLOWED ARRAY }}
       <div>
         {{!-- Label for multiselect option, also defines target array--}}
-        <label class="item-multi-select" data-target="data.ammoVariety" }}>Configure Compatible Ammo</label>
-        <div class="item-multi-select">
+        <label>Configure Compatible Ammo</label>
+        <div class="item-multi-select" data-target="data.ammoVariety">
           {{#each (findConfigObj "ammoVariety") as |ammoVariety a|}}
           <label>{{localize ammoVariety}}</label>
+          {{log a}}
           {{#if (listContains (getProp ../this.data "ammoVariety") a)}}
-          <a class="item-multi-option" data-value={{a}}><i class="far fa-check-circle"></i></a>
+          {{log a}}
+          <a class="item-multi-option" data-value="{{a}}"><i class="far fa-check-circle"></i></a>
           {{else}}
-          <a class="item-multi-option" data-value={{a}}><i class="far fa-circle"></i></a>
+          {{log a}}
+          <a class="item-multi-option" data-value="{{a}}"><i class="far fa-circle"></i></a>
           {{/if}}
           {{/each}}
         </div>
