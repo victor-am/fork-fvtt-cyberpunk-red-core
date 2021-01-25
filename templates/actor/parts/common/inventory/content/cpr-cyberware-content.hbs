@@ -1,0 +1,19 @@
+{{log "CPR-CYBERWARE-INV-CONTENT.HBS"}}
+<div class="row item white-bg black-fg" data-item-id={{this._id}}>
+    <div class="section name width-quarter hide-overflow">
+        <a class="name item-edit">{{this.name}}</a>
+    </div>
+    <div class="section data width-grow hide-overflow">
+        {{localize (findConfigValue "cyberwareTypeList" data.type)}}
+        {{#if data.isFoundational}}
+        ({{localize "CPR.foundational"}})
+        {{/if}}
+    </div>
+    <div class="section action right-text width-fit">
+        {{!-- INSTALL ACTION --}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-install-glyph.hbs"}}
+        {{!-- ITEM MANAGEMENT --}}
+        <a class="item-delete"><i class="fas fa-trash-alt red-fg" title="Delete Item"></i></a>
+    </div>
+</div>
+{{log "END CPR-CYBERWARE-INV-CONTENT.HBS"}}

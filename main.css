@@ -26,313 +26,661 @@
   font-display: swap;
   src: url(https://fonts.gstatic.com/s/ubuntumono/v10/KFO-CneDtsqEr0keqCMhbC-BL-Hy.ttf) format('truetype');
 }
-/* LESS RGB */
+/* LESS HEX */
 /* LESS Gradient */
-.sheet {
-  min-width: 580px;
+/*--------------------
+  Global Tweaks
+---------------------*/
+.app.window-app.sheet.sheet.actor {
+  min-width: 624px;
+  min-height: 770px;
 }
-.block {
-  font-size: 0.8em;
-  background-color: #d02b23;
-  padding: 10px 5px 5px 5px;
-  flex: -1 -1;
-  width: 180px;
-  min-height: 55px;
+.app.window-app.sheet.sheet.actor .window-resizable-handle {
+  z-index: 10;
 }
-.block .unit {
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
-}
-.block .unit p {
-  text-align: end;
-  padding-right: 5px;
-  font-weight: bold;
-  text-transform: uppercase;
-  margin: 0;
-}
-.block .unit .inputs {
-  display: flex;
-  justify-content: space-around;
-}
-.block .unit .inputs input {
-  width: 100%;
-  font-size: 1.5em;
-  border: none;
-  outline: none;
-  background-color: transparent;
-}
-.block .unit .inputs input:focus {
-  box-shadow: none;
-}
-.block .unit .inputs input.derived {
-  text-align: center;
-  width: 3em;
-}
-.block .unit select {
-  width: 100%;
-  border: none;
-  outline: 0;
-  background: transparent;
-  font-size: 1.4em;
-}
-.block .unit select:focus {
-  box-shadow: none;
-}
-.block .unit.mid-split {
-  clip-path: polygon(15px 0, 100% 0, 100% 100%, 53% 100%, 53% 45%, 47% 45%, 47% 100%, 0 100%, 0 15px);
-}
-.block .unit.right-split {
-  clip-path: polygon(15px 0, 100% 0, 100% 100%, 75% 100%, 75% 45%, 69% 45%, 69% 100%, 0 100%, 0 15px);
-}
-form .sheet-header {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 325px;
-}
-form .sheet-header .top-block {
-  display: flex;
-  justify-content: space-between;
-  height: 240px;
-}
-form .sheet-header .top-block .image-block {
-  background-color: #d02b23;
-  padding: 10px 5px 5px 5px;
-  height: 180px;
-  width: 180px;
-}
-form .sheet-header .top-block .image-block img {
-  height: 165px;
-  min-width: 165px;
-  border: none;
-  outline: none;
-  clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 10%);
-  margin: 0;
-}
-form .sheet-header .top-block .info-block,
-form .sheet-header .top-block .role-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-form .sheet-header .top-block .info-block .role-ability .ability-name,
-form .sheet-header .top-block .role-block .role-ability .ability-name {
-  text-align: left;
-}
-form .sheet-header .top-block .info-block .role-ability .ability-value,
-form .sheet-header .top-block .role-block .role-ability .ability-value {
-  text-align: right;
-}
-form .sheet-header .top-block .derived-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-form .sheet-header .top-block .derived-block .hitpoint-block {
-  height: 80px;
-  clip-path: polygon(15px 0, 100% 0, 100% 100%, 53% 100%, 53% 30%, 47% 30%, 47% 100%, 0 100%, 0 15px);
-}
-form .sheet-header .top-block .derived-block .hitpoint-block input {
-  font-size: 5em;
+/*--------------------
+  Main sheet content
+---------------------*/
+.sheet-content {
   height: 100%;
 }
-form .sheet-header .top-block .derived-block .save-block .wound-state {
-  text-align: left;
-  word-spacing: 9999rem;
-}
-form .sheet-header .top-block .derived-block .save-block .death-save {
-  padding-right: 0.5em;
-}
-form .sheet-header .top-block .role-block table {
+.sheet-content input,
+.sheet-content p,
+.sheet-content span,
+.sheet-content select,
+.sheet-content button,
+.sheet-content a,
+.sheet-content img {
   margin: 0;
-  height: 26px;
+  padding: 0;
   background: transparent;
-  border: none;
   outline: 0;
-  font-size: 1.2em;
-  display: contents;
+  border: 0;
 }
-form .sheet-header .top-block .role-block table td tr,
-form .sheet-header .top-block .role-block table tr tr,
-form .sheet-header .top-block .role-block table td td,
-form .sheet-header .top-block .role-block table tr td {
-  height: 26px;
-  background: transparent;
-  border: none;
-  outline: 0;
-  padding: 1px 0;
+.sheet-content.character {
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: 200px 50px 1fr;
+  grid-template-rows: 20px 175px minmax(300px, 1fr) 200px;
+  grid-template-areas: "image stats nav" "image stats content" "main stats content" "combat combat combat";
+  grid-gap: 5px;
 }
-form .sheet-header .top-block .role-block table td .ability-rank-input,
-form .sheet-header .top-block .role-block table tr .ability-rank-input {
-  font-size: 1.2em;
+.sheet-content.character .image-container {
+  grid-area: image;
 }
-form .sheet-header .stats-block {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: #d02b23;
-  padding: 10px 5px 5px 5px;
-  min-width: 400px;
-}
-form .sheet-header .stats-block .stats-unit {
+.sheet-content.character .main-container {
+  grid-area: main;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
-  background-color: #ffffff;
-  width: 50px;
-  height: 50px;
-  flex-shrink: 0;
 }
-form .sheet-header .stats-block .stats-unit .stat-title {
+.sheet-content.character .stats-container {
+  grid-area: stats;
   display: flex;
-  flex-direction: row-reverse;
-  font-weight: bold;
-  padding-right: 2px;
+  flex-direction: column;
+  justify-content: space-between;
 }
-form .sheet-header .stats-block .stats-unit .stat-title p {
+.sheet-content.character .nav-container {
+  grid-area: nav;
+}
+.sheet-content.character .nav-container nav {
+  height: 20px;
+}
+.sheet-content.character .content-container {
+  grid-area: content;
+  min-height: 100%;
+}
+.sheet-content.character .content-container .tab {
+  min-height: 100%;
+  height: 100%;
+}
+.sheet-content.character .combat-container {
+  grid-area: combat;
+  z-index: 5;
+}
+.sheet-content.character .combat-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-areas: "critical weapons weapons weapons" "armor armor skills  skills";
+  grid-gap: 10px;
+}
+.sheet-content.character .combat-container .armor {
+  grid-area: armor;
+}
+.sheet-content.character .combat-container .weapons {
+  grid-area: weapons;
+}
+.sheet-content.character .combat-container .combat-skills {
+  grid-area: skills;
+}
+.sheet-content.character .combat-container .critical-injuries {
+  grid-area: critical;
+}
+.sheet-content.character .content-container {
+  overflow: scroll;
+}
+.sheet-content.item {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.sheet-content.item .content {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(2, 50%);
+  grid-template-rows: 1fr;
+}
+.sheet-content.item .content.weapon {
+  grid-template-areas: "physical other ";
+}
+/*--------------------
+  cpr-block element
+---------------------*/
+.cpr-block {
+  height: 60px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+}
+.cpr-block p,
+.cpr-block span,
+.cpr-block input {
+  padding: 0;
   margin: 0;
 }
-form .sheet-header .stats-block .stats-unit .stat-values {
+.cpr-block::before {
+  position: absolute;
+  height: calc(100% - 8px);
+  width: calc(100% - 8px);
+  top: 4px;
+  left: 4px;
+}
+.cpr-block .title {
+  padding-left: 12px;
   display: flex;
+  flex: 0;
+  justify-content: center;
+}
+.cpr-block .title.double {
   justify-content: space-around;
 }
-form .sheet-header .stats-block .stats-unit .stat-values .stat-input {
-  background-color: transparent;
+.cpr-block .content {
+  display: flex;
+  justify-content: space-around;
+  flex: 0;
+}
+.cpr-block .select {
+  background: transparent;
+  outline: 0;
+  border: 0;
+}
+.cpr-block.stat {
+  width: 50px;
+  height: 50px;
+}
+.cpr-block.stat::before {
+  position: absolute;
+  height: 42px;
+  width: 42px;
+  top: 4px;
+  left: 4px;
+}
+.cpr-block.stat input {
+  padding-bottom: 2px;
+}
+.cpr-block.fit {
+  height: fit-content;
+  width: 100%;
+}
+.cpr-block.image {
+  height: 200px;
+  width: 200px;
+  padding: 0;
+}
+.cpr-block.image img {
+  height: calc(100% - 8px);
+  width: calc(100% - 8px);
+  position: absolute;
+  left: 4px;
+  top: 4px;
+}
+.cpr-block.image::before {
+  position: absolute;
+  height: calc(100% - 8px);
+  width: calc(100% - 8px);
+  top: 4px;
+  left: 4px;
+}
+.cpr-block.image.small {
+  height: 60px;
+  width: 60px;
+}
+.cpr-block.margin-bottom {
+  margin-bottom: 5px;
+}
+.cpr-block.horizontal {
+  flex-direction: row;
+}
+.cpr-block.half-height {
+  height: 50%;
+}
+.cpr-block.rollcard {
+  height: 200px;
+  margin-top: 5px;
+}
+.cpr-block.pad-left {
+  padding-left: 12px;
+}
+.cpr-block.editor {
+  height: 200px;
+}
+/*--------------------
+  Dynamic Lists
+---------------------*/
+.dynamic-list.columns {
+  columns: 330px 5;
+}
+.dynamic-list .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: stretch;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  margin: 2px;
+  padding: 2px;
+  max-height: 30px;
+  min-height: 30px;
+}
+.dynamic-list .row.flex-end {
+  justify-content: flex-end;
+}
+.dynamic-list .row.flex-start {
+  justify-content: flex-start;
+}
+.dynamic-list .row.hide {
+  display: none;
+}
+.dynamic-list .row .section {
+  max-height: 20px;
+  height: 20px;
+  padding: 0 5px;
+}
+.dynamic-list .row .section a,
+.dynamic-list .row .section span,
+.dynamic-list .row .section input,
+.dynamic-list .row .section div {
+  max-height: 20px;
+  height: 20px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+.width- {
+  display: flex;
+  justify-content: space-around;
+  flex: 0;
+}
+.width-sixteenth {
+  width: 6.25%;
+}
+.width-eighth {
+  width: 12.5%;
+}
+.width-sixth {
+  width: calc(100% / 6);
+}
+.width-quarter {
+  width: 25%;
+}
+.width-third {
+  width: calc(100% / 3);
+}
+.width-half {
+  width: 50%;
+}
+.width-grow {
+  flex: 1 0 auto;
+}
+.width-no-grow {
+  flex-grow: 0;
+}
+.width-shrink {
+  flex-shrink: 1;
+}
+.width-no-shrink {
+  flex-shrink: 0;
+}
+.width-fit {
+  width: fit-content;
+  padding: 0 2px;
+}
+.width-max-half {
+  max-width: 50%;
+}
+.width-max-quarter {
+  max-width: 25%;
+}
+.width-max-eighth {
+  max-width: 12.5%;
+}
+.width-max-three-quarters {
+  max-width: 75%;
+}
+.width-max-third {
+  max-width: calc(100%/3);
+}
+.width-max-two-thirds {
+  max-width: calc((100%/3)*2);
+}
+.height-max {
+  height: 100%;
+}
+.row-reverse {
+  flex-direction: row-reverse;
+}
+.container- {
+  display: flex;
+}
+.container-center {
+  flex: 1 0 auto;
+  justify-content: space-evenly;
+  align-items: center;
+}
+/*--------------------
+  Globals and tweaks
+---------------------*/
+::-webkit-scrollbar {
+  display: none;
+}
+.sheet-content {
+  color: #2d2f2fff;
+  background-color: #eaeaeaff;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-variant: small-caps;
+}
+.sheet-content .navtab.active {
+  background-color: #ffff3fff;
+  color: #2d2f2fff;
+}
+.sheet-content .navtab:hover {
+  text-shadow: none;
+}
+.sheet-content .combat-container,
+.sheet-content .content-container {
+  border: 4px solid #b90202ff;
+  padding: 5px;
+}
+.sheet-content a:hover {
+  text-shadow: none;
+  text-shadow: 0px 0px 5px #ffc3b6ff;
+}
+.sheet-content textarea {
   border: 0;
   outline: 0;
-  font-size: 3em;
-  text-align: center;
-  height: 65%;
+  height: calc(100% - 20px);
+  width: 100%;
 }
-form .sheet-header .stats-block .stats-unit .stat-values .max {
-  font-size: 1.5em;
+/*--------------------
+  cpr-block element styling
+---------------------*/
+.cpr-block {
+  background-color: #b90202ff;
+  position: relative;
+  clip-path: polygon(0 15px, 0 100%, 100% 100%, 100% 0, 15px 0);
+  /*--------------------
+    Bar modifier
+  ---------------------*/
+  /*-------------------*/
 }
-form .sheet-header .stats-block .has-max {
-  clip-path: polygon(0 15px, 0 100%, 45% 100%, 45% 50%, 55% 50%, 55% 100%, 100% 100%, 100% 0, 15px 0);
+.cpr-block::before {
+  content: "";
+  background-color: #eaeaeaff;
+  clip-path: polygon(0 14px, 0 100%, 100% 100%, 100% 0, 14px 0);
+  z-index: -1;
 }
-form .tab-block {
-  background-color: #d02b23;
-  max-height: 700px;
-  padding: 5px;
-  padding-right: 0;
+.cpr-block.bar::before {
+  clip-path: polygon(0 14px, 0 100%, calc(50% - 7.5px) 100%, calc(50% - 7.5px) 50%, calc(50% + 7.5px) 50%, calc(50% + 7.5px) 100%, 100% 100%, 100% 0, 14px 0);
+}
+.cpr-block.bar.out-of::after {
+  content: "OUT OF";
+  position: absolute;
+  transform: rotate(-90deg);
+  color: #eaeaeaff;
+  font-size: 0.5em;
+  left: 43.5%;
+  top: 65%;
+}
+.cpr-block.stat {
+  clip-path: polygon(0 16px, 0 100%, 100% 100%, 100% 0, 16px 0);
+}
+.cpr-block.stat .title {
   font-size: 0.8em;
+}
+.cpr-block.image img {
+  clip-path: polygon(0 14px, 0 100%, 100% 100%, 100% 0, 14px 0);
+}
+/*--------------------
+  Color modifiers
+---------------------*/
+.black-fg {
+  color: #2d2f2fff;
+}
+.black-bg {
+  background-color: #2d2f2fff;
+}
+.white-fg {
+  color: #eaeaeaff;
+}
+.white-bg {
+  background-color: #eaeaeaff;
+}
+.red-fg {
+  color: #b90202ff;
+}
+.red-bg {
+  background-color: #b90202ff;
+}
+.blue-fg {
+  color: #13ebf3ff;
+}
+.blue-bg {
+  background-color: #13ebf3ff;
+}
+.yellow-fg {
+  color: #ffff3fff;
+}
+.yellow-bg {
+  background-color: #ffff3fff;
+}
+.pink-fg {
+  color: #ffc3b6ff;
+}
+.pink-bg {
+  background-color: #ffc3b6ff;
+}
+/*--------------------
+  Text modifiers
+---------------------*/
+.smallcaps {
+  font-variant: small-caps;
+}
+.smallest-text {
+  font-size: 0.5em;
+}
+.smaller-text {
+  font-size: 0.7em;
+}
+.small-text {
+  font-size: 0.8em;
+}
+.normal-text {
+  font-size: 1em;
+}
+.large-text {
+  font-size: 1.3em;
+}
+.larger-text {
+  font-size: 1.7em;
+}
+.largest-text {
+  font-size: 2em;
+}
+.massive-text {
+  font-size: 4em;
+}
+.center-text {
+  text-align: center;
+}
+.right-text {
+  text-align: right;
+}
+.bold {
+  font-weight: bold;
+}
+.hide-overflow {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+/*--------------------
+  FA Glyph  modifiers
+---------------------*/
+.fa-smile {
+  color: #53dd6c;
+}
+.fa-meh {
+  color: orange;
+}
+.fa-frown {
+  color: #b90202ff;
+}
+[class^="fas fa-dice"] {
+  color: #b90202ff;
+  font-size: 2em;
+}
+.chat-message.message.flexcol {
+  background: #eaeaeaff;
+}
+.rollcard-body {
+  font-size: 16px;
+  font-variant: small-caps;
+  display: grid;
+  padding: 15px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 2fr 1fr;
+  grid-template-areas: "dice dice dice info info info" "dice dice dice total total total";
+}
+.rollcard-body .dice-div {
+  grid-area: dice;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  justify-content: start;
+  height: 180px;
+  width: 130px;
+  flex-shrink: 0;
+  flex-grow: 0;
 }
-form .tab-block .row {
+.rollcard-body .total-div {
+  grid-area: total;
+}
+.rollcard-body .info-div {
+  grid-area: info;
   display: flex;
-  width: 49%;
-  padding: 2px;
+  flex-direction: column;
 }
-form .tab-block .row .skill-name {
-  width: 70%;
+.rollcard-body .d10.one {
+  background-image: url("icons/d10_1.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-form .tab-block .row .skill-level-input {
-  text-align: center;
-  border: none;
-  padding: 0px;
-  margin: 0px;
-  height: 1.4rem;
-  background: unset;
+.rollcard-body .d10.two {
+  background-image: url("icons/d10_2.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-form .tab-block .row .skill-level,
-form .tab-block .row .skill-stat,
-form .tab-block .row .skill-base {
-  width: 15%;
-  text-align: center;
+.rollcard-body .d10.three {
+  background-image: url("icons/d10_3.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-form .tab-block .row .item-edit,
-form .tab-block .row .item-delete {
-  visibility: hidden;
+.rollcard-body .d10.four {
+  background-image: url("icons/d10_4.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-form .tab-block .row .show {
-  visibility: visible;
+.rollcard-body .d10.five {
+  background-image: url("icons/d10_5.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-form .tab-block .header {
-  background-color: #231f20;
-  color: #ffffff;
-  text-align: center;
+.rollcard-body .d10.six {
+  background-image: url("icons/d10_6.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-form .tab-block .item {
-  background-color: #ffffff;
+.rollcard-body .d10.seven {
+  background-image: url("icons/d10_7.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-form .tab-block .item .inventory-center {
-  text-align: center;
+.rollcard-body .d10.eight {
+  background-image: url("icons/d10_8.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-form .item-desc-body {
-  display: flex;
-  flex-direction: row;
-  min-height: 100%;
-  align-items: stretch;
+.rollcard-body .d10.nine {
+  background-image: url("icons/d10_9.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-form .item-info-pane {
-  display: flex;
-  flex-direction: row;
-  padding: 5px;
+.rollcard-body .d10.ten {
+  background-image: url("icons/d10_10.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-form .item-info-pane .info-pane-item {
-  min-width: 120px;
-  padding: 2px;
-  margin: 2px;
-  background-color: #d02b23;
-  color: #ffffff;
+.rollcard-body .d10.one.black {
+  background-image: url("icons/black_d10_1.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-form .item-header-flex-parent {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.rollcard-body .d10.two.black {
+  background-image: url("icons/black_d10_2.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-form .item-icon {
-  min-width: 64px;
-  min-height: 64px;
-  max-width: 64px;
-  max-height: 64px;
+.rollcard-body .d10.three.black {
+  background-image: url("icons/black_d10_3.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-form .item-name {
-  background-color: #d02b23;
-  height: 64px;
-  width: 100%;
-  color: white;
-  font-size: 24pt;
-  flex-grow: 2;
+.rollcard-body .d10.four.black {
+  background-image: url("icons/black_d10_4.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-.chat-rollCard .chat-rollTitle-stat {
-  text-transform: capitalize;
+.rollcard-body .d10.five.black {
+  background-image: url("icons/black_d10_5.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-.chat-rollCard .chat-rollTotal {
-  font-weight: bold;
+.rollcard-body .d10.six.black {
+  background-image: url("icons/black_d10_6.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-.chat-rollCard tr {
-  vertical-align: top;
+.rollcard-body .d10.seven.black {
+  background-image: url("icons/black_d10_7.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-.chat-rollCard td {
-  width: 50%;
+.rollcard-body .d10.eight.black {
+  background-image: url("icons/black_d10_8.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-.chat-rollCard td .chat-rollResult {
-  text-align: center;
+.rollcard-body .d10.nine.black {
+  background-image: url("icons/black_d10_9.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
-.chat-rollCard h1 {
-  border-bottom: none;
+.rollcard-body .d10.ten.black {
+  background-image: url("icons/black_d10_10.png");
+  height: 70px;
+  width: 70px;
+  display: block;
 }
 form input.number {
   width: 30px;
 }
-:root {
-  font-family: 'Ubuntu Mono', monospace;
-  font-size: 10px;
-  color: #231f20;
-  --main-bg-color: #ffffff;
-}
 .window-app .window-content {
-  background: #ffffff;
+  background: #eaeaeaff;
 }
 .editor {
+  flex-grow: 1;
+  min-height: 100%;
   height: 100%;
 }
 .editor .tox-toolbar-overlord,
@@ -340,8 +688,5 @@ form input.number {
   background: none;
 }
 .content {
-  height: 100%;
-}
-.tab {
   height: 100%;
 }

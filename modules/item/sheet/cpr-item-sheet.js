@@ -1,3 +1,5 @@
+/* global ItemSheet */
+/* global mergeObject, game, $, hasProperty, getProperty, setProperty, duplicate */
 import LOGGER from "../../utils/cpr-logger.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 
@@ -6,7 +8,6 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
  * @extends {ItemSheet}
  */
 export default class CPRItemSheet extends ItemSheet {
-
   /* -------------------------------------------- */
   /** @override */
   static get defaultOptions() {
@@ -14,7 +15,7 @@ export default class CPRItemSheet extends ItemSheet {
     return mergeObject(super.defaultOptions, {
       tabs: [{ navSelector: ".tabs", contentSelector: ".content", initial: "main" }],
       width: 450,
-      height: 300,
+      height: 450,
     });
   }
 
@@ -44,10 +45,8 @@ export default class CPRItemSheet extends ItemSheet {
     data.filteredItems = {};
     if (data.isOwned) {
       data.filteredItems = this.object.actor.itemTypes;
-    }
-    else
-    {
-      data.filteredItems['skill'] = (await SystemUtils.GetCoreSkills());
+    } else {
+      data.filteredItems.skill = await SystemUtils.GetCoreSkills();
     }
     return data;
   }
@@ -63,19 +62,39 @@ export default class CPRItemSheet extends ItemSheet {
       $(this).select();
     });
 
-    html.find(".item-checkbox").click(event => this._itemCheckboxToggle(event));
+    html.find(".item-checkbox").click((event) => this._itemCheckboxToggle(event));
+
+    html.find(".item-multi-option").click((event) => this._itemMultiOption(event));
   }
 
-/*
+  /*
   INTERNAL METHODS BELOW HERE
 */
 
   _itemCheckboxToggle(event) {
-    LOGGER.trace(`_itemCheckboxToggle Called | .checkbox click | Called with type ${this.item}.`);
-    let itemData = duplicate(this.item.data)
-    let target = $(event.currentTarget).attr("data-target")
+    LOGGER.trace("CPRItemID _itemCheckboxToggle Called | CPRItemSheet | Called.");
+    const itemData = duplicate(this.item.data);
+    const target = $(event.currentTarget).attr("data-target");
     if (hasProperty(itemData, target)) {
-      setProperty(itemData, target, !getProperty(itemData, target))
+      setProperty(itemData, target, !getProperty(itemData, target));
+      this.item.update(itemData);
+    }
+  }
+
+  async _itemMultiOption(event) {
+    LOGGER.trace("CPRItemID _itemMultiOption Called | CPRItemSheet | Called.");
+    const itemData = duplicate(this.item.data);
+    // the target the option wants to be put into
+    const target = $(event.currentTarget).parents(".item-multi-select").attr("data-target");
+    const value = $(event.currentTarget).attr("data-value");
+    if (hasProperty(itemData, target)) {
+      const prop = getProperty(itemData, target);
+      if (prop.includes(value)) {
+        prop.splice(prop.indexOf(value), 1);
+      } else {
+        prop.push(value);
+      }
+      setProperty(itemData, target, prop);
       this.item.update(itemData);
     }
   }

@@ -1,11 +1,10 @@
-<div class="block">
-  <div class="unit mid-split">
-    <div class="humanity-block">
-      <p>Humanity</p>
-      <div class="inputs">
-        <input class="derived" name="data.humanity.value" type="number" value="{{data.humanity.value}}" data-dtype="Number" />
-        <input class="derived" name="data.humanity.max" type="number" value="{{data.humanity.max}}" data-dtype="Number" />
-      </div>
-    </div>
+<div class="cpr-block bar out-of">
+  
+  <div class="title large-text bold">
+    <p>{{localize "CPR.humanity"}}</p>
+  </div>
+  <div class="content largest-text center-text">
+    <input  name="data.humanity.value" type="number" value="{{data.humanity.value}}" data-dtype="Number" />
+    <input  name="data.humanity.max" type="number" value="{{data.humanity.max}}" data-dtype="Number" readonly />
   </div>
 </div>

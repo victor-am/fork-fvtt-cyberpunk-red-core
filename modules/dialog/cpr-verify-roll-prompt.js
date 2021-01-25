@@ -1,53 +1,50 @@
-// TODO - Revist this method of dialog creation.
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+/* eslint-disable no-shadow */
+/* eslint-disable class-methods-use-this */
+/* global renderTemplate, FormDataExtended, Dialog */
+// TODO - Finish Refactor, See cyberware-install-prompt.js
 
 import LOGGER from "../utils/cpr-logger.js";
-import { CPRArrayUtils } from "../utils/cpr-misc.js";
 
-// TODO - Revist name of function.
-export async function VerifyRollPrompt(rollRequest) {
-  return new Promise((resolve) => {
-    renderTemplate(
-      "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-prompt.hbs",
-      rollRequest
-    ).then((html) => {
-      let _onCancel = function (html) {
-        LOGGER.trace(`_onCancel | Dialog VerifyRollPrompt | called.`);
-        
-        rollRequest.rollType = "abort";
-      };
+export default class VerifyRollPrompt {
+  static GetVerifyRollTemplate(rollType) {
+    switch (rollType) {
+      case "damage": {
+        return "systems/cyberpunk-red-core/templates/dialog/cpr-verify-damage-roll-prompt.hbs";
+      }
+      case "attack": {
+        return "systems/cyberpunk-red-core/templates/dialog/cpr-verify-base-roll-prompt.hbs";
+      }
+      case "stat":
+      case "roleAbility":
+      case "skill": {
+        return "systems/cyberpunk-red-core/templates/dialog/cpr-verify-base-roll-prompt.hbs";
+      }
+      default: {
+        return "systems/cyberpunk-red-core/templates/dialog/cpr-verify-base-roll-prompt.hbs";
+      }
+    }
+  }
 
-      let _onConfirm = function (html) {
-        LOGGER.trace(`_onConfirm | Dialog VerifyRollPrompt | called.`);
-
-        if (rollRequest.rollType === "damage") {
-          if (rollRequest.weaponType === "assaultRifle" ||
-              rollRequest.weaponType === "heavySmg" ||
-              rollRequest.weaponType === "smg") {
-            if (html.find('[name="autofire"]')[0].checked) {
-              rollRequest.isAutofire = true;
-            }
-            rollRequest.formula = "2d6";
-            rollRequest.multiplier = Number(
-              html.find('[name="autofire-multiplier"]').val()
-            );
-          };
-          if (html.find('[name="final-mods"]').val() != "") {
-            rollRequest.mods.push(Number(
-              html.find('[name="final-mods"]').val()
-            ));
+  static async RenderPrompt(rollRequest) {
+    const template = this.GetVerifyRollTemplate(rollRequest.rollType);
+    const data = duplicate(rollRequest);
+    return new Promise((resolve, reject) => {
+      renderTemplate(template, data).then((html) => {
+        const _onCancel = () => {
+          LOGGER.trace("_onCancel | Dialog VerifyRollPrompt | called.");
+          reject();
+        };
+        const _onConfirm = (html) => {
+          LOGGER.trace("_onConfirm | Dialog VerifyRollPrompt | called.");
+          const formData = new FormDataExtended(html.find("form")[0]).toObject();
+          if (formData.mods) {
+            formData.mods = formData.mods.split(",").map(Number);
+          } else {
+            formData.mods = [];
           }
-        } else {
-          // Assign Mods
-          if (html.find('[name="statValue"]').val() != "") {
-            rollRequest.statValue = Number(
-              html.find('[name="statValue"]').val()
-            );
-          }
-          if (html.find('[name="skillValue"]').val() != "") {
-            rollRequest.skillValue = Number(
-              html.find('[name="skillValue"]').val()
-            );
-          }
+<<<<<<< HEAD
           if (html.find('[name="roleValue"]').val() != "") {
             rollRequest.roleValue = Number(
               html.find('[name="roleValue"]').val()
@@ -73,19 +70,44 @@ export async function VerifyRollPrompt(rollRequest) {
             icon: '<i class="fas fa-times"></i>',
             label: "Cancel",
             callback: (html) => _onCancel(html),
+=======
+          if (rollRequest.rollType === "damage") {
+            if (formData.autofire) {
+              formData.fireMode = "autofire";
+            }
+            if (formData.suppressive) {
+              formData.fireMode = "suppressive";
+            }
+          }
+          resolve(formData);
+        };
+        new Dialog({
+          title: "Are you sure?",
+          content: html,
+          buttons: {
+            cancel: {
+              icon: "<i class=\"fas fa-times\"></i>",
+              label: "Cancel",
+              /* eslint-disable no-shadow */
+              callback: (html) => _onCancel(html), // TODO fix no-shadow
+              /* eslint-enable no-shadow */
+            },
+            confirm: {
+              icon: "<i class=\"fas fa-check\"></i>",
+              label: "Confirm",
+              /* eslint-disable no-shadow */
+              callback: (html) => _onConfirm(html), // TODO fix no-shadow
+              /* eslint-enable no-shadow */
+            },
+>>>>>>> dev
           },
-          confirm: {
-            icon: '<i class="fas fa-check"></i>',
-            label: "Confirm",
-            callback: (html) => _onConfirm(html),
+          default: "confirm",
+          render: LOGGER.trace("confirm | Dialog VerifyRollPrompt | called."),
+          close: () => {
+            reject();
           },
-        },
-        default: "confirm",
-        render: LOGGER.trace(`confirm | Dialog VerifyRollPrompt | called.`),
-        close: () => {
-          resolve(rollRequest);
-        },
-      }).render(true);
+        }).render(true);
+      });
     });
-  });
+  }
 }

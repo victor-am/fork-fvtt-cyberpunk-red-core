@@ -1,286 +1,164 @@
-.sheet {
-  min-width: 580px;
+app.window-app.sheet.actor {
+  min-width : 840px;
+  min-height: 600px;
 }
 
-.block {
-  font-size: 0.8em;
-  background-color: @maximum-red;
-  padding: 10px 5px 5px 5px;
-  flex: -1 -1;
-  width: 180px;
-  min-height: 55px;
-  .unit {
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
-    p {
-      text-align: end;
-      padding-right: 5px;
-      font-weight: bold;
-      text-transform: uppercase;
-      margin: 0;
-    }
-    .inputs {
-      display: flex;
-      justify-content: space-around;
-      input {
-        width: 100%;
-        font-size: 1.5em;
-        border: none;
-        outline: none;
-        background-color: transparent;
-      }
-      input:focus {
-        box-shadow: none;
-      }
-      input.derived {
-        text-align: center;
-        width: 3em;
-      }
-    }
-    select {
-      width: 100%;
-      border: none;
-      outline: 0;
-      background: transparent;
-      font-size: 1.4em;
-    }
-    select:focus {
-      box-shadow: none;
-    }
-  }
-  .unit.mid-split {
-    clip-path: polygon(
-      15px 0,
-      100% 0,
-      100% 100%,
-      53% 100%,
-      53% 45%,
-      47% 45%,
-      47% 100%,
-      0 100%,
-      0 15px
-    );
-  }
-  .unit.right-split {
-    clip-path: polygon(
-      15px 0,
-      100% 0,
-      100% 100%,
-      75% 100%,
-      75% 45%,
-      69% 45%,
-      69% 100%,
-      0 100%,
-      0 15px
-    );
-  }
-}
+.sheet-content {
+  margin               : 5px;
+  display              : grid;
+  grid-template-columns: 200px 60px 1fr;
+  grid-template-rows   : 30px 165px repeat(5, 65px);
+  grid-template-areas  :
+    "image stats tabs "
+    "image stats content "
+    "handle stats content "
+    "role stats content "
+    "hitpoints stats content "
+    "deathsave stats content "
+    "humanity stats content "
+  ;
+  grid-column-gap: 5px;
+  grid-row-gap   : 5px;
 
-form {
-  .sheet-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 325px;
-    .top-block {
-      display: flex;
-      justify-content: space-between;
-      height: 240px;
-      .image-block {
-        background-color: @maximum-red;
-        padding: 10px 5px 5px 5px;
-        height: 180px;
-        width: 180px;
-        img {
-          height: 165px;
-          min-width: 165px;
-          border: none;
-          outline: none;
-          clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%, 0 10%);
-          margin: 0;
-        }
-      }
-      .info-block,
-      .role-block {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: flex-end;
-        .role-ability {
-          //display: inline-flex;
-          .ability-name {
-            text-align: left;
-          }
-          .ability-value {
-            text-align: right;
-          }
-        }
-      }
-      .derived-block {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: flex-end;
-        .hitpoint-block {
-          height: 80px;
-          input {
-            font-size: 5em;
-            height: 100%;
-          }
-          clip-path: polygon(
-            15px 0,
-            100% 0,
-            100% 100%,
-            53% 100%,
-            53% 30%,
-            47% 30%,
-            47% 100%,
-            0 100%,
-            0 15px
-          );
-        }
-        .humanity-block {
+  .image-div {
+    grid-area: image;
 
-        }
-        .save-block {
-          .wound-state {
-            text-align: left;
-            word-spacing: 9999rem;
-          }
-          .death-save {
-            padding-right: 0.5em;
-          }
-        }
-      }
-      .role-block table {
-        margin: 0;
-        height: 26px;
-        background: transparent;
-        border: none;
-        outline: 0;
-        font-size: 1.2em;
-        display: contents;
-        td,
-        tr {
-          tr,
-          td {
-            height: 26px;
-            background: transparent;
-            border: none;
-            outline: 0;
-            padding: 1px 0;
-          }
-          .ability-rank-input {
-            font-size: 1.2em;
-            
-          }
-        }
-      }
-    }
-    .stats-block {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      background-color: @maximum-red;
-      padding: 10px 5px 5px 5px;
-      min-width: 400px;
-      .stats-unit {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
-        background-color: #ffffff;
-        width: 50px;
-        height: 50px;
-        flex-shrink: 0;
-        .stat-title {
-          display: flex;
-          flex-direction: row-reverse;
-          font-weight: bold;
-          padding-right: 2px;
-          p {
-            margin: 0;
-          }
-        }
-        .stat-values {
-          display: flex;
-          justify-content: space-around;
-          .stat-input {
-            // width: 40px;
-            background-color: transparent;
-            border: 0;
-            outline: 0;
-            font-size: 3em;
-            text-align: center;
-            height: 65%;
-          }
-          .max {
-            font-size: 1.5em;
-          }
-        }
-      }
-      .has-max {
-        clip-path: polygon(
-          0 15px,
-          0 100%,
-          45% 100%,
-          45% 50%,
-          55% 50%,
-          55% 100%,
-          100% 100%,
-          100% 0,
-          15px 0
-        );
-      }
+    img {
+      border : 0;
+      outline: 0
     }
   }
-  
-  .tab-block {
-    background-color: @maximum-red;
-    max-height: 700px;
-    padding: 5px;
-    padding-right: 0;
-    font-size: 0.8em;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    .row {
-      display: flex;
-      width: 49%;
-      padding: 2px;
-      .skill-name {
-        width: 70%;
-      }
-      .skill-level-input {
-        text-align: center;
-        border: none;
-        padding: 0px;
-        margin: 0px;
-        height: 1.4rem;
-        background: unset;
-      } .skill-level, .skill-stat, .skill-base {
-        width: 15%;
-        text-align: center;
-      }
-      .item-edit, .item-delete {
-        visibility: hidden;
-      }
-      .show {
-        visibility: visible;
-      }
+
+  .handle-div {
+    grid-area: handle;
+  }
+
+  .role-div {
+    grid-area: role;
+  }
+
+  .hitpoints-div {
+    grid-area: hitpoints;
+  }
+
+  .deathsave-div {
+    grid-area: deathsave;
+  }
+
+  .humanity-div {
+    grid-area: humanity;
+  }
+
+  .tabs-div {
+    grid-area : tabs;
+    box-shadow: 0;
+
+    .navtab {
+      padding     : 0;
+      padding     : 1px 4px 0 4px;
+      margin-left : 15px;
+      margin-right: 15px;
+      text-align  : center;
     }
-    .header {
+
+    .selected {
       background-color: @raisin-black;
-      color: @white;
+      color           : @white;
+    }
+  }
+
+  .stats-div {
+    grid-area: stats;
+  }
+
+  .row {
+    // border: solid 3px @maximum-red;
+    // border-top: solid 1.5px @maximum-red;
+    // border-bottom: solid 1.5px @maximum-red;
+    display         : flex;
+    justify-content : space-between;
+    align-items     : center;
+    padding         : 0 3px;
+    background-color: @white;
+  }
+
+  .skills {
+    flex: 50%;
+
+    .skill-name {
+      width: 60%;
+    }
+
+    .skill-level,
+    .skill-base {
+      width     : 10%;
       text-align: center;
     }
-    .item {
-      background-color: @white;
-      .inventory-center {
-        text-align: center;
-      }
+  }
+
+  .inventory {
+    flex      : 100%;
+    text-align: center;
+
+    .name {
+      width: 200px;
+    }
+
+    .data {
+      text-align: left;
+    }
+
+    .action {
+      width: 10%;
+    }
+
+  }
+
+  .border-red {
+    border: solid @maximum-red 1px;
+  }
+
+  .row-header {
+    background : @raisin-black;
+    color      : @white;
+    font-weight: bold;
+  }
+
+  .row-section {
+    flex-grow: 1;
+  }
+
+  .content {
+    grid-area: content;
+    min-width: 512px;
+
+    .tab-block {
+      background-color: @maximum-red;
+      display         : flex;
+      flex-direction  : row;
+      flex-wrap       : wrap;
+
     }
   }
+
+  .text-align-left {
+    text-align: left;
+  }
+
+  .text-align-center {
+    text-align: center;
+  }
+
+  .text-align-right {
+    text-align: right;
+  }
+  input {
+    background: 0;
+    outline   : 0;
+    border    : 0;
+  }
+}
+
+.text-align-left {
+  text-align: left;
 }

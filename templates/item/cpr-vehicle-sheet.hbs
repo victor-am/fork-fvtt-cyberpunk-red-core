@@ -3,8 +3,8 @@
   {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-header.hbs"}}
   {{!-- Item Sheet Navigation --}}
   <nav class="tabs" data-group="primary">
-    <a class="" data-tab="description">DESCRIPTION</a>
-    <a class="" data-tab="details">DETAILS</a>
+    <a class="" data-tab="description">{{localize "CPR.description"}}</a>
+    <a class="" data-tab="details">{{localize "CPR.details"}}</a>
   </nav>
 
   {{!-- Item Sheet Body --}}
@@ -14,13 +14,13 @@
       {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
     </div>
     <div class="tab" data-group="primary" data-tab="details">
-      Tags: <input name="data.tags" class="" type="text" value="{{data.tags}}">
-      Source: <input name="data.source" class="" type="text" value="{{data.source}}" placeholder="Desc">
-      Price: <input name="data.price.market" class="" type="text" value="{{data.price.market}}"
+      {{localize "CPR.tags"}}: <input name="data.tags" class="" type="text" value="{{data.tags}}">
+      {{localize "CPR.source"}}: <input name="data.source" class="" type="text" value="{{data.source}}" placeholder="Desc">
+      {{localize "CPR.price"}}: <input name="data.price.market" class="" type="text" value="{{data.price.market}}"
         placeholder="50">
-      Spd: <input name="data.spd" class="" type="text" value="{{data.spd}}" placeholder="50">
-      Seats: <input name="data.seats" class="" type="text" value="{{data.seats}}" placeholder="50">
-      speedCombat: <input name="data.speedCombat" class="" type="text" value="{{data.speedCombat}}"
+      {{localize "CPR.spd"}}: <input name="data.spd" class="" type="text" value="{{data.spd}}" placeholder="50">
+      {{localize "CPR.seats"}}: <input name="data.seats" class="" type="text" value="{{data.seats}}" placeholder="50">
+      {{localize "CPR.combatspeed"}}: <input name="data.speedCombat" class="" type="text" value="{{data.speedCombat}}"
         placeholder="50">
       speedNarrative: <input name="data.speedNarrative" class="" type="text" value="{{data.speedNarrative}}"
         placeholder="50">

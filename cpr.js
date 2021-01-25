@@ -34,8 +34,7 @@ Hooks.once("init", async function () {
       "skill",
       "vehicle",
       "program",
-      "netarch",
-      "loot"
+      "netarch"
     ], makeDefault: true
   });
 

@@ -3,10 +3,9 @@
   {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-header.hbs"}}
   {{!-- Ammo Sheet Navigation --}}
   <nav class="tabs" data-group="primary">
-    <a class="" data-tab="description">DESCRIPTION</a>
-    <a class="" data-tab="details">DETAILS</a>
+    <a class="" data-tab="description">{{localize "CPR.description"}}</a>
+    <a class="" data-tab="details">{{localize "CPR.details"}}</a>
   </nav>
-
   {{!-- Ammo Sheet Body --}}
   <section class="content">
     {{!-- Inventory Tab --}}
@@ -17,11 +16,11 @@
       <section class="">
         {{!-- MARKET PRICE --}}
         <div>
-          Price: <input name="data.price.market" class="" type="text" value="{{data.price.market}}" placeholder="100">
+          {{localize "CPR.price"}}: <input name="data.price.market" class="" type="text" value="{{data.price.market}}" placeholder="100">
         </div>
         {{!-- WHAT STAT DOES THIS SKILL USE --}}
         <div>
-          Variety:
+          {{localize "CPR.variety"}}:
           <select name="data.variety" data-dtype="{{data.variety}}">
             {{#select data.variety}}
             {{#each (findConfigObj "ammoVariety") as |variety v|}}
@@ -31,7 +30,11 @@
           </select>
         </div>
                 <div>
+<<<<<<< HEAD
           Type:
+=======
+          {{localize "CPR.type"}}:
+>>>>>>> dev
           <select name="data.type" data-dtype="{{data.type}}">
             {{#select data.type}}
             {{#each (findConfigObj "ammoType") as |type t|}}
@@ -42,7 +45,7 @@
         </div>
         {{!-- WHAT STAT DOES THIS SKILL USE --}}
         <div>
-          Amount: <input name="data.amount" class="" type="text" value="{{data.amount}}" placeholder="10">
+          {{localize "CPR.amount"}}: <input name="data.amount" class="" type="text" value="{{data.amount}}" placeholder="10">
         </div>
       </section>
     </div>

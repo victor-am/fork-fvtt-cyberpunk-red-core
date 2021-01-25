@@ -25,6 +25,10 @@
           "will": {
             "value": 6
           },
+          "luck": {
+            "value": 6,
+            "max": 6
+          },
           "move": {
             "value": 6
           },
@@ -161,6 +165,9 @@
           "description": "",
           "notes": "",
           "history": ""
+        },
+        "cyberware": {
+            "installed": []
         }
       }
     },
@@ -168,12 +175,6 @@
       "templates": [
         "common"
       ],
-      "stats": {
-        "luck": {
-          "value": 6,
-          "max": 6
-        }
-      },
       "lifepath": {
         "culturalOrigin": "",
         "personality": "",
@@ -228,7 +229,6 @@
       "armor",
       "cyberware",
       "gear",
-      "loot",
       "netarch",
       "program",
       "skill",
@@ -256,6 +256,10 @@
       "equippable": {
          "equipped": "owned"
       },
+      "upgradable": {
+        "isUpgraded": false,
+        "upgrade": ""
+      },
       "mods": {
         "list": [],
         "mod": {
@@ -263,10 +267,6 @@
           "item": "",
           "value": 0,
           "isActive": false
-        },
-        "upgradable": {
-          "isUpgraded": false,
-          "upgrade": ""
         }
       }
     },
@@ -278,8 +278,12 @@
       ],
       "type": "type",
       "install": "install",
+      "isInstalled": false,
+      "isFoundational": false,
+      "optionSlots": 0,
+      "optionalIds": [],
       "humanityLoss": {
-        "cgen": 0,
+        "static": 0,
         "roll": ""
       }
     },
@@ -287,7 +291,8 @@
       "templates": [
         "common",
         "physicalItem",
-        "upgradable"
+        "upgradable",
+        "equippable"        
       ],
       "rof": 1,
       "weaponType": "",
@@ -310,7 +315,8 @@
       "templates": [
         "common",
         "physicalItem",
-        "upgradable"
+        "upgradable",
+        "equippable"
       ],
       "isHeadLocation": false,
       "headLocation": {
@@ -327,7 +333,8 @@
     "ammo": {
       "templates": [
         "common",
-        "physicalItem"
+        "physicalItem",
+        "upgradable"
       ],
       "variety": "",
       "amount": 0,
@@ -336,7 +343,9 @@
     "gear": {
       "templates": [
         "common",
-        "physicalItem"
+        "physicalItem",
+        "upgradable",
+        "equippable"
       ]
     },
     "skill": {
@@ -364,7 +373,8 @@
     "program": {
       "templates": [
         "common",
-        "physicalItem"
+        "physicalItem",
+        "equippable"
       ],
       "class": "",
       "per": 0,
@@ -379,12 +389,6 @@
         "physicalItem"
       ],
       "floors": []
-    },
-    "loot": {
-      "templates": [
-        "common",
-        "physicalItem"
-      ]
     }
   }
 }

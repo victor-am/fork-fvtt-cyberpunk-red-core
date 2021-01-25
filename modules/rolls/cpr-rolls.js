@@ -1,6 +1,6 @@
+/* global Roll, mergeObject */
 import LOGGER from "../utils/cpr-logger.js";
-import CPRBaseRollResult from "./cpr-baseroll-result.js";
-import CPRDamageRollResult from "./cpr-dmgroll-result.js";
+import CPRRollResult from "./cpr-roll-result.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 
 // RollRequest (per type)
@@ -8,116 +8,109 @@ import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 // RollResult (per type)
 // --> Output To Chat
 
+// 1dp
+
+// /r 1d10 + 10
+
 export default class CPRRolls {
-  static CPRRoll(formula, rollMode) {
-    let roll = new Roll(formula).roll();
-    DiceSoNice.ShowDiceSoNice(roll);
+  // Generic roll handler for CPR
+  static async CPRRoll(formula) {
+    const roll = new Roll(formula).roll();
+    await DiceSoNice.ShowDiceSoNice(roll);
     return {
       total: roll.total,
-      array: roll.terms[0].results.map((roll) => roll.result)
+      faces: roll.terms[0].results.map((r) => r.result),
     };
   }
 
-  static BaseRoll(rollRequest) {
-    LOGGER.trace(
-      `Calling baseRoll | Dice BaseRoll | Stat:${rollRequest.statValue} SkillLevel:${rollRequest.skillValue}, Mods:${rollRequest.mods}, CalculateCritical:${rollRequest.calculateCritical}`
-    );
+  static async BaseRoll(rollRequest) {
+    LOGGER.trace(`Calling baseRoll | Dice BaseRoll | Stat:${rollRequest.statValue} SkillLevel:${rollRequest.skillValue}, Mods:${rollRequest.mods}, CalculateCritical:${rollRequest.calculateCritical}`);
 
     // TODO- Verify use of mergeObject.
-    let rollResult = new CPRBaseRollResult();
+    const rollResult = new CPRRollResult();
     mergeObject(rollResult, rollRequest, { overwrite: true });
-    LOGGER.debug(`Checking RollRequest | Dice BaseRoll | `);
-    rollResult.initialRoll = this.CPRRoll(`1d10`).total;
+    rollResult.initialRoll = (await this.CPRRoll("1d10")).total;
 
     // With the above, below this line we ONLY need to use our Result!
     // Is this ideal? Or is this Heresy?
     if (rollResult.calculateCritical) {
-      LOGGER.debug(
-        `Checking Critical Chance | Dice BaseRoll | Initial Roll:${rollResult.initialRoll}`
-      );
-      if (rollResult.initialRoll == 1) {
+      LOGGER.debug(`Checking Critical Chance | Dice BaseRoll | Initial Roll:${rollResult.initialRoll}`);
+      if (rollResult.initialRoll === 1) {
         rollResult.wasCritical = true;
-        rollResult.criticalRoll = -1 * this.CPRRoll(`1d10[fire]`).total;
-        LOGGER.debug(
-          `Critical Failure! | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`
-        );
+        rollResult.criticalRoll = -1 * (await this.CPRRoll("1d10[fire]")).total;
+        LOGGER.debug(`Critical Failure! | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
       }
-      if (rollResult.initialRoll == 10) {
+      if (rollResult.initialRoll === 10) {
         rollResult.wasCritical = true;
-        rollResult.criticalRoll = this.CPRRoll(`1d10[fire]`).total;
-        LOGGER.debug(
-          `Critical Success | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`
-        );
+        rollResult.criticalRoll = (await this.CPRRoll("1d10[fire]")).total;
+        LOGGER.debug(`Critical Success | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
       }
     }
 
-    LOGGER.debug(
-      `Calculate Roll Result! | Roll:${rollResult.initialRoll} + Crit:${rollResult.criticalRoll}`
-    );
+    LOGGER.debug(`Calculate Roll Result! | Roll:${rollResult.initialRoll} + Crit:${rollResult.criticalRoll}`);
     rollResult.rollTotal = rollResult.initialRoll + rollResult.criticalRoll;
 
     LOGGER.debug(`Calculate Mods Total! | Mods:${rollResult.mods}`);
-    rollResult.modsTotal =
-      rollResult.mods.length > 0 ? rollResult.mods.reduce((a, b) => a + b) : 0;
+    rollResult.modsTotal = rollResult.mods.length > 0 ? rollResult.mods.reduce((a, b) => a + b) : 0;
 
-    LOGGER.debug(
-      `Calculate Check Total! | Roll:${rollResult.rollTotal} Skill:${rollResult.skillValue} + Stat:${rollResult.statValue} + Mods:${rollResult.mods} (${rollResult.modsTotal})`
-    );
-    rollResult.resultTotal =
-      rollResult.rollTotal +
-      rollResult.skillValue +
-      rollResult.statValue +
-      rollResult.modsTotal;
+    LOGGER.debug(`Calculate Check Total! | Roll:${rollResult.rollTotal} Skill:${rollResult.skillValue} + Stat:${rollResult.statValue} + Mods:${rollResult.mods} (${rollResult.modsTotal})`);
+
+    rollResult.resultTotal = rollResult.rollTotal + rollResult.modsTotal;
+    if (rollResult.roleValue > 0) {
+      rollResult.resultTotal += rollResult.roleValue;
+    } else {
+      rollResult.resultTotal += rollResult.skillValue + rollResult.statValue;
+    }
 
     LOGGER.debug(`Check Total! | Total:${rollResult.total}`);
     return rollResult;
   }
 
-  static DamageRoll(rollRequest) {
-    LOGGER.trace(
-      `Calling DamageRoll | Dice DamageRoll | RollFormula:${rollRequest.formula} Location: ${rollRequest.location}`
-    );
+  // TODO - Refactor Function
+  static async DamageRoll(rollRequest) {
+    LOGGER.trace(`Calling DamageRoll | Dice DamageRoll | RollFormula:${rollRequest.formula} Location: ${rollRequest.location}`);
 
-    let rollResult = new CPRDamageRollResult();
+    const rollResult = new CPRRollResult();
     mergeObject(rollResult, rollRequest, { overwrite: true });
-    LOGGER.debug(`Checking RollRequest | Dice DmgRoll | `);
+
+    // If this is autofire, the damage formula is 2d6
+    if (rollResult.fireMode === "autofire") {
+      rollRequest.formula = "2d6";
+    }
 
     // create roll and show Dice So Nice!
-    let roll = this.CPRRoll(rollRequest.formula);
+    const roll = await this.CPRRoll(`${rollRequest.formula}[fire]`);
 
-    // get result array
-    roll.array.forEach(r => rollResult.diceResults.push(r));
-
-    // get dice total
+    // Push all results into diceResults
+    rollResult.faces = roll.faces;
     rollResult.diceTotal = roll.total;
 
-    // apply autofire multiplier
-    if (rollResult.isAutofire) rollResult.diceTotal *= rollResult.multiplier
-
-    // count crits and bonus damage
-    let sixes = 0;
-    rollResult.diceResults.forEach((r) => {
-      if (r === 6) sixes++;
-    });
-    rollResult.crits = Math.floor(sixes / 2);
-    rollResult.bonusDamage = rollResult.crits * 5;
-    rollResult.wasCritical = !!rollResult.crits > 0;
-
-    // get total attack damage
-    rollResult.resultTotal = rollResult.diceTotal + rollResult.bonusDamage;
-
-    // add all mods!
-    if (rollResult.mods.length !== 0) {
-      rollResult.mods = rollResult.mods.reduce((a, b) => a + b);
-      rollResult.resultTotal += rollResult.mods;
+    // If this was autofire, add multiplier to the roll, otherwise just add the roll.
+    if (rollResult.fireMode === "autofire") {
+      rollResult.damageTotal = rollResult.diceTotal * rollResult.autofireMultiplier;
+    } else {
+      rollResult.damageTotal = rollResult.diceTotal;
     }
-    
+
+    // If we have 2 or more sixes on a damage roll, was critical is true.
+    rollResult.wasCritical = rollResult.faces.filter((x) => x === 6).length >= 2;
+    if (rollResult.wasCritical) {
+      rollResult.bonusDamage = 5;
+    }
+
+    // Calculate total damage from attack.
+    rollResult.damageTotal += rollResult.bonusDamage;
+
+    // Calculate sum of all misc damage mods!
+    if (rollResult.mods.length !== 0) {
+      rollResult.modsTotal = rollResult.mods.reduce((a, b) => a + b);
+      rollResult.damageTotal += rollResult.modsTotal;
+    }
 
     return rollResult;
   }
 
-  static DeathSaveRoll() {}
-
-  // Do we need this?
-  static InitiateRoll() {}
+  static DeathSaveRoll() {
+    // TODO - Jay, fix me.
+  }
 }

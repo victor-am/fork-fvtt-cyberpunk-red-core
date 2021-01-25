@@ -1,40 +1,14 @@
 {{log "CPR-ROLE-BLOCK.HBS"}}
-<div class="block">
-  <div class="unit">
-    <p>Role</p>
-    <div class="role-input">
-      <select name="data.roleInfo.role">
-        {{#select data.roleInfo.role}}
-        {{#each (findConfigObj "roleList") as |name n|}}
-        <option value="{{n}}">{{localize name}}</option>
-        {{/each}}
-        {{/select}}
-      </select>
-    </div>
+<div class="cpr-block">
+  <div class="title large-text bold">
+    <p>{{localize "CPR.role"}}</p>
   </div>
-</div>
-<div class="block">
-  <div class="unit">
-    <p>Ability</p>
-    <table>
-    {{!-- for every skill in character's role --}}
-    {{#each (lookup data.roleInfo.roleskills data.roleInfo.role) as |rank name|}}
-    {{!-- show localized role ability name --}}
-    <tr class="role-ability">
-      <td width="80%"">
-      <div class="rollable ability-name" data-roll-type="roleAbility" data-roll-title="{{name}}">{{localize (findConfigValue
-      "roleAbilityList" name)}}</div>
-      </td>
-    {{!-- show role ability rank --}}
-    <td>
-    <div class="inputs ability-value">
-      <input name="data.roleInfo.roleskills.{{../data.roleInfo.role}}.{{name}}" value="{{rank}}" type="number"
-        data-dtype="Number" class="ability-rank-input" />
-    </div>
-    </td>
-    </tr>
+  <select class="select larger-text" name="data.roleInfo.role">
+    {{#select data.roleInfo.role}}
+    {{#each (findConfigObj "roleList") as |name n|}}
+    <option value="{{n}}">{{localize name}}</option>
     {{/each}}
-    </table>
-  </div>
+    {{/select}}
+  </select>
 </div>
 {{log "END CPR-ROLE-BLOCK.HBS"}}
