@@ -1,5 +1,5 @@
 {{log "CPR-ROLE-TAB-CONTENT.HBS"}}
-<div class="">
+<div class="dynamic-list">
     <div>
         <h1>{{localize "CPR.role"}}: {{localize (findConfigValue "roleList" data.roleInfo.role)}}</h1>
     </div>
@@ -7,15 +7,19 @@
         <div class="row header white-fg black-bg bold col-1">
             {{localize "CPR.abilities"}}:
         </div>
-        <div class="row flex-start item black-fg white-bg col-1">
-            {{#each (getProp data.roleInfo.roleskills data.roleInfo.role) as |roleskill rs|}}
-            <span class="rollable ability-name" data-roll-type="roleAbility" data-roll-title="{{rs}}">{{localize
-                (findConfigValue "roleAbilityList" rs)}}</span>: &nbsp;
-            <input name="data.roleInfo.roleskills.{{../data.roleInfo.role}}.{{rs}}" value="{{roleskill}}" type="number">
-            {{/each}}
 
+        {{#each (getProp data.roleInfo.roleskills data.roleInfo.role) as |roleskill rs|}}
+        <div class="row item white-bg black-fg">
+            <div class="section name width-grow">
+                <span class="rollable ability-name" data-roll-type="roleAbility" data-roll-title="{{rs}}">{{localize
+                    (findConfigValue "roleAbilityList" rs)}}:</span>
+            </div>
+            <div class="section name width-grow">
+                <input name="data.roleInfo.roleskills.{{../data.roleInfo.role}}.{{rs}}" value="{{roleskill}}"
+                    type="number">
+            </div>
         </div>
-
+        {{/each}}
         <div>
             <h1>{{localize "CPR.other"}} {{localize "CPR.roleabilities"}}:</h1>
             {{#each (findConfigObj "roleList") as |name n|}}
