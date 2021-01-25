@@ -14,22 +14,22 @@ import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 
 export default class CPRRolls {
   // Generic roll handler for CPR
-  static CPRRoll(formula) {
+  static async CPRRoll(formula) {
     const roll = new Roll(formula).roll();
-    DiceSoNice.ShowDiceSoNice(roll);
+    await DiceSoNice.ShowDiceSoNice(roll);
     return {
       total: roll.total,
       faces: roll.terms[0].results.map((r) => r.result),
     };
   }
 
-  static BaseRoll(rollRequest) {
+  static async BaseRoll(rollRequest) {
     LOGGER.trace(`Calling baseRoll | Dice BaseRoll | Stat:${rollRequest.statValue} SkillLevel:${rollRequest.skillValue}, Mods:${rollRequest.mods}, CalculateCritical:${rollRequest.calculateCritical}`);
 
     // TODO- Verify use of mergeObject.
     const rollResult = new CPRRollResult();
     mergeObject(rollResult, rollRequest, { overwrite: true });
-    rollResult.initialRoll = this.CPRRoll("1d10").total;
+    rollResult.initialRoll = (await this.CPRRoll("1d10")).total;
 
     // With the above, below this line we ONLY need to use our Result!
     // Is this ideal? Or is this Heresy?
@@ -37,12 +37,12 @@ export default class CPRRolls {
       LOGGER.debug(`Checking Critical Chance | Dice BaseRoll | Initial Roll:${rollResult.initialRoll}`);
       if (rollResult.initialRoll === 1) {
         rollResult.wasCritical = true;
-        rollResult.criticalRoll = -1 * this.CPRRoll("1d10[fire]").total;
+        rollResult.criticalRoll = -1 * (await this.CPRRoll("1d10[fire]")).total;
         LOGGER.debug(`Critical Failure! | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
       }
       if (rollResult.initialRoll === 10) {
         rollResult.wasCritical = true;
-        rollResult.criticalRoll = this.CPRRoll("1d10[fire]").total;
+        rollResult.criticalRoll = (await this.CPRRoll("1d10[fire]")).total;
         LOGGER.debug(`Critical Success | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
       }
     }
@@ -67,18 +67,30 @@ export default class CPRRolls {
   }
 
   // TODO - Refactor Function
-  static DamageRoll(rollRequest) {
+  static async DamageRoll(rollRequest) {
     LOGGER.trace(`Calling DamageRoll | Dice DamageRoll | RollFormula:${rollRequest.formula} Location: ${rollRequest.location}`);
 
     const rollResult = new CPRRollResult();
     mergeObject(rollResult, rollRequest, { overwrite: true });
 
+    // If this is autofire, the damage formula is 2d6
+    if (rollResult.fireMode === "autofire") {
+      rollRequest.formula = "2d6";
+    }
+
     // create roll and show Dice So Nice!
-    const roll = this.CPRRoll(`${rollRequest.formula}[fire]`);
+    const roll = await this.CPRRoll(`${rollRequest.formula}[fire]`);
 
     // Push all results into diceResults
     rollResult.faces = roll.faces;
     rollResult.diceTotal = roll.total;
+
+    // If this was autofire, add multiplier to the roll, otherwise just add the roll.
+    if (rollResult.fireMode === "autofire") {
+      rollResult.damageTotal = rollResult.diceTotal * rollResult.autofireMultiplier;
+    } else {
+      rollResult.damageTotal = rollResult.diceTotal;
+    }
 
     // If we have 2 or more sixes on a damage roll, was critical is true.
     rollResult.wasCritical = rollResult.faces.filter((x) => x === 6).length >= 2;
@@ -87,7 +99,7 @@ export default class CPRRolls {
     }
 
     // Calculate total damage from attack.
-    rollResult.damageTotal = rollResult.diceTotal + rollResult.bonusDamage;
+    rollResult.damageTotal += rollResult.bonusDamage;
 
     // Calculate sum of all misc damage mods!
     if (rollResult.mods.length !== 0) {
