@@ -6,11 +6,15 @@
             <span class="section data width-grow">{{localize "CPR.data"}}</span>
             <span class="section action width-quarter right-text">{{localize "CPR.actions"}}</span>
       </div>
+      {{#if (eq (getProp (getProp ../actor.filteredItems c) 'length') 0)}}
+        <div class="row">You got no {{c}}{{#contains c "weapon,vehicle"}}s{{/contains}}, choomba!</div>
+      {{else}}
       {{#each ../actor.items as |item i|}}
       {{#if (compare item.type "===" c)}}
             {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c)}}
       {{/if}}
       {{/each}}
+      {{/if}}
       {{/each}}
 </div>
 {{log "END CPR-INVENTORY.HBS"}}
