@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 /* global Handlebars, getProperty */
 import LOGGER from "../utils/cpr-logger.js";
 import CPR from "./config.js";
@@ -50,10 +51,16 @@ export default function registerHandlebarsHelpers() {
   });
 
   // TODO - Refactor / Revist
-  Handlebars.registerHelper("contains", (arg1, arg2, options) => {
+  Handlebars.registerHelper("listContains", (list, val) => {
     // LOGGER.trace(`Calling contains Helper | Arg1:${arg1} Arg2:${arg2}`);
-    const array = arg2.split(",");
-    return array.includes(arg1) ? options.fn(this) : options.inverse(this);
+    let array = list;
+    if (array) {
+      if (typeof array === "string") {
+        array = array.split(",");
+      }
+      return array.includes(val);
+    }
+    return false;
   });
 
   // TODO - Rename?

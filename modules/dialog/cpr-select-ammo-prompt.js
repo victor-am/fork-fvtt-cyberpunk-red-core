@@ -1,6 +1,11 @@
-/* global Dialog, renderTemplate */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+/* eslint-disable no-shadow */
+/* eslint-disable class-methods-use-this */
+/* global renderTemplate, FormDataExtended, Dialog */
 import LOGGER from "../utils/cpr-logger.js";
 
+// TODO - Adopt new prompt pattern
 const SelectAmmoPrompt = async (dialogData) => {
   LOGGER.trace("_loadWeapon | Dialog SelectAmmoForWeapon | called.");
   return new Promise((resolve) => {

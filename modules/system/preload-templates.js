@@ -10,6 +10,7 @@ export default function preloadHandlebarsTemplates() {
 
     // Dialog Partials
     "systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-confirmation-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-select-ammo-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-verify-base-roll-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-verify-damage-roll-prompt.hbs",

@@ -63,6 +63,8 @@ export default class CPRItemSheet extends ItemSheet {
     });
 
     html.find(".item-checkbox").click((event) => this._itemCheckboxToggle(event));
+
+    html.find(".item-multi-option").click((event) => this._itemMultiOption(event));
   }
 
   /*
@@ -70,11 +72,29 @@ export default class CPRItemSheet extends ItemSheet {
 */
 
   _itemCheckboxToggle(event) {
-    LOGGER.trace("_itemCheckboxToggle Called | .checkbox click | Called.");
+    LOGGER.trace("CPRItemID _itemCheckboxToggle Called | CPRItemSheet | Called.");
     const itemData = duplicate(this.item.data);
     const target = $(event.currentTarget).attr("data-target");
     if (hasProperty(itemData, target)) {
       setProperty(itemData, target, !getProperty(itemData, target));
+      this.item.update(itemData);
+    }
+  }
+
+  async _itemMultiOption(event) {
+    LOGGER.trace("CPRItemID _itemMultiOption Called | CPRItemSheet | Called.");
+    const itemData = duplicate(this.item.data);
+    // the target the option wants to be put into
+    const target = $(event.currentTarget).parents(".item-multi-select").attr("data-target");
+    const value = $(event.currentTarget).attr("data-value");
+    if (hasProperty(itemData, target)) {
+      const prop = getProperty(itemData, target);
+      if (prop.includes(value)) {
+        prop.splice(prop.indexOf(value), 1);
+      } else {
+        prop.push(value);
+      }
+      setProperty(itemData, target, prop);
       this.item.update(itemData);
     }
   }
