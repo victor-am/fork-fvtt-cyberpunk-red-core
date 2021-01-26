@@ -25,7 +25,6 @@ export default function preloadHandlebarsTemplates() {
 
     // Character Sheet Partials
     // Blocks - Main Sheet
-    
     "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-humanity-block.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-role-block.hbs",
     // Tabs
