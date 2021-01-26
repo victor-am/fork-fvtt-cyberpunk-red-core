@@ -110,6 +110,7 @@
 }
 .sheet-content.character .combat-container .weapons {
   grid-area: weapons;
+  overflow: scroll;
 }
 .sheet-content.character .combat-container .combat-skills {
   grid-area: skills;
