@@ -4,9 +4,14 @@
   <div class="dynamic-list">
     {{#each actor.filteredItems.weapon as |weapon|}}
     {{#if (eq weapon.data.equippable.equipped "equipped")}}
+    {{log weapon}}
     <div class="item row" data-item-id={{weapon._id}}>
 
-      <div class="section width-third"><a class="item-edit">{{weapon.name}}</a></div>
+      <div class="section width-third"><a class="item-edit">{{weapon.name}}</a>
+        {{#if (ne weapon.data.quality "standard")}}
+        ({{localize weapon.data.quality}})
+        {{/if}}
+      </div>
 
       <div class="section width-fit width-no-grow center-text">
         <a class="rollable smallest-text" data-roll-type="attack" data-aimed="false" data-item-id={{weapon._id}}>
@@ -47,39 +52,41 @@
   <div class="bold black-bg white-fg center-text">{{localize "CPR.armor"}}</div>
   <div class="dynamic-list">
     {{#each actor.filteredItems.armor as |armor| }}
-     {{#if (eq armor.data.equippable.equipped "equipped")}}
-      <div class="item row" data-item-id={{armor._id}}>
-        <div class="section width-quarter hide-overflow"><a class="item-edit">{{armor.name}}</a></div>
-        <div class="section width-fit center-text hide-overflow">
-          {{#if armor.data.isHeadLocation}}
-            {{#if (gt armor.data.headLocation.ablation 0)}}
-              <span class="bold red-fg">
-            {{/if}}
-            {{localize "CPR.head"}} {{localize "CPR.currentsp"}}: {{math "subtract" armor.data.headLocation.sp armor.data.headLocation.ablation}}
-            <a class="ablate" data-location="head">
-              <i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i>
-            </a>
-            {{#if (gt armor.data.headLocation.ablation 0)}}
-              </span>
-            {{/if}}
+    {{#if (eq armor.data.equippable.equipped "equipped")}}
+    <div class="item row" data-item-id={{armor._id}}>
+      <div class="section width-quarter hide-overflow"><a class="item-edit">{{armor.name}}</a></div>
+      <div class="section width-fit center-text hide-overflow">
+        {{#if armor.data.isHeadLocation}}
+        {{#if (gt armor.data.headLocation.ablation 0)}}
+        <span class="bold red-fg">
           {{/if}}
-          {{#if armor.data.isBodyLocation}}
-            {{#if (gt armor.data.bodyLocation.ablation 0)}}
-              <span class="bold red-fg">
-            {{/if}}
-            {{localize "CPR.body"}} {{localize "CPR.currentsp"}}: {{math "subtract" armor.data.bodyLocation.sp armor.data.bodyLocation.ablation}}
-            <a class="ablate" data-location="body">
-              <i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i>
-            </a>
-            {{#if (gt armor.data.bodyLocation.ablation 0)}}
-              </span>
-            {{/if}}
+          {{localize "CPR.head"}} {{localize "CPR.currentsp"}}: {{math "subtract" armor.data.headLocation.sp
+          armor.data.headLocation.ablation}}
+          <a class="ablate" data-location="head">
+            <i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i>
+          </a>
+          {{#if (gt armor.data.headLocation.ablation 0)}}
+        </span>
+        {{/if}}
+        {{/if}}
+        {{#if armor.data.isBodyLocation}}
+        {{#if (gt armor.data.bodyLocation.ablation 0)}}
+        <span class="bold red-fg">
           {{/if}}
-          </div>
+          {{localize "CPR.body"}} {{localize "CPR.currentsp"}}: {{math "subtract" armor.data.bodyLocation.sp
+          armor.data.bodyLocation.ablation}}
+          <a class="ablate" data-location="body">
+            <i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i>
+          </a>
+          {{#if (gt armor.data.bodyLocation.ablation 0)}}
+        </span>
+        {{/if}}
+        {{/if}}
+      </div>
     </div>
     {{/if}}
-  {{/each}}
-</div>
+    {{/each}}
+  </div>
 </div>
 
 
