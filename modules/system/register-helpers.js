@@ -98,6 +98,11 @@ export default function registerHandlebarsHelpers() {
     switch (mathFunction) {
       case "sum":
         return mathArgs.reduce((a, b) => a + b, 0);
+      case "subtract": {
+        const minutend = mathArgs.shift();
+        const subtrahend = mathArgs.reduce((a, b) => a + b, 0);
+        return minutend - subtrahend;
+      }
       default:
         LOGGER.error(`!ERR: Not a Math function: ${mathFunction}`);
         return "null";
