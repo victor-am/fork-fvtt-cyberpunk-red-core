@@ -278,10 +278,16 @@
   overflow-x: hidden;
   text-overflow: ellipsis;
 }
+.dynamic-list .row .section.name {
+  flex: 0 0 150px;
+}
+.dynamic-list .row .section.action {
+  flex-shrink: 0;
+}
 .width- {
   display: flex;
   justify-content: space-around;
-  flex: 0;
+  flex: 1 0 auto;
 }
 .width-sixteenth {
   width: 6.25%;
@@ -302,7 +308,7 @@
   width: 50%;
 }
 .width-grow {
-  flex: 1 0 auto;
+  flex-grow: 1;
 }
 .width-no-grow {
   flex-grow: 0;
@@ -312,6 +318,9 @@
 }
 .width-no-shrink {
   flex-shrink: 0;
+}
+.width-auto-basis {
+  flex-basis: auto;
 }
 .width-fit {
   width: fit-content;
@@ -497,6 +506,9 @@
 }
 .right-text {
   text-align: right;
+}
+.left-text {
+  text-align: left;
 }
 .bold {
   font-weight: bold;

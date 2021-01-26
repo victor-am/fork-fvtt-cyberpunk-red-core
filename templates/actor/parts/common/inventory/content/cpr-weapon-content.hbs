@@ -1,9 +1,13 @@
 {{log "CPR-WEAPON-INV-CONTENT.HBS"}}
 <div class="row item white-bg black-fg" data-item-id={{this._id}}>
-    <div class="section name width-quarter hide-overflow">
+  
+    {{!-- NAME --}}
+    <div class="section name hide-overflow">
         <a class="name item-edit">{{this.name}}</a>        
     </div>
-    <div class="section data width-grow hide-overflow">
+    
+    {{!-- DATA --}}
+    <div class="section data hide-overflow left-text width-grow width-shrink" >
       {{localize (findConfigValue "weaponTypeList" this.data.weaponType)}}
       {{#if this.data.isRanged}}
       {{#if this.data.magazine.ammoId}}
@@ -11,9 +15,10 @@
       {{this.data.magazine.ammoId}} ({{this.data.magazine.value}}/{{this.data.magazine.max}})
       {{/if}}
       {{/if}}
-      
     </div>
-    <div class="section action right-text width-fit">
+
+    {{!-- ACTIONS --}}
+    <div class="section action right-text width-fit width-no-shrink">
 
         {{!-- LOAD ACTION --}}
         {{#if this.data.isRanged}}
