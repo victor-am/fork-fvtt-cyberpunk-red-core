@@ -5,10 +5,15 @@
     </div>
     <div class="section data width-grow hide-overflow">
         {{#if this.data.isHeadLocation}}
-        <span></span>{{localize "CPR.head"}} {{localize "CPR.sp"}}/{{localize "CPR.ablation"}}: {{this.data.headLocation.sp}}/{{this.data.headLocation.ablation}}</span>
+        <span></span>{{localize "CPR.head"}}: {{ablated this.data "head"}} {{localize "CPR.of"}} {{this.data.headLocation.sp}} {{localize "CPR.sp"}}</span>
+        {{/if}}
+        {{#if this.data.isHeadLocation}}
+            {{#if this.data.isBodyLocation}}
+            <span>| </span>
+            {{/if}}
         {{/if}}
         {{#if this.data.isBodyLocation}}
-        <span></span>{{localize "CPR.bodylocation"}} {{localize "CPR.sp"}}/{{localize "CPR.ablation"}}: {{this.data.bodyLocation.sp}}/{{this.data.bodyLocation.ablation}}</span>
+        <span></span>{{localize "CPR.bodylocation"}}: {{ablated this.data "body"}} {{localize "CPR.of"}} {{this.data.bodyLocation.sp}} {{localize "CPR.sp"}}</span>
         {{/if}}
         
     </div>

@@ -103,4 +103,15 @@ export default function registerHandlebarsHelpers() {
         return "null";
     }
   });
+
+  Handlebars.registerHelper("ablated", (armor, slot) => {
+    LOGGER.trace(`Calling ablated Helper | Arg1:${armor} Arg2:${slot}`);
+    if (slot === "body") {
+      return armor.bodyLocation.sp - armor.bodyLocation.ablation;
+    } else if (slot === "head") {
+      return armor.headLocation.sp - armor.headLocation.ablation;
+    }
+    LOGGER.error(`Received a bad slot: ${slot}`);
+    return -1; // return a clear bug but not a broken behavior
+  });
 }
