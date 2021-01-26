@@ -104,7 +104,7 @@ export default function registerHandlebarsHelpers() {
     }
   });
 
-  Handlebars.registerHelper("ablated", function (armor, slot) {
+  Handlebars.registerHelper("ablated", (armor, slot) => {
     LOGGER.trace(`Calling ablated Helper | Arg1:${armor} Arg2:${slot}`);
     if (slot === "body") {
       return armor.bodyLocation.sp - armor.bodyLocation.ablation;
