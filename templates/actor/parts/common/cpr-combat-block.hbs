@@ -6,7 +6,7 @@
     {{#if (eq weapon.data.equippable.equipped "equipped")}}
     <div class="item row" data-item-id={{weapon._id}}>
 
-      <div class="section width-third"><a class="item-edit">{{weapon.name}}</a></div>
+      <div class="section width-third hide-overflow ws-nowrap"><a class="item-edit">{{weapon.name}}</a></div>
 
       <div class="section width-fit width-no-grow center-text">
         <a class="rollable smallest-text" data-roll-type="attack" data-aimed="false" data-item-id={{weapon._id}}>
@@ -49,7 +49,7 @@
     {{#each actor.filteredItems.armor as |armor| }}
      {{#if (eq armor.data.equippable.equipped "equipped")}}
       <div class="item row" data-item-id={{armor._id}}>
-        <div class="section width-quarter hide-overflow"><a class="item-edit">{{armor.name}}</a></div>
+        <div class="section width-quarter hide-overflow ws-nowrap"><a class="item-edit">{{armor.name}}</a></div>
         <div class="section width-fit center-text hide-overflow">
           {{#if armor.data.isHeadLocation}}
             {{#if (gt armor.data.headLocation.ablation 0)}}

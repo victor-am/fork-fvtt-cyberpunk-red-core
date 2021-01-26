@@ -285,6 +285,9 @@
 .dynamic-list .row .section.action {
   flex-shrink: 0;
 }
+.ws-nowrap {
+  white-space: nowrap;
+}
 .width- {
   display: flex;
   justify-content: space-around;
