@@ -7,10 +7,10 @@
     </div>
     <div class="main-container">
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-handle-block.hbs"}}
-      {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-role-block.hbs"}}
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-role-block.hbs"}}
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-hitpoint-block.hbs"}}
-      {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-deathsave-block.hbs"}}
-      {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-humanity-block.hbs"}}
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-deathsave-block.hbs"}}
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-humanity-block.hbs"}}
     </div>
     <div class="stats-container">
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs"}}
@@ -27,26 +27,26 @@
     </div>
     <div class="content-container">
       <div class="tab skill-tab" data-group="primary" data-tab="skills">
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-skills.hbs"}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-skills.hbs"}}
       </div>
       <div class="tab role-tab" data-group="primary" data-tab="role">
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-role.hbs"}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-role.hbs"}}
       </div>
       <div class="inventory-tab tab" data-group="primary" data-tab="inventory">
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-inventory.hbs"}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-inventory.hbs"}}
       </div>
       <div class="cyberware-tab tab" data-group="primary" data-tab="cyberware">
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-cyberware.hbs"}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-cyberware.hbs"}}
       </div>
       <div class="information-tab tab" data-group="primary" data-tab="information">
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-information.hbs"}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-information.hbs"}}
       </div>
       <div class="debug-tab tab" data-group="primary" data-tab="debug">
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-item-debug.hbs"}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-item-debug.hbs"}}
       </div>
     </div>
     <div class="combat-container">
-      {{> "systems/cyberpunk-red-core/templates/actor/parts/cpr-combat.hbs"}}
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-combat-block.hbs"}}
     </div>
   </div>
 </form>
