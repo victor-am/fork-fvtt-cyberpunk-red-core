@@ -110,9 +110,8 @@ export default function registerHandlebarsHelpers() {
       return armor.bodyLocation.sp - armor.bodyLocation.ablation;
     } else if (slot === "head") {
       return armor.headLocation.sp - armor.headLocation.ablation;
-    } else {
-      LOGGER.error(`Received a bad slot: ${slot}`);
-      return -1; // return a clear bug but not a broken behavior
     }
+    LOGGER.error(`Received a bad slot: ${slot}`);
+    return -1; // return a clear bug but not a broken behavior
   });
 }
