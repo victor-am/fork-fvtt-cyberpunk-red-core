@@ -58,6 +58,9 @@ export default class CPRActorSheet extends ActorSheet {
     // Repair Armor
     html.find(".repair").click((event) => this._repairArmor(event));
 
+    // Ablate Armor
+    html.find(".ablate").click((event) => this._ablateArmor(event));
+
     // Install Cyberware
     html.find(".install").click((event) => this._installCyberwareAction(event));
 
@@ -265,6 +268,25 @@ export default class CPRActorSheet extends ActorSheet {
     // XXX: cannot use _getObjProp since we need to update 2 props
     this._updateOwnedItemProp(item, "data.headLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
+  }
+
+  _ablateArmor(event) {
+    LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
+    const item = this._getOwnedItem(this._getItemId(event));
+    const location = $(event.currentTarget).attr("data-location");
+    switch (location) {
+      case "head": {
+        const newAblation = item.getData().headLocation.ablation + 1;
+        this._updateOwnedItemProp(item, "data.headLocation.ablation", newAblation);
+        break;
+      }
+      case "body": {
+        const newAblation = item.getData().bodyLocation.ablation + 1;
+        this._updateOwnedItemProp(item, "data.bodyLocation.ablation", newAblation);
+        break;
+      }
+      default:
+    }
   }
 
   _cycleEquipState(event) {
