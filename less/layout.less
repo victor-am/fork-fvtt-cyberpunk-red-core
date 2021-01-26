@@ -330,6 +330,12 @@
         overflow-x   : hidden;
         text-overflow: ellipsis;
       }
+      &.name {
+        flex: 0 0 150px;
+      }
+      &.action {
+        flex-shrink: 0;
+      }
     }
   }
 }
@@ -337,7 +343,7 @@
 .width- {
   display        : flex;
   justify-content: space-around;
-  flex           : 0;
+  flex           : 1 0 auto;
 
   &sixteenth {
     width: 6.25%;
@@ -364,7 +370,7 @@
   }
 
   &grow {
-    flex: 1 0 auto;
+    flex-grow: 1;
   }
 
   &no-grow {
@@ -377,6 +383,10 @@
 
   &no-shrink {
     flex-shrink: 0;
+  }
+
+  &auto-basis {
+    flex-basis: auto;
   }
 
   &fit {
