@@ -34,6 +34,22 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("getProp", (object, property) => getProperty(object, property));
 
+  Handlebars.registerHelper("mergeForPartialArg", (...args) => {
+    let partialArgs = [...args];
+    const partialKeys = ((partialArgs[0]).replace(/\s/g, '')).split(",");
+    partialArgs.shift();
+    let mergedObject = {};
+    let arrayNDX = 0;
+    partialKeys.forEach((objectName) => {
+      mergedObject[objectName] = partialArgs[arrayNDX];
+      arrayNDX++;
+    });
+    //partialKeys = (partialKeys.replace(/\s/g, '')).split(",");
+    console.log("HB");
+    console.log(mergedObject);
+    return mergedObject;
+  });
+
   Handlebars.registerHelper("findConfigValue", (obj, key) => {
     LOGGER.trace(`Calling findConfigValue Helper | Arg1:${obj} Arg2:${key}`);
     if (obj in CPR) {

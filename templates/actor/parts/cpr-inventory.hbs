@@ -1,4 +1,5 @@
 {{log "CPR-INVENTORY.HBS"}}
+
 <div class="dynamic-list inventory">
       {{#each (findConfigObj "inventoryCategories") as |category c|}}
       <div class="row header black-bg white-fg bold inventory">
@@ -12,7 +13,11 @@
       {{else}}
       {{#each ../actor.items as |item i|}}
       {{#if (compare item.type "===" c)}}
-            {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c)}}
+      {{log "4"}}
+      {{log this}}
+      {{log ../this}}
+      {{log ../../this}}
+            {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c) (mergeForPartialArg "item,actor" this ../../this.actor)}}
       {{/if}}
       {{/each}}
       {{/if}}
