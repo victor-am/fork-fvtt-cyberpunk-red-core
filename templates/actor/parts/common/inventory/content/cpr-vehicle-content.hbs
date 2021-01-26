@@ -1,14 +1,14 @@
 {{log "CPR-WEAPON-INV-CONTENT.HBS"}}
-<div class="row item white-bg black-fg" data-item-id={{this._id}}>
+<div class="row item white-bg black-fg" data-item-id={{item._id}}>
     <div class="section name width-quarter hide-overflow">
-        <a class="name item-edit">{{this.name}}</a>
+        <a class="name item-edit">{{item.name}}</a>
     </div>
     <div class="section data width-grow hide-overflow">
-        {{localize "CPR.seats"}}: {{data.seats}}
+        {{localize "CPR.seats"}}: {{item.data.seats}}
         |
-        {{localize "CPR.speed"}}: {{data.spd}}
+        {{localize "CPR.speed"}}: {{item.data.spd}}
         |
-        {{localize "CPR.combatspeed"}}: {{data.speedCombat}}
+        {{localize "CPR.combatspeed"}}: {{item.data.speedCombat}}
     </span>
     </div>
     <div class="section action right-text width-fit">
