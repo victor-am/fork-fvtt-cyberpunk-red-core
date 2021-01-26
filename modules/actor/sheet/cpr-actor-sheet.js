@@ -83,7 +83,7 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".expand-button").click((event) => {
       if (event.currentTarget.childElementCount > 0) {
-        for (let i = 0; i < event.currentTarget.childNodes.length; i++) {
+        for (let i = 0; i < event.currentTarget.childNodes.length; i += 1) {
           if ($(event.currentTarget.childNodes[i]).hasClass("item")) {
             if ($(event.currentTarget.childNodes[i]).hasClass("hide")) {
               $(event.currentTarget.childNodes[i]).removeClass("hide");
