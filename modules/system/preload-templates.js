@@ -20,19 +20,21 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-image-block.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-hitpoint-block.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-handle-block.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-combat-block.hbs",
 
     // Character Sheet Partials
-    "systems/cyberpunk-red-core/templates/actor/parts/cpr-skills.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/cpr-item-debug.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/cpr-role.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/cpr-combat.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/cpr-inventory.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/cpr-cyberware.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/cpr-information.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/cpr-deathsave-block.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/cpr-humanity-block.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/cpr-role-block.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/cpr-ability-block.hbs",
+    // Blocks - Main Sheet
+    "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-deathsave-block.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-humanity-block.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-role-block.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-ability-block.hbs",
+    // Tabs
+    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-skills.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-item-debug.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-role.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-inventory.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-cyberware.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-information.hbs",
 
     // Inventory Item Display Partials
     "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-weapon-content.hbs",

@@ -1,4 +1,4 @@
-{{log "CPR-STATS-BLOCK.HBS"}}
+{{log "CPR-STAT-BLOCK.HBS"}}
 {{!-- Partials to create stat-units from template --}}
 {{#each data.stats as |stat s|}}
   <div class="cpr-block stat {{#if this.max}}bar-thin{{/if}}">
@@ -17,4 +17,4 @@
     </div>
   </div>
 {{/each}}
-{{log "END CPR-STATS-BLOCK.HBS"}}
+{{log "END CPR-STAT-BLOCK.HBS"}}
