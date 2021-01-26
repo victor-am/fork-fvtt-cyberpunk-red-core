@@ -1,11 +1,11 @@
 {{log "CPR-CYBERWARE-INV-CONTENT.HBS"}}
-<div class="row item white-bg black-fg" data-item-id={{this._id}}>
+<div class="row item white-bg black-fg" data-item-id={{item._id}}>
     <div class="section name width-quarter hide-overflow">
-        <a class="name item-edit">{{this.name}}</a>
+        <a class="name item-edit">{{item.name}}</a>
     </div>
     <div class="section data width-grow hide-overflow">
-        {{localize (findConfigValue "cyberwareTypeList" data.type)}}
-        {{#if data.isFoundational}}
+        {{localize (findConfigValue "cyberwareTypeList" item.data.type)}}
+        {{#if item.data.isFoundational}}
         ({{localize "CPR.foundational"}})
         {{/if}}
     </div>

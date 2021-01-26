@@ -13,10 +13,6 @@
       {{else}}
       {{#each ../actor.items as |item i|}}
       {{#if (compare item.type "===" c)}}
-      {{log "4"}}
-      {{log this}}
-      {{log ../this}}
-      {{log ../../this}}
             {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c) (mergeForPartialArg "item,actor" this ../../this.actor)}}
       {{/if}}
       {{/each}}

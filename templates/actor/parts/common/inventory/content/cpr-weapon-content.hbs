@@ -1,8 +1,5 @@
 {{log "CPR-WEAPON-INV-CONTENT.HBS"}}
 <div class="row item white-bg black-fg" data-item-id={{item._id}}>
-  {{log this}}
-  {{log actor}}
-  {{log item}}
     {{!-- NAME --}}
     <div class="section name hide-overflow">
         <a class="name item-edit">{{item.name}}</a>        
@@ -15,7 +12,7 @@
       {{#if item.data.isRanged}}
       {{#if item.data.magazine.ammoId}}
       |
-      {{item.data.magazine.ammoId}} ({{item.data.magazine.value}}/{{item.data.magazine.max}})
+      {{getProp (getOwnedItem actor item.data.magazine.ammoId) "name"}} ({{item.data.magazine.value}}/{{item.data.magazine.max}})
       {{/if}}
       {{/if}}
     </div>
