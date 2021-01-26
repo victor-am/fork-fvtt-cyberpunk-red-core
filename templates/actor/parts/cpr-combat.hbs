@@ -55,21 +55,27 @@
             {{#if (gt armor.data.headLocation.ablation 0)}}
               <span class="bold red-fg">
             {{/if}}
-            {{localize "CPR.currentsp"}}: {{math "subtract" armor.data.headLocation.sp armor.data.headLocation.ablation}}
+            {{localize "CPR.head"}} {{localize "CPR.currentsp"}}: {{math "subtract" armor.data.headLocation.sp armor.data.headLocation.ablation}}
+            <a class="ablate" data-location="head">
+              <i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i>
+            </a>
             {{#if (gt armor.data.headLocation.ablation 0)}}
               </span>
             {{/if}}
-          {{else}}
+          {{/if}}
+          {{#if armor.data.isBodyLocation}}
             {{#if (gt armor.data.bodyLocation.ablation 0)}}
               <span class="bold red-fg">
             {{/if}}
-            {{localize "CPR.currentsp"}}: {{math "subtract" armor.data.bodyLocation.sp armor.data.bodyLocation.ablation}}
+            {{localize "CPR.body"}} {{localize "CPR.currentsp"}}: {{math "subtract" armor.data.bodyLocation.sp armor.data.bodyLocation.ablation}}
+            <a class="ablate" data-location="body">
+              <i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i>
+            </a>
             {{#if (gt armor.data.bodyLocation.ablation 0)}}
               </span>
             {{/if}}
           {{/if}}
           </div>
-      <i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i>
     </div>
     {{/if}}
   {{/each}}
