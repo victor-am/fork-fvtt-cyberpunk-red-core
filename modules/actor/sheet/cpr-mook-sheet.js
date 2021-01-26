@@ -12,7 +12,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     LOGGER.trace("defaultOptions | CPRMookActorSheet | Called.");
     return mergeObject(super.defaultOptions, {
       template: "systems/cyberpunk-red-core/templates/actor/cpr-mook-sheet.hbs",
-      tabs: [{ navSelector: ".tabs", ontentSelector: ".content", initial: "skills" }],
+      tabs: [{ navSelector: ".tabs", ontentSelector: ".content-container", initial: "skills" }],
     });
   }
 
