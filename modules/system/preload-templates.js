@@ -21,13 +21,13 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-hitpoint-block.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-handle-block.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-combat-block.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-deathsave-block.hbs",
 
     // Character Sheet Partials
     // Blocks - Main Sheet
-    "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-deathsave-block.hbs",
+    
     "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-humanity-block.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-role-block.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-ability-block.hbs",
     // Tabs
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-skills.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-item-debug.hbs",
