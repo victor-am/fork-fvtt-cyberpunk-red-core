@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* global Item */
 import LOGGER from "../utils/cpr-logger.js";
 import SelectAmmoPrompt from "../dialog/cpr-select-ammo-prompt.js";
@@ -196,7 +197,7 @@ export default class CPRItem extends Item {
 
         const ammo = this.actor.items.find((i) => i.data._id === selectedAmmoId);
 
-        if (ammo.getData().amount == 0) {
+        if (ammo.getData().amount === 0) {
           CPRSystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.reloadoutofammo")));
           return;
         }

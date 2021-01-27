@@ -286,7 +286,7 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
       case "body": {
-        const newAblation = Math.min((item.getData().bodyLocation.ablation + 1),item.getData().bodyLocation.sp);
+        const newAblation = Math.min((item.getData().bodyLocation.ablation + 1), item.getData().bodyLocation.sp);
         this._updateOwnedItemProp(item, "data.bodyLocation.ablation", newAblation);
         break;
       }
