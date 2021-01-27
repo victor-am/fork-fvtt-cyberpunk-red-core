@@ -1,6 +1,7 @@
 /* global Item */
 import LOGGER from "../utils/cpr-logger.js";
 import SelectAmmoPrompt from "../dialog/cpr-select-ammo-prompt.js";
+import CPRSystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -172,6 +173,11 @@ export default class CPRItem extends Item {
           ammoList: validAmmo,
           selectedAmmo: "",
         };
+
+        if (validAmmo.length === 0) {
+          CPRSystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.novalidammo")));
+          return;
+        }
 
         dialogData = await SelectAmmoPrompt(dialogData);
 

@@ -506,6 +506,7 @@
     "CPR.notes": "Notes",
     "CPR.notinstalled": "Not installed",
     "CPR.notwounded": "Not Wounded",
+    "CPR.novalidammo": "You have no ammo for that weapon, Choombah!",
     "CPR.observationcamera": "Observation Camera",
     "CPR.of": "of",
     "CPR.olfactoryboost": "Olfactory Boost",
