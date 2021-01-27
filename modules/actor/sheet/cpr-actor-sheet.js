@@ -281,12 +281,12 @@ export default class CPRActorSheet extends ActorSheet {
     const location = $(event.currentTarget).attr("data-location");
     switch (location) {
       case "head": {
-        const newAblation = item.getData().headLocation.ablation + 1;
+        const newAblation = Math.min((item.getData().headLocation.ablation + 1), item.getData().headLocation.sp);
         this._updateOwnedItemProp(item, "data.headLocation.ablation", newAblation);
         break;
       }
       case "body": {
-        const newAblation = item.getData().bodyLocation.ablation + 1;
+        const newAblation = Math.min((item.getData().bodyLocation.ablation + 1), item.getData().bodyLocation.sp);
         this._updateOwnedItemProp(item, "data.bodyLocation.ablation", newAblation);
         break;
       }

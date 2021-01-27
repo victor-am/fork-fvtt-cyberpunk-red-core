@@ -1,6 +1,8 @@
+/* eslint-disable no-undef */
 /* global Item */
 import LOGGER from "../utils/cpr-logger.js";
 import SelectAmmoPrompt from "../dialog/cpr-select-ammo-prompt.js";
+import CPRSystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -173,6 +175,11 @@ export default class CPRItem extends Item {
           selectedAmmo: "",
         };
 
+        if (validAmmo.length === 0) {
+          CPRSystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.novalidammo")));
+          return;
+        }
+
         dialogData = await SelectAmmoPrompt(dialogData);
 
         if (dialogData.selectedAmmo === "abort") {
@@ -189,6 +196,11 @@ export default class CPRItem extends Item {
         // loadUpdate.push({ _id: this.data._id, "data.magazine.ammoId": selectedAmmoId });
 
         const ammo = this.actor.items.find((i) => i.data._id === selectedAmmoId);
+
+        if (ammo.getData().amount === 0) {
+          CPRSystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.reloadoutofammo")));
+          return;
+        }
 
         // By the time we reach here, we know the weapon and ammo we are loading
         // Let's find out how much space is in the gun.
