@@ -1,22 +1,28 @@
 {{log "CPR-INVENTORY.HBS"}}
-
 <div class="dynamic-list inventory">
       {{#each (findConfigObj "inventoryCategories") as |category c|}}
-      <div class="row header black-bg white-fg bold inventory">
-            <span class="section name width-quarter" style="flex: 0 0 150px">{{localize category}}</span>
-            <span class="section data width-grow">{{localize "CPR.data"}}</span>
-            <span class="section action width-quarter right-text">{{localize "CPR.actions"}}</span>
-      </div>
-      {{!-- Revist...? --}}
-      {{#if (eq (getProp (getProp ../actor.filteredItems c) 'length') 0)}}
-        <div class="row">You got no {{c}}{{#if (listContains "weapon,vehicle" c)}}s{{/if}}, choomba!</div>
-      {{else}}
-      {{#each (sort ../actor.items "name") as |item i|}}
-      {{#if (compare item.type "===" c)}}
-            {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c) (mergeForPartialArg "item,actor" this ../../this.actor)}}
-      {{/if}}
-      {{/each}}
-      {{/if}}
+            <div class="row header black-bg white-fg bold inventory">
+                  <span class="section name width-quarter" style="flex: 0 0 150px">{{localize category}}</span>
+                  <span class="section data width-grow">{{localize "CPR.data"}}</span>
+                  <span class="section action width-quarter right-text">{{localize "CPR.actions"}}</span>
+            </div>
+            {{!-- Revist...? --}}
+            {{#if (eq (getProp (getProp ../actor.filteredItems c) 'length') 0)}}
+                  <div class="row">You got no {{c}}{{#if (listContains "weapon,vehicle" c)}}s{{/if}}, choomba!</div>
+            {{else}}
+                  {{#each (sort ../actor.items "name") as |item i|}}
+                        {{#if (compare item.type "===" c)}}
+                              <div class="row item white-bg black-fg" data-item-id={{item._id}}>
+                                    {{!-- Partial handles Name and Data columns --}}
+                                    {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c) (mergeForPartialArg "item,actor" this ../../this.actor)}}
+                                    {{!- Actions columns --}}
+                                    <div class="section action right-text width-fit width-no-shrink">
+                                          {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-actions.hbs" (mergeForPartialArg "item,actor" this ../../this.actor)}}
+                                    </div>
+                              </div>
+                        {{/if}}
+                  {{/each}}
+            {{/if}}
       {{/each}}
 </div>
 {{log "END CPR-INVENTORY.HBS"}}

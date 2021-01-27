@@ -1,16 +1,11 @@
 {{log "CPR-AMMO-INV-CONTENT.HBS"}}
-<div class="row flex-end inventory item white-bg black-fg" data-item-id={{item._id}}>
-    <div class="section name width-quarter hide-overflow">
-        <span class="name item-edit">{{item.name}}</span>
-        {{#if (gt item.data.amount 0 )}}&nbsp;&nbsp;x{{item.data.amount}}{{/if}}
-    </div>
-    <div class="section data width-grow hide-overflow">
-        {{localize (findConfigValue "ammoVariety" item.data.variety)}}
-        | 
-        {{localize (findConfigValue "ammoType" item.data.type)}}
-    </div>
-    <div class="section action right-text width-fit">
-        <a class="item-delete"><i class="fas fa-trash-alt red-fg" title="Delete Item"></i></a>
-    </div>
+<div class="section name width-quarter hide-overflow">
+    <span class="name item-edit">{{item.name}}</span>
+    {{#if (gt item.data.amount 0 )}}&nbsp;&nbsp;x{{item.data.amount}}{{/if}}
+</div>
+<div class="section data width-grow hide-overflow">
+    {{localize (findConfigValue "ammoVariety" item.data.variety)}}
+    | 
+    {{localize (findConfigValue "ammoType" item.data.type)}}
 </div>
 {{log "END CPR-AMMO-INV-CONTENT.HBS"}}

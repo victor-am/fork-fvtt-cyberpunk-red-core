@@ -73,9 +73,6 @@ export default class CPRActorSheet extends ActorSheet {
     // Render Item Card
     html.find(".item-edit").click((event) => this._renderItemCard(event));
 
-    // Delete item
-    html.find(".item-delete").click((event) => this._deleteOwnedItem(event));
-
     // Add New Skill Item To Sheet
     html.find(".add-skill").click((event) => this._addSkill(event));
 
@@ -380,11 +377,20 @@ export default class CPRActorSheet extends ActorSheet {
 
   _itemAction(event) {
     LOGGER.trace("ActorID _itemAction | CPRActorSheet | Called.");
-    const itemId = $(event.currentTarget).attr("data-item-id");
-    const item = this._getOwnedItem(itemId);
-    if (item) {
-      item.doAction(this.actor, event.currentTarget.attributes);
-      this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+    console.log(event);
+    const itemId = this._getOwnedItem(this._getItemId(event));
+    const actionType = $(event.currentTarget).attr("data-action-type");
+    if (itemId) {
+      switch (actionType) {
+        case "delete": {
+          this._deleteOwnedItem(itemId);
+          break;
+        }
+        default: {
+          item.doAction(this.actor, event.currentTarget.attributes);
+          this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+        }
+      }
     }
   }
 
@@ -509,9 +515,8 @@ export default class CPRActorSheet extends ActorSheet {
     return $(event.currentTarget).attr("data-item-prop");
   }
 
-  async _deleteOwnedItem(event) {
+  async _deleteOwnedItem(itemId) {
     LOGGER.trace("ActorID _deleteOwnedItem | CPRActorSheet | Called.");
-    const itemId = this._getItemId(event);
     const item = this._getOwnedItem(itemId);
     // TODO - Need to get setting from const game system setting
     const setting = true;
