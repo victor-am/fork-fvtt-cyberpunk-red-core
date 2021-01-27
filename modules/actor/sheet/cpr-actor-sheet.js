@@ -375,21 +375,33 @@ export default class CPRActorSheet extends ActorSheet {
     return installedFoundationalCyberware;
   }
 
+  // As a first step to re-organizing the methods to the appropriate
+  // objects (Actor/Item), let's filter calls to manipulate items
+  // through here.  Things such as:
+  // Weapon: Load, Unload
+  // Armor: Ablate, Repair
   _itemAction(event) {
     LOGGER.trace("ActorID _itemAction | CPRActorSheet | Called.");
     console.log(event);
-    const itemId = this._getOwnedItem(this._getItemId(event));
+    const item = this._getOwnedItem(this._getItemId(event));
     const actionType = $(event.currentTarget).attr("data-action-type");
-    if (itemId) {
+    if (item) {
       switch (actionType) {
         case "delete": {
-          this._deleteOwnedItem(itemId);
+          this._deleteOwnedItem(item);
           break;
         }
+        // TODO
+        case "ablate-armor": {
+          item.ablateArmor();  
+          break:
+        }
+        
         default: {
           item.doAction(this.actor, event.currentTarget.attributes);
           this.actor.updateEmbeddedEntity("OwnedItem", item.data);
         }
+      this.actor.updateEmbeddedEntity("OwnedItem", item.data);
       }
     }
   }
