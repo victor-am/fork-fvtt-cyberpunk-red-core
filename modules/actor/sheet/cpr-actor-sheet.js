@@ -515,19 +515,20 @@ export default class CPRActorSheet extends ActorSheet {
     return $(event.currentTarget).attr("data-item-prop");
   }
 
-  async _deleteOwnedItem(itemId) {
+  async _deleteOwnedItem(item) {
     LOGGER.trace("ActorID _deleteOwnedItem | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(itemId);
     // TODO - Need to get setting from const game system setting
     const setting = true;
     // If setting is true, prompt before delete, else delete.
     if (setting) {
-      const confirmDelete = await ConfirmPrompt.RenderPrompt();
+      const title = game.i18n.localize("CPR.deletedialogtitle");
+      const msg = game.i18n.localize("CPR.deletedialogtitle") + " " + item.data.name + "?";
+      const confirmDelete = await ConfirmPrompt.RenderPrompt(title, msg);
       if (confirmDelete) {
-        this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
+        this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
       }
     } else {
-      this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
+      this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
     }
   }
 
