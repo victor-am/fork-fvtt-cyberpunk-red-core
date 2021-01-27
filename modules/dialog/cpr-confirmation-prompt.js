@@ -24,7 +24,7 @@ export default class DeleteConfirmationPrompt {
           resolve(true);
         };
         new Dialog({
-          title: title,
+          title,
           content: html,
           buttons: {
             cancel: {

@@ -393,16 +393,14 @@ export default class CPRActorSheet extends ActorSheet {
         }
         // TODO
         case "ablate-armor": {
-          item.ablateArmor();  
-          break:
+          item.ablateArmor();
+          break;
         }
-        
         default: {
           item.doAction(this.actor, event.currentTarget.attributes);
-          this.actor.updateEmbeddedEntity("OwnedItem", item.data);
         }
-      this.actor.updateEmbeddedEntity("OwnedItem", item.data);
       }
+      this.actor.updateEmbeddedEntity("OwnedItem", item.data);
     }
   }
 
@@ -534,7 +532,7 @@ export default class CPRActorSheet extends ActorSheet {
     // If setting is true, prompt before delete, else delete.
     if (setting) {
       const title = game.i18n.localize("CPR.deletedialogtitle");
-      const msg = game.i18n.localize("CPR.deletedialogtitle") + " " + item.data.name + "?";
+      const msg = `${game.i18n.localize("CPR.deletedialogtitle")} ${item.data.name}?`;
       const confirmDelete = await ConfirmPrompt.RenderPrompt(title, msg);
       if (confirmDelete) {
         this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
