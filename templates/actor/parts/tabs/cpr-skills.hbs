@@ -5,8 +5,8 @@
   {{#each (findConfigObj "skillCategories") as |category c|}}
 
 
-  <div class="expand-button" data-skill-category-name={{c}}>
-    <div class="row flex-end skills header white-fg black-bg bold">
+  <div class="collapsible" data-skill-category-name={{c}}>
+    <div class="row flex-end skills header white-fg black-bg bold expand-button">
       <span class="section width-grow skill-name">{{localize (findConfigValue "skillCategories" c)}}</span>
       <span class="section width-eighth no-grow center-text">{{localize "CPR.level"}}</span>
       <span class="section width-eighth no-grow center-text">{{localize "CPR.base"}}</span>
