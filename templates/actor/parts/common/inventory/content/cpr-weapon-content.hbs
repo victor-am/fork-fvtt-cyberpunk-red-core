@@ -9,6 +9,9 @@
     
     <div class="section data hide-overflow left-text width-grow width-shrink" >
       {{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}
+        {{#if (ne item.data.quality "standard")}}
+        ({{localize item.data.quality}})
+        {{/if}}
       {{#if item.data.isRanged}}
       {{#if item.data.magazine.ammoId}}
       |
