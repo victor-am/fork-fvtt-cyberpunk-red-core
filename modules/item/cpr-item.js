@@ -196,6 +196,11 @@ export default class CPRItem extends Item {
 
         const ammo = this.actor.items.find((i) => i.data._id === selectedAmmoId);
 
+        if (ammo.getData().amount == 0) {
+          CPRSystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.reloadoutofammo")));
+          return;
+        }
+
         // By the time we reach here, we know the weapon and ammo we are loading
         // Let's find out how much space is in the gun.
 

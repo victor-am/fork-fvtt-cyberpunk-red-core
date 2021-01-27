@@ -579,6 +579,7 @@
     "CPR.recoveryzonemarshal": "Recovery Zone Marshal",
     "CPR.ref": "REF",
     "CPR.reload": "Reload",
+    "CPR.reloadoutofammo": "Sorry, Choombah, you can't do that, you're out of ammo!",
     "CPR.rent": "Rent",
     "CPR.repair": "Repair",
     "CPR.reputation": "Reputation",
