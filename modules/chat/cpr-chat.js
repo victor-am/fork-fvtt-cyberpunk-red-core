@@ -57,22 +57,7 @@ export default class CPRChat {
       template,
       data,
     ).then((html) => {
-      let chatOptions = this.ChatDataSetup(html);
-
-      // These are things Warhammer had in their call that we didn't have
-      // Looked at wfrp4e/modules/system/dice-wfrp4e.js 702:784, 760 is the call
-      chatOptions.speaker = ChatMessage.getSpeaker();
-      chatOptions["flags"] = { img: "systems/cyberpunk-red-core/icons/black_d10_1.png" };
-      chatOptions["flags.data"] = {
-        postData: data,
-        template: template,
-        rollMode: chatOptions.rollMode,
-        title: "Some Roll Shit",
-        hideData: game.user.isGM,
-      };
-      chatOptions["template"] = template;
-      chatOptions["title"] = "A title";
-
+      const chatOptions = this.ChatDataSetup(html);
       return ChatMessage.create(chatOptions, false);
     });
   }
