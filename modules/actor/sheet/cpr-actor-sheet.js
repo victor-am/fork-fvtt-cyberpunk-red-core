@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable class-methods-use-this */
 /* global ActorSheet */
 /* global mergeObject, $, setProperty, game */
@@ -36,6 +38,7 @@ export default class CPRActorSheet extends ActorSheet {
     // DO NOT add new data points into getData to shorten dataPaths
     LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
     const data = super.getData();
+    data.filteredItems = this.actor.filteredItems;
     data.installedCyberware = this._getInstalledCyberware();
     return data;
   }
@@ -336,46 +339,57 @@ export default class CPRActorSheet extends ActorSheet {
   _addFoundationalCyberware(item, formData) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
     item.getData().isInstalled = true;
-    LOGGER.trace(
-      "ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.",
-    );
+    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
     this._updateOwnedItem(item);
   }
 
-  _removeCyberware(item, formData) { }
+  _removeCyberware(item, formData) { 
+
+   }
 
   async _installCyberwareAction(event) {
     LOGGER.trace("ActorID _installCyberware | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
-    const installedFoundationalCyberware = this.actor.getInstalledFoundationalCyberware(item.getData().type);
-    const formData = await InstallCyberwarePrompt({ item: item.data, cyberware: installedFoundationalCyberware });
-    if (installedFoundationalCyberware.length > 1 && !item.getData().isFoundational) {
-      this._addOptionalCyberware(item, formData);
+    const compatibaleFoundationalCyberware = this.actor.getInstalledFoundationalCyberware(item.getData().type);
+    if (compatibaleFoundationalCyberware.length < 1 && !item.getData().isFoundational) {
+      Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
     } else if (item.getData().isFoundational) {
+      const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data });
       this._addFoundationalCyberware(item, formData);
     } else {
-      Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
+      const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data, foundationalCyberware: compatibaleFoundationalCyberware });
+      this._addOptionalCyberware(item, formData);
     }
-    // id of the selected foundational && HL type selection
   }
 
   _uninstallCyberware(event) {
     LOGGER.trace("ActorID _uninstallCyberware | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
+    LOGGER.trace("ActorID _uninstallCyberware | CPRActorSheet | Removing cyberware.");
+    item.getData().isInstalled = false;
+    this._updateOwnedItem(item);
   }
 
   _getInstalledCyberware() {
     LOGGER.trace("ActorID _getInstalledCyberware | CPRActorSheet | Called.");
-    const allCyberware = this.actor.data.filteredItems.cyberware;
-    let installedFoundationalCyberware = allCyberware.filter((cyberware) => cyberware.getData().isInstalled && cyberware.getData().isFoundational);
+    // Get all Installed Cyberware first...
 
-    installedFoundationalCyberware = installedFoundationalCyberware.map(
+    const allInstalledFoundationalCyberware = this.actor.data.filteredItems.cyberware.filter((cyberware) => cyberware.getData().isFoundational && cyberware.getData().isInstalled);
+
+    // Now sort allInstalledCybere by type, and only get foundational
+    let installedCyberware = [];
+    for (const [type] of Object.entries(CPR.cyberwareTypeList)) {
+      installedCyberware[type] = allInstalledFoundationalCyberware.filter((cyberware) => cyberware.getData().type === type);
+    }
+
+    installedCyberware = installedCyberware.map(
       (cyberware) => ({ foundation: cyberware, optionals: [] }),
     );
-    installedFoundationalCyberware.forEach((entry) => {
+
+    installedCyberware.forEach((entry) => {
       entry.foundation.getData().optionalIds.forEach((id) => entry.optionals.push(this._getOwnedItem(id)));
     });
-    return installedFoundationalCyberware;
+    return installedCyberware;
   }
 
   _itemAction(event) {

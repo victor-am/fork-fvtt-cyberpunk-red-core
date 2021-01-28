@@ -8,13 +8,16 @@
             <span class="section action width-quarter right-text">{{localize "CPR.actions"}}</span>
       </div>
       {{!-- Revist...? --}}
+      
       {{#if (eq (getProp (getProp ../actor.filteredItems c) 'length') 0)}}
         <div class="row">You got no {{c}}{{#if (listContains "weapon,vehicle" c)}}s{{/if}}, choomba!</div>
       {{else}}
+
       {{#each (sort ../actor.items "name") as |item i|}}
       {{#if (compare item.type "===" c)}}
-            {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c) (mergeForPartialArg "item,actor" this ../../this.actor)}}
+            {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c) item}}
       {{/if}}
+      
       {{/each}}
       {{/if}}
       {{/each}}

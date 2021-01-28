@@ -1,19 +1,19 @@
 {{log "CPR-ARMOR-INV-CONTENT.HBS"}}
-<div class="row item white-bg black-fg" data-item-id={{item._id}}>
+<div class="row item white-bg black-fg" data-item-id={{_id}}>
     <div class="section name width-quarter hide-overflow">
-        <a class="name item-edit">{{item.name}}</a>
+        <a class="name item-edit">{{name}}</a>
     </div>
     <div class="section data width-grow hide-overflow">
-        {{#if item.data.isHeadLocation}}
-        <span></span>{{localize "CPR.head"}}: {{ablated item.data "head"}} {{localize "CPR.of"}} {{item.data.headLocation.sp}} {{localize "CPR.sp"}}</span>
+        {{#if data.isHeadLocation}}
+        <span></span>{{localize "CPR.head"}}: {{ablated data "head"}} {{localize "CPR.of"}} {{data.headLocation.sp}} {{localize "CPR.sp"}}</span>
         {{/if}}
-        {{#if item.data.isHeadLocation}}
-            {{#if item.data.isBodyLocation}}
+        {{#if data.isHeadLocation}}
+            {{#if data.isBodyLocation}}
             <span>| </span>
             {{/if}}
         {{/if}}
-        {{#if item.data.isBodyLocation}}
-        <span></span>{{localize "CPR.bodylocation"}}: {{ablated item.data "body"}} {{localize "CPR.of"}} {{item.data.bodyLocation.sp}} {{localize "CPR.sp"}}</span>
+        {{#if data.isBodyLocation}}
+        <span></span>{{localize "CPR.bodylocation"}}: {{ablated data "body"}} {{localize "CPR.of"}} {{data.bodyLocation.sp}} {{localize "CPR.sp"}}</span>
         {{/if}}
         
     </div>
