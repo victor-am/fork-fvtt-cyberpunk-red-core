@@ -121,7 +121,7 @@
           "wildernesssurvival": 0
         },
         "roleInfo": {
-          "role": "solo",
+          "roles": ["solo"],
           "roleskills": {
             "netrunner": {
               "interface": 0
@@ -130,7 +130,15 @@
               "charismaticImpact": 0
             },
             "solo": {
-              "combatAwareness": 0
+              "combatAwareness": 0,
+              "subSkills": {
+                "damageDeflection": 0, 
+                "fumbleRecovery": 0,
+                "initiativeReaction": 0, 
+                "precisionAttack": 0,
+                "spotWeakness": 0,
+                "threatDetection": 0
+              }
             },
             "tech": {
               "maker": 0,

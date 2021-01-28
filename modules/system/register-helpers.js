@@ -46,10 +46,10 @@ export default function registerHandlebarsHelpers() {
     const partialKeys = ((partialArgs[0]).replace(/\s/g, '')).split(",");
     partialArgs.shift();
     const mergedObject = {};
-    let arrayNDX = 0;
+    let index = 0;
     partialKeys.forEach((objectName) => {
-      mergedObject[objectName] = partialArgs[arrayNDX];
-      arrayNDX += 1;
+      mergedObject[objectName] = partialArgs[index];
+      index += 1;
     });
     return mergedObject;
   });
