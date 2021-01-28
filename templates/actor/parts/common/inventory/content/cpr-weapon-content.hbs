@@ -1,47 +1,20 @@
 {{log "CPR-WEAPON-INV-CONTENT.HBS"}}
-<div class="row item white-bg black-fg" data-item-id={{_id}}>
-    {{!-- NAME --}}
-    <div class="section name hide-overflow">
-        <a class="name item-edit">{{name}}</a>        
-    </div>
-    
-    {{!-- DATA --}}
-    
-    <div class="section data hide-overflow left-text width-grow width-shrink" >
-      {{localize (findConfigValue "weaponTypeList" data.weaponType)}}
-        {{#if (ne data.quality "standard")}}
-        ({{localize data.quality}})
-        {{/if}}
-      {{#if data.isRanged}}
-      {{#if data.magazine.ammoId}}
-      |
-      {{getProp (getOwnedItem actor data.magazine.ammoId) "name"}} ({{data.magazine.value}}/{{data.magazine.max}})
-      {{/if}}
-      {{/if}}
-    </div>
-
-    {{!-- ACTIONS --}}
-    <div class="section action right-text width-fit width-no-shrink">
-
-        {{!-- LOAD ACTION --}}
-        {{#if data.isRanged}}
-        {{#if (lt data.magazine.value data.magazine.max)}}
-        {{#if (ne data.magazine.ammoId "")}}
-        <a class="item-action" data-item-id="{{_id}}" data-action="reload-ammo"><i class="fas fa-redo-alt" title="Reload"></i></a>
-        {{/if}}
-        {{/if}}
-        <a class="item-action" data-item-id="{{_id}}" data-action="new-ammo"><i class="fas fa-exchange-alt" title="Change Ammo"></i></a>
-        {{/if}}
-
-        {{!-- CONCEAL ACTION --}}
-        {{#if data.concealable}}
-        <i class="fas fa-eye-slash" title="Toggle Conceal"></i>
-        {{/if}}
-        {{!-- EQUIP ACTION --}}
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-equip-glyph.hbs"}}
-        {{!-- ITEM MANAGEMENT --}}
-        <a class="item-delete"><i class="fas fa-trash-alt red-fg" title="Delete Item"></i></a>
-
-    </div>
+{{!-- NAME --}}
+<div class="section name hide-overflow">
+    <a class="name item-edit">{{item.name}}</a>        
 </div>
+ 
+ {{!-- DATA --}}
+ <div class="section data hide-overflow left-text width-grow width-shrink" >
+  {{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}
+  {{#if (ne item.data.quality "standard")}}
+    ({{localize item.data.quality}})
+  {{/if}}
+  {{#if item.data.isRanged}}
+    {{#if item.data.magazine.ammoId}}
+      |
+      {{getProp (getOwnedItem actor item.data.magazine.ammoId) "name"}} ({{item.data.magazine.value}}/{{item.data.magazine.max}})
+    {{/if}}
+  {{/if}}
+    </div>
 {{log "END CPR-WEAPON-INV-CONTENT.HBS"}}

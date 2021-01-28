@@ -1,13 +1,8 @@
 {{log "CPR-RELOAD-GLYPH.HBS"}}
-<a class="reload" data-item-id="{{item._id}}">
-    {{#if (compare item.data.equippable.equipped "===" "equipped")}}
-    <i class="fas fa-hand-paper" title={{localize "CPR.equipped" }}></i>
+{{#if (lt item.data.magazine.value item.data.magazine.max)}}
+    {{#if (ne item.data.magazine.ammoId "")}}
+        <a class="item-action" data-item-id="{{item._id}}" data-action="reload-ammo"><i class="fas fa-redo-alt" title="Reload"></i></a>
     {{/if}}
-    {{#if (compare item.data.equippable.equipped "===" "carried")}}
-    <i class="fas fa-suitcase" title={{localize "CPR.carried" }}></i>
-    {{/if}}
-    {{#if (compare item.data.equippable.equipped "===" "owned")}}
-    <i class="fas fa-circle-notch" title={{localize "CPR.owned" }}></i>
-    {{/if}}
-</a>
+{{/if}}
+<a class="item-action" data-item-id="{{item._id}}" data-action="new-ammo"><i class="fas fa-exchange-alt" title="Change Ammo"></i></a>
 {{log "END CPR-RELOAD-GLYPH.HBS"}}
