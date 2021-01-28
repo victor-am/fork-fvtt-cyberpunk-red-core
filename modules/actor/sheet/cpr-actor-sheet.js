@@ -73,9 +73,6 @@ export default class CPRActorSheet extends ActorSheet {
     // Render Item Card
     html.find(".item-edit").click((event) => this._renderItemCard(event));
 
-    // Delete item
-    html.find(".item-delete").click((event) => this._deleteOwnedItem(event));
-
     // Add New Skill Item To Sheet
     html.find(".add-skill").click((event) => this._addSkill(event));
 
@@ -378,12 +375,31 @@ export default class CPRActorSheet extends ActorSheet {
     return installedFoundationalCyberware;
   }
 
+  // As a first step to re-organizing the methods to the appropriate
+  // objects (Actor/Item), let's filter calls to manipulate items
+  // through here.  Things such as:
+  // Weapon: Load, Unload
+  // Armor: Ablate, Repair
   _itemAction(event) {
     LOGGER.trace("ActorID _itemAction | CPRActorSheet | Called.");
-    const itemId = $(event.currentTarget).attr("data-item-id");
-    const item = this._getOwnedItem(itemId);
+    console.log(event);
+    const item = this._getOwnedItem(this._getItemId(event));
+    const actionType = $(event.currentTarget).attr("data-action-type");
     if (item) {
-      item.doAction(this.actor, event.currentTarget.attributes);
+      switch (actionType) {
+        case "delete": {
+          this._deleteOwnedItem(item);
+          break;
+        }
+        // TODO
+        case "ablate-armor": {
+          item.ablateArmor();
+          break;
+        }
+        default: {
+          item.doAction(this.actor, event.currentTarget.attributes);
+        }
+      }
       this.actor.updateEmbeddedEntity("OwnedItem", item.data);
     }
   }
@@ -509,20 +525,20 @@ export default class CPRActorSheet extends ActorSheet {
     return $(event.currentTarget).attr("data-item-prop");
   }
 
-  async _deleteOwnedItem(event) {
+  async _deleteOwnedItem(item) {
     LOGGER.trace("ActorID _deleteOwnedItem | CPRActorSheet | Called.");
-    const itemId = this._getItemId(event);
-    const item = this._getOwnedItem(itemId);
     // TODO - Need to get setting from const game system setting
     const setting = true;
     // If setting is true, prompt before delete, else delete.
     if (setting) {
-      const confirmDelete = await ConfirmPrompt.RenderPrompt();
+      const title = game.i18n.localize("CPR.deletedialogtitle");
+      const msg = `${game.i18n.localize("CPR.deletedialogtitle")} ${item.data.name}?`;
+      const confirmDelete = await ConfirmPrompt.RenderPrompt(title, msg);
       if (confirmDelete) {
-        this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
+        this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
       }
     } else {
-      this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
+      this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
     }
   }
 
