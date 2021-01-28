@@ -80,12 +80,16 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".expand-button").click((event) => {
       if ($(event.currentTarget.parentElement).hasClass("collapsible")) {
+        const currentText = event.currentTarget.children[0].innerText;
         for (let i = 0; i < event.currentTarget.parentElement.childNodes.length; i += 1) {
           if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("item")) {
+            const expandText = ` ( ${game.i18n.localize("CPR.clicktoexpand")})`;
             if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("hide")) {
               $(event.currentTarget.parentElement.childNodes[i]).removeClass("hide");
+              event.currentTarget.children[0].innerText = currentText.replace(expandText, "");
             } else {
               $(event.currentTarget.parentElement.childNodes[i]).addClass("hide");
+              event.currentTarget.children[0].innerText = currentText.concat(expandText);
             }
           }
         }
