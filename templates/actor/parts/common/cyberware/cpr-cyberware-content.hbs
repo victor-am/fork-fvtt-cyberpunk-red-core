@@ -3,7 +3,7 @@
 {{#each this as |cyberware c|}}
 {{log foundation}}
 {{log optionals}}
-<div class="row cyberware white-bg black-fg" data-item-id={{foundation._id}}>
+<div class="row cyberware white-bg black-fg" data-item-id={{foundation.data._id}}>
     <div class="section name width-quarter hide-overflow">
         <a class="name item-edit">{{foundation.name}}</a>
     </div>
@@ -17,12 +17,13 @@
     </div>
 </div>
 {{#each optionals as |optional o|}}
+{{log this}}
 <div class="row cyberware white-bg black-fg" data-item-id={{optional._id}}>
     <div class="section name width-quarter hide-overflow">
-        <a class="name item-edit">{{foundation.name}}</a>
+        <a class="name item-edit">{{optional.name}}</a>
     </div>
     <div class="section data width-grow hide-overflow">
-        {{localize (findConfigValue "cyberwareTypeList" foundation.data.data.type)}}
+        {{localize (findConfigValue "cyberwareTypeList" optional.data.data.type)}}
     </div>
     <div class="section action right-text width-fit">
         {{!-- INSTALL ACTION --}}

@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable prefer-const */
 /* eslint-disable max-len */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable class-methods-use-this */
@@ -326,6 +328,7 @@ export default class CPRActorSheet extends ActorSheet {
 
   _addOptionalCyberware(item, formData) {
     LOGGER.trace("ActorID _addOptionalCyberware | CPRActorSheet | Called.");
+
     item.getData().isInstalled = true;
     LOGGER.trace(
       `ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`,
@@ -336,20 +339,24 @@ export default class CPRActorSheet extends ActorSheet {
     this._updateOwnedItem(foundationalCyberware);
   }
 
-  _addFoundationalCyberware(item, formData) {
+  _addFoundationalCyberware(item) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
     item.getData().isInstalled = true;
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
     this._updateOwnedItem(item);
   }
 
-  _removeCyberware(item, formData) { 
-
-   }
-
   async _installCyberwareAction(event) {
     LOGGER.trace("ActorID _installCyberware | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
+    if (item.getData().isInstalled) {
+      this._removeCyberware(item);
+    } else {
+      this._addCyberware(item);
+    }
+  }
+
+  async _addCyberware(item) {
     const compatibaleFoundationalCyberware = this.actor.getInstalledFoundationalCyberware(item.getData().type);
     if (compatibaleFoundationalCyberware.length < 1 && !item.getData().isFoundational) {
       Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
@@ -362,208 +369,249 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  _uninstallCyberware(event) {
-    LOGGER.trace("ActorID _uninstallCyberware | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
-    LOGGER.trace("ActorID _uninstallCyberware | CPRActorSheet | Removing cyberware.");
-    item.getData().isInstalled = false;
+  async _removeCyberware(item) {
+    LOGGER.trace("ActorID _removeCyberware | CPRActorSheet | Called.");
+    const confirmRemove = await ConfirmPrompt.RenderPrompt();
+    if (confirmRemove) {
+      item.getData().isInstalled = false;
+
+      if (item.getData().isFoundational) {
+        this._removeFoundationalCyberware(item);
+      } else {
+        this._removeOptionalCyberware(item);
+      }
+    }
     this._updateOwnedItem(item);
   }
 
-  _getInstalledCyberware() {
-    LOGGER.trace("ActorID _getInstalledCyberware | CPRActorSheet | Called.");
-    // Get all Installed Cyberware first...
+  _removeOptionalCyberware(item, foundationalId) {
+    LOGGER.trace("ActorID _removeOptionalCyberware | CPRActorSheet | Called.");
+    item.getData().isInstalled = true;
+    const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
+    prop.splice(prop.indexOf(value), 1);
+    foundationalCyberware.getData().optionalIds.splice(indexOf(item.data._id));
+    this._updateOwnedItem(item);
+    this._updateOwnedItem(foundationalCyberware);
+  }
 
-    const allInstalledFoundationalCyberware = this.actor.data.filteredItems.cyberware.filter((cyberware) => cyberware.getData().isFoundational && cyberware.getData().isInstalled);
+  _removeFoundationalCyberware(item) {
+    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
+    item.getData().isInstalled = true;
+    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
+    this._updateOwnedItem(item);
+  }
 
-    // Now sort allInstalledCybere by type, and only get foundational
-    let installedCyberware = [];
-    for (const [type] of Object.entries(CPR.cyberwareTypeList)) {
-      installedCyberware[type] = allInstalledFoundationalCyberware.filter((cyberware) => cyberware.getData().type === type);
-    }
+  _addOptionalCyberware(item, formData) {
+    LOGGER.trace("ActorID _addOptionalCyberware | CPRActorSheet | Called.");
+    item.getData().isInstalled = true;
+    LOGGER.trace(
+      `ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`,
+    );
+    const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
+    foundationalCyberware.getData().optionalIds.push(item.data._id);
+    this._updateOwnedItem(item);
+    this._updateOwnedItem(foundationalCyberware);
+  }
 
-    installedCyberware = installedCyberware.map(
+  _addFoundationalCyberware(item) {
+    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
+    item.getData().isInstalled = true;
+    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
+    this._updateOwnedItem(item);
+  }
+
+_getInstalledCyberware() {
+  LOGGER.trace("ActorID _getInstalledCyberware | CPRActorSheet | Called.");
+  // Get all Installed Cyberware first...
+
+  const allInstalledFoundationalCyberware = this.actor.data.filteredItems.cyberware.filter((cyberware) => cyberware.getData().isFoundational && cyberware.getData().isInstalled);
+
+  // Now sort allInstalledCybere by type, and only get foundational
+  let installedCyberware = {};
+  for (const [type] of Object.entries(CPR.cyberwareTypeList)) {
+    installedCyberware[type] = allInstalledFoundationalCyberware.filter((cyberware) => cyberware.getData().type === type);
+    installedCyberware[type] = installedCyberware[type].map(
       (cyberware) => ({ foundation: cyberware, optionals: [] }),
     );
-
-    installedCyberware.forEach((entry) => {
+    installedCyberware[type].forEach((entry) => {
       entry.foundation.getData().optionalIds.forEach((id) => entry.optionals.push(this._getOwnedItem(id)));
     });
-    return installedCyberware;
   }
+  return installedCyberware;
+}
 
-  _itemAction(event) {
-    LOGGER.trace("ActorID _itemAction | CPRActorSheet | Called.");
-    const itemId = $(event.currentTarget).attr("data-item-id");
-    const item = this._getOwnedItem(itemId);
-    if (item) {
-      item.doAction(this.actor, event.currentTarget.attributes);
-      this.actor.updateEmbeddedEntity("OwnedItem", item.data);
-    }
-  }
-
-  // TODO - Move to cpr-actor
-  _getEquippedArmors(location) {
-    LOGGER.trace("ActorID _getEquippedArmors | CPRActorSheet | Called.");
-    // TODO - Helper function on ACTOR to get equipedArmors
-    const armors = this.actor.items.filter((item) => item.data.type === "armor");
-    const equipped = armors.filter((item) => item.data.data.equippable.equipped === "equipped");
-
-    if (location === "body") {
-      return equipped.filter((item) => item.data.data.isBodyLocation);
-    }
-    if (location === "head") {
-      return equipped.filter((item) => item.data.data.isHeadLocation);
-    }
-    throw new Error(`Bad location given: ${location}`);
-  }
-
-  // ARMOR HELPERS
-  // TODO - Move to cpr-actor
-  _getArmorValue(valueType, location) {
-    LOGGER.trace("ActorID _getArmorValue| CPRActorSheet | Called.");
-
-    const armors = this._getEquippedArmors(location);
-    let sps;
-    let penalties;
-
-    if (location === "body") {
-      sps = armors.map((a) => a.data.data.bodyLocation.sp);
-    } else if (location === "head") {
-      sps = armors.map((a) => a.data.data.headLocation.sp);
-    } // we assume getEquippedArmors will throw an error with a bad loc
-    penalties = armors.map((a) => a.data.data.penalty);
-    penalties = penalties.map(Math.abs);
-
-    penalties.push(0);
-    sps.push(0); // force a 0 if nothing is equipped
-
-    if (valueType === "sp") {
-      return Math.max(...sps); // Math.max treats null values in array as 0
-    }
-    if (valueType === "penalty") {
-      return Math.max(...penalties); // Math.max treats null values in array as 0
-    }
-    return 0;
-  }
-
-  // TODO - Revist hands restrictions, possibly remove.
-  // TODO - Move to cpr-actor
-  _getHands() {
-    LOGGER.trace("ActorID _getHands | CPRActorSheet | Called.");
-    return 2;
-  }
-
-  // TODO - Revist hands restrictions, possibly remove.
-  // TODO - Move to cpr-actor
-  _getFreeHands() {
-    LOGGER.trace("ActorID _getFreeHands | CPRActorSheet | Called.");
-    const weapons = this._getEquippedWeapons();
-    const needed = weapons.map((w) => w.data.data.handsReq);
-    const freeHands = this._getHands() - needed.reduce((a, b) => a + b, 0);
-    return freeHands;
-  }
-
-  // TODO - Move to cpr-actor
-  _canHoldWeapon(weapon) {
-    LOGGER.trace("ActorID _canHoldWeapon | CPRActorSheet | Called.");
-    const needed = weapon.data.data.handsReq;
-    if (needed > this._getFreeHands()) {
-      return false;
-    }
-    return true;
-  }
-
-  // TODO - Move to cpr-actor
-  _getEquippedWeapons() {
-    LOGGER.trace("ActorID _getEquippedWeapons | CPRActorSheet | Called.");
-    const weapons = this.actor.data.filteredItems.weapon;
-    return weapons.filter((a) => a.data.data.equippable.equipped === "equipped");
-  }
-
-  // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
-  // TODO - Move to cpr-actor
-  _updateSkill(event) {
-    LOGGER.trace("ActorID _updateSkill | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
-    item.setSkillLevel(parseInt(event.target.value, 10));
-    this._updateOwnedItem(item);
-  }
-
-  // OWNED ITEM HELPER FUNCTIONS
-  // TODO - Assert all usage correct.
-  _updateOwnedItemProp(item, prop, value) {
-    LOGGER.trace("ActorID _updateOwnedItemProp | Called.");
-    setProperty(item.data, prop, value);
-    this._updateOwnedItem(item);
-  }
-
-  _updateOwnedItem(item) {
-    LOGGER.trace("ActorID _updateOwnedItemProp | Called.");
+_itemAction(event) {
+  LOGGER.trace("ActorID _itemAction | CPRActorSheet | Called.");
+  const itemId = $(event.currentTarget).attr("data-item-id");
+  const item = this._getOwnedItem(itemId);
+  if (item) {
+    item.doAction(this.actor, event.currentTarget.attributes);
     this.actor.updateEmbeddedEntity("OwnedItem", item.data);
   }
+}
 
-  _renderItemCard(event) {
-    LOGGER.trace("ActorID _itemUpdate | CPRActorSheet | Called.");
-    const itemId = this._getItemId(event);
-    const item = this.actor.items.find((i) => i.data._id === itemId);
-    item.sheet.render(true);
+// TODO - Move to cpr-actor
+_getEquippedArmors(location) {
+  LOGGER.trace("ActorID _getEquippedArmors | CPRActorSheet | Called.");
+  // TODO - Helper function on ACTOR to get equipedArmors
+  const armors = this.actor.items.filter((item) => item.data.type === "armor");
+  const equipped = armors.filter((item) => item.data.data.equippable.equipped === "equipped");
+
+  if (location === "body") {
+    return equipped.filter((item) => item.data.data.isBodyLocation);
   }
-
-  _getItemId(event) {
-    LOGGER.trace("ActorID _getItemId | CPRActorSheet | Called.");
-    return $(event.currentTarget).parents(".item").attr("data-item-id");
+  if (location === "head") {
+    return equipped.filter((item) => item.data.data.isHeadLocation);
   }
+  throw new Error(`Bad location given: ${location}`);
+}
 
-  _getOwnedItem(itemId) {
-    return this.actor.items.find((i) => i.data._id === itemId);
+// ARMOR HELPERS
+// TODO - Move to cpr-actor
+_getArmorValue(valueType, location) {
+  LOGGER.trace("ActorID _getArmorValue| CPRActorSheet | Called.");
+
+  const armors = this._getEquippedArmors(location);
+  let sps;
+  let penalties;
+
+  if (location === "body") {
+    sps = armors.map((a) => a.data.data.bodyLocation.sp);
+  } else if (location === "head") {
+    sps = armors.map((a) => a.data.data.headLocation.sp);
+  } // we assume getEquippedArmors will throw an error with a bad loc
+  penalties = armors.map((a) => a.data.data.penalty);
+  penalties = penalties.map(Math.abs);
+
+  penalties.push(0);
+  sps.push(0); // force a 0 if nothing is equipped
+
+  if (valueType === "sp") {
+    return Math.max(...sps); // Math.max treats null values in array as 0
   }
-
-  _getObjProp(event) {
-    return $(event.currentTarget).attr("data-item-prop");
+  if (valueType === "penalty") {
+    return Math.max(...penalties); // Math.max treats null values in array as 0
   }
+  return 0;
+}
 
-  async _deleteOwnedItem(event) {
-    LOGGER.trace("ActorID _deleteOwnedItem | CPRActorSheet | Called.");
-    const itemId = this._getItemId(event);
-    const item = this._getOwnedItem(itemId);
-    // TODO - Need to get setting from const game system setting
-    const setting = true;
-    // If setting is true, prompt before delete, else delete.
-    if (setting) {
-      const confirmDelete = await ConfirmPrompt.RenderPrompt();
-      if (confirmDelete) {
-        this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
-      }
-    } else {
+// TODO - Revist hands restrictions, possibly remove.
+// TODO - Move to cpr-actor
+_getHands() {
+  LOGGER.trace("ActorID _getHands | CPRActorSheet | Called.");
+  return 2;
+}
+
+// TODO - Revist hands restrictions, possibly remove.
+// TODO - Move to cpr-actor
+_getFreeHands() {
+  LOGGER.trace("ActorID _getFreeHands | CPRActorSheet | Called.");
+  const weapons = this._getEquippedWeapons();
+  const needed = weapons.map((w) => w.data.data.handsReq);
+  const freeHands = this._getHands() - needed.reduce((a, b) => a + b, 0);
+  return freeHands;
+}
+
+// TODO - Move to cpr-actor
+_canHoldWeapon(weapon) {
+  LOGGER.trace("ActorID _canHoldWeapon | CPRActorSheet | Called.");
+  const needed = weapon.data.data.handsReq;
+  if (needed > this._getFreeHands()) {
+    return false;
+  }
+  return true;
+}
+
+// TODO - Move to cpr-actor
+_getEquippedWeapons() {
+  LOGGER.trace("ActorID _getEquippedWeapons | CPRActorSheet | Called.");
+  const weapons = this.actor.data.filteredItems.weapon;
+  return weapons.filter((a) => a.data.data.equippable.equipped === "equipped");
+}
+
+// TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
+// TODO - Move to cpr-actor
+_updateSkill(event) {
+  LOGGER.trace("ActorID _updateSkill | CPRActorSheet | Called.");
+  const item = this._getOwnedItem(this._getItemId(event));
+  item.setSkillLevel(parseInt(event.target.value, 10));
+  this._updateOwnedItem(item);
+}
+
+// OWNED ITEM HELPER FUNCTIONS
+// TODO - Assert all usage correct.
+_updateOwnedItemProp(item, prop, value) {
+  LOGGER.trace("ActorID _updateOwnedItemProp | Called.");
+  setProperty(item.data, prop, value);
+  this._updateOwnedItem(item);
+}
+
+_updateOwnedItem(item) {
+  LOGGER.trace("ActorID _updateOwnedItemProp | Called.");
+  this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+}
+
+_renderItemCard(event) {
+  LOGGER.trace("ActorID _itemUpdate | CPRActorSheet | Called.");
+  const itemId = this._getItemId(event);
+  const item = this.actor.items.find((i) => i.data._id === itemId);
+  item.sheet.render(true);
+}
+
+_getItemId(event) {
+  LOGGER.trace("ActorID _getItemId | CPRActorSheet | Called.");
+  return $(event.currentTarget).parents(".item").attr("data-item-id");
+}
+
+_getOwnedItem(itemId) {
+  return this.actor.items.find((i) => i.data._id === itemId);
+}
+
+_getObjProp(event) {
+  return $(event.currentTarget).attr("data-item-prop");
+}
+
+async _deleteOwnedItem(event) {
+  LOGGER.trace("ActorID _deleteOwnedItem | CPRActorSheet | Called.");
+  const itemId = this._getItemId(event);
+  const item = this._getOwnedItem(itemId);
+  // TODO - Need to get setting from const game system setting
+  const setting = true;
+  // If setting is true, prompt before delete, else delete.
+  if (setting) {
+    const confirmDelete = await ConfirmPrompt.RenderPrompt();
+    if (confirmDelete) {
       this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
     }
+  } else {
+    this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
   }
+}
 
-  // TODO - Revist, do we need template data? Is function used.
-  _addSkill() {
-    LOGGER.trace("ActorID _addSkill | CPRActorSheet | called.");
-    const itemData = {
-      name: "skill",
-      type: "skill",
-      data: {},
-    };
-    this.actor.createOwnedItem(itemData, { renderSheet: true });
-  }
+// TODO - Revist, do we need template data? Is function used.
+_addSkill() {
+  LOGGER.trace("ActorID _addSkill | CPRActorSheet | called.");
+  const itemData = {
+    name: "skill",
+    type: "skill",
+    data: {},
+  };
+  this.actor.createOwnedItem(itemData, { renderSheet: true });
+}
 
-  // TODO - Fix
-  _getArmorPenaltyMods(stat) {
-    const penaltyStats = ["ref", "dex", "move"];
-    const penaltyMods = [0];
-    if (penaltyStats.includes(stat)) {
-      const coverage = ["head", "body"];
-      coverage.forEach((location) => {
-        const penaltyValue = Number(this._getArmorValue("penalty", location));
-        if (penaltyValue > 0) {
-          penaltyMods.push(0 - penaltyValue);
-        }
-      });
-    }
-    return Math.min(...penaltyMods);
+// TODO - Fix
+_getArmorPenaltyMods(stat) {
+  const penaltyStats = ["ref", "dex", "move"];
+  const penaltyMods = [0];
+  if (penaltyStats.includes(stat)) {
+    const coverage = ["head", "body"];
+    coverage.forEach((location) => {
+      const penaltyValue = Number(this._getArmorValue("penalty", location));
+      if (penaltyValue > 0) {
+        penaltyMods.push(0 - penaltyValue);
+      }
+    });
   }
+  return Math.min(...penaltyMods);
+}
 }

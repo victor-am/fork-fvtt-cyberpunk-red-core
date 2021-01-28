@@ -8,7 +8,7 @@
         <span class="section action width-quarter right-text">{{localize "CPR.actions"}}</span>
     </div>
     {{!-- Revist...? --}}
-    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cyberware/cpr-cyberware-content.hbs" this}}
+    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cyberware/cpr-cyberware-content.hbs" (getProp ../this.installedCyberware t)}}
     {{/each}}
 </div>
 {{log "END CPR-CYBERWARE-HBS"}}
