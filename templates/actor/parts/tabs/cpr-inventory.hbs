@@ -13,11 +13,11 @@
             {{else}}
                   {{#each (sort ../actor.items "name") as |item i|}}
                         {{#if (compare item.type "===" c)}}
-                              <div class="row item white-bg black-fg" data-item-id={{item._id}}>
+                              
                                     {{!-- Partial handles Name and Data columns --}}
                                     {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c) (mergeForPartialArg "item,actor" this ../../this.actor)}}
                                     {{!- Item actions column --}}
-                              </div>
+                              
                         {{/if}}
                   {{/each}}
             {{/if}}
