@@ -1,6 +1,7 @@
 {
     "CPR.ablation": "Ablation",
     "CPR.abilities": "Abilities",
+    "CPR.abilityrank": "Ability Rank",
     "CPR.access": "Access",
     "CPR.accounting": "Accounting",
     "CPR.acting": "Acting",
@@ -600,6 +601,7 @@
     "CPR.rolespecificlifepath": "Role Specific Lifepath",
     "CPR.roll": "Roll",
     "CPR.rolled": "Rolled",
+    "CPR.rollingfor": "Rolling for",
     "CPR.rope": "Rope (60m/yd)",
     "CPR.rumor": "Rumor",
     "CPR.run": "Run",
@@ -728,6 +730,7 @@
     "CPR.techscanner": "Techscanner",
     "CPR.techtool": "Techtool",
     "CPR.teleoptics": "TeleOptics",
+    "CPR.tellthemtosayhello": "Tell them to say hello to your little friend,",
     "CPR.therapy": "Therapy",
     "CPR.thick": "Thick",
     "CPR.thin": "Thin",

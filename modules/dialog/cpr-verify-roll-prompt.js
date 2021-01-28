@@ -10,19 +10,15 @@ import LOGGER from "../utils/cpr-logger.js";
 export default class VerifyRollPrompt {
   static GetVerifyRollTemplate(rollType) {
     switch (rollType) {
-      case "damage": {
-        return "systems/cyberpunk-red-core/templates/dialog/cpr-verify-damage-roll-prompt.hbs";
-      }
-      case "attack": {
-        return "systems/cyberpunk-red-core/templates/dialog/cpr-verify-base-roll-prompt.hbs";
-      }
+      case "damage":
+      case "attack":
       case "stat":
       case "roleAbility":
       case "skill": {
-        return "systems/cyberpunk-red-core/templates/dialog/cpr-verify-base-roll-prompt.hbs";
+        return `systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-${rollType}-prompt.hbs`;
       }
       default: {
-        return "systems/cyberpunk-red-core/templates/dialog/cpr-verify-base-roll-prompt.hbs";
+        return "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-generic-prompt.hbs";
       }
     }
   }
@@ -55,7 +51,7 @@ export default class VerifyRollPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: "Are you sure?",
+          title: `Roll Confirmation for ${rollRequest.rollType}`,
           content: html,
           buttons: {
             cancel: {
