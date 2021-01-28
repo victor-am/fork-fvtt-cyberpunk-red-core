@@ -7,11 +7,14 @@
     </div>
     <div class="section data width-grow hide-overflow">
         {{localize (findConfigValue "ammoVariety" data.variety)}}
-        | 
+        |
         {{localize (findConfigValue "ammoType" data.type)}}
     </div>
     <div class="section action right-text width-fit">
         <a class="item-delete"><i class="fas fa-trash-alt red-fg" title="Delete Item"></i></a>
+    </div>
+    <div class="section action right-text width-fit width-no-shrink">
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-actions.hbs" item}}
     </div>
 </div>
 {{log "END CPR-AMMO-INV-CONTENT.HBS"}}
