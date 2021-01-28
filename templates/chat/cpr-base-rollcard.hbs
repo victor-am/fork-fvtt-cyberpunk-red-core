@@ -1,4 +1,5 @@
 {{log "CPR-BASE-ROLLCARD.HBS"}}
+{{log this}}
 <div class="white-bg" data-roll-type="{{rollType}}">
   <div class="cpr-block horizontal half-height chat-rollTitle-{{rollType}}">
     <p class="center-text width-grow largest-text smallcaps">{{rollTitle}}</p>
@@ -131,7 +132,7 @@
 
     <div class="info-div right-text">
       {{#if (gt roleValue 0)}}
-      {{roleAbility}}: {{roleValue}}<br>
+      {{localize "CPR.abilityrank"}}: {{roleValue}}<br>
       {{else}}
       {{stat}} + {{statValue}}<br>
       {{skill}} + {{skillValue}}<br>
