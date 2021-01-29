@@ -292,7 +292,7 @@
       "optionalIds": [],
       "humanityLoss": {
         "static": 0,
-        "roll": ""
+        "roll": "1d6"
       }
     },
     "weapon": {

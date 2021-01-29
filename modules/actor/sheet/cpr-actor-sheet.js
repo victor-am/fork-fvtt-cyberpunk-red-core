@@ -304,7 +304,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _cycleEquipState | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
     const prop = this._getObjProp(event);
-    switch (item.data.data.equippable.equipped) {
+    switch (item.data.data.equipped) {
       case "owned": {
         this._updateOwnedItemProp(item, prop, "carried");
         break;
