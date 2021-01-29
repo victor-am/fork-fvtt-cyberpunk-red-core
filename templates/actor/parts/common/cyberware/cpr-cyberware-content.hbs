@@ -1,6 +1,8 @@
 {{log "CPRCYBERWARE-CONTENT.HBS"}}
+{{log this}}
 {{#each this as |cyberware c|}}
-<div class="row cyberware bold white-bg black-fg" data-item-id={{foundation.data._id}}>
+{{log cyberware}}
+<div class="row item cyberware bold white-bg black-fg" data-item-id={{foundation.data._id}}>
     <div class="section name width-quarter hide-overflow">
         <a class="name item-edit">{{foundation.name}}</a>
     </div>
@@ -9,12 +11,13 @@
     </div>
     <div class="section action right-text width-fit">
         {{!-- INSTALL ACTION --}}
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-install-glyph.hbs"}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-install-glyph.hbs" foundation}}
         {{!-- ITEM MANAGEMENT --}}
     </div>
 </div>
 {{#each optionals as |optional o|}}
-<div class="row cyberware-optional white-bg black-fg" data-item-id={{optional._id}}>
+{{log optional}}
+<div class="row item cyberware-optional white-bg black-fg" data-item-id={{optional._id}}>
     <div class="section name width-quarter hide-overflow">
         <a class="name item-edit">{{optional.name}}</a>
     </div>
@@ -23,7 +26,7 @@
     </div>
     <div class="section action right-text width-fit">
         {{!-- INSTALL ACTION --}}
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-install-glyph.hbs"}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-install-glyph.hbs" optional}}
         {{!-- ITEM MANAGEMENT --}}
     </div>
 </div>
