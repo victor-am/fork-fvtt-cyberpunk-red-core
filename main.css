@@ -385,7 +385,7 @@
 .sheet-content input[type="password"],
 .sheet-content input[type="date"],
 .sheet-content input[type="time"] {
-  background: #eaeaeaff;
+  background: transparent;
 }
 .sheet-content .navtab.active {
   background-color: #ffff3fff;
