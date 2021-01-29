@@ -251,10 +251,7 @@
   -webkit-column-break-inside: avoid;
   page-break-inside: avoid;
   break-inside: avoid;
-  margin: 2px;
-  padding: 2px;
-  max-height: 30px;
-  min-height: 30px;
+  margin: 1px 0px 1px 0px;
 }
 .dynamic-list .row.flex-end {
   justify-content: flex-end;
@@ -284,6 +281,9 @@
 }
 .dynamic-list .row .section.action {
   flex-shrink: 0;
+}
+.cyberware-optional .name {
+  padding-left: 5%;
 }
 .ws-nowrap {
   white-space: nowrap;
