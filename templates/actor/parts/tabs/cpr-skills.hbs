@@ -16,7 +16,7 @@
     {{!-- DISPLAY SKILL --}}
     <div class="row flex-end skill item black-fg white-bg" data-item-id={{skill._id}}
       data-skill-category={{skill.data.category}}>
-      <div class="section width-grow width-shrink skill-name ">
+      <div class="section width-grow width-shrink skill-name hide-overflow">
         <a class="rollable {{#if skill.data.basic}}bold{{/if}}" data-roll-type="skill" data-roll-title="{{skill.name}}">
           {{skill.name}} {{#if (eq skill.data.difficulty "difficult")}}(x2) {{/if}}<strong>({{localize (findConfigValue
             "statList" skill.data.stat)}})</strong>
