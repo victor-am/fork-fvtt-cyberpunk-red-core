@@ -330,8 +330,9 @@ export default class CPRActorSheet extends ActorSheet {
   async _installCyberwareAction(event) {
     LOGGER.trace("ActorID _installCyberware | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
+    let foundationalId = $(event.currentTarget).attr("data-foundational-id") || null;
     if (item.getData().isInstalled) {
-      this._removeCyberware(item);
+      this._removeCyberware(item, foundationalId);
     } else {
       this._addCyberware(item);
     }
@@ -367,7 +368,7 @@ export default class CPRActorSheet extends ActorSheet {
     this._updateOwnedItem(item);
   }
 
-  async _removeCyberware(item) {
+  async _removeCyberware(item, foundationalId) {
     LOGGER.trace("ActorID _removeCyberware | CPRActorSheet | Called.");
     const confirmRemove = await ConfirmPrompt.RenderPrompt();
     if (confirmRemove) {
