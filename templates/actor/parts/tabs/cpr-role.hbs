@@ -1,6 +1,8 @@
 {{log "CPR-ROLE.HBS"}}
-{{log this}}
 <div class="dynamic-list columns role-abilities">
+    <div class="row flex-end">
+        <a class="select-roles" data-item-prop="select-roles"><i class="fas fa-wrench"></i></a>
+    </div>
     {{#each data.roleInfo.roles as |role|}}
     <div>
         <h1>{{localize "CPR.role"}}: {{localize (findConfigValue "roleList" role)}}</h1>
