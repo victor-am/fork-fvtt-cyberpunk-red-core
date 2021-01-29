@@ -1,40 +1,47 @@
 {{log "CPR-ROLE.HBS"}}
 {{log this}}
-<div class="dynamic-list columns">
+<div class="dynamic-list columns role-abilities">
+    {{#each data.roleInfo.roles as |role|}}
     <div>
-        <h1>{{localize "CPR.role"}}: {{localize (findConfigValue "roleList" data.roleInfo.role)}}</h1>
+        <h1>{{localize "CPR.role"}}: {{localize (findConfigValue "roleList" role)}}</h1>
     </div>
 
-        <div class="row header white-fg black-bg bold padding-left">
-            {{localize "CPR.abilities"}}:
+    <div class="row header white-fg black-bg bold padding-left">
+        <div class="section name width-half">
+            {{localize "CPR.abilities"}}
         </div>
-
-        <div class="row item white-bg black-fg">
-            <div class="section name width-half">
-                {{log (getProp (getProp this "data.roleInfo.roleskills") data.roleInfo.role)}}
-                {{log data.roleInfo}}
-
-                <span class="rollable ability-name" data-roll-type="roleAbility" data-roll-title="{{data.roleInfo}}">{{localize (findConfigValue "roleAbilityList" data/roleInfo.role)}}:</span>
-            </div>
-            <div class="section name width-half">
-                <input name="data.roleInfo.roleskills.{{../data.roleInfo.role}}.{{rs}}" value="{{roleskill}}" type="number">
-            </div>
+        <div class="section name width-half">
+            {{localize "CPR.rank"}}
         </div>
-        <div>
-            <h1>{{localize "CPR.other"}} {{localize "CPR.roleabilities"}}:</h1>
-            {{#each (findConfigObj "roleList") as |name n|}}
-            {{#each (getProp ../data.roleInfo.roleskills n) as |roleskill rs|}}
-            {{#if (compare n "!==" ../../data.roleInfo.role)}}
-            {{#if (compare roleskill ">" 0)}}
-            <div class="row flex-start item black-fg white-bg col-2">
-                <span class="rollable ability-name" data-roll-type="roleAbility" data-roll-title="{{rs}}">{{localize
-                    (findConfigValue "roleAbilityList" rs)}}</span>: {{roleskill}} (Role: {{localize (findConfigValue
-                "roleList" n)}})
-            </div>
-            {{/if}}
-            {{/if}}
-            {{/each}}
-            {{/each}}
+    </div>
+    {{#each (getProp ../this.data.roleInfo.roleskills role) as |roleValue roleAbility|}}
+    {{#if (ne roleAbility "subSkills")}}
+    {{!-- Primary Role Abilities --}}
+    <div class="row item white-bg black-fg">
+        <div class="section name width-half">
+            <span class="rollable ability-name" data-roll-type="roleAbility"
+                data-roll-title="{{roleAbility}}">{{localize (findConfigValue "roleAbilityList" roleAbility)}}:</span>
         </div>
+        <div class="section name width-half">
+            <input name="data.roleInfo.roleskills.{{role}}.{{roleAbility}}" value="{{roleValue}}" type="number">
+        </div>
+    </div>
+    {{else}}
+    {{!-- Secondary Role Abilities --}}
+    {{#each roleValue as |subValue subSkill|}}
+    <div class="row item white-bg black-fg">
+        <div class="section name width-half">
+            <span class="rollable ability-name subskill" data-roll-type="roleAbility" data-roll-title="{{subSkill}}">{{localize
+                (findConfigValue "roleAbilityList" subSkill)}}:</span>
+        </div>
+        <div class="section name width-half">
+            <input name="data.roleInfo.roleskills.{{role}}.{{roleAbility}}.{{subSkill}}" value="{{subValue}}"
+                type="number">
+        </div>
+    </div>
+    {{/each}}
+    {{/if}}
+    {{/each}}
+    {{/each}}
 </div>
 {{log "END CPR-ROLE.HBS"}}
