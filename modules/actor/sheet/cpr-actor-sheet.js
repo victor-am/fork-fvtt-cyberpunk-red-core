@@ -224,6 +224,13 @@ export default class CPRActorSheet extends ActorSheet {
         rollRequest.roleValue = roles[roleName][roleAbility];
         rollRequest.rollTitle = game.i18n.localize(CPR.roleAbilityList[roleAbility]);
       }
+      if (!rollRequest.roleValue && roles[roleName].subSkills) {
+        // If not found, check subSkills
+        if (Object.prototype.hasOwnProperty.call(roles[roleName].subSkills, roleAbility)) {
+          rollRequest.roleValue = roles[roleName].subSkills[roleAbility];
+          rollRequest.rollTitle = game.i18n.localize(CPR.roleAbilityList[roleAbility]);
+        }
+      }
     });
   }
 
