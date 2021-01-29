@@ -186,4 +186,10 @@ export default class CPRActor extends Actor {
   _getOwnedItem(itemId) {
     return this.actor.items.find((i) => i.data._id === itemId);
   }
+
+  setRoles(roleList) {
+    console.log(this);
+    this.update({"data.roleInfo.roles": roleList});
+    console.log(this);
+  }
 }

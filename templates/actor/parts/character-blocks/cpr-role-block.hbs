@@ -1,14 +1,12 @@
 {{log "CPR-ROLE-BLOCK.HBS"}}
 <div class="cpr-block">
   <div class="title large-text bold">
-    {{localize "CPR.role"}}
+    {{localize "CPR.roles"}}
   </div>
-  <select class="select larger-text" name="data.roleInfo.role">
-    {{#select data.roleInfo.role}}
-    {{#each (findConfigObj "roleList") as |name n|}}
-    <option value="{{n}}">{{localize name}}</option>
+  <div class="title normal-text bold">
+    {{#each data.roleInfo.roles as |role|}}
+      {{localize role}}
     {{/each}}
-    {{/select}}
-  </select>
+    </div>
 </div>
 {{log "END CPR-ROLE-BLOCK.HBS"}}

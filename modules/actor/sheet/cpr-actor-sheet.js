@@ -15,6 +15,7 @@ import CPRChat from "../../chat/cpr-chat.js";
 import Rules from "../../utils/cpr-rules.js";
 import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
+import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -80,6 +81,13 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Add New Skill Item To Sheet
     html.find(".add-skill").click((event) => this._addSkill(event));
+
+    // Select Roles for Character
+    html.find(".select-roles").click((event) => this._selectRoles(event));
+
+    html.find(".checkbox").click((event) => this._checkboxToggle(event));
+
+    //html.find(".multi-option").click((event) => this._multiOption(event));
 
     html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
 
@@ -614,5 +622,11 @@ export default class CPRActorSheet extends ActorSheet {
       });
     }
     return Math.min(...penaltyMods);
+  }
+
+  async _selectRoles(event) {
+    let formData = { actor: this.actor.getData().roleInfo, roles: CPR.roleList };
+    formData = await SelectRolePrompt.RenderPrompt(formData);
+    this.actor.setRoles(formData);
   }
 }
