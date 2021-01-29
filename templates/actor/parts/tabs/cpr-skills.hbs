@@ -3,22 +3,17 @@
   {{!-- FOR ALL SKILL ITEMS, RENDER SKILL CARD --}}
   {{!-- FOR EACH CATEGORY --}}
   {{#each (findConfigObj "skillCategories") as |category c|}}
-
-
-  <div class="collapsible" data-skill-category-name={{c}}>
+  <div class="collapsible">
     <div class="row flex-end skills header white-fg black-bg bold expand-button">
+      <span class="collapse-icon hide"><i class="fas fa-angle-double-down"></i></span>
       <span class="section width-grow skill-name hide-overflow">{{localize (findConfigValue "skillCategories" c)}}</span>
       <span class="section width-eighth no-grow center-text">{{localize "CPR.level"}}</span>
       <span class="section width-eighth no-grow center-text">{{localize "CPR.base"}}</span>
     </div>
-
-
     {{#each (sort ../actor.filteredItems.skill "name") as |skill s|}}
     {{!-- IF SKILL IS OF CATEGORY --}}
     {{#if (eq skill.data.category c)}}
     {{!-- DISPLAY SKILL --}}
-
-
     <div class="row flex-end skill item black-fg white-bg" data-item-id={{skill._id}}
       data-skill-category={{skill.data.category}}>
       <div class="section width-grow width-shrink skill-name ">
@@ -37,8 +32,6 @@
         (getProp ../../actor.data.stats skill.data.stat)
         'value')}}</div>
     </div>
-
-
     {{/if}}
     {{/each}}
   </div>

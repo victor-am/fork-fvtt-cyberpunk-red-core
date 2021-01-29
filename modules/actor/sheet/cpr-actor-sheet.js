@@ -85,17 +85,10 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".expand-button").click((event) => {
       if ($(event.currentTarget.parentElement).hasClass("collapsible")) {
-        const currentText = event.currentTarget.children[0].innerText;
+        $(event.currentTarget).find(".collapse-icon").toggleClass("hide");
         for (let i = 0; i < event.currentTarget.parentElement.childNodes.length; i += 1) {
           if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("item")) {
-            const expandText = ` ( ${game.i18n.localize("CPR.clicktoexpand")})`;
-            if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("hide")) {
-              $(event.currentTarget.parentElement.childNodes[i]).removeClass("hide");
-              event.currentTarget.children[0].innerText = currentText.replace(expandText, "");
-            } else {
-              $(event.currentTarget.parentElement.childNodes[i]).addClass("hide");
-              event.currentTarget.children[0].innerText = currentText.concat(expandText);
-            }
+            $(event.currentTarget.parentElement.childNodes[i]).toggleClass("hide");
           }
         }
       }
@@ -600,7 +593,7 @@ export default class CPRActorSheet extends ActorSheet {
     const setting = true;
     // If setting is true, prompt before delete, else delete.
     if (setting) {
-      const confirmDelete = await ConfirmPrompt.RenderPrompt();
+      const confirmDelete = await ConfirmPrompt.RenderPrompt(Utils.getLocal("CPR.deleteconfirmation"), item.name);
       if (confirmDelete) {
         this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
       }

@@ -44,19 +44,6 @@
 .sheet-content {
   height: 100%;
 }
-.sheet-content input,
-.sheet-content p,
-.sheet-content span,
-.sheet-content select,
-.sheet-content button,
-.sheet-content a,
-.sheet-content img {
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  outline: 0;
-  border: 0;
-}
 .sheet-content.character {
   min-height: 100%;
   display: grid;
@@ -281,6 +268,12 @@
 }
 .dynamic-list .row .section.action {
   flex-shrink: 0;
+}
+.collapse-icon {
+  padding-left: 2%;
+}
+.hide {
+  display: none;
 }
 .cyberware-optional .name {
   padding-left: 5%;
