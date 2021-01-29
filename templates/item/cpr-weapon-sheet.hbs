@@ -21,8 +21,8 @@
       {{!-- EQUIPPED --}}
       <div>
         <label class="label-text">{{localize "CPR.equipped"}}</label>
-        <select name="data.equippable.equipped" data-dtype="{{data.equippable.equipped}}">
-          {{#select data.equippable.equipped}}
+        <select name="data.equipped" data-dtype="{{data.equipped}}">
+          {{#select data.equipped}}
           {{#each (findConfigObj "equipped") as |equip e|}}
           <option value="{{e}}">{{localize equip}}</option>
           {{/each}}

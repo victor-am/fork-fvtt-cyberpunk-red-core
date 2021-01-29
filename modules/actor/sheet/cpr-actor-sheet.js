@@ -475,13 +475,13 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _getEquippedArmors | CPRActorSheet | Called.");
     // TODO - Helper function on ACTOR to get equipedArmors
     const armors = this.actor.items.filter((item) => item.data.type === "armor");
-    const equipped = armors.filter((item) => item.data.data.equippable.equipped === "equipped");
+    const equipped = armors.filter((item) => item.getData().equipped === "equipped");
 
     if (location === "body") {
-      return equipped.filter((item) => item.data.data.isBodyLocation);
+      return equipped.filter((item) => item.getData().isBodyLocation);
     }
     if (location === "head") {
-      return equipped.filter((item) => item.data.data.isHeadLocation);
+      return equipped.filter((item) => item.getData().isHeadLocation);
     }
     throw new Error(`Bad location given: ${location}`);
   }
@@ -546,7 +546,7 @@ export default class CPRActorSheet extends ActorSheet {
   _getEquippedWeapons() {
     LOGGER.trace("ActorID _getEquippedWeapons | CPRActorSheet | Called.");
     const weapons = this.actor.data.filteredItems.weapon;
-    return weapons.filter((a) => a.data.data.equippable.equipped === "equipped");
+    return weapons.filter((a) => a.getData().equipped === "equipped");
   }
 
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
@@ -580,7 +580,8 @@ export default class CPRActorSheet extends ActorSheet {
 
   _getItemId(event) {
     LOGGER.trace("ActorID _getItemId | CPRActorSheet | Called.");
-    return $(event.currentTarget).parents(".item").attr("data-item-id");
+    let id = $(event.currentTarget).parents(".item").attr("data-item-id");
+    return id;
   }
 
   _getOwnedItem(itemId) {
