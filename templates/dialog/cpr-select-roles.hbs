@@ -9,10 +9,6 @@
         <label>{{localize cprRole}}</label>
       </div>
       <div class="section name width-grow">
-        {{log "DEBUG"}}
-        {{log ../actor}}
-        {{log ../actor.roles}}
-        {{log roleName}}
         {{#if (listContains ../actor.roles roleName)}}
         <input type="checkbox" name="selectedRoles" value="{{roleName}}" checked>
         {{else}}

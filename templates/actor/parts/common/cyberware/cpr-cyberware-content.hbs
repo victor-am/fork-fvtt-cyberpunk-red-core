@@ -1,7 +1,5 @@
 {{log "CPRCYBERWARE-CONTENT.HBS"}}
-{{log this}}
 {{#each this as |cyberware c|}}
-{{log cyberware}}
 <div class="row item cyberware bold white-bg black-fg" data-item-id={{foundation.data._id}}>
     <div class="section name width-quarter hide-overflow">
         <a class="name item-edit">{{foundation.name}}</a>
@@ -16,7 +14,6 @@
     </div>
 </div>
 {{#each optionals as |optional o|}}
-{{log optional}}
 <div class="row item cyberware-optional white-bg black-fg" data-item-id={{optional._id}} data-foundational-id={{../foundation._id}}>
     <div class="section name width-quarter hide-overflow">
         <a class="name item-edit">{{optional.name}}</a>
