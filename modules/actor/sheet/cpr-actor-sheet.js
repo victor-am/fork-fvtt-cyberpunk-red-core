@@ -377,7 +377,9 @@ export default class CPRActorSheet extends ActorSheet {
 
   async _removeCyberware(item, foundationalId) {
     LOGGER.trace("ActorID _removeCyberware | CPRActorSheet | Called.");
-    const confirmRemove = await ConfirmPrompt.RenderPrompt("Remove Cyberware", item);
+    const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
+    const dialogMessage = SystemUtils.Localize("CPR.removecyberwaredialogtext") + ` ${item.name}?`;
+    const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
     if (confirmRemove) {
       if (item.getData().isFoundational) {
         this._removeFoundationalCyberware(item);
@@ -581,20 +583,19 @@ export default class CPRActorSheet extends ActorSheet {
     return $(event.currentTarget).attr("data-item-prop");
   }
 
-  async _deleteOwnedItem(event) {
+  async _deleteOwnedItem(item) {
     LOGGER.trace("ActorID _deleteOwnedItem | CPRActorSheet | Called.");
-    const itemId = this._getItemId(event);
-    const item = this._getOwnedItem(itemId);
     // TODO - Need to get setting from const game system setting
     const setting = true;
     // If setting is true, prompt before delete, else delete.
     if (setting) {
-      const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deleteconfirmation"), item.name);
+      const promptMessage = SystemUtils.Localize("CPR.deleteconfirmation") + ` ${item.data.name}?`
+      const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage);
       if (confirmDelete) {
-        this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
+        this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
       }
     } else {
-      this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
+      this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
     }
   }
 

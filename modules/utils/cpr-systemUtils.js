@@ -27,7 +27,7 @@ export default class CPRSystemUtils {
     }
   }
 
-  static async Localize(string) {
+  static Localize(string) {
     return game.i18n.localize(string);
   }
 }

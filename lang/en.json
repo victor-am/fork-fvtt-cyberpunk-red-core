@@ -585,6 +585,8 @@
     "CPR.ref": "REF",
     "CPR.reload": "Reload",
     "CPR.reloadoutofammo": "Sorry, Choombah, you can't do that, you're out of ammo!",
+    "CPR.removecyberwaredialogtitle": "Remove Cyberware",
+    "CPR.removecyberwaredialogtext": "Are you sure you want to remove",
     "CPR.rent": "Rent",
     "CPR.repair": "Repair",
     "CPR.reputation": "Reputation",
