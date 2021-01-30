@@ -364,6 +364,9 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
     foundationalCyberware.getData().optionalIds.push(item.data._id);
+    const usedSlots = foundationalCyberware.getData().optionalIds.length;
+    const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
+    Rules.lawyer((usedSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
     this._updateOwnedItem(item);
     this._updateOwnedItem(foundationalCyberware);
   }
