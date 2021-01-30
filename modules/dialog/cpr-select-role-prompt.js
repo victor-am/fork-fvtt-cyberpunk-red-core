@@ -1,5 +1,5 @@
-
 import LOGGER from "../utils/cpr-logger.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class SelectRolesPrompt {
   static async RenderPrompt(data) {
@@ -22,7 +22,7 @@ export default class SelectRolesPrompt {
           resolve(selectedRoles);
         };
         new Dialog({
-          title: `What do you want to be when you grow up, Choombah?`,
+          title: SystemUtils.Localize("CPR.selectroleprompttitle"),
           content: html,
           buttons: {
             cancel: {
