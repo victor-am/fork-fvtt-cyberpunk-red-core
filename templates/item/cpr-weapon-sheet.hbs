@@ -106,7 +106,6 @@
       <div>
         {{localize "CPR.magazine"}} {{localize "CPR.size"}}: <input name="data.magazine.max" class="" type="number" value="{{data.magazine.max}}">
       </div>
-      {{/if}}
       {{!-- BUILD AMMO ALLOWED ARRAY --}}
       <div>
         {{!-- Label for multiselect option, also defines target array--}}
@@ -128,6 +127,7 @@
           {{/each}}
         </div>
       </div>
+      {{/if}}
   </section>
 </form>
 {{log "CPR-WEAPON-SHEET.HBS"}}
