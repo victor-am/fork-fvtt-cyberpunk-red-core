@@ -15,16 +15,16 @@ export default class CyberwareInstallPrompt {
       const template = "systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs";
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
-          LOGGER.trace("_onCancel | Dialog VerifyRollPrompt | called.");
+          LOGGER.trace("_onCancel | Dialog CyberwareInstallPrompt | called.");
           reject();
         };
         const _onConfirm = (html) => {
-          LOGGER.trace("_onConfirm | Dialog VerifyRollPrompt | called.");
+          LOGGER.trace("_onConfirm | Dialog CyberwareInstallPrompt | called.");
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
           resolve(formData);
         };
         new Dialog({
-          title: game.i18n.localize("CPR.installcyberware"),
+          title: game.i18n.localize("CPR.installcyberwaredialogtitle"),
           content: html,
           buttons: {
             cancel: {
@@ -43,7 +43,7 @@ export default class CyberwareInstallPrompt {
             },
           },
           default: "confirm",
-          render: LOGGER.trace("render | Dialog InstallCyberWare | Called."),
+          render: LOGGER.trace("render | Dialog CyberwareInstallPrompt | Called."),
           close: () => {
             reject();
           },
