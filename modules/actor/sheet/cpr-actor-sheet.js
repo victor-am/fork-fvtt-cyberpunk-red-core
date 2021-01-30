@@ -337,8 +337,9 @@ export default class CPRActorSheet extends ActorSheet {
   async _installCyberwareAction(event) {
     LOGGER.trace("ActorID _installCyberware | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
+    const foundationalId = $(event.currentTarget).parents(".item").attr("data-foundational-id");
     if (item.getData().isInstalled) {
-      this._removeCyberware(item);
+      this._removeCyberware(item, foundationalId);
     } else {
       this._addCyberware(item);
     }
@@ -374,14 +375,14 @@ export default class CPRActorSheet extends ActorSheet {
     this._updateOwnedItem(item);
   }
 
-  async _removeCyberware(item) {
+  async _removeCyberware(item, foundationalId) {
     LOGGER.trace("ActorID _removeCyberware | CPRActorSheet | Called.");
-    const confirmRemove = await ConfirmPrompt.RenderPrompt();
+    const confirmRemove = await ConfirmPrompt.RenderPrompt("Remove Cyberware", item);
     if (confirmRemove) {
       if (item.getData().isFoundational) {
         this._removeFoundationalCyberware(item);
       } else {
-        this._removeOptionalCyberware(item);
+        this._removeOptionalCyberware(item, foundationalId);
       }
     }
     this._updateOwnedItem(item);
@@ -399,12 +400,14 @@ export default class CPRActorSheet extends ActorSheet {
   _removeFoundationalCyberware(item) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
     item.getData().isInstalled = false;
-    item.getData().optionals.forEach((optionalId) => {
-      let optional = this._getOwnedItem(optionalId);
-      optional.getData().isInstalled = false;
-      this._updateOwnedItem(optional);
-    });
-    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
+    if (item.getData().optionalIds) {
+      item.getData().optionalIds.forEach((optionalId) => {
+        let optional = this._getOwnedItem(optionalId);
+        optional.getData().isInstalled = false;
+        this._updateOwnedItem(optional);
+      });
+    }
+    item.getData().optionalIds = [];
     this._updateOwnedItem(item);
   }
 

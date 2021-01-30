@@ -17,7 +17,7 @@
 </div>
 {{#each optionals as |optional o|}}
 {{log optional}}
-<div class="row item cyberware-optional white-bg black-fg" data-item-id={{optional._id}}>
+<div class="row item cyberware-optional white-bg black-fg" data-item-id={{optional._id}} data-foundational-id={{../foundation._id}}>
     <div class="section name width-quarter hide-overflow">
         <a class="name item-edit">{{optional.name}}</a>
     </div>
