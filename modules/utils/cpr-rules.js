@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import CPRSystemUtils from "./cpr-systemUtils.js";
 
 export default class Rules {
@@ -14,7 +15,6 @@ export default class Rules {
     if ("solo" in changedRoles || "tech" in changedRoles || "medtech" in changedRoles) {
       const currentRoleData = actor.data.data.roleInfo;
       mergeObject(currentRoleData, newRoleData);
-      const roleSkills = currentRoleData.roleskills;
       let abilityRank = 0;
       let subskillRank = 0;
       Object.keys(changedRoles).forEach((role) => {
@@ -34,7 +34,7 @@ export default class Rules {
             abilityRank *= 2;
             break;
           }
-          case "medtech": 
+          case "medtech":
           case "solo":
           default:
         }

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* global Hooks */
 /* eslint no-unused-vars:1 */
 import LOGGER from "../utils/cpr-logger.js";
@@ -10,6 +11,6 @@ const tokenHooks = () => {
       Rules.lawyer(Rules.validRole(game.actors.get(token.actorId), updateData.actorData), "CPR.invalidroledata");
     }
   });
-}
+};
 
 export default tokenHooks;

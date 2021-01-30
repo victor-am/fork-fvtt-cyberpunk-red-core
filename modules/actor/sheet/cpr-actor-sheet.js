@@ -16,6 +16,7 @@ import Rules from "../../utils/cpr-rules.js";
 import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
+import SystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -86,8 +87,6 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".select-roles").click((event) => this._selectRoles(event));
 
     html.find(".checkbox").click((event) => this._checkboxToggle(event));
-
-    //html.find(".multi-option").click((event) => this._multiOption(event));
 
     html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
 
@@ -230,13 +229,13 @@ export default class CPRActorSheet extends ActorSheet {
     Object.keys(roles).forEach((roleName) => {
       if (Object.prototype.hasOwnProperty.call(roles[roleName], roleAbility)) {
         rollRequest.roleValue = roles[roleName][roleAbility];
-        rollRequest.rollTitle = game.i18n.localize(CPR.roleAbilityList[roleAbility]);
+        rollRequest.rollTitle = SystemUtils.Localize(CPR.roleAbilityList[roleAbility]);
       }
       if (!rollRequest.roleValue && roles[roleName].subSkills) {
         // If not found, check subSkills
         if (Object.prototype.hasOwnProperty.call(roles[roleName].subSkills, roleAbility)) {
           rollRequest.roleValue = roles[roleName].subSkills[roleAbility];
-          rollRequest.rollTitle = game.i18n.localize(CPR.roleAbilityList[roleAbility]);
+          rollRequest.rollTitle = SystemUtils.Localize(CPR.roleAbilityList[roleAbility]);
         }
       }
     });
@@ -587,7 +586,7 @@ export default class CPRActorSheet extends ActorSheet {
     const setting = true;
     // If setting is true, prompt before delete, else delete.
     if (setting) {
-      const confirmDelete = await ConfirmPrompt.RenderPrompt(Utils.getLocal("CPR.deleteconfirmation"), item.name);
+      const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deleteconfirmation"), item.name);
       if (confirmDelete) {
         this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
       }

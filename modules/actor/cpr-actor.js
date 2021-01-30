@@ -188,8 +188,6 @@ export default class CPRActor extends Actor {
   }
 
   setRoles(roleList) {
-    console.log(this);
-    this.update({"data.roleInfo.roles": roleList});
-    console.log(this);
+    this.update({ "data.roleInfo.roles": roleList });
   }
 }

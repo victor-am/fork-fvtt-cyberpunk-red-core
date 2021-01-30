@@ -19,7 +19,6 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-skill-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-stat-prompt.hbs",
 
-
     // Shared Actor Partials
     "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-image-block.hbs",
