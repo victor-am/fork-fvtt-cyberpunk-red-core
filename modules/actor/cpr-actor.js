@@ -2,6 +2,8 @@
 import LOGGER from "../utils/cpr-logger.js";
 // import ActorUtils from "../utils/cpr-actorUtils";
 import SystemUtils from "../utils/cpr-systemUtils.js";
+import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
+import CPRChat from "../chat/cpr-chat.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -189,5 +191,12 @@ export default class CPRActor extends Actor {
 
   setRoles(roleList) {
     this.update({ "data.roleInfo.roles": roleList });
+  }
+
+  async soloCheckAbilities(userId) {
+    LOGGER.trace("soloCheckAbilities | CPRActor | Called.");
+    const template = "systems/cyberpunk-red-core/templates/chat/cpr-solo-prepare-combat.hbs";
+    CPRChat.SendMessage(template, this, [userId]);
+    return true;
   }
 }

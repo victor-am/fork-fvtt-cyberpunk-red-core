@@ -11,13 +11,29 @@ const combatPreHooks = () => {
     console.log(combat);
     console.log(data);
   });
-  Hooks.on("createCombatant", (combat, actor) => {
+  Hooks.on("createCombatant", async (combat, data) => {
     LOGGER.trace("createCombatant | combatHooks | Called.");
     // This is called when an actor is added to combat
     // We can used it to add mods to their initiative or
     // have a Solo allocate ability points.
-    console.log(combat);
-    console.log(actor);
+    const combatantData = await data;
+    const actor = combatantData.actor;
+    const combatantRoles = actor.data.data.roleInfo.roles;
+    const combatantPlayer = combatantData.players[0];
+
+    Object.keys(combatantRoles).forEach((index) => {
+      const role = combatantRoles[index];
+      switch (role) {
+        case "solo": {
+          if (combatantPlayer.active) {
+            const userId = combatantPlayer.data._id;
+            actor.soloCheckAbilities(userId);
+          }
+          break;
+        }
+        default:
+      }
+    });
   });
 };
 
