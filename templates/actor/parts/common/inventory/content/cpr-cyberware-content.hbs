@@ -4,7 +4,7 @@
     <div class="section name width-quarter hide-overflow">
         <a class="name item-edit">{{item.name}}</a>
     </div>
-    <div class="section data width-grow hide-overflow">
+    <div class="section data width-grow hide-overflow ws-nowrap">
         {{localize (findConfigValue "cyberwareTypeList" item.data.type)}}
         {{#if item.data.isFoundational}}
         ({{localize "CPR.foundational"}})

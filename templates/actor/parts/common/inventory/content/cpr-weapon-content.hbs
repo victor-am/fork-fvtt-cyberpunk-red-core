@@ -5,7 +5,7 @@
     <a class="name item-edit">{{item.name}}</a>
   </div>
   {{!-- DATA --}}
-  <div class="section data hide-overflow left-text width-grow width-shrink">
+  <div class="section data width-grow hide-overflow ws-nowrap">
     {{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}
     {{#if (ne item.data.quality "standard")}}
     ({{localize item.data.quality}})

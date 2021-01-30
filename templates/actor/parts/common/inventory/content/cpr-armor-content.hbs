@@ -3,7 +3,7 @@
     <div class="section name width-quarter hide-overflow">
         <a class="name item-edit">{{item.name}}</a>
     </div>
-    <div class="section data width-grow hide-overflow">
+    <div class="section data width-grow hide-overflow ws-nowrap">
         {{#if item.data.isHeadLocation}}
         {{localize "CPR.head"}}: {{ablated item.data "head"}} {{localize "CPR.of"}} {{item.data.headLocation.sp}} {{localize "CPR.sp"}}
         {{#if item.data.isBodyLocation}}|{{/if}}

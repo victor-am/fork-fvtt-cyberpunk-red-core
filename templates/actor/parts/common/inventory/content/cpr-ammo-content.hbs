@@ -4,7 +4,7 @@
         <span class="name item-edit">{{item.name}}</span>
         {{#if (gt item.data.amount 0 )}}&nbsp;&nbsp;x{{item.data.amount}}{{/if}}
     </div>
-    <div class="section data width-grow hide-overflow">
+    <div class="section data width-grow hide-overflow ws-nowrap">
         {{localize (findConfigValue "ammoVariety" item.data.variety)}}
         |
         {{localize (findConfigValue "ammoType" item.data.type)}}
