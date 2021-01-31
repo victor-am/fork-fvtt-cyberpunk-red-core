@@ -61,16 +61,4 @@ export default class CPRChat {
       return ChatMessage.create(chatOptions, false);
     });
   }
-
-  static SendMessage(template, data, userList) {
-    return renderTemplate(
-      template,
-      data,
-    ).then((html) => {
-      const chatOptions = this.ChatDataSetup(html);
-      chatOptions.speaker = userList;
-      chatOptions.whisper = userList;
-      return ChatMessage.create(chatOptions, false);
-    });
-  }
 }

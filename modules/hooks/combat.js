@@ -16,6 +16,7 @@ const combatPreHooks = () => {
     // This is called when an actor is added to combat
     // We can used it to add mods to their initiative or
     // have a Solo allocate ability points.
+    /*
     const combatantData = await data;
     const actor = combatantData.actor;
     const combatantRoles = actor.data.data.roleInfo.roles;
@@ -34,6 +35,7 @@ const combatPreHooks = () => {
         default:
       }
     });
+    */
   });
 };
 

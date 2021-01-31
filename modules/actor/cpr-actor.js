@@ -192,11 +192,4 @@ export default class CPRActor extends Actor {
   setRoles(roleList) {
     this.update({ "data.roleInfo.roles": roleList });
   }
-
-  async soloCheckAbilities(userId) {
-    LOGGER.trace("soloCheckAbilities | CPRActor | Called.");
-    const template = "systems/cyberpunk-red-core/templates/chat/cpr-solo-prepare-combat.hbs";
-    CPRChat.SendMessage(template, this, [userId]);
-    return true;
-  }
 }
