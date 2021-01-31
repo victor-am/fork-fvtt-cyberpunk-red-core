@@ -2,48 +2,48 @@
   {{!-- Ammo Header Navigation --}}
   {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-header.hbs"}}
   {{!-- Ammo Sheet Navigation --}}
-  <nav class="tabs" data-group="primary">
-    <a class="" data-tab="description">{{localize "CPR.description"}}</a>
-    <a class="" data-tab="details">{{localize "CPR.details"}}</a>
-  </nav>
+  <div class="nav-container black-bg">
+    <nav class="tabs" data-group="primary">
+      <a class="navtab center-text bold white-fg" data-tab="description">{{localize "CPR.description"}}</a>
+      <a class="navtab center-text bold white-fg" data-tab="details">{{localize "CPR.details"}}</a>
+    </nav>
+  </div>
   {{!-- Ammo Sheet Body --}}
-  <section class="content">
-    {{!-- Inventory Tab --}}
-    <div class="tab" data-group="primary" data-tab="description">
-      {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
-    </div>
-    <div class="tab" data-group="primary" data-tab="details">
-      <section class="">
-        {{!-- MARKET PRICE --}}
-        <div>
-          {{localize "CPR.price"}}: <input name="data.price.market" class="" type="text" value="{{data.price.market}}" placeholder="100">
-        </div>
-        {{!-- WHAT STAT DOES THIS SKILL USE --}}
-        <div>
-          {{localize "CPR.variety"}}:
-          <select name="data.variety" data-dtype="{{data.variety}}">
-            {{#select data.variety}}
-            {{#each (findConfigObj "ammoVariety") as |variety v|}}
-            <option value="{{v}}">{{localize variety}}</option>
-            {{/each}}
-            {{/select}}
-          </select>
-        </div>
-                <div>
-          {{localize "CPR.type"}}:
-          <select name="data.type" data-dtype="{{data.type}}">
-            {{#select data.type}}
-            {{#each (findConfigObj "ammoType") as |type t|}}
-            <option value="{{t}}">{{localize type}}</option>
-            {{/each}}
-            {{/select}}
-          </select>
-        </div>
-        {{!-- WHAT STAT DOES THIS SKILL USE --}}
-        <div>
-          {{localize "CPR.amount"}}: <input name="data.amount" class="" type="text" value="{{data.amount}}" placeholder="10">
-        </div>
-      </section>
-    </div>
-  </section>
+  {{!-- Inventory Tab --}}
+  <div class="tab" data-group="primary" data-tab="description">
+    {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
+  </div>
+  <div class="tab" data-group="primary" data-tab="details">
+    <section class="">
+      {{!-- MARKET PRICE --}}
+      <div>
+        {{localize "CPR.price"}}: <input name="data.price.market" class="" type="text" value="{{data.price.market}}" placeholder="100">
+      </div>
+      {{!-- WHAT STAT DOES THIS SKILL USE --}}
+      <div>
+        {{localize "CPR.variety"}}:
+        <select name="data.variety" data-dtype="{{data.variety}}">
+          {{#select data.variety}}
+          {{#each (findConfigObj "ammoVariety") as |variety v|}}
+          <option value="{{v}}">{{localize variety}}</option>
+          {{/each}}
+          {{/select}}
+        </select>
+      </div>
+      <div>
+        {{localize "CPR.type"}}:
+        <select name="data.type" data-dtype="{{data.type}}">
+          {{#select data.type}}
+          {{#each (findConfigObj "ammoType") as |type t|}}
+          <option value="{{t}}">{{localize type}}</option>
+          {{/each}}
+          {{/select}}
+        </select>
+      </div>
+      {{!-- WHAT STAT DOES THIS SKILL USE --}}
+      <div>
+        {{localize "CPR.amount"}}: <input name="data.amount" class="" type="text" value="{{data.amount}}" placeholder="10">
+      </div>
+    </section>
+  </div>
 </form>

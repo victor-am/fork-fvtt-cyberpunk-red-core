@@ -11,6 +11,16 @@
   background-color: @flint-black;
 }
 
+.navtab {
+  &.active {
+    background-color: @chip-in-yellow;
+    color: @flint-black;
+  }
+
+  &:hover {
+    text-shadow: none;
+  }
+}
 
 .sheet-content {
   // Foundry overrides
@@ -23,17 +33,6 @@
   font-size: 14px;
   font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-variant: small-caps;
-
-  .navtab {
-    &.active {
-      background-color: @chip-in-yellow;
-      color: @flint-black;
-    }
-
-    &:hover {
-      text-shadow: none;
-    }
-  }
 
   .combat-container, .content-container {
     border: 4px solid @wyrm-red;

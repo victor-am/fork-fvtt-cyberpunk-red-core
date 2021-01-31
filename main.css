@@ -383,6 +383,13 @@
 ::-webkit-scrollbar-thumb {
   background-color: #2d2f2fff;
 }
+.navtab.active {
+  background-color: #ffff3fff;
+  color: #2d2f2fff;
+}
+.navtab:hover {
+  text-shadow: none;
+}
 .sheet-content {
   color: #2d2f2fff;
   background-color: #eaeaeaff;
@@ -396,13 +403,6 @@
 .sheet-content input[type="date"],
 .sheet-content input[type="time"] {
   background: transparent;
-}
-.sheet-content .navtab.active {
-  background-color: #ffff3fff;
-  color: #2d2f2fff;
-}
-.sheet-content .navtab:hover {
-  text-shadow: none;
 }
 .sheet-content .combat-container,
 .sheet-content .content-container {
