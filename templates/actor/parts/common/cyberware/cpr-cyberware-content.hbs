@@ -1,29 +1,34 @@
 {{log "CPRCYBERWARE-CONTENT.HBS"}}
+{{log this}}
 {{#each this as |cyberware c|}}
+{{log cyberware}}
+{{log c}}
 <div class="row item cyberware bold white-bg black-fg" data-item-id={{foundation.data._id}}>
-    <div class="section name width-quarter hide-overflow">
+    <div class="section name width-quarter hide-overflow ws-nowrap">
         <a class="name item-edit">{{foundation.name}}</a>
     </div>
-    <div class="section data width-grow hide-overflow">
+    <div class="section data width-grow hide-overflow ws-nowrap">
         {{localize (findConfigValue "cyberwareTypeList" foundation.data.data.type)}}
     </div>
-    <div class="section action right-text width-fit">
+    <div class="section action right-text width-fit hide-overflow">
+        {{#unless (listContains "fashionware,cyberwareInternal,cyberwareExternal" foundation.data.data.type)}}
         {{!-- INSTALL ACTION --}}
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-install-glyph.hbs" foundation}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-uninstall-glyph.hbs" foundation}}
         {{!-- ITEM MANAGEMENT --}}
+        {{/unless}}
     </div>
 </div>
 {{#each optionals as |optional o|}}
-<div class="row item cyberware-optional white-bg black-fg" data-item-id={{optional._id}} data-foundational-id={{../foundation._id}}>
-    <div class="section name width-quarter hide-overflow">
+<div class="row item cyberware-optional white-bg black-fg ws-nowrap" data-item-id={{optional._id}} data-foundational-id={{../foundation._id}}>
+    <div class="section name width-quarter hide-overflow ws-nowrap">
         <a class="name item-edit">{{optional.name}}</a>
     </div>
-    <div class="section data width-grow hide-overflow">
+    <div class="section data width-grow hide-overflow ws-nowrap">
         {{localize (findConfigValue "cyberwareTypeList" optional.data.data.type)}}
     </div>
     <div class="section action right-text width-fit">
         {{!-- INSTALL ACTION --}}
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-install-glyph.hbs" optional}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-uninstall-glyph.hbs" optional}}
         {{!-- ITEM MANAGEMENT --}}
     </div>
 </div>
