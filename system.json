@@ -11,10 +11,18 @@
   "styles": ["main.css"],
   "packs": [
     {
-      "label": "Skills",
+      "label": "Skills - Core",
       "entity": "Item",
       "name": "skills",
       "path": "packs/skills.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Cyberware - Core",
+      "entity": "Item",
+      "name": "cyberware",
+      "path": "packs/cyberware.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     }

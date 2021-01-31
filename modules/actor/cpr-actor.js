@@ -44,11 +44,7 @@ export default class CPRActor extends Actor {
   static async create(data, options) {
     LOGGER.trace("create | CPRActor | called.");
     data.items = [];
-    switch (data.type) {
-      // default: data.items = data.items.concat(await ActorUtils.GetAllSkills());
-      default:
-        data.items = data.items.concat(await SystemUtils.GetCoreSkills());
-    }
+    data.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
     super.create(data, options);
   }
 
