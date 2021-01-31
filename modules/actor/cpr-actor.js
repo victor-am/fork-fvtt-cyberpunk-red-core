@@ -1,9 +1,11 @@
+/* eslint-disable radix */
 /* globals Actor */
 import LOGGER from "../utils/cpr-logger.js";
 // import ActorUtils from "../utils/cpr-actorUtils";
 import SystemUtils from "../utils/cpr-systemUtils.js";
-import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
 import CPRChat from "../chat/cpr-chat.js";
+import CPR from "../system/config.js";
+import CPRRolls from "../rolls/cpr-rolls.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -53,13 +55,11 @@ export default class CPRActor extends Actor {
   _prepareCharacterData(actorData) {
     LOGGER.trace("_prepareCharacterData | CPRActor | Called.");
     const { data } = actorData;
-    LOGGER.trace("_prepareCharacterData | CPRActor | Checking on contents of `actorData.data`.");
   }
 
   _prepareMookData(actorData) {
     LOGGER.trace("_prepareMookData | CPRActor | Called.");
     const { data } = actorData;
-    LOGGER.trace("_prepareMookData | CPRActor | Checking on contents of `actorData.data`.");
   }
 
   _calculateDerivedStats(actorData) {
@@ -87,19 +87,23 @@ export default class CPRActor extends Actor {
     }
     // Death save
     derivedStats.deathSave = stats.body.value;
-
-    // Humanity is a character statistic, not a Mook
-    if (actorData.type === "character") {
-      const { humanity } = actorData.data;
-      // Max Humanity
-      // TODO-- Subtract installed cyberware...
-      humanity.max = 10 * stats.emp.max;
-      if (humanity.value > humanity.max) {
-        humanity.value = humanity.max;
+    const { humanity } = actorData.data;
+    // Max Humanity
+    // TODO-- Subtract installed cyberware...
+    let cyberwarePenalty = 0;
+    this.getInstalledCyberware().forEach((cyberware) => {
+      if (cyberware.getData().type === "borgware") {
+        cyberwarePenalty += 4;
+      } else if (parseInt(cyberware.getData().humanityLoss.static) > 0) {
+        cyberwarePenalty += 2;
       }
-      // Setting EMP to value based on current humannity.
-      stats.emp.value = Math.floor(humanity.value / 10);
+    });
+    humanity.max = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
+    if (humanity.value > humanity.max) {
+      humanity.value = humanity.max;
     }
+    // Setting EMP to value based on current humannity.
+    stats.emp.value = Math.floor(humanity.value / 10);
   }
 
   // GET AND SET WOUND STATE
@@ -126,7 +130,7 @@ export default class CPRActor extends Actor {
   }
 
   getInstalledCyberware() {
-    return this.filteredItems.cyberware.filter((item) => item.isInstalled);
+    return this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled);
   }
 
   /**
@@ -148,41 +152,30 @@ export default class CPRActor extends Actor {
     );
   }
 
-  // ADD AND REMOVE CYBERWARE FROM ACTOR
-  // TODO - Refactor to map struct?
-
-  // Current implementation is as follows.
-  // Each foundational cyberware added creates a new array in cyberware.
-  // the foundational item is the 0th element of the array.
-  // when optional cyberware looks for places to go.
-  // look at all arrays in cyberware.installed
-  // if 0th element for type = optional.type && array.length < 0th.slots + 1
-  // display in list of possibly locations to install
-  // confirm will install and push optional.id into selected array
-  addCyberware(item) {
-    LOGGER.trace("addCyberware | CPRActor | Called.");
-    const data = this.getData();
-    LOGGER.trace(data);
-    // add this as foundational
-    if (item.getData().isFoundational) {
-      LOGGER.debug(
-        "addCyberware | CPRActor | Adding new foundational Cyberware to struct.",
-      );
-      // TODO - Logic to warn of rules breaking.
-      data.cyberware.installed[item._id] = [];
-      // add this as optional
+  async loseHumanityValue(amount) {
+    const { humanity } = this.data.data;
+    let value = humanity.value ? humanity.value : humanity.max;
+    if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
+      value -= (await CPRRolls.CPRRoll(amount.humanityLoss)).total;
     } else {
-      // display prompt
+      value -= parseInt(amount.humanityLoss);
     }
+
+    if (value < 0) {
+      value = 0;
+    }
+    this.update({ "data.humanity.value": value });
   }
 
-  removeCyberware(item) {
-    LOGGER.debug("removeCyberware | CPRActor | Called.");
-    if (item.getData().isFoundational) {
-      // TODO - disallow removal if has optional slots occupied.
-    } else {
-      // TODO - remove optional
+  gainHumanityValue(amount) {
+    const { humanity } = this.data.data;
+    let { value } = humanity;
+    const { max } = humanity;
+    value += parseInt(amount.humanityLoss);
+    if (value > max) {
+      value = max;
     }
+    this.update({ "data.humanity.value": value });
   }
 
   _getOwnedItem(itemId) {

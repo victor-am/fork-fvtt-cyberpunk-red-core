@@ -295,10 +295,9 @@
       "isInstalled": false,
       "isFoundational": false,
       "optionSlots": 0,
-      "foundationalId": "",
       "optionalIds": [],
       "humanityLoss": {
-        "static": 0,
+        "static": 3,
         "roll": "1d6"
       }
     },

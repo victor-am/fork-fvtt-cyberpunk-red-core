@@ -345,6 +345,7 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
+  // TODO - REFACTOR
   async _addCyberware(item) {
     const compatibaleFoundationalCyberware = this.actor.getInstalledFoundationalCyberware(item.getData().type);
     if (compatibaleFoundationalCyberware.length < 1 && !item.getData().isFoundational) {
@@ -361,6 +362,7 @@ export default class CPRActorSheet extends ActorSheet {
   _addOptionalCyberware(item, formData) {
     LOGGER.trace("ActorID _addOptionalCyberware | CPRActorSheet | Called.");
     item.getData().isInstalled = true;
+    this.actor.loseHumanityValue(formData);
     LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
     foundationalCyberware.getData().optionalIds.push(item.data._id);
@@ -371,9 +373,11 @@ export default class CPRActorSheet extends ActorSheet {
     this._updateOwnedItem(foundationalCyberware);
   }
 
-  _addFoundationalCyberware(item) {
+  _addFoundationalCyberware(item, formData) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
     item.getData().isInstalled = true;
+    this.actor.loseHumanityValue(formData);
+
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
     this._updateOwnedItem(item);
   }
@@ -381,7 +385,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _removeCyberware(item, foundationalId) {
     LOGGER.trace("ActorID _removeCyberware | CPRActorSheet | Called.");
     const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
-    const dialogMessage = SystemUtils.Localize("CPR.removecyberwaredialogtext") + ` ${item.name}?`;
+    const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
     const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
     if (confirmRemove) {
       if (item.getData().isFoundational) {
