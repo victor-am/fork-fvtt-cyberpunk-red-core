@@ -47,13 +47,9 @@
 
 
 
-<div class="armor">
+<div class="armor hide-overflow">
   <div class="bold black-bg white-fg center-text">{{localize "CPR.armor"}}</div>
   <div class="dynamic-list">
-
-
-
-    
     {{#each (sort actor.filteredItems.armor "name") as |armor| }}
     {{#if (eq armor.data.equipped "equipped")}}
     <div class="item row" data-item-id={{armor._id}}>
@@ -76,7 +72,7 @@
         {{#if (gt armor.data.bodyLocation.ablation 0)}}
         <span class="bold red-fg">
           {{/if}}
-          {{localize "CPR.body"}} {{localize "CPR.currentsp"}}: {{math "subtract" armor.data.bodyLocation.sp
+          {{localize "CPR.bodylocation"}} {{localize "CPR.currentsp"}}: {{math "subtract" armor.data.bodyLocation.sp
           armor.data.bodyLocation.ablation}}
           <a class="ablate" data-location="body">
             <i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i>
