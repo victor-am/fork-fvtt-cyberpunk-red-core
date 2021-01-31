@@ -1,13 +1,13 @@
 {{log "CPR-GEAR-INV-CONTENT.HBS"}}
-<div class="row item white-bg black-fg" data-item-id={{this._id}}>
+<div class="row flex-end inventory item white-bg black-fg" data-item-id={{item._id}}>
     <div class="section name width-quarter hide-overflow">
-        <a class="name item-edit">{{this.name}}</a>
+        <a class="name item-edit">{{item.name}}</a>
     </div>
-    <div class="section data width-grow hide-overflow">
-        {{localize "CPR.price"}}: {{data.price.market}}
+    <div class="section data width-grow hide-overflow ws-nowrap">
+        {{localize "CPR.price"}}: {{item.data.price.market}}
     </div>
-    <div class="section action right-text width-fit">
-        <a class="item-delete"><i class="fas fa-trash-alt red-fg" title="Delete Item"></i></a>
+    <div class="section action right-text width-fit width-no-shrink">
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-actions.hbs" item}}
     </div>
 </div>
 {{log "END CPR-GEAR-INV-CONTENT.HBS"}}

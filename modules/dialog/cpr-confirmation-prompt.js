@@ -7,24 +7,24 @@
 import LOGGER from "../utils/cpr-logger.js";
 
 // Make this generic to be used as a Cancel/Confirm for any action (delete item, etc
-export default class DeleteConfirmationPrompt {
+export default class ConfirmationPrompt {
   // INFO - ConfirmPrompt is a generic prompt to display on confirming an action.
   // Based on type of action, setup data to display based on given input.
   // Call to RenderPrompt should take one object as input, based on input type, prepare template and titles...
-  static async RenderPrompt() {
+  static async RenderPrompt(title, data) {
     const template = "systems/cyberpunk-red-core/templates/dialog/cpr-confirmation-prompt.hbs";
     return new Promise((resolve, reject) => {
-      renderTemplate(template).then((html) => {
+      renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
-          LOGGER.trace("_onCancel | Dialog VerifyRollPrompt | called.");
+          LOGGER.trace("_onCancel | Dialog ConfirmationPrompt | called.");
           resolve(false);
         };
         const _onConfirm = () => {
-          LOGGER.trace("_onConfirm | Dialog VerifyRollPrompt | called.");
+          LOGGER.trace("_onConfirm | Dialog ConfirmationPrompt | called.");
           resolve(true);
         };
         new Dialog({
-          title: game.i18n.localize("CPR.deleteconfirmation"),
+          title,
           content: html,
           buttons: {
             cancel: {

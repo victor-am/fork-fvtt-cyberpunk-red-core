@@ -1,0 +1,12 @@
+{{log "CPR-ROLE-BLOCK.HBS"}}
+<div class="cpr-block">
+  <div class="title large-text bold">
+    {{localize "CPR.roles"}}
+  </div>
+  <div class="title normal-text bold">
+    {{#each data.roleInfo.roles as |role|}}
+      {{localize role}}
+    {{/each}}
+    </div>
+</div>
+{{log "END CPR-ROLE-BLOCK.HBS"}}

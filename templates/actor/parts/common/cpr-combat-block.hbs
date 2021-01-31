@@ -1,0 +1,101 @@
+{{log "CPR-COMBAT-BLOCK.HBS"}}
+<div class="weapons">
+  <div class="bold black-bg white-fg center-text">{{localize "CPR.weapons"}}</div>
+  <div class="dynamic-list">
+    {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
+    {{#if (eq weapon.data.equipped "equipped")}}
+    <div class="item row" data-item-id={{weapon._id}}>
+
+      <div class="section width-third hide-overflow ws-nowrap"><a class="item-edit">{{weapon.name}}</a>
+        {{#if (ne weapon.data.quality "standard")}}
+        ({{localize weapon.data.quality}})
+        {{/if}}
+      </div>
+
+      <div class="section width-fit width-no-grow center-text">
+        <a class="rollable smallest-text" data-roll-type="attack" data-aimed="false" data-item-id={{weapon._id}}>
+          <i class="fas fa-dice-d20 red-fg" title="Standard Attack"></i>
+        </a>
+      </div>
+
+      <div class="section width-fit width-no-grow center-text">
+        <a class="rollable" data-roll-type="attack" data-aimed="true" data-item-id={{weapon._id}}>
+          <i class="fas fa-crosshairs red-fg" title="Aimed Attack"></i>
+        </a>
+      </div>
+
+      <div class="section width-fit width-no-grow center-text">
+        <a class="rollable" data-damage="{{weapon.data.damage}}" data-roll-type="damage" data-item-id={{weapon._id}}>
+          <i class="fas fa-tint red-fg" title="Damage"></i>
+        </a>
+      </div>
+
+      <div class="section width-eighth width-no-grow center-text">{{#if
+        weapon.data.isRanged}}{{weapon.data.magazine.value}}/{{weapon.data.magazine.max}}{{/if}}</div>
+
+      <div class="section width-eighth width-no-grow center-text">{{localize "CPR.rof"}} {{weapon.data.rof}}</div>
+
+      <div class="section width-sixth">
+        {{!-- TODO iterate over an array of fire modes and create <a> for each --}}
+          {{weapon.data.altFireModes}}
+      </div>
+    </div>
+    {{/if}}
+    {{/each}}
+  </div>
+</div>
+<div class="armor hide-overflow">
+  <div class="bold black-bg white-fg center-text">{{localize "CPR.armor"}}</div>
+  <div class="dynamic-list">
+    {{#each (sort actor.filteredItems.armor "name") as |armor| }}
+    {{#if (eq armor.data.equipped "equipped")}}
+    <div class="item row" data-item-id={{armor._id}}>
+      <div class="section width-quarter hide-overflow ws-nowrap"><a class="item-edit">{{armor.name}}</a></div>
+      <div class="section width-fit center-text hide-overflow">
+        {{#if armor.data.isHeadLocation}}
+        {{#if (gt armor.data.headLocation.ablation 0)}}
+        <span class="bold red-fg">
+          {{/if}}
+          {{localize "CPR.head"}} {{localize "CPR.currentsp"}}: {{math "subtract" armor.data.headLocation.sp
+          armor.data.headLocation.ablation}}
+          <a class="ablate" data-location="head">
+            <i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i>
+          </a>
+          {{#if (gt armor.data.headLocation.ablation 0)}}
+        </span>
+        {{/if}}
+        {{/if}}
+        {{#if armor.data.isBodyLocation}}
+        {{#if (gt armor.data.bodyLocation.ablation 0)}}
+        <span class="bold red-fg">
+          {{/if}}
+          {{localize "CPR.bodylocation"}} {{localize "CPR.currentsp"}}: {{math "subtract" armor.data.bodyLocation.sp
+          armor.data.bodyLocation.ablation}}
+          <a class="ablate" data-location="body">
+            <i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i>
+          </a>
+          {{#if (gt armor.data.bodyLocation.ablation 0)}}
+        </span>
+        {{/if}}
+        {{/if}}
+      </div>
+    </div>
+    {{/if}}
+    {{/each}}
+  </div>
+</div>
+
+
+<div class="combat-skills">
+  <div class=" bold black-bg white-fg center-text">Combat Skills</div>
+  {{!-- Default Skill Rolls --}}
+  {{!-- Skills to show actions for --}}
+  {{!-- Brawling, Martial Arts, Evasion --}}
+  TODO
+</div>
+
+<div class="critical-injuries">
+  <div class="bold black-bg white-fg center-text">Critical Injuries</div>
+  <textarea class="white-bg"></textarea>
+</div>
+{{log "END CPR-COMBAT-BLOCK.HBS"}}

@@ -34,6 +34,26 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("getProp", (object, property) => getProperty(object, property));
 
+  Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i._id === itemId));
+
+  // Context gets lost when calling to Partials.  This Helper will allow us to
+  // merge objects into a single object to pass to a partial.  We needed this
+  // capability on the inventory because the items were passed to the content
+  // partial but we couldn't access the actor information from that partial
+  // to get info like the name of the ammo (one item) loaded in a weapon (another item).
+  Handlebars.registerHelper("mergeForPartialArg", (...args) => {
+    const partialArgs = [...args];
+    const partialKeys = ((partialArgs[0]).replace(/\s/g, '')).split(",");
+    partialArgs.shift();
+    const mergedObject = {};
+    let index = 0;
+    partialKeys.forEach((objectName) => {
+      mergedObject[objectName] = partialArgs[index];
+      index += 1;
+    });
+    return mergedObject;
+  });
+
   Handlebars.registerHelper("findConfigValue", (obj, key) => {
     LOGGER.trace(`Calling findConfigValue Helper | Arg1:${obj} Arg2:${key}`);
     if (obj in CPR) {
@@ -98,9 +118,25 @@ export default function registerHandlebarsHelpers() {
     switch (mathFunction) {
       case "sum":
         return mathArgs.reduce((a, b) => a + b, 0);
+      case "subtract": {
+        const minutend = mathArgs.shift();
+        const subtrahend = mathArgs.reduce((a, b) => a + b, 0);
+        return minutend - subtrahend;
+      }
       default:
         LOGGER.error(`!ERR: Not a Math function: ${mathFunction}`);
         return "null";
     }
+  });
+
+  Handlebars.registerHelper("ablated", (armor, slot) => {
+    LOGGER.trace(`Calling ablated Helper | Arg1:${armor} Arg2:${slot}`);
+    if (slot === "body") {
+      return armor.bodyLocation.sp - armor.bodyLocation.ablation;
+    } else if (slot === "head") {
+      return armor.headLocation.sp - armor.headLocation.ablation;
+    }
+    LOGGER.error(`Received a bad slot: ${slot}`);
+    return -1; // return a clear bug but not a broken behavior
   });
 }

@@ -44,18 +44,14 @@
 .sheet-content {
   height: 100%;
 }
-.sheet-content input,
-.sheet-content p,
-.sheet-content span,
-.sheet-content select,
-.sheet-content button,
-.sheet-content a,
-.sheet-content img {
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  outline: 0;
+.sheet-content input[type="text"],
+.sheet-content input[type="number"],
+.sheet-content input[type="password"],
+.sheet-content input[type="date"],
+.sheet-content input[type="time"] {
   border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid black;
 }
 .sheet-content.character {
   min-height: 100%;
@@ -89,6 +85,8 @@
 .sheet-content.character .content-container {
   grid-area: content;
   min-height: 100%;
+  max-height: 480px;
+  overflow: scroll;
 }
 .sheet-content.character .content-container .tab {
   min-height: 100%;
@@ -110,15 +108,13 @@
 }
 .sheet-content.character .combat-container .weapons {
   grid-area: weapons;
+  overflow: scroll;
 }
 .sheet-content.character .combat-container .combat-skills {
   grid-area: skills;
 }
 .sheet-content.character .combat-container .critical-injuries {
   grid-area: critical;
-}
-.sheet-content.character .content-container {
-  overflow: scroll;
 }
 .sheet-content.item {
   display: flex;
@@ -138,17 +134,19 @@
   cpr-block element
 ---------------------*/
 .cpr-block {
+  /*
+  p,
+  span,
+  input {
+    padding: 0;
+    margin : 0;
+  }
+*/
   height: 60px;
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 6px;
-}
-.cpr-block p,
-.cpr-block span,
-.cpr-block input {
-  padding: 0;
-  margin: 0;
+  padding: 4px;
 }
 .cpr-block::before {
   position: absolute;
@@ -250,10 +248,7 @@
   -webkit-column-break-inside: avoid;
   page-break-inside: avoid;
   break-inside: avoid;
-  margin: 2px;
-  padding: 2px;
-  max-height: 30px;
-  min-height: 30px;
+  margin: 1px 0px 1px 0px;
 }
 .dynamic-list .row.flex-end {
   justify-content: flex-end;
@@ -263,6 +258,9 @@
 }
 .dynamic-list .row.hide {
   display: none;
+}
+.dynamic-list .row.padding-left {
+  padding-left: 2%;
 }
 .dynamic-list .row .section {
   max-height: 20px;
@@ -278,10 +276,31 @@
   overflow-x: hidden;
   text-overflow: ellipsis;
 }
+.dynamic-list .row .section.name {
+  flex: 0 0 150px;
+}
+.dynamic-list .row .section.action {
+  flex-shrink: 0;
+}
+.collapse-icon {
+  padding-left: 2%;
+}
+.hide {
+  display: none;
+}
+.role-abilities .subskill {
+  padding-left: 5%;
+}
+.cyberware-optional .name {
+  padding-left: 5%;
+}
+.ws-nowrap {
+  white-space: nowrap;
+}
 .width- {
   display: flex;
   justify-content: space-around;
-  flex: 0;
+  flex: 1 0 auto;
 }
 .width-sixteenth {
   width: 6.25%;
@@ -302,7 +321,7 @@
   width: 50%;
 }
 .width-grow {
-  flex: 1 0 auto;
+  flex-grow: 1;
 }
 .width-no-grow {
   flex-grow: 0;
@@ -312,6 +331,9 @@
 }
 .width-no-shrink {
   flex-shrink: 0;
+}
+.width-auto-basis {
+  flex-basis: auto;
 }
 .width-fit {
   width: fit-content;
@@ -353,7 +375,20 @@
   Globals and tweaks
 ---------------------*/
 ::-webkit-scrollbar {
-  display: none;
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #2d2f2fff;
+}
+.navtab.active {
+  background-color: #ffff3fff;
+  color: #2d2f2fff;
+}
+.navtab:hover {
+  text-shadow: none;
 }
 .sheet-content {
   color: #2d2f2fff;
@@ -362,12 +397,12 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-variant: small-caps;
 }
-.sheet-content .navtab.active {
-  background-color: #ffff3fff;
-  color: #2d2f2fff;
-}
-.sheet-content .navtab:hover {
-  text-shadow: none;
+.sheet-content input[type="text"],
+.sheet-content input[type="number"],
+.sheet-content input[type="password"],
+.sheet-content input[type="date"],
+.sheet-content input[type="time"] {
+  background: transparent;
 }
 .sheet-content .combat-container,
 .sheet-content .content-container {
@@ -404,6 +439,9 @@
 }
 .cpr-block.bar::before {
   clip-path: polygon(0 14px, 0 100%, calc(50% - 7.5px) 100%, calc(50% - 7.5px) 50%, calc(50% + 7.5px) 50%, calc(50% + 7.5px) 100%, 100% 100%, 100% 0, 14px 0);
+}
+.cpr-block.bar-thin::before {
+  clip-path: polygon(0 14px, 0 100%, calc(50% - 3px) 100%, calc(50% - 3px) 50%, calc(50% + 3px) 50%, calc(50% + 3px) 100%, 100% 100%, 100% 0, 14px 0);
 }
 .cpr-block.bar.out-of::after {
   content: "OUT OF";
@@ -497,6 +535,9 @@
 }
 .right-text {
   text-align: right;
+}
+.left-text {
+  text-align: left;
 }
 .bold {
   font-weight: bold;

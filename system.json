@@ -1,20 +1,28 @@
 {
-  "version": 0.47,
+  "version": 0.48,
   "name": "cyberpunk-red-core",
-  "title": "Cyberpunk (RED)",
-  "description": "Implementation of the Cyberpunk RED Core Rules for FVTT",
+  "title": "Cyberpunk RED - CORE",
+  "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
   "minimumCoreVersion": "0.7.5",
   "compatibleCoreVersion": "0.7.9",
   "templateVersion": 2,
-  "author": "Cyberpunk RED - Core Team",
+  "author": "The Project Red Team",
   "esmodules": ["cpr.js"],
   "styles": ["main.css"],
   "packs": [
     {
-      "label": "Skills",
+      "label": "Skills - Core",
       "entity": "Item",
       "name": "skills",
       "path": "packs/skills.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Cyberware - Core",
+      "entity": "Item",
+      "name": "cyberware",
+      "path": "packs/cyberware.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     }

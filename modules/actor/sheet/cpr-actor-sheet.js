@@ -1,3 +1,7 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable prefer-const */
+/* eslint-disable max-len */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable class-methods-use-this */
 /* global ActorSheet */
 /* global mergeObject, $, setProperty, game */
@@ -11,6 +15,8 @@ import CPRChat from "../../chat/cpr-chat.js";
 import Rules from "../../utils/cpr-rules.js";
 import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
+import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
+import SystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -25,7 +31,27 @@ export default class CPRActorSheet extends ActorSheet {
       width: 600,
       height: 706,
       scrollY: [".content-container"],
+      collapsedSections: [],
     });
+  }
+
+  async _render(force = false, options = {}) {
+    LOGGER.trace("ActorSheet | _render | Called.");
+    await super._render(force, options);
+    this._setSheetConfig();
+  }
+
+  _setSheetConfig() {
+    LOGGER.trace("ActorSheet | _setSheetConfig | Called.");
+    if (this.options.collapsedSections) {
+      (this.options.collapsedSections).forEach((sectionId) => {
+        const html = $(this.form).parent();
+        let currentTarget = $(html.find(`#${sectionId}`));
+        $(currentTarget).click();
+        $(currentTarget).find(".collapse-icon").removeClass("hide");
+        console.log($(currentTarget));
+      });
+    }
   }
 
   /* -------------------------------------------- */
@@ -36,6 +62,7 @@ export default class CPRActorSheet extends ActorSheet {
     // DO NOT add new data points into getData to shorten dataPaths
     LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
     const data = super.getData();
+    data.filteredItems = this.actor.filteredItems;
     data.installedCyberware = this._getInstalledCyberware();
     return data;
   }
@@ -58,6 +85,9 @@ export default class CPRActorSheet extends ActorSheet {
     // Repair Armor
     html.find(".repair").click((event) => this._repairArmor(event));
 
+    // Ablate Armor
+    html.find(".ablate").click((event) => this._ablateArmor(event));
+
     // Install Cyberware
     html.find(".install").click((event) => this._installCyberwareAction(event));
 
@@ -70,20 +100,32 @@ export default class CPRActorSheet extends ActorSheet {
     // Render Item Card
     html.find(".item-edit").click((event) => this._renderItemCard(event));
 
-    // Delete item
-    html.find(".item-delete").click((event) => this._deleteOwnedItem(event));
-
     // Add New Skill Item To Sheet
     html.find(".add-skill").click((event) => this._addSkill(event));
+
+    // Select Roles for Character
+    html.find(".select-roles").click((event) => this._selectRoles(event));
+
+    html.find(".checkbox").click((event) => this._checkboxToggle(event));
 
     html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
 
     html.find(".expand-button").click((event) => {
-      const block = $(event.currentTarget.parentElement);
-      if (block.hasClass("expand")) {
-        block.removeClass("expand");
-      } else {
-        block.addClass("expand");
+      if ($(event.currentTarget.parentElement).hasClass("collapsible")) {
+        $(event.currentTarget).find(".collapse-icon").toggleClass("hide");
+        for (let i = 0; i < event.currentTarget.parentElement.childNodes.length; i += 1) {
+          if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("item")) {
+            $(event.currentTarget.parentElement.childNodes[i]).toggleClass("hide");
+            if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("hide")) {
+              if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
+                this.options.collapsedSections.push(event.currentTarget.id);
+                console.log(this.options.collapsedSections);
+              }
+            } else {
+              this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
+            }
+          }
+        }
       }
     });
 
@@ -215,7 +257,14 @@ export default class CPRActorSheet extends ActorSheet {
     Object.keys(roles).forEach((roleName) => {
       if (Object.prototype.hasOwnProperty.call(roles[roleName], roleAbility)) {
         rollRequest.roleValue = roles[roleName][roleAbility];
-        rollRequest.rollTitle = game.i18n.localize(CPR.roleAbilityList[roleAbility]);
+        rollRequest.rollTitle = SystemUtils.Localize(CPR.roleAbilityList[roleAbility]);
+      }
+      if (!rollRequest.roleValue && roles[roleName].subSkills) {
+        // If not found, check subSkills
+        if (Object.prototype.hasOwnProperty.call(roles[roleName].subSkills, roleAbility)) {
+          rollRequest.roleValue = roles[roleName].subSkills[roleAbility];
+          rollRequest.rollTitle = SystemUtils.Localize(CPR.roleAbilityList[roleAbility]);
+        }
       }
     });
   }
@@ -267,11 +316,30 @@ export default class CPRActorSheet extends ActorSheet {
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
   }
 
+  _ablateArmor(event) {
+    LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
+    const item = this._getOwnedItem(this._getItemId(event));
+    const location = $(event.currentTarget).attr("data-location");
+    switch (location) {
+      case "head": {
+        const newAblation = Math.min((item.getData().headLocation.ablation + 1), item.getData().headLocation.sp);
+        this._updateOwnedItemProp(item, "data.headLocation.ablation", newAblation);
+        break;
+      }
+      case "body": {
+        const newAblation = Math.min((item.getData().bodyLocation.ablation + 1), item.getData().bodyLocation.sp);
+        this._updateOwnedItemProp(item, "data.bodyLocation.ablation", newAblation);
+        break;
+      }
+      default:
+    }
+  }
+
   _cycleEquipState(event) {
     LOGGER.trace("ActorID _cycleEquipState | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
     const prop = this._getObjProp(event);
-    switch (item.data.data.equippable.equipped) {
+    switch (item.data.data.equipped) {
       case "owned": {
         this._updateOwnedItemProp(item, prop, "carried");
         break;
@@ -294,14 +362,41 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
+  async _installCyberwareAction(event) {
+    LOGGER.trace("ActorID _installCyberware | CPRActorSheet | Called.");
+    const item = this._getOwnedItem(this._getItemId(event));
+    const foundationalId = $(event.currentTarget).parents(".item").attr("data-foundational-id");
+    if (item.getData().isInstalled) {
+      this._removeCyberware(item, foundationalId);
+    } else {
+      this._addCyberware(item);
+    }
+  }
+
+  // TODO - REFACTOR
+  async _addCyberware(item) {
+    const compatibaleFoundationalCyberware = this.actor.getInstalledFoundationalCyberware(item.getData().type);
+    if (compatibaleFoundationalCyberware.length < 1 && !item.getData().isFoundational) {
+      Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
+    } else if (item.getData().isFoundational) {
+      const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data });
+      this._addFoundationalCyberware(item, formData);
+    } else {
+      const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data, foundationalCyberware: compatibaleFoundationalCyberware });
+      this._addOptionalCyberware(item, formData);
+    }
+  }
+
   _addOptionalCyberware(item, formData) {
     LOGGER.trace("ActorID _addOptionalCyberware | CPRActorSheet | Called.");
     item.getData().isInstalled = true;
-    LOGGER.trace(
-      `ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`,
-    );
+    this.actor.loseHumanityValue(formData);
+    LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
     foundationalCyberware.getData().optionalIds.push(item.data._id);
+    const usedSlots = foundationalCyberware.getData().optionalIds.length;
+    const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
+    Rules.lawyer((usedSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
     this._updateOwnedItem(item);
     this._updateOwnedItem(foundationalCyberware);
   }
@@ -309,54 +404,94 @@ export default class CPRActorSheet extends ActorSheet {
   _addFoundationalCyberware(item, formData) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
     item.getData().isInstalled = true;
-    LOGGER.trace(
-      "ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.",
-    );
+    this.actor.loseHumanityValue(formData);
+
+    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
     this._updateOwnedItem(item);
   }
 
-  _removeCyberware(item, formData) { }
-
-  async _installCyberwareAction(event) {
-    LOGGER.trace("ActorID _installCyberware | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
-    const installedFoundationalCyberware = this.actor.getInstalledFoundationalCyberware(item.getData().type);
-    const formData = await InstallCyberwarePrompt({ item: item.data, cyberware: installedFoundationalCyberware });
-    if (installedFoundationalCyberware.length > 1 && !item.getData().isFoundational) {
-      this._addOptionalCyberware(item, formData);
-    } else if (item.getData().isFoundational) {
-      this._addFoundationalCyberware(item, formData);
-    } else {
-      Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
+  async _removeCyberware(item, foundationalId) {
+    LOGGER.trace("ActorID _removeCyberware | CPRActorSheet | Called.");
+    const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
+    const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
+    const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
+    if (confirmRemove) {
+      if (item.getData().isFoundational) {
+        this._removeFoundationalCyberware(item);
+      } else {
+        this._removeOptionalCyberware(item, foundationalId);
+      }
     }
-    // id of the selected foundational && HL type selection
+    this._updateOwnedItem(item);
   }
 
-  _uninstallCyberware(event) {
-    LOGGER.trace("ActorID _uninstallCyberware | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
+  _removeOptionalCyberware(item, foundationalId) {
+    LOGGER.trace("ActorID _removeOptionalCyberware | CPRActorSheet | Called.");
+    item.getData().isInstalled = false;
+    const foundationalCyberware = this._getOwnedItem(foundationalId);
+    foundationalCyberware.getData().optionalIds.splice(foundationalCyberware.getData().optionalIds.indexOf(item.data._id));
+    this._updateOwnedItem(item);
+    this._updateOwnedItem(foundationalCyberware);
+  }
+
+  _removeFoundationalCyberware(item) {
+    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
+    item.getData().isInstalled = false;
+    if (item.getData().optionalIds) {
+      item.getData().optionalIds.forEach((optionalId) => {
+        let optional = this._getOwnedItem(optionalId);
+        optional.getData().isInstalled = false;
+        this._updateOwnedItem(optional);
+      });
+    }
+    item.getData().optionalIds = [];
+    this._updateOwnedItem(item);
   }
 
   _getInstalledCyberware() {
     LOGGER.trace("ActorID _getInstalledCyberware | CPRActorSheet | Called.");
-    const allCyberware = this.actor.data.filteredItems.cyberware;
-    let installedFoundationalCyberware = allCyberware.filter((cyberware) => cyberware.getData().isInstalled && cyberware.getData().isFoundational);
+    // Get all Installed Cyberware first...
 
-    installedFoundationalCyberware = installedFoundationalCyberware.map(
-      (cyberware) => ({ foundation: cyberware, optionals: [] }),
-    );
-    installedFoundationalCyberware.forEach((entry) => {
-      entry.foundation.getData().optionalIds.forEach((id) => entry.optionals.push(this._getOwnedItem(id)));
-    });
-    return installedFoundationalCyberware;
+    const allInstalledFoundationalCyberware = this.actor.data.filteredItems.cyberware.filter((cyberware) => cyberware.getData().isFoundational && cyberware.getData().isInstalled);
+
+    // Now sort allInstalledCybere by type, and only get foundational
+    let installedCyberware = {};
+    for (const [type] of Object.entries(CPR.cyberwareTypeList)) {
+      installedCyberware[type] = allInstalledFoundationalCyberware.filter((cyberware) => cyberware.getData().type === type);
+      installedCyberware[type] = installedCyberware[type].map(
+        (cyberware) => ({ foundation: cyberware, optionals: [] }),
+      );
+      installedCyberware[type].forEach((entry) => {
+        entry.foundation.getData().optionalIds.forEach((id) => entry.optionals.push(this._getOwnedItem(id)));
+      });
+    }
+    return installedCyberware;
   }
 
+  // As a first step to re-organizing the methods to the appropriate
+  // objects (Actor/Item), let's filter calls to manipulate items
+  // through here.  Things such as:
+  // Weapon: Load, Unload
+  // Armor: Ablate, Repair
   _itemAction(event) {
     LOGGER.trace("ActorID _itemAction | CPRActorSheet | Called.");
-    const itemId = $(event.currentTarget).attr("data-item-id");
-    const item = this._getOwnedItem(itemId);
+    const item = this._getOwnedItem(this._getItemId(event));
+    const actionType = $(event.currentTarget).attr("data-action-type");
     if (item) {
-      item.doAction(this.actor, event.currentTarget.attributes);
+      switch (actionType) {
+        case "delete": {
+          this._deleteOwnedItem(item);
+          break;
+        }
+        // TODO
+        case "ablate-armor": {
+          item.ablateArmor();
+          break;
+        }
+        default: {
+          item.doAction(this.actor, event.currentTarget.attributes);
+        }
+      }
       this.actor.updateEmbeddedEntity("OwnedItem", item.data);
     }
   }
@@ -366,13 +501,13 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _getEquippedArmors | CPRActorSheet | Called.");
     // TODO - Helper function on ACTOR to get equipedArmors
     const armors = this.actor.items.filter((item) => item.data.type === "armor");
-    const equipped = armors.filter((item) => item.data.data.equippable.equipped === "equipped");
+    const equipped = armors.filter((item) => item.getData().equipped === "equipped");
 
     if (location === "body") {
-      return equipped.filter((item) => item.data.data.isBodyLocation);
+      return equipped.filter((item) => item.getData().isBodyLocation);
     }
     if (location === "head") {
-      return equipped.filter((item) => item.data.data.isHeadLocation);
+      return equipped.filter((item) => item.getData().isHeadLocation);
     }
     throw new Error(`Bad location given: ${location}`);
   }
@@ -437,7 +572,7 @@ export default class CPRActorSheet extends ActorSheet {
   _getEquippedWeapons() {
     LOGGER.trace("ActorID _getEquippedWeapons | CPRActorSheet | Called.");
     const weapons = this.actor.data.filteredItems.weapon;
-    return weapons.filter((a) => a.data.data.equippable.equipped === "equipped");
+    return weapons.filter((a) => a.getData().equipped === "equipped");
   }
 
   // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
@@ -471,7 +606,8 @@ export default class CPRActorSheet extends ActorSheet {
 
   _getItemId(event) {
     LOGGER.trace("ActorID _getItemId | CPRActorSheet | Called.");
-    return $(event.currentTarget).parents(".item").attr("data-item-id");
+    let id = $(event.currentTarget).parents(".item").attr("data-item-id");
+    return id;
   }
 
   _getOwnedItem(itemId) {
@@ -482,20 +618,19 @@ export default class CPRActorSheet extends ActorSheet {
     return $(event.currentTarget).attr("data-item-prop");
   }
 
-  async _deleteOwnedItem(event) {
+  async _deleteOwnedItem(item) {
     LOGGER.trace("ActorID _deleteOwnedItem | CPRActorSheet | Called.");
-    const itemId = this._getItemId(event);
-    const item = this._getOwnedItem(itemId);
     // TODO - Need to get setting from const game system setting
     const setting = true;
     // If setting is true, prompt before delete, else delete.
     if (setting) {
-      const confirmDelete = await ConfirmPrompt.RenderPrompt();
+      const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${item.data.name}?`;
+      const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage);
       if (confirmDelete) {
-        this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
+        this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
       }
     } else {
-      this.actor.deleteEmbeddedEntity("OwnedItem", itemId);
+      this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
     }
   }
 
@@ -524,5 +659,11 @@ export default class CPRActorSheet extends ActorSheet {
       });
     }
     return Math.min(...penaltyMods);
+  }
+
+  async _selectRoles(event) {
+    let formData = { actor: this.actor.getData().roleInfo, roles: CPR.roleList };
+    formData = await SelectRolePrompt.RenderPrompt(formData);
+    this.actor.setRoles(formData);
   }
 }
