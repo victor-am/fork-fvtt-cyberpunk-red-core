@@ -50,6 +50,8 @@
 .sheet-content input[type="date"],
 .sheet-content input[type="time"] {
   border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid black;
 }
 .sheet-content.character {
   min-height: 100%;

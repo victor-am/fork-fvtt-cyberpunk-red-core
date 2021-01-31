@@ -29,7 +29,7 @@
         {{!-- Secondary Role Abilities --}}
         {{#each roleValue as |subValue subSkill|}}
         <div class="row item white-bg black-fg">
-            <div class="section name width-half">
+            <div class="section name width-half ws-nowrap">
                 <a class="rollable ability-name subskill" data-roll-type="roleAbility" data-roll-title="{{subSkill}}">{{localize
                     (findConfigValue "roleAbilityList" subSkill)}}:</a>
             </div>
