@@ -1,22 +1,20 @@
 {{log "INSTALL-CYBERWARE-PROMPT.HBS"}}
 <form id="installCyberware">
-    
     {{!-- Select HL --}}
     <div>
-        {{localize "CPR.homanityloss"}}:
+        {{localize "CPR.humanityloss"}}:
         <select name="humanityLoss">
             <option selected value="{{item.data.humanityLoss.roll}}">Roll: {{item.data.humanityLoss.roll}}</option>
             <option value="{{item.data.humanityLoss.static}}">Static: {{item.data.humanityLoss.static}}</option>
         </select>
     </div>
     {{#unless item.data.isFoundational}}
-    <div>
     {{!-- Select Foundational Cyberware --}}
+    <div>
         {{localize "CPR.foundational"}} {{localize "CPR.cyberware"}}:
         <select name="foundationalId">
             {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
-            {{#each cyberware as |cyberware c|}}
-            
+            {{#each foundationalCyberware as |cyberware c|}}
             <option value="{{cyberware.data._id}}">{{cyberware.name}}</option>
             {{/each}}
         </select>

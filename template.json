@@ -142,14 +142,20 @@
             },
             "tech": {
               "maker": 0,
-              "fieldExpertise": 0,
-              "upgradeExpertise": 0,
-              "fabricationExpertise": 0,
-              "inventionExpertise": 0
+              "subSkills": {
+                "fieldExpertise": 0,
+                "upgradeExpertise": 0,
+                "fabricationExpertise": 0,
+                "inventionExpertise": 0
+              }
             },
             "medtech": {
               "medicine": 0,
-              "surgery": 0
+              "subSkills": {
+                "surgery": 0,
+                "medtechPharma": 0,
+                "medtechCryo": 0
+              }
             },
             "media": {
               "credibility": 0
@@ -289,10 +295,11 @@
       "isInstalled": false,
       "isFoundational": false,
       "optionSlots": 0,
+      "core": false,
       "optionalIds": [],
       "humanityLoss": {
-        "static": 0,
-        "roll": ""
+        "static": 3,
+        "roll": "1d6"
       }
     },
     "weapon": {

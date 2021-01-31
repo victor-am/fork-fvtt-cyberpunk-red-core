@@ -7,7 +7,7 @@
 import LOGGER from "../utils/cpr-logger.js";
 
 // Make this generic to be used as a Cancel/Confirm for any action (delete item, etc
-export default class DeleteConfirmationPrompt {
+export default class ConfirmationPrompt {
   // INFO - ConfirmPrompt is a generic prompt to display on confirming an action.
   // Based on type of action, setup data to display based on given input.
   // Call to RenderPrompt should take one object as input, based on input type, prepare template and titles...

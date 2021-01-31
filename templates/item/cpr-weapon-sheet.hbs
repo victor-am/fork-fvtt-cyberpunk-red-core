@@ -3,10 +3,12 @@
   {{!-- Item Header Navigation --}}
   {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-header.hbs"}}
   {{!-- Item Sheet Navigation --}}
+   <div class="nav-container black-bg">
   <nav class="tabs" data-group="primary">
-    <a class="" data-tab="description">{{localize "CPR.description"}}</a>
-    <a class="" data-tab="details">{{localize "CPR.details"}}</a>
+    <a class="navtab center-text bold white-fg" data-tab="description">{{localize "CPR.description"}}</a>
+    <a class="navtab center-text bold white-fg" data-tab="details">{{localize "CPR.details"}}</a>
   </nav>
+  </div>
   {{!-- Item Sheet Body --}}
   <section class="content">
     {{!-- Inventory Tab --}}
@@ -21,8 +23,8 @@
       {{!-- EQUIPPED --}}
       <div>
         <label class="label-text">{{localize "CPR.equipped"}}</label>
-        <select name="data.equippable.equipped" data-dtype="{{data.equippable.equipped}}">
-          {{#select data.equippable.equipped}}
+        <select name="data.equipped" data-dtype="{{data.equipped}}">
+          {{#select data.equipped}}
           {{#each (findConfigObj "equipped") as |equip e|}}
           <option value="{{e}}">{{localize equip}}</option>
           {{/each}}
@@ -47,7 +49,6 @@
         {{localize "CPR.weapon"}} {{localize "CPR.type"}}:
         <select name="data.weaponType" data-dtype="{{data.weaponType}}">
           {{#select data.weaponType}}
-          <option value="">{{localize "CPR.na"}}</option>
           {{#each (findConfigObj "weaponTypeList") as |type t|}}
           <option value="{{t}}">{{localize type}}</option>
           {{/each}}
@@ -59,7 +60,6 @@
         {{localize "CPR.weapon"}} {{localize "CPR.skill"}}:
         <select name="data.weaponSkill" data-dtype="{{data.weaponSkill}}">
           {{#select data.weaponSkill}}
-          <option value="">{{localize "CPR.na"}}</option>
           {{!-- Would be nice if this was sorted, but not sure how to do that. --}}
           {{#each (getProp this.filteredItems 'skill') as |skillOption| }}
           {{#if (listContains "rangedweaponSkills,fightingSkills" skillOption.data.data.category)}}
@@ -106,7 +106,6 @@
       <div>
         {{localize "CPR.magazine"}} {{localize "CPR.size"}}: <input name="data.magazine.max" class="" type="number" value="{{data.magazine.max}}">
       </div>
-      {{/if}}
       {{!-- BUILD AMMO ALLOWED ARRAY --}}
       <div>
         {{!-- Label for multiselect option, also defines target array--}}
@@ -128,6 +127,8 @@
           {{/each}}
         </div>
       </div>
+      {{/if}}
+    </div>
   </section>
 </form>
 {{log "CPR-WEAPON-SHEET.HBS"}}

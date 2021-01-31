@@ -1,8 +1,9 @@
 /* global Hooks */
 /* eslint no-unused-vars:1 */
 import LOGGER from "../utils/cpr-logger.js";
+import Rules from "../utils/cpr-rules.js";
 
-const actorPreHooks = () => {
+const actorHooks = () => {
   Hooks.on("preCreateActor", (createData) => {
     LOGGER.trace("\"preCreateActor | actorHooks | Called.\"");
     if (!createData.token) {
@@ -11,8 +12,11 @@ const actorPreHooks = () => {
   });
 
   Hooks.on("preUpdateActor", (actor, updatedData) => {
-    LOGGER.trace("\"preUpdateActor | actorHooks | Called.\"");
+    LOGGER.trace("preUpdateActor | actorHooks | Called.");
+    if (updatedData.data.roleInfo) {
+      Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.invalidroledata");
+    }
   });
 };
 
-export default actorPreHooks;
+export default actorHooks;

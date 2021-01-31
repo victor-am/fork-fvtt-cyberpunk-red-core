@@ -1,30 +1,30 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 /* eslint-disable no-shadow */
-/* eslint-disable class-methods-use-this */
-/* global renderTemplate, FormDataExtended, Dialog */
-// TODO - Revist this method of dialog creation.
-
+/* eslint-disable no-undef */
 import LOGGER from "../utils/cpr-logger.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
-export default class CyberwareInstallPrompt {
-  // TODO - Revist name of function.
+export default class SelectRolesPrompt {
   static async RenderPrompt(data) {
-    // setup
+    const template = "systems/cyberpunk-red-core/templates/dialog/cpr-select-roles.hbs";
     return new Promise((resolve, reject) => {
-      const template = "systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs";
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
-          LOGGER.trace("_onCancel | Dialog CyberwareInstallPrompt | called.");
+          LOGGER.trace("_onCancel | Dialog SelectRolesPrompt | called.");
           reject();
         };
         const _onConfirm = (html) => {
-          LOGGER.trace("_onConfirm | Dialog CyberwareInstallPrompt | called.");
-          const formData = new FormDataExtended(html.find("form")[0]).toObject();
-          resolve(formData);
+          LOGGER.trace("_onConfirm | Dialog SelectRolesPrompt | called.");
+          const roleList = html.find("[name=\"selectedRoles\"");
+          const selectedRoles = [];
+          Object.keys(roleList).forEach((role) => {
+            if (roleList[role].checked) {
+              selectedRoles.push(roleList[role].value);
+            }
+          });
+          resolve(selectedRoles);
         };
         new Dialog({
-          title: game.i18n.localize("CPR.installcyberwaredialogtitle"),
+          title: SystemUtils.Localize("CPR.selectroleprompttitle"),
           content: html,
           buttons: {
             cancel: {
@@ -36,14 +36,14 @@ export default class CyberwareInstallPrompt {
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: "Install",
+              label: "Confirm",
               /* eslint-disable no-shadow */
               callback: (html) => _onConfirm(html), // TODO fix no-shadow
               /* eslint-enable no-shadow */
             },
           },
           default: "confirm",
-          render: LOGGER.trace("render | Dialog CyberwareInstallPrompt | Called."),
+          render: LOGGER.trace("confirm | Dialog SelectRolesPrompt | called."),
           close: () => {
             reject();
           },

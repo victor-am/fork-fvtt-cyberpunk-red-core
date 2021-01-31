@@ -1,14 +1,18 @@
 {{log "CPR-WEAPON-INV-CONTENT.HBS"}}
-
+<div class="row flex-end inventory item white-bg black-fg" data-item-id={{item._id}}>
 <div class="section name width-quarter hide-overflow">
     <a class="name item-edit">{{item.name}}</a>
 </div>
-<div class="section data width-grow hide-overflow">
+<div class="section data width-grow hide-overflow ws-nowrap">
     {{localize "CPR.seats"}}: {{item.data.seats}}
     |
     {{localize "CPR.speed"}}: {{item.data.spd}}
     |
     {{localize "CPR.combatspeed"}}: {{item.data.speedCombat}}
     </span>
+</div>
+<div class="section action right-text width-fit width-no-shrink">
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-actions.hbs" item}}
+    </div>
 </div>
 {{log "END CPR-WEAPON-INV-CONTENT.HBS"}}

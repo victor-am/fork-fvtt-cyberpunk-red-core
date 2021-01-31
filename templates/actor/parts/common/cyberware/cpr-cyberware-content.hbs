@@ -1,18 +1,32 @@
 {{log "CPRCYBERWARE-CONTENT.HBS"}}
-<tr class="item" data-item-id={{this._id}}>
-    <td class="name"><a class="name">
-            {{this.name}}</a>
-        <a class="item-edit"><i class="fas fa-edit"></i></a>
-        <a class="item-delete"><i class="fas fa-trash-alt"></i></a>
-    </td>
-    <td class="item inventory-center">
-        CONTENT
-    </td>
-    <td class="item inventory-center">
-        CONTENT
-    </td>
-    <td class="item inventory-center">
-        CONTENT
-    </td>
-</tr>
+{{#each this as |cyberware c|}}
+<div class="row item cyberware bold white-bg black-fg" data-item-id={{foundation.data._id}}>
+    <div class="section name width-quarter hide-overflow">
+        <a class="name item-edit">{{foundation.name}}</a>
+    </div>
+    <div class="section data width-grow hide-overflow">
+        {{localize (findConfigValue "cyberwareTypeList" foundation.data.data.type)}}
+    </div>
+    <div class="section action right-text width-fit">
+        {{!-- INSTALL ACTION --}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-install-glyph.hbs" foundation}}
+        {{!-- ITEM MANAGEMENT --}}
+    </div>
+</div>
+{{#each optionals as |optional o|}}
+<div class="row item cyberware-optional white-bg black-fg" data-item-id={{optional._id}} data-foundational-id={{../foundation._id}}>
+    <div class="section name width-quarter hide-overflow">
+        <a class="name item-edit">{{optional.name}}</a>
+    </div>
+    <div class="section data width-grow hide-overflow">
+        {{localize (findConfigValue "cyberwareTypeList" optional.data.data.type)}}
+    </div>
+    <div class="section action right-text width-fit">
+        {{!-- INSTALL ACTION --}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-install-glyph.hbs" optional}}
+        {{!-- ITEM MANAGEMENT --}}
+    </div>
+</div>
+{{/each}}
+{{/each}}
 {{log "END CPR-CYBERWARE-CONTENT.HBS"}}

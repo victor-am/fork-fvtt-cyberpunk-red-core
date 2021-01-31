@@ -3,8 +3,7 @@
   <div class="bold black-bg white-fg center-text">{{localize "CPR.weapons"}}</div>
   <div class="dynamic-list">
     {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
-    {{#if (eq weapon.data.equippable.equipped "equipped")}}
-    {{log weapon}}
+    {{#if (eq weapon.data.equipped "equipped")}}
     <div class="item row" data-item-id={{weapon._id}}>
 
       <div class="section width-third hide-overflow ws-nowrap"><a class="item-edit">{{weapon.name}}</a>
@@ -15,7 +14,7 @@
 
       <div class="section width-fit width-no-grow center-text">
         <a class="rollable smallest-text" data-roll-type="attack" data-aimed="false" data-item-id={{weapon._id}}>
-          <i class="fas fa-dice-d20  red-fg" title="Standard Attack" style="padding-top: 3px;"></i>
+          <i class="fas fa-dice-d20 red-fg" title="Standard Attack"></i>
         </a>
       </div>
 
@@ -45,18 +44,11 @@
     {{/each}}
   </div>
 </div>
-
-
-
-<div class="armor">
+<div class="armor hide-overflow">
   <div class="bold black-bg white-fg center-text">{{localize "CPR.armor"}}</div>
   <div class="dynamic-list">
-
-
-
-    
     {{#each (sort actor.filteredItems.armor "name") as |armor| }}
-    {{#if (eq armor.data.equippable.equipped "equipped")}}
+    {{#if (eq armor.data.equipped "equipped")}}
     <div class="item row" data-item-id={{armor._id}}>
       <div class="section width-quarter hide-overflow ws-nowrap"><a class="item-edit">{{armor.name}}</a></div>
       <div class="section width-fit center-text hide-overflow">
@@ -77,7 +69,7 @@
         {{#if (gt armor.data.bodyLocation.ablation 0)}}
         <span class="bold red-fg">
           {{/if}}
-          {{localize "CPR.body"}} {{localize "CPR.currentsp"}}: {{math "subtract" armor.data.bodyLocation.sp
+          {{localize "CPR.bodylocation"}} {{localize "CPR.currentsp"}}: {{math "subtract" armor.data.bodyLocation.sp
           armor.data.bodyLocation.ablation}}
           <a class="ablate" data-location="body">
             <i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i>

@@ -12,8 +12,12 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-confirmation-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-select-ammo-prompt.hbs",
-    "systems/cyberpunk-red-core/templates/dialog/cpr-verify-base-roll-prompt.hbs",
-    "systems/cyberpunk-red-core/templates/dialog/cpr-verify-damage-roll-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-attack-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-damage-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-generic-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-roleAbility-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-skill-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-stat-prompt.hbs",
 
     // Shared Actor Partials
     "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs",
