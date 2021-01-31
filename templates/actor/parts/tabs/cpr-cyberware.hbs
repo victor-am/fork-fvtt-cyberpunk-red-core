@@ -2,7 +2,7 @@
 <div class="dynamic-list cyberware">
     {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
     <div class="row header black-bg white-fg bold inventory">
-        <span class="section name width-quarter" style="flex: 0 0 150px">{{localize type}}</span>
+        <span class="section name width-quarter">{{localize type}}</span>
         <span class="section data width-grow">{{localize "CPR.data"}}</span>
         <span class="section action width-quarter right-text">{{localize "CPR.actions"}}</span>
     </div>

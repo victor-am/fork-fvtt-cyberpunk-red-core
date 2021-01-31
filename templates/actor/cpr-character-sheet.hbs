@@ -1,7 +1,7 @@
 {{!-- New Layout --}}
 {{log "CPR-CHARACTER-SHEET.HBS"}}
-<form style="max-height: 100%">
-  <div class="sheet-content character" style="max-height: 100%">
+<form>
+  <div class="sheet-content character">
     <div class="image-container">
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-image-block.hbs"}}
     </div>
@@ -22,7 +22,7 @@
         <a class="navtab center-text bold white-fg" data-tab="inventory">{{localize "CPR.gear"}}</a>
         <a class="navtab center-text bold white-fg" data-tab="cyberware">{{localize "CPR.cyber"}}</a>
         <a class="navtab center-text bold white-fg" data-tab="information">{{localize "CPR.info"}}</a>
-        <a class="navtab center-text bold white-fg" data-tab="debug">DEBUG</a>
+        {{!-- <a class="navtab center-text bold white-fg" data-tab="debug">DEBUG</a> --}}
       </nav>
     </div>
     <div class="content-container">
@@ -41,9 +41,9 @@
       <div class="information-tab tab" data-group="primary" data-tab="information">
         {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-information.hbs"}}
       </div>
-      <div class="debug-tab tab" data-group="primary" data-tab="debug">
+      {{!-- <div class="debug-tab tab" data-group="primary" data-tab="debug">
         {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-item-debug.hbs"}}
-      </div>
+      </div> --}}
     </div>
     <div class="combat-container">
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-combat-block.hbs"}}

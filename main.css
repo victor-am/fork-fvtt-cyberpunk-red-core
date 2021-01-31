@@ -85,6 +85,8 @@
 .sheet-content.character .content-container {
   grid-area: content;
   min-height: 100%;
+  max-height: 480px;
+  overflow: scroll;
 }
 .sheet-content.character .content-container .tab {
   min-height: 100%;
@@ -113,9 +115,6 @@
 }
 .sheet-content.character .combat-container .critical-injuries {
   grid-area: critical;
-}
-.sheet-content.character .content-container {
-  overflow: scroll;
 }
 .sheet-content.item {
   display: flex;
@@ -376,7 +375,13 @@
   Globals and tweaks
 ---------------------*/
 ::-webkit-scrollbar {
-  display: none;
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #2d2f2fff;
 }
 .sheet-content {
   color: #2d2f2fff;

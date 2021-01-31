@@ -8,23 +8,8 @@
 import LOGGER from "../utils/cpr-logger.js";
 
 export default class VerifyRollPrompt {
-  static GetVerifyRollTemplate(rollType) {
-    switch (rollType) {
-      case "damage":
-      case "attack":
-      case "stat":
-      case "roleAbility":
-      case "skill": {
-        return `systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-${rollType}-prompt.hbs`;
-      }
-      default: {
-        return "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-generic-prompt.hbs";
-      }
-    }
-  }
-
   static async RenderPrompt(rollRequest) {
-    const template = this.GetVerifyRollTemplate(rollRequest.rollType);
+    const template = `systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-${rollRequest.rollType}-prompt.hbs`;
     const data = duplicate(rollRequest);
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {

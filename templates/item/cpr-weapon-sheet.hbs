@@ -47,7 +47,6 @@
         {{localize "CPR.weapon"}} {{localize "CPR.type"}}:
         <select name="data.weaponType" data-dtype="{{data.weaponType}}">
           {{#select data.weaponType}}
-          <option value="">{{localize "CPR.na"}}</option>
           {{#each (findConfigObj "weaponTypeList") as |type t|}}
           <option value="{{t}}">{{localize type}}</option>
           {{/each}}
@@ -59,7 +58,6 @@
         {{localize "CPR.weapon"}} {{localize "CPR.skill"}}:
         <select name="data.weaponSkill" data-dtype="{{data.weaponSkill}}">
           {{#select data.weaponSkill}}
-          <option value="">{{localize "CPR.na"}}</option>
           {{!-- Would be nice if this was sorted, but not sure how to do that. --}}
           {{#each (getProp this.filteredItems 'skill') as |skillOption| }}
           {{#if (listContains "rangedweaponSkills,fightingSkills" skillOption.data.data.category)}}
