@@ -31,7 +31,27 @@ export default class CPRActorSheet extends ActorSheet {
       width: 600,
       height: 706,
       scrollY: [".content-container"],
+      collapsedSections: [],
     });
+  }
+
+  async _render(force = false, options = {}) {
+    LOGGER.trace("ActorSheet | _render | Called.");
+    await super._render(force, options);
+    this._setSheetConfig();
+  }
+
+  _setSheetConfig() {
+    LOGGER.trace("ActorSheet | _setSheetConfig | Called.");
+    if (this.options.collapsedSections) {
+      (this.options.collapsedSections).forEach((sectionId) => {
+        const html = $(this.form).parent();
+        let currentTarget = $(html.find("#" + sectionId));
+        $(currentTarget).click();
+        $(currentTarget).find(".collapse-icon").removeClass("hide");
+        console.log($(currentTarget));
+      });
+    }
   }
 
   /* -------------------------------------------- */
@@ -96,6 +116,14 @@ export default class CPRActorSheet extends ActorSheet {
         for (let i = 0; i < event.currentTarget.parentElement.childNodes.length; i += 1) {
           if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("item")) {
             $(event.currentTarget.parentElement.childNodes[i]).toggleClass("hide");
+            if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("hide")) {
+              if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
+                this.options.collapsedSections.push(event.currentTarget.id);
+                console.log(this.options.collapsedSections);
+              }
+            } else {
+              this.options.collapsedSections = this.options.collapsedSections.filter(sectionName => sectionName !== event.currentTarget.id);
+            }
           }
         }
       }
