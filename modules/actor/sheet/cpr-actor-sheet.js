@@ -46,7 +46,7 @@ export default class CPRActorSheet extends ActorSheet {
     if (this.options.collapsedSections) {
       (this.options.collapsedSections).forEach((sectionId) => {
         const html = $(this.form).parent();
-        let currentTarget = $(html.find("#" + sectionId));
+        let currentTarget = $(html.find(`#${sectionId}`));
         $(currentTarget).click();
         $(currentTarget).find(".collapse-icon").removeClass("hide");
         console.log($(currentTarget));
@@ -122,7 +122,7 @@ export default class CPRActorSheet extends ActorSheet {
                 console.log(this.options.collapsedSections);
               }
             } else {
-              this.options.collapsedSections = this.options.collapsedSections.filter(sectionName => sectionName !== event.currentTarget.id);
+              this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
             }
           }
         }
@@ -409,7 +409,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _removeCyberware(item, foundationalId) {
     LOGGER.trace("ActorID _removeCyberware | CPRActorSheet | Called.");
     const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
-    const dialogMessage = SystemUtils.Localize("CPR.removecyberwaredialogtext") + ` ${item.name}?`;
+    const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
     const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
     if (confirmRemove) {
       if (item.getData().isFoundational) {
@@ -620,7 +620,7 @@ export default class CPRActorSheet extends ActorSheet {
     const setting = true;
     // If setting is true, prompt before delete, else delete.
     if (setting) {
-      const promptMessage = SystemUtils.Localize("CPR.deleteconfirmation") + ` ${item.data.name}?`
+      const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${item.data.name}?`;
       const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage);
       if (confirmDelete) {
         this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
