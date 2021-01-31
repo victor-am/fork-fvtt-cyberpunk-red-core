@@ -3,13 +3,13 @@
       {{! Loop through categories we are going to display in the Inventory Tab}}
       {{#each (findConfigObj "inventoryCategories") as |category c|}}
       <div class="row header black-bg white-fg bold inventory">
-            <span class="section name width-quarter" style="flex: 0 0 150px">{{localize category}}</span>
+            <span class="section name width-quarter">{{localize category}}</span>
             <span class="section data width-grow">{{localize "CPR.data"}}</span>
             <span class="section action width-quarter right-text">{{localize "CPR.actions"}}</span>
       </div>
       {{!-- Revist...? Reenable the no items entry after inventoryItems refactor --}}
       {{#if (eq (getProp (getProp ../actor.filteredItems c) 'length') 0)}}
-      <div class="row">You got no {{c}}{{#if (listContains "weapon,vehicle" c)}}s{{/if}}, choomba!</div>
+      <div class="row">{{localize "CPR.yougotnoinventory"}} {{c}}{{#if (listContains "weapon,vehicle" c)}}s{{/if}}, choomba!</div>
       {{else}}
       {{#each (sort (getProp ../actor.filteredItems c) "name") as |item i|}}
       {{!-- Partial handles Name and Data columns --}}
