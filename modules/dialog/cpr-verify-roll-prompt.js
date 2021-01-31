@@ -36,6 +36,8 @@ export default class VerifyRollPrompt {
           LOGGER.trace("_onConfirm | Dialog VerifyRollPrompt | called.");
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
           if (formData.mods) {
+            formData.mods = formData.mods.replace(/ +/g, ",");
+            formData.mods = formData.mods.replace(/,+/g, ",");
             formData.mods = formData.mods.split(",").map(Number);
           } else {
             formData.mods = [];
