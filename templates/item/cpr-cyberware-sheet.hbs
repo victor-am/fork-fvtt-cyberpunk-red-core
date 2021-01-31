@@ -2,10 +2,12 @@
   {{!-- Item Header Navigation --}}
   {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-header.hbs"}}
   {{!-- Item Sheet Navigation --}}
-  <nav class="tabs" data-group="primary">
-    <a class="navtab center-text bold white-fg" data-tab="description">{{localize "CPR.description"}}</a>
-    <a class="navtab center-text bold white-fg" data-tab="details">{{localize "CPR.details"}}</a>
-  </nav>
+  <div class="nav-container black-bg">
+    <nav class="tabs" data-group="primary">
+      <a class="navtab center-text bold white-fg" data-tab="description">{{localize "CPR.description"}}</a>
+      <a class="navtab center-text bold white-fg" data-tab="details">{{localize "CPR.details"}}</a>
+    </nav>
+  </div>
   <section class="content">
     {{!-- Inventory Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
@@ -20,11 +22,13 @@
         </div>
         {{!-- MARKET PRICE --}}
         <div>
-          {{localize "CPR.static"}} {{localize "CPR.humanityloss"}}: <input name="data.humanityLoss.static" class="" type="text" value="{{data.humanityLoss.static}}">
+          {{localize "CPR.static"}} {{localize "CPR.humanityloss"}}: <input name="data.humanityLoss.static" class=""
+            type="text" value="{{data.humanityLoss.static}}">
         </div>
         {{!-- MARKET PRICE --}}
         <div>
-          {{localize "CPR.rolled"}} {{localize "CPR.humanityloss"}}: <input name="data.humanityLoss.roll" class="" type="text" value="{{data.humanityLoss.roll}}">
+          {{localize "CPR.rolled"}} {{localize "CPR.humanityloss"}}: <input name="data.humanityLoss.roll" class=""
+            type="text" value="{{data.humanityLoss.roll}}">
         </div>
         {{!-- IS THIS FOUNDATIONAL CYBERWARE --}}
         <div>
@@ -33,7 +37,8 @@
           <a class="item-checkbox" data-target="data.isFoundational"><i class="far fa-check-circle"></i></a>
           {{!-- OPTIONAL SLOTS --}}
           <div>
-            {{localize "CPR.optionalslots"}}: <input name="data.optionSlots" class="" type="text" value="{{data.optionSlots}}">
+            {{localize "CPR.optionalslots"}}: <input name="data.optionSlots" class="" type="text"
+              value="{{data.optionSlots}}">
           </div>
           {{else}}
           <a class="item-checkbox" data-target="data.isFoundational"><i class="far fa-circle"></i></a>
