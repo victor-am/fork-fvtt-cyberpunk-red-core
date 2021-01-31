@@ -6,7 +6,7 @@
   {{!-- FOR EACH CATEGORY --}}
   {{#each (findConfigObj "skillCategories") as |category c|}}
   <div class="collapsible">
-    <div class="row flex-end skills header white-fg black-bg bold expand-button">
+    <div class="row flex-end skills header white-fg black-bg bold expand-button" id="skillTab-{{c}}">
       <span class="collapse-icon hide"><i class="fas fa-angle-double-down"></i></span>
       <span class="section width-grow skill-name hide-overflow">{{localize (findConfigValue "skillCategories" c)}}</span>
       <span class="section width-eighth no-grow center-text">{{localize "CPR.level"}}</span>

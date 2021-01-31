@@ -31,7 +31,27 @@ export default class CPRActorSheet extends ActorSheet {
       width: 600,
       height: 706,
       scrollY: [".content-container"],
+      collapsedSections: [],
     });
+  }
+
+  async _render(force = false, options = {}) {
+    LOGGER.trace("ActorSheet | _render | Called.");
+    await super._render(force, options);
+    this._setSheetConfig();
+  }
+
+  _setSheetConfig() {
+    LOGGER.trace("ActorSheet | _setSheetConfig | Called.");
+    if (this.options.collapsedSections) {
+      (this.options.collapsedSections).forEach((sectionId) => {
+        const html = $(this.form).parent();
+        let currentTarget = $(html.find(`#${sectionId}`));
+        $(currentTarget).click();
+        $(currentTarget).find(".collapse-icon").removeClass("hide");
+        console.log($(currentTarget));
+      });
+    }
   }
 
   /* -------------------------------------------- */
@@ -96,6 +116,14 @@ export default class CPRActorSheet extends ActorSheet {
         for (let i = 0; i < event.currentTarget.parentElement.childNodes.length; i += 1) {
           if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("item")) {
             $(event.currentTarget.parentElement.childNodes[i]).toggleClass("hide");
+            if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("hide")) {
+              if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
+                this.options.collapsedSections.push(event.currentTarget.id);
+                console.log(this.options.collapsedSections);
+              }
+            } else {
+              this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
+            }
           }
         }
       }
@@ -596,7 +624,7 @@ export default class CPRActorSheet extends ActorSheet {
     const setting = true;
     // If setting is true, prompt before delete, else delete.
     if (setting) {
-      const promptMessage = SystemUtils.Localize("CPR.deleteconfirmation") + ` ${item.data.name}?`
+      const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${item.data.name}?`;
       const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage);
       if (confirmDelete) {
         this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
