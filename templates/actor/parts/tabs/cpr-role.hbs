@@ -5,7 +5,7 @@
     </div>
     {{#each data.roleInfo.roles as |role|}}
     <div class="collapsible">
-        <div class="row header white-fg black-bg bold expand-button">
+        <div class="row header white-fg black-bg bold expand-button" id="roleTab-{{role}}">
             <span class="collapse-icon hide"><i class="fas fa-angle-double-down"></i></span>
             <span class="section name width-half">
                 {{localize (findConfigValue "roleList" role)}} {{localize "CPR.abilities"}}
