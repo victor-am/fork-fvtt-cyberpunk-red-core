@@ -182,6 +182,11 @@
         },
         "cyberware": {
             "installed": []
+        },
+        "humanity": {
+          "value": 60,
+          "max": 60,
+          "events": []
         }
       }
     },
@@ -214,11 +219,6 @@
       },
       "improvementPoints": {
         "total": 0
-      },
-      "humanity": {
-        "value": 60,
-        "max": 60,
-        "events": []
       },
       "wealth": {
         "eddies": 0,
