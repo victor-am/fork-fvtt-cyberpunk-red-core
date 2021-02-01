@@ -5,13 +5,13 @@
     <div class="title bold rollable" data-roll-type="stat" data-roll-title="{{s}}">
       <span>{{localize (findConfigValue "statList" s)}}</span>
     </div>
-    <div class="content center-text {{#if this.max}}normal{{else}}largest{{/if}}-text">
+    <div class="content center-text {{#if (isDefined this.max)}}normal{{else}}largest{{/if}}-text">
       <input
         name="data.stats.{{s}}.value"
         type="number"
         value="{{this.value}}"
       />
-      {{#if this.max}}
+      {{#if (isDefined this.max)}}
       <div class="red-bg">&nbsp;</div>
       <input name="data.stats.{{s}}.max" type="number" value="{{this.max}}" />
       {{/if}}

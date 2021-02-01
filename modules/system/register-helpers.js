@@ -35,6 +35,13 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i._id === itemId));
 
+  Handlebars.registerHelper("isDefined", (object) => {
+    if ((typeof object) === "undefined") {
+      return false;
+    }
+    return true;
+  });
+
   // TODO - Refactor / Revist
   Handlebars.registerHelper("mergeForPartialArg", (...args) => {
     const partialArgs = [...args];
