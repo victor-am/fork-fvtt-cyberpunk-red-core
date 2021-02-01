@@ -2,7 +2,6 @@
 /* global Handlebars, getProperty */
 import LOGGER from "../utils/cpr-logger.js";
 import CPR from "./config.js";
-// import CPRSystemUtils from "../utils/cpr-systemUtils";
 
 export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers");
@@ -36,11 +35,7 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i._id === itemId));
 
-  // Context gets lost when calling to Partials.  This Helper will allow us to
-  // merge objects into a single object to pass to a partial.  We needed this
-  // capability on the inventory because the items were passed to the content
-  // partial but we couldn't access the actor information from that partial
-  // to get info like the name of the ammo (one item) loaded in a weapon (another item).
+  // TODO - Refactor / Revist
   Handlebars.registerHelper("mergeForPartialArg", (...args) => {
     const partialArgs = [...args];
     const partialKeys = ((partialArgs[0]).replace(/\s/g, '')).split(",");

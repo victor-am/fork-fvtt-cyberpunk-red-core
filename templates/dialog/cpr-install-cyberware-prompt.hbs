@@ -9,6 +9,13 @@
         </select>
     </div>
     {{#unless item.data.isFoundational}}
+    {{#if (listContains "fashionware,cyberwareInternal,cyberwareExternal" item.data.type)}}
+                
+            {{#each foundationalCyberware as |cyberware c|}}
+            <input type="hidden" name="foundationalId" value="{{cyberware.data._id}}">
+            {{/each}}
+    
+    {{else}}
     {{!-- Select Foundational Cyberware --}}
     <div>
         {{localize "CPR.foundational"}} {{localize "CPR.cyberware"}}:
@@ -19,6 +26,7 @@
             {{/each}}
         </select>
     </div>
+    {{/if}}
     {{/unless}}
 </form>
 {{log "END INSTALL-CYBERWARE-PROMPT.HBS"}}
