@@ -31,6 +31,13 @@ export default class CPRItem extends Item {
     return this.data.data;
   }
 
+  update(data, options = {}) {
+    if(data['data.type'] === "cyberwareInternal" || data['data.type'] === "cyberwareExternal" || data['data.type'] === "fashionware" ) {
+      data['data.isFoundational'] = false;
+    }
+    super.update(data, options);
+  }
+
   // Generic item.doAction() method so any idem can be called to
   // perform an action.  This can be easily extended in the
   // switch statement and adding additional methods for each item.
