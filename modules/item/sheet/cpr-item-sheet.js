@@ -35,7 +35,6 @@ export default class CPRItemSheet extends ItemSheet {
   */
   /** @override */
   async getData() {
-    
     const data = super.getData();
     // data.isGM = game.user.isGM;
     data.isGM = game.user.isGM;

@@ -32,7 +32,7 @@ export default class CPRItem extends Item {
   }
 
   update(data, options = {}) {
-    if(data['data.type'] === "cyberwareInternal" || data['data.type'] === "cyberwareExternal" || data['data.type'] === "fashionware" ) {
+    if (data['data.type'] === "cyberwareInternal" || data['data.type'] === "cyberwareExternal" || data['data.type'] === "fashionware"git) {
       data['data.isFoundational'] = false;
     }
     super.update(data, options);
