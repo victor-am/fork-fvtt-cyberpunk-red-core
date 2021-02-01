@@ -182,6 +182,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "attack": {
         const itemId = $(event.currentTarget).attr("data-item-id");
+        rollRequest.isAimed =  $(event.currentTarget).attr("data-aimed");
         this._prepareRollAttack(rollRequest, itemId);
         break;
       }
@@ -286,6 +287,10 @@ export default class CPRActorSheet extends ActorSheet {
     // single function that would compile mods from all sources.
     if (weaponItem.getData().quality === "excellent") {
       rollRequest.mods.push(1);
+    }
+
+    if (rollRequest.isAimed) {
+      rollRequest.mods.push(-8);
     }
 
     // if char owns relevant skill, get skill value, else assign None: 0
