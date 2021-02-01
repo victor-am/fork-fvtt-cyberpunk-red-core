@@ -4,11 +4,11 @@
   {{!-- Item Header Navigation --}}
   {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-header.hbs"}}
   {{!-- Item Sheet Navigation --}}
-   <div class="nav-container black-bg">
-  <nav class="tabs" data-group="primary">
-    <a class="navtab center-text bold white-fg" data-tab="description">{{localize "CPR.description"}}</a>
-    <a class="navtab center-text bold white-fg" data-tab="details">{{localize "CPR.details"}}</a>
-  </nav>
+  <div class="nav-container black-bg">
+    <nav class="tabs" data-group="primary">
+      <a class="navtab center-text bold white-fg" data-tab="description">{{localize "CPR.description"}}</a>
+      <a class="navtab center-text bold white-fg" data-tab="details">{{localize "CPR.details"}}</a>
+    </nav>
   </div>
   {{!-- Item Sheet Body --}}
   <section class="content">
@@ -101,11 +101,13 @@
       {{#if data.isRanged}}
       {{!-- # ALT FIRE MODES INPUT --}}
       <div>
-        {{localize "CPR.altfiremodes"}}: <input name="data.altFireModes" class="" type="text" value="{{data.altFireModes}}">
+        {{localize "CPR.altfiremodes"}}: <input name="data.altFireModes" class="" type="text"
+          value="{{data.altFireModes}}">
       </div>
       {{!-- # MAG SIZE INPUT --}}
       <div>
-        {{localize "CPR.magazine"}} {{localize "CPR.size"}}: <input name="data.magazine.max" class="" type="number" value="{{data.magazine.max}}">
+        {{localize "CPR.magazine"}} {{localize "CPR.size"}}: <input name="data.magazine.max" class="" type="number"
+          value="{{data.magazine.max}}">
       </div>
       {{!-- BUILD AMMO ALLOWED ARRAY --}}
       <div>
