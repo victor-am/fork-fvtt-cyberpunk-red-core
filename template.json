@@ -294,6 +294,7 @@
       "install": "install",
       "isInstalled": false,
       "isFoundational": true,
+      "hasOptionalSlots": false,
       "optionSlots": 0,
       "core": false,
       "optionalIds": [],
