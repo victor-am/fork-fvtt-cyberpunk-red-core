@@ -792,6 +792,7 @@
     "CPR.wardrobeandstyle": "Wardrobe & Style",
     "CPR.warningtoomanyhands":"You are using more hands than you have!",
     "CPR.warningweaponnotequipped": "This weapon is not equipped!",
+    "CPR.warnnofoundationalcyberwareofcorrecttype": "Optional cyberware requires prior installation of Foundational Cyberware. No Foundational Cyberware found for this type.",
     "CPR.weapon": "Weapon",
     "CPR.weapons": "Weapons",
     "CPR.weaponsandarmor": "Weapons and Armor",
