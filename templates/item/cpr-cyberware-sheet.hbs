@@ -30,21 +30,7 @@
           {{localize "CPR.rolled"}} {{localize "CPR.humanityloss"}}: <input name="data.humanityLoss.roll" class=""
             type="text" value="{{data.humanityLoss.roll}}">
         </div>
-        {{!-- IS THIS FOUNDATIONAL CYBERWARE --}}
-        <div>
-          <label class="label-text">Foundational</label>
-          {{#if data.isFoundational}}
-          <a class="item-checkbox" data-target="data.isFoundational"><i class="far fa-check-circle"></i></a>
-          {{!-- OPTIONAL SLOTS --}}
-          <div>
-            {{localize "CPR.optionalslots"}}: <input name="data.optionSlots" class="" type="text"
-              value="{{data.optionSlots}}">
-          </div>
-          {{else}}
-          <a class="item-checkbox" data-target="data.isFoundational"><i class="far fa-circle"></i></a>
-          {{/if}}
-        </div>
-        {{!-- WHAT INSTALL LOCATION IS REQUIRED --}}
+                {{!-- WHAT INSTALL LOCATION IS REQUIRED --}}
         <div>
           {{localize "CPR.install"}}:
           <select name="data.install" data-dtype="{{data.install}}">
@@ -65,6 +51,20 @@
             {{/each}}
             {{/select}}
           </select>
+        </div>
+        {{!-- IS THIS FOUNDATIONAL CYBERWARE --}}
+        <div>
+          <label class="label-text">Foundational</label>
+          {{#if data.isFoundational}}
+          <a class="item-checkbox" data-target="data.isFoundational"><i class="far fa-check-circle"></i></a>
+          {{!-- OPTIONAL SLOTS --}}
+          <div>
+            {{localize "CPR.optionalslots"}}: <input name="data.optionSlots" class="" type="text"
+              value="{{data.optionSlots}}">
+          </div>
+          {{else}}
+          <a class="item-checkbox" data-target="data.isFoundational"><i class="far fa-circle"></i></a>
+          {{/if}}
         </div>
       </section>
     </div>

@@ -293,7 +293,7 @@
       "type": "type",
       "install": "install",
       "isInstalled": false,
-      "isFoundational": false,
+      "isFoundational": true,
       "optionSlots": 0,
       "core": false,
       "optionalIds": [],
