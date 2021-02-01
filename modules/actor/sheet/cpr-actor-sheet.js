@@ -182,7 +182,9 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "attack": {
         const itemId = $(event.currentTarget).attr("data-item-id");
-        rollRequest.isAimed = $(event.currentTarget).attr("data-aimed");
+        if ($(event.currentTarget).attr("data-aimed") === "true") {
+          rollRequest.isAimed = true;
+        }
         this._prepareRollAttack(rollRequest, itemId);
         break;
       }
