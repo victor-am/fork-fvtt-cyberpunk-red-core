@@ -9,6 +9,7 @@
         </select>
     </div>
     {{#unless item.data.isFoundational}}
+    {{#unless (listContains "fashionware,cyberwareInternal,cyberwareExternal" item.data.type)}}
     {{!-- Select Foundational Cyberware --}}
     <div>
         {{localize "CPR.foundational"}} {{localize "CPR.cyberware"}}:
@@ -19,6 +20,7 @@
             {{/each}}
         </select>
     </div>
+    {{/unless}}
     {{/unless}}
 </form>
 {{log "END INSTALL-CYBERWARE-PROMPT.HBS"}}
