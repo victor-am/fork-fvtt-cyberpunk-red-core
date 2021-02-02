@@ -42,8 +42,11 @@ export default class CPRActor extends Actor {
   /** @override */
   static async create(data, options) {
     LOGGER.trace("create | CPRActor | called.");
-    data.items = [];
-    data.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
+    if (typeof data.data === "undefined") {
+      LOGGER.trace("create | New Actor | CPRActor | called.");
+      data.items = [];
+      data.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
+    }
     super.create(data, options);
   }
 
