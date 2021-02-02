@@ -35,7 +35,7 @@
     }          
   ],
   "initiative": "1d10 + @stats.ref.value",
-  "gridDistance": 1,
+  "gridDistance": 2,
   "gridUnits": "m",
   "primaryTokenAttribute": "derivedStats.hp",
   "secondaryTokenAttribute": null,
