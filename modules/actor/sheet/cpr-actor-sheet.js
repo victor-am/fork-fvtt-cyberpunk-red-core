@@ -97,6 +97,9 @@ export default class CPRActorSheet extends ActorSheet {
     // Generic item action
     html.find(".item-action").click((event) => this._itemAction(event));
 
+    // Create item in inventory
+    html.find(".item-create").click((event) => this._createInventoryItem(event));
+
     // Render Item Card
     html.find(".item-edit").click((event) => this._renderItemCard(event));
 
@@ -486,6 +489,10 @@ export default class CPRActorSheet extends ActorSheet {
           this._deleteOwnedItem(item);
           break;
         }
+        case "create": {
+          this._createInventoryItem($(event.currentTarget).attr("data-item-type"));
+          break;
+        }
         // TODO
         case "ablate-armor": {
           item.ablateArmor();
@@ -667,5 +674,22 @@ export default class CPRActorSheet extends ActorSheet {
     let formData = { actor: this.actor.getData().roleInfo, roles: CPR.roleList };
     formData = await SelectRolePrompt.RenderPrompt(formData);
     this.actor.setRoles(formData);
+  }
+
+  _createInventoryItem(event) {
+    // We can allow a global setting which allows/denies players from creating their
+    // own items?
+    const setting = true;
+    if (setting) {
+      const itemType = $(event.currentTarget).attr("data-item-type");
+      const itemName = `${SystemUtils.Localize("CPR.new")} ${itemType.capitalize()}`;
+      const itemData = {
+        name: itemName,
+        type: itemType,
+        // eslint-disable-next-line no-undef
+        data: duplicate(itemType),
+      };
+      this.actor.createEmbeddedEntity("OwnedItem", itemData);
+    }
   }
 }

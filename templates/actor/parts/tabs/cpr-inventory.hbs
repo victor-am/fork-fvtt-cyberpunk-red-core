@@ -3,7 +3,7 @@
       {{! Loop through categories we are going to display in the Inventory Tab}}
       {{#each (findConfigObj "inventoryCategories") as |category c|}}
       <div class="row header black-bg white-fg bold inventory">
-            <span class="section name width-quarter">{{localize category}}</span>
+            <span class="section name width-quarter">{{localize category}}  <a class="item-create" data-item-type="{{c}}"><i class="far fa-plus-square"></i></a></span>
             <span class="section data width-grow">{{localize "CPR.data"}}</span>
             <span class="section action width-quarter right-text">{{localize "CPR.actions"}}</span>
       </div>
