@@ -106,6 +106,8 @@ export default class CPRActorSheet extends ActorSheet {
     // Select Roles for Character
     html.find(".select-roles").click((event) => this._selectRoles(event));
 
+    html.find(".sanity-check-cyberware").click((event) => this.actor.sanityCheckCyberware());
+
     html.find(".checkbox").click((event) => this._checkboxToggle(event));
 
     html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
