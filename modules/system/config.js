@@ -211,7 +211,7 @@ CPR.cyberwareTypeList = {
   cyberEye: "CPR.cybereye",
   cyberArm: "CPR.cyberarm",
   cyberLeg: "CPR.cyberleg",
-  neuralLink: "CPR.neurallink",
+  neuralWare: "CPR.neuralware",
   cyberwareInternal: "CPR.cyberwareinternal",
   cyberwareExternal: "CPR.cyberwareexternal",
   fashionware: "CPR.fashionware",
