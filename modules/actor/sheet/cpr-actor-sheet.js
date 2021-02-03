@@ -372,8 +372,8 @@ export default class CPRActorSheet extends ActorSheet {
   async _installCyberwareAction(event) {
     LOGGER.trace("ActorID _installCyberware | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
-    const foundationalId = $(event.currentTarget).parents(".item").attr("data-foundational-id");
     if (item.getData().isInstalled) {
+      const foundationalId = $(event.currentTarget).parents(".item").attr("data-foundational-id");
       this._removeCyberware(item, foundationalId);
     } else {
       this._addCyberware(item);
@@ -396,7 +396,6 @@ export default class CPRActorSheet extends ActorSheet {
 
   _addOptionalCyberware(item, formData) {
     LOGGER.trace("ActorID _addOptionalCyberware | CPRActorSheet | Called.");
-    item.getData().isInstalled = true;
     this.actor.loseHumanityValue(formData);
     LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
@@ -404,16 +403,16 @@ export default class CPRActorSheet extends ActorSheet {
     const usedSlots = foundationalCyberware.getData().optionalIds.length;
     const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
     Rules.lawyer((usedSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
+    item.getData().isInstalled = true;
     this._updateOwnedItem(item);
     this._updateOwnedItem(foundationalCyberware);
   }
 
   _addFoundationalCyberware(item, formData) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
-    item.getData().isInstalled = true;
     this.actor.loseHumanityValue(formData);
-
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
+    item.getData().isInstalled = true;
     this._updateOwnedItem(item);
   }
 
@@ -424,35 +423,32 @@ export default class CPRActorSheet extends ActorSheet {
     const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
     if (confirmRemove) {
       if (item.getData().isFoundational) {
-        this._removeFoundationalCyberware(item);
+        await this._removeFoundationalCyberware(item);
       } else {
-        this._removeOptionalCyberware(item, foundationalId);
+        await this._removeOptionalCyberware(item, foundationalId);
       }
+      item.getData().isInstalled = false;
     }
     this._updateOwnedItem(item);
   }
 
   _removeOptionalCyberware(item, foundationalId) {
     LOGGER.trace("ActorID _removeOptionalCyberware | CPRActorSheet | Called.");
-    item.getData().isInstalled = false;
     const foundationalCyberware = this._getOwnedItem(foundationalId);
     foundationalCyberware.getData().optionalIds.splice(foundationalCyberware.getData().optionalIds.indexOf(item.data._id));
-    this._updateOwnedItem(item);
     this._updateOwnedItem(foundationalCyberware);
   }
 
   _removeFoundationalCyberware(item) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
-    item.getData().isInstalled = false;
     if (item.getData().optionalIds) {
       item.getData().optionalIds.forEach((optionalId) => {
         let optional = this._getOwnedItem(optionalId);
         optional.getData().isInstalled = false;
         this._updateOwnedItem(optional);
       });
+      item.getData().optionalIds = [];
     }
-    item.getData().optionalIds = [];
-    this._updateOwnedItem(item);
   }
 
   _getInstalledCyberware() {
@@ -633,10 +629,9 @@ export default class CPRActorSheet extends ActorSheet {
     if (setting) {
       const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${item.data.name}?`;
       const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage);
-      if (confirmDelete) {
-        this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
+      if (!confirmDelete) {
+        return;
       }
-    } else {
       this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
     }
   }
