@@ -187,7 +187,7 @@ CPR.ammoType = {
   emp: "CPR.ammotypeemp",
   expansive: "CPR.ammotypeexpansive",
   flashbang: "CPR.ammotypeflashbang",
-  incindiary: "CPR.ammotypeincindiary",
+  incendiary: "CPR.ammotypeincendiary",
   poison: "CPR.ammotypepoison",
   rubber: "CPR.ammotyperubber",
   sleep: "CPR.ammotypesleep",
