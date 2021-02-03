@@ -14,6 +14,9 @@ import registerHooks from "./modules/system/hooks.js";
 import preloadHandlebarsTemplates from "./modules/system/preload-templates.js";
 import registerHandlebarsHelpers from "./modules/system/register-helpers.js";
 
+// System settings
+import { registerSystemSettings } from "./modules/system/settings.js";
+
 Hooks.once("init", async function () {
   LOGGER.log("THANK YOU TO EVERYONE WHO HELPED!!!!");
   LOGGER.credits();
@@ -58,5 +61,7 @@ Hooks.once("init", async function () {
 
   preloadHandlebarsTemplates();
   registerHandlebarsHelpers();
+  registerSystemSettings();
 });
+
 registerHooks();

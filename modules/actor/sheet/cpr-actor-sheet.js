@@ -630,8 +630,9 @@ export default class CPRActorSheet extends ActorSheet {
 
   async _deleteOwnedItem(item) {
     LOGGER.trace("ActorID _deleteOwnedItem | CPRActorSheet | Called.");
-    // TODO - Need to get setting from const game system setting
-    const setting = true;
+    // There's a bug here somewhere.  If the prompt is disabled, it doesn't seem
+    // to delete, but if the player is prompted, it deletes fine???
+    const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
     // If setting is true, prompt before delete, else delete.
     if (setting) {
       const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${item.data.name}?`;
@@ -639,8 +640,8 @@ export default class CPRActorSheet extends ActorSheet {
       if (!confirmDelete) {
         return;
       }
-      this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
     }
+    await this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
   }
 
   // TODO - Revist, do we need template data? Is function used.

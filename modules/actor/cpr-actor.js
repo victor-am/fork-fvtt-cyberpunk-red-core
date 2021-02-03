@@ -22,6 +22,7 @@ export default class CPRActor extends Actor {
     // Prepare data for both types
     this._calculateDerivedStats(actorData);
 
+
     // Prepare type data
     if (actorData.type === "character") this._prepareCharacterData(actorData);
     if (actorData.type === "mook") this._prepareMookData(actorData);
@@ -66,15 +67,39 @@ export default class CPRActor extends Actor {
 
     const { stats } = actorData.data;
     const { derivedStats } = actorData.data;
+    const setting = game.settings.get("cyberpunk-red-core", "calculateDerivedStats");
 
-    // Set max HP
-    derivedStats.hp.max = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
+    // After the initial config of the game, a GM may want to disable the auto-calculation
+    // of stats for Mooks & Players for custom homebrew rules
 
-    derivedStats.hp.value = Math.min(
-      derivedStats.hp.value,
-      derivedStats.hp.max,
-    );
-    // if (derivedStats.hp.value > derivedStats.hp.max) { derivedStats.hp.value = derivedStats.hp.max; };
+    if (setting) {
+      // Set max HP
+      derivedStats.hp.max = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
+
+      derivedStats.hp.value = Math.min(
+        derivedStats.hp.value,
+        derivedStats.hp.max,
+      );
+      // if (derivedStats.hp.value > derivedStats.hp.max) { derivedStats.hp.value = derivedStats.hp.max; };
+
+      const { humanity } = actorData.data;
+      // Max Humanity
+      // TODO-- Subtract installed cyberware...
+      let cyberwarePenalty = 0;
+      this.getInstalledCyberware().forEach((cyberware) => {
+        if (cyberware.getData().type === "borgware") {
+          cyberwarePenalty += 4;
+        } else if (parseInt(cyberware.getData().humanityLoss.static) > 0) {
+          cyberwarePenalty += 2;
+        }
+      });
+      humanity.max = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
+      if (humanity.value > humanity.max) {
+        humanity.value = humanity.max;
+      }
+      // Setting EMP to value based on current humannity.
+      stats.emp.value = Math.floor(humanity.value / 10);
+    }
 
     // Seriously wounded
     // Do we really need to store this or can we just calculate it dynamically as needed???
@@ -85,23 +110,6 @@ export default class CPRActor extends Actor {
     }
     // Death save
     derivedStats.deathSave = stats.body.value;
-    const { humanity } = actorData.data;
-    // Max Humanity
-    // TODO-- Subtract installed cyberware...
-    let cyberwarePenalty = 0;
-    this.getInstalledCyberware().forEach((cyberware) => {
-      if (cyberware.getData().type === "borgware") {
-        cyberwarePenalty += 4;
-      } else if (parseInt(cyberware.getData().humanityLoss.static) > 0) {
-        cyberwarePenalty += 2;
-      }
-    });
-    humanity.max = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
-    if (humanity.value > humanity.max) {
-      humanity.value = humanity.max;
-    }
-    // Setting EMP to value based on current humannity.
-    stats.emp.value = Math.floor(humanity.value / 10);
   }
 
   // GET AND SET WOUND STATE
