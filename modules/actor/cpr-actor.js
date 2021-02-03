@@ -89,7 +89,6 @@ export default class CPRActor extends Actor {
     // Max Humanity
     // TODO-- Subtract installed cyberware...
     let cyberwarePenalty = 0;
-    
     this.getInstalledCyberware().forEach((cyberware) => {
       if (cyberware.getData().type === "borgware") {
         cyberwarePenalty += 4;
@@ -184,9 +183,9 @@ export default class CPRActor extends Actor {
 
     const foundationalCyberware = allCyberware.filter((cyberware) => cyberware.getData().isFoundational === true);
     foundationalCyberware.forEach((fCyberware) => {
-      orphanedCyberware = orphanedCyberware.filter((i) => i.data._id !== fCyberware.data._id );
+      orphanedCyberware = orphanedCyberware.filter((i) => i.data._id !== fCyberware.data._id);
       fCyberware.getData().optionalIds.forEach((oCyberwareId) => {
-        orphanedCyberware = orphanedCyberware.filter((i) => i.data._id !== oCyberwareId );
+        orphanedCyberware = orphanedCyberware.filter((i) => i.data._id !== oCyberwareId);
       });
     });
     orphanedCyberware.forEach((orphan) => {
