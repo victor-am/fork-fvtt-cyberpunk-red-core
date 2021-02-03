@@ -435,7 +435,7 @@ export default class CPRActorSheet extends ActorSheet {
   _removeOptionalCyberware(item, foundationalId) {
     LOGGER.trace("ActorID _removeOptionalCyberware | CPRActorSheet | Called.");
     const foundationalCyberware = this._getOwnedItem(foundationalId);
-    foundationalCyberware.getData().optionalIds.splice(foundationalCyberware.getData().optionalIds.indexOf(item.data._id));
+    foundationalCyberware.getData().optionalIds = foundationalCyberware.getData().optionalIds.filter((optionId) => optionId !== item.data._id);
     this._updateOwnedItem(foundationalCyberware);
   }
 
