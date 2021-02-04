@@ -2,15 +2,13 @@
 {{log "CPR-CHARACTER-SHEET.HBS"}}
 <form>
   <div class="sheet-content character">
-    <div class="image-container">
-      {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-image-block.hbs"}}
-    </div>
     <div class="main-container">
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-image-block.hbs"}}
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-handle-block.hbs"}}
-      {{> "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-role-block.hbs"}}
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-hitpoint-block.hbs"}}
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-deathsave-block.hbs"}}
       {{> "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-humanity-block.hbs"}}
+      {{> "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-role-block.hbs"}}
     </div>
     <div class="stats-container">
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs"}}
@@ -45,7 +43,7 @@
         {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-item-debug.hbs"}}
       </div> --}}
     </div>
-    <div class="combat-container">
+    <div class="bottom-container">
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-combat-block.hbs"}}
     </div>
   </div>

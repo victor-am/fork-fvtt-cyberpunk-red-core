@@ -1,9 +1,9 @@
 {{log "CPR-ROLE-BLOCK.HBS"}}
 <div class="cpr-block">
-  <div class="title large-text bold">
-     <a class="select-roles" data-item-prop="select-roles">{{localize "CPR.roles"}}<i class="smallest-text text-super fas fa-wrench"></i></a>
+  <div class="fg-black bg-white text-large text-bold text-center">
+     <a class="select-roles" data-item-prop="select-roles">{{localize "CPR.roles"}}<i class="fg-black text-smallest text-super fas fa-wrench"></i></a>
   </div>
-  <div class="title normal-text bold">
+  <div class="fg-black bg-white text-normal text-bold text-center">
     {{#each data.roleInfo.roles as |role|}}
       {{localize role}}
     {{/each}}

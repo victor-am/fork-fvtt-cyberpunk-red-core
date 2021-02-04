@@ -1,462 +1,173 @@
-/*--------------------
-  Global Tweaks
----------------------*/
-.app.window-app.sheet.sheet.actor {
-  // minimum window size
-  min-width : 624px;
-  min-height: 770px;
-
-  // pull resize handle further forwards
-  .window-resizable-handle {
-    z-index: 10;
-  }
-}
-
-/*--------------------
-  Main sheet content
----------------------*/
-
-
-
-
+// Actor Sheet
 .sheet-content {
-  height: 100%;
-
-  
-  // Foundry over-rides
-  input[type="text"], input[type="number"], input[type="password"], input[type="date"], input[type="time"] {
+    font-family: "Papyrus";
+    // Foundry over-rides
+    input[type="text"], input[type="number"], input[type="password"], input[type="date"], input[type="time"] {
     border: 0;
-    border-radius: 0;
-    border-bottom: 1px solid black;
-  }
+//    border-radius: 0;
+//    border-bottom: 1px solid black;
+    text-align: center;
+    height: unset;
+    min-width: unset;
+    padding: unset;
+    margin: unset;
+    }
 
-  // character sheet layout
-  &.character {
-    min-height           : 100%;
     display              : grid;
     grid-template-columns: 200px 50px 1fr;
     grid-template-rows   :
       20px 175px minmax(300px, 1fr) 200px;
     grid-template-areas:
-      "image stats nav"
-      "image stats content"
-      "main stats content"
-      "combat combat combat"
+      "main  stats  nav"
+      "main  stats  content"
+      "main   stats  content"
+      "bottom bottom bottom"
     ;
     grid-gap: 5px;
 
     .image-container {
-      grid-area: image;
-    }
-
-    .main-container {
-      grid-area      : main;
-      display        : flex;
-      flex-direction : column;
-      justify-content: space-between;
-    }
-
-    .stats-container {
-      grid-area      : stats;
-      display        : flex;
-      flex-direction : column;
-      justify-content: space-between;
-    }
-
-    .nav-container {
-      grid-area: nav;
-
-      nav {
-        height: 20px;
+        grid-area: image;
+      }
+  
+      .main-container {
+        grid-area      : main;
+        display: flex;
+        flex-direction: column;
 
       }
-    }
-
-    .content-container {
-      grid-area : content;
-      min-height: 100%;
-      max-height: 480px;
-      overflow: scroll;
-      .tab {
-        min-height: 100%;
-        height    : 100%;
+  
+      .stats-container {
+        grid-area      : stats;
       }
-    }
-
-    .combat-container {
-      grid-area: combat;
-      z-index  : 5;
-    }
-
-    // Image layout
-    .image-container {}
-
-    // Main layout
-    .main-container {}
-
-    // Stats layout
-    .stats-container {}
-
-    // Nav layout
-    .nav-container {}
-
-    // Combat layout
-    .combat-container {
-      display              : grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows   : repeat(2, 1fr);
-      grid-template-areas  :
-        "critical weapons weapons weapons"
-        "armor armor skills  skills"
-      ;
-      grid-gap: 10px;
-
-      .armor {
-        grid-area: armor;
+      .nav-container {
+        grid-area: nav;
       }
-
-      .weapons {
-        grid-area: weapons;
-        overflow: scroll;
+  
+      .content-container {
+        grid-area : content;
       }
-
-      .combat-skills {
-        grid-area: skills
+  
+      .bottom-container {
+        grid-area : bottom;
       }
-
-      .critical-injuries {
-        grid-area: critical;
-      }
-    }
-
-    .content-container {
-
-    }
-  }
-
-  &.mook-condensed {
-    //TODO
-  }
-
-  &.item {
-    display       : flex;
-    flex-direction: column;
-    height        : 100%;
-
-    .content {
-      display              : grid;
-      height               : 100%;
-      grid-template-columns: repeat(2, 50%);
-      grid-template-rows   : 1fr;
-
-      &.weapon {
-        grid-template-areas:
-          "physical other ";
-      }
-    }
-  }
 }
 
-/*--------------------
-  cpr-block element
----------------------*/
 .cpr-block {
+    padding: 4px;
+    .triangle-corner {
+      clip-path: polygon(0 15%,
+      0 100%,
+      100% 100%,
+      100% 0,
+      15% 0);
+    }
+}
 
-  // remove padding and margins
-  /*
-  p,
-  span,
-  input {
-    padding: 0;
-    margin : 0;
-  }
+
+/* These exist in the framework.
+.text- {
+    &center {
+        text-align: center;
+    }
+    &left {
+        text-align: left;
+    }
+
+    &right {
+        text-align: right;
+    }
+}
 */
-  height        : 60px;
-  position      : relative;
-  display       : flex;
-  flex-direction: column;
-  padding       : 4px;
-  &::before {
-    position: absolute;
-    height  : calc(100% - 8px);
-    width   : calc(100% - 8px);
-    top     : 4px;
-    left    : 4px;
-  }
 
-  // Children
-  .title {
-    padding-left   : 12px;
-    display        : flex;
-    flex           : 0;
-    justify-content: center;
-
-    &.double {
-      justify-content: space-around;
-    }
-  }
-
-  .content {
-    display        : flex;
-    justify-content: space-around;
-    flex           : 0;
-  }
-
-  .select {
-    background: transparent;
-    outline   : 0;
-    border    : 0;
-  }
-
-  // Modifiers
-  &.stat {
-    width : 50px;
-    height: 50px;
-
-    &::before {
-      position: absolute;
-      height  : 42px;
-      width   : 42px;
-      top     : 4px;
-      left    : 4px;
-    }
-    input {
-      padding-bottom: 2px;
-    }
-  }
-
-  &.fit {
-    height: fit-content;
-    width : 100%;
-  }
-
-  &.image {
-    height : 200px;
-    width  : 200px;
-    padding: 0;
-
-    img {
-      height  : calc(100% - 8px);
-      width   : calc(100% - 8px);
-      position: absolute;
-      left    : 4px;
-      top     : 4px;
-    }
-
-    &::before {
-      position: absolute;
-      height  : calc(100% - 8px);
-      width   : calc(100% - 8px);
-      top     : 4px;
-      left    : 4px;
-    }
-
-    &.small {
-      height: 60px;
-      width : 60px;
-    }
-  }
-
-  &.margin-bottom {
-    margin-bottom: 5px;
-  }
-
-  &.horizontal {
-    flex-direction: row;
-  }
-
-  &.half-height {
-    height: 50%;
-  }
-
-  &.rollcard {
-    height    : 200px;
-    margin-top: 5px;
-  }
-
-  &.pad-left {
-    padding-left: 12px;
-  }
-
-  &.editor {
-    height: 200px;
-  }
-}
-
-/*--------------------
-  Dynamic Lists
----------------------*/
-.dynamic-list {
-  &.columns {
-    columns: 330px 5;
-  }
-  .row {
-    display        : flex;
+.flex-space-between {
+    display: flex;
     justify-content: space-between;
-    align-items: center;
-    align-content: stretch;
-    -webkit-column-break-inside: avoid;
-    page-break-inside: avoid;
-    break-inside: avoid;
-    margin: 1px 0px 1px 0px;
-    &.flex-end {
-      justify-content: flex-end;
-    }
-
-    &.flex-start {
-      justify-content: flex-start;
-    }
-
-    &.hide {
-      display: none;
-    }
-
-    &.padding-left {
-      padding-left: 2%;
-    }
-
-    .section {
-      max-height: 20px;
-      height    : 20px;
-      padding   : 0 5px;
-
-      a,
-      span,
-      input,
-      div {
-        max-height   : 20px;
-        height       : 20px;
-        overflow-x   : hidden;
-        text-overflow: ellipsis;
-      }
-      &.name {
-        flex: 0 0 150px;
-      }
-      &.action {
-        flex-shrink: 0;
-      }
-    }
-  }
-}
-
-.collapse-icon {
-  padding-left: 2%;
-}
-
-.hide {
-  display: none;
-}
-
-.role-abilities {  
-  .subskill {
-    padding-left: 5%;
-  }
-}
-.cyberware-optional {
-  .name {
-    padding-left: 5%;
-  }
-}
-
-.ws-nowrap {
-  white-space: nowrap;
 }
 
 .width- {
-  display        : flex;
-  justify-content: space-around;
-  flex           : 1 0 auto;
-
-  &sixteenth {
-    width: 6.25%;
-  }
-
-  &eighth {
-    width: 12.5%;
-  }
-
-  &sixth {
-    width: calc(100% / 6)
-  }
-
-  &quarter {
-    width: 25%;
-  }
-
-  &third {
-    width: calc(100% / 3);
-  }
-
-  &half {
-    width: 50%;
-  }
-
-  &grow {
-    flex-grow: 1;
-  }
-
-  &no-grow {
-    flex-grow: 0;
-  }
-
-  &shrink {
-    flex-shrink: 1;
-  }
-
-  &no-shrink {
-    flex-shrink: 0;
-  }
-
-  &auto-basis {
-    flex-basis: auto;
-  }
-
-  &fit {
-    width  : fit-content;
-    padding: 0 2px;
-  }
-
-  &max-half {
-    max-width: 50%;
-  }
-
-  &max-quarter {
-    max-width: 25%;
-  }
-
-  &max-eighth {
-    max-width: 12.5%;
-  }
-
-  &max-three-quarters {
-    max-width: 75%;
-  }
-
-  &max-third {
-    max-width: calc(100%/3);
-  }
-
-  &max-two-thirds {
-    max-width: calc((100%/3)*2);
-  }
-}
-
-.height- {
-  &max {
-    height: 100%;
-  }
-}
-
-.row-reverse {
-  flex-direction: row-reverse;
-}
-
-.container- {
-  display: flex;
-
-  &center {
+    display        : flex;
+    justify-content: space-around;
     flex           : 1 0 auto;
-    justify-content: space-evenly;
-    align-items    : center;
+  
+    &sixteenth {
+      width: 6.25%;
+    }
+  
+    &eighth {
+      width: 12.5%;
+    }
+  
+    &sixth {
+      width: calc(100% / 6)
+    }
+  
+    &quarter {
+      width: 25%;
+    }
+  
+    &third {
+      width: calc(100% / 3);
+    }
+  
+    &half {
+      width: 50%;
+    }
+
+    &full {
+        width: 100%;
+      }
+  
+    &grow {
+      flex-grow: 1;
+    }
+  
+    &no-grow {
+      flex-grow: 0;
+    }
+  
+    &shrink {
+      flex-shrink: 1;
+    }
+  
+    &no-shrink {
+      flex-shrink: 0;
+    }
+  
+    &auto-basis {
+      flex-basis: auto;
+    }
+  
+    &fit {
+      width  : fit-content;
+      padding: 0 2px;
+    }
+  
+    &max-half {
+      max-width: 50%;
+    }
+  
+    &max-quarter {
+      max-width: 25%;
+    }
+  
+    &max-eighth {
+      max-width: 12.5%;
+    }
+  
+    &max-three-quarters {
+      max-width: 75%;
+    }
+  
+    &max-third {
+      max-width: calc(100%/3);
+    }
+  
+    &max-two-thirds {
+      max-width: calc((100%/3)*2);
+    }
   }
+.text- {
+    &rotate {
+  transform: rotate(-90deg);
+    }
 }

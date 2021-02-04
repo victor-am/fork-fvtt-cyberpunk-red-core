@@ -1,0 +1,249 @@
+/*--------------------
+  Globals and tweaks
+---------------------*/
+::-webkit-scrollbar {
+  width: 10px
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: @flint-black;
+}
+
+.navtab {
+  &.active {
+    background-color: @chip-in-yellow;
+    color: @flint-black;
+  }
+
+  &:hover {
+    text-shadow: none;
+  }
+}
+
+.sheet-content {
+  // Foundry overrides
+  input[type="text"], input[type="number"], input[type="password"], input[type="date"], input[type="time"] {
+    background: transparent;
+  }
+
+  color: @flint-black;
+  background-color: @chrome-white;
+  font-size: 14px;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-variant: small-caps;
+
+  .combat-container, .content-container {
+    border: 4px solid @wyrm-red;
+    padding: 5px;
+  }
+
+  a:hover {
+    text-shadow: none;
+    text-shadow: 0px 0px 5px @meat-space-pink;
+  }
+
+  textarea {
+    border: 0;
+    outline: 0;
+    height: calc(100% - 20px);
+    width: 100%;
+  }
+}
+
+/*--------------------
+  cpr-block element styling
+---------------------*/
+.cpr-block {
+  background-color: @wyrm-red;
+  position: relative;
+  clip-path: polygon(0 15px,
+      0 100%,
+      100% 100%,
+      100% 0,
+      15px 0);
+
+  &::before {
+    content: "";
+    background-color: @chrome-white;
+    clip-path: polygon(0 14px,
+        0 100%,
+        100% 100%,
+        100% 0,
+        14px 0);
+    z-index: -1;
+  }
+  /*--------------------
+    Bar modifier
+  ---------------------*/
+  &.bar::before {
+    clip-path: polygon(0 14px,
+      0 100%, 
+      calc(50% - 7.5px) 100%,
+      calc(50% - 7.5px) 50%,
+      calc(50% + 7.5px) 50%,
+      calc(50% + 7.5px) 100%,
+      100% 100%,
+      100% 0,
+      14px 0);
+  }
+  &.bar-thin::before {
+    clip-path: polygon(0 14px,
+      0 100%, 
+      calc(50% - 3px) 100%,
+      calc(50% - 3px) 50%,
+      calc(50% + 3px) 50%,
+      calc(50% + 3px) 100%,
+      100% 100%,
+      100% 0,
+      14px 0);
+  }
+  &.bar.out-of::after {
+    content: "OUT OF";
+    position: absolute;
+    transform: rotate(-90deg);
+    color: @chrome-white;
+    font-size: 0.5em;
+    left: 43.5%;
+    top: 65%;
+  }
+  /*-------------------*/
+
+  // Modifiers
+  &.stat {
+    clip-path: polygon(0 16px,
+        0 100%,
+        100% 100%,
+        100% 0,
+        16px 0);
+
+    .title {
+      font-size: 0.8em;
+    }
+
+  }
+
+  &.image {
+    img {
+      clip-path: polygon(0 14px,
+          0 100%,
+          100% 100%,
+          100% 0,
+          14px 0);
+    }
+  }
+}
+
+/*--------------------
+  Color modifiers
+---------------------*/
+.black-fg {
+  color: @flint-black;
+}
+.black-bg {
+  background-color: @flint-black;
+}
+.white-fg {
+  color: @chrome-white;
+}
+.white-bg {
+  background-color: @chrome-white;
+}
+.red-fg {
+  color: @wyrm-red;
+}
+.red-bg {
+  background-color: @wyrm-red;
+}
+.blue-fg {
+  color: @holo-blue;
+}
+.blue-bg {
+  background-color: @holo-blue;
+}
+.yellow-fg {
+  color: @chip-in-yellow;
+}
+.yellow-bg {
+  background-color: @chip-in-yellow;
+}
+.pink-fg {
+  color: @meat-space-pink;
+}
+.pink-bg {
+  background-color: @meat-space-pink;
+}
+
+/*--------------------
+  Text modifiers
+---------------------*/
+.smallcaps {
+  font-variant: small-caps;
+}
+.smallest-text {
+  font-size: 0.5em;
+}
+.smaller-text {
+  font-size: 0.7em;
+}
+.small-text {
+  font-size: 0.8em;
+}
+.normal-text {
+  font-size: 1em;
+}
+.large-text {
+  font-size: 1.3em;
+}
+.larger-text {
+  font-size: 1.7em;
+}
+.largest-text {
+  font-size: 2em;
+}
+.massive-text {
+  font-size: 4em;
+}
+.center-text {
+  text-align: center;
+}
+.right-text {
+  text-align: right;
+}
+.left-text {
+  text-align: left;
+}
+.text-super {
+  vertical-align: super;
+}
+.bold {
+  font-weight: bold;
+}
+.hide-overflow {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/*--------------------
+  FA Glyph  modifiers
+---------------------*/
+// Wound state smilies
+.fa-smile {
+  color: @malachite
+}
+
+.fa-meh {
+  color: orange
+}
+
+.fa-frown {
+  color: @wyrm-red
+}
+
+// Color the damage dice 
+[class^="fas fa-dice"] {
+  color: @wyrm-red;
+  font-size: 2em;
+}
