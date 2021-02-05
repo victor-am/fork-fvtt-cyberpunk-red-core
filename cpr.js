@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 
 // Object imports
 import CPRActor from "./modules/actor/cpr-actor.js";
@@ -17,7 +18,7 @@ import registerHandlebarsHelpers from "./modules/system/register-helpers.js";
 // System settings
 import { registerSystemSettings } from "./modules/system/settings.js";
 
-Hooks.once("init", async function () {
+Hooks.once("init", () => {
   LOGGER.log("THANK YOU TO EVERYONE WHO HELPED!!!!");
   LOGGER.credits();
   // Register Actor Sheet Application Classes
@@ -37,8 +38,9 @@ Hooks.once("init", async function () {
       "skill",
       "vehicle",
       "program",
-      "netarch"
-    ], makeDefault: true
+      "netarch",
+    ],
+    makeDefault: true,
   });
 
   // Give ourselves console access to our objects
@@ -47,13 +49,13 @@ Hooks.once("init", async function () {
       CPRActorSheet,
       CPRCharacterActorSheet,
       CPRMookActorSheet,
-      CPRItemSheet
+      CPRItemSheet,
     },
     entities: {
       CPRActor,
-      CPRItem
-    }
-  }
+      CPRItem,
+    },
+  };
 
   // Assign the actor class to the CONFIG
   CONFIG.Actor.entityClass = CPRActor;
