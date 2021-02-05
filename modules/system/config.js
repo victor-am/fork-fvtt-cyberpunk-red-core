@@ -177,6 +177,7 @@ CPR.ammoVariety = {
   arrow: "CPR.ammovararrow",
   grenade: "CPR.ammovargrenade",
   rocket: "CPR.ammovarrocket",
+  battery: "CPR.ammovarbattery",
 };
 
 // Not sorted

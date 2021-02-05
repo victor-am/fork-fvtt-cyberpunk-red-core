@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-else-return */
 /* global Handlebars, getProperty */
 import LOGGER from "../utils/cpr-logger.js";
@@ -141,4 +142,6 @@ export default function registerHandlebarsHelpers() {
     LOGGER.error(`Received a bad slot: ${slot}`);
     return -1; // return a clear bug but not a broken behavior
   });
+
+  Handlebars.registerHelper("systemConfig", (settingName) => game.settings.get("cyberpunk-red-core", settingName));
 }
