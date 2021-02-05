@@ -41,10 +41,13 @@
   grid-area: bottom;
 }
 .cpr-block {
-  padding: 4px;
+  padding: 2px 4px 2px 4px;
 }
 .cpr-block .triangle-corner {
   clip-path: polygon(0 15%, 0 100%, 100% 100%, 100% 0, 15% 0);
+}
+.cpr-cap {
+  padding: 2px 0px 0px 0px;
 }
 /* These exist in the framework.
 .text- {
