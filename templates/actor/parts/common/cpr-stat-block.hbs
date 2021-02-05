@@ -1,7 +1,7 @@
 {{log "CPR-STAT-BLOCK.HBS"}}
 {{!-- Partials to create stat-units from template --}}
 {{#each data.stats as |stat s|}}
-  <div class="cpr-block stat">
+  <div class="cpr-block">
     <div class="rollable fg-black bg-white text-large text-bold text-center" data-roll-type="stat" data-roll-title="{{s}}">
       <span>{{localize (findConfigValue "statList" s)}}</span>
     </div>

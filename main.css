@@ -4,8 +4,8 @@
   font-family: "Audimat Mono";
   display: grid;
   grid-template-columns: 200px 50px 1fr;
-  grid-template-rows: 20px 175px minmax(300px, 1fr) 200px;
-  grid-template-areas: "main  stats  nav" "main  stats  content" "main   stats  content" "bottom bottom bottom";
+  grid-template-rows: 20px 400px 200px;
+  grid-template-areas: "main  stats  nav" "main  stats  content" "bottom bottom bottom";
   grid-gap: 5px;
 }
 .sheet-content input[type="text"],
@@ -20,16 +20,25 @@
   padding: unset;
   margin: unset;
 }
-.sheet-content .image-container {
-  grid-area: image;
-}
 .sheet-content .main-container {
   grid-area: main;
   display: flex;
   flex-direction: column;
+  padding: 3px;
+}
+.sheet-content .main-container > .cpr-block {
+  flex: initial;
+  margin: 3px;
 }
 .sheet-content .stats-container {
   grid-area: stats;
+  display: flex;
+  flex-direction: column;
+  padding: 3px;
+}
+.sheet-content .stats-container > .cpr-block {
+  flex: initial;
+  margin: 3px;
 }
 .sheet-content .nav-container {
   grid-area: nav;
@@ -40,29 +49,12 @@
 .sheet-content .bottom-container {
   grid-area: bottom;
 }
-.cpr-block {
-  padding: 2px 4px 2px 4px;
-}
 .cpr-block .triangle-corner {
   clip-path: polygon(0 15%, 0 100%, 100% 100%, 100% 0, 15% 0);
 }
 .cpr-cap {
   padding: 2px 0px 0px 0px;
 }
-/* These exist in the framework.
-.text- {
-    &center {
-        text-align: center;
-    }
-    &left {
-        text-align: left;
-    }
-
-    &right {
-        text-align: right;
-    }
-}
-*/
 .flex-space-between {
   display: flex;
   justify-content: space-between;
@@ -195,9 +187,6 @@
   font-weight: 900;
   font-style: normal;
   font-display: swap;
-}
-.sheet-content .image-container {
-  background-color: #b90202ff;
 }
 .sheet-content .main-container {
   background-color: #b90202ff;

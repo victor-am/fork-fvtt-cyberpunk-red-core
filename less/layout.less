@@ -1,177 +1,172 @@
 // Actor Sheet
 .sheet-content {
-    font-family: "Audimat Mono";
-    // Foundry over-rides
-    input[type="text"], input[type="number"], input[type="password"], input[type="date"], input[type="time"] {
-    border: 0;
-//    border-radius: 0;
-//    border-bottom: 1px solid black;
-    text-align: center;
-    height: unset;
-    min-width: unset;
-    padding: unset;
-    margin: unset;
-    }
+  font-family: "Audimat Mono";
 
-    display              : grid;
-    grid-template-columns: 200px 50px 1fr;
-    grid-template-rows   :
-      20px 175px minmax(300px, 1fr) 200px;
-    grid-template-areas:
-      "main  stats  nav"
-      "main  stats  content"
-      "main   stats  content"
-      "bottom bottom bottom"
-    ;
-    grid-gap: 5px;
+  // Foundry over-rides
+  input[type="text"],
+  input[type="number"],
+  input[type="password"],
+  input[type="date"],
+  input[type="time"] {
+    border             : 0;
+    //    border-radius: 0;
+    //    border-bottom: 1px solid black;
+    text-align         : center;
+    height             : unset;
+    min-width          : unset;
+    padding            : unset;
+    margin             : unset;
+  }
 
-    .image-container {
-        grid-area: image;
-      }
-  
-      .main-container {
-        grid-area      : main;
-        display: flex;
-        flex-direction: column;
+  display              : grid;
+  grid-template-columns: 200px 50px 1fr;
+  grid-template-rows   : 20px 400px 200px;
+  grid-template-areas  :  "main  stats  nav"
+                          "main  stats  content"
+                          "bottom bottom bottom";
+  grid-gap: 5px;
 
-      }
-  
-      .stats-container {
-        grid-area      : stats;
-      }
-      .nav-container {
-        grid-area: nav;
-      }
-  
-      .content-container {
-        grid-area : content;
-      }
-  
-      .bottom-container {
-        grid-area : bottom;
-      }
+  .main-container {
+    grid-area     : main;
+    display       : flex;
+    flex-direction: column;
+    padding: 3px;
+  }
+
+  .main-container > .cpr-block {
+    flex: initial;
+    margin: 3px; 
+  }
+
+  .stats-container {
+    grid-area: stats;
+    display: flex;
+    flex-direction: column;
+    padding: 3px;
+  }
+
+  .stats-container > .cpr-block {
+    flex: initial;
+    margin: 3px; 
+  }
+
+  .nav-container {
+    grid-area: nav;
+  }
+
+  .content-container {
+    grid-area: content;
+  }
+
+  .bottom-container {
+    grid-area: bottom;
+  }
 }
 
 .cpr-block {
-    padding: 2px 4px 2px 4px;
-    .triangle-corner {
-      clip-path: polygon(0 15%,
-      0 100%,
-      100% 100%,
-      100% 0,
-      15% 0);
-    }
+  .triangle-corner {
+    clip-path: polygon(0 15%,
+        0 100%,
+        100% 100%,
+        100% 0,
+        15% 0);
+  }
 }
 
 .cpr-cap {
-    padding: 2px 0px 0px 0px;
+  padding: 2px 0px 0px 0px;
 }
-
-
-/* These exist in the framework.
-.text- {
-    &center {
-        text-align: center;
-    }
-    &left {
-        text-align: left;
-    }
-
-    &right {
-        text-align: right;
-    }
-}
-*/
 
 .flex-space-between {
-    display: flex;
-    justify-content: space-between;
+  display        : flex;
+  justify-content: space-between;
 }
 
 .width- {
-    display        : flex;
-    justify-content: space-around;
-    flex           : 1 0 auto;
-  
-    &sixteenth {
-      width: 6.25%;
-    }
-  
-    &eighth {
-      width: 12.5%;
-    }
-  
-    &sixth {
-      width: calc(100% / 6)
-    }
-  
-    &quarter {
-      width: 25%;
-    }
-  
-    &third {
-      width: calc(100% / 3);
-    }
-  
-    &half {
-      width: 50%;
-    }
+  display        : flex;
+  justify-content: space-around;
+  flex           : 1 0 auto;
 
-    &full {
-        width: 100%;
-      }
-  
-    &grow {
-      flex-grow: 1;
-    }
-  
-    &no-grow {
-      flex-grow: 0;
-    }
-  
-    &shrink {
-      flex-shrink: 1;
-    }
-  
-    &no-shrink {
-      flex-shrink: 0;
-    }
-  
-    &auto-basis {
-      flex-basis: auto;
-    }
-  
-    &fit {
-      width  : fit-content;
-      padding: 0 2px;
-    }
-  
-    &max-half {
-      max-width: 50%;
-    }
-  
-    &max-quarter {
-      max-width: 25%;
-    }
-  
-    &max-eighth {
-      max-width: 12.5%;
-    }
-  
-    &max-three-quarters {
-      max-width: 75%;
-    }
-  
-    &max-third {
-      max-width: calc(100%/3);
-    }
-  
-    &max-two-thirds {
-      max-width: calc((100%/3)*2);
-    }
+  &sixteenth {
+    width: 6.25%;
   }
+
+  &eighth {
+    width: 12.5%;
+  }
+
+  &sixth {
+    width: calc(100% / 6)
+  }
+
+  &quarter {
+    width: 25%;
+  }
+
+  &third {
+    width: calc(100% / 3);
+  }
+
+  &half {
+    width: 50%;
+  }
+
+  &full {
+    width: 100%;
+  }
+
+  &grow {
+    flex-grow: 1;
+  }
+
+  &no-grow {
+    flex-grow: 0;
+  }
+
+  &shrink {
+    flex-shrink: 1;
+  }
+
+  &no-shrink {
+    flex-shrink: 0;
+  }
+
+  &auto-basis {
+    flex-basis: auto;
+  }
+
+  &fit {
+    width  : fit-content;
+    padding: 0 2px;
+  }
+
+  &max-half {
+    max-width: 50%;
+  }
+
+  &max-quarter {
+    max-width: 25%;
+  }
+
+  &max-eighth {
+    max-width: 12.5%;
+  }
+
+  &max-three-quarters {
+    max-width: 75%;
+  }
+
+  &max-third {
+    max-width: calc(100%/3);
+  }
+
+  &max-two-thirds {
+    max-width: calc((100%/3)*2);
+  }
+}
+
 .text- {
-    &rotate {
-  transform: rotate(-90deg);
-    }
+  &rotate {
+    transform: rotate(-90deg);
+  }
 }
