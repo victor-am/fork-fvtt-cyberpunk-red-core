@@ -4,10 +4,11 @@
     {{#if data.isRanged}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-reload-glyph.hbs"}}
     {{/if}}
-    {{!-- CONCEAL ACTION --}}
+    {{!-- CONCEAL ACTION 
     {{#if data.concealable}}
         <i class="fas fa-eye-slash" title="Toggle Conceal"></i>
     {{/if}}
+    --}}
     {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-equip-glyph.hbs"}}
 {{/if}}
 {{#if (eq type "cyberware")}}
