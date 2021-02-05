@@ -6,6 +6,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 import CPRChat from "../chat/cpr-chat.js";
 import CPR from "../system/config.js";
 import CPRRolls from "../rolls/cpr-rolls.js";
+import Rules from "../utils/cpr-rules.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -49,6 +50,14 @@ export default class CPRActor extends Actor {
       data.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
     }
     super.create(data, options);
+  }
+
+  async createEmbeddedEntity(embeddedName, itemData, options = {}) {
+    if (itemData.data.core) {
+      return Rules.lawyer(false, "CPR.dontaddcoreitems");
+    }
+    // Standard embedded entity creation
+    return super.createEmbeddedEntity(embeddedName, itemData, options);
   }
 
   _prepareCharacterData(actorData) {
@@ -182,6 +191,24 @@ export default class CPRActor extends Actor {
       value = max;
     }
     this.update({ "data.humanity.value": value });
+  }
+
+  sanityCheckCyberware() {
+    const installedCyberware = this.getInstalledCyberware();
+    const allCyberware = this.data.filteredItems.cyberware;
+    let orphanedCyberware = allCyberware;
+
+    const foundationalCyberware = allCyberware.filter((cyberware) => cyberware.getData().isFoundational === true);
+    foundationalCyberware.forEach((fCyberware) => {
+      orphanedCyberware = orphanedCyberware.filter((i) => i.data._id !== fCyberware.data._id);
+      fCyberware.getData().optionalIds.forEach((oCyberwareId) => {
+        orphanedCyberware = orphanedCyberware.filter((i) => i.data._id !== oCyberwareId);
+      });
+    });
+    orphanedCyberware.forEach((orphan) => {
+      orphan.data.data.isInstalled = false;
+      this.updateEmbeddedEntity("OwnedItem", orphan.data);
+    });
   }
 
   _getOwnedItem(itemId) {
