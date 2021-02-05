@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable radix */
 /* globals Actor */
 import LOGGER from "../utils/cpr-logger.js";
@@ -22,7 +23,6 @@ export default class CPRActor extends Actor {
 
     // Prepare data for both types
     this._calculateDerivedStats(actorData);
-
 
     // Prepare type data
     if (actorData.type === "character") this._prepareCharacterData(actorData);

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-else-return */
 /* global Handlebars, getProperty */
 import LOGGER from "../utils/cpr-logger.js";
