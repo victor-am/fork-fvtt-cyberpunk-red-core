@@ -1,21 +1,19 @@
 {{log "CPR-STAT-BLOCK.HBS"}}
 {{!-- Partials to create stat-units from template --}}
 {{#each data.stats as |stat s|}}
-  <div class="cpr-block">
+<div class="cpr-block">
+  <div class="stat">
     <div class="rollable fg-black bg-white text-large text-bold text-center" data-roll-type="stat" data-roll-title="{{s}}">
       <span>{{localize (findConfigValue "statList" s)}}</span>
     </div>
     <div class="fg-black bg-white text-large text-center {{#if (isDefined this.max)}}flex-space-between{{/if}}">
-      <input
-        name="data.stats.{{s}}.value"
-        type="number"
-        value="{{this.value}}"
-      />
+      <input name="data.stats.{{s}}.value" type="number" value="{{this.value}}" />
       {{#if (isDefined this.max)}}
       <div class="fg-white bg-red text-normal text-bold text-rotate">of</div>
       <input class="fg-white bg-red text-large" name="data.stats.{{s}}.max" type="number" value="{{this.max}}" />
       {{/if}}
     </div>
   </div>
+</div>
 {{/each}}
 {{log "END CPR-STAT-BLOCK.HBS"}}

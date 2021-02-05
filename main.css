@@ -3,10 +3,12 @@
 .sheet-content {
   font-family: "Audimat Mono";
   display: grid;
-  grid-template-columns: 200px 50px 1fr;
-  grid-template-rows: 20px 400px 200px;
-  grid-template-areas: "main  stats  nav" "main  stats  content" "bottom bottom bottom";
-  grid-gap: 5px;
+  gap: 5px;
+  grid-template-columns: max-content;
+  grid-template-areas: "left right " "bottom bottom ";
+}
+.sheet-content img {
+  border: none;
 }
 .sheet-content input[type="text"],
 .sheet-content input[type="number"],
@@ -20,40 +22,49 @@
   padding: unset;
   margin: unset;
 }
-.sheet-content .main-container {
-  grid-area: main;
-  display: flex;
+.sheet-content .left-container {
+  display: grid;
+  gap: 5px;
+  grid-template-areas: "info stats ";
+}
+.sheet-content .left-container .info-container {
+  grid-area: info;
+  width: 200px;
+  display: block;
   flex-direction: column;
-  padding: 3px;
 }
-.sheet-content .main-container > .cpr-block {
+.sheet-content .left-container .info-container > .cpr-block {
   flex: initial;
-  margin: 3px;
+  border: yellow solid 1px;
 }
-.sheet-content .stats-container {
+.sheet-content .left-container .stats-container {
   grid-area: stats;
-  display: flex;
+  display: block;
   flex-direction: column;
-  padding: 3px;
 }
-.sheet-content .stats-container > .cpr-block {
+.sheet-content .left-container .stats-container > .cpr-block {
+  width: 60px;
+  height: 40px;
   flex: initial;
-  margin: 3px;
+  border: yellow solid 1px;
 }
 .sheet-content .nav-container {
   grid-area: nav;
 }
 .sheet-content .content-container {
   grid-area: content;
+  max-height: 400px;
 }
 .sheet-content .bottom-container {
   grid-area: bottom;
 }
-.cpr-block .triangle-corner {
-  clip-path: polygon(0 15%, 0 100%, 100% 100%, 100% 0, 15% 0);
+.cpr-block .portrait {
+  height: 200px;
+  width: 200px;
 }
-.cpr-cap {
-  padding: 2px 0px 0px 0px;
+.cpr-block .portrait img {
+  height: 100%;
+  width: 100%;
 }
 .flex-space-between {
   display: flex;
@@ -188,19 +199,19 @@
   font-style: normal;
   font-display: swap;
 }
-.sheet-content .main-container {
+.info-container {
   background-color: #b90202ff;
 }
-.sheet-content .stats-container {
+.stats-container {
   background-color: #b90202ff;
 }
-.sheet-content .nav-container {
+.nav-container {
   background-color: #b90202ff;
 }
-.sheet-content .content-container {
+.content-container {
   background-color: #b90202ff;
 }
-.sheet-content .bottom-container {
+.bottom-container {
   background-color: #b90202ff;
 }
 /*--------------------
