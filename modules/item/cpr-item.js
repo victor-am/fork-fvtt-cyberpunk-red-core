@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-undef */
 /* global Item */
 import LOGGER from "../utils/cpr-logger.js";
