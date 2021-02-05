@@ -51,7 +51,7 @@ export default class CPRActor extends Actor {
     super.create(data, options);
   }
 
-  async createEmbeddedEntity(embeddedName, itemData, options={}) {
+  async createEmbeddedEntity(embeddedName, itemData, options = {}) {
     if (itemData.data.core) {
       return Rules.lawyer(false, "CPR.dontaddcoreitems");
     }
