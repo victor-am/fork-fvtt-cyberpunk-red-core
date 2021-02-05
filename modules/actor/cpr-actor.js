@@ -6,6 +6,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 import CPRChat from "../chat/cpr-chat.js";
 import CPR from "../system/config.js";
 import CPRRolls from "../rolls/cpr-rolls.js";
+import Rules from "../utils/cpr-rules.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -48,6 +49,14 @@ export default class CPRActor extends Actor {
       data.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
     }
     super.create(data, options);
+  }
+
+  async createEmbeddedEntity(embeddedName, itemData, options = {}) {
+    if (itemData.data.core) {
+      return Rules.lawyer(false, "CPR.dontaddcoreitems");
+    }
+    // Standard embedded entity creation
+    return super.createEmbeddedEntity(embeddedName, itemData, options);
   }
 
   _prepareCharacterData(actorData) {
