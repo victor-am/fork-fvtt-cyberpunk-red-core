@@ -109,6 +109,8 @@ export default class CPRActorSheet extends ActorSheet {
     // Select Roles for Character
     html.find(".select-roles").click((event) => this._selectRoles(event));
 
+    html.find(".sanity-check-cyberware").click((event) => this.actor.sanityCheckCyberware());
+
     html.find(".checkbox").click((event) => this._checkboxToggle(event));
 
     html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
@@ -438,7 +440,7 @@ export default class CPRActorSheet extends ActorSheet {
   _removeOptionalCyberware(item, foundationalId) {
     LOGGER.trace("ActorID _removeOptionalCyberware | CPRActorSheet | Called.");
     const foundationalCyberware = this._getOwnedItem(foundationalId);
-    foundationalCyberware.getData().optionalIds.splice(foundationalCyberware.getData().optionalIds.indexOf(item.data._id));
+    foundationalCyberware.getData().optionalIds = foundationalCyberware.getData().optionalIds.filter((optionId) => optionId !== item.data._id);
     this._updateOwnedItem(foundationalCyberware);
   }
 
