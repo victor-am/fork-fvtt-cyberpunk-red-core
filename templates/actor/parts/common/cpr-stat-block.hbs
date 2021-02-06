@@ -2,16 +2,20 @@
 {{!-- Partials to create stat-units from template --}}
 {{#each data.stats as |stat s|}}
 <div class="cpr-block">
-  <div class="stat">
-    <div class="rollable fg-black bg-white text-large text-bold text-center" data-roll-type="stat" data-roll-title="{{s}}">
-      <span>{{localize (findConfigValue "statList" s)}}</span>
+  <div class="stat bg-white text-center">
+    <div class="stat-label rollable fg-black text-stat-label text-bold" data-roll-type="stat" data-roll-title="{{s}}">
+      {{localize (findConfigValue "statList" s)}}
     </div>
-    <div class="fg-black bg-white text-large text-center {{#if (isDefined this.max)}}flex-space-between{{/if}}">
-      <input name="data.stats.{{s}}.value" type="number" value="{{this.value}}" />
-      {{#if (isDefined this.max)}}
-      <div class="fg-white bg-red text-normal text-bold text-rotate">of</div>
-      <input class="fg-white bg-red text-large" name="data.stats.{{s}}.max" type="number" value="{{this.max}}" />
-      {{/if}}
+    <div class="stat-value text-center">
+      {{#unless (isDefined this.max)}}
+      <input class="stat-input fg-black text-stat-value" name="data.stats.{{s}}.value" type="number" value="4" />
+      {{else}}
+      <div class="min-of-max-container">
+        <input class="stat-value-input fg-black text-stat-value" name="data.stats.{{s}}.value" type="number" value="4" />
+        <div class="bg-red"><span class="of-divider fg-white text-normal text-bold text-rotate">of<span></div>
+        <input class="stat-max-input fg-black text-stat-value" name="data.stats.{{s}}.max" type="number" value="4" />
+      </div>
+      {{/unless}}
     </div>
   </div>
 </div>
