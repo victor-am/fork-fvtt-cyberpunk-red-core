@@ -7,7 +7,6 @@ import Ledger from "../utils/cpr-ledger.js";
 import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
-
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
@@ -49,7 +48,7 @@ export default class CPRActor extends Actor {
       data.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
     }
     super.create(data, options);
-    //this.eddieLedger = Ledger(data.items.eddies);
+    this.ebLedger = new Ledger();
   }
 
   async createEmbeddedEntity(embeddedName, itemData, options = {}) {

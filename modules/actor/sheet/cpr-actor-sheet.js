@@ -17,6 +17,7 @@ import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
+// import Ledger from "../../utils/cpr-ledger.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -93,6 +94,11 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Uninstall Cyberware
     html.find(".uninstall").click((event) => this._uninstallCyberwareAction(event));
+
+    // Eurobucks
+    html.find(".set-eb").click((event) => this._setEb(event));
+    html.find(".gain-eb").click((event) => this._gainEb(event));
+    html.find(".lose-eb").click((event) => this._loseEb(event));
 
     // Generic item action
     html.find(".item-action").click((event) => this._itemAction(event));
@@ -695,4 +701,35 @@ export default class CPRActorSheet extends ActorSheet {
       this.actor.createEmbeddedEntity("OwnedItem", itemData);
     }
   }
+
+  _setEb(event) {
+    // set Eurobucks to a value
+    LOGGER.trace("ActorID _setEb | CPRActorSheet | called.");
+    const reason = $(event.currentTarget).attr("data-ledger-reason");
+    const value = $(event.currentTarget).attr("data-set-eb");
+    this.ebLedger.addRecord(value, reason);
+  }
+
+  _gainEb(event) {
+    // add Eurobucks, increasing how many the actor has
+    LOGGER.trace("ActorID _gainEb | CPRActorSheet | called.");
+    const reason = $(event.currentTarget).attr("data-ledger-reason");
+    const value = $(event.currentTarget).attr("data-add-eb");
+    this.ebLedger.addRecord(value, reason);
+  }
+
+  _loseEb(event) {
+    // add eddies, increasing how many the actor has
+    LOGGER.trace("ActorID _loseEb | CPRActorSheet | called.");
+    const reason = $(event.currentTarget).attr("data-ledger-reason");
+    const value = $(event.currentTarget).attr("data-lose-eb");
+    this.ebLedger.addRecord(value, reason);
+  }
+
+  _listEbRecords(event) {
+    LOGGER.trace("ActorID _listEbRecords | CPRActorSheet | called.");
+    console.log(this);
+    return this.ebLedger.listEbRecords();
+  }
+
 }
