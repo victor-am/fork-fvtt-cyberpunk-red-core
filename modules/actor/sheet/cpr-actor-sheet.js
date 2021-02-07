@@ -17,7 +17,7 @@ import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
-// import Ledger from "../../utils/cpr-ledger.js";
+import Ledger from "../../utils/cpr-ledger.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -34,6 +34,13 @@ export default class CPRActorSheet extends ActorSheet {
       scrollY: [".content-container"],
       collapsedSections: [],
     });
+  }
+
+  /** @override */
+  static async create(data, options) {
+    LOGGER.trace("create | CPRActorSheet | called.");
+    super.create(data, options);
+    this.ebLedger = new Ledger();
   }
 
   async _render(force = false, options = {}) {

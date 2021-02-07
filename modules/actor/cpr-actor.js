@@ -3,7 +3,6 @@
 /* globals Actor */
 import LOGGER from "../utils/cpr-logger.js";
 import CPRRolls from "../rolls/cpr-rolls.js";
-import Ledger from "../utils/cpr-ledger.js";
 import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
@@ -48,7 +47,6 @@ export default class CPRActor extends Actor {
       data.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
     }
     super.create(data, options);
-    this.ebLedger = new Ledger();
   }
 
   async createEmbeddedEntity(embeddedName, itemData, options = {}) {
