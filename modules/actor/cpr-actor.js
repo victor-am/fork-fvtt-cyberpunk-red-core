@@ -2,12 +2,11 @@
 /* eslint-disable radix */
 /* globals Actor */
 import LOGGER from "../utils/cpr-logger.js";
-// import ActorUtils from "../utils/cpr-actorUtils";
-import SystemUtils from "../utils/cpr-systemUtils.js";
-import CPRChat from "../chat/cpr-chat.js";
-import CPR from "../system/config.js";
 import CPRRolls from "../rolls/cpr-rolls.js";
+import Ledger from "../utils/cpr-ledger.js";
 import Rules from "../utils/cpr-rules.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
+
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -50,6 +49,7 @@ export default class CPRActor extends Actor {
       data.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
     }
     super.create(data, options);
+    //this.eddieLedger = Ledger(data.items.eddies);
   }
 
   async createEmbeddedEntity(embeddedName, itemData, options = {}) {

@@ -19,6 +19,15 @@ export default class CPRSystemUtils {
     const content = await pack.getContent();
     return content;
   }
+  
+  static async GetCoreItems() {
+    LOGGER.trace("CPRSystemUtils GetCoreItems | CPRSystemUtils | called.");
+    // grab basic skills from compendium
+    const pack = game.packs.get("cyberpunk-red-core.items");
+    // put into basickSkills array
+    const content = await pack.getContent();
+    return content;
+  }
 
   static async DisplayMessage(msgType, msg) {
     const localizedMessage = game.i18n.localize(msg);
