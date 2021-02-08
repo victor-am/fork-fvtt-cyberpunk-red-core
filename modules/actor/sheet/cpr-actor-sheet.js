@@ -702,34 +702,33 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  _setEb(event) {
+  _setEb(value, reason) {
     // set Eurobucks to a value
     LOGGER.trace("ActorID _setEb | CPRActorSheet | called.");
-    const reason = $(event.currentTarget).attr("data-ledger-reason");
-    const value = $(event.currentTarget).attr("data-set-eb");
-    this.getData().data.wealth.eddies = value;
-    this.getData().data.wealth.transactions.push([`Eb set to ${value}`, reason]);
+    let actordata = this.getData();
+    actordata.data.wealth.eddies = value;
+    actordata.data.wealth.transactions.push([`Eb set to ${value}`, reason]);
+    this.actor.update(actordata, {});
   }
 
-  _gainEb(event) {
+  _gainEb(value, reason) {
     // add Eurobucks, increasing how many the actor has
     LOGGER.trace("ActorID _gainEb | CPRActorSheet | called.");
-    const reason = $(event.currentTarget).attr("data-ledger-reason");
-    const value = $(event.currentTarget).attr("data-add-eb");
-    const curr_eb = this.getData().data.wealth.eddies
-    this.getData().data.wealth.eddies = curr_eb + value;
-    this.getData().data.wealth.transactions.push([`Eb increased by ${value}`, reason]);
+    let actordata = this.getData();
+    actordata.data.wealth.eddies = actordata.data.wealth.eddies + value;
+    actordata.data.wealth.transactions.push([`Eb increased by ${value}`, reason]);
+    this.actor.update(actordata, {});
   }
 
-  _loseEb(event) {
+  _loseEb(value, reason) {
     // add eddies, increasing how many the actor has
     LOGGER.trace("ActorID _loseEb | CPRActorSheet | called.");
-    const reason = $(event.currentTarget).attr("data-ledger-reason");
-    const value = $(event.currentTarget).attr("data-lose-eb");
-    const curr_eb = this.getData().data.wealth.eddies
-    Rules.lawyer(value > curr_eb, "CPR.warningnotenougheb");
-    this.getData().data.wealth.eddies = curr_eb - value;
-    this.getData().data.wealth.transactions.push([`Eb decreased by ${value}`, reason]);
+    let actordata = this.getData();
+    let cur_eb = actordata.data.wealth.eddies;
+    Rules.lawyer(value < cur_eb, "CPR.warningnotenougheb");
+    actordata.data.wealth.eddies = cur_eb - value;
+    actordata.data.wealth.transactions.push([`Eb increased by ${value}`, reason]);
+    this.actor.update(actordata, {});
   }
 
   _listEbRecords(event) {
