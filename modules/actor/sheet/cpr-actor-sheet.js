@@ -17,7 +17,6 @@ import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
-import Ledger from "../../utils/cpr-ledger.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -40,7 +39,6 @@ export default class CPRActorSheet extends ActorSheet {
   static async create(data, options) {
     LOGGER.trace("create | CPRActorSheet | called.");
     super.create(data, options);
-    this.ebLedger = new Ledger();
   }
 
   async _render(force = false, options = {}) {
@@ -106,6 +104,7 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".set-eb").click((event) => this._setEb(event));
     html.find(".gain-eb").click((event) => this._gainEb(event));
     html.find(".lose-eb").click((event) => this._loseEb(event));
+    html.find(".list-eb").click((event) => this._listEbRecords(event));
 
     // Generic item action
     html.find(".item-action").click((event) => this._itemAction(event));
@@ -714,7 +713,8 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _setEb | CPRActorSheet | called.");
     const reason = $(event.currentTarget).attr("data-ledger-reason");
     const value = $(event.currentTarget).attr("data-set-eb");
-    this.ebLedger.addRecord(value, reason);
+    this.getData().data.wealth.eddies = value;
+    this.getData().data.wealth.transactions.push([`Eb set to ${value}`, reason]);
   }
 
   _gainEb(event) {
@@ -722,7 +722,9 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _gainEb | CPRActorSheet | called.");
     const reason = $(event.currentTarget).attr("data-ledger-reason");
     const value = $(event.currentTarget).attr("data-add-eb");
-    this.ebLedger.addRecord(value, reason);
+    const curr_eb = this.getData().data.wealth.eddies
+    this.getData().data.wealth.eddies = curr_eb + value;
+    this.getData().data.wealth.transactions.push([`Eb increased by ${value}`, reason]);
   }
 
   _loseEb(event) {
@@ -730,13 +732,15 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _loseEb | CPRActorSheet | called.");
     const reason = $(event.currentTarget).attr("data-ledger-reason");
     const value = $(event.currentTarget).attr("data-lose-eb");
-    this.ebLedger.addRecord(value, reason);
+    const curr_eb = this.getData().data.wealth.eddies
+    Rules.lawyer(value > curr_eb, "CPR.warningnotenougheb");
+    this.getData().data.wealth.eddies = curr_eb - value;
+    this.getData().data.wealth.transactions.push([`Eb decreased by ${value}`, reason]);
   }
 
   _listEbRecords(event) {
     LOGGER.trace("ActorID _listEbRecords | CPRActorSheet | called.");
-    console.log(this);
-    return this.ebLedger.listEbRecords();
+    return this.getData().data.wealth.transactions;
   }
 
 }

@@ -187,9 +187,6 @@
           "value": 60,
           "max": 60,
           "events": []
-        },
-        "eurobucks": {
-          "value": 0
         }
       }
     },
