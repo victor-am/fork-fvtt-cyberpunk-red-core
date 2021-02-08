@@ -709,7 +709,7 @@ export default class CPRActorSheet extends ActorSheet {
     // add Eurobucks, increasing how many the actor has
     LOGGER.trace("ActorID _gainEb | CPRActorSheet | called.");
     let actordata = this.getData();
-    actordata.data.wealth.eddies = actordata.data.wealth.eddies + value;
+    actordata.data.wealth.eddies += value;
     actordata.data.wealth.transactions.push([`Eb increased by ${value}`, reason]);
     this.actor.update(actordata, {});
   }
@@ -718,9 +718,9 @@ export default class CPRActorSheet extends ActorSheet {
     // add eddies, increasing how many the actor has
     LOGGER.trace("ActorID _loseEb | CPRActorSheet | called.");
     let actordata = this.getData();
-    let cur_eb = actordata.data.wealth.eddies;
-    Rules.lawyer(value < cur_eb, "CPR.warningnotenougheb");
-    actordata.data.wealth.eddies = cur_eb - value;
+    let currentEb = actordata.data.wealth.eddies;
+    Rules.lawyer(value < currentEb, "CPR.warningnotenougheb");
+    actordata.data.wealth.eddies = currentEb - value;
     actordata.data.wealth.transactions.push([`Eb increased by ${value}`, reason]);
     this.actor.update(actordata, {});
   }
@@ -729,5 +729,4 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _listEbRecords | CPRActorSheet | called.");
     return this.getData().data.wealth.transactions;
   }
-
 }
