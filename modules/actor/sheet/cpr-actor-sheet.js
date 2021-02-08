@@ -94,12 +94,6 @@ export default class CPRActorSheet extends ActorSheet {
     // Uninstall Cyberware
     html.find(".uninstall").click((event) => this._uninstallCyberwareAction(event));
 
-    // Eurobucks
-    html.find(".set-eb").click((event) => this._setEb(event));
-    html.find(".gain-eb").click((event) => this._gainEb(event));
-    html.find(".lose-eb").click((event) => this._loseEb(event));
-    html.find(".list-eb").click((event) => this._listEbRecords(event));
-
     // Generic item action
     html.find(".item-action").click((event) => this._itemAction(event));
 
