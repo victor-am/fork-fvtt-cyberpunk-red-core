@@ -35,12 +35,6 @@ export default class CPRActorSheet extends ActorSheet {
     });
   }
 
-  /** @override */
-  static async create(data, options) {
-    LOGGER.trace("create | CPRActorSheet | called.");
-    super.create(data, options);
-  }
-
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
