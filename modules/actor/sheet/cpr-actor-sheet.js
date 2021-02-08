@@ -695,4 +695,38 @@ export default class CPRActorSheet extends ActorSheet {
       this.actor.createEmbeddedEntity("OwnedItem", itemData);
     }
   }
+
+  _setEb(value, reason) {
+    // set Eurobucks to a value
+    LOGGER.trace("ActorID _setEb | CPRActorSheet | called.");
+    let actordata = this.getData();
+    actordata.data.wealth.eddies = value;
+    actordata.data.wealth.transactions.push([`Eb set to ${value}`, reason]);
+    this.actor.update(actordata, {});
+  }
+
+  _gainEb(value, reason) {
+    // add Eurobucks, increasing how many the actor has
+    LOGGER.trace("ActorID _gainEb | CPRActorSheet | called.");
+    let actordata = this.getData();
+    actordata.data.wealth.eddies += value;
+    actordata.data.wealth.transactions.push([`Eb increased by ${value}`, reason]);
+    this.actor.update(actordata, {});
+  }
+
+  _loseEb(value, reason) {
+    // add eddies, increasing how many the actor has
+    LOGGER.trace("ActorID _loseEb | CPRActorSheet | called.");
+    let actordata = this.getData();
+    let currentEb = actordata.data.wealth.eddies;
+    Rules.lawyer(value < currentEb, "CPR.warningnotenougheb");
+    actordata.data.wealth.eddies = currentEb - value;
+    actordata.data.wealth.transactions.push([`Eb increased by ${value}`, reason]);
+    this.actor.update(actordata, {});
+  }
+
+  _listEbRecords(event) {
+    LOGGER.trace("ActorID _listEbRecords | CPRActorSheet | called.");
+    return this.getData().data.wealth.transactions;
+  }
 }
