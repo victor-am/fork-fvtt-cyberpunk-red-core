@@ -66,5 +66,6 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/parts/cpr-info-pane-skill.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/cpr-info-pane-armor.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/details/cpr-details-physical.hbs",
   ]);
 }

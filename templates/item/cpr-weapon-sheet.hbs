@@ -16,10 +16,9 @@
       {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
     </div>
     <div class="tab" data-group="primary" data-tab="details">
-      {{!-- MARKET PRICE INPUT --}}
-      <div>
-        {{localize "CPR.price"}}: <input name="data.price.market" class="" type="number" value="{{data.price.market}}">
-      </div>
+      {{!- Physical Item --}}
+      {{> "systems/cyberpunk-red-core/templates/item/parts/details/cpr-details-physical.hbs"}}
+      {{!-- Weapon specific data points --}}
       {{!-- EQUIPPED --}}
       <div>
         <label class="label-text">{{localize "CPR.equipped"}}</label>

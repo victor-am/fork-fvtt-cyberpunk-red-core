@@ -17,11 +17,8 @@
     {{!-- Details Tab --}}
     <div class="tab" data-group="primary" data-tab="details">
       <section class="">
-        {{!-- MARKET PRICE --}}
-        <div>
-          {{localize "CPR.price"}}: <input name="data.price.market" class="" type="text" value="{{data.price.market}}"
-            placeholder="100">
-        </div>
+        {{!-- Physical Item stats --}}
+        {{> "systems/cyberpunk-red-core/templates/item/parts/details/cpr-details-physical.hbs"}}
       </section>
     </div>
   </section>

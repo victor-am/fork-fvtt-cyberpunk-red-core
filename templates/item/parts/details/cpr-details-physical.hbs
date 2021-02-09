@@ -1,0 +1,14 @@
+      {{!-- MARKET PRICE INPUT --}}
+      <div>
+        {{localize "CPR.price"}}: <input name="data.price.market" class="" type="number" value="{{data.price.market}}">
+      </div>
+    <div>
+        <label class="label-text">{{localize "CPR.pricecategory"}}</label>
+        <select name="data.price.category" data-dtype="{{data.price.category}}">
+          {{#select data.price.category}}
+          {{#each (findConfigObj "itemPriceCategory") as |category c|}}
+          <option value="{{c}}">{{localize category}}</option>
+          {{/each}}
+          {{/select}}
+        </select>
+      </div>
