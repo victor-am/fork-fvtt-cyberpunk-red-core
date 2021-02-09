@@ -80,9 +80,11 @@ export default function registerHandlebarsHelpers() {
       if (searchResult.length === 1) {
         return searchResult[0];
       }
-      return "AMBIGUOUS SEARCH";
+      if (searchResult.length > 1) {
+        return "AMBIGUOUS SEARCH";
+      }
     }
-    return "INVALID_LIST";
+    return {};
   });
 
   // TODO - Refactor / Revist

@@ -201,7 +201,11 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Handle skipping of the user verification step
     if (!event.ctrlKey) {
-      // TODO - Charles save us....
+      if (typeof this.actor.data.previousRoll !== "undefined") {
+        let { previousRoll } = this.actor.data;
+        previousRoll.name = "previousRoll";
+        rollRequest.extraVars.push(previousRoll);
+      }
       const formData = await VerifyRoll.RenderPrompt(rollRequest);
       mergeObject(rollRequest, formData, { overwrite: true });
     }
@@ -231,8 +235,6 @@ export default class CPRActorSheet extends ActorSheet {
       }
     }
 
-    // Damage
-    // CPRChat.RenderRollCard(CPRRolls.HandleRoll(rollRequest));
     let rollResult;
     if (rollRequest.rollType === "damage") {
       rollResult = await CPRRolls.DamageRoll(rollRequest);
@@ -248,7 +250,7 @@ export default class CPRActorSheet extends ActorSheet {
     // was used.
     // Do we want to add this to the template is the
     // question?
-    this.actor.data.lastRoll = rollResult;
+    this.actor.data.previousRoll = rollResult;
   }
 
   // PREPARE ROLLS
