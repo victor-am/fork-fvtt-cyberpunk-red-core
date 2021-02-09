@@ -73,6 +73,18 @@ export default function registerHandlebarsHelpers() {
     return "INVALID_LIST";
   });
 
+  Handlebars.registerHelper("findObj", (objList, propertyName, propertyValue) => {
+    LOGGER.trace(`Calling findObj Helper | Arg1:${objList}`);
+    if (typeof objList === "object") {
+      const searchResult = objList.filter((o) => o[propertyName] === propertyValue);
+      if (searchResult.length === 1) {
+        return searchResult[0];
+      }
+      return "AMBIGUOUS SEARCH";
+    }
+    return "INVALID_LIST";
+  });
+
   // TODO - Refactor / Revist
   Handlebars.registerHelper("listContains", (list, val) => {
     // LOGGER.trace(`Calling contains Helper | Arg1:${arg1} Arg2:${arg2}`);

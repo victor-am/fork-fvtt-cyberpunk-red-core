@@ -31,6 +31,17 @@
             </div>
         </div>
 
+        {{#if (listContains "assaultRifle,smg,heavySmg" weaponType)}}
+        <div class="row flex-end skill item black-fg white-bg">
+            <div class="section width-half">
+                {{localize "CPR.autofire"}} ({{localize "CPR.skilllevel"}}: {{getProp (findObj extraVars "name" "Autofire") "level"}}):
+            </div>
+            <div class="section width-half">
+                <input type="checkbox" id="autofire" name="autofire">
+            </div>
+        </div>
+        {{/if}}
+
         <div class="row flex-end skill item black-fg white-bg">
             <div class="section width-half">
                 {{localize "CPR.shouldrollcriticals"}}:
