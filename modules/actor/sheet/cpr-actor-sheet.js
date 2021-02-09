@@ -350,19 +350,29 @@ export default class CPRActorSheet extends ActorSheet {
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
   }
 
-  _ablateArmor(event) {
+  async _ablateArmor(event) {
     LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
     const location = $(event.currentTarget).attr("data-location");
+    const armorList = this._getEquippedArmors(location);
+    let updateList = [];
     switch (location) {
       case "head": {
-        const newAblation = Math.min((item.getData().headLocation.ablation + 1), item.getData().headLocation.sp);
-        this._updateOwnedItemProp(item, "data.headLocation.ablation", newAblation);
+        armorList.forEach((a) => {
+          let armorData = a.data;
+          armorData.data.headLocation.ablation = Math.min((a.getData().headLocation.ablation + 1), a.getData().headLocation.sp);
+          updateList.push(armorData);
+        });
+        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
         break;
       }
       case "body": {
-        const newAblation = Math.min((item.getData().bodyLocation.ablation + 1), item.getData().bodyLocation.sp);
-        this._updateOwnedItemProp(item, "data.bodyLocation.ablation", newAblation);
+        armorList.forEach((a) => {
+          let armorData = a.data;
+          armorData.data.bodyLocation.ablation = Math.min((a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp);
+          updateList.push(armorData);
+        });
+        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
         break;
       }
       default:
