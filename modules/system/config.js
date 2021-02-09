@@ -240,4 +240,14 @@ CPR.equipped = {
   owned: "CPR.owned",
 };
 
+CPR.itemPriceCategory = {
+  cheap: "CPR.pricecategorycheap",
+  costly: "CPR.pricecategorycostly",
+  premium: "CPR.pricecategorypremium",
+  expensive: "CPR.pricecategoryexpensive",
+  veryExpensive: "CPR.pricecategoryveryexpensive",
+  luxury: "CPR.pricecategoryluxury",
+  superLuxury: "CPR.pricecategorysuperluxury",
+};
+
 export default CPR;
