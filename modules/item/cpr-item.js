@@ -4,6 +4,7 @@
 import LOGGER from "../utils/cpr-logger.js";
 import SelectAmmoPrompt from "../dialog/cpr-select-ammo-prompt.js";
 import CPRSystemUtils from "../utils/cpr-systemUtils.js";
+import Rules from "../utils/cpr-rules.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -228,7 +229,7 @@ export default class CPRItem extends Item {
     }
   }
 
-  // TODO - Refactor
+  // Returns true if weapon fired, otherwise returns false.
   fireRangedWeapon(rateOfFire) {
     LOGGER.debug("fireRangedWeapon | CPRItem | Called.");
     let bulletCount = 0;
@@ -244,11 +245,12 @@ export default class CPRItem extends Item {
     }
 
     if (this.data.data.magazine.value < bulletCount) {
-      // PLAY CLICK SOUND?!
-    } else {
-      // PLAY GUN SOUND!!
-      this.data.data.magazine.value -= bulletCount;
+      Rules.lawyer(false, "CPR.weaponattackoutofbullets");
+      return false;
     }
-    this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+
+    // PLAY GUN SOUND!!
+    this.data.data.magazine.value -= bulletCount;
+    return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
   }
 }

@@ -49,7 +49,6 @@ export default class CPRActorSheet extends ActorSheet {
         let currentTarget = $(html.find(`#${sectionId}`));
         $(currentTarget).click();
         $(currentTarget).find(".collapse-icon").removeClass("hide");
-        console.log($(currentTarget));
       });
     }
   }
@@ -124,7 +123,6 @@ export default class CPRActorSheet extends ActorSheet {
             if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("hide")) {
               if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
                 this.options.collapsedSections.push(event.currentTarget.id);
-                console.log(this.options.collapsedSections);
               }
             } else {
               this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
@@ -203,7 +201,11 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Handle skipping of the user verification step
     if (!event.ctrlKey) {
-      // TODO - Charles save us....
+      if (typeof this.actor.data.previousRoll !== "undefined") {
+        let { previousRoll } = this.actor.data;
+        previousRoll.name = "previousRoll";
+        rollRequest.extraVars.push(previousRoll);
+      }
       const formData = await VerifyRoll.RenderPrompt(rollRequest);
       mergeObject(rollRequest, formData, { overwrite: true });
     }
@@ -222,18 +224,33 @@ export default class CPRActorSheet extends ActorSheet {
       if (rollRequest.isRanged) {
         const weaponId = $(event.currentTarget).attr("data-item-id");
         const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
-        weaponItem.fireRangedWeapon(rollRequest.fireMode);
+        if (!weaponItem.fireRangedWeapon(rollRequest.fireMode)) {
+          // Firing of the weapon failed, maybe due to lack of bullets?
+          return;
+        }
+      }
+      if (rollRequest.fireMode === "autofire") {
+        rollRequest.skill = "Autofire";
+        rollRequest.skillValue = this.actor.getSkillLevel(rollRequest.skill);
       }
     }
 
-    // Damage
-    // CPRChat.RenderRollCard(CPRRolls.HandleRoll(rollRequest));
+    let rollResult;
     if (rollRequest.rollType === "damage") {
-      CPRChat.RenderRollCard(await CPRRolls.DamageRoll(rollRequest));
+      rollResult = await CPRRolls.DamageRoll(rollRequest);
     } else {
-      // outputs to chat
-      CPRChat.RenderRollCard(await CPRRolls.BaseRoll(rollRequest));
+      rollResult = await CPRRolls.BaseRoll(rollRequest);
     }
+    // outputs to chat
+    CPRChat.RenderRollCard(rollResult);
+
+    // Store last roll so we can query and use it
+    // after the fact. Examples of this would be
+    // if rolling Damage after an attack where autofire
+    // was used.
+    // Do we want to add this to the template is the
+    // question?
+    this.actor.data.previousRoll = rollResult;
   }
 
   // PREPARE ROLLS
@@ -278,12 +295,15 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _prepareRollAttack(rollRequest, itemId) {
+    LOGGER.trace(`ActorID _prepareRollAttack | rolling attack: ${rollRequest} | ${itemId}`);
     const weaponItem = this._getOwnedItem(itemId);
     rollRequest.rollTitle = weaponItem.data.name;
     rollRequest.isRanged = weaponItem.getData().isRanged;
     if (rollRequest.isRanged) {
       rollRequest.stat = "ref";
       rollRequest.statValue = this.getData().data.stats.ref.value;
+      const autoFireSkill = this.actor.items.find((i) => i.name === "Autofire");
+      rollRequest.extraVars.push({ name: "Autofire", level: autoFireSkill.data.data.level });
     } else {
       rollRequest.stat = "dex";
       rollRequest.statValue = this.getData().data.stats.dex.value;
@@ -309,6 +329,8 @@ export default class CPRActorSheet extends ActorSheet {
       rollRequest.skillValue = 0;
       rollRequest.skill = "None";
     }
+
+    rollRequest.weaponType = weaponItem.getData().weaponType;
     LOGGER.trace(`Actor _prepareRollAttack | rolling attack | skillName: ${skillItem.name} skillValue: ${rollRequest.skillValue} statValue: ${rollRequest.statValue}`);
   }
 
