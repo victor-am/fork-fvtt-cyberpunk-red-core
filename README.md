@@ -24,7 +24,6 @@ todo..
     Be sure to check out our current Roadmap if you want to help with high priotity functionality https://trello.com/b/zb5FBnKS/project-red-roadmap-todo
 
 3.  Chat with us on Discord!<br>
-    https://discord.gg/hpyz2nf6Vk
 
 
 Useful Tools
@@ -73,7 +72,7 @@ Have a look through here to get a sense of what you'll be using when contributin
 
 - We manage our roadmap and plans in a [Trello board](https://trello.com/b/zb5FBnKS/project-red-roadmap-todo).
 - Bugs and defects are in the [Gitlab issue list](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues).
-- Chat with us on [Discord](https://discord.gg/gASBkXWm)
+- Chat with us on [Discord](https://discord.gg/hpyz2nf6Vk)
 
 ### Repository Layout
 
