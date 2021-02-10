@@ -532,6 +532,10 @@ export default class CPRActorSheet extends ActorSheet {
           item.ablateArmor();
           break;
         }
+        case "favorite": {
+          item.toggleFavorite();
+          break;
+        }
         default: {
           item.doAction(this.actor, event.currentTarget.attributes);
         }
