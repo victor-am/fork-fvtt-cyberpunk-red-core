@@ -5,7 +5,7 @@
   grid-template-columns: 411px;
   grid-template-rows: 622px auto;
   grid-gap: 0.5rem;
-  grid-template-areas: "left-container" "right-container" "bottom-container";
+  grid-template-areas: "left-pane" "right-pane" "bottom-pane";
 }
 .sheet-content img {
   border: none;
@@ -34,17 +34,75 @@
   -ms-user-select: text;
   user-select: text;
 }
-.sheet-content .left-section .top-container {
+.sheet-content .left-pane {
+  grid-area: left-pane;
+  column-gap: 0.5rem;
+  grid-template-columns: 3fr 1fr;
+  grid-template-areas: "non-stats stats";
+}
+.sheet-content .left-pane .non-stats-section {
+  border: solid 0.5rem white;
+  grid-area: non-stats;
+  grid-template-columns: 1fr;
+  grid-template-rows: 5fr repeat(5, 1fr);
+}
+.sheet-content .left-pane .non-stats-section > div {
+  border: solid 0.1rem white;
+}
+.sheet-content .left-pane .stats-section {
+  border: solid 0.5rem white;
+  grid-area: stats;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(10, 1fr);
+}
+.sheet-content .left-pane .stats-section > div {
+  border: solid 0.1rem white;
+}
+.sheet-content .right-pane {
+  grid-area: right-pane;
+  grid-gap: 0.5rem;
+  grid-template-columns: 1fr;
+  grid-template-rows: 50px auto;
+  grid-template-areas: "tabs" "text-area";
+}
+.sheet-content .right-pane .tabs-section {
+  border: solid 0.5rem white;
+  grid-area: tabs;
+  grid-template-columns: repeat(3, 1fr);
+}
+.sheet-content .right-pane .tabs-section .skills-tab {
+  border: solid 0.1rem white;
+}
+.sheet-content .right-pane .tabs-section .cyber-tab {
+  border: solid 0.1rem white;
+}
+.sheet-content .right-pane .tabs-section .lifepath-tab {
+  border: solid 0.1rem white;
+}
+.sheet-content .right-pane .text-section {
+  grid-area: text-area;
+  grid-template-columns: 1fr;
+  grid-template-areas: "text-left" "text-right";
+}
+.sheet-content .right-pane .text-section .text-block-left {
+  border: solid 0.5rem white;
+  grid-area: text-left;
+}
+.sheet-content .right-pane .text-section .text-block-right {
+  border: solid 0.5rem white;
+  grid-area: text-right;
+}
+.sheet-content .top-container {
   display: flex;
   flex-wrap: nowrap;
 }
-.sheet-content .left-section .top-container .left-container {
+.sheet-content .top-container .left-container {
   flex-basis: 280px;
   flex-shrink: 1;
   display: flex;
   flex-wrap: nowrap;
 }
-.sheet-content .left-section .top-container .right-container {
+.sheet-content .top-container .right-container {
   flex-grow: 2;
 }
 .cpr-block .portrait {

@@ -1,3 +1,7 @@
+@card-border: solid 0.5rem white;
+@thin-card-border: solid 0.1rem white;
+@tabs-height: 50px;
+
 // Actor Sheet
 .sheet-content {
   font-family: "Audimat Mono";
@@ -53,18 +57,18 @@
         "non-stats stats";
 
     .non-stats-section {
-        border: $card-border;
+        border: @card-border;
         grid-area: non-stats;
 
         grid-template-columns: 1fr;
         grid-template-rows: 5fr repeat(5, 1fr);
 
         &>div {
-            border: $thin-card-border;
+            border: @thin-card-border;
         }
     }
     .stats-section {
-        border: $card-border;
+        border: @card-border;
         grid-area: stats;
 
 
@@ -72,7 +76,7 @@
         grid-template-rows: repeat(10, 1fr);
 
         &>div {
-            border: $thin-card-border;
+            border: @thin-card-border;
         }
     }
   }
@@ -83,25 +87,25 @@
 
     grid-gap: 0.5rem;
     grid-template-columns: 1fr;
-    grid-template-rows: $tabs-height auto;
+    grid-template-rows: @tabs-height auto;
     grid-template-areas:
         "tabs"
         "text-area";
     
     .tabs-section {
-        border: $card-border;
+        border: @card-border;
         grid-area: tabs;
 
         grid-template-columns: repeat(3, 1fr);
 
         .skills-tab {
-            border: $thin-card-border;
+            border: @thin-card-border;
         }
         .cyber-tab {
-            border: $thin-card-border;
+            border: @thin-card-border;
         }
         .lifepath-tab {
-            border: $thin-card-border;
+            border: @thin-card-border;
         }
     }
 
@@ -114,12 +118,12 @@
             "text-right";
         
         .text-block-left {
-            border: $card-border;
+            border: @card-border;
             grid-area: text-left;
         }
 
         .text-block-right {
-            border: $card-border;
+            border: @card-border;
             grid-area: text-right;
         }
     }

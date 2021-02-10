@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-/* eslint-disable no-undef */
-
-=======
->>>>>>> origin/dev
 // Object imports
 import CPRActor from "./modules/actor/cpr-actor.js";
 import CPRActorSheet from "./modules/actor/sheet/cpr-actor-sheet.js";
@@ -22,11 +17,7 @@ import registerHandlebarsHelpers from "./modules/system/register-helpers.js";
 // System settings
 import { registerSystemSettings } from "./modules/system/settings.js";
 
-<<<<<<< HEAD
-Hooks.once("init", () => {
-=======
 Hooks.once("init", async () => {
->>>>>>> origin/dev
   LOGGER.log("THANK YOU TO EVERYONE WHO HELPED!!!!");
   LOGGER.credits();
   // Register Actor Sheet Application Classes
