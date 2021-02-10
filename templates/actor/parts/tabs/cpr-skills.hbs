@@ -16,15 +16,14 @@
     {{!-- IF SKILL IS OF CATEGORY --}}
     {{#if (eq skill.data.category c)}}
     {{!-- DISPLAY SKILL --}}
-    <div class="row flex-end skill item black-fg white-bg" data-item-id={{skill._id}}
-      data-skill-category={{skill.data.category}}>
+    <div class="row flex-end skill item black-fg white-bg{{#if skill.data.favorite}} favorite{{/if}}" data-item-id="{{skill._id}}" data-skill-category="{{skill.data.category}}">
       <div class="section width-grow width-shrink skill-name hide-overflow ws-nowrap">
         <a class="rollable {{#if skill.data.basic}}bold{{/if}}" data-roll-type="skill" data-roll-title="{{skill.name}}">
           {{skill.name}} {{#if (eq skill.data.difficulty "difficult")}}(x2) {{/if}}<strong>({{localize (findConfigValue
             "statList" skill.data.stat)}})</strong>
         </a>
         <a class="item-action" data-action-type="favorite">
-          {{log skill}}
+        {{log skill}}
         {{#if skill.data.favorite}}
         <i class="fas fa-star favorite"></i>
         {{else}}
