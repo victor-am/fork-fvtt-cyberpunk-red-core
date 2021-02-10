@@ -753,7 +753,7 @@ export default class CPRActorSheet extends ActorSheet {
     let currentEb = actordata.data.wealth.eddies;
     Rules.lawyer(value < currentEb, "CPR.warningnotenougheb");
     actordata.data.wealth.eddies = currentEb - value;
-    actordata.data.wealth.transactions.push([`Eb increased by ${value}`, reason]);
+    actordata.data.wealth.transactions.push([`Eb reduced by ${value}`, reason]);
     this.actor.update(actordata, {});
   }
 
