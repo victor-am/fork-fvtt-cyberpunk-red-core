@@ -118,7 +118,7 @@ export default class CPRActorSheet extends ActorSheet {
       if ($(event.currentTarget.parentElement).hasClass("collapsible")) {
         $(event.currentTarget).find(".collapse-icon").toggleClass("hide");
         for (let i = 0; i < event.currentTarget.parentElement.childNodes.length; i += 1) {
-          if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("item")) {
+          if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("item") && !$(event.currentTarget.parentElement.childNodes[i]).hasClass("favorite")) {
             $(event.currentTarget.parentElement.childNodes[i]).toggleClass("hide");
             if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("hide")) {
               if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
@@ -530,6 +530,10 @@ export default class CPRActorSheet extends ActorSheet {
         // TODO
         case "ablate-armor": {
           item.ablateArmor();
+          break;
+        }
+        case "favorite": {
+          item.toggleFavorite();
           break;
         }
         default: {

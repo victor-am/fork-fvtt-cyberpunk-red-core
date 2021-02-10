@@ -253,4 +253,8 @@ export default class CPRItem extends Item {
     this.data.data.magazine.value -= bulletCount;
     return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
   }
+
+  toggleFavorite() {
+    this.data.data.favorite = !this.data.data.favorite;
+  }
 }
