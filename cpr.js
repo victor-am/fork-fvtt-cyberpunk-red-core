@@ -68,12 +68,13 @@ Hooks.once("init", async () => {
 Hooks.once("ready", () => {
   // Determine whether a system migration is required
   if (!game.user.isGM) return;
-  // This defines the version of the Data Model for this release
+  // This defines the version of the Data Model for this release.  We should
+  // only update this when the Data Model Changes.
   const DATA_MODEL_VERSION = "0.53";
-  // Get the version of the data model being used for the world loaded.
-  // This version is only relevant when the Data Model changes.
-  // const dataModelVersion = game.settings.get("cyberpunk-red-core", "dataModelVersion") ? game.settings.get("cyberpunk-red-core", "dataModelVersion") : "0.52";
-  const dataModelVersion = "0.52";
+  // Get the version of the data model being used for the loaded world. At
+  // the end of a migration, this is updated with the current version of the
+  // CPR system.
+  const dataModelVersion = game.settings.get("cyberpunk-red-core", "dataModelVersion") ? game.settings.get("cyberpunk-red-core", "dataModelVersion") : "0.52";
   // Determine if we need to perform a migration
   const needsMigration = dataModelVersion && isNewerVersion(DATA_MODEL_VERSION, dataModelVersion);
   if (!needsMigration) return;
