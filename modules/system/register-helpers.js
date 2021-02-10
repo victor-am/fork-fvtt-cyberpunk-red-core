@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-else-return */
 /* global Handlebars, getProperty */
 import LOGGER from "../utils/cpr-logger.js";
@@ -70,6 +71,20 @@ export default function registerHandlebarsHelpers() {
       return CPR[obj];
     }
     return "INVALID_LIST";
+  });
+
+  Handlebars.registerHelper("findObj", (objList, propertyName, propertyValue) => {
+    LOGGER.trace(`Calling findObj Helper | Arg1:${objList}`);
+    if (typeof objList === "object") {
+      const searchResult = objList.filter((o) => o[propertyName] === propertyValue);
+      if (searchResult.length === 1) {
+        return searchResult[0];
+      }
+      if (searchResult.length > 1) {
+        return "AMBIGUOUS SEARCH";
+      }
+    }
+    return {};
   });
 
   // TODO - Refactor / Revist

@@ -49,7 +49,6 @@ export default class CPRActorSheet extends ActorSheet {
         let currentTarget = $(html.find(`#${sectionId}`));
         $(currentTarget).click();
         $(currentTarget).find(".collapse-icon").removeClass("hide");
-        console.log($(currentTarget));
       });
     }
   }
@@ -119,12 +118,11 @@ export default class CPRActorSheet extends ActorSheet {
       if ($(event.currentTarget.parentElement).hasClass("collapsible")) {
         $(event.currentTarget).find(".collapse-icon").toggleClass("hide");
         for (let i = 0; i < event.currentTarget.parentElement.childNodes.length; i += 1) {
-          if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("item")) {
+          if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("item") && !$(event.currentTarget.parentElement.childNodes[i]).hasClass("favorite")) {
             $(event.currentTarget.parentElement.childNodes[i]).toggleClass("hide");
             if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("hide")) {
               if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
                 this.options.collapsedSections.push(event.currentTarget.id);
-                console.log(this.options.collapsedSections);
               }
             } else {
               this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
@@ -203,7 +201,11 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Handle skipping of the user verification step
     if (!event.ctrlKey) {
-      // TODO - Charles save us....
+      if (typeof this.actor.data.previousRoll !== "undefined") {
+        let { previousRoll } = this.actor.data;
+        previousRoll.name = "previousRoll";
+        rollRequest.extraVars.push(previousRoll);
+      }
       const formData = await VerifyRoll.RenderPrompt(rollRequest);
       mergeObject(rollRequest, formData, { overwrite: true });
     }
@@ -222,18 +224,33 @@ export default class CPRActorSheet extends ActorSheet {
       if (rollRequest.isRanged) {
         const weaponId = $(event.currentTarget).attr("data-item-id");
         const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
-        weaponItem.fireRangedWeapon(rollRequest.fireMode);
+        if (!weaponItem.fireRangedWeapon(rollRequest.fireMode)) {
+          // Firing of the weapon failed, maybe due to lack of bullets?
+          return;
+        }
+      }
+      if (rollRequest.fireMode === "autofire") {
+        rollRequest.skill = "Autofire";
+        rollRequest.skillValue = this.actor.getSkillLevel(rollRequest.skill);
       }
     }
 
-    // Damage
-    // CPRChat.RenderRollCard(CPRRolls.HandleRoll(rollRequest));
+    let rollResult;
     if (rollRequest.rollType === "damage") {
-      CPRChat.RenderRollCard(await CPRRolls.DamageRoll(rollRequest));
+      rollResult = await CPRRolls.DamageRoll(rollRequest);
     } else {
-      // outputs to chat
-      CPRChat.RenderRollCard(await CPRRolls.BaseRoll(rollRequest));
+      rollResult = await CPRRolls.BaseRoll(rollRequest);
     }
+    // outputs to chat
+    CPRChat.RenderRollCard(rollResult);
+
+    // Store last roll so we can query and use it
+    // after the fact. Examples of this would be
+    // if rolling Damage after an attack where autofire
+    // was used.
+    // Do we want to add this to the template is the
+    // question?
+    this.actor.data.previousRoll = rollResult;
   }
 
   // PREPARE ROLLS
@@ -278,12 +295,15 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _prepareRollAttack(rollRequest, itemId) {
+    LOGGER.trace(`ActorID _prepareRollAttack | rolling attack: ${rollRequest} | ${itemId}`);
     const weaponItem = this._getOwnedItem(itemId);
     rollRequest.rollTitle = weaponItem.data.name;
     rollRequest.isRanged = weaponItem.getData().isRanged;
     if (rollRequest.isRanged) {
       rollRequest.stat = "ref";
       rollRequest.statValue = this.getData().data.stats.ref.value;
+      const autoFireSkill = this.actor.items.find((i) => i.name === "Autofire");
+      rollRequest.extraVars.push({ name: "Autofire", level: autoFireSkill.data.data.level });
     } else {
       rollRequest.stat = "dex";
       rollRequest.statValue = this.getData().data.stats.dex.value;
@@ -309,6 +329,8 @@ export default class CPRActorSheet extends ActorSheet {
       rollRequest.skillValue = 0;
       rollRequest.skill = "None";
     }
+
+    rollRequest.weaponType = weaponItem.getData().weaponType;
     LOGGER.trace(`Actor _prepareRollAttack | rolling attack | skillName: ${skillItem.name} skillValue: ${rollRequest.skillValue} statValue: ${rollRequest.statValue}`);
   }
 
@@ -328,19 +350,29 @@ export default class CPRActorSheet extends ActorSheet {
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
   }
 
-  _ablateArmor(event) {
+  async _ablateArmor(event) {
     LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
     const location = $(event.currentTarget).attr("data-location");
+    const armorList = this._getEquippedArmors(location);
+    let updateList = [];
     switch (location) {
       case "head": {
-        const newAblation = Math.min((item.getData().headLocation.ablation + 1), item.getData().headLocation.sp);
-        this._updateOwnedItemProp(item, "data.headLocation.ablation", newAblation);
+        armorList.forEach((a) => {
+          let armorData = a.data;
+          armorData.data.headLocation.ablation = Math.min((a.getData().headLocation.ablation + 1), a.getData().headLocation.sp);
+          updateList.push(armorData);
+        });
+        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
         break;
       }
       case "body": {
-        const newAblation = Math.min((item.getData().bodyLocation.ablation + 1), item.getData().bodyLocation.sp);
-        this._updateOwnedItemProp(item, "data.bodyLocation.ablation", newAblation);
+        armorList.forEach((a) => {
+          let armorData = a.data;
+          armorData.data.bodyLocation.ablation = Math.min((a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp);
+          updateList.push(armorData);
+        });
+        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
         break;
       }
       default:
@@ -498,6 +530,10 @@ export default class CPRActorSheet extends ActorSheet {
         // TODO
         case "ablate-armor": {
           item.ablateArmor();
+          break;
+        }
+        case "favorite": {
+          item.toggleFavorite();
           break;
         }
         default: {
@@ -694,5 +730,39 @@ export default class CPRActorSheet extends ActorSheet {
       };
       this.actor.createEmbeddedEntity("OwnedItem", itemData);
     }
+  }
+
+  _setEb(value, reason) {
+    // set Eurobucks to a value
+    LOGGER.trace("ActorID _setEb | CPRActorSheet | called.");
+    let actordata = this.getData();
+    actordata.data.wealth.eddies = value;
+    actordata.data.wealth.transactions.push([`Eb set to ${value}`, reason]);
+    this.actor.update(actordata, {});
+  }
+
+  _gainEb(value, reason) {
+    // add Eurobucks, increasing how many the actor has
+    LOGGER.trace("ActorID _gainEb | CPRActorSheet | called.");
+    let actordata = this.getData();
+    actordata.data.wealth.eddies += value;
+    actordata.data.wealth.transactions.push([`Eb increased by ${value}`, reason]);
+    this.actor.update(actordata, {});
+  }
+
+  _loseEb(value, reason) {
+    // add eddies, increasing how many the actor has
+    LOGGER.trace("ActorID _loseEb | CPRActorSheet | called.");
+    let actordata = this.getData();
+    let currentEb = actordata.data.wealth.eddies;
+    Rules.lawyer(value < currentEb, "CPR.warningnotenougheb");
+    actordata.data.wealth.eddies = currentEb - value;
+    actordata.data.wealth.transactions.push([`Eb reduced by ${value}`, reason]);
+    this.actor.update(actordata, {});
+  }
+
+  _listEbRecords(event) {
+    LOGGER.trace("ActorID _listEbRecords | CPRActorSheet | called.");
+    return this.getData().data.wealth.transactions;
   }
 }

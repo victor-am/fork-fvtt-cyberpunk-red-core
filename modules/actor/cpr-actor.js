@@ -1,12 +1,10 @@
+/* eslint-disable no-undef */
 /* eslint-disable radix */
 /* globals Actor */
 import LOGGER from "../utils/cpr-logger.js";
-// import ActorUtils from "../utils/cpr-actorUtils";
-import SystemUtils from "../utils/cpr-systemUtils.js";
-import CPRChat from "../chat/cpr-chat.js";
-import CPR from "../system/config.js";
 import CPRRolls from "../rolls/cpr-rolls.js";
 import Rules from "../utils/cpr-rules.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -22,7 +20,6 @@ export default class CPRActor extends Actor {
 
     // Prepare data for both types
     this._calculateDerivedStats(actorData);
-
 
     // Prepare type data
     if (actorData.type === "character") this._prepareCharacterData(actorData);
@@ -217,5 +214,14 @@ export default class CPRActor extends Actor {
 
   setRoles(roleList) {
     this.update({ "data.roleInfo.roles": roleList });
+  }
+
+  getSkillLevel(skillName) {
+    const skillList = (this.data.filteredItems.skill).filter((s) => s.name === skillName);
+    if (skillList.length > 0) {
+      const relevantSkill = skillList[0];
+      return relevantSkill.data.data.level;
+    }
+    return 0;
   }
 }

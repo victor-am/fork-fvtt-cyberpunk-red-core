@@ -63,11 +63,8 @@
               <input name="data.humanityLoss.roll" class="" type="text" value="{{data.humanityLoss.roll}}">
             </div>
           </div>
-          {{!-- MARKET PRICE --}}
-          <div>
-            {{localize "CPR.price"}}: <input name="data.price.market" class="" type="text"
-              value="{{data.price.market}}">
-          </div>
+          {{!-- Physical Item stats --}}
+          {{> "systems/cyberpunk-red-core/templates/item/parts/details/cpr-details-physical.hbs"}}
 
           {{#unless (listContains "fashionware,cyberwareInternal,cyberwareExternal" data.type)}}
           {{!-- DOES THIS REQUIRE FOUNDATIONAL CYBERWARE --}}

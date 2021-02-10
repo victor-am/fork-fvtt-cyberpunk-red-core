@@ -1,8 +1,10 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-undef */
 /* global Item */
 import LOGGER from "../utils/cpr-logger.js";
 import SelectAmmoPrompt from "../dialog/cpr-select-ammo-prompt.js";
 import CPRSystemUtils from "../utils/cpr-systemUtils.js";
+import Rules from "../utils/cpr-rules.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -98,7 +100,7 @@ export default class CPRItem extends Item {
     const newValue = Math.max(0, Number(currentValue) - Number(changeAmount));
     this.data.data.amount = newValue;
     if (this.actor) {
-      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
     }
   }
 
@@ -108,7 +110,7 @@ export default class CPRItem extends Item {
     const newValue = Number(currentValue) + Number(changeAmount);
     this.data.data.amount = newValue;
     if (this.actor) {
-      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
     }
   }
 
@@ -139,7 +141,7 @@ export default class CPRItem extends Item {
   }
 
   // TODO - Refactor
-  _weaponUnload() {
+  async _weaponUnload() {
     LOGGER.debug("_weaponUnload | CPRItem | Called.");
     if (this.actor) {
       // recover the ammo to the right object
@@ -149,15 +151,13 @@ export default class CPRItem extends Item {
 
         if (this.data.data.magazine.value > 0) {
           if (ammoId) {
-            ammo._ammoIncrement(this.data.data.magazine.value);
+            await ammo._ammoIncrement(this.data.data.magazine.value);
           }
         }
       }
       this.data.data.magazine.value = 0;
       this.data.data.magazine.ammoId = "";
-      if (this.actor) {
-        this.actor.updateEmbeddedEntity("OwnedItem", this.data);
-      }
+      return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
     }
   }
 
@@ -200,7 +200,7 @@ export default class CPRItem extends Item {
 
         magazineData.ammoId = selectedAmmoId;
 
-        // loadUpdate.push({ _id: this.data._id, "data.magazine.ammoId": selectedAmmoId });
+        loadUpdate.push({ _id: this.data._id, "data.magazine.ammoId": selectedAmmoId });
 
         const ammo = this.actor.items.find((i) => i.data._id === selectedAmmoId);
 
@@ -217,13 +217,10 @@ export default class CPRItem extends Item {
         if (magazineSpace > 0) {
           if (Number(ammo.data.data.amount) >= magazineSpace) {
             magazineData.value = magazineData.max;
-            // loadUpdate.push({ _id: this.data._id, "data.magazine.value": this.data.data.magazine.max });
-            const ammoUsed = Number(ammo.data.data.amount) - magazineSpace;
-            loadUpdate.push({ _id: ammo.data._id, "data.amount": ammoUsed });
+            await ammo._ammoDecrement(magazineSpace);
           } else {
             magazineData.value = Number(this.data.data.magazine.value) + Number(ammo.data.data.amount);
-            // loadUpdate.push({ _id: this.data._id, "data.magazine.value": newAmmoValue });
-            loadUpdate.push({ _id: ammo.data._id, "data.amount": 0 });
+            await ammo._ammoDecrement(ammo.data.data.amount);
           }
         }
         loadUpdate.push({ _id: this.data._id, "data.magazine": magazineData });
@@ -232,7 +229,7 @@ export default class CPRItem extends Item {
     }
   }
 
-  // TODO - Refactor
+  // Returns true if weapon fired, otherwise returns false.
   fireRangedWeapon(rateOfFire) {
     LOGGER.debug("fireRangedWeapon | CPRItem | Called.");
     let bulletCount = 0;
@@ -248,11 +245,16 @@ export default class CPRItem extends Item {
     }
 
     if (this.data.data.magazine.value < bulletCount) {
-      // PLAY CLICK SOUND?!
-    } else {
-      // PLAY GUN SOUND!!
-      this.data.data.magazine.value -= bulletCount;
+      Rules.lawyer(false, "CPR.weaponattackoutofbullets");
+      return false;
     }
-    this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+
+    // PLAY GUN SOUND!!
+    this.data.data.magazine.value -= bulletCount;
+    return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+  }
+
+  toggleFavorite() {
+    this.data.data.favorite = !this.data.data.favorite;
   }
 }

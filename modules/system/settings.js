@@ -2,6 +2,15 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-undef */
 export const registerSystemSettings = function () {
+  // Saves the last time a migration to a data model took place
+  game.settings.register("cyberpunk-red-core", "dataModelVersion", {
+    name: "System Data Model Version",
+    scope: "world",
+    config: false,
+    type: String,
+    default: "",
+  });
+
   game.settings.register("cyberpunk-red-core", "calculateDerivedStats", {
     name: "CPR.settingderivedstatsname",
     hint: "CPR.settingderivedstatshint",

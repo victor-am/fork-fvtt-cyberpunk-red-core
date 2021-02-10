@@ -1,5 +1,4 @@
 {{log "CPR-WEAPON-SHEET.HBS"}}
-{{log data}}
 <form>
   {{!-- Item Header Navigation --}}
   {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-header.hbs"}}
@@ -17,10 +16,9 @@
       {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
     </div>
     <div class="tab" data-group="primary" data-tab="details">
-      {{!-- MARKET PRICE INPUT --}}
-      <div>
-        {{localize "CPR.price"}}: <input name="data.price.market" class="" type="number" value="{{data.price.market}}">
-      </div>
+      {{!- Physical Item --}}
+      {{> "systems/cyberpunk-red-core/templates/item/parts/details/cpr-details-physical.hbs"}}
+      {{!-- Weapon specific data points --}}
       {{!-- EQUIPPED --}}
       <div>
         <label class="label-text">{{localize "CPR.equipped"}}</label>
@@ -62,7 +60,7 @@
         <select name="data.weaponSkill" data-dtype="{{data.weaponSkill}}">
           {{#select data.weaponSkill}}
           {{!-- Would be nice if this was sorted, but not sure how to do that. --}}
-          {{#each (getProp this.filteredItems 'skill') as |skillOption| }}
+          {{#each (sort (getProp this.filteredItems 'skill') "name") as |skillOption| }}
           {{#if (listContains "rangedweaponSkills,fightingSkills" skillOption.data.data.category)}}
           <option value="{{skillOption.data.name}}">{{skillOption.data.name}}</option>
           {{/if}}

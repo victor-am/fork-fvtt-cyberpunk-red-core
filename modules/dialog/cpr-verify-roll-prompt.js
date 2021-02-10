@@ -27,7 +27,7 @@ export default class VerifyRollPrompt {
           } else {
             formData.mods = [];
           }
-          if (rollRequest.rollType === "damage") {
+          if (rollRequest.rollType === "damage" || rollRequest.rollType === "attack") {
             if (formData.autofire) {
               formData.fireMode = "autofire";
             }

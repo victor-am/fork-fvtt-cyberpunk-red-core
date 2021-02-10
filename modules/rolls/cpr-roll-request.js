@@ -18,5 +18,6 @@ export default class CPRRollRequest {
     this.fireMode = "single";
     this.weaponType = "";
     this.debug = false;
+    this.extraVars = [];
   }
 }
