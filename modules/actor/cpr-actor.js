@@ -215,4 +215,13 @@ export default class CPRActor extends Actor {
   setRoles(roleList) {
     this.update({ "data.roleInfo.roles": roleList });
   }
+
+  getSkillLevel(skillName) {
+    const skillList = (this.data.filteredItems.skill).filter((s) => s.name === skillName);
+    if (skillList.length > 0) {
+      const relevantSkill = skillList[0];
+      return relevantSkill.data.data.level;
+    }
+    return 0;
+  }
 }

@@ -10,7 +10,7 @@
                 {{localize "CPR.autofire"}}?
             </div>
             <div class="section width-quarter">
-                <input type="checkbox" id="autofire" name="autofire">
+                <input type="checkbox" id="autofire" name="autofire" {{#if (getProp (findObj extraVars "name" "previousRoll") "autofire")}}checked{{/if}}>
             </div>
             <div class="section width-quarter">
                 {{localize "CPR.multiplier"}}:

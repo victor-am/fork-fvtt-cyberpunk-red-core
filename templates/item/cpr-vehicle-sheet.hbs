@@ -16,11 +16,12 @@
       {{> "systems/cyberpunk-red-core/templates/item/parts/cpr-description.hbs"}}
     </div>
     <div class="tab" data-group="primary" data-tab="details">
+      {{!-- Physical Item stats --}}
+      {{> "systems/cyberpunk-red-core/templates/item/parts/details/cpr-details-physical.hbs"}}
+      {{!-- Vehicle specific data points --}}
       {{localize "CPR.tags"}}: <input name="data.tags" class="" type="text" value="{{data.tags}}">
       {{localize "CPR.source"}}: <input name="data.source" class="" type="text" value="{{data.source}}"
         placeholder="Desc">
-      {{localize "CPR.price"}}: <input name="data.price.market" class="" type="text" value="{{data.price.market}}"
-        placeholder="50">
       {{localize "CPR.spd"}}: <input name="data.spd" class="" type="text" value="{{data.spd}}" placeholder="50">
       {{localize "CPR.seats"}}: <input name="data.seats" class="" type="text" value="{{data.seats}}" placeholder="50">
       {{localize "CPR.combatspeed"}}: <input name="data.speedCombat" class="" type="text" value="{{data.speedCombat}}"
