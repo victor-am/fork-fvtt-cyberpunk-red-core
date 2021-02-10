@@ -4,7 +4,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable class-methods-use-this */
 /* global ActorSheet */
-/* global mergeObject, $, setProperty, game */
+/* global mergeObject, $, setProperty, getProperty, hasProperty, game */
 /* eslint no-prototype-builtins: ["warn"] */
 import LOGGER from "../../utils/cpr-logger.js";
 import CPRRolls from "../../rolls/cpr-rolls.js";
@@ -17,6 +17,7 @@ import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
+import CPRLedger from "../../utils/cpr-ledger.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -757,8 +758,14 @@ export default class CPRActorSheet extends ActorSheet {
     this.actor.update(actordata, {});
   }
 
-  _listEbRecords(event) {
-    LOGGER.trace("ActorID _listEbRecords | CPRActorSheet | called.");
-    return this.getData().data.wealth.transactions;
+  _listRecords(prop) {
+    // eventually make the model-logic a part of updating the actor if possible
+    // also move this to another file
+    LOGGER.trace("ActorID _listRecords | CPRActorSheet | called.");
+    const ledgerData = getProperty(this.getData().data, prop);
+    if (CPRLedger.isLedgerProperty(ledgerData, prop)) {
+      return getProperty(ledgerData, "transactions");
+    }
+    return [];
   }
 }

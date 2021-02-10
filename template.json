@@ -218,10 +218,11 @@
         "events": []
       },
       "improvementPoints": {
-        "total": 0
+        "value": 0,
+        "transactions": []
       },
       "wealth": {
-        "eddies": 0,
+        "value": 0,
         "transactions": []
       },
       "lifestyle": {
