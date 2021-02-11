@@ -255,7 +255,8 @@
       "common": {
         "tags": [],
         "description": "",
-        "source": ""
+        "source": "",
+        "favorite": false
       },
       "physicalItem": {
         "price": {
