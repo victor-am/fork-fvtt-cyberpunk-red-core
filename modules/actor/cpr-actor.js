@@ -241,19 +241,17 @@ export default class CPRActor extends Actor {
   deltaLedgerProperty(prop, value, reason) {
     LOGGER.trace("CPRActor setLedgerProperty | called.");
     if (this.isLedgerProperty(prop)) {
-      // change the value
+      // update "value"; it may be negative
       const valProp = `${prop}.value`;
       let newValue = getProperty(this.data.data, valProp);
-      newValue += value;  // this will subtract if value is negative
+      newValue += value;
       setProperty(this.data.data, valProp, newValue);
-
       // update the ledger with the change
       const ledgerProp = `${prop}.transactions`;
       const action = (value > 0) ? SystemUtils.Localize("CPR.increased") : SystemUtils.Localize("CPR.decreased");
       const ledger = getProperty(this.data.data, ledgerProp);
       ledger.push([`${prop} ${action} ${SystemUtils.Localize("CPR.to")} ${newValue}`, reason]);
       setProperty(this.data.data, ledgerProp, ledger);
-
       // update the actor and return the modified property
       this.update(this.data, {});
       return getProperty(this.data.data, prop);
@@ -279,7 +277,7 @@ export default class CPRActor extends Actor {
   listRecords(prop) {
     LOGGER.trace("CPRActor _listRecords | called.");
     if (this.isLedgerProperty(prop)) {
-      return getProperty(this.data.data, prop + ".transactions");
+      return getProperty(this.data.data, `${prop}.transactions`);
     }
     return null;
   }
