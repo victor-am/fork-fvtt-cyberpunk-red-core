@@ -729,24 +729,17 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
+  /* Ledger methods */
+
+  /* Wealth */
   _setEb(value, reason) {
     LOGGER.trace("ActorID _setEb | CPRActorSheet | called.");
     return this.actor.setLedgerProperty("wealth", value, reason); 
   }
 
-  _setIp(value, reason) {
-    LOGGER.trace("ActorID _setIp | CPRActorSheet | called.");
-    return this.actor.setLedgerProperty("improvementPoints", value, reason); 
-  }
-
   _gainEb(value, reason) {
     LOGGER.trace("ActorID _gainEb | CPRActorSheet | called.");
     return this.actor.deltaLedgerProperty("wealth", value, reason);
-  }
-
-  _gainIp(value, reason) {
-    LOGGER.trace("ActorID _gainIp | CPRActorSheet | called.");
-    return this.actor.deltaLedgerProperty("improvementPoints", value, reason);
   }
 
   _loseEb(value, reason) {
@@ -756,9 +749,29 @@ export default class CPRActorSheet extends ActorSheet {
       tempVal = -tempVal;
     }
     const ledgerProp = this.actor.deltaLedgerProperty("wealth", tempVal, reason);
-    console.log(ledgerProp);
     Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenougheb");
     return ledgerProp;
+  }
+
+  _listEbRecords() {
+    LOGGER.trace("ActorID _listEbRecords | CPRActorSheet | called.");
+    return this.actor.listRecords("wealth"); 
+  }
+
+  _clearEbRecords() {
+    LOGGER.trace("ActorID _clearEbRecords | CPRActorSheet | called.");
+    return this.actor.clearLedger("wealth");
+  }
+
+  /* Improvement Points */
+  _setIp(value, reason) {
+    LOGGER.trace("ActorID _setIp | CPRActorSheet | called.");
+    return this.actor.setLedgerProperty("improvementPoints", value, reason); 
+  }
+
+  _gainIp(value, reason) {
+    LOGGER.trace("ActorID _gainIp | CPRActorSheet | called.");
+    return this.actor.deltaLedgerProperty("improvementPoints", value, reason);
   }
 
   _loseIp(value, reason) {
@@ -768,19 +781,17 @@ export default class CPRActorSheet extends ActorSheet {
       tempVal = -tempVal;
     }
     const ledgerProp = this.actor.deltaLedgerProperty("improvementPoints", tempVal, reason);
-    console.log(ledgerProp);
     Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenougheb");
     return ledgerProp;
-  }
-
-  _listEbRecords() {
-    // eventually make the model-logic a part of updating the actor if possible
-    LOGGER.trace("ActorID _listEbRecords | CPRActorSheet | called.");
-    return this.actor.listRecords("wealth"); 
   }
 
   _listIpRecords() {
     LOGGER.trace("ActorID _listIpRecords | CPRActorSheet | called.");
     return this.actor.listRecords("improvementPoints"); 
+  }
+
+  _clearIpRecords() {
+    LOGGER.trace("ActorID _clearIpRecords | CPRActorSheet | called.");
+    return this.actor.clearLedger("improvementPoints");
   }
 }

@@ -225,22 +225,39 @@ export default class CPRActor extends Actor {
     return 0;
   }
 
-  deltaLedgerProperty(prop, value, reason) {
-    LOGGER.trace("CPRActor setLedgerProperty | called.");
+  clearLedger(prop) {
+    LOGGER.trace("CPRActor clearLedger | called.");
     if (this.isLedgerProperty(prop)) {
       const valProp = prop + ".value";
       const ledgerProp = prop + ".transactions";
-      const action = (value > 0) ? "increased" : "decreased";
-      let newValue = getProperty(this.data.data, valProp);
-      newValue += value;  // this will subtract if value is negative
-      setProperty(this.data.data, valProp, newValue);
-      let ledger = getProperty(this.data.data, ledgerProp);
-      ledger.push([`${prop} ${action} to ${newValue}`, reason]);
-      setProperty(this.data.data, ledgerProp, ledger);
+      setProperty(this.data.data, valProp, 0);
+      setProperty(this.data.data, ledgerProp, []);
       this.update(this.data, {});
       return getProperty(this.data.data, prop);
     }
-    return []; // there was an error, return empty
+  }
+
+  deltaLedgerProperty(prop, value, reason) {
+    LOGGER.trace("CPRActor setLedgerProperty | called.");
+    if (this.isLedgerProperty(prop)) {
+
+      // change the value
+      const valProp = prop + ".value";
+      let newValue = getProperty(this.data.data, valProp);
+      newValue += value;  // this will subtract if value is negative
+      setProperty(this.data.data, valProp, newValue);
+
+      // update the ledger with the change
+      const ledgerProp = prop + ".transactions";
+      const action = (value > 0) ? "CPR.increased" : "CPR.decreased";
+      let ledger = getProperty(this.data.data, ledgerProp);
+      ledger.push([`${prop} ${action} CPR.to ${newValue}`, reason]);
+      setProperty(this.data.data, ledgerProp, ledger);
+
+      // update the actor and return the modified property
+      this.update(this.data, {});
+      return getProperty(this.data.data, prop);
+    }
   }
   
   setLedgerProperty(prop, value, reason) {
@@ -250,12 +267,11 @@ export default class CPRActor extends Actor {
       const ledgerProp = prop + ".transactions";
       setProperty(this.data.data, valProp, value);
       let ledger = getProperty(this.data.data, ledgerProp);
-      ledger.push([`${prop} set to ${value}`, reason]);
+      ledger.push([`${prop} CPR.setto ${value}`, reason]);
       setProperty(this.data.data, ledgerProp, ledger);
       this.update(this.data, {});
       return getProperty(this.data.data, prop);
     }
-    return []; // there was an error, return empty
   }
 
   listRecords(prop) {
@@ -263,7 +279,6 @@ export default class CPRActor extends Actor {
     if (this.isLedgerProperty(prop)) {
       return getProperty(this.data.data, prop + ".transactions");
     }
-    return []; // there was an error, return empty
   }
 
   isLedgerProperty(prop) {
