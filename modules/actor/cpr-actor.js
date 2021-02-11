@@ -228,30 +228,29 @@ export default class CPRActor extends Actor {
   clearLedger(prop) {
     LOGGER.trace("CPRActor clearLedger | called.");
     if (this.isLedgerProperty(prop)) {
-      const valProp = prop + ".value";
-      const ledgerProp = prop + ".transactions";
+      const valProp = `${prop}.value`;
+      const ledgerProp = `${prop}.transactions`;
       setProperty(this.data.data, valProp, 0);
       setProperty(this.data.data, ledgerProp, []);
-      console.log(this.data.data);
       this.update(this.data, {});
       return getProperty(this.data.data, prop);
     }
+    return null;
   }
 
   deltaLedgerProperty(prop, value, reason) {
     LOGGER.trace("CPRActor setLedgerProperty | called.");
     if (this.isLedgerProperty(prop)) {
-
       // change the value
-      const valProp = prop + ".value";
+      const valProp = `${prop}.value`;
       let newValue = getProperty(this.data.data, valProp);
       newValue += value;  // this will subtract if value is negative
       setProperty(this.data.data, valProp, newValue);
 
       // update the ledger with the change
-      const ledgerProp = prop + ".transactions";
+      const ledgerProp = `${prop}.transactions`;
       const action = (value > 0) ? SystemUtils.Localize("CPR.increased") : SystemUtils.Localize("CPR.decreased");
-      let ledger = getProperty(this.data.data, ledgerProp);
+      const ledger = getProperty(this.data.data, ledgerProp);
       ledger.push([`${prop} ${action} ${SystemUtils.Localize("CPR.to")} ${newValue}`, reason]);
       setProperty(this.data.data, ledgerProp, ledger);
 
@@ -259,20 +258,22 @@ export default class CPRActor extends Actor {
       this.update(this.data, {});
       return getProperty(this.data.data, prop);
     }
+    return null;
   }
-  
+
   setLedgerProperty(prop, value, reason) {
     LOGGER.trace("CPRActor setLedgerProperty | called.");
     if (this.isLedgerProperty(prop)) {
-      const valProp = prop + ".value";
-      const ledgerProp = prop + ".transactions";
+      const valProp = `${prop}.value`;
+      const ledgerProp = `${prop}.transactions`;
       setProperty(this.data.data, valProp, value);
-      let ledger = getProperty(this.data.data, ledgerProp);
+      const ledger = getProperty(this.data.data, ledgerProp);
       ledger.push([`${prop} ${SystemUtils.Localize("CPR.setto")} ${value}`, reason]);
       setProperty(this.data.data, ledgerProp, ledger);
       this.update(this.data, {});
       return getProperty(this.data.data, prop);
     }
+    return null;
   }
 
   listRecords(prop) {
@@ -280,6 +281,7 @@ export default class CPRActor extends Actor {
     if (this.isLedgerProperty(prop)) {
       return getProperty(this.data.data, prop + ".transactions");
     }
+    return null;
   }
 
   isLedgerProperty(prop) {

@@ -734,7 +734,7 @@ export default class CPRActorSheet extends ActorSheet {
   /* Wealth */
   _setEb(value, reason) {
     LOGGER.trace("ActorID _setEb | CPRActorSheet | called.");
-    return this.actor.setLedgerProperty("wealth", value, reason); 
+    return this.actor.setLedgerProperty("wealth", value, reason);
   }
 
   _gainEb(value, reason) {
@@ -755,7 +755,7 @@ export default class CPRActorSheet extends ActorSheet {
 
   _listEbRecords() {
     LOGGER.trace("ActorID _listEbRecords | CPRActorSheet | called.");
-    return this.actor.listRecords("wealth"); 
+    return this.actor.listRecords("wealth");
   }
 
   _clearEbRecords() {
@@ -766,7 +766,7 @@ export default class CPRActorSheet extends ActorSheet {
   /* Improvement Points */
   _setIp(value, reason) {
     LOGGER.trace("ActorID _setIp | CPRActorSheet | called.");
-    return this.actor.setLedgerProperty("improvementPoints", value, reason); 
+    return this.actor.setLedgerProperty("improvementPoints", value, reason);
   }
 
   _gainIp(value, reason) {
@@ -787,7 +787,7 @@ export default class CPRActorSheet extends ActorSheet {
 
   _listIpRecords() {
     LOGGER.trace("ActorID _listIpRecords | CPRActorSheet | called.");
-    return this.actor.listRecords("improvementPoints"); 
+    return this.actor.listRecords("improvementPoints");
   }
 
   _clearIpRecords() {
