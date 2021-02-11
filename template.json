@@ -43,7 +43,8 @@
         "derivedStats": {
           "hp": {
             "value": 40,
-            "max": 40
+            "max": 40,
+            "transactions": []
           },
           "seriouslyWounded": 20,
           "deathSave": 6,
@@ -186,7 +187,7 @@
         "humanity": {
           "value": 60,
           "max": 60,
-          "events": []
+          "transactions": []
         }
       }
     },
@@ -215,13 +216,14 @@
       },
       "reputation:": {
         "value": 0,
-        "events": []
+        "transactions": []
       },
       "improvementPoints": {
-        "total": 0
+        "value": 0,
+        "transactions": []
       },
       "wealth": {
-        "eddies": 0,
+        "value": 0,
         "transactions": []
       },
       "lifestyle": {

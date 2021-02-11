@@ -224,4 +224,79 @@ export default class CPRActor extends Actor {
     }
     return 0;
   }
+
+  clearLedger(prop) {
+    LOGGER.trace("CPRActor clearLedger | called.");
+    if (this.isLedgerProperty(prop)) {
+      const valProp = `${prop}.value`;
+      const ledgerProp = `${prop}.transactions`;
+      setProperty(this.data.data, valProp, 0);
+      setProperty(this.data.data, ledgerProp, []);
+      this.update(this.data, {});
+      return getProperty(this.data.data, prop);
+    }
+    return null;
+  }
+
+  deltaLedgerProperty(prop, value, reason) {
+    LOGGER.trace("CPRActor setLedgerProperty | called.");
+    if (this.isLedgerProperty(prop)) {
+      // update "value"; it may be negative
+      const valProp = `${prop}.value`;
+      let newValue = getProperty(this.data.data, valProp);
+      newValue += value;
+      setProperty(this.data.data, valProp, newValue);
+      // update the ledger with the change
+      const ledgerProp = `${prop}.transactions`;
+      const action = (value > 0) ? SystemUtils.Localize("CPR.increased") : SystemUtils.Localize("CPR.decreased");
+      const ledger = getProperty(this.data.data, ledgerProp);
+      ledger.push([`${prop} ${action} ${SystemUtils.Localize("CPR.to")} ${newValue}`, reason]);
+      setProperty(this.data.data, ledgerProp, ledger);
+      // update the actor and return the modified property
+      this.update(this.data, {});
+      return getProperty(this.data.data, prop);
+    }
+    return null;
+  }
+
+  setLedgerProperty(prop, value, reason) {
+    LOGGER.trace("CPRActor setLedgerProperty | called.");
+    if (this.isLedgerProperty(prop)) {
+      const valProp = `${prop}.value`;
+      const ledgerProp = `${prop}.transactions`;
+      setProperty(this.data.data, valProp, value);
+      const ledger = getProperty(this.data.data, ledgerProp);
+      ledger.push([`${prop} ${SystemUtils.Localize("CPR.setto")} ${value}`, reason]);
+      setProperty(this.data.data, ledgerProp, ledger);
+      this.update(this.data, {});
+      return getProperty(this.data.data, prop);
+    }
+    return null;
+  }
+
+  listRecords(prop) {
+    LOGGER.trace("CPRActor _listRecords | called.");
+    if (this.isLedgerProperty(prop)) {
+      return getProperty(this.data.data, `${prop}.transactions`);
+    }
+    return null;
+  }
+
+  isLedgerProperty(prop) {
+    /**
+     * Return whether a property in actor data is a ledgerProperty. This means it has
+     * two (sub-)properties, "value", and "transactions".
+     */
+    LOGGER.trace("CPRActor _checkProperty | called.");
+    const ledgerData = getProperty(this.data.data, prop);
+    if (!hasProperty(ledgerData, "value")) {
+      SystemUtils.DisplayMessage("error", `Bug: Ledger property '${prop}' missing 'value'`);
+      return false;
+    }
+    if (!hasProperty(ledgerData, "transactions")) {
+      SystemUtils.DisplayMessage("error", `Bug: Ledger property '${prop}' missing 'transactions'`);
+      return false;
+    }
+    return true;
+  }
 }

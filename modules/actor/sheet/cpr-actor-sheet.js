@@ -4,7 +4,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable class-methods-use-this */
 /* global ActorSheet */
-/* global mergeObject, $, setProperty, game */
+/* global mergeObject, $, setProperty, getProperty, hasProperty, game */
 /* eslint no-prototype-builtins: ["warn"] */
 import LOGGER from "../../utils/cpr-logger.js";
 import CPRRolls from "../../rolls/cpr-rolls.js";
@@ -17,6 +17,7 @@ import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
+import CPRActor from "../cpr-actor.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -732,37 +733,69 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
+  /* Ledger methods */
+
+  /* Wealth */
   _setEb(value, reason) {
-    // set Eurobucks to a value
     LOGGER.trace("ActorID _setEb | CPRActorSheet | called.");
-    let actordata = this.getData();
-    actordata.data.wealth.eddies = value;
-    actordata.data.wealth.transactions.push([`Eb set to ${value}`, reason]);
-    this.actor.update(actordata, {});
+    return this.actor.setLedgerProperty("wealth", value, reason);
   }
 
   _gainEb(value, reason) {
-    // add Eurobucks, increasing how many the actor has
     LOGGER.trace("ActorID _gainEb | CPRActorSheet | called.");
-    let actordata = this.getData();
-    actordata.data.wealth.eddies += value;
-    actordata.data.wealth.transactions.push([`Eb increased by ${value}`, reason]);
-    this.actor.update(actordata, {});
+    return this.actor.deltaLedgerProperty("wealth", value, reason);
   }
 
   _loseEb(value, reason) {
-    // add eddies, increasing how many the actor has
     LOGGER.trace("ActorID _loseEb | CPRActorSheet | called.");
-    let actordata = this.getData();
-    let currentEb = actordata.data.wealth.eddies;
-    Rules.lawyer(value < currentEb, "CPR.warningnotenougheb");
-    actordata.data.wealth.eddies = currentEb - value;
-    actordata.data.wealth.transactions.push([`Eb reduced by ${value}`, reason]);
-    this.actor.update(actordata, {});
+    let tempVal = value;
+    if (tempVal > 0) {
+      tempVal = -tempVal;
+    }
+    const ledgerProp = this.actor.deltaLedgerProperty("wealth", tempVal, reason);
+    Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenougheb");
+    return ledgerProp;
   }
 
-  _listEbRecords(event) {
+  _listEbRecords() {
     LOGGER.trace("ActorID _listEbRecords | CPRActorSheet | called.");
-    return this.getData().data.wealth.transactions;
+    return this.actor.listRecords("wealth");
+  }
+
+  _clearEbRecords() {
+    LOGGER.trace("ActorID _clearEbRecords | CPRActorSheet | called.");
+    return this.actor.clearLedger("wealth");
+  }
+
+  /* Improvement Points */
+  _setIp(value, reason) {
+    LOGGER.trace("ActorID _setIp | CPRActorSheet | called.");
+    return this.actor.setLedgerProperty("improvementPoints", value, reason);
+  }
+
+  _gainIp(value, reason) {
+    LOGGER.trace("ActorID _gainIp | CPRActorSheet | called.");
+    return this.actor.deltaLedgerProperty("improvementPoints", value, reason);
+  }
+
+  _loseIp(value, reason) {
+    LOGGER.trace("ActorID _loseIp | CPRActorSheet | called.");
+    let tempVal = value;
+    if (tempVal > 0) {
+      tempVal = -tempVal;
+    }
+    const ledgerProp = this.actor.deltaLedgerProperty("improvementPoints", tempVal, reason);
+    Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenougheb");
+    return ledgerProp;
+  }
+
+  _listIpRecords() {
+    LOGGER.trace("ActorID _listIpRecords | CPRActorSheet | called.");
+    return this.actor.listRecords("improvementPoints");
+  }
+
+  _clearIpRecords() {
+    LOGGER.trace("ActorID _clearIpRecords | CPRActorSheet | called.");
+    return this.actor.clearLedger("improvementPoints");
   }
 }
