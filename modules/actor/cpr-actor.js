@@ -232,6 +232,7 @@ export default class CPRActor extends Actor {
       const ledgerProp = prop + ".transactions";
       setProperty(this.data.data, valProp, 0);
       setProperty(this.data.data, ledgerProp, []);
+      console.log(this.data.data);
       this.update(this.data, {});
       return getProperty(this.data.data, prop);
     }
@@ -249,9 +250,9 @@ export default class CPRActor extends Actor {
 
       // update the ledger with the change
       const ledgerProp = prop + ".transactions";
-      const action = (value > 0) ? "CPR.increased" : "CPR.decreased";
+      const action = (value > 0) ? SystemUtils.Localize("CPR.increased") : SystemUtils.Localize("CPR.decreased");
       let ledger = getProperty(this.data.data, ledgerProp);
-      ledger.push([`${prop} ${action} CPR.to ${newValue}`, reason]);
+      ledger.push([`${prop} ${action} ${SystemUtils.Localize("CPR.to")} ${newValue}`, reason]);
       setProperty(this.data.data, ledgerProp, ledger);
 
       // update the actor and return the modified property
@@ -267,7 +268,7 @@ export default class CPRActor extends Actor {
       const ledgerProp = prop + ".transactions";
       setProperty(this.data.data, valProp, value);
       let ledger = getProperty(this.data.data, ledgerProp);
-      ledger.push([`${prop} CPR.setto ${value}`, reason]);
+      ledger.push([`${prop} ${SystemUtils.Localize("CPR.setto")} ${value}`, reason]);
       setProperty(this.data.data, ledgerProp, ledger);
       this.update(this.data, {});
       return getProperty(this.data.data, prop);
