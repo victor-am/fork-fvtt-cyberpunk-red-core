@@ -224,4 +224,63 @@ export default class CPRActor extends Actor {
     }
     return 0;
   }
+
+  deltaLedgerProperty(prop, value, reason) {
+    LOGGER.trace("CPRActor setLedgerProperty | called.");
+    if (this.isLedgerProperty(prop)) {
+      const valProp = prop + ".value";
+      const ledgerProp = prop + ".transactions";
+      const action = (value > 0) ? "increased" : "decreased";
+      let newValue = getProperty(this.data.data, valProp);
+      newValue += value;  // this will subtract if value is negative
+      setProperty(this.data.data, valProp, newValue);
+      let ledger = getProperty(this.data.data, ledgerProp);
+      ledger.push([`${prop} ${action} to ${newValue}`, reason]);
+      setProperty(this.data.data, ledgerProp, ledger);
+      this.update(this.data, {});
+      return getProperty(this.data.data, prop);
+    }
+    return []; // there was an error, return empty
+  }
+  
+  setLedgerProperty(prop, value, reason) {
+    LOGGER.trace("CPRActor setLedgerProperty | called.");
+    if (this.isLedgerProperty(prop)) {
+      const valProp = prop + ".value";
+      const ledgerProp = prop + ".transactions";
+      setProperty(this.data.data, valProp, value);
+      let ledger = getProperty(this.data.data, ledgerProp);
+      ledger.push([`${prop} set to ${value}`, reason]);
+      setProperty(this.data.data, ledgerProp, ledger);
+      this.update(this.data, {});
+      return getProperty(this.data.data, prop);
+    }
+    return []; // there was an error, return empty
+  }
+
+  listRecords(prop) {
+    LOGGER.trace("CPRActor _listRecords | called.");
+    if (this.isLedgerProperty(prop)) {
+      return getProperty(this.data.data, prop + ".transactions");
+    }
+    return []; // there was an error, return empty
+  }
+
+  isLedgerProperty(prop) {
+    /**
+     * Return whether a property in actor data is a ledgerProperty. This means it has
+     * two (sub-)properties, "value", and "transactions".
+     */
+    LOGGER.trace("CPRActor _checkProperty | called.");
+    const ledgerData = getProperty(this.data.data, prop);
+    if (!hasProperty(ledgerData, "value")) {
+      SystemUtils.DisplayMessage("error", `Bug: Ledger property '${prop}' missing 'value'`);
+      return false;
+    }
+    if (!hasProperty(ledgerData, "transactions")) {
+      SystemUtils.DisplayMessage("error", `Bug: Ledger property '${prop}' missing 'transactions'`);
+      return false;
+    }
+    return true;
+  }
 }

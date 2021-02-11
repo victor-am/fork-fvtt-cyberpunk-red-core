@@ -17,7 +17,7 @@ import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
-import CPRLedger from "../../utils/cpr-ledger.js";
+import CPRActor from "../cpr-actor.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -730,42 +730,57 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _setEb(value, reason) {
-    // set Eurobucks to a value
     LOGGER.trace("ActorID _setEb | CPRActorSheet | called.");
-    let actordata = this.getData();
-    actordata.data.wealth.eddies = value;
-    actordata.data.wealth.transactions.push([`Eb set to ${value}`, reason]);
-    this.actor.update(actordata, {});
+    return this.actor.setLedgerProperty("wealth", value, reason); 
+  }
+
+  _setIp(value, reason) {
+    LOGGER.trace("ActorID _setIp | CPRActorSheet | called.");
+    return this.actor.setLedgerProperty("improvementPoints", value, reason); 
   }
 
   _gainEb(value, reason) {
-    // add Eurobucks, increasing how many the actor has
     LOGGER.trace("ActorID _gainEb | CPRActorSheet | called.");
-    let actordata = this.getData();
-    actordata.data.wealth.eddies += value;
-    actordata.data.wealth.transactions.push([`Eb increased by ${value}`, reason]);
-    this.actor.update(actordata, {});
+    return this.actor.deltaLedgerProperty("wealth", value, reason);
+  }
+
+  _gainIp(value, reason) {
+    LOGGER.trace("ActorID _gainIp | CPRActorSheet | called.");
+    return this.actor.deltaLedgerProperty("improvementPoints", value, reason);
   }
 
   _loseEb(value, reason) {
-    // add eddies, increasing how many the actor has
     LOGGER.trace("ActorID _loseEb | CPRActorSheet | called.");
-    let actordata = this.getData();
-    let currentEb = actordata.data.wealth.eddies;
-    Rules.lawyer(value < currentEb, "CPR.warningnotenougheb");
-    actordata.data.wealth.eddies = currentEb - value;
-    actordata.data.wealth.transactions.push([`Eb increased by ${value}`, reason]);
-    this.actor.update(actordata, {});
+    let tempVal = value;
+    if (tempVal > 0) {
+      tempVal = -tempVal;
+    }
+    const ledgerProp = this.actor.deltaLedgerProperty("wealth", tempVal, reason);
+    console.log(ledgerProp);
+    Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenougheb");
+    return ledgerProp;
   }
 
-  _listRecords(prop) {
-    // eventually make the model-logic a part of updating the actor if possible
-    // also move this to another file
-    LOGGER.trace("ActorID _listRecords | CPRActorSheet | called.");
-    const ledgerData = getProperty(this.getData().data, prop);
-    if (CPRLedger.isLedgerProperty(ledgerData, prop)) {
-      return getProperty(ledgerData, "transactions");
+  _loseIp(value, reason) {
+    LOGGER.trace("ActorID _loseIp | CPRActorSheet | called.");
+    let tempVal = value;
+    if (tempVal > 0) {
+      tempVal = -tempVal;
     }
-    return [];
+    const ledgerProp = this.actor.deltaLedgerProperty("improvementPoints", tempVal, reason);
+    console.log(ledgerProp);
+    Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenougheb");
+    return ledgerProp;
+  }
+
+  _listEbRecords() {
+    // eventually make the model-logic a part of updating the actor if possible
+    LOGGER.trace("ActorID _listEbRecords | CPRActorSheet | called.");
+    return this.actor.listRecords("wealth"); 
+  }
+
+  _listIpRecords() {
+    LOGGER.trace("ActorID _listIpRecords | CPRActorSheet | called.");
+    return this.actor.listRecords("improvementPoints"); 
   }
 }
