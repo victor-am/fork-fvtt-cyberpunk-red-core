@@ -26,6 +26,13 @@
   font-display: swap;
   src: url(https://fonts.gstatic.com/s/ubuntumono/v10/KFO-CneDtsqEr0keqCMhbC-BL-Hy.ttf) format('truetype');
 }
+@font-face {
+  font-family: 'Rubik Mono One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/rubikmonoone/v9/UqyJK8kPP3hjw6ANTdfRk9YSN-8w.ttf) format('truetype');
+}
 /* LESS HEX */
 /* LESS Gradient */
 /*--------------------
@@ -419,6 +426,52 @@
   height: calc(100% - 20px);
   width: 100%;
 }
+/* ------------------------------- */
+/* Override pause menu             */
+/* ------------------------------- */
+#pause {
+  background: none;
+}
+#pause img {
+  background: url("icons/pause.png");
+  background-size: 128px;
+  width: 128px;
+  height: 128px;
+  padding-left: 128px;
+}
+#pause h3 {
+  margin: 0 auto;
+  text-align: center;
+  transform: scale3d(1, 1, 1);
+  text-transform: uppercase;
+  font-family: "Rubik Mono One";
+  color: #f4eded;
+}
+#pause h3::before,
+#pause h3::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+#pause h3::before {
+  left: 2px;
+  text-shadow: -2px 0 #2388d2;
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim-2 7s infinite linear alternate-reverse;
+}
+#pause h3::after {
+  left: -2px;
+  text-shadow: -2px 0 #8ef104;
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim 6.5s infinite linear alternate-reverse;
+}
+#pause h3::before,
+#pause h3::after {
+  content: "GAME PAUSED";
+}
 /*--------------------
   cpr-block element styling
 ---------------------*/
@@ -718,6 +771,100 @@
 }
 form input.number {
   width: 30px;
+}
+/* ------------------------------------- */
+/* Glitch
+/* ------------------------------------- */
+.glitch {
+  margin: 0 auto;
+  text-align: center;
+  text-transform: uppercase;
+  transform: scale3d(1, 1, 1);
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+.glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 #2388d2;
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim-2 7s infinite linear alternate-reverse;
+}
+.glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 #8ef104;
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim 6.5s infinite linear alternate-reverse;
+}
+@keyframes glitch-anim {
+  0% {
+    clip: rect(81px, 9999px, 46px, 0);
+  }
+  10% {
+    clip: rect(144px, 9999px, 39px, 0);
+  }
+  20% {
+    clip: rect(41px, 9999px, 81px, 0);
+  }
+  30% {
+    clip: rect(53px, 9999px, 50px, 0);
+  }
+  40% {
+    clip: rect(17px, 9999px, 18px, 0);
+  }
+  50% {
+    clip: rect(102px, 9999px, 87px, 0);
+  }
+  60% {
+    clip: rect(50px, 9999px, 113px, 0);
+  }
+  70% {
+    clip: rect(14px, 9999px, 85px, 0);
+  }
+  80% {
+    clip: rect(34px, 9999px, 31px, 0);
+  }
+  90% {
+    clip: rect(78px, 9999px, 116px, 0);
+  }
+  100% {
+    clip: rect(36px, 9999px, 62px, 0);
+  }
+}
+@keyframes glitch-anim-2 {
+  20% {
+    clip: rect(94px, 9999px, 87px, 0);
+  }
+  30% {
+    clip: rect(27px, 9999px, 108px, 0);
+  }
+  40% {
+    clip: rect(99px, 9999px, 124px, 0);
+  }
+  50% {
+    clip: rect(47px, 9999px, 23px, 0);
+  }
+  60% {
+    clip: rect(128px, 9999px, 83px, 0);
+  }
+  70% {
+    clip: rect(64px, 9999px, 0px, 0);
+  }
+  80% {
+    clip: rect(73px, 9999px, 1px, 0);
+  }
+  90% {
+    clip: rect(28px, 9999px, 27px, 0);
+  }
+  100% {
+    clip: rect(26px, 9999px, 19px, 0);
+  }
 }
 .window-app .window-content {
   background: #eaeaeaff;
