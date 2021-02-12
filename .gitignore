@@ -5,3 +5,6 @@ node_modules
 *.pdf
 
 !.vscode/extensions.json
+
+# Local config
+foundryconfig.json
