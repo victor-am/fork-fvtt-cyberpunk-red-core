@@ -129,48 +129,22 @@
 .sheet-content .right-pane {
   grid-area: pane-right;
   display: grid;
-  grid-gap: 5px;
   grid-template-columns: auto;
   grid-template-rows: auto auto;
   grid-template-areas: "tabs-right" "content-right";
 }
 .sheet-content .right-pane .right-tabs-section {
   grid-area: tabs-right;
-  display: flex;
-  width: 100% /*
-            height   : auto;
-            overflow-wrap: normal;
-            overflow-x: hidden;
-            grid-template-areas :
-                 "right-tab1 right-tab2 right-tab3";
-            grid-gap: 2px;
-
-            grid-template-columns: repeat(3, 170px);
-
-            .skills-tab {
-                grid-area: right-tab1;
-            }
-
-            .gear-tab {
-                grid-area: right-tab2;
-            }
-
-            .cyberware-tab {
-                grid-area: right-tab3;
-            }
-*/;
+  width: 100%;
+  height: 30px;
 }
 .sheet-content .right-pane .right-content-section {
   grid-area: content-right;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-areas: "content-left" "content-right";
-}
-.sheet-content .right-pane .right-content-section .content-block-left {
-  grid-area: content-left;
-}
-.sheet-content .right-pane .right-content-section .content-block-right {
-  grid-area: content-right;
+  display: flex;
+  height: 395px;
+  background-color: #b90202ff;
+  overflow-y: scroll;
+  padding: 5px;
 }
 .sheet-content .bottom-pane {
   grid-area: pane-bottom;
@@ -184,17 +158,6 @@
   grid-area: tabs-bottom;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  /*
-          .role-tab {
-              border             : @thin-card-border;
-          }
-          .fight-tab {
-              border             : @thin-card-border;
-          }
-          .gear-tab {
-              border             : @thin-card-border;
-          }
-          */
 }
 .sheet-content .bottom-pane .content-bottom-section {
   grid-area: content-bottom;
@@ -254,17 +217,26 @@
   font-weight: lighter;
 }
 .tab-label {
+  display: flex;
+  justify-content: center;
   color: #eaeaeaff;
   background-color: #2d2f2fff;
   font-weight: bold;
   text-align: center;
   font-size: 1.7rem;
+  min-width: 170px;
+  clip-path: polygon(33px 0, 100% 0%, 100% 100%, 11px 100%);
 }
 .tab-label.active {
   background-color: #b90202ff;
 }
 .tab-label:hover {
   text-shadow: none;
+}
+.tab-underlay {
+  background-color: #ffc3b6ff;
+  margin-left: 20px;
+  clip-path: polygon(22px 0, 100% 0%, 100% 100%, 0% 100%);
 }
 .tabs {
   flex-wrap: nowrap;
@@ -485,6 +457,65 @@
 }
 .bg-orange {
   background-color: #DC8121ff;
+}
+/*--------------------
+  Dynamic Lists
+---------------------*/
+.dynamic-list.columns {
+  columns: 330px 5;
+}
+.dynamic-list .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: stretch;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.dynamic-list .row.flex-end {
+  justify-content: flex-end;
+}
+.dynamic-list .row.flex-start {
+  justify-content: flex-start;
+}
+.dynamic-list .row.hide {
+  display: none;
+}
+.dynamic-list .row.padding-left {
+  padding-left: 2%;
+}
+.dynamic-list .row .section {
+  max-height: 20px;
+  height: 20px;
+  padding: 0 5px;
+}
+.dynamic-list .row .section a,
+.dynamic-list .row .section span,
+.dynamic-list .row .section input,
+.dynamic-list .row .section div {
+  max-height: 20px;
+  height: 20px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+.dynamic-list .row .section.name {
+  flex: 0 0 150px;
+}
+.dynamic-list .row .section.action {
+  flex-shrink: 0;
+}
+.dynamic-list .item:nth-child(odd) {
+  background-color: #ffc3b6ff;
+}
+.dynamic-list .item:nth-child(even) {
+  background-color: #eaeaeaff;
+}
+.collapse-icon {
+  padding-left: 2%;
+}
+.hide {
+  display: none;
 }
 .chat-message.message.flexcol {
   background: #eaeaeaff;

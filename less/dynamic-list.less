@@ -1,0 +1,71 @@
+/*--------------------
+  Dynamic Lists
+---------------------*/
+.dynamic-list {
+    &.columns {
+      columns: 330px 5;
+    }
+    .row {
+      display        : flex;
+      justify-content: space-between;
+      align-items: center;
+      align-content: stretch;
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      
+      &.flex-end {
+        justify-content: flex-end;
+      }
+  
+      &.flex-start {
+        justify-content: flex-start;
+      }
+  
+      &.hide {
+        display: none;
+      }
+  
+      &.padding-left {
+        padding-left: 2%;
+      }
+      
+      .section {
+        max-height: 20px;
+        height    : 20px;
+        padding   : 0 5px;
+  
+        a,
+        span,
+        input,
+        div {
+          max-height   : 20px;
+          height       : 20px;
+          overflow-x   : hidden;
+          text-overflow: ellipsis;
+        }
+        &.name {
+          flex: 0 0 150px;
+        }
+        &.action {
+          flex-shrink: 0;
+        }
+      }
+    }
+    .item {
+        &:nth-child(odd) {
+            background-color: @meat-space-pink;
+        }
+        &:nth-child(even) {
+          background-color: @chrome-white;
+      }
+    }
+  }
+  
+  .collapse-icon {
+    padding-left: 2%;
+  }
+  
+  .hide {
+    display: none;
+  }

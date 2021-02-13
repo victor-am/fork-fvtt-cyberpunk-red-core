@@ -73,6 +73,15 @@ export default function registerHandlebarsHelpers() {
     return "INVALID_LIST";
   });
 
+  Handlebars.registerHelper("alternator", (setting) => {
+    if ((typeof setting === "string" && setting === "reset") || typeof this.dynamicListAlternator === "undefined")
+    {
+      this.dynamicListAlternator = true;
+    }
+    this.dynamicListAlternator = !this.dynamicListAlternator;
+    return this.dynamicListAlternator;
+  });
+
   Handlebars.registerHelper("findObj", (objList, propertyName, propertyValue) => {
     LOGGER.trace(`Calling findObj Helper | Arg1:${objList}`);
     if (typeof objList === "object") {

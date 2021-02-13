@@ -107,9 +107,8 @@
 
     .right-pane {
         grid-area            : pane-right;
-        //background-color: magenta;
+
         display              : grid;
-        grid-gap             : 5px;
         grid-template-columns: auto;
         grid-template-rows   : auto auto;
         grid-template-areas  :
@@ -117,52 +116,22 @@
             "content-right";
 
         .right-tabs-section {
-            //border: @card-border;
+
             grid-area: tabs-right;
-            display  : flex;
-            width: 100%
-/*
-            height   : auto;
-            overflow-wrap: normal;
-            overflow-x: hidden;
-            grid-template-areas :
-                 "right-tab1 right-tab2 right-tab3";
-            grid-gap: 2px;
 
-            grid-template-columns: repeat(3, 170px);
-
-            .skills-tab {
-                grid-area: right-tab1;
-            }
-
-            .gear-tab {
-                grid-area: right-tab2;
-            }
-
-            .cyberware-tab {
-                grid-area: right-tab3;
-            }
-*/
+            width: 100%;
+            height: 30px;
         }
 
         .right-content-section {
             grid-area: content-right;
-            display  : grid;
+            display  : flex;
+            height: 395px;
 
-            grid-template-columns: 1fr;
-            grid-template-areas  :
-                "content-left"
-                "content-right";
+            background-color: @wyrm-red;
+            overflow-y: scroll;
+            padding: 5px;
 
-            .content-block-left {
-                //border: @card-border;
-                grid-area: content-left;
-            }
-
-            .content-block-right {
-                //border: @card-border;
-                grid-area: content-right;
-            }
         }
     }
 
@@ -183,17 +152,6 @@
             display  : grid;
 
             grid-template-columns: repeat(3, 1fr);
-            /*
-          .role-tab {
-              border             : @thin-card-border;
-          }
-          .fight-tab {
-              border             : @thin-card-border;
-          }
-          .gear-tab {
-              border             : @thin-card-border;
-          }
-          */
         }
 
         .content-bottom-section {
@@ -275,11 +233,15 @@
 }
 
 .tab-label {
+    display: flex;
+    justify-content: center;
     color: @chrome-white;
     background-color: @flint-black;
     font-weight     : bold;
     text-align      : center;
     font-size       : @font-larger;
+    min-width: 170px;
+    clip-path: polygon(33px 0, 100% 0%, 100% 100%, 11px 100%);
 
     &.active {
         background-color: @wyrm-red;
@@ -288,6 +250,12 @@
     &:hover {
         text-shadow: none;
     }
+}
+
+.tab-underlay {
+    background-color: @meat-space-pink;
+    margin-left: 20px;
+    clip-path: polygon(22px 0, 100% 0%, 100% 100%, 0% 100%);
 }
 
 .tabs {
