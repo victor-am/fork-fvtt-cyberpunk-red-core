@@ -1,11 +1,76 @@
 /* LESS HEX */
 /* LESS Gradient */
+@font-face {
+  font-family: 'Audimat Mono';
+  src: url('fonts/AudimatMono.woff2') format('woff2'), url('fonts/AudimatMono.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Audimat Mono';
+  src: url('fonts/AudimatMonoSmallCaps.woff2') format('woff2'), url('fonts/AudimatMonoSmallCaps.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Audimat Mono';
+  src: url('fonts/AudimatMonoLightOblique.woff2') format('woff2'), url('fonts/AudimatMonoLightOblique.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Audimat Mono';
+  src: url('fonts/AudimatMonoSmallCapsLight.woff2') format('woff2'), url('fonts/AudimatMonoSmallCapsLight.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Audimat Mono';
+  src: url('fonts/AudimatMonoLight.woff2') format('woff2'), url('fonts/AudimatMonoLight.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Audimat Mono';
+  src: url('fonts/AudimatMonoBold.woff2') format('woff2'), url('fonts/AudimatMonoBold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Audimat Mono';
+  src: url('fonts/AudimatMonoBoldOblique.woff2') format('woff2'), url('fonts/AudimatMonoBoldOblique.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Audimat Mono';
+  src: url('fonts/AudimatMonoSmallCapsBold.woff2') format('woff2'), url('fonts/AudimatMonoSmallCapsBold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Audimat Mono';
+  src: url('fonts/AudimatMonoOblique.woff2') format('woff2'), url('fonts/AudimatMonoOblique.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
 .sheet-content {
   font-family: "Audimat Mono";
-  grid-template-columns: 411px;
-  grid-template-rows: 622px auto;
-  grid-gap: 0.5rem;
-  grid-template-areas: "left-pane" "right-pane" "bottom-pane";
+  background-color: #eaeaeaff;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: 265px auto;
+  grid-template-rows: auto auto;
+  grid-template-areas: "pane-left pane-right" "pane-bottom pane-bottom";
 }
 .sheet-content img {
   border: none;
@@ -35,354 +100,146 @@
   user-select: text;
 }
 .sheet-content .left-pane {
-  grid-area: left-pane;
-  column-gap: 0.5rem;
-  grid-template-columns: 3fr 1fr;
-  grid-template-areas: "non-stats stats";
+  grid-area: pane-left;
+  display: grid;
+  max-width: 265px;
+  grid-gap: 5px;
+  grid-template-columns: auto auto;
+  grid-template-areas: "main stats";
 }
-.sheet-content .left-pane .non-stats-section {
-  border: solid 0.5rem white;
-  grid-area: non-stats;
-  grid-template-columns: 1fr;
-  grid-template-rows: 5fr repeat(5, 1fr);
+.sheet-content .left-pane .main-section {
+  grid-area: main;
+  width: 200px;
+  height: 425px;
+  background-color: #b90202ff;
 }
-.sheet-content .left-pane .non-stats-section > div {
-  border: solid 0.1rem white;
+.sheet-content .left-pane .main-section > div {
+  margin: 5px;
 }
 .sheet-content .left-pane .stats-section {
-  border: solid 0.5rem white;
   grid-area: stats;
+  width: 55px;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(10, 1fr);
 }
 .sheet-content .left-pane .stats-section > div {
-  border: solid 0.1rem white;
+  margin: 5px;
 }
 .sheet-content .right-pane {
-  grid-area: right-pane;
-  grid-gap: 0.5rem;
-  grid-template-columns: 1fr;
-  grid-template-rows: 50px auto;
-  grid-template-areas: "tabs" "text-area";
+  grid-area: pane-right;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: auto;
+  grid-template-rows: auto auto;
+  grid-template-areas: "tabs-right" "content-right";
 }
-.sheet-content .right-pane .tabs-section {
-  border: solid 0.5rem white;
-  grid-area: tabs;
+.sheet-content .right-pane .right-tabs-section {
+  grid-area: tabs-right;
+  display: grid;
+  height: 22px;
   grid-template-columns: repeat(3, 1fr);
 }
-.sheet-content .right-pane .tabs-section .skills-tab {
-  border: solid 0.1rem white;
-}
-.sheet-content .right-pane .tabs-section .cyber-tab {
-  border: solid 0.1rem white;
-}
-.sheet-content .right-pane .tabs-section .lifepath-tab {
-  border: solid 0.1rem white;
-}
-.sheet-content .right-pane .text-section {
-  grid-area: text-area;
-  grid-template-columns: 1fr;
-  grid-template-areas: "text-left" "text-right";
-}
-.sheet-content .right-pane .text-section .text-block-left {
-  border: solid 0.5rem white;
-  grid-area: text-left;
-}
-.sheet-content .right-pane .text-section .text-block-right {
-  border: solid 0.5rem white;
-  grid-area: text-right;
-}
-.sheet-content .top-container {
-  display: flex;
-  flex-wrap: nowrap;
-}
-.sheet-content .top-container .left-container {
-  flex-basis: 280px;
-  flex-shrink: 1;
-  display: flex;
-  flex-wrap: nowrap;
-}
-.sheet-content .top-container .right-container {
-  flex-grow: 2;
-}
-.cpr-block .portrait {
-  height: 200px;
-  width: 200px;
-}
-.cpr-block .portrait img {
-  height: 100%;
-  width: 100%;
-}
-.cpr-block .stat {
-  position: relative;
+.sheet-content .right-pane .right-tabs-section .skills-tab {
   margin: 5px;
+}
+.sheet-content .right-pane .right-tabs-section .gear-tab {
+  margin: 5px;
+}
+.sheet-content .right-pane .right-tabs-section .cyberware-tab {
+  margin: 5px;
+}
+.sheet-content .right-pane .right-content-section {
+  grid-area: content-right;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: "content-left" "content-right";
+}
+.sheet-content .right-pane .right-content-section .content-block-left {
+  grid-area: content-left;
+}
+.sheet-content .right-pane .right-content-section .content-block-right {
+  grid-area: content-right;
+}
+.sheet-content .bottom-pane {
+  grid-area: pane-bottom;
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-rows: auto auto;
+  grid-template-columns: 1fr;
+  grid-template-areas: "tabs-bottom" "content-bottom";
+}
+.sheet-content .bottom-pane .tabs-bottom-section {
+  grid-area: tabs-bottom;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /*
+          .role-tab {
+              border             : @thin-card-border;
+          }
+          .fight-tab {
+              border             : @thin-card-border;
+          }
+          .gear-tab {
+              border             : @thin-card-border;
+          }
+          */
+}
+.sheet-content .bottom-pane .content-bottom-section {
+  grid-area: content-bottom;
+  display: grid;
+  grid-template-areas: "small-box-left" "small-box-right" "long-box";
+}
+.sheet-content .bottom-pane .content-bottom-section > div {
+  margin: 5px;
+}
+.sheet-content .bottom-pane .content-bottom-section .rfg-box .rfg-box-details {
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(4, 1fr);
+}
+.sheet-content .bottom-pane .content-bottom-section .rfg-box .rfg-box-details > div {
+  margin: 5px;
+}
+.sheet-content .bottom-pane .content-bottom-section .small-box-left {
+  grid-area: small-box-left;
+  display: grid;
+}
+.sheet-content .bottom-pane .content-bottom-section .small-box-right {
+  grid-area: small-box-right;
+  display: grid;
+}
+.sheet-content .bottom-pane .content-bottom-section .long-box {
+  grid-area: long-box;
+  display: grid;
+}
+.handle-block,
+.role-block,
+.hitpoint-block,
+.deathsave-block,
+.humanity-block,
+.stat-block {
+  font-size: 1.2rem;
+  foreground-color: #2d2f2fff;
+  background-color: #eaeaeaff;
+}
+.image-block {
+  height: 190px;
+  width: 190px;
+}
+.stat-block {
+  height: 37px;
   width: 45px;
-  height: 35px;
 }
-.cpr-block .stat .stat-label {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: -2px;
+.main-block {
+  height: 40px;
+  width: 190px;
 }
-.cpr-block .stat .stat-value {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 16px;
-  width: 100%;
+.block-label {
+  font-weight: bold;
+  text-align: center;
 }
-.cpr-block .stat .stat-value .stat-input {
-  width: 100% !important;
-  height: 19px;
-}
-.cpr-block .stat .stat-value .min-of-max-container {
-  width: 100%;
-  position: absolute;
-  display: flex;
-  flex-wrap: nowrap;
-}
-.cpr-block .stat .stat-value .min-of-max-container .stat-value-input {
-  flex-grow: 1;
-  height: 19px;
-}
-.cpr-block .stat .stat-value .min-of-max-container .of {
-  position: relative;
-  flex-basis: 10px;
-}
-.cpr-block .stat .stat-value .min-of-max-container .stat-max-input {
-  flex-grow: 1;
-  height: 19px;
-}
-/*
-
-$card-border: solid 0.5rem white;
-$thin-card-border: solid 0.1rem white;
-$tabs-height: 50px;
-
-.flint-grid {
-    grid-template-columns: 411px;
-    grid-template-rows: 622px auto;
-    grid-gap: 0.5rem;
-
-    grid-template-areas:
-        "char-card"
-        "scl"
-        "rfg";
-    
-    .cb-char-card {
-        grid-area: char-card;
-        background-color: cyan;
-        color: black;
-
-        column-gap: 0.5rem;
-        grid-template-columns: 3fr 1fr;
-        grid-template-areas: 
-            "non-stats stats";
-
-        .non-stats-section {
-            border: $card-border;
-            grid-area: non-stats;
-
-            grid-template-columns: 1fr;
-            grid-template-rows: 5fr repeat(5, 1fr);
-
-            &>div {
-                border: $thin-card-border;
-            }
-        }
-        .stats-section {
-            border: $card-border;
-            grid-area: stats;
-
-
-            grid-template-columns: 1fr;
-            grid-template-rows: repeat(10, 1fr);
-
-            &>div {
-                border: $thin-card-border;
-            }
-        }
-    }
-
-    .cb-scl-card {
-        grid-area: scl;
-        background-color: magenta;
-
-        grid-gap: 0.5rem;
-        grid-template-columns: 1fr;
-        grid-template-rows: $tabs-height auto;
-        grid-template-areas:
-            "tabs"
-            "text-area";
-        
-        .tabs-section {
-            border: $card-border;
-            grid-area: tabs;
-
-            grid-template-columns: repeat(3, 1fr);
-
-            .skills-tab {
-                border: $thin-card-border;
-            }
-            .cyber-tab {
-                border: $thin-card-border;
-            }
-            .lifepath-tab {
-                border: $thin-card-border;
-            }
-        }
-
-        .text-section {
-            grid-area: text-area;
-
-            grid-template-columns: 1fr;
-            grid-template-areas: 
-                "text-left"
-                "text-right";
-            
-            .text-block-left {
-                border: $card-border;
-                grid-area: text-left;
-            }
-
-            .text-block-right {
-                border: $card-border;
-                grid-area: text-right;
-            }
-        }
-    }
-    .cb-rfg-card {
-        grid-area: rfg;
-        background-color: goldenrod;
-
-        grid-gap: 0.5rem;
-        grid-template-rows: $tabs-height auto;
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            "tabs"
-            "text-area";
-        
-        .tabs-section {
-            border: $card-border;
-            grid-area: tabs;
-
-            grid-template-columns: repeat(3, 1fr);
-
-            .role-tab {
-                border: $thin-card-border;
-            }
-            .fight-tab {
-                border: $thin-card-border;
-            }
-            .gear-tab {
-                border: $thin-card-border;
-            }
-        }
-
-        .text-section {
-            grid-area: text-area;
-            grid-template-areas:
-                "small-box-left"
-                "small-box-right"
-                "long-box";
-            
-            &>div {
-                border: $card-border
-            }
-
-            .rfg-box {
-                .rfg-box-details {
-                    grid-template-columns: 1fr;
-                    grid-template-rows: repeat(4, 1fr);
-                    &>div {
-                        border: $thin-card-border;
-                    }
-                }
-            }
-            
-            .small-box-left {
-                grid-area: small-box-left;
-            }
-            .small-box-right {
-                grid-area: small-box-right;
-            }
-            .long-box {
-                grid-area: long-box;
-            }
-        }
-    }
-}
-
-.card {
-    width: 100%;
-    height: 100%;
-}
-
-.box-header {
-    background-color: black;
-    color: white;
-    border: $thin-card-border;
-}
-
-.tab {
-    background-color: black;
-    color: white;
-}
-
-@media only screen and (min-width: 768px) {
-    .flint-grid {
-        grid-template-columns: 411px repeat(2, 1fr);
-        grid-template-rows: 622px 1fr;
-
-        grid-template-areas:
-        "char-card scl scl"
-        "rfg rfg rfg";
-
-        .cb-scl-card {
-            grid-template-columns: 1fr;
-            grid-template-rows: $tabs-height auto;
-            grid-template-areas:
-                "tabs"
-                "text-area";
-            
-            .tabs-section {
-                grid-template-columns: repeat(3, 1fr);
-            }
-    
-            .text-section {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-areas: 
-                    "text-left text-right";
-            }
-        }
-        .cb-rfg-card {
-            grid-template-rows: $tabs-height auto;
-            grid-template-columns: 1fr;
-            grid-template-areas:
-                "tabs"
-                "text-area";
-            
-            .tabs-section {
-                grid-template-columns: repeat(3, 1fr);
-            }
-    
-            .text-section {
-                grid-template-columns: repeat(4, 1fr);
-                grid-template-rows: 1fr;
-                grid-template-areas:
-                    "small-box-left small-box-right long-box long-box";
-            }
-        }
-    }
-}
-
-
-
-*/
-.flex-space-between {
-  display: flex;
-  justify-content: space-between;
+.block-data {
+  text-align: center;
+  font-weight: lighter;
 }
 .width- {
   display: flex;
@@ -450,89 +307,60 @@ $tabs-height: 50px;
 .text-rotate {
   transform: rotate(-90deg);
 }
-@font-face {
-  font-family: 'Audimat Mono';
-  src: url('fonts/AudimatMono.woff2') format('woff2'), url('fonts/AudimatMono.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+.text-smallest {
+  font-size: 0.5rem;
 }
-@font-face {
-  font-family: 'Audimat Mono';
-  src: url('fonts/AudimatMonoSmallCaps.woff2') format('woff2'), url('fonts/AudimatMonoSmallCaps.woff') format('woff');
+.text-smaller {
+  font-size: 0.7rem;
+}
+.text-small {
+  font-size: 1rem;
+}
+.text-normal {
+  font-size: 1.2rem;
+}
+.text-large {
+  font-size: 1.5rem;
+}
+.text-larger {
+  font-size: 1.7rem;
+}
+.text-largest {
+  font-size: 2rem;
+}
+.text-massive {
+  font-size: 4rem;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-left {
+  text-align: left;
+}
+.text-padding-left {
+  padding-left: 2px;
+}
+.text-padding-right {
+  padding-right: 2px;
+}
+.text-super {
+  vertical-align: super;
+}
+.text-bold {
   font-weight: bold;
-  font-style: normal;
-  font-display: swap;
 }
-@font-face {
-  font-family: 'Audimat Mono';
-  src: url('fonts/AudimatMonoLightOblique.woff2') format('woff2'), url('fonts/AudimatMonoLightOblique.woff') format('woff');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
+.text-lighter {
+  font-weight: lighter;
 }
-@font-face {
-  font-family: 'Audimat Mono';
-  src: url('fonts/AudimatMonoSmallCapsLight.woff2') format('woff2'), url('fonts/AudimatMonoSmallCapsLight.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
+.min-of-max-container {
+  display: flex;
 }
-@font-face {
-  font-family: 'Audimat Mono';
-  src: url('fonts/AudimatMonoLight.woff2') format('woff2'), url('fonts/AudimatMonoLight.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Audimat Mono';
-  src: url('fonts/AudimatMonoBold.woff2') format('woff2'), url('fonts/AudimatMonoBold.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Audimat Mono';
-  src: url('fonts/AudimatMonoBoldOblique.woff2') format('woff2'), url('fonts/AudimatMonoBoldOblique.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Audimat Mono';
-  src: url('fonts/AudimatMonoSmallCapsBold.woff2') format('woff2'), url('fonts/AudimatMonoSmallCapsBold.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Audimat Mono';
-  src: url('fonts/AudimatMonoOblique.woff2') format('woff2'), url('fonts/AudimatMonoOblique.woff') format('woff');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-.right-container {
-  background-color: beige;
-}
-.right-container {
-  background-color: blue;
-}
-.info-container {
-  background-color: teal;
-}
-.stats-container {
-  background-color: orange;
-}
-.nav-container {
-  background-color: green;
-}
-.content-container {
-  background-color: #b90202ff;
-}
-.bottom-container {
-  background-color: gray;
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
 }
 /*--------------------
   Text modifiers
@@ -540,35 +368,29 @@ $tabs-height: 50px;
 .smallcaps {
   font-variant: small-caps;
 }
-.text-stat-label {
-  font-size: 20px;
-}
-.text-stat-value {
-  font-size: 24px !important;
-}
 .text-smallest {
-  font-size: 0.5em;
+  font-size: 0.5rem;
 }
 .text-smaller {
-  font-size: 0.7em;
+  font-size: 0.7rem;
 }
 .text-small {
-  font-size: 0.8em;
+  font-size: 1rem;
 }
 .text-normal {
-  font-size: 1em;
+  font-size: 1.2rem;
 }
 .text-large {
-  font-size: 1.3em;
+  font-size: 1.5rem;
 }
 .text-larger {
-  font-size: 1.7em;
+  font-size: 1.7rem;
 }
 .text-largest {
-  font-size: 2em;
+  font-size: 2rem;
 }
 .text-massive {
-  font-size: 4em;
+  font-size: 4rem;
 }
 .text-center {
   text-align: center;
@@ -609,6 +431,9 @@ $tabs-height: 50px;
 .fg-green {
   color: #609040ff;
 }
+.fg-orange {
+  color: #DC8121ff;
+}
 .bg-black {
   background-color: #2d2f2fff;
 }
@@ -629,6 +454,9 @@ $tabs-height: 50px;
 }
 .bg-green {
   background-color: #609040ff;
+}
+.bg-orange {
+  background-color: #DC8121ff;
 }
 .chat-message.message.flexcol {
   background: #eaeaeaff;

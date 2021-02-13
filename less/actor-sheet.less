@@ -1,0 +1,263 @@
+// Overall Sheet Layout
+
+.sheet-content {
+    font-family: "Audimat Mono";
+
+    // Undo Foundry Base Style settings for elements
+    img {
+        border: none;
+    };
+
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    input[type="date"],
+    input[type="time"] {
+        border             : none;
+        outline            : none;
+        box-shadow         : none;
+        width              : calc(100% - 2px);
+        min-width          : unset;
+        height             : unset;
+        background         : unset;
+        /* padding         : 1px 3px; */
+        margin             : 0;
+        color              : unset;
+        font-family        : inherit;
+        font-size          : inherit;
+        text-align         : inherit;
+        line-height        : inherit;
+        -webkit-user-select: text;
+        -moz-user-select   : text;
+        -ms-user-select    : text;
+        user-select        : text;
+    }
+
+    //line-height: 1;
+    // Cyberpunk Red Core Sheet Styling
+
+    // The basic sheet should be white
+    background-color: @chrome-white;
+
+    // Utilize grid for element placement on the sheet
+    display: grid;
+
+    // We want white borders between each element
+    grid-gap: 5px;
+
+    // At a top level, we will have 2x2 grid
+    // +------------------------------------------+
+    // | main & stats | tabs: skills, cyber, gear |
+    // |------------------------------------------+
+    // | tabs: Role, Combat, Lifepath             |
+    // +------------------------------------------+
+    // 
+    // Originally we tried to just size this using auto and letting
+    // the sub-elements dictate the size. The problem was that when
+    // a sub-element didn't take up all of the space,
+    // it split the space 50/50.
+    // dictated by the elements contained in each grid
+    grid-template-columns: 265px auto;
+    grid-template-rows   : auto auto;
+
+    grid-template-areas: "pane-left pane-right"
+    "pane-bottom pane-bottom";
+
+    // Pane for main and stats
+    .left-pane {
+        grid-area: pane-left;
+        display  : grid;
+
+        // main  is 200px wide
+        // stats is 60px wide
+        // plus the 5px grid-gap
+        max-width: 265px;
+        grid-gap : 5px;
+
+        grid-template-columns: auto auto;
+        grid-template-areas  :
+            "main stats";
+
+        .main-section {
+            grid-area       : main;
+            width           : 200px;
+            height          : 425px;
+            background-color: @wyrm-red;
+
+            &>div {
+                margin: 5px;
+            }
+        }
+
+        .stats-section {
+            grid-area: stats;
+            width    : 55px;
+
+            grid-template-columns: 1fr;
+            grid-template-rows   : repeat(10, 1fr);
+
+            &>div {
+                margin: 5px;
+            }
+        }
+    }
+
+    .right-pane {
+        grid-area            : pane-right;
+        //background-color: magenta;
+        display              : grid;
+        grid-gap             : 5px;
+        grid-template-columns: auto;
+        grid-template-rows   : auto auto;
+        grid-template-areas  :
+            "tabs-right"
+            "content-right";
+
+        .right-tabs-section {
+            //border: @card-border;
+            grid-area: tabs-right;
+            display  : grid;
+            height: 22px;
+
+            grid-template-columns: repeat(3, 1fr);
+            
+          .skills-tab {
+            margin: 5px;
+          }
+          .gear-tab {
+            margin: 5px;
+          }
+          .cyberware-tab {
+            margin: 5px;
+          }
+          
+        }
+
+        .right-content-section {
+            grid-area: content-right;
+            display  : grid;
+
+            grid-template-columns: 1fr;
+            grid-template-areas  :
+                "content-left"
+                "content-right";
+
+            .content-block-left {
+                //border: @card-border;
+                grid-area: content-left;
+            }
+
+            .content-block-right {
+                //border: @card-border;
+                grid-area: content-right;
+            }
+        }
+    }
+
+    .bottom-pane {
+        grid-area: pane-bottom;
+        display  : grid;
+
+        grid-gap             : 0.5rem;
+        grid-template-rows   : auto auto;
+        grid-template-columns: 1fr;
+        grid-template-areas  :
+            "tabs-bottom"
+            "content-bottom";
+
+        .tabs-bottom-section {
+
+            grid-area: tabs-bottom;
+            display  : grid;
+
+            grid-template-columns: repeat(3, 1fr);
+            /*
+          .role-tab {
+              border             : @thin-card-border;
+          }
+          .fight-tab {
+              border             : @thin-card-border;
+          }
+          .gear-tab {
+              border             : @thin-card-border;
+          }
+          */
+        }
+
+        .content-bottom-section {
+            grid-area: content-bottom;
+            display  : grid;
+            grid-template-areas:
+                "small-box-left"
+                "small-box-right"
+                "long-box";
+
+            &>div {
+                margin: 5px;
+            }
+
+            .rfg-box {
+                .rfg-box-details {
+                    grid-template-columns: 1fr;
+                    grid-template-rows   : repeat(4, 1fr);
+
+                    &>div {
+                        margin: 5px;
+                    }
+                }
+            }
+
+            .small-box-left {
+                grid-area: small-box-left;
+                display  : grid;
+            }
+
+            .small-box-right {
+                grid-area: small-box-right;
+                display  : grid;
+            }
+
+            .long-box {
+                grid-area: long-box;
+                display  : grid;
+            }
+        }
+    }
+}
+
+// Section Specific CSS
+.handle-block,
+.role-block,
+.hitpoint-block,
+.deathsave-block,
+.humanity-block,
+.stat-block {
+    font-size       : @font-normal;
+    foreground-color: @flint-black;
+    background-color: @chrome-white;
+}
+
+.image-block {
+    height: 190px;
+    width : 190px;
+}
+
+.stat-block {
+    height: 37px;
+    width : 45px;
+}
+
+.main-block {
+    height: 40px;
+    width: 190px;
+}
+
+.block-label {
+    font-weight: bold;
+    text-align: center;
+}
+
+.block-data {
+    text-align: center;
+    font-weight: lighter;
+}
