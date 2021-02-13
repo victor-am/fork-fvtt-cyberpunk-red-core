@@ -103,6 +103,7 @@
   grid-area: pane-left;
   display: grid;
   max-width: 265px;
+  max-height: 425px;
   grid-gap: 5px;
   grid-template-columns: auto auto;
   grid-template-areas: "main stats";
@@ -135,18 +136,29 @@
 }
 .sheet-content .right-pane .right-tabs-section {
   grid-area: tabs-right;
-  display: grid;
-  height: 22px;
-  grid-template-columns: repeat(3, 1fr);
-}
-.sheet-content .right-pane .right-tabs-section .skills-tab {
-  margin: 5px;
-}
-.sheet-content .right-pane .right-tabs-section .gear-tab {
-  margin: 5px;
-}
-.sheet-content .right-pane .right-tabs-section .cyberware-tab {
-  margin: 5px;
+  display: flex;
+  width: 100% /*
+            height   : auto;
+            overflow-wrap: normal;
+            overflow-x: hidden;
+            grid-template-areas :
+                 "right-tab1 right-tab2 right-tab3";
+            grid-gap: 2px;
+
+            grid-template-columns: repeat(3, 170px);
+
+            .skills-tab {
+                grid-area: right-tab1;
+            }
+
+            .gear-tab {
+                grid-area: right-tab2;
+            }
+
+            .cyberware-tab {
+                grid-area: right-tab3;
+            }
+*/;
 }
 .sheet-content .right-pane .right-content-section {
   grid-area: content-right;
@@ -218,7 +230,7 @@
 .humanity-block,
 .stat-block {
   font-size: 1.2rem;
-  foreground-color: #2d2f2fff;
+  color: #2d2f2fff;
   background-color: #eaeaeaff;
 }
 .image-block {
@@ -240,6 +252,22 @@
 .block-data {
   text-align: center;
   font-weight: lighter;
+}
+.tab-label {
+  color: #eaeaeaff;
+  background-color: #2d2f2fff;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.7rem;
+}
+.tab-label.active {
+  background-color: #b90202ff;
+}
+.tab-label:hover {
+  text-shadow: none;
+}
+.tabs {
+  flex-wrap: nowrap;
 }
 .width- {
   display: flex;

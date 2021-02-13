@@ -6,7 +6,9 @@
     // Undo Foundry Base Style settings for elements
     img {
         border: none;
-    };
+    }
+
+    ;
 
     input[type="text"],
     input[type="number"],
@@ -72,6 +74,7 @@
         // stats is 60px wide
         // plus the 5px grid-gap
         max-width: 265px;
+        max-height: 425px;
         grid-gap : 5px;
 
         grid-template-columns: auto auto;
@@ -116,21 +119,30 @@
         .right-tabs-section {
             //border: @card-border;
             grid-area: tabs-right;
-            display  : grid;
-            height: 22px;
+            display  : flex;
+            width: 100%
+/*
+            height   : auto;
+            overflow-wrap: normal;
+            overflow-x: hidden;
+            grid-template-areas :
+                 "right-tab1 right-tab2 right-tab3";
+            grid-gap: 2px;
 
-            grid-template-columns: repeat(3, 1fr);
-            
-          .skills-tab {
-            margin: 5px;
-          }
-          .gear-tab {
-            margin: 5px;
-          }
-          .cyberware-tab {
-            margin: 5px;
-          }
-          
+            grid-template-columns: repeat(3, 170px);
+
+            .skills-tab {
+                grid-area: right-tab1;
+            }
+
+            .gear-tab {
+                grid-area: right-tab2;
+            }
+
+            .cyberware-tab {
+                grid-area: right-tab3;
+            }
+*/
         }
 
         .right-content-section {
@@ -233,7 +245,7 @@
 .humanity-block,
 .stat-block {
     font-size       : @font-normal;
-    foreground-color: @flint-black;
+    color: @flint-black;
     background-color: @chrome-white;
 }
 
@@ -249,15 +261,35 @@
 
 .main-block {
     height: 40px;
-    width: 190px;
+    width : 190px;
 }
 
 .block-label {
     font-weight: bold;
-    text-align: center;
+    text-align : center;
 }
 
 .block-data {
-    text-align: center;
+    text-align : center;
     font-weight: lighter;
+}
+
+.tab-label {
+    color: @chrome-white;
+    background-color: @flint-black;
+    font-weight     : bold;
+    text-align      : center;
+    font-size       : @font-larger;
+
+    &.active {
+        background-color: @wyrm-red;
+    }
+
+    &:hover {
+        text-shadow: none;
+    }
+}
+
+.tabs {
+    flex-wrap: nowrap;
 }
