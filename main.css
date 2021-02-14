@@ -142,9 +142,10 @@
   grid-area: content-right;
   display: flex;
   height: 395px;
-  background-color: #b90202ff;
+  border-color: #b90202ff;
+  border-style: solid;
+  border-width: 5px;
   overflow-y: scroll;
-  padding: 5px;
 }
 .sheet-content .bottom-pane {
   grid-area: pane-bottom;
