@@ -1,11 +1,11 @@
 {{log "CPR-WEAPON-INV-CONTENT.HBS"}}
 {{!-- NAME --}}
-<div class="row flex-end inventory item white-bg black-fg" data-item-id={{item._id}}>
-  <div class="section name hide-overflow ws-nowrap">
+<div class="row flex-end gear-name item fg-black{{#if item.data.favorite}} favorite{{/if}}" data-item-id="{{item._id}}">
+  <div class="section width-third width-grow width-shrink gear-name hide-overflow ws-nowrap">
     <a class="name item-edit">{{item.name}}</a>
   </div>
   {{!-- DATA --}}
-  <div class="section data width-grow hide-overflow ws-nowrap">
+  <div class="section gear-data width-half width-grow width-shrink center-text ws-nowrap">
     {{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}
     {{#if (ne item.data.quality "standard")}}
     ({{localize item.data.quality}})
@@ -17,7 +17,7 @@
     {{/if}}
     {{/if}}
   </div>
-  <div class="section action right-text width-fit width-no-shrink">
+  <div class="section gear-action width-grow width-shrink skill-base center-text">
     {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-actions.hbs" item}}
   </div>
 </div>

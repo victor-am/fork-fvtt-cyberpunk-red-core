@@ -1,9 +1,9 @@
 {{log "CPR-ARMOR-INV-CONTENT.HBS"}}
-<div class="row flex-end inventory item white-bg black-fg" data-item-id={{item._id}}>
-    <div class="section name width-quarter hide-overflow ws-nowrap">
+<div class="row inventory item" data-item-id={{item._id}}>
+    <div class="section name">
         <a class="name item-edit">{{item.name}}</a>
     </div>
-    <div class="section data width-grow hide-overflow ws-nowrap">
+    <div class="section data">
         {{#if item.data.isHeadLocation}}
         {{localize "CPR.head"}}: {{ablated item.data "head"}}/{{item.data.headLocation.sp}} {{localize "CPR.sp"}}
         {{#if item.data.isBodyLocation}}|{{/if}}
@@ -12,7 +12,7 @@
         {{localize "CPR.bodylocation"}}: {{ablated item.data "body"}}/{{item.data.bodyLocation.sp}} {{localize "CPR.sp"}}
         {{/if}}
     </div>
-    <div class="section action right-text width-fit width-no-shrink">
+    <div class="section action">
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-actions.hbs" item}}
     </div>
 </div>

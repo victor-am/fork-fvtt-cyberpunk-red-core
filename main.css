@@ -142,6 +142,7 @@
   grid-area: content-right;
   display: flex;
   height: 404px;
+  width: 100%;
   border-color: #b90202ff;
   border-style: solid;
   border-width: 5px;
@@ -241,69 +242,6 @@
 }
 .tabs {
   flex-wrap: nowrap;
-}
-.width- {
-  display: flex;
-  justify-content: space-around;
-  flex: 1 0 auto;
-}
-.width-sixteenth {
-  width: 6.25%;
-}
-.width-eighth {
-  width: 12.5%;
-}
-.width-sixth {
-  width: calc(100% / 6);
-}
-.width-quarter {
-  width: 25%;
-}
-.width-third {
-  width: calc(100% / 3);
-}
-.width-half {
-  width: 50%;
-}
-.width-full {
-  width: 100%;
-}
-.width-grow {
-  flex-grow: 1;
-}
-.width-no-grow {
-  flex-grow: 0;
-}
-.width-shrink {
-  flex-shrink: 1;
-}
-.width-no-shrink {
-  flex-shrink: 0;
-}
-.width-auto-basis {
-  flex-basis: auto;
-}
-.width-fit {
-  width: fit-content;
-  padding: 0 2px;
-}
-.width-max-half {
-  max-width: 50%;
-}
-.width-max-quarter {
-  max-width: 25%;
-}
-.width-max-eighth {
-  max-width: 12.5%;
-}
-.width-max-three-quarters {
-  max-width: 75%;
-}
-.width-max-third {
-  max-width: calc(100%/3);
-}
-.width-max-two-thirds {
-  max-width: calc((100%/3)*2);
 }
 .text-rotate {
   transform: rotate(-90deg);
@@ -490,27 +428,92 @@
   max-height: 20px;
   height: 20px;
   padding: 0 5px;
-}
-.dynamic-list .row .section a,
-.dynamic-list .row .section span,
-.dynamic-list .row .section input,
-.dynamic-list .row .section div {
-  max-height: 20px;
-  height: 20px;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
-.dynamic-list .row .section.name {
-  flex: 0 0 150px;
-}
-.dynamic-list .row .section.action {
-  flex-shrink: 0;
+  /*
+        a,
+        span,
+        input,
+        div {
+          max-height   : 20px;
+          height       : 20px;
+          overflow-x   : hidden;
+          text-overflow: ellipsis;
+        }
+        */
 }
 .dynamic-list .item:nth-child(odd) {
   background-color: #ffc3b6ff;
 }
 .dynamic-list .item:nth-child(even) {
   background-color: #eaeaeaff;
+}
+.dynamic-list .width- {
+  display: flex;
+  justify-content: space-around;
+  flex: 1 0 auto;
+}
+.dynamic-list .width-sixteenth {
+  width: 6.25%;
+}
+.dynamic-list .width-eighth {
+  width: 12.5%;
+}
+.dynamic-list .width-sixth {
+  width: calc(100% / 6);
+}
+.dynamic-list .width-quarter {
+  width: 25%;
+}
+.dynamic-list .width-third {
+  width: calc(100% / 3);
+}
+.dynamic-list .width-half {
+  width: 50%;
+}
+.dynamic-list .width-full {
+  width: 100%;
+}
+.dynamic-list .width-grow {
+  flex-grow: 1;
+}
+.dynamic-list .width-no-grow {
+  flex-grow: 0;
+}
+.dynamic-list .width-shrink {
+  flex-shrink: 1;
+}
+.dynamic-list .width-no-shrink {
+  flex-shrink: 0;
+}
+.dynamic-list .width-auto-basis {
+  flex-basis: auto;
+}
+.dynamic-list .width-fit {
+  width: fit-content;
+  padding: 0 2px;
+}
+.dynamic-list .width-max-half {
+  max-width: 50%;
+}
+.dynamic-list .width-max-quarter {
+  max-width: 25%;
+}
+.dynamic-list .width-max-eighth {
+  max-width: 12.5%;
+}
+.dynamic-list .width-max-three-quarters {
+  max-width: 75%;
+}
+.dynamic-list .width-max-third {
+  max-width: calc(100%/3);
+}
+.dynamic-list .width-max-two-thirds {
+  max-width: calc((100%/3)*2);
+}
+.dynamic-list .hide-overflow {
+  overflow-x: hidden;
+}
+.dynamic-list .ws-nowrap {
+  white-space: nowrap;
 }
 .collapse-icon {
   padding-left: 2%;

@@ -1,22 +1,26 @@
 {{log "CPR-INVENTORY.HBS"}}
-<div class="dynamic-list inventory">
+<div class="dynamic-list gear">
       {{! Loop through categories we are going to display in the Inventory Tab}}
       {{#each (findConfigObj "inventoryCategories") as |category c|}}
-      <div class="row header black-bg white-fg bold inventory">
-            <span class="section name width-quarter">{{localize category}}  {{#if (systemConfig "playersCreateInventory")}}<a class="item-create" data-item-type="{{c}}"><i class="far fa-plus-square"></i></a>{{/if}}</span>
-            <span class="section data width-grow">{{localize "CPR.data"}}</span>
-            <span class="section action width-quarter right-text">{{localize "CPR.actions"}}</span>
-      </div>
-      {{!-- Revist...? Reenable the no items entry after inventoryItems refactor --}}
-      {{#if (eq (getProp (getProp ../actor.filteredItems c) 'length') 0)}}
-      <div class="row">{{localize "CPR.yougotnoinventory"}} {{c}}{{#if (listContains "weapon,vehicle" c)}}s{{/if}}, choomba!</div>
-      {{else}}
-      {{#each (sort (getProp ../actor.filteredItems c) "name") as |item i|}}
-      {{!-- Partial handles Name and Data columns --}}
-      {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c) (mergeForPartialArg "item,actor" this ../../this.actor)}}
-      {{!- Item actions column --}}
-      {{/each}}
-      {{/if}}
+            <div class="collapsible {{c}}">
+                  <div class="row flex-end gear header fg-white bg-black bold expand-button" id="gearTab-{{c}}">
+                        <span class="collapse-icon hide"><i class="fas fa-angle-double-down"></i></span>
+                        <span class="section gear-name width-grow skill-name hide-overflow">{{localize category}}  {{#if (systemConfig "playersCreateInventory")}}<a class="item-create" data-item-type="{{c}}"><i class="far fa-plus-square"></i></a>{{/if}}</span>
+                        <span class="section gear-data width-eighth no-grow center-text">{{localize "CPR.data"}}</span>
+                        <span class="section gear-action width-eighth no-grow center-text">{{localize "CPR.actions"}}</span>
+                  </div>
+                  
+                  {{!-- Revist...? Reenable the no items entry after inventoryItems refactor --}}
+                  {{#if (eq (getProp (getProp ../actor.filteredItems c) 'length') 0)}}
+                        <div class="row">{{localize "CPR.yougotnoinventory"}} {{c}}{{#if (listContains "weapon,vehicle" c)}}s{{/if}}, choomba!</div>
+                  {{else}}
+                  {{#each (sort (getProp ../actor.filteredItems c) "name") as |item i|}}
+                        {{!-- Partial handles Name and Data columns --}}
+                        {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c) (mergeForPartialArg "item,actor" this ../../this.actor)}}
+                        {{!- Item actions column --}}
+                  {{/each}}
+                  {{/if}}
+            </div>
       {{/each}}
 </div>
 {{log "END CPR-INVENTORY.HBS"}}
