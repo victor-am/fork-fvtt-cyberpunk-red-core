@@ -3,13 +3,17 @@
         {{#each (findConfigObj "inventoryCategories") as |category c|}}
         <div class="collapsible">
             <li class="items-header flexrow collapsible">
-                <span class="item-name bg-black text-nowrap expand-button">{{localize (findConfigValue "skillCategories"
-                    category)}}&nbsp;<i class="fas fa-plus bg-black collapse-icon hide"></i><i
-                        class="fas fa-minus bg-black expand-icon"></i></span>
-                <span class="item-detail bg-black text-nowrap">{{localize "CPR.lvl"}}</span>
-                <span class="item-detail bg-black text-nowrap">{{localize "CPR.base"}}</span>
-                <span class="item-detail bg-black text-nowrap">{{localize "CPR.fav"}}</span>
+                <span class="item-name gear-name bg-black text-nowrap expand-button " id="gearTab-{{category}}">{{localize category}}&nbsp;<i class="fas fa-plus bg-black collapse-icon hide"></i><i class="fas fa-minus bg-black expand-icon"></i></span>
+                <span class="item-detail gear-data bg-black text-nowrap">{{localize "CPR.data"}}</span>
+                <span class="item-detail gear-actions bg-black text-nowrap">{{localize "CPR.actions"}}&nbsp;{{#if (systemConfig "playersCreateInventory")}}<a class="item-create" data-item-type="{{c}}"><i class="far fa-plus-square"></i></a>{{/if}}</span>
             </li>
+            <ol class="items-list">
+                  {{#each (sort (getProp ../actor.filteredItems c) "name") as |item i|}}
+                        {{!-- Partial handles Name and Data columns --}}
+                        {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-VAR-content.hbs" c) (mergeForPartialArg "item,actor" this ../../this.actor)}}
+                        {{!- Item actions column --}}
+                  {{/each}}
+            </ol>
         </div>
         {{/each}}
     </ol>

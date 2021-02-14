@@ -25,7 +25,7 @@
           </div>
           {{!-- <a class="navtab center-text bold white-fg" data-tab="role">{{localize "CPR.role"}}</a> --}}
           <div class="tab-underlay">
-          <a class="gear-tab tab-label" data-tab="inventory">{{localize "CPR.gear"}}</a>
+          <a class="gear-tab tab-label" data-tab="gear">{{localize "CPR.gear"}}</a>
           </div>
           <div class="tab-underlay">
           <a class="cyberware-tab tab-label" data-tab="cyberware">{{localize "CPR.cyber"}}</a>
@@ -43,10 +43,10 @@
           {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-role.hbs"}}
         </div>
         --}}
-        <div class="gear-tab tab" data-group="primary" data-tab="inventory">
-          {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-inventory.hbs"}}
+        <div class="tab gear-tab" data-group="primary" data-tab="gear">
+          {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-gear.hbs"}}
         </div>
-        <div class="cyberware-tab tab" data-group="primary" data-tab="cyberware">
+        <div class="tab cyberware-tab" data-group="primary" data-tab="cyberware">
           {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-cyberware.hbs"}}
         </div>
         {{!-- 

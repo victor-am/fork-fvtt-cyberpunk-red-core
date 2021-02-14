@@ -37,6 +37,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-item-debug.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-role.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-inventory.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-cyberware.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-information.hbs",
 

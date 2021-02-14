@@ -35,7 +35,7 @@
         margin-right: 5px;
     }
     .item-detail {
-        flex: 0 0 30px;
+        //flex: 0 0 30px;
     //    font-size: 12px;
         text-align: center;
    //     border-right: 1px solid #c9c7b8;
@@ -51,8 +51,26 @@
     }
 }
 
-.skills-list {
-    
+.skills-tab {
+    .skill-level,
+    .skill-base,
+    .skill-favorite {
+        flex: 0 0 30px;
+    }
+}
+
+.gear-tab {
+    .gear-name,
+    .gear-data {
+        flex: 0 0 45%;
+    }
+
+    .gear-data {
+        text-align: left;
+    }
+    .gear-actions {
+        text-align: end;
+    }
 }
 
 ul, ol {

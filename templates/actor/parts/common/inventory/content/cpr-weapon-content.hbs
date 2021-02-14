@@ -1,11 +1,11 @@
 {{log "CPR-WEAPON-INV-CONTENT.HBS"}}
 {{!-- NAME --}}
-<div class="row flex-end gear-name item fg-black{{#if item.data.favorite}} favorite{{/if}}" data-item-id="{{item._id}}">
-  <div class="section width-third width-grow width-shrink gear-name hide-overflow ws-nowrap">
+<li class="item flexrow{{#if item.data.favorite}} favorite{{/if}}" data-item-id="{{item._id}}"
+  data-item-category="{{item.data.category}}" draggable="true">
+  <div class="item-name gear-name flexrow  text-nowrap">
     <a class="name item-edit">{{item.name}}</a>
   </div>
-  {{!-- DATA --}}
-  <div class="section gear-data width-half width-grow width-shrink center-text ws-nowrap">
+  <div class="item-detail gear-data text-nowrap">
     {{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}
     {{#if (ne item.data.quality "standard")}}
     ({{localize item.data.quality}})
@@ -13,14 +13,13 @@
     {{#if item.data.isRanged}}
     {{#if item.data.magazine.ammoId}}
     |
-    {{getProp (getOwnedItem actor item.data.magazine.ammoId) "name"}} ({{item.data.magazine.value}}/{{item.data.magazine.max}})
+    {{getProp (getOwnedItem actor item.data.magazine.ammoId) "name"}}
+    ({{item.data.magazine.value}}/{{item.data.magazine.max}})
     {{/if}}
     {{/if}}
   </div>
-  <div class="section gear-action width-grow width-shrink skill-base center-text">
+  <div class="item-detail gear-actions text-nowrap">
     {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-actions.hbs" item}}
   </div>
-</div>
+</li>
 {{log "END CPR-WEAPON-INV-CONTENT.HBS"}}
-
-
