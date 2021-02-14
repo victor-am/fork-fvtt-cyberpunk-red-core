@@ -126,15 +126,16 @@ export default class CPRActorSheet extends ActorSheet {
         if ($(lineItem).hasClass("item") && !$(lineItem).hasClass("favorite") ) {
           $(lineItem).toggleClass("hide");
         }
-        if ($(lineItem).hasClass("hide")) {
-          if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
-            this.options.collapsedSections.push(event.currentTarget.id);
-          }
+      });
+      if ($(collapsibleElement).find(".expand-icon").hasClass("hide")) {
+        if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
+          this.options.collapsedSections.push(event.currentTarget.id);
         }
         else {
           this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
-        }
-      });
+        } 
+      }
+
     });
 
     // Show edit and delete buttons

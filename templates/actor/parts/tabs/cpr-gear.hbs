@@ -1,0 +1,16 @@
+<div class="gear-tab">
+    <ol class="items-list gear-list">
+        {{#each (findConfigObj "inventoryCategories") as |category c|}}
+        <div class="collapsible">
+            <li class="items-header flexrow collapsible">
+                <span class="item-name bg-black text-nowrap expand-button">{{localize (findConfigValue "skillCategories"
+                    category)}}&nbsp;<i class="fas fa-plus bg-black collapse-icon hide"></i><i
+                        class="fas fa-minus bg-black expand-icon"></i></span>
+                <span class="item-detail bg-black text-nowrap">{{localize "CPR.lvl"}}</span>
+                <span class="item-detail bg-black text-nowrap">{{localize "CPR.base"}}</span>
+                <span class="item-detail bg-black text-nowrap">{{localize "CPR.fav"}}</span>
+            </li>
+        </div>
+        {{/each}}
+    </ol>
+</div>
