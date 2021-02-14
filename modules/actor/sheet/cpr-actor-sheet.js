@@ -116,21 +116,25 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
 
     html.find(".expand-button").click((event) => {
-      if ($(event.currentTarget.parentElement).hasClass("collapsible")) {
-        $(event.currentTarget).find(".collapse-icon").toggleClass("hide");
-        for (let i = 0; i < event.currentTarget.parentElement.childNodes.length; i += 1) {
-          if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("item") && !$(event.currentTarget.parentElement.childNodes[i]).hasClass("favorite")) {
-            $(event.currentTarget.parentElement.childNodes[i]).toggleClass("hide");
-            if ($(event.currentTarget.parentElement.childNodes[i]).hasClass("hide")) {
-              if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
-                this.options.collapsedSections.push(event.currentTarget.id);
-              }
-            } else {
-              this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
-            }
+      const collapsibleElement = $(event.currentTarget).parents(".collapsible");
+      $(collapsibleElement).find(".collapse-icon").toggleClass("hide");
+      $(collapsibleElement).find(".expand-icon").toggleClass("hide");
+      const itemOrderedList =  $(collapsibleElement).children("ol");
+      const itemList = $(itemOrderedList).children("li");
+      itemList.each((lineIndex) => {
+        let lineItem = itemList[lineIndex];
+        if ($(lineItem).hasClass("item") && !$(lineItem).hasClass("favorite") ) {
+          $(lineItem).toggleClass("hide");
+        }
+        if ($(lineItem).hasClass("hide")) {
+          if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
+            this.options.collapsedSections.push(event.currentTarget.id);
           }
         }
-      }
+        else {
+          this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
+        }
+      });
     });
 
     // Show edit and delete buttons

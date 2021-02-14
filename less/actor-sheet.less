@@ -205,6 +205,8 @@
     grid-template-rows: auto;
     grid-template-areas: "skills-left skills-right";
     width: inherit;
+    grid-gap: 5px;
+    background-color: @wyrm-red;
 
     .left-pane-skills {
         grid-area: skills-left;
@@ -278,4 +280,9 @@
 
 .tabs {
     flex-wrap: nowrap;
+}
+
+.collapse-icon,
+.expand-icon {
+    font-size: xx-small;
 }

@@ -11,7 +11,7 @@
         align-items: center;
 //        background: rgba(0, 0, 0, 0.05);
 //        border: 2px groove #eeede0;
-        font-weight: bold;
+        //font-weight: bold;
         background-color: @flint-black;
         color: @chrome-white;
     }
@@ -35,7 +35,7 @@
         margin-right: 5px;
     }
     .item-detail {
-        flex: 0 0 70px;
+        flex: 0 0 30px;
     //    font-size: 12px;
         text-align: center;
    //     border-right: 1px solid #c9c7b8;
@@ -45,6 +45,9 @@
     }
     li:nth-child(even) {
         background-color: @meat-space-pink;
+    }
+    li:nth-child(odd) {
+        background-color: @chrome-white;
     }
 }
 
@@ -57,3 +60,6 @@ ul, ol {
     padding: 0 0 0 1.5em;
 }
 
+.hide {
+    display:none;
+}
