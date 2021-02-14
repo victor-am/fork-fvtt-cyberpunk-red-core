@@ -114,19 +114,20 @@
         grid-template-areas  :
             "tabs-right"
             "content-right";
+        //max-height: 425px;
 
         .right-tabs-section {
 
             grid-area: tabs-right;
 
             width: 100%;
-            height: 30px;
+            height: 21px;
         }
 
         .right-content-section {
             grid-area: content-right;
             display  : flex;
-            height: 395px;
+            height: 404px;
 
             border-color: @wyrm-red;
             border-style: solid;
@@ -148,7 +149,7 @@
             "tabs-bottom"
             "content-bottom";
 
-        .tabs-bottom-section {
+        .bottom-tabs-section {
 
             grid-area: tabs-bottom;
             display  : grid;
@@ -241,8 +242,8 @@
     background-color: @flint-black;
     font-weight     : bold;
     text-align      : center;
-    font-size       : @font-larger;
-    min-width: 170px;
+    font-size       : @font-normal;
+    min-width: 150px;
     clip-path: polygon(33px 0, 100% 0%, 100% 100%, 11px 100%);
 
     &.active {

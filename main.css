@@ -136,12 +136,12 @@
 .sheet-content .right-pane .right-tabs-section {
   grid-area: tabs-right;
   width: 100%;
-  height: 30px;
+  height: 21px;
 }
 .sheet-content .right-pane .right-content-section {
   grid-area: content-right;
   display: flex;
-  height: 395px;
+  height: 404px;
   border-color: #b90202ff;
   border-style: solid;
   border-width: 5px;
@@ -155,7 +155,7 @@
   grid-template-columns: 1fr;
   grid-template-areas: "tabs-bottom" "content-bottom";
 }
-.sheet-content .bottom-pane .tabs-bottom-section {
+.sheet-content .bottom-pane .bottom-tabs-section {
   grid-area: tabs-bottom;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -224,8 +224,8 @@
   background-color: #2d2f2fff;
   font-weight: bold;
   text-align: center;
-  font-size: 1.7rem;
-  min-width: 170px;
+  font-size: 1.2rem;
+  min-width: 150px;
   clip-path: polygon(33px 0, 100% 0%, 100% 100%, 11px 100%);
 }
 .tab-label.active {
