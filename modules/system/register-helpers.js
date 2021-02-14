@@ -57,6 +57,26 @@ export default function registerHandlebarsHelpers() {
     return mergedObject;
   });
 
+  Handlebars.registerHelper("filter", (objList, key, value) => {
+    const filteredList = objList.filter(function (obj) {
+      let objProp = obj;
+      const propDepth = key.split('.');
+      propDepth.forEach((propName) => {
+        if (typeof objProp[propName] !== "undefined") {
+          objProp = objProp[propName];  
+        }
+        else {
+          return false;
+        }
+      });
+      if (objProp === value) {
+        return true;
+      }
+      return false;
+    });
+    return filteredList;
+  });
+
   Handlebars.registerHelper("findConfigValue", (obj, key) => {
     LOGGER.trace(`Calling findConfigValue Helper | Arg1:${obj} Arg2:${key}`);
     if (obj in CPR) {
@@ -71,15 +91,6 @@ export default function registerHandlebarsHelpers() {
       return CPR[obj];
     }
     return "INVALID_LIST";
-  });
-
-  Handlebars.registerHelper("alternator", (setting) => {
-    if ((typeof setting === "string" && setting === "reset") || typeof this.dynamicListAlternator === "undefined")
-    {
-      this.dynamicListAlternator = true;
-    }
-    this.dynamicListAlternator = !this.dynamicListAlternator;
-    return this.dynamicListAlternator;
   });
 
   Handlebars.registerHelper("findObj", (objList, propertyName, propertyValue) => {

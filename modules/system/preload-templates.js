@@ -33,7 +33,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-role-block.hbs",
     // Tabs
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-skills.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/skills/cpr-skills-pane.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/common/skills/cpr-skills-category.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-item-debug.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-role.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-inventory.hbs",

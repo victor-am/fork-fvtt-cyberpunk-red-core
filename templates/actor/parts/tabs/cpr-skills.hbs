@@ -1,18 +1,16 @@
 <div class="skills-tab">
-    {{log "SKILLS TAB"}}
-    {{log this}}
-    <div class="left-pane-skills">
+    <ol class="left-pane-skills items-list">
         {{#each (findConfigObj "skillCategories") as |category c|}}
         {{#if (compare c "<" "f")}}
-            {{> "systems/cyberpunk-red-core/templates/actor/parts/common/skills/cpr-skills-pane.hbs"  (mergeForPartialArg "category,actor" c ../this.actor)}}
+            {{> "systems/cyberpunk-red-core/templates/actor/parts/common/skills/cpr-skills-category.hbs"  (mergeForPartialArg "category,actor" c ../this.actor)}}
         {{/if}}
         {{/each}}
-    </div>
-    <div class="right-pane-skills">
+    </ol>
+    <ol class="right-pane-skills items-list">
         {{#each (findConfigObj "skillCategories") as |category c|}}
         {{#if  (compare c ">=" "f")}}
-            {{> "systems/cyberpunk-red-core/templates/actor/parts/common/skills/cpr-skills-pane.hbs"  (mergeForPartialArg "category,actor" c ../this.actor)}}
+            {{> "systems/cyberpunk-red-core/templates/actor/parts/common/skills/cpr-skills-category.hbs"  (mergeForPartialArg "category,actor" c ../this.actor)}}
         {{/if}}
         {{/each}}
-    </div>
+    </ol>
 </div>

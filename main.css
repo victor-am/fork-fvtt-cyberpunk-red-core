@@ -413,129 +413,61 @@
 .bg-orange {
   background-color: #DC8121ff;
 }
-/*--------------------
-  Dynamic Lists
----------------------*/
-.dynamic-list.columns {
-  columns: 330px 5;
-}
-.dynamic-list .row {
+.flexrow {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  align-content: stretch;
-  -webkit-column-break-inside: avoid;
-  page-break-inside: avoid;
-  break-inside: avoid;
-}
-.dynamic-list .row.flex-end {
-  justify-content: flex-end;
-}
-.dynamic-list .row.flex-start {
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: flex-start;
 }
-.dynamic-list .row.hide {
-  display: none;
-}
-.dynamic-list .row.padding-left {
-  padding-left: 2%;
-}
-.dynamic-list .row .section {
-  max-height: 20px;
-  height: 20px;
-  padding: 0 5px;
-  /*
-        a,
-        span,
-        input,
-        div {
-          max-height   : 20px;
-          height       : 20px;
-          overflow-x   : hidden;
-          text-overflow: ellipsis;
-        }
-        */
-}
-.dynamic-list .item:nth-child(odd) {
-  background-color: #ffc3b6ff;
-}
-.dynamic-list .item:nth-child(even) {
-  background-color: #eaeaeaff;
-}
-.dynamic-list .width- {
+.flexcol {
   display: flex;
-  justify-content: space-around;
-  flex: 1 0 auto;
+  flex-direction: column;
+  flex-wrap: nowrap;
 }
-.dynamic-list .width-sixteenth {
-  width: 6.25%;
+.items-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
-.dynamic-list .width-eighth {
-  width: 12.5%;
+.items-list .items-header {
+  padding: 0;
+  align-items: center;
+  font-weight: bold;
+  background-color: #2d2f2fff;
+  color: #eaeaeaff;
 }
-.dynamic-list .width-sixth {
-  width: calc(100% / 6);
-}
-.dynamic-list .width-quarter {
-  width: 25%;
-}
-.dynamic-list .width-third {
-  width: calc(100% / 3);
-}
-.dynamic-list .width-half {
-  width: 50%;
-}
-.dynamic-list .width-full {
-  width: 100%;
-}
-.dynamic-list .width-grow {
-  flex-grow: 1;
-}
-.dynamic-list .width-no-grow {
-  flex-grow: 0;
-}
-.dynamic-list .width-shrink {
-  flex-shrink: 1;
-}
-.dynamic-list .width-no-shrink {
-  flex-shrink: 0;
-}
-.dynamic-list .width-auto-basis {
-  flex-basis: auto;
-}
-.dynamic-list .width-fit {
-  width: fit-content;
+.items-list .item {
+  align-items: center;
   padding: 0 2px;
 }
-.dynamic-list .width-max-half {
-  max-width: 50%;
+.items-list .item-name {
+  flex: 2;
+  margin: 0;
+  overflow: hidden;
+  text-align: left;
+  align-items: center;
 }
-.dynamic-list .width-max-quarter {
-  max-width: 25%;
+.items-list .item-image {
+  flex: 0 0 30px;
+  border: none;
+  margin-right: 5px;
 }
-.dynamic-list .width-max-eighth {
-  max-width: 12.5%;
-}
-.dynamic-list .width-max-three-quarters {
-  max-width: 75%;
-}
-.dynamic-list .width-max-third {
-  max-width: calc(100%/3);
-}
-.dynamic-list .width-max-two-thirds {
-  max-width: calc((100%/3)*2);
-}
-.dynamic-list .hide-overflow {
-  overflow-x: hidden;
-}
-.dynamic-list .ws-nowrap {
+.items-list .item-detail {
+  flex: 0 0 70px;
+  text-align: center;
+  word-break: break-word;
   white-space: nowrap;
+  overflow: hidden;
 }
-.collapse-icon {
-  padding-left: 2%;
+.items-list li:nth-child(even) {
+  background-color: #ffc3b6ff;
 }
-.hide {
-  display: none;
+ul,
+ol {
+  margin: 0.5em 0;
+  padding: 0 0 0 1.5em;
 }
 .chat-message.message.flexcol {
   background: #eaeaeaff;
