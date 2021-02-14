@@ -6,9 +6,11 @@
     // Undo Foundry Base Style settings for elements
     img {
         border: none;
-    }
+    };
 
-    ;
+    ol li{
+        list-style-type: none;
+      }
 
     input[type="text"],
     input[type="number"],
@@ -197,6 +199,20 @@
     }
 }
 
+.skills-tab {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto;
+    grid-template-areas: "skills-left skills-right";
+    width: inherit;
+
+    .left-pane-skills {
+        grid-area: skills-left;
+    }
+    .right-pane-skills {
+        grid-area: skills-right;
+    }
+}
 // Section Specific CSS
 .handle-block,
 .role-block,

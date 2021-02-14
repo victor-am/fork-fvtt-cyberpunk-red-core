@@ -75,6 +75,9 @@
 .sheet-content img {
   border: none;
 }
+.sheet-content ol li {
+  list-style-type: none;
+}
 .sheet-content input[type="text"],
 .sheet-content input[type="number"],
 .sheet-content input[type="password"],
@@ -187,6 +190,19 @@
 .sheet-content .bottom-pane .content-bottom-section .long-box {
   grid-area: long-box;
   display: grid;
+}
+.skills-tab {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto;
+  grid-template-areas: "skills-left skills-right";
+  width: inherit;
+}
+.skills-tab .left-pane-skills {
+  grid-area: skills-left;
+}
+.skills-tab .right-pane-skills {
+  grid-area: skills-right;
 }
 .handle-block,
 .role-block,
