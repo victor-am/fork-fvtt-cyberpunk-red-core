@@ -1,55 +1,47 @@
-// Layout styling used for Dynamic lists
-
-.text- {
-  &rotate {
-      transform: rotate(-90deg);
-  }
-}
-
 // Layout styling for text manipulation
 .text- {
   &smallest {
-      font-size: @font-smallest;
+    font-size: @font-smallest;
   }
 
   &smaller {
-      font-size: @font-smaller;
+    font-size: @font-smaller;
   }
 
   &small {
-      font-size: @font-small;
+    font-size: @font-small;
   }
 
   &normal {
-      font-size: @font-normal;
+    font-size: @font-normal;
   }
 
   &large {
-      font-size: @font-large;
+    font-size: @font-large;
   }
 
   &larger {
-      font-size: @font-larger;
+    font-size: @font-larger;
   }
 
   &largest {
-      font-size: @font-largest;
+    font-size: @font-largest;
   }
 
   &massive {
-      font-size: @font-massive;
+    font-size: @font-massive;
   }
 
   &center {
-      text-align: center;
+    text-align: center;
   }
 
   &right {
-      text-align: right;
+    text-align: right;
   }
 
   &left {
-      text-align: left;
+    text-align: left;
   }
 
   &padding-left {
@@ -61,25 +53,116 @@
   }
 
   &super {
-      vertical-align: super;
+    vertical-align: super;
   }
 
   &bold {
-      font-weight: bold;
+    font-weight: bold;
   }
   &lighter {
     font-weight: lighter;
   }
+  &rotate {
+    transform: rotate(-90deg);
+  }
 }
 
+// For stats that have 2 values (HP, Humanity, Luck, Emp)
 .min-of-max-container {
   display: flex;
 }
 
+// Used to spread space between fields
 .flex-space-between {
-  display        : flex;
+  display: flex;
   justify-content: space-between;
 }
 
+// Used to hide an element on the page
+.hide {
+  display:none;
+}
 
 
+.width- {
+  display        : flex;
+  justify-content: space-around;
+  flex           : 1 0 auto;
+
+  &sixteenth {
+      width: 6.25%;
+  }
+
+  &eighth {
+      width: 12.5%;
+  }
+
+  &sixth {
+      width: calc(100% / 6)
+  }
+
+  &quarter {
+      width: 25%;
+  }
+
+  &third {
+      width: calc(100% / 3);
+  }
+
+  &half {
+      width: 50%;
+  }
+
+  &full {
+      width: 100%;
+  }
+
+  &grow {
+      flex-grow: 1;
+  }
+
+  &no-grow {
+      flex-grow: 0;
+  }
+
+  &shrink {
+      flex-shrink: 1;
+  }
+
+  &no-shrink {
+      flex-shrink: 0;
+  }
+
+  &auto-basis {
+      flex-basis: auto;
+  }
+
+  &fit {
+      width  : fit-content;
+      padding: 0 2px;
+  }
+
+  &max-half {
+      max-width: 50%;
+  }
+
+  &max-quarter {
+      max-width: 25%;
+  }
+
+  &max-eighth {
+      max-width: 12.5%;
+  }
+
+  &max-three-quarters {
+      max-width: 75%;
+  }
+
+  &max-third {
+      max-width: calc(100%/3);
+  }
+
+  &max-two-thirds {
+      max-width: calc((100%/3)*2);
+  }
+}

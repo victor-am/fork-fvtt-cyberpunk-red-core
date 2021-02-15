@@ -323,9 +323,6 @@
 .expand-icon {
   font-size: xx-small;
 }
-.text-rotate {
-  transform: rotate(-90deg);
-}
 .text-smallest {
   font-size: 0.5rem;
 }
@@ -374,12 +371,81 @@
 .text-lighter {
   font-weight: lighter;
 }
+.text-rotate {
+  transform: rotate(-90deg);
+}
 .min-of-max-container {
   display: flex;
 }
 .flex-space-between {
   display: flex;
   justify-content: space-between;
+}
+.hide {
+  display: none;
+}
+.width- {
+  display: flex;
+  justify-content: space-around;
+  flex: 1 0 auto;
+}
+.width-sixteenth {
+  width: 6.25%;
+}
+.width-eighth {
+  width: 12.5%;
+}
+.width-sixth {
+  width: calc(100% / 6);
+}
+.width-quarter {
+  width: 25%;
+}
+.width-third {
+  width: calc(100% / 3);
+}
+.width-half {
+  width: 50%;
+}
+.width-full {
+  width: 100%;
+}
+.width-grow {
+  flex-grow: 1;
+}
+.width-no-grow {
+  flex-grow: 0;
+}
+.width-shrink {
+  flex-shrink: 1;
+}
+.width-no-shrink {
+  flex-shrink: 0;
+}
+.width-auto-basis {
+  flex-basis: auto;
+}
+.width-fit {
+  width: fit-content;
+  padding: 0 2px;
+}
+.width-max-half {
+  max-width: 50%;
+}
+.width-max-quarter {
+  max-width: 25%;
+}
+.width-max-eighth {
+  max-width: 12.5%;
+}
+.width-max-three-quarters {
+  max-width: 75%;
+}
+.width-max-third {
+  max-width: calc(100%/3);
+}
+.width-max-two-thirds {
+  max-width: calc((100%/3)*2);
 }
 /*--------------------
   Text modifiers
@@ -682,15 +748,17 @@ form input.number {
 .window-app .window-content {
   background: #eaeaeaff;
 }
+/*
 .editor {
   flex-grow: 1;
   min-height: 250px;
   height: 250px;
+  .tox-toolbar-overlord,
+  .tox-toolbar__primary {
+    background: none;
+  }
 }
-.editor .tox-toolbar-overlord,
-.editor .tox-toolbar__primary {
-  background: none;
-}
+*/
 .content {
   height: 100%;
 }
