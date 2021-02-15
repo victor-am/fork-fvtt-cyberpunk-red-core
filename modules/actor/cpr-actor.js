@@ -195,10 +195,17 @@ export default class CPRActor extends Actor {
     const allCyberware = this.data.filteredItems.cyberware;
     let orphanedCyberware = allCyberware;
 
+    console.log(allCyberware);
+
     const foundationalCyberware = allCyberware.filter((cyberware) => cyberware.getData().isFoundational === true);
     foundationalCyberware.forEach((fCyberware) => {
+      fCyberware.data.data.optionalIds = [...new Set(fCyberware.data.data.optionalIds)];
+      this.updateEmbeddedEntity("OwnedItem", fCyberware.data);
       orphanedCyberware = orphanedCyberware.filter((i) => i.data._id !== fCyberware.data._id);
       fCyberware.getData().optionalIds.forEach((oCyberwareId) => {
+        let oCyberware = allCyberware.filter((o) => o.data._id === oCyberwareId)[0];
+        oCyberware.data.data.isInstalled = true;
+        this.updateEmbeddedEntity("OwnedItem", oCyberware.data);
         orphanedCyberware = orphanedCyberware.filter((i) => i.data._id !== oCyberwareId);
       });
     });
