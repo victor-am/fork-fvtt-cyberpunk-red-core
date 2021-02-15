@@ -213,6 +213,7 @@
   grid-template-columns: auto;
   grid-template-rows: auto auto;
   grid-template-areas: "tabs-bottom" "content-bottom";
+  overflow-y: hidden;
 }
 .sheet-content .bottom-pane .bottom-tabs-section {
   grid-area: tabs-bottom;

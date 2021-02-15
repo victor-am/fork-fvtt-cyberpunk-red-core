@@ -115,6 +115,20 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
 
+    html.find(".toggle-favorite-visibility").click((event) => {
+      const collapsibleElement = $(event.currentTarget).parents(".collapsible");
+      $(collapsibleElement).find(".show-favorites").toggleClass("hide");
+      $(collapsibleElement).find(".hide-favorites").toggleClass("hide");
+      const itemOrderedList =  $(collapsibleElement).children("ol");
+      const itemList = $(itemOrderedList).children("li");
+      itemList.each((lineIndex) => {
+        let lineItem = itemList[lineIndex];
+        if ($(lineItem).hasClass("item") && $(lineItem).hasClass("favorite") ) {
+          $(lineItem).toggleClass("hide");
+        }
+      });
+    });
+
     html.find(".expand-button").click((event) => {
       const collapsibleElement = $(event.currentTarget).parents(".collapsible");
       $(collapsibleElement).find(".collapse-icon").toggleClass("hide");

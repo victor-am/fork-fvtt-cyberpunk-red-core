@@ -1,15 +1,20 @@
 <div class="collapsible">
     <li class="items-header flexrow collapsible">
-        
-        <span class="item-name skill-name bg-black text-nowrap text-padding-left expand-button"  id="skillTab-{{category}}">{{localize (findConfigValue "skillCategories" category)}}&nbsp;<i class="fas fa-plus bg-black collapse-icon hide"></i><i class="fas fa-minus bg-black expand-icon"></i></span>
+
+        <span class="item-name skill-name bg-black text-nowrap text-padding-left expand-button"
+            id="skillTab-{{category}}">
+            {{localize (findConfigValue "skillCategories" category)}}&nbsp;
+            <i class="fas fa-plus bg-black collapse-icon hide"></i>
+            <i class="fas fa-minus bg-black expand-icon"></i>
+        </span>
         <span class="item-detail skill-level bg-black text-nowrap">{{localize "CPR.lvl"}}</span>
         <span class="item-detail skill-base bg-black text-nowrap">{{localize "CPR.base"}}</span>
-        <span class="item-detail skill-favorite bg-black text-nowrap">{{localize "CPR.fav"}}</span>
+        <span class="item-detail skill-favorite bg-black text-nowrap toggle-favorite-visibility"><i class="far fa-eye show-favorites"></i><i class="far fa-eye-slash hide-favorites hide"></i></span>
     </li>
     <ol class="items-list">
         {{#each (sort (filter actor.filteredItems.skill "data.category" category) "name") as |skill s|}}
-        <li class="item skill-name flexrow{{#if skill.data.favorite}} favorite{{/if}}" data-item-id="{{skill._id}}" data-skill-category="{{skill.data.category}}"
-            draggable="true">
+        <li class="item skill-name flexrow{{#if skill.data.favorite}} favorite{{/if}}" data-item-id="{{skill._id}}"
+            data-skill-category="{{skill.data.category}}" draggable="true">
             <div class="item-name flexrow  text-nowrap">
                 <a class="rollable {{#if skill.data.basic}}bold{{/if}}" data-roll-type="skill"
                     data-roll-title="{{skill.name}}">
