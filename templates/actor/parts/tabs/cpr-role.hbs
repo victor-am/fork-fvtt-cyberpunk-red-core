@@ -12,10 +12,10 @@
             </li>
             <ol class="items-list">
                 {{#each (getProp ../this.data.roleInfo.roleskills role) as |roleValue roleAbility|}}
-                {{#if (ne roleAbility "subSkills")}}
+                {{#if (compare roleAbility "!==" "subSkills")}}
                 <li class="item flexrow" draggable="true">
                     <div class="item-name role-name flexrow  text-nowrap">
-                        <a class="rollable ability-name" data-roll-type="roleAbility" data-roll-title="{{roleAbility}}">{{localize (findConfigValue "roleAbilityList" roleAbility)}}:</a>
+                        <a class="rollable ability-name text-bold" data-roll-type="roleAbility" data-roll-title="{{roleAbility}}">{{localize (findConfigValue "roleAbilityList" roleAbility)}}:</a>
                     </div>
                     <div class="item-detail ability-rank text-nowrap">
                         <input name="data.roleInfo.roleskills.{{role}}.{{roleAbility}}" value="{{roleValue}}" type="number">
