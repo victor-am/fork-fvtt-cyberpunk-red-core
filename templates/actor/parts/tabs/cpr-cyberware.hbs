@@ -1,13 +1,18 @@
 {{log "CPR-CYBERWARE-HBS"}}
-<div class="dynamic-list cyberware">
-    {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
-    <div class="row header black-bg white-fg bold inventory">
-        <span class="section name width-quarter">{{localize type}}</span>
-        <span class="section data width-grow">{{localize "CPR.data"}}</span>
-        <span class="section action width-quarter right-text">{{localize "CPR.actions"}}</span>
-    </div>
-    {{!-- Revist...? --}}
-    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cyberware/cpr-cyberware-content.hbs" (getProp ../this.installedCyberware t)}}
-    {{/each}}
+<div class="cyberware-tab">
+    <ol class="items-list cyberware-list">
+        {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
+        <div class="">
+            <li class="items-header flexrow">
+                <span class="item-name gear-name bg-black text-nowrap expand-button " id="cyberwareTab-{{c}}">{{localize type}}</span>
+                <span class="item-detail gear-data bg-black text-nowrap">{{localize "CPR.data"}}</span>
+                <span class="item-detail gear-actions bg-black text-nowrap">{{localize "CPR.actions"}}&nbsp;{{#if (systemConfig "playersCreateInventory")}}<a class="item-create" data-item-type="{{c}}"><i class="far fa-plus-square"></i></a>{{/if}}</span>
+            </li>
+            <ol class="items-list">
+                {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cyberware/cpr-cyberware-content.hbs" (getProp ../this.installedCyberware t)}}
+            </ol>
+        </div>
+        {{/each}}
+    </ol>
 </div>
 {{log "END CPR-CYBERWARE-HBS"}}

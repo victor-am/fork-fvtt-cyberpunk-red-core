@@ -255,7 +255,8 @@
 .skills-tab .right-pane-skills {
   grid-area: skills-right;
 }
-.gear-tab {
+.gear-tab,
+.cyberware-tab {
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: auto;
