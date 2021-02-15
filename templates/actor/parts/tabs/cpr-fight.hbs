@@ -1,11 +1,69 @@
 <div class="fight-tab">
-    <div class="injuries tab-label">
-        {{localize "CPR.criticalinjuries"}}
+    <div class="injuries-section">
+        <div class="tab-label">
+            {{localize "CPR.criticalinjuries"}}
+        </div>
+        <div class="injuries-content">
+
+        </div>
     </div>
-    <div class="armor tab-label">
-        {{localize "CPR.armor"}}
+    <div class="armor-section">
+        <div class="tab-label">
+            {{localize "CPR.armor"}}
+        </div>
+        <div class="armor-content">
+
+        </div>
+
     </div>
-    <div class="weapons tab-label">
-        {{localize "CPR.weapons"}}
+    <div class="weapons-section">
+        <div class="tab-label">
+            {{localize "CPR.weapons"}}
+        </div>
+        <div class="weapons-content">
+            <ol class="items-list fight-weapons-list">
+                {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
+                {{#if (compare weapon.data.equipped "===" "equipped")}}
+                <li class="item flexrow" data-item-id="{{weapon._id}}" draggable="true">
+                    <div class="item-name weapon-name flexrow text-nowrap">
+                        <a class="name item-edit">{{weapon.name}}</a>
+                        {{#if (compare weapon.data.quality "!==" "standard")}}
+                        ({{localize weapon.data.quality}})
+                        {{/if}}
+                    </div>
+                    <div class="item-detail weapon-ranged-data text-nowrap">
+                        {{#if weapon.data.isRanged}}{{weapon.data.magazine.value}}/{{weapon.data.magazine.max}}{{/if}}
+                    </div>
+                    <div class="item-detail weapon-rof text-nowrap">
+                        {{localize "CPR.rof"}} {{weapon.data.rof}}
+                    </div>
+                    <div class="item-detail weapon-alt-modes text-nowrap">
+                        {{weapon.data.altFireModes}}
+                    </div>
+                    <div class="item-detail weapon-attack text-nowrap">
+                        <a class="rollable smallest-text" data-roll-type="attack" data-aimed="false"
+                            data-item-id={{weapon._id}}>
+                            <i class="fas fa-dice-d20 red-fg" title="Standard Attack"></i>
+                        </a>
+                    </div>
+                    <div class="item-detail weapon-attack text-nowrap">
+                        <a class="rollable" data-roll-type="attack" data-aimed="true" data-item-id={{weapon._id}}>
+                            <i class="fas fa-crosshairs red-fg" title="Aimed Attack"></i>
+                        </a>
+                    </div>
+                    <div class="item-detail weapon-damage text-nowrap">
+                        <a class="rollable" data-damage="{{weapon.data.damage}}" data-roll-type="damage"
+                            data-item-id={{weapon._id}}>
+                            <i class="fas fa-tint red-fg" title="Damage"></i>
+                        </a>
+                    </div>
+
+
+
+                </li>
+                {{/if}}
+                {{/each}}
+            </ol>
+        </div>
     </div>
 </div>

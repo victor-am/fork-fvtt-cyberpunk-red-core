@@ -255,6 +255,15 @@
   grid-gap: 5px;
   background-color: #b90202ff;
 }
+.fight-tab .injuries-section {
+  grid-area: injuries;
+}
+.fight-tab .armor-section {
+  grid-area: armor;
+}
+.fight-tab .weapons-section {
+  grid-area: weapons;
+}
 .handle-block,
 .role-block,
 .hitpoint-block,
@@ -494,6 +503,14 @@
 .role-tab .role-rank,
 .role-tab .ability-rank {
   text-align: left;
+}
+.fight-tab .weapon-name {
+  flex: 0 0 25%;
+}
+.fight-tab .weapon-attack,
+.fight-tab .weapon-damage {
+  flex: 0 0 20px;
+  text-align: center;
 }
 ul,
 ol {
