@@ -1,16 +1,20 @@
 <div class="fight-tab">
     <div class="injuries-section">
-        <div class="tab-label text-small text-left text-padding-left">
-            {{localize "CPR.critinjuries"}}
-        </div>
+        <li class="items-header flexrow">
+            <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
+                {{localize "CPR.critinjuries"}}
+            </span>
+        </li>
         <div class="injuries-content">
 
         </div>
     </div>
     <div class="armor-section">
-        <div class="tab-label text-small text-left text-padding-left">
-            {{localize "CPR.armor"}}
-        </div>
+        <li class="items-header flexrow">
+            <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
+                {{localize "CPR.armor"}}
+            </span>
+        </li>
         <div class="armor-content">
             <ol class="items-list fight-armor-list">
                 {{#each (sort actor.filteredItems.armor "name") as |armor| }}
@@ -57,12 +61,13 @@
                 {{/each}}
             </ol>
         </div>
-
     </div>
     <div class="weapon-section">
-        <div class="tab-label text-small text-left text-padding-left">
-            {{localize "CPR.weapons"}}
-        </div>
+        <li class="items-header flexrow">
+            <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
+                {{localize "CPR.weapons"}}
+            </span>
+        </li>
         <div class="weapon-content">
             <ol class="items-list fight-weapons-list">
                 {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
