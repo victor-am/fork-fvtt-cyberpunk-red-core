@@ -252,12 +252,16 @@
   width: inherit;
   background-color: #eaeaeaff;
 }
-.role-tab {
+.role-tab,
+.lifepath-tab {
   display: flex;
   background-color: #eaeaeaff;
   flex-flow: wrap;
   justify-content: space-between;
   flex: 1;
+}
+.lifepath-tab {
+  margin: 5px;
 }
 .fight-tab {
   display: grid;
@@ -600,12 +604,12 @@
 .gear-tab .gear-actions {
   text-align: end;
 }
-.role-tab .role-name,
-.role-tab .ability-name {
+.role-tab-content .role-name,
+.role-tab-content .ability-name {
   flex: 0 0 75%;
 }
-.role-tab .role-rank,
-.role-tab .ability-rank {
+.role-tab-content .role-rank,
+.role-tab-content .ability-rank {
   text-align: right;
   padding-right: 5px;
 }
