@@ -127,6 +127,14 @@ export default class CPRActorSheet extends ActorSheet {
           $(lineItem).toggleClass("hide");
         }
       });
+      if ($(collapsibleElement).find(".show-favorites").hasClass("hide")) {
+        if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
+          this.options.collapsedSections.push(event.currentTarget.id);
+        }
+      }
+      else {
+        this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
+      }
     });
 
     html.find(".expand-button").click((event) => {
