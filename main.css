@@ -237,13 +237,23 @@
   grid-area: skills-right;
 }
 .gear-tab,
-.cyberware-tab {
+.cyberware-tab,
+.role-tab {
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: auto;
   width: inherit;
   grid-gap: 5px;
   background-color: #eaeaeaff;
+}
+.fight-tab {
+  display: grid;
+  grid-template-columns: 32% 25% auto;
+  grid-template-rows: auto;
+  grid-template-areas: "injuries armor weapons";
+  width: inherit;
+  grid-gap: 5px;
+  background-color: #b90202ff;
 }
 .handle-block,
 .role-block,
@@ -476,6 +486,14 @@
 }
 .gear-tab .gear-actions {
   text-align: end;
+}
+.role-tab .role-name,
+.role-tab .ability-name {
+  flex: 0 0 25%;
+}
+.role-tab .role-rank,
+.role-tab .ability-rank {
+  text-align: left;
 }
 ul,
 ol {

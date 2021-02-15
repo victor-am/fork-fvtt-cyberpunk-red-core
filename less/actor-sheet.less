@@ -188,7 +188,8 @@
 }
 
 .gear-tab,
-.cyberware-tab {
+.cyberware-tab,
+.role-tab {
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: auto;
@@ -196,6 +197,16 @@
     grid-gap: 5px;
     background-color: @chrome-white;
 
+}
+
+.fight-tab {
+    display: grid;
+    grid-template-columns: 32% 25% auto;
+    grid-template-rows: auto;
+    grid-template-areas: "injuries armor weapons";
+    width: inherit;
+    grid-gap: 5px;
+    background-color: @wyrm-red;
 }
 
 // Section Specific CSS
