@@ -1,9 +1,10 @@
 {{log "CPR-ARMOR-INV-CONTENT.HBS"}}
-<div class="row inventory item" data-item-id={{item._id}}>
-    <div class="section name">
-        <a class="name item-edit">{{item.name}}</a>
-    </div>
-    <div class="section data">
+<li class="item flexrow{{#if item.data.favorite}} favorite{{/if}}" data-item-id="{{item._id}}"
+  data-item-category="{{item.data.category}}" draggable="true">
+  <div class="item-name gear-name flexrow  text-nowrap">
+    <a class="name item-edit">{{item.name}}</a>
+  </div>
+  <div class="item-detail gear-data text-nowrap">
         {{#if item.data.isHeadLocation}}
         {{localize "CPR.head"}}: {{ablated item.data "head"}}/{{item.data.headLocation.sp}} {{localize "CPR.sp"}}
         {{#if item.data.isBodyLocation}}|{{/if}}
@@ -11,9 +12,9 @@
         {{#if item.data.isBodyLocation}}
         {{localize "CPR.bodylocation"}}: {{ablated item.data "body"}}/{{item.data.bodyLocation.sp}} {{localize "CPR.sp"}}
         {{/if}}
-    </div>
-    <div class="section action">
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-actions.hbs" item}}
-    </div>
-</div>
+  </div>
+  <div class="item-detail gear-actions text-nowrap">
+    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-actions.hbs" item}}
+  </div>
+</li>
 {{log "END CPR-ARMOR-INV-CONTENT.HBS"}}

@@ -48,8 +48,8 @@ export default class CPRActorSheet extends ActorSheet {
       (this.options.collapsedSections).forEach((sectionId) => {
         const html = $(this.form).parent();
         let currentTarget = $(html.find(`#${sectionId}`));
+        this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== sectionId);
         $(currentTarget).click();
-        $(currentTarget).find(".collapse-icon").removeClass("hide");
       });
     }
   }

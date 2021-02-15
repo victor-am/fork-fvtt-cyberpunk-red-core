@@ -1,20 +1,21 @@
 {{log "CPR-CYBERWARE-INV-CONTENT.HBS"}}
 {{#unless item.data.isInstalled}}
-<div class="row inventory item" data-item-id={{item._id}}>
-    <div class="section name">
-        <a class="name item-edit">{{item.name}}</a>
-    </div>
-    <div class="section data">
+<li class="item flexrow{{#if item.data.favorite}} favorite{{/if}}" data-item-id="{{item._id}}"
+  data-item-category="{{item.data.category}}" draggable="true">
+  <div class="item-name gear-name flexrow  text-nowrap">
+    <a class="name item-edit">{{item.name}}</a>
+  </div>
+  <div class="item-detail gear-data text-nowrap">
         {{localize (findConfigValue "cyberwareTypeList" item.data.type)}}
         {{#if item.data.isFoundational}}
         {{#if (gt item.data.optionSlots 0)}}
         ({{localize "CPR.foundational"}})
         {{/if}}
         {{/if}}
-    </div>
-    <div class="section action">
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-actions.hbs" item}}
-    </div>
-</div>
+  </div>
+  <div class="item-detail gear-actions text-nowrap">
+    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-actions.hbs" item}}
+  </div>
+</li>
 {{/unless}}
 {{log "END CPR-CYBERWARE-INV-CONTENT.HBS"}}
