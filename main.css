@@ -112,6 +112,13 @@
   font-style: normal;
   font-display: swap;
 }
+/*--------------------
+  Global Tweaks
+---------------------*/
+.app.window-app.sheet.sheet.actor {
+  min-width: 792px;
+  min-height: 300px;
+}
 .sheet-content {
   font-family: "Audimat Mono";
   background-color: #eaeaeaff;
@@ -554,7 +561,7 @@
 }
 .gear-tab .gear-name,
 .gear-tab .gear-data {
-  flex: 0 0 45%;
+  flex: 0 0 33%;
 }
 .gear-tab .gear-data {
   text-align: left;
@@ -579,7 +586,8 @@
   flex: 0 0 25%;
 }
 .fight-tab .weapon-attack,
-.fight-tab .weapon-damage {
+.fight-tab .weapon-damage,
+.fight-tab .weapon-reload {
   flex: 0 0 20px;
   text-align: center;
 }
@@ -587,9 +595,6 @@ ul,
 ol {
   margin: 0.5em 0;
   padding: 0 0 0 1.5em;
-}
-.hide {
-  display: none;
 }
 .chat-message.message.flexcol {
   background: #eaeaeaff;

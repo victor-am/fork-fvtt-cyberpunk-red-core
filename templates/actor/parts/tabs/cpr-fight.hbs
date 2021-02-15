@@ -12,7 +12,17 @@
             {{localize "CPR.armor"}}
         </div>
         <div class="armor-content">
-
+            <ol class="items-list fight-armor-list">
+                {{#each (sort actor.filteredItems.armor "name") as |armor| }}
+                {{#if (eq armor.data.equipped "equipped")}}
+                <li class="item flexrow" data-item-id="{{armor._id}}" draggable="true">
+                    <div class="item-name armor-name flexrow text-nowrap">
+                        <a class="name item-edit">{{armor.name}}</a>
+                    </div>
+                </li>
+                {{/if}}
+                {{/each}}
+            </ol>
         </div>
 
     </div>
@@ -40,10 +50,16 @@
                     <div class="item-detail weapon-alt-modes text-nowrap">
                         {{weapon.data.altFireModes}}
                     </div>
+                    <div class="item-detail weapon-reload text-nowrap">
+                        {{#if weapon.data.isRanged}}
+                        {{>
+                        "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-reload-glyph.hbs"}}
+                        {{/if}}
+                    </div>
                     <div class="item-detail weapon-attack text-nowrap">
                         <a class="rollable smallest-text" data-roll-type="attack" data-aimed="false"
                             data-item-id={{weapon._id}}>
-                            <i class="fas fa-dice-d20 red-fg" title="Standard Attack"></i>
+                            <i class="fas fa-fist-raised red-fg" title="Standard Attack"></i>
                         </a>
                     </div>
                     <div class="item-detail weapon-attack text-nowrap">
@@ -57,9 +73,6 @@
                             <i class="fas fa-tint red-fg" title="Damage"></i>
                         </a>
                     </div>
-
-
-
                 </li>
                 {{/if}}
                 {{/each}}
