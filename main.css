@@ -309,16 +309,12 @@
   justify-content: center;
   color: #eaeaeaff;
   background-color: #2d2f2fff;
-  font-weight: bold;
   text-align: center;
   font-size: 1.2rem;
   min-width: 150px;
 }
 .tab-label.tab-indent {
   clip-path: polygon(33px 0, 100% 0%, 100% 100%, 11px 100%);
-}
-.tab-label.no-tab-indent {
-  clip-path: polygon(22px 0, 100% 0%, 100% 100%, 0px 100%);
 }
 .tab-label.active {
   background-color: #b90202ff;
@@ -330,9 +326,6 @@
   background-color: #ffc3b6ff;
   margin-left: 20px;
   clip-path: polygon(22px 0, 100% 0%, 100% 100%, 0% 100%);
-}
-.tab-red-underlay {
-  background-color: #b90202ff;
 }
 .tabs {
   flex-wrap: nowrap;
