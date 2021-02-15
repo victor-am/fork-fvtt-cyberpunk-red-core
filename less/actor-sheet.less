@@ -209,20 +209,23 @@
 
 .fight-tab {
     display: grid;
-    grid-template-columns: 32% 25% auto;
+    grid-template-columns: 25% 25% auto;
     grid-template-rows: auto;
-    grid-template-areas: "injuries armor weapons";
+    grid-template-areas: "injuries armor weapon";
     width: inherit;
     grid-gap: 5px;
     background-color: @wyrm-red;
     .injuries-section {
         grid-area: injuries;
+        background-color: @chrome-white;
     }
     .armor-section {
         grid-area: armor;
+        background-color: @chrome-white
     }
-    .weapons-section {
-        grid-area: weapons;
+    .weapon-section {
+        grid-area: weapon;
+        background-color: @chrome-white
     }
 
 }
@@ -273,8 +276,15 @@
     text-align      : center;
     font-size       : @font-normal;
     min-width: 150px;
-    clip-path: polygon(33px 0, 100% 0%, 100% 100%, 11px 100%);
+    //clip-path: polygon(33px 0, 100% 0%, 100% 100%, 11px 100%);
 
+    &.tab-indent {
+        clip-path: polygon(33px 0, 100% 0%, 100% 100%, 11px 100%);
+    }
+
+    &.no-tab-indent {
+        clip-path: polygon(22px 0, 100% 0%, 100% 100%, 0px 100%);
+    }
     &.active {
         background-color: @wyrm-red;
     }
@@ -284,10 +294,14 @@
     }
 }
 
-.tab-underlay {
+.tab-pink-underlay {
     background-color: @meat-space-pink;
     margin-left: 20px;
     clip-path: polygon(22px 0, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.tab-red-underlay {
+    background-color: @wyrm-red;
 }
 
 .tabs {

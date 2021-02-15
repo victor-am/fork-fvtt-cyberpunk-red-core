@@ -255,21 +255,24 @@
 }
 .fight-tab {
   display: grid;
-  grid-template-columns: 32% 25% auto;
+  grid-template-columns: 25% 25% auto;
   grid-template-rows: auto;
-  grid-template-areas: "injuries armor weapons";
+  grid-template-areas: "injuries armor weapon";
   width: inherit;
   grid-gap: 5px;
   background-color: #b90202ff;
 }
 .fight-tab .injuries-section {
   grid-area: injuries;
+  background-color: #eaeaeaff;
 }
 .fight-tab .armor-section {
   grid-area: armor;
+  background-color: #eaeaeaff;
 }
-.fight-tab .weapons-section {
-  grid-area: weapons;
+.fight-tab .weapon-section {
+  grid-area: weapon;
+  background-color: #eaeaeaff;
 }
 .handle-block,
 .role-block,
@@ -310,7 +313,12 @@
   text-align: center;
   font-size: 1.2rem;
   min-width: 150px;
+}
+.tab-label.tab-indent {
   clip-path: polygon(33px 0, 100% 0%, 100% 100%, 11px 100%);
+}
+.tab-label.no-tab-indent {
+  clip-path: polygon(22px 0, 100% 0%, 100% 100%, 0px 100%);
 }
 .tab-label.active {
   background-color: #b90202ff;
@@ -318,10 +326,13 @@
 .tab-label:hover {
   text-shadow: none;
 }
-.tab-underlay {
+.tab-pink-underlay {
   background-color: #ffc3b6ff;
   margin-left: 20px;
   clip-path: polygon(22px 0, 100% 0%, 100% 100%, 0% 100%);
+}
+.tab-red-underlay {
+  background-color: #b90202ff;
 }
 .tabs {
   flex-wrap: nowrap;
@@ -584,11 +595,6 @@
 .role-tab .ability-rank {
   text-align: left;
 }
-.fight-tab .role-content,
-.fight-tab .armor-content,
-.fight-tab .weapons-content {
-  margin-left: 11px;
-}
 .fight-tab .armor-content {
   background-color: #eaeaeaff;
 }
@@ -601,13 +607,10 @@
 .fight-tab .armor-content .armor-piece {
   margin: 2px;
 }
-.fight-tab .armor-content .fubar {
-  width: 20px;
-}
-.fight-tab .weapons-content li:nth-child(even) {
+.fight-tab .weapon-content li:nth-child(even) {
   background-color: #ffc3b6ff;
 }
-.fight-tab .weapons-content li:nth-child(odd) {
+.fight-tab .weapon-content li:nth-child(odd) {
   background-color: #eaeaeaff;
 }
 .fight-tab .weapon-name {

@@ -1,55 +1,61 @@
 <div class="fight-tab">
     <div class="injuries-section">
-        <div class="tab-label">
-            {{localize "CPR.criticalinjuries"}}
+        <div class="tab-red-underlay">
+            <div class="tab-label no-tab-indent">
+                {{localize "CPR.critinjuries"}}
+            </div>
         </div>
         <div class="injuries-content">
 
         </div>
     </div>
     <div class="armor-section">
-        <div class="tab-label">
-            {{localize "CPR.armor"}}
+        <div class="tab-red-underlay">
+            <div class="tab-label no-tab-indent">
+                {{localize "CPR.armor"}}
+            </div>
         </div>
         <div class="armor-content">
             <ol class="items-list fight-armor-list">
                 {{#each (sort actor.filteredItems.armor "name") as |armor| }}
                 {{#if (eq armor.data.equipped "equipped")}}
                 <li class="item flexrow armor-piece" data-item-id="{{armor._id}}" draggable="true">
-                        <li class="flex-space-between">
-                            <div class="item-name armor-name flexrow text-nowrap"><a class="name item-edit">{{armor.name}}</a></div>
-                            <div><a class="ablate" data-location="body"><i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a></div>
-                        </li>
-                        {{#if armor.data.isHeadLocation}}
-                        <li class="flex-space-between">
-                            <div> {{localize "CPR.head"}}</div>
-                            <div>
-                                {{#if (compare armor.data.headLocation.ablation ">" 0)}}
-                                    <span class="fg-red">
-                                {{/if}}
-                                {{math "subtract" armor.data.headLocation.sp armor.data.headLocation.ablation}}
-                                {{#if (compare armor.data.headLocation.ablation ">" 0)}}
-                                    </span>
-                                {{/if}}
-                                /{{armor.data.headLocation.sp}}
-                            </div>
-                        </li>
+                <li class="flex-space-between">
+                    <div class="item-name armor-name flexrow text-nowrap"><a class="name item-edit">{{armor.name}}</a>
+                    </div>
+                    <div><a class="ablate" data-location="body"><i class="far fa-arrow-alt-circle-down"
+                                title="Ablate Armor"></i></a></div>
+                </li>
+                {{#if armor.data.isHeadLocation}}
+                <li class="flex-space-between">
+                    <div> {{localize "CPR.head"}}</div>
+                    <div>
+                        {{#if (compare armor.data.headLocation.ablation ">" 0)}}
+                        <span class="fg-red">
+                            {{/if}}
+                            {{math "subtract" armor.data.headLocation.sp armor.data.headLocation.ablation}}
+                            {{#if (compare armor.data.headLocation.ablation ">" 0)}}
+                        </span>
                         {{/if}}
-                        {{#if armor.data.isBodyLocation}}
-                        <li class="flex-space-between">
-                            <div> {{localize "CPR.bodylocation"}}</div>
-                            <div>
-                                {{#if (compare armor.data.bodyLocation.ablation ">" 0)}}
-                                    <span class="fg-red">
-                                {{/if}}
-                                {{math "subtract" armor.data.bodyLocation.sp armor.data.bodyLocation.ablation}}
-                                {{#if (compare armor.data.bodyLocation.ablation ">" 0)}}
-                                    </span>
-                                {{/if}}
-                                /{{armor.data.bodyLocation.sp}}
-                            </div>
-                        </li>
+                        /{{armor.data.headLocation.sp}}
+                    </div>
+                </li>
+                {{/if}}
+                {{#if armor.data.isBodyLocation}}
+                <li class="flex-space-between">
+                    <div> {{localize "CPR.bodylocation"}}</div>
+                    <div>
+                        {{#if (compare armor.data.bodyLocation.ablation ">" 0)}}
+                        <span class="fg-red">
+                            {{/if}}
+                            {{math "subtract" armor.data.bodyLocation.sp armor.data.bodyLocation.ablation}}
+                            {{#if (compare armor.data.bodyLocation.ablation ">" 0)}}
+                        </span>
                         {{/if}}
+                        /{{armor.data.bodyLocation.sp}}
+                    </div>
+                </li>
+                {{/if}}
                 </li>
                 {{/if}}
                 {{/each}}
@@ -57,11 +63,13 @@
         </div>
 
     </div>
-    <div class="weapons-section">
-        <div class="tab-label">
-            {{localize "CPR.weapons"}}
+    <div class="weapon-section">
+        <div class="tab-red-underlay">
+            <div class="tab-label no-tab-indent">
+                {{localize "CPR.weapons"}}
+            </div>
         </div>
-        <div class="weapons-content">
+        <div class="weapon-content">
             <ol class="items-list fight-weapons-list">
                 {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
                 {{#if (compare weapon.data.equipped "===" "equipped")}}
