@@ -6,6 +6,7 @@
     padding: 0;
     overflow-y: auto;
     scrollbar-width: thin;
+    background-color: @chrome-white;
     .items-header {
 //        height: 28px;
 //        margin: 2px 0;
@@ -45,15 +46,15 @@
         white-space: nowrap;
         overflow: hidden;
     }
+}
+
+.skills-tab {
     li:nth-child(even) {
         background-color: @meat-space-pink;
     }
     li:nth-child(odd) {
         background-color: @chrome-white;
     }
-}
-
-.skills-tab {
     .skill-level,
     .skill-base,
     .skill-favorite {
@@ -62,6 +63,12 @@
 }
 
 .gear-tab {
+    li:nth-child(even) {
+        background-color: @meat-space-pink;
+    }
+    li:nth-child(odd) {
+        background-color: @chrome-white;
+    }
     .gear-name,
     .gear-data {
         flex: 0 0 33%;
@@ -91,7 +98,32 @@
     .role-content,
     .armor-content,
     .weapons-content {
-        padding-left: 11px;
+        margin-left: 11px;
+    }
+
+    .armor-content {
+        background-color: @chrome-white;
+        li {
+            display: flex;
+            background-color: @meat-space-pink;
+            margin-left: 2px;
+            margin-right: 2px;
+        }
+        .armor-piece {
+            margin: 2px;
+        }
+        .fubar {
+            width: 20px;
+        }
+    }
+
+    .weapons-content {
+        li:nth-child(even) {
+            background-color: @meat-space-pink;
+        }
+        li:nth-child(odd) {
+            background-color: @chrome-white;
+        }
     }
     
     .weapon-name {
