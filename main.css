@@ -265,14 +265,17 @@
 .fight-tab .injuries-section {
   grid-area: injuries;
   background-color: #eaeaeaff;
+  min-height: 35px;
 }
 .fight-tab .armor-section {
   grid-area: armor;
   background-color: #eaeaeaff;
+  min-height: 35px;
 }
 .fight-tab .weapon-section {
   grid-area: weapon;
   background-color: #eaeaeaff;
+  min-height: 35px;
 }
 .handle-block,
 .role-block,
@@ -496,12 +499,19 @@
 }
 .text-left {
   text-align: left;
+  justify-content: left;
 }
 .text-super {
   vertical-align: super;
 }
 .text-bold {
   font-weight: bold;
+}
+.text-padding-left {
+  padding-left: 2px;
+}
+.text-padding-right {
+  padding-left: 2px;
 }
 .flexrow {
   display: flex;
