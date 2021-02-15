@@ -24,7 +24,6 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-image-block.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-hitpoint-block.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-handle-block.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-combat-block.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-deathsave-block.hbs",
 
     // Character Sheet Partials
@@ -36,10 +35,11 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/parts/common/skills/cpr-skills-category.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-item-debug.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-role.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-inventory.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-cyberware.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-information.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-fight.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-lifepath.hbs",
 
     // Inventory Item Display Partials
     "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-weapon-content.hbs",

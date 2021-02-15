@@ -19,50 +19,57 @@
 
     <div class="right-pane">
       <div class="right-tabs-section">
-        <nav class="tabs nav" data-group="primary">
+        <nav class="navtabs-right tabs nav" data-group="primary">
           <div class="tab-underlay">
-          <a class="skills-tab tab-label" data-tab="skills">{{localize "CPR.skills"}}</a>
-          </div>
-          {{!-- <a class="navtab center-text bold white-fg" data-tab="role">{{localize "CPR.role"}}</a> --}}
-          <div class="tab-underlay">
-          <a class="gear-tab tab-label" data-tab="gear">{{localize "CPR.gear"}}</a>
+            <a class="skills-tab tab-label" data-tab="skills">{{localize "CPR.skills"}}</a>
           </div>
           <div class="tab-underlay">
-          <a class="cyberware-tab tab-label" data-tab="cyberware">{{localize "CPR.cyber"}}</a>
+            <a class="gear-tab tab-label" data-tab="gear">{{localize "CPR.gear"}}</a>
           </div>
-          {{!-- <a class="navtab center-text bold white-fg" data-tab="information">{{localize "CPR.info"}}</a> --}}
-          {{!-- <a class="navtab center-text bold white-fg" data-tab="debug">DEBUG</a> --}}
+          <div class="tab-underlay">
+            <a class="cyberware-tab tab-label" data-tab="cyberware">{{localize "CPR.cyber"}}</a>
+          </div>
+
         </nav>
       </div>
       <div class="right-content-section">
         <div class="tab skills-tab" data-group="primary" data-tab="skills">
           {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-skills.hbs"}}
         </div>
-        {{!--
-        <div class="tab role-tab" data-group="primary" data-tab="role">
-          {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-role.hbs"}}
-        </div>
-        --}}
         <div class="tab gear-tab" data-group="primary" data-tab="gear">
           {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-gear.hbs"}}
         </div>
         <div class="tab cyberware-tab" data-group="primary" data-tab="cyberware">
           {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-cyberware.hbs"}}
         </div>
-        {{!-- 
-        <div class="information-tab tab" data-group="primary" data-tab="information">
-          {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-information.hbs"}}
-        </div>
-        --}}
-        {{!-- <div class="debug-tab tab" data-group="primary" data-tab="debug">
-          {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-item-debug.hbs"}}
-        </div> --}}
+
       </div>
     </div>
-
-
-    <div class="bottom-container">
-      {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-combat-block.hbs"}}
-    </div>
+    <div class="bottom-pane">
+      <div class="bottom-tabs-section">
+        <nav class="navtabs-bottom tabs nav" data-group="primary">
+          <div class="tab-underlay">
+            <a class="role-tab tab-label" data-tab="role">{{localize "CPR.role"}}</a>
+          </div>
+          {{!-- <a class="navtab center-text bold white-fg" data-tab="role">{{localize "CPR.role"}}</a> --}}
+          <div class="tab-underlay">
+            <a class="fight-tab tab-label" data-tab="fight">{{localize "CPR.fight"}}</a>
+          </div>
+          <div class="tab-underlay">
+            <a class="lifepath-tab tab-label" data-tab="lifepath">{{localize "CPR.lifepath"}}</a>
+          </div>
+        </nav>
+      </div>
+      <div class="bottom-content-section">
+        <div class="tab role-tab" data-group="primary" data-tab="role">
+          {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-role.hbs"}}
+        </div>
+        <div class="tab fight-tab" data-group="primary" data-tab="fight">
+          {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-fight.hbs"}}
+        </div>
+        <div class="tab lifepath-tab" data-group="primary" data-tab="lifepath">
+          {{> "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-lifepath.hbs"}}
+        </div>
+      </div>
 </form>
 {{log "END CPR-CHARACTER-SHEET.HBS"}}

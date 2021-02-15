@@ -143,9 +143,8 @@
         grid-area: pane-bottom;
         display  : grid;
 
-        grid-gap             : 0.5rem;
+        grid-template-columns: auto;
         grid-template-rows   : auto auto;
-        grid-template-columns: 1fr;
         grid-template-areas  :
             "tabs-bottom"
             "content-bottom";
@@ -153,48 +152,20 @@
         .bottom-tabs-section {
 
             grid-area: tabs-bottom;
-            display  : grid;
 
-            grid-template-columns: repeat(3, 1fr);
+            width: 100%;
+            height: 21px;
         }
 
-        .content-bottom-section {
+        .bottom-content-section {
             grid-area: content-bottom;
-            display  : grid;
-            grid-template-areas:
-                "small-box-left"
-                "small-box-right"
-                "long-box";
+            display  : flex;
+            width: 100%;
 
-            &>div {
-                margin: 5px;
-            }
-
-            .rfg-box {
-                .rfg-box-details {
-                    grid-template-columns: 1fr;
-                    grid-template-rows   : repeat(4, 1fr);
-
-                    &>div {
-                        margin: 5px;
-                    }
-                }
-            }
-
-            .small-box-left {
-                grid-area: small-box-left;
-                display  : grid;
-            }
-
-            .small-box-right {
-                grid-area: small-box-right;
-                display  : grid;
-            }
-
-            .long-box {
-                grid-area: long-box;
-                display  : grid;
-            }
+            border-color: @wyrm-red;
+            border-style: solid;
+            border-width: 5px;
+            overflow-y: scroll;
         }
     }
 }
