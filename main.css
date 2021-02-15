@@ -388,9 +388,6 @@
   display: flex;
   justify-content: space-between;
 }
-.hide {
-  display: none;
-}
 .width- {
   display: flex;
   justify-content: space-around;
@@ -548,6 +545,9 @@
   word-break: break-word;
   white-space: nowrap;
   overflow: hidden;
+}
+.items-list .hide {
+  display: none;
 }
 .skills-tab li:nth-child(even) {
   background-color: #ffc3b6ff;
