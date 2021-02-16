@@ -606,6 +606,9 @@
 .skills-tab .skill-favorite {
   flex: 0 0 30px;
 }
+.skills-tab .skill-custom {
+  flex: none;
+}
 .gear-tab li:nth-child(even) {
   background-color: #ffc3b6ff;
 }
