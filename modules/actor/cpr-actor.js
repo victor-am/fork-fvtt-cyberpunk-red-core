@@ -203,7 +203,7 @@ export default class CPRActor extends Actor {
       this.updateEmbeddedEntity("OwnedItem", fCyberware.data);
       orphanedCyberware = orphanedCyberware.filter((i) => i.data._id !== fCyberware.data._id);
       fCyberware.getData().optionalIds.forEach((oCyberwareId) => {
-        let oCyberware = allCyberware.filter((o) => o.data._id === oCyberwareId)[0];
+        const oCyberware = allCyberware.filter((o) => o.data._id === oCyberwareId)[0];
         oCyberware.data.data.isInstalled = true;
         this.updateEmbeddedEntity("OwnedItem", oCyberware.data);
         orphanedCyberware = orphanedCyberware.filter((i) => i.data._id !== oCyberwareId);

@@ -119,11 +119,11 @@ export default class CPRActorSheet extends ActorSheet {
       const collapsibleElement = $(event.currentTarget).parents(".collapsible");
       $(collapsibleElement).find(".show-favorites").toggleClass("hide");
       $(collapsibleElement).find(".hide-favorites").toggleClass("hide");
-      const itemOrderedList =  $(collapsibleElement).children("ol");
+      const itemOrderedList = $(collapsibleElement).children("ol");
       const itemList = $(itemOrderedList).children("li");
       itemList.each((lineIndex) => {
         let lineItem = itemList[lineIndex];
-        if ($(lineItem).hasClass("item") && $(lineItem).hasClass("favorite") ) {
+        if ($(lineItem).hasClass("item") && $(lineItem).hasClass("favorite")) {
           $(lineItem).toggleClass("hide");
         }
       });
@@ -131,8 +131,7 @@ export default class CPRActorSheet extends ActorSheet {
         if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
           this.options.collapsedSections.push(event.currentTarget.id);
         }
-      }
-      else {
+      } else {
         this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
       }
     });
@@ -141,11 +140,11 @@ export default class CPRActorSheet extends ActorSheet {
       const collapsibleElement = $(event.currentTarget).parents(".collapsible");
       $(collapsibleElement).find(".collapse-icon").toggleClass("hide");
       $(collapsibleElement).find(".expand-icon").toggleClass("hide");
-      const itemOrderedList =  $(collapsibleElement).children("ol");
+      const itemOrderedList = $(collapsibleElement).children("ol");
       const itemList = $(itemOrderedList).children("li");
       itemList.each((lineIndex) => {
         let lineItem = itemList[lineIndex];
-        if ($(lineItem).hasClass("item") && !$(lineItem).hasClass("favorite") ) {
+        if ($(lineItem).hasClass("item") && !$(lineItem).hasClass("favorite")) {
           $(lineItem).toggleClass("hide");
         }
       });
@@ -153,12 +152,9 @@ export default class CPRActorSheet extends ActorSheet {
         if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
           this.options.collapsedSections.push(event.currentTarget.id);
         }
-      }
-      else {
+      } else {
         this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
-      } 
-      
-
+      }
     });
 
     // Show edit and delete buttons

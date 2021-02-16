@@ -37,7 +37,7 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i._id === itemId));
 
   Handlebars.registerHelper("isDefined", (object) => {
-    if ((typeof object) === "undefined") {
+    if (typeof object === "undefined") {
       return false;
     }
     return true;
@@ -46,7 +46,7 @@ export default function registerHandlebarsHelpers() {
   // TODO - Refactor / Revist
   Handlebars.registerHelper("mergeForPartialArg", (...args) => {
     const partialArgs = [...args];
-    const partialKeys = ((partialArgs[0]).replace(/\s/g, '')).split(",");
+    const partialKeys = partialArgs[0].replace(/\s/g, "").split(",");
     partialArgs.shift();
     const mergedObject = {};
     let index = 0;
@@ -58,14 +58,14 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("filter", (objList, key, value) => {
-    const filteredList = objList.filter(function (obj) {
+    const filteredList = objList.filter((obj) => {
       let objProp = obj;
-      const propDepth = key.split('.');
+      const propDepth = key.split(".");
+      // eslint-disable-next-line consistent-return
       propDepth.forEach((propName) => {
         if (typeof objProp[propName] !== "undefined") {
-          objProp = objProp[propName];  
-        }
-        else {
+          objProp = objProp[propName];
+        } else {
           return false;
         }
       });
