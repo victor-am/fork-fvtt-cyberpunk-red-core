@@ -63,7 +63,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
     const data = super.getData();
     data.filteredItems = this.actor.filteredItems;
-    data.installedCyberware = this._getInstalledCyberware();
+    data.installedCyberware = this._getSortedInstalledCyberware();
     return data;
   }
 
@@ -89,10 +89,7 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".ablate").click((event) => this._ablateArmor(event));
 
     // Install Cyberware
-    html.find(".install").click((event) => this._installCyberwareAction(event));
-
-    // Uninstall Cyberware
-    html.find(".uninstall").click((event) => this._uninstallCyberwareAction(event));
+    html.find(".install-remove-cyberware").click((event) => this._installRemoveCyberwareAction(event));
 
     // Generic item action
     html.find(".item-action").click((event) => this._itemAction(event));
@@ -431,106 +428,36 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  async _installCyberwareAction(event) {
+  async _installRemoveCyberwareAction(event) {
     LOGGER.trace("ActorID _installCyberware | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
+    const itemId = this._getItemId(event);
+    const item = this._getOwnedItem(itemId);
     if (item.getData().isInstalled) {
       const foundationalId = $(event.currentTarget).parents(".item").attr("data-foundational-id");
-      this._removeCyberware(item, foundationalId);
+      this.actor.removeCyberware(itemId, foundationalId);
     } else {
-      this._addCyberware(item);
+      this.actor.addCyberware(itemId);
     }
   }
 
-  // TODO - REFACTOR
-  async _addCyberware(item) {
-    const compatibleFoundationalCyberware = this.actor.getInstalledFoundationalCyberware(item.getData().type);
-    if (compatibleFoundationalCyberware.length < 1 && !item.getData().isFoundational) {
-      Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
-    } else if (item.getData().isFoundational) {
-      const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data });
-      this._addFoundationalCyberware(item, formData);
-    } else {
-      const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data, foundationalCyberware: compatibleFoundationalCyberware });
-      this._addOptionalCyberware(item, formData);
-    }
-  }
-
-  async _addOptionalCyberware(item, formData) {
-    LOGGER.trace("ActorID _addOptionalCyberware | CPRActorSheet | Called.");
-    this.actor.loseHumanityValue(formData);
-    LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
-    const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
-    foundationalCyberware.data.data.optionalIds.push(item.data._id);
-    item.data.data.isInstalled = true;
-    await this._updateOwnedItem(item);
-    await this._updateOwnedItem(foundationalCyberware);
-    const usedSlots = foundationalCyberware.getData().optionalIds.length;
-    const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
-    Rules.lawyer((usedSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
-  }
-
-  _addFoundationalCyberware(item, formData) {
-    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
-    this.actor.loseHumanityValue(formData);
-    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
-    item.getData().isInstalled = true;
-    return this._updateOwnedItem(item);
-  }
-
-  async _removeCyberware(item, foundationalId) {
-    LOGGER.trace("ActorID _removeCyberware | CPRActorSheet | Called.");
-    const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
-    const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
-    const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
-    if (confirmRemove) {
-      if (item.getData().isFoundational) {
-        await this._removeFoundationalCyberware(item);
-      } else {
-        await this._removeOptionalCyberware(item, foundationalId);
-      }
-      item.getData().isInstalled = false;
-    }
-    this._updateOwnedItem(item);
-  }
-
-  _removeOptionalCyberware(item, foundationalId) {
-    LOGGER.trace("ActorID _removeOptionalCyberware | CPRActorSheet | Called.");
-    const foundationalCyberware = this._getOwnedItem(foundationalId);
-    foundationalCyberware.getData().optionalIds = foundationalCyberware.getData().optionalIds.filter((optionId) => optionId !== item.data._id);
-    return this._updateOwnedItem(foundationalCyberware);
-  }
-
-  _removeFoundationalCyberware(item) {
-    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
-    if (item.getData().optionalIds) {
-      item.getData().optionalIds.forEach(async (optionalId) => {
-        let optional = this._getOwnedItem(optionalId);
-        optional.getData().isInstalled = false;
-        await this._updateOwnedItem(optional);
-      });
-      item.getData().optionalIds = [];
-    }
-  }
-
-  _getInstalledCyberware() {
+  _getSortedInstalledCyberware() {
     LOGGER.trace("ActorID _getInstalledCyberware | CPRActorSheet | Called.");
     // Get all Installed Cyberware first...
-
-    const allInstalledFoundationalCyberware = this.actor.data.filteredItems.cyberware.filter((cyberware) => cyberware.getData().isFoundational && cyberware.getData().isInstalled);
+    const installedCyberware = this.actor.getInstalledCyberware();
+    const installedFoundationalCyberware = installedCyberware.filter((c) => c.data.data.isFoundational === true);
 
     // Now sort allInstalledCybere by type, and only get foundational
-    let installedCyberware = {};
+    let sortedInstalledCyberware = {};
     for (const [type] of Object.entries(CPR.cyberwareTypeList)) {
-      installedCyberware[type] = allInstalledFoundationalCyberware.filter((cyberware) => cyberware.getData().type === type);
-      installedCyberware[type] = installedCyberware[type].map(
+      sortedInstalledCyberware[type] = installedFoundationalCyberware.filter((cyberware) => cyberware.getData().type === type);
+      sortedInstalledCyberware[type] = sortedInstalledCyberware[type].map(
         (cyberware) => ({ foundation: cyberware, optionals: [] }),
       );
-      installedCyberware[type].forEach((entry) => {
+      sortedInstalledCyberware[type].forEach((entry) => {
         entry.foundation.getData().optionalIds.forEach((id) => entry.optionals.push(this._getOwnedItem(id)));
       });
     }
-    return installedCyberware;
+    return sortedInstalledCyberware;
   }
 
   // As a first step to re-organizing the methods to the appropriate
