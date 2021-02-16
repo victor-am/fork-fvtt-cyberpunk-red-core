@@ -444,30 +444,30 @@ export default class CPRActorSheet extends ActorSheet {
 
   // TODO - REFACTOR
   async _addCyberware(item) {
-    const compatibaleFoundationalCyberware = this.actor.getInstalledFoundationalCyberware(item.getData().type);
-    if (compatibaleFoundationalCyberware.length < 1 && !item.getData().isFoundational) {
+    const compatibleFoundationalCyberware = this.actor.getInstalledFoundationalCyberware(item.getData().type);
+    if (compatibleFoundationalCyberware.length < 1 && !item.getData().isFoundational) {
       Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
     } else if (item.getData().isFoundational) {
       const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data });
       this._addFoundationalCyberware(item, formData);
     } else {
-      const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data, foundationalCyberware: compatibaleFoundationalCyberware });
+      const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data, foundationalCyberware: compatibleFoundationalCyberware });
       this._addOptionalCyberware(item, formData);
     }
   }
 
-  _addOptionalCyberware(item, formData) {
+  async _addOptionalCyberware(item, formData) {
     LOGGER.trace("ActorID _addOptionalCyberware | CPRActorSheet | Called.");
     this.actor.loseHumanityValue(formData);
     LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
-    foundationalCyberware.getData().optionalIds.push(item.data._id);
+    foundationalCyberware.data.data.optionalIds.push(item.data._id);
+    item.data.data.isInstalled = true;
+    await this._updateOwnedItem(item);
+    await this._updateOwnedItem(foundationalCyberware);
     const usedSlots = foundationalCyberware.getData().optionalIds.length;
     const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
     Rules.lawyer((usedSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
-    item.getData().isInstalled = true;
-    this._updateOwnedItem(item);
-    this._updateOwnedItem(foundationalCyberware);
   }
 
   _addFoundationalCyberware(item, formData) {
@@ -475,7 +475,7 @@ export default class CPRActorSheet extends ActorSheet {
     this.actor.loseHumanityValue(formData);
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
     item.getData().isInstalled = true;
-    this._updateOwnedItem(item);
+    return this._updateOwnedItem(item);
   }
 
   async _removeCyberware(item, foundationalId) {
@@ -498,16 +498,16 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _removeOptionalCyberware | CPRActorSheet | Called.");
     const foundationalCyberware = this._getOwnedItem(foundationalId);
     foundationalCyberware.getData().optionalIds = foundationalCyberware.getData().optionalIds.filter((optionId) => optionId !== item.data._id);
-    this._updateOwnedItem(foundationalCyberware);
+    return this._updateOwnedItem(foundationalCyberware);
   }
 
   _removeFoundationalCyberware(item) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
     if (item.getData().optionalIds) {
-      item.getData().optionalIds.forEach((optionalId) => {
+      item.getData().optionalIds.forEach(async (optionalId) => {
         let optional = this._getOwnedItem(optionalId);
         optional.getData().isInstalled = false;
-        this._updateOwnedItem(optional);
+        await this._updateOwnedItem(optional);
       });
       item.getData().optionalIds = [];
     }
@@ -667,7 +667,7 @@ export default class CPRActorSheet extends ActorSheet {
 
   _updateOwnedItem(item) {
     LOGGER.trace("ActorID _updateOwnedItemProp | Called.");
-    this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+    return this.actor.updateEmbeddedEntity("OwnedItem", item.data);
   }
 
   _renderItemCard(event) {

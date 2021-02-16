@@ -606,12 +606,12 @@
 .gear-tab li:nth-child(odd) {
   background-color: #eaeaeaff;
 }
-.gear-tab .gear-name,
-.gear-tab .gear-data {
+.gear-tab .gear-name {
   flex: 0 0 33%;
 }
 .gear-tab .gear-data {
   text-align: left;
+  flex: 0 0 50%;
 }
 .gear-tab .gear-actions {
   text-align: end;
