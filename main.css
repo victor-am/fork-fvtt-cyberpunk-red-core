@@ -808,6 +808,41 @@ ol {
   width: 70px;
   display: block;
 }
+/*--------------------
+  cpr-block element styling
+---------------------*/
+.cpr-block {
+  background-color: #b90202ff;
+  position: relative;
+  clip-path: polygon(0 15px, 0 100%, 100% 100%, 100% 0, 15px 0);
+}
+.cpr-block::before {
+  content: "";
+  background-color: #eaeaeaff;
+  clip-path: polygon(0 14px, 0 100%, 100% 100%, 100% 0, 14px 0);
+  z-index: -1;
+}
+.cpr-block {
+  /*
+  p,
+  span,
+  input {
+    padding: 0;
+    margin : 0;
+  }
+*/
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+}
+.cpr-block::before {
+  position: absolute;
+  height: calc(100% - 8px);
+  width: calc(100% - 8px);
+  top: 4px;
+  left: 4px;
+}
 form input.number {
   width: 30px;
 }

@@ -1,14 +1,14 @@
 {{log "CPR-BASE-ROLLCARD.HBS"}}
-<div class="white-bg" data-roll-type="{{rollType}}">
-  <div class="cpr-block horizontal half-height chat-rollTitle-{{rollType}}">
-    <p class="center-text width-grow largest-text smallcaps">{{rollTitle}}</p>
+<div class="bg-white" data-roll-type="{{rollType}}">
+  <div class="cpr-block chat-rollTitle-{{rollType}}">
+    <p class="text-center text-largest">{{rollTitle}}</p>
   </div>
 
   {{!-- rollcard body --}}
   <div class="rollcard-body cpr-block rollcard">
 
-    <div class="total-div right-text ">
-      <span class="massive-text {{#if wasCritical}}red-fg bold{{/if}}">{{resultTotal}}</span>
+    <div class="total-div text-right">
+      <span class="text-massive {{#if wasCritical}}fg-red text-bold{{/if}}">{{resultTotal}}</span>
     </div>
 
     <div class="dice-div">
@@ -129,7 +129,7 @@
       {{/if}}
     </div>
 
-    <div class="info-div right-text">
+    <div class="info-div text-right">
       {{#if (gt roleValue 0)}}
       {{localize "CPR.abilityrank"}}: {{roleValue}}<br>
       {{else}}
