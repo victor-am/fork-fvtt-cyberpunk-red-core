@@ -14,22 +14,22 @@
         <div class="dice-div large-text">
             {{#each faces as |die|}}
             
-            {{#if (eq die 1)}}
+            {{#if (compare die "===" 1)}}
             <i class="fas fa-dice-one"></i>
             {{/if}}
-            {{#if (eq die 2)}}
+            {{#if (compare die "===" 2)}}
             <i class="fas fa-dice-two"></i>
             {{/if}}
-            {{#if (eq die 3)}}
+            {{#if (compare die "===" 3)}}
             <i class="fas fa-dice-three"></i>
             {{/if}}
-            {{#if (eq die 4)}}
+            {{#if (compare die "===" 4)}}
             <i class="fas fa-dice-four"></i>
             {{/if}}
-            {{#if (eq die 5)}}
+            {{#if (compare die "===" 5)}}
             <i class="fas fa-dice-five"></i>
             {{/if}}
-            {{#if (eq die 6)}}
+            {{#if (compare die "===" 6)}}
             <i class="fas fa-dice-six"></i>
             {{/if}}
             {{/each}}
@@ -44,7 +44,7 @@
             {{else}}
             {{/if}}
             <span>{{localize "CPR.location"}}: {{location}}</span>
-            {{#if (gt mods 0)}}
+            {{#if (compare mods ">" 0)}}
             <span>{{localize "CPR.mods"}}: {{mods}}</span>
             {{/if}}
         </div>

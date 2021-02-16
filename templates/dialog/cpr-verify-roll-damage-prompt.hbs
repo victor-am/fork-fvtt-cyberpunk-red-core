@@ -16,7 +16,7 @@
                 {{localize "CPR.multiplier"}}:
             </div>
             <div class="section width-quarter">
-                <input type="number" class="number" name="autofireMultiplier" data-dtype="Number" value=1 max="{{#if (eq weaponType " assaultRifle")}}4{{else}}3{{/if}}" min="1">
+                <input type="number" class="number" name="autofireMultiplier" data-dtype="Number" value=1 max="{{#if (compare weaponType "===" " assaultRifle")}}4{{else}}3{{/if}}" min="1">
             </div>
         </div>
         {{/if}}

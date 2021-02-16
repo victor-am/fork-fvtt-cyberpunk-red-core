@@ -8,7 +8,7 @@
   <div class="item-detail gear-data text-nowrap">
         {{localize (findConfigValue "cyberwareTypeList" item.data.type)}}
         {{#if item.data.isFoundational}}
-        {{#if (gt item.data.optionSlots 0)}}
+        {{#if (compare item.data.optionSlots ">" 0)}}
         ({{localize "CPR.foundational"}})
         {{/if}}
         {{/if}}

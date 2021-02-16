@@ -6,7 +6,7 @@
         <input type="checkbox" id="autofire" name="autofire">
         <label for="autofireMultiplier"> {{localize "CPR.multiplier"}}: </label>
         {{!-- Ensure multiplier input is between 1 and either 3 or 4 depending on weapon type --}}
-        <input type="number" class="number" name="autofireMultiplier" data-dtype="Number" value={{multiplier}} max="{{#if (eq weaponType " assaultRifle")}}4{{else}}3{{/if}}" min="1">
+        <input type="number" class="number" name="autofireMultiplier" data-dtype="Number" value={{multiplier}} max="{{#if (compare weaponType "===" " assaultRifle")}}4{{else}}3{{/if}}" min="1">
     </div>
     {{/if}}
     <div>

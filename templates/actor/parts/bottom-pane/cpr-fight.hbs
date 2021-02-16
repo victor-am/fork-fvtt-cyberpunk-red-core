@@ -18,7 +18,7 @@
         <div class="armor-content">
             <ol class="items-list fight-armor-list">
                 {{#each (sort actor.filteredItems.armor "name") as |armor| }}
-                {{#if (eq armor.data.equipped "equipped")}}
+                {{#if (compare armor.data.equipped "===" "equipped")}}
                 <li class="item flexrow armor-piece" data-item-id="{{armor._id}}" draggable="true">
                 <li class="flex-space-between">
                     <div class="item-name armor-name flexrow text-nowrap"><a class="name item-edit">{{armor.name}}</a>
