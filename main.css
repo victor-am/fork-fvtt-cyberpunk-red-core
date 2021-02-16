@@ -298,6 +298,7 @@
   background-color: #eaeaeaff;
 }
 .image-block {
+  clip-path: polygon(25px 0, 100% 0, 100% 100%, 0 100%, 0 25px);
   height: 190px;
   width: 190px;
 }
@@ -400,6 +401,17 @@
 }
 .min-of-max-container {
   display: flex;
+}
+.min-of-max-container input[type="number"] {
+  min-width: 0;
+  flex: 1 0;
+}
+.min-of-max-container .of {
+  flex: 0 1;
+  font-size: 75%;
+  transform: rotate(270deg);
+  align-self: center;
+  padding: 0 2px 0 2px;
 }
 .flex-space-between {
   display: flex;

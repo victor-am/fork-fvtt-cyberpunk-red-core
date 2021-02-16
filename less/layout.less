@@ -70,6 +70,19 @@
 // For stats that have 2 values (HP, Humanity, Luck, Emp)
 .min-of-max-container {
   display: flex;
+
+  input[type="number"] {
+    min-width: 0;
+    flex: 1 0;
+  }
+
+  .of {
+    flex: 0 1;
+    font-size: 75%;
+    transform: rotate(270deg);
+    align-self: center;
+    padding: 0 2px 0 2px;
+  }
 }
 
 // Used to spread space between fields
