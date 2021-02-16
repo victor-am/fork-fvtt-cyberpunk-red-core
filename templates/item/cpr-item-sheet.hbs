@@ -1,0 +1,16 @@
+{{log "CPR-ITEM-SHEET.HBS"}}
+{{log item}}
+<form class="item-sheet">
+  <div class="item-top-pane">
+    <div class="item-image-section"><img src="{{item.img}}" class="" data-edit="img"/></div>
+    <div class="item-title-section items-list flexrow">
+      <li class="flexrow"><span class="text-bold text-left text-padding-left">{{item.name}}</span><span class="text-right text-padding-right">{{localize item.type}}</span></li>
+      <li></li>
+      <li></li>
+    </div>
+  </div>
+  <div class="item-bottom-pane">
+    BOTTOM PANE
+  </div>
+</form>
+{{log "CPR-ITEM-SHEET.HBS"}}
