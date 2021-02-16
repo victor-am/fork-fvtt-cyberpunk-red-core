@@ -25,6 +25,9 @@
 .fg-orange {
   color: #DC8121ff;
 }
+.fg-grey {
+  color: #9e9f9fff;
+}
 .bg-black {
   background-color: #2d2f2fff;
 }
@@ -48,6 +51,9 @@
 }
 .bg-orange {
   background-color: #DC8121ff;
+}
+.bg-grey {
+  color: #9e9f9fff;
 }
 @font-face {
   font-family: 'Audimat Mono';
