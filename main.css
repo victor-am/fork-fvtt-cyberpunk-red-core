@@ -611,7 +611,7 @@
 }
 .gear-tab .gear-data {
   text-align: left;
-  flex: 0 0 50%;
+  flex: 0 0 45%;
 }
 .gear-tab .gear-actions {
   text-align: end;
