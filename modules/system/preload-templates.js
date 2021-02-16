@@ -19,47 +19,50 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-skill-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-stat-prompt.hbs",
 
-    // Shared Actor Partials
-    "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-stat-block.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-image-block.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-hitpoint-block.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-handle-block.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/cpr-deathsave-block.hbs",
+    // Left Pane Actor Partials
+    "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-image-block.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-handle-block.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-role-block.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-hitpoint-block.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-deathsave-block.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-humanity-block.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-stat-block.hbs",
 
-    // Character Sheet Partials
-    // Blocks - Main Sheet
-    "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-humanity-block.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/character-blocks/cpr-role-block.hbs",
-    // Tabs
-    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-skills.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/skills/cpr-skills-category.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-item-debug.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-role.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-gear.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-cyberware.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-information.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-fight.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/tabs/cpr-lifepath.hbs",
+    // Right Pane Actor Partials
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/cpr-skills.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/cpr-gear.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/cpr-cyberware.hbs",
 
-    // Inventory Item Display Partials
-    "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-weapon-content.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-ammo-content.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-armor-content.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-gear-content.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-cyberware-content.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/content/cpr-vehicle-content.hbs",
+    // Bottom Pane Actor Partials
+    "systems/cyberpunk-red-core/templates/actor/parts/bottom-pane/cpr-role.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/bottom-pane/cpr-fight.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/bottom-pane/cpr-lifepath.hbs",
 
-    // Inventory Control Partials
-    "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-actions.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-equip-glyph.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-reload-glyph.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-install-glyph.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-uninstall-glyph.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/inventory/actions/cpr-repair-glyph.hbs",
+    // Skill Tab Partials
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/skills/cpr-skills-category.hbs",
 
-    // Cyberware Partials
-    "systems/cyberpunk-red-core/templates/actor/parts/common/cyberware/cpr-cyberware-header.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/common/cyberware/cpr-cyberware-content.hbs",
+    // Gear Tab Partials
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-gear-content.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-weapon-content.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-ammo-content.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-armor-content.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-cyberware-content.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-vehicle-content.hbs",
+
+    // Cyberware Tab Partials
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/cyberware/cpr-cyberware-header.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/cyberware/cpr-cyberware-content.hbs",
+
+    // Common Partials - Actions
+    "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-equip-glyph.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-install-glyph.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-uninstall-glyph.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-repair-glyph.hbs",
+
+    // Debug
+    "systems/cyberpunk-red-core/templates/actor/parts/debug/cpr-item-debug.hbs",
 
     // Mook Sheet Partials
 

@@ -1,0 +1,16 @@
+{{log "CPR-AMMO-INV-CONTENT.HBS"}}
+<li class="item flexrow{{#if item.data.favorite}} favorite{{/if}}" data-item-id="{{item._id}}"
+  data-item-category="{{item.data.category}}" draggable="true">
+  <div class="item-name gear-name flexrow  text-nowrap">
+    <a class="name item-edit">{{item.name}}</a>
+  </div>
+  <div class="item-detail gear-data text-nowrap">
+        {{localize (findConfigValue "ammoVariety" item.data.variety)}}
+        |
+        {{localize (findConfigValue "ammoType" item.data.type)}}
+  </div>
+  <div class="item-detail gear-actions text-nowrap">
+    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}
+  </div>
+</li>
+{{log "END CPR-AMMO-INV-CONTENT.HBS"}}

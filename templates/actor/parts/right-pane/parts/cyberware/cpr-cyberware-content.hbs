@@ -1,0 +1,38 @@
+{{log "CPR-CYBERWARE-CONTENT.HBS"}}
+{{#each this as |cyberware c|}}
+{{#unless foundation.data.data.core}}
+<li class="item flexrow" data-item-id="{{foundation.data._id}}" draggable="false">
+    <div class="item-name cyberware-name flexrow text-nowrap">
+        <a class="name item-edit">{{foundation.name}}</a>
+    </div>
+    <div class="item-detail cyberware-data text-nowrap">
+        {{localize (findConfigValue "cyberwareTypeList" foundation.data.data.type)}}
+    </div>
+    <div class="item-detail cyberware-actions text-nowrap">
+        {{#unless (listContains "fashionware,cyberwareInternal,cyberwareExternal" foundation.data.data.type)}}
+        {{!-- INSTALL ACTION --}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-uninstall-glyph.hbs" foundation}}
+        {{!-- ITEM MANAGEMENT --}}
+        {{/unless}}
+    </div>
+</li>
+{{/unless}}
+{{#each optionals as |optional o|}}
+<li class="item flexrow" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}" draggable="false">
+    <div class="item-name cyberware-name flexrow text-nowrap">
+        <a class="name item-edit">&nbsp;{{optional.name}}</a>
+    </div>
+    <div class="item-detail cyberware-data text-nowrap">
+        {{localize (findConfigValue "cyberwareTypeList" optional.data.data.type)}}
+    </div>
+    <div class="item-detail cyberware-actions text-nowrap">
+        {{#unless (listContains "fashionware,cyberwareInternal,cyberwareExternal" foundation.data.data.type)}}
+        {{!-- INSTALL ACTION --}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-uninstall-glyph.hbs" optional}}
+        {{!-- ITEM MANAGEMENT --}}
+        {{/unless}}
+    </div>
+</li>
+{{/each}}
+{{/each}}
+{{log "END CPR-CYBERWARE-CONTENT.HBS"}}
