@@ -114,7 +114,7 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".toggle-favorite-visibility").click((event) => {
       const collapsibleElement = $(event.currentTarget).parents(".collapsible");
-      const skillCategory = event.currentTarget.id.replace("showFavorites-", "");
+      const skillCategory = event.currentTarget.id.replace("-showFavorites", "");
       const categoryTarget = $(collapsibleElement.find(`#${skillCategory}`));
 
       if ($(collapsibleElement).find(".collapse-icon").hasClass("hide")) {
@@ -142,6 +142,8 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".expand-button").click((event) => {
       const collapsibleElement = $(event.currentTarget).parents(".collapsible");
+      const favoritesIdentifier = `${event.currentTarget.id}-showFavorites`;
+      const categoryTarget = $(collapsibleElement.find(`#${favoritesIdentifier}`));
       $(collapsibleElement).find(".collapse-icon").toggleClass("hide");
       $(collapsibleElement).find(".expand-icon").toggleClass("hide");
       const itemOrderedList = $(collapsibleElement).children("ol");
@@ -158,6 +160,9 @@ export default class CPRActorSheet extends ActorSheet {
         }
       } else {
         this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
+        if (this.options.collapsedSections.includes(favoritesIdentifier)) {
+          $(categoryTarget).click();
+        }
       }
     });
 
