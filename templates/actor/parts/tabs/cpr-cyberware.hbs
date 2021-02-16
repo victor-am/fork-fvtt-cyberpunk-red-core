@@ -6,7 +6,7 @@
             <li class="items-header flexrow">
                 <span class="item-name gear-name bg-black text-nowrap expand-button " id="cyberwareTab-{{c}}">{{localize type}}</span>
                 <span class="item-detail gear-data bg-black text-nowrap">{{localize "CPR.data"}}</span>
-                <span class="item-detail gear-actions bg-black text-nowrap">{{localize "CPR.actions"}}&nbsp;{{#if (systemConfig "playersCreateInventory")}}<a class="item-create" data-item-type="{{c}}"><i class="far fa-plus-square"></i></a>{{/if}}</span>
+                <span class="item-detail gear-actions bg-black text-nowrap">{{localize "CPR.actions"}}</span>
             </li>
             <ol class="items-list">
                 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/cyberware/cpr-cyberware-content.hbs" (getProp ../this.installedCyberware t)}}
