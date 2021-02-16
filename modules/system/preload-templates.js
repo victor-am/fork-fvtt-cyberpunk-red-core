@@ -66,7 +66,36 @@ export default function preloadHandlebarsTemplates() {
 
     // Mook Sheet Partials
 
-    // Item Sheet Partials
+    // Item Sheet
+    "systems/cyberpunk-red-core/templates/item/cpr-item-sheet.hbs",
+    // Item Sheet - Header Partials
+    "systems/cyberpunk-red-core/templates/item/parts/header/cpr-ammo.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/header/cpr-armor.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/header/cpr-gear.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/header/cpr-netarch.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/header/cpr-program.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/header/cpr-skill.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/header/cpr-vehicle.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/header/cpr-weapon.hbs",
+    // Item Sheet - Description Partials
+    "systems/cyberpunk-red-core/templates/item/parts/description/cpr-ammo.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/description/cpr-armor.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/description/cpr-gear.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/description/cpr-netarch.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/description/cpr-program.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/description/cpr-skill.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/description/cpr-vehicle.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/description/cpr-weapon.hbs",
+    // Item Sheet - Settings Partials
+    "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-ammo.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-armor.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-gear.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-netarch.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-program.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-skill.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-vehicle.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-weapon.hbs",
+
     "systems/cyberpunk-red-core/templates/item/parts/cpr-header.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/cpr-info-pane-skill.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/cpr-info-pane-armor.hbs",

@@ -1,16 +1,36 @@
 {{log "CPR-ITEM-SHEET.HBS"}}
-{{log item}}
+{{log this}}
 <form class="item-sheet">
   <div class="item-top-pane">
     <div class="item-image-section"><img src="{{item.img}}" class="" data-edit="img"/></div>
-    <div class="item-title-section items-list flexrow">
-      <li class="flexrow"><span class="text-bold text-left text-padding-left">{{item.name}}</span><span class="text-right text-padding-right">{{localize item.type}}</span></li>
+    <div class="item-header-section items-list flexcol">
+      <li class="item flexrow">
+        <div class="item-name text-large text-bold text-left text-padding-left">{{item.name}}</div>
+        <div class="item-detail text-right text-padding-right">{{localize (findConfigValue "objectTypes" item.type)}}</div>
+        {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/header/cpr-VAR.hbs" item.type) item}}
+        </li>
       <li></li>
       <li></li>
     </div>
   </div>
   <div class="item-bottom-pane">
-    BOTTOM PANE
+      <div class="item-bottom-tabs-section">
+        <nav class="navtabs-bottom tabs nav" data-group="primary">
+          <div class="tab-pink-underlay">
+            <a class="tab-label text-small tab-indent" data-tab="item-description">{{localize "CPR.description"}}</a>
+          </div>
+          <div class="tab-pink-underlay">
+            <a class="tab-label text-small tab-indent" data-tab="item-details">{{localize "CPR.settings"}}</a>
+          </div>
+        </nav>
+      </div>
+      <div class="item-bottom-content-section">
+        <div class="tab item-description-tab" data-group="primary" data-tab="item-description">
+          {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/description/cpr-VAR.hbs" item.type) item}}
+        </div>
+
+      </div>
+
   </div>
 </form>
 {{log "CPR-ITEM-SHEET.HBS"}}

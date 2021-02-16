@@ -656,6 +656,7 @@
     "CPR.settingderivedstatshint": "When enabled, derived stats will be auto-calculated and can not be over-ridden",
     "CPR.settingplayerscreateinventoryname": "Players can create items",
     "CPR.settingplayerscreateinventoryhint": "When enabled, players can create items directly in their inventory",
+    "CPR.settings": "Settings",
     "CPR.setto": "set to",
     "CPR.seximplant": "Sexual Implant (Midnight Lady/Mr. Studd)",
     "CPR.sharpturn": "Sharp Turn",
