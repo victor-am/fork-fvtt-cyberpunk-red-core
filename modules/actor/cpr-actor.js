@@ -274,8 +274,6 @@ export default class CPRActor extends Actor {
     const allCyberware = this.data.filteredItems.cyberware;
     let orphanedCyberware = allCyberware;
 
-    console.log(allCyberware);
-
     const foundationalCyberware = allCyberware.filter((cyberware) => cyberware.getData().isFoundational === true);
     foundationalCyberware.forEach((fCyberware) => {
       fCyberware.data.data.optionalIds = [...new Set(fCyberware.data.data.optionalIds)];

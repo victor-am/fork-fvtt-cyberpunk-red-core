@@ -1,1 +1,70 @@
-SETTINGS
+<form>
+    <div class="item-settings-tab">
+        <div class="item-settings-section">
+            <ol class="items-list">
+
+                {{!-- Physical Item Settings--}}
+                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
+
+                {{!-- Vehicle Item Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.tags"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.tags" class="" type="text" value="{{data.tags}}"
+                            placeholder="License Plate No.">
+                    </div>
+                </li>
+
+
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.source"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.source" class="" type="text" value="{{data.source}}" placeholder="Desc">
+                    </div>
+                </li>
+
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.spd"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.spd" class="" type="text" value="{{data.spd}}" placeholder="50">
+                    </div>
+                </li>
+
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.seats"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.seats" class="" type="text" value="{{data.seats}}" placeholder="50">
+                    </div>
+                </li>
+
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.combatspeed"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.speedCombat" class="" type="text" value="{{data.speedCombat}}"
+                            placeholder="50">
+                    </div>
+                </li>
+
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.speednarrative"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.speedNarrative" class="" type="text" value="{{data.speedNarrative}}"
+                            placeholder="50">
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+</form>
