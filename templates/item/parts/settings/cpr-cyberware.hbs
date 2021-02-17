@@ -1,0 +1,107 @@
+<form>
+    <div class="item-settings-tab">
+        <div class="item-settings-section">
+            <ol class="items-list">
+
+                {{!-- Physical Item Settings--}}
+                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
+
+                {{!-- Armor Item Settings--}}
+
+                {{!-- Armor Equipped Setting --}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.type"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="data.type" data-dtype="{{data.type}}">
+                            {{#select data.type}}
+                            {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
+                            <option value="{{t}}">{{localize type}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+
+                    </div>
+                </li>
+                {{!-- Armor Penalty Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.install"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="data.install" data-dtype="{{data.install}}">
+                            {{#select data.install}}
+                            {{#each (findConfigObj "cyberwareInstallList") as |install i|}}
+                            <option value="{{i}}">{{localize install}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+
+                    </div>
+                </li>
+                {{!--Head Armor Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.static"}} {{localize "CPR.humanityloss"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.humanityLoss.static" class="" type="text"
+                            value="{{data.humanityLoss.static}}">
+                    </div>
+                </li>
+
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.rolled"}} {{localize "CPR.humanityloss"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.humanityLoss.roll" class="" type="text" value="{{data.humanityLoss.roll}}">
+                    </div>
+                </li>
+
+                {{#unless (listContains "fashionware,cyberwareInternal,cyberwareExternal" data.type)}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.requiresfoundational"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if data.isFoundational}}
+                        <a class="item-checkbox" data-target="data.isFoundational"><i class="far fa-circle"></i></a>
+                        {{else}}
+                        <a class="item-checkbox" data-target="data.isFoundational"><i
+                                class="far fa-check-circle"></i></a>
+                        {{/if}}
+                    </div>
+                </li>
+                {{#if data.isFoundational}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.hasoptionslots"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if data.hasOptionalSlots}}
+                        <a class="item-checkbox" data-target="data.hasOptionalSlots"><i
+                                class="far fa-check-circle"></i></a>
+                        {{else}}
+                        <a class="item-checkbox" data-target="data.hasOptionalSlots"><i class="far fa-circle"></i></a>
+                        {{/if}}
+                    </div>
+                </li>
+                {{/if}}
+                {{#if data.hasOptionalSlots}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.optionalslots"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.optionSlots" class="" type="text" value="{{data.optionSlots}}">
+
+                    </div>
+                </li>
+                {{/if}}
+                {{/unless}}
+            </ol>
+        </div>
+    </div>
+</form>

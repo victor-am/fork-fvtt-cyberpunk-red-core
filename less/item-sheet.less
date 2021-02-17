@@ -96,7 +96,7 @@
 
 .item-description-tab {
     display: grid;
-    grid-template-columns: 125px auto;
+    grid-template-columns: 135px auto;
     grid-template-rows: auto;
     grid-template-areas: "item-summary item-description";
     width: inherit;
@@ -109,10 +109,11 @@
         grid-area: item-summary;
         background-color: @chrome-white;;
         height: unset;
+        font-size: @font-smaller;
         .item-summary-line {
             display: flex;
             .summary-name {
-                flex: 0 0 80px;
+                flex: 0 0 70px;
             }
         }
     }

@@ -1,0 +1,9 @@
+<li class="text-padding-left">{{localize (findConfigValue "cyberwareTypeList" data.type)}}</li>
+<li class="text-padding-left">
+{{#if data.isFoundational}}
+{{localize "CPR.foundational"}} {{localize "CPR.cyberware"}}
+{{else}}
+{{localize "CPR.foundational"}} {{localize "CPR.cyberware"}} {{localize "CPR.option"}}
+{{/if}}
+</li>
+

@@ -434,7 +434,7 @@
 }
 .item-description-tab {
   display: grid;
-  grid-template-columns: 125px auto;
+  grid-template-columns: 135px auto;
   grid-template-rows: auto;
   grid-template-areas: "item-summary item-description";
   width: inherit;
@@ -447,12 +447,13 @@
   grid-area: item-summary;
   background-color: #eaeaeaff;
   height: unset;
+  font-size: 0.8rem;
 }
 .item-description-tab .item-summary-section .item-summary-line {
   display: flex;
 }
 .item-description-tab .item-summary-section .item-summary-line .summary-name {
-  flex: 0 0 80px;
+  flex: 0 0 70px;
 }
 .item-description-tab .item-description-section {
   grid-area: item-description;
@@ -473,7 +474,7 @@
   font-size: 0.5rem;
 }
 .text-smaller {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
 }
 .text-small {
   font-size: 1rem;
@@ -611,7 +612,7 @@
   font-size: 0.5rem;
 }
 .text-smaller {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
 }
 .text-small {
   font-size: 1rem;
