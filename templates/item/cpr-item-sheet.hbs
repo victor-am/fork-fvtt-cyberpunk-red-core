@@ -1,5 +1,4 @@
 {{log "CPR-ITEM-SHEET.HBS"}}
-{{log this}}
 <form class="item-sheet">
   <div class="item-top-pane">
     <div class="item-image-section"><img src="{{item.img}}" class="" data-edit="img"/></div>
@@ -7,7 +6,7 @@
       <li class="item flexrow">
         <div class="item-name text-large text-bold text-left text-padding-left">{{item.name}}</div>
         <div class="item-detail text-right text-padding-right">{{localize (findConfigValue "objectTypes" item.type)}}</div>
-        {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/header/cpr-VAR.hbs" item.type) item}}
+        {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/header/cpr-VAR.hbs" item.type) this}}
         </li>
       <li></li>
       <li></li>
@@ -15,20 +14,22 @@
   </div>
   <div class="item-bottom-pane">
       <div class="item-bottom-tabs-section">
-        <nav class="navtabs-bottom tabs nav" data-group="primary">
+        <nav class="navtabs-item tabs nav" data-group="primary">
           <div class="tab-pink-underlay">
             <a class="tab-label text-small tab-indent" data-tab="item-description">{{localize "CPR.description"}}</a>
           </div>
           <div class="tab-pink-underlay">
-            <a class="tab-label text-small tab-indent" data-tab="item-details">{{localize "CPR.settings"}}</a>
+            <a class="tab-label text-small tab-indent" data-tab="item-settings">{{localize "CPR.settings"}}</a>
           </div>
         </nav>
       </div>
       <div class="item-bottom-content-section">
         <div class="tab item-description-tab" data-group="primary" data-tab="item-description">
-          {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/description/cpr-VAR.hbs" item.type) item}}
+          {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/description/cpr-VAR.hbs" item.type) this}}
         </div>
-
+        <div class="tab item-settings-tab" data-group="primary" data-tab="item-settings">
+          {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-VAR.hbs" item.type) this}}
+        </div>
       </div>
 
   </div>

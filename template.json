@@ -254,7 +254,11 @@
     "templates": {
       "common": {
         "tags": [],
-        "description": "",
+        "description": {
+          "value": "",
+          "chat": "",
+          "unidentified": ""
+        },
         "source": "",
         "favorite": false
       },

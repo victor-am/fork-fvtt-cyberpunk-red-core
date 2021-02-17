@@ -73,6 +73,7 @@
             "item-bottom-tabs"
             "item-bottom-content";
 
+        height: fit-content;
         overflow-y: hidden;
         &>div {
                 margin: 5px;
@@ -83,36 +84,55 @@
 
         .item-bottom-content-section {
             grid-area: item-bottom-content;
-            background-color: @wyrm-red;
+            display  : flex;
+
+            border-color: @wyrm-red;
+            border-style: solid;
+            border-width: 5px;
+            overflow-y: scroll;
         }
     }
 }
 
 .item-description-tab {
     display: grid;
-    grid-template-columns: 10% 90%;
+    grid-template-columns: 125px auto;
     grid-template-rows: auto;
     grid-template-areas: "item-summary item-description";
     width: inherit;
+    height: fit-content;
+    min-height: 125px;
     grid-gap: 5px;
     background-color: @wyrm-red;
 
     .item-summary-section {
         grid-area: item-summary;
         background-color: @chrome-white;;
+        height: unset;
+        .item-summary-line {
+            display: flex;
+            .summary-name {
+                flex: 0 0 80px;
+            }
+        }
     }
 
     .item-description-section {
         grid-area: item-description;
         background-color: @chrome-white;;
+        height: unset;
     }
-
-
 }
 
 .item-settings-tab {
+    display: flex;
+    width: auto;
+    flex: 1;
     background-color: @chrome-white;
-    padding: 5px;
+    .item-settings-section {
+        display: list-item;
+        flex: 1;
+    }
 }
 
 

@@ -39,6 +39,25 @@
   -ms-user-select: text;
   user-select: text;
 }
+.actor-sheet .editor,
+.item-sheet .editor {
+  padding: 0 8px;
+  height: 100%;
+}
+.actor-sheet .editor .tox-toolbar-overlord,
+.item-sheet .editor .tox-toolbar-overlord,
+.actor-sheet .editor .tox-toolbar__primary,
+.item-sheet .editor .tox-toolbar__primary {
+  background: none;
+}
+.editor {
+  padding: 0 8px;
+  height: 100%;
+}
+.editor .tox-toolbar-overlord,
+.editor .tox-toolbar__primary {
+  background: none;
+}
 /*--------------------
   Color modifiers
 ---------------------*/
@@ -396,6 +415,7 @@
   grid-template-columns: auto;
   grid-template-rows: 18px auto;
   grid-template-areas: "item-bottom-tabs" "item-bottom-content";
+  height: fit-content;
   overflow-y: hidden;
 }
 .item-sheet .item-bottom-pane > div {
@@ -406,28 +426,48 @@
 }
 .item-sheet .item-bottom-pane .item-bottom-content-section {
   grid-area: item-bottom-content;
-  background-color: #b90202ff;
+  display: flex;
+  border-color: #b90202ff;
+  border-style: solid;
+  border-width: 5px;
+  overflow-y: scroll;
 }
 .item-description-tab {
   display: grid;
-  grid-template-columns: 10% 90%;
+  grid-template-columns: 125px auto;
   grid-template-rows: auto;
   grid-template-areas: "item-summary item-description";
   width: inherit;
+  height: fit-content;
+  min-height: 125px;
   grid-gap: 5px;
   background-color: #b90202ff;
 }
 .item-description-tab .item-summary-section {
   grid-area: item-summary;
   background-color: #eaeaeaff;
+  height: unset;
+}
+.item-description-tab .item-summary-section .item-summary-line {
+  display: flex;
+}
+.item-description-tab .item-summary-section .item-summary-line .summary-name {
+  flex: 0 0 80px;
 }
 .item-description-tab .item-description-section {
   grid-area: item-description;
   background-color: #eaeaeaff;
+  height: unset;
 }
 .item-settings-tab {
+  display: flex;
+  width: auto;
+  flex: 1;
   background-color: #eaeaeaff;
-  padding: 5px;
+}
+.item-settings-tab .item-settings-section {
+  display: list-item;
+  flex: 1;
 }
 .text-smallest {
   font-size: 0.5rem;
@@ -675,6 +715,9 @@
 .items-list .inline-block {
   display: inline-block;
   zoom: 1;
+}
+.items-list .item-end {
+  text-align: end;
 }
 .skills-tab li:nth-child(even) {
   background-color: #ffc3b6ff;

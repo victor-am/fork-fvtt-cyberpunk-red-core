@@ -1,1 +1,37 @@
-DESCRIPTION
+{{log "CPR-ITEM-DESCRIPTION.HBS"}}
+<div class="item-description-tab">
+    <div class="item-summary-section">
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.price"}}:</span>
+            <span class="summary-value">{{data.price.market}}</span>
+        </div>
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.market"}}:</span>
+            <span class="summary-value">{{localize (findConfigValue "itemPriceCategory" data.price.category)}}</span>
+        </div>
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.rof"}}:</span>
+            <span class="summary-value">{{data.rof}}</span>
+        </div>
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.damage"}}:</span>
+            <span class="summary-value">{{data.damage}}</span>
+        </div>
+        {{#if data.isRanged}}
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.magsize"}}:</span>
+            <span class="summary-value">{{data.magazine.max}}</span>
+        </div>
+        {{/if}}
+    </div>
+    <div class="item-description-section">
+        <div class="item-description-section">
+
+                <div class="editor">
+                    {{editor content=data.description.value target="data.description.value" button=true owner=owner
+                    editable=editable}}
+                </div>
+
+        </div>
+    </div>
+</div>
