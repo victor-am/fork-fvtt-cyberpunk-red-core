@@ -40,6 +40,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
     this._setSheetConfig();
+    console.log(this.actor);
   }
 
   _setSheetConfig() {
@@ -64,6 +65,7 @@ export default class CPRActorSheet extends ActorSheet {
     const data = super.getData();
     data.filteredItems = this.actor.filteredItems;
     data.installedCyberware = this._getSortedInstalledCyberware();
+    console.log(this.actor);
     return data;
   }
 
