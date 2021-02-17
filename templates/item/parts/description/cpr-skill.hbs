@@ -8,15 +8,14 @@
             <span class="text-bold summary-name">{{localize "CPR.stat"}}:</span>
             <span class="summary-value">{{localize (findConfigValue "statList" data.stat)}}</span>
         </div>
-
+    </div>
+    <div class="item-description-section">
         <div class="item-description-section">
-            <div class="item-description-section">
-                <div class="editor">
-                    {{editor content=data.description.value target="data.description.value" button=true owner=owner
-                    editable=editable}}
-                </div>
-
+            <div class="editor">
+                {{editor content=data.description.value target="data.description.value" button=true owner=owner
+                editable=editable}}
             </div>
+
         </div>
     </div>
 </div>

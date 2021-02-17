@@ -8,15 +8,14 @@
             <span class="text-bold summary-name">{{localize "CPR.market"}}:</span>
             <span class="summary-value">{{localize (findConfigValue "itemPriceCategory" data.price.category)}}</span>
         </div>
-
+    </div>
+    <div class="item-description-section">
         <div class="item-description-section">
-            <div class="item-description-section">
-                <div class="editor">
-                    {{editor content=data.description.value target="data.description.value" button=true owner=owner
-                    editable=editable}}
-                </div>
-
+            <div class="editor">
+                {{editor content=data.description.value target="data.description.value" button=true owner=owner
+                editable=editable}}
             </div>
+
         </div>
     </div>
 </div>
