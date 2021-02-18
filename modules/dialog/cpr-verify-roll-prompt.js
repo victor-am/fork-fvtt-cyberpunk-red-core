@@ -20,7 +20,6 @@ export default class VerifyRollPrompt {
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog VerifyRollPrompt | called.");
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
-          console.log(formData);
           if (formData.mods) {
             formData.mods = formData.mods.replace(/ +/g, ",");
             formData.mods = formData.mods.replace(/,+/g, ",");
@@ -40,7 +39,13 @@ export default class VerifyRollPrompt {
               break;
             }
             case "deathsave": {
-              formData.deathPenalty.forEach((penalty) => formData.mods.push(parseInt(penalty)));
+              const deathPenalties = ["deathPenalty", "baseDeathPenalty"];
+              rollRequest.extraVars.forEach((penalty) => {
+                if (deathPenalties.includes(penalty.name)) {
+                  penalty.value = parseInt(formData[penalty.name], 10);
+                  formData.mods.push(penalty.value);
+                }
+              });
               break;
             }
             default:

@@ -65,8 +65,7 @@ export default class Migration {
     if ((typeof actor.data.data.derivedStats.deathSave) === "number") {
       const oldDeathSave = actorData.data.derivedStats.deathSave;
       let oldDeathPenalty = 0;
-      if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined")
-      {
+      if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
         oldDeathPenalty = actorData.data.derivedStats.deathSavePenlty;
         delete actorData.data.derivedStats.deathSavePenlty;
       }

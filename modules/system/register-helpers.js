@@ -57,7 +57,7 @@ export default function registerHandlebarsHelpers() {
       case 10:
         return "ten";
       default:
-        return;
+        return "";
     }
   });
 

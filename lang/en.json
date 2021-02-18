@@ -230,6 +230,8 @@
     "CPR.deadly": "Deadly",
     "CPR.deathpenalty": "Death Penalty",
     "CPR.deathsave": "Death Save",
+    "CPR.deathsaverolltitle": "This is the penalty added to your Death Save Roll.",
+    "CPR.deathsavetitle": "Reset Death Save Penalty",
     "CPR.deckkrash": "DeckKRASH",
     "CPR.decreased": "decreased",
     "CPR.deduction": "Deduction",

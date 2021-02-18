@@ -118,7 +118,7 @@ export default class CPRActor extends Actor {
       this._setWoundState();
     }
     // Death save
-    derivedStats.deathSave.value = stats.body.value - derivedStats.deathSave.penalty - derivedStats.deathSave.basePenalty;
+    derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
   }
 
   // GET AND SET WOUND STATE
@@ -305,9 +305,26 @@ export default class CPRActor extends Actor {
     const skillList = (this.data.filteredItems.skill).filter((s) => s.name === skillName);
     if (skillList.length > 0) {
       const relevantSkill = skillList[0];
-      return relevantSkill.data.data.level;
+      return parseInt(relevantSkill.data.data.level, 10);
     }
     return 0;
+  }
+
+  processDeathSave(rollResult) {
+    const saveResult = rollResult.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
+    if (saveResult === "Success") {
+      const deathPenalty = this.data.data.derivedStats.deathSave.penalty + 1;
+      this.update({ "data.derivedStats.deathSave.penalty": deathPenalty });
+    }
+    return saveResult;
+  }
+
+  resetDeathPenalty() {
+    this.update({ "data.derivedStats.deathSave.penalty": 0 });
+  }
+
+  getStat(statName) {
+    return parseInt(this.stats[statName].value, 10);
   }
 
   clearLedger(prop) {

@@ -103,6 +103,9 @@ export default class CPRActorSheet extends ActorSheet {
     // Add New Skill Item To Sheet
     html.find(".add-skill").click((event) => this._addSkill(event));
 
+    // Reset Death Penalty
+    html.find(".reset-value").click((event) => this._resetActorValue(event));
+
     // Select Roles for Character
     html.find(".select-roles").click((event) => this._selectRoles(event));
 
@@ -201,7 +204,6 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
     const rollRequest = new CPRRollRequest(event);
-    console.log(event);
     // Prepare data relative to the roll type
     switch (rollRequest.rollType) {
       case "stat": {
@@ -242,7 +244,7 @@ export default class CPRActorSheet extends ActorSheet {
       if (typeof this.actor.data.previousRoll !== "undefined") {
         let { previousRoll } = this.actor.data;
         previousRoll.name = "previousRoll";
-        rollRequest.extraVars.push(previousRoll);
+        rollRequest.extraVars.push({ name: "previousRoll", value: previousRoll });
       }
       const formData = await VerifyRoll.RenderPrompt(rollRequest);
       mergeObject(rollRequest, formData, { overwrite: true });
@@ -286,6 +288,18 @@ export default class CPRActorSheet extends ActorSheet {
       rollResult = await CPRRolls.DamageRoll(rollRequest);
     } else {
       rollResult = await CPRRolls.BaseRoll(rollRequest);
+    }
+
+    // Post roll tasks
+    switch (rollResult.rollType) {
+      case "deathsave": {
+        const saveResult = this.actor.processDeathSave(rollResult);
+        rollResult.extraVars.push({ name: "saveResult", value: saveResult });
+        rollResult.stat = "body";
+        rollResult.statValue = this.getData().data.stats.body.value;
+        break;
+      }
+      default:
     }
     // outputs to chat
     CPRChat.RenderRollCard(rollResult);
@@ -391,8 +405,19 @@ export default class CPRActorSheet extends ActorSheet {
   _prepareDeathSave(rollRequest) {
     rollRequest.extraVars.push({ name: "deathPenalty", value: this.actor.getData().derivedStats.deathSave.penalty });
     rollRequest.extraVars.push({ name: "baseDeathPenalty", value: this.actor.getData().derivedStats.deathSave.basePenalty });
-    console.log(rollRequest);
+    rollRequest.calculateCritical = false;
     return rollRequest;
+  }
+
+  _resetActorValue(event) {
+    const actorValue = $(event.currentTarget).attr("data-value");
+    switch (actorValue) {
+      case "deathsave": {
+        this.actor.resetDeathPenalty();
+        break;
+      }
+      default:
+    }
   }
 
   _repairArmor(event) {
