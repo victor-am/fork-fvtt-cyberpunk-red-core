@@ -1,24 +1,23 @@
 {{log "CPR-MANAGE-ROLES.HBS"}}
 <form>
-<div>
-  {{!-- Label for multiselect option, also defines target array--}}
-  <div class="dynamic-list item-multi-select" data-target="actor.data.roleInfo.roles">
+
+
+  <ol class="items-list">
     {{#each roles as |cprRole roleName|}}
-    <div class="row item white-bg black-fg">
-      <div class="section flex-start width-half">
-        <label>{{localize cprRole}}</label>
+    <li class="item flexrow">
+      <div class="item flexrow setting-name text-nowrap">
+        {{localize cprRole}}
       </div>
-      <div class="section name width-grow">
+      <div class="item flexrow setting-value text-nowrap item-end">
         {{#if (listContains ../actor.roles roleName)}}
         <input type="checkbox" name="selectedRoles" value="{{roleName}}" checked>
         {{else}}
         <input type="checkbox" name="selectedRoles" value="{{roleName}}">
         {{/if}}
       </div>
-    </div>
+    </li>
     {{/each}}
-  </div>
+  </ol>
   <div>{{localize "CPR.multiclassrequirement"}}</div>
-</div>
 </form>
 {{log "CPR-SELECT-ROLES.HBS"}}

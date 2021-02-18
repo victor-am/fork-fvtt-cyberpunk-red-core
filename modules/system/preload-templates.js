@@ -100,5 +100,6 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-weapon.hbs",
     // Item Sheet - Settings Common Partials
     "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs",
   ]);
 }

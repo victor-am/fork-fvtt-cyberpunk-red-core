@@ -1,34 +1,38 @@
 {{log "VERIFY-ROLL-ROLEABILITY-PROMPT.HBS"}}
-<form action="">
+<form>
     <div>
         {{localize "CPR.rollingfor"}} "{{rollTitle}}", Choomba!
     </div>
 
-    <div class="dynamic-list columns">
-        <div class="row flex-end skill item black-fg white-bg">
-            <div class="section width-half">
+    <ol class="items-list">
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.abilityrank"}}:
             </div>
-            <div class="section width-half">
+            <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="roleValue" class="" type="number" data-dtype="Number" value={{roleValue}}>
             </div>
-        </div>
-        <div class="row flex-end skill item black-fg white-bg">
-            <div class="section width-half">
+        </li>
+
+
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.mods"}}:
             </div>
-            <div class="section width-half">
+            <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="mods" class="" type="text" data-dtype="Text" value={{mods}}>
             </div>
-        </div>
-        <div class="row flex-end skill item black-fg white-bg">
-            <div class="section width-half">
+        </li>
+
+
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.shouldrollcriticals"}}:
             </div>
-            <div class="section width-half">
+            <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="calculateCritical" class="" type="checkbox" data-dtype="Checkbox" checked>
             </div>
-        </div>
-    </div>
+        </li>
+
 </form>
 {{log "END VERIFY-ROLL-ROLEABILITY-PROMPT.HBS"}}
