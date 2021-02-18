@@ -641,6 +641,12 @@
 .text-padding-right {
   padding-left: 2px;
 }
+.text-padding-top {
+  padding-top: 2px;
+}
+.text-padding-bottom {
+  padding-bottom: 2px;
+}
 .flexrow {
   display: flex;
   flex-direction: row;

@@ -2,7 +2,10 @@
 <div class="rollcard-body">
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-{{rollType}}">
-      <p class="text-center">{{rollTitle}}</p>
+      <div class="text-center text-padding-top">{{rollTitle}}</div>
+      {{#if (compare rollTitle "!==" skill)}}
+      <div class="text-center text-small text-padding-bottom">{{skill}}</div>
+      {{/if}}
     </div>
   </div>
   <div class="rollcard-bottom">
@@ -33,7 +36,7 @@
           {{localize "CPR.abilityrank"}}: {{roleValue}}<br>
           {{else}}
           {{localize (findConfigValue "statList" stat)}} + {{statValue}}<br>
-          {{skill}} + {{skillValue}}<br>
+          {{localize "CPR.skill"}} + {{skillValue}}<br>
           {{/if}}<br>
           {{#if mods}}
           <span class="text-nowrap">{{localize "CPR.rollmodifiers"}}: {{mods}}</span>
