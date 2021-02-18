@@ -14,17 +14,8 @@
                 </div>
                 <div class="dice-div">
                     {{#each faces as |die|}}
-                    <i class="fas fa-dice-{{numToWord die}} text-massive"></i>
+                    <i class="fas fa-dice-{{numToWord die}} text-massive {{#if ../wasCritical}} {{#if (compare die "===" 6)}} fg-red{{/if}} {{/if}}"></i>
                     {{/each}}
-
-                    {{#if wasCritical}}
-                    {{#if (compare criticalRoll ">=" 0)}}
-                    <i class="fas fa-plus"></i>
-                    {{else}}
-                    <i class="fas fa-minus"></i>
-                    {{/if}}
-                    <i class="d10 {{numToWord (math " abs" criticalRoll)}} black"></i>
-                    {{/if}}
                 </div>
                 <div class="info-div">
                     {{#if autofire}}
@@ -34,7 +25,7 @@
                     {{localize "CPR.bonus"}} {{localize "CPR.damage"}}: {{bonusDamage}}<br>
                     {{/if}}
                     {{localize "CPR.location"}}: {{location}}<br>
-                    {{#if (compare mods ">" 0)}}
+                    {{#if (compare mods.length ">" 0)}}
                     {{localize "CPR.mods"}}: {{mods}}<br>
                     {{/if}}
                 </div>
