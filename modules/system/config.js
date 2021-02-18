@@ -267,6 +267,6 @@ CPR.itemQuality = {
   poor: "CPR.poor",
   standard: "CPR.standard",
   excellent: "CPR.excellent",
-}
+};
 
 export default CPR;

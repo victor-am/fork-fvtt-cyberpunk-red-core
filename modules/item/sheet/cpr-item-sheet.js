@@ -23,7 +23,6 @@ export default class CPRItemSheet extends ItemSheet {
   get template() {
     LOGGER.trace(`template | CPRItemSheet | Called with type [${this.item.type}].`);
     return `systems/cyberpunk-red-core/templates/item/cpr-item-sheet.hbs`;
-    //return `systems/cyberpunk-red-core/templates/item/cpr-${this.item.type}-sheet.hbs`;
   }
 
   get classes() {
