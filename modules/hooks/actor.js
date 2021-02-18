@@ -13,7 +13,7 @@ const actorHooks = () => {
 
   Hooks.on("preUpdateActor", (actor, updatedData) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
-    if (updatedData.data.roleInfo) {
+    if (!(typeof updatedData.data === "undefined")) {
       Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.invalidroledata");
     }
   });

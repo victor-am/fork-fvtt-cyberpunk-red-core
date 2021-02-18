@@ -47,8 +47,11 @@
             "transactions": []
           },
           "seriouslyWounded": 20,
-          "deathSave": 6,
-          "deathSavePenlty": 0
+          "deathSave": {
+            "value":6,
+            "penalty": 0,
+            "basePenalty": 0
+          }
         },
         "woundState": {
           "currentWoundState": "notWounded"

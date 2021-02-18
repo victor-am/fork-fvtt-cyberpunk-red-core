@@ -1,4 +1,5 @@
 {{log "CPR-DEATHSAVE-BLOCK.HBS"}}
+{{log this}}
 <div class="deathsave-block main-block">
   <div class="block-label text-small flex-space-between">
     <span class="text-padding-left">{{localize "CPR.woundstate"}}</span>
@@ -20,8 +21,11 @@
     <i class="fg-black bg-white text-normal text-center width-full fas fa-skull" alt-text="Mortally Wounded"></i>
     {{/if}}
     {{/with}}
-    <input class="width-full" name="data.derivedStats.deathSave" type="number"
+    {{log data.derivedStats.deathSave}}
+    <span class="width-full">{{data.derivedStats.deathSave.value}}</span>
+{{!--    <input class="width-full" name="data.derivedStats.deathSave.value" type="number"
       value="{{data.derivedStats.deathSave}}" data-dtype="Number" />
+      --}}
   </div>
 </div>
 {{log "END CPR-DEATHSAVE-BLOCK.HBS"}}

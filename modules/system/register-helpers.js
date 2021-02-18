@@ -176,8 +176,6 @@ export default function registerHandlebarsHelpers() {
     mathArgs.shift();
     mathArgs.pop();
     mathArgs = mathArgs.map(Number);
-    console.log(mathFunction);
-    console.log(typeof Math[mathFunction]);
     if (typeof Math[mathFunction] === "function") {
       return Math[mathFunction].apply(null, mathArgs);
     }
