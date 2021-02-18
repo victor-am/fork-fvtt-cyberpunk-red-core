@@ -12,8 +12,8 @@
                 {{localize "CPR.autofire"}}?
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
-                <input type="checkbox" id="autofire" name="autofire" {{#if (getProp (findObj
-                    extraVars "name" "previousRoll" ) "autofire" )}}checked{{/if}}>
+                <input type="checkbox" id="autofire" name="autofire" {{#if (getProp (getProp (findObj
+                    extraVars "name" "previousRoll" ) "value") "autofire" )}}checked{{/if}}>
             </div>
         </li>
         <li class="item flexrow">
