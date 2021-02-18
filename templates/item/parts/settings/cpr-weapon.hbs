@@ -88,7 +88,7 @@
                         <select name="data.quality" data-dtype="{{data.quality}}">
                             {{#select data.quality}}
                             {{#each (findConfigObj "itemQuality") as |quality q| }}
-                            <option value="{{quality}}">{{localize q}}</option>
+                            <option value="{{q}}">{{localize quality}}</option>
                             {{/each}}
                             {{/select}}
                         </select>
