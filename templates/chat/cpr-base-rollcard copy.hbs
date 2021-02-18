@@ -1,0 +1,146 @@
+{{log "CPR-BASE-ROLLCARD.HBS"}}
+<div class="bg-white" data-roll-type="{{rollType}}">
+  <div class="cpr-block chat-rollTitle-{{rollType}}">
+    <p class="text-center">{{rollTitle}}</p>
+  </div>
+
+  {{!-- rollcard body --}}
+  <div class="rollcard-body cpr-block rollcard">
+
+    <div class="total-div text-right">
+      <span class="{{#if wasCritical}}fg-red text-bold{{/if}}">{{resultTotal}}</span>
+    </div>
+
+    <div class="dice-div">
+        {{!-- die image for initialRoll --}}
+        {{#if (compare initialRoll "===" 1)}}
+        <i class="d10 one"></i>
+        {{/if}}
+        {{#if (compare initialRoll "===" 2)}}
+        <i class="d10 two"></i>
+        {{/if}}
+        {{#if (compare initialRoll "===" 3)}}
+        <i class="d10 three"></i>
+        {{/if}}
+        {{#if (compare initialRoll "===" 4)}}
+        <i class="d10 four"></i>
+        {{/if}}
+        {{#if (compare initialRoll "===" 5)}}
+        <i class="d10 five"></i>
+        {{/if}}
+        {{#if (compare initialRoll "===" 6)}}
+        <i class="d10 six"></i>
+        {{/if}}
+        {{#if (compare initialRoll "===" 7)}}
+        <i class="d10 seven"></i>
+        {{/if}}
+        {{#if (compare initialRoll "===" 8)}}
+        <i class="d10 eight"></i>
+        {{/if}}
+        {{#if (compare initialRoll "===" 9)}}
+        <i class="d10 nine"></i>
+        {{/if}}
+        {{#if (compare initialRoll "===" 10)}}
+        <i class="d10 ten"></i>
+        {{/if}}
+
+      {{#if wasCritical}}
+        {{!-- die image for criticalRoll --}}
+        {{#if (compare criticalRoll "===" 1)}}
+        <i class="fas fa-plus"></i>
+        <i class="d10 one black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" 2)}}
+        <i class="fas fa-plus"></i>
+        <i class="d10 two black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" 3)}}
+        <i class="fas fa-plus"></i>
+        <i class="d10 three black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" 4)}}
+        <i class="fas fa-plus"></i>
+        <i class="d10 four black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" 5)}}
+        <i class="fas fa-plus"></i>
+        <i class="d10 five black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" 6)}}
+        <i class="fas fa-plus"></i>
+        <i class="d10 six black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" 7)}}
+        <i class="fas fa-plus"></i>
+        <i class="d10 seven black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" 8)}}
+        <i class="fas fa-plus"></i>
+        <i class="d10 eight black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" 9)}}
+        <i class="fas fa-plus"></i>
+        <i class="d10 nine black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" 10)}}
+        <i class="fas fa-plus"></i>
+        <i class="d10 ten black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" -1)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 one black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" -2)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 two black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" -3)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 three black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" -4)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 four black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" -5)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 five black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" -6)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 six black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" -7)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 seven black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" -8)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 eight black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" -9)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 nine black"></i>
+        {{/if}}
+        {{#if (compare criticalRoll "===" -10)}}
+        <i class="fas fa-minus"></i>
+        <i class="d10 ten black"></i>
+        {{/if}}
+      {{/if}}
+    </div>
+
+    <div class="info-div text-right">
+      {{#if (compare roleValue ">" 0)}}
+      {{localize "CPR.abilityrank"}}: {{roleValue}}<br>
+      {{else}}
+      {{stat}} + {{statValue}}<br>
+      {{skill}} + {{skillValue}}<br>
+      {{/if}}<br>
+      {{#if mods}}
+      Roll Modifiers: {{mods}}<br>
+      <div class="chat-rollTotal">{{localize "CPR.mods"}} {{localize "CPR.total"}}: {{modsTotal}}</div>
+      {{/if}}
+    </div>
+  </div>
+</div>
+{{log "END CPR-BASE-ROLLCARD.HBS"}}

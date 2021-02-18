@@ -32,6 +32,35 @@ export default function registerHandlebarsHelpers() {
     }
   });
 
+  Handlebars.registerHelper("numToWord", (num) => {
+    switch (num) {
+      case 0:
+        return "zero";
+      case 1:
+        return "one";
+      case 2:
+        return "two";
+      case 3:
+        return "three";
+      case 4:
+        return "four";
+      case 5:
+        return "five";
+      case 6:
+        return "six";
+      case 7:
+        return "seven";
+      case 8:
+        return "eight";
+      case 9:
+        return "nine";
+      case 10:
+        return "ten";
+      default:
+        return;
+    }
+  });
+
   Handlebars.registerHelper("getProp", (object, property) => getProperty(object, property));
 
   Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i._id === itemId));
@@ -147,6 +176,8 @@ export default function registerHandlebarsHelpers() {
     mathArgs.shift();
     mathArgs.pop();
     mathArgs = mathArgs.map(Number);
+    console.log(mathFunction);
+    console.log(typeof Math[mathFunction]);
     if (typeof Math[mathFunction] === "function") {
       return Math[mathFunction].apply(null, mathArgs);
     }
