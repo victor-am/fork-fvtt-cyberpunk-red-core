@@ -201,7 +201,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
     const rollRequest = new CPRRollRequest(event);
-
+    console.log(event);
     // Prepare data relative to the roll type
     switch (rollRequest.rollType) {
       case "stat": {
@@ -230,6 +230,10 @@ export default class CPRActorSheet extends ActorSheet {
         this._prepareRollDamage(rollRequest, itemId);
         break;
       }
+      case "deathsave": {
+        this._prepareDeathSave(rollRequest);
+        break;
+      }
       default:
     }
 
@@ -250,25 +254,33 @@ export default class CPRActorSheet extends ActorSheet {
       return;
     }
 
-    // If this is an attack roll and they did not cancel it
-    // via the VerifyRollPrompt, and it is ranged, we should
-    // decrement the ammo for the weapon. We can't do this in
-    // the prepareRollAttack because they might abort it.
-    if (rollRequest.rollType === "attack") {
-      if (rollRequest.isRanged) {
-        const weaponId = $(event.currentTarget).attr("data-item-id");
-        const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
-        if (!weaponItem.fireRangedWeapon(rollRequest.fireMode)) {
-          // Firing of the weapon failed, maybe due to lack of bullets?
-          return;
+    // Post confirmation, pre-roll tasks
+    switch (rollRequest.rollType) {
+      case "attack": {
+        // If this is an attack roll and they did not cancel it
+        // via the VerifyRollPrompt, and it is ranged, we should
+        // decrement the ammo for the weapon. We can't do this in
+        // the prepareRollAttack because they might abort it.
+        if (rollRequest.rollType === "attack") {
+          if (rollRequest.isRanged) {
+            const weaponId = $(event.currentTarget).attr("data-item-id");
+            const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
+            if (!weaponItem.fireRangedWeapon(rollRequest.fireMode)) {
+              // Firing of the weapon failed, maybe due to lack of bullets?
+              return;
+            }
+          }
+          if (rollRequest.fireMode === "autofire") {
+            rollRequest.skill = "Autofire";
+            rollRequest.skillValue = this.actor.getSkillLevel(rollRequest.skill);
+          }
         }
+        break;
       }
-      if (rollRequest.fireMode === "autofire") {
-        rollRequest.skill = "Autofire";
-        rollRequest.skillValue = this.actor.getSkillLevel(rollRequest.skill);
-      }
+      default:
     }
 
+    // Let's roll!
     let rollResult;
     if (rollRequest.rollType === "damage") {
       rollResult = await CPRRolls.DamageRoll(rollRequest);
@@ -374,6 +386,13 @@ export default class CPRActorSheet extends ActorSheet {
     rollRequest.formula = weaponItem.getData().damage;
     rollRequest.attackSkill = weaponItem.getData().weaponSkill;
     rollRequest.weaponType = weaponItem.getData().weaponType;
+  }
+
+  _prepareDeathSave(rollRequest) {
+    rollRequest.extraVars.push({ name: "deathPenalty", value: this.actor.getData().derivedStats.deathSave.penalty });
+    rollRequest.extraVars.push({ name: "baseDeathPenalty", value: this.actor.getData().derivedStats.deathSave.basePenalty });
+    console.log(rollRequest);
+    return rollRequest;
   }
 
   _repairArmor(event) {

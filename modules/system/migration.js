@@ -72,7 +72,12 @@ export default class Migration {
       }
       actorData.data.derivedStats.deathSave = { value: oldDeathSave, penalty: oldDeathPenalty, basePenalty: 0 };
     }
-    return actor.update(actorData, { diff: false, enforceTypes: false });
+
+    if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
+      delete actorData.data.derivedStats.deathSavePenlty;
+    }
+
+    await actor.update(actorData, { diff: false, enforceTypes: false });
   }
 
   static migrateItemData(itemData) {

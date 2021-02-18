@@ -118,7 +118,7 @@ export default class CPRActor extends Actor {
       this._setWoundState();
     }
     // Death save
-    derivedStats.deathSave.value = stats.body.value;
+    derivedStats.deathSave.value = stats.body.value - derivedStats.deathSave.penalty - derivedStats.deathSave.basePenalty;
   }
 
   // GET AND SET WOUND STATE

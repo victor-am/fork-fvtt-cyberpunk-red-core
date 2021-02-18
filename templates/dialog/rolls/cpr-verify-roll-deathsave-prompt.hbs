@@ -1,0 +1,27 @@
+{{log "VERIFY-ROLL-DEATHSAVE-PROMPT.HBS"}}
+{{log this}}
+<form>
+    <div>
+        {{localize "CPR.rollingfor"}} "{{rollTitle}}", Choomba!
+    </div>
+    <ol class="items-list">
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.deathpenalty"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <input name="deathPenalty" class="" type="number" data-dtype="Number" value={{getProp (findObj extraVars "name" "deathPenalty") "value"}}>
+            </div>
+        </li>
+
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.base"}} {{localize "CPR.deathpenalty"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <input name="deathPenalty" class="" type="number" data-dtype="Number" value={{getProp (findObj extraVars "name" "baseDeathPenalty") "value"}}>
+            </div>
+        </li>
+    </ol>
+</form>
+{{log "END VERIFY-ROLL-STAT-PROMPT.HBS"}}

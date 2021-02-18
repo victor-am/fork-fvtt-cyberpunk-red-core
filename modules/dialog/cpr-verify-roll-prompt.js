@@ -9,7 +9,7 @@ import LOGGER from "../utils/cpr-logger.js";
 
 export default class VerifyRollPrompt {
   static async RenderPrompt(rollRequest) {
-    const template = `systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-${rollRequest.rollType}-prompt.hbs`;
+    const template = `systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-${rollRequest.rollType}-prompt.hbs`;
     const data = duplicate(rollRequest);
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {
@@ -20,6 +20,7 @@ export default class VerifyRollPrompt {
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog VerifyRollPrompt | called.");
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
+          console.log(formData);
           if (formData.mods) {
             formData.mods = formData.mods.replace(/ +/g, ",");
             formData.mods = formData.mods.replace(/,+/g, ",");
@@ -27,13 +28,22 @@ export default class VerifyRollPrompt {
           } else {
             formData.mods = [];
           }
-          if (rollRequest.rollType === "damage" || rollRequest.rollType === "attack") {
-            if (formData.autofire) {
-              formData.fireMode = "autofire";
+          switch (rollRequest.rollType) {
+            case "damage":
+            case "attack": {
+              if (formData.autofire) {
+                formData.fireMode = "autofire";
+              }
+              if (formData.suppressive) {
+                formData.fireMode = "suppressive";
+              }
+              break;
             }
-            if (formData.suppressive) {
-              formData.fireMode = "suppressive";
+            case "deathsave": {
+              formData.deathPenalty.forEach((penalty) => formData.mods.push(parseInt(penalty)));
+              break;
             }
+            default:
           }
           resolve(formData);
         };
