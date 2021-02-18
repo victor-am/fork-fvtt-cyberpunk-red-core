@@ -416,7 +416,7 @@
 .item-description-tab {
   display: flex;
   flex: 1 0 auto;
-  min-height: 125px;
+  min-height: 75px;
   grid-gap: 5px;
   background-color: #b90202ff;
 }
