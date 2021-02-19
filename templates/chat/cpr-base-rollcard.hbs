@@ -12,27 +12,18 @@
     {{!-- rollcard body --}}
     <div class="cpr-block">
       <div class="rollcard">
-
         <div class="dice-div">
           {{!-- die image for initialRoll --}}
-          {{#if (compare criticalRoll "===" 0)}}
-          <i class="d10 {{numToWord initialRoll}}"></i>
-          {{else}}
-            {{#if (compare criticalRoll "===" 1)}}
-            <i class="d10 {{numToWord initialRoll}} black"></i>
-            {{else}}
-            <i class="d10 {{numToWord initialRoll}}"></i>
-            {{/if}}
-          {{/if}}
-
-
           {{#if wasCritical}}
-          {{#if (compare criticalRoll ">=" 0)}}
-          <i class="fas fa-plus"></i>
+            <i class="d10 {{numToWord initialRoll}}"></i>
+            {{#if (compare criticalRoll ">=" 0)}}
+              <i class="fas fa-plus"></i>
+            {{else}}
+              <i class="fas fa-minus"></i>
+            {{/if}}
+            <i class="d10 {{numToWord (math "abs" criticalRoll)}}"></i>
           {{else}}
-          <i class="fas fa-minus"></i>
-          {{/if}}
-          <i class="d10 {{numToWord (math "abs" criticalRoll)}}"></i>
+            <i class="d10 {{numToWord initialRoll}} black"></i>
           {{/if}}
         </div>
         <div class="total-div">
