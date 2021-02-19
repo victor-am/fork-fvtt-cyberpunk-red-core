@@ -17,9 +17,9 @@
           {{#if wasCritical}}
             <i class="d10 {{numToWord initialRoll}}"></i>
             {{#if (compare criticalRoll ">=" 0)}}
-              <i class="fas fa-plus"></i>
+              <i class="fas fa-plus text-center"></i>
             {{else}}
-              <i class="fas fa-minus"></i>
+              <i class="fas fa-minus text-center"></i>
             {{/if}}
             <i class="d10 {{numToWord (math "abs" criticalRoll)}}"></i>
           {{else}}

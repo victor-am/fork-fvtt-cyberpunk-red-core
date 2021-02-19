@@ -15,7 +15,7 @@
 .rollcard {
   display              : grid;
   padding              : 15px;
-  grid-template-columns: auto auto;
+  grid-template-columns: 75px auto;
   grid-template-rows   : auto auto auto;
   grid-template-areas  :
     "rc-dice rc-total"
@@ -56,6 +56,7 @@
   height          : 70px;
   width           : 70px;
   display         : block;
+  align-self: center;
   &.one {
     background-image: url("icons/dice/red/d10_1.png");
     &.black {
