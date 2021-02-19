@@ -26,7 +26,7 @@
   width: calc(100% - 2px);
   min-width: unset;
   height: unset;
-  background: unset;
+  background: #eaeaeaff;
   /* padding         : 1px 3px; */
   margin: 0;
   color: unset;
@@ -47,6 +47,18 @@
   color: #eaeaeaff;
 }
 #chat-controls .roll-type-select {
+  background: #eaeaeaff;
+}
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+input,
+select,
+button,
+.sidebar-tab .directory-header .header-search input,
+.dialog .dialog-buttons button.default {
   background: #eaeaeaff;
 }
 /*--------------------
