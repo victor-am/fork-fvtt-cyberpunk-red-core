@@ -380,7 +380,7 @@
 .item-sheet .item-top-pane .item-image-section {
   grid-area: item-image;
   display: flex;
-  background-color: #eaeaeaff;
+  background-color: #b90202ff;
   height: 62px;
   width: 62px;
 }
@@ -447,6 +447,9 @@
 .item-settings-tab .item-settings-section {
   display: list-item;
   flex: 1;
+}
+.item-image-block {
+  clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
 }
 .text-smallest {
   font-size: 0.5rem;
