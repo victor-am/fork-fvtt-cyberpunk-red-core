@@ -656,6 +656,8 @@ export default class CPRActorSheet extends ActorSheet {
   _renderItemCard(event) {
     LOGGER.trace("ActorID _itemUpdate | CPRActorSheet | Called.");
     const itemId = this._getItemId(event);
+    console.log(event);
+    console.log(itemId);
     const item = this.actor.items.find((i) => i.data._id === itemId);
     item.sheet.render(true);
   }
