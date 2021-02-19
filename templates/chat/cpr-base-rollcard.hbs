@@ -15,7 +15,16 @@
 
         <div class="dice-div">
           {{!-- die image for initialRoll --}}
+          {{#if (compare criticalRoll "===" 0)}}
           <i class="d10 {{numToWord initialRoll}}"></i>
+          {{else}}
+            {{#if (compare criticalRoll "===" 1)}}
+            <i class="d10 {{numToWord initialRoll}} black"></i>
+            {{else}}
+            <i class="d10 {{numToWord initialRoll}}"></i>
+            {{/if}}
+          {{/if}}
+
 
           {{#if wasCritical}}
           {{#if (compare criticalRoll ">=" 0)}}
@@ -23,7 +32,7 @@
           {{else}}
           <i class="fas fa-minus"></i>
           {{/if}}
-          <i class="d10 {{numToWord (math "abs" criticalRoll)}} black"></i>
+          <i class="d10 {{numToWord (math "abs" criticalRoll)}}"></i>
           {{/if}}
         </div>
         <div class="total-div">
