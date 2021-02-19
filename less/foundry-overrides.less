@@ -12,7 +12,7 @@
     ol li {
         list-style-type: none;
     }
-    
+
     input[type="text"],
     input[type="number"],
     input[type="password"],
@@ -37,15 +37,21 @@
         -ms-user-select    : text;
         user-select        : text;
     }
+
+    .editor .tox-toolbar-overlord,
+    .editor .tox-toolbar__primary {
+        background: none;
+    }
 }
 
 #chat-form textarea {
-    background: none;
+    background      : none;
     background-color: @chrome-white;
 }
 
 #chat-controls {
     color: @chrome-white;
+
     .roll-type-select {
         background: @chrome-white;
     }
@@ -63,4 +69,3 @@ button,
 .dialog .dialog-buttons button.default {
     background: @chrome-white;
 }
-

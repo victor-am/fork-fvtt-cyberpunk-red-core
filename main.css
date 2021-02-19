@@ -39,6 +39,12 @@
   -ms-user-select: text;
   user-select: text;
 }
+.actor-sheet .editor .tox-toolbar-overlord,
+.item-sheet .editor .tox-toolbar-overlord,
+.actor-sheet .editor .tox-toolbar__primary,
+.item-sheet .editor .tox-toolbar__primary {
+  background: none;
+}
 #chat-form textarea {
   background: none;
   background-color: #eaeaeaff;
@@ -941,4 +947,8 @@ form input.number {
 .editor {
   display: flex;
   flex: 1 0 auto;
+}
+.editor .tox-toolbar-overlord,
+.editor .tox-toolbar__primary {
+  background: none;
 }
