@@ -39,6 +39,16 @@
   -ms-user-select: text;
   user-select: text;
 }
+#chat-form textarea {
+  background: none;
+  background-color: #eaeaeaff;
+}
+#chat-controls {
+  color: #eaeaeaff;
+}
+#chat-controls .roll-type-select {
+  background: #eaeaeaff;
+}
 /*--------------------
   Color modifiers
 ---------------------*/
