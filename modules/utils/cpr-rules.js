@@ -10,7 +10,7 @@ export default class Rules {
 
   static validRole(actor, data) {
     const newRoleData = data.data.roleInfo;
-    const changedRoles = newRoleData.roleskills;
+    const changedRoles = newRoleData.roles;
     let roleValid = true;
     if ("solo" in changedRoles || "tech" in changedRoles || "medtech" in changedRoles) {
       const currentRoleData = actor.data.data.roleInfo;

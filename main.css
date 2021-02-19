@@ -650,6 +650,9 @@
 .text-padding-bottom {
   padding-bottom: 2px;
 }
+.text-space-around {
+  justify-content: space-around;
+}
 .flexrow {
   display: flex;
   flex-direction: row;

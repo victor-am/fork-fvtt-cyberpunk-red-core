@@ -125,6 +125,7 @@
           "wildernesssurvival": 0
         },
         "roleInfo": {
+          "activeRole": "solo",
           "roles": ["solo"],
           "roleskills": {
             "netrunner": {

@@ -3,8 +3,9 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-await-in-loop */
 export default class Migration {
-  static async migrateWorld() {
-    ui.notifications.notify(`Beginning Migration of Cyberpunk Red Core to Data Model ${game.system.data.version}.`);
+  static async migrateWorld(incomingDataModelVersion) {
+    ui.notifications.notify(`Beginning Migration of Cyberpunk Red Core from Data Model ${incomingDataModelVersion} to ${game.system.data.version}.`);
+    this.incomingDataModelVersion = incomingDataModelVersion;
     for (const i of game.items.entities) {
       await i.update(this.migrateItemData(duplicate(i.data)));
     }
@@ -43,7 +44,7 @@ export default class Migration {
     }
 
     /*
-    With version 0.55, we moved deathSave to 3 values to support the rules:
+    After version 0.53, we moved deathSave to 3 values to support the rules:
 
     There are two things that can modify your Death Save rolls, the "Death Save Penalty" and the "Base Death Save Penalty".
 
@@ -62,7 +63,7 @@ export default class Migration {
     only your "Base Death Save Penalty" applies to Death Saves and from our example, you would only add +2 to Death Saves until the
     critical injuries are healed. p221
     */
-    if ((typeof actor.data.data.derivedStats.deathSave) === "number") {
+    if ((typeof actorData.data.derivedStats.deathSave) === "number") {
       const oldDeathSave = actorData.data.derivedStats.deathSave;
       let oldDeathPenalty = 0;
       if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
@@ -74,6 +75,15 @@ export default class Migration {
 
     if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
       delete actorData.data.derivedStats.deathSavePenlty;
+    }
+
+    if ((typeof actorData.data.roleInfo.activeRole) === "undefined") {
+      let configuredRole = "solo";
+      if (actorData.data.roleInfo.roles.length > 0) {
+        // eslint-disable-next-line prefer-destructuring
+        configuredRole = actorData.data.roleInfo.roles[0];
+      }
+      actorData.data.roleInfo.activeRole = configuredRole;
     }
 
     await actor.update(actorData, { diff: false, enforceTypes: false });
