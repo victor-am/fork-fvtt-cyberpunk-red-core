@@ -23,7 +23,7 @@
                 <li class="flex-space-between">
                     <div class="item-name armor-name flexrow text-nowrap"><a class="name item-edit">{{armor.name}}</a>
                     </div>
-                    <div><a class="ablate" data-location="body"><i class="far fa-arrow-alt-circle-down"
+                    <div><a class="ablate" data-location="{{#if armor.data.isHeadLocation}}head{{else}}body{{/if}}"><i class="far fa-arrow-alt-circle-down"
                                 title="Ablate Armor"></i></a></div>
                 </li>
                 {{#if armor.data.isHeadLocation}}
