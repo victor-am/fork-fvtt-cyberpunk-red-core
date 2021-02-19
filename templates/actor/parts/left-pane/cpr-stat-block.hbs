@@ -3,9 +3,9 @@
 {{#each data.stats as |stat s|}}
 <div class="stat-block">
   <div class="block-label{{#if (isDefined this.max)}} text-small{{/if}}">
-    <div class="rollable" data-roll-type="stat" data-roll-title="{{s}}">
+    <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}">
       {{localize (findConfigValue "statList" s)}}
-    </div>
+    </a>
   </div>
   <div class="block-data">
     {{#unless (isDefined this.max)}}
