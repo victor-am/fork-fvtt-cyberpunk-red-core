@@ -254,8 +254,8 @@ CPR.equipped = {
 
 CPR.itemPriceCategory = {
   cheap: "CPR.pricecategorycheap",
-  costly: "CPR.pricecategorycostly",
   everyday: "CPR.pricecategoryeveryday",
+  costly: "CPR.pricecategorycostly",
   premium: "CPR.pricecategorypremium",
   expensive: "CPR.pricecategoryexpensive",
   veryExpensive: "CPR.pricecategoryveryexpensive",
