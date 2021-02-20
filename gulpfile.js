@@ -21,7 +21,7 @@ const LESS_FILES = ["less/*.less"];
 
 async function compileLess() {
   return gulp.src("less/main.less")
-    .pipe(less())
+    .pipe(less({javascriptEnabled: true}))
     .pipe(gulp.dest("./"))
 }
 

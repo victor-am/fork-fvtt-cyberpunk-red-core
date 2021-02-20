@@ -52,6 +52,34 @@
   }
 }
 
+/* ------------------------------- */
+/* Override pause menu             */
+/* ------------------------------- */
+#pause {
+  // Swap out the pause image
+  img {
+    background: url("icons/pause.png");
+    background-size: 128px;
+    width: 128px;
+    height: 128px;
+    padding-left: 128px;
+  }
+
+  // Add glitch to pause popup text
+  h3 {
+    .glitch;
+    text-transform: uppercase;
+    font-family: "Rubik Mono One";
+    color: #f4eded;
+
+    &::before,
+    &::after {
+      content: "GAME PAUSED";
+    }
+  }
+  background: none;
+}
+
 /*--------------------
   cpr-block element styling
 ---------------------*/
@@ -79,7 +107,7 @@
   ---------------------*/
   &.bar::before {
     clip-path: polygon(0 14px,
-      0 100%, 
+      0 100%,
       calc(50% - 7.5px) 100%,
       calc(50% - 7.5px) 50%,
       calc(50% + 7.5px) 50%,
@@ -90,7 +118,7 @@
   }
   &.bar-thin::before {
     clip-path: polygon(0 14px,
-      0 100%, 
+      0 100%,
       calc(50% - 3px) 100%,
       calc(50% - 3px) 50%,
       calc(50% + 3px) 50%,
@@ -242,7 +270,7 @@
   color: @wyrm-red
 }
 
-// Color the damage dice 
+// Color the damage dice
 [class^="fas fa-dice"] {
   color: @wyrm-red;
   font-size: 2em;
