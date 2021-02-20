@@ -1,10 +1,3 @@
-/* LESS HEX */
-@maximum-red: #d02b23;
-@raisin-black: #231f20;
-@white: #ffffff;
-@red-violet-crayola: #af4d98;
-@malachite: #53dd6c;
-
 // flintwyrm's colors
 @meat-space-pink: #ffc3b6ff;
 @chrome-white: #eaeaeaff;
@@ -12,15 +5,84 @@
 @chip-in-yellow: #ffff3fff;
 @flint-black: #2d2f2fff;
 @wyrm-red: #b90202ff;
+@ghetto-green: #609040ff;
+@overdrive-orange: #DC8121ff;
+@overcast-grey: #9e9f9fff;
 
+/*--------------------
+  Color modifiers
+---------------------*/
+.fg- {
+    &black {
+        color: @flint-black;
+    }
 
-/* LESS Gradient */
-@gradient-top: linear-gradient(0deg, #d02b23ff, #231f20ff, #ffffffff, #af4d98ff, #53dd6cff);
-@gradient-right: linear-gradient(90deg, #d02b23ff, #231f20ff, #ffffffff, #af4d98ff, #53dd6cff);
-@gradient-bottom: linear-gradient(180deg, #d02b23ff, #231f20ff, #ffffffff, #af4d98ff, #53dd6cff);
-@gradient-left: linear-gradient(270deg, #d02b23ff, #231f20ff, #ffffffff, #af4d98ff, #53dd6cff);
-@gradient-top-right: linear-gradient(45deg, #d02b23ff, #231f20ff, #ffffffff, #af4d98ff, #53dd6cff);
-@gradient-bottom-right: linear-gradient(135deg, #d02b23ff, #231f20ff, #ffffffff, #af4d98ff, #53dd6cff);
-@gradient-top-left: linear-gradient(225deg, #d02b23ff, #231f20ff, #ffffffff, #af4d98ff, #53dd6cff);
-@gradient-bottom-left: linear-gradient(315deg, #d02b23ff, #231f20ff, #ffffffff, #af4d98ff, #53dd6cff);
-@gradient-radial: radial-gradient(#d02b23ff, #231f20ff, #ffffffff, #af4d98ff, #53dd6cff);
+    &white {
+        color: @chrome-white;
+    }
+
+    &red {
+        color: @wyrm-red;
+    }
+
+    &blue {
+        color: @holo-blue;
+    }
+
+    &yellow {
+        color: @chip-in-yellow;
+    }
+
+    &pink {
+        color: @meat-space-pink;
+    }
+
+    &green {
+        color: @ghetto-green;
+    }
+
+    &orange {
+        color: @overdrive-orange;
+    }
+
+    &grey {
+        color: @overcast-grey;
+    }
+}
+
+.bg- {
+    &black {
+        background-color: @flint-black;
+    }
+
+    &white {
+        background-color: @chrome-white;
+    }
+
+    &red {
+        background-color: @wyrm-red;
+    }
+
+    &blue {
+        background-color: @holo-blue;
+    }
+
+    &yellow {
+        background-color: @chip-in-yellow;
+    }
+
+    &pink {
+        background-color: @meat-space-pink;
+    }
+
+    &green {
+        background-color: @ghetto-green;
+    }
+    &orange {
+        background-color: @overdrive-orange;
+    }
+    &grey {
+        color: @overcast-grey;
+    }
+
+}

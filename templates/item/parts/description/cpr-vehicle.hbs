@@ -1,0 +1,28 @@
+<div class="item-description-tab">
+    <div class="item-summary-section">
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.price"}}:</span>
+            <span class="summary-value">{{data.price.market}}</span>
+        </div>
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.market"}}:</span>
+            <span class="summary-value">{{localize (findConfigValue "itemPriceCategory" data.price.category)}}</span>
+        </div>
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.seats"}}:</span>
+            <span class="summary-value">{{data.seats}}</span>
+        </div>
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.spd"}}:</span>
+            <span class="summary-value">{{data.spd}}</span>
+        </div>
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.combatspeed"}}:</span>
+            <span class="summary-value">{{data.combatspeed}}</span>
+        </div>
+    </div>
+    <div class="item-description-section">
+        {{editor content=data.description.value target="data.description.value" button=true owner=owner
+        editable=editable}}
+    </div>
+</div>

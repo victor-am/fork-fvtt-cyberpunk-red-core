@@ -1,13 +1,17 @@
 {{log "LOAD-WEAPON.HBS"}}
-<form action="">
+<form>
     {{localize "CPR.selectammotoloadinto"}} {{this.weapon.data.name}}:
-    <div class="dynamic-list">
-    {{#each this.ammoList as |ammo|}}
-    <div class="row flex-start item white-bg black-fg">
-    <input type="radio" name="selectedAmmo" value="{{ammo.data._id}}" id=="{{ammo.data._id}}">
-    <label for="{{ammo.data._id}}">{{ammo.data.name}} ({{localize (findConfigValue "ammoType" ammo.data.data.type)}})</label>
-    </div>
-    {{/each}}
-    </div>
+    <ol class="items-list">
+        {{#each this.ammoList as |ammo|}}
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{ammo.data.name}} ({{localize (findConfigValue "ammoType" ammo.data.data.type)}})
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <input type="radio" name="selectedAmmo" value="{{ammo.data._id}}" id=="{{ammo.data._id}}">
+            </div>
+        </li>
+        {{/each}}
+    </ol>
 </form>
 {{log "END LOAD-WEAPON.HBS"}}

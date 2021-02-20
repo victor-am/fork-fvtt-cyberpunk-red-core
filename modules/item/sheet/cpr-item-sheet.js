@@ -7,13 +7,14 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
  * Extend the basic ActorSheet.
  * @extends {ItemSheet}
  */
+
 export default class CPRItemSheet extends ItemSheet {
   /* -------------------------------------------- */
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("defaultOptions | CPRItemSheet | Called.");
     return mergeObject(super.defaultOptions, {
-      tabs: [{ navSelector: ".tabs", contentSelector: ".content", initial: "main" }],
+      tabs: [{ navSelector: ".navtabs-item", contentSelector: ".item-bottom-content-section", initial: "item-description" }],
       width: 450,
       height: 450,
     });
@@ -21,7 +22,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   get template() {
     LOGGER.trace(`template | CPRItemSheet | Called with type [${this.item.type}].`);
-    return `systems/cyberpunk-red-core/templates/item/cpr-${this.item.type}-sheet.hbs`;
+    return `systems/cyberpunk-red-core/templates/item/cpr-item-sheet.hbs`;
   }
 
   get classes() {

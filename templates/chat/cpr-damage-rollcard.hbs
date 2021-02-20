@@ -1,52 +1,35 @@
 {{log "CPR-DAMAGE-ROLLCARD.HBS"}}
-<div class="white-bg" data-roll-type="{{rollType}}">
-    <div class="cpr-block horizontal half-height chat-rollTitle-{{rollType}}">
-        <p class="center-text width-grow largest-text">{{rollTitle}} {{localize "CPR.damage"}}</p>
+<div class="rollcard-body">
+    <div class="rollcard-top">
+        <div class="cpr-block chat-rollTitle-{{rollType}}">
+            <p class="text-center">{{rollTitle}} {{localize "CPR.damage"}}</p>
+        </div>
     </div>
-
-    {{!-- rollcard body --}}
-    <div class="rollcard-body cpr-block rollcard">
-
-        <div class="total-div right-text">
-            <span class="massive-text {{#if wasCritical}}red-fg bold{{/if}}">{{damageTotal}}</span>
-        </div>
-
-        <div class="dice-div large-text">
-            {{#each faces as |die|}}
-            
-            {{#if (eq die 1)}}
-            <i class="fas fa-dice-one"></i>
-            {{/if}}
-            {{#if (eq die 2)}}
-            <i class="fas fa-dice-two"></i>
-            {{/if}}
-            {{#if (eq die 3)}}
-            <i class="fas fa-dice-three"></i>
-            {{/if}}
-            {{#if (eq die 4)}}
-            <i class="fas fa-dice-four"></i>
-            {{/if}}
-            {{#if (eq die 5)}}
-            <i class="fas fa-dice-five"></i>
-            {{/if}}
-            {{#if (eq die 6)}}
-            <i class="fas fa-dice-six"></i>
-            {{/if}}
-            {{/each}}
-        </div>
-
-        <div class="info-div right-text">
-            {{#if autofire}}
-            <span>{{localize "CPR.autofire"}}! (x{{autofireMultiplier}})</span>
-            {{/if}}
-            {{#if wasCritical}}
-            <span>{{localize "CPR.bonus"}} {{localize "CPR.damage"}}: {{bonusDamage}}</span>
-            {{else}}
-            {{/if}}
-            <span>{{localize "CPR.location"}}: {{location}}</span>
-            {{#if (gt mods 0)}}
-            <span>{{localize "CPR.mods"}}: {{mods}}</span>
-            {{/if}}
+    <div class="rollcard-bottom">
+        {{!-- rollcard body --}}
+        <div class="cpr-block">
+            <div class="rollcard">
+                <div class="total-div">
+                    <span class="{{#if wasCritical}}fg-red text-bold{{/if}}">{{damageTotal}}</span>
+                </div>
+                <div class="dice-div">
+                    {{#each faces as |die|}}
+                    <i class="fas fa-dice-{{numToWord die}} text-massive {{#if ../wasCritical}} {{#if (compare die "===" 6)}} fg-red{{/if}} {{/if}}"></i>
+                    {{/each}}
+                </div>
+                <div class="info-div">
+                    {{#if autofire}}
+                    {{localize "CPR.autofire"}}! (x{{autofireMultiplier}})<br>
+                    {{/if}}
+                    {{#if wasCritical}}
+                    {{localize "CPR.bonus"}} {{localize "CPR.damage"}}: {{bonusDamage}}<br>
+                    {{/if}}
+                    {{localize "CPR.location"}}: {{location}}<br>
+                    {{#if (compare mods.length ">" 0)}}
+                    {{localize "CPR.mods"}}: {{mods}}<br>
+                    {{/if}}
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -1,0 +1,177 @@
+<form>
+    <div class="item-settings-tab">
+        <div class="item-settings-section">
+            <ol class="items-list">
+
+                {{!--Item Name Settings--}}
+                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs" this}}
+
+                {{!-- Physical Item Settings--}}
+                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
+
+                {{!-- Weapon Item Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.equipped"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="data.equipped" data-dtype="{{data.equipped}}">
+                            {{#select data.equipped}}
+                            {{#each (findConfigObj "equipped") as |equip e|}}
+                            <option value="{{e}}">{{localize equip}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                </li>
+                {{!-- ROF Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.rof"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.rof" class="" type="number" value="{{data.rof}}">
+                    </div>
+                </li>
+                {{!-- Concealable Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.concealable"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if data.concealable}}
+                        <a class="item-checkbox" data-target="data.concealable"><i class="far fa-check-circle"></i></a>
+                        {{else}}
+                        <a class="item-checkbox" data-target="data.concealable"><i class="far fa-circle"></i></a>
+                        {{/if}}
+                    </div>
+                </li>
+                {{!-- Weapon Type Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.weapon"}} {{localize "CPR.type"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="data.weaponType" data-dtype="{{data.weaponType}}">
+                            {{#select data.weaponType}}
+                            {{#each (findConfigObj "weaponTypeList") as |type t|}}
+                            <option value="{{t}}">{{localize type}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                </li>
+                {{!-- Weapon Skill Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.weapon"}} {{localize "CPR.skill"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="data.weaponSkill" data-dtype="{{data.weaponSkill}}">
+                            {{#select data.weaponSkill}}
+                            {{!-- Would be nice if this was sorted, but not sure how to do that. --}}
+                            {{#each (sort (getProp this.filteredItems 'skill') "name") as |skillOption| }}
+                            {{#if (listContains "rangedweaponSkills,fightingSkills" skillOption.data.data.category)}}
+                            <option value="{{skillOption.data.name}}">{{skillOption.data.name}}</option>
+                            {{/if}}
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                </li>
+                {{!-- Item Quality Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.weapon"}} {{localize "CPR.quality"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="data.quality" data-dtype="{{data.quality}}">
+                            {{#select data.quality}}
+                            {{#each (findConfigObj "itemQuality") as |quality q| }}
+                            <option value="{{q}}">{{localize quality}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                </li>
+                {{!-- Hands Required Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.handsrequired"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.handsReq" class="" type="number" value="{{data.handsReq}}">
+                    </div>
+                </li>
+                {{!- Weapon Damage Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.damage"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.damage" class="" type="text" value="{{data.damage}}">
+                    </div>
+                </li>
+                {{!- Ranged Weapon Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.rangedweapon"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if data.isRanged}}
+                        <a class="item-checkbox" data-target="data.isRanged"><i class="far fa-check-circle"></i></a>
+                        {{else}}
+                        <a class="item-checkbox" data-target="data.isRanged"><i class="far fa-circle"></i></a>
+                        {{/if}}
+                    </div>
+                </li>
+                {{#if data.isRanged}}
+
+                {{!- Ranged Weapon - Alternate Fire Modes Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.altfiremodes"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.altFireModes" class="" type="text" value="{{data.altFireModes}}">
+                    </div>
+                </li>
+                {{!- Ranged Weapon - Magazine Size Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.magazine"}} {{localize "CPR.size"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.magazine.max" class="" type="number" value="{{data.magazine.max}}">
+                    </div>
+                </li>
+                {{!- Ranged Weapon - Compatible Ammo Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap text-bold">
+                        {{localize "CPR.configurecompatibleammo"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                    </div>
+                </li>
+
+                <div class="item-multi-select" data-target="data.ammoVariety">
+                    {{#each (findConfigObj "ammoVariety") as |ammoVariety a|}}
+                    <li class="item flexrow">
+                        <div class="item flexrow setting-name text-nowrap text-padding-left">
+                            {{localize ammoVariety}}
+                        </div>
+                        <div class="item flexrow setting-value text-nowrap item-end">
+                            {{#if (listContains (getProp ../this.data "ammoVariety") a)}}
+                            <a class="item-multi-option" data-value={{a}}><i class="far fa-check-circle"></i></a>
+                            {{else}}
+                            <a class="item-multi-option" data-value={{a}}><i class="far fa-circle"></i></a>
+                            {{/if}}
+                        </div>
+                    </li>
+                    {{/each}}
+                </div>
+                {{/if}}
+            </ol>
+        </div>
+    </div>
+</form>

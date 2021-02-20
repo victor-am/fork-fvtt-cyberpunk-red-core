@@ -206,6 +206,18 @@ CPR.inventoryCategories = {
   vehicle: "CPR.vehicle",
 };
 
+CPR.objectTypes = {
+  ammo: "CPR.ammo",
+  armor: "CPR.armor",
+  cyberware: "CPR.cyberware",
+  gear: "CPR.gear",
+  netarch: "CPR.netarch",
+  program: "CPR.program",
+  skill: "CPR.skill",
+  vehicle: "CPR.vehicle",
+  weapon: "CPR.weapon",
+};
+
 //
 CPR.cyberwareTypeList = {
   cyberAudioSuite: "CPR.cyberaudiosuite",
@@ -242,12 +254,19 @@ CPR.equipped = {
 
 CPR.itemPriceCategory = {
   cheap: "CPR.pricecategorycheap",
+  everyday: "CPR.pricecategoryeveryday",
   costly: "CPR.pricecategorycostly",
   premium: "CPR.pricecategorypremium",
   expensive: "CPR.pricecategoryexpensive",
   veryExpensive: "CPR.pricecategoryveryexpensive",
   luxury: "CPR.pricecategoryluxury",
   superLuxury: "CPR.pricecategorysuperluxury",
+};
+
+CPR.itemQuality = {
+  poor: "CPR.poor",
+  standard: "CPR.standard",
+  excellent: "CPR.excellent",
 };
 
 export default CPR;

@@ -9,7 +9,7 @@ import LOGGER from "../utils/cpr-logger.js";
 
 export default class VerifyRollPrompt {
   static async RenderPrompt(rollRequest) {
-    const template = `systems/cyberpunk-red-core/templates/dialog/cpr-verify-roll-${rollRequest.rollType}-prompt.hbs`;
+    const template = `systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-${rollRequest.rollType}-prompt.hbs`;
     const data = duplicate(rollRequest);
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {
@@ -27,13 +27,28 @@ export default class VerifyRollPrompt {
           } else {
             formData.mods = [];
           }
-          if (rollRequest.rollType === "damage" || rollRequest.rollType === "attack") {
-            if (formData.autofire) {
-              formData.fireMode = "autofire";
+          switch (rollRequest.rollType) {
+            case "damage":
+            case "attack": {
+              if (formData.autofire) {
+                formData.fireMode = "autofire";
+              }
+              if (formData.suppressive) {
+                formData.fireMode = "suppressive";
+              }
+              break;
             }
-            if (formData.suppressive) {
-              formData.fireMode = "suppressive";
+            case "deathsave": {
+              const deathPenalties = ["deathPenalty", "baseDeathPenalty"];
+              rollRequest.extraVars.forEach((penalty) => {
+                if (deathPenalties.includes(penalty.name)) {
+                  penalty.value = parseInt(formData[penalty.name], 10);
+                  formData.mods.push(penalty.value);
+                }
+              });
+              break;
             }
+            default:
           }
           resolve(formData);
         };
