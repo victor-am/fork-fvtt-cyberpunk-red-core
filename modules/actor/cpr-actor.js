@@ -298,7 +298,7 @@ export default class CPRActor extends Actor {
   }
 
   setRoles(formData) {
-    const {activeRole} = formData;
+    const { activeRole } = formData;
     let roleList = formData.selectedRoles;
     roleList.push(activeRole);
     roleList = [...new Set(roleList)];
