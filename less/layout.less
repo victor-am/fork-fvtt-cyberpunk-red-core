@@ -74,6 +74,11 @@
   input[type="number"] {
     min-width: 0;
     flex: 1 0;
+    
+    // Workaround for suspected webkit bug
+    &:hover {
+      backface-visibility: visible;
+    }
   }
 
   .of {

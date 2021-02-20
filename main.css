@@ -539,6 +539,9 @@ button,
   min-width: 0;
   flex: 1 0;
 }
+.min-of-max-container input[type="number"]:hover {
+  backface-visibility: visible;
+}
 .min-of-max-container .of {
   flex: 0 1;
   font-size: 75%;
