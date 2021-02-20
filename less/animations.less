@@ -5,8 +5,8 @@
 .glitch {
   @offset1: 2px;
   @offset2: -2px;
-  @highlight1: #49FC00;
-  @highlight2: #FF0000;
+  @highlight1: #2388d2;
+  @highlight2: #8ef104;
 
   margin: 0 auto;
   text-align: center;
@@ -27,14 +27,14 @@
     left: @offset1;
     text-shadow: -2px 0 @highlight1;
     clip: rect(24px, 550px, 90px, 0);
-    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+    animation: glitch-anim-2 7s infinite linear alternate-reverse;
   }
 
   &::after {
     left: @offset2;
     text-shadow: -2px 0 @highlight2;
     clip: rect(85px, 550px, 140px, 0);
-    animation: glitch-anim 2.5s infinite linear alternate-reverse;
+    animation: glitch-anim 6.5s infinite linear alternate-reverse;
   }
 }
 
@@ -49,9 +49,9 @@
 }
 
 @keyframes glitch-anim {
-  .glitch-frames(24);
+  .glitch-frames(10);
 }
 
 @keyframes glitch-anim-2 {
-  .glitch-frames(30,2);
+  .glitch-frames(10,2);
 }
