@@ -48,7 +48,7 @@
           },
           "seriouslyWounded": 20,
           "deathSave": {
-            "value":6,
+            "value": 6,
             "penalty": 0,
             "basePenalty": 0
           }
@@ -126,7 +126,9 @@
         },
         "roleInfo": {
           "activeRole": "solo",
-          "roles": ["solo"],
+          "roles": [
+            "solo"
+          ],
           "roleskills": {
             "netrunner": {
               "interface": 0
@@ -137,9 +139,9 @@
             "solo": {
               "combatAwareness": 0,
               "subSkills": {
-                "damageDeflection": 0, 
+                "damageDeflection": 0,
                 "fumbleRecovery": 0,
-                "initiativeReaction": 0, 
+                "initiativeReaction": 0,
                 "precisionAttack": 0,
                 "spotWeakness": 0,
                 "threatDetection": 0
@@ -186,7 +188,7 @@
           "history": ""
         },
         "cyberware": {
-            "installed": []
+          "installed": []
         },
         "humanity": {
           "value": 60,
@@ -279,7 +281,7 @@
         "meleeAction": {}
       },
       "equippable": {
-         "equipped": "owned"
+        "equipped": "owned"
       },
       "upgradable": {
         "isUpgraded": false,
@@ -319,7 +321,7 @@
         "common",
         "physicalItem",
         "upgradable",
-        "equippable"        
+        "equippable"
       ],
       "rof": 1,
       "weaponType": "",
@@ -355,67 +357,72 @@
         "sp": 0,
         "ablation": 0
       },
+      "isShield": false,
+      "shieldHitPoints": {
+        "value": 0,
+        "max": 0
+      },
       "penalty": 0
-    },
-    "ammo": {
-      "templates": [
-        "common",
-        "physicalItem",
-        "upgradable"
-      ],
-      "variety": "",
-      "amount": 0,
-      "type": ""
-    },
-    "gear": {
-      "templates": [
-        "common",
-        "physicalItem",
-        "upgradable",
-        "equippable"
-      ]
-    },
-    "skill": {
-      "templates": [
-        "common"
-      ],
-      "level": 0,
-      "stat": "int",
-      "category": "none",
-      "difficulty": "typical",
-      "core": false,
-      "basic": false
-    },
-    "vehicle": {
-      "templates": [
-        "common",
-        "physicalItem",
-        "upgradable"
-      ],
-      "spd": 0,
-      "seats": 0,
-      "speedCombat": 0,
-      "speedNarrative": ""
-    },
-    "program": {
-      "templates": [
-        "common",
-        "physicalItem",
-        "equippable"
-      ],
-      "class": "",
-      "per": 0,
-      "spd": 0,
-      "atk": 0,
-      "def": 0,
-      "rez": 0
-    },
-    "netarch": {
-      "templates": [
-        "common",
-        "physicalItem"
-      ],
-      "floors": []
-    }
+  },
+  "ammo": {
+    "templates": [
+      "common",
+      "physicalItem",
+      "upgradable"
+    ],
+    "variety": "",
+    "amount": 0,
+    "type": ""
+  },
+  "gear": {
+    "templates": [
+      "common",
+      "physicalItem",
+      "upgradable",
+      "equippable"
+    ]
+  },
+  "skill": {
+    "templates": [
+      "common"
+    ],
+    "level": 0,
+    "stat": "int",
+    "category": "none",
+    "difficulty": "typical",
+    "core": false,
+    "basic": false
+  },
+  "vehicle": {
+    "templates": [
+      "common",
+      "physicalItem",
+      "upgradable"
+    ],
+    "spd": 0,
+    "seats": 0,
+    "speedCombat": 0,
+    "speedNarrative": ""
+  },
+  "program": {
+    "templates": [
+      "common",
+      "physicalItem",
+      "equippable"
+    ],
+    "class": "",
+    "per": 0,
+    "spd": 0,
+    "atk": 0,
+    "def": 0,
+    "rez": 0
+  },
+  "netarch": {
+    "templates": [
+      "common",
+      "physicalItem"
+    ],
+    "floors": []
   }
+}
 }
