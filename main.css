@@ -426,9 +426,11 @@ button,
   grid-template-areas: "item-bottom-tabs" "item-bottom-content";
   height: fit-content;
   overflow-y: hidden;
-}
-.item-sheet .item-bottom-pane > div {
-  margin: 5px;
+  /*
+        &>div {
+            margin: 5px;
+        }
+*/
 }
 .item-sheet .item-bottom-pane .item-bottom-tabs-section {
   grid-area: item-bottom-tabs;
@@ -945,7 +947,6 @@ form input.number {
   background: #eaeaeaff;
 }
 .editor {
-  display: flex;
   flex: 1 0 auto;
 }
 .editor .tox-toolbar-overlord,
