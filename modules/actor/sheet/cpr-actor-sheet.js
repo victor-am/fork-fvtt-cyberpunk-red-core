@@ -318,7 +318,7 @@ export default class CPRActorSheet extends ActorSheet {
     rollRequest.stat = rollRequest.rollTitle;
     rollRequest.statValue = this.getData().data.stats[rollRequest.rollTitle].value;
     rollRequest.mods.push(this._getArmorPenaltyMods(rollRequest.stat));
-    rollRequest.rollTitle =  SystemUtils.Localize(CPR.statList[rollRequest.stat]);
+    rollRequest.rollTitle = SystemUtils.Localize(CPR.statList[rollRequest.stat]);
     LOGGER.trace(`ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
   }
 
