@@ -742,6 +742,7 @@ button,
   overflow: hidden;
   text-align: left;
   align-items: center;
+  text-overflow: ellipsis;
 }
 .items-list .item-image {
   flex: 0 0 30px;
@@ -753,6 +754,7 @@ button,
   word-break: break-word;
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 .items-list .hide {
   display: none;
