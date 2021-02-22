@@ -72,10 +72,6 @@ export default class CPRActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    if (!this.options.editable) return;
-
-    $("input[type=text]").focusin(() => $(this).select());
-
     // Make a roll
     html.find(".rollable").click((event) => this._onRoll(event));
 
@@ -94,15 +90,6 @@ export default class CPRActorSheet extends ActorSheet {
     // Generic item action
     html.find(".item-action").click((event) => this._itemAction(event));
 
-    // Create item in inventory
-    html.find(".item-create").click((event) => this._createInventoryItem(event));
-
-    // Render Item Card
-    html.find(".item-edit").click((event) => this._renderItemCard(event));
-
-    // Add New Skill Item To Sheet
-    html.find(".add-skill").click((event) => this._addSkill(event));
-
     // Reset Death Penalty
     html.find(".reset-value").click((event) => this._resetActorValue(event));
 
@@ -112,8 +99,6 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".sanity-check-cyberware").click((event) => this.actor.sanityCheckCyberware());
 
     html.find(".checkbox").click((event) => this._checkboxToggle(event));
-
-    html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
 
     html.find(".toggle-favorite-visibility").click((event) => {
       const collapsibleElement = $(event.currentTarget).parents(".collapsible");
@@ -193,6 +178,22 @@ export default class CPRActorSheet extends ActorSheet {
         }
       }
     });
+
+    if (!this.options.editable) return;
+    // Listeners for editable fields under here
+
+    $("input[type=text]").focusin(() => $(this).select());
+
+    // Render Item Card
+    html.find(".item-edit").click((event) => this._renderItemCard(event));
+
+    // Create item in inventory
+    html.find(".item-create").click((event) => this._createInventoryItem(event));
+
+    // Add New Skill Item To Sheet
+    html.find(".add-skill").click((event) => this._addSkill(event));
+
+    html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
   }
 
   /* -------------------------------------------- */

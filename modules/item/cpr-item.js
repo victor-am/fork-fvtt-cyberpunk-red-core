@@ -116,12 +116,12 @@ export default class CPRItem extends Item {
 
   // Weapon Item Methods
   // TODO - Refactor
-  _weaponAction(actionAttributes) {
+  async _weaponAction(actionAttributes) {
     LOGGER.debug("_weaponAction | CPRItem | Called.");
+    console.log(actionAttributes);
     const actionData = actionAttributes["data-action"].nodeValue;
     switch (actionData) {
-      case "new-ammo":
-        this._weaponUnload();
+      case "select-ammo":
         this._weaponLoad();
         break;
       case "unload":
@@ -176,7 +176,7 @@ export default class CPRItem extends Item {
           }
         });
 
-        let dialogData = {
+        let formData = {
           weapon: this,
           ammoList: validAmmo,
           selectedAmmo: "",
@@ -187,12 +187,16 @@ export default class CPRItem extends Item {
           return;
         }
 
-        dialogData = await SelectAmmoPrompt(dialogData);
+        formData = await SelectAmmoPrompt.RenderPrompt(formData);
 
-        if (dialogData.selectedAmmo === "abort") {
-          return;
-        }
-        selectedAmmoId = dialogData.selectedAmmo;
+        selectedAmmoId = formData.selectedAmmo;
+      }
+
+      const loadedAmmo = this.data.data.magazine.ammoId;
+
+      if (loadedAmmo !== "" && loadedAmmo !== selectedAmmoId)
+      {
+        await this._weaponUnload();
       }
 
       if (selectedAmmoId) {
