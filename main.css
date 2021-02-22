@@ -282,13 +282,34 @@ button,
 .skills-tab .right-pane-skills {
   grid-area: skills-right;
 }
-.gear-tab,
 .cyberware-tab {
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: auto;
   width: inherit;
   background-color: #eaeaeaff;
+}
+.gear-tab {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 370px auto;
+  width: inherit;
+  background-color: #eaeaeaff;
+  grid-template-areas: "gear-top" "gear-bottom";
+}
+.gear-tab .top-pane-gear {
+  grid-area: gear-top;
+  overflow-y: scroll;
+  background-color: #eaeaeaff;
+}
+.gear-tab .bottom-pane-gear {
+  grid-area: gear-bottom;
+  background-color: #eaeaeaff;
+  display: flex;
+  white-space: nowrap;
+  border-width: 5px;
+  border-top-color: #b90202ff;
+  border-top-style: solid;
 }
 .role-tab,
 .lifepath-tab {
@@ -984,66 +1005,66 @@ form input.number {
 }
 @keyframes glitch-anim {
   0% {
-    clip: rect(106px, 9999px, 126px, 0);
+    clip: rect(72px, 9999px, 111px, 0);
   }
   10% {
-    clip: rect(70px, 9999px, 144px, 0);
+    clip: rect(69px, 9999px, 43px, 0);
   }
   20% {
-    clip: rect(122px, 9999px, 58px, 0);
+    clip: rect(123px, 9999px, 109px, 0);
   }
   30% {
-    clip: rect(131px, 9999px, 65px, 0);
+    clip: rect(23px, 9999px, 11px, 0);
   }
   40% {
-    clip: rect(25px, 9999px, 82px, 0);
+    clip: rect(25px, 9999px, 125px, 0);
   }
   50% {
-    clip: rect(30px, 9999px, 28px, 0);
+    clip: rect(129px, 9999px, 133px, 0);
   }
   60% {
-    clip: rect(99px, 9999px, 43px, 0);
+    clip: rect(118px, 9999px, 1px, 0);
   }
   70% {
-    clip: rect(37px, 9999px, 73px, 0);
+    clip: rect(53px, 9999px, 4px, 0);
   }
   80% {
-    clip: rect(147px, 9999px, 8px, 0);
+    clip: rect(46px, 9999px, 110px, 0);
   }
   90% {
-    clip: rect(72px, 9999px, 17px, 0);
+    clip: rect(38px, 9999px, 142px, 0);
   }
   100% {
-    clip: rect(137px, 9999px, 19px, 0);
+    clip: rect(29px, 9999px, 139px, 0);
   }
 }
 @keyframes glitch-anim-2 {
   20% {
-    clip: rect(18px, 9999px, 60px, 0);
+    clip: rect(92px, 9999px, 148px, 0);
   }
   30% {
-    clip: rect(52px, 9999px, 30px, 0);
+    clip: rect(59px, 9999px, 64px, 0);
   }
   40% {
-    clip: rect(122px, 9999px, 41px, 0);
+    clip: rect(113px, 9999px, 62px, 0);
   }
   50% {
-    clip: rect(36px, 9999px, 74px, 0);
+    clip: rect(92px, 9999px, 19px, 0);
   }
   60% {
-    clip: rect(77px, 9999px, 105px, 0);
+    clip: rect(10px, 9999px, 135px, 0);
   }
   70% {
-    clip: rect(64px, 9999px, 72px, 0);
+    clip: rect(69px, 9999px, 102px, 0);
   }
   80% {
-    clip: rect(83px, 9999px, 10px, 0);
+    clip: rect(35px, 9999px, 89px, 0);
   }
   90% {
-    clip: rect(119px, 9999px, 68px, 0);
+    clip: rect(111px, 9999px, 17px, 0);
   }
   100% {
-    clip: rect(37px, 9999px, 55px, 0);
+    clip: rect(24px, 9999px, 66px, 0);
   }
 }
 .window-app .window-content {

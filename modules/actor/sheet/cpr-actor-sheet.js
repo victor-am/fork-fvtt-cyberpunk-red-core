@@ -641,6 +641,11 @@ export default class CPRActorSheet extends ActorSheet {
     this._updateOwnedItem(item);
   }
 
+  _updateEurobucks(event) {
+    LOGGER.trace("ActorID _updateEurobucks | CPRActorSheet | Called.");
+    this._setEb(parseInt(event.target.value, 10), "player input in gear tab");
+  }
+
   // OWNED ITEM HELPER FUNCTIONS
   // TODO - Assert all usage correct.
   _updateOwnedItemProp(item, prop, value) {
