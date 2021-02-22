@@ -115,6 +115,8 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
 
+    html.find(".eurobucks-input").click((event) => event.target.select()).change((event) => this._updateEurobucks(event));
+
     html.find(".toggle-favorite-visibility").click((event) => {
       const collapsibleElement = $(event.currentTarget).parents(".collapsible");
       const skillCategory = event.currentTarget.id.replace("-showFavorites", "");
@@ -639,6 +641,11 @@ export default class CPRActorSheet extends ActorSheet {
     const item = this._getOwnedItem(this._getItemId(event));
     item.setSkillLevel(parseInt(event.target.value, 10));
     this._updateOwnedItem(item);
+  }
+
+  _updateEurobucks(event) {
+    LOGGER.trace("ActorID _updateEurobucks | CPRActorSheet | Called.");
+    this._setEb(parseInt(event.target.value, 10), "player input in gear tab");
   }
 
   // OWNED ITEM HELPER FUNCTIONS
