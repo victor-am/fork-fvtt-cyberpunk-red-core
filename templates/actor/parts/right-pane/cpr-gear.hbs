@@ -1,6 +1,5 @@
 <div class="gear-tab">
     <ol class="items-list gear-list">
-
         {{#each (findConfigObj "inventoryCategories") as |category c|}}
         <div class="collapsible">
             <li class="items-header flexrow collapsible">
@@ -17,20 +16,8 @@
             </ol>
         </div>
         {{/each}}
-        {{!-- Special case "Currency" since eurobucks are not actually an item but an actor property --}}
-        <div class="collaspible">
-            <li class="items-header flexrow collapsible">
-                <span class="item-name gear-name bg-black text-nowrap expand-button " id="gearTab-currency">{{localize "CPR.currency"}}&nbsp;<i class="fas fa-plus bg-black collapse-icon hide"></i><i class="fas fa-minus bg-black expand-icon"></i></span>
-                <span class="item-detail gear-data bg-black text-nowrap">{{localize "CPR.data"}}</span>
-                <span class="item-detail gear-actions bg-black text-nowrap">{{localize "CPR.actions"}}&nbsp;{{#if (systemConfig "playersCreateInventory")}}<a class="item-create" data-item-type="{{c}}"><i class="fas fa-plus-circle text-padding-right"></i></a>{{/if}}</span>
-            </li>
-            <ol class="items-list">
-                <li class="item flexrow">
-                    <div class="item-name gear-name flexrow text-nowrap">{{localize "CPR.eurobucks"}} </div>
-                    <div class="item-detail gear-data text-nowrap">{{localize "CPR.amount"}}: <input class="number eurobucks-input" value="{{actor.data.wealth.value}}" type="number" data-item-prop="data.level" data-dtype="Number"></div>
-                    <div class="item-detail gear-actions text-nowrap">{{localize "CPR.na"}}</div>
-                </li>
-            </ol>
-        </div>
     </ol>
+</div>
+<div class="eurobucks">
+    {{localize "CPR.eurobucks"}}: <input class="number eurobucks-input" value="{{actor.data.wealth.value}}" type="number" >
 </div>
