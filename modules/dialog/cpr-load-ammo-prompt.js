@@ -18,7 +18,7 @@ export default class LoadAmmoPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.selectroleprompttitle"),
+          title: SystemUtils.Localize("CPR.selectammotoloadintotitle"),
           content: html,
           buttons: {
             cancel: {

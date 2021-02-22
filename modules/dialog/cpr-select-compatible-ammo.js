@@ -26,7 +26,7 @@ export default class SelectRolesPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.selectroleprompttitle"),
+          title: SystemUtils.Localize("CPR.selectcompatibleammotitle"),
           content: html,
           buttons: {
             cancel: {
