@@ -2,7 +2,7 @@
 <div class="deathsave-block main-block">
   <div class="block-label text-small flex-space-between">
     <span class="text-padding-left">{{localize "CPR.woundstate"}}</span>
-    <span class="text-padding-right" title="{{localize "CPR.deathsavetitle"}}"><a class="reset-value" data-value="deathsave">{{localize "CPR.deathsave"}}</a></span>
+    <span class="text-padding-right" title="{{localize "CPR.deathsaveroll"}}"><a class="rollable"  data-roll-title="{{localize "CPR.deathsave"}}" data-roll-type="deathsave">{{localize "CPR.deathsave"}}</a></span>
   </div>
   <div class="block-data flex-space-between">
     {{!-- <span>{{localize (findConfigValue "woundState" this.data.woundState.currentWoundState)}}</span> --}}
@@ -20,13 +20,9 @@
     <i class="fg-black bg-white text-normal text-center width-full fas fa-skull" title="Mortally Wounded"></i>
     {{/if}}
     {{/with}}
-    <span class="width-full" title="{{localize "CPR.deathsaverolltitle"}}
+    <span class="width-full" title="{{localize "CPR.deathsavereset"}}
     {{localize "CPR.deathpenalty"}}: {{data.derivedStats.deathSave.penalty}}
-    {{localize "CPR.criticalinjuries"}} {{localize "CPR.penalty"}}: {{data.derivedStats.deathSave.basePenalty}}"><a class="rollable text-bold" data-roll-title="{{localize "CPR.deathsave"}}" data-roll-type="deathsave">{{data.derivedStats.deathSave.value}}</a></span>
-    
-{{!--    <input class="width-full" name="data.derivedStats.deathSave.value" type="number"
-      value="{{data.derivedStats.deathSave}}" data-dtype="Number" />
-      --}}
+    {{localize "CPR.criticalinjuries"}} {{localize "CPR.penalty"}}: {{data.derivedStats.deathSave.basePenalty}}"><a class="reset-value text-bold" data-value="deathsave">{{data.derivedStats.deathSave.value}}</a></span>
   </div>
 </div>
 {{log "END CPR-DEATHSAVE-BLOCK.HBS"}}

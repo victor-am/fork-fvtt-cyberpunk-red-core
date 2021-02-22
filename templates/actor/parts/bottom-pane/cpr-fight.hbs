@@ -23,8 +23,7 @@
                     <li class="flex-space-between item" data-item-id="{{armor._id}}" >
                         <div class="item-name armor-name flexrow text-nowrap"><a class="name item-edit">{{armor.name}}</a>
                         </div>
-                        <div><a class="ablate" data-location="{{#if armor.data.isHeadLocation}}head{{else}}body{{/if}}"><i
-                                    class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a></div>
+                        
                     </li>
                     {{#if armor.data.isHeadLocation}}
                     <li class="flex-space-between">
@@ -38,6 +37,8 @@
                                 </span>
                             {{/if}}
                             /{{armor.data.headLocation.sp}}
+                            <a class="ablate" data-location="head"><i
+                                    class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a>
                         </div>
                     </li>
                     {{/if}}
@@ -53,6 +54,9 @@
                                 </span>
                             {{/if}}
                             /{{armor.data.bodyLocation.sp}}
+                                                        <a class="ablate" data-location="body"><i
+                                    class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a>
+
                         </div>
                     </li>
                     {{/if}}
