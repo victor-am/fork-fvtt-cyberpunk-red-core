@@ -145,31 +145,19 @@
                         <input name="data.magazine.max" class="" type="number" value="{{data.magazine.max}}">
                     </div>
                 </li>
-                {{!- Ranged Weapon - Compatible Ammo Settings--}}
+                <div class="item flexrow setting-name text-nowrap text-bold">
+                    <a class="select-compatible-ammo" data-item-prop="select-compatible-ammo">{{localize
+                        "CPR.configurecompatibleammo"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
+                </div>
+                {{#each (findConfigObj "ammoVariety") as |ammoVariety a|}}
+                {{#if (listContains (getProp ../this.data "ammoVariety") a)}}
                 <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap text-bold">
-                        {{localize "CPR.configurecompatibleammo"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
+                    <div class="item flexrow setting-name text-nowrap text-padding-left">
+                        &nbsp;{{localize ammoVariety}}
                     </div>
                 </li>
-
-                <div class="item-multi-select" data-target="data.ammoVariety">
-                    {{#each (findConfigObj "ammoVariety") as |ammoVariety a|}}
-                    <li class="item flexrow">
-                        <div class="item flexrow setting-name text-nowrap text-padding-left">
-                            {{localize ammoVariety}}
-                        </div>
-                        <div class="item flexrow setting-value text-nowrap item-end">
-                            {{#if (listContains (getProp ../this.data "ammoVariety") a)}}
-                            <a class="item-multi-option" data-value={{a}}><i class="far fa-check-circle"></i></a>
-                            {{else}}
-                            <a class="item-multi-option" data-value={{a}}><i class="far fa-circle"></i></a>
-                            {{/if}}
-                        </div>
-                    </li>
-                    {{/each}}
-                </div>
+                {{/if}}
+                {{/each}}
                 {{/if}}
             </ol>
         </div>

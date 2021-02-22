@@ -66,6 +66,8 @@ export default class CPRItemSheet extends ItemSheet {
     html.find(".item-checkbox").click((event) => this._itemCheckboxToggle(event));
 
     html.find(".item-multi-option").click((event) => this._itemMultiOption(event));
+
+    html.find(".select-compatible-ammo").click((event) => this._selectCompatibleAmmo(event));
   }
 
   /*
@@ -98,5 +100,14 @@ export default class CPRItemSheet extends ItemSheet {
       setProperty(itemData, target, prop);
       this.item.update(itemData);
     }
+  }
+
+  async _selectCompatibleAmmo(event) {
+    console.log(event);
+    const itemData = this.item.getData();
+    console.log(this);
+    console.log(this.item.getData());
+    let formData = { id: this.item.data._id, name: this.item.data.name, data: itemData };
+    //formData = await SelectCompatibleAmmo.RenderPrompt(formData);
   }
 }
