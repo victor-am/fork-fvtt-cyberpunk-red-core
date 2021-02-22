@@ -1,4 +1,5 @@
 <form>
+    {{log this}}
     <div class="item-settings-tab">
         <div class="item-settings-section">
             <ol class="items-list">
@@ -155,10 +156,12 @@
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap text-padding-left">
                         &nbsp;{{localize ammoVariety}}
+                        {{#if ../this.isOwned}}
                         {{#if (isNumber (math "sum" (getProp (filter ../this.filteredItems.ammo "data.data.variety" a) "data.data.amount")))}}
                         <div class="text-right">
                             &nbsp;&nbsp;({{localize "CPR.youown"}} {{math "sum" (getProp (filter ../this.filteredItems.ammo "data.data.variety" a) "data.data.amount")}} {{localize "CPR.rounds"}})
                         </div>
+                        {{/if}}
                         {{/if}}
                     </div>
                 </li>
