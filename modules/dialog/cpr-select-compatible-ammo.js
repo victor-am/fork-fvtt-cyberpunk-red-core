@@ -3,18 +3,26 @@
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
-export default class SelectAmmoPrompt {
+export default class SelectRolesPrompt {
   static async RenderPrompt(data) {
-    const template = "systems/cyberpunk-red-core/templates/dialog/cpr-select-ammo-prompt.hbs";
+    const template = "systems/cyberpunk-red-core/templates/dialog/cpr-select-compatible-ammo-prompt.hbs";
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
-          LOGGER.trace("_onCancel | Dialog SelectAmmoPrompt | called.");
+          LOGGER.trace("_onCancel | Dialog SelectRolesPrompt | called.");
           reject();
         };
         const _onConfirm = (html) => {
-          LOGGER.trace("_onConfirm | Dialog SelectAmmoPrompt | called.");
+          LOGGER.trace("_onConfirm | Dialog SelectRolesPrompt | called.");
+          const ammoList = html.find("[name=\"selectedAmmo\"");
+          const selectedAmmo = [];
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
+          Object.keys(ammoList).forEach((ammo) => {
+            if (ammoList[ammo].checked) {
+              selectedAmmo.push(ammoList[ammo].value);
+            }
+          });
+          formData.selectedAmmo = selectedAmmo;
           resolve(formData);
         };
         new Dialog({
@@ -37,7 +45,7 @@ export default class SelectAmmoPrompt {
             },
           },
           default: "confirm",
-          render: LOGGER.trace("confirm | Dialog SelectAmmoPrompt | called."),
+          render: LOGGER.trace("confirm | Dialog SelectRolesPrompt | called."),
           close: () => {
             reject();
           },

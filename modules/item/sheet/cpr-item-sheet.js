@@ -2,7 +2,7 @@
 /* global mergeObject, game, $, hasProperty, getProperty, setProperty, duplicate */
 import LOGGER from "../../utils/cpr-logger.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
-
+import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
 /**
  * Extend the basic ActorSheet.
  * @extends {ItemSheet}
@@ -103,11 +103,11 @@ export default class CPRItemSheet extends ItemSheet {
   }
 
   async _selectCompatibleAmmo(event) {
-    console.log(event);
     const itemData = this.item.getData();
-    console.log(this);
-    console.log(this.item.getData());
     let formData = { id: this.item.data._id, name: this.item.data.name, data: itemData };
-    //formData = await SelectCompatibleAmmo.RenderPrompt(formData);
+    formData = await SelectCompatibleAmmo.RenderPrompt(formData);
+    if (formData.selectedAmmo) {
+      await this.item.setCompatibleAmmo(formData.selectedAmmo);
+    }
   }
 }

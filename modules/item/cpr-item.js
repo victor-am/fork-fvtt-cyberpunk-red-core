@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 /* global Item */
 import LOGGER from "../utils/cpr-logger.js";
-import SelectAmmoPrompt from "../dialog/cpr-select-ammo-prompt.js";
+import LoadAmmoPrompt from "../dialog/cpr-load-ammo-prompt.js";
 import CPRSystemUtils from "../utils/cpr-systemUtils.js";
 import Rules from "../utils/cpr-rules.js";
 
@@ -93,6 +93,14 @@ export default class CPRItem extends Item {
     }
   }
 
+  setCompatibleAmmo(ammoList) {
+    this.data.data.ammoVariety = ammoList;
+    if (this.actor) {
+      return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+    }
+    return Promise.resolve();
+  }
+
   // AMMO FUNCTIONS
   _ammoDecrement(changeAmount) {
     LOGGER.debug("_ammoDecrement | CPRItem | Called.");
@@ -118,7 +126,6 @@ export default class CPRItem extends Item {
   // TODO - Refactor
   async _weaponAction(actionAttributes) {
     LOGGER.debug("_weaponAction | CPRItem | Called.");
-    console.log(actionAttributes);
     const actionData = actionAttributes["data-action"].nodeValue;
     switch (actionData) {
       case "select-ammo":
@@ -180,6 +187,7 @@ export default class CPRItem extends Item {
           weapon: this,
           ammoList: validAmmo,
           selectedAmmo: "",
+          returnType: "string",
         };
 
         if (validAmmo.length === 0) {
@@ -187,15 +195,14 @@ export default class CPRItem extends Item {
           return;
         }
 
-        formData = await SelectAmmoPrompt.RenderPrompt(formData);
+        formData = await LoadAmmoPrompt.RenderPrompt(formData);
 
         selectedAmmoId = formData.selectedAmmo;
       }
 
       const loadedAmmo = this.data.data.magazine.ammoId;
 
-      if (loadedAmmo !== "" && loadedAmmo !== selectedAmmoId)
-      {
+      if (loadedAmmo !== "" && loadedAmmo !== selectedAmmoId) {
         await this._weaponUnload();
       }
 

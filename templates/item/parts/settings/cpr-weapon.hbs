@@ -149,15 +149,22 @@
                     <a class="select-compatible-ammo" data-item-prop="select-compatible-ammo">{{localize
                         "CPR.configurecompatibleammo"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
                 </div>
+                <div class="compatible-ammo">
                 {{#each (findConfigObj "ammoVariety") as |ammoVariety a|}}
                 {{#if (listContains (getProp ../this.data "ammoVariety") a)}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap text-padding-left">
                         &nbsp;{{localize ammoVariety}}
+                        {{#if (isNumber (math "sum" (getProp (filter ../this.filteredItems.ammo "data.data.variety" a) "data.data.amount")))}}
+                        <div class="text-right">
+                            &nbsp;&nbsp;({{localize "CPR.youown"}} {{math "sum" (getProp (filter ../this.filteredItems.ammo "data.data.variety" a) "data.data.amount")}} {{localize "CPR.rounds"}})
+                        </div>
+                        {{/if}}
                     </div>
                 </li>
                 {{/if}}
                 {{/each}}
+                </div>
                 {{/if}}
             </ol>
         </div>
