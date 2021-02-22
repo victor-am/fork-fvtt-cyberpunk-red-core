@@ -1,0 +1,14 @@
+{{log "LOAD-WEAPON.HBS"}}
+<form>
+    {{localize "CPR.selectammotoloadinto"}} {{this.weapon.data.name}}:
+    <div>
+        <select name="selectedAmmo">
+            {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
+            {{#each this.ammoList as |ammo|}}
+            <option value="{{ammo.data._id}}">{{ammo.data.name}} ({{localize (findConfigValue "ammoType"
+                ammo.data.data.type)}})</option>
+            {{/each}}
+        </select>
+    </div>
+</form>
+{{log "END LOAD-WEAPON.HBS"}}

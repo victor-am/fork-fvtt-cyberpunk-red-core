@@ -37,6 +37,9 @@ export default class CPRChat {
       case "damage": {
         return "systems/cyberpunk-red-core/templates/chat/cpr-damage-rollcard.hbs";
       }
+      case "deathsave": {
+        return "systems/cyberpunk-red-core/templates/chat/cpr-deathsave-rollcard.hbs";
+      }
       case "attack":
       case "stat":
       case "roleAbility":

@@ -1,0 +1,148 @@
+.item-sheet {
+    font-family: "Audimat Mono";
+
+    // Cyberpunk Red Core Sheet Styling
+
+    // The basic sheet should be white
+    background-color: @chrome-white;
+
+    // Utilize grid for element placement on the sheet
+    display: grid;
+
+    // We want white borders between each element
+    grid-gap: 5px;
+
+    // At a top level, we will have 2x2 grid
+    // +------------------------------------------+
+    // | main & stats | tabs: skills, cyber, gear |
+    // |------------------------------------------+
+    // | tabs: Role, Combat, Lifepath             |
+    // +------------------------------------------+
+    // 
+    // Originally we tried to just size this using auto and letting
+    // the sub-elements dictate the size. The problem was that when
+    // a sub-element didn't take up all of the space,
+    // it split the space 50/50.
+    // dictated by the elements contained in each grid
+    grid-template-columns: auto;
+    grid-template-rows   : 72px auto;
+
+    grid-template-areas:
+        "item-top-pane"
+        "item-bottom-pane";
+
+    .item-top-pane {
+        grid-area: item-top-pane;
+
+        display         : grid;
+        background-color: @wyrm-red;
+        padding         : 5px;
+        height          : 72px;
+
+        grid-template-columns: 67px auto;
+        grid-template-rows   : auto;
+        grid-template-areas  :
+            "item-image item-header";
+
+        .item-image-section {
+            grid-area       : item-image;
+            display         : flex;
+            background-color: @wyrm-red;
+            height          : 62px;
+            width           : 62px;
+
+        }
+
+        .item-header-section {
+            grid-area       : item-header;
+            display         : flex;
+            background-color: @chrome-white;
+            height          : 62px;
+        }
+
+
+    }
+
+    .item-bottom-pane {
+        display  : grid;
+        grid-area: item-bottom-pane;
+
+        grid-template-columns: auto;
+        grid-template-rows   : 18px auto;
+        grid-template-areas  :
+            "item-bottom-tabs"
+            "item-bottom-content";
+
+        height    : fit-content;
+        overflow-y: hidden;
+/*
+        &>div {
+            margin: 5px;
+        }
+*/
+        .item-bottom-tabs-section {
+            grid-area: item-bottom-tabs;
+        }
+
+        .item-bottom-content-section {
+            grid-area: item-bottom-content;
+            display  : flex;
+
+            border-color: @wyrm-red;
+            border-style: solid;
+            border-width: 5px;
+            overflow-y  : scroll;
+        }
+    }
+}
+
+.item-description-tab {
+    display         : flex;
+    flex            : 1 0 auto;
+    min-height      : 75px;
+    grid-gap        : 5px;
+    background-color: @wyrm-red;
+
+    .item-summary-section {
+        //grid-area: item-summary;
+        background-color: @chrome-white;
+        ;
+        height   : unset;
+        font-size: @font-smaller;
+        min-width: 135px;
+
+        .item-summary-line {
+            display: flex;
+
+            .summary-name {
+                flex: 0 0 70px;
+            }
+        }
+    }
+
+    .item-description-section {
+        //grid-area: item-description;
+        display         : flex;
+        flex            : 1 0 auto;
+        background-color: @chrome-white;
+        ;
+        height: unset;
+    }
+}
+
+.item-settings-tab {
+    display         : flex;
+    width           : auto;
+    flex            : 1;
+    background-color: @chrome-white;
+
+    .item-settings-section {
+        display: list-item;
+        flex   : 1;
+    }
+}
+
+
+.item-image-block {
+    clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
+}

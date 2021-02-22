@@ -16,12 +16,14 @@ export default class SelectRolesPrompt {
           LOGGER.trace("_onConfirm | Dialog SelectRolesPrompt | called.");
           const roleList = html.find("[name=\"selectedRoles\"");
           const selectedRoles = [];
+          const formData = new FormDataExtended(html.find("form")[0]).toObject();
           Object.keys(roleList).forEach((role) => {
             if (roleList[role].checked) {
               selectedRoles.push(roleList[role].value);
             }
           });
-          resolve(selectedRoles);
+          formData.selectedRoles = selectedRoles;
+          resolve(formData);
         };
         new Dialog({
           title: SystemUtils.Localize("CPR.selectroleprompttitle"),

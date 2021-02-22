@@ -1,164 +1,303 @@
-app.window-app.sheet.actor {
-  min-width : 840px;
-  min-height: 600px;
+// Overall Sheet Layout
+.actor-sheet {
+    font-family: "Audimat Mono";
+    // Cyberpunk Red Core Sheet Styling
+
+    // The basic sheet should be white
+    background-color: @chrome-white;
+
+    // Utilize grid for element placement on the sheet
+    display: grid;
+
+    // We want white borders between each element
+    grid-gap: 5px;
+
+    // At a top level, we will have 2x2 grid
+    // +------------------------------------------+
+    // | main & stats | tabs: skills, cyber, gear |
+    // |------------------------------------------+
+    // | tabs: Role, Combat, Lifepath             |
+    // +------------------------------------------+
+    // 
+    // Originally we tried to just size this using auto and letting
+    // the sub-elements dictate the size. The problem was that when
+    // a sub-element didn't take up all of the space,
+    // it split the space 50/50.
+    // dictated by the elements contained in each grid
+    grid-template-columns: 265px auto;
+    grid-template-rows   : auto auto;
+
+    grid-template-areas: "pane-left pane-right"
+    "pane-bottom pane-bottom";
+
+    // Pane for main and stats
+    .left-pane {
+        grid-area: pane-left;
+        display  : grid;
+
+        // main  is 200px wide
+        // stats is 60px wide
+        // plus the 5px grid-gap
+        max-width: 265px;
+        max-height: 425px;
+        grid-gap : 5px;
+
+        grid-template-columns: auto auto;
+        grid-template-areas  :
+            "main stats";
+
+        .main-section {
+            grid-area       : main;
+            width           : 200px;
+            height          : 425px;
+            background-color: @wyrm-red;
+
+            &>div {
+                margin: 5px;
+            }
+        }
+
+        .stats-section {
+            grid-area: stats;
+            width    : 58px;
+
+            grid-template-columns: 1fr;
+            grid-template-rows   : repeat(10, 1fr);
+
+            &>div {
+                margin: 5px;
+            }
+        }
+    }
+
+    .right-pane {
+        grid-area            : pane-right;
+
+        display              : grid;
+        grid-template-columns: auto;
+        grid-template-rows   : auto auto;
+        grid-template-areas  :
+            "tabs-right"
+            "content-right";
+        //max-height: 425px;
+
+        .right-tabs-section {
+
+            grid-area: tabs-right;
+
+            width: 100%;
+            height: 21px;
+        }
+
+        .right-content-section {
+            grid-area: content-right;
+            display  : flex;
+            height: 404px;
+            width: 100%;
+
+            border-color: @wyrm-red;
+            border-style: solid;
+            border-width: 5px;
+            overflow-y: scroll;
+        }
+    }
+
+    .bottom-pane {
+        grid-area: pane-bottom;
+        display  : grid;
+
+        grid-template-columns: auto;
+        grid-template-rows   : auto auto;
+        grid-template-areas  :
+            "tabs-bottom"
+            "content-bottom";
+
+        overflow-y: hidden;
+        .bottom-tabs-section {
+
+            grid-area: tabs-bottom;
+
+            width: 100%;
+            height: 21px;
+        }
+
+        .bottom-content-section {
+            grid-area: content-bottom;
+            display  : flex;
+            width: 100%;
+
+            border-color: @wyrm-red;
+            border-style: solid;
+            border-width: 5px;
+            overflow-y: auto;
+        }
+    }
 }
 
-.sheet-content {
-  margin               : 5px;
-  display              : grid;
-  grid-template-columns: 200px 60px 1fr;
-  grid-template-rows   : 30px 165px repeat(5, 65px);
-  grid-template-areas  :
-    "image stats tabs "
-    "image stats content "
-    "handle stats content "
-    "role stats content "
-    "hitpoints stats content "
-    "deathsave stats content "
-    "humanity stats content "
-  ;
-  grid-column-gap: 5px;
-  grid-row-gap   : 5px;
+.skills-tab {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto;
+    grid-template-areas: "skills-left skills-right";
+    width: inherit;
+    grid-gap: 5px;
+    background-color: @wyrm-red;
 
-  .image-div {
-    grid-area: image;
-
-    img {
-      border : 0;
-      outline: 0
+    .left-pane-skills {
+        grid-area: skills-left;
     }
-  }
+    .right-pane-skills {
+        grid-area: skills-right;
+    }
+}
 
-  .handle-div {
-    grid-area: handle;
-  }
+.cyberware-tab {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    width: inherit;
+    background-color: @chrome-white;
+}
 
-  .role-div {
-    grid-area: role;
-  }
-
-  .hitpoints-div {
-    grid-area: hitpoints;
-  }
-
-  .deathsave-div {
-    grid-area: deathsave;
-  }
-
-  .humanity-div {
-    grid-area: humanity;
-  }
-
-  .tabs-div {
-    grid-area : tabs;
-    box-shadow: 0;
-
-    .navtab {
-      padding     : 0;
-      padding     : 1px 4px 0 4px;
-      margin-left : 15px;
-      margin-right: 15px;
-      text-align  : center;
+.gear-tab {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 370px auto;
+    width: inherit;
+    background-color: @chrome-white;
+    grid-template-areas: 
+        "gear-top"
+        "gear-bottom";
+    .top-pane-gear {
+        grid-area: gear-top;
+        overflow-y: scroll;
+        background-color: @chrome-white;
+    }
+    .bottom-pane-gear {
+        grid-area: gear-bottom;
+        background-color: @chrome-white;
+        display: flex;
+        white-space: nowrap;
+        border-width: 5px;
+        border-top-color: @wyrm-red;
+        border-top-style: solid;
     }
 
-    .selected {
-      background-color: @raisin-black;
-      color           : @white;
+}
+
+.role-tab,
+.lifepath-tab {
+    display: flex;
+    background-color: @chrome-white;
+    flex-flow: wrap;
+    justify-content: space-between;
+    flex: 1;
+
+}
+
+.lifepath-tab {
+    margin: 5px;
+}
+
+.fight-tab {
+    display: grid;
+    grid-template-columns: 25% 25% auto;
+    grid-template-rows: auto;
+    grid-template-areas: "injuries armor weapon";
+    width: inherit;
+    grid-gap: 5px;
+    background-color: @wyrm-red;
+    .injuries-section {
+        grid-area: injuries;
+        background-color: @chrome-white;
+        min-height: 35px;
     }
-  }
-
-  .stats-div {
-    grid-area: stats;
-  }
-
-  .row {
-    // border: solid 3px @maximum-red;
-    // border-top: solid 1.5px @maximum-red;
-    // border-bottom: solid 1.5px @maximum-red;
-    display         : flex;
-    justify-content : space-between;
-    align-items     : center;
-    padding         : 0 3px;
-    background-color: @white;
-  }
-
-  .skills {
-    flex: 50%;
-
-    .skill-name {
-      width: 60%;
+    .armor-section {
+        grid-area: armor;
+        background-color: @chrome-white;
+        min-height: 35px;
     }
-
-    .skill-level,
-    .skill-base {
-      width     : 10%;
-      text-align: center;
-    }
-  }
-
-  .inventory {
-    flex      : 100%;
-    text-align: center;
-
-    .name {
-      width: 200px;
+    .weapon-section {
+        grid-area: weapon;
+        background-color: @chrome-white;
+        min-height: 35px;
     }
 
-    .data {
-      text-align: left;
-    }
+}
 
-    .action {
-      width: 10%;
-    }
+// Section Specific CSS
+.handle-block,
+.role-block,
+.hitpoint-block,
+.deathsave-block,
+.humanity-block,
+.stat-block {
+    font-size       : @font-normal;
+    color: @flint-black;
+    background-color: @chrome-white;
+}
 
-  }
+.image-block {
+    clip-path: polygon(25px 0, 100% 0, 100% 100%, 0 100%, 0 25px);
 
-  .border-red {
-    border: solid @maximum-red 1px;
-  }
+    height: 190px;
+    width : 190px;
+}
 
-  .row-header {
-    background : @raisin-black;
-    color      : @white;
+.stat-block {
+    height: 37px;
+    width : 48px;
+}
+
+.main-block {
+    height: 40px;
+    width : 190px;
+}
+
+.block-label {
     font-weight: bold;
-  }
-
-  .row-section {
-    flex-grow: 1;
-  }
-
-  .content {
-    grid-area: content;
-    min-width: 512px;
-
-    .tab-block {
-      background-color: @maximum-red;
-      display         : flex;
-      flex-direction  : row;
-      flex-wrap       : wrap;
-
-    }
-  }
-
-  .text-align-left {
-    text-align: left;
-  }
-
-  .text-align-center {
-    text-align: center;
-  }
-
-  .text-align-right {
-    text-align: right;
-  }
-  input {
-    background: 0;
-    outline   : 0;
-    border    : 0;
-  }
+    text-align : center;
 }
 
-.text-align-left {
-  text-align: left;
+.block-data {
+    text-align : center;
+    font-weight: lighter;
+}
+
+.tab-label {
+    display: flex;
+    justify-content: center;
+    color: @chrome-white;
+    background-color: @flint-black;
+    text-align      : center;
+    font-size       : @font-normal;
+    min-width: 150px;
+    //clip-path: polygon(33px 0, 100% 0%, 100% 100%, 11px 100%);
+
+    &.tab-indent {
+        clip-path: polygon(33px 0, 100% 0%, 100% 100%, 11px 100%);
+    }
+
+    &.active {
+        background-color: @wyrm-red;
+    }
+
+    &:hover {
+        text-shadow: none;
+    }
+}
+
+.tab-pink-underlay {
+    background-color: @meat-space-pink;
+    margin-left: 20px;
+    clip-path: polygon(22px 0, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.tabs {
+    flex-wrap: nowrap;
+}
+
+.collapse-icon,
+.expand-icon {
+    font-size: xx-small;
 }

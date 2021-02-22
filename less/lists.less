@@ -1,0 +1,169 @@
+// All lists use this
+
+.items-list {
+    list-style      : none;
+    margin          : 0;
+    padding         : 0;
+    overflow-y      : auto;
+    scrollbar-width : thin;
+    background-color: @chrome-white;
+
+    .items-header {
+        padding         : 0;
+        align-items     : center;
+        background-color: @flint-black;
+        color           : @chrome-white;
+    }
+
+    .item {
+        align-items: center;
+        padding    : 0 2px;
+    }
+
+    .item-name {
+        flex       : 2;
+        margin     : 0;
+        overflow   : hidden;
+        text-align : left;
+        align-items: center;
+        text-overflow: ellipsis;
+    }
+
+    .item-image {
+        flex        : 0 0 30px;
+        border      : none;
+        margin-right: 5px;
+    }
+
+    .item-detail {
+        text-align : center;
+        word-break : break-word;
+        white-space: nowrap;
+        overflow   : hidden;
+    }
+
+    // Hide a row in the list
+    .hide {
+        display: none;
+    }
+
+    .inline-block {
+        display: inline-block;
+        zoom   : 1;
+    }
+
+    .item-end {
+        text-align: end;
+    }
+}
+
+.skills-tab {
+    li:nth-child(even) {
+        background-color: @meat-space-pink;
+    }
+
+    li:nth-child(odd) {
+        background-color: @chrome-white;
+    }
+
+    .skill-level,
+    .skill-base,
+    .skill-favorite {
+        flex: 0 0 30px;
+    }
+
+    .skill-custom {
+        flex: none;
+    }
+}
+
+.gear-tab {
+    li:nth-child(even) {
+        background-color: @meat-space-pink;
+    }
+
+    li:nth-child(odd) {
+        background-color: @chrome-white;
+    }
+
+    .gear-name {
+        flex: 0 0 33%;
+    }
+
+    .gear-data {
+        text-align: left;
+        flex      : 0 0 45%;
+    }
+
+    .gear-actions {
+        text-align: end;
+    }
+}
+
+.role-tab-content {
+
+    .role-name,
+    .ability-name {
+        flex: 0 0 75%;
+    }
+
+    .role-rank,
+    .ability-rank {
+        text-align   : right;
+        padding-right: 5px;
+    }
+}
+
+.fight-tab {
+    .armor-content {
+        background-color: @chrome-white;
+
+        li {
+            display         : flex;
+            background-color: @meat-space-pink;
+            margin-left     : 2px;
+            margin-right    : 2px;
+        }
+
+        .armor-piece {
+            margin: 2px;
+        }
+    }
+
+    .weapon-content {
+        li:nth-child(even) {
+            background-color: @meat-space-pink;
+        }
+
+        li:nth-child(odd) {
+            background-color: @chrome-white;
+        }
+    }
+
+    .weapon-name {
+        flex: 0 0 25%;
+    }
+
+    .weapon-attack,
+    .weapon-damage,
+    .weapon-reload {
+        flex      : 0 0 20px;
+        text-align: center;
+    }
+}
+
+ul,
+ol {
+    margin : 0.5em 0;
+    padding: 0 0 0 1.5em;
+}
+
+.compatible-ammo {
+    li:nth-child(even) {
+        background-color: @meat-space-pink;
+    }
+
+    li:nth-child(odd) {
+        background-color: @chrome-white;
+    }
+}

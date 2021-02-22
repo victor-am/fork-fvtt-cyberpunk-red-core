@@ -1,0 +1,18 @@
+{{log "CPR-CYBERWARE-HBS"}}
+<div class="cyberware-tab">
+    <ol class="items-list cyberware-list">
+        {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
+        <div class="">
+            <li class="items-header flexrow">
+                <span class="item-name gear-name bg-black text-nowrap expand-button " id="cyberwareTab-{{c}}">{{localize type}}</span>
+                <span class="item-detail gear-data bg-black text-nowrap">{{localize "CPR.data"}}</span>
+                <span class="item-detail gear-actions bg-black text-nowrap">{{localize "CPR.actions"}}</span>
+            </li>
+            <ol class="items-list">
+                {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/cyberware/cpr-cyberware-content.hbs" (getProp ../this.installedCyberware t)}}
+            </ol>
+        </div>
+        {{/each}}
+    </ol>
+</div>
+{{log "END CPR-CYBERWARE-HBS"}}

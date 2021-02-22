@@ -149,34 +149,35 @@ CPR.skillDifficulties = {
 
 // Sorted as listed in core rule book
 CPR.weaponTypeList = {
-  lightMelee: "CPR.lightmeleeweapon",
-  medMelee: "CPR.mediummeleeweapon",
-  heavyMelee: "CPR.heavymeleeweapon",
-  vHeavyMelee: "CPR.veryheavymeleeweapon",
-  medPistol: "CPR.mediumpistol",
-  heavyPistol: "CPR.heavypistol",
-  vHeavyPistol: "CPR.veryheavypistol",
-  smg: "CPR.smg",
-  heavySmg: "CPR.heavysmg",
-  shotgun: "CPR.shotgun",
   assaultRifle: "CPR.assaultrifle",
-  sniperRifle: "CPR.sniperrifle",
   bow: "CPR.bowsandcrossbows",
   grenadeLauncher: "CPR.grenadelauncher",
+  heavyMelee: "CPR.heavymeleeweapon",
+  heavyPistol: "CPR.heavypistol",
+  heavySmg: "CPR.heavysmg",
+  lightMelee: "CPR.lightmeleeweapon",
+  medMelee: "CPR.mediummeleeweapon",
+  medPistol: "CPR.mediumpistol",
   rocketLauncher: "CPR.rocketlauncher",
+  shotgun: "CPR.shotgun",
+  smg: "CPR.smg",
+  sniperRifle: "CPR.sniperrifle",
+  vHeavyMelee: "CPR.veryheavymeleeweapon",
+  vHeavyPistol: "CPR.veryheavypistol",
 };
 
 // Sorted as listed in core rule book
 CPR.ammoVariety = {
-  medPistol: "CPR.ammovarmediumpistol",
-  heavyPistol: "CPR.ammovarheavypistol",
-  vHeavyPistol: "CPR.ammovarvheavypistol",
-  shotgunSlug: "CPR.ammovarslug",
-  shotgunShell: "CPR.ammovarshell",
-  rifle: "CPR.ammovarrifle",
   arrow: "CPR.ammovararrow",
+  battery: "CPR.ammovarbattery",
   grenade: "CPR.ammovargrenade",
+  heavyPistol: "CPR.ammovarheavypistol",
+  medPistol: "CPR.ammovarmediumpistol",
+  rifle: "CPR.ammovarrifle",
   rocket: "CPR.ammovarrocket",
+  shotgunShell: "CPR.ammovarshell",
+  shotgunSlug: "CPR.ammovarslug",
+  vHeavyPistol: "CPR.ammovarvheavypistol",
 };
 
 // Not sorted
@@ -203,6 +204,18 @@ CPR.inventoryCategories = {
   cyberware: "CPR.cyberware",
   gear: "CPR.gear",
   vehicle: "CPR.vehicle",
+};
+
+CPR.objectTypes = {
+  ammo: "CPR.ammo",
+  armor: "CPR.armor",
+  cyberware: "CPR.cyberware",
+  gear: "CPR.gear",
+  netarch: "CPR.netarch",
+  program: "CPR.program",
+  skill: "CPR.skill",
+  vehicle: "CPR.vehicle",
+  weapon: "CPR.weapon",
 };
 
 //
@@ -237,6 +250,23 @@ CPR.equipped = {
   carried: "CPR.carried",
   equipped: "CPR.equipped",
   owned: "CPR.owned",
+};
+
+CPR.itemPriceCategory = {
+  cheap: "CPR.pricecategorycheap",
+  everyday: "CPR.pricecategoryeveryday",
+  costly: "CPR.pricecategorycostly",
+  premium: "CPR.pricecategorypremium",
+  expensive: "CPR.pricecategoryexpensive",
+  veryExpensive: "CPR.pricecategoryveryexpensive",
+  luxury: "CPR.pricecategoryluxury",
+  superLuxury: "CPR.pricecategorysuperluxury",
+};
+
+CPR.itemQuality = {
+  poor: "CPR.poor",
+  standard: "CPR.standard",
+  excellent: "CPR.excellent",
 };
 
 export default CPR;

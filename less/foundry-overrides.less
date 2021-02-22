@@ -1,0 +1,71 @@
+.actor-sheet,
+.item-sheet {
+    font-family: "Audimat Mono";
+
+    // Undo Foundry Base Style settings for elements
+    img {
+        border: none;
+    }
+
+    ;
+
+    ol li {
+        list-style-type: none;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    input[type="date"],
+    input[type="time"] {
+        border             : none;
+        outline            : none;
+        box-shadow         : none;
+        width              : calc(100% - 2px);
+        min-width          : unset;
+        height             : unset;
+        background         : unset;
+        /* padding         : 1px 3px; */
+        margin             : 0;
+        color              : unset;
+        font-family        : inherit;
+        font-size          : inherit;
+        text-align         : inherit;
+        line-height        : inherit;
+        -webkit-user-select: text;
+        -moz-user-select   : text;
+        -ms-user-select    : text;
+        user-select        : text;
+    }
+
+    .editor .tox-toolbar-overlord,
+    .editor .tox-toolbar__primary {
+        background: none;
+    }
+}
+
+#chat-form textarea {
+    background      : none;
+    background-color: @chrome-white;
+}
+
+#chat-controls {
+    color: @chrome-white;
+
+    .roll-type-select {
+        background: @chrome-white;
+    }
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+input,
+select,
+button,
+.sidebar-tab .directory-header .header-search input,
+.dialog .dialog-buttons button.default {
+    background: @chrome-white;
+}

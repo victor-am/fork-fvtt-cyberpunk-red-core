@@ -1,0 +1,70 @@
+<form>
+    <div class="item-settings-tab">
+        <div class="item-settings-section">
+            <ol class="items-list">
+
+                {{!--Item Name Settings--}}
+                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs" this}}
+
+                {{!-- Physical Item Settings--}}
+                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
+
+                {{!-- Program Item Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.class"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.class" class="" type="text" value="{{data.class}}" placeholder="ex: Attack">
+                    </div>
+                </li>
+
+
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.per"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.per" class="" type="number" value="{{data.per}}" placeholder="5">
+                    </div>
+                </li>
+
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.spd"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.spd" class="" type="number" value="{{data.spd}}" placeholder="5">
+                    </div>
+                </li>
+
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.atk"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.atk" class="" type="number" value="{{data.atk}}" placeholder="5">
+                    </div>
+                </li>
+
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.def"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.def" class="" type="number" value="{{data.def}}" placeholder="5">
+                    </div>
+                </li>
+
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.rez"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.rez" class="" type="number" value="{{data.rez}}" placeholder="5">
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+</form>

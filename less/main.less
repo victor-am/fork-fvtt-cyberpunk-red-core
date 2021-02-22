@@ -1,26 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+//@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+//@import url('https://fonts.googleapis.com/css2?family=Papyrus&display=swap');
+@import 'foundry-overrides.less';
 @import 'colors.less';
+@import 'fonts.less';
+@import 'actor-sheet.less';
+@import 'item-sheet.less';
 @import 'layout.less';
-@import 'look.less';
+@import 'text.less';
+@import 'flex.less';
+@import 'lists.less';
 @import 'chat.less';
 @import 'dialog.less';
+@import 'animations.less';
 
 .window-app .window-content {
   background: @chrome-white;
 }
 
-
-
 .editor {
-  flex-grow: 1;
-  min-height: 250px;
-  height: 250px;
+  flex: 1 0 auto;
   .tox-toolbar-overlord,
   .tox-toolbar__primary {
     background: none;
   }
-}
-
-.content {
-  height: 100%;
 }

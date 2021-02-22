@@ -1,0 +1,14 @@
+{{log "CPR-HUMANITY-BLOCK.HBS"}}
+<div class="humanity-block main-block">
+  <div class="block-label text-normal">
+    <a class="sanity-check-cyberware">{{localize "CPR.humanity"}}</a>
+  </div>
+  <div class="block-data min-of-max-container">
+    <input class="width-full" name="data.humanity.value" type="number" value="{{data.humanity.value}}"
+      data-dtype="Number" />
+    <div class="of bg-red fg-white text-normal text-bold">of</div>
+    <input class="width-full" name="data.humanity.max" type="number" value="{{data.humanity.max}}"
+      data-dtype="Number" />
+  </div>
+</div>
+{{log "END CPR-DEATHSAVE-BLOCK.HBS"}}

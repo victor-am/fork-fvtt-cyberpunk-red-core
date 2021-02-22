@@ -1,32 +1,42 @@
 {{log "INSTALL-CYBERWARE-PROMPT.HBS"}}
 <form id="installCyberware">
     {{!-- Select HL --}}
-    <div>
-        {{localize "CPR.humanityloss"}}:
-        <select name="humanityLoss">
-            <option selected value="{{item.data.humanityLoss.roll}}">Roll: {{item.data.humanityLoss.roll}}</option>
-            <option value="{{item.data.humanityLoss.static}}">Static: {{item.data.humanityLoss.static}}</option>
-        </select>
-    </div>
-    {{#unless item.data.isFoundational}}
-    {{#if (listContains "fashionware,cyberwareInternal,cyberwareExternal" item.data.type)}}
-                
-            {{#each foundationalCyberware as |cyberware c|}}
-            <input type="hidden" name="foundationalId" value="{{cyberware.data._id}}">
-            {{/each}}
-    
-    {{else}}
-    {{!-- Select Foundational Cyberware --}}
-    <div>
-        {{localize "CPR.foundational"}} {{localize "CPR.cyberware"}}:
-        <select name="foundationalId">
-            {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
-            {{#each foundationalCyberware as |cyberware c|}}
-            <option value="{{cyberware.data._id}}">{{cyberware.name}}</option>
-            {{/each}}
-        </select>
-    </div>
-    {{/if}}
-    {{/unless}}
+
+
+    <ol class="items-list">
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.humanityloss"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <select name="humanityLoss">
+                    <option selected value="{{item.data.humanityLoss.roll}}">Roll: {{item.data.humanityLoss.roll}}
+                    </option>
+                    <option value="{{item.data.humanityLoss.static}}">Static: {{item.data.humanityLoss.static}}</option>
+                </select>
+            </div>
+        </li>
+        {{#unless item.data.isFoundational}}
+            {{#if (listContains "fashionware,cyberwareInternal,cyberwareExternal" item.data.type)}}
+                {{#each foundationalCyberware as |cyberware c|}}
+                <input type="hidden" name="foundationalId" value="{{cyberware.data._id}}">
+                {{/each}}
+            {{else}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.foundational"}} {{localize "CPR.cyberware"}}:
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="foundationalId">
+                            {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
+                            {{#each foundationalCyberware as |cyberware c|}}
+                            <option value="{{cyberware.data._id}}">{{cyberware.name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </li>
+            {{/if}}
+        {{/unless}}
+    </ol>
 </form>
 {{log "END INSTALL-CYBERWARE-PROMPT.HBS"}}

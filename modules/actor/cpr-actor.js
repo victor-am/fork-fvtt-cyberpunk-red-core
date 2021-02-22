@@ -1,12 +1,12 @@
+/* eslint-disable no-undef */
 /* eslint-disable radix */
 /* globals Actor */
 import LOGGER from "../utils/cpr-logger.js";
-// import ActorUtils from "../utils/cpr-actorUtils";
-import SystemUtils from "../utils/cpr-systemUtils.js";
-import CPRChat from "../chat/cpr-chat.js";
-import CPR from "../system/config.js";
 import CPRRolls from "../rolls/cpr-rolls.js";
 import Rules from "../utils/cpr-rules.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
+import InstallCyberwarePrompt from "../dialog/cpr-cyberware-install-prompt.js";
+import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -17,6 +17,7 @@ export default class CPRActor extends Actor {
   prepareData() {
     LOGGER.trace("prepareData | CPRActor | Called.");
     super.prepareData();
+
     const actorData = this.data;
     actorData.filteredItems = this.itemTypes;
 
@@ -75,15 +76,39 @@ export default class CPRActor extends Actor {
 
     const { stats } = actorData.data;
     const { derivedStats } = actorData.data;
+    const setting = game.settings.get("cyberpunk-red-core", "calculateDerivedStats");
 
-    // Set max HP
-    derivedStats.hp.max = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
+    // After the initial config of the game, a GM may want to disable the auto-calculation
+    // of stats for Mooks & Players for custom homebrew rules
 
-    derivedStats.hp.value = Math.min(
-      derivedStats.hp.value,
-      derivedStats.hp.max,
-    );
-    // if (derivedStats.hp.value > derivedStats.hp.max) { derivedStats.hp.value = derivedStats.hp.max; };
+    if (setting) {
+      // Set max HP
+      derivedStats.hp.max = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
+
+      derivedStats.hp.value = Math.min(
+        derivedStats.hp.value,
+        derivedStats.hp.max,
+      );
+      // if (derivedStats.hp.value > derivedStats.hp.max) { derivedStats.hp.value = derivedStats.hp.max; };
+
+      const { humanity } = actorData.data;
+      // Max Humanity
+      // TODO-- Subtract installed cyberware...
+      let cyberwarePenalty = 0;
+      this.getInstalledCyberware().forEach((cyberware) => {
+        if (cyberware.getData().type === "borgware") {
+          cyberwarePenalty += 4;
+        } else if (parseInt(cyberware.getData().humanityLoss.static) > 0) {
+          cyberwarePenalty += 2;
+        }
+      });
+      humanity.max = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
+      if (humanity.value > humanity.max) {
+        humanity.value = humanity.max;
+      }
+      // Setting EMP to value based on current humannity.
+      stats.emp.value = Math.floor(humanity.value / 10);
+    }
 
     // Seriously wounded
     // Do we really need to store this or can we just calculate it dynamically as needed???
@@ -93,24 +118,7 @@ export default class CPRActor extends Actor {
       this._setWoundState();
     }
     // Death save
-    derivedStats.deathSave = stats.body.value;
-    const { humanity } = actorData.data;
-    // Max Humanity
-    // TODO-- Subtract installed cyberware...
-    let cyberwarePenalty = 0;
-    this.getInstalledCyberware().forEach((cyberware) => {
-      if (cyberware.getData().type === "borgware") {
-        cyberwarePenalty += 4;
-      } else if (parseInt(cyberware.getData().humanityLoss.static) > 0) {
-        cyberwarePenalty += 2;
-      }
-    });
-    humanity.max = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
-    if (humanity.value > humanity.max) {
-      humanity.value = humanity.max;
-    }
-    // Setting EMP to value based on current humannity.
-    stats.emp.value = Math.floor(humanity.value / 10);
+    derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
   }
 
   // GET AND SET WOUND STATE
@@ -137,6 +145,7 @@ export default class CPRActor extends Actor {
   }
 
   getInstalledCyberware() {
+    const installedCyberware = this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled);
     return this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled);
   }
 
@@ -157,6 +166,82 @@ export default class CPRActor extends Actor {
     return this.data.filteredItems.cyberware.filter(
       (item) => item.getData().isInstalled && item.getData().isFoundational,
     );
+  }
+
+  async addCyberware(itemId) {
+    const item = this._getOwnedItem(itemId);
+    const compatibleFoundationalCyberware = this.getInstalledFoundationalCyberware(item.getData().type);
+    if (compatibleFoundationalCyberware.length < 1 && !item.getData().isFoundational) {
+      Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
+    } else if (item.getData().isFoundational) {
+      const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data });
+      return this._addFoundationalCyberware(item, formData);
+    } else {
+      const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data, foundationalCyberware: compatibleFoundationalCyberware });
+      return this._addOptionalCyberware(item, formData);
+    }
+    return PromiseRejectionEvent();
+  }
+
+  _addFoundationalCyberware(item, formData) {
+    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
+    this.loseHumanityValue(formData);
+    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
+    item.data.data.isInstalled = true;
+    return this.updateEmbeddedEntity("OwnedItem", item.data);
+  }
+
+  async _addOptionalCyberware(item, formData) {
+    LOGGER.trace("ActorID _addOptionalCyberware | CPRActorSheet | Called.");
+    this.loseHumanityValue(formData);
+    LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
+    const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
+    foundationalCyberware.data.data.optionalIds.push(item.data._id);
+    item.data.data.isInstalled = true;
+    const usedSlots = foundationalCyberware.getData().optionalIds.length;
+    const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
+    Rules.lawyer((usedSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
+    return this.updateEmbeddedEntity("OwnedItem", [item.data, foundationalCyberware.data]);
+  }
+
+  async removeCyberware(itemId, foundationalId) {
+    LOGGER.trace("ActorID _removeCyberware | CPRActorSheet | Called.");
+    const item = this._getOwnedItem(itemId);
+    const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
+    const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
+    const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
+    if (confirmRemove) {
+      if (item.getData().isFoundational) {
+        await this._removeFoundationalCyberware(item);
+      } else {
+        await this._removeOptionalCyberware(item, foundationalId);
+      }
+      item.data.data.isInstalled = false;
+    }
+    return this.updateEmbeddedEntity("OwnedItem", item.data);
+  }
+
+  _removeOptionalCyberware(item, foundationalId) {
+    LOGGER.trace("ActorID _removeOptionalCyberware | CPRActorSheet | Called.");
+    const foundationalCyberware = this._getOwnedItem(foundationalId);
+    foundationalCyberware.getData().optionalIds = foundationalCyberware.getData().optionalIds.filter((optionId) => optionId !== item.data._id);
+    return this.updateEmbeddedEntity("OwnedItem", foundationalCyberware.data);
+  }
+
+  _removeFoundationalCyberware(item) {
+    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
+    const updateList = [];
+    if (item.getData().optionalIds) {
+      item.getData().optionalIds.forEach(async (optionalId) => {
+        const optional = this._getOwnedItem(optionalId);
+        optional.data.data.isInstalled = false;
+        updateList.push(optional.data);
+      });
+      item.data.data.optionalIds = [];
+      updateList.push(item.data);
+      return this.updateEmbeddedEntity("OwnedItem", updateList);
+    }
+    return PromiseRejectionEvent();
   }
 
   async loseHumanityValue(amount) {
@@ -192,8 +277,13 @@ export default class CPRActor extends Actor {
 
     const foundationalCyberware = allCyberware.filter((cyberware) => cyberware.getData().isFoundational === true);
     foundationalCyberware.forEach((fCyberware) => {
+      fCyberware.data.data.optionalIds = [...new Set(fCyberware.data.data.optionalIds)];
+      this.updateEmbeddedEntity("OwnedItem", fCyberware.data);
       orphanedCyberware = orphanedCyberware.filter((i) => i.data._id !== fCyberware.data._id);
       fCyberware.getData().optionalIds.forEach((oCyberwareId) => {
+        const oCyberware = allCyberware.filter((o) => o.data._id === oCyberwareId)[0];
+        oCyberware.data.data.isInstalled = true;
+        this.updateEmbeddedEntity("OwnedItem", oCyberware.data);
         orphanedCyberware = orphanedCyberware.filter((i) => i.data._id !== oCyberwareId);
       });
     });
@@ -204,10 +294,115 @@ export default class CPRActor extends Actor {
   }
 
   _getOwnedItem(itemId) {
-    return this.actor.items.find((i) => i.data._id === itemId);
+    return this.items.find((i) => i.data._id === itemId);
   }
 
-  setRoles(roleList) {
-    this.update({ "data.roleInfo.roles": roleList });
+  setRoles(formData) {
+    const { activeRole } = formData;
+    let roleList = formData.selectedRoles;
+    roleList.push(activeRole);
+    roleList = [...new Set(roleList)];
+    this.update({ "data.roleInfo.roles": roleList, "data.roleInfo.activeRole": activeRole });
+  }
+
+  getSkillLevel(skillName) {
+    const skillList = (this.data.filteredItems.skill).filter((s) => s.name === skillName);
+    if (skillList.length > 0) {
+      const relevantSkill = skillList[0];
+      return parseInt(relevantSkill.data.data.level, 10);
+    }
+    return 0;
+  }
+
+  processDeathSave(rollResult) {
+    const saveResult = rollResult.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
+    if (saveResult === "Success") {
+      const deathPenalty = this.data.data.derivedStats.deathSave.penalty + 1;
+      this.update({ "data.derivedStats.deathSave.penalty": deathPenalty });
+    }
+    return saveResult;
+  }
+
+  resetDeathPenalty() {
+    this.update({ "data.derivedStats.deathSave.penalty": 0 });
+  }
+
+  getStat(statName) {
+    return parseInt(this.stats[statName].value, 10);
+  }
+
+  clearLedger(prop) {
+    LOGGER.trace("CPRActor clearLedger | called.");
+    if (this.isLedgerProperty(prop)) {
+      const valProp = `${prop}.value`;
+      const ledgerProp = `${prop}.transactions`;
+      setProperty(this.data.data, valProp, 0);
+      setProperty(this.data.data, ledgerProp, []);
+      this.update(this.data, {});
+      return getProperty(this.data.data, prop);
+    }
+    return null;
+  }
+
+  deltaLedgerProperty(prop, value, reason) {
+    LOGGER.trace("CPRActor setLedgerProperty | called.");
+    if (this.isLedgerProperty(prop)) {
+      // update "value"; it may be negative
+      const valProp = `${prop}.value`;
+      let newValue = getProperty(this.data.data, valProp);
+      newValue += value;
+      setProperty(this.data.data, valProp, newValue);
+      // update the ledger with the change
+      const ledgerProp = `${prop}.transactions`;
+      const action = (value > 0) ? SystemUtils.Localize("CPR.increased") : SystemUtils.Localize("CPR.decreased");
+      const ledger = getProperty(this.data.data, ledgerProp);
+      ledger.push([`${prop} ${action} ${SystemUtils.Localize("CPR.to")} ${newValue}`, reason]);
+      setProperty(this.data.data, ledgerProp, ledger);
+      // update the actor and return the modified property
+      this.update(this.data, {});
+      return getProperty(this.data.data, prop);
+    }
+    return null;
+  }
+
+  setLedgerProperty(prop, value, reason) {
+    LOGGER.trace("CPRActor setLedgerProperty | called.");
+    if (this.isLedgerProperty(prop)) {
+      const valProp = `${prop}.value`;
+      const ledgerProp = `${prop}.transactions`;
+      setProperty(this.data.data, valProp, value);
+      const ledger = getProperty(this.data.data, ledgerProp);
+      ledger.push([`${prop} ${SystemUtils.Localize("CPR.setto")} ${value}`, reason]);
+      setProperty(this.data.data, ledgerProp, ledger);
+      this.update(this.data, {});
+      return getProperty(this.data.data, prop);
+    }
+    return null;
+  }
+
+  listRecords(prop) {
+    LOGGER.trace("CPRActor _listRecords | called.");
+    if (this.isLedgerProperty(prop)) {
+      return getProperty(this.data.data, `${prop}.transactions`);
+    }
+    return null;
+  }
+
+  isLedgerProperty(prop) {
+    /**
+     * Return whether a property in actor data is a ledgerProperty. This means it has
+     * two (sub-)properties, "value", and "transactions".
+     */
+    LOGGER.trace("CPRActor _checkProperty | called.");
+    const ledgerData = getProperty(this.data.data, prop);
+    if (!hasProperty(ledgerData, "value")) {
+      SystemUtils.DisplayMessage("error", `Bug: Ledger property '${prop}' missing 'value'`);
+      return false;
+    }
+    if (!hasProperty(ledgerData, "transactions")) {
+      SystemUtils.DisplayMessage("error", `Bug: Ledger property '${prop}' missing 'transactions'`);
+      return false;
+    }
+    return true;
   }
 }

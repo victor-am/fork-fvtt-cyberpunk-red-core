@@ -1,0 +1,8 @@
+{{log "CPR-RELOAD-GLYPH.HBS"}}
+{{#if (compare data.magazine.ammoId "!==" "")}}
+    {{#if (compare data.magazine.value "<" data.magazine.max)}}
+        <a class="item-action" data-item-id="{{_id}}" data-action="reload-ammo"><i class="fas fa-redo-alt" title="Reload"></i></a>
+    {{/if}}
+{{/if}}
+<a class="item-action" data-item-id="{{_id}}" data-action="select-ammo"><i class="fas fa-exchange-alt" title="Change Ammo"></i></a>
+{{log "END CPR-RELOAD-GLYPH.HBS"}}

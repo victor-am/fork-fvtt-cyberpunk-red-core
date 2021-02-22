@@ -1,0 +1,36 @@
+<div class="item-description-tab">
+    <div class="item-summary-section">
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.price"}}:</span>
+            <span class="summary-value">{{data.price.market}}</span>
+        </div>
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.market"}}:</span>
+            <span class="summary-value">{{localize (findConfigValue "itemPriceCategory" data.price.category)}}</span>
+        </div>
+        {{#if data.isHeadLocation}}
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.head"}} SP:</span>
+            <span class="summary-value">{{data.headLocation.sp}}</span>
+        </div>
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">&nbsp;{{localize "CPR.ablation"}}:</span>
+            <span class="summary-value">{{data.headLocation.ablation}}</span>
+        </div>
+        {{/if}}
+        {{#if data.isBodyLocation}}
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.bodylocation"}} SP:</span>
+            <span class="summary-value">{{data.bodyLocation.sp}}</span>
+        </div>
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">&nbsp;{{localize "CPR.ablation"}}:</span>
+            <span class="summary-value">{{data.nodyLocation.ablation}}</span>
+        </div>
+        {{/if}}
+    </div>
+    <div class="item-description-section">
+        {{editor content=data.description.value target="data.description.value" button=true owner=owner
+        editable=editable}}
+    </div>
+</div>

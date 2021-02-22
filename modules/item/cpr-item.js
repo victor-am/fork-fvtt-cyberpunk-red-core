@@ -2,8 +2,9 @@
 /* eslint-disable no-undef */
 /* global Item */
 import LOGGER from "../utils/cpr-logger.js";
-import SelectAmmoPrompt from "../dialog/cpr-select-ammo-prompt.js";
+import LoadAmmoPrompt from "../dialog/cpr-load-ammo-prompt.js";
 import CPRSystemUtils from "../utils/cpr-systemUtils.js";
+import Rules from "../utils/cpr-rules.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -92,6 +93,14 @@ export default class CPRItem extends Item {
     }
   }
 
+  setCompatibleAmmo(ammoList) {
+    this.data.data.ammoVariety = ammoList;
+    if (this.actor) {
+      return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+    }
+    return Promise.resolve();
+  }
+
   // AMMO FUNCTIONS
   _ammoDecrement(changeAmount) {
     LOGGER.debug("_ammoDecrement | CPRItem | Called.");
@@ -115,12 +124,11 @@ export default class CPRItem extends Item {
 
   // Weapon Item Methods
   // TODO - Refactor
-  _weaponAction(actionAttributes) {
+  async _weaponAction(actionAttributes) {
     LOGGER.debug("_weaponAction | CPRItem | Called.");
     const actionData = actionAttributes["data-action"].nodeValue;
     switch (actionData) {
-      case "new-ammo":
-        this._weaponUnload();
+      case "select-ammo":
         this._weaponLoad();
         break;
       case "unload":
@@ -175,10 +183,11 @@ export default class CPRItem extends Item {
           }
         });
 
-        let dialogData = {
+        let formData = {
           weapon: this,
           ammoList: validAmmo,
           selectedAmmo: "",
+          returnType: "string",
         };
 
         if (validAmmo.length === 0) {
@@ -186,12 +195,15 @@ export default class CPRItem extends Item {
           return;
         }
 
-        dialogData = await SelectAmmoPrompt(dialogData);
+        formData = await LoadAmmoPrompt.RenderPrompt(formData);
 
-        if (dialogData.selectedAmmo === "abort") {
-          return;
-        }
-        selectedAmmoId = dialogData.selectedAmmo;
+        selectedAmmoId = formData.selectedAmmo;
+      }
+
+      const loadedAmmo = this.data.data.magazine.ammoId;
+
+      if (loadedAmmo !== "" && loadedAmmo !== selectedAmmoId) {
+        await this._weaponUnload();
       }
 
       if (selectedAmmoId) {
@@ -228,7 +240,7 @@ export default class CPRItem extends Item {
     }
   }
 
-  // TODO - Refactor
+  // Returns true if weapon fired, otherwise returns false.
   fireRangedWeapon(rateOfFire) {
     LOGGER.debug("fireRangedWeapon | CPRItem | Called.");
     let bulletCount = 0;
@@ -244,11 +256,16 @@ export default class CPRItem extends Item {
     }
 
     if (this.data.data.magazine.value < bulletCount) {
-      // PLAY CLICK SOUND?!
-    } else {
-      // PLAY GUN SOUND!!
-      this.data.data.magazine.value -= bulletCount;
+      Rules.lawyer(false, "CPR.weaponattackoutofbullets");
+      return false;
     }
-    this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+
+    // PLAY GUN SOUND!!
+    this.data.data.magazine.value -= bulletCount;
+    return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+  }
+
+  toggleFavorite() {
+    this.data.data.favorite = !this.data.data.favorite;
   }
 }
