@@ -647,6 +647,7 @@
     "CPR.rollmodifiers": "Roll Modifiers",
     "CPR.rollmods": "Roll Mods",
     "CPR.rope": "Rope (60m/yd)",
+    "CPR.rounds": "rounds",
     "CPR.rumor": "Rumor",
     "CPR.run": "Run",
     "CPR.running": "Running",
@@ -665,7 +666,11 @@
     "CPR.secondaryeffect": "Secondary Effect",
     "CPR.securityupgrade": "Security Upgrade",
     "CPR.seeya": "See Ya",
+    "CPR.select": "Select",
     "CPR.selectammotoloadinto": "Select ammo to load into",
+    "CPR.selectammotoloadintotitle": "Select Ammo",
+    "CPR.selectcompatibleammo": "Select ammo compatible with",
+    "CPR.selectcompatibleammotitle": "Select Compatible Ammo",
     "CPR.selectroleprompttitle": "What do you want to be when you grow up, Choomba?",
     "CPR.sensorarray": "Sensor Array",
     "CPR.seriouslywounded": "Seriously Wounded",
@@ -865,6 +870,7 @@
     "CPR.woundstate": "Wound State",
     "CPR.yacht": "Yacht",
     "CPR.yougotnoinventory": "You got no",
+    "CPR.youown": "You own",
     "CPR.yourhome": "Your Home",
     "CPR.zap": "Zap"
 }

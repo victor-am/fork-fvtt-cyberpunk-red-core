@@ -61,7 +61,19 @@ export default function registerHandlebarsHelpers() {
     }
   });
 
-  Handlebars.registerHelper("getProp", (object, property) => getProperty(object, property));
+  Handlebars.registerHelper("getProp", (object, property) => {
+    if (typeof object.length === "undefined") {
+      return getProperty(object, property);
+    }
+    if (object.length > 0) {
+      const returnValues = [];
+      object.forEach((obj) => {
+        returnValues.push(getProperty(obj, property));
+      });
+      return returnValues;
+    }
+    return "";
+  });
 
   Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i._id === itemId));
 
@@ -71,6 +83,8 @@ export default function registerHandlebarsHelpers() {
     }
     return true;
   });
+
+  Handlebars.registerHelper("isNumber", (value) => !Number.isNaN(value));
 
   // TODO - Refactor / Revist
   Handlebars.registerHelper("mergeForPartialArg", (...args) => {
@@ -172,15 +186,22 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("math", (...args) => {
     LOGGER.trace(`Calling math Helper | Arg1:${args}`);
     let mathArgs = [...args];
-    const mathFunction = mathArgs[0];
+    let mathFunction = mathArgs[0];
     mathArgs.shift();
     mathArgs.pop();
+    if (Array.isArray(mathArgs[0])) {
+      // eslint-disable-next-line prefer-destructuring
+      mathArgs = mathArgs[0];
+    }
     mathArgs = mathArgs.map(Number);
     if (typeof Math[mathFunction] === "function") {
       return Math[mathFunction].apply(null, mathArgs);
     }
     // Math doesn't have basic functions, we can account
     // for those here as needed:
+    if (typeof mathArgs === "undefined") {
+      mathFunction = `${mathFunction} bad args: ${mathArgs}`;
+    }
     switch (mathFunction) {
       case "sum":
         return mathArgs.reduce((a, b) => a + b, 0);

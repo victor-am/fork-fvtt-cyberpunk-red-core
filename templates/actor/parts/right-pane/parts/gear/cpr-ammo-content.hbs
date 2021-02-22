@@ -2,7 +2,7 @@
 <li class="item flexrow{{#if item.data.favorite}} favorite{{/if}}" data-item-id="{{item._id}}"
   data-item-category="{{item.data.category}}" draggable="true">
   <div class="item-name gear-name flexrow  text-nowrap">
-    <a class="name item-edit">{{item.name}}</a>
+    <a class="name item-edit">{{item.name}}&nbsp;(x{{item.data.amount}})</a>
   </div>
   <div class="item-detail gear-data text-nowrap">
         {{localize (findConfigValue "ammoVariety" item.data.variety)}}

@@ -1,4 +1,5 @@
 <form>
+    {{log this}}
     <div class="item-settings-tab">
         <div class="item-settings-section">
             <ol class="items-list">
@@ -145,30 +146,27 @@
                         <input name="data.magazine.max" class="" type="number" value="{{data.magazine.max}}">
                     </div>
                 </li>
-                {{!- Ranged Weapon - Compatible Ammo Settings--}}
+                <div class="item flexrow setting-name text-nowrap text-bold">
+                    <a class="select-compatible-ammo" data-item-prop="select-compatible-ammo">{{localize
+                        "CPR.configurecompatibleammo"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
+                </div>
+                <div class="compatible-ammo">
+                {{#each (findConfigObj "ammoVariety") as |ammoVariety a|}}
+                {{#if (listContains (getProp ../this.data "ammoVariety") a)}}
                 <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap text-bold">
-                        {{localize "CPR.configurecompatibleammo"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
+                    <div class="item flexrow setting-name text-nowrap text-padding-left">
+                        &nbsp;{{localize ammoVariety}}
+                        {{#if ../this.isOwned}}
+                        {{#if (isNumber (math "sum" (getProp (filter ../this.filteredItems.ammo "data.data.variety" a) "data.data.amount")))}}
+                        <div class="text-right">
+                            &nbsp;&nbsp;({{localize "CPR.youown"}} {{math "sum" (getProp (filter ../this.filteredItems.ammo "data.data.variety" a) "data.data.amount")}} {{localize "CPR.rounds"}})
+                        </div>
+                        {{/if}}
+                        {{/if}}
                     </div>
                 </li>
-
-                <div class="item-multi-select" data-target="data.ammoVariety">
-                    {{#each (findConfigObj "ammoVariety") as |ammoVariety a|}}
-                    <li class="item flexrow">
-                        <div class="item flexrow setting-name text-nowrap text-padding-left">
-                            {{localize ammoVariety}}
-                        </div>
-                        <div class="item flexrow setting-value text-nowrap item-end">
-                            {{#if (listContains (getProp ../this.data "ammoVariety") a)}}
-                            <a class="item-multi-option" data-value={{a}}><i class="far fa-check-circle"></i></a>
-                            {{else}}
-                            <a class="item-multi-option" data-value={{a}}><i class="far fa-circle"></i></a>
-                            {{/if}}
-                        </div>
-                    </li>
-                    {{/each}}
+                {{/if}}
+                {{/each}}
                 </div>
                 {{/if}}
             </ol>

@@ -1,0 +1,32 @@
+{{log "CPR-SELECT-COMPATIBLE-AMMO.HBS"}}
+<form>
+  {{localize "CPR.selectcompatibleammo"}} "{{name}}", Choomba!
+  <ol class="items-list">
+    <li class="item flexrow">
+      <div class="item flexrow setting-name">
+        <span class="text-bold text-nowrap">{{localize "CPR.ammo"}}</span>
+      </div>
+      <div class="item flexrow setting-value">
+        <span class="text-bold text-nowrap text-center text-space-around">{{localize "CPR.select"}}</span>
+      </div>
+    </li>
+
+
+
+    {{#each (findConfigObj "ammoVariety") as |ammoVariety a|}}
+    <li class="item flexrow">
+      <div class="item flexrow setting-name text-nowrap">
+        {{localize ammoVariety}}
+      </div>
+      <div class="item flexrow setting-value text-nowrap text-space-around">
+        {{#if (listContains ../data.ammoVariety a)}}
+        <span class="text-bold text-nowrap text-center text-space-around"><input type="checkbox" name="selectedAmmo" value="{{a}}" checked></span>
+        {{else}}
+        <span class="text-bold text-nowrap text-center text-space-around"><input type="checkbox" name="selectedAmmo" value="{{a}}"></span>
+        {{/if}}
+      </div>
+    </li>
+    {{/each}}
+  </ol>
+</form>
+{{log "CPR-SELECT-ROLES.HBS"}}
