@@ -1,4 +1,5 @@
 {{log "CPR-DEATHSAVE-ROLLCARD.HBS"}}
+{{log this}}
 <div class="rollcard-body">
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-{{rollType}}">
@@ -17,7 +18,7 @@
         <div class="total-div">
           <span class="text-bold">{{resultTotal}}</span>
         </div>
-        <div class="info-div">
+        <div class="bottom-div text-right">
             {{localize "CPR.body"}}: {{statValue}}<br>
             {{#if (compare (getProp (findObj extraVars "name" "deathPenalty") "value") ">" 0)}}
                 {{localize "CPR.deathpenalty"}}: {{getProp (findObj extraVars "name" "deathPenalty") "value"}}<br>
@@ -26,8 +27,6 @@
                 {{localize "CPR.critinjuries"}}: {{getProp (findObj extraVars "name" "baseDeathPenalty") "value"}}<br>
             {{/if}}
             <div class="chat-rollTotal text-bold">{{localize "CPR.penalty"}} {{localize "CPR.total"}}: {{modsTotal}}<br></div>
-        </div>
-        <div class="bottom-div">
             <div class="text-massive text-center fg-{{#if (compare (getProp (findObj extraVars "name" "saveResult") "value") "===" "Success")}}green{{else}}red{{/if}}">{{getProp (findObj extraVars "name" "saveResult") "value"}}</div>
         </div>
       </div>
