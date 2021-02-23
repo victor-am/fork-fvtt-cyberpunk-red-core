@@ -282,6 +282,12 @@ export default class CPRActorSheet extends ActorSheet {
         }
         break;
       }
+      case "deathsave": {
+        if (event.ctrlKey) {
+          rollRequest.mods.push();
+        }
+        break;
+      }
       default:
     }
 
