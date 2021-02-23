@@ -368,6 +368,17 @@ button,
   flex: 1;
 }
 .lifepath-tab {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto;
+  grid-template-areas: "notes-pane lifepath-pane";
+}
+.lifepath-tab .lifepath-section {
+  grid-area: lifepath-pane;
+  margin: 5px;
+}
+.lifepath-tab .notes-section {
+  grid-area: notes-pane;
   margin: 5px;
 }
 .fight-tab {
