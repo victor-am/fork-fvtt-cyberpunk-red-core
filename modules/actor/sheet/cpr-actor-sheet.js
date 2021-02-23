@@ -194,6 +194,9 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".add-skill").click((event) => this._addSkill(event));
 
     html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
+
+    html.find(".eurobucks-input").click((event) => event.target.select()).change((event) => this._updateEurobucks(event));
+
   }
 
   /* -------------------------------------------- */
