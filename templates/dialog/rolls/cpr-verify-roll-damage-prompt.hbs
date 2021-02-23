@@ -27,6 +27,23 @@
         </li>
         {{/if}}
 
+        {{#if (getProp (getProp (findObj extraVars "name" "previousRoll" ) "value") "isAimed" )}}
+        <input type="hidden" name="isAimed" value="true">
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.aimfor"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <select name="location">
+                    {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
+                    {{#each (findConfigObj "aimedLocation") as |location l|}}
+                    <option value="{{l}}" {{#if  (compare (getProp (getProp (findObj ../this.extraVars "name" "previousRoll" ) "value") "location") "===" l)}}selected{{/if}}>{{localize location}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </li>
+        {{/if}}
+
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.mods"}}:
