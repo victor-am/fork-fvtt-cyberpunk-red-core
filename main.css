@@ -765,6 +765,7 @@ button,
   word-break: break-word;
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 .items-list .hide {
   display: none;
@@ -1017,66 +1018,66 @@ form input.number {
 }
 @keyframes glitch-anim {
   0% {
-    clip: rect(138px, 9999px, 142px, 0);
+    clip: rect(13px, 9999px, 78px, 0);
   }
   10% {
-    clip: rect(72px, 9999px, 143px, 0);
+    clip: rect(23px, 9999px, 126px, 0);
   }
   20% {
-    clip: rect(42px, 9999px, 128px, 0);
+    clip: rect(17px, 9999px, 89px, 0);
   }
   30% {
-    clip: rect(103px, 9999px, 68px, 0);
+    clip: rect(37px, 9999px, 92px, 0);
   }
   40% {
-    clip: rect(130px, 9999px, 6px, 0);
+    clip: rect(17px, 9999px, 43px, 0);
   }
   50% {
-    clip: rect(8px, 9999px, 79px, 0);
+    clip: rect(18px, 9999px, 101px, 0);
   }
   60% {
-    clip: rect(77px, 9999px, 100px, 0);
+    clip: rect(113px, 9999px, 10px, 0);
   }
   70% {
-    clip: rect(134px, 9999px, 46px, 0);
+    clip: rect(72px, 9999px, 17px, 0);
   }
   80% {
-    clip: rect(38px, 9999px, 88px, 0);
+    clip: rect(16px, 9999px, 113px, 0);
   }
   90% {
-    clip: rect(51px, 9999px, 40px, 0);
+    clip: rect(91px, 9999px, 48px, 0);
   }
   100% {
-    clip: rect(50px, 9999px, 56px, 0);
+    clip: rect(42px, 9999px, 17px, 0);
   }
 }
 @keyframes glitch-anim-2 {
   20% {
-    clip: rect(14px, 9999px, 28px, 0);
+    clip: rect(5px, 9999px, 17px, 0);
   }
   30% {
-    clip: rect(65px, 9999px, 43px, 0);
+    clip: rect(45px, 9999px, 70px, 0);
   }
   40% {
-    clip: rect(60px, 9999px, 100px, 0);
+    clip: rect(94px, 9999px, 56px, 0);
   }
   50% {
-    clip: rect(20px, 9999px, 89px, 0);
+    clip: rect(99px, 9999px, 29px, 0);
   }
   60% {
-    clip: rect(107px, 9999px, 145px, 0);
+    clip: rect(136px, 9999px, 106px, 0);
   }
   70% {
-    clip: rect(44px, 9999px, 62px, 0);
+    clip: rect(24px, 9999px, 112px, 0);
   }
   80% {
-    clip: rect(59px, 9999px, 26px, 0);
+    clip: rect(27px, 9999px, 44px, 0);
   }
   90% {
-    clip: rect(53px, 9999px, 98px, 0);
+    clip: rect(10px, 9999px, 92px, 0);
   }
   100% {
-    clip: rect(80px, 9999px, 136px, 0);
+    clip: rect(105px, 9999px, 115px, 0);
   }
 }
 .window-app .window-content {
