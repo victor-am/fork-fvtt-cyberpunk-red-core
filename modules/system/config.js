@@ -269,4 +269,10 @@ CPR.itemQuality = {
   excellent: "CPR.excellent",
 };
 
+CPR.aimedLocation = {
+  head: "CPR.head",
+  heldItem: "CPR.helditem",
+  leg: "CPR.leg",
+};
+
 export default CPR;

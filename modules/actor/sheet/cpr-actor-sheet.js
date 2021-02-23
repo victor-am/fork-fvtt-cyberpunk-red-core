@@ -242,13 +242,14 @@ export default class CPRActorSheet extends ActorSheet {
       default:
     }
 
+    if (typeof this.actor.data.previousRoll !== "undefined") {
+      let { previousRoll } = this.actor.data;
+      previousRoll.name = "previousRoll";
+      rollRequest.extraVars.push({ name: "previousRoll", value: previousRoll });
+    }
+
     // Handle skipping of the user verification step
     if (!event.ctrlKey) {
-      if (typeof this.actor.data.previousRoll !== "undefined") {
-        let { previousRoll } = this.actor.data;
-        previousRoll.name = "previousRoll";
-        rollRequest.extraVars.push({ name: "previousRoll", value: previousRoll });
-      }
       const formData = await VerifyRoll.RenderPrompt(rollRequest);
       mergeObject(rollRequest, formData, { overwrite: true });
     }
