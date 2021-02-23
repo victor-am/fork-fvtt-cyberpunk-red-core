@@ -10,42 +10,45 @@ export default class Rules {
 
   static validRole(actor, data) {
     let roleValid = true;
-    if (typeof updatedData.data !== "undefined") {
-      if (typeof updatedData.data.roleInfo !== "undefined") {
+    const roleData = actor.data.data.roleInfo;
+
+    if (typeof data !== "undefined") {
+      if (typeof data.data.roleInfo !== "undefined") {
         const newRoleData = data.data.roleInfo;
-        const changedRoles = newRoleData.roles;
-        if ("solo" in changedRoles || "tech" in changedRoles || "medtech" in changedRoles) {
-          const currentRoleData = actor.data.data.roleInfo;
-          mergeObject(currentRoleData, newRoleData);
-          let abilityRank = 0;
-          let subskillRank = 0;
-          Object.keys(changedRoles).forEach((role) => {
-            const roleSkills = currentRoleData.roleskills[role];
-            Object.keys(roleSkills).forEach((roleSkill) => {
-              if (roleSkill === "subSkills") {
-                Object.keys(roleSkills.subSkills).forEach((subSkill) => {
-                  subskillRank += roleSkills.subSkills[subSkill];
-                });
-              } else {
-                abilityRank = roleSkills[roleSkill];
-              }
-            });
-            // Normalize, after this, abilityRank should equal subskillRank otherwise invalid
-            switch (role) {
-              case "tech": {
-                abilityRank *= 2;
-                break;
-              }
-              case "medtech":
-              case "solo":
-              default:
-            }
-            if (abilityRank < subskillRank) {
-              roleValid = false;
-            }
-          });
-        }
+        mergeObject(roleData, newRoleData);
       }
+    }
+
+    const validateRoles = roleData.roles;
+
+    if (validateRoles.includes("solo") || validateRoles.includes("tech") || validateRoles.includes("medtech")) {
+      let abilityRank = 0;
+      let subskillRank = 0;
+      validateRoles.forEach((role) => {
+        const roleSkills = roleData.roleskills[role];
+        Object.keys(roleSkills).forEach((roleSkill) => {
+          if (roleSkill === "subSkills") {
+            Object.keys(roleSkills.subSkills).forEach((subSkill) => {
+              subskillRank += roleSkills.subSkills[subSkill];
+            });
+          } else {
+            abilityRank = roleSkills[roleSkill];
+          }
+        });
+        // Normalize, after this, abilityRank should equal subskillRank otherwise invalid
+        switch (role) {
+          case "tech": {
+            abilityRank *= 2;
+            break;
+          }
+          case "medtech":
+          case "solo":
+          default:
+        }
+        if (abilityRank < subskillRank) {
+          roleValid = false;
+        }
+      });
     }
     return roleValid;
   }
