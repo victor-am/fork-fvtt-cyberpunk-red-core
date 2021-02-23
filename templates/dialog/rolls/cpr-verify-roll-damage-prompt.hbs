@@ -3,8 +3,6 @@
     <div>
         {{localize "CPR.tellthemtosayhello"}} "{{rollTitle}}", Choomba!
     </div>
-
-
     <ol class="items-list">
         {{#if (listContains "assaultRifle,smg,heavySmg" weaponType)}}
         <li class="item flexrow">
@@ -23,6 +21,23 @@
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input type="number" class="number" name="autofireMultiplier" data-dtype="Number" value=1
                     max="{{#if (compare weaponType "===" " assaultRifle")}}4{{else}}3{{/if}}" min="1">
+            </div>
+        </li>
+        {{/if}}
+
+        {{#if (getProp (getProp (findObj extraVars "name" "previousRoll" ) "value") "isAimed" )}}
+        <input type="hidden" name="isAimed" value="true">
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.aimfor"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <select name="location">
+                    {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
+                    {{#each (findConfigObj "aimedLocation") as |location l|}}
+                    <option value="{{l}}" {{#if  (compare (getProp (getProp (findObj ../this.extraVars "name" "previousRoll" ) "value") "location") "===" l)}}selected{{/if}}>{{localize location}}</option>
+                    {{/each}}
+                </select>
             </div>
         </li>
         {{/if}}
