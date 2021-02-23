@@ -282,7 +282,8 @@ button,
 .skills-tab .right-pane-skills {
   grid-area: skills-right;
 }
-.cyberware-tab {
+.cyberware-tab,
+.gear-tab {
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: auto;
@@ -1006,66 +1007,66 @@ form input.number {
 }
 @keyframes glitch-anim {
   0% {
-    clip: rect(140px, 9999px, 108px, 0);
+    clip: rect(145px, 9999px, 7px, 0);
   }
   10% {
-    clip: rect(25px, 9999px, 139px, 0);
+    clip: rect(81px, 9999px, 70px, 0);
   }
   20% {
-    clip: rect(66px, 9999px, 11px, 0);
+    clip: rect(41px, 9999px, 58px, 0);
   }
   30% {
-    clip: rect(59px, 9999px, 32px, 0);
+    clip: rect(83px, 9999px, 28px, 0);
   }
   40% {
-    clip: rect(129px, 9999px, 38px, 0);
+    clip: rect(54px, 9999px, 93px, 0);
   }
   50% {
-    clip: rect(45px, 9999px, 5px, 0);
+    clip: rect(94px, 9999px, 148px, 0);
   }
   60% {
-    clip: rect(102px, 9999px, 60px, 0);
+    clip: rect(81px, 9999px, 100px, 0);
   }
   70% {
-    clip: rect(17px, 9999px, 9px, 0);
+    clip: rect(49px, 9999px, 147px, 0);
   }
   80% {
-    clip: rect(130px, 9999px, 149px, 0);
+    clip: rect(22px, 9999px, 142px, 0);
   }
   90% {
-    clip: rect(131px, 9999px, 63px, 0);
+    clip: rect(131px, 9999px, 95px, 0);
   }
   100% {
-    clip: rect(26px, 9999px, 46px, 0);
+    clip: rect(105px, 9999px, 8px, 0);
   }
 }
 @keyframes glitch-anim-2 {
   20% {
-    clip: rect(147px, 9999px, 131px, 0);
+    clip: rect(15px, 9999px, 23px, 0);
   }
   30% {
-    clip: rect(120px, 9999px, 100px, 0);
+    clip: rect(58px, 9999px, 56px, 0);
   }
   40% {
-    clip: rect(10px, 9999px, 90px, 0);
+    clip: rect(38px, 9999px, 138px, 0);
   }
   50% {
-    clip: rect(112px, 9999px, 64px, 0);
+    clip: rect(7px, 9999px, 74px, 0);
   }
   60% {
-    clip: rect(54px, 9999px, 89px, 0);
+    clip: rect(53px, 9999px, 83px, 0);
   }
   70% {
-    clip: rect(104px, 9999px, 141px, 0);
+    clip: rect(2px, 9999px, 93px, 0);
   }
   80% {
-    clip: rect(50px, 9999px, 143px, 0);
+    clip: rect(100px, 9999px, 101px, 0);
   }
   90% {
-    clip: rect(62px, 9999px, 14px, 0);
+    clip: rect(7px, 9999px, 63px, 0);
   }
   100% {
-    clip: rect(85px, 9999px, 148px, 0);
+    clip: rect(38px, 9999px, 17px, 0);
   }
 }
 .window-app .window-content {
