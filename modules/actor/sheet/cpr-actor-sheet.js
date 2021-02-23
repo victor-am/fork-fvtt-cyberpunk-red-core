@@ -283,8 +283,12 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
       case "deathsave": {
+        // If they skipped the dialog, the penalties were not pushed into mods
+        // and not accounted for in the roll.  We can't push them onto mods prior
+        // 
         if (event.ctrlKey) {
-          rollRequest.mods.push();
+          rollRequest.mods.push(this.actor.getData().derivedStats.deathSave.penalty);
+          rollRequest.mods.push(this.actor.getData().derivedStats.deathSave.basePenalty);
         }
         break;
       }
