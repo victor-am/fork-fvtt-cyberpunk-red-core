@@ -94,7 +94,7 @@ export default class CPRItem extends Item {
   }
 
   setCompatibleAmmo(ammoList) {
-    this.data.data.ammoVariety = ammoList;
+    this.update({ "data.ammoVariety": ammoList });
     if (this.actor) {
       return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
     }

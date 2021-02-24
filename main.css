@@ -39,6 +39,23 @@
   -ms-user-select: text;
   user-select: text;
 }
+.actor-sheet input[type="text"]:hover,
+.item-sheet input[type="text"]:hover,
+.actor-sheet input[type="number"]:hover,
+.item-sheet input[type="number"]:hover,
+.actor-sheet input[type="password"]:hover,
+.item-sheet input[type="password"]:hover,
+.actor-sheet input[type="date"]:hover,
+.item-sheet input[type="date"]:hover,
+.actor-sheet input[type="time"]:hover,
+.item-sheet input[type="time"]:hover {
+  text-shadow: 0 0 8px #b90202ff;
+  border-right: 1px;
+  border-right-style: solid;
+  border-left: 1px;
+  border-left-style: solid;
+  border-color: #b90202ff;
+}
 .actor-sheet .editor .tox-toolbar-overlord,
 .item-sheet .editor .tox-toolbar-overlord,
 .actor-sheet .editor .tox-toolbar__primary,
@@ -368,7 +385,21 @@ button,
   flex: 1;
 }
 .lifepath-tab {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto;
+  grid-template-areas: "notes-pane lifepath-pane";
+}
+.lifepath-tab .lifepath-section {
+  grid-area: lifepath-pane;
   margin: 5px;
+}
+.lifepath-tab .notes-section {
+  grid-area: notes-pane;
+  margin: 5px;
+}
+.lifepath-tab .notes-section .note-pad {
+  min-height: 450px;
 }
 .fight-tab {
   display: grid;
@@ -764,6 +795,12 @@ button,
 }
 .text-space-around {
   justify-content: space-around;
+}
+.text-float-right {
+  float: right;
+}
+.text-underline {
+  text-decoration: underline;
 }
 .flexrow {
   display: flex;
