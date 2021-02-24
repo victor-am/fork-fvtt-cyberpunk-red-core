@@ -37,4 +37,13 @@ export const registerSystemSettings = function () {
     type: Boolean,
     default: true,
   });
+
+  game.settings.register("cyberpunk-red-core", "enablePauseAnimation", {
+    name: "CPR.enablepauseanimation",
+    hint: "CPR.enablepauseanimationhint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: true,
+  });
 };
