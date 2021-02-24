@@ -280,6 +280,8 @@
     "CPR.emergencystop": "Emergency Stop",
     "CPR.emp": "EMP",
     "CPR.empthreading": "EMP Threading",
+    "CPR.enablepauseanimation": "Enable Pause Animation",
+    "CPR.enablepauseanimationhint": "Requires full reload to take effect (Ctrl+F5)",
     "CPR.endurance": "Endurance",
     "CPR.enemies": "Enemies",
     "CPR.enhancedantibodies": "Enhanced Antibodies",

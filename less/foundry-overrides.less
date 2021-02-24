@@ -79,21 +79,19 @@ button,
     background: @chrome-white;
 }
 
-/* --------------------------------------- */
-/* Override pause menu, with glitch effect */
-/* --------------------------------------- */
+/* -------------------------------------------- */
+/* Override pause menu with glitch effect       */
+/* IF enabled in settings.enablePauseAnimation  */
+/* -------------------------------------------- */
 #pause {
-  // Swap out the pause image
-  img {
+  .pause-image {
     background: url("icons/pause.png");
     background-size: 128px;
     width: 128px;
     height: 128px;
     padding-left: 128px;
   }
-
-  // Add glitch to pause popup text
-  h3 {
+  .pause-glitch {
     .glitch;
     text-transform: uppercase;
     font-family: "Audimat Mono";
@@ -105,5 +103,4 @@ button,
       content: "GAME PAUSED";
     }
   }
-  background: none;
 }

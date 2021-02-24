@@ -16,6 +16,7 @@ import registerHandlebarsHelpers from "./modules/system/register-helpers.js";
 
 // System settings
 import { registerSystemSettings } from "./modules/system/settings.js";
+import { enablePauseAnimation } from "./modules/system/pause-animation.js";
 
 Hooks.once("init", async () => {
   LOGGER.log("THANK YOU TO EVERYONE WHO HELPED!!!!");
@@ -66,6 +67,9 @@ Hooks.once("init", async () => {
 });
 
 Hooks.once("ready", () => {
+  // Enable/Disable pause glitch animation
+  enablePauseAnimation();
+
   // Determine whether a system migration is required
   if (!game.user.isGM) return;
   // This defines the version of the Data Model for this release.  We should
