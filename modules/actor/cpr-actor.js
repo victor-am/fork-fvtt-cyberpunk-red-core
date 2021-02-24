@@ -315,7 +315,10 @@ export default class CPRActor extends Actor {
   }
 
   processDeathSave(rollResult) {
-    const saveResult = rollResult.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
+    let saveResult = rollResult.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
+    if (rollResult.initialRoll === 10) {
+      saveResult = "Failed";
+    }
     if (saveResult === "Success") {
       const deathPenalty = this.data.data.derivedStats.deathSave.penalty + 1;
       this.update({ "data.derivedStats.deathSave.penalty": deathPenalty });
