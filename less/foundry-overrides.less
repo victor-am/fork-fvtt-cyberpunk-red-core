@@ -36,6 +36,15 @@
         -moz-user-select   : text;
         -ms-user-select    : text;
         user-select        : text;
+
+        &:hover {
+            text-shadow: 0 0 8px @wyrm-red;
+            border-right: 1px;
+            border-right-style: solid;
+            border-left: 1px;
+            border-left-style: solid;
+            border-color: @wyrm-red;
+        }
     }
 
     .editor .tox-toolbar-overlord,
