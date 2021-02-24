@@ -36,7 +36,7 @@
                 {{math "sum" skill.data.level (lookup (getProp ../actor.data.stats skill.data.stat) 'value')}}
             </div>
             <div class="item-detail skill-favorite text-nowrap">
-                <a class="item-action" data-action-type="favorite" title="{{localize "CPR.toggleskillpin"}}">
+                <a class="item-action" data-action-type="favorite" title="{{localize "CPR.togglepin"}}">
                     {{#if skill.data.favorite}}
                     <i class="fas fa-thumbtack fg-black favorite"></i>
                     {{else}}
