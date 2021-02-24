@@ -1018,66 +1018,66 @@ form input.number {
 }
 @keyframes glitch-anim {
   0% {
-    clip: rect(110px, 9999px, 30px, 0);
+    clip: rect(111px, 9999px, 109px, 0);
   }
   10% {
-    clip: rect(101px, 9999px, 67px, 0);
+    clip: rect(12px, 9999px, 56px, 0);
   }
   20% {
-    clip: rect(113px, 9999px, 2px, 0);
+    clip: rect(71px, 9999px, 62px, 0);
   }
   30% {
-    clip: rect(111px, 9999px, 134px, 0);
+    clip: rect(4px, 9999px, 10px, 0);
   }
   40% {
-    clip: rect(14px, 9999px, 41px, 0);
+    clip: rect(12px, 9999px, 141px, 0);
   }
   50% {
-    clip: rect(149px, 9999px, 52px, 0);
+    clip: rect(90px, 9999px, 41px, 0);
   }
   60% {
-    clip: rect(71px, 9999px, 29px, 0);
+    clip: rect(32px, 9999px, 92px, 0);
   }
   70% {
-    clip: rect(85px, 9999px, 78px, 0);
+    clip: rect(40px, 9999px, 40px, 0);
   }
   80% {
-    clip: rect(136px, 9999px, 58px, 0);
+    clip: rect(18px, 9999px, 41px, 0);
   }
   90% {
-    clip: rect(113px, 9999px, 81px, 0);
+    clip: rect(16px, 9999px, 82px, 0);
   }
   100% {
-    clip: rect(107px, 9999px, 118px, 0);
+    clip: rect(128px, 9999px, 105px, 0);
   }
 }
 @keyframes glitch-anim-2 {
   20% {
-    clip: rect(22px, 9999px, 94px, 0);
+    clip: rect(10px, 9999px, 146px, 0);
   }
   30% {
-    clip: rect(5px, 9999px, 92px, 0);
+    clip: rect(35px, 9999px, 35px, 0);
   }
   40% {
-    clip: rect(82px, 9999px, 54px, 0);
+    clip: rect(54px, 9999px, 111px, 0);
   }
   50% {
-    clip: rect(64px, 9999px, 102px, 0);
+    clip: rect(115px, 9999px, 71px, 0);
   }
   60% {
-    clip: rect(65px, 9999px, 10px, 0);
+    clip: rect(94px, 9999px, 1px, 0);
   }
   70% {
-    clip: rect(123px, 9999px, 41px, 0);
+    clip: rect(71px, 9999px, 77px, 0);
   }
   80% {
-    clip: rect(95px, 9999px, 54px, 0);
+    clip: rect(62px, 9999px, 135px, 0);
   }
   90% {
-    clip: rect(33px, 9999px, 24px, 0);
+    clip: rect(125px, 9999px, 125px, 0);
   }
   100% {
-    clip: rect(111px, 9999px, 139px, 0);
+    clip: rect(117px, 9999px, 24px, 0);
   }
 }
 /* ------------------------------- */
