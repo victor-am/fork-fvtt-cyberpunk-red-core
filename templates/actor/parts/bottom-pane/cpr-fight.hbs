@@ -20,8 +20,8 @@
                 {{#each (sort actor.filteredItems.armor "name") as |armor| }}
                 {{#if (compare armor.data.equipped "===" "equipped")}}
                 <li class="item armor-piece" >
-                    <li class="flex-space-between item" data-item-id="{{armor._id}}" >
-                        <div class="item-name armor-name flexrow text-nowrap"><a class="name item-edit">{{armor.name}}</a>
+                    <li class="flex-space-between item flexrow" data-item-id="{{armor._id}}" >
+                        <div class="item-name armor-name text-nowrap"><a class="name item-edit">{{armor.name}}</a>
                         </div>
                         
                     </li>
@@ -77,7 +77,7 @@
                 {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
                 {{#if (compare weapon.data.equipped "===" "equipped")}}
                 <li class="item flexrow" data-item-id="{{weapon._id}}" draggable="true">
-                    <div class="item-name weapon-name flexrow">
+                    <div class="item-name weapon-name">
                         <a class="name item-edit">{{weapon.name}}</a>
                         {{#if (compare weapon.data.quality "!==" "standard")}}
                         ({{localize weapon.data.quality}})

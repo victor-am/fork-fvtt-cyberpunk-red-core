@@ -67,6 +67,53 @@ button,
 .dialog .dialog-buttons button.default {
   background: #eaeaeaff;
 }
+/* --------------------------------------- */
+/* Override pause menu, with glitch effect */
+/* --------------------------------------- */
+#pause {
+  background: none;
+}
+#pause img {
+  background: url("icons/pause.png");
+  background-size: 128px;
+  width: 128px;
+  height: 128px;
+  padding-left: 128px;
+}
+#pause h3 {
+  margin: 0 auto;
+  text-align: center;
+  transform: scale3d(1, 1, 1);
+  text-transform: uppercase;
+  font-family: "Audimat Mono";
+  font-weight: 900;
+  color: #f4eded;
+}
+#pause h3::before,
+#pause h3::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+#pause h3::before {
+  left: 2px;
+  text-shadow: -2px 0 #2388d2;
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim-2 7s infinite linear alternate-reverse;
+}
+#pause h3::after {
+  left: -2px;
+  text-shadow: -2px 0 #8ef104;
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim 6.5s infinite linear alternate-reverse;
+}
+#pause h3::before,
+#pause h3::after {
+  content: "GAME PAUSED";
+}
 /*--------------------
   Color modifiers
 ---------------------*/
@@ -1079,52 +1126,6 @@ form input.number {
   100% {
     clip: rect(85px, 9999px, 40px, 0);
   }
-}
-/* ------------------------------- */
-/* Override pause menu             */
-/* ------------------------------- */
-#pause {
-  background: none;
-}
-#pause img {
-  background: url("icons/pause.png");
-  background-size: 128px;
-  width: 128px;
-  height: 128px;
-  padding-left: 128px;
-}
-#pause h3 {
-  margin: 0 auto;
-  text-align: center;
-  transform: scale3d(1, 1, 1);
-  text-transform: uppercase;
-  font-family: "Rubik Mono One";
-  color: #f4eded;
-}
-#pause h3::before,
-#pause h3::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  overflow: hidden;
-}
-#pause h3::before {
-  left: 2px;
-  text-shadow: -2px 0 #2388d2;
-  clip: rect(24px, 550px, 90px, 0);
-  animation: glitch-anim-2 7s infinite linear alternate-reverse;
-}
-#pause h3::after {
-  left: -2px;
-  text-shadow: -2px 0 #8ef104;
-  clip: rect(85px, 550px, 140px, 0);
-  animation: glitch-anim 6.5s infinite linear alternate-reverse;
-}
-#pause h3::before,
-#pause h3::after {
-  content: "GAME PAUSED";
 }
 .window-app .window-content {
   background: #eaeaeaff;
