@@ -5,7 +5,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class SelectRolesPrompt {
   static async RenderPrompt(data) {
-    const template = "systems/cyberpunk-red-core/templates/dialog/cpr-select-roles.hbs";
+    const template = "systems/cyberpunk-red-core/templates/dialog/cpr-select-roles-prompt.hbs";
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
