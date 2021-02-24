@@ -28,7 +28,7 @@
     grid-template-rows   : auto auto;
 
     grid-template-areas: "pane-left pane-right"
-    "pane-bottom pane-bottom";
+        "pane-bottom pane-bottom";
 
     // Pane for main and stats
     .left-pane {
@@ -38,9 +38,9 @@
         // main  is 200px wide
         // stats is 60px wide
         // plus the 5px grid-gap
-        max-width: 265px;
+        max-width : 265px;
         max-height: 425px;
-        grid-gap : 5px;
+        grid-gap  : 5px;
 
         grid-template-columns: auto auto;
         grid-template-areas  :
@@ -71,7 +71,7 @@
     }
 
     .right-pane {
-        grid-area            : pane-right;
+        grid-area: pane-right;
 
         display              : grid;
         grid-template-columns: auto;
@@ -85,20 +85,20 @@
 
             grid-area: tabs-right;
 
-            width: 100%;
+            width : 100%;
             height: 21px;
         }
 
         .right-content-section {
             grid-area: content-right;
             display  : flex;
-            height: 404px;
-            width: 100%;
+            height   : 404px;
+            width    : 100%;
 
             border-color: @wyrm-red;
             border-style: solid;
             border-width: 5px;
-            overflow-y: scroll;
+            overflow-y  : scroll;
         }
     }
 
@@ -113,39 +113,41 @@
             "content-bottom";
 
         overflow-y: hidden;
+
         .bottom-tabs-section {
 
             grid-area: tabs-bottom;
 
-            width: 100%;
+            width : 100%;
             height: 21px;
         }
 
         .bottom-content-section {
             grid-area: content-bottom;
             display  : flex;
-            width: 100%;
+            width    : 100%;
 
             border-color: @wyrm-red;
             border-style: solid;
             border-width: 5px;
-            overflow-y: auto;
+            overflow-y  : auto;
         }
     }
 }
 
 .skills-tab {
-    display: grid;
+    display              : grid;
     grid-template-columns: auto auto;
-    grid-template-rows: auto;
-    grid-template-areas: "skills-left skills-right";
-    width: inherit;
-    grid-gap: 5px;
-    background-color: @wyrm-red;
+    grid-template-rows   : auto;
+    grid-template-areas  : "skills-left skills-right";
+    width                : inherit;
+    grid-gap             : 5px;
+    background-color     : @wyrm-red;
 
     .left-pane-skills {
         grid-area: skills-left;
     }
+
     .right-pane-skills {
         grid-area: skills-right;
     }
@@ -153,34 +155,36 @@
 
 .cyberware-tab,
 .gear-tab {
-    display: grid;
+    display              : grid;
     grid-template-columns: auto;
-    grid-template-rows: auto;
-    width: inherit;
-    background-color: @chrome-white;
+    grid-template-rows   : auto;
+    width                : inherit;
+    background-color     : @chrome-white;
 }
 
 
 .gear-tab-data {
-    display: grid;
+    display              : grid;
     grid-template-columns: auto;
-    grid-template-rows: 370px auto;
-    width: inherit;
-    background-color: @chrome-white;
-    grid-template-areas: 
+    grid-template-rows   : 370px auto;
+    width                : inherit;
+    background-color     : @chrome-white;
+    grid-template-areas  :
         "gear-top"
         "gear-bottom";
+
     .top-pane-gear {
-        grid-area: gear-top;
-        overflow-y: scroll;
+        grid-area       : gear-top;
+        overflow-y      : scroll;
         background-color: @chrome-white;
     }
+
     .bottom-pane-gear {
-        grid-area: gear-bottom;
+        grid-area       : gear-bottom;
         background-color: @chrome-white;
-        display: flex;
-        white-space: nowrap;
-        border-width: 5px;
+        display         : flex;
+        white-space     : nowrap;
+        border-width    : 5px;
         border-top-color: @wyrm-red;
         border-top-style: solid;
     }
@@ -189,57 +193,62 @@
 
 .role-tab,
 .lifepath-tab {
-    display: flex;
+    display         : flex;
     background-color: @chrome-white;
-    flex-flow: wrap;
-    justify-content: space-between;
-    flex: 1;
+    flex-flow       : wrap;
+    justify-content : space-between;
+    flex            : 1;
 
 }
 
 .lifepath-tab {
-    
-    display: grid;
+
+    display              : grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: auto;
-    grid-template-areas: "notes-pane lifepath-pane";
+    grid-template-rows   : auto;
+    grid-template-areas  : "notes-pane lifepath-pane";
 
     .lifepath-section {
         grid-area: lifepath-pane;
-        margin: 5px;
+        margin   : 5px;
     }
 
     .notes-section {
         grid-area: notes-pane;
-        margin: 5px;
+        margin   : 5px;
+
         .note-pad {
-            min-height: 450px;
+            display       : flex;
+            height    : 425px;
         }
     }
 }
 
 .fight-tab {
-    display: grid;
+    display              : grid;
     grid-template-columns: 25% 25% auto;
-    grid-template-rows: auto;
-    grid-template-areas: "injuries armor weapon";
-    width: inherit;
-    grid-gap: 5px;
-    background-color: @wyrm-red;
+    grid-template-rows   : auto;
+    grid-template-areas  : "injuries armor weapon";
+    width                : inherit;
+    grid-gap             : 5px;
+    background-color     : @wyrm-red;
+
     .injuries-section {
-        grid-area: injuries;
+        grid-area       : injuries;
         background-color: @chrome-white;
-        min-height: 35px;
+        min-height      : 35px;
     }
+
     .armor-section {
-        grid-area: armor;
+        grid-area       : armor;
         background-color: @chrome-white;
-        min-height: 35px;
+        min-height      : 35px;
     }
+
     .weapon-section {
-        grid-area: weapon;
+        grid-area       : weapon;
         background-color: @chrome-white;
-        min-height: 35px;
+        min-height      : 35px;
     }
 
 }
@@ -252,7 +261,7 @@
 .humanity-block,
 .stat-block {
     font-size       : @font-normal;
-    color: @flint-black;
+    color           : @flint-black;
     background-color: @chrome-white;
 }
 
@@ -284,13 +293,13 @@
 }
 
 .tab-label {
-    display: flex;
-    justify-content: center;
-    color: @chrome-white;
+    display         : flex;
+    justify-content : center;
+    color           : @chrome-white;
     background-color: @flint-black;
     text-align      : center;
     font-size       : @font-normal;
-    min-width: 150px;
+    min-width       : 150px;
     //clip-path: polygon(33px 0, 100% 0%, 100% 100%, 11px 100%);
 
     &.tab-indent {
@@ -308,8 +317,8 @@
 
 .tab-pink-underlay {
     background-color: @meat-space-pink;
-    margin-left: 20px;
-    clip-path: polygon(22px 0, 100% 0%, 100% 100%, 0% 100%);
+    margin-left     : 20px;
+    clip-path       : polygon(22px 0, 100% 0%, 100% 100%, 0% 100%);
 }
 
 .tabs {
