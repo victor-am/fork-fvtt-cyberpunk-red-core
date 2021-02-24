@@ -1102,66 +1102,66 @@ form input.number {
 }
 @keyframes glitch-anim {
   0% {
-    clip: rect(111px, 9999px, 109px, 0);
+    clip: rect(48px, 9999px, 127px, 0);
   }
   10% {
-    clip: rect(12px, 9999px, 56px, 0);
+    clip: rect(149px, 9999px, 103px, 0);
   }
   20% {
-    clip: rect(71px, 9999px, 62px, 0);
+    clip: rect(2px, 9999px, 134px, 0);
   }
   30% {
-    clip: rect(4px, 9999px, 10px, 0);
+    clip: rect(36px, 9999px, 15px, 0);
   }
   40% {
-    clip: rect(12px, 9999px, 141px, 0);
+    clip: rect(52px, 9999px, 67px, 0);
   }
   50% {
-    clip: rect(90px, 9999px, 41px, 0);
+    clip: rect(68px, 9999px, 122px, 0);
   }
   60% {
-    clip: rect(32px, 9999px, 92px, 0);
+    clip: rect(131px, 9999px, 102px, 0);
   }
   70% {
-    clip: rect(40px, 9999px, 40px, 0);
+    clip: rect(146px, 9999px, 35px, 0);
   }
   80% {
-    clip: rect(18px, 9999px, 41px, 0);
+    clip: rect(5px, 9999px, 105px, 0);
   }
   90% {
-    clip: rect(16px, 9999px, 82px, 0);
+    clip: rect(45px, 9999px, 126px, 0);
   }
   100% {
-    clip: rect(128px, 9999px, 105px, 0);
+    clip: rect(89px, 9999px, 145px, 0);
   }
 }
 @keyframes glitch-anim-2 {
   20% {
-    clip: rect(10px, 9999px, 146px, 0);
+    clip: rect(23px, 9999px, 53px, 0);
   }
   30% {
-    clip: rect(35px, 9999px, 35px, 0);
+    clip: rect(47px, 9999px, 142px, 0);
   }
   40% {
-    clip: rect(54px, 9999px, 111px, 0);
+    clip: rect(146px, 9999px, 48px, 0);
   }
   50% {
-    clip: rect(115px, 9999px, 71px, 0);
+    clip: rect(18px, 9999px, 123px, 0);
   }
   60% {
-    clip: rect(94px, 9999px, 1px, 0);
+    clip: rect(145px, 9999px, 150px, 0);
   }
   70% {
-    clip: rect(71px, 9999px, 77px, 0);
+    clip: rect(81px, 9999px, 105px, 0);
   }
   80% {
-    clip: rect(62px, 9999px, 135px, 0);
+    clip: rect(77px, 9999px, 91px, 0);
   }
   90% {
-    clip: rect(125px, 9999px, 125px, 0);
+    clip: rect(42px, 9999px, 132px, 0);
   }
   100% {
-    clip: rect(117px, 9999px, 24px, 0);
+    clip: rect(85px, 9999px, 40px, 0);
   }
 }
 .window-app .window-content {
