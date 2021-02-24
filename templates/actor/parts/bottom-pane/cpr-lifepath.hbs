@@ -3,7 +3,9 @@
     <div class="notes-section">
         <div class="notes-details">
             <div class="text-large text-bold">{{localize "CPR.playernotes"}}</div>
-            <textarea class="note-pad" name="data.information.notes">{{data.information.notes}}</textarea>
+            <div class="note-pad">
+            {{editor content=data.information.notes target="data.information.notes" button=true owner=owner editable=editable}}
+            </div>
         </div>
     </div>
     <div class="lifepath-section">

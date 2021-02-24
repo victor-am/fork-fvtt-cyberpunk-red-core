@@ -397,7 +397,8 @@ button,
   margin: 5px;
 }
 .lifepath-tab .notes-section .note-pad {
-  min-height: 450px;
+  display: flex;
+  height: 425px;
 }
 .fight-tab {
   display: grid;
