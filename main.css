@@ -50,6 +50,11 @@
 .actor-sheet input[type="time"]:hover,
 .item-sheet input[type="time"]:hover {
   text-shadow: 0 0 8px #b90202ff;
+  border-right: 1px;
+  border-right-style: solid;
+  border-left: 1px;
+  border-left-style: solid;
+  border-color: #b90202ff;
 }
 .actor-sheet .editor .tox-toolbar-overlord,
 .item-sheet .editor .tox-toolbar-overlord,
