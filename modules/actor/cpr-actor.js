@@ -302,7 +302,11 @@ export default class CPRActor extends Actor {
     let roleList = formData.selectedRoles;
     roleList.push(activeRole);
     roleList = [...new Set(roleList)];
-    this.update({ "data.roleInfo.roles": roleList, "data.roleInfo.activeRole": activeRole });
+    return this.update({ "data.roleInfo.roles": roleList, "data.roleInfo.activeRole": activeRole });
+  }
+
+  setLifepath(formData) {
+    return this.update(formData);
   }
 
   getSkillLevel(skillName) {
