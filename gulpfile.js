@@ -57,6 +57,7 @@ async function clean() {
 
 async function copyFiles() {
   const staticFiles = [
+    "fonts",
     "icons",
     "lang",
     "templates",
@@ -106,6 +107,7 @@ function watchUpdates() {
   if (fs.existsSync(CONFIG_FILE)) {
     gulp.watch(
       [
+        "fonts/**/*.*",
         "icons/**/*.*",
         "lang/*.json",
         "templates/**/*.hbs",
