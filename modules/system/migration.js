@@ -107,6 +107,30 @@ export default class Migration {
   }
 
   static migrateItemData(itemData) {
+    switch (itemData.type) {
+      case "weapon": {
+        return this.migrateWeapon(itemData);
+      }
+      case "program": {
+        return this.migrateProgram(itemData);
+      }
+      default:
+    }
+    return itemData;
+  }
+
+  // Item specific migration tasks
+  static migrateWeapon(itemData) {
+    if ((typeof itemData.data.isConcealed) === "undefined") {
+      itemData.data.isConcealed = false;
+    }
+    return itemData;
+  }
+
+  static migrateProgram(itemData) {
+    if ((typeof itemData.data.slots) === "undefined") {
+      itemData.data.slots = 0;
+    }
     return itemData;
   }
 }
