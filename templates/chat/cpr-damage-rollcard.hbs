@@ -24,7 +24,7 @@
                     {{#if wasCritical}}
                     {{localize "CPR.bonus"}} {{localize "CPR.damage"}}: {{bonusDamage}}<br>
                     {{/if}}
-                    {{localize "CPR.location"}}: {{localize (findConfigValue "aimedLocation" location)}}<br>
+                    {{localize "CPR.location"}}: {{#if isAimed}}{{localize (findConfigValue "aimedLocation" location)}}{{else}}{{localize "CPR.bodylocation"}}{{/if}}<br>
                     {{#if (compare mods.length ">" 0)}}
                     {{localize "CPR.mods"}}: {{mods}}<br>
                     {{/if}}
