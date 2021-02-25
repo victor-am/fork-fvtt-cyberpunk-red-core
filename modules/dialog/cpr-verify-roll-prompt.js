@@ -19,7 +19,7 @@ export default class VerifyRollPrompt {
         };
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog VerifyRollPrompt | called.");
-          
+
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
           console.log(formData);
           if (formData.mods) {
