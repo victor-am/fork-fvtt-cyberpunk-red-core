@@ -24,9 +24,17 @@
             </div>
         </li>
         {{/if}}
+        
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.aimedshot"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                
+                <input name="isAimed" class="" type="checkbox" data-dtype="Checkbox"{{#if isAimed}} checked{{/if}}>
+            </div>
+        </li>
 
-        {{#if (getProp (getProp (findObj extraVars "name" "previousRoll" ) "value") "isAimed" )}}
-        <input type="hidden" name="isAimed" value="true">
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.aimfor"}}:
@@ -40,7 +48,7 @@
                 </select>
             </div>
         </li>
-        {{/if}}
+        
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
