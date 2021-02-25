@@ -86,6 +86,23 @@ export default class Migration {
       actorData.data.roleInfo.activeRole = configuredRole;
     }
 
+    // Original Data Model had a spelling issue
+    if ((typeof actorData.data.lifepath.familyBackground) === "undefined") {
+      actorData.data.lifepath.familyBackground = "";
+      if ((typeof actorData.data.lifepath.familyBackgrond) !== "undefined") {
+        actorData.data.lifepath.familyBackground = actorData.data.lifepath.familyBackgrond;
+        delete actorData.data.lifepath.familyBackgrond;
+      }
+    }
+
+    if ((typeof actorData.data.lifestyle.fashion) === "undefined") {
+      actorData.data.lifestyle.fashion = "";
+      if ((typeof actorData.data.lifestyle.fasion) !== "undefined") {
+        actorData.data.lifestyle.fashion = actorData.data.lifestyle.fasion;
+        delete actorData.data.lifestyle.fasion;
+      }
+    }
+
     await actor.update(actorData, { diff: false, enforceTypes: false });
   }
 
