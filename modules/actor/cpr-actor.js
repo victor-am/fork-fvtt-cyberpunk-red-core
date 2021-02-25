@@ -345,7 +345,7 @@ export default class CPRActor extends Actor {
       const ledgerProp = `${prop}.transactions`;
       setProperty(this.data.data, valProp, 0);
       setProperty(this.data.data, ledgerProp, []);
-      this.update(this.data, {});
+      this.update(this.data);
       return getProperty(this.data.data, prop);
     }
     return null;

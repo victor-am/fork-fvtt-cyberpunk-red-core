@@ -921,9 +921,12 @@ button,
   flex: 0 0 25%;
 }
 .fight-tab .weapon-attack,
-.fight-tab .weapon-damage,
-.fight-tab .weapon-reload {
+.fight-tab .weapon-damage {
   flex: 0 0 20px;
+  text-align: center;
+}
+.fight-tab .weapon-reload {
+  flex: 0 0 40px;
   text-align: center;
 }
 ul,

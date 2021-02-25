@@ -297,6 +297,12 @@ export default class CPRActorSheet extends ActorSheet {
         }
         break;
       }
+      case "damage": {
+        if (!rollRequest.isAimed) {
+          rollRequest.location = "body";
+        }
+        break;
+      }
       default:
     }
 
@@ -419,6 +425,9 @@ export default class CPRActorSheet extends ActorSheet {
     rollRequest.formula = weaponItem.getData().damage;
     rollRequest.attackSkill = weaponItem.getData().weaponSkill;
     rollRequest.weaponType = weaponItem.getData().weaponType;
+    if (typeof this.actor.data.previousRoll !== "undefined") {
+      rollRequest.isAimed = this.actor.data.previousRoll.isAimed;
+    }
   }
 
   _prepareDeathSave(rollRequest) {
