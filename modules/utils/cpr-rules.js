@@ -11,11 +11,12 @@ export default class Rules {
   static validRole(actor, data) {
     let roleValid = true;
     const roleData = actor.data.data.roleInfo;
-
     if (typeof data !== "undefined") {
-      if (typeof data.data.roleInfo !== "undefined") {
-        const newRoleData = data.data.roleInfo;
-        mergeObject(roleData, newRoleData);
+      if (typeof data.data !== "undefined") {
+        if (typeof data.data.roleInfo !== "undefined") {
+          const newRoleData = data.data.roleInfo;
+          mergeObject(roleData, newRoleData);
+        }
       }
     }
 
