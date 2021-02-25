@@ -9,16 +9,24 @@ export default class Rules {
   }
 
   static validRole(actor, data) {
-    const newRoleData = data.data.roleInfo;
-    const changedRoles = newRoleData.roles;
     let roleValid = true;
-    if ("solo" in changedRoles || "tech" in changedRoles || "medtech" in changedRoles) {
-      const currentRoleData = actor.data.data.roleInfo;
-      mergeObject(currentRoleData, newRoleData);
+    const roleData = actor.data.data.roleInfo;
+    if (typeof data !== "undefined") {
+      if (typeof data.data !== "undefined") {
+        if (typeof data.data.roleInfo !== "undefined") {
+          const newRoleData = data.data.roleInfo;
+          mergeObject(roleData, newRoleData);
+        }
+      }
+    }
+
+    const validateRoles = roleData.roles;
+
+    if (validateRoles.includes("solo") || validateRoles.includes("tech") || validateRoles.includes("medtech")) {
       let abilityRank = 0;
       let subskillRank = 0;
-      Object.keys(changedRoles).forEach((role) => {
-        const roleSkills = currentRoleData.roleskills[role];
+      validateRoles.forEach((role) => {
+        const roleSkills = roleData.roleskills[role];
         Object.keys(roleSkills).forEach((roleSkill) => {
           if (roleSkill === "subSkills") {
             Object.keys(roleSkills.subSkills).forEach((subSkill) => {

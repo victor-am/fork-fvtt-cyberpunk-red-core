@@ -39,6 +39,23 @@
   -ms-user-select: text;
   user-select: text;
 }
+.actor-sheet input[type="text"]:hover,
+.item-sheet input[type="text"]:hover,
+.actor-sheet input[type="number"]:hover,
+.item-sheet input[type="number"]:hover,
+.actor-sheet input[type="password"]:hover,
+.item-sheet input[type="password"]:hover,
+.actor-sheet input[type="date"]:hover,
+.item-sheet input[type="date"]:hover,
+.actor-sheet input[type="time"]:hover,
+.item-sheet input[type="time"]:hover {
+  text-shadow: 0 0 8px #b90202ff;
+  border-right: 1px;
+  border-right-style: solid;
+  border-left: 1px;
+  border-left-style: solid;
+  border-color: #b90202ff;
+}
 .actor-sheet .editor .tox-toolbar-overlord,
 .item-sheet .editor .tox-toolbar-overlord,
 .actor-sheet .editor .tox-toolbar__primary,
@@ -66,6 +83,51 @@ button,
 .sidebar-tab .directory-header .header-search input,
 .dialog .dialog-buttons button.default {
   background: #eaeaeaff;
+}
+/* -------------------------------------------- */
+/* Override pause menu with glitch effect       */
+/* IF enabled in settings.enablePauseAnimation  */
+/* -------------------------------------------- */
+#pause .pause-image {
+  background: url("icons/pause.png");
+  background-size: 128px;
+  width: 128px;
+  height: 128px;
+  padding-left: 128px;
+}
+#pause .pause-glitch {
+  margin: 0 auto;
+  text-align: center;
+  transform: scale3d(1, 1, 1);
+  text-transform: uppercase;
+  font-family: "Audimat Mono";
+  font-weight: 900;
+  color: #f4eded;
+}
+#pause .pause-glitch::before,
+#pause .pause-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+#pause .pause-glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 #2388d2;
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim-2 7s infinite linear alternate-reverse;
+}
+#pause .pause-glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 #8ef104;
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim 6.5s infinite linear alternate-reverse;
+}
+#pause .pause-glitch::before,
+#pause .pause-glitch::after {
+  content: "GAME PAUSED";
 }
 /*--------------------
   Color modifiers
@@ -282,7 +344,8 @@ button,
 .skills-tab .right-pane-skills {
   grid-area: skills-right;
 }
-.cyberware-tab {
+.cyberware-tab,
+.gear-tab {
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: auto;
@@ -311,7 +374,6 @@ button,
   border-top-color: #b90202ff;
   border-top-style: solid;
 }
-.role-tab,
 .lifepath-tab {
   display: flex;
   background-color: #eaeaeaff;
@@ -319,8 +381,44 @@ button,
   justify-content: space-between;
   flex: 1;
 }
+.role-tab {
+  display: grid;
+  grid-template-columns: auto;
+  width: inherit;
+  background-color: #eaeaeaff;
+  grid-template-areas: "role-top" "role-bottom";
+}
+.role-tab .role-content {
+  grid-area: role-top;
+  display: flex;
+  background-color: #eaeaeaff;
+  flex-flow: wrap;
+  justify-content: space-between;
+  flex: 1;
+}
+.role-tab .improvementpoints {
+  grid-area: role-bottom;
+  white-space: nowrap;
+  border-top-color: #b90202ff;
+  border-top-style: solid;
+}
 .lifepath-tab {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto;
+  grid-template-areas: "notes-pane lifepath-pane";
+}
+.lifepath-tab .lifepath-section {
+  grid-area: lifepath-pane;
   margin: 5px;
+}
+.lifepath-tab .notes-section {
+  grid-area: notes-pane;
+  margin: 5px;
+}
+.lifepath-tab .notes-section .note-pad {
+  display: flex;
+  height: 425px;
 }
 .fight-tab {
   display: grid;
@@ -347,11 +445,15 @@ button,
   min-height: 35px;
 }
 .handle-block,
-.role-block,
 .hitpoint-block,
 .deathsave-block,
 .humanity-block,
 .stat-block {
+  font-size: 1.2rem;
+  color: #2d2f2fff;
+  background-color: #eaeaeaff;
+}
+.role-block {
   font-size: 1.2rem;
   color: #2d2f2fff;
   background-color: #eaeaeaff;
@@ -447,11 +549,6 @@ button,
   grid-template-areas: "item-bottom-tabs" "item-bottom-content";
   height: fit-content;
   overflow-y: hidden;
-  /*
-        &>div {
-            margin: 5px;
-        }
-*/
 }
 .item-sheet .item-bottom-pane .item-bottom-tabs-section {
   grid-area: item-bottom-tabs;
@@ -463,15 +560,28 @@ button,
   border-style: solid;
   border-width: 5px;
   overflow-y: scroll;
+  flex-wrap: wrap;
+}
+.item-description-grid,
+.item-settings-grid {
+  display: flex;
+  width: inherit;
+  height: inherit;
+  flex: 1 1 auto;
 }
 .item-description-tab {
-  display: flex;
+  display: grid;
+  grid-template-columns: 135px auto;
+  grid-template-rows: auto;
+  grid-template-areas: "item-summary-pane item-description-pane";
   flex: 1 0 auto;
-  min-height: 75px;
+  min-height: 150px;
   grid-gap: 5px;
   background-color: #b90202ff;
+  width: inherit;
 }
 .item-description-tab .item-summary-section {
+  grid-area: item-summary-pane;
   background-color: #eaeaeaff;
   height: unset;
   font-size: 0.8rem;
@@ -484,9 +594,11 @@ button,
   flex: 0 0 70px;
 }
 .item-description-tab .item-description-section {
+  grid-area: item-description-pane;
   display: flex;
   flex: 1 0 auto;
   background-color: #eaeaeaff;
+  flex-wrap: wrap;
   height: unset;
 }
 .item-settings-tab {
@@ -707,6 +819,12 @@ button,
 .text-space-around {
   justify-content: space-around;
 }
+.text-float-right {
+  float: right;
+}
+.text-underline {
+  text-decoration: underline;
+}
 .flexrow {
   display: flex;
   flex-direction: row;
@@ -754,6 +872,7 @@ button,
   word-break: break-word;
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 .items-list .hide {
   display: none;
@@ -826,9 +945,12 @@ button,
   flex: 0 0 25%;
 }
 .fight-tab .weapon-attack,
-.fight-tab .weapon-damage,
-.fight-tab .weapon-reload {
+.fight-tab .weapon-damage {
   flex: 0 0 20px;
+  text-align: center;
+}
+.fight-tab .weapon-reload {
+  flex: 0 0 40px;
   text-align: center;
 }
 ul,
@@ -856,7 +978,7 @@ ol {
 .rollcard {
   display: grid;
   padding: 15px;
-  grid-template-columns: 75px auto;
+  grid-template-columns: 70px auto;
   grid-template-rows: auto auto auto;
   grid-template-areas: "rc-dice rc-total" "rc-dice rc-info" "rc-bottom rc-bottom";
 }
@@ -1006,66 +1128,66 @@ form input.number {
 }
 @keyframes glitch-anim {
   0% {
-    clip: rect(106px, 9999px, 79px, 0);
+    clip: rect(65px, 9999px, 51px, 0);
   }
   10% {
-    clip: rect(56px, 9999px, 30px, 0);
+    clip: rect(16px, 9999px, 51px, 0);
   }
   20% {
-    clip: rect(112px, 9999px, 12px, 0);
+    clip: rect(6px, 9999px, 136px, 0);
   }
   30% {
-    clip: rect(10px, 9999px, 32px, 0);
+    clip: rect(49px, 9999px, 68px, 0);
   }
   40% {
-    clip: rect(59px, 9999px, 14px, 0);
+    clip: rect(37px, 9999px, 120px, 0);
   }
   50% {
-    clip: rect(92px, 9999px, 55px, 0);
+    clip: rect(123px, 9999px, 65px, 0);
   }
   60% {
-    clip: rect(124px, 9999px, 82px, 0);
+    clip: rect(58px, 9999px, 144px, 0);
   }
   70% {
-    clip: rect(89px, 9999px, 32px, 0);
+    clip: rect(11px, 9999px, 16px, 0);
   }
   80% {
-    clip: rect(32px, 9999px, 30px, 0);
+    clip: rect(16px, 9999px, 67px, 0);
   }
   90% {
-    clip: rect(108px, 9999px, 81px, 0);
+    clip: rect(39px, 9999px, 77px, 0);
   }
   100% {
-    clip: rect(80px, 9999px, 60px, 0);
+    clip: rect(39px, 9999px, 53px, 0);
   }
 }
 @keyframes glitch-anim-2 {
   20% {
-    clip: rect(82px, 9999px, 130px, 0);
+    clip: rect(107px, 9999px, 75px, 0);
   }
   30% {
-    clip: rect(2px, 9999px, 95px, 0);
+    clip: rect(8px, 9999px, 3px, 0);
   }
   40% {
-    clip: rect(90px, 9999px, 149px, 0);
+    clip: rect(78px, 9999px, 143px, 0);
   }
   50% {
-    clip: rect(100px, 9999px, 110px, 0);
+    clip: rect(146px, 9999px, 120px, 0);
   }
   60% {
-    clip: rect(58px, 9999px, 137px, 0);
+    clip: rect(79px, 9999px, 110px, 0);
   }
   70% {
-    clip: rect(64px, 9999px, 56px, 0);
+    clip: rect(10px, 9999px, 33px, 0);
   }
   80% {
-    clip: rect(26px, 9999px, 38px, 0);
+    clip: rect(85px, 9999px, 9px, 0);
   }
   90% {
-    clip: rect(134px, 9999px, 36px, 0);
+    clip: rect(140px, 9999px, 23px, 0);
   }
   100% {
-    clip: rect(57px, 9999px, 103px, 0);
+    clip: rect(5px, 9999px, 110px, 0);
   }
 }
 .window-app .window-content {

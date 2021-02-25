@@ -62,15 +62,17 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("getProp", (object, property) => {
-    if (typeof object.length === "undefined") {
-      return getProperty(object, property);
-    }
-    if (object.length > 0) {
-      const returnValues = [];
-      object.forEach((obj) => {
-        returnValues.push(getProperty(obj, property));
-      });
-      return returnValues;
+    if (typeof object !== "undefined") {
+      if (typeof object.length === "undefined") {
+        return getProperty(object, property);
+      }
+      if (object.length > 0) {
+        const returnValues = [];
+        object.forEach((obj) => {
+          returnValues.push(getProperty(obj, property));
+        });
+        return returnValues;
+      }
     }
     return "";
   });

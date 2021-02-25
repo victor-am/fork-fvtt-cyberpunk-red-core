@@ -15,7 +15,7 @@ export default class CPRItemSheet extends ItemSheet {
     LOGGER.trace("defaultOptions | CPRItemSheet | Called.");
     return mergeObject(super.defaultOptions, {
       tabs: [{ navSelector: ".navtabs-item", contentSelector: ".item-bottom-content-section", initial: "item-description" }],
-      width: 450,
+      width: 590,
       height: 450,
     });
   }

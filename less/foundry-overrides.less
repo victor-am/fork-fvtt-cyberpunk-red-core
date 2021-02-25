@@ -36,6 +36,15 @@
         -moz-user-select   : text;
         -ms-user-select    : text;
         user-select        : text;
+
+        &:hover {
+            text-shadow: 0 0 8px @wyrm-red;
+            border-right: 1px;
+            border-right-style: solid;
+            border-left: 1px;
+            border-left-style: solid;
+            border-color: @wyrm-red;
+        }
     }
 
     .editor .tox-toolbar-overlord,
@@ -68,4 +77,30 @@ button,
 .sidebar-tab .directory-header .header-search input,
 .dialog .dialog-buttons button.default {
     background: @chrome-white;
+}
+
+/* -------------------------------------------- */
+/* Override pause menu with glitch effect       */
+/* IF enabled in settings.enablePauseAnimation  */
+/* -------------------------------------------- */
+#pause {
+  .pause-image {
+    background: url("icons/pause.png");
+    background-size: 128px;
+    width: 128px;
+    height: 128px;
+    padding-left: 128px;
+  }
+  .pause-glitch {
+    .glitch;
+    text-transform: uppercase;
+    font-family: "Audimat Mono";
+    font-weight: 900;
+    color: #f4eded;
+
+    &::before,
+    &::after {
+      content: "GAME PAUSED";
+    }
+  }
 }

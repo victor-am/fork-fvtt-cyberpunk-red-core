@@ -5,14 +5,14 @@
             {{#each (findConfigObj "inventoryCategories") as |category c|}}
             <div class="collapsible">
                 <li class="items-header flexrow collapsible">
-                    <span class="item-name gear-name bg-black text-nowrap expand-button " id="gearTab-{{c}}">
+                    <span class="item-name gear-name bg-black text-nowrap expand-button " id="gearTab-{{c}}" title="{{localize "CPR.togglecategorypinned"}}">
                         {{localize category}}&nbsp;<i class="fas fa-plus bg-black collapse-icon hide"></i>
                         <i class="fas fa-minus bg-black expand-icon"></i>
                     </span>
                     <span class="item-detail gear-data bg-black text-nowrap">{{localize "CPR.data"}}</span>
                     <span class="item-detail gear-actions bg-black text-nowrap">
                         {{localize "CPR.actions"}}&nbsp;
-                        {{#if (systemConfig "playersCreateInventory")}}<a class="item-create" data-item-type="{{c}}"><i class="fas fa-plus-circle text-padding-right"></i></a>{{/if}}
+                        {{#if (systemConfig "playersCreateInventory")}}<a class="item-create" title="{{localize "CPR.createnewitem"}}" data-item-type="{{c}}"><i class="fas fa-plus-circle text-padding-right"></i></a>{{/if}}
                     </span>
                 </li>
                 <ol class="items-list">
