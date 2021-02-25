@@ -397,6 +397,7 @@ button,
   flex: 1;
 }
 .role-tab .improvementpoints {
+  display: flex;
   grid-area: role-bottom;
   white-space: nowrap;
   border-top-color: #b90202ff;
