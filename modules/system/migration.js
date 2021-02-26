@@ -105,8 +105,8 @@ export default class Migration {
 
     if ((typeof actorData.data.improvementPoints) === "undefined") {
       actorData.data.improvementPoints = {
-        "value": 0,
-        "transactions": []
+        value: 0,
+        transactions: [],
       };
     } else if ((typeof actorData.data.improvementPoints.value) === "undefined") {
       let ipValue = 0;
@@ -115,15 +115,15 @@ export default class Migration {
         delete actorData.data.improvementPoints.total; // Doesn't actually work
       }
       actorData.data.improvementPoints = {
-        "value": ipValue,
-        "transactions": []
+        value: ipValue,
+        transactions: [],
       };
     }
 
     if ((typeof actorData.data.wealth) === "undefined") {
       actorData.data.wealth = {
-        "value": 0,
-        "transactions": []
+        value: 0,
+        transactions: [],
       };
     } else if ((typeof actorData.data.wealth.value) === "undefined") {
       let eddies = 0;
@@ -132,15 +132,15 @@ export default class Migration {
         delete actorData.data.wealth.eddies; // Doesn't actually work.
       }
       actorData.data.wealth = {
-        "value": eddies,
-        "transactions": []
+        value: eddies,
+        transactions: [],
       };
     }
 
     if ((typeof actorData.data.reputation) === "undefined") {
       actorData.data.reputation = {
-        "value": 0,
-        "transactions": []
+        value: 0,
+        transactions: [],
       };
     }
 
