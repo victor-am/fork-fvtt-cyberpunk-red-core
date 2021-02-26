@@ -1,43 +1,56 @@
 {{log "CPR-ROLE.HBS"}}
 <div class="role-tab">
-    {{#each data.roleInfo.roles as |role|}}
-    <ol class="items-list role-list">
-        <div class="collapsible">
-            <li class="items-header flexrow collapsible">
-                <span class="item-name role-name bg-black text-nowrap expand-button text-padding-left" id="roleTab-{{role}}">{{localize
-                    (findConfigValue "roleList" role)}} {{localize "CPR.abilities"}}&nbsp;<i
-                        class="fas fa-plus bg-black collapse-icon hide"></i><i
-                        class="fas fa-minus bg-black expand-icon"></i></span>
-                <span class="item-detail role-rank bg-black text-nowrap text-right">{{localize "CPR.rank"}}</span>
-            </li>
-            <ol class="items-list">
-                {{#each (getProp ../this.data.roleInfo.roleskills role) as |roleValue roleAbility|}}
-                {{#if (compare roleAbility "!==" "subSkills")}}
-                <li class="item flexrow" draggable="true">
-                    <div class="item-name role-name flexrow  text-nowrap">
-                        <a class="rollable ability-name text-bold" data-roll-type="roleAbility" data-roll-title="{{roleAbility}}">{{localize (findConfigValue "roleAbilityList" roleAbility)}}:</a>
-                    </div>
-                    <div class="item-detail ability-rank text-nowrap">
-                        <input name="data.roleInfo.roleskills.{{role}}.{{roleAbility}}" value="{{roleValue}}" type="number">
-                    </div>
+    <div class="role-content">
+        {{#each data.roleInfo.roles as |role|}}
+        <ol class="items-list role-list">
+            <div class="collapsible">
+                <li class="items-header flexrow collapsible">
+                    <span class="item-name role-name bg-black text-nowrap expand-button text-padding-left"
+                        id="roleTab-{{role}}">{{localize
+                        (findConfigValue "roleList" role)}} {{localize "CPR.abilities"}}&nbsp;<i
+                            class="fas fa-plus bg-black collapse-icon hide"></i><i
+                            class="fas fa-minus bg-black expand-icon"></i></span>
+                    <span class="item-detail role-rank bg-black text-nowrap text-right">{{localize "CPR.rank"}}</span>
                 </li>
-                {{else}}
-                {{#each roleValue as |subValue subSkill|}}
-                <li class="item flexrow" draggable="true">
-                    <div class="item-name role-name flexrow  text-nowrap">
-                        <a class="rollable ability-name subskill" data-roll-type="roleAbility" data-roll-title="{{subSkill}}">&nbsp;{{localize (findConfigValue "roleAbilityList" subSkill)}}:</a>
-                    </div>
-                    <div class="item-detail ability-rank text-nowrap">
-                        <input name="data.roleInfo.roleskills.{{role}}.{{roleAbility}}.{{subSkill}}" value="{{subValue}}" type="number">
-                    </div>
-                </li>
-                {{/each}}
-                {{/if}}
-                {{/each}}
-            </ol>
-        </div>
-        
-    </ol>
-    {{/each}}
+                <ol class="items-list">
+                    {{#each (getProp ../this.data.roleInfo.roleskills role) as |roleValue roleAbility|}}
+                    {{#if (compare roleAbility "!==" "subSkills")}}
+                    <li class="item flexrow" draggable="true">
+                        <div class="item-name role-name flexrow  text-nowrap">
+                            <a class="rollable ability-name text-bold" data-roll-type="roleAbility"
+                                data-roll-title="{{roleAbility}}">{{localize (findConfigValue "roleAbilityList"
+                                roleAbility)}}:</a>
+                        </div>
+                        <div class="item-detail ability-rank text-nowrap">
+                            <input name="data.roleInfo.roleskills.{{role}}.{{roleAbility}}" value="{{roleValue}}"
+                                type="number">
+                        </div>
+                    </li>
+                    {{else}}
+                    {{#each roleValue as |subValue subSkill|}}
+                    <li class="item flexrow" draggable="true">
+                        <div class="item-name role-name flexrow  text-nowrap">
+                            <a class="rollable ability-name subskill" data-roll-type="roleAbility"
+                                data-roll-title="{{subSkill}}">&nbsp;{{localize (findConfigValue "roleAbilityList"
+                                subSkill)}}:</a>
+                        </div>
+                        <div class="item-detail ability-rank text-nowrap">
+                            <input name="data.roleInfo.roleskills.{{role}}.{{roleAbility}}.{{subSkill}}"
+                                value="{{subValue}}" type="number">
+                        </div>
+                    </li>
+                    {{/each}}
+                    {{/if}}
+                    {{/each}}
+                </ol>
+            </div>
+
+        </ol>
+        {{/each}}
+    </div>
+    <div class="improvementpoints text-padding-left">
+        {{localize "CPR.improvementpoints"}}: <input class="number ip-input"
+            value="{{actor.data.improvementPoints.value}}" type="number">
+    </div>
 </div>
 {{log "END CPR-ROLE.HBS"}}

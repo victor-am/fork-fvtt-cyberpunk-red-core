@@ -199,6 +199,8 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
 
+    html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
+
     html.find(".eurobucks-input").click((event) => event.target.select()).change((event) => this._updateEurobucks(event));
   }
 
@@ -671,6 +673,11 @@ export default class CPRActorSheet extends ActorSheet {
   _updateEurobucks(event) {
     LOGGER.trace("ActorID _updateEurobucks | CPRActorSheet | Called.");
     this._setEb(parseInt(event.target.value, 10), "player input in gear tab");
+  }
+
+  _updateIp(event) {
+    LOGGER.trace("ActorID _updateIp | CPRActorSheet | Called.");
+    this._setIp(parseInt(event.target.value, 10), "player input in gear tab");
   }
 
   // OWNED ITEM HELPER FUNCTIONS
