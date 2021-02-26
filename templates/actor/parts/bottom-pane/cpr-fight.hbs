@@ -109,6 +109,13 @@
                             <i class="fas fa-crosshairs red-fg" title="Aimed Attack"></i>
                         </a>
                     </div>
+                    {{#if (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType)}}
+                    <div class="item-detail weapon-attack text-nowrap">
+                        <a class="rollable" data-roll-type="skill" data-item-id={{weapon._id}}>
+                            <i class="fab fa-blackberry red-fg" title="Autofire"></i>
+                        </a>
+                    </div>
+                    {{/if}}
                     <div class="item-detail weapon-damage text-nowrap">
                         <a class="rollable" data-damage="{{weapon.data.damage}}" data-roll-type="damage"
                             data-item-id={{weapon._id}}>
