@@ -203,36 +203,43 @@ export default class CPRActorSheet extends ActorSheet {
   //  INTERNAL METHODS BELOW HERE
   /* -------------------------------------------- */
 
+  // Dispatcher that executes a roll based on the "type" passed in the event
   async _onRoll(event) {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
-
     const rollType = $(event.currentTarget).attr("data-roll-type");
-
-    // Prepare data relative to the roll type
     let cprRoll;
     switch (rollType) {
       case "stat": {
-        const statName = $(event.currentTarget).attr("data-roll-title");
-        const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
-        const statValue = this.getData().data.stats[statName].value;
-        cprRoll = new CPRRolls.CPRStatRoll(niceStatName, statValue);
-        cprRoll.addMod(this._getArmorPenaltyMods(statName));
+        cprRoll = this._createStatRoll(event);
+        break;
+      }
+      case "skill": {
+        cprRoll = this._createSkillRoll(event);
         break;
       }
 
-      case "skill": {
-        const itemId = this._getItemId(event);
-        const item = this._getOwnedItem(itemId);
-        const itemData = item.getData();
-        const statName = itemData.stat;
-        const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
-        const statValue = this.getData().data.stats[statName].value;
-        const skillName = item.name;
-        const skillLevel = itemData.level;
-        cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel);
-        cprRoll.addMod(this._getArmorPenaltyMods(statName));
-        break;
+  /**
+  _prepareRollAbility(rollRequest) {
+    LOGGER.trace(`ActorID _prepareRollAbility | rolling ability: ${rollRequest.rollTitle} | ${rollRequest.skillValue}`);
+    const { roleskills: roles } = this.getData().data.roleInfo;
+    const roleAbility = rollRequest.rollTitle;
+    Object.keys(roles).forEach((roleName) => {
+      if (Object.prototype.hasOwnProperty.call(roles[roleName], roleAbility)) {
+        rollRequest.roleValue = roles[roleName][roleAbility];
+        rollRequest.rollTitle = SystemUtils.Localize(CPR.roleAbilityList[roleAbility]);
       }
+      if (!rollRequest.roleValue && roles[roleName].subSkills) {
+        // If not found, check subSkills
+        if (Object.prototype.hasOwnProperty.call(roles[roleName].subSkills, roleAbility)) {
+          rollRequest.roleValue = roles[roleName].subSkills[roleAbility];
+          rollRequest.rollTitle = SystemUtils.Localize(CPR.roleAbilityList[roleAbility]);
+        }
+      }
+    });
+  }
+*/
+
+
       case "roleAbility": {
         this._prepareRollAbility(rollRequest);
         break;
@@ -257,18 +264,9 @@ export default class CPRActorSheet extends ActorSheet {
       default:
     }
 
-    if (typeof this.actor.data.previousRoll !== "undefined") {
-      let { previousRoll } = this.actor.data;
-      previousRoll.name = "previousRoll";
-      // the fuck is this?
-      // rollRequest.extraVars.push({ name: "previousRoll", value: { total: cprRoll.rollResult, faces: cprRoll.faces } });
-    }
+    this._checkPreviousRoll();
+    await this._handleRollDialog(event, cprRoll);
 
-    // Handle skipping of the user verification step
-    if (!event.ctrlKey) {
-      const formData = await VerifyRoll.RenderPrompt(cprRoll);
-      mergeObject(cprRoll, formData, { overwrite: true });
-    }
     // TODO - Is this ideal for handling breaking out of the roll on cancel from verifyRollPrompt
     // Handle exiting without making a roll or affecting any entitiy state.
     if (rollType === "abort") {
@@ -345,22 +343,47 @@ export default class CPRActorSheet extends ActorSheet {
     this.actor.data.previousRoll = { total: cprRoll.rollResult, faces: cprRoll.faces };
   }
 
-  /**
-  _prepareRollSkill(rollRequest, itemId) {
-    LOGGER.trace(`ActorID _prepareRollSkill | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
-    const item = this._getOwnedItem(itemId);
-    rollRequest.stat = item.getData().stat;
-    rollRequest.statValue = this.getData().data.stats[item.getData().stat].value;
-    rollRequest.skill = item.name;
-    rollRequest.skillValue = item.getData().level;
-    // TODO: Do not remove functionality during a refactor. Adding in until a "better way"
-    // is implemented.
-    // Armor pen should apply directly to stat, not be fetched.
-    rollRequest.mods.push(this._getArmorPenaltyMods(item.getData().stat));
+  _createStatRoll(event) {
+    const statName = $(event.currentTarget).attr("data-roll-title");
+    const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
+    const statValue = this.getData().data.stats[statName].value;
+    let cprRoll = new CPRRolls.CPRStatRoll(niceStatName, statValue);
+    cprRoll.addMod(this._getArmorPenaltyMods(statName));
+    return cprRoll;
   }
-  */
 
-  // TODO - Revisit / Refactor
+  _createSkillRoll(event) {
+    const itemId = this._getItemId(event);
+    const item = this._getOwnedItem(itemId);
+    const itemData = item.getData();
+    const statName = itemData.stat;
+    const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
+    const statValue = this.getData().data.stats[statName].value;
+    const skillName = item.name;
+    const skillLevel = itemData.level;
+    let cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel);
+    cprRoll.addMod(this._getArmorPenaltyMods(statName));
+    return cprRoll;
+  }
+
+  _checkPreviousRoll() {
+    if (typeof this.actor.data.previousRoll !== "undefined") {
+      let { previousRoll } = this.actor.data;
+      previousRoll.name = "previousRoll";
+      // the fuck is this?
+      // rollRequest.extraVars.push({ name: "previousRoll", value: { total: cprRoll.rollResult, faces: cprRoll.faces } });
+    }
+  }
+
+  async _handleRollDialog(event, cprRoll) {
+    // Handle skipping of the user verification step
+    if (!event.ctrlKey) {
+      const formData = await VerifyRoll.RenderPrompt(cprRoll);
+      mergeObject(cprRoll, formData, { overwrite: true });
+    }
+  }
+
+  /**
   _prepareRollAbility(rollRequest) {
     LOGGER.trace(`ActorID _prepareRollAbility | rolling ability: ${rollRequest.rollTitle} | ${rollRequest.skillValue}`);
     const { roleskills: roles } = this.getData().data.roleInfo;
@@ -379,6 +402,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
     });
   }
+*/
 
   _prepareRollAttack(rollRequest, itemId) {
     LOGGER.trace(`ActorID _prepareRollAttack | rolling attack: ${rollRequest} | ${itemId}`);

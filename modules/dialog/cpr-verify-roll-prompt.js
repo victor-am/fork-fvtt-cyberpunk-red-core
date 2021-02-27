@@ -3,14 +3,6 @@
 
 import LOGGER from "../utils/cpr-logger.js";
 
-/**
-getAllPosts().then(response => {
-  console.log(response);
-}).catch(e => {
-  console.log(e);
-});
-*/
-
 export default class VerifyRollPrompt {
   static async RenderPrompt(cprRoll) {
     return new Promise((resolve, reject) => {
