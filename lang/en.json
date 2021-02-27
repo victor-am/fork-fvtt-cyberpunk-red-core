@@ -24,6 +24,8 @@
     "CPR.aliases": "Aliases",
     "CPR.altfiremodes": "Alt Fire Modes",
     "CPR.ammo": "Ammo",
+    "CPR.ammodeletewarning": "Before deleting this ammo, you must unload it from weapon",
+    "CPR.ammomissingfromgear": "The ammo item you are trying to reload from no longer exists in your inventory. Change ammo instead of reload.",
     "CPR.ammotypearmorpiercing": "Armor-Piercing Ammunition",
     "CPR.ammotypebasic": "Basic Ammunition",
     "CPR.ammotypebiotoxin": "Biotoxin Ammunition",

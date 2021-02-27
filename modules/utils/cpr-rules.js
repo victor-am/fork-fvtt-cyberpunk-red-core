@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
-import CPRSystemUtils from "./cpr-systemUtils.js";
+import SystemUtils from "./cpr-systemUtils.js";
 
 export default class Rules {
   static lawyer(rule = false, msg) {
     if (!rule) {
-      CPRSystemUtils.DisplayMessage("warn", msg);
+      SystemUtils.DisplayMessage("warn", msg);
     }
   }
 
