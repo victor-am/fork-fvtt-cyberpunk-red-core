@@ -327,7 +327,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
       default:
     }
-    // outputs to chat
+    // output to chat
     CPRChat.RenderRollCard(cprRoll);
 
     // Store last roll so we can query and use it

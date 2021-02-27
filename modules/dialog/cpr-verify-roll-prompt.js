@@ -9,10 +9,8 @@ import LOGGER from "../utils/cpr-logger.js";
 
 export default class VerifyRollPrompt {
   static async RenderPrompt(cprRoll) {
-    const template = `systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-${cprRoll.template}-prompt.hbs`;
-    const data = duplicate(cprRoll);
     return new Promise((resolve, reject) => {
-      renderTemplate(template, data).then((html) => {
+      renderTemplate(cprRoll.rollPrompt, duplicate(cprRoll)).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog VerifyRollPrompt | called.");
           reject();
