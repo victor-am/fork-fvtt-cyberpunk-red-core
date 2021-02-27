@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-/* global game, CONFIG, ChatMessage, renderTemplate */
+/* global game, CONFIG, ChatMessage, renderTemplate, duplicate */
 import LOGGER from "../utils/cpr-logger.js";
 
 export default class CPRChat {
@@ -34,7 +33,7 @@ export default class CPRChat {
 
   static RenderRollCard(cprRoll) {
     LOGGER.trace("RenderRollCard | Chat | Called.");
-    return renderTemplate(cprRoll.rollCard, duplicate(cprRoll)).then((html) => {
+    return renderTemplate(cprRoll.rollCard, cprRoll).then((html) => {
       const chatOptions = this.ChatDataSetup(html);
       return ChatMessage.create(chatOptions, false);
     });

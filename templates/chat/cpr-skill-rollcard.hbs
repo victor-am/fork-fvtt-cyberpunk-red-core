@@ -27,7 +27,8 @@
           <span class="{{#if wasCritical}}fg-red text-bold{{/if}}">{{resultTotal}}</span>
         </div>
         <div class="info-div">
-          {{localize rollTitle}} + {{statValue}}<br>
+          {{localize statName}} + {{statValue}}<br>
+          {{localize "CPR.skill"}} + {{skillValue}}<br>
           {{#if mods}}
           <span class="text-nowrap">{{localize "CPR.rollmods"}}: {{mods}}</span>
           <div class="chat-rollTotal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}: {{totalMods}}</div>

@@ -207,20 +207,30 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
     const rollType = $(event.currentTarget).attr("data-roll-type");
-    const rollTitle = $(event.currentTarget).attr("data-roll-title"); // was rollRequest.stat
 
     // Prepare data relative to the roll type
     let cprRoll;
     switch (rollType) {
       case "stat": {
-        cprRoll = new CPRRolls.CPRStatRoll(SystemUtils.Localize(CPR.statList[rollTitle]),
-          this.getData().data.stats[rollTitle].value);
-        cprRoll.addMod(this._getArmorPenaltyMods(rollTitle));
+        const statName = $(event.currentTarget).attr("data-roll-title");
+        const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
+        const statValue = this.getData().data.stats[statName].value;
+        cprRoll = new CPRRolls.CPRStatRoll(niceStatName, statValue);
+        cprRoll.addMod(this._getArmorPenaltyMods(statName));
         break;
       }
+
       case "skill": {
         const itemId = this._getItemId(event);
-        this._prepareRollSkill(rollRequest, itemId);
+        const item = this._getOwnedItem(itemId);
+        const itemData = item.getData();
+        const statName = itemData.stat;
+        const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
+        const statValue = this.getData().data.stats[statName].value;
+        const skillName = item.name;
+        const skillLevel = itemData.level;
+        cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel);
+        cprRoll.addMod(this._getArmorPenaltyMods(statName));
         break;
       }
       case "roleAbility": {
@@ -259,7 +269,6 @@ export default class CPRActorSheet extends ActorSheet {
       const formData = await VerifyRoll.RenderPrompt(cprRoll);
       mergeObject(cprRoll, formData, { overwrite: true });
     }
-    console.log(cprRoll);
     // TODO - Is this ideal for handling breaking out of the roll on cancel from verifyRollPrompt
     // Handle exiting without making a roll or affecting any entitiy state.
     if (rollType === "abort") {
@@ -309,12 +318,9 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     // Let's roll!
-    let rollResult;
-    if (rollType === "damage") {
-      rollResult = await CPRRolls.DamageRoll(rollRequest);
-    } else {
-      await cprRoll.roll();
-    }
+    console.log(cprRoll);
+    await cprRoll.roll();
+    console.log(cprRoll);
 
     // Post roll tasks
     switch (rollType) {
@@ -340,14 +346,6 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   /**
-  _prepareRollStat(rollRequest) {
-    rollRequest.stat = rollRequest.rollTitle;
-    rollRequest.statValue = this.getData().data.stats[rollRequest.rollTitle].value;
-    rollRequest.mods.push(this._getArmorPenaltyMods(rollRequest.stat));
-    rollRequest.rollTitle = SystemUtils.Localize(CPR.statList[rollRequest.stat]);
-    LOGGER.trace(`ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
-  }*/
-
   _prepareRollSkill(rollRequest, itemId) {
     LOGGER.trace(`ActorID _prepareRollSkill | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
     const item = this._getOwnedItem(itemId);
@@ -360,6 +358,7 @@ export default class CPRActorSheet extends ActorSheet {
     // Armor pen should apply directly to stat, not be fetched.
     rollRequest.mods.push(this._getArmorPenaltyMods(item.getData().stat));
   }
+  */
 
   // TODO - Revisit / Refactor
   _prepareRollAbility(rollRequest) {

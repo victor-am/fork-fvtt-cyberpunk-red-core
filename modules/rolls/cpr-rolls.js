@@ -6,6 +6,8 @@ import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 export default class CPRRoll {
   // Generic roll handler for CPR
   constructor(rollTitle, formula) {
+    // a name for the roll, used in the UI
+    this.rollTitle = rollTitle || this.template;
     // this assumes exactly 1 term, "XdY", which is passed to Foundry's Roll()
     this.formula = formula || "1d10";
     // the values of each face after a roll
@@ -20,20 +22,18 @@ export default class CPRRoll {
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-base-prompt.hbs";
     // path to the roll card template for chat
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-base-rollcard.hbs";
-    // a name for the roll, used in the UI
-    this.rollTitle = rollTitle || this.template;
     // (private) the resulting Roll() object from Foundry
     this._roll = null;
     // (private) a stack of mods to apply to the roll
     this.mods = [];
-    LOGGER.log(`Created roll object; ${this}`);
+    LOGGER.log(`Created roll object`);
   }
 
   addMod(mod) {
     this.mods.push(mod);
   }
 
-  computeMods() {
+  totalMods() {
     return this.mods.length > 0 ? this.mods.reduce((a, b) => a + b) : 0;
   }
 
@@ -42,7 +42,7 @@ export default class CPRRoll {
     this._roll = new Roll(this.formula).roll();
     await DiceSoNice.ShowDiceSoNice(this._roll);
     this.initialRoll = this._roll.total;
-    this.resultTotal = this.initialRoll + this.computeMods();
+    this.resultTotal = this.initialRoll + this.totalMods();
 
     // check and consider criticals (min or max # on die)
     if (this.wasCritical()) {
@@ -57,7 +57,7 @@ export default class CPRRoll {
 
   _computeBase() {
     // this MUST be called from roll()!
-    return this.initialRoll + this.computeMods();
+    return this.initialRoll + this.totalMods();
   }
 
   _computeResult() {
@@ -84,30 +84,29 @@ export default class CPRRoll {
 }
 
 export class CPRStatRoll extends CPRRoll {
-  constructor(rollTitle, stat) {
-    super(rollTitle, "1d10");
-    this.statValue = stat;
+  constructor(name, value) {
+    super(name, "1d10");
+    this.statValue = value;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-stat-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-stat-rollcard.hbs";
   }
 
   _computeBase() {
-    return this.initialRoll + this.computeMods() + this.statValue;
+    return this.initialRoll + this.totalMods() + this.statValue;
   }
 }
 
 export class CPRSkillRoll extends CPRStatRoll {
-  // decide if it is easier on others to pass in a skill "item" or just the values we need
-  // optionally provide a util to get them out
-  constructor(rollTitle, stat, skill) {
-    super(rollTitle, stat);
-    this.skillValue = skill;
+  constructor(statName, statValue, skillName, skillValue) {
+    super(skillName, statValue);
+    this.statName = statName;
+    this.skillValue = skillValue;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-skill-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-skill-rollcard.hbs";
   }
 
   _computeBase() {
-    return this.initialRoll + this.computeMods() + this.stat + this.skill;
+    return this.initialRoll + this.totalMods() + this.statValue + this.skillValue;
   }
 }
 
