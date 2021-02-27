@@ -8,9 +8,9 @@
 import LOGGER from "../utils/cpr-logger.js";
 
 export default class VerifyRollPrompt {
-  static async RenderPrompt(rollRequest) {
-    const template = `systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-${rollRequest.rollType}-prompt.hbs`;
-    const data = duplicate(rollRequest);
+  static async RenderPrompt(cprRoll) {
+    const template = `systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-${cprRoll.template}-prompt.hbs`;
+    const data = duplicate(cprRoll);
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
@@ -21,7 +21,6 @@ export default class VerifyRollPrompt {
           LOGGER.trace("_onConfirm | Dialog VerifyRollPrompt | called.");
 
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
-          console.log(formData);
           if (formData.mods) {
             formData.mods = formData.mods.replace(/ +/g, ",");
             formData.mods = formData.mods.replace(/,+/g, ",");
@@ -29,7 +28,7 @@ export default class VerifyRollPrompt {
           } else {
             formData.mods = [];
           }
-          switch (rollRequest.rollType) {
+          switch (cprRoll.template) {
             case "damage":
             case "attack": {
               if (formData.autofire) {
@@ -55,7 +54,7 @@ export default class VerifyRollPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: `Roll Confirmation for ${rollRequest.rollType}`,
+          title: `Roll Confirmation for ${cprRoll.rollTitle}`,
           content: html,
           buttons: {
             cancel: {

@@ -7,18 +7,15 @@
 /* global mergeObject, $, setProperty, getProperty, hasProperty, game */
 /* eslint no-prototype-builtins: ["warn"] */
 import LOGGER from "../../utils/cpr-logger.js";
-import CPRRolls from "../../rolls/cpr-rolls.js";
+import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
-import CPRRollRequest from "../../rolls/cpr-roll-request.js";
 import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
 import CPRChat from "../../chat/cpr-chat.js";
 import Rules from "../../utils/cpr-rules.js";
-import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
-import CPRActor from "../cpr-actor.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -206,15 +203,19 @@ export default class CPRActorSheet extends ActorSheet {
   //  INTERNAL METHODS BELOW HERE
   /* -------------------------------------------- */
 
-  // TODO - Function is getting far to long, we need to find ways to condense it.
   async _onRoll(event) {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
-    const rollRequest = new CPRRollRequest(event);
+    const rollType = $(event.currentTarget).attr("data-roll-type");
+    const rollTitle = $(event.currentTarget).attr("data-roll-title"); // was rollRequest.stat
+
     // Prepare data relative to the roll type
-    switch (rollRequest.rollType) {
+    let cprRoll;
+    switch (rollType) {
       case "stat": {
-        this._prepareRollStat(rollRequest);
+        cprRoll = new CPRRolls.CPRStatRoll(SystemUtils.Localize(CPR.statList[rollTitle]),
+          this.getData().data.stats[rollTitle].value);
+        cprRoll.addMod(this._getArmorPenaltyMods(rollTitle));
         break;
       }
       case "skill": {
@@ -249,23 +250,24 @@ export default class CPRActorSheet extends ActorSheet {
     if (typeof this.actor.data.previousRoll !== "undefined") {
       let { previousRoll } = this.actor.data;
       previousRoll.name = "previousRoll";
-      rollRequest.extraVars.push({ name: "previousRoll", value: previousRoll });
+      // the fuck is this?
+      // rollRequest.extraVars.push({ name: "previousRoll", value: { total: cprRoll.rollResult, faces: cprRoll.faces } });
     }
 
     // Handle skipping of the user verification step
     if (!event.ctrlKey) {
-      const formData = await VerifyRoll.RenderPrompt(rollRequest);
-      mergeObject(rollRequest, formData, { overwrite: true });
+      const formData = await VerifyRoll.RenderPrompt(cprRoll);
+      mergeObject(cprRoll, formData, { overwrite: true });
     }
-
+    console.log(cprRoll);
     // TODO - Is this ideal for handling breaking out of the roll on cancel from verifyRollPrompt
     // Handle exiting without making a roll or affecting any entitiy state.
-    if (rollRequest.rollType === "abort") {
+    if (rollType === "abort") {
       return;
     }
 
     // Post confirmation, pre-roll tasks
-    switch (rollRequest.rollType) {
+    switch (rollType) {
       case "attack": {
         // If this is an attack roll and they did not cancel it
         // via the VerifyRollPrompt, and it is ranged, we should
@@ -308,14 +310,14 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Let's roll!
     let rollResult;
-    if (rollRequest.rollType === "damage") {
+    if (rollType === "damage") {
       rollResult = await CPRRolls.DamageRoll(rollRequest);
     } else {
-      rollResult = await CPRRolls.BaseRoll(rollRequest);
+      await cprRoll.roll();
     }
 
     // Post roll tasks
-    switch (rollResult.rollType) {
+    switch (rollType) {
       case "deathsave": {
         const saveResult = this.actor.processDeathSave(rollResult);
         rollResult.extraVars.push({ name: "saveResult", value: saveResult });
@@ -326,7 +328,7 @@ export default class CPRActorSheet extends ActorSheet {
       default:
     }
     // outputs to chat
-    CPRChat.RenderRollCard(rollResult);
+    CPRChat.RenderRollCard(cprRoll);
 
     // Store last roll so we can query and use it
     // after the fact. Examples of this would be
@@ -334,17 +336,17 @@ export default class CPRActorSheet extends ActorSheet {
     // was used.
     // Do we want to add this to the template is the
     // question?
-    this.actor.data.previousRoll = rollResult;
+    this.actor.data.previousRoll = { total: cprRoll.rollResult, faces: cprRoll.faces };
   }
 
-  // PREPARE ROLLS
+  /**
   _prepareRollStat(rollRequest) {
     rollRequest.stat = rollRequest.rollTitle;
     rollRequest.statValue = this.getData().data.stats[rollRequest.rollTitle].value;
     rollRequest.mods.push(this._getArmorPenaltyMods(rollRequest.stat));
     rollRequest.rollTitle = SystemUtils.Localize(CPR.statList[rollRequest.stat]);
     LOGGER.trace(`ActorID _prepareRollStat | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue}`);
-  }
+  }*/
 
   _prepareRollSkill(rollRequest, itemId) {
     LOGGER.trace(`ActorID _prepareRollSkill | rolling ${rollRequest.rollTitle} | Stat Value: ${rollRequest.statValue} + Skill Value:${rollRequest.skillValue}`);
