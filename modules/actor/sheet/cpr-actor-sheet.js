@@ -208,6 +208,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
     const rollType = $(event.currentTarget).attr("data-roll-type");
     let cprRoll;
+    let fireMode;
     switch (rollType) {
       case "stat": {
         cprRoll = this._createStatRoll(event);
@@ -223,6 +224,12 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "attack": {
         cprRoll = this._createAttackRoll(event);
+        fireMode = "single";
+        break;
+      }
+      case "autofire": {
+        cprRoll = this._createAutofireRoll(event);
+        fireMode = "autofire";
         break;
       }
       case "damage": {
@@ -250,14 +257,10 @@ export default class CPRActorSheet extends ActorSheet {
       // decrementing ammo must come after dialog but before the roll in case the user cancels
       const weaponId = $(event.currentTarget).attr("data-item-id");
       const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
-      weaponItem.fireRangedWeapon("single");
+      weaponItem.fireRangedWeapon(fireMode);
     }
 
-    /**
-    // if (rollRequest.fireMode === "autofire") {
-    //   rollRequest.skill = "Autofire";
-    //   rollRequest.skillValue = this.actor.getSkillLevel(rollRequest.skill);
-
+    /*
       case "deathsave": {
         // If they skipped the dialog, the penalties were not pushed into mods
         // and not accounted for in the roll.  We can't push them onto mods prior
@@ -378,11 +381,7 @@ export default class CPRActorSheet extends ActorSheet {
     // apply known mods
     if ($(event.currentTarget).attr("data-aimed") === "true") cprRoll.addMod(-8);
     cprRoll.addMod(this._getArmorPenaltyMods(statName));
-    if (weaponData.quality === "excellent") {
-      cprRoll.addMod(1);
-    } else if (weaponData.quality === "poor") {
-      cprRoll.addMod(-1);
-    }
+    cprRoll.addMod(this._getWeaponQualityMod(weaponData));
 
     // ?? rollRequest.weaponType = weaponItem.getData().weaponType;
 
@@ -390,6 +389,31 @@ export default class CPRActorSheet extends ActorSheet {
       Rules.lawyer(weaponItem.checkAmmo("single") >= 0, "CPR.weaponattackoutofbullets");
     }
     return cprRoll;
+  }
+
+  _createAutofireRoll(event) {
+    const itemId = $(event.currentTarget).attr("data-item-id");
+    const weaponItem = this._getOwnedItem(itemId);
+    const weaponData = weaponItem.getData();
+    const weaponName = weaponItem.name;
+    const skillName = SystemUtils.Localize("CPR.autofire");
+    const skillValue = this.actor.getSkillLevel("autofire");
+    const statValue = this.getData().data.stats.ref.value;
+    let cprRoll = new CPRRolls.CPRRangedAttackRoll(weaponName, statValue, skillName, skillValue);
+    cprRoll.addMod(this._getArmorPenaltyMods("ref"));
+    cprRoll.addMod(this._getWeaponQualityMod(weaponData));
+    Rules.lawyer(weaponItem.checkAmmo("autofire") >= 0, "CPR.weaponattackoutofbullets");
+    return cprRoll;
+  }
+
+  _getWeaponQualityMod(weaponData) {
+    if (weaponData.quality === "excellent") {
+      return 1;
+    }
+    if (weaponData.quality === "poor") {
+      return -1;
+    }
+    return 0;
   }
 
   _checkPreviousRoll() {
