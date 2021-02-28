@@ -227,6 +227,7 @@ export default class CPRActorSheet extends ActorSheet {
         fireMode = "single";
         break;
       }
+      case "suppressive":
       case "autofire": {
         cprRoll = this._createAutofireRoll(event);
         fireMode = "autofire";
@@ -238,7 +239,7 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
       case "deathsave": {
-        this._prepareDeathSave(rollRequest);
+        this._createDeathSaveRoll();
         break;
       }
       default:
@@ -246,15 +247,8 @@ export default class CPRActorSheet extends ActorSheet {
 
     this._checkPreviousRoll();
     await this._handleRollDialog(event, cprRoll);
-
-    // TODO - Is this ideal for handling breaking out of the roll on cancel from verifyRollPrompt
-    // Handle exiting without making a roll or affecting any entitiy state.
-    if (rollType === "abort") {
-      return;
-    }
-
+    // decrementing ammo must come after dialog but before the roll in case the user cancels
     if (cprRoll instanceof CPRRolls.CPRRangedAttackRoll) {
-      // decrementing ammo must come after dialog but before the roll in case the user cancels
       const weaponId = $(event.currentTarget).attr("data-item-id");
       const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
       weaponItem.fireRangedWeapon(fireMode);
@@ -444,7 +438,7 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  _prepareDeathSave(rollRequest) {
+  _createDeathSaveRoll(rollRequest) {
     rollRequest.extraVars.push({ name: "deathPenalty", value: this.actor.getData().derivedStats.deathSave.penalty });
     rollRequest.extraVars.push({ name: "baseDeathPenalty", value: this.actor.getData().derivedStats.deathSave.basePenalty });
     rollRequest.calculateCritical = false;

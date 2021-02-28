@@ -15,8 +15,10 @@ export default class CPRRoll {
     this.faces = [];
     // the result of the roll before applying mods or critical effects
     this.initialRoll = 0;
-    // if a critical die us rolled, this is the stored result
-    this.criticalRoll = null;
+    // skip rolling a critical die, such as with death saves
+    this.calculateCritical = true;
+    // if a critical die was rolled, this is the stored result
+    this.criticalRoll = 0;
     // the complete result of the roll after applying everything
     this.resultTotal = 0;
     // path to the right dialog box to pop up before rolling
@@ -46,7 +48,7 @@ export default class CPRRoll {
     this.resultTotal = this.initialRoll + this.totalMods();
 
     // check and consider criticals (min or max # on die)
-    if (this.wasCritical()) {
+    if (this.wasCritical() && this.calculateCritical) {
       const critroll = new Roll(this.formula).roll();
       await DiceSoNice.ShowDiceSoNice(critroll);
       this.criticalRoll = critroll.total;
