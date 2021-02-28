@@ -4,7 +4,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable class-methods-use-this */
 /* global ActorSheet */
-/* global mergeObject, $, setProperty, getProperty, hasProperty, game */
+/* global mergeObject, $, setProperty game */
 /* eslint no-prototype-builtins: ["warn"] */
 import LOGGER from "../../utils/cpr-logger.js";
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
@@ -222,11 +222,7 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
       case "attack": {
-        const itemId = $(event.currentTarget).attr("data-item-id");
-        if ($(event.currentTarget).attr("data-aimed") === "true") {
-          rollRequest.isAimed = true;
-        }
-        this._prepareRollAttack(rollRequest, itemId);
+        cprRoll = this._createAttackRoll(event);
         break;
       }
       case "damage": {
@@ -250,29 +246,18 @@ export default class CPRActorSheet extends ActorSheet {
       return;
     }
 
-    // Post confirmation, pre-roll tasks
-    switch (rollType) {
-      case "attack": {
-        // If this is an attack roll and they did not cancel it
-        // via the VerifyRollPrompt, and it is ranged, we should
-        // decrement the ammo for the weapon. We can't do this in
-        // the prepareRollAttack because they might abort it.
-        if (rollRequest.rollType === "attack") {
-          if (rollRequest.isRanged) {
-            const weaponId = $(event.currentTarget).attr("data-item-id");
-            const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
-            if (!weaponItem.fireRangedWeapon(rollRequest.fireMode)) {
-              // Firing of the weapon failed, maybe due to lack of bullets?
-              return;
-            }
-          }
-          if (rollRequest.fireMode === "autofire") {
-            rollRequest.skill = "Autofire";
-            rollRequest.skillValue = this.actor.getSkillLevel(rollRequest.skill);
-          }
-        }
-        break;
-      }
+    if (cprRoll.constructor.name === "CPRRangedAttackRoll") {
+      // decrementing ammo must come after dialog but before the roll in case the user cancels
+      const weaponId = $(event.currentTarget).attr("data-item-id");
+      const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
+      weaponItem.fireRangedWeapon("single");
+    }
+
+    /**
+    // if (rollRequest.fireMode === "autofire") {
+    //   rollRequest.skill = "Autofire";
+    //   rollRequest.skillValue = this.actor.getSkillLevel(rollRequest.skill);
+
       case "deathsave": {
         // If they skipped the dialog, the penalties were not pushed into mods
         // and not accounted for in the roll.  We can't push them onto mods prior
@@ -290,7 +275,7 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
       default:
-    }
+    */
 
     // Let's roll!
     console.log(cprRoll);
@@ -345,7 +330,7 @@ export default class CPRActorSheet extends ActorSheet {
 
   _createRoleRoll(event) {
     const roleName = $(event.currentTarget).attr("data-roll-title");
-    const niceRoleName = SystemUtils.Localize(CPR.roleAbilityList[roleName]); 
+    const niceRoleName = SystemUtils.Localize(CPR.roleAbilityList[roleName]);
     const roleValue = this._getRoleValue(roleName);
     return new CPRRolls.CPRRoleRoll(niceRoleName, roleValue);
   }
@@ -368,6 +353,42 @@ export default class CPRActorSheet extends ActorSheet {
     return null;
   }
 
+  _createAttackRoll(event) {
+    const itemId = $(event.currentTarget).attr("data-item-id");
+    const weaponItem = this._getOwnedItem(itemId);
+    const weaponData = weaponItem.getData();
+    const weaponName = weaponItem.name;
+    const skillItem = this.actor.items.find((i) => i.name === weaponData.weaponSkill);
+    const skillValue = skillItem.getData().level;
+    const skillName = skillItem.data.name;
+    let cprRoll;
+    let statName;
+    if (weaponData.isRanged) {
+      statName = "ref";
+      const statValue = this.getData().data.stats.ref.value;
+      cprRoll = new CPRRolls.CPRRangedAttackRoll(weaponName, statValue, skillName, skillValue);
+      // ?? const autoFireSkill = this.actor.items.find((i) => i.name === "Autofire");
+      // ?? rollRequest.extraVars.push({ name: "Autofire", level: autoFireSkill.data.data.level });
+    } else {
+      statName = "dex";
+      const statValue = this.getData().data.stats.dex.value;
+      cprRoll = new CPRRolls.CPRMeleeAttackRoll(weaponName, statValue, skillName, skillValue);
+    }
+
+    // apply known mods
+    if ($(event.currentTarget).attr("data-aimed") === "true") cprRoll.addMod(-8);
+    cprRoll.addMod(this._getArmorPenaltyMods(statName));
+    if (weaponData.quality === "excellent") {
+      cprRoll.addMod(1);
+    } else if (weaponData.quality === "poor") {
+      cprRoll.addMod(-1);
+    }
+
+    // ?? rollRequest.weaponType = weaponItem.getData().weaponType;
+    Rules.lawyer(weaponItem.checkAmmo("single") >= 0, "CPR.weaponattackoutofbullets");
+    return cprRoll;
+  }
+
   _checkPreviousRoll() {
     if (typeof this.actor.data.previousRoll !== "undefined") {
       let { previousRoll } = this.actor.data;
@@ -383,46 +404,6 @@ export default class CPRActorSheet extends ActorSheet {
       const formData = await VerifyRoll.RenderPrompt(cprRoll);
       mergeObject(cprRoll, formData, { overwrite: true });
     }
-  }
-
-  _prepareRollAttack(rollRequest, itemId) {
-    LOGGER.trace(`ActorID _prepareRollAttack | rolling attack: ${rollRequest} | ${itemId}`);
-    const weaponItem = this._getOwnedItem(itemId);
-    rollRequest.rollTitle = weaponItem.data.name;
-    rollRequest.isRanged = weaponItem.getData().isRanged;
-    if (rollRequest.isRanged) {
-      rollRequest.stat = "ref";
-      rollRequest.statValue = this.getData().data.stats.ref.value;
-      const autoFireSkill = this.actor.items.find((i) => i.name === "Autofire");
-      rollRequest.extraVars.push({ name: "Autofire", level: autoFireSkill.data.data.level });
-    } else {
-      rollRequest.stat = "dex";
-      rollRequest.statValue = this.getData().data.stats.dex.value;
-    }
-
-    // DIVEST!
-    // TEMP: For now we will get the mods like so, but ideally we would have a
-    // single function that would compile mods from all sources.
-    if (weaponItem.getData().quality === "excellent") {
-      rollRequest.mods.push(1);
-    }
-
-    if (rollRequest.isAimed) {
-      rollRequest.mods.push(-8);
-    }
-
-    // if char owns relevant skill, get skill value, else assign None: 0
-    const skillItem = this.actor.items.find((i) => i.name === weaponItem.getData().weaponSkill);
-    if (skillItem) {
-      rollRequest.skillValue = skillItem.getData().level;
-      rollRequest.skill = skillItem.data.name;
-    } else {
-      rollRequest.skillValue = 0;
-      rollRequest.skill = "None";
-    }
-
-    rollRequest.weaponType = weaponItem.getData().weaponType;
-    LOGGER.trace(`Actor _prepareRollAttack | rolling attack | skillName: ${skillItem.name} skillValue: ${rollRequest.skillValue} statValue: ${rollRequest.statValue}`);
   }
 
   _prepareRollDamage(rollRequest, itemId) {

@@ -4,7 +4,6 @@
 import LOGGER from "../utils/cpr-logger.js";
 import LoadAmmoPrompt from "../dialog/cpr-load-ammo-prompt.js";
 import CPRSystemUtils from "../utils/cpr-systemUtils.js";
-import Rules from "../utils/cpr-rules.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -240,11 +239,10 @@ export default class CPRItem extends Item {
     }
   }
 
-  // Returns true if weapon fired, otherwise returns false.
-  fireRangedWeapon(rateOfFire) {
-    LOGGER.debug("fireRangedWeapon | CPRItem | Called.");
+  static bulletConsumption(fireMode) {
+    LOGGER.debug("bulletConsumption | CPRItem | Called.");
     let bulletCount = 0;
-    switch (rateOfFire) {
+    switch (fireMode) {
       case "single":
         bulletCount = 1;
         break;
@@ -254,14 +252,20 @@ export default class CPRItem extends Item {
         break;
       default:
     }
+    return bulletCount;
+  }
 
-    if (this.data.data.magazine.value < bulletCount) {
-      Rules.lawyer(false, "CPR.weaponattackoutofbullets");
-      return false;
-    }
+  checkAmmo(fireMode) {
+    LOGGER.debug("checkAmmo | CPRItem | Called.");
+    return this.data.data.magazine.value - CPRItem.bulletConsumption(fireMode);
+  }
 
-    // PLAY GUN SOUND!!
-    this.data.data.magazine.value -= bulletCount;
+  // Returns true if weapon fired, otherwise returns false.
+  fireRangedWeapon(fireMode) {
+    LOGGER.debug("fireRangedWeapon | CPRItem | Called.");
+    const discharged = CPRItem.bulletConsumption(fireMode);
+    // don't go negative
+    this.data.data.magazine.value = Math.max(this.data.data.magazine.value - discharged, 0);
     return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
   }
 

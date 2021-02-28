@@ -2,6 +2,7 @@
 /* global Roll */
 import LOGGER from "../utils/cpr-logger.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class CPRRoll {
   // Generic roll handler for CPR
@@ -30,7 +31,7 @@ export default class CPRRoll {
   }
 
   addMod(mod) {
-    this.mods.push(mod);
+    if (mod !== 0) this.mods.push(mod);
   }
 
   totalMods() {
@@ -101,12 +102,31 @@ export class CPRSkillRoll extends CPRStatRoll {
     super(skillName, statValue);
     this.statName = statName;
     this.skillValue = skillValue;
+    this.skillName = skillName;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-skill-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-skill-rollcard.hbs";
   }
 
   _computeBase() {
     return this.initialRoll + this.totalMods() + this.statValue + this.skillValue;
+  }
+}
+
+// while it would be cool to just pass in a weapon, the data model does not include
+// the skill and stat entities that would be needed with it
+export class CPRRangedAttackRoll extends CPRSkillRoll {
+  constructor(weaponName, statValue, skillName, skillValue) {
+    super(SystemUtils.Localize("CPR.ref"), statValue, skillName, skillValue);
+    this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.attack")}`;
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-attack-prompt.hbs";
+  }
+}
+
+export class CPRMeleeAttackRoll extends CPRSkillRoll {
+  constructor(weaponName, statValue, skillName, skillValue) {
+    super(SystemUtils.Localize("CPR.dex"), statValue, skillName, skillValue);
+    this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.attack")}`;
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-attack-prompt.hbs";
   }
 }
 
@@ -139,6 +159,7 @@ export class CPRDamageRoll extends CPRRoll {
     return this.initialRoll;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   wasCritFail() {
     // you cannot crit-fail damage
     return false;
