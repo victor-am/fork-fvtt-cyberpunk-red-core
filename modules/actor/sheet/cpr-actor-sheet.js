@@ -217,31 +217,8 @@ export default class CPRActorSheet extends ActorSheet {
         cprRoll = this._createSkillRoll(event);
         break;
       }
-
-  /**
-  _prepareRollAbility(rollRequest) {
-    LOGGER.trace(`ActorID _prepareRollAbility | rolling ability: ${rollRequest.rollTitle} | ${rollRequest.skillValue}`);
-    const { roleskills: roles } = this.getData().data.roleInfo;
-    const roleAbility = rollRequest.rollTitle;
-    Object.keys(roles).forEach((roleName) => {
-      if (Object.prototype.hasOwnProperty.call(roles[roleName], roleAbility)) {
-        rollRequest.roleValue = roles[roleName][roleAbility];
-        rollRequest.rollTitle = SystemUtils.Localize(CPR.roleAbilityList[roleAbility]);
-      }
-      if (!rollRequest.roleValue && roles[roleName].subSkills) {
-        // If not found, check subSkills
-        if (Object.prototype.hasOwnProperty.call(roles[roleName].subSkills, roleAbility)) {
-          rollRequest.roleValue = roles[roleName].subSkills[roleAbility];
-          rollRequest.rollTitle = SystemUtils.Localize(CPR.roleAbilityList[roleAbility]);
-        }
-      }
-    });
-  }
-*/
-
-
       case "roleAbility": {
-        this._prepareRollAbility(rollRequest);
+        cprRoll = this._createRoleRoll(event);
         break;
       }
       case "attack": {
@@ -366,6 +343,31 @@ export default class CPRActorSheet extends ActorSheet {
     return cprRoll;
   }
 
+  _createRoleRoll(event) {
+    const roleName = $(event.currentTarget).attr("data-roll-title");
+    const niceRoleName = SystemUtils.Localize(CPR.roleAbilityList[roleName]); 
+    const roleValue = this._getRoleValue(roleName);
+    return new CPRRolls.CPRRoleRoll(niceRoleName, roleValue);
+  }
+
+  _getRoleValue(roleName) {
+    const { roleskills: roles } = this.getData().data.roleInfo;
+    const abilities = Object.values(roles);
+    for (const ability of abilities) {
+      const keys = Object.keys(ability);
+      for (const key of keys) {
+        if (key === roleName) return ability[key];
+        if (key === "subSkills") {
+          const subSkills = Object.keys(ability[key]);
+          for (const subSkill of subSkills) {
+            if (subSkill === roleName) return ability.subSkills[subSkill];
+          }
+        }
+      }
+    }
+    return null;
+  }
+
   _checkPreviousRoll() {
     if (typeof this.actor.data.previousRoll !== "undefined") {
       let { previousRoll } = this.actor.data;
@@ -382,27 +384,6 @@ export default class CPRActorSheet extends ActorSheet {
       mergeObject(cprRoll, formData, { overwrite: true });
     }
   }
-
-  /**
-  _prepareRollAbility(rollRequest) {
-    LOGGER.trace(`ActorID _prepareRollAbility | rolling ability: ${rollRequest.rollTitle} | ${rollRequest.skillValue}`);
-    const { roleskills: roles } = this.getData().data.roleInfo;
-    const roleAbility = rollRequest.rollTitle;
-    Object.keys(roles).forEach((roleName) => {
-      if (Object.prototype.hasOwnProperty.call(roles[roleName], roleAbility)) {
-        rollRequest.roleValue = roles[roleName][roleAbility];
-        rollRequest.rollTitle = SystemUtils.Localize(CPR.roleAbilityList[roleAbility]);
-      }
-      if (!rollRequest.roleValue && roles[roleName].subSkills) {
-        // If not found, check subSkills
-        if (Object.prototype.hasOwnProperty.call(roles[roleName].subSkills, roleAbility)) {
-          rollRequest.roleValue = roles[roleName].subSkills[roleAbility];
-          rollRequest.rollTitle = SystemUtils.Localize(CPR.roleAbilityList[roleAbility]);
-        }
-      }
-    });
-  }
-*/
 
   _prepareRollAttack(rollRequest, itemId) {
     LOGGER.trace(`ActorID _prepareRollAttack | rolling attack: ${rollRequest} | ${itemId}`);

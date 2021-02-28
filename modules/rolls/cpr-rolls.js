@@ -110,12 +110,17 @@ export class CPRSkillRoll extends CPRStatRoll {
   }
 }
 
-export class CPRRoleRoll extends CPRStatRoll {
-  constructor(rollTitle, stat, role) {
-    super(rollTitle, stat);
-    this.roleValue = role;
-    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-role-prompt.hbs";
+// Yep, CPRRoleRoll is almost the same as CRPStatRolls
+export class CPRRoleRoll extends CPRRoll {
+  constructor(roleName, roleValue) {
+    super(roleName, "1d10");
+    this.roleValue = roleValue;
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-roleAbility-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-role-rollcard.hbs";
+  }
+
+  _computeBase() {
+    return this.initialRoll + this.totalMods() + this.roleValue;
   }
 }
 
