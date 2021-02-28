@@ -246,7 +246,7 @@ export default class CPRActorSheet extends ActorSheet {
       return;
     }
 
-    if (cprRoll.constructor.name === "CPRRangedAttackRoll") {
+    if (cprRoll instanceof CPRRolls.CPRRangedAttackRoll) {
       // decrementing ammo must come after dialog but before the roll in case the user cancels
       const weaponId = $(event.currentTarget).attr("data-item-id");
       const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
@@ -385,7 +385,10 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     // ?? rollRequest.weaponType = weaponItem.getData().weaponType;
-    Rules.lawyer(weaponItem.checkAmmo("single") >= 0, "CPR.weaponattackoutofbullets");
+
+    if (cprRoll instanceof CPRRolls.CPRRangedAttackRoll) {
+      Rules.lawyer(weaponItem.checkAmmo("single") >= 0, "CPR.weaponattackoutofbullets");
+    }
     return cprRoll;
   }
 
