@@ -157,6 +157,14 @@ export default class Migration {
   }
 
   static migrateItemData(itemData) {
+    if (typeof itemData.data.description === "string") {
+      const oldDescription = itemData.data.description;
+      itemData.data.description = {
+        "value": oldDescription,
+        "chat": "",
+        "unidentified": ""
+      };
+    }
     switch (itemData.type) {
       case "weapon": {
         return this.migrateWeapon(itemData);
