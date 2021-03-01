@@ -28,7 +28,7 @@
                 {{localize "CPR.mods"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
-                <input name="mods" class="" type="text" data-dtype="Text" value={{mods}}>
+                <input name="mods" class="" type="text" data-dtype="String" value="{{mods}}">
             </div>
         </li>
 
@@ -44,6 +44,22 @@
             </div>
         </li>
         {{/unless}}
+        {{/if}}
+
+        {{#if isAimed}}
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.aimfor"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <select name="location">
+                    {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
+                    {{#each (findConfigObj "aimedLocation") as |location l|}}
+                    <option value="{{l}}">{{localize location}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </li>
         {{/if}}
 
         <li class="item flexrow">

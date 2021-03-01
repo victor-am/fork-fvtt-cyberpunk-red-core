@@ -211,7 +211,7 @@
         "aboutPeople": "",
         "valuedPerson": "",
         "valuedPossession": "",
-        "familyBackgrond": "",
+        "familyBackground": "",
         "childhoodEnvironment": "",
         "familyCrisis": "",
         "lifeGoals": "",
@@ -233,7 +233,7 @@
         "transactions": []
       },
       "lifestyle": {
-        "fasion": "",
+        "fashion": "",
         "housing": "",
         "rent": "",
         "lifestyle": ""
@@ -328,6 +328,7 @@
       "weaponSkill": "",
       "damage": "1d6",
       "concealable": false,
+      "isConcealed": false,
       "handsReq": 1,
       "isRanged": false,
       "altFireModes": "",
@@ -363,66 +364,67 @@
         "max": 0
       },
       "penalty": 0
-  },
-  "ammo": {
-    "templates": [
-      "common",
-      "physicalItem",
-      "upgradable"
-    ],
-    "variety": "",
-    "amount": 0,
-    "type": ""
-  },
-  "gear": {
-    "templates": [
-      "common",
-      "physicalItem",
-      "upgradable",
-      "equippable"
-    ]
-  },
-  "skill": {
-    "templates": [
-      "common"
-    ],
-    "level": 0,
-    "stat": "int",
-    "category": "none",
-    "difficulty": "typical",
-    "core": false,
-    "basic": false
-  },
-  "vehicle": {
-    "templates": [
-      "common",
-      "physicalItem",
-      "upgradable"
-    ],
-    "spd": 0,
-    "seats": 0,
-    "speedCombat": 0,
-    "speedNarrative": ""
-  },
-  "program": {
-    "templates": [
-      "common",
-      "physicalItem",
-      "equippable"
-    ],
-    "class": "",
-    "per": 0,
-    "spd": 0,
-    "atk": 0,
-    "def": 0,
-    "rez": 0
-  },
-  "netarch": {
-    "templates": [
-      "common",
-      "physicalItem"
-    ],
-    "floors": []
+    },
+    "ammo": {
+      "templates": [
+        "common",
+        "physicalItem",
+        "upgradable"
+      ],
+      "variety": "",
+      "amount": 0,
+      "type": ""
+    },
+    "gear": {
+      "templates": [
+        "common",
+        "physicalItem",
+        "upgradable",
+        "equippable"
+      ]
+    },
+    "skill": {
+      "templates": [
+        "common"
+      ],
+      "level": 0,
+      "stat": "int",
+      "category": "none",
+      "difficulty": "typical",
+      "core": false,
+      "basic": false
+    },
+    "vehicle": {
+      "templates": [
+        "common",
+        "physicalItem",
+        "upgradable"
+      ],
+      "spd": 0,
+      "seats": 0,
+      "speedCombat": 0,
+      "speedNarrative": ""
+    },
+    "program": {
+      "templates": [
+        "common",
+        "physicalItem",
+        "equippable"
+      ],
+      "class": "",
+      "slots": 0,
+      "per": 0,
+      "spd": 0,
+      "atk": 0,
+      "def": 0,
+      "rez": 0
+    },
+    "netarch": {
+      "templates": [
+        "common",
+        "physicalItem"
+      ],
+      "floors": []
+    }
   }
-}
 }

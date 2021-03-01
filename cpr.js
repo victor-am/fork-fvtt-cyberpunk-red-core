@@ -16,6 +16,7 @@ import registerHandlebarsHelpers from "./modules/system/register-helpers.js";
 
 // System settings
 import { registerSystemSettings } from "./modules/system/settings.js";
+import { enablePauseAnimation } from "./modules/system/pause-animation.js";
 
 Hooks.once("init", async () => {
   LOGGER.log("THANK YOU TO EVERYONE WHO HELPED!!!!");
@@ -66,11 +67,14 @@ Hooks.once("init", async () => {
 });
 
 Hooks.once("ready", () => {
+  // Enable/Disable pause glitch animation
+  enablePauseAnimation();
+
   // Determine whether a system migration is required
   if (!game.user.isGM) return;
   // This defines the version of the Data Model for this release.  We should
   // only update this when the Data Model Changes.
-  const DATA_MODEL_VERSION = "0.57";
+  const DATA_MODEL_VERSION = "0.58";
   // Get the version of the data model being used for the loaded world. At
   // the end of a migration, this is updated with the current version of the
   // CPR system.

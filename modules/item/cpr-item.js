@@ -3,7 +3,7 @@
 /* global Item */
 import LOGGER from "../utils/cpr-logger.js";
 import LoadAmmoPrompt from "../dialog/cpr-load-ammo-prompt.js";
-import CPRSystemUtils from "../utils/cpr-systemUtils.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 import Rules from "../utils/cpr-rules.js";
 
 /**
@@ -94,7 +94,7 @@ export default class CPRItem extends Item {
   }
 
   setCompatibleAmmo(ammoList) {
-    this.data.data.ammoVariety = ammoList;
+    this.update({ "data.ammoVariety": ammoList });
     if (this.actor) {
       return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
     }
@@ -156,9 +156,11 @@ export default class CPRItem extends Item {
       if (ammoId) {
         const ammo = this.actor.items.find((i) => i.data._id === ammoId);
 
-        if (this.data.data.magazine.value > 0) {
-          if (ammoId) {
-            await ammo._ammoIncrement(this.data.data.magazine.value);
+        if (ammo !== null) {
+          if (this.data.data.magazine.value > 0) {
+            if (ammoId) {
+              await ammo._ammoIncrement(this.data.data.magazine.value);
+            }
           }
         }
       }
@@ -191,7 +193,7 @@ export default class CPRItem extends Item {
         };
 
         if (validAmmo.length === 0) {
-          CPRSystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.novalidammo")));
+          SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.novalidammo")));
           return;
         }
 
@@ -215,8 +217,13 @@ export default class CPRItem extends Item {
 
         const ammo = this.actor.items.find((i) => i.data._id === selectedAmmoId);
 
+        if (ammo === null) {
+          SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.ammomissingfromgear")));
+          return;
+        }
+
         if (ammo.getData().amount === 0) {
-          CPRSystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.reloadoutofammo")));
+          SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.reloadoutofammo")));
           return;
         }
 

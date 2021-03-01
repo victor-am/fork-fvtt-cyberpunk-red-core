@@ -6,7 +6,7 @@ export const registerSystemSettings = function () {
   game.settings.register("cyberpunk-red-core", "dataModelVersion", {
     name: "System Data Model Version",
     scope: "world",
-    config: false,
+    config: true,
     type: String,
     default: "",
   });
@@ -32,6 +32,15 @@ export const registerSystemSettings = function () {
   game.settings.register("cyberpunk-red-core", "deleteItemConfirmation", {
     name: "CPR.settingdeleteconfirmationname",
     hint: "CPR.settingdeleteconfirmationhint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: true,
+  });
+
+  game.settings.register("cyberpunk-red-core", "enablePauseAnimation", {
+    name: "CPR.enablepauseanimation",
+    hint: "CPR.enablepauseanimationhint",
     scope: "client",
     config: true,
     type: Boolean,

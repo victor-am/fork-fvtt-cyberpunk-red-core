@@ -302,7 +302,11 @@ export default class CPRActor extends Actor {
     let roleList = formData.selectedRoles;
     roleList.push(activeRole);
     roleList = [...new Set(roleList)];
-    this.update({ "data.roleInfo.roles": roleList, "data.roleInfo.activeRole": activeRole });
+    return this.update({ "data.roleInfo.roles": roleList, "data.roleInfo.activeRole": activeRole });
+  }
+
+  setLifepath(formData) {
+    return this.update(formData);
   }
 
   getSkillLevel(skillName) {
@@ -315,7 +319,10 @@ export default class CPRActor extends Actor {
   }
 
   processDeathSave(rollResult) {
-    const saveResult = rollResult.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
+    let saveResult = rollResult.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
+    if (rollResult.initialRoll === 10) {
+      saveResult = "Failed";
+    }
     if (saveResult === "Success") {
       const deathPenalty = this.data.data.derivedStats.deathSave.penalty + 1;
       this.update({ "data.derivedStats.deathSave.penalty": deathPenalty });
@@ -338,7 +345,7 @@ export default class CPRActor extends Actor {
       const ledgerProp = `${prop}.transactions`;
       setProperty(this.data.data, valProp, 0);
       setProperty(this.data.data, ledgerProp, []);
-      this.update(this.data, {});
+      this.update(this.data);
       return getProperty(this.data.data, prop);
     }
     return null;
