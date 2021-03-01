@@ -455,6 +455,7 @@ export default class CPRActorSheet extends ActorSheet {
             rollRequest.mods.push(Number(mod));
           }
         });
+        // eslint-disable-next-line prefer-destructuring
         rollRequest.formula = (formula.match(dice))[0];
       }
     }
