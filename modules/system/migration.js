@@ -160,9 +160,9 @@ export default class Migration {
     if (typeof itemData.data.description === "string") {
       const oldDescription = itemData.data.description;
       itemData.data.description = {
-        "value": oldDescription,
-        "chat": "",
-        "unidentified": ""
+        value: oldDescription,
+        chat: "",
+        unidentified: "",
       };
     }
     switch (itemData.type) {
