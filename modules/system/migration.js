@@ -68,13 +68,13 @@ export default class Migration {
       let oldDeathPenalty = 0;
       if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
         oldDeathPenalty = actorData.data.derivedStats.deathSavePenlty;
-        delete actorData.data.derivedStats.deathSavePenlty;
+        delete actorData.data.derivedStats.deathSavePenlty; // Doesn't actually work.
       }
       actorData.data.derivedStats.deathSave = { value: oldDeathSave, penalty: oldDeathPenalty, basePenalty: 0 };
     }
 
     if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
-      delete actorData.data.derivedStats.deathSavePenlty;
+      delete actorData.data.derivedStats.deathSavePenlty; // Doesn't actually work.
     }
 
     if ((typeof actorData.data.roleInfo.activeRole) === "undefined") {
@@ -86,10 +86,101 @@ export default class Migration {
       actorData.data.roleInfo.activeRole = configuredRole;
     }
 
+    // Original Data Model had a spelling issue
+    if ((typeof actorData.data.lifepath.familyBackground) === "undefined") {
+      actorData.data.lifepath.familyBackground = "";
+      if ((typeof actorData.data.lifepath.familyBackgrond) !== "undefined") {
+        actorData.data.lifepath.familyBackground = actorData.data.lifepath.familyBackgrond;
+        delete actorData.data.lifepath.familyBackgrond; // Doesn't actually work.
+      }
+    }
+
+    if ((typeof actorData.data.lifestyle.fashion) === "undefined") {
+      actorData.data.lifestyle.fashion = "";
+      if ((typeof actorData.data.lifestyle.fasion) !== "undefined") {
+        actorData.data.lifestyle.fashion = actorData.data.lifestyle.fasion;
+        delete actorData.data.lifestyle.fasion; // Doesn't actually work.
+      }
+    }
+
+    if ((typeof actorData.data.improvementPoints) === "undefined") {
+      actorData.data.improvementPoints = {
+        value: 0,
+        transactions: [],
+      };
+    } else if ((typeof actorData.data.improvementPoints.value) === "undefined") {
+      let ipValue = 0;
+      if ((typeof actorData.data.improvementPoints.total) !== "undefined") {
+        ipValue = actorData.data.improvementPoints.total;
+        delete actorData.data.improvementPoints.total; // Doesn't actually work
+      }
+      actorData.data.improvementPoints = {
+        value: ipValue,
+        transactions: [],
+      };
+    }
+
+    if ((typeof actorData.data.wealth) === "undefined") {
+      actorData.data.wealth = {
+        value: 0,
+        transactions: [],
+      };
+    } else if ((typeof actorData.data.wealth.value) === "undefined") {
+      let eddies = 0;
+      if ((typeof actorData.data.wealth.eddies) !== "undefined") {
+        eddies = actorData.data.wealth.eddies;
+        delete actorData.data.wealth.eddies; // Doesn't actually work.
+      }
+      actorData.data.wealth = {
+        value: eddies,
+        transactions: [],
+      };
+    }
+
+    if ((typeof actorData.data.reputation) === "undefined") {
+      actorData.data.reputation = {
+        value: 0,
+        transactions: [],
+      };
+    }
+
+    // The following items exist on the data model and are not used, but I don't know how to get rid of them:
+    //
+    // data.lifestyle.fasion
+    // data.lifepath.familyBackgrond
+    // data.improvementPoints.total
+    // data.reputation:  # Yes, the key name has the colon in it
+    // data.wealth.eddies
+    //
+    // They don't affect anything, they are just stuck on actors create pre 0.58
     await actor.update(actorData, { diff: false, enforceTypes: false });
   }
 
   static migrateItemData(itemData) {
+    switch (itemData.type) {
+      case "weapon": {
+        return this.migrateWeapon(itemData);
+      }
+      case "program": {
+        return this.migrateProgram(itemData);
+      }
+      default:
+    }
+    return itemData;
+  }
+
+  // Item specific migration tasks
+  static migrateWeapon(itemData) {
+    if ((typeof itemData.data.isConcealed) === "undefined") {
+      itemData.data.isConcealed = false;
+    }
+    return itemData;
+  }
+
+  static migrateProgram(itemData) {
+    if ((typeof itemData.data.slots) === "undefined") {
+      itemData.data.slots = 0;
+    }
     return itemData;
   }
 }

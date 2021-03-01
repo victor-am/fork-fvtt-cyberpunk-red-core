@@ -727,6 +727,23 @@ export default class CPRActorSheet extends ActorSheet {
         return;
       }
     }
+    if (item.type === "ammo") {
+      const weapons = this.actor.data.filteredItems.weapon;
+      let ammoIsLoaded = false;
+      weapons.forEach((weapon) => {
+        const weaponData = weapon.data.data;
+        if (weaponData.isRanged) {
+          if (weaponData.magazine.ammoId === item._id) {
+            const warningMessage = `${game.i18n.localize("CPR.ammodeletewarning")}: ${weapon.name}`;
+            SystemUtils.DisplayMessage("warn", warningMessage);
+            ammoIsLoaded = true;
+          }
+        }
+      });
+      if (ammoIsLoaded) {
+        return;
+      }
+    }
     await this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
   }
 
