@@ -6,15 +6,54 @@ export default class Migration {
   static async migrateWorld(incomingDataModelVersion) {
     ui.notifications.notify(`Beginning Migration of Cyberpunk Red Core from Data Model ${incomingDataModelVersion} to ${game.system.data.version}.`);
     this.incomingDataModelVersion = incomingDataModelVersion;
+    let totalCount = game.items.entities.length;
+    let quarterCount = totalCount / 4;
+    let loopIndex = 0;
+    let displayPercent = 25;
+    let actualCount = 0;
+
+    ui.notifications.notify(`Beginning migration of ${totalCount} Items.`);
     for (const i of game.items.entities) {
+      loopIndex = loopIndex + 1;
+      if (loopIndex > quarterCount) {
+        ui.notifications.notify(`Migration of Items ${displayPercent}% Completed.`);
+        displayPercent = displayPercent + 25;
+        loopIndex = 0;
+      }
       await i.update(this.migrateItemData(duplicate(i.data)));
     }
 
+    totalCount = game.actors.entities.length;
+    quarterCount = totalCount / 4;
+    displayPercent = 25;
+    loopIndex = 0;
+
+    ui.notifications.notify(`Beginning migration of ${totalCount} Actors.`);
     for (const a of game.actors.entities) {
+      loopIndex = loopIndex + 1;
+      actualCount = actualCount + 1;
+      ui.notifications.notify(`Migration of Actor ${actualCount}/${totalCount} Started.`);
+      if (loopIndex > quarterCount) {
+        ui.notifications.notify(`Migration of Actors ${displayPercent}% Completed.`);
+        displayPercent = displayPercent + 25;
+        loopIndex = 0;
+      }
       await this.migrateActorData(a);
     }
 
+    totalCount = game.actors.entities.length;
+    quarterCount = totalCount / 4;
+    displayPercent = 25;
+    loopIndex = 0;
+
+    ui.notifications.notify(`Beginning migration of ${totalCount} Packs.`);
     for (const p of game.packs) {
+      loopIndex = loopIndex + 1;
+      if (loopIndex > quarterCount) {
+        ui.notifications.notify(`Migration of Packs ${displayPercent} Completed.`);
+        displayPercent = displayPercent + 25;
+        loopIndex = 0;
+      }
       if (p.metadata.entity === "Item" && p.metadata.package === "world") {
         p.getContent().then(async (items) => {
           items.forEach(async (i) => {
