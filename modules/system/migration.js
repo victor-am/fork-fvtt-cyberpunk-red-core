@@ -16,7 +16,7 @@ export default class Migration {
     for (const i of game.items.entities) {
       loopIndex = loopIndex + 1;
       if (loopIndex > quarterCount) {
-        ui.notifications.notify(`Migration of Items ${displayPercent}% Completed.`);
+        ui.notifications.notify(`Migration of Items ${displayPercent}% completed.`);
         displayPercent = displayPercent + 25;
         loopIndex = 0;
       }
@@ -32,9 +32,9 @@ export default class Migration {
     for (const a of game.actors.entities) {
       loopIndex = loopIndex + 1;
       actualCount = actualCount + 1;
-      ui.notifications.notify(`Migration of Actor ${actualCount}/${totalCount} Started.`);
+      ui.notifications.notify(`Migration of Actor ${actualCount}/${totalCount} started.`);
       if (loopIndex > quarterCount) {
-        ui.notifications.notify(`Migration of Actors ${displayPercent}% Completed.`);
+        ui.notifications.notify(`Migration of Actors ${displayPercent}% completed.`);
         displayPercent = displayPercent + 25;
         loopIndex = 0;
       }
@@ -50,7 +50,7 @@ export default class Migration {
     for (const p of game.packs) {
       loopIndex = loopIndex + 1;
       if (loopIndex > quarterCount) {
-        ui.notifications.notify(`Migration of Packs ${displayPercent} Completed.`);
+        ui.notifications.notify(`Migration of Packs ${displayPercent}% completed.`);
         displayPercent = displayPercent + 25;
         loopIndex = 0;
       }
