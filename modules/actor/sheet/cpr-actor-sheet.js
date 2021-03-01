@@ -234,8 +234,7 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
       case "damage": {
-        const itemId = $(event.currentTarget).attr("data-item-id");
-        this._prepareRollDamage(rollRequest, itemId);
+        cprRoll = this._createDamageRoll(event);
         break;
       }
       case "deathsave": {
@@ -250,23 +249,19 @@ export default class CPRActorSheet extends ActorSheet {
 
     console.log(cprRoll);
     await this._handleRollDialog(event, cprRoll);
+    console.log(cprRoll);
 
     // decrementing ammo must come after dialog but before the roll in case the user cancels
     if (cprRoll instanceof CPRRolls.CPRRangedAttackRoll) {
       const weaponId = $(event.currentTarget).attr("data-item-id");
       const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
       weaponItem.fireRangedWeapon(fireMode);
+    } else if (cprRoll instanceof CPRRolls.CPRDamageRoll) {
+      // figure out aimed and body location
+      // if (typeof this.actor.data.previousRoll !== "undefined") {
+      //   cprRoll.isAimed = this.actor.data.previousRoll.isAimed;
+      // }
     }
-
-    /*
-      case "damage": {
-        if (!rollRequest.isAimed) {
-          rollRequest.location = "body";
-        }
-        break;
-      }
-      default:
-    */
 
     // Let's roll!
     await cprRoll.roll();
@@ -276,7 +271,7 @@ export default class CPRActorSheet extends ActorSheet {
     if (cprRoll instanceof CPRRolls.CPRDeathSaveRoll) {
       cprRoll.saveResult = this.actor.processDeathSave(cprRoll);
     }
-    console.log(cprRoll);
+
     // output to chat
     CPRChat.RenderRollCard(cprRoll);
 
@@ -408,15 +403,12 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  _prepareRollDamage(rollRequest, itemId) {
+  _createDamageRoll(event) {
+    const itemId = $(event.currentTarget).attr("data-item-id");
     const weaponItem = this._getOwnedItem(itemId);
-    rollRequest.rollTitle = weaponItem.data.name;
-    rollRequest.formula = weaponItem.getData().damage;
-    rollRequest.attackSkill = weaponItem.getData().weaponSkill;
-    rollRequest.weaponType = weaponItem.getData().weaponType;
-    if (typeof this.actor.data.previousRoll !== "undefined") {
-      rollRequest.isAimed = this.actor.data.previousRoll.isAimed;
-    }
+    const rollName = weaponItem.data.name;
+    const formula = weaponItem.getData().damage;
+    return new CPRRolls.CPRDamageRoll(rollName, formula);
   }
 
   _createDeathSaveRoll() {

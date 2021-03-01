@@ -46,6 +46,7 @@ export default class CPRRoll {
     await DiceSoNice.ShowDiceSoNice(this._roll);
     this.initialRoll = this._roll.total;
     this.resultTotal = this.initialRoll + this.totalMods();
+    this.faces = this._roll.terms[0].results.map((r) => r.result);
 
     // check and consider criticals (min or max # on die)
     if (this.wasCritical() && this.calculateCritical) {
@@ -55,7 +56,6 @@ export default class CPRRoll {
     }
 
     this._computeResult();
-    this.faces = this._roll.terms[0].results.map((r) => r.result);
   }
 
   _computeBase() {
@@ -121,6 +121,7 @@ export class CPRRangedAttackRoll extends CPRSkillRoll {
     super(SystemUtils.Localize("CPR.ref"), statValue, skillName, skillValue);
     this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.attack")}`;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-attack-prompt.hbs";
+    this.isAimed = false;
   }
 }
 
@@ -129,6 +130,7 @@ export class CPRMeleeAttackRoll extends CPRSkillRoll {
     super(SystemUtils.Localize("CPR.dex"), statValue, skillName, skillValue);
     this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.attack")}`;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-attack-prompt.hbs";
+    this.isAimed = false;
   }
 }
 
@@ -167,16 +169,19 @@ export class CPRDeathSaveRoll extends CPRRoll {
   }
 }
 
-/**
 export class CPRDamageRoll extends CPRRoll {
-  constructor(rollTitle, numdice) {
+  constructor(rollTitle, formula) {
     // we assume always d6s
     // again, check if this makes sense or if it should accept formulas too
-    super(rollTitle, `${numdice}d6`);
-    this.bonusDamage = 0;
-    this.template = "damage";
+    super(rollTitle, formula);
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-damage-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-damage-rollcard.hbs";
+    // criticals just add 5 damage, they do not need more dice rolled
+    this.calculateCritical = false;
+    // are we aiming at something?
+    this.isAimed = false;
+    // for aimed shots, set to head, leg, or held item; set to body otherwise
+    this.location = "body";
   }
 
   _computeBase() {
@@ -190,10 +195,19 @@ export class CPRDamageRoll extends CPRRoll {
   }
 
   wasCritSuccess() {
-    return this._roll.faces.filter((x) => x === 6).length >= 2;
+    return this.faces.filter((x) => x === 6).length >= 2;
+  }
+
+  _computeResult() {
+    // figure how aimed shots work...
+    this.resultTotal = this._computeBase();
+    if (this.wasCritical()) {
+      this.resultTotal += 5;
+    }
   }
 }
 
+/*
 export class CPRAutofireRoll extends CPRDamageRoll {
   constructor(rollTitle, multiplier) {
     super(rollTitle, "2d6");
@@ -229,6 +243,5 @@ export class CPRAutofireRoll extends CPRDamageRoll {
 
     return rollResult;
   }
-
 }
 */
