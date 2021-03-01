@@ -146,6 +146,15 @@ export class CPRRoleRoll extends CPRRoll {
   }
 }
 
+export class CPRDeathSaveRoll extends CPRRoll {
+  constructor() {
+    super(SystemUtils.Localize("CPR.deathsave"), "1d10");
+    this.calculateCritical = false;
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-deathsave-rollcard.hbs";
+  }
+}
+
+/**
 export class CPRDamageRoll extends CPRRoll {
   constructor(rollTitle, numdice) {
     // we assume always d6s
@@ -182,9 +191,6 @@ export class CPRAutofireRoll extends CPRDamageRoll {
   _computeBase() {
     return this.initialRoll * this.multiplier;
   }
-}
-
-/**
 
     // If this was autofire, add multiplier to the roll, otherwise just add the roll.
     if (rollResult.fireMode === "autofire") {
@@ -211,10 +217,5 @@ export class CPRAutofireRoll extends CPRDamageRoll {
     return rollResult;
   }
 
-class DeathSaveRoll extends CPRRoll {
-    // TODO - Jay, fix me.
-    "systems/cyberpunk-red-core/templates/chat/cpr-deathsave-rollcard.hbs";
-  }
 }
-
 */

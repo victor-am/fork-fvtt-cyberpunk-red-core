@@ -97,7 +97,7 @@ export default class CPRActorSheet extends ActorSheet {
     // Set Lifepath for Character
     html.find(".set-lifepath").click((event) => this._setLifepath(event));
 
-    html.find(".sanity-check-cyberware").click((event) => this.actor.sanityCheckCyberware());
+    html.find(".sanity-check-cyberware").click(() => this.actor.sanityCheckCyberware());
 
     html.find(".checkbox").click((event) => this._checkboxToggle(event));
 
@@ -245,7 +245,9 @@ export default class CPRActorSheet extends ActorSheet {
       default:
     }
 
-    this._checkPreviousRoll();
+    // this will be important later on
+    // let prevRoll = this._checkPreviousRoll();
+
     await this._handleRollDialog(event, cprRoll);
     // decrementing ammo must come after dialog but before the roll in case the user cancels
     if (cprRoll instanceof CPRRolls.CPRRangedAttackRoll) {
@@ -255,16 +257,6 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     /*
-      case "deathsave": {
-        // If they skipped the dialog, the penalties were not pushed into mods
-        // and not accounted for in the roll.  We can't push them onto mods prior
-        // because we want the correct mod to show for the correct penalty.
-        if (event.ctrlKey) {
-          rollRequest.mods.push(this.actor.getData().derivedStats.deathSave.penalty);
-          rollRequest.mods.push(this.actor.getData().derivedStats.deathSave.basePenalty);
-        }
-        break;
-      }
       case "damage": {
         if (!rollRequest.isAimed) {
           rollRequest.location = "body";
@@ -275,21 +267,13 @@ export default class CPRActorSheet extends ActorSheet {
     */
 
     // Let's roll!
-    console.log(cprRoll);
     await cprRoll.roll();
-    console.log(cprRoll);
 
     // Post roll tasks
-    switch (rollType) {
-      case "deathsave": {
-        const saveResult = this.actor.processDeathSave(rollResult);
-        rollResult.extraVars.push({ name: "saveResult", value: saveResult });
-        rollResult.stat = "body";
-        rollResult.statValue = this.getData().data.stats.body.value;
-        break;
-      }
-      default:
+    if (cprRoll instanceof CPRRolls.CPRDeathSaveRoll) {
+      this.actor.processDeathSave(cprRoll);
     }
+
     // output to chat
     CPRChat.RenderRollCard(cprRoll);
 
@@ -299,7 +283,7 @@ export default class CPRActorSheet extends ActorSheet {
     // was used.
     // Do we want to add this to the template is the
     // question?
-    this.actor.data.previousRoll = { total: cprRoll.rollResult, faces: cprRoll.faces };
+    this.actor.data.previousRoll = { total: cprRoll.resultTotal, faces: cprRoll.faces };
   }
 
   _createStatRoll(event) {
@@ -414,9 +398,9 @@ export default class CPRActorSheet extends ActorSheet {
     if (typeof this.actor.data.previousRoll !== "undefined") {
       let { previousRoll } = this.actor.data;
       previousRoll.name = "previousRoll";
-      // the fuck is this?
-      // rollRequest.extraVars.push({ name: "previousRoll", value: { total: cprRoll.rollResult, faces: cprRoll.faces } });
+      return previousRoll;
     }
+    return "undefined";
   }
 
   async _handleRollDialog(event, cprRoll) {
@@ -438,11 +422,13 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  _createDeathSaveRoll(rollRequest) {
-    rollRequest.extraVars.push({ name: "deathPenalty", value: this.actor.getData().derivedStats.deathSave.penalty });
-    rollRequest.extraVars.push({ name: "baseDeathPenalty", value: this.actor.getData().derivedStats.deathSave.basePenalty });
-    rollRequest.calculateCritical = false;
-    return rollRequest;
+  _createDeathSaveRoll() {
+    const deathSavePenalty = this.actor.getData().derivedStats.deathSave.penalty;
+    const deathSaveBasePenalty = this.actor.getData().derivedStats.deathSave.basePenalty;
+    const cprRoll = CPRRolls.DeathSaveRoll();
+    cprRoll.addMod(deathSavePenalty);
+    cprRoll.addMod(deathSaveBasePenalty);
+    return cprRoll;
   }
 
   _resetActorValue(event) {
@@ -466,7 +452,6 @@ export default class CPRActorSheet extends ActorSheet {
 
   async _ablateArmor(event) {
     LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
     const location = $(event.currentTarget).attr("data-location");
     const armorList = this._getEquippedArmors(location);
     let updateList = [];
@@ -633,14 +618,12 @@ export default class CPRActorSheet extends ActorSheet {
     return 0;
   }
 
-  // TODO - Revist hands restrictions, possibly remove.
   // TODO - Move to cpr-actor
   _getHands() {
     LOGGER.trace("ActorID _getHands | CPRActorSheet | Called.");
     return 2;
   }
 
-  // TODO - Revist hands restrictions, possibly remove.
   // TODO - Move to cpr-actor
   _getFreeHands() {
     LOGGER.trace("ActorID _getFreeHands | CPRActorSheet | Called.");
