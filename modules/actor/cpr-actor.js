@@ -305,9 +305,9 @@ export default class CPRActor extends Actor {
     return 0;
   }
 
-  processDeathSave(rollResult) {
-    let saveResult = rollResult.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
-    if (rollResult.initialRoll === 10) {
+  processDeathSave(cprRoll) {
+    let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
+    if (cprRoll.initialRoll === 10) {
       saveResult = "Failed";
     }
     if (saveResult === "Success") {

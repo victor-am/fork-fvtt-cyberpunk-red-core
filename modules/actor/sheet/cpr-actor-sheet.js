@@ -239,16 +239,18 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
       case "deathsave": {
-        this._createDeathSaveRoll();
+        cprRoll = this._createDeathSaveRoll();
         break;
       }
       default:
     }
 
     // this will be important later on
-    // let prevRoll = this._checkPreviousRoll();
+    // let prevRoll = this._getPreviousRoll();
 
+    console.log(cprRoll);
     await this._handleRollDialog(event, cprRoll);
+
     // decrementing ammo must come after dialog but before the roll in case the user cancels
     if (cprRoll instanceof CPRRolls.CPRRangedAttackRoll) {
       const weaponId = $(event.currentTarget).attr("data-item-id");
@@ -268,12 +270,13 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Let's roll!
     await cprRoll.roll();
+    console.log(cprRoll);
 
     // Post roll tasks
     if (cprRoll instanceof CPRRolls.CPRDeathSaveRoll) {
-      this.actor.processDeathSave(cprRoll);
+      cprRoll.saveResult = this.actor.processDeathSave(cprRoll);
     }
-
+    console.log(cprRoll);
     // output to chat
     CPRChat.RenderRollCard(cprRoll);
 
@@ -283,7 +286,7 @@ export default class CPRActorSheet extends ActorSheet {
     // was used.
     // Do we want to add this to the template is the
     // question?
-    this.actor.data.previousRoll = { total: cprRoll.resultTotal, faces: cprRoll.faces };
+    this.actor.data.previousRoll = cprRoll;
   }
 
   _createStatRoll(event) {
@@ -348,8 +351,6 @@ export default class CPRActorSheet extends ActorSheet {
       statName = "ref";
       const statValue = this.getData().data.stats.ref.value;
       cprRoll = new CPRRolls.CPRRangedAttackRoll(weaponName, statValue, skillName, skillValue);
-      // ?? const autoFireSkill = this.actor.items.find((i) => i.name === "Autofire");
-      // ?? rollRequest.extraVars.push({ name: "Autofire", level: autoFireSkill.data.data.level });
     } else {
       statName = "dex";
       const statValue = this.getData().data.stats.dex.value;
@@ -360,8 +361,6 @@ export default class CPRActorSheet extends ActorSheet {
     if ($(event.currentTarget).attr("data-aimed") === "true") cprRoll.addMod(-8);
     cprRoll.addMod(this._getArmorPenaltyMods(statName));
     cprRoll.addMod(this._getWeaponQualityMod(weaponData));
-
-    // ?? rollRequest.weaponType = weaponItem.getData().weaponType;
 
     if (cprRoll instanceof CPRRolls.CPRRangedAttackRoll) {
       Rules.lawyer(weaponItem.checkAmmo("single") >= 0, "CPR.weaponattackoutofbullets");
@@ -394,11 +393,9 @@ export default class CPRActorSheet extends ActorSheet {
     return 0;
   }
 
-  _checkPreviousRoll() {
+  _getPreviousRoll() {
     if (typeof this.actor.data.previousRoll !== "undefined") {
-      let { previousRoll } = this.actor.data;
-      previousRoll.name = "previousRoll";
-      return previousRoll;
+      return this.actor.data.previousRoll;
     }
     return "undefined";
   }
@@ -425,10 +422,8 @@ export default class CPRActorSheet extends ActorSheet {
   _createDeathSaveRoll() {
     const deathSavePenalty = this.actor.getData().derivedStats.deathSave.penalty;
     const deathSaveBasePenalty = this.actor.getData().derivedStats.deathSave.basePenalty;
-    const cprRoll = CPRRolls.DeathSaveRoll();
-    cprRoll.addMod(deathSavePenalty);
-    cprRoll.addMod(deathSaveBasePenalty);
-    return cprRoll;
+    const bodyStat = this.getData().data.stats.body.value;
+    return new CPRRolls.CPRDeathSaveRoll(deathSavePenalty, deathSaveBasePenalty, bodyStat);
   }
 
   _resetActorValue(event) {

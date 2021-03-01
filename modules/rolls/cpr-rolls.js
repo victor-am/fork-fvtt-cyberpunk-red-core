@@ -147,10 +147,23 @@ export class CPRRoleRoll extends CPRRoll {
 }
 
 export class CPRDeathSaveRoll extends CPRRoll {
-  constructor() {
+  constructor(penalty, basePenalty, bodyStat) {
     super(SystemUtils.Localize("CPR.deathsave"), "1d10");
     this.calculateCritical = false;
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-deathsave-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-deathsave-rollcard.hbs";
+    // the ever-increasing penalty when death saves are made
+    this.penalty = penalty;
+    // a separate penalty from critical injuries
+    this.basePenalty = basePenalty;
+    // the value of the actor's body stat, used in the roll card
+    this.bodyStat = bodyStat;
+    // the result of the save, with "Success" or "Failure"
+    this.saveResult = null;
+  }
+
+  totalMods() {
+    return this.penalty + this.basePenalty;
   }
 }
 

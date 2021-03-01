@@ -34,16 +34,6 @@ export default class VerifyRollPrompt {
               }
               break;
             }
-            case "CPRDeathSave": {
-              const deathPenalties = ["deathPenalty", "baseDeathPenalty"];
-              rollRequest.extraVars.forEach((penalty) => {
-                if (deathPenalties.includes(penalty.name)) {
-                  penalty.value = parseInt(formData[penalty.name], 10);
-                  formData.mods.push(penalty.value);
-                }
-              });
-              break;
-            }
             default:
           }
           resolve(formData);
