@@ -117,10 +117,11 @@ export class CPRSkillRoll extends CPRStatRoll {
 // while it would be cool to just pass in a weapon, the data model does not include
 // the skill and stat entities that would be needed with it
 export class CPRRangedAttackRoll extends CPRSkillRoll {
-  constructor(weaponName, statValue, skillName, skillValue, weaponType) {
+  constructor(weaponName, statValue, skillName, skillValue) {
     super(SystemUtils.Localize("CPR.ref"), statValue, skillName, skillValue);
     this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.attack")}`;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-attack-prompt.hbs";
+    // unused atm
     this.isAimed = false;
   }
 }
@@ -170,7 +171,7 @@ export class CPRDeathSaveRoll extends CPRRoll {
 }
 
 export class CPRDamageRoll extends CPRRoll {
-  constructor(rollTitle, formula) {
+  constructor(rollTitle, formula, weaponType) {
     // we assume always d6s
     // again, check if this makes sense or if it should accept formulas too
     super(rollTitle, formula);
@@ -182,6 +183,8 @@ export class CPRDamageRoll extends CPRRoll {
     this.isAimed = false;
     // for aimed shots, set to head, leg, or held item; set to body otherwise
     this.location = "body";
+    // used in the verifyPrompt for damage rolls to show alt firemodes
+    this.weaponType = weaponType;
   }
 
   _computeBase() {

@@ -408,9 +408,11 @@ export default class CPRActorSheet extends ActorSheet {
   _createDamageRoll(event) {
     const itemId = $(event.currentTarget).attr("data-item-id");
     const weaponItem = this._getOwnedItem(itemId);
+    const weaponData = weaponItem.getData();
     const rollName = weaponItem.data.name;
-    const formula = weaponItem.getData().damage;
-    return new CPRRolls.CPRDamageRoll(rollName, formula);
+    const { damage, weaponType } = weaponData;
+    // const { weaponType } = weaponData;
+    return new CPRRolls.CPRDamageRoll(rollName, damage, weaponType);
   }
 
   _createDeathSaveRoll() {

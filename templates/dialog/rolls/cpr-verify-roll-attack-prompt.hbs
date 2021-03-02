@@ -32,36 +32,6 @@
             </div>
         </li>
 
-        {{#if (listContains "assaultRifle,smg,heavySmg" weaponType)}}
-        {{#unless isAimed}}
-        <li class="item flexrow">
-            <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.autofire"}} ({{localize "CPR.skilllevel"}}: {{getProp (findObj extraVars "name"
-                "Autofire") "level"}}):
-            </div>
-            <div class="item flexrow setting-value text-nowrap item-end">
-                <input type="checkbox" id="autofire" name="autofire">
-            </div>
-        </li>
-        {{/unless}}
-        {{/if}}
-
-        {{#if isAimed}}
-        <li class="item flexrow">
-            <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.aimfor"}}:
-            </div>
-            <div class="item flexrow setting-value text-nowrap item-end">
-                <select name="location">
-                    {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
-                    {{#each (findConfigObj "aimedLocation") as |location l|}}
-                    <option value="{{l}}">{{localize location}}</option>
-                    {{/each}}
-                </select>
-            </div>
-        </li>
-        {{/if}}
-
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.shouldrollcriticals"}}:
