@@ -266,6 +266,8 @@ export default class CPRActorSheet extends ActorSheet {
     // Let's roll!
     await cprRoll.roll();
     console.log(cprRoll);
+    console.log(cprRoll.wasCritSuccess());
+    console.log(cprRoll.wasCritical());
 
     // Post roll tasks
     if (cprRoll instanceof CPRRolls.CPRDeathSaveRoll) {

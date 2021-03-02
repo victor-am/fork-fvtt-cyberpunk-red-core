@@ -117,7 +117,7 @@ export class CPRSkillRoll extends CPRStatRoll {
 // while it would be cool to just pass in a weapon, the data model does not include
 // the skill and stat entities that would be needed with it
 export class CPRRangedAttackRoll extends CPRSkillRoll {
-  constructor(weaponName, statValue, skillName, skillValue) {
+  constructor(weaponName, statValue, skillName, skillValue, weaponType) {
     super(SystemUtils.Localize("CPR.ref"), statValue, skillName, skillValue);
     this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.attack")}`;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-attack-prompt.hbs";
