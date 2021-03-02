@@ -6,8 +6,9 @@ export default class Migration {
   static async migrateWorld(incomingDataModelVersion) {
     ui.notifications.notify(`Beginning Migration of Cyberpunk Red Core from Data Model ${incomingDataModelVersion} to ${game.system.data.version}.`);
     this.incomingDataModelVersion = incomingDataModelVersion;
+
     for (const i of game.items.entities) {
-      await i.update(this.migrateItemData(duplicate(i.data)));
+      await i.update(this.migrateItemData(i.data));
     }
 
     for (const a of game.actors.entities) {
@@ -39,9 +40,11 @@ export default class Migration {
   static async migrateActorData(actor) {
     const actorItems = actor.items;
     const actorData = actor.data;
+    const updateItems = [];
     for (const i of actorItems) {
-      await actor.updateEmbeddedEntity("OwnedItem", this.migrateItemData(i.data));
+      updateItems.push(this.migrateItemData(i.data));
     }
+    await actor.updateEmbeddedEntity("OwnedItem", updateItems);
 
     /*
     After version 0.53, we moved deathSave to 3 values to support the rules:

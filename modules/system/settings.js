@@ -6,7 +6,7 @@ export const registerSystemSettings = function () {
   game.settings.register("cyberpunk-red-core", "dataModelVersion", {
     name: "System Data Model Version",
     scope: "world",
-    config: false,
+    config: true,
     type: String,
     default: "",
   });
