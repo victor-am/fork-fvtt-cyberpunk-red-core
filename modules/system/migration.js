@@ -14,10 +14,10 @@ export default class Migration {
 
     ui.notifications.notify(`Beginning migration of ${totalCount} Items.`);
     for (const i of game.items.entities) {
-      loopIndex = loopIndex + 1;
+      loopIndex += 1;
       if (loopIndex > quarterCount) {
         ui.notifications.notify(`Migration of Items ${displayPercent}% completed.`);
-        displayPercent = displayPercent + 25;
+        displayPercent += 25;
         loopIndex = 0;
       }
       await i.update(this.migrateItemData(duplicate(i.data)));
@@ -30,12 +30,12 @@ export default class Migration {
 
     ui.notifications.notify(`Beginning migration of ${totalCount} Actors.`);
     for (const a of game.actors.entities) {
-      loopIndex = loopIndex + 1;
-      actualCount = actualCount + 1;
+      loopIndex += 1;
+      actualCount += 1;
       ui.notifications.notify(`Migration of Actor ${actualCount}/${totalCount} started.`);
       if (loopIndex > quarterCount) {
         ui.notifications.notify(`Migration of Actors ${displayPercent}% completed.`);
-        displayPercent = displayPercent + 25;
+        displayPercent += 25;
         loopIndex = 0;
       }
       await this.migrateActorData(a);
@@ -48,10 +48,10 @@ export default class Migration {
 
     ui.notifications.notify(`Beginning migration of ${totalCount} Packs.`);
     for (const p of game.packs) {
-      loopIndex = loopIndex + 1;
+      loopIndex += 1;
       if (loopIndex > quarterCount) {
         ui.notifications.notify(`Migration of Packs ${displayPercent}% completed.`);
-        displayPercent = displayPercent + 25;
+        displayPercent += 25;
         loopIndex = 0;
       }
       if (p.metadata.entity === "Item" && p.metadata.package === "world") {
