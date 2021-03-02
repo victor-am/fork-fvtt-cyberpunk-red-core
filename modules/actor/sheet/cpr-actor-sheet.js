@@ -254,6 +254,8 @@ export default class CPRActorSheet extends ActorSheet {
       rollRequest.extraVars.push({ name: "previousRoll", value: previousRoll });
     }
 
+    this._prepareRollFormula(rollRequest);
+
     // Handle skipping of the user verification step
     if (!event.ctrlKey) {
       const formData = await VerifyRoll.RenderPrompt(rollRequest);
@@ -437,6 +439,26 @@ export default class CPRActorSheet extends ActorSheet {
     rollRequest.extraVars.push({ name: "baseDeathPenalty", value: this.actor.getData().derivedStats.deathSave.basePenalty });
     rollRequest.calculateCritical = false;
     return rollRequest;
+  }
+
+  _prepareRollFormula(rollRequest) {
+    if (rollRequest.formula !== undefined) {
+      const dice = /[0-9][0-9]*d[0-9][0-9]*/;
+      const formula = String(rollRequest.formula);
+      let rollMods = formula.replace(dice, "");
+      if (rollMods !== "") {
+        rollMods = rollMods.replace("+", " +");
+        rollMods = rollMods.replace("-", " -");
+        const modArray = rollMods.split(" ");
+        modArray.forEach((mod) => {
+          if (mod !== "") {
+            rollRequest.mods.push(Number(mod));
+          }
+        });
+        // eslint-disable-next-line prefer-destructuring
+        rollRequest.formula = (formula.match(dice))[0];
+      }
+    }
   }
 
   _resetActorValue(event) {
