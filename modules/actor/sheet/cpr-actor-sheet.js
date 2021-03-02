@@ -16,7 +16,7 @@ import Rules from "../../utils/cpr-rules.js";
 import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
-import AddCriticalInjuryPrompt from "../../dialog/cpr-add-critical-injury.js";
+import CriticalInjuryPrompt from "../../dialog/cpr-critical-injury-prompt.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import CPRActor from "../cpr-actor.js";
@@ -99,6 +99,10 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".select-roles").click((event) => this._selectRoles(event));
 
     html.find(".add-critical-injury").click((event) => this._addCriticalInjury(event));
+
+    html.find(".edit-critical-injury").click((event) => this._editCriticalInjury(event));
+
+    html.find(".delete-critical-injury").click((event) => this._deleteCriticalInjury(event));
 
     // Set Lifepath for Character
     html.find(".set-lifepath").click((event) => this._setLifepath(event));
@@ -806,9 +810,21 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   async _addCriticalInjury(event) {
-    let formData = await AddCriticalInjuryPrompt.RenderPrompt();
+    let formData = await CriticalInjuryPrompt.RenderPrompt();
     console.log(formData);
-    await this.actor.addCriticalInjury(formData.injuryLocation, formData.injuryName, formData.injuryEffects, formData.injuryQuickFix, formData.injuryTreatment, [{ "deathSavePenalty": formData.deathSave} ]);
+    await this.actor.addCriticalInjury(formData.injuryLocation, formData.injuryName, formData.injuryEffects, formData.injuryQuickFix, formData.injuryTreatment, [{ name: "deathSavePenalty", value: formData.deathSave }]);
+  }
+
+  async _editCriticalInjury(event) {
+    const injuryId = $(event.currentTarget).attr("data-injury-id");
+    let formData = this.actor.getCriticalInjury(injuryId);
+    formData = await CriticalInjuryPrompt.RenderPrompt(formData);
+    await this.actor.editCriticalInjury(injuryId, formData.injuryLocation, formData.injuryName, formData.injuryEffects, formData.injuryQuickFix, formData.injuryTreatment, [{ name: "deathSavePenalty", value: formData.deathSave }]);
+  }
+
+  async _deleteCriticalInjury(event) {
+    const injuryId = $(event.currentTarget).attr("data-injury-id");
+    await this.actor.deleteCriticalInjury(injuryId);
   }
 
   async _setLifepath(event) {

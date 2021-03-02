@@ -10,7 +10,6 @@ export default class Migration {
     let quarterCount = totalCount / 4;
     let loopIndex = 0;
     let displayPercent = 25;
-    let actualCount = 0;
 
     ui.notifications.notify(`Beginning migration of ${totalCount} Items.`);
     for (const i of game.items.entities) {
@@ -31,8 +30,6 @@ export default class Migration {
     ui.notifications.notify(`Beginning migration of ${totalCount} Actors.`);
     for (const a of game.actors.entities) {
       loopIndex += 1;
-      actualCount += 1;
-      ui.notifications.notify(`Migration of Actor ${actualCount}/${totalCount} started.`);
       if (loopIndex > quarterCount) {
         ui.notifications.notify(`Migration of Actors ${displayPercent}% completed.`);
         displayPercent += 25;
@@ -41,7 +38,7 @@ export default class Migration {
       await this.migrateActorData(a);
     }
 
-    totalCount = game.packs.length;
+    totalCount = game.packs.size;
     loopIndex = 0;
 
     ui.notifications.notify(`Beginning migration of ${totalCount} Packs.`);
@@ -180,6 +177,9 @@ export default class Migration {
       actorData.data.roleInfo.activeRole = configuredRole;
     }
 
+    if ((typeof actorData.data.criticalInjuries) === "undefined") {
+      actorData.data.criticalInjuries = [];
+    }
     // The following items exist on the data model and are not used, but I don't know how to get rid of them:
     //
     // data.lifestyle.fasion

@@ -7,9 +7,9 @@
         </li>
         <div class="injuries-content">
             <ol class="items-list critical-injuries-list"></ol>
-            {{#each actor.data.critialInjuries as |injury|}}
+            {{#each actor.data.criticalInjuries as |injury|}}
             <li class="flex-space-between item flexrow" data-item-id="{{injury.id}}" >
-                {{injury.name}}
+                <a class="edit-critical-injury" data-injury-id="{{injury.id}}">{{injury.name}}</a><a class="delete-critical-injury" data-injury-id="{{injury.id}}"><i class="fas fa-trash-alt fg-red text-float-right text-padding-right" title="Delete Item"></i></a>
             </li>
             {{/each}}
             </ol>

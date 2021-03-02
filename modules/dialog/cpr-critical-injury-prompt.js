@@ -18,7 +18,7 @@ export default class SetLifepathPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.setlifepathtitle"),
+          title: SystemUtils.Localize("CPR.criticalinjurytitle"),
           content: html,
           buttons: {
             cancel: {

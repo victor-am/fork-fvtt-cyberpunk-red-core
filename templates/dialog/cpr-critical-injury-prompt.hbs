@@ -1,51 +1,52 @@
 {{log "CPR-CRITICAL-INJURY.HBS"}}
+{{log this}}
 <form>
   <ol class="items-list">
     <li class="item flexrow">
       <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.criticalinjurylocation"}}:
+        {{localize "CPR.location"}}:
       </div>
       <div class="item flexrow setting-value text-nowrap item-end">
         <select name="injuryLocation">
-          <option selected value="{{localize "CPR.bodylocation"}}">{{localize "CPR.bodylocation"}}</option>
-          <option value="{{localize "CPR.head"}}">{{localize "CPR.head"}}</option>
+          <option {{#if (compare location "===" "body")}}selected{{/if}} value="body">{{localize "CPR.bodylocation"}}</option>
+          <option {{#if (compare location "===" "head")}}selected{{/if}} value="head">{{localize "CPR.head"}}</option>
         </select>
       </div>
     </li>
 
     <li class="item flexrow">
       <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.criticalinjuryname"}}:
+        {{localize "CPR.name"}}:
       </div>
       <div class="item flexrow setting-value text-nowrap item-end">
-        <input class="" name="injuryName" type="text" value="" placeholder="" />
+        <input class="" name="injuryName" type="text" value="{{name}}" placeholder="" />
       </div>
     </li>
 
     <li class="item flexrow">
       <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.criticalinjuryeffects"}}:
+        {{localize "CPR.effects"}}:
       </div>
       <div class="item flexrow setting-value text-nowrap item-end">
-        <textarea class="" name="injuryEffects"></textarea>
+        <textarea class="" name="injuryEffects">{{effect}}</textarea>
       </div>
     </li>
 
     <li class="item flexrow">
       <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.criticalinjuryquickfix"}}:
+        {{localize "CPR.quickfix"}}:
       </div>
       <div class="item flexrow setting-value text-nowrap item-end">
-        <input class="" name="injuryQuickFix" type="text" value="" placeholder="" />
+        <input class="" name="injuryQuickFix" type="text" value="{{quickfix}}" placeholder="" />
       </div>
     </li>
 
     <li class="item flexrow">
       <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.criticalinjurytreatment"}}:
+        {{localize "CPR.treatment"}}:
       </div>
       <div class="item flexrow setting-value text-nowrap item-end">
-        <input class="" name="injuryTreatment" type="text" value="" placeholder="" />
+        <input class="" name="injuryTreatment" type="text" value="{{treatment}}" placeholder="" />
       </div>
     </li>
 
@@ -54,7 +55,7 @@
         {{localize "CPR.criticalinjurydeathsave"}}:
       </div>
       <div class="item flexrow setting-value text-nowrap item-end">
-        <input type="checkbox" name="deathSave" value="hasPenalty">
+        <input type="checkbox" name="deathSave" value="hasPenalty" {{#if (getProp (findObj mods "name" "deathSavePenalty" ) "value")}}checked{{/if}}>
       </div>
     </li>
   </ol>

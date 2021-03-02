@@ -413,12 +413,10 @@ export default class CPRActor extends Actor {
     return true;
   }
 
-  addCriticalInjury(location, name, effect, quickfix, treatment, mods = [])
-  {
+  addCriticalInjury(location, name, effect, quickfix, treatment, mods = []) {
     console.log(this);
     const id = randomID(10);
-    const injuries = this.criticalInjuries;
-
+    const injuries = this.data.data.criticalInjuries;
     const injuryDetails = {
       id,
       location,
@@ -429,6 +427,38 @@ export default class CPRActor extends Actor {
       mods,
     };
     injuries.push(injuryDetails);
-    return this.update("data.criticalInjuries", injuries);
+    return this.update({ "data.criticalInjuries": injuries });
+  }
+
+  editCriticalInjury(injuryId, location, name, effect, quickfix, treatment, mods = []) {
+    const { criticalInjuries } = this.data.data;
+    const newInjuryList = [];
+    criticalInjuries.forEach((injury) => {
+      if (injury.id === injuryId) {
+        injury.location = location;
+        injury.name = name;
+        injury.effect = effect;
+        injury.quickfix = quickfix;
+        injury.treatment = treatment;
+        injury.mods = mods;
+      }
+      newInjuryList.push(injury);
+    });
+    return this.update({ "data.criticalInjuries": newInjuryList });
+  }
+
+  deleteCriticalInjury(injuryId) {
+    const criticalInjuries = this.data.data.criticalInjuries;
+    const filteredInjuries = criticalInjuries.filter((i) => i.id !== injuryId);
+    return this.update({ "data.criticalInjuries": filteredInjuries });
+  }
+
+  getCriticalInjury(injuryId) {
+    const criticalInjuries = this.data.data.criticalInjuries;
+    const filteredInjuries = criticalInjuries.filter((i) => i.id === injuryId);
+    if (filteredInjuries.length > 0) {
+      return filteredInjuries[0];
+    }
+    return;
   }
 }
