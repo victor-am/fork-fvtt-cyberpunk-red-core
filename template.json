@@ -194,7 +194,8 @@
           "value": 60,
           "max": 60,
           "transactions": []
-        }
+        },
+        "criticalInjuries": []
       }
     },
     "character": {

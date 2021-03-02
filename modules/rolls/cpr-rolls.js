@@ -37,12 +37,12 @@ export default class CPRRolls {
       LOGGER.debug(`Checking Critical Chance | Dice BaseRoll | Initial Roll:${rollResult.initialRoll}`);
       if (rollResult.initialRoll === 1) {
         rollResult.wasCritical = true;
-        rollResult.criticalRoll = -1 * (await this.CPRRoll("1d10[fire]")).total;
+        rollResult.criticalRoll = -1 * (await this.CPRRoll("1d10")).total;
         LOGGER.debug(`Critical Failure! | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
       }
       if (rollResult.initialRoll === 10) {
         rollResult.wasCritical = true;
-        rollResult.criticalRoll = (await this.CPRRoll("1d10[fire]")).total;
+        rollResult.criticalRoll = (await this.CPRRoll("1d10")).total;
         LOGGER.debug(`Critical Success | Dice BaseRoll | Critical Roll:${rollResult.criticalRoll}`);
       }
     }
@@ -79,7 +79,7 @@ export default class CPRRolls {
     }
 
     // create roll and show Dice So Nice!
-    const roll = await this.CPRRoll(`${rollRequest.formula}[fire]`);
+    const roll = await this.CPRRoll(rollRequest.formula);
 
     // Push all results into diceResults
     rollResult.faces = roll.faces;

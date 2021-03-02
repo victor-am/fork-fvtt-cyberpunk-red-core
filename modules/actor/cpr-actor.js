@@ -412,4 +412,19 @@ export default class CPRActor extends Actor {
     }
     return true;
   }
+
+  addCriticalInjury(location, injury, effect, quickfix, treatment, mods = [])
+  {
+    const validInjury = true;
+
+    const injuryDetails = {
+      location,
+      injury,
+      effect,
+      quickfix,
+      treatment,
+      mods,
+    };
+    this.criticalInjuries.push(injuryDetails);
+  }
 }

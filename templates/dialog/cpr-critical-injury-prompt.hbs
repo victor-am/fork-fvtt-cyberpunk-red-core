@@ -1,0 +1,62 @@
+{{log "CPR-CRITICAL-INJURY.HBS"}}
+<form>
+  <ol class="items-list">
+    <li class="item flexrow">
+      <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.criticalinjurylocation"}}:
+      </div>
+      <div class="item flexrow setting-value text-nowrap item-end">
+        <select name="injuryLocation">
+          <option selected value="{{localize "CPR.bodylocation"}}">{{localize "CPR.bodylocation"}}</option>
+          <option value="{{localize "CPR.head"}}">{{localize "CPR.head"}}</option>
+        </select>
+      </div>
+    </li>
+
+    <li class="item flexrow">
+      <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.criticalinjuryname"}}:
+      </div>
+      <div class="item flexrow setting-value text-nowrap item-end">
+        <input class="" name="injuryName" type="text" value="" placeholder="" />
+      </div>
+    </li>
+
+    <li class="item flexrow">
+      <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.criticalinjuryeffects"}}:
+      </div>
+      <div class="item flexrow setting-value text-nowrap item-end">
+        <textarea class="" name="injuryEffects"></textarea>
+      </div>
+    </li>
+
+    <li class="item flexrow">
+      <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.criticalinjuryquickfix"}}:
+      </div>
+      <div class="item flexrow setting-value text-nowrap item-end">
+        <input class="" name="injuryQuickFix" type="text" value="" placeholder="" />
+      </div>
+    </li>
+
+    <li class="item flexrow">
+      <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.criticalinjurytreatment"}}:
+      </div>
+      <div class="item flexrow setting-value text-nowrap item-end">
+        <input class="" name="injuryTreatment" type="text" value="" placeholder="" />
+      </div>
+    </li>
+
+    <li class="item flexrow">
+      <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.criticalinjurydeathsave"}}:
+      </div>
+      <div class="item flexrow setting-value text-nowrap item-end">
+        <input type="checkbox" name="deathSave" value="hasPenalty">
+      </div>
+    </li>
+  </ol>
+</form>
+{{log "CPR-CRITICAL-INJURY.HBS"}}
