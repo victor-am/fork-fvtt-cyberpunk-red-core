@@ -16,6 +16,7 @@ import Rules from "../../utils/cpr-rules.js";
 import InstallCyberwarePrompt from "../../dialog/cpr-cyberware-install-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
+import AddCriticalInjuryPrompt from "../../dialog/cpr-add-critical-injury.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import CPRActor from "../cpr-actor.js";
@@ -96,6 +97,8 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Select Roles for Character
     html.find(".select-roles").click((event) => this._selectRoles(event));
+
+    html.find(".add-critical-injury").click((event) => this._addCriticalInjury(event));
 
     // Set Lifepath for Character
     html.find(".set-lifepath").click((event) => this._setLifepath(event));
@@ -800,6 +803,12 @@ export default class CPRActorSheet extends ActorSheet {
     let formData = { actor: this.actor.getData().roleInfo, roles: CPR.roleList };
     formData = await SelectRolePrompt.RenderPrompt(formData);
     await this.actor.setRoles(formData);
+  }
+
+  async _addCriticalInjury(event) {
+    let formData = await AddCriticalInjuryPrompt.RenderPrompt();
+    console.log(formData);
+    await this.actor.addCriticalInjury(formData.injuryLocation, formData.injuryName, formData.injuryEffects, formData.injuryQuickFix, formData.injuryTreatment, [{ "deathSavePenalty": formData.deathSave} ]);
   }
 
   async _setLifepath(event) {

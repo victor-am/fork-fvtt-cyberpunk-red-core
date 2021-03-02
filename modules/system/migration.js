@@ -63,87 +63,92 @@ export default class Migration {
     only your "Base Death Save Penalty" applies to Death Saves and from our example, you would only add +2 to Death Saves until the
     critical injuries are healed. p221
     */
-    if ((typeof actorData.data.derivedStats.deathSave) === "number") {
-      const oldDeathSave = actorData.data.derivedStats.deathSave;
-      let oldDeathPenalty = 0;
+    if (actor.type === "character") {
+      if ((typeof actorData.data.derivedStats.deathSave) === "number") {
+        const oldDeathSave = actorData.data.derivedStats.deathSave;
+        let oldDeathPenalty = 0;
+        if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
+          oldDeathPenalty = actorData.data.derivedStats.deathSavePenlty;
+          delete actorData.data.derivedStats.deathSavePenlty; // Doesn't actually work.
+        }
+        actorData.data.derivedStats.deathSave = { value: oldDeathSave, penalty: oldDeathPenalty, basePenalty: 0 };
+      }
+
       if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
-        oldDeathPenalty = actorData.data.derivedStats.deathSavePenlty;
         delete actorData.data.derivedStats.deathSavePenlty; // Doesn't actually work.
       }
-      actorData.data.derivedStats.deathSave = { value: oldDeathSave, penalty: oldDeathPenalty, basePenalty: 0 };
-    }
 
-    if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
-      delete actorData.data.derivedStats.deathSavePenlty; // Doesn't actually work.
-    }
-
-    if ((typeof actorData.data.roleInfo.activeRole) === "undefined") {
-      let configuredRole = "solo";
-      if (actorData.data.roleInfo.roles.length > 0) {
-        // eslint-disable-next-line prefer-destructuring
-        configuredRole = actorData.data.roleInfo.roles[0];
+      if ((typeof actorData.data.roleInfo.activeRole) === "undefined") {
+        let configuredRole = "solo";
+        if (actorData.data.roleInfo.roles.length > 0) {
+          // eslint-disable-next-line prefer-destructuring
+          configuredRole = actorData.data.roleInfo.roles[0];
+        }
+        actorData.data.roleInfo.activeRole = configuredRole;
       }
-      actorData.data.roleInfo.activeRole = configuredRole;
-    }
 
-    // Original Data Model had a spelling issue
-    if ((typeof actorData.data.lifepath.familyBackground) === "undefined") {
-      actorData.data.lifepath.familyBackground = "";
-      if ((typeof actorData.data.lifepath.familyBackgrond) !== "undefined") {
-        actorData.data.lifepath.familyBackground = actorData.data.lifepath.familyBackgrond;
-        delete actorData.data.lifepath.familyBackgrond; // Doesn't actually work.
+      // Original Data Model had a spelling issue
+      if ((typeof actorData.data.lifepath.familyBackground) === "undefined") {
+        actorData.data.lifepath.familyBackground = "";
+        if ((typeof actorData.data.lifepath.familyBackgrond) !== "undefined") {
+          actorData.data.lifepath.familyBackground = actorData.data.lifepath.familyBackgrond;
+          delete actorData.data.lifepath.familyBackgrond; // Doesn't actually work.
+        }
+      }
+
+      if ((typeof actorData.data.lifestyle.fashion) === "undefined") {
+        actorData.data.lifestyle.fashion = "";
+        if ((typeof actorData.data.lifestyle.fasion) !== "undefined") {
+          actorData.data.lifestyle.fashion = actorData.data.lifestyle.fasion;
+          delete actorData.data.lifestyle.fasion; // Doesn't actually work.
+        }
+      }
+
+      if ((typeof actorData.data.improvementPoints) === "undefined") {
+        actorData.data.improvementPoints = {
+          value: 0,
+          transactions: [],
+        };
+      } else if ((typeof actorData.data.improvementPoints.value) === "undefined") {
+        let ipValue = 0;
+        if ((typeof actorData.data.improvementPoints.total) !== "undefined") {
+          ipValue = actorData.data.improvementPoints.total;
+          delete actorData.data.improvementPoints.total; // Doesn't actually work
+        }
+        actorData.data.improvementPoints = {
+          value: ipValue,
+          transactions: [],
+        };
+      }
+
+      if ((typeof actorData.data.wealth) === "undefined") {
+        actorData.data.wealth = {
+          value: 0,
+          transactions: [],
+        };
+      } else if ((typeof actorData.data.wealth.value) === "undefined") {
+        let eddies = 0;
+        if ((typeof actorData.data.wealth.eddies) !== "undefined") {
+          eddies = actorData.data.wealth.eddies;
+          delete actorData.data.wealth.eddies; // Doesn't actually work.
+        }
+        actorData.data.wealth = {
+          value: eddies,
+          transactions: [],
+        };
+      }
+
+      if ((typeof actorData.data.reputation) === "undefined") {
+        actorData.data.reputation = {
+          value: 0,
+          transactions: [],
+        };
       }
     }
 
-    if ((typeof actorData.data.lifestyle.fashion) === "undefined") {
-      actorData.data.lifestyle.fashion = "";
-      if ((typeof actorData.data.lifestyle.fasion) !== "undefined") {
-        actorData.data.lifestyle.fashion = actorData.data.lifestyle.fasion;
-        delete actorData.data.lifestyle.fasion; // Doesn't actually work.
-      }
+    if ((typeof actorData.criticalInjuries) === "undefined") {
+      actorData.criticalInjuries = [];
     }
-
-    if ((typeof actorData.data.improvementPoints) === "undefined") {
-      actorData.data.improvementPoints = {
-        value: 0,
-        transactions: [],
-      };
-    } else if ((typeof actorData.data.improvementPoints.value) === "undefined") {
-      let ipValue = 0;
-      if ((typeof actorData.data.improvementPoints.total) !== "undefined") {
-        ipValue = actorData.data.improvementPoints.total;
-        delete actorData.data.improvementPoints.total; // Doesn't actually work
-      }
-      actorData.data.improvementPoints = {
-        value: ipValue,
-        transactions: [],
-      };
-    }
-
-    if ((typeof actorData.data.wealth) === "undefined") {
-      actorData.data.wealth = {
-        value: 0,
-        transactions: [],
-      };
-    } else if ((typeof actorData.data.wealth.value) === "undefined") {
-      let eddies = 0;
-      if ((typeof actorData.data.wealth.eddies) !== "undefined") {
-        eddies = actorData.data.wealth.eddies;
-        delete actorData.data.wealth.eddies; // Doesn't actually work.
-      }
-      actorData.data.wealth = {
-        value: eddies,
-        transactions: [],
-      };
-    }
-
-    if ((typeof actorData.data.reputation) === "undefined") {
-      actorData.data.reputation = {
-        value: 0,
-        transactions: [],
-      };
-    }
-
     // The following items exist on the data model and are not used, but I don't know how to get rid of them:
     //
     // data.lifestyle.fasion

@@ -2,11 +2,17 @@
     <div class="injuries-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
-                {{localize "CPR.critinjuries"}}
+                {{localize "CPR.critinjuries"}}<a class="add-critical-injury" title="{{localize "CPR.addcriticalinjury"}}"><i class="fas fa-plus-circle text-float-right text-padding-right"></i></a>
             </span>
         </li>
         <div class="injuries-content">
-
+            <ol class="items-list critical-injuries-list"></ol>
+            {{#each actor.data.critialInjuries as |injury|}}
+            <li class="flex-space-between item flexrow" data-item-id="{{injury.id}}" >
+                {{injury.name}}
+            </li>
+            {{/each}}
+            </ol>
         </div>
     </div>
     <div class="armor-section">
