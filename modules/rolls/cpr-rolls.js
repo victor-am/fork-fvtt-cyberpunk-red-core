@@ -79,7 +79,7 @@ export default class CPRRolls {
     }
 
     // create roll and show Dice So Nice!
-    const roll = await this.CPRRoll(`${rollRequest.formula}[fire]`);
+    const roll = await this.CPRRoll(rollRequest.formula);
 
     // Push all results into diceResults
     rollResult.faces = roll.faces;
