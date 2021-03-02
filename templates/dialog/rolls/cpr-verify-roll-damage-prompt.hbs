@@ -10,17 +10,7 @@
                 {{localize "CPR.autofire"}}?
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
-                <input type="checkbox" id="autofire" name="autofire" {{#if (getProp (getProp (findObj
-                    extraVars "name" "previousRoll" ) "value") "autofire" )}}checked{{/if}}>
-            </div>
-        </li>
-        <li class="item flexrow">
-            <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.multiplier"}}:
-            </div>
-            <div class="item flexrow setting-value text-nowrap item-end">
-                <input type="number" class="number" name="autofireMultiplier" data-dtype="Number" value=1
-                    max="{{#if (compare weaponType "===" " assaultRifle")}}4{{else}}3{{/if}}" min="1">
+                <input type="checkbox" id="isAutofire" name="isAutofire">
             </div>
         </li>
         {{/if}}

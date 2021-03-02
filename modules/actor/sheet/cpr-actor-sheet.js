@@ -257,17 +257,19 @@ export default class CPRActorSheet extends ActorSheet {
       const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
       weaponItem.fireRangedWeapon(fireMode);
     } else if (cprRoll instanceof CPRRolls.CPRDamageRoll) {
+      // tear this out once we're in rollcards. isAutofire comes from the form merge
+      if (cprRoll.isAutofire) {
+        cprRoll.setAutofire();
+      }
       // figure out aimed and body location
-      // if (typeof this.actor.data.previousRoll !== "undefined") {
-      //   cprRoll.isAimed = this.actor.data.previousRoll.isAimed;
+      // if (typeof prevRoll !== "undefined") {
+      //   cprRoll.isAimed = prevRoll.isAimed;
       // }
     }
 
     // Let's roll!
     await cprRoll.roll();
     console.log(cprRoll);
-    console.log(cprRoll.wasCritSuccess());
-    console.log(cprRoll.wasCritical());
 
     // Post roll tasks
     if (cprRoll instanceof CPRRolls.CPRDeathSaveRoll) {
@@ -408,9 +410,8 @@ export default class CPRActorSheet extends ActorSheet {
   _createDamageRoll(event) {
     const itemId = $(event.currentTarget).attr("data-item-id");
     const weaponItem = this._getOwnedItem(itemId);
-    const weaponData = weaponItem.getData();
     const rollName = weaponItem.data.name;
-    const { damage, weaponType } = weaponData;
+    const { damage, weaponType } = weaponItem.getData();
     // const { weaponType } = weaponData;
     return new CPRRolls.CPRDamageRoll(rollName, damage, weaponType);
   }

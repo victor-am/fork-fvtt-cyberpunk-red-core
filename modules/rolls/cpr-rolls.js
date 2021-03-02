@@ -185,10 +185,14 @@ export class CPRDamageRoll extends CPRRoll {
     this.location = "body";
     // used in the verifyPrompt for damage rolls to show alt firemodes
     this.weaponType = weaponType;
+    // indicate whether this is an autofire roll. Used when considering the +5 damage in crits
+    this.autofire = false;
+    // multiple damage by this amount
+    this.autofireMultiplier = 1;
   }
 
   _computeBase() {
-    return this.initialRoll;
+    return this.initialRoll * this.autofireMultiplier;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -204,8 +208,25 @@ export class CPRDamageRoll extends CPRRoll {
   _computeResult() {
     // figure how aimed shots work...
     this.resultTotal = this._computeBase();
-    if (this.wasCritical()) {
+    if (this.wasCritical() && !this.autofire) {
       this.resultTotal += 5;
+    }
+  }
+
+  setAutofire() {
+    this.autofire = true;
+    this.formula = "2d6";
+    switch (this.weaponType) {
+      case "assaultRifle": {
+        this.autofireMultiplier = 4;
+        break;
+      }
+      case "smg":
+      case "heavySmg": {
+        this.autofireMultiplier = 4;
+        break;
+      }
+      default:
     }
   }
 }
