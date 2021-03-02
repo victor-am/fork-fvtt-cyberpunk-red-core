@@ -212,6 +212,9 @@ export default class Migration {
       case "program": {
         return this.migrateProgram(itemData);
       }
+      case "vehicle": {
+        return this.migrateVehicle(itemData);
+      }
       default:
     }
     return itemData;
@@ -228,6 +231,14 @@ export default class Migration {
   static migrateProgram(itemData) {
     if ((typeof itemData.data.slots) === "undefined") {
       itemData.data.slots = 0;
+    }
+    return itemData;
+  }
+
+  static migrateVehicle(itemData) {
+    if ((typeof itemData.data.sdp) === "undefined") {
+      itemData.data.sdp = itemData.data.spd;
+      delete itemData.data.spd;
     }
     return itemData;
   }
