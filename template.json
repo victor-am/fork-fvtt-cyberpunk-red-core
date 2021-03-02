@@ -401,7 +401,7 @@
         "physicalItem",
         "upgradable"
       ],
-      "spd": 0,
+      "sdp": 0,
       "seats": 0,
       "speedCombat": 0,
       "speedNarrative": ""

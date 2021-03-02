@@ -6,16 +6,48 @@ export default class Migration {
   static async migrateWorld(incomingDataModelVersion) {
     ui.notifications.notify(`Beginning Migration of Cyberpunk Red Core from Data Model ${incomingDataModelVersion} to ${game.system.data.version}.`);
     this.incomingDataModelVersion = incomingDataModelVersion;
+    let totalCount = game.items.entities.length;
+    let quarterCount = totalCount / 4;
+    let loopIndex = 0;
+    let displayPercent = 25;
+    let actualCount = 0;
 
+    ui.notifications.notify(`Beginning migration of ${totalCount} Items.`);
     for (const i of game.items.entities) {
+      loopIndex += 1;
+      if (loopIndex > quarterCount) {
+        ui.notifications.notify(`Migration of Items ${displayPercent}% completed.`);
+        displayPercent += 25;
+        loopIndex = 0;
+      }
       await i.update(this.migrateItemData(i.data));
     }
 
+    totalCount = game.actors.entities.length;
+    quarterCount = totalCount / 4;
+    displayPercent = 25;
+    loopIndex = 0;
+
+    ui.notifications.notify(`Beginning migration of ${totalCount} Actors.`);
     for (const a of game.actors.entities) {
+      loopIndex += 1;
+      actualCount += 1;
+      ui.notifications.notify(`Migration of Actor ${actualCount}/${totalCount} started.`);
+      if (loopIndex > quarterCount) {
+        ui.notifications.notify(`Migration of Actors ${displayPercent}% completed.`);
+        displayPercent += 25;
+        loopIndex = 0;
+      }
       await this.migrateActorData(a);
     }
 
+    totalCount = game.packs.length;
+    loopIndex = 0;
+
+    ui.notifications.notify(`Beginning migration of ${totalCount} Packs.`);
     for (const p of game.packs) {
+      loopIndex += 1;
+      ui.notifications.notify(`Migration of Pack ${loopIndex}/${totalCount} started.`);
       if (p.metadata.entity === "Item" && p.metadata.package === "world") {
         p.getContent().then(async (items) => {
           items.forEach(async (i) => {
@@ -81,15 +113,6 @@ export default class Migration {
         delete actorData.data.derivedStats.deathSavePenlty; // Doesn't actually work.
       }
 
-      if ((typeof actorData.data.roleInfo.activeRole) === "undefined") {
-        let configuredRole = "solo";
-        if (actorData.data.roleInfo.roles.length > 0) {
-          // eslint-disable-next-line prefer-destructuring
-          configuredRole = actorData.data.roleInfo.roles[0];
-        }
-        actorData.data.roleInfo.activeRole = configuredRole;
-      }
-
       // Original Data Model had a spelling issue
       if ((typeof actorData.data.lifepath.familyBackground) === "undefined") {
         actorData.data.lifepath.familyBackground = "";
@@ -98,7 +121,6 @@ export default class Migration {
           delete actorData.data.lifepath.familyBackgrond; // Doesn't actually work.
         }
       }
-
       if ((typeof actorData.data.lifestyle.fashion) === "undefined") {
         actorData.data.lifestyle.fashion = "";
         if ((typeof actorData.data.lifestyle.fasion) !== "undefined") {
@@ -106,7 +128,6 @@ export default class Migration {
           delete actorData.data.lifestyle.fasion; // Doesn't actually work.
         }
       }
-
       if ((typeof actorData.data.improvementPoints) === "undefined") {
         actorData.data.improvementPoints = {
           value: 0,
@@ -149,9 +170,16 @@ export default class Migration {
       }
     }
 
-    if ((typeof actorData.criticalInjuries) === "undefined") {
-      actorData.criticalInjuries = [];
+    // Applies to both characters and mooks
+    if ((typeof actorData.data.roleInfo.activeRole) === "undefined") {
+      let configuredRole = "solo";
+      if (actorData.data.roleInfo.roles.length > 0) {
+        // eslint-disable-next-line prefer-destructuring
+        configuredRole = actorData.data.roleInfo.roles[0];
+      }
+      actorData.data.roleInfo.activeRole = configuredRole;
     }
+
     // The following items exist on the data model and are not used, but I don't know how to get rid of them:
     //
     // data.lifestyle.fasion
@@ -180,6 +208,9 @@ export default class Migration {
       case "program": {
         return this.migrateProgram(itemData);
       }
+      case "vehicle": {
+        return this.migrateVehicle(itemData);
+      }
       default:
     }
     return itemData;
@@ -196,6 +227,14 @@ export default class Migration {
   static migrateProgram(itemData) {
     if ((typeof itemData.data.slots) === "undefined") {
       itemData.data.slots = 0;
+    }
+    return itemData;
+  }
+
+  static migrateVehicle(itemData) {
+    if ((typeof itemData.data.sdp) === "undefined") {
+      itemData.data.sdp = itemData.data.spd;
+      delete itemData.data.spd;
     }
     return itemData;
   }
