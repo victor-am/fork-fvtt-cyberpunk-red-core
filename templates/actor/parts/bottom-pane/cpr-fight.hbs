@@ -9,7 +9,10 @@
             <ol class="items-list critical-injuries-list"></ol>
             {{#each actor.data.criticalInjuries as |injury|}}
             <li class="flex-space-between item flexrow" data-item-id="{{injury.id}}" >
-                <a class="edit-critical-injury" data-injury-id="{{injury.id}}">{{injury.name}}</a><a class="delete-critical-injury" data-injury-id="{{injury.id}}"><i class="fas fa-trash-alt fg-red text-float-right text-padding-right" title="Delete Item"></i></a>
+                <a class="edit-critical-injury text-nowrap" data-injury-id="{{injury.id}}"><span title="{{localize "CPR.effects"}}: {{injury.effect}}
+{{localize "CPR.quickfix"}}: {{injury.quickfix}}
+{{localize "CPR.treatment"}}: {{injury.treatment}}
+{{localize "CPR.criticalinjurydeathsave"}}: {{#if (getProp (findObj mods "name" "deathSavePenalty" ) "value")}}true{{else}}false{{/if}}">{{injury.name}}</span></a><a class="delete-critical-injury " data-injury-id="{{injury.id}}"><i class="fas fa-trash-alt fg-red text-float-right text-padding-right" title="Delete Item"></i></a>
             </li>
             {{/each}}
             </ol>

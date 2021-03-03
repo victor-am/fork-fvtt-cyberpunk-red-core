@@ -118,6 +118,16 @@ export default class CPRActor extends Actor {
       this._setWoundState();
     }
     // Death save
+    let basePenalty = 0;
+    const { criticalInjuries } = this.data.data;
+    criticalInjuries.forEach((injury) => {
+      const {mods} = injury;
+      const hasPenalty = (mods.filter((mod) => mod.name === "deathSavePenalty"))[0].value;
+      if (hasPenalty) {
+        basePenalty += 1;
+      }
+    });
+    derivedStats.deathSave.basePenalty = basePenalty;
     derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
   }
 
@@ -414,9 +424,9 @@ export default class CPRActor extends Actor {
   }
 
   addCriticalInjury(location, name, effect, quickfix, treatment, mods = []) {
-    console.log(this);
     const id = randomID(10);
     const injuries = this.data.data.criticalInjuries;
+    const updateData = [];
     const injuryDetails = {
       id,
       location,

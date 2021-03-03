@@ -811,7 +811,6 @@ export default class CPRActorSheet extends ActorSheet {
 
   async _addCriticalInjury(event) {
     let formData = await CriticalInjuryPrompt.RenderPrompt();
-    console.log(formData);
     await this.actor.addCriticalInjury(formData.injuryLocation, formData.injuryName, formData.injuryEffects, formData.injuryQuickFix, formData.injuryTreatment, [{ name: "deathSavePenalty", value: formData.deathSave }]);
   }
 
