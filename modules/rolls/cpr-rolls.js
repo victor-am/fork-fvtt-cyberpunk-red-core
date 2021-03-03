@@ -237,17 +237,5 @@ export class CPRDamageRoll extends CPRRoll {
   setAutofire() {
     this.autofire = true;
     this.formula = "2d6";
-    switch (this.weaponType) {
-      case "assaultRifle": {
-        this.autofireMultiplier = 4;
-        break;
-      }
-      case "smg":
-      case "heavySmg": {
-        this.autofireMultiplier = 4;
-        break;
-      }
-      default:
-    }
   }
 }

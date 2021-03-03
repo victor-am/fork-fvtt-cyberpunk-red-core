@@ -249,9 +249,7 @@ export default class CPRActorSheet extends ActorSheet {
     // this will be important later on
     // let prevRoll = this._getPreviousRoll();
 
-    console.log(cprRoll);
     await this._handleRollDialog(event, cprRoll);
-    console.log(cprRoll);
 
     // decrementing ammo must come after dialog but before the roll in case the user cancels
     if (cprRoll instanceof CPRRolls.CPRRangedAttackRoll) {
@@ -271,7 +269,6 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Let's roll!
     await cprRoll.roll();
-    console.log(cprRoll);
 
     // Post roll tasks
     if (cprRoll instanceof CPRRolls.CPRDeathSaveRoll) {
@@ -387,9 +384,6 @@ export default class CPRActorSheet extends ActorSheet {
   _getWeaponQualityMod(weaponData) {
     if (weaponData.quality === "excellent") {
       return 1;
-    }
-    if (weaponData.quality === "poor") {
-      return -1;
     }
     return 0;
   }

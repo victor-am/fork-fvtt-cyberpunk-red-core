@@ -16,7 +16,7 @@
           {{!-- die image for initialRoll --}}
           {{#if wasCritical}}
             <i class="d10 {{numToWord initialRoll}}"></i>
-            {{#if (compare criticalRoll ">=" 0)}}
+            {{#if wasCritSuccess}}
               <i class="fas fa-plus text-center"></i>
             {{else}}
               <i class="fas fa-minus text-center"></i>
