@@ -43,8 +43,6 @@ export default class CPRRoll {
       // split remaining terms into an array, add to mods
       const modArray = rollMods.split(" ");
       modArray.forEach((mod) => {
-        console.log(mod);
-        console.log(Number(mod));
         if (mod !== "") {
           this.addMod(Number(mod));
         }
@@ -104,6 +102,11 @@ export default class CPRRoll {
   wasCritSuccess() {
     return this.initialRoll === this._roll.terms[0].faces;
   }
+
+  // eslint-disable-next-line class-methods-use-this
+  toLink() {
+    throw new Error("Base rolls cannot be linked, use a subclass!");
+  }
 }
 
 export class CPRStatRoll extends CPRRoll {
@@ -116,6 +119,12 @@ export class CPRStatRoll extends CPRRoll {
 
   _computeBase() {
     return this.initialRoll + this.totalMods() + this.statValue;
+  }
+
+  toLink() {
+    return `<a class="rollable" data-roll-type="stat" data-roll-title="${this.rollTitle}">
+      <i class="fas fa-dice fg-red" title="Re-roll ${this.rollTitle}"></i>
+    </a>`;
   }
 }
 
