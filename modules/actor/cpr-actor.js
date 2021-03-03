@@ -448,17 +448,17 @@ export default class CPRActor extends Actor {
   }
 
   deleteCriticalInjury(injuryId) {
-    const criticalInjuries = this.data.data.criticalInjuries;
+    const { criticalInjuries } = this.data.data;
     const filteredInjuries = criticalInjuries.filter((i) => i.id !== injuryId);
     return this.update({ "data.criticalInjuries": filteredInjuries });
   }
 
   getCriticalInjury(injuryId) {
-    const criticalInjuries = this.data.data.criticalInjuries;
+    const { criticalInjuries } = this.data.data;
     const filteredInjuries = criticalInjuries.filter((i) => i.id === injuryId);
     if (filteredInjuries.length > 0) {
       return filteredInjuries[0];
     }
-    return;
+    return {};
   }
 }
