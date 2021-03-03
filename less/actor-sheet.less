@@ -188,10 +188,8 @@
         border-top-color: @wyrm-red;
         border-top-style: solid;
     }
-
 }
 
-.role-tab,
 .lifepath-tab {
     display         : flex;
     background-color: @chrome-white;
@@ -199,6 +197,31 @@
     justify-content : space-between;
     flex            : 1;
 
+}
+
+.role-tab {
+    display: grid;
+    grid-template-columns: auto;
+    width: inherit;
+    background-color: @chrome-white;
+    grid-template-areas: 
+        "role-top"
+        "role-bottom";
+    .role-content {
+        grid-area: role-top;
+        display: flex;
+        background-color: @chrome-white;
+        flex-flow: wrap;
+        justify-content: space-between;
+        flex: 1;
+    }
+    .improvementpoints {
+        display: flex;
+        grid-area: role-bottom;
+        white-space: nowrap;
+        border-top-color: @wyrm-red;
+        border-top-style: solid;
+    }
 }
 
 .lifepath-tab {
@@ -255,13 +278,18 @@
 
 // Section Specific CSS
 .handle-block,
-.role-block,
 .hitpoint-block,
 .deathsave-block,
 .humanity-block,
 .stat-block {
     font-size       : @font-normal;
     color           : @flint-black;
+    background-color: @chrome-white;
+}
+
+.role-block {
+    font-size       : @font-normal;
+    color: @flint-black;
     background-color: @chrome-white;
 }
 

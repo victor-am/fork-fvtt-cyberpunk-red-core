@@ -196,6 +196,8 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
 
+    html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
+
     html.find(".eurobucks-input").click((event) => event.target.select()).change((event) => this._updateEurobucks(event));
   }
 
@@ -656,6 +658,11 @@ export default class CPRActorSheet extends ActorSheet {
     this._setEb(parseInt(event.target.value, 10), "player input in gear tab");
   }
 
+  _updateIp(event) {
+    LOGGER.trace("ActorID _updateIp | CPRActorSheet | Called.");
+    this._setIp(parseInt(event.target.value, 10), "player input in gear tab");
+  }
+
   // OWNED ITEM HELPER FUNCTIONS
   // TODO - Assert all usage correct.
   _updateOwnedItemProp(item, prop, value) {
@@ -700,6 +707,23 @@ export default class CPRActorSheet extends ActorSheet {
       const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${item.data.name}?`;
       const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage);
       if (!confirmDelete) {
+        return;
+      }
+    }
+    if (item.type === "ammo") {
+      const weapons = this.actor.data.filteredItems.weapon;
+      let ammoIsLoaded = false;
+      weapons.forEach((weapon) => {
+        const weaponData = weapon.data.data;
+        if (weaponData.isRanged) {
+          if (weaponData.magazine.ammoId === item._id) {
+            const warningMessage = `${game.i18n.localize("CPR.ammodeletewarning")}: ${weapon.name}`;
+            SystemUtils.DisplayMessage("warn", warningMessage);
+            ammoIsLoaded = true;
+          }
+        }
+      });
+      if (ammoIsLoaded) {
         return;
       }
     }

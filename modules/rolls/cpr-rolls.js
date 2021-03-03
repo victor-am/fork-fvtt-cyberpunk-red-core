@@ -7,10 +7,15 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 export default class CPRRoll {
   // Generic roll handler for CPR
   constructor(rollTitle, formula) {
+    // (private) the resulting Roll() object from Foundry
+    this._roll = null;
+    // (private) a stack of mods to apply to the roll
+    this.mods = [];
     // a name for the roll, used in the UI
     this.rollTitle = rollTitle || this.template;
     // this assumes exactly 1 term, "XdY", which is passed to Foundry's Roll()
-    this.formula = formula || "1d10";
+    // any +A or -B terms are converted to mods
+    this.formula = this._processFormula(formula);
     // the values of each face after a roll
     this.faces = [];
     // the result of the roll before applying mods or critical effects
@@ -25,11 +30,27 @@ export default class CPRRoll {
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-base-prompt.hbs";
     // path to the roll card template for chat
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-base-rollcard.hbs";
-    // (private) the resulting Roll() object from Foundry
-    this._roll = null;
-    // (private) a stack of mods to apply to the roll
-    this.mods = [];
     LOGGER.log(`Created roll object`);
+  }
+
+  _processFormula(formula) {
+    const dice = /[0-9][0-9]*d[0-9][0-9]*/;
+    // cut out the XdY term, leaving only + or - terms after
+    let rollMods = formula.replace(dice, "");
+    if (rollMods !== "") {
+      rollMods = rollMods.replace("+", " +");
+      rollMods = rollMods.replace("-", " -");
+      // split remaining terms into an array, add to mods
+      const modArray = rollMods.split(" ");
+      modArray.forEach((mod) => {
+        console.log(mod);
+        console.log(Number(mod));
+        if (mod !== "") {
+          this.addMod(Number(mod));
+        }
+      });
+    }
+    return formula.match(dice)[0];
   }
 
   addMod(mod) {
@@ -54,7 +75,6 @@ export default class CPRRoll {
       await DiceSoNice.ShowDiceSoNice(critroll);
       this.criticalRoll = critroll.total;
     }
-
     this._computeResult();
   }
 
@@ -179,6 +199,7 @@ export class CPRDamageRoll extends CPRRoll {
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-damage-rollcard.hbs";
     // criticals just add 5 damage, they do not need more dice rolled
     this.calculateCritical = false;
+    this.bonusDamage = 5;
     // are we aiming at something?
     this.isAimed = false;
     // for aimed shots, set to head, leg, or held item; set to body otherwise
@@ -192,7 +213,7 @@ export class CPRDamageRoll extends CPRRoll {
   }
 
   _computeBase() {
-    return this.initialRoll * this.autofireMultiplier;
+    return (this.initialRoll + this.totalMods()) * this.autofireMultiplier;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -209,7 +230,7 @@ export class CPRDamageRoll extends CPRRoll {
     // figure how aimed shots work...
     this.resultTotal = this._computeBase();
     if (this.wasCritical() && !this.autofire) {
-      this.resultTotal += 5;
+      this.resultTotal += this.bonusDamage;
     }
   }
 
@@ -230,42 +251,3 @@ export class CPRDamageRoll extends CPRRoll {
     }
   }
 }
-
-/*
-export class CPRAutofireRoll extends CPRDamageRoll {
-  constructor(rollTitle, multiplier) {
-    super(rollTitle, "2d6");
-    this.multiplier = multiplier;
-    this.template = "autofire";
-  }
-
-  _computeBase() {
-    return this.initialRoll * this.multiplier;
-  }
-
-    // If this was autofire, add multiplier to the roll, otherwise just add the roll.
-    if (rollResult.fireMode === "autofire") {
-      rollResult.damageTotal = rollResult.diceTotal * rollResult.autofireMultiplier;
-    } else {
-      rollResult.damageTotal = rollResult.diceTotal;
-    }
-
-    // If we have 2 or more sixes on a damage roll, was critical is true.
-    rollResult.wasCritical = rollResult.faces.filter((x) => x === 6).length >= 2;
-    if (rollResult.wasCritical) {
-      rollResult.bonusDamage = 5;
-    }
-
-    // Calculate total damage from attack.
-    rollResult.damageTotal += rollResult.bonusDamage;
-
-    // Calculate sum of all misc damage mods!
-    if (rollResult.mods.length !== 0) {
-      rollResult.modsTotal = rollResult.mods.reduce((a, b) => a + b);
-      rollResult.damageTotal += rollResult.modsTotal;
-    }
-
-    return rollResult;
-  }
-}
-*/

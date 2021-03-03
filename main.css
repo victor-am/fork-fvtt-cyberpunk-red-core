@@ -374,13 +374,34 @@ button,
   border-top-color: #b90202ff;
   border-top-style: solid;
 }
-.role-tab,
 .lifepath-tab {
   display: flex;
   background-color: #eaeaeaff;
   flex-flow: wrap;
   justify-content: space-between;
   flex: 1;
+}
+.role-tab {
+  display: grid;
+  grid-template-columns: auto;
+  width: inherit;
+  background-color: #eaeaeaff;
+  grid-template-areas: "role-top" "role-bottom";
+}
+.role-tab .role-content {
+  grid-area: role-top;
+  display: flex;
+  background-color: #eaeaeaff;
+  flex-flow: wrap;
+  justify-content: space-between;
+  flex: 1;
+}
+.role-tab .improvementpoints {
+  display: flex;
+  grid-area: role-bottom;
+  white-space: nowrap;
+  border-top-color: #b90202ff;
+  border-top-style: solid;
 }
 .lifepath-tab {
   display: grid;
@@ -425,11 +446,15 @@ button,
   min-height: 35px;
 }
 .handle-block,
-.role-block,
 .hitpoint-block,
 .deathsave-block,
 .humanity-block,
 .stat-block {
+  font-size: 1.2rem;
+  color: #2d2f2fff;
+  background-color: #eaeaeaff;
+}
+.role-block {
   font-size: 1.2rem;
   color: #2d2f2fff;
   background-color: #eaeaeaff;
