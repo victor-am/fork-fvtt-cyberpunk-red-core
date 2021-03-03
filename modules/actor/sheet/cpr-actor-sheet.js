@@ -823,6 +823,16 @@ export default class CPRActorSheet extends ActorSheet {
 
   async _deleteCriticalInjury(event) {
     const injuryId = $(event.currentTarget).attr("data-injury-id");
+    const injury = this.actor.getCriticalInjury(injuryId);
+    const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
+    // If setting is true, prompt before delete, else delete.
+    if (setting) {
+      const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${injury.name}?`;
+      const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage);
+      if (!confirmDelete) {
+        return;
+      }
+    }
     await this.actor.deleteCriticalInjury(injuryId);
   }
 
