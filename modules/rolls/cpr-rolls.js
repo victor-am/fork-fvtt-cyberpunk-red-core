@@ -52,10 +52,6 @@ export default class CPRRoll {
     return formula.match(dice)[0];
   }
 
-  chatListeners(html) {
-    html.find(".reroll").click(() => this.reRoll());
-  }
-
   addMod(mod) {
     if (mod !== 0) this.mods.push(mod);
   }
@@ -256,4 +252,8 @@ export class CPRDamageRoll extends CPRRoll {
     this.autofire = true;
     this.formula = "2d6";
   }
+}
+
+static chatListeners(html) {
+  html.find(".reroll").click(() => this.reRoll());
 }
