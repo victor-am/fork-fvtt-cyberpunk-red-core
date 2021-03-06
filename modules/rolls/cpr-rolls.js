@@ -3,6 +3,7 @@
 import LOGGER from "../utils/cpr-logger.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
+import CPRChat from "../chat/cpr-chat.js";
 
 export default class CPRRoll {
   // Generic roll handler for CPR
@@ -51,6 +52,10 @@ export default class CPRRoll {
     return formula.match(dice)[0];
   }
 
+  chatListeners(html) {
+    html.find(".reroll").click(() => this.reRoll());
+  }
+
   addMod(mod) {
     if (mod !== 0) this.mods.push(mod);
   }
@@ -74,6 +79,10 @@ export default class CPRRoll {
       this.criticalRoll = critroll.total;
     }
     this._computeResult();
+  }
+
+  displayRoll() {
+    CPRChat.RenderRollCard(this);
   }
 
   _computeBase() {
@@ -122,7 +131,7 @@ export class CPRStatRoll extends CPRRoll {
   }
 
   toLink() {
-    return `<a class="rollable" data-roll-type="stat" data-roll-title="${this.rollTitle}">
+    return `<a class="reroll" data-roll-type="stat" data-roll-title="${this.rollTitle}">
       <i class="fas fa-dice fg-red" title="Re-roll ${this.rollTitle}"></i>
     </a>`;
   }

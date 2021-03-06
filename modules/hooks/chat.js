@@ -2,6 +2,7 @@
 /* global Hooks */
 /* eslint no-unused-vars:1 */
 import LOGGER from "../utils/cpr-logger.js";
+import CPRRoll from "../rolls/cpr-rolls.js";
 
 const chatPreHooks = () => {
   Hooks.on("renderChatMessage", async (app, html, msg) => {
@@ -13,6 +14,7 @@ const chatPreHooks = () => {
       html.find(".message-header").remove(); // Remove header so Foundry does not attempt to update its timestamp
       html.html("").css("display", "none");
     }
+    CPRRoll.chatListeners(html);
   });
 };
 

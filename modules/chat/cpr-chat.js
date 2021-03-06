@@ -1,4 +1,4 @@
-/* global game, CONFIG, ChatMessage, renderTemplate, duplicate */
+/* global game, CONFIG, ChatMessage, renderTemplate */
 import LOGGER from "../utils/cpr-logger.js";
 
 export default class CPRChat {

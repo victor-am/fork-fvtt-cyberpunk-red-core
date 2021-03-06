@@ -10,7 +10,6 @@ import LOGGER from "../../utils/cpr-logger.js";
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
 import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
-import CPRChat from "../../chat/cpr-chat.js";
 import Rules from "../../utils/cpr-rules.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
@@ -276,7 +275,7 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     // output to chat
-    CPRChat.RenderRollCard(cprRoll);
+    cprRoll.displayRoll();
 
     // Store last roll so we can query and use it
     // after the fact. Examples of this would be
