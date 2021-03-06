@@ -349,8 +349,40 @@
     clip-path       : polygon(22px 0, 100% 0%, 100% 100%, 0% 100%);
 }
 
-.tabs {
+.cpr-tabs {
+    display: flex;
+    flex-direction: row;
     flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+
+.tabs > * {
+    flex: 1;
+}
+
+.tabs > .flex0 {
+    display: block;
+    flex: 0;
+}
+
+.tabs > .flex1 {
+   flex: 1;
+}
+
+.tabs > .flex2 {
+    flex: 2;
+}
+
+.tabs > .flex3 {
+    flex: 3;
+}
+
+.tabs .item {
+    text-align: center;
+}
+
+.tabs .item.active {
+    text-shadow: 0 0 10px red;
 }
 
 .collapse-icon,
