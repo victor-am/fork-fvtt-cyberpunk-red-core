@@ -12,8 +12,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     LOGGER.trace("defaultOptions | CPRCharacterActorSheet | Called.");
     return mergeObject(super.defaultOptions, {
       template: "systems/cyberpunk-red-core/templates/actor/cpr-character-sheet.hbs",
-      tabs: [{ navSelector: ".navtabs-right", contentSelector: ".right-content-section", initial: "skills" },
-        { navSelector: ".navtabs-bottom", contentSelector: ".bottom-content-section", initial: "fight" }],
+      tabs: [{ navSelector: ".navtabs-right", contentSelector: ".right-content-section", initial: "skills" }, { navSelector: ".navtabs-bottom", contentSelector: ".bottom-content-section", initial: "fight" }],
     });
   }
 
