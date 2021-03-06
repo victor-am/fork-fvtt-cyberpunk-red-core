@@ -39,7 +39,7 @@
         // stats is 60px wide
         // plus the 5px grid-gap
         max-width : 265px;
-        max-height: 425px;
+        max-height: 475px;
         grid-gap  : 5px;
 
         grid-template-columns: auto auto;
@@ -49,7 +49,7 @@
         .main-section {
             grid-area       : main;
             width           : 200px;
-            height          : 425px;
+            height          : 475px;
             background-color: @wyrm-red;
 
             &>div {
@@ -92,7 +92,7 @@
         .right-content-section {
             grid-area: content-right;
             display  : flex;
-            height   : 404px;
+            height   : 454px;
             width    : 100%;
 
             border-color: @wyrm-red;
@@ -199,31 +199,7 @@
 
 }
 
-.role-tab {
-    display: grid;
-    grid-template-columns: auto;
-    width: inherit;
-    background-color: @chrome-white;
-    grid-template-areas: 
-        "role-top"
-        "role-bottom";
-    .role-content {
-        grid-area: role-top;
-        display: flex;
-        background-color: @chrome-white;
-        flex-flow: wrap;
-        justify-content: space-between;
-        flex: 1;
-    }
-    .improvementpoints {
-        display: flex;
-        grid-area: role-bottom;
-        white-space: nowrap;
-        border-top-color: @wyrm-red;
-        border-top-style: solid;
-    }
-}
-
+.role-tab,
 .lifepath-tab {
 
     display              : grid;
@@ -278,18 +254,13 @@
 
 // Section Specific CSS
 .handle-block,
+.role-block,
 .hitpoint-block,
 .deathsave-block,
 .humanity-block,
 .stat-block {
     font-size       : @font-normal;
     color           : @flint-black;
-    background-color: @chrome-white;
-}
-
-.role-block {
-    font-size       : @font-normal;
-    color: @flint-black;
     background-color: @chrome-white;
 }
 
@@ -301,12 +272,12 @@
 }
 
 .stat-block {
-    height: 37px;
+    height: 42px;
     width : 48px;
 }
 
 .main-block {
-    height: 40px;
+    height: 41px;
     width : 190px;
 }
 
