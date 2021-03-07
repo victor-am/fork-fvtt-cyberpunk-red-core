@@ -31,7 +31,7 @@ export default class CPRActorSheet extends ActorSheet {
     return mergeObject(super.defaultOptions, {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
       width: 800,
-      height: 540,
+      height: 590,
       scrollY: [".right-content-section"],
       collapsedSections: [],
     });
