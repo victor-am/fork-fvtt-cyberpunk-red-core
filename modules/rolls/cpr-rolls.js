@@ -52,6 +52,10 @@ export default class CPRRoll {
     return formula.match(dice)[0];
   }
 
+  static getProto() {
+    return { mods: String };
+  }
+
   addMod(mod) {
     if (mod !== 0) this.mods.push(mod);
   }
@@ -122,6 +126,13 @@ export class CPRStatRoll extends CPRRoll {
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-stat-rollcard.hbs";
   }
 
+  static getProto() {
+    return {
+      mods: String,
+      stat: Number,
+    };
+  }
+
   _computeBase() {
     return this.initialRoll + this.totalMods() + this.statValue;
   }
@@ -149,27 +160,61 @@ export class CPRSkillRoll extends CPRStatRoll {
 }
 
 // while it would be cool to just pass in a weapon, the data model does not include
-// the skill and stat entities that would be needed with it
-export class CPRRangedAttackRoll extends CPRSkillRoll {
-  constructor(weaponName, statValue, skillName, skillValue) {
-    super(SystemUtils.Localize("CPR.ref"), statValue, skillName, skillValue);
-    this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.attack")}`;
+// the skill and stat entities that would be needed with it. Thought was given to extending
+// classes for Ranged and Melee attacks (and hardcoding the stats used), but when considering
+// aimed shots, this got into multiple inheritance. Decided not to cross that line. Maybe mix-ins?
+export class CPRAttackRoll extends CPRSkillRoll {
+  constructor(attackName, statName, statValue, skillName, skillValue) {
+    super(statName, statValue, skillName, skillValue);
+    this.rollTitle = `${attackName} ${SystemUtils.Localize("CPR.attack")}`;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-attack-prompt.hbs";
-    // unused atm
-    this.isAimed = false;
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-attack-rollcard.hbs";
+    this.fireMode = "single";
   }
 }
 
-export class CPRMeleeAttackRoll extends CPRSkillRoll {
+export class CPRRangedAttackRoll extends CPRAttackRoll {
   constructor(weaponName, statValue, skillName, skillValue) {
-    super(SystemUtils.Localize("CPR.dex"), statValue, skillName, skillValue);
-    this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.attack")}`;
-    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-attack-prompt.hbs";
-    this.isAimed = false;
+    super(`${weaponName} ${SystemUtils.Localize("CPR.attack")}`,
+      SystemUtils.Localize("CPR.ref"), statValue, skillName, skillValue);
   }
 }
 
-// Yep, CPRRoleRoll is almost the same as CRPStatRolls
+export class CPRMeleeAttackRoll extends CPRAttackRoll {
+  constructor(weaponName, statValue, skillName, skillValue) {
+    super(`${weaponName} ${SystemUtils.Localize("CPR.attack")}`,
+      SystemUtils.Localize("CPR.dex"), statValue, skillName, skillValue);
+  }
+}
+
+export class CPRAimedAttackRoll extends CPRAttackRoll {
+  constructor(weaponName, statValue, skillName, skillValue, location) {
+    super(weaponName, statValue, skillName, skillValue);
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-aimed-attack-prompt.hbs";
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-aimed-attack-rollcard.hbs";
+    this.addMod(-8);
+    this.location = location;
+  }
+}
+
+export class CPRAutofireRoll extends CPRSkillRoll {
+  constructor(weaponName, statValue, skillName, skillValue) {
+    super(weaponName, statValue, skillName, skillValue);
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-autofire-prompt.hbs";
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-autofire-rollcard.hbs";
+    this.fireMode = "autofire";
+  }
+}
+
+export class CPRSuppressiveFireRoll extends CPRSkillRoll {
+  constructor(weaponName, statValue, skillName, skillValue) {
+    super(weaponName, statValue, skillName, skillValue);
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-suppressive-fire-prompt.hbs";
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-suppressive-fire-rollcard.hbs";
+    this.fireMode = "suppressive";
+  }
+}
+
 export class CPRRoleRoll extends CPRRoll {
   constructor(roleName, roleValue) {
     super(roleName, "1d10");
@@ -254,6 +299,65 @@ export class CPRDamageRoll extends CPRRoll {
   }
 }
 
-static chatListeners(html) {
+export function rollPrototype(rollType) {
+  switch (rollType) {
+    case "stat": {
+      return CPRStatRoll.getProto();
+    }
+    case "skill": {
+      return CPRSkillRoll.getProto();
+    }
+    case "roleAbility": {
+      return CPRRoleRoll.getProto();
+    }
+    case "attack": {
+      return CPRAttackRoll.getProto();
+    }
+    case "suppressive":
+    case "autofire": {
+      return CPRAutofireRoll.getProto();
+    }
+    case "damage": {
+      return CPRDamageRoll.getProto();
+    }
+    case "deathsave": {
+      return CPRDeathSaveRoll.getProto();
+    }
+    default:
+      return CPRRoll.getProto();
+  }
+}
+
+export function rollFactory(args) {
+  switch (args) {
+    case "stat": {
+      return new CPRStatRoll(args);
+    }
+    case "skill": {
+      return CPRSkillRoll;
+    }
+    case "roleAbility": {
+      return CPRRoleRoll;
+    }
+    case "attack": {
+      return CPRAttackRoll;
+    }
+    case "suppressive":
+    case "autofire": {
+      return CPRAutofireRoll;
+    }
+    case "damage": {
+      return CPRDamageRoll;
+    }
+    case "deathsave": {
+      return CPRDeathSaveRoll;
+    }
+    default:
+      return CPRRoll;
+  }
+}
+
+// put this somewhere
+export function chatListeners(html) {
   html.find(".reroll").click(() => this.reRoll());
 }

@@ -209,7 +209,6 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
     const rollType = $(event.currentTarget).attr("data-roll-type");
     let cprRoll;
-    let fireMode;
     switch (rollType) {
       case "stat": {
         cprRoll = this._createStatRoll(event);
@@ -225,13 +224,14 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "attack": {
         cprRoll = this._createAttackRoll(event);
-        fireMode = "single";
         break;
       }
-      case "suppressive":
+      case "suppressive": {
+        cprRoll = this._createSuppressiveFireRoll(event);
+        break;
+      }
       case "autofire": {
         cprRoll = this._createAutofireRoll(event);
-        fireMode = "autofire";
         break;
       }
       case "damage": {
@@ -251,10 +251,10 @@ export default class CPRActorSheet extends ActorSheet {
     await this._handleRollDialog(event, cprRoll);
 
     // decrementing ammo must come after dialog but before the roll in case the user cancels
-    if (cprRoll instanceof CPRRolls.CPRRangedAttackRoll) {
+    if (cprRoll instanceof CPRRolls.CPRAttackRoll) {
       const weaponId = $(event.currentTarget).attr("data-item-id");
       const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
-      weaponItem.fireRangedWeapon(fireMode);
+      weaponItem.fireRangedWeapon(cprRoll.fireMode);
     } else if (cprRoll instanceof CPRRolls.CPRDamageRoll) {
       // tear this out once we're in rollcards. isAutofire comes from the form merge
       if (cprRoll.isAutofire) {
@@ -347,11 +347,11 @@ export default class CPRActorSheet extends ActorSheet {
     if (weaponData.isRanged) {
       statName = "ref";
       const statValue = this.getData().data.stats.ref.value;
-      cprRoll = new CPRRolls.CPRRangedAttackRoll(weaponName, statValue, skillName, skillValue);
+      cprRoll = new CPRRolls.CPRAttackRoll(weaponName, statValue, skillName, skillValue);
     } else {
       statName = "dex";
       const statValue = this.getData().data.stats.dex.value;
-      cprRoll = new CPRRolls.CPRMeleeAttackRoll(weaponName, statValue, skillName, skillValue);
+      cprRoll = new CPRRolls.CPRAttackRoll(weaponName, statValue, skillName, skillValue);
     }
 
     // apply known mods
@@ -359,7 +359,7 @@ export default class CPRActorSheet extends ActorSheet {
     cprRoll.addMod(this._getArmorPenaltyMods(statName));
     cprRoll.addMod(this._getWeaponQualityMod(weaponData));
 
-    if (cprRoll instanceof CPRRolls.CPRRangedAttackRoll) {
+    if (cprRoll instanceof CPRRolls.CPRAttackRoll) {
       Rules.lawyer(weaponItem.checkAmmo("single") >= 0, "CPR.weaponattackoutofbullets");
     }
     return cprRoll;
@@ -373,7 +373,22 @@ export default class CPRActorSheet extends ActorSheet {
     const skillName = SystemUtils.Localize("CPR.autofire");
     const skillValue = this.actor.getSkillLevel("autofire");
     const statValue = this.getData().data.stats.ref.value;
-    let cprRoll = new CPRRolls.CPRRangedAttackRoll(weaponName, statValue, skillName, skillValue);
+    let cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, statValue, skillName, skillValue);
+    cprRoll.addMod(this._getArmorPenaltyMods("ref"));
+    cprRoll.addMod(this._getWeaponQualityMod(weaponData));
+    Rules.lawyer(weaponItem.checkAmmo("autofire") >= 0, "CPR.weaponattackoutofbullets");
+    return cprRoll;
+  }
+
+  _createSuppressiveFireRoll(event) {
+    const itemId = $(event.currentTarget).attr("data-item-id");
+    const weaponItem = this._getOwnedItem(itemId);
+    const weaponData = weaponItem.getData();
+    const weaponName = weaponItem.name;
+    const skillName = SystemUtils.Localize("CPR.suppressivefire");
+    const skillValue = this.actor.getSkillLevel("autofire");
+    const statValue = this.getData().data.stats.ref.value;
+    let cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, statValue, skillName, skillValue);
     cprRoll.addMod(this._getArmorPenaltyMods("ref"));
     cprRoll.addMod(this._getWeaponQualityMod(weaponData));
     Rules.lawyer(weaponItem.checkAmmo("autofire") >= 0, "CPR.weaponattackoutofbullets");
