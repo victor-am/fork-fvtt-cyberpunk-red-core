@@ -61,6 +61,15 @@ export default class CPRChat {
       data,
     ).then((html) => {
       const chatOptions = this.ChatDataSetup(html);
+      if (rollResult.entityData !== undefined && rollResult.entityData !== null) {
+        const actor = game.actors.filter((a) => a._id === rollResult.entityData.actor)[0];
+        let alias = actor.name;
+        if (rollResult.entityData.token !== null) {
+          const token = game.actors.tokens[rollResult.entityData.token];
+          alias = token.data.name;
+        }
+        chatOptions.speaker = { actor, alias };
+      }
       return ChatMessage.create(chatOptions, false);
     });
   }

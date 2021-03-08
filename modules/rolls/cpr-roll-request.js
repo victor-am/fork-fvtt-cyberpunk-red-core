@@ -2,6 +2,7 @@
 export default class CPRRollRequest {
   constructor(event) {
     this.user = null;
+    this.actorData = null;
     this.rollTitle = $(event.currentTarget).attr("data-roll-title");
     this.rollType = $(event.currentTarget).attr("data-roll-type");
     this.calculateCritical = true;

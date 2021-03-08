@@ -220,6 +220,8 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
     const rollRequest = new CPRRollRequest(event);
+    const token = this.token === null ? null : this.token.data._id;
+    rollRequest.entityData = { actor: this.actor._id, token };
     // Prepare data relative to the roll type
     switch (rollRequest.rollType) {
       case "stat": {
