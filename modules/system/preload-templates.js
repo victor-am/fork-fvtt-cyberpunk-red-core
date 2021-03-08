@@ -29,6 +29,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-deathsave-block.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-humanity-block.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-stat-block.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-ip-block.hbs",
 
     // Right Pane Actor Partials
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/cpr-skills.hbs",
