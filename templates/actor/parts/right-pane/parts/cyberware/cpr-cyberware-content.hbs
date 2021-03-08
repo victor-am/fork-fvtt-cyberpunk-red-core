@@ -3,7 +3,7 @@
 {{#unless foundation.data.data.core}}
 <li class="item flexrow" data-item-id="{{foundation.data._id}}" draggable="false">
     <div class="item-name cyberware-name text-nowrap">
-        {{foundation.name}}
+        <a class="name item-view">{{foundation.name}}</a>
     </div>
     <div class="item-detail cyberware-data text-nowrap">
         {{localize (findConfigValue "cyberwareTypeList" foundation.data.data.type)}}
@@ -20,7 +20,7 @@
 {{#each optionals as |optional o|}}
 <li class="item flexrow" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}" draggable="false">
     <div class="item-name cyberware-name flexrow text-nowrap">
-        <span class="name">&nbsp;{{optional.name}}</span>
+        <a class="name item-view"><span class="name">&nbsp;{{optional.name}}</span></a>
     </div>
     <div class="item-detail cyberware-data text-nowrap">
         {{localize (findConfigValue "cyberwareTypeList" optional.data.data.type)}}
