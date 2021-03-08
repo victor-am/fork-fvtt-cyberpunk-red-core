@@ -93,12 +93,12 @@ export default class CPRItem extends Item {
     }
   }
 
-  setCompatibleAmmo(ammoList) {
-    this.update({ "data.ammoVariety": ammoList });
+  async setCompatibleAmmo(ammoList) {
+    this.data.data.ammoVariety = ammoList;
     if (this.actor) {
-      return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
     }
-    return Promise.resolve();
+    return this.update({ "data.ammoVariety": ammoList });
   }
 
   // AMMO FUNCTIONS
