@@ -263,9 +263,10 @@ export default class CPRActor extends Actor {
       value -= parseInt(amount.humanityLoss);
     }
 
-    if (value < 0) {
-      value = 0;
+    if (value <= 0) {
+      Rules.lawyer(false, "CPR.youcyberpsycho");
     }
+
     this.update({ "data.humanity.value": value });
   }
 
