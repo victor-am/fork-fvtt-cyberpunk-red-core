@@ -40,6 +40,20 @@
                 <input name="calculateCritical" class="" type="checkbox" data-dtype="Checkbox" checked>
             </div>
         </li>
+
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.aimfor"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <select name="location">
+                    {{#each (findConfigObj "aimedLocation") as |location l|}}
+                    <option value="{{l}}">{{localize location}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </li>
+
     </ol>
 </form>
 {{log "END VERIFY-ROLL-AIMED-ATTACK-PROMPT.HBS"}}

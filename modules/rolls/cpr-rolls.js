@@ -173,33 +173,22 @@ export class CPRAttackRoll extends CPRSkillRoll {
   }
 }
 
-export class CPRRangedAttackRoll extends CPRAttackRoll {
-  constructor(weaponName, statValue, skillName, skillValue) {
-    super(`${weaponName} ${SystemUtils.Localize("CPR.attack")}`,
-      SystemUtils.Localize("CPR.ref"), statValue, skillName, skillValue);
-  }
-}
-
-export class CPRMeleeAttackRoll extends CPRAttackRoll {
-  constructor(weaponName, statValue, skillName, skillValue) {
-    super(`${weaponName} ${SystemUtils.Localize("CPR.attack")}`,
-      SystemUtils.Localize("CPR.dex"), statValue, skillName, skillValue);
-  }
-}
-
+// this deliberately does not set the location until after the verify dialog box
 export class CPRAimedAttackRoll extends CPRAttackRoll {
-  constructor(weaponName, statValue, skillName, skillValue, location) {
-    super(weaponName, statValue, skillName, skillValue);
+  constructor(weaponName, statName, statValue, skillName, skillValue) {
+    super(weaponName, statName, statValue, skillName, skillValue);
+    this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.aimedshot")}`;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-aimed-attack-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-aimed-attack-rollcard.hbs";
     this.addMod(-8);
-    this.location = location;
+    this.location = "head";
   }
 }
 
 export class CPRAutofireRoll extends CPRSkillRoll {
   constructor(weaponName, statValue, skillName, skillValue) {
     super(weaponName, statValue, skillName, skillValue);
+    this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.autofire")}`;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-autofire-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-autofire-rollcard.hbs";
     this.fireMode = "autofire";
@@ -209,6 +198,7 @@ export class CPRAutofireRoll extends CPRSkillRoll {
 export class CPRSuppressiveFireRoll extends CPRSkillRoll {
   constructor(weaponName, statValue, skillName, skillValue) {
     super(weaponName, statValue, skillName, skillValue);
+    this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.suppressivefire")}`;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-suppressive-fire-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-suppressive-fire-rollcard.hbs";
     this.fireMode = "suppressive";
@@ -298,7 +288,7 @@ export class CPRDamageRoll extends CPRRoll {
     this.formula = "2d6";
   }
 }
-
+/*
 export function rollPrototype(rollType) {
   switch (rollType) {
     case "stat": {
@@ -361,3 +351,4 @@ export function rollFactory(args) {
 export function chatListeners(html) {
   html.find(".reroll").click(() => this.reRoll());
 }
+*/

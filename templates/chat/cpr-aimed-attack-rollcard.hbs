@@ -27,6 +27,7 @@
           <span class="{{#if wasCritical}}fg-red text-bold{{/if}}">{{resultTotal}}</span>
         </div>
         <div class="info-div">
+          {{localize "CPR.location"}}: {{localize (findConfigValue "aimedLocation" location)}}<br>
           {{localize statName}} + {{statValue}}<br>
           {{localize skillName}} + {{skillValue}}<br>
           {{#if mods}}

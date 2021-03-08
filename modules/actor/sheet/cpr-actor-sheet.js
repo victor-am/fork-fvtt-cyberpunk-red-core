@@ -223,15 +223,19 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
       case "attack": {
-        cprRoll = this._createAttackRoll(event);
+        cprRoll = this._createAttackRoll(event, false);
+        break;
+      }
+      case "aimed": {
+        cprRoll = this._createAttackRoll(event, true);
         break;
       }
       case "suppressive": {
-        cprRoll = this._createSuppressiveFireRoll(event);
+        cprRoll = this._createAutofireRoll(event, true);
         break;
       }
       case "autofire": {
-        cprRoll = this._createAutofireRoll(event);
+        cprRoll = this._createAutofireRoll(event, false);
         break;
       }
       case "damage": {
@@ -248,6 +252,7 @@ export default class CPRActorSheet extends ActorSheet {
     // this will be important later on
     // let prevRoll = this._getPreviousRoll();
 
+    // note for aimed shots this is where location is set
     await this._handleRollDialog(event, cprRoll);
 
     // decrementing ammo must come after dialog but before the roll in case the user cancels
@@ -267,7 +272,9 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     // Let's roll!
+    console.log(cprRoll);
     await cprRoll.roll();
+    console.log(cprRoll);
 
     // Post roll tasks
     if (cprRoll instanceof CPRRolls.CPRDeathSaveRoll) {
@@ -334,7 +341,7 @@ export default class CPRActorSheet extends ActorSheet {
     return null;
   }
 
-  _createAttackRoll(event) {
+  _createAttackRoll(event, aimed) {
     const itemId = $(event.currentTarget).attr("data-item-id");
     const weaponItem = this._getOwnedItem(itemId);
     const weaponData = weaponItem.getData();
@@ -344,18 +351,24 @@ export default class CPRActorSheet extends ActorSheet {
     const skillName = skillItem.data.name;
     let cprRoll;
     let statName;
+    let niceStatName;
+    let statValue;
     if (weaponData.isRanged) {
       statName = "ref";
-      const statValue = this.getData().data.stats.ref.value;
-      cprRoll = new CPRRolls.CPRAttackRoll(weaponName, statValue, skillName, skillValue);
+      niceStatName = SystemUtils.Localize("CPR.ref");
+      statValue = this.getData().data.stats.ref.value;
     } else {
       statName = "dex";
-      const statValue = this.getData().data.stats.dex.value;
-      cprRoll = new CPRRolls.CPRAttackRoll(weaponName, statValue, skillName, skillValue);
+      niceStatName = SystemUtils.Localize("CPR.dex");
+      statValue = this.getData().data.stats.dex.value;
+    }
+    if (aimed) {
+      cprRoll = new CPRRolls.CPRAimedAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue);
+    } else {
+      cprRoll = new CPRRolls.CPRAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue);
     }
 
     // apply known mods
-    if ($(event.currentTarget).attr("data-aimed") === "true") cprRoll.addMod(-8);
     cprRoll.addMod(this._getArmorPenaltyMods(statName));
     cprRoll.addMod(this._getWeaponQualityMod(weaponData));
 
@@ -365,7 +378,7 @@ export default class CPRActorSheet extends ActorSheet {
     return cprRoll;
   }
 
-  _createAutofireRoll(event) {
+  _createAutofireRoll(event, suppress) {
     const itemId = $(event.currentTarget).attr("data-item-id");
     const weaponItem = this._getOwnedItem(itemId);
     const weaponData = weaponItem.getData();
@@ -373,22 +386,12 @@ export default class CPRActorSheet extends ActorSheet {
     const skillName = SystemUtils.Localize("CPR.autofire");
     const skillValue = this.actor.getSkillLevel("autofire");
     const statValue = this.getData().data.stats.ref.value;
-    let cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, statValue, skillName, skillValue);
-    cprRoll.addMod(this._getArmorPenaltyMods("ref"));
-    cprRoll.addMod(this._getWeaponQualityMod(weaponData));
-    Rules.lawyer(weaponItem.checkAmmo("autofire") >= 0, "CPR.weaponattackoutofbullets");
-    return cprRoll;
-  }
-
-  _createSuppressiveFireRoll(event) {
-    const itemId = $(event.currentTarget).attr("data-item-id");
-    const weaponItem = this._getOwnedItem(itemId);
-    const weaponData = weaponItem.getData();
-    const weaponName = weaponItem.name;
-    const skillName = SystemUtils.Localize("CPR.suppressivefire");
-    const skillValue = this.actor.getSkillLevel("autofire");
-    const statValue = this.getData().data.stats.ref.value;
-    let cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, statValue, skillName, skillValue);
+    let cprRoll;
+    if (suppress) {
+      cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, statValue, skillName, skillValue);
+    } else {
+      cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, statValue, skillName, skillValue);
+    }
     cprRoll.addMod(this._getArmorPenaltyMods("ref"));
     cprRoll.addMod(this._getWeaponQualityMod(weaponData));
     Rules.lawyer(weaponItem.checkAmmo("autofire") >= 0, "CPR.weaponattackoutofbullets");
