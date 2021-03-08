@@ -185,9 +185,9 @@ export class CPRAimedAttackRoll extends CPRAttackRoll {
   }
 }
 
-export class CPRAutofireRoll extends CPRSkillRoll {
-  constructor(weaponName, statValue, skillName, skillValue) {
-    super(weaponName, statValue, skillName, skillValue);
+export class CPRAutofireRoll extends CPRAttackRoll {
+  constructor(weaponName, statName, statValue, skillName, skillValue) {
+    super(weaponName, statName, statValue, skillName, skillValue);
     this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.autofire")}`;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-autofire-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-autofire-rollcard.hbs";
@@ -195,9 +195,9 @@ export class CPRAutofireRoll extends CPRSkillRoll {
   }
 }
 
-export class CPRSuppressiveFireRoll extends CPRSkillRoll {
-  constructor(weaponName, statValue, skillName, skillValue) {
-    super(weaponName, statValue, skillName, skillValue);
+export class CPRSuppressiveFireRoll extends CPRAttackRoll {
+  constructor(weaponName, statName, statValue, skillName, skillValue) {
+    super(weaponName, statName, statValue, skillName, skillValue);
     this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.suppressivefire")}`;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-suppressive-fire-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-suppressive-fire-rollcard.hbs";

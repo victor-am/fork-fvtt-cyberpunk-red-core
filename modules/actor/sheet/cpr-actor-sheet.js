@@ -259,7 +259,10 @@ export default class CPRActorSheet extends ActorSheet {
     if (cprRoll instanceof CPRRolls.CPRAttackRoll) {
       const weaponId = $(event.currentTarget).attr("data-item-id");
       const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
-      weaponItem.fireRangedWeapon(cprRoll.fireMode);
+      const weaponData = weaponItem.getData();
+      if (weaponData.isRanged) {
+        weaponItem.fireRangedWeapon(cprRoll.fireMode);
+      }
     } else if (cprRoll instanceof CPRRolls.CPRDamageRoll) {
       // tear this out once we're in rollcards. isAutofire comes from the form merge
       if (cprRoll.isAutofire) {
@@ -272,9 +275,7 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     // Let's roll!
-    console.log(cprRoll);
     await cprRoll.roll();
-    console.log(cprRoll);
 
     // Post roll tasks
     if (cprRoll instanceof CPRRolls.CPRDeathSaveRoll) {
@@ -372,7 +373,7 @@ export default class CPRActorSheet extends ActorSheet {
     cprRoll.addMod(this._getArmorPenaltyMods(statName));
     cprRoll.addMod(this._getWeaponQualityMod(weaponData));
 
-    if (cprRoll instanceof CPRRolls.CPRAttackRoll) {
+    if (cprRoll instanceof CPRRolls.CPRAttackRoll && weaponData.isRanged) {
       Rules.lawyer(weaponItem.checkAmmo("single") >= 0, "CPR.weaponattackoutofbullets");
     }
     return cprRoll;
@@ -385,12 +386,13 @@ export default class CPRActorSheet extends ActorSheet {
     const weaponName = weaponItem.name;
     const skillName = SystemUtils.Localize("CPR.autofire");
     const skillValue = this.actor.getSkillLevel("autofire");
+    const niceStatName = SystemUtils.Localize("CPR.ref");
     const statValue = this.getData().data.stats.ref.value;
     let cprRoll;
     if (suppress) {
-      cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, statValue, skillName, skillValue);
+      cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, niceStatName, statValue, skillName, skillValue);
     } else {
-      cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, statValue, skillName, skillValue);
+      cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, niceStatName, statValue, skillName, skillValue);
     }
     cprRoll.addMod(this._getArmorPenaltyMods("ref"));
     cprRoll.addMod(this._getWeaponQualityMod(weaponData));
