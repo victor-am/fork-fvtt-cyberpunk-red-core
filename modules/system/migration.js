@@ -66,7 +66,7 @@ export default class Migration {
     only your "Base Death Save Penalty" applies to Death Saves and from our example, you would only add +2 to Death Saves until the
     critical injuries are healed. p221
     */
-   // Applies ONLY to character actors
+    // Applies ONLY to character actors
     if (actor.type === "character") {
       if ((typeof actorData.data.derivedStats.deathSave) === "number") {
         const oldDeathSave = actorData.data.derivedStats.deathSave;
