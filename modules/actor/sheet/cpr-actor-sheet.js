@@ -207,6 +207,12 @@ export default class CPRActorSheet extends ActorSheet {
   // Dispatcher that executes a roll based on the "type" passed in the event
   async _onRoll(event) {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
+
+    // this will be important later on
+    let prevRoll = this._getPreviousRoll();
+    LOGGER.debug("previous roll");
+    console.log(prevRoll);
+
     const rollType = $(event.currentTarget).attr("data-roll-type");
     let cprRoll;
     switch (rollType) {
@@ -239,7 +245,7 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
       case "damage": {
-        cprRoll = this._createDamageRoll(event);
+        cprRoll = this._createDamageRoll(event, prevRoll);
         break;
       }
       case "deathsave": {
@@ -248,9 +254,6 @@ export default class CPRActorSheet extends ActorSheet {
       }
       default:
     }
-
-    // this will be important later on
-    // let prevRoll = this._getPreviousRoll();
 
     // note for aimed shots this is where location is set
     await this._handleRollDialog(event, cprRoll);
@@ -264,14 +267,9 @@ export default class CPRActorSheet extends ActorSheet {
         weaponItem.fireRangedWeapon(cprRoll.fireMode);
       }
     } else if (cprRoll instanceof CPRRolls.CPRDamageRoll) {
-      // tear this out once we're in rollcards. isAutofire comes from the form merge
       if (cprRoll.isAutofire) {
         cprRoll.setAutofire();
       }
-      // figure out aimed and body location
-      // if (typeof prevRoll !== "undefined") {
-      //   cprRoll.isAimed = prevRoll.isAimed;
-      // }
     }
 
     // Let's roll!
@@ -347,6 +345,7 @@ export default class CPRActorSheet extends ActorSheet {
     const weaponItem = this._getOwnedItem(itemId);
     const weaponData = weaponItem.getData();
     const weaponName = weaponItem.name;
+    const { weaponType } = weaponData;
     const skillItem = this.actor.items.find((i) => i.name === weaponData.weaponSkill);
     const skillValue = skillItem.getData().level;
     const skillName = skillItem.data.name;
@@ -364,9 +363,9 @@ export default class CPRActorSheet extends ActorSheet {
       statValue = this.getData().data.stats.dex.value;
     }
     if (aimed) {
-      cprRoll = new CPRRolls.CPRAimedAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue);
+      cprRoll = new CPRRolls.CPRAimedAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
     } else {
-      cprRoll = new CPRRolls.CPRAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue);
+      cprRoll = new CPRRolls.CPRAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
     }
 
     // apply known mods
@@ -384,15 +383,16 @@ export default class CPRActorSheet extends ActorSheet {
     const weaponItem = this._getOwnedItem(itemId);
     const weaponData = weaponItem.getData();
     const weaponName = weaponItem.name;
+    const { weaponType } = weaponData;
     const skillName = SystemUtils.Localize("CPR.autofire");
     const skillValue = this.actor.getSkillLevel("autofire");
     const niceStatName = SystemUtils.Localize("CPR.ref");
     const statValue = this.getData().data.stats.ref.value;
     let cprRoll;
     if (suppress) {
-      cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, niceStatName, statValue, skillName, skillValue);
+      cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
     } else {
-      cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, niceStatName, statValue, skillName, skillValue);
+      cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
     }
     cprRoll.addMod(this._getArmorPenaltyMods("ref"));
     cprRoll.addMod(this._getWeaponQualityMod(weaponData));
@@ -422,13 +422,24 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  _createDamageRoll(event) {
+  _createDamageRoll(event, prevRoll) {
     const itemId = $(event.currentTarget).attr("data-item-id");
     const weaponItem = this._getOwnedItem(itemId);
     const rollName = weaponItem.data.name;
     const { damage, weaponType } = weaponItem.getData();
     // const { weaponType } = weaponData;
-    return new CPRRolls.CPRDamageRoll(rollName, damage, weaponType);
+    let cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType);
+
+    // remove this once we're in rollcards
+    if (typeof prevRoll !== "undefined") {
+      if (prevRoll instanceof CPRRolls.CPRAutofireRoll) {
+        cprRoll.isAutofire = true;
+      } else if (prevRoll instanceof CPRRolls.CPRAimedAttackRoll) {
+        cprRoll.isAimed = true;
+        cprRoll.location = prevRoll.location;
+      }
+    }
+    return cprRoll;
   }
 
   _createDeathSaveRoll() {
