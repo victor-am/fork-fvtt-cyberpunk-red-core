@@ -67,9 +67,6 @@ Hooks.once("init", async () => {
 });
 
 Hooks.once("ready", () => {
-  // Enable/Disable pause glitch animation
-  enablePauseAnimation();
-
   // Determine whether a system migration is required
   if (!game.user.isGM) return;
   // This defines the version of the Data Model for this release.  We should
