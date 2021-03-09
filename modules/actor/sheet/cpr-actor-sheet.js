@@ -13,6 +13,7 @@ import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
 import Rules from "../../utils/cpr-rules.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
+import CriticalInjuryPrompt from "../../dialog/cpr-critical-injury-prompt.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 
@@ -92,6 +93,12 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Select Roles for Character
     html.find(".select-roles").click((event) => this._selectRoles(event));
+
+    html.find(".add-critical-injury").click((event) => this._addCriticalInjury(event));
+
+    html.find(".edit-critical-injury").click((event) => this._editCriticalInjury(event));
+
+    html.find(".delete-critical-injury").click((event) => this._deleteCriticalInjury(event));
 
     // Set Lifepath for Character
     html.find(".set-lifepath").click((event) => this._setLifepath(event));
@@ -785,6 +792,33 @@ export default class CPRActorSheet extends ActorSheet {
     let formData = { actor: this.actor.getData().roleInfo, roles: CPR.roleList };
     formData = await SelectRolePrompt.RenderPrompt(formData);
     await this.actor.setRoles(formData);
+  }
+
+  async _addCriticalInjury(event) {
+    let formData = await CriticalInjuryPrompt.RenderPrompt();
+    await this.actor.addCriticalInjury(formData.injuryLocation, formData.injuryName, formData.injuryEffects, formData.injuryQuickFix, formData.injuryTreatment, [{ name: "deathSavePenalty", value: formData.deathSave }]);
+  }
+
+  async _editCriticalInjury(event) {
+    const injuryId = $(event.currentTarget).attr("data-injury-id");
+    let formData = this.actor.getCriticalInjury(injuryId);
+    formData = await CriticalInjuryPrompt.RenderPrompt(formData);
+    await this.actor.editCriticalInjury(injuryId, formData.injuryLocation, formData.injuryName, formData.injuryEffects, formData.injuryQuickFix, formData.injuryTreatment, [{ name: "deathSavePenalty", value: formData.deathSave }]);
+  }
+
+  async _deleteCriticalInjury(event) {
+    const injuryId = $(event.currentTarget).attr("data-injury-id");
+    const injury = this.actor.getCriticalInjury(injuryId);
+    const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
+    // If setting is true, prompt before delete, else delete.
+    if (setting) {
+      const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${injury.name}?`;
+      const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage);
+      if (!confirmDelete) {
+        return;
+      }
+    }
+    await this.actor.deleteCriticalInjury(injuryId);
   }
 
   async _setLifepath(event) {
