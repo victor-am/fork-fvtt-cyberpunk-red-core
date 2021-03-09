@@ -1,4 +1,4 @@
-{{log "CPR-SKILL-ROLLCARD.HBS"}}
+{{log "CPR-AIMED-ATTACK-ROLLCARD.HBS"}}
 <div class="rollcard-body">
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-stat">
@@ -27,6 +27,7 @@
           <span class="{{#if wasCritical}}fg-red text-bold{{/if}}">{{resultTotal}}</span>
         </div>
         <div class="info-div">
+          {{localize "CPR.location"}}: {{localize (findConfigValue "aimedLocation" location)}}<br>
           {{localize statName}} + {{statValue}}<br>
           {{localize skillName}} + {{skillValue}}<br>
           {{#if mods}}
@@ -38,4 +39,4 @@
     </div>
   </div>
 </div>
-{{log "END CPR-SKILL-ROLLCARD.HBS"}}
+{{log "END CPR-AIMED-ATTACK-ROLLCARD.HBS"}}

@@ -102,6 +102,16 @@ export default class CPRActor extends Actor {
       this._setWoundState();
     }
     // Death save
+    let basePenalty = 0;
+    const { criticalInjuries } = this.data.data;
+    criticalInjuries.forEach((injury) => {
+      const { mods } = injury;
+      const hasPenalty = (mods.filter((mod) => mod.name === "deathSavePenalty"))[0].value;
+      if (hasPenalty) {
+        basePenalty += 1;
+      }
+    });
+    derivedStats.deathSave.basePenalty = basePenalty;
     derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
   }
 
@@ -398,5 +408,54 @@ export default class CPRActor extends Actor {
       return false;
     }
     return true;
+  }
+
+  addCriticalInjury(location, name, effect, quickfix, treatment, mods = []) {
+    const id = randomID(10);
+    const injuries = this.data.data.criticalInjuries;
+    const updateData = [];
+    const injuryDetails = {
+      id,
+      location,
+      name,
+      effect,
+      quickfix,
+      treatment,
+      mods,
+    };
+    injuries.push(injuryDetails);
+    return this.update({ "data.criticalInjuries": injuries });
+  }
+
+  editCriticalInjury(injuryId, location, name, effect, quickfix, treatment, mods = []) {
+    const { criticalInjuries } = this.data.data;
+    const newInjuryList = [];
+    criticalInjuries.forEach((injury) => {
+      if (injury.id === injuryId) {
+        injury.location = location;
+        injury.name = name;
+        injury.effect = effect;
+        injury.quickfix = quickfix;
+        injury.treatment = treatment;
+        injury.mods = mods;
+      }
+      newInjuryList.push(injury);
+    });
+    return this.update({ "data.criticalInjuries": newInjuryList });
+  }
+
+  deleteCriticalInjury(injuryId) {
+    const { criticalInjuries } = this.data.data;
+    const filteredInjuries = criticalInjuries.filter((i) => i.id !== injuryId);
+    return this.update({ "data.criticalInjuries": filteredInjuries });
+  }
+
+  getCriticalInjury(injuryId) {
+    const { criticalInjuries } = this.data.data;
+    const filteredInjuries = criticalInjuries.filter((i) => i.id === injuryId);
+    if (filteredInjuries.length > 0) {
+      return filteredInjuries[0];
+    }
+    return {};
   }
 }

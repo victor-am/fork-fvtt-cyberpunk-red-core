@@ -14,6 +14,7 @@ import CPRChat from "../../chat/cpr-chat.js";
 import Rules from "../../utils/cpr-rules.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
+import CriticalInjuryPrompt from "../../dialog/cpr-critical-injury-prompt.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 
@@ -93,6 +94,12 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Select Roles for Character
     html.find(".select-roles").click((event) => this._selectRoles(event));
+
+    html.find(".add-critical-injury").click((event) => this._addCriticalInjury(event));
+
+    html.find(".edit-critical-injury").click((event) => this._editCriticalInjury(event));
+
+    html.find(".delete-critical-injury").click((event) => this._deleteCriticalInjury(event));
 
     // Set Lifepath for Character
     html.find(".set-lifepath").click((event) => this._setLifepath(event));
@@ -208,9 +215,14 @@ export default class CPRActorSheet extends ActorSheet {
   // Dispatcher that executes a roll based on the "type" passed in the event
   async _onRoll(event) {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
+
+    // this will be important later on
+    let prevRoll = this._getPreviousRoll();
+    LOGGER.debug("previous roll");
+    console.log(prevRoll);
+
     const rollType = $(event.currentTarget).attr("data-roll-type");
     let cprRoll;
-    let fireMode;
     switch (rollType) {
       case "stat": {
         cprRoll = this._createStatRoll(event);
@@ -225,18 +237,23 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
       case "attack": {
-        cprRoll = this._createAttackRoll(event);
-        fireMode = "single";
+        cprRoll = this._createAttackRoll(event, false);
         break;
       }
-      case "suppressive":
+      case "aimed": {
+        cprRoll = this._createAttackRoll(event, true);
+        break;
+      }
+      case "suppressive": {
+        cprRoll = this._createAutofireRoll(event, true);
+        break;
+      }
       case "autofire": {
-        cprRoll = this._createAutofireRoll(event);
-        fireMode = "autofire";
+        cprRoll = this._createAutofireRoll(event, false);
         break;
       }
       case "damage": {
-        cprRoll = this._createDamageRoll(event);
+        cprRoll = this._createDamageRoll(event, prevRoll);
         break;
       }
       case "deathsave": {
@@ -246,25 +263,21 @@ export default class CPRActorSheet extends ActorSheet {
       default:
     }
 
-    // this will be important later on
-    // let prevRoll = this._getPreviousRoll();
-
+    // note for aimed shots this is where location is set
     await this._handleRollDialog(event, cprRoll);
 
     // decrementing ammo must come after dialog but before the roll in case the user cancels
-    if (cprRoll instanceof CPRRolls.CPRRangedAttackRoll) {
+    if (cprRoll instanceof CPRRolls.CPRAttackRoll) {
       const weaponId = $(event.currentTarget).attr("data-item-id");
       const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
-      weaponItem.fireRangedWeapon(fireMode);
+      const weaponData = weaponItem.getData();
+      if (weaponData.isRanged) {
+        weaponItem.fireRangedWeapon(cprRoll.fireMode);
+      }
     } else if (cprRoll instanceof CPRRolls.CPRDamageRoll) {
-      // tear this out once we're in rollcards. isAutofire comes from the form merge
       if (cprRoll.isAutofire) {
         cprRoll.setAutofire();
       }
-      // figure out aimed and body location
-      // if (typeof prevRoll !== "undefined") {
-      //   cprRoll.isAimed = prevRoll.isAimed;
-      // }
     }
 
     // Let's roll!
@@ -335,46 +348,60 @@ export default class CPRActorSheet extends ActorSheet {
     return null;
   }
 
-  _createAttackRoll(event) {
+  _createAttackRoll(event, aimed) {
     const itemId = $(event.currentTarget).attr("data-item-id");
     const weaponItem = this._getOwnedItem(itemId);
     const weaponData = weaponItem.getData();
     const weaponName = weaponItem.name;
+    const { weaponType } = weaponData;
     const skillItem = this.actor.items.find((i) => i.name === weaponData.weaponSkill);
     const skillValue = skillItem.getData().level;
     const skillName = skillItem.data.name;
     let cprRoll;
     let statName;
+    let niceStatName;
+    let statValue;
     if (weaponData.isRanged) {
       statName = "ref";
-      const statValue = this.getData().data.stats.ref.value;
-      cprRoll = new CPRRolls.CPRRangedAttackRoll(weaponName, statValue, skillName, skillValue);
+      niceStatName = SystemUtils.Localize("CPR.ref");
+      statValue = this.getData().data.stats.ref.value;
     } else {
       statName = "dex";
-      const statValue = this.getData().data.stats.dex.value;
-      cprRoll = new CPRRolls.CPRMeleeAttackRoll(weaponName, statValue, skillName, skillValue);
+      niceStatName = SystemUtils.Localize("CPR.dex");
+      statValue = this.getData().data.stats.dex.value;
+    }
+    if (aimed) {
+      cprRoll = new CPRRolls.CPRAimedAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
+    } else {
+      cprRoll = new CPRRolls.CPRAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
     }
 
     // apply known mods
-    if ($(event.currentTarget).attr("data-aimed") === "true") cprRoll.addMod(-8);
     cprRoll.addMod(this._getArmorPenaltyMods(statName));
     cprRoll.addMod(this._getWeaponQualityMod(weaponData));
 
-    if (cprRoll instanceof CPRRolls.CPRRangedAttackRoll) {
+    if (cprRoll instanceof CPRRolls.CPRAttackRoll && weaponData.isRanged) {
       Rules.lawyer(weaponItem.checkAmmo("single") >= 0, "CPR.weaponattackoutofbullets");
     }
     return cprRoll;
   }
 
-  _createAutofireRoll(event) {
+  _createAutofireRoll(event, suppress) {
     const itemId = $(event.currentTarget).attr("data-item-id");
     const weaponItem = this._getOwnedItem(itemId);
     const weaponData = weaponItem.getData();
     const weaponName = weaponItem.name;
+    const { weaponType } = weaponData;
     const skillName = SystemUtils.Localize("CPR.autofire");
     const skillValue = this.actor.getSkillLevel("autofire");
+    const niceStatName = SystemUtils.Localize("CPR.ref");
     const statValue = this.getData().data.stats.ref.value;
-    let cprRoll = new CPRRolls.CPRRangedAttackRoll(weaponName, statValue, skillName, skillValue);
+    let cprRoll;
+    if (suppress) {
+      cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
+    } else {
+      cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
+    }
     cprRoll.addMod(this._getArmorPenaltyMods("ref"));
     cprRoll.addMod(this._getWeaponQualityMod(weaponData));
     Rules.lawyer(weaponItem.checkAmmo("autofire") >= 0, "CPR.weaponattackoutofbullets");
@@ -403,13 +430,24 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  _createDamageRoll(event) {
+  _createDamageRoll(event, prevRoll) {
     const itemId = $(event.currentTarget).attr("data-item-id");
     const weaponItem = this._getOwnedItem(itemId);
     const rollName = weaponItem.data.name;
     const { damage, weaponType } = weaponItem.getData();
     // const { weaponType } = weaponData;
-    return new CPRRolls.CPRDamageRoll(rollName, damage, weaponType);
+    let cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType);
+
+    // remove this once we're in rollcards
+    if (typeof prevRoll !== "undefined") {
+      if (prevRoll instanceof CPRRolls.CPRAutofireRoll) {
+        cprRoll.isAutofire = true;
+      } else if (prevRoll instanceof CPRRolls.CPRAimedAttackRoll) {
+        cprRoll.isAimed = true;
+        cprRoll.location = prevRoll.location;
+      }
+    }
+    return cprRoll;
   }
 
   _createDeathSaveRoll() {
@@ -755,6 +793,33 @@ export default class CPRActorSheet extends ActorSheet {
     let formData = { actor: this.actor.getData().roleInfo, roles: CPR.roleList };
     formData = await SelectRolePrompt.RenderPrompt(formData);
     await this.actor.setRoles(formData);
+  }
+
+  async _addCriticalInjury(event) {
+    let formData = await CriticalInjuryPrompt.RenderPrompt();
+    await this.actor.addCriticalInjury(formData.injuryLocation, formData.injuryName, formData.injuryEffects, formData.injuryQuickFix, formData.injuryTreatment, [{ name: "deathSavePenalty", value: formData.deathSave }]);
+  }
+
+  async _editCriticalInjury(event) {
+    const injuryId = $(event.currentTarget).attr("data-injury-id");
+    let formData = this.actor.getCriticalInjury(injuryId);
+    formData = await CriticalInjuryPrompt.RenderPrompt(formData);
+    await this.actor.editCriticalInjury(injuryId, formData.injuryLocation, formData.injuryName, formData.injuryEffects, formData.injuryQuickFix, formData.injuryTreatment, [{ name: "deathSavePenalty", value: formData.deathSave }]);
+  }
+
+  async _deleteCriticalInjury(event) {
+    const injuryId = $(event.currentTarget).attr("data-injury-id");
+    const injury = this.actor.getCriticalInjury(injuryId);
+    const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
+    // If setting is true, prompt before delete, else delete.
+    if (setting) {
+      const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${injury.name}?`;
+      const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage);
+      if (!confirmDelete) {
+        return;
+      }
+    }
+    await this.actor.deleteCriticalInjury(injuryId);
   }
 
   async _setLifepath(event) {
