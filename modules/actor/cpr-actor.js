@@ -82,6 +82,7 @@ export default class CPRActor extends Actor {
     // of stats for Mooks & Players for custom homebrew rules
 
     if (setting) {
+      const changedData = {};
       // Set max HP
       derivedStats.hp.max = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
 
@@ -89,6 +90,7 @@ export default class CPRActor extends Actor {
         derivedStats.hp.value,
         derivedStats.hp.max,
       );
+      changedData["data.hp.value"] = derivedStats.hp.value;
       // if (derivedStats.hp.value > derivedStats.hp.max) { derivedStats.hp.value = derivedStats.hp.max; };
 
       const { humanity } = actorData.data;
@@ -103,11 +105,15 @@ export default class CPRActor extends Actor {
         }
       });
       humanity.max = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
+      changedData["data.humanity.max"] = humanity.max;
       if (humanity.value > humanity.max) {
         humanity.value = humanity.max;
+        changedData["data.humanity.value"] = humanity.value;
       }
       // Setting EMP to value based on current humannity.
       stats.emp.value = Math.floor(humanity.value / 10);
+
+      this.update(changedData);
     }
 
     // Seriously wounded
@@ -255,6 +261,9 @@ export default class CPRActor extends Actor {
   }
 
   async loseHumanityValue(amount) {
+    if (amount.humanityLoss === "None") {
+      return;
+    }
     const { humanity } = this.data.data;
     let value = humanity.value ? humanity.value : humanity.max;
     if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
@@ -426,7 +435,6 @@ export default class CPRActor extends Actor {
   addCriticalInjury(location, name, effect, quickfix, treatment, mods = []) {
     const id = randomID(10);
     const injuries = this.data.data.criticalInjuries;
-    const updateData = [];
     const injuryDetails = {
       id,
       location,
