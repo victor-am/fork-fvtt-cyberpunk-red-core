@@ -11,6 +11,8 @@
         {{> "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-hitpoint-block.hbs"}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-deathsave-block.hbs"}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-humanity-block.hbs"}}
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-ip-block.hbs"}}
+
       </div>
       <div class="stats-section bg-red">
         {{> "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-stat-block.hbs"}}
@@ -19,7 +21,7 @@
 
     <div class="right-pane">
       <div class="right-tabs-section">
-        <nav class="navtabs-right tabs nav" data-group="primary">
+        <nav class="navtabs-right cpr-tabs nav" data-group="primary">
           <div class="tab-pink-underlay">
             <a class="skills-tab tab-label text-bold tab-indent" data-tab="skills">{{localize "CPR.skills"}}</a>
           </div>
@@ -47,7 +49,7 @@
     </div>
     <div class="bottom-pane">
       <div class="bottom-tabs-section">
-        <nav class="navtabs-bottom tabs nav" data-group="primary">
+        <nav class="navtabs-bottom cpr-tabs nav" data-group="primary">
           <div class="tab-pink-underlay">
             <a class="tab-label text-bold tab-indent" data-tab="role">{{localize "CPR.role"}}</a>
           </div>
