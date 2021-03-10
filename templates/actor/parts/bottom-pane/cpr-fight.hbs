@@ -114,10 +114,22 @@
                         </a>
                     </div>
                     <div class="item-detail weapon-attack text-nowrap">
-                        <a class="rollable" data-roll-type="attack" data-aimed="true" data-item-id={{weapon._id}}>
-                            <i class="fas fa-crosshairs red-fg" title="Aimed Attack"></i>
+                        <a class="rollable" data-roll-type="aimed" data-item-id={{weapon._id}}>
+                            <i class="fas fa-crosshairs red-fg" title="Aimed Shot"></i>
                         </a>
                     </div>
+                    {{#if (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType)}}
+                    <div class="item-detail weapon-attack text-nowrap">
+                        <a class="rollable" data-roll-type="autofire" data-item-id={{weapon._id}}>
+                            <i class="fab fa-blackberry red-fg" title="Autofire"></i>
+                        </a>
+                    </div>
+                    <div class="item-detail weapon-attack text-nowrap">
+                        <a class="rollable" data-roll-type="suppressive" data-item-id={{weapon._id}}>
+                            <i class="fas fa-exclamation-circle red-fg" title="Suppressive Fire"></i>
+                        </a>
+                    </div>
+                    {{/if}}
                     <div class="item-detail weapon-damage text-nowrap">
                         <a class="rollable" data-damage="{{weapon.data.damage}}" data-roll-type="damage"
                             data-item-id={{weapon._id}}>

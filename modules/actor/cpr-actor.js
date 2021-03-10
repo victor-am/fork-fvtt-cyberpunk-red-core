@@ -1,6 +1,4 @@
-/* eslint-disable no-undef */
-/* eslint-disable radix */
-/* globals Actor */
+/* globals Actor, game, getProperty, setProperty, hasProperty, randomID */
 import LOGGER from "../utils/cpr-logger.js";
 import CPRRolls from "../rolls/cpr-rolls.js";
 import Rules from "../utils/cpr-rules.js";
@@ -23,10 +21,6 @@ export default class CPRActor extends Actor {
 
     // Prepare data for both types
     this._calculateDerivedStats(actorData);
-
-    // Prepare type data
-    if (actorData.type === "character") this._prepareCharacterData(actorData);
-    if (actorData.type === "mook") this._prepareMookData(actorData);
   }
 
   /** @override */
@@ -60,16 +54,6 @@ export default class CPRActor extends Actor {
     return super.createEmbeddedEntity(embeddedName, itemData, options);
   }
 
-  _prepareCharacterData(actorData) {
-    LOGGER.trace("_prepareCharacterData | CPRActor | Called.");
-    const { data } = actorData;
-  }
-
-  _prepareMookData(actorData) {
-    LOGGER.trace("_prepareMookData | CPRActor | Called.");
-    const { data } = actorData;
-  }
-
   _calculateDerivedStats(actorData) {
     // Calculate MAX HP
     LOGGER.trace("_calculateDerivedStats | CPRActor | Called.");
@@ -100,7 +84,7 @@ export default class CPRActor extends Actor {
       this.getInstalledCyberware().forEach((cyberware) => {
         if (cyberware.getData().type === "borgware") {
           cyberwarePenalty += 4;
-        } else if (parseInt(cyberware.getData().humanityLoss.static) > 0) {
+        } else if (parseInt(cyberware.getData().humanityLoss.static, 10) > 0) {
           cyberwarePenalty += 2;
         }
       });
@@ -193,7 +177,10 @@ export default class CPRActor extends Actor {
       const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data });
       return this._addFoundationalCyberware(item, formData);
     } else {
-      const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data, foundationalCyberware: compatibleFoundationalCyberware });
+      const formData = await InstallCyberwarePrompt.RenderPrompt({
+        item: item.data,
+        foundationalCyberware: compatibleFoundationalCyberware,
+      });
       return this._addOptionalCyberware(item, formData);
     }
     return PromiseRejectionEvent();
@@ -269,7 +256,7 @@ export default class CPRActor extends Actor {
     if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
       value -= (await CPRRolls.CPRRoll(amount.humanityLoss)).total;
     } else {
-      value -= parseInt(amount.humanityLoss);
+      value -= parseInt(amount.humanityLoss, 10);
     }
 
     if (value <= 0) {
@@ -283,7 +270,7 @@ export default class CPRActor extends Actor {
     const { humanity } = this.data.data;
     let { value } = humanity;
     const { max } = humanity;
-    value += parseInt(amount.humanityLoss);
+    value += parseInt(amount.humanityLoss, 10);
     if (value > max) {
       value = max;
     }
@@ -338,9 +325,9 @@ export default class CPRActor extends Actor {
     return 0;
   }
 
-  processDeathSave(rollResult) {
-    let saveResult = rollResult.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
-    if (rollResult.initialRoll === 10) {
+  processDeathSave(cprRoll) {
+    let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
+    if (cprRoll.initialRoll === 10) {
       saveResult = "Failed";
     }
     if (saveResult === "Success") {

@@ -1,4 +1,4 @@
-{{log "VERIFY-ROLL-SKILL-PROMPT.HBS"}}
+{{log "VERIFY-ROLL-AUTOFIRE-PROMPT.HBS"}}
 <form>
     <div>
         {{localize "CPR.rollingfor"}} "{{rollTitle}}", Choomba!
@@ -7,7 +7,7 @@
     <ol class="items-list">
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.stat"}} {{localize "CPR.value"}} ({{localize statName}})
+                {{localize "CPR.stat"}} {{localize "CPR.value"}} ({{localize statName}}):
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="statValue" class="" type="number" data-dtype="Number" value={{statValue}}>
@@ -16,7 +16,7 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.skill"}} {{localize "CPR.value"}} ({{localize skillName}})
+                {{localize "CPR.skill"}} {{localize "CPR.value"}} ({{localize skillName}}):
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="skillValue" class="" type="number" data-dtype="Number" value={{skillValue}}>
@@ -28,10 +28,9 @@
                 {{localize "CPR.mods"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
-                <input name="mods" class="" type="text" data-dtype="String" value={{mods}}>
+                <input name="mods" class="" type="text" data-dtype="String" value="{{mods}}">
             </div>
         </li>
-
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
@@ -43,4 +42,4 @@
         </li>
     </ol>
 </form>
-{{log "END VERIFY-ROLL-SKILL-PROMPT.HBS"}}
+{{log "END VERIFY-ROLL-AUTOFIRE-PROMPT.HBS"}}
