@@ -223,25 +223,22 @@ export default class CPRActorSheet extends ActorSheet {
 
     const rollType = $(event.currentTarget).attr("data-roll-type");
     let cprRoll;
+    let aimedAttack = false;
     switch (rollType) {
       case "stat": {
         cprRoll = this._createStatRoll(event);
         break;
       }
+      case "aimed":
+      case "attack":
       case "skill": {
-        cprRoll = this._createSkillRoll(event);
+        const itemId = this._getItemId(event);
+        const item = this._getOwnedItem(itemId);
+        cprRoll = item.createRoll(rollType, this.actor._id);
         break;
       }
       case "roleAbility": {
         cprRoll = this._createRoleRoll(event);
-        break;
-      }
-      case "attack": {
-        cprRoll = this._createAttackRoll(event, false);
-        break;
-      }
-      case "aimed": {
-        cprRoll = this._createAttackRoll(event, true);
         break;
       }
       case "suppressive": {
@@ -305,20 +302,6 @@ export default class CPRActorSheet extends ActorSheet {
     const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
     const statValue = this.getData().data.stats[statName].value;
     let cprRoll = new CPRRolls.CPRStatRoll(niceStatName, statValue);
-    cprRoll.addMod(this._getArmorPenaltyMods(statName));
-    return cprRoll;
-  }
-
-  _createSkillRoll(event) {
-    const itemId = this._getItemId(event);
-    const item = this._getOwnedItem(itemId);
-    const itemData = item.getData();
-    const statName = itemData.stat;
-    const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
-    const statValue = this.getData().data.stats[statName].value;
-    const skillName = item.name;
-    const skillLevel = itemData.level;
-    let cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel);
     cprRoll.addMod(this._getArmorPenaltyMods(statName));
     return cprRoll;
   }
@@ -605,49 +588,8 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   // TODO - Move to cpr-actor
-  _getEquippedArmors(location) {
-    LOGGER.trace("ActorID _getEquippedArmors | CPRActorSheet | Called.");
-    // TODO - Helper function on ACTOR to get equipedArmors
-    const armors = this.actor.items.filter((item) => item.data.type === "armor");
-    const equipped = armors.filter((item) => item.getData().equipped === "equipped");
-
-    if (location === "body") {
-      return equipped.filter((item) => item.getData().isBodyLocation);
-    }
-    if (location === "head") {
-      return equipped.filter((item) => item.getData().isHeadLocation);
-    }
-    throw new Error(`Bad location given: ${location}`);
-  }
 
   // ARMOR HELPERS
-  // TODO - Move to cpr-actor
-  _getArmorValue(valueType, location) {
-    LOGGER.trace("ActorID _getArmorValue| CPRActorSheet | Called.");
-
-    const armors = this._getEquippedArmors(location);
-    let sps;
-    let penalties;
-
-    if (location === "body") {
-      sps = armors.map((a) => a.data.data.bodyLocation.sp);
-    } else if (location === "head") {
-      sps = armors.map((a) => a.data.data.headLocation.sp);
-    } // we assume getEquippedArmors will throw an error with a bad loc
-    penalties = armors.map((a) => a.data.data.penalty);
-    penalties = penalties.map(Math.abs);
-
-    penalties.push(0);
-    sps.push(0); // force a 0 if nothing is equipped
-
-    if (valueType === "sp") {
-      return Math.max(...sps); // Math.max treats null values in array as 0
-    }
-    if (valueType === "penalty") {
-      return Math.max(...penalties); // Math.max treats null values in array as 0
-    }
-    return 0;
-  }
 
   // TODO - Move to cpr-actor
   _getHands() {
@@ -776,22 +718,6 @@ export default class CPRActorSheet extends ActorSheet {
       data: {},
     };
     this.actor.createOwnedItem(itemData, { renderSheet: true });
-  }
-
-  // TODO - Fix
-  _getArmorPenaltyMods(stat) {
-    const penaltyStats = ["ref", "dex", "move"];
-    const penaltyMods = [0];
-    if (penaltyStats.includes(stat)) {
-      const coverage = ["head", "body"];
-      coverage.forEach((location) => {
-        const penaltyValue = Number(this._getArmorValue("penalty", location));
-        if (penaltyValue > 0) {
-          penaltyMods.push(0 - penaltyValue);
-        }
-      });
-    }
-    return Math.min(...penaltyMods);
   }
 
   async _selectRoles(event) {

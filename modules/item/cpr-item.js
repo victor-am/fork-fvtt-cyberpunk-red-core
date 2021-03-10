@@ -4,6 +4,9 @@
 import LOGGER from "../utils/cpr-logger.js";
 import LoadAmmoPrompt from "../dialog/cpr-load-ammo-prompt.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
+import CPR from "../system/config.js";
+import * as CPRRolls from "../rolls/cpr-rolls.js";
+import Rules from "../utils/cpr-rules.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -278,5 +281,80 @@ export default class CPRItem extends Item {
 
   toggleFavorite() {
     this.data.data.favorite = !this.data.data.favorite;
+  }
+
+  createRoll(type, actorId) {
+    switch (type) {
+      case "skill": {
+        return this._createSkillRoll(actorId);
+      }
+      case "attack": {
+        return this._createAttackRoll(type, actorId);
+      }
+      default:
+    }
+  }
+
+  _createSkillRoll(actorId) {
+    const actor = (game.actors.filter((a) => a._id === actorId))[0];
+    const itemData = this.data.data;
+    const statName = itemData.stat;
+    const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
+    const statValue = actor.getStat(statName);
+    const skillName = this.name;
+    const skillLevel = itemData.level;
+    let cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel);
+    cprRoll.addMod(actor.getArmorPenaltyMods(statName));
+    return cprRoll;
+  }
+
+  _createAttackRoll(type, actorId) {
+    const actor = (game.actors.filter((a) => a._id === actorId))[0];
+    const weaponData = this.getData();
+    const weaponName = this.name;
+    const { weaponType } = weaponData;
+    const skillItem = actor.items.find((i) => i.name === weaponData.weaponSkill);
+    const skillValue = skillItem.getData().level;
+    const skillName = skillItem.data.name;
+    let cprRoll;
+    let statName;
+    let niceStatName;
+    let statValue;
+    if (weaponData.isRanged) {
+      statName = "ref";
+      niceStatName = SystemUtils.Localize("CPR.ref");
+    } else {
+      statName = "dex";
+      niceStatName = SystemUtils.Localize("CPR.dex");
+    }
+    statValue = actor.getStat(statName);
+
+    if (type === "aimed") {
+      cprRoll = new CPRRolls.CPRAimedAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
+    } else {
+      cprRoll = new CPRRolls.CPRAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
+    }
+
+    // apply known mods
+    cprRoll.addMod(actor.getArmorPenaltyMods(statName));
+    cprRoll.addMod(this._getMods());
+
+    if (cprRoll instanceof CPRRolls.CPRAttackRoll && weaponData.isRanged) {
+      Rules.lawyer(this.checkAmmo("single") >= 0, "CPR.weaponattackoutofbullets");
+    }
+    return cprRoll;
+  }
+
+  _getMods() {
+    switch (this.type) {
+      case "weapon" : {
+        if (this.data.data.quality === "excellent") {
+          return 1;
+        }
+        break;
+      }
+      default:
+    }
+    return 0;
   }
 }

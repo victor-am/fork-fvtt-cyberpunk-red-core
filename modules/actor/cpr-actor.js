@@ -342,7 +342,7 @@ export default class CPRActor extends Actor {
   }
 
   getStat(statName) {
-    return parseInt(this.stats[statName].value, 10);
+    return parseInt(this.data.data.stats[statName].value, 10);
   }
 
   clearLedger(prop) {
@@ -466,5 +466,61 @@ export default class CPRActor extends Actor {
       return filteredInjuries[0];
     }
     return {};
+  }
+
+  getArmorPenaltyMods(stat) {
+    const penaltyStats = ["ref", "dex", "move"];
+    const penaltyMods = [0];
+    if (penaltyStats.includes(stat)) {
+      const coverage = ["head", "body"];
+      coverage.forEach((location) => {
+        const penaltyValue = Number(this._getArmorValue("penalty", location));
+        if (penaltyValue > 0) {
+          penaltyMods.push(0 - penaltyValue);
+        }
+      });
+    }
+    return Math.min(...penaltyMods);
+  }
+
+  _getArmorValue(valueType, location) {
+    LOGGER.trace("ActorID _getArmorValue| CPRActorSheet | Called.");
+
+    const armors = this._getEquippedArmors(location);
+    let sps;
+    let penalties;
+
+    if (location === "body") {
+      sps = armors.map((a) => a.data.data.bodyLocation.sp);
+    } else if (location === "head") {
+      sps = armors.map((a) => a.data.data.headLocation.sp);
+    } // we assume getEquippedArmors will throw an error with a bad loc
+    penalties = armors.map((a) => a.data.data.penalty);
+    penalties = penalties.map(Math.abs);
+
+    penalties.push(0);
+    sps.push(0); // force a 0 if nothing is equipped
+
+    if (valueType === "sp") {
+      return Math.max(...sps); // Math.max treats null values in array as 0
+    }
+    if (valueType === "penalty") {
+      return Math.max(...penalties); // Math.max treats null values in array as 0
+    }
+    return 0;
+  }
+
+  _getEquippedArmors(location) {
+    LOGGER.trace("ActorID _getEquippedArmors | CPRActorSheet | Called.");
+    const armors = this.data.filteredItems.armor;
+    const equipped = armors.filter((item) => item.getData().equipped === "equipped");
+
+    if (location === "body") {
+      return equipped.filter((item) => item.getData().isBodyLocation);
+    }
+    if (location === "head") {
+      return equipped.filter((item) => item.getData().isHeadLocation);
+    }
+    throw new Error(`Bad location given: ${location}`);
   }
 }
