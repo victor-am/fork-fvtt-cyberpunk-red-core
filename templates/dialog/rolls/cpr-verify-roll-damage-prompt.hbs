@@ -41,7 +41,7 @@
                 <select name="location">
                     {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
                     {{#each (findConfigObj "aimedLocation") as |loc l|}}
-                    <option value="{{l}}" {{#if  (compare location "===" l)}}selected{{/if}}>{{localize loc}}</option>
+                    <option value="{{l}}" {{#if  (compare ../location "===" l)}}selected{{/if}}>{{localize loc}}</option>
                     {{/each}}
                 </select>
             </div>
