@@ -1,4 +1,4 @@
-/* globals Actor, game, getProperty, setProperty, hasProperty */
+/* globals Actor, game, getProperty, setProperty, hasProperty, randomID */
 import LOGGER from "../utils/cpr-logger.js";
 import CPRRolls from "../rolls/cpr-rolls.js";
 import Rules from "../utils/cpr-rules.js";
