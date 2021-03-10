@@ -1,10 +1,11 @@
 /* globals Actor, game, getProperty, setProperty, hasProperty, randomID */
+import * as CPRRolls from "../rolls/cpr-rolls.js";
+import CPR from "../system/config.js";
+import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
+import InstallCyberwarePrompt from "../dialog/cpr-cyberware-install-prompt.js";
 import LOGGER from "../utils/cpr-logger.js";
-import CPRRolls from "../rolls/cpr-rolls.js";
 import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
-import InstallCyberwarePrompt from "../dialog/cpr-cyberware-install-prompt.js";
-import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -522,5 +523,71 @@ export default class CPRActor extends Actor {
       return equipped.filter((item) => item.getData().isHeadLocation);
     }
     throw new Error(`Bad location given: ${location}`);
+  }
+
+  getPreviousRoll() {
+    if (typeof this.data.previousRoll !== "undefined") {
+      return this.data.previousRoll;
+    }
+    return "undefined";
+  }
+
+  setPreviousRoll(cprRoll) {
+    this.data.previousRoll = cprRoll;
+  }
+
+  createRoll(type, name) {
+    switch (type) {
+      case "stat": {
+        return this._createStatRoll(name);
+      }
+      case "roleAbility": {
+        return this._createRoleRoll(name);
+      }
+      case "deathsave": {
+        return this._createDeathSaveRoll();
+      }
+      default:
+    }
+    return undefined;
+  }
+
+  _createStatRoll(statName) {
+    const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
+    const statValue = this.getStat(statName);
+    const cprRoll = new CPRRolls.CPRStatRoll(niceStatName, statValue);
+    cprRoll.addMod(this.getArmorPenaltyMods(statName));
+    return cprRoll;
+  }
+
+  _createRoleRoll(roleName) {
+    const niceRoleName = SystemUtils.Localize(CPR.roleAbilityList[roleName]);
+    const roleValue = this._getRoleValue(roleName);
+    return new CPRRolls.CPRRoleRoll(niceRoleName, roleValue);
+  }
+
+  _getRoleValue(roleName) {
+    const { roleskills: roles } = this.data.data.roleInfo;
+    const abilities = Object.values(roles);
+    for (const ability of abilities) {
+      const keys = Object.keys(ability);
+      for (const key of keys) {
+        if (key === roleName) return ability[key];
+        if (key === "subSkills") {
+          const subSkills = Object.keys(ability[key]);
+          for (const subSkill of subSkills) {
+            if (subSkill === roleName) return ability.subSkills[subSkill];
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  _createDeathSaveRoll() {
+    const deathSavePenalty = this.data.data.derivedStats.deathSave.penalty;
+    const deathSaveBasePenalty = this.data.data.derivedStats.deathSave.basePenalty;
+    const bodyStat = this.data.data.stats.body.value;
+    return new CPRRolls.CPRDeathSaveRoll(deathSavePenalty, deathSaveBasePenalty, bodyStat);
   }
 }
