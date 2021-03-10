@@ -479,6 +479,7 @@
     "CPR.luck": "LUCK",
     "CPR.luxurycost": "Luxury",
     "CPR.lvl": "LVL",
+    "CPR.macroitemmissing": "It does not look like this actor has an item named:",
     "CPR.magazine": "Magazine",
     "CPR.magsize": "Mag. Size",
     "CPR.majorhero": "Major Hero",

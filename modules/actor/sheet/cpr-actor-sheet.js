@@ -69,8 +69,6 @@ export default class CPRActorSheet extends ActorSheet {
   /* -------------------------------------------- */
   /** @override */
   activateListeners(html) {
-    super.activateListeners(html);
-
     // Make a roll
     html.find(".rollable").click((event) => this._onRoll(event));
 
@@ -189,6 +187,14 @@ export default class CPRActorSheet extends ActorSheet {
       }
     });
 
+    // Item Dragging
+
+    let handler = (ev) => this._onDragItemStart(ev);
+    html.find('.item').each((i, li) => {
+      li.setAttribute("draggable", true);
+      li.addEventListener("dragstart", handler, false);
+    });
+
     if (!this.options.editable) return;
     // Listeners for editable fields under here
 
@@ -208,6 +214,8 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
 
     html.find(".eurobucks-input").click((event) => event.target.select()).change((event) => this._updateEurobucks(event));
+
+    super.activateListeners(html);
   }
 
   /* -------------------------------------------- */
@@ -220,7 +228,7 @@ export default class CPRActorSheet extends ActorSheet {
 
     const rollType = $(event.currentTarget).attr("data-roll-type");
     let cprRoll;
-
+    let item = null;
     switch (rollType) {
       case "deathsave":
       case "roleAbility":
@@ -236,7 +244,7 @@ export default class CPRActorSheet extends ActorSheet {
       case "skill":
       case "suppressive": {
         const itemId = this._getItemId(event);
-        const item = this._getOwnedItem(itemId);
+        item = this._getOwnedItem(itemId);
         cprRoll = item.createRoll(rollType, this.actor._id);
         break;
       }
@@ -244,8 +252,13 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     // note for aimed shots this is where location is set
-    await this._handleRollDialog(event, cprRoll);
+    await SystemUtils.handleRollDialog(event, cprRoll);
 
+    if (item !== null) {
+      await item.confirmRoll(rollType, cprRoll);
+    }
+
+    /*
     // decrementing ammo must come after dialog but before the roll in case the user cancels
     if (cprRoll instanceof CPRRolls.CPRAttackRoll) {
       const weaponId = $(event.currentTarget).attr("data-item-id");
@@ -259,7 +272,7 @@ export default class CPRActorSheet extends ActorSheet {
         cprRoll.setAutofire();
       }
     }
-
+    */
     // Let's roll!
     await cprRoll.roll();
 
@@ -696,5 +709,16 @@ export default class CPRActorSheet extends ActorSheet {
   _clearIpRecords() {
     LOGGER.trace("ActorID _clearIpRecords | CPRActorSheet | called.");
     return this.actor.clearLedger("improvementPoints");
+  }
+
+  _onDragItemStart(event) {
+    let itemId = event.currentTarget.getAttribute("data-item-id");
+    const item = this.actor.getEmbeddedEntity("OwnedItem", itemId);
+    event.dataTransfer.setData("text/plain", JSON.stringify({
+      type: "Item",
+      actorId: this.actor._id,
+      data: item,
+      root: event.currentTarget.getAttribute("root"),
+    }));
   }
 }

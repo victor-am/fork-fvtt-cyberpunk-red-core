@@ -1,7 +1,7 @@
 {{log "CPR-WEAPON-INV-CONTENT.HBS"}}
 {{!-- NAME --}}
 <li class="item flexrow{{#if item.data.favorite}} favorite{{/if}}" data-item-id="{{item._id}}"
-  data-item-category="{{item.data.category}}" draggable="true">
+  data-item-category="{{item.type}}" draggable="true">
   <div class="item-name gear-name text-nowrap">
     <a class="name item-edit">{{item.name}}</a>
   </div>

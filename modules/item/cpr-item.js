@@ -66,6 +66,30 @@ export default class CPRItem extends Item {
     }
   }
 
+  confirmRoll(rollType, cprRoll) {
+    const itemType = this.data.type;
+    if (itemType === "weapon") {
+      switch (rollType) {
+        case "aimed":
+        case "attack":
+        case "autofire":
+        case "suppressive": {
+          if (this.data.data.isRanged) {
+            this.fireRangedWeapon(cprRoll.fireMode);
+          }
+          break;
+        }
+        case "damage": {
+          if (cprRoll.isAutofire) {
+            cprRoll.setAutofire();
+          }
+          break;
+        }
+        default:
+      }
+    }
+  }
+
   // ammo Item Methods
   // TODO - REFACTOR, do not do this...
   _ammoAction(actionAttributes) {
