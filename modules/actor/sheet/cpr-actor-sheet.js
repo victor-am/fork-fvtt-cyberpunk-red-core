@@ -264,7 +264,12 @@ export default class CPRActorSheet extends ActorSheet {
     this._prepareRollFormula(rollRequest);
 
     // Handle skipping of the user verification step
-    if (!event.ctrlKey) {
+    let skipDialog = event.ctrlKey;
+
+    const ctrlSetting = game.settings.get("cyberpunk-red-core", "invertRollCtrlFunction");
+    skipDialog = ctrlSetting ? skipDialog : !skipDialog;
+
+    if (skipDialog) {
       const formData = await VerifyRoll.RenderPrompt(rollRequest);
       mergeObject(rollRequest, formData, { overwrite: true });
     }
