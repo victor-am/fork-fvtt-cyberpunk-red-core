@@ -17,6 +17,7 @@
                         {{localize "CPR.type"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
                         <select name="data.type" data-dtype="{{data.type}}">
                             {{#select data.type}}
                             {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
@@ -24,6 +25,9 @@
                             {{/each}}
                             {{/select}}
                         </select>
+                        {{else}}
+                            <span class="text-flex-end">{{localize (findConfigValue "cyberwareTypeList" data.type)}}</span>
+                        {{/if}}
 
                     </div>
                 </li>
@@ -33,6 +37,7 @@
                         {{localize "CPR.install"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
                         <select name="data.install" data-dtype="{{data.install}}">
                             {{#select data.install}}
                             {{#each (findConfigObj "cyberwareInstallList") as |install i|}}
@@ -40,7 +45,9 @@
                             {{/each}}
                             {{/select}}
                         </select>
-
+                        {{else}}
+                        <span class="text-flex-end">{{localize (findConfigValue "cyberwareInstallList" data.install)}}</span>
+                        {{/if}}
                     </div>
                 </li>
                 {{!--Head Armor Settings--}}
@@ -49,8 +56,12 @@
                         {{localize "CPR.static"}} {{localize "CPR.humanityloss"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
                         <input name="data.humanityLoss.static" class="" type="text"
                             value="{{data.humanityLoss.static}}">
+                        {{else}}
+                        <span class="text-flex-end">{{data.humanityLoss.static}}</span>
+                        {{/if}}
                     </div>
                 </li>
 
@@ -59,7 +70,11 @@
                         {{localize "CPR.rolled"}} {{localize "CPR.humanityloss"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
                         <input name="data.humanityLoss.roll" class="" type="text" value="{{data.humanityLoss.roll}}">
+                        {{else}}
+                        <span class="text-flex-end">{{data.humanityLoss.roll}}</span>
+                        {{/if}}
                     </div>
                 </li>
 
@@ -69,11 +84,19 @@
                         {{localize "CPR.requiresfoundational"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        {{#if data.isFoundational}}
-                        <a class="item-checkbox" data-target="data.isFoundational"><i class="far fa-circle"></i></a>
+                        {{#if this.editable}}
+                            {{#if data.isFoundational}}
+                            <a class="item-checkbox" data-target="data.isFoundational"><i class="far fa-circle"></i></a>
+                            {{else}}
+                            <a class="item-checkbox" data-target="data.isFoundational"><i
+                                    class="far fa-check-circle"></i></a>
+                            {{/if}}
                         {{else}}
-                        <a class="item-checkbox" data-target="data.isFoundational"><i
-                                class="far fa-check-circle"></i></a>
+                            {{#if data.isFoundational}}
+                            <i class="far fa-circle"></i>
+                            {{else}}
+                            <i class="far fa-check-circle"></i>
+                            {{/if}}
                         {{/if}}
                     </div>
                 </li>
@@ -83,11 +106,19 @@
                         {{localize "CPR.hasoptionslots"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        {{#if data.hasOptionalSlots}}
-                        <a class="item-checkbox" data-target="data.hasOptionalSlots"><i
-                                class="far fa-check-circle"></i></a>
+                        {{#if this.editable}}
+                            {{#if data.hasOptionalSlots}}
+                            <a class="item-checkbox" data-target="data.hasOptionalSlots"><i
+                                    class="far fa-check-circle"></i></a>
+                            {{else}}
+                            <a class="item-checkbox" data-target="data.hasOptionalSlots"><i class="far fa-circle"></i></a>
+                            {{/if}}
                         {{else}}
-                        <a class="item-checkbox" data-target="data.hasOptionalSlots"><i class="far fa-circle"></i></a>
+                            {{#if data.hasOptionalSlots}}
+                            <i class="far fa-check-circle"></i>
+                            {{else}}
+                            <i class="far fa-circle"></i>
+                            {{/if}}
                         {{/if}}
                     </div>
                 </li>
@@ -98,8 +129,11 @@
                         {{localize "CPR.optionalslots"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
                         <input name="data.optionSlots" class="" type="text" value="{{data.optionSlots}}">
-
+                        {{else}}
+                        <span class="text-flex-end">{{data.optionSlots}}</span>
+                        {{/if}}
                     </div>
                 </li>
                 {{/if}}
