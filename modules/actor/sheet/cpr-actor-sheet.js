@@ -89,6 +89,8 @@ export default class CPRActorSheet extends ActorSheet {
     // Generic item action
     html.find(".item-action").click((event) => this._itemAction(event));
 
+    html.find(".item-view").click((event) => this._renderReadOnlyItemCard(event));
+
     // Reset Death Penalty
     html.find(".reset-value").click((event) => this._resetActorValue(event));
 
@@ -505,6 +507,15 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _itemUpdate | CPRActorSheet | Called.");
     const itemId = this._getItemId(event);
     const item = this.actor.items.find((i) => i.data._id === itemId);
+    item.sheet.options.editable = true;
+    item.sheet.render(true);
+  }
+
+  _renderReadOnlyItemCard(event) {
+    LOGGER.trace("ActorID _itemUpdate | CPRActorSheet | Called.");
+    const itemId = this._getItemId(event);
+    const item = this.actor.items.find((i) => i.data._id === itemId);
+    item.sheet.options.editable = false;
     item.sheet.render(true);
   }
 
