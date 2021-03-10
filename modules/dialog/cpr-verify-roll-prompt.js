@@ -1,22 +1,17 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-/* eslint-disable no-shadow */
-/* eslint-disable class-methods-use-this */
 /* global renderTemplate, FormDataExtended, Dialog */
 // TODO - Finish Refactor, See cyberware-install-prompt.js
 
 import LOGGER from "../utils/cpr-logger.js";
 
 export default class VerifyRollPrompt {
-  static async RenderPrompt(rollRequest) {
-    const template = `systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-${rollRequest.rollType}-prompt.hbs`;
-    const data = duplicate(rollRequest);
+  static async RenderPrompt(cprRoll) {
     return new Promise((resolve, reject) => {
-      renderTemplate(template, data).then((html) => {
+      renderTemplate(cprRoll.rollPrompt, cprRoll).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog VerifyRollPrompt | called.");
           reject();
         };
+        // eslint-disable-next-line no-shadow
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog VerifyRollPrompt | called.");
 
@@ -28,9 +23,9 @@ export default class VerifyRollPrompt {
           } else {
             formData.mods = [];
           }
-          switch (rollRequest.rollType) {
-            case "damage":
-            case "attack": {
+          switch (cprRoll.constructor.name) {
+            case "CPRDamageRoll":
+            case "CPRAttackRoll": {
               if (formData.autofire) {
                 formData.fireMode = "autofire";
               }
@@ -39,37 +34,24 @@ export default class VerifyRollPrompt {
               }
               break;
             }
-            case "deathsave": {
-              const deathPenalties = ["deathPenalty", "baseDeathPenalty"];
-              rollRequest.extraVars.forEach((penalty) => {
-                if (deathPenalties.includes(penalty.name)) {
-                  penalty.value = parseInt(formData[penalty.name], 10);
-                  formData.mods.push(penalty.value);
-                }
-              });
-              break;
-            }
             default:
           }
           resolve(formData);
         };
         new Dialog({
-          title: `Roll Confirmation for ${rollRequest.rollType}`,
+          title: `Roll Confirmation for ${cprRoll.rollTitle}`,
           content: html,
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
               label: "Cancel",
-              /* eslint-disable no-shadow */
-              callback: (html) => _onCancel(html), // TODO fix no-shadow
-              /* eslint-enable no-shadow */
+              callback: () => _onCancel(html),
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
               label: "Confirm",
-              /* eslint-disable no-shadow */
-              callback: (html) => _onConfirm(html), // TODO fix no-shadow
-              /* eslint-enable no-shadow */
+              // eslint-disable-next-line no-shadow
+              callback: (html) => _onConfirm(html),
             },
           },
           default: "confirm",

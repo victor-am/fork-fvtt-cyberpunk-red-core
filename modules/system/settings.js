@@ -46,4 +46,13 @@ export const registerSystemSettings = function () {
     type: Boolean,
     default: true,
   });
+
+  game.settings.register("cyberpunk-red-core", "invertRollCtrlFunction", {
+    name: "CPR.settinginvertrollctrlfunctionname",
+    hint: "CPR.settinginvertrollctrlfunctionhint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+  });
 };
