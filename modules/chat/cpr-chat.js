@@ -49,4 +49,24 @@ export default class CPRChat {
       return ChatMessage.create(chatOptions, false);
     });
   }
+
+  static RenderItemCard(item) {
+    LOGGER.trace("RenderItemCard | Chat | Called.");
+    return renderTemplate(item.itemCard, item).then((html) => {
+      const chatOptions = this.ChatDataSetup(html);
+      // TODO: confirm this conditional is needed
+      if (item.entityData !== undefined && item.entityData !== null) {
+        const actor = game.actors.filter((a) => a._id === item.entityData.actor)[0];
+        let alias = actor.name;
+        if (item.entityData.token !== null) {
+          const token = game.actors.tokens[item.entityData.token];
+          if (token !== undefined) {
+            alias = token.data.name;
+          }
+        }
+        chatOptions.speaker = { actor, alias };
+      }
+      return ChatMessage.create(chatOptions, false);
+    });
+  }
 }
