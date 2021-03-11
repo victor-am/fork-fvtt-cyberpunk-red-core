@@ -255,24 +255,10 @@ export default class CPRActorSheet extends ActorSheet {
     await SystemUtils.handleRollDialog(event, cprRoll);
 
     if (item !== null) {
+      // Do any actions that need to be done as part of a roll, like ammo decrementing
       await item.confirmRoll(rollType, cprRoll);
     }
 
-    /*
-    // decrementing ammo must come after dialog but before the roll in case the user cancels
-    if (cprRoll instanceof CPRRolls.CPRAttackRoll) {
-      const weaponId = $(event.currentTarget).attr("data-item-id");
-      const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
-      const weaponData = weaponItem.getData();
-      if (weaponData.isRanged) {
-        weaponItem.fireRangedWeapon(cprRoll.fireMode);
-      }
-    } else if (cprRoll instanceof CPRRolls.CPRDamageRoll) {
-      if (cprRoll.isAutofire) {
-        cprRoll.setAutofire();
-      }
-    }
-    */
     // Let's roll!
     await cprRoll.roll();
 
@@ -723,24 +709,19 @@ export default class CPRActorSheet extends ActorSheet {
     }));
   }
 
-  async _onDrop(event)
-  {
+  async _onDrop(event) {
     LOGGER.trace("ActorID _onDrop | CPRActorSheet | called.");
-    console.log(this);
+    // This is called whenever something is dropped onto the character sheet
     let dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
     let dropID = $(event.target).parents(".item").attr("data-item-id"); // Only relevant if container drop
     if (dragData.actorId !== undefined) {
-      const promptMessage = `${SystemUtils.Localize("CPR.confirmitemtransfer")} ${dragData.data.name} ${SystemUtils.Localize("CPR.to")} ${this.actor.data.name}?`;
-      const confirmTransfer = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.confirmitemtransfertitle"), promptMessage);
-      if (!confirmTransfer) {
-        return;
-      }
       // Transfer ownership from one player to another
       const actor = game.actors.find((a) => a._id === dragData.actorId);
       if (actor) {
-        return super._onDrop(event).then(actor.deleteEmbeddedEntity("OwnedItem", dragData.data._id));
+        super._onDrop(event).then(actor.deleteEmbeddedEntity("OwnedItem", dragData.data._id));
       }
+    } else {
+      super._onDrop(event);
     }
-    return super._onDrop(event);
   }
 }
