@@ -6,17 +6,17 @@
 /* global ActorSheet */
 /* global mergeObject, $, setProperty game */
 /* eslint no-prototype-builtins: ["warn"] */
-import LOGGER from "../../utils/cpr-logger.js";
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
-import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
 import CPRChat from "../../chat/cpr-chat.js";
-import Rules from "../../utils/cpr-rules.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
-import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import CriticalInjuryPrompt from "../../dialog/cpr-critical-injury-prompt.js";
+import LOGGER from "../../utils/cpr-logger.js";
+import Rules from "../../utils/cpr-rules.js";
+import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
+import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
 
 /**
  * Extend the basic ActorSheet.
@@ -218,48 +218,26 @@ export default class CPRActorSheet extends ActorSheet {
   async _onRoll(event) {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
-    // this will be important later on
-    let prevRoll = this._getPreviousRoll();
-    LOGGER.debug("previous roll");
-    console.log(prevRoll);
-
     const rollType = $(event.currentTarget).attr("data-roll-type");
     let cprRoll;
+
     switch (rollType) {
+      case "deathsave":
+      case "roleAbility":
       case "stat": {
-        cprRoll = this._createStatRoll(event);
+        const rollName = $(event.currentTarget).attr("data-roll-title");
+        cprRoll = this.actor.createRoll(rollType, rollName);
         break;
       }
-      case "skill": {
-        cprRoll = this._createSkillRoll(event);
-        break;
-      }
-      case "roleAbility": {
-        cprRoll = this._createRoleRoll(event);
-        break;
-      }
-      case "attack": {
-        cprRoll = this._createAttackRoll(event, false);
-        break;
-      }
-      case "aimed": {
-        cprRoll = this._createAttackRoll(event, true);
-        break;
-      }
+      case "damage":
+      case "aimed":
+      case "attack":
+      case "autofire":
+      case "skill":
       case "suppressive": {
-        cprRoll = this._createAutofireRoll(event, true);
-        break;
-      }
-      case "autofire": {
-        cprRoll = this._createAutofireRoll(event, false);
-        break;
-      }
-      case "damage": {
-        cprRoll = this._createDamageRoll(event, prevRoll);
-        break;
-      }
-      case "deathsave": {
-        cprRoll = this._createDeathSaveRoll();
+        const itemId = this._getItemId(event);
+        const item = this._getOwnedItem(itemId);
+        cprRoll = item.createRoll(rollType, this.actor._id);
         break;
       }
       default:
@@ -299,129 +277,7 @@ export default class CPRActorSheet extends ActorSheet {
     // was used.
     // Do we want to add this to the template is the
     // question?
-    this.actor.data.previousRoll = cprRoll;
-  }
-
-  _createStatRoll(event) {
-    const statName = $(event.currentTarget).attr("data-roll-title");
-    const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
-    const statValue = this.getData().data.stats[statName].value;
-    let cprRoll = new CPRRolls.CPRStatRoll(niceStatName, statValue);
-    cprRoll.addMod(this._getArmorPenaltyMods(statName));
-    return cprRoll;
-  }
-
-  _createSkillRoll(event) {
-    const itemId = this._getItemId(event);
-    const item = this._getOwnedItem(itemId);
-    const itemData = item.getData();
-    const statName = itemData.stat;
-    const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
-    const statValue = this.getData().data.stats[statName].value;
-    const skillName = item.name;
-    const skillLevel = itemData.level;
-    let cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel);
-    cprRoll.addMod(this._getArmorPenaltyMods(statName));
-    return cprRoll;
-  }
-
-  _createRoleRoll(event) {
-    const roleName = $(event.currentTarget).attr("data-roll-title");
-    const niceRoleName = SystemUtils.Localize(CPR.roleAbilityList[roleName]);
-    const roleValue = this._getRoleValue(roleName);
-    return new CPRRolls.CPRRoleRoll(niceRoleName, roleValue);
-  }
-
-  _getRoleValue(roleName) {
-    const { roleskills: roles } = this.getData().data.roleInfo;
-    const abilities = Object.values(roles);
-    for (const ability of abilities) {
-      const keys = Object.keys(ability);
-      for (const key of keys) {
-        if (key === roleName) return ability[key];
-        if (key === "subSkills") {
-          const subSkills = Object.keys(ability[key]);
-          for (const subSkill of subSkills) {
-            if (subSkill === roleName) return ability.subSkills[subSkill];
-          }
-        }
-      }
-    }
-    return null;
-  }
-
-  _createAttackRoll(event, aimed) {
-    const itemId = $(event.currentTarget).attr("data-item-id");
-    const weaponItem = this._getOwnedItem(itemId);
-    const weaponData = weaponItem.getData();
-    const weaponName = weaponItem.name;
-    const { weaponType } = weaponData;
-    const skillItem = this.actor.items.find((i) => i.name === weaponData.weaponSkill);
-    const skillValue = skillItem.getData().level;
-    const skillName = skillItem.data.name;
-    let cprRoll;
-    let statName;
-    let niceStatName;
-    let statValue;
-    if (weaponData.isRanged) {
-      statName = "ref";
-      niceStatName = SystemUtils.Localize("CPR.ref");
-      statValue = this.getData().data.stats.ref.value;
-    } else {
-      statName = "dex";
-      niceStatName = SystemUtils.Localize("CPR.dex");
-      statValue = this.getData().data.stats.dex.value;
-    }
-    if (aimed) {
-      cprRoll = new CPRRolls.CPRAimedAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
-    } else {
-      cprRoll = new CPRRolls.CPRAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
-    }
-
-    // apply known mods
-    cprRoll.addMod(this._getArmorPenaltyMods(statName));
-    cprRoll.addMod(this._getWeaponQualityMod(weaponData));
-
-    if (cprRoll instanceof CPRRolls.CPRAttackRoll && weaponData.isRanged) {
-      Rules.lawyer(weaponItem.checkAmmo("single") >= 0, "CPR.weaponattackoutofbullets");
-    }
-    return cprRoll;
-  }
-
-  _createAutofireRoll(event, suppress) {
-    const itemId = $(event.currentTarget).attr("data-item-id");
-    const weaponItem = this._getOwnedItem(itemId);
-    const weaponData = weaponItem.getData();
-    const weaponName = weaponItem.name;
-    const { weaponType } = weaponData;
-    const skillName = SystemUtils.Localize("CPR.autofire");
-    const skillValue = this.actor.getSkillLevel("autofire");
-    const niceStatName = SystemUtils.Localize("CPR.ref");
-    const statValue = this.getData().data.stats.ref.value;
-    let cprRoll;
-    if (suppress) {
-      cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
-    } else {
-      cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
-    }
-    cprRoll.addMod(this._getArmorPenaltyMods("ref"));
-    cprRoll.addMod(this._getWeaponQualityMod(weaponData));
-    Rules.lawyer(weaponItem.checkAmmo("autofire") >= 0, "CPR.weaponattackoutofbullets");
-    return cprRoll;
-  }
-
-  _getWeaponQualityMod(weaponData) {
-    if (weaponData.quality === "excellent") {
-      return 1;
-    }
-    return 0;
-  }
-
-  _getPreviousRoll() {
-    if (typeof this.actor.data.previousRoll !== "undefined") {
-      return this.actor.data.previousRoll;
-    }
-    return "undefined";
+    this.actor.setPreviousRoll(cprRoll);
   }
 
   async _handleRollDialog(event, cprRoll) {
@@ -435,33 +291,6 @@ export default class CPRActorSheet extends ActorSheet {
       const formData = await VerifyRoll.RenderPrompt(cprRoll);
       mergeObject(cprRoll, formData, { overwrite: true });
     }
-  }
-
-  _createDamageRoll(event, prevRoll) {
-    const itemId = $(event.currentTarget).attr("data-item-id");
-    const weaponItem = this._getOwnedItem(itemId);
-    const rollName = weaponItem.data.name;
-    const { damage, weaponType } = weaponItem.getData();
-    // const { weaponType } = weaponData;
-    let cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType);
-
-    // remove this once we're in rollcards
-    if (typeof prevRoll !== "undefined") {
-      if (prevRoll instanceof CPRRolls.CPRAutofireRoll) {
-        cprRoll.isAutofire = true;
-      } else if (prevRoll instanceof CPRRolls.CPRAimedAttackRoll) {
-        cprRoll.isAimed = true;
-        cprRoll.location = prevRoll.location;
-      }
-    }
-    return cprRoll;
-  }
-
-  _createDeathSaveRoll() {
-    const deathSavePenalty = this.actor.getData().derivedStats.deathSave.penalty;
-    const deathSaveBasePenalty = this.actor.getData().derivedStats.deathSave.basePenalty;
-    const bodyStat = this.getData().data.stats.body.value;
-    return new CPRRolls.CPRDeathSaveRoll(deathSavePenalty, deathSaveBasePenalty, bodyStat);
   }
 
   _resetActorValue(event) {
@@ -607,49 +436,8 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   // TODO - Move to cpr-actor
-  _getEquippedArmors(location) {
-    LOGGER.trace("ActorID _getEquippedArmors | CPRActorSheet | Called.");
-    // TODO - Helper function on ACTOR to get equipedArmors
-    const armors = this.actor.items.filter((item) => item.data.type === "armor");
-    const equipped = armors.filter((item) => item.getData().equipped === "equipped");
-
-    if (location === "body") {
-      return equipped.filter((item) => item.getData().isBodyLocation);
-    }
-    if (location === "head") {
-      return equipped.filter((item) => item.getData().isHeadLocation);
-    }
-    throw new Error(`Bad location given: ${location}`);
-  }
 
   // ARMOR HELPERS
-  // TODO - Move to cpr-actor
-  _getArmorValue(valueType, location) {
-    LOGGER.trace("ActorID _getArmorValue| CPRActorSheet | Called.");
-
-    const armors = this._getEquippedArmors(location);
-    let sps;
-    let penalties;
-
-    if (location === "body") {
-      sps = armors.map((a) => a.data.data.bodyLocation.sp);
-    } else if (location === "head") {
-      sps = armors.map((a) => a.data.data.headLocation.sp);
-    } // we assume getEquippedArmors will throw an error with a bad loc
-    penalties = armors.map((a) => a.data.data.penalty);
-    penalties = penalties.map(Math.abs);
-
-    penalties.push(0);
-    sps.push(0); // force a 0 if nothing is equipped
-
-    if (valueType === "sp") {
-      return Math.max(...sps); // Math.max treats null values in array as 0
-    }
-    if (valueType === "penalty") {
-      return Math.max(...penalties); // Math.max treats null values in array as 0
-    }
-    return 0;
-  }
 
   // TODO - Move to cpr-actor
   _getHands() {
@@ -787,22 +575,6 @@ export default class CPRActorSheet extends ActorSheet {
       data: {},
     };
     this.actor.createOwnedItem(itemData, { renderSheet: true });
-  }
-
-  // TODO - Fix
-  _getArmorPenaltyMods(stat) {
-    const penaltyStats = ["ref", "dex", "move"];
-    const penaltyMods = [0];
-    if (penaltyStats.includes(stat)) {
-      const coverage = ["head", "body"];
-      coverage.forEach((location) => {
-        const penaltyValue = Number(this._getArmorValue("penalty", location));
-        if (penaltyValue > 0) {
-          penaltyMods.push(0 - penaltyValue);
-        }
-      });
-    }
-    return Math.min(...penaltyMods);
   }
 
   async _selectRoles(event) {
