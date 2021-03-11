@@ -1,21 +1,21 @@
 {{log "CPR-ITEM-ROLL-CARD.HBS"}}
 {{log this}}
-<div class="item-top-pane">
-  <div class="item-image-section">
-    <div class="item-image-block">
-      <img src="{{img}}" class="" data-edit="img" width="64" height="64"/>
+{{log this.description.value}}
+{{log data.description.value}}
+<div class="item-card-grid-container">
+  <div class="item-card-icon">
+    <img src="{{img}}"/>
+  </div>
+  <div class="item-card-header">
+    <div class="item-card-name text-large text-bold text-left text-padding-left">
+      {{name}}
+    </div>
+    <div class="item-card-type text-left text-padding-left">
+      {{localize (findConfigValue "objectTypes" type)}}
     </div>
   </div>
-  <div class="item-header-section items-list flexcol">
-    <div class="item-name text-large text-bold text-left text-padding-left">{{name}}</div>
-    <div class="item-detail text-right text-padding-right">{{localize (findConfigValue "objectTypes" type)}}
-      {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/header/cpr-VAR.hbs" type) this}}
-    </div>
-  </div>
-</div>
-<div class="item-bottom-pane">
-  <div class="item-bottom-tabs-section">
-    {{description.value}}
+  <div class="item-card-description text-small text-left text-padding-left">
+    {{../description.value}}
   </div>
 </div>
 {{log "CPR-ITEM-ROLL-CARD.HBS"}}
