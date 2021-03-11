@@ -37,11 +37,12 @@ const hotbarHooks = () => {
       }
       const command = `game.cpr.utility.rollItemMacro("${item.name}");`;
       let macro = game.macros.entities.find((m) => (m.name === item.name) && (m.command === command));
+      const img = item.type === "skill" ? "systems/cyberpunk-red-core/icons/chip-skill.png" : item.img;
       if (!macro) {
         macro = await Macro.create({
           name: item.name,
           type: "script",
-          img: item.img,
+          img,
           command,
         }, { displaySheet: false });
       }
