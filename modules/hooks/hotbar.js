@@ -35,7 +35,39 @@ const hotbarHooks = () => {
       if (item.type !== "weapon" && item.type !== "skill") {
         return;
       }
-      const command = `game.cpr.utility.rollItemMacro("${item.name}");`;
+      let command = "";
+      command += "// Set this to true if you want to skip the roll verify prompt.\n";
+      command += "// Do not delete the semi-colon at the end of the line!\n";
+      command += "const skipPrompt = false;\n";
+      command += "\n";
+      if (item.type === "weapon") {
+        command += "// The roll type of the weapon for this macro is configurable.\n";
+        command += "// By default, we do the standard attack, however the rollType,\n";
+        command += "// may be configured by setting it to a different value:\n";
+        command += "//\n";
+        command += "// damage - Set the rollType to this to roll damage instead of an attack\n";
+        command += "//\n";
+        if (item.data.isRanged) {
+          command += "// For ranged weapons, you can configure a number of alternate fire:\n";
+          command += "// attacks:\n";
+          command += "//\n";
+          command += "// aimed       - Performs an aimed shot\n";
+          command += "// autofire    - Performs an autofire attack,\n";
+          command += "//               use only for SMG types and Assault Rifles\n";
+          command += "// suppressive - Performs a suppressive fire attack,\n";
+          command += "//               use only for SMG types and Assault Rifles\n";
+          command += "//\n";
+        }
+        command += "// Simply change the \"attack\" to one of the above to change the function.\n";
+        command += "\n";
+        command += "const rollType = \"attack\";\n";
+        command += "\n";
+        command += "// Do not edit anything below this line, please.\n";
+        command += "\n";
+        command += `game.cpr.utility.rollItemMacro("${item.name}", {skipPrompt, rollType});`;
+      } else {
+        command += `game.cpr.utility.rollItemMacro("${item.name}", {skipPrompt});`;
+      }
       let macro = game.macros.entities.find((m) => (m.name === item.name) && (m.command === command));
       const img = item.type === "skill" ? "systems/cyberpunk-red-core/icons/chip-skill.png" : item.img;
       if (!macro) {

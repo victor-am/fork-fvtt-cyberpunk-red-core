@@ -836,6 +836,9 @@ button,
 .text-underline {
   text-decoration: underline;
 }
+.text-flex-end {
+  justify-content: flex-end;
+}
 .flexrow {
   display: flex;
   flex-direction: row;

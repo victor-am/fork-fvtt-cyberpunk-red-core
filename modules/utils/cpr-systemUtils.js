@@ -57,7 +57,7 @@ export default class CPRSystemUtils {
     return game.i18n.localize(string);
   }
 
-  static async rollItemMacro(itemName, extraData = null) {
+  static async rollItemMacro(itemName, extraData = { skipPrompt: false, rollType: "attack" }) {
     const speaker = ChatMessage.getSpeaker();
     let actor;
     if (speaker.token) actor = game.actors.tokens[speaker.token];
@@ -70,11 +70,9 @@ export default class CPRSystemUtils {
     let rollType;
     switch (item.data.type) {
       case "weapon": {
-        rollType = "attack";
-        if (extraData !== null) {
-          if (extraData === "aimed" || extraData === "autofire" || extraData === "suppressive") {
-            rollType = extraData;
-          }
+        rollType = extraData.rollType === "attack" ? "attack" : "damage";
+        if (item.data.data.isRanged) {
+          rollType = extraData.rollType;
         }
         break;
       }
@@ -88,7 +86,10 @@ export default class CPRSystemUtils {
     const event = {};
     event.ctlKey = false;
 
-    await this.handleRollDialog(event, cprRoll);
+    if (!extraData.skipPrompt) {
+      await this.handleRollDialog(event, cprRoll);
+    }
+
     item.confirmRoll(rollType, cprRoll);
     await cprRoll.roll();
     CPRChat.RenderRollCard(cprRoll);

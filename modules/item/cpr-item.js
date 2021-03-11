@@ -351,7 +351,10 @@ export default class CPRItem extends Item {
     let skillItem = actor.items.find((i) => i.name === weaponData.weaponSkill);
     if (type === "aimed" || type === "autofire") {
       skillItem = actor.items.find((i) => i.name === "Autofire");
-      if (!((type === "autofire") && (this.data.data.weaponType === "smg" || this.data.data.weaponType === "heavySmg" || this.data.data.weaponType === "assaultRifle"))) {
+    }
+
+    if (type === "autofire" || type === "suppressive") {
+      if (this.data.data.weaponType !== "smg" && this.data.data.weaponType !== "heavySmg" && this.data.data.weaponType !== "assaultRifle") {
         Rules.lawyer(false, "CPR.weapondoesntsupportaltmode");
       }
     }
