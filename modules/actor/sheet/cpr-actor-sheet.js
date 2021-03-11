@@ -712,6 +712,7 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _onDragItemStart(event) {
+    LOGGER.trace("ActorID _onDragItemStart | CPRActorSheet | called.");
     let itemId = event.currentTarget.getAttribute("data-item-id");
     const item = this.actor.getEmbeddedEntity("OwnedItem", itemId);
     event.dataTransfer.setData("text/plain", JSON.stringify({
@@ -720,5 +721,26 @@ export default class CPRActorSheet extends ActorSheet {
       data: item,
       root: event.currentTarget.getAttribute("root"),
     }));
+  }
+
+  async _onDrop(event)
+  {
+    LOGGER.trace("ActorID _onDrop | CPRActorSheet | called.");
+    console.log(this);
+    let dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
+    let dropID = $(event.target).parents(".item").attr("data-item-id"); // Only relevant if container drop
+    if (dragData.actorId !== undefined) {
+      const promptMessage = `${SystemUtils.Localize("CPR.confirmitemtransfer")} ${dragData.data.name} ${SystemUtils.Localize("CPR.to")} ${this.actor.data.name}?`;
+      const confirmTransfer = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.confirmitemtransfertitle"), promptMessage);
+      if (!confirmTransfer) {
+        return;
+      }
+      // Transfer ownership from one player to another
+      const actor = game.actors.find((a) => a._id === dragData.actorId);
+      if (actor) {
+        return super._onDrop(event).then(actor.deleteEmbeddedEntity("OwnedItem", dragData.data._id));
+      }
+    }
+    return super._onDrop(event);
   }
 }

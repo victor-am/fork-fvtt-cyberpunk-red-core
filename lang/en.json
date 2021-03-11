@@ -183,6 +183,8 @@
     "CPR.contortionist": "Contortionist",
     "CPR.contraceptiveimplant": "Contraceptive Implant",
     "CPR.control": "Control",
+    "CPR.confirmitemtransfer": "Are you sure you want to transfer item",
+    "CPR.confirmitemtransfertitle": "Transfer Item",
     "CPR.controlnode": "Control Node",
     "CPR.controlskills": "Control Skills",
     "CPR.conversation": "Conversation",
