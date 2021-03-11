@@ -218,6 +218,10 @@ export default class CPRActorSheet extends ActorSheet {
   async _onRoll(event) {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
+    // this will be important later on
+    let prevRoll = this._getPreviousRoll();
+    LOGGER.debug("previous roll");
+
     const rollType = $(event.currentTarget).attr("data-roll-type");
     let cprRoll;
 
@@ -269,6 +273,8 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     // output to chat
+    const token = this.token === null ? null : this.token.data._id;
+    cprRoll.entityData = { actor: this.actor._id, token };
     CPRChat.RenderRollCard(cprRoll);
 
     // Store last roll so we can query and use it

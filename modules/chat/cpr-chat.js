@@ -35,6 +35,17 @@ export default class CPRChat {
     LOGGER.trace("RenderRollCard | Chat | Called.");
     return renderTemplate(cprRoll.rollCard, cprRoll).then((html) => {
       const chatOptions = this.ChatDataSetup(html);
+      if (cprRoll.entityData !== undefined && cprRoll.entityData !== null) {
+        const actor = game.actors.filter((a) => a._id === cprRoll.entityData.actor)[0];
+        let alias = actor.name;
+        if (cprRoll.entityData.token !== null) {
+          const token = game.actors.tokens[cprRoll.entityData.token];
+          if (token !== undefined) {
+            alias = token.data.name;
+          }
+        }
+        chatOptions.speaker = { actor, alias };
+      }
       return ChatMessage.create(chatOptions, false);
     });
   }
