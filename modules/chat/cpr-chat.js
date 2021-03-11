@@ -33,6 +33,7 @@ export default class CPRChat {
 
   static RenderRollCard(cprRoll) {
     LOGGER.trace("RenderRollCard | Chat | Called.");
+    cprRoll.criticalCard = cprRoll.wasCritical();
     return renderTemplate(cprRoll.rollCard, cprRoll).then((html) => {
       const chatOptions = this.ChatDataSetup(html);
       if (cprRoll.entityData !== undefined && cprRoll.entityData !== null) {

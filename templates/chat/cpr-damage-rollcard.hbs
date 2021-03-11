@@ -10,18 +10,19 @@
         <div class="cpr-block">
             <div class="rollcard">
                 <div class="total-div">
-                    <span class="{{#if wasCritical}}fg-red text-bold{{/if}}">{{resultTotal}}</span>
+                    <span class="{{#if criticalCard}}fg-red text-bold{{/if}}">{{resultTotal}}</span>
                 </div>
                 <div class="dice-div">
                     {{#each faces as |die|}}
-                    <i class="fas fa-dice-{{numToWord die}} text-massive {{#if wasCritical}} {{#if (compare die "===" 6)}} fg-red{{/if}} {{/if}}"></i>
+                    {{log ../criticalCard}}
+                    <i class="fas fa-dice-{{numToWord die}} text-massive {{#if ../criticalCard}} {{#if (compare die "===" 6)}} fg-red{{/if}} {{/if}}"></i>
                     {{/each}}
                 </div>
                 <div class="info-div">
                     {{#if autofire}}
                     {{localize "CPR.autofire"}}! (x{{autofireMultiplier}})<br>
                     {{/if}}
-                    {{#if wasCritical}}
+                    {{#if criticalCard}}
                     {{localize "CPR.bonus"}} {{localize "CPR.damage"}}: {{bonusDamage}}<br>
                     {{/if}}
                     {{localize "CPR.location"}}: {{#if isAimed}}{{localize (findConfigValue "aimedLocation" location)}}{{else}}{{localize "CPR.bodylocation"}}{{/if}}<br>
