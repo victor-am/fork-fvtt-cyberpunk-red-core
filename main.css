@@ -1111,7 +1111,7 @@ ol {
   display: grid;
   grid-template-columns: 0.2fr 1.8fr;
   grid-template-rows: 0.3fr 1.7fr;
-  gap: 0px 0px;
+  gap: 4px 0px;
   grid-template-areas: "item-card-icon item-card-header" "item-card-description item-card-description";
 }
 .item-card-icon {

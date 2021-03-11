@@ -54,7 +54,6 @@ export default class CPRChat {
     LOGGER.trace("RenderItemCard | Chat | Called.");
     return renderTemplate(item.itemCard, item).then((html) => {
       const chatOptions = this.ChatDataSetup(html);
-      // TODO: confirm this conditional is needed
       if (item.entityData !== undefined && item.entityData !== null) {
         const actor = game.actors.filter((a) => a._id === item.entityData.actor)[0];
         let alias = actor.name;
