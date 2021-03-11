@@ -514,8 +514,6 @@ export default class CPRActorSheet extends ActorSheet {
     const itemId = this._getItemId(event);
     const item = this.actor.items.find((i) => i.data._id === itemId);
     if (event.ctrlKey) {
-      item.itemCard = "systems/cyberpunk-red-core/templates/item/cpr-item-roll-card.hbs";
-      item.desc = item.data.data.description.value;
       CPRChat.RenderItemCard(item);
     } else {
       item.sheet.options.editable = true;
