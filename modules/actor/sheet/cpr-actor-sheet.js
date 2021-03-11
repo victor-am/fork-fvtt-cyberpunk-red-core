@@ -268,6 +268,8 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     // output to chat
+    const token = this.token === null ? null : this.token.data._id;
+    cprRoll.entityData = { actor: this.actor._id, token };
     CPRChat.RenderRollCard(cprRoll);
 
     // Store last roll so we can query and use it
@@ -314,7 +316,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _ablateArmor(event) {
     LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
     const location = $(event.currentTarget).attr("data-location");
-    const armorList = this._getEquippedArmors(location);
+    const armorList = this.actor.getEquippedArmors(location);
     let updateList = [];
     switch (location) {
       case "head": {
