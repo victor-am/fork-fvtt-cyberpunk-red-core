@@ -129,7 +129,7 @@ export default class CPRItem extends Item {
   }
 
   // AMMO FUNCTIONS
-  _ammoDecrement(changeAmount) {
+  async _ammoDecrement(changeAmount) {
     LOGGER.debug("_ammoDecrement | CPRItem | Called.");
     const currentValue = this.data.data.amount;
     const newValue = Math.max(0, Number(currentValue) - Number(changeAmount));
@@ -139,7 +139,7 @@ export default class CPRItem extends Item {
     }
   }
 
-  _ammoIncrement(changeAmount) {
+  async _ammoIncrement(changeAmount) {
     LOGGER.debug("_ammoIncrement | CPRItem | Called.");
     const currentValue = this.data.data.amount;
     const newValue = Number(currentValue) + Number(changeAmount);

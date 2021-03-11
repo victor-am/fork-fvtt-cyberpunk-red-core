@@ -718,6 +718,9 @@ export default class CPRActorSheet extends ActorSheet {
       // Transfer ownership from one player to another
       const actor = game.actors.find((a) => a._id === dragData.actorId);
       if (actor) {
+        if (actor.data._id === this.actor.data._id || dragData.data.data.core === true || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
+          return;
+        }
         super._onDrop(event).then(actor.deleteEmbeddedEntity("OwnedItem", dragData.data._id));
       }
     } else {
