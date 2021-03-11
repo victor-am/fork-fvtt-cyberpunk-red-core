@@ -490,7 +490,7 @@ export default class CPRActor extends Actor {
   _getArmorValue(valueType, location) {
     LOGGER.trace("ActorID _getArmorValue| CPRActorSheet | Called.");
 
-    const armors = this._getEquippedArmors(location);
+    const armors = this.getEquippedArmors(location);
     let sps;
     let penalties;
 
@@ -514,7 +514,7 @@ export default class CPRActor extends Actor {
     return 0;
   }
 
-  _getEquippedArmors(location) {
+  getEquippedArmors(location) {
     LOGGER.trace("ActorID _getEquippedArmors | CPRActorSheet | Called.");
     const armors = this.data.filteredItems.armor;
     const equipped = armors.filter((item) => item.getData().equipped === "equipped");

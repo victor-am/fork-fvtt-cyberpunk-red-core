@@ -317,7 +317,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _ablateArmor(event) {
     LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
     const location = $(event.currentTarget).attr("data-location");
-    const armorList = this._getEquippedArmors(location);
+    const armorList = this.actor.getEquippedArmors(location);
     let updateList = [];
     switch (location) {
       case "head": {
