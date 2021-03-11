@@ -57,19 +57,25 @@ export default class CPRSystemUtils {
     return game.i18n.localize(string);
   }
 
-  static async rollItemMacro(itemName, extraData) {
+  static async rollItemMacro(itemName, extraData = null) {
     const speaker = ChatMessage.getSpeaker();
     let actor;
     if (speaker.token) actor = game.actors.tokens[speaker.token];
     if (!actor) actor = game.actors.get(speaker.actor);
     const item = actor ? actor.items.find((i) => i.name === itemName) : null;
 
-    if (!item) return ui.notifications.warn(`[${actor.name}] ${game.i18n.localize("CPR.macroitemmissing")} ${itemName}`);
+    const displayName = actor === null ? "ERROR" : actor.name;
+    if (!item) return ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macroitemmissing")} ${itemName}`);
 
     let rollType;
     switch (item.data.type) {
       case "weapon": {
         rollType = "attack";
+        if (extraData !== null) {
+          if (extraData === "aimed" || extraData === "autofire" || extraData === "suppressive") {
+            rollType = extraData;
+          }
+        }
         break;
       }
       case "skill": {
@@ -78,7 +84,7 @@ export default class CPRSystemUtils {
       }
       default:
     }
-    const cprRoll = item.createRoll(rollType, actor._id);
+    const cprRoll = item.createRoll(rollType, actor._id, extraData);
     const event = {};
     event.ctlKey = false;
 
