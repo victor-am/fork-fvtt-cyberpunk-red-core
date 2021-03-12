@@ -64,7 +64,6 @@ export default class CPRRoll {
     this._roll = new Roll(this.formula).roll();
     await DiceSoNice.ShowDiceSoNice(this._roll);
     this.initialRoll = this._roll.total;
-    console.log(this.initialRoll);
     this.resultTotal = this.initialRoll + this.totalMods();
     this.faces = this._roll.terms[0].results.map((r) => r.result);
 
@@ -105,7 +104,7 @@ export default class CPRRoll {
   }
 }
 
-export function BasicRoll(formula) { 
+export function BasicRoll(formula) {
   const roll = new Roll(formula).roll();
   return roll._total;
 }
