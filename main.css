@@ -1110,8 +1110,7 @@ ol {
 .item-card-grid-container {
   display: grid;
   grid-template-columns: 0.2fr 1.8fr;
-  grid-template-rows: 0.3fr 1.7fr;
-  gap: 4px 0px;
+  gap: 4px 4px;
   grid-template-areas: "item-card-icon item-card-header" "item-card-description item-card-description";
 }
 .item-card-icon {
@@ -1124,7 +1123,6 @@ ol {
 }
 .item-card-header {
   display: grid;
-  grid-template-columns: 0.8fr 1.2fr 1fr;
   grid-template-rows: 1fr 1fr;
   gap: 0px 0px;
   grid-template-areas: "item-card-name" "item-card-type";
@@ -1132,6 +1130,7 @@ ol {
 }
 .item-card-name {
   grid-area: item-card-name;
+  flex-wrap: nowrap;
 }
 .item-card-type {
   grid-area: item-card-type;

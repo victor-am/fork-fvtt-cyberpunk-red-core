@@ -56,20 +56,20 @@ export default class CPRChat {
     const itemTemplate = "systems/cyberpunk-red-core/templates/item/cpr-item-roll-card.hbs";
 
     // trim strings so layout does not get too goofy
-    const maxNameLen = 20;
+    const maxNameLen = 16;
     trimmedItem.trimName = item.name;
     if (trimmedItem.trimName.length > maxNameLen) {
-      trimmedItem.trimName = `${trimmedItem.trimName.slice(0, maxNameLen - 3)}...`;
+      trimmedItem.trimName = `${trimmedItem.trimName.slice(0, maxNameLen - 1)}…`;
     }
-    const maxDescLen = 10000;
+    const maxDescLen = 5000;
     trimmedItem.trimDesc = item.data.data.description.value;
     if (trimmedItem.trimDesc.length === 0) {
       trimmedItem.trimDesc = "(No description)";
     } else if (trimmedItem.trimDesc.length > maxDescLen) {
       // TODO - this dangerously cuts through html code
-      trimmedItem.trimDesc = `${trimmedItem.trimDesc.slice(0, maxDescLen - 3)}...`;
+      trimmedItem.trimDesc = `${trimmedItem.trimDesc.slice(0, maxDescLen - 1)}…`;
     }
-    console.log(trimmedItem);
+
     return renderTemplate(itemTemplate, trimmedItem).then((html) => {
       const chatOptions = this.ChatDataSetup(html);
       if (item.entityData !== undefined && item.entityData !== null) {
