@@ -58,12 +58,12 @@ export default class CPRChat {
     // trim strings so layout does not get too goofy
     const maxNameLen = 16;
     trimmedItem.trimName = item.name;
-    if (trimmedItem.trimName.length > maxNameLen) {
+    if (trimmedItem.name === null || trimmedItem.trimName.length > maxNameLen) {
       trimmedItem.trimName = `${trimmedItem.trimName.slice(0, maxNameLen - 1)}…`;
     }
     const maxDescLen = 5000;
     trimmedItem.trimDesc = item.data.data.description.value;
-    if (trimmedItem.trimDesc.length === 0) {
+    if (trimmedItem.trimDesc === null || trimmedItem.trimDesc.length === 0) {
       trimmedItem.trimDesc = "(No description)";
     } else if (trimmedItem.trimDesc.length > maxDescLen) {
       // TODO - this dangerously cuts through html code
