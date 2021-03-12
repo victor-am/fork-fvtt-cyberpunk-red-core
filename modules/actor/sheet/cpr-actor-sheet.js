@@ -218,10 +218,6 @@ export default class CPRActorSheet extends ActorSheet {
   async _onRoll(event) {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
-    // this will be important later on
-    let prevRoll = this._getPreviousRoll();
-    LOGGER.debug("previous roll");
-
     const rollType = $(event.currentTarget).attr("data-roll-type");
     let cprRoll;
 
@@ -321,7 +317,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _ablateArmor(event) {
     LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
     const location = $(event.currentTarget).attr("data-location");
-    const armorList = this._getEquippedArmors(location);
+    const armorList = this.actor.getEquippedArmors(location);
     let updateList = [];
     switch (location) {
       case "head": {
