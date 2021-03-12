@@ -252,15 +252,19 @@ export default class CPRActor extends Actor {
   }
 
   async loseHumanityValue(amount) {
+    LOGGER.trace("CPR Actor loseHumanityValue | Called.");
     if (amount.humanityLoss === "None") {
+      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was None.");
       return;
     }
     const { humanity } = this.data.data;
     let value = humanity.value ? humanity.value : humanity.max;
     if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
-      value -= (await CPRRolls.CPRRoll(amount.humanityLoss)).total;
+      value -= CPRRolls.BasicRoll(amount.humanityLoss);
+      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was rolled.");
     } else {
       value -= parseInt(amount.humanityLoss, 10);
+      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was static.");
     }
 
     if (value <= 0) {
