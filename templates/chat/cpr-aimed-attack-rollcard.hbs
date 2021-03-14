@@ -11,7 +11,7 @@
       <div class="rollcard">
         <div class="dice-div">
           {{!-- die image for initialRoll --}}
-          {{#if wasCritical}}
+          {{#if criticalCard}}
             <i class="d10 {{numToWord initialRoll}}"></i>
             {{#if wasCritSuccess}}
               <i class="fas fa-plus text-center"></i>
@@ -24,7 +24,7 @@
           {{/if}}
         </div>
         <div class="total-div">
-          <span class="{{#if wasCritical}}fg-red text-bold{{/if}}">{{resultTotal}}</span>
+          <span class="{{#if criticalCard}}fg-red text-bold{{/if}}">{{resultTotal}}</span>
         </div>
         <div class="info-div">
           {{localize "CPR.location"}}: {{localize (findConfigValue "aimedLocation" location)}}<br>

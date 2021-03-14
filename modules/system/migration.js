@@ -35,6 +35,7 @@ export default class Migration {
         displayPercent += 25;
         loopIndex = 0;
       }
+
       await this.migrateActorData(a);
     }
 
@@ -68,12 +69,17 @@ export default class Migration {
 
   static async migrateActorData(actor) {
     const actorItems = actor.items;
-    const actorData = actor.data;
     const updateItems = [];
     for (const i of actorItems) {
       updateItems.push(this.migrateItemData(i.data));
     }
     await actor.updateEmbeddedEntity("OwnedItem", updateItems);
+
+    // Moved to after all of the items have been migrated, since this is used to
+    // update our Actor.  If we set it before, the actor just gets updated with all of the
+    // OLD item data! Oops!
+
+    const actorData = actor.data;
 
     /*
     After version 0.53, we moved deathSave to 3 values to support the rules:
@@ -95,34 +101,20 @@ export default class Migration {
     only your "Base Death Save Penalty" applies to Death Saves and from our example, you would only add +2 to Death Saves until the
     critical injuries are healed. p221
     */
-    if (actor.type === "character") {
-      if ((typeof actorData.data.derivedStats.deathSave) === "number") {
-        const oldDeathSave = actorData.data.derivedStats.deathSave;
-        let oldDeathPenalty = 0;
-        if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
-          oldDeathPenalty = actorData.data.derivedStats.deathSavePenlty;
-          delete actorData.data.derivedStats.deathSavePenlty; // Doesn't actually work.
-        }
-        actorData.data.derivedStats.deathSave = { value: oldDeathSave, penalty: oldDeathPenalty, basePenalty: 0 };
-      }
 
-      if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
-        delete actorData.data.derivedStats.deathSavePenlty; // Doesn't actually work.
-      }
-
+    // The following only applies to the character data model
+    if (actorData.type === "character") {
       // Original Data Model had a spelling issue
       if ((typeof actorData.data.lifepath.familyBackground) === "undefined") {
         actorData.data.lifepath.familyBackground = "";
         if ((typeof actorData.data.lifepath.familyBackgrond) !== "undefined") {
           actorData.data.lifepath.familyBackground = actorData.data.lifepath.familyBackgrond;
-          delete actorData.data.lifepath.familyBackgrond; // Doesn't actually work.
         }
       }
       if ((typeof actorData.data.lifestyle.fashion) === "undefined") {
         actorData.data.lifestyle.fashion = "";
         if ((typeof actorData.data.lifestyle.fasion) !== "undefined") {
           actorData.data.lifestyle.fashion = actorData.data.lifestyle.fasion;
-          delete actorData.data.lifestyle.fasion; // Doesn't actually work.
         }
       }
       if ((typeof actorData.data.improvementPoints) === "undefined") {
@@ -134,7 +126,6 @@ export default class Migration {
         let ipValue = 0;
         if ((typeof actorData.data.improvementPoints.total) !== "undefined") {
           ipValue = actorData.data.improvementPoints.total;
-          delete actorData.data.improvementPoints.total; // Doesn't actually work
         }
         actorData.data.improvementPoints = {
           value: ipValue,
@@ -151,7 +142,6 @@ export default class Migration {
         let eddies = 0;
         if ((typeof actorData.data.wealth.eddies) !== "undefined") {
           eddies = actorData.data.wealth.eddies;
-          delete actorData.data.wealth.eddies; // Doesn't actually work.
         }
         actorData.data.wealth = {
           value: eddies,
@@ -168,6 +158,15 @@ export default class Migration {
     }
 
     // Applies to both characters and mooks
+    if ((typeof actorData.data.derivedStats.deathSave) === "number") {
+      const oldDeathSave = actorData.data.derivedStats.deathSave;
+      let oldDeathPenalty = 0;
+      if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
+        oldDeathPenalty = actorData.data.derivedStats.deathSavePenlty;
+      }
+      actorData.data.derivedStats.deathSave = { value: oldDeathSave, penalty: oldDeathPenalty, basePenalty: 0 };
+    }
+
     if ((typeof actorData.data.roleInfo.activeRole) === "undefined") {
       let configuredRole = "solo";
       if (actorData.data.roleInfo.roles.length > 0) {
@@ -180,16 +179,49 @@ export default class Migration {
     if ((typeof actorData.data.criticalInjuries) === "undefined") {
       actorData.data.criticalInjuries = [];
     }
-    // The following items exist on the data model and are not used, but I don't know how to get rid of them:
-    //
-    // data.lifestyle.fasion
-    // data.lifepath.familyBackgrond
-    // data.improvementPoints.total
-    // data.reputation:  # Yes, the key name has the colon in it
-    // data.wealth.eddies
-    //
-    // They don't affect anything, they are just stuck on actors create pre 0.58
+
+    // Check the ActorData for properties no longer in use and add them
+    // to the scrubData object to have them removed
+    const scrubData = this.scrubActorData(actorData);
+
+    // Update the actor with the new data model
     await actor.update(actorData, { diff: false, enforceTypes: false });
+
+    // Remove any unused properties if needed
+    if (scrubData !== {}) {
+      await actor.update(scrubData);
+    }
+  }
+
+  // The following is code that is used to remove data points on the actor model that
+  // is no longer in use.  Removing properties uses a special syntax for actor.update()
+  // Basically you prefix the data point you want to remove with '-=' and set it to null.
+  // We build up scrubData with anything that needs to be removed and return it
+  static scrubActorData(actorData) {
+    const scrubData = {};
+    // Remove unused data points from a character actor
+    if (actorData.type === "character") {
+      if ((typeof actorData.data.lifepath.familyBackgrond) !== "undefined") {
+        scrubData["data.lifepath.-=familyBackgrond"] = null;
+      }
+      if ((typeof actorData.data.lifestyle.fasion) !== "undefined") {
+        scrubData["data.lifestyle.-=fasion"] = null;
+      }
+      if ((typeof actorData.data.improvementPoints.total) !== "undefined") {
+        scrubData["data.improvementPoints.-=total"] = null;
+      }
+      if ((typeof actorData.data.wealth.eddies) !== "undefined") {
+        scrubData["data.wealth.-=eddies"] = null;
+      }
+      if ((typeof actorData.data["reputation:"]) !== "undefined") {
+        scrubData["data.-=reputation:"] = null;
+      }
+    }
+    // Remove unused data points from an actor (character & mooks)
+    if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
+      scrubData["data.derivedStats.-=deathSavePenlty"] = null;
+    }
+    return scrubData;
   }
 
   static migrateItemData(itemData) {
