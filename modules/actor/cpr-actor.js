@@ -1,5 +1,6 @@
 /* globals Actor, game, getProperty, setProperty, hasProperty, randomID */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
+import CPRChat from "../chat/cpr-chat.js";
 import CPR from "../system/config.js";
 import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
 import InstallCyberwarePrompt from "../dialog/cpr-cyberware-install-prompt.js";
@@ -260,7 +261,11 @@ export default class CPRActor extends Actor {
     const { humanity } = this.data.data;
     let value = humanity.value ? humanity.value : humanity.max;
     if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
-      value -= CPRRolls.BasicRoll(amount.humanityLoss);
+      const humRoll = new CPRRolls.CPRRoll(SystemUtils.Localize("CPR.humanityloss"), amount.humanityLoss);
+      humRoll.calculateCritical = false;
+      await humRoll.roll();
+      value -= humRoll.resultTotal;
+      CPRChat.RenderRollCard(humRoll);
       LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was rolled.");
     } else {
       value -= parseInt(amount.humanityLoss, 10);

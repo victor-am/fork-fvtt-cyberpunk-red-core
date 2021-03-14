@@ -4,7 +4,7 @@ import LOGGER from "../utils/cpr-logger.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
-export default class CPRRoll {
+export class CPRRoll {
   // Generic roll handler for CPR
   constructor(rollTitle, formula) {
     // (private) the resulting Roll() object from Foundry
@@ -102,11 +102,6 @@ export default class CPRRoll {
   wasCritSuccess() {
     return this.initialRoll === this._roll.terms[0].faces;
   }
-}
-
-export function BasicRoll(formula) {
-  const roll = new Roll(formula).roll();
-  return roll._total;
 }
 
 export class CPRStatRoll extends CPRRoll {
