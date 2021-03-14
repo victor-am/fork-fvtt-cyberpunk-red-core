@@ -112,13 +112,6 @@ export class CPRStatRoll extends CPRRoll {
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-stat-rollcard.hbs";
   }
 
-  static getProto() {
-    return {
-      mods: String,
-      stat: Number,
-    };
-  }
-
   _computeBase() {
     return this.initialRoll + this.totalMods() + this.statValue;
   }
