@@ -17,10 +17,10 @@ const chatPreHooks = () => {
   });
   // for now, we intentionally do not use log (ChatLog) or data (ChatData)
   // eslint-disable-next-line no-unused-vars
-  Hooks.on("chatMessage", async (log, message, data) => {
+  Hooks.on("chatMessage", (log, message, data) => {
     LOGGER.trace("chatMessage | chatHooks | Called.");
     if (message !== undefined && message.startsWith("/red")) {
-      await handleRedRoll(message);
+      handleRedRoll(message);
       // do not continue further processing of the ChatMessage
       return false;
     }

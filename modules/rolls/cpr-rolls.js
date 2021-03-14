@@ -77,6 +77,19 @@ export class CPRRoll {
     this._computeResult();
   }
 
+  rollNo3d() {
+    // same as roll() but without the 3D dice
+    this._roll = new Roll(this.formula).roll();
+    this.initialRoll = this._roll.total;
+    this.resultTotal = this.initialRoll + this.totalMods();
+    this.faces = this._roll.terms[0].results.map((r) => r.result);
+    if (this.wasCritical() && this.calculateCritical) {
+      const critroll = new Roll(this.formula).roll();
+      this.criticalRoll = critroll.total;
+    }
+    this._computeResult();
+  }
+
   _computeBase() {
     // this MUST be called from roll()!
     return this.initialRoll + this.totalMods();
@@ -271,10 +284,10 @@ export class CPRDamageRoll extends CPRRoll {
   }
 }
 
-export async function handleRedRoll(message) {
+export function handleRedRoll(message) {
   LOGGER.trace(`CPR-ROLLS | handleRedRoll`);
   const fragment = message.slice(4);
   const redRoll = new CPRRoll(SystemUtils.Localize("CPR.roll"), `1d10${fragment}`);
-  await redRoll.roll();
+  redRoll.rollNo3d();
   CPRChat.RenderRollCard(redRoll);
 }
