@@ -513,8 +513,12 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _itemUpdate | CPRActorSheet | Called.");
     const itemId = this._getItemId(event);
     const item = this.actor.items.find((i) => i.data._id === itemId);
-    item.sheet.options.editable = true;
-    item.sheet.render(true);
+    if (event.ctrlKey) {
+      CPRChat.RenderItemCard(item);
+    } else {
+      item.sheet.options.editable = true;
+      item.sheet.render(true);
+    }
   }
 
   _renderReadOnlyItemCard(event) {
