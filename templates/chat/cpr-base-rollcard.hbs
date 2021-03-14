@@ -1,12 +1,7 @@
 {{log "CPR-BASE-ROLLCARD.HBS"}}
 <div class="rollcard-body">
   <div class="rollcard-top">
-    <div class="cpr-block chat-rollTitle-{{rollType}}">
-      <div class="text-center text-padding-top">{{rollTitle}}</div>
-      {{#if (compare rollTitle "!==" skill)}}
-      <div class="text-center text-small text-padding-bottom">{{skill}}</div>
-      {{/if}}
-    </div>
+    <div class="text-center text-padding-top">{{rollTitle}}</div>
   </div>
   <div class="rollcard-bottom">
     {{!-- rollcard body --}}
@@ -30,17 +25,9 @@
           <span class="{{#if criticalCard}}fg-red text-bold{{/if}}">{{resultTotal}}</span>
         </div>
         <div class="info-div">
-
-
-          {{#if (compare roleValue ">" 0)}}
-          {{localize "CPR.abilityrank"}}: {{roleValue}}<br>
-          {{else}}
-          {{localize (findConfigValue "statList" stat)}} + {{statValue}}<br>
-          {{localize "CPR.skill"}} + {{skillValue}}<br>
-          {{/if}}<br>
           {{#if mods}}
           <span class="text-nowrap">{{localize "CPR.rollmods"}}: {{mods}}</span>
-          <div class="chat-rollTotal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}: {{modsTotal}}</div>
+          <div class="chat-rollTotal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}: {{totalMods}}</div>
           {{/if}}
         </div>
       </div>

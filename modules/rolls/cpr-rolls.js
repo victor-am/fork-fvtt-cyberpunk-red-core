@@ -3,8 +3,9 @@
 import LOGGER from "../utils/cpr-logger.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
+import CPRChat from "../chat/cpr-chat.js";
 
-export default class CPRRoll {
+export class CPRRoll {
   // Generic roll handler for CPR
   constructor(rollTitle, formula) {
     // (private) the resulting Roll() object from Foundry
@@ -268,4 +269,12 @@ export class CPRDamageRoll extends CPRRoll {
     this.isAutofire = true;
     this.formula = "2d6";
   }
+}
+
+export async function handleRedRoll(message) {
+  LOGGER.trace(`CPR-ROLLS | handleRedRoll`);
+  const fragment = message.slice(4);
+  const redRoll = new CPRRoll(SystemUtils.Localize("CPR.roll"), `1d10${fragment}`);
+  await redRoll.roll();
+  CPRChat.RenderRollCard(redRoll);
 }
