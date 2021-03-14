@@ -55,4 +55,12 @@ export const registerSystemSettings = function () {
     type: Boolean,
     default: false,
   });
+
+  game.settings.register("cyberpunk-red-core", "userSettings", {
+    name: "User Settings",
+    scope: "client",
+    config: false,
+    type: Object,
+    default: {},
+  });
 };
