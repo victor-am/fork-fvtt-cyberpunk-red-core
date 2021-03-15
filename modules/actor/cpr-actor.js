@@ -266,6 +266,7 @@ export default class CPRActor extends Actor {
       const humRoll = new CPRRolls.CPRHumanityLossRoll(item.data.name, amount.humanityLoss);
       await humRoll.roll();
       value -= humRoll.resultTotal;
+      humRoll.entityData = { actor: this._id };
       CPRChat.RenderRollCard(humRoll);
       LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was rolled.");
     } else {
