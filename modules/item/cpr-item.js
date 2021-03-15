@@ -66,6 +66,30 @@ export default class CPRItem extends Item {
     }
   }
 
+  confirmRoll(rollType, cprRoll) {
+    const itemType = this.data.type;
+    if (itemType === "weapon") {
+      switch (rollType) {
+        case "aimed":
+        case "attack":
+        case "autofire":
+        case "suppressive": {
+          if (this.data.data.isRanged) {
+            this.fireRangedWeapon(cprRoll.fireMode);
+          }
+          break;
+        }
+        case "damage": {
+          if (cprRoll.isAutofire) {
+            cprRoll.setAutofire();
+          }
+          break;
+        }
+        default:
+      }
+    }
+  }
+
   // ammo Item Methods
   // TODO - REFACTOR, do not do this...
   _ammoAction(actionAttributes) {
@@ -105,7 +129,7 @@ export default class CPRItem extends Item {
   }
 
   // AMMO FUNCTIONS
-  _ammoDecrement(changeAmount) {
+  async _ammoDecrement(changeAmount) {
     LOGGER.debug("_ammoDecrement | CPRItem | Called.");
     const currentValue = this.data.data.amount;
     const newValue = Math.max(0, Number(currentValue) - Number(changeAmount));
@@ -115,7 +139,7 @@ export default class CPRItem extends Item {
     }
   }
 
-  _ammoIncrement(changeAmount) {
+  async _ammoIncrement(changeAmount) {
     LOGGER.debug("_ammoIncrement | CPRItem | Called.");
     const currentValue = this.data.data.amount;
     const newValue = Number(currentValue) + Number(changeAmount);
@@ -319,6 +343,7 @@ export default class CPRItem extends Item {
   }
 
   _createAttackRoll(type, actorId) {
+    console.log(this);
     const actor = (game.actors.filter((a) => a._id === actorId))[0];
     const weaponData = this.data.data;
     const weaponName = this.name;
@@ -326,6 +351,12 @@ export default class CPRItem extends Item {
     let skillItem = actor.items.find((i) => i.name === weaponData.weaponSkill);
     if (type === "aimed" || type === "autofire") {
       skillItem = actor.items.find((i) => i.name === "Autofire");
+    }
+
+    if (type === "autofire" || type === "suppressive") {
+      if (this.data.data.weaponType !== "smg" && this.data.data.weaponType !== "heavySmg" && this.data.data.weaponType !== "assaultRifle") {
+        Rules.lawyer(false, "CPR.weapondoesntsupportaltmode");
+      }
     }
     const skillValue = skillItem.data.data.level;
     const skillName = skillItem.data.name;

@@ -4,6 +4,7 @@ import * as chatHooks from "../hooks/chat.js";
 import * as tokenHooks from "../hooks/token.js";
 import * as combatHooks from "../hooks/combat.js";
 import * as uiHooks from "../hooks/ui.js";
+import * as hotbarHooks from "../hooks/hotbar.js";
 
 export default function registerHooks() {
   actorHooks.default();
@@ -12,4 +13,5 @@ export default function registerHooks() {
   tokenHooks.default();
   combatHooks.default();
   uiHooks.default();
+  hotbarHooks.default();
 }

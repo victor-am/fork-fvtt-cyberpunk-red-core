@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable no-undef */
 /* global game, ui */
 import LOGGER from "./cpr-logger.js";
 

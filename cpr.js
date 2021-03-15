@@ -6,6 +6,7 @@ import CPRMookActorSheet from "./modules/actor/sheet/cpr-mook-sheet.js";
 import CPRItem from "./modules/item/cpr-item.js";
 import CPRItemSheet from "./modules/item/sheet/cpr-item-sheet.js";
 import LOGGER from "./modules/utils/cpr-logger.js";
+import CPRMacro from "./modules/utils/cpr-macros.js";
 
 import Migration from "./modules/system/migration.js";
 
@@ -16,7 +17,6 @@ import registerHandlebarsHelpers from "./modules/system/register-helpers.js";
 
 // System settings
 import { registerSystemSettings } from "./modules/system/settings.js";
-import { enablePauseAnimation } from "./modules/system/pause-animation.js";
 
 Hooks.once("init", async () => {
   LOGGER.log("THANK YOU TO EVERYONE WHO HELPED!!!!");
@@ -43,7 +43,6 @@ Hooks.once("init", async () => {
     makeDefault: true,
   });
 
-  // Give ourselves console access to our objects
   game.cpr = {
     apps: {
       CPRActorSheet,
@@ -55,6 +54,7 @@ Hooks.once("init", async () => {
       CPRActor,
       CPRItem,
     },
+    macro: CPRMacro,
   };
 
   // Assign the actor class to the CONFIG
