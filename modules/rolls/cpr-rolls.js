@@ -13,6 +13,8 @@ export class CPRRoll {
     this.mods = [];
     // a name for the roll, used in the UI
     this.rollTitle = rollTitle || this.template;
+    // Store the die type and it can be used when displaying on the rollcard
+    this.die = null;
     // this assumes exactly 1 term, "XdY", which is passed to Foundry's Roll()
     // any +A or -B terms are converted to mods
     this.formula = this._processFormula(formula);
@@ -35,6 +37,7 @@ export class CPRRoll {
 
   _processFormula(formula) {
     const dice = /[0-9][0-9]*d[0-9][0-9]*/;
+    const die = /d[0-9][0-9]*/;
     // cut out the XdY term, leaving only + or - terms after
     let rollMods = formula.replace(dice, "");
     if (rollMods !== "") {
@@ -48,6 +51,8 @@ export class CPRRoll {
         }
       });
     }
+    // eslint-disable-next-line prefer-destructuring
+    this.die = formula.match(die)[0];
     return formula.match(dice)[0];
   }
 
@@ -110,13 +115,6 @@ export class CPRStatRoll extends CPRRoll {
     this.statValue = value;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-stat-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-stat-rollcard.hbs";
-  }
-
-  static getProto() {
-    return {
-      mods: String,
-      stat: Number,
-    };
   }
 
   _computeBase() {

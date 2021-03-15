@@ -836,6 +836,9 @@ button,
 .text-underline {
   text-decoration: underline;
 }
+.text-flex-end {
+  justify-content: flex-end;
+}
 .flexrow {
   display: flex;
   flex-direction: row;
@@ -1103,6 +1106,34 @@ ol {
   background-color: #eaeaeaff;
   clip-path: polygon(0 14px, 0 100%, 100% 100%, 100% 0, 14px 0);
   z-index: -1;
+}
+.item-card-grid-container {
+  display: grid;
+  grid-template-columns: 0.2fr 1.8fr;
+  gap: 4px 4px;
+  grid-template-areas: "item-card-icon item-card-header" "item-card-description item-card-description";
+}
+.item-card-icon {
+  grid-area: item-card-icon;
+  width: 52px;
+  height: 52px;
+}
+.item-card-description {
+  grid-area: item-card-description;
+}
+.item-card-header {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas: "item-card-name" "item-card-type";
+  grid-area: item-card-header;
+}
+.item-card-name {
+  grid-area: item-card-name;
+  flex-wrap: nowrap;
+}
+.item-card-type {
+  grid-area: item-card-type;
 }
 form input.number {
   width: 30px;

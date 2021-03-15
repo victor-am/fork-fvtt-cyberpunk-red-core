@@ -16,9 +16,9 @@
             {{else}}
               <i class="fas fa-minus text-center"></i>
             {{/if}}
-            <i class="d10 {{numToWord (math "abs" criticalRoll)}}"></i>
+            <i class="{{die}} {{numToWord (math "abs" criticalRoll)}}"></i>
           {{else}}
-            <i class="d10 {{numToWord initialRoll}} black"></i>
+            <i class="{{die}} {{numToWord initialRoll}} black"></i>
           {{/if}}
         </div>
         <div class="total-div">

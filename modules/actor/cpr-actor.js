@@ -22,7 +22,9 @@ export default class CPRActor extends Actor {
     actorData.filteredItems = this.itemTypes;
 
     // Prepare data for both types
-    this._calculateDerivedStats(actorData);
+    if (this.compendium === null) {
+      this._calculateDerivedStats(actorData);
+    }
   }
 
   /** @override */
@@ -600,5 +602,19 @@ export default class CPRActor extends Actor {
     const deathSaveBasePenalty = this.data.data.derivedStats.deathSave.basePenalty;
     const bodyStat = this.data.data.stats.body.value;
     return new CPRRolls.CPRDeathSaveRoll(deathSavePenalty, deathSaveBasePenalty, bodyStat);
+  }
+
+  // We need a way to unload a specific ammo from all of the weapons
+  // in case the ammo item is deleted or given to someone else.
+  unloadAmmoFromAllOwnedWeapons(ammoId) {
+    const weapons = this.data.filteredItems.weapon;
+    weapons.forEach((weapon) => {
+      const weaponData = weapon.data.data;
+      if (weaponData.isRanged) {
+        if (weaponData.magazine.ammoId === ammoId) {
+          weapon._weaponUnload();
+        }
+      }
+    });
   }
 }
