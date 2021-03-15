@@ -73,7 +73,13 @@ export default class Migration {
     for (const i of actorItems) {
       updateItems.push(this.migrateItemData(i.data));
     }
-    await actor.updateEmbeddedEntity("OwnedItem", updateItems);
+
+    // You can't updateEmbeddedEntity of a Compendium Entity since it is only data
+    if (actor.compendium === null) {
+      await actor.updateEmbeddedEntity("OwnedItem", updateItems);
+    } else {
+      actor.data.items = updateItems;
+    }
 
     // Moved to after all of the items have been migrated, since this is used to
     // update our Actor.  If we set it before, the actor just gets updated with all of the
@@ -191,6 +197,7 @@ export default class Migration {
     if (scrubData !== {}) {
       await actor.update(scrubData);
     }
+    return actor.data;
   }
 
   // The following is code that is used to remove data points on the actor model that

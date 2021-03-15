@@ -21,7 +21,9 @@ export default class CPRActor extends Actor {
     actorData.filteredItems = this.itemTypes;
 
     // Prepare data for both types
-    this._calculateDerivedStats(actorData);
+    if (this.compendium === null) {
+      this._calculateDerivedStats(actorData);
+    }
   }
 
   /** @override */
