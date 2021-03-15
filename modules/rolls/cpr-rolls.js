@@ -139,6 +139,16 @@ export class CPRSkillRoll extends CPRStatRoll {
   }
 }
 
+export class CPRHumanityLossRoll extends CPRRoll {
+  constructor(name, humanityLoss) {
+    super(name, humanityLoss);
+    this.rollTitle = SystemUtils.Localize("CPR.humanityloss");
+    this.calculateCritical = false;
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-humanity-loss-rollcard.hbs";
+    this.cyberwareName = name;
+  }
+}
+
 // while it would be cool to just pass in a weapon, the data model does not include
 // the skill and stat entities that would be needed with it. Thought was given to extending
 // classes for Ranged and Melee attacks (and hardcoding the stats used), but when considering

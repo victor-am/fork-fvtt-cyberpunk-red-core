@@ -193,7 +193,7 @@ export default class CPRActor extends Actor {
 
   _addFoundationalCyberware(item, formData) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
-    this.loseHumanityValue(formData);
+    this.loseHumanityValue(item, formData);
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
     item.data.data.isInstalled = true;
     return this.updateEmbeddedEntity("OwnedItem", item.data);
@@ -201,7 +201,7 @@ export default class CPRActor extends Actor {
 
   async _addOptionalCyberware(item, formData) {
     LOGGER.trace("ActorID _addOptionalCyberware | CPRActorSheet | Called.");
-    this.loseHumanityValue(formData);
+    this.loseHumanityValue(item, formData);
     LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
     foundationalCyberware.data.data.optionalIds.push(item.data._id);
@@ -252,7 +252,7 @@ export default class CPRActor extends Actor {
     return PromiseRejectionEvent();
   }
 
-  async loseHumanityValue(amount) {
+  async loseHumanityValue(item, amount) {
     LOGGER.trace("CPR Actor loseHumanityValue | Called.");
     if (amount.humanityLoss === "None") {
       LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was None.");
@@ -261,8 +261,7 @@ export default class CPRActor extends Actor {
     const { humanity } = this.data.data;
     let value = humanity.value ? humanity.value : humanity.max;
     if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
-      const humRoll = new CPRRolls.CPRRoll(SystemUtils.Localize("CPR.humanityloss"), amount.humanityLoss);
-      humRoll.calculateCritical = false;
+      const humRoll = new CPRRolls.CPRHumanityLossRoll(item.data.name, amount.humanityLoss);
       await humRoll.roll();
       value -= humRoll.resultTotal;
       CPRChat.RenderRollCard(humRoll);
