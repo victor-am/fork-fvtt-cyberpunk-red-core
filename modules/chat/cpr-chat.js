@@ -1,5 +1,7 @@
 /* global game, CONFIG, ChatMessage, renderTemplate, duplicate */
 import LOGGER from "../utils/cpr-logger.js";
+import CPRRoll from "../rolls/cpr-rolls.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class CPRChat {
   static ChatDataSetup(content, modeOverride, isRoll = false, forceWhisper) {
@@ -86,5 +88,24 @@ export default class CPRChat {
       }
       return ChatMessage.create(chatOptions, false);
     });
+  }
+
+  static async HandleRedCommand(data) {
+    // First, let's see if we can figure out what was passed to /red
+    const modifiers = /^[+-][0-9][0-9]*/;
+    const dice = /[0-9][0-9]*d[0-9][0-9]*/;
+    let formula = data.match(dice)[0];
+    if (!formula) {
+      formula = "1d10";
+    }
+    if (data.match(modifiers)) {
+      const formulaModifiers = data.replace(formula, "");
+      formula = `${formula}${formulaModifiers}`;
+    }
+    if (formula) {
+      const cprRoll = new CPRRoll(SystemUtils.Localize("CPR.roll"), formula);
+      await cprRoll.roll();
+      this.RenderRollCard(cprRoll);
+    }
   }
 }

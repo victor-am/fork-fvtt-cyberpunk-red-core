@@ -1,7 +1,7 @@
 /* global Hooks game */
 /* eslint no-unused-vars:1 */
 import LOGGER from "../utils/cpr-logger.js";
-import { handleRedRoll } from "../rolls/cpr-rolls.js";
+import CPRChat from "../chat/cpr-chat.js";
 
 const chatPreHooks = () => {
   // eslint-disable-next-line no-unused-vars
@@ -20,7 +20,8 @@ const chatPreHooks = () => {
   Hooks.on("chatMessage", (log, message, data) => {
     LOGGER.trace("chatMessage | chatHooks | Called.");
     if (message !== undefined && message.startsWith("/red")) {
-      handleRedRoll(message);
+      const fragment = message.slice(4);
+      CPRChat.HandleRedCommand(fragment);
       // do not continue further processing of the ChatMessage
       return false;
     }

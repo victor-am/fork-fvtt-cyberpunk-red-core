@@ -5,7 +5,7 @@ import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import CPRChat from "../chat/cpr-chat.js";
 
-export class CPRRoll {
+export default class CPRRoll {
   // Generic roll handler for CPR
   constructor(rollTitle, formula) {
     // (private) the resulting Roll() object from Foundry
