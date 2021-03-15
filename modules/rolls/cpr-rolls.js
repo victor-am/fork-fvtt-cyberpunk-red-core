@@ -14,6 +14,8 @@ export default class CPRRoll {
     this.mods = [];
     // a name for the roll, used in the UI
     this.rollTitle = rollTitle || this.template;
+    // Store the die type and it can be used when displaying on the rollcard
+    this.die = null;
     // this assumes exactly 1 term, "XdY", which is passed to Foundry's Roll()
     // any +A or -B terms are converted to mods
     this.formula = this._processFormula(formula);
@@ -36,6 +38,7 @@ export default class CPRRoll {
 
   _processFormula(formula) {
     const dice = /[0-9][0-9]*d[0-9][0-9]*/;
+    const die = /d[0-9][0-9]*/;
     // cut out the XdY term, leaving only + or - terms after
     let rollMods = formula.replace(dice, "");
     if (rollMods !== "") {
@@ -49,6 +52,7 @@ export default class CPRRoll {
         }
       });
     }
+    this.die = formula.match(die)[0];
     return formula.match(dice)[0];
   }
 
@@ -72,19 +76,6 @@ export default class CPRRoll {
     if (this.wasCritical() && this.calculateCritical) {
       const critroll = new Roll(this.formula).roll();
       await DiceSoNice.ShowDiceSoNice(critroll);
-      this.criticalRoll = critroll.total;
-    }
-    this._computeResult();
-  }
-
-  rollNo3d() {
-    // same as roll() but without the 3D dice
-    this._roll = new Roll(this.formula).roll();
-    this.initialRoll = this._roll.total;
-    this.resultTotal = this.initialRoll + this.totalMods();
-    this.faces = this._roll.terms[0].results.map((r) => r.result);
-    if (this.wasCritical() && this.calculateCritical) {
-      const critroll = new Roll(this.formula).roll();
       this.criticalRoll = critroll.total;
     }
     this._computeResult();
@@ -275,12 +266,4 @@ export class CPRDamageRoll extends CPRRoll {
     this.isAutofire = true;
     this.formula = "2d6";
   }
-}
-
-export function handleRedRoll(message) {
-  LOGGER.trace(`CPR-ROLLS | handleRedRoll`);
-  const fragment = message.slice(4);
-  const redRoll = new CPRRoll(SystemUtils.Localize("CPR.roll"), `1d10${fragment}`);
-  redRoll.rollNo3d();
-  CPRChat.RenderRollCard(redRoll);
 }

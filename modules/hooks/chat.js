@@ -21,7 +21,7 @@ const chatPreHooks = () => {
     LOGGER.trace("chatMessage | chatHooks | Called.");
     if (message !== undefined && message.startsWith("/red")) {
       const fragment = message.slice(4);
-      CPRChat.HandleRedCommand(fragment);
+      CPRChat.HandleCPRCommand(fragment);
       // do not continue further processing of the ChatMessage
       return false;
     }

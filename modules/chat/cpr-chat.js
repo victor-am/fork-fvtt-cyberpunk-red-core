@@ -90,13 +90,14 @@ export default class CPRChat {
     });
   }
 
-  static async HandleRedCommand(data) {
+  static async HandleCPRCommand(data) {
     // First, let's see if we can figure out what was passed to /red
-    const modifiers = /^[+-][0-9][0-9]*/;
+    // Right now, we will assume it is a roll
+    const modifiers = /[+-][0-9][0-9]*/;
     const dice = /[0-9][0-9]*d[0-9][0-9]*/;
-    let formula = data.match(dice)[0];
-    if (!formula) {
-      formula = "1d10";
+    let formula = "1d10";
+    if (data.match(dice)) {
+      formula = data.match(dice)[0];
     }
     if (data.match(modifiers)) {
       const formulaModifiers = data.replace(formula, "");
