@@ -69,8 +69,6 @@ export default class CPRActorSheet extends ActorSheet {
   /* -------------------------------------------- */
   /** @override */
   activateListeners(html) {
-    super.activateListeners(html);
-
     // Make a roll
     html.find(".rollable").click((event) => this._onRoll(event));
 
@@ -189,6 +187,14 @@ export default class CPRActorSheet extends ActorSheet {
       }
     });
 
+    // Item Dragging
+
+    let handler = (ev) => this._onDragItemStart(ev);
+    html.find('.item').each((i, li) => {
+      li.setAttribute("draggable", true);
+      li.addEventListener("dragstart", handler, false);
+    });
+
     if (!this.options.editable) return;
     // Listeners for editable fields under here
 
@@ -208,6 +214,8 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
 
     html.find(".eurobucks-input").click((event) => event.target.select()).change((event) => this._updateEurobucks(event));
+
+    super.activateListeners(html);
   }
 
   /* -------------------------------------------- */
@@ -220,7 +228,7 @@ export default class CPRActorSheet extends ActorSheet {
 
     const rollType = $(event.currentTarget).attr("data-roll-type");
     let cprRoll;
-
+    let item = null;
     switch (rollType) {
       case "deathsave":
       case "roleAbility":
@@ -236,7 +244,7 @@ export default class CPRActorSheet extends ActorSheet {
       case "skill":
       case "suppressive": {
         const itemId = this._getItemId(event);
-        const item = this._getOwnedItem(itemId);
+        item = this._getOwnedItem(itemId);
         cprRoll = item.createRoll(rollType, this.actor._id);
         break;
       }
@@ -244,20 +252,11 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     // note for aimed shots this is where location is set
-    await this._handleRollDialog(event, cprRoll);
+    await SystemUtils.handleRollDialog(event, cprRoll);
 
-    // decrementing ammo must come after dialog but before the roll in case the user cancels
-    if (cprRoll instanceof CPRRolls.CPRAttackRoll) {
-      const weaponId = $(event.currentTarget).attr("data-item-id");
-      const weaponItem = this.actor.items.find((i) => i.data._id === weaponId);
-      const weaponData = weaponItem.getData();
-      if (weaponData.isRanged) {
-        weaponItem.fireRangedWeapon(cprRoll.fireMode);
-      }
-    } else if (cprRoll instanceof CPRRolls.CPRDamageRoll) {
-      if (cprRoll.isAutofire) {
-        cprRoll.setAutofire();
-      }
+    if (item !== null) {
+      // Do any actions that need to be done as part of a roll, like ammo decrementing
+      await item.confirmRoll(rollType, cprRoll);
     }
 
     // Let's roll!
@@ -702,5 +701,36 @@ export default class CPRActorSheet extends ActorSheet {
   _clearIpRecords() {
     LOGGER.trace("ActorID _clearIpRecords | CPRActorSheet | called.");
     return this.actor.clearLedger("improvementPoints");
+  }
+
+  _onDragItemStart(event) {
+    LOGGER.trace("ActorID _onDragItemStart | CPRActorSheet | called.");
+    let itemId = event.currentTarget.getAttribute("data-item-id");
+    const item = this.actor.getEmbeddedEntity("OwnedItem", itemId);
+    event.dataTransfer.setData("text/plain", JSON.stringify({
+      type: "Item",
+      actorId: this.actor._id,
+      data: item,
+      root: event.currentTarget.getAttribute("root"),
+    }));
+  }
+
+  async _onDrop(event) {
+    LOGGER.trace("ActorID _onDrop | CPRActorSheet | called.");
+    // This is called whenever something is dropped onto the character sheet
+    let dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
+    let dropID = $(event.target).parents(".item").attr("data-item-id"); // Only relevant if container drop
+    if (dragData.actorId !== undefined) {
+      // Transfer ownership from one player to another
+      const actor = game.actors.find((a) => a._id === dragData.actorId);
+      if (actor) {
+        if (actor.data._id === this.actor.data._id || dragData.data.data.core === true || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
+          return;
+        }
+        super._onDrop(event).then(actor.deleteEmbeddedEntity("OwnedItem", dragData.data._id));
+      }
+    } else {
+      super._onDrop(event);
+    }
   }
 }

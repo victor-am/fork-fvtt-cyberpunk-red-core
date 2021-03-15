@@ -593,4 +593,18 @@ export default class CPRActor extends Actor {
     const bodyStat = this.data.data.stats.body.value;
     return new CPRRolls.CPRDeathSaveRoll(deathSavePenalty, deathSaveBasePenalty, bodyStat);
   }
+
+  // We need a way to unload a specific ammo from all of the weapons
+  // in case the ammo item is deleted or given to someone else.
+  unloadAmmoFromAllOwnedWeapons(ammoId) {
+    const weapons = this.data.filteredItems.weapon;
+    weapons.forEach((weapon) => {
+      const weaponData = weapon.data.data;
+      if (weaponData.isRanged) {
+        if (weaponData.magazine.ammoId === ammoId) {
+          weapon._weaponUnload();
+        }
+      }
+    });
+  }
 }
