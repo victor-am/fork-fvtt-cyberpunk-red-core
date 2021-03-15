@@ -85,9 +85,9 @@
             <ol class="items-list fight-weapons-list">
                 {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
                 {{#if (compare weapon.data.equipped "===" "equipped")}}
-                <li class="item flexrow" data-item-id="{{weapon._id}}" draggable="true">
+                <li class="item flexrow" data-item-id="{{weapon._id}}">
                     <div class="item-name weapon-name">
-                        <a class="name item-edit">{{weapon.name}}</a>
+                        <a class="name item-edit" title="{{weapon.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{weapon.name}}</a>
                         {{#if (compare weapon.data.quality "!==" "standard")}}
                         ({{localize weapon.data.quality}})
                         {{/if}}
