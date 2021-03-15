@@ -1,0 +1,28 @@
+{{log "CPR-HUMANITY-LOSS-ROLLCARD.HBS"}}
+<div class="rollcard-body">
+    <div class="rollcard-top">
+        <div class="cpr-block chat-rollTitle-{{rollType}}">
+            <p class="text-center">{{rollTitle}}</p>
+        </div>
+    </div>
+    <div class="rollcard-bottom">
+        {{!-- rollcard body --}}
+        <div class="cpr-block">
+            <div class="rollcard">
+                <div class="total-div">
+                    <span class="fg-red text-bold">{{resultTotal}}</span>
+                </div>
+                <div class="dice-div">
+                    {{#each faces as |die|}}
+                    {{log ../criticalCard}}
+                    <i class="fas fa-dice-{{numToWord die}} text-massive"></i>
+                    {{/each}}
+                </div>
+                <div class="info-div">
+                    {{localize "CPR.cyberware"}}: {{cyberwareName}}<br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{log "END CPR-HUMANITY-LOSS-ROLLCARD.HBS"}}

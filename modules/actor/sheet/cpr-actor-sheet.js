@@ -252,7 +252,7 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     // note for aimed shots this is where location is set
-    await SystemUtils.handleRollDialog(event, cprRoll);
+    await this._handleRollDialog(event, cprRoll);
 
     if (item !== null) {
       // Do any actions that need to be done as part of a roll, like ammo decrementing

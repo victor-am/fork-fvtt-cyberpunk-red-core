@@ -1,6 +1,6 @@
 /* global game, CONFIG, ChatMessage, renderTemplate, duplicate */
 import LOGGER from "../utils/cpr-logger.js";
-import CPRRoll from "../rolls/cpr-rolls.js";
+import { CPRRoll } from "../rolls/cpr-rolls.js";
 
 export default class CPRChat {
   static ChatDataSetup(content, modeOverride, isRoll = false, forceWhisper) {

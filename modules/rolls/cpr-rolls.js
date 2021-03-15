@@ -4,7 +4,7 @@ import LOGGER from "../utils/cpr-logger.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
-export default class CPRRoll {
+export class CPRRoll {
   // Generic roll handler for CPR
   constructor(rollTitle, formula) {
     // (private) the resulting Roll() object from Foundry
@@ -134,6 +134,16 @@ export class CPRSkillRoll extends CPRStatRoll {
 
   _computeBase() {
     return this.initialRoll + this.totalMods() + this.statValue + this.skillValue;
+  }
+}
+
+export class CPRHumanityLossRoll extends CPRRoll {
+  constructor(name, humanityLoss) {
+    super(name, humanityLoss);
+    this.rollTitle = SystemUtils.Localize("CPR.humanityloss");
+    this.calculateCritical = false;
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-humanity-loss-rollcard.hbs";
+    this.cyberwareName = name;
   }
 }
 
