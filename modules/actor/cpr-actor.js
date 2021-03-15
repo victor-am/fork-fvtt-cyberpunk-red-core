@@ -261,11 +261,12 @@ export default class CPRActor extends Actor {
       return;
     }
     const { humanity } = this.data.data;
-    let value = humanity.value ? humanity.value : humanity.max;
+    let value = Number.isInteger(humanity.value) ? humanity.value : humanity.max;
     if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
       const humRoll = new CPRRolls.CPRHumanityLossRoll(item.data.name, amount.humanityLoss);
       await humRoll.roll();
       value -= humRoll.resultTotal;
+      humRoll.entityData = { actor: this._id };
       CPRChat.RenderRollCard(humRoll);
       LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was rolled.");
     } else {
