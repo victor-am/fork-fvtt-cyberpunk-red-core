@@ -60,6 +60,10 @@ export default class CPRActorSheet extends ActorSheet {
     // INFO - Only add new data points to getData when you need a complex struct.
     // DO NOT add new data points into getData to shorten dataPaths
     LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
+    const collapsedSections = SystemUtils.GetUserSetting("sheetConfig", "sheetCollapsedSections", this.id);
+    if (collapsedSections) {
+      this.options.collapsedSections = collapsedSections;
+    }
     const data = super.getData();
     data.filteredItems = this.actor.filteredItems;
     data.installedCyberware = this._getSortedInstalledCyberware();
