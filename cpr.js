@@ -6,7 +6,7 @@ import CPRMookActorSheet from "./modules/actor/sheet/cpr-mook-sheet.js";
 import CPRItem from "./modules/item/cpr-item.js";
 import CPRItemSheet from "./modules/item/sheet/cpr-item-sheet.js";
 import LOGGER from "./modules/utils/cpr-logger.js";
-import SystemUtils from "./modules/utils/cpr-systemUtils.js";
+import CPRMacro from "./modules/utils/cpr-macros.js";
 
 import Migration from "./modules/system/migration.js";
 
@@ -54,7 +54,7 @@ Hooks.once("init", async () => {
       CPRActor,
       CPRItem,
     },
-    utility: SystemUtils,
+    macro: CPRMacro,
   };
 
   // Assign the actor class to the CONFIG

@@ -96,6 +96,7 @@ export default class CPRChat {
     const dice = /[0-9][0-9]*d[0-9][0-9]*/;
     let formula = "1d10";
     if (data.match(dice)) {
+      // eslint-disable-next-line prefer-destructuring
       formula = data.match(dice)[0];
     }
     if (data.match(modifiers)) {
