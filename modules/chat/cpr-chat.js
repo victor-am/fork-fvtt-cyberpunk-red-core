@@ -1,7 +1,6 @@
 /* global game, CONFIG, ChatMessage, renderTemplate, duplicate */
 import LOGGER from "../utils/cpr-logger.js";
 import CPRRoll from "../rolls/cpr-rolls.js";
-import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class CPRChat {
   static ChatDataSetup(content, modeOverride, isRoll = false, forceWhisper) {
@@ -104,7 +103,7 @@ export default class CPRChat {
       formula = `${formula}${formulaModifiers}`;
     }
     if (formula) {
-      const cprRoll = new CPRRoll(SystemUtils.Localize("CPR.roll"), formula);
+      const cprRoll = new CPRRoll(game.i18n.localize("CPR.roll"), formula);
       await cprRoll.roll();
       this.RenderRollCard(cprRoll);
     }

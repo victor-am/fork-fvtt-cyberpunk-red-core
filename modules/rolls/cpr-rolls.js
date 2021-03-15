@@ -3,7 +3,6 @@
 import LOGGER from "../utils/cpr-logger.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
-import CPRChat from "../chat/cpr-chat.js";
 
 export default class CPRRoll {
   // Generic roll handler for CPR
@@ -52,6 +51,7 @@ export default class CPRRoll {
         }
       });
     }
+    // eslint-disable-next-line prefer-destructuring
     this.die = formula.match(die)[0];
     return formula.match(dice)[0];
   }
