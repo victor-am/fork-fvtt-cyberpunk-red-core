@@ -80,7 +80,9 @@ export default class CPRSystemUtils {
       case "sheetConfig": {
         const settingKey = `${extraSettings}-${name}`;
         const sheetConfigData = userSettings.sheetConfig;
-        requestedValue = sheetConfigData[settingKey];
+        if (sheetConfigData !== undefined) {
+          requestedValue = sheetConfigData[settingKey];
+        }
         break;
       }
       default: {
