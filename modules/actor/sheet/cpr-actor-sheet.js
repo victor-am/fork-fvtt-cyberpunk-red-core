@@ -24,8 +24,10 @@ import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
  */
 export default class CPRActorSheet extends ActorSheet {
   constructor(actor, options) {
-    super(actor,options);
+    super(actor, options);
+
     this.options.collapsedSections = [];
+    this.options.setConfig = true;
     const collapsedSections = SystemUtils.GetUserSetting("sheetConfig", "sheetCollapsedSections", this.id);
     if (collapsedSections) {
       this.options.collapsedSections = collapsedSections;
@@ -45,13 +47,16 @@ export default class CPRActorSheet extends ActorSheet {
 
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
-    const firstRender = !this.rendered;
     await super._render(force, options);
-    this._setSheetConfig();
+    if (this.options.setConfig) {
+      this._setSheetConfig();
+    }
+    this.options.setConfig = false;
   }
 
   _setSheetConfig() {
     LOGGER.trace("ActorSheet | _setSheetConfig | Called.");
+    return;
     if (this.options.collapsedSections) {
       (this.options.collapsedSections).forEach((sectionId) => {
         const html = $(this.form).parent();
@@ -159,15 +164,11 @@ export default class CPRActorSheet extends ActorSheet {
           $(lineItem).toggleClass("hide");
         }
       });
-      if ($(collapsibleElement).find(".expand-icon").hasClass("hide")) {
-        if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
-          this.options.collapsedSections.push(event.currentTarget.id);
-        }
-      } else {
+
+      if (this.options.collapsedSections.includes(event.currentTarget.id)) {
         this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
-        if (this.options.collapsedSections.includes(favoritesIdentifier)) {
-          $(categoryTarget).click();
-        }
+      } else {
+        this.options.collapsedSections.push(event.currentTarget.id);
       }
     });
 

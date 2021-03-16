@@ -343,7 +343,6 @@ export default class CPRItem extends Item {
   }
 
   _createAttackRoll(type, actorId) {
-    console.log(this);
     const actor = (game.actors.filter((a) => a._id === actorId))[0];
     const weaponData = this.data.data;
     const weaponName = this.name;

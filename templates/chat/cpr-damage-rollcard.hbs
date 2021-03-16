@@ -14,7 +14,6 @@
                 </div>
                 <div class="dice-div">
                     {{#each faces as |die|}}
-                    {{log ../criticalCard}}
                     <i class="fas fa-dice-{{numToWord die}} text-massive {{#if ../criticalCard}} {{#if (compare die "===" 6)}} fg-red{{/if}} {{/if}}"></i>
                     {{/each}}
                 </div>
