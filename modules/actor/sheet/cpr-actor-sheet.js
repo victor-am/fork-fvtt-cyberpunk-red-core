@@ -26,8 +26,10 @@ export default class CPRActorSheet extends ActorSheet {
   constructor(actor, options) {
     super(actor, options);
 
+    // Moved this to the constructor since this only needs to be set on the Sheet Object
+    // The first time it is created.  The contents are then loaded from the User Settings
+    // if they exist.
     this.options.collapsedSections = [];
-    this.options.setConfig = true;
     const collapsedSections = SystemUtils.GetUserSetting("sheetConfig", "sheetCollapsedSections", this.id);
     if (collapsedSections) {
       this.options.collapsedSections = collapsedSections;
@@ -48,23 +50,6 @@ export default class CPRActorSheet extends ActorSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
-    if (this.options.setConfig) {
-      this._setSheetConfig();
-    }
-    this.options.setConfig = false;
-  }
-
-  _setSheetConfig() {
-    LOGGER.trace("ActorSheet | _setSheetConfig | Called.");
-    return;
-    if (this.options.collapsedSections) {
-      (this.options.collapsedSections).forEach((sectionId) => {
-        const html = $(this.form).parent();
-        let currentTarget = $(html.find(`#${sectionId}`));
-        this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== sectionId);
-        $(currentTarget).click();
-      });
-    }
   }
 
   /* -------------------------------------------- */
