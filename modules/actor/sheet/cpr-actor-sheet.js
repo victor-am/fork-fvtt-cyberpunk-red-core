@@ -23,6 +23,15 @@ import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
  * @extends {ActorSheet}
  */
 export default class CPRActorSheet extends ActorSheet {
+  constructor(actor, options) {
+    super(actor,options);
+    this.options.collapsedSections = [];
+    const collapsedSections = SystemUtils.GetUserSetting("sheetConfig", "sheetCollapsedSections", this.id);
+    if (collapsedSections) {
+      this.options.collapsedSections = collapsedSections;
+    }
+  }
+
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
@@ -31,12 +40,12 @@ export default class CPRActorSheet extends ActorSheet {
       width: 800,
       height: 590,
       scrollY: [".right-content-section"],
-      collapsedSections: [],
     });
   }
 
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
+    const firstRender = !this.rendered;
     await super._render(force, options);
     this._setSheetConfig();
   }
@@ -60,10 +69,6 @@ export default class CPRActorSheet extends ActorSheet {
     // INFO - Only add new data points to getData when you need a complex struct.
     // DO NOT add new data points into getData to shorten dataPaths
     LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
-    const collapsedSections = SystemUtils.GetUserSetting("sheetConfig", "sheetCollapsedSections", this.id);
-    if (collapsedSections) {
-      this.options.collapsedSections = collapsedSections;
-    }
     const data = super.getData();
     data.filteredItems = this.actor.filteredItems;
     data.installedCyberware = this._getSortedInstalledCyberware();
