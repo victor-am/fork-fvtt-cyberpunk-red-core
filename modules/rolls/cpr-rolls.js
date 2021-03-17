@@ -1,8 +1,10 @@
+/* eslint-disable no-undef */
 /* eslint-disable max-classes-per-file */
 /* global Roll */
 import LOGGER from "../utils/cpr-logger.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
+import VerifyRoll from "../dialog/cpr-verify-roll-prompt.js";
 
 export class CPRRoll {
   // Generic roll handler for CPR
@@ -106,6 +108,21 @@ export class CPRRoll {
 
   wasCritSuccess() {
     return this.initialRoll === this._roll.terms[0].faces;
+  }
+
+  async handleRollDialog(event) {
+    // Handle skipping of the user verification step
+    let skipDialog = event.ctrlKey;
+
+    if (event.type === "click") {
+      const ctrlSetting = game.settings.get("cyberpunk-red-core", "invertRollCtrlFunction");
+      skipDialog = ctrlSetting ? !skipDialog : skipDialog;
+    }
+
+    if (!skipDialog) {
+      const formData = await VerifyRoll.RenderPrompt(this);
+      mergeObject(this, formData, { overwrite: true });
+    }
   }
 }
 

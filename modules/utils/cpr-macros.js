@@ -1,7 +1,6 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-undef */
 /* global game, ui */
-import VerifyRoll from "../dialog/cpr-verify-roll-prompt.js";
 import CPRChat from "../chat/cpr-chat.js";
 
 export default class CPRMacro {
@@ -32,10 +31,11 @@ export default class CPRMacro {
     }
     const cprRoll = item.createRoll(rollType, actor._id, extraData);
     const event = {};
-    event.ctlKey = false;
+    event.ctrlKey = false;
+    event.type = "macro";
 
     if (!extraData.skipPrompt) {
-      await this.handleRollDialog(event, cprRoll);
+      await cprRoll.handleRollDialog(event);
     }
 
     item.confirmRoll(rollType, cprRoll);
@@ -44,18 +44,5 @@ export default class CPRMacro {
 
     actor.setPreviousRoll(cprRoll);
     return true;
-  }
-
-  static async handleRollDialog(event, cprRoll) {
-    // Handle skipping of the user verification step
-    let skipDialog = event.ctrlKey;
-
-    const ctrlSetting = game.settings.get("cyberpunk-red-core", "invertRollCtrlFunction");
-    skipDialog = ctrlSetting ? skipDialog : !skipDialog;
-
-    if (skipDialog) {
-      const formData = await VerifyRoll.RenderPrompt(cprRoll);
-      mergeObject(cprRoll, formData, { overwrite: true });
-    }
   }
 }
