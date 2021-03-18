@@ -7,6 +7,7 @@ const actorSheetHooks = () => {
   Hooks.on("closeActorSheet", (actorSheet) => {
     LOGGER.trace("\"closeActorSheet | actorSheetHooks | Called.\"");
     SystemUtils.SetUserSetting("sheetConfig", "sheetCollapsedSections", actorSheet.options.collapsedSections, actorSheet.id);
+    actorSheet.options.setConfig = true;
   });
 };
 

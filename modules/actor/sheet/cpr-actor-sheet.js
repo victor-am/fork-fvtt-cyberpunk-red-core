@@ -23,6 +23,19 @@ import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
  * @extends {ActorSheet}
  */
 export default class CPRActorSheet extends ActorSheet {
+  constructor(actor, options) {
+    super(actor, options);
+
+    // Moved this to the constructor since this only needs to be set on the Sheet Object
+    // The first time it is created.  The contents are then loaded from the User Settings
+    // if they exist.
+    this.options.collapsedSections = [];
+    const collapsedSections = SystemUtils.GetUserSetting("sheetConfig", "sheetCollapsedSections", this.id);
+    if (collapsedSections) {
+      this.options.collapsedSections = collapsedSections;
+    }
+  }
+
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
@@ -31,26 +44,12 @@ export default class CPRActorSheet extends ActorSheet {
       width: 800,
       height: 590,
       scrollY: [".right-content-section"],
-      collapsedSections: [],
     });
   }
 
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
-    this._setSheetConfig();
-  }
-
-  _setSheetConfig() {
-    LOGGER.trace("ActorSheet | _setSheetConfig | Called.");
-    if (this.options.collapsedSections) {
-      (this.options.collapsedSections).forEach((sectionId) => {
-        const html = $(this.form).parent();
-        let currentTarget = $(html.find(`#${sectionId}`));
-        this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== sectionId);
-        $(currentTarget).click();
-      });
-    }
   }
 
   /* -------------------------------------------- */
@@ -60,10 +59,6 @@ export default class CPRActorSheet extends ActorSheet {
     // INFO - Only add new data points to getData when you need a complex struct.
     // DO NOT add new data points into getData to shorten dataPaths
     LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
-    const collapsedSections = SystemUtils.GetUserSetting("sheetConfig", "sheetCollapsedSections", this.id);
-    if (collapsedSections) {
-      this.options.collapsedSections = collapsedSections;
-    }
     const data = super.getData();
     data.filteredItems = this.actor.filteredItems;
     data.installedCyberware = this._getSortedInstalledCyberware();
@@ -154,15 +149,11 @@ export default class CPRActorSheet extends ActorSheet {
           $(lineItem).toggleClass("hide");
         }
       });
-      if ($(collapsibleElement).find(".expand-icon").hasClass("hide")) {
-        if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
-          this.options.collapsedSections.push(event.currentTarget.id);
-        }
-      } else {
+
+      if (this.options.collapsedSections.includes(event.currentTarget.id)) {
         this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
-        if (this.options.collapsedSections.includes(favoritesIdentifier)) {
-          $(categoryTarget).click();
-        }
+      } else {
+        this.options.collapsedSections.push(event.currentTarget.id);
       }
     });
 
@@ -256,7 +247,7 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     // note for aimed shots this is where location is set
-    await this._handleRollDialog(event, cprRoll);
+    await cprRoll.handleRollDialog(event);
 
     if (item !== null) {
       // Do any actions that need to be done as part of a roll, like ammo decrementing

@@ -2,14 +2,14 @@
     <ol class="left-pane-skills items-list">
         {{#each (findConfigObj "skillCategories") as |category c|}}
         {{#if (compare c "<" "f")}}
-            {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/skills/cpr-skills-category.hbs"  (mergeForPartialArg "category,actor" c ../this.actor)}}
+            {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/skills/cpr-skills-category.hbs"  (mergeForPartialArg "category,actor,sheet" c ../this.actor ../this)}}
         {{/if}}
         {{/each}}
     </ol>
     <ol class="right-pane-skills items-list">
         {{#each (findConfigObj "skillCategories") as |category c|}}
         {{#if  (compare c ">=" "f")}}
-            {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/skills/cpr-skills-category.hbs"  (mergeForPartialArg "category,actor" c ../this.actor)}}
+            {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/skills/cpr-skills-category.hbs"  (mergeForPartialArg "category,actor,sheet" c ../this.actor ../this)}}
         {{/if}}
         {{/each}}
     </ol>
