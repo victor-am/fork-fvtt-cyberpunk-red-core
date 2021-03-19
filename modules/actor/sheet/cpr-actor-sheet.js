@@ -229,22 +229,6 @@ export default class CPRActorSheet extends ActorSheet {
   // Dispatcher that executes a roll based on the "type" passed in the event
   async _onRoll(event) {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
-
-    console.log("TIMING CHECKS");
-
-    console.time("DIRECT ACCESS");
-    this.actor.data.data.hp.value = 10;
-    console.timeEnd("DIRECT ACCESS");
-    console.log( this.actor.data.data.hp.value);
-
-    console.time("getData() ACCESS");
-    this.actor.getData().hp.value = 20;
-    console.timeEnd("getData() ACCESS");
-    console.log(this.actor.getData().hp.value);
-
-    console.log(this.actor.data.data.hp.value);
-    console.log(this.actor);
-
     const rollType = $(event.currentTarget).attr("data-roll-type");
     let cprRoll;
     let item = null;

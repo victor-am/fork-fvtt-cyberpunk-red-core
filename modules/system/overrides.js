@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 export default function overrideRulerFunctions() {
   const originalLabel = Ruler.prototype._getSegmentLabel;
   Ruler.prototype._getSegmentLabel = function (segmentDistance, totalDistance, isTotal) {
