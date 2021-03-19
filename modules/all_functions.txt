@@ -1,0 +1,244 @@
+./actor/cpr-actor.js
+  prepareData() {
+  getRollData() {
+  getData() {
+  static async create(data, options) {
+  async createEmbeddedEntity(embeddedName, itemData, options = {}) {
+  getWoundState() {
+  getInstalledCyberware() {
+  getInstalledFoundationalCyberware(type) {
+  async addCyberware(itemId) {
+  async _addOptionalCyberware(item, formData) {
+  async removeCyberware(itemId, foundationalId) {
+  async loseHumanityValue(item, amount) {
+  gainHumanityValue(amount) {
+  sanityCheckCyberware() {
+  setRoles(formData) {
+  setLifepath(formData) {
+  getSkillLevel(skillName) {
+  processDeathSave(cprRoll) {
+  resetDeathPenalty() {
+  getStat(statName) {
+  clearLedger(prop) {
+  deltaLedgerProperty(prop, value, reason) {
+  setLedgerProperty(prop, value, reason) {
+  listRecords(prop) {
+  isLedgerProperty(prop) {
+  addCriticalInjury(location, name, effect, quickfix, treatment, mods = []) {
+  editCriticalInjury(injuryId, location, name, effect, quickfix, treatment, mods = []) {
+  deleteCriticalInjury(injuryId) {
+  getCriticalInjury(injuryId) {
+  getArmorPenaltyMods(stat) {
+  getEquippedArmors(location) {
+  getPreviousRoll() {
+  setPreviousRoll(cprRoll) {
+  createRoll(type, name) {
+  unloadAmmoFromAllOwnedWeapons(ammoId) {
+---
+./actor/sheet/cpr-actor-sheet.js
+  static get defaultOptions() {
+  async _render(force = false, options = {}) {
+  getData() {
+  activateListeners(html) {
+  async _onRoll(event) {
+  async _handleRollDialog(event, cprRoll) {
+  async _ablateArmor(event) {
+  async _installRemoveCyberwareAction(event) {
+  async _deleteOwnedItem(item) {
+  async _selectRoles(event) {
+  async _addCriticalInjury(event) {
+  async _editCriticalInjury(event) {
+  async _deleteCriticalInjury(event) {
+  async _setLifepath(event) {
+  async _onDrop(event) {
+---
+./actor/sheet/cpr-character-sheet.js
+  static get defaultOptions() {
+  getData() {
+---
+./actor/sheet/cpr-mook-sheet.js
+  static get defaultOptions() {
+  getData() {
+---
+./chat/cpr-chat.js
+  static ChatDataSetup(content, modeOverride, isRoll = false, forceWhisper) {
+  static RenderRollCard(cprRoll) {
+  static RenderItemCard(item) {
+  static async HandleCPRCommand(data) {
+---
+./dialog/cpr-confirmation-prompt.js
+  static async RenderPrompt(title, data) {
+---
+./dialog/cpr-critical-injury-prompt.js
+  static async RenderPrompt(data) {
+---
+./dialog/cpr-cyberware-install-prompt.js
+  static async RenderPrompt(data) {
+---
+./dialog/cpr-load-ammo-prompt.js
+  static async RenderPrompt(data) {
+---
+./dialog/cpr-select-compatible-ammo.js
+  static async RenderPrompt(data) {
+---
+./dialog/cpr-select-role-prompt.js
+  static async RenderPrompt(data) {
+---
+./dialog/cpr-set-lifepath-prompt.js
+  static async RenderPrompt(data) {
+---
+./dialog/cpr-verify-roll-prompt.js
+  static async RenderPrompt(cprRoll) {
+---
+./extern/cpr-dice-so-nice.js
+  static async ShowDiceSoNice(roll, rollModeOverride) {
+---
+./hooks/actor-sheet.js
+  Hooks.on("closeActorSheet", (actorSheet) => {
+---
+./hooks/actor.js
+  Hooks.on("preCreateActor", (createData) => {
+  Hooks.on("preUpdateActor", (actor, updatedData) => {
+---
+./hooks/chat.js
+  Hooks.on("renderChatMessage", async (app, html, msg) => {
+  Hooks.on("chatMessage", (log, message, data) => {
+---
+./hooks/combat.js
+  Hooks.on("createCombat", (combat, data) => {
+  Hooks.on("createCombatant", async (combat, data) => {
+---
+./hooks/hotbar.js
+  Hooks.on("hotbarDrop", async (bar, data, slot) => {
+---
+./hooks/token.js
+  Hooks.on("preUpdateToken", (scene, token, updateData) => {
+---
+./hooks/ui.js
+  Hooks.on("renderPause", () => {
+---
+./item/cpr-item.js
+  prepareData() {
+  getRollData() {
+  getData() {
+  update(data, options = {}) {
+  doAction(actor, actionAttributes) {
+  confirmRoll(rollType, cprRoll) {
+  setSkillLevel(value) {
+  async setCompatibleAmmo(ammoList) {
+  async _ammoDecrement(changeAmount) {
+  async _ammoIncrement(changeAmount) {
+  async _weaponAction(actionAttributes) {
+  async _weaponUnload() {
+  async _weaponLoad(selectedAmmoId) {
+  static bulletConsumption(fireMode) {
+  hasAmmo(fireMode) {
+  fireRangedWeapon(fireMode) {
+  toggleFavorite() {
+  createRoll(type, actorId) {
+---
+./item/sheet/cpr-item-sheet.js
+  static get defaultOptions() {
+  get template() {
+  get classes() {
+  async getData() {
+  activateListeners(html) {
+  async _itemMultiOption(event) {
+  async _selectCompatibleAmmo(event) {
+---
+./rolls/cpr-rolls.js
+  constructor(rollTitle, formula) {
+  addMod(mod) {
+  totalMods() {
+  async roll() {
+  wasCritical() {
+  wasCritFail() {
+  wasCritSuccess() {
+  constructor(name, value) {
+  constructor(statName, statValue, skillName, skillValue) {
+  constructor(name, humanityLoss) {
+  constructor(attackName, statName, statValue, skillName, skillValue, weaponType) {
+  constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
+  constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
+  constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
+  constructor(roleName, roleValue) {
+  constructor(penalty, basePenalty, bodyStat) {
+  totalMods() {
+  constructor(rollTitle, formula, weaponType) {
+  wasCritFail() {
+  wasCritSuccess() {
+  setAutofire() {
+---
+./system/config.js
+---
+./system/hooks.js
+---
+./system/migration.js
+  static async migrateWorld(incomingDataModelVersion) {
+  static async migrateActorData(actor) {
+  static scrubActorData(actorData) {
+  static migrateItemData(itemData) {
+  static migrateWeapon(itemData) {
+  static migrateProgram(itemData) {
+  static migrateVehicle(itemData) {
+---
+./system/pause-animation.js
+  if (setting) {
+---
+./system/preload-templates.js
+---
+./system/register-helpers.js
+  Handlebars.registerHelper("compare", (v1, operator, v2) => {
+  Handlebars.registerHelper("numToWord", (num) => {
+  Handlebars.registerHelper("getProp", (object, property) => {
+  Handlebars.registerHelper("isDefined", (object) => {
+  Handlebars.registerHelper("mergeForPartialArg", (...args) => {
+  Handlebars.registerHelper("filter", (objList, key, value) => {
+  Handlebars.registerHelper("findConfigValue", (obj, key) => {
+  Handlebars.registerHelper("findConfigObj", (obj) => {
+  Handlebars.registerHelper("findObj", (objList, propertyName, propertyValue) => {
+  Handlebars.registerHelper("listContains", (list, val) => {
+  Handlebars.registerHelper("generatePartial", (arg1, arg2) => {
+  Handlebars.registerHelper("sort", (object, property) => {
+  Handlebars.registerHelper("math", (...args) => {
+  Handlebars.registerHelper("ablated", (armor, slot) => {
+---
+./system/settings.js
+  game.settings.register("cyberpunk-red-core", "dataModelVersion", {
+  game.settings.register("cyberpunk-red-core", "calculateDerivedStats", {
+  game.settings.register("cyberpunk-red-core", "playersCreateInventory", {
+  game.settings.register("cyberpunk-red-core", "deleteItemConfirmation", {
+  game.settings.register("cyberpunk-red-core", "enablePauseAnimation", {
+  game.settings.register("cyberpunk-red-core", "invertRollCtrlFunction", {
+  game.settings.register("cyberpunk-red-core", "userSettings", {
+---
+./utils/cpr-actorUtils.js
+  static async GetActorSkills() {
+---
+./utils/cpr-arrayUtils.js
+  static PushMultipleNumbersFromString(array, string, delims) {
+---
+./utils/cpr-logger.js
+  static log(msg) {
+  static debug(msg) {
+  static warn(msg) {
+  static trace(msg) {
+  static error(msg) {
+  static credits() {
+---
+./utils/cpr-macros.js
+  static async rollItemMacro(itemName, extraData = { skipPrompt: false, rollType: "attack" }) {
+  static async handleRollDialog(event, cprRoll) {
+---
+./utils/cpr-rules.js
+  static lawyer(rule = false, msg) {
+  static validRole(actor, data) {
+---
+./utils/cpr-systemUtils.js
+  static async GetCoreSkills() {
+  static async GetCoreCyberware() {
+  static async DisplayMessage(msgType, msg) {
+  static Localize(string) {
+  static SetUserSetting(type, name, value, extraSettings) {
+  static GetUserSetting(type, name, extraSettings) {
+---

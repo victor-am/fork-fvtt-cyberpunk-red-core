@@ -14,6 +14,7 @@ import Migration from "./modules/system/migration.js";
 import registerHooks from "./modules/system/hooks.js";
 import preloadHandlebarsTemplates from "./modules/system/preload-templates.js";
 import registerHandlebarsHelpers from "./modules/system/register-helpers.js";
+import overrideRulerFunctions from "./modules/system/overrides.js";
 
 // System settings
 import { registerSystemSettings } from "./modules/system/settings.js";
@@ -64,6 +65,7 @@ Hooks.once("init", async () => {
   preloadHandlebarsTemplates();
   registerHandlebarsHelpers();
   registerSystemSettings();
+  overrideRulerFunctions();
 });
 
 Hooks.once("ready", () => {

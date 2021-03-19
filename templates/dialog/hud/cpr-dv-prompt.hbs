@@ -1,0 +1,14 @@
+{{log "CPR-HUD-PROMPT.HBS"}}
+<form>
+  <div class="cpr-hud-icon dv-config">
+    <div>{{localize "CPR.hudselectdvtable"}}</div>
+    <div>
+      <select name="dvTable">
+        {{#each this as |rt|}}
+        <option value="{{rt.data.name}}">{{rt.data.name}}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+</form>
+{{log "END CPR-HUD-PROMPT.HBS"}}
