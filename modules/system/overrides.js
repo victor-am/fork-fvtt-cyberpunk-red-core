@@ -14,7 +14,8 @@ export default function overrideRulerFunctions() {
           const tableResults = rollTable._getResultsForRoll(distance);
           if (tableResults.length === 1) {
             const DV = tableResults[0].text;
-            returnLabel = `${returnLabel} DV: ${DV}`;
+            const displayTable = DvTable.replace(/^DV /, "");
+            returnLabel = `${returnLabel} (${displayTable} DV: ${DV})`;
           }
         }
       }
