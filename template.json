@@ -393,7 +393,8 @@
       "category": "none",
       "difficulty": "typical",
       "core": false,
-      "basic": false
+      "basic": false,
+      "mod": 0
     },
     "vehicle": {
       "templates": [

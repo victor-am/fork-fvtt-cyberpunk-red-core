@@ -906,7 +906,7 @@ button,
 }
 .skills-tab .skill-level,
 .skills-tab .skill-base,
-.skills-tab .skill-favorite {
+.skills-tab .skill-mod .skill-favorite {
   flex: 0 0 30px;
 }
 .skills-tab .skill-custom {

@@ -13,11 +13,12 @@
             {{/if}}
         </span>
         <span class="item-detail skill-level bg-black text-nowrap">{{localize "CPR.lvl"}}</span>
+        <span class="item-detail skill-mod bg-black text-nowrap">{{localize "CPR.skillmod"}}</span>
         <span class="item-detail skill-base bg-black text-nowrap">{{localize "CPR.base"}}</span>
         <span class="item-detail skill-favorite bg-black text-nowrap toggle-favorite-visibility" id="skillTab-{{category}}-showFavorites" title="{{localize "CPR.togglecategoryall"}}"><i class="far fa-eye show-favorites"></i><i class="far fa-eye-slash hide-favorites hide"></i></span>
     </li>
     <ol class="items-list">
-        {{#each (sort (filter actor.filteredItems.skill "data.category" category) "name") as |skill s|}}        
+        {{#each (sort (filter actor.filteredItems.skill "data.category" category) "name") as |skill s|}}
         <li class="item skill-name flexrow{{#if skill.data.favorite}} favorite{{else}}{{#if (listContains ../sheet.options.collapsedSections (generatePartial "skillTab-VAR" ../category))}} hide{{/if}}{{/if}}" data-item-id="{{skill._id}}"
             data-skill-category="{{skill.data.category}}" draggable="true">
             <div class="item-name text-nowrap">
@@ -36,6 +37,10 @@
             <div class="item-detail skill-level text-nowrap">
                 <input class="number skill-level-input" value="{{skill.data.level}}" type="number"
                     data-item-prop="data.level" data-dtype="Number">
+            </div>
+            <div class="item-detail skill-mod text-nowrap">
+                <input class="number skill-mod-input" value="{{skill.data.mod}}" type="number"
+                    data-item-prop="data.mod" data-dtype="Number">
             </div>
             <div class="item-detail skill-base text-nowrap">
                 {{math "sum" skill.data.level (lookup (getProp ../actor.data.stats skill.data.stat) 'value')}}
