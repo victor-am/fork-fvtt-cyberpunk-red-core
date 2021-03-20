@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "version": 0.64,
-=======
-  "version": 0.62,
->>>>>>> origin/master
   "name": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
