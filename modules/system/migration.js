@@ -73,7 +73,6 @@ export default class Migration {
     for (const i of actorItems) {
       updateItems.push(this.migrateItemData(i.data));
     }
-    await actor.updateEmbeddedEntity("OwnedItem", updateItems);
 
     // You can't updateEmbeddedEntity of a Compendium Entity since it is only data
     if (actor.compendium === null) {
@@ -171,6 +170,8 @@ export default class Migration {
       if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
         oldDeathPenalty = actorData.data.derivedStats.deathSavePenlty;
       }
+      actorData.data.derivedStats.deathSave = { value: oldDeathSave, penalty: oldDeathPenalty, basePenalty: 0 };
+    }
 
     if ((typeof actorData.data.roleInfo.activeRole) === "undefined") {
       let configuredRole = "solo";
@@ -178,6 +179,8 @@ export default class Migration {
         // eslint-disable-next-line prefer-destructuring
         configuredRole = actorData.data.roleInfo.roles[0];
       }
+      actorData.data.roleInfo.activeRole = configuredRole;
+    }
 
     if ((typeof actorData.data.criticalInjuries) === "undefined") {
       actorData.data.criticalInjuries = [];
