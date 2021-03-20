@@ -10,9 +10,10 @@
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <select name="humanityLoss">
-                    <option selected value="{{item.data.humanityLoss.roll}}">Roll: {{item.data.humanityLoss.roll}}
+                    <option selected value="{{item.data.humanityLoss.roll}}">{{localize "CPR.roll"}}: {{item.data.humanityLoss.roll}}
                     </option>
-                    <option value="{{item.data.humanityLoss.static}}">Static: {{item.data.humanityLoss.static}}</option>
+                    <option value="{{item.data.humanityLoss.static}}">{{localize "CPR.static"}}: {{item.data.humanityLoss.static}}</option>
+                    <option value="None">{{localize "CPR.none"}}</option>
                 </select>
             </div>
         </li>

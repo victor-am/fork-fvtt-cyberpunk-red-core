@@ -6,7 +6,7 @@ export const registerSystemSettings = function () {
   game.settings.register("cyberpunk-red-core", "dataModelVersion", {
     name: "System Data Model Version",
     scope: "world",
-    config: false,
+    config: true,
     type: String,
     default: "",
   });
@@ -45,5 +45,22 @@ export const registerSystemSettings = function () {
     config: true,
     type: Boolean,
     default: true,
+  });
+
+  game.settings.register("cyberpunk-red-core", "invertRollCtrlFunction", {
+    name: "CPR.settinginvertrollctrlfunctionname",
+    hint: "CPR.settinginvertrollctrlfunctionhint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+
+  game.settings.register("cyberpunk-red-core", "userSettings", {
+    name: "User Settings",
+    scope: "client",
+    config: false,
+    type: Object,
+    default: {},
   });
 };

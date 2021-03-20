@@ -2,11 +2,20 @@
     <div class="injuries-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
-                {{localize "CPR.critinjuries"}}
+                {{localize "CPR.critinjuries"}}<a class="add-critical-injury" title="{{localize "CPR.addcriticalinjury"}}"><i class="fas fa-plus-circle text-float-right text-padding-right"></i></a>
             </span>
         </li>
         <div class="injuries-content">
-
+            <ol class="items-list critical-injuries-list"></ol>
+            {{#each actor.data.criticalInjuries as |injury|}}
+            <li class="flex-space-between item flexrow" data-item-id="{{injury.id}}" >
+                <a class="edit-critical-injury text-nowrap" data-injury-id="{{injury.id}}"><span title="{{localize "CPR.effects"}}: {{injury.effect}}
+{{localize "CPR.quickfix"}}: {{injury.quickfix}}
+{{localize "CPR.treatment"}}: {{injury.treatment}}
+{{localize "CPR.criticalinjurydeathsave"}}: {{#if (getProp (findObj mods "name" "deathSavePenalty" ) "value")}}true{{else}}false{{/if}}">{{injury.name}}</span></a><a class="delete-critical-injury " data-injury-id="{{injury.id}}"><i class="fas fa-trash-alt fg-red text-float-right text-padding-right" title="Delete Item"></i></a>
+            </li>
+            {{/each}}
+            </ol>
         </div>
     </div>
     <div class="armor-section">
@@ -76,9 +85,9 @@
             <ol class="items-list fight-weapons-list">
                 {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
                 {{#if (compare weapon.data.equipped "===" "equipped")}}
-                <li class="item flexrow" data-item-id="{{weapon._id}}" draggable="true">
+                <li class="item flexrow" data-item-id="{{weapon._id}}">
                     <div class="item-name weapon-name">
-                        <a class="name item-edit">{{weapon.name}}</a>
+                        <a class="name item-edit" title="{{weapon.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{weapon.name}}</a>
                         {{#if (compare weapon.data.quality "!==" "standard")}}
                         ({{localize weapon.data.quality}})
                         {{/if}}
@@ -105,10 +114,22 @@
                         </a>
                     </div>
                     <div class="item-detail weapon-attack text-nowrap">
-                        <a class="rollable" data-roll-type="attack" data-aimed="true" data-item-id={{weapon._id}}>
-                            <i class="fas fa-crosshairs red-fg" title="Aimed Attack"></i>
+                        <a class="rollable" data-roll-type="aimed" data-item-id={{weapon._id}}>
+                            <i class="fas fa-crosshairs red-fg" title="Aimed Shot"></i>
                         </a>
                     </div>
+                    {{#if (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType)}}
+                    <div class="item-detail weapon-attack text-nowrap">
+                        <a class="rollable" data-roll-type="autofire" data-item-id={{weapon._id}}>
+                            <i class="fab fa-blackberry red-fg" title="Autofire"></i>
+                        </a>
+                    </div>
+                    <div class="item-detail weapon-attack text-nowrap">
+                        <a class="rollable" data-roll-type="suppressive" data-item-id={{weapon._id}}>
+                            <i class="fas fa-exclamation-circle red-fg" title="Suppressive Fire"></i>
+                        </a>
+                    </div>
+                    {{/if}}
                     <div class="item-detail weapon-damage text-nowrap">
                         <a class="rollable" data-damage="{{weapon.data.damage}}" data-roll-type="damage"
                             data-item-id={{weapon._id}}>

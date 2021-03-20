@@ -1,9 +1,10 @@
-/* eslint-disable no-undef */
-/* global Hooks */
+/* global Hooks game */
 /* eslint no-unused-vars:1 */
 import LOGGER from "../utils/cpr-logger.js";
+import CPRChat from "../chat/cpr-chat.js";
 
 const chatPreHooks = () => {
+  // eslint-disable-next-line no-unused-vars
   Hooks.on("renderChatMessage", async (app, html, msg) => {
     LOGGER.trace("renderChatMessage | chatHooks | Called.");
     // Do not display "Blind" chat cards to non-gm
@@ -13,6 +14,19 @@ const chatPreHooks = () => {
       html.find(".message-header").remove(); // Remove header so Foundry does not attempt to update its timestamp
       html.html("").css("display", "none");
     }
+  });
+  // for now, we intentionally do not use log (ChatLog) or data (ChatData)
+  // eslint-disable-next-line no-unused-vars
+  Hooks.on("chatMessage", (log, message, data) => {
+    LOGGER.trace("chatMessage | chatHooks | Called.");
+    if (message !== undefined && message.startsWith("/red")) {
+      const fragment = message.slice(4);
+      CPRChat.HandleCPRCommand(fragment);
+      // do not continue further processing of the ChatMessage
+      return false;
+    }
+    // permit Foundry to display the chat message we caught as-is
+    return true;
   });
 };
 
