@@ -244,6 +244,16 @@
       "templates": [
         "common"
       ]
+    },
+    "blackIce": {
+      "class": "",
+      "isDemon": false,
+      "interface": 0,
+      "per": 0,
+      "spd": 0,
+      "atk": 0,
+      "def": 0,
+      "rez": 0
     }
   },
   "Item": {
@@ -251,6 +261,7 @@
       "ammo",
       "armor",
       "cyberware",
+      "cyberdeck",
       "gear",
       "netarch",
       "program",
@@ -296,51 +307,29 @@
           "value": 0,
           "isActive": false
         }
+      },
+      "attack": {
+        "weaponSkill": "",
+        "damage": "1d6",
+        "isRanged": false,
+        "altFireModes": "",
+        "magazine": {
+          "value": 0,
+          "max": 0,
+          "ammoId": ""
+        },
+        "ammoVariety": []
       }
     },
-    "cyberware": {
+    "ammo": {
       "templates": [
         "common",
         "physicalItem",
         "upgradable"
       ],
-      "type": "type",
-      "install": "install",
-      "isInstalled": false,
-      "isFoundational": true,
-      "hasOptionalSlots": false,
-      "optionSlots": 0,
-      "core": false,
-      "optionalIds": [],
-      "humanityLoss": {
-        "static": 3,
-        "roll": "1d6"
-      }
-    },
-    "weapon": {
-      "templates": [
-        "common",
-        "physicalItem",
-        "upgradable",
-        "equippable"
-      ],
-      "rof": 1,
-      "weaponType": "",
-      "weaponSkill": "",
-      "damage": "1d6",
-      "concealable": false,
-      "isConcealed": false,
-      "handsReq": 1,
-      "isRanged": false,
-      "altFireModes": "",
-      "quality": "standard",
-      "magazine": {
-        "value": 0,
-        "max": 0,
-        "ammoId": ""
-      },
-      "ammoVariety": [],
-      "attachmentSlots": 0
+      "variety": "",
+      "amount": 0,
+      "type": ""
     },
     "armor": {
       "templates": [
@@ -366,15 +355,35 @@
       },
       "penalty": 0
     },
-    "ammo": {
+    "cyberware": {
       "templates": [
         "common",
         "physicalItem",
-        "upgradable"
+        "upgradable",
+        "attack"
       ],
-      "variety": "",
-      "amount": 0,
-      "type": ""
+      "type": "type",
+      "install": "install",
+      "isInstalled": false,
+      "isFoundational": true,
+      "hasOptionalSlots": false,
+      "optionSlots": 0,
+      "core": false,
+      "optionalIds": [],
+      "humanityLoss": {
+        "static": 3,
+        "roll": "1d6"
+      }
+    },
+    "cyberdeck": {
+      "templates": [
+        "common",
+        "physicalItem",
+        "upgradable",
+        "equippable"
+      ],
+      "slots": 0,
+      "programs": []
     },
     "gear": {
       "templates": [
@@ -383,6 +392,43 @@
         "upgradable",
         "equippable"
       ]
+    },
+    "netarch": {
+      "templates": [
+        "common",
+        "physicalItem"
+      ],
+      "floors": []
+    },
+    "program": {
+      "templates": [
+        "common",
+        "physicalItem"
+      ],
+      "class": "",
+      "isDemon": false,
+      "interface": 0,
+      "per": 0,
+      "spd": 0,
+      "atk": 0,
+      "def": 0,
+      "rez": 0
+    },
+    "weapon": {
+      "templates": [
+        "common",
+        "physicalItem",
+        "upgradable",
+        "equippable",
+        "attack"
+      ],
+      "rof": 1,
+      "weaponType": "",
+      "concealable": false,
+      "isConcealed": false,
+      "handsReq": 1,
+      "quality": "standard",
+      "attachmentSlots": 0
     },
     "skill": {
       "templates": [
@@ -405,27 +451,6 @@
       "seats": 0,
       "speedCombat": 0,
       "speedNarrative": ""
-    },
-    "program": {
-      "templates": [
-        "common",
-        "physicalItem",
-        "equippable"
-      ],
-      "class": "",
-      "slots": 0,
-      "per": 0,
-      "spd": 0,
-      "atk": 0,
-      "def": 0,
-      "rez": 0
-    },
-    "netarch": {
-      "templates": [
-        "common",
-        "physicalItem"
-      ],
-      "floors": []
     }
   }
 }
