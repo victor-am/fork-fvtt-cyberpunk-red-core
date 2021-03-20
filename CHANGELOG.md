@@ -1,0 +1,40 @@
+
+# Version: 0.65  |  Date:  2021-03-20
+
+**UI/UX**
+
+- Implemented a chat command “/red” which will roll 1d10 and explode on a 10 or negatively explode (implode?) on a 1. Rolls of the form “/red+X”, “/red-X”, and “/red XdY” are also supported (though there are no dice icons if Y isn’t a 6 or a 10).
+- Macros can now be made for weapons, skills, journal entries and actors by dragging and dropping to the macro bar. Weapon macros can be easily edited to roll for damage, aimed shots, autofire, and suppressive fire.
+- Improvement Points now trackable and exist on the front of the character sheet, underneath Humanity.
+- Eurobucks tracked in the gear tab.
+- Can now view details of installed cyberware in ‘read-only’ mode.
+- Being able to edit installed cyberware causes issues so the original fix was to make it so that installed cyberware could not be edited. This had the unintended consequence that you could no longer click on the item to see its description if you wanted to reference how it worked. This solves that issue.
+- System setting to allow skipping of the roll dialogue. This basically inverts the function of ctrl-click. This rolls default values on a regular click and brings up the roll modification dialogue on ctrl-click.
+- Early implementation for keeping track of critical injuries.
+- New glyphs/buttons for autofire and suppressive fire.
+- Death saves are now rollable, trackable, and relate to critical injuries.
+- Added the option to apply no humanity loss on installation of cyberware. This is useful if the user realizes a mistake after installation. They can uninstall, edit the item and reinstall without having to worry about fixing humanity loss afterwards. Also useful for reinstallation of items like Skill Chips and extra cyberarms for the quick-change mounts.
+- Added support for damage formulas like 2d6+2, 3d6-4, etc. for all your homebrew and 2020 conversions.
+- Ctrl-click an item name to send its description to chat. This feature is still in the early stages of development and may have some formatting issues on the chat card. These will be addressed as the feature is refined.
+- Rolling for cyberware is now printed to chat.
+- Items of type ‘gear’ are now equippable (just a cosmetic feature for keeping track of what is on your person vs. somewhere else).
+- Improved alignment when there are multiple Roles selected to display.
+
+**Plumbing:**
+- All rolls moved off of the character sheet to allow for drag n’ drop macros.
+- Foundation for roll glyphs embedded into chat cards implemented.
+- Many changes and fixes for data migration during updates.
+
+**Bug Fixes:**
+- Applying status condition icons no longer fails.
+- Custom pause animation no longer disappears on unpause/re-pause.
+- Collapsing the side bar now works as expected.
+- Rolls are now displayed as originating from the selected token, rather than the player. If no token is selected or associated with the actor sheet, rolls are displayed from the actor that triggered the roll.
+- Fixed alt-text localization for critical injuries section.
+- When changing the ammo types on an owned weapon, a race condition was occurring which was intermittently over-writing what the proper value of ammoVariety should be so setting compatible ammo would sometimes just fail. Re-ordered the way things are done and this has resolved this issue.
+- Vehicles now correctly display Structural Damage Points (SDP) instead of the erroneous spd.
+- Fix for the inability to set compatible ammo for an unowned weapon.
+- Fixed a bug where choosing to roll for humanity loss when installing cyberware wouldn’t work.
+- Fix for humanity loss looping back and subtracting from the maximum when dropping below 0 upon cyberware installation.
+- There was an issue where if you made any change to the character sheet, it would reset the view of the sheet. For example, if you opened the sheet and collapsed category 1, Closed the sheet, Opened the sheet, Category 1 is still collapsed. All Good. Change anything (Pin something, change a skill level) Category 1 would instantly expand.
+- Fixed a bug where wound state was not updating properly on some actors.
