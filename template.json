@@ -340,7 +340,8 @@
         "ammoId": ""
       },
       "ammoVariety": [],
-      "attachmentSlots": 0
+      "attachmentSlots": 0,
+      "dvTable": ""
     },
     "armor": {
       "templates": [

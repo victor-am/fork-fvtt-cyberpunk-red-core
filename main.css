@@ -958,6 +958,7 @@ button,
 .fight-tab .weapon-name {
   flex: 0 0 25%;
 }
+.fight-tab .weapon-measure,
 .fight-tab .weapon-attack,
 .fight-tab .weapon-damage {
   flex: 0 0 20px;

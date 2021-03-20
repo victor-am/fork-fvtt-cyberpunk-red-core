@@ -101,12 +101,11 @@
                     <div class="item-detail weapon-alt-modes text-nowrap">
                         {{weapon.data.altFireModes}}
                     </div>
+                    {{#if weapon.data.isRanged}}
                     <div class="item-detail weapon-reload text-nowrap">
-                        {{#if weapon.data.isRanged}}
-                        {{>
-                        "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
-                        {{/if}}
+                        {{>"systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
                     </div>
+                    {{/if}}
                     <div class="item-detail weapon-attack text-nowrap">
                         <a class="rollable smallest-text" data-roll-type="attack" data-aimed="false"
                             data-item-id={{weapon._id}}>
@@ -136,6 +135,11 @@
                             <i class="fas fa-tint red-fg" title="Damage"></i>
                         </a>
                     </div>
+                    {{#if weapon.data.isRanged}}
+                    <div class="item-detail weapon-measure text-nowrap">
+                        {{>"systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs"}}
+                    </div>
+                    {{/if}}
                 </li>
                 {{/if}}
                 {{/each}}

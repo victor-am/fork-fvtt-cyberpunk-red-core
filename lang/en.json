@@ -903,5 +903,6 @@
     "CPR.hudprompttitle": "HUD Configuration",
     "CPR.hudselectdvtable": "Select the DV table to apply to measurements",
     "CPR.hudiconhintdv": "Configure DV Measurement",
+    "CPR.dvtable": "DV Table",
     "CPR.zap": "Zap"
 }

@@ -260,6 +260,9 @@ export default class Migration {
     if ((typeof itemData.data.isConcealed) === "undefined") {
       itemData.data.isConcealed = false;
     }
+    if ((typeof itemData.data.dvTable) === "undefined") {
+      itemData.data.dvTable = "";
+    }
     return itemData;
   }
 
