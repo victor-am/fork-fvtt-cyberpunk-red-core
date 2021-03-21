@@ -75,6 +75,11 @@
                             <option value="{{skillOption.data.name}}">{{skillOption.data.name}}</option>
                             {{/if}}
                             {{/each}}
+                            {{#each (sort (getProp this.filteredItems 'skill') "name") as |skillOption| }}
+                            {{#if (listContains "Athletics" skillOption.data.data.name)}}
+                            <option value="{{skillOption.data.name}}">{{skillOption.data.name}}</option>
+                            {{/if}}
+                            {{/each}}
                             {{/select}}
                         </select>
                     </div>
