@@ -74,6 +74,7 @@
     "CPR.atk": "ATK",
     "CPR.attack": "Attack",
     "CPR.attacker": "Attacker",
+    "CPR.attackmod": "Attack Modifier",
     "CPR.audience": "Audience",
     "CPR.audiorecorder": "Audio Recorder",
     "CPR.audiovox": "AudioVox",
