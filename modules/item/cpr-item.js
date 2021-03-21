@@ -348,7 +348,7 @@ export default class CPRItem extends Item {
     const weaponName = this.name;
     const { weaponType } = weaponData;
     let skillItem = actor.items.find((i) => i.name === weaponData.weaponSkill);
-    if (type === "aimed" || type === "autofire") {
+    if (type === "suppressive" || type === "autofire") {
       skillItem = actor.items.find((i) => i.name === "Autofire");
     }
 
