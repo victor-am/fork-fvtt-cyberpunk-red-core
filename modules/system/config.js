@@ -151,7 +151,6 @@ CPR.skillDifficulties = {
 CPR.weaponTypeList = {
   assaultRifle: "CPR.assaultrifle",
   bow: "CPR.bowsandcrossbows",
-  grenadeThrown: "CPR.grenadethrown",
   grenadeLauncher: "CPR.grenadelauncher",
   heavyMelee: "CPR.heavymeleeweapon",
   heavyPistol: "CPR.heavypistol",
@@ -163,6 +162,7 @@ CPR.weaponTypeList = {
   shotgun: "CPR.shotgun",
   smg: "CPR.smg",
   sniperRifle: "CPR.sniperrifle",
+  thrownWeapon: "CPR.thrownweapon",
   vHeavyMelee: "CPR.veryheavymeleeweapon",
   vHeavyPistol: "CPR.veryheavypistol",
 };
