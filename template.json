@@ -403,7 +403,7 @@
     "program": {
       "templates": [
         "common",
-        "physicalItem"
+        "physicalItem" 
       ],
       "class": "",
       "isDemon": false,
