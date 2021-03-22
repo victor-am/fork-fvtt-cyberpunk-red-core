@@ -74,8 +74,6 @@
                             {{#if (listContains "Athletics" skillOption.data.name)}}
                             <option value="{{skillOption.data.name}}">{{skillOption.data.name}}</option>
                             {{/if}}
-                            {{/each}}
-                            {{#each (sort (getProp this.filteredItems 'skill') "name") as |skillOption| }}
                             {{#if (listContains "rangedweaponSkills,fightingSkills" skillOption.data.data.category)}}
                             <option value="{{skillOption.data.name}}">{{skillOption.data.name}}</option>
                             {{/if}}
