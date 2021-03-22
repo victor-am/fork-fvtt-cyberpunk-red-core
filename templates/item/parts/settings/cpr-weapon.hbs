@@ -69,8 +69,12 @@
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.weaponSkill" data-dtype="{{data.weaponSkill}}">
                             {{#select data.weaponSkill}}
-                            <option value="{{skillOption.data.name}}">Athletics</option>
                             {{!-- Would be nice if this was sorted, but not sure how to do that. --}}
+                            {{#each (sort (getProp this.filteredItems 'skill') "name") as |skillOption| }}
+                            {{#if (listContains "Athletics" skillOption.data.name)}}
+                            <option value="{{skillOption.data.name}}">{{skillOption.data.name}}</option>
+                            {{/if}}
+                            {{/each}}
                             {{#each (sort (getProp this.filteredItems 'skill') "name") as |skillOption| }}
                             {{#if (listContains "rangedweaponSkills,fightingSkills" skillOption.data.data.category)}}
                             <option value="{{skillOption.data.name}}">{{skillOption.data.name}}</option>
