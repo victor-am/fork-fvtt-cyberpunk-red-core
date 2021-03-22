@@ -361,7 +361,7 @@ export default class CPRItem extends Item {
     const skillName = skillItem.data.name;
     let cprRoll;
     let statName;
-    if (weaponData.isRanged && skillName !== "Athletics") {
+    if (weaponData.isRanged && this.data.data.weaponType !== "thrownWeapon") {
       statName = "ref";
     } else {
       statName = "dex";
