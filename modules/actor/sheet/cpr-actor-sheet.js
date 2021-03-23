@@ -264,7 +264,10 @@ export default class CPRActorSheet extends ActorSheet {
 
     // output to chat
     const token = this.token === null ? null : this.token.data._id;
-    cprRoll.entityData = { actor: this.actor._id, token, item: item._id };
+    cprRoll.entityData = { actor: this.actor._id, token};
+    if (item) {
+      cprRoll.entityData.item = item._id;
+    }
     CPRChat.RenderRollCard(cprRoll);
 
     // Store last roll so we can query and use it
