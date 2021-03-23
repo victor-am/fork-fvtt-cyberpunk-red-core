@@ -162,6 +162,7 @@ CPR.weaponTypeList = {
   shotgun: "CPR.shotgun",
   smg: "CPR.smg",
   sniperRifle: "CPR.sniperrifle",
+  thrownWeapon: "CPR.thrownweapon",
   vHeavyMelee: "CPR.veryheavymeleeweapon",
   vHeavyPistol: "CPR.veryheavypistol",
 };
