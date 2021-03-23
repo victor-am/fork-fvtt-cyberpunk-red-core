@@ -145,6 +145,7 @@ export default class CPRChat {
           console.log(`No action defined for ${clickAction}`);
         }
       }
+      return true;
     });
   }
 }
