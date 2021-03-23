@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* global game, CONFIG, ChatMessage, renderTemplate, duplicate */
 import LOGGER from "../utils/cpr-logger.js";
 import { CPRRoll } from "../rolls/cpr-rolls.js";
@@ -111,24 +112,23 @@ export default class CPRChat {
   }
 
   static async chatListeners(html) {
-    html.on("click", ".clickable", async event => {
+    html.on("click", ".clickable", async (event) => {
       const clickAction = $(event.currentTarget).attr("data-action");
 
       switch (clickAction) {
-        case "hide": {
-          const elementName = $(event.currentTarget).attr("data-hide-element");
-          const currentText = event.currentTarget.innerText;
-          const showDetails = `${game.i18n.localize("CPR.show")} ${game.i18n.localize("CPR.details")}`;
-          const hideDetails = `${game.i18n.localize("CPR.hide")} ${game.i18n.localize("CPR.details")}`;
-          event.currentTarget.innerText = currentText === showDetails ? hideDetails : showDetails;
+        case "toggleVisibility": {
+          const elementName = $(event.currentTarget).attr("data-visible-element");
           $(html).find(`.${elementName}`).toggleClass("hide");
           break;
         }
         case "rollDamage": {
-          console.log(rollDamage);
+          // This will let us click a damage link off of the attack card
+          console.log(clickAction);
           break;
         }
-        default:
+        default: {
+          console.log(`No action defined for ${clickAction}`);
+        }
       }
     });
   }

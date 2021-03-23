@@ -195,7 +195,7 @@ export default function registerHandlebarsHelpers() {
       }
 
       if (diceSize) {
-        className = `${className}-${diceSize}`;
+        className = `${className} ${className}-${diceSize}`;
       }
     }
     return className;

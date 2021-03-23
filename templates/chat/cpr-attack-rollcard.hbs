@@ -25,17 +25,15 @@
           {{/if}}
         </div>
         <div class="d10-number-div">
-          <span class="{{#if criticalCard}}fg-red text-bold{{/if}}">{{resultTotal}}</span>
+          <a><span class="clickable{{#if criticalCard}} fg-red text-bold{{/if}}" data-action="toggleVisibility" data-visible-element="d10-data-details">{{resultTotal}}</span></a>
         </div>
         <div class="d10-data-div">
-          <div class="d10-details-button text-center text-normal text-bold clickable" data-action="hide" data-hide-element="d10-data-details">{{localize "CPR.show"}} {{localize "CPR.details"}}</div>
           <div class="d10-data-details hide">
             <div class="text-normal text-bold">{{localize statName}} + {{statValue}}</div>
             <div class="text-normal text-bold">{{localize skillName}} + {{skillValue}}</div>
             {{#if mods}}
             <span class="text-normal text-nowrap">{{localize "CPR.rollmods"}}: {{mods}}</span>
-            <div class="text-normal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}:
-              {{totalMods}}</div>
+            <div class="text-normal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}: {{totalMods}}</div>
             {{/if}}
           </div>
         </div>

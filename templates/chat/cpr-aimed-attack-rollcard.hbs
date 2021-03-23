@@ -19,18 +19,17 @@
           <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{initialRoll}}_fail.svg">
           <i class="fas fa-minus"></i>
           {{/if}}
-          <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{math " abs" criticalRoll}}.svg">
+          <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{math "abs" criticalRoll}}.svg">
           {{else}}
           <img class="d10" src="systems/cyberpunk-red-core/icons/dice/black/d10_{{initialRoll}}.svg">
           {{/if}}
         </div>
         <div class="d10-number-div">
-          <span class="{{#if criticalCard}}fg-red text-bold{{/if}}">{{resultTotal}}</span>
+          <a><span class="clickable{{#if criticalCard}} fg-red text-bold{{/if}}" data-action="toggleVisibility"
+            data-visible-element="d10-data-details">{{resultTotal}}</span></a>
         </div>
         <div class="d10-data-div">
           <div class="text-normal text-bold">{{localize "CPR.location"}}: {{localize (findConfigValue "aimedLocation" location)}}</div>
-          <div class="d10-details-button text-center text-normal text-bold clickable" data-action="hide"
-            data-hide-element="d10-data-details">{{localize "CPR.show"}} {{localize "CPR.details"}}</div>
           <div class="d10-data-details hide">
             
             <div class="text-normal text-bold">{{localize statName}} + {{statValue}}</div>
