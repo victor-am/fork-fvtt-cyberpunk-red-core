@@ -1,9 +1,18 @@
 {{log "CPR-ATTACK-ROLLCARD.HBS"}}
+{{log this}}
 <div class="rollcard">
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-stat">
       <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
-      <div class="text-center text-small">{{localize "CPR.attack"}}</div>
+      <div class="rollcard-subtitle">
+        <div class="rollcard-subtitle-center text-small">{{localize "CPR.attack"}}</div>
+        <div class="rollcard-subtitle-right">
+          <a class="clickable" data-action="rollDamage" data-actor-id="{{entityData.actor}}"
+            data-item-id="{{entityData.item}}">
+            <i class="fas fa-tint red-fg" title="Damage"></i>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
   <div class="rollcard-bottom">
@@ -25,7 +34,8 @@
           {{/if}}
         </div>
         <div class="d10-number-div">
-          <a><span class="clickable{{#if criticalCard}} fg-red text-bold{{/if}}" data-action="toggleVisibility" data-visible-element="d10-data-details">{{resultTotal}}</span></a>
+          <a><span class="clickable{{#if criticalCard}} fg-red text-bold{{/if}}" data-action="toggleVisibility"
+              data-visible-element="d10-data-details">{{resultTotal}}</span></a>
         </div>
         <div class="d10-data-div">
           <div class="d10-data-details hide">
@@ -33,7 +43,8 @@
             <div class="text-normal text-bold">{{localize skillName}} + {{skillValue}}</div>
             {{#if mods}}
             <span class="text-normal text-nowrap">{{localize "CPR.rollmods"}}: {{mods}}</span>
-            <div class="text-normal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}: {{totalMods}}</div>
+            <div class="text-normal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}:
+              {{totalMods}}</div>
             {{/if}}
           </div>
         </div>

@@ -3,7 +3,15 @@
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-stat">
       <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
-      <div class="text-center text-small">{{localize "CPR.aimedshot"}}</div>
+      <div class="rollcard-subtitle">
+        <div class="rollcard-subtitle-center text-small">{{localize "CPR.aimedshot"}}</div>
+        <div class="rollcard-subtitle-right">
+          <a class="clickable" data-action="rollDamage" data-actor-id="{{entityData.actor}}"
+            data-item-id="{{entityData.item}}">
+            <i class="fas fa-tint red-fg" title="Damage"></i>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
   <div class="rollcard-bottom">
@@ -26,12 +34,13 @@
         </div>
         <div class="d10-number-div">
           <a><span class="clickable{{#if criticalCard}} fg-red text-bold{{/if}}" data-action="toggleVisibility"
-            data-visible-element="d10-data-details">{{resultTotal}}</span></a>
+              data-visible-element="d10-data-details">{{resultTotal}}</span></a>
         </div>
         <div class="d10-data-div">
-          <div class="text-normal text-bold">{{localize "CPR.location"}}: {{localize (findConfigValue "aimedLocation" location)}}</div>
+          <div class="text-normal text-bold">{{localize "CPR.location"}}: {{localize (findConfigValue "aimedLocation"
+            location)}}</div>
           <div class="d10-data-details hide">
-            
+
             <div class="text-normal text-bold">{{localize statName}} + {{statValue}}</div>
             <div class="text-normal text-bold">{{localize skillName}} + {{skillValue}}</div>
             {{#if mods}}

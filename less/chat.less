@@ -12,6 +12,28 @@
   padding-bottom: 5px;
 }
 
+.rollcard-subtitle {
+  display: grid;
+  grid-template-columns: 20px auto 20px;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "subtitle-left subtitle-center subtitle-right";
+}
+
+.rollcard-subtitle-left{
+  grid-area: subtitle-left;
+}
+
+.rollcard-subtitle-center{
+  grid-area: subtitle-center;
+  justify-self: center;
+}
+
+.rollcard-subtitle-right{
+  grid-area: subtitle-right;
+}
+
+
 .rollcard {
   display              : grid;
   grid-template-columns: 270px;

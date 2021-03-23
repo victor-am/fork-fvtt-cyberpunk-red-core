@@ -123,7 +123,22 @@ export default class CPRChat {
         }
         case "rollDamage": {
           // This will let us click a damage link off of the attack card
-          console.log(clickAction);
+          const rollType = "damage";
+          const actorId = $(event.currentTarget).attr("data-actor-id");
+          const itemId = $(event.currentTarget).attr("data-item-id");
+          const actor = game.actors.find((a) => a._id === actorId);
+          const item = actor ? actor.items.find((i) => i._id === itemId) : null;
+          const displayName = actor === null ? "ERROR" : actor.name;
+          if (!item) return ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.actormissingitem")} ${itemId}`);
+          const cprRoll = item.createRoll(rollType, actor._id);
+
+          await cprRoll.handleRollDialog(event);
+
+          item.confirmRoll(rollType, cprRoll);
+          await cprRoll.roll();
+          CPRChat.RenderRollCard(cprRoll);
+
+          actor.setPreviousRoll(cprRoll);
           break;
         }
         default: {
