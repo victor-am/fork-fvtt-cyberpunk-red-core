@@ -109,4 +109,27 @@ export default class CPRChat {
       this.RenderRollCard(cprRoll);
     }
   }
+
+  static async chatListeners(html) {
+    html.on("click", ".clickable", async event => {
+      const clickAction = $(event.currentTarget).attr("data-action");
+
+      switch (clickAction) {
+        case "hide": {
+          const elementName = $(event.currentTarget).attr("data-hide-element");
+          const currentText = event.currentTarget.innerText;
+          const showDetails = `${game.i18n.localize("CPR.show")} ${game.i18n.localize("CPR.details")}`;
+          const hideDetails = `${game.i18n.localize("CPR.hide")} ${game.i18n.localize("CPR.details")}`;
+          event.currentTarget.innerText = currentText === showDetails ? hideDetails : showDetails;
+          $(html).find(`.${elementName}`).toggleClass("hide");
+          break;
+        }
+        case "rollDamage": {
+          console.log(rollDamage);
+          break;
+        }
+        default:
+      }
+    });
+  }
 }

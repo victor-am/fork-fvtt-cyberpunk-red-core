@@ -900,5 +900,7 @@
     "CPR.yougotnoinventory": "You got no",
     "CPR.youown": "You own",
     "CPR.yourhome": "Your Home",
+    "CPR.show": "Show",
+    "CPR.hide": "Hide",
     "CPR.zap": "Zap"
 }
