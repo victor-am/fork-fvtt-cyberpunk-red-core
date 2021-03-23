@@ -1234,7 +1234,7 @@ form input.number {
 }
 .weapon-grid {
   display: grid;
-  grid-template-columns: 52px 1fr 1fr 1fr;
+  grid-template-columns: 52px 1fr 64px 92px;
   gap: 2px 2px;
   grid-template-areas: "fight-weapon-icon fight-weapon fight-weapon-firetype fight-weapon-attack";
 }
@@ -1245,8 +1245,9 @@ form input.number {
 }
 .fight-weapon {
   display: grid;
-  grid-template-rows: 1fr 1fr;
-  gap: 0px 0px;
+  gap: 4px 0px;
+  text-align: left;
+  padding-left: 4px;
   grid-template-areas: "fight-weapon-name" "fight-weapon-actions";
   grid-area: fight-weapon;
 }
