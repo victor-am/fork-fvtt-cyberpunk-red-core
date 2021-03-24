@@ -111,9 +111,10 @@ export default class CPRActor extends Actor {
     // Do we really need to store this or can we just calculate it dynamically as needed???
     derivedStats.seriouslyWounded = Math.ceil(derivedStats.hp.max / 2);
 
-    if (derivedStats.hp.value < derivedStats.hp.max) {
-      this._setWoundState();
-    }
+    // We need to always call this because if the actor was wounded and now is not, their
+    // value would be equal to max, however their current wound state was never updated.
+    this._setWoundState();
+
     // Death save
     let basePenalty = 0;
     const { criticalInjuries } = this.data.data;

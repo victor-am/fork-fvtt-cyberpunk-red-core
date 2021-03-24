@@ -9,13 +9,14 @@
 <i class="fas fa-eye-slash" title="Toggle Conceal"></i>
 {{/if}}
 --}}
-{{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-equip-glyph.hbs"}}
 {{/if}}
 {{#if (compare type "===" "cyberware")}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-install-glyph.hbs"}}
 {{/if}}
 {{#if (compare type "===" "armor")}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-repair-glyph.hbs"}}
+{{/if}}
+{{#if (listContains "weapon,armor,gear" type)}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-equip-glyph.hbs"}}
 {{/if}}
 <a class="item-action" data-action-type="favorite" title="{{localize "CPR.togglepin"}}">
