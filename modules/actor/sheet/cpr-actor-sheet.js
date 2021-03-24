@@ -210,6 +210,8 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".eurobucks-input").click((event) => event.target.select()).change((event) => this._updateEurobucks(event));
 
+    html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
+
     super.activateListeners(html);
   }
 
@@ -221,7 +223,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _onRoll(event) {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
-    const rollType = $(event.currentTarget).attr("data-roll-type");
+    let rollType = $(event.currentTarget).attr("data-roll-type");
     let cprRoll;
     let item = null;
     switch (rollType) {
@@ -232,15 +234,17 @@ export default class CPRActorSheet extends ActorSheet {
         cprRoll = this.actor.createRoll(rollType, rollName);
         break;
       }
-      case "damage":
-      case "aimed":
-      case "attack":
-      case "autofire":
-      case "skill":
-      case "suppressive": {
+      case "skill": {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
         cprRoll = item.createRoll(rollType, this.actor._id);
+        break;
+      }
+      case "damage":
+      case "attack": {
+        const itemId = this._getItemId(event);
+        item = this._getOwnedItem(itemId);
+        cprRoll = item.createRoll(this._getFireCheckbox(event), this.actor._id);
         break;
       }
       default:
@@ -287,6 +291,21 @@ export default class CPRActorSheet extends ActorSheet {
       const formData = await VerifyRoll.RenderPrompt(cprRoll);
       mergeObject(cprRoll, formData, { overwrite: true });
     }
+  }
+
+  _getFireCheckbox(event) {
+    LOGGER.trace("ActorID _getFireCheckbox | CPRActorSheet | Called.");
+    const weaponID = $(event.currentTarget).attr("data-item-id");
+    if ($(`#aiming-${weaponID}`).is(":checked")) {
+      return "aimed";
+    }
+    if ($(`#autofire-${weaponID}`).is(":checked")) {
+      return "autofire";
+    }
+    if ($(`#suppressive-${weaponID}`).is(":checked")) {
+      return "suppressive";
+    }
+    return "attack";
   }
 
   _resetActorValue(event) {
@@ -564,6 +583,23 @@ export default class CPRActorSheet extends ActorSheet {
       }
     }
     await this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
+  }
+
+  _fireCheckboxToggle(event) {
+    LOGGER.trace("CPRItemID _fireheckboxToggle Called | CPRItemSheet | Called.");
+    const weaponID = $(event.currentTarget).attr("data-item-id");
+    const target = $(event.currentTarget).attr("data-target");
+    LOGGER.debug(`${target}-${weaponID}`);
+
+    // clear the other checkboxes if we just set one
+    if ($(`#${target}-${weaponID}`).is(":checked")) {
+      let boxes = ["aiming", "autofire", "suppressive"];
+      const uncheck = boxes.filter((box) => box !== target);
+      for (const box of uncheck) {
+        LOGGER.debug(`unchecking ${box}`);
+        $(`#${box}-${weaponID}`).prop("checked", false);
+      }
+    }
   }
 
   // TODO - Revist, do we need template data? Is function used.

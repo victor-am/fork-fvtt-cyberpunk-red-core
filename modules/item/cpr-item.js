@@ -312,6 +312,7 @@ export default class CPRItem extends Item {
   }
 
   createRoll(type, actorId) {
+    LOGGER.trace("createRoll | CPRItem | Called.");
     switch (type) {
       case "skill": {
         return this._createSkillRoll(actorId);
@@ -330,6 +331,7 @@ export default class CPRItem extends Item {
   }
 
   _createSkillRoll(actorId) {
+    LOGGER.trace("_createSkillRoll | CPRItem | Called.");
     const actor = (game.actors.filter((a) => a._id === actorId))[0];
     const itemData = this.data.data;
     const statName = itemData.stat;
@@ -343,6 +345,7 @@ export default class CPRItem extends Item {
   }
 
   _createAttackRoll(type, actorId) {
+    LOGGER.trace("_createAttackRoll | CPRItem | Called.");
     const actor = (game.actors.filter((a) => a._id === actorId))[0];
     const weaponData = this.data.data;
     const weaponName = this.name;
