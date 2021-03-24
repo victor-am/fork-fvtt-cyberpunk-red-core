@@ -351,7 +351,7 @@ export default class CPRItem extends Item {
     const weaponName = this.name;
     const { weaponType } = weaponData;
     let skillItem = actor.items.find((i) => i.name === weaponData.weaponSkill);
-    if (type === "aimed" || type === "autofire") {
+    if (type === "suppressive" || type === "autofire") {
       skillItem = actor.items.find((i) => i.name === "Autofire");
     }
 
@@ -364,7 +364,7 @@ export default class CPRItem extends Item {
     const skillName = skillItem.data.name;
     let cprRoll;
     let statName;
-    if (weaponData.isRanged) {
+    if (weaponData.isRanged && this.data.data.weaponType !== "thrownWeapon") {
       statName = "ref";
     } else {
       statName = "dex";
@@ -393,6 +393,7 @@ export default class CPRItem extends Item {
     // apply known mods
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
     cprRoll.addMod(this._getMods());
+    cprRoll.addMod(this._getAttackMod());
 
     if (cprRoll instanceof CPRRolls.CPRAttackRoll && weaponData.isRanged) {
       Rules.lawyer(this.hasAmmo(type), "CPR.weaponattackoutofbullets");
@@ -427,6 +428,16 @@ export default class CPRItem extends Item {
           return 1;
         }
         break;
+      }
+      default:
+    }
+    return 0;
+  }
+
+  _getAttackMod() {
+    switch (this.type) {
+      case "weapon": {
+        return this.data.data.attackmod;
       }
       default:
     }

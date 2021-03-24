@@ -32,7 +32,7 @@
                     <li class="flex-space-between item flexrow" data-item-id="{{armor._id}}" >
                         <div class="item-name armor-name text-nowrap"><a class="name item-edit">{{armor.name}}</a>
                         </div>
-                        
+
                     </li>
                     {{#if armor.data.isHeadLocation}}
                     <li class="flex-space-between">
@@ -95,6 +95,8 @@
                             {{#if (compare weapon.data.quality "!==" "standard")}}
                             ({{localize weapon.data.quality}})
                             {{/if}}
+                            {{#if (compare weapon.data.attackmod ">" "0")}}(+{{weapon.data.attackmod}}){{/if}}
+                            {{#if (compare weapon.data.attackmod "<" "0")}}(-{{weapon.data.attackmod}}){{/if}}
                         </div>
                         <div class="fight-weapon-actions text-nowrap">
                             {{#if weapon.data.isRanged}}
