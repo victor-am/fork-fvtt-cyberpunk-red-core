@@ -250,6 +250,7 @@
     "types": [
       "ammo",
       "armor",
+      "clothing",
       "cyberware",
       "gear",
       "netarch",
@@ -384,6 +385,16 @@
         "upgradable",
         "equippable"
       ]
+    },
+    "clothing": {
+      "templates": [
+        "common",
+        "physicalItem",
+        "upgradable",
+        "equippable"
+      ],
+      "quality": "good",
+      "clothingType": "leisureware"
     },
     "skill": {
       "templates": [
