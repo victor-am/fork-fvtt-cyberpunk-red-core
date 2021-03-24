@@ -23,7 +23,13 @@ export default class CPRActor extends Actor {
 
     // Prepare data for both types
     if (this.compendium === null) {
-      this._calculateDerivedStats(actorData);
+      // It looks like prepareData() is called for any actors/npc's that exist in
+      // the game and the clients can't update them.  Everyone should only calculate
+      // their own derived stats, or the GM should be able to calculate the derived
+      // stat
+      if (this.owner || game.user.isGM) {
+        this._calculateDerivedStats(actorData);
+      }
     }
   }
 

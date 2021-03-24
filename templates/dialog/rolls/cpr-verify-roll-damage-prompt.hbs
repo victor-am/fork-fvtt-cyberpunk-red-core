@@ -1,7 +1,7 @@
 {{log "VERIFY-ROLL-DAMAGE-PROMPT.HBS"}}
 <form>
     <div>
-        {{localize "CPR.tellthemtosayhello"}} "{{rollTitle}}", Choomba!
+        {{localize "CPR.tellthemtosayhello"}}! {{localize "CPR.roll"}} {{localize "CPR.damage"}} {{localize "CPR.with"}} "{{rollTitle}}", Choomba!
     </div>
     <ol class="items-list">
         {{#if (listContains "assaultRifle,smg,heavySmg" weaponType)}}
