@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* global game, CONFIG, ChatMessage, renderTemplate, duplicate */
 import LOGGER from "../utils/cpr-logger.js";
 import { CPRRoll } from "../rolls/cpr-rolls.js";
@@ -108,5 +109,43 @@ export default class CPRChat {
       await cprRoll.roll();
       this.RenderRollCard(cprRoll);
     }
+  }
+
+  static async chatListeners(html) {
+    html.on("click", ".clickable", async (event) => {
+      const clickAction = $(event.currentTarget).attr("data-action");
+
+      switch (clickAction) {
+        case "toggleVisibility": {
+          const elementName = $(event.currentTarget).attr("data-visible-element");
+          $(html).find(`.${elementName}`).toggleClass("hide");
+          break;
+        }
+        case "rollDamage": {
+          // This will let us click a damage link off of the attack card
+          const rollType = "damage";
+          const actorId = $(event.currentTarget).attr("data-actor-id");
+          const itemId = $(event.currentTarget).attr("data-item-id");
+          const actor = game.actors.find((a) => a._id === actorId);
+          const item = actor ? actor.items.find((i) => i._id === itemId) : null;
+          const displayName = actor === null ? "ERROR" : actor.name;
+          if (!item) return ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.actormissingitem")} ${itemId}`);
+          const cprRoll = item.createRoll(rollType, actor._id);
+
+          await cprRoll.handleRollDialog(event);
+
+          item.confirmRoll(rollType, cprRoll);
+          await cprRoll.roll();
+          CPRChat.RenderRollCard(cprRoll);
+
+          actor.setPreviousRoll(cprRoll);
+          break;
+        }
+        default: {
+          console.log(`No action defined for ${clickAction}`);
+        }
+      }
+      return true;
+    });
   }
 }
