@@ -39,8 +39,7 @@
                     data-item-prop="data.level" data-dtype="Number">
             </div>
             <div class="item-detail skill-mod text-nowrap">
-                <input class="number skill-mod-input" value="{{skill.data.mod}}" type="number"
-                    data-item-prop="data.mod" data-dtype="Number">
+                <input class="number skill-skillmod-input" value="{{skill.data.skillmod}}" type="number">
             </div>
             <div class="item-detail skill-base text-nowrap">
                 {{math "sum" skill.data.level (lookup (getProp ../actor.data.stats skill.data.stat) 'value')}}

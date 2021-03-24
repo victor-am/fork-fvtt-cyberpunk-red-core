@@ -339,6 +339,7 @@ export default class CPRItem extends Item {
     const skillLevel = itemData.level;
     const cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel);
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
+    cprRoll.addMod(this._getSkillMod());
     return cprRoll;
   }
 
@@ -435,6 +436,16 @@ export default class CPRItem extends Item {
     switch (this.type) {
       case "weapon": {
         return this.data.data.attackmod;
+      }
+      default:
+    }
+    return 0;
+  }
+
+  _getSkillMod() {
+    switch (this.type) {
+      case "skill": {
+        return this.data.data.skillmod;
       }
       default:
     }

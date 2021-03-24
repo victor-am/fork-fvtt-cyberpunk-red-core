@@ -395,7 +395,7 @@
       "difficulty": "typical",
       "core": false,
       "basic": false,
-      "mod": 0
+      "skillmod": 0
     },
     "vehicle": {
       "templates": [
