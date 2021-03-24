@@ -989,101 +989,107 @@ ol {
 .rollcard-top {
   padding-bottom: 5px;
 }
+.rollcard-subtitle {
+  display: grid;
+  grid-template-columns: 20px auto 20px;
+  grid-template-rows: auto;
+  grid-template-areas: "subtitle-left subtitle-center subtitle-right";
+}
+.rollcard-subtitle-left {
+  grid-area: subtitle-left;
+}
+.rollcard-subtitle-center {
+  grid-area: subtitle-center;
+  justify-self: center;
+}
+.rollcard-subtitle-right {
+  grid-area: subtitle-right;
+}
 .rollcard {
   display: grid;
-  padding: 15px;
-  grid-template-columns: 70px auto;
-  grid-template-rows: auto auto auto;
-  grid-template-areas: "rc-dice rc-total" "rc-dice rc-info" "rc-bottom rc-bottom";
+  grid-template-columns: 270px;
+  grid-template-rows: auto;
 }
-.dice-div {
-  grid-area: rc-dice;
+.d10-rollcard-data {
+  display: grid;
+  grid-template-columns: 175px auto;
+  grid-template-rows: auto auto;
+  grid-template-areas: "d10-dice d10-number" "d10-data d10-data";
+}
+.d10-dice-div {
+  grid-area: d10-dice;
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: space-evenly;
+  align-items: center;
 }
-.total-div {
-  grid-area: rc-total;
+.d10-number-div {
+  grid-area: d10-number;
   min-height: 70px;
   text-align: right;
   font-size: 4rem;
+  padding-right: 5px;
 }
-.info-div {
-  grid-area: rc-info;
+.d10-data-div {
+  grid-area: d10-data;
   display: flex;
   flex-direction: column;
   text-align: right;
   justify-content: flex-end;
+  padding-right: 5px;
+}
+.d6-rollcard-data {
+  display: grid;
+  grid-template-columns: 175px auto;
+  grid-template-rows: auto auto;
+  grid-template-areas: "d6-dice d6-number" "d6-data d6-data";
+}
+.d6-dice-div {
+  grid-area: d6-dice;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.d6-number-div {
+  grid-area: d6-number;
+  min-height: 70px;
+  text-align: right;
+  font-size: 4rem;
+  padding-right: 5px;
+}
+.d6-data-div {
+  grid-area: d6-data;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  justify-content: flex-end;
+  padding-right: 5px;
 }
 .bottom-div {
   grid-area: rc-bottom;
+}
+.hide {
+  display: none;
 }
 .d10 {
   height: 70px;
   width: 70px;
   display: block;
+  border: none;
   align-self: center;
 }
-.d10.one {
-  background-image: url("icons/dice/red/d10_1.png");
+.d6 {
+  display: block;
+  border: none;
+  align-self: center;
 }
-.d10.one.black {
-  background-image: url("icons/dice/black/d10_1.png");
+.d6-20 {
+  height: 20px;
+  width: 20px;
 }
-.d10.two {
-  background-image: url("icons/dice/red/d10_2.png");
-}
-.d10.two.black {
-  background-image: url("icons/dice/black/d10_2.png");
-}
-.d10.three {
-  background-image: url("icons/dice/red/d10_3.png");
-}
-.d10.three.black {
-  background-image: url("icons/dice/black/d10_3.png");
-}
-.d10.four {
-  background-image: url("icons/dice/red/d10_4.png");
-}
-.d10.four.black {
-  background-image: url("icons/dice/black/d10_4.png");
-}
-.d10.five {
-  background-image: url("icons/dice/red/d10_5.png");
-}
-.d10.five.black {
-  background-image: url("icons/dice/black/d10_5.png");
-}
-.d10.six {
-  background-image: url("icons/dice/red/d10_6.png");
-}
-.d10.six.black {
-  background-image: url("icons/dice/black/d10_6.png");
-}
-.d10.seven {
-  background-image: url("icons/dice/red/d10_7.png");
-}
-.d10.seven.black {
-  background-image: url("icons/dice/black/d10_7.png");
-}
-.d10.eight {
-  background-image: url("icons/dice/red/d10_8.png");
-}
-.d10.eight.black {
-  background-image: url("icons/dice/black/d10_8.png");
-}
-.d10.nine {
-  background-image: url("icons/dice/red/d10_9.png");
-}
-.d10.nine.black {
-  background-image: url("icons/dice/black/d10_9.png");
-}
-.d10.ten {
-  background-image: url("icons/dice/red/d10_10.png");
-}
-.d10.ten.black {
-  background-image: url("icons/dice/black/d10_10.png");
+.d6-30 {
+  height: 30px;
+  width: 30px;
 }
 /*--------------------
   cpr-block element styling
