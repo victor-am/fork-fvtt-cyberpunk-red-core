@@ -437,7 +437,10 @@ export default class CPRItem extends Item {
   _getAttackMod() {
     switch (this.type) {
       case "weapon": {
-        return this.data.data.attackmod;
+        if (typeof this.data.data.attackmod !== "undefined") {
+          return this.data.data.attackmod;
+        }
+        break;
       }
       default:
     }
