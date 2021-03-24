@@ -292,5 +292,6 @@ export class CPRDamageRoll extends CPRRoll {
   setAutofire() {
     this.isAutofire = true;
     this.formula = "2d6";
+    this.mods = [];
   }
 }

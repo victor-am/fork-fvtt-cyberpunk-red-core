@@ -324,7 +324,7 @@ export default class CPRItem extends Item {
         return this._createAttackRoll(type, actorId);
       }
       case "damage": {
-        return this._createDamageRoll(actorId);
+        return this._createDamageRoll(type);
       }
       default:
     }
@@ -344,7 +344,7 @@ export default class CPRItem extends Item {
     return cprRoll;
   }
 
-  _createAttackRoll(type, actorId) {
+  createAttackRoll(type, actorId) {
     LOGGER.trace("_createAttackRoll | CPRItem | Called.");
     const actor = (game.actors.filter((a) => a._id === actorId))[0];
     const weaponData = this.data.data;
@@ -401,22 +401,22 @@ export default class CPRItem extends Item {
     return cprRoll;
   }
 
-  _createDamageRoll(actorId) {
-    const actor = (game.actors.filter((a) => a._id === actorId))[0];
-    const prevRoll = actor.getPreviousRoll();
+  createDamageRoll(type) {
     const rollName = this.data.name;
     const { damage, weaponType } = this.data.data;
-    // const { weaponType } = weaponData;
     const cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType);
 
-    // remove this once we're in rollcards
-    if (typeof prevRoll !== "undefined") {
-      if (prevRoll instanceof CPRRolls.CPRAutofireRoll) {
-        cprRoll.isAutofire = true;
-      } else if (prevRoll instanceof CPRRolls.CPRAimedAttackRoll) {
+    switch (type) {
+      case "aimed": {
         cprRoll.isAimed = true;
-        cprRoll.location = prevRoll.location;
+        // cprRoll.location = prevRoll.location;
+        break;
       }
+      case "autofire": {
+        cprRoll.setAutofire();
+        break;
+      }
+      default:
     }
     return cprRoll;
   }

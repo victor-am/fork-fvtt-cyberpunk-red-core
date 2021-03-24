@@ -240,11 +240,16 @@ export default class CPRActorSheet extends ActorSheet {
         cprRoll = item.createRoll(rollType, this.actor._id);
         break;
       }
-      case "damage":
+      case "damage": {
+        const itemId = this._getItemId(event);
+        item = this._getOwnedItem(itemId);
+        cprRoll = item.createDamageRoll(this._getFireCheckbox(event), this.actor._id);
+        break;
+      }
       case "attack": {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
-        cprRoll = item.createRoll(this._getFireCheckbox(event), this.actor._id);
+        cprRoll = item.createAttackRoll(this._getFireCheckbox(event), this.actor._id);
         break;
       }
       default:
