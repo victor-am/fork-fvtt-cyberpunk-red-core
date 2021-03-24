@@ -3,7 +3,7 @@
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
-export default class SelectRolesPrompt {
+export default class SelectCompatibleAmmo {
   static async RenderPrompt(data) {
     const template = "systems/cyberpunk-red-core/templates/dialog/cpr-select-compatible-ammo-prompt.hbs";
     return new Promise((resolve, reject) => {
