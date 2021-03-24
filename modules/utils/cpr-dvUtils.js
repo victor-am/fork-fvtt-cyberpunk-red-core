@@ -5,7 +5,7 @@ export default class DvUtils {
     const tableNames = [];
     const tableList = game.tables.filter((t) => t.data.name.match(dvPattern));
     tableList.forEach((table) => tableNames.push(table.data.name));
-    return tableNames;
+    return tableNames.sort();
   }
 
   static GetDv(tableName, distance) {
