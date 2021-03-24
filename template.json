@@ -334,6 +334,7 @@
       "isRanged": false,
       "altFireModes": "",
       "quality": "standard",
+      "attackmod": 0,
       "magazine": {
         "value": 0,
         "max": 0,
