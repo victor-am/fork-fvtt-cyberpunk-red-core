@@ -90,7 +90,7 @@
                         <img src="{{img}}"/>
                     </div>
                     <div class="fight-weapon">
-                        <div class="item-name fight-weapon-name">
+                        <div class="item-name fight-weapon-name text-normal">
                             <a class="name item-edit" title="{{weapon.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{weapon.name}}</a>
                             {{#if (compare weapon.data.quality "!==" "standard")}}
                             ({{localize weapon.data.quality}})
@@ -124,11 +124,11 @@
                             <input class="fire-checkbox" type="checkbox" id="suppressive-{{weapon._id}}" data-target="suppressive" data-item-id={{weapon._id}}>
                         </div>
                     </div>
-                    <div class="item-detail text-largest text-lighter fight-weapon-attack text-nowrap">
+                    <div class="item-detail text-largest fight-weapon-attack text-nowrap">
                         <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
                             <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
                         </a>
-                        <a class="rollable" data-roll-type="damage" data-item-id={{weapon._id}} data-damage="{{weapon.data.damage}}">
+                        <a class="rollable damage-roll-{{weapon._id}}" data-roll-type="damage" data-item-id={{weapon._id}} data-damage="{{weapon.data.damage}}">
                             <i class="fas fa-tint red-fg" title="Roll Damage"></i>
                         </a>
                     </div>

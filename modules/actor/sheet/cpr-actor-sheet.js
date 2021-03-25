@@ -596,16 +596,21 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("CPRItemID _fireheckboxToggle Called | CPRItemSheet | Called.");
     const weaponID = $(event.currentTarget).attr("data-item-id");
     const target = $(event.currentTarget).attr("data-target");
-    LOGGER.debug(`${target}-${weaponID}`);
 
     // clear the other checkboxes if we just set one
     if ($(`#${target}-${weaponID}`).is(":checked")) {
       let boxes = ["aiming", "autofire", "suppressive"];
       const uncheck = boxes.filter((box) => box !== target);
       for (const box of uncheck) {
-        LOGGER.debug(`unchecking ${box}`);
         $(`#${box}-${weaponID}`).prop("checked", false);
       }
+    }
+
+    // hide or reveal damage glyph
+    if ($(`#suppressive-${weaponID}`).is(":checked")) {
+      $(`.damage-roll-${weaponID}`).hide("fast");
+    } else {
+      $(`.damage-roll-${weaponID}`).show("fast");
     }
   }
 
