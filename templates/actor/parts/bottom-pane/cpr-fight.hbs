@@ -90,7 +90,7 @@
                         <img src="{{img}}"/>
                     </div>
                     <div class="fight-weapon">
-                        <div class="item-name fight-weapon-name text-normal">
+                        <div class="item-name fight-weapon-name">
                             <a class="name item-edit" title="{{weapon.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{weapon.name}}</a>
                             {{#if (compare weapon.data.quality "!==" "standard")}}
                             ({{localize weapon.data.quality}})
@@ -108,14 +108,15 @@
                         <div class="fight-weapon-aim">
                             {{localize "CPR.aim"}}
                         </div>
+                        <div class="fight-weapon-aim-box">
+                            <input class="fire-checkbox" type="checkbox" id="aiming-{{weapon._id}}" data-target="aiming" data-item-id={{weapon._id}}>
+                        </div>
+                        {{#if (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType)}}
                         <div class="fight-weapon-auto">
                             {{localize "CPR.af"}}
                         </div>
                         <div class="fight-weapon-suppress">
                             {{localize "CPR.sf"}}
-                        </div>
-                        <div class="fight-weapon-aim-box">
-                            <input class="fire-checkbox" type="checkbox" id="aiming-{{weapon._id}}" data-target="aiming" data-item-id={{weapon._id}}>
                         </div>
                         <div class="fight-weapon-auto-box">
                             <input class="fire-checkbox" type="checkbox" id="autofire-{{weapon._id}}" data-target="autofire" data-item-id={{weapon._id}}>
@@ -123,6 +124,7 @@
                         <div class="fight-weapon-suppress-box">
                             <input class="fire-checkbox" type="checkbox" id="suppressive-{{weapon._id}}" data-target="suppressive" data-item-id={{weapon._id}}>
                         </div>
+                        {{/if}}
                     </div>
                     <div class="item-detail text-largest fight-weapon-attack text-nowrap">
                         <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
