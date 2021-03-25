@@ -124,12 +124,12 @@
                             <input class="fire-checkbox" type="checkbox" id="suppressive-{{weapon._id}}" data-target="suppressive" data-item-id={{weapon._id}}>
                         </div>
                     </div>
-                    <div class="item-detail normal-text fight-weapon-attack text-nowrap">
+                    <div class="item-detail text-largest text-lighter fight-weapon-attack text-nowrap">
                         <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
-                            <i class="fas fa-fist-raised red-fg" title="Standard Attack"></i>
+                            <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
                         </a>
-                        <a class="rollable" data-damage="{{weapon.data.damage}}" data-roll-type="damage" data-item-id={{weapon._id}}>
-                            <i class="fas fa-tint red-fg" title="Damage"></i>
+                        <a class="rollable" data-roll-type="damage" data-item-id={{weapon._id}} data-damage="{{weapon.data.damage}}">
+                            <i class="fas fa-tint red-fg" title="Roll Damage"></i>
                         </a>
                     </div>
                 </li>

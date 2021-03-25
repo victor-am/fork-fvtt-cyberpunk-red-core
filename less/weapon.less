@@ -14,9 +14,7 @@
   
 .fight-weapon {
     display: grid;
-    // grid-template-rows: 1fr 1fr;
     gap: 4px 0px;
-    text-align: left;
     grid-template-areas:
       "fight-weapon-name"
       "fight-weapon-actions";
@@ -33,8 +31,6 @@
   
 .fight-weapon-firetype {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
     gap: 0px 0px;
     grid-template-areas:
       "fight-weapon-aim fight-weapon-aim-box"
@@ -44,14 +40,17 @@
 }
   
 .fight-weapon-aim { 
+    align-self: center;
     grid-area: fight-weapon-aim;
 }
   
 .fight-weapon-auto {
+    align-self: center;
     grid-area: fight-weapon-auto;
 }
   
-.fight-weapon-suppress { 
+.fight-weapon-suppress {
+    align-self: center; 
     grid-area: fight-weapon-suppress;
 }
   
@@ -69,5 +68,4 @@
   
 .fight-weapon-attack {
     grid-area: fight-weapon-attack;
-    font-size: 40px;
 }
