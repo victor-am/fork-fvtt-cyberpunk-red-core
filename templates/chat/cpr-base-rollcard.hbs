@@ -2,7 +2,7 @@
 <div class="rollcard">
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-stat">
-      <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
+      <div class="text-center text-padding-top text-normal">{{rollTitle}} ({{formula}})</div>
     </div>
   </div>
   <div class="rollcard-bottom">
@@ -10,13 +10,14 @@
       <div class="{{die}}-rollcard-data">
         <div class="{{die}}-dice-div">
           {{!-- die image for initialRoll --}}
-          {{#if (compare (compare die "===" "d6") "||" (compare die "===" "d10"))}}
+          
           {{#each faces as |dieFace|}}
-          <img class="{{diceSizeImageClass ../formula}}" src="systems/cyberpunk-red-core/icons/dice/black/{{../die}}_{{dieFace}}.svg">
+          {{#if (compare (compare ../die "===" "d6") "||" (compare ../die "===" "d10"))}}
+            <img class="{{diceSizeImageClass ../formula}}" src="systems/cyberpunk-red-core/icons/dice/black/{{../die}}_{{dieFace}}.svg">
+            {{else}}
+            <span class="text-large">&nbsp;{{dieFace}}&nbsp;</span>
+            {{/if}}
           {{/each}}
-          {{else}}
-          <i class="fas fa-dice text-largest" title="{{localize "CPR.unknowndice"}}"></i><i class="fas fa-question text-largest"></i>
-          {{/if}}
         </div>
         <div class="{{die}}-number-div">
           <a><span class="{{#if mods}}clickable{{/if}}{{#if criticalCard}} fg-red text-bold{{/if}}"
