@@ -351,15 +351,14 @@ export default class CPRItem extends Item {
     const weaponName = this.name;
     const { weaponType } = weaponData;
     let skillItem = actor.items.find((i) => i.name === weaponData.weaponSkill);
+
     if (type === "suppressive" || type === "autofire") {
       skillItem = actor.items.find((i) => i.name === "Autofire");
-    }
-
-    if (type === "autofire" || type === "suppressive") {
       if (this.data.data.weaponType !== "smg" && this.data.data.weaponType !== "heavySmg" && this.data.data.weaponType !== "assaultRifle") {
         Rules.lawyer(false, "CPR.weapondoesntsupportaltmode");
       }
     }
+
     const skillValue = skillItem.data.data.level;
     const skillName = skillItem.data.name;
     let cprRoll;
@@ -409,7 +408,6 @@ export default class CPRItem extends Item {
     switch (type) {
       case "aimed": {
         cprRoll.isAimed = true;
-        // cprRoll.location = prevRoll.location;
         break;
       }
       case "autofire": {

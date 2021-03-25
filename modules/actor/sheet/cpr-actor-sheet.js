@@ -224,6 +224,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
     let rollType = $(event.currentTarget).attr("data-roll-type");
+    let rollSubType = null;
     let cprRoll;
     let item = null;
     switch (rollType) {
@@ -243,19 +244,24 @@ export default class CPRActorSheet extends ActorSheet {
       case "damage": {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
-        cprRoll = item.createDamageRoll(this._getFireCheckbox(event), this.actor._id);
+        rollSubType = this._getFireCheckbox(event);
+        cprRoll = item.createDamageRoll(rollSubType, this.actor._id);
+        if (rollSubType === "aimed") {
+          cprRoll.location = this.actor.getFlag("cyberpunk-red-core", "aimedLocation") || "body";
+        }
         break;
       }
       case "attack": {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
-        cprRoll = item.createAttackRoll(this._getFireCheckbox(event), this.actor._id);
+        rollSubType = this._getFireCheckbox(event);
+        cprRoll = item.createAttackRoll(rollSubType, this.actor._id);
         break;
       }
       default:
     }
 
-    // note for aimed shots this is where location is set
+    // note: for aimed shots this is where location is set
     await cprRoll.handleRollDialog(event);
 
     if (item !== null) {
@@ -264,9 +270,7 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     // Let's roll!
-    console.log(cprRoll);
     await cprRoll.roll();
-    console.log(cprRoll);
 
     // Post roll tasks
     if (cprRoll instanceof CPRRolls.CPRDeathSaveRoll) {
@@ -278,13 +282,10 @@ export default class CPRActorSheet extends ActorSheet {
     cprRoll.entityData = { actor: this.actor._id, token };
     CPRChat.RenderRollCard(cprRoll);
 
-    // Store last roll so we can query and use it
-    // after the fact. Examples of this would be
-    // if rolling Damage after an attack where autofire
-    // was used.
-    // Do we want to add this to the template is the
-    // question?
-    this.actor.setPreviousRoll(cprRoll);
+    // save the location so subsequent damage rolls hit/show the same place
+    if (rollSubType === "aimed") {
+      this.actor.setFlag("cyberpunk-red-core", "aimedLocation", cprRoll.location);
+    }
   }
 
   async _handleRollDialog(event, cprRoll) {

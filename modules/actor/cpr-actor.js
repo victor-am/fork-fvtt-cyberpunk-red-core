@@ -540,17 +540,6 @@ export default class CPRActor extends Actor {
     throw new Error(`Bad location given: ${location}`);
   }
 
-  getPreviousRoll() {
-    if (typeof this.data.previousRoll !== "undefined") {
-      return this.data.previousRoll;
-    }
-    return "undefined";
-  }
-
-  setPreviousRoll(cprRoll) {
-    this.data.previousRoll = cprRoll;
-  }
-
   createRoll(type, name) {
     switch (type) {
       case "stat": {
