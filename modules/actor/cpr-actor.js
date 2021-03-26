@@ -542,13 +542,13 @@ export default class CPRActor extends Actor {
 
   createRoll(type, name) {
     switch (type) {
-      case "stat": {
+      case CPRRolls.rollTypes.STAT: {
         return this._createStatRoll(name);
       }
-      case "roleAbility": {
+      case CPRRolls.rollTypes.ROLEABILITY: {
         return this._createRoleRoll(name);
       }
-      case "deathsave": {
+      case CPRRolls.rollTypes.DEATHSAVE: {
         return this._createDeathSaveRoll();
       }
       default:

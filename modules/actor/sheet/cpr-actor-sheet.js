@@ -224,38 +224,37 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
     let rollType = $(event.currentTarget).attr("data-roll-type");
-    let rollSubType = null;
     let cprRoll;
     let item = null;
     switch (rollType) {
-      case "deathsave":
-      case "roleAbility":
-      case "stat": {
+      case CPRRolls.rollTypes.DEATHSAVE:
+      case CPRRolls.rollTypes.ROLEABILITY:
+      case CPRRolls.rollTypes.STAT: {
         const rollName = $(event.currentTarget).attr("data-roll-title");
         cprRoll = this.actor.createRoll(rollType, rollName);
         break;
       }
-      case "skill": {
+      case CPRRolls.rollTypes.SKILL: {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
         cprRoll = item.createRoll(rollType, this.actor._id);
         break;
       }
-      case "damage": {
+      case CPRRolls.rollTypes.DAMAGE: {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
-        rollSubType = this._getFireCheckbox(event);
-        cprRoll = item.createDamageRoll(rollSubType, this.actor._id);
-        if (rollSubType === "aimed") {
+        rollType = this._getFireCheckbox(event);
+        cprRoll = item.createDamageRoll(rollType, this.actor._id);
+        if (rollType === CPRRolls.rollTypes.AIMED) {
           cprRoll.location = this.actor.getFlag("cyberpunk-red-core", "aimedLocation") || "body";
         }
         break;
       }
-      case "attack": {
+      case CPRRolls.rollTypes.ATTACK: {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
-        rollSubType = this._getFireCheckbox(event);
-        cprRoll = item.createAttackRoll(rollSubType, this.actor._id);
+        rollType = this._getFireCheckbox(event);
+        cprRoll = item.createAttackRoll(rollType, this.actor._id);
         break;
       }
       default:
@@ -266,7 +265,7 @@ export default class CPRActorSheet extends ActorSheet {
 
     if (item !== null) {
       // Do any actions that need to be done as part of a roll, like ammo decrementing
-      await item.confirmRoll(rollType, cprRoll);
+      await item.confirmRoll(cprRoll);
     }
 
     // Let's roll!
@@ -283,7 +282,7 @@ export default class CPRActorSheet extends ActorSheet {
     CPRChat.RenderRollCard(cprRoll);
 
     // save the location so subsequent damage rolls hit/show the same place
-    if (rollSubType === "aimed") {
+    if (cprRoll instanceof CPRRolls.CPRAimedAttackRoll) {
       this.actor.setFlag("cyberpunk-red-core", "aimedLocation", cprRoll.location);
     }
   }
@@ -304,22 +303,22 @@ export default class CPRActorSheet extends ActorSheet {
   _getFireCheckbox(event) {
     LOGGER.trace("ActorID _getFireCheckbox | CPRActorSheet | Called.");
     const weaponID = $(event.currentTarget).attr("data-item-id");
-    if ($(`#aiming-${weaponID}`).is(":checked")) {
-      return "aimed";
+    if ($(`#${CPRRolls.rollTypes.AIMED}-${weaponID}`).is(":checked")) {
+      return CPRRolls.rollTypes.AIMED;
     }
-    if ($(`#autofire-${weaponID}`).is(":checked")) {
-      return "autofire";
+    if ($(`#${CPRRolls.rollTypes.AUTOFIRE}-${weaponID}`).is(":checked")) {
+      return CPRRolls.rollTypes.AUTOFIRE;
     }
-    if ($(`#suppressive-${weaponID}`).is(":checked")) {
-      return "suppressive";
+    if ($(`#${CPRRolls.rollTypes.SUPPRESSIVE}-${weaponID}`).is(":checked")) {
+      return CPRRolls.rollTypes.SUPPRESSIVE;
     }
-    return "attack";
+    return CPRRolls.rollTypes.ATTACK;
   }
 
   _resetActorValue(event) {
     const actorValue = $(event.currentTarget).attr("data-value");
     switch (actorValue) {
-      case "deathsave": {
+      case CPRRolls.rollTypes.DEATHSAVE: {
         this.actor.resetDeathPenalty();
         break;
       }
