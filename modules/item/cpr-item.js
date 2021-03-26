@@ -303,10 +303,10 @@ export default class CPRItem extends Item {
       case CPRRolls.rollTypes.AUTOFIRE:
       case CPRRolls.rollTypes.AIMED:
       case CPRRolls.rollTypes.ATTACK: {
-        return this._createAttackRoll(type, actorId);
+        return this.createAttackRoll(type, actorId);
       }
       case CPRRolls.rollTypes.DAMAGE: {
-        return this._createDamageRoll(type);
+        return this.createDamageRoll(type);
       }
       default:
     }
