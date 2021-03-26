@@ -285,6 +285,11 @@ export default class CPRActorSheet extends ActorSheet {
     if (cprRoll instanceof CPRRolls.CPRAimedAttackRoll) {
       this.actor.setFlag("cyberpunk-red-core", "aimedLocation", cprRoll.location);
     }
+
+    // This is a bit of a hack. Decrementing an ammo count redraws the sheet, which means the
+    // fire type checkboxes are reset. This re-checks whatever was checked before attacking.
+    LOGGER.debug(`#${rollType}-${item._id}`);
+    $(`#${rollType}-${item._id}`).prop("checked", true);
   }
 
   async _handleRollDialog(event, cprRoll) {
@@ -596,6 +601,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("CPRItemID _fireheckboxToggle Called | CPRItemSheet | Called.");
     const weaponID = $(event.currentTarget).attr("data-item-id");
     const target = $(event.currentTarget).attr("data-target");
+    LOGGER.debug(`clicked #${target}-${weaponID}`);
 
     // clear the other checkboxes if we just set one
     if ($(`#${target}-${weaponID}`).is(":checked")) {
