@@ -96,7 +96,11 @@
                             ({{localize weapon.data.quality}})
                             {{/if}}
                             {{#if (compare weapon.data.attackmod ">" "0")}}(+{{weapon.data.attackmod}}){{/if}}
-                            {{#if (compare weapon.data.attackmod "<" "0")}}(-{{weapon.data.attackmod}}){{/if}}
+                            {{#if (compare weapon.data.attackmod "<" "0")}}({{weapon.data.attackmod}}){{/if}}
+                            {{#if weapon.data.magazine.ammoId}}
+                                <br>
+                                ({{localize "CPR.ammo"}}: {{weapon.data.magazine.value}}/{{weapon.data.magazine.max}})
+                            {{/if}}
                         </div>
                         <div class="fight-weapon-actions text-nowrap">
                             {{#if weapon.data.isRanged}}
