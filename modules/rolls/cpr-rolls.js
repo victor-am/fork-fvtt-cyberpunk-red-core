@@ -180,7 +180,7 @@ export class CPRAttackRoll extends CPRSkillRoll {
 export class CPRAimedAttackRoll extends CPRAttackRoll {
   constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
     super(weaponName, statName, statValue, skillName, skillValue, weaponType);
-    this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.aimedshot")}`;
+    this.rollTitle = `${weaponName}`;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-aimed-attack-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-aimed-attack-rollcard.hbs";
     this.addMod(-8);
