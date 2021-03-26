@@ -267,7 +267,7 @@ export default class CPRItem extends Item {
   }
 
   static bulletConsumption(cprRoll) {
-    LOGGER.debug("bulletConsumption | CPRItem | Called.");
+    LOGGER.trace("bulletConsumption | CPRItem | Called.");
     let bulletCount = 1;
     if (cprRoll instanceof CPRRolls.CPRAutofireRoll || cprRoll instanceof CPRRolls.CPRSuppressiveFireRoll) {
       bulletCount = 10;
@@ -276,15 +276,14 @@ export default class CPRItem extends Item {
   }
 
   hasAmmo(cprRoll) {
-    LOGGER.debug("checkAmmo | CPRItem | Called.");
+    LOGGER.trace("checkAmmo | CPRItem | Called.");
     return (this.data.data.magazine.value - CPRItem.bulletConsumption(cprRoll)) >= 0;
   }
 
   // Returns true if weapon fired, otherwise returns false.
   fireRangedWeapon(cprRoll) {
-    LOGGER.debug("fireRangedWeapon | CPRItem | Called.");
+    LOGGER.trace("fireRangedWeapon | CPRItem | Called.");
     const discharged = CPRItem.bulletConsumption(cprRoll);
-    LOGGER.debug(`fired ${discharged} bullet`);
     // don't go negative
     this.data.data.magazine.value = Math.max(this.data.data.magazine.value - discharged, 0);
     return this.actor.updateEmbeddedEntity("OwnedItem", this.data);

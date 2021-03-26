@@ -109,7 +109,8 @@
                             {{localize "CPR.aim"}}
                         </div>
                         <div class="fight-weapon-aim-box">
-                            <input class="fire-checkbox" type="checkbox" id="aimed-{{weapon._id}}" data-target="aimed" data-item-id={{weapon._id}}>
+                            <input class="fire-checkbox" type="checkbox" {{fireflag ../actor "aimed" weapon._id}} id="aimed-{{weapon._id}}" 
+                                data-target="aimed" data-item-id={{weapon._id}}>
                         </div>
                         {{#if (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType)}}
                         <div class="fight-weapon-auto">
@@ -119,10 +120,12 @@
                             {{localize "CPR.sf"}}
                         </div>
                         <div class="fight-weapon-auto-box">
-                            <input class="fire-checkbox" type="checkbox" id="autofire-{{weapon._id}}" data-target="autofire" data-item-id={{weapon._id}}>
+                            <input class="fire-checkbox" type="checkbox" {{fireflag ../actor "autofire" weapon._id}} id="autofire-{{weapon._id}}"
+                                data-target="autofire" data-item-id={{weapon._id}}>
                         </div>
                         <div class="fight-weapon-suppress-box">
-                            <input class="fire-checkbox" type="checkbox" id="suppressive-{{weapon._id}}" data-target="suppressive" data-item-id={{weapon._id}}>
+                            <input class="fire-checkbox" type="checkbox" {{fireflag ../actor "suppressive" weapon._id}} id="suppressive-{{weapon._id}}"
+                                data-target="suppressive" data-item-id={{weapon._id}}>
                         </div>
                         {{/if}}
                     </div>
@@ -130,9 +133,11 @@
                         <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
                             <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
                         </a>
+                        {{#if (compare (fireflag ../actor "suppressive" weapon._id) "!==" "checked")}}
                         <a class="rollable damage-roll-{{weapon._id}}" data-roll-type="damage" data-item-id={{weapon._id}} data-damage="{{weapon.data.damage}}">
                             <i class="fas fa-tint red-fg" title="Roll Damage"></i>
                         </a>
+                        {{/if}}
                     </div>
                 </li>
                 {{/if}}
