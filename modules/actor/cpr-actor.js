@@ -555,26 +555,15 @@ export default class CPRActor extends Actor {
     throw new Error(`Bad location given: ${location}`);
   }
 
-  getPreviousRoll() {
-    if (typeof this.data.previousRoll !== "undefined") {
-      return this.data.previousRoll;
-    }
-    return "undefined";
-  }
-
-  setPreviousRoll(cprRoll) {
-    this.data.previousRoll = cprRoll;
-  }
-
   createRoll(type, name) {
     switch (type) {
-      case "stat": {
+      case CPRRolls.rollTypes.STAT: {
         return this._createStatRoll(name);
       }
-      case "roleAbility": {
+      case CPRRolls.rollTypes.ROLEABILITY: {
         return this._createRoleRoll(name);
       }
-      case "deathsave": {
+      case CPRRolls.rollTypes.DEATHSAVE: {
         return this._createDeathSaveRoll();
       }
       default:
