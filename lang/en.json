@@ -550,6 +550,7 @@
     "CPR.none": "None",
     "CPR.nos": "NOS",
     "CPR.notes": "Notes",
+    "CPR.notapplicable": "N/A",
     "CPR.notinstalled": "Not installed",
     "CPR.notwounded": "Not Wounded",
     "CPR.novalidammo": "You have no ammo for that weapon, Choomba!",
