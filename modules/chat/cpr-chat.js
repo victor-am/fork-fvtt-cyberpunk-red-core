@@ -1,7 +1,7 @@
-/* eslint-disable no-undef */
-/* global game, CONFIG, ChatMessage, renderTemplate, duplicate */
+/* global game, CONFIG, ChatMessage, renderTemplate $ */
 import LOGGER from "../utils/cpr-logger.js";
 import { CPRRoll } from "../rolls/cpr-rolls.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class CPRChat {
   static ChatDataSetup(content, modeOverride, isRoll = false, forceWhisper) {
@@ -148,5 +148,69 @@ export default class CPRChat {
       }
       return true;
     });
+  }
+
+  static injectMessageTag(html, messageData) {
+    const timestampTag = html.find(".message-timestamp");
+    const indicatorElement = $("<span>");
+    indicatorElement.addClass("chat-mode-indicator");
+
+    const whisperTargets = messageData.message.whisper;
+    const isBlind = messageData.message.blind || false;
+    const isWhisper = whisperTargets?.length > 0 || false;
+    const isSelf = isWhisper && whisperTargets.length === 1 && whisperTargets[0] === messageData.message.user;
+    const isRoll = messageData.message.roll !== undefined;
+
+    // Inject tag to the left of the timestamp
+    // SystemUtils.Localize("CPR.deleteconfirmation")
+    if (isBlind) {
+      indicatorElement.text(SystemUtils.Localize("CPR.blind"));
+      timestampTag.before(indicatorElement);
+    } else if (isSelf && whisperTargets[0]) {
+      indicatorElement.text(SystemUtils.Localize("CPR.self"));
+      timestampTag.before(indicatorElement);
+    } else if (isRoll && isWhisper) {
+      indicatorElement.text(SystemUtils.Localize("CPR.private"));
+      timestampTag.before(indicatorElement);
+    } else if (isWhisper) {
+      indicatorElement.text(SystemUtils.Localize("CPR.whisper"));
+      timestampTag.before(indicatorElement);
+    }
+  }
+
+  static injectWhisperParticipants(html, messageData) {
+    const { alias } = messageData;
+    const whisperTargetString = messageData.whisperTo;
+    const whisperTargetIds = messageData.message.whisper;
+    const isWhisper = whisperTargetIds?.length > 0 || false;
+    const isRoll = messageData.message.roll !== undefined;
+
+    const authorId = messageData.message.user;
+    const userId = game.user.data._id;
+
+    if (!isWhisper) return;
+    if (userId !== authorId && !whisperTargetIds.includes(userId)) return;
+
+    // remove the old whisper to content, if it exists
+    html.find(".whisper-to").detach();
+
+    // if this is a roll
+    if (isRoll) return;
+
+    // add new content
+    const messageHeader = html.find(".message-header");
+
+    const whisperParticipants = $("<span>");
+    whisperParticipants.addClass("whisper-to");
+
+    const whisperFrom = $("<span>");
+    whisperFrom.text(`${SystemUtils.Localize("CPR.from")}: ${alias}`);
+
+    const whisperTo = $("<span>");
+    whisperTo.text(`${SystemUtils.Localize("CPR.to")}: ${whisperTargetString}`);
+
+    whisperParticipants.append(whisperFrom);
+    whisperParticipants.append(whisperTo);
+    messageHeader.append(whisperParticipants);
   }
 }

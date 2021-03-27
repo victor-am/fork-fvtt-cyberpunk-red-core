@@ -7,6 +7,9 @@ Icons, Art, Design, and Styling: [Flintwyrm](https://twitter.com/Flintwyrm)
 ### ART CREDITS
 Pause overlay image: [Olena Panasovska](https://thenounproject.com/term/cyberpunk/1797860/) (CCBY)
 
+### CODE CREDITS
+Some of our chat message code was inspired from the [Chat Message Accessibility Indicators module](https://github.com/schultzcole/FVTT-Chat-Message-Accessibility-Indicators)
+
 ### PEOPLE CREDITS
 
 ### LEGAL STUFF
