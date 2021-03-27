@@ -171,10 +171,8 @@ export class CPRHumanityLossRoll extends CPRRoll {
 export class CPRAttackRoll extends CPRSkillRoll {
   constructor(attackName, statName, statValue, skillName, skillValue, weaponType) {
     super(statName, statValue, skillName, skillValue);
-    this.rollTitle = `${attackName}`;
-    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-attack-prompt.hbs";
+    this.rollTitle = `${attackName} ${SystemUtils.Localize("CPR.attack")}`;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-attack-rollcard.hbs";
-    this.fireMode = "single";
     this.weaponType = weaponType;
   }
 }
@@ -194,20 +192,16 @@ export class CPRAimedAttackRoll extends CPRAttackRoll {
 export class CPRAutofireRoll extends CPRAttackRoll {
   constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
     super(weaponName, statName, statValue, skillName, skillValue, weaponType);
-    this.rollTitle = `${weaponName}`;
-    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-autofire-prompt.hbs";
+    this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.autofire")}`;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-autofire-rollcard.hbs";
-    this.fireMode = "autofire";
   }
 }
 
 export class CPRSuppressiveFireRoll extends CPRAttackRoll {
   constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
     super(weaponName, statName, statValue, skillName, skillValue, weaponType);
-    this.rollTitle = `${weaponName}`;
-    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-suppressive-fire-prompt.hbs";
+    this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.suppressivefire")}`;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-suppressive-fire-rollcard.hbs";
-    this.fireMode = "suppressive";
   }
 }
 
@@ -292,5 +286,20 @@ export class CPRDamageRoll extends CPRRoll {
   setAutofire() {
     this.isAutofire = true;
     this.formula = "2d6";
+    this.mods = [];
   }
 }
+
+export const rollTypes = {
+  BASE: "base",
+  STAT: "stat",
+  SKILL: "skill",
+  HUMANITY: "humanity",
+  ROLEABILITY: "roleAbility",
+  ATTACK: "attack",
+  AIMED: "aimed",
+  AUTOFIRE: "autofire",
+  SUPPRESSIVE: "suppressive",
+  DAMAGE: "damage",
+  DEATHSAVE: "deathsave",
+};
