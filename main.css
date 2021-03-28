@@ -1091,6 +1091,18 @@ ol {
   height: 30px;
   width: 30px;
 }
+/*-------------------------
+| Chat visibility design  |
+-------------------------*/
+.chat-mode-indicator {
+  display: inline-block;
+  margin: 0 3px 0 0;
+  padding: 0 3px;
+  line-height: 1rem;
+  border: 1px solid #999;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.05);
+}
 /*--------------------
   cpr-block element styling
 ---------------------*/
