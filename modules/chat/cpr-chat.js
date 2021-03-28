@@ -153,13 +153,11 @@ export default class CPRChat {
   // This code cannot tell if the messageData is a roll because CPR never sets
   // roll information to chat messages. This is due to our Dice So Nice integration.
   static addMessageTags(html, messageData) {
-    console.log(messageData);
     const timestampTag = html.find(".message-timestamp");
     const whisperTargets = messageData.message.whisper;
     const isBlind = messageData.message.blind || false;
     const isWhisper = whisperTargets?.length > 0 || false;
     const isSelf = isWhisper && whisperTargets.length === 1 && whisperTargets[0] === messageData.message.user;
-    const userId = game.user.data._id;
     const indicatorElement = $("<span>");
     indicatorElement.addClass("chat-mode-indicator");
 
@@ -167,31 +165,12 @@ export default class CPRChat {
     if (isBlind) {
       indicatorElement.text(SystemUtils.Localize("CPR.blind"));
       timestampTag.before(indicatorElement);
-    } else if (isSelf && whisperTargets[0]) {
+    } else if (isSelf) {
       indicatorElement.text(SystemUtils.Localize("CPR.self"));
-      timestampTag.before(indicatorElement);
-    } else if (isWhisper) {
-      indicatorElement.text(SystemUtils.Localize("CPR.private"));
       timestampTag.before(indicatorElement);
     } else if (isWhisper) {
       indicatorElement.text(SystemUtils.Localize("CPR.whisper"));
       timestampTag.before(indicatorElement);
     }
-
-    if (!isWhisper) return;
-    if (userId !== messageData.message.user && !whisperTargets.includes(userId)) return;
-
-    // remove the old whisper to content, if it exists
-    html.find(".whisper-to").detach();
-
-    // add new content
-    const messageHeader = html.find(".message-header");
-    const whisperParticipants = $("<span>");
-    whisperParticipants.addClass("whisper-to");
-
-    const whisperTo = $("<span>");
-    whisperTo.text(`${SystemUtils.Localize("CPR.to")}: ${messageData.whisperTo}`);
-    whisperParticipants.append(whisperTo);
-    messageHeader.append(whisperParticipants);
   }
 }
