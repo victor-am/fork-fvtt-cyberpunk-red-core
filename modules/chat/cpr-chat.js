@@ -1,4 +1,4 @@
-/* global game, CONFIG, ChatMessage, renderTemplate $ */
+/* global game, CONFIG, ChatMessage, renderTemplate $ ui */
 import LOGGER from "../utils/cpr-logger.js";
 import { CPRRoll } from "../rolls/cpr-rolls.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
