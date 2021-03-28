@@ -14,8 +14,7 @@ const chatHooks = () => {
       html.html("").css("display", "none");
     }
     CPRChat.chatListeners(html);
-    CPRChat.injectMessageTag(html, msg);
-    CPRChat.injectWhisperParticipants(html, msg);
+    CPRChat.addMessageTags(html, msg);
   });
 
   // for now, we intentionally do not use log (ChatLog) or data (ChatData)
