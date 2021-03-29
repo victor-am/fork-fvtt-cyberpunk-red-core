@@ -1,4 +1,4 @@
-{{log "CPR-CYBERWARE-INV-CONTENT.HBS"}}
+{{trace "CPR-CYBERWARE-INV-CONTENT.HBS"}}
 {{#unless item.data.isInstalled}}
 <li class="item flexrow{{#if item.data.favorite}} favorite{{/if}}" data-item-id="{{item._id}}"
   data-item-category="{{item.type}}" draggable="true">
@@ -18,4 +18,4 @@
   </div>
 </li>
 {{/unless}}
-{{log "END CPR-CYBERWARE-INV-CONTENT.HBS"}}
+{{trace "END CPR-CYBERWARE-INV-CONTENT.HBS"}}

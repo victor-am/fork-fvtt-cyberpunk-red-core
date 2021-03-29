@@ -1,4 +1,4 @@
-{{log "CPR-ACTIONS.HBS"}}
+{{trace "CPR-ACTIONS.HBS"}}
 {{#if (compare type "===" "weapon")}}
 {{!-- LOAD/RELOAD ACTION --}}
 {{#if data.isRanged}}
@@ -28,4 +28,4 @@
 </a>
 {{!-- ITEM MANAGEMENT --}}
 <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red" title="Delete Item"></i></a>
-{{log "END CPR-ACTIONS.HBS"}}
+{{trace "END CPR-ACTIONS.HBS"}}
