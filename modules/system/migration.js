@@ -260,6 +260,9 @@ export default class Migration {
     if ((typeof itemData.data.isConcealed) === "undefined") {
       itemData.data.isConcealed = false;
     }
+    if ((typeof itemData.data.attackMod) === "undefined") {
+      itemData.data.attackMod = 0;
+    }
     return itemData;
   }
 

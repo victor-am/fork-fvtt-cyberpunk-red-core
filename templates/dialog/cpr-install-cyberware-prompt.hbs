@@ -1,7 +1,10 @@
-{{log "INSTALL-CYBERWARE-PROMPT.HBS"}}
+{{trace "INSTALL-CYBERWARE-PROMPT.HBS"}}
 <form id="installCyberware">
     {{!-- Select HL --}}
 
+    <div style="text-align:center;">
+        Remember, Cyberware which incurs Humanity Loss will also reduce Max Humanity, Choomba! (pg. 230) <br><br>
+    </div>
 
     <ol class="items-list">
         <li class="item flexrow">
@@ -40,4 +43,4 @@
         {{/unless}}
     </ol>
 </form>
-{{log "END INSTALL-CYBERWARE-PROMPT.HBS"}}
+{{trace "END INSTALL-CYBERWARE-PROMPT.HBS"}}

@@ -1,35 +1,45 @@
-{{log "CPR-DEATHSAVE-ROLLCARD.HBS"}}
-<div class="rollcard-body">
+{{trace "CPR-DEATHSAVE-ROLLCARD.HBS"}}
+<div class="rollcard">
   <div class="rollcard-top">
-    <div class="cpr-block chat-rollTitle-deathsave">
-      <p class="text-center">{{rollTitle}}</p>
+    <div class="cpr-block chat-rollTitle-stat">
+      <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
     </div>
   </div>
   <div class="rollcard-bottom">
-    {{!-- rollcard body --}}
     <div class="cpr-block">
-      <div class="rollcard">
-
-        <div class="dice-div">
+      <div class="d10-rollcard-data">
+        <div class="d10-dice-div">
           {{!-- die image for initialRoll --}}
-          <i class="d10 {{numToWord initialRoll}}"></i>
+          {{#if (compare saveResult "===" "Success")}}
+            {{#if (compare initialRoll "===" 1)}}
+            <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{initialRoll}}_preem.svg">
+            {{else}}
+            <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{initialRoll}}_fail.svg">
+            {{/if}}
+          {{else}}
+            <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{initialRoll}}.svg">
+          {{/if}}
         </div>
-        <div class="total-div">
-          <span class="text-bold">{{resultTotal}}</span>
+        <div class="d10-number-div">
+          <a><span class="clickable fg-{{#if (compare saveResult "===" "Success")}}green text-bold{{else}}red{{/if}}" data-action="toggleVisibility"
+              data-visible-element="d10-data-details">{{resultTotal}}</span></a>
         </div>
-        <div class="bottom-div text-right">
-            {{localize "CPR.body"}}: {{bodyStat}}<br>
+        <div class="d10-data-div">
+          <div class="d10-data-details hide">
+            <div class="text-normal text-bold">{{localize "CPR.body"}}: {{bodyStat}}</div>
             {{#if (compare penalty "!==" 0)}}
-                {{localize "CPR.deathpenalty"}}: {{penalty}}<br>
+            <span class="text-normal text-nowrap">{{localize "CPR.deathpenalty"}}: {{penalty}}</span>
             {{/if}}
             {{#if (compare basePenalty "!==" 0)}}
-                {{localize "CPR.critinjuries"}}: {{basePenalty}}<br>
+            <span class="text-normal text-nowrap">{{localize "CPR.base"}} {{localize "CPR.deathpenalty"}}: {{penalty}}</span>
             {{/if}}
-            <div class="chat-rollTotal text-bold">{{localize "CPR.penalty"}} {{localize "CPR.total"}}: {{totalMods}}<br></div>
+            <div class="text-normal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}:
+              {{totalMods}}</div>
             <div class="text-massive text-center fg-{{#if (compare saveResult "===" "Success")}}green{{else}}red{{/if}}">{{saveResult}}</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-{{log "END CPR-DEATHSAVE-ROLLCARD.HBS"}}
+{{trace "END CPR-DEATHSAVE-ROLLCARD.HBS"}}
