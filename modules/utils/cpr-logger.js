@@ -1,11 +1,20 @@
 /* eslint no-console:0 */
+/* global game */
 export default class LOGGER {
   static log(msg) {
     console.log(`CPR LOG | ${msg}`);
   }
 
   static debug(msg) {
-    console.debug(`CPR DBG | ${msg}`);
+    if (game.settings.get("cyberpunk-red-core", "debugLogs")) {
+      console.debug(`CPR DBG | ${msg}`);
+    }
+  }
+
+  static debugObject(obj) {
+    if (game.settings.get("cyberpunk-red-core", "debugLogs")) {
+      console.debug(obj);
+    }
   }
 
   static warn(msg) {
@@ -13,7 +22,9 @@ export default class LOGGER {
   }
 
   static trace(msg) {
-    console.log(`CPR TRC | ${msg}`);
+    if (game.settings.get("cyberpunk-red-core", "traceLogs")) {
+      console.log(`CPR TRC | ${msg}`);
+    }
   }
 
   static error(msg) {
