@@ -15,7 +15,7 @@
           {{#if (compare (compare ../die "===" "d6") "||" (compare ../die "===" "d10"))}}
             <img class="{{diceSizeImageClass ../formula}}" src="systems/cyberpunk-red-core/icons/dice/black/{{../die}}_{{dieFace}}.svg">
             {{else}}
-            <span class="text-large">&nbsp;{{dieFace}}&nbsp;</span>
+            <span class="text-large">{{dieFace}}&nbsp;</span>
             {{/if}}
           {{/each}}
         </div>
