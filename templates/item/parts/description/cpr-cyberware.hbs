@@ -10,6 +10,10 @@
             <span class="summary-value">{{localize (findConfigValue "itemPriceCategory" data.price.category)}}</span>
         </div>
         <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.install"}}: </span>
+            <span class="summary-value">{{localize (findConfigValue "cyberwareInstallList" data.install)}}</span>
+        </div>
+        <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.static"}} HL:</span>
             <span class="summary-value">{{data.humanityLoss.static}}</span>
         </div>
