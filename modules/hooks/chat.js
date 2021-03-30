@@ -1,5 +1,4 @@
 /* global Hooks game */
-/* eslint no-unused-vars:1 */
 import LOGGER from "../utils/cpr-logger.js";
 import CPRChat from "../chat/cpr-chat.js";
 
@@ -15,7 +14,9 @@ const chatHooks = () => {
       html.html("").css("display", "none");
     }
     CPRChat.chatListeners(html);
+    CPRChat.addMessageTags(html, msg);
   });
+
   // for now, we intentionally do not use log (ChatLog) or data (ChatData)
   // eslint-disable-next-line no-unused-vars
   Hooks.on("chatMessage", (log, message, data) => {

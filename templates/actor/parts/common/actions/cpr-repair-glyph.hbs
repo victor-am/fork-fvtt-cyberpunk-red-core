@@ -1,4 +1,4 @@
-{{log "CPR-REPAIR-GLYPH.HBS"}}
+{{trace "CPR-REPAIR-GLYPH.HBS"}}
 {{#if (compare data.bodyLocation.ablation ">" 0)}}
     <a class="repair" data-item-id="{{_id}}">
         <i class="fas fa-tools" title={{localize "CPR.repair"}}></i>
@@ -10,4 +10,4 @@
         </a>
     {{/if}}
 {{/if}}
-{{log "END CPR-REPAIR-GLYPH.HBS"}}
+{{trace "END CPR-REPAIR-GLYPH.HBS"}}
