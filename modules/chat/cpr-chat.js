@@ -91,6 +91,7 @@ export default class CPRChat {
   }
 
   static async HandleCPRCommand(data) {
+    LOGGER.trace("HandleCPRCommand | Chat | Called.");
     // First, let's see if we can figure out what was passed to /red
     // Right now, we will assume it is a roll
     const modifiers = /[+-][0-9][0-9]*/;
@@ -116,6 +117,7 @@ export default class CPRChat {
   }
 
   static async chatListeners(html) {
+    LOGGER.trace("chatListeners | Chat | Called.");
     html.on("click", ".clickable", async (event) => {
       const clickAction = $(event.currentTarget).attr("data-action");
 
@@ -142,11 +144,10 @@ export default class CPRChat {
           await cprRoll.roll();
           CPRChat.RenderRollCard(cprRoll);
 
-          actor.setPreviousRoll(cprRoll);
           break;
         }
         default: {
-          console.log(`No action defined for ${clickAction}`);
+          LOGGER.warn(`No action defined for ${clickAction}`);
         }
       }
       return true;
