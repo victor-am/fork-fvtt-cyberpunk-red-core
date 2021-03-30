@@ -261,7 +261,7 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("fireflag", (actor, firetype, weaponID) => {
     LOGGER.trace("Calling fireflag Helper");
-    const flag = actor.flags["cyberpunk-red-core"][`firetype-${weaponID}`];
+    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
     if (flag === firetype) {
       return "checked";
     }
