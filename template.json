@@ -387,7 +387,8 @@
     },
     "skill": {
       "templates": [
-        "common"
+        "common",
+        "mods"
       ],
       "level": 0,
       "stat": "int",

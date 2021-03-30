@@ -12,7 +12,7 @@
             <i class="fas fa-minus bg-black expand-icon"></i>
             {{/if}}
         </span>
-        <span class="item-detail skill-skillmod bg-black text-nowrap">{{localize "CPR.skillmod"}}</span>
+        <span class="item-detail skill-mod-value bg-black text-nowrap">{{localize "CPR.skillmod"}}</span>
         <span class="item-detail skill-level bg-black text-nowrap">{{localize "CPR.lvl"}}</span>
         <span class="item-detail skill-base bg-black text-nowrap">{{localize "CPR.base"}}</span>
         <span class="item-detail skill-favorite bg-black text-nowrap toggle-favorite-visibility" id="skillTab-{{category}}-showFavorites" title="{{localize "CPR.togglecategoryall"}}"><i class="far fa-eye show-favorites"></i><i class="far fa-eye-slash hide-favorites hide"></i></span>
@@ -34,8 +34,8 @@
                 <a class="item-action skill-custom" title="{{localize "CPR.deletecustomskill"}}" data-action-type="delete"><i class="fas fa-trash-alt"></i></a>
                 {{/if}}
             </div>
-            <div class="item-detail skill-skillmod text-nowrap">
-                <input class="number skill-skillmod-input" value="{{skill.data.skillmod}}" type="number"
+            <div class="item-detail skill-mod-value text-nowrap">
+                <input class="number skill-mod-value-input" value="{{skill.data.mod.value}}" type="number"
                   data-item-prop="data.mod" data-dtype="Number">
             </div>
             <div class="item-detail skill-level text-nowrap">
@@ -43,8 +43,8 @@
                     data-item-prop="data.level" data-dtype="Number">
             </div>
             <div class="item-detail skill-base text-nowrap">
-              {{#if (compare skill.data.skillmod "!==" undefined)}}
-                {{math "sum" skill.data.level skill.data.skillmod (lookup (getProp ../actor.data.stats skill.data.stat) 'value')}}
+              {{#if (compare skill.data.mod.value "!==" undefined)}}
+                {{math "sum" skill.data.level skill.data.mod.value (lookup (getProp ../actor.data.stats skill.data.stat) 'value')}}
               {{else}}
                 {{math "sum" skill.data.level (lookup (getProp ../actor.data.stats skill.data.stat) 'value')}}
               {{/if}}

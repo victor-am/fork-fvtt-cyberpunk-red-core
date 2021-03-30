@@ -351,7 +351,7 @@ export default class CPRActor extends Actor {
     const skillList = (this.data.filteredItems.skill).filter((s) => s.name === skillName);
     if (skillList.length > 0) {
       const relevantSkill = skillList[0];
-      return parseInt(relevantSkill.data.data.skillmod, 10);
+      return parseInt(relevantSkill.data.data.mod.value, 10);
     }
     return 0;
   }
