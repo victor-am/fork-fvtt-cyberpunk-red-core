@@ -123,6 +123,47 @@ export default class Migration {
           actorData.data.lifestyle.fashion = actorData.data.lifestyle.fasion;
         }
       }
+
+      // Changed in 0.72
+      if ((typeof actorData.data.lifepath.friends) === "array") {
+        actorData.data.lifepath.friends = "";
+      }
+      // Changed in 0.72
+      if ((typeof actorData.data.lifepath.tragicLoveAffairs) === "array") {
+        actorData.data.lifepath.tragicLoveAffairs = "";
+      }
+      // Changed in 0.72
+      if ((typeof actorData.data.lifepath.enemies) === "array") {
+        actorData.data.lifepath.enemies = "";
+      }
+
+      // Changed in 0.72
+      if ((typeof actorData.data.lifestyle.fashion) === "string") {
+        const oldData = actorData.data.lifestyle.fashion;
+        actorData.data.lifestyle.fashion = { description: oldData };
+      }
+
+      // Changed in 0.72
+      if ((typeof actorData.data.lifestyle.housing) === "string") {
+        const oldData = actorData.data.lifestyle.housing;
+        actorData.data.lifestyle.housing = { description: oldData, cost: 0 };
+      }
+
+      // Changed in 0.72
+      if ((typeof actorData.data.lifestyle.lifestyle) === "string") {
+        const oldData = actorData.data.lifestyle.lifestyle;
+        actorData.data.lifestyle.lifestyle = { description: oldData, cost: 0 };
+      }
+
+      // Added in 0.72
+      if ((typeof actorData.data.lifestyle.traumaTeam) === "undefined") {
+        actorData.data.lifestyle.traumaTeam = { description: "", cost: 0 };
+      }
+      // Added in 0.72
+      if ((typeof actorData.data.lifestyle.extras) === "undefined") {
+        actorData.data.lifestyle.extras = { description: "", cost: 0 };
+      }
+
       if ((typeof actorData.data.improvementPoints) === "undefined") {
         actorData.data.improvementPoints = {
           value: 0,
@@ -222,6 +263,10 @@ export default class Migration {
       }
       if ((typeof actorData.data["reputation:"]) !== "undefined") {
         scrubData["data.-=reputation:"] = null;
+      }
+      // Removed in 0.72
+      if ((typeof actorData.data.lifestyle.rent) !== "undefined") {
+        scrubData["data.lifestyle.-=rent"] = null;
       }
     }
     // Remove unused data points from an actor (character & mooks)
