@@ -263,6 +263,9 @@ export default class Migration {
     if ((typeof itemData.data.dvTable) === "undefined") {
       itemData.data.dvTable = "";
     }
+    if ((typeof itemData.data.attackMod) === "undefined") {
+      itemData.data.attackMod = 0;
+    }
     return itemData;
   }
 

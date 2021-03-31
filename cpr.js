@@ -1,3 +1,4 @@
+/* global Actors ActorSheet CONFIG Hooks Items ItemSheet game isNewerVersion */
 // Object imports
 import CPRActor from "./modules/actor/cpr-actor.js";
 import CPRActorSheet from "./modules/actor/sheet/cpr-actor-sheet.js";
@@ -17,7 +18,7 @@ import registerHandlebarsHelpers from "./modules/system/register-helpers.js";
 import overrideRulerFunctions from "./modules/system/overrides.js";
 
 // System settings
-import { registerSystemSettings } from "./modules/system/settings.js";
+import registerSystemSettings from "./modules/system/settings.js";
 
 Hooks.once("init", async () => {
   LOGGER.log("THANK YOU TO EVERYONE WHO HELPED!!!!");
@@ -73,7 +74,7 @@ Hooks.once("ready", () => {
   if (!game.user.isGM) return;
   // This defines the version of the Data Model for this release.  We should
   // only update this when the Data Model Changes.
-  const DATA_MODEL_VERSION = "0.7";
+  const DATA_MODEL_VERSION = "0.71";
   // Get the version of the data model being used for the loaded world. At
   // the end of a migration, this is updated with the current version of the
   // CPR system.

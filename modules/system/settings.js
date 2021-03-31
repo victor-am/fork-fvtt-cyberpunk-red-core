@@ -1,14 +1,17 @@
-/* eslint-disable func-names */
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable no-undef */
-export const registerSystemSettings = function () {
-  // Saves the last time a migration to a data model took place
-  game.settings.register("cyberpunk-red-core", "dataModelVersion", {
-    name: "System Data Model Version",
+/* global game */
+import LOGGER from "../utils/cpr-logger.js";
+
+const registerSystemSettings = () => {
+  game.settings.register("cyberpunk-red-core", "calculateDerivedStats", {
+    name: "CPR.settingderivedstatsname",
+    hint: "CPR.settingderivedstatshint",
     scope: "world",
     config: true,
-    type: String,
-    default: "",
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      LOGGER.log(`Changed calculateDerivedStats to ${value}`);
+    },
   });
 
   game.settings.register("cyberpunk-red-core", "createDVtables", {
@@ -19,15 +22,6 @@ export const registerSystemSettings = function () {
     default: false,
   });
 
-  game.settings.register("cyberpunk-red-core", "calculateDerivedStats", {
-    name: "CPR.settingderivedstatsname",
-    hint: "CPR.settingderivedstatshint",
-    scope: "world",
-    config: true,
-    type: Boolean,
-    default: true,
-  });
-
   game.settings.register("cyberpunk-red-core", "playersCreateInventory", {
     name: "CPR.settingplayerscreateinventoryname",
     hint: "CPR.settingplayerscreateinventoryhint",
@@ -35,6 +29,9 @@ export const registerSystemSettings = function () {
     config: true,
     type: Boolean,
     default: false,
+    onChange: (value) => {
+      LOGGER.log(`Changed playersCreateInventory to ${value}`);
+    },
   });
 
   game.settings.register("cyberpunk-red-core", "deleteItemConfirmation", {
@@ -44,6 +41,9 @@ export const registerSystemSettings = function () {
     config: true,
     type: Boolean,
     default: true,
+    onChange: (value) => {
+      LOGGER.log(`Changed deleteItemConfirmation to ${value}`);
+    },
   });
 
   game.settings.register("cyberpunk-red-core", "enablePauseAnimation", {
@@ -53,6 +53,9 @@ export const registerSystemSettings = function () {
     config: true,
     type: Boolean,
     default: true,
+    onChange: (value) => {
+      LOGGER.log(`Changed enablePauseAnimation to ${value}`);
+    },
   });
 
   game.settings.register("cyberpunk-red-core", "invertRollCtrlFunction", {
@@ -62,6 +65,9 @@ export const registerSystemSettings = function () {
     config: true,
     type: Boolean,
     default: false,
+    onChange: (value) => {
+      LOGGER.log(`Changed invertRollCtrlFunction to ${value}`);
+    },
   });
 
   game.settings.register("cyberpunk-red-core", "userSettings", {
@@ -71,4 +77,43 @@ export const registerSystemSettings = function () {
     type: Object,
     default: {},
   });
+
+  // Saves the last time a migration to a data model took place
+  game.settings.register("cyberpunk-red-core", "dataModelVersion", {
+    name: "CPR.systemdatamodelversion",
+    hint: "CPR.systemdatamodelversionhint",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "",
+    onChange: (value) => {
+      LOGGER.log(`Changed dataModelVersion to ${value}`);
+    },
+  });
+
+  game.settings.register("cyberpunk-red-core", "debugLogs", {
+    name: "CPR.debuglogs",
+    hint: "CPR.debuglogshint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: (value) => {
+      LOGGER.log(`Changed debugLogs to ${value}`);
+    },
+  });
+
+  game.settings.register("cyberpunk-red-core", "traceLogs", {
+    name: "CPR.tracelogs",
+    hint: "CPR.tracelogshint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: (value) => {
+      LOGGER.log(`Changed traceLogs to ${value}`);
+    },
+  });
 };
+
+export default registerSystemSettings;

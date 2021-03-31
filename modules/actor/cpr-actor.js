@@ -23,7 +23,13 @@ export default class CPRActor extends Actor {
 
     // Prepare data for both types
     if (this.compendium === null) {
-      this._calculateDerivedStats(actorData);
+      // It looks like prepareData() is called for any actors/npc's that exist in
+      // the game and the clients can't update them.  Everyone should only calculate
+      // their own derived stats, or the GM should be able to calculate the derived
+      // stat
+      if (this.owner || game.user.isGM) {
+        this._calculateDerivedStats(actorData);
+      }
     }
   }
 
@@ -540,26 +546,15 @@ export default class CPRActor extends Actor {
     throw new Error(`Bad location given: ${location}`);
   }
 
-  getPreviousRoll() {
-    if (typeof this.data.previousRoll !== "undefined") {
-      return this.data.previousRoll;
-    }
-    return "undefined";
-  }
-
-  setPreviousRoll(cprRoll) {
-    this.data.previousRoll = cprRoll;
-  }
-
   createRoll(type, name) {
     switch (type) {
-      case "stat": {
+      case CPRRolls.rollTypes.STAT: {
         return this._createStatRoll(name);
       }
-      case "roleAbility": {
+      case CPRRolls.rollTypes.ROLEABILITY: {
         return this._createRoleRoll(name);
       }
-      case "deathsave": {
+      case CPRRolls.rollTypes.DEATHSAVE: {
         return this._createDeathSaveRoll();
       }
       default:
