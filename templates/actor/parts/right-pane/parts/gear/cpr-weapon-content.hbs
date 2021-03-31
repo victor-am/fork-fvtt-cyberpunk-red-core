@@ -1,4 +1,4 @@
-{{log "CPR-WEAPON-INV-CONTENT.HBS"}}
+{{trace "CPR-WEAPON-INV-CONTENT.HBS"}}
 {{!-- NAME --}}
 <li class="item flexrow{{#if item.data.favorite}} favorite{{/if}}" data-item-id="{{item._id}}"
   data-item-category="{{item.type}}" draggable="true">
@@ -22,4 +22,4 @@
     {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}
   </div>
 </li>
-{{log "END CPR-WEAPON-INV-CONTENT.HBS"}}
+{{trace "END CPR-WEAPON-INV-CONTENT.HBS"}}

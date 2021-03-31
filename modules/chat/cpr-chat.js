@@ -1,7 +1,7 @@
-/* eslint-disable no-undef */
-/* global game, CONFIG, ChatMessage, renderTemplate, duplicate */
+/* global game, CONFIG, ChatMessage, renderTemplate $ ui */
 import LOGGER from "../utils/cpr-logger.js";
 import { CPRRoll } from "../rolls/cpr-rolls.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class CPRChat {
   static ChatDataSetup(content, modeOverride, isRoll = false, forceWhisper) {
@@ -91,6 +91,7 @@ export default class CPRChat {
   }
 
   static async HandleCPRCommand(data) {
+    LOGGER.trace("HandleCPRCommand | Chat | Called.");
     // First, let's see if we can figure out what was passed to /red
     // Right now, we will assume it is a roll
     const modifiers = /[+-][0-9][0-9]*/;
@@ -112,6 +113,7 @@ export default class CPRChat {
   }
 
   static async chatListeners(html) {
+    LOGGER.trace("chatListeners | Chat | Called.");
     html.on("click", ".clickable", async (event) => {
       const clickAction = $(event.currentTarget).attr("data-action");
 
@@ -138,14 +140,37 @@ export default class CPRChat {
           await cprRoll.roll();
           CPRChat.RenderRollCard(cprRoll);
 
-          actor.setPreviousRoll(cprRoll);
           break;
         }
         default: {
-          console.log(`No action defined for ${clickAction}`);
+          LOGGER.warn(`No action defined for ${clickAction}`);
         }
       }
       return true;
     });
+  }
+
+  // This code cannot tell if the messageData is a roll because CPR never sets
+  // roll information to chat messages. This is due to our Dice So Nice integration.
+  static addMessageTags(html, messageData) {
+    const timestampTag = html.find(".message-timestamp");
+    const whisperTargets = messageData.message.whisper;
+    const isBlind = messageData.message.blind || false;
+    const isWhisper = whisperTargets?.length > 0 || false;
+    const isSelf = isWhisper && whisperTargets.length === 1 && whisperTargets[0] === messageData.message.user;
+    const indicatorElement = $("<span>");
+    indicatorElement.addClass("chat-mode-indicator");
+
+    // Inject tag to the left of the timestamp
+    if (isBlind) {
+      indicatorElement.text(SystemUtils.Localize("CPR.blind"));
+      timestampTag.before(indicatorElement);
+    } else if (isSelf) {
+      indicatorElement.text(SystemUtils.Localize("CPR.self"));
+      timestampTag.before(indicatorElement);
+    } else if (isWhisper) {
+      indicatorElement.text(SystemUtils.Localize("CPR.whisper"));
+      timestampTag.before(indicatorElement);
+    }
   }
 }

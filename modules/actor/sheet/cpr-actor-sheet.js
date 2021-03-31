@@ -210,6 +210,8 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".eurobucks-input").click((event) => event.target.select()).change((event) => this._updateEurobucks(event));
 
+    html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
+
     super.activateListeners(html);
   }
 
@@ -221,37 +223,49 @@ export default class CPRActorSheet extends ActorSheet {
   async _onRoll(event) {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
-    const rollType = $(event.currentTarget).attr("data-roll-type");
+    let rollType = $(event.currentTarget).attr("data-roll-type");
     let cprRoll;
     let item = null;
     switch (rollType) {
-      case "deathsave":
-      case "roleAbility":
-      case "stat": {
+      case CPRRolls.rollTypes.DEATHSAVE:
+      case CPRRolls.rollTypes.ROLEABILITY:
+      case CPRRolls.rollTypes.STAT: {
         const rollName = $(event.currentTarget).attr("data-roll-title");
         cprRoll = this.actor.createRoll(rollType, rollName);
         break;
       }
-      case "damage":
-      case "aimed":
-      case "attack":
-      case "autofire":
-      case "skill":
-      case "suppressive": {
+      case CPRRolls.rollTypes.SKILL: {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
         cprRoll = item.createRoll(rollType, this.actor._id);
         break;
       }
+      case CPRRolls.rollTypes.DAMAGE: {
+        const itemId = this._getItemId(event);
+        item = this._getOwnedItem(itemId);
+        rollType = this._getFireCheckbox(event);
+        cprRoll = item.createDamageRoll(rollType, this.actor._id);
+        if (rollType === CPRRolls.rollTypes.AIMED) {
+          cprRoll.location = this.actor.getFlag("cyberpunk-red-core", "aimedLocation") || "body";
+        }
+        break;
+      }
+      case CPRRolls.rollTypes.ATTACK: {
+        const itemId = this._getItemId(event);
+        item = this._getOwnedItem(itemId);
+        rollType = this._getFireCheckbox(event);
+        cprRoll = item.createAttackRoll(rollType, this.actor._id);
+        break;
+      }
       default:
     }
 
-    // note for aimed shots this is where location is set
+    // note: for aimed shots this is where location is set
     await cprRoll.handleRollDialog(event);
 
     if (item !== null) {
       // Do any actions that need to be done as part of a roll, like ammo decrementing
-      await item.confirmRoll(rollType, cprRoll);
+      await item.confirmRoll(cprRoll);
     }
 
     // Let's roll!
@@ -270,13 +284,10 @@ export default class CPRActorSheet extends ActorSheet {
     }
     CPRChat.RenderRollCard(cprRoll);
 
-    // Store last roll so we can query and use it
-    // after the fact. Examples of this would be
-    // if rolling Damage after an attack where autofire
-    // was used.
-    // Do we want to add this to the template is the
-    // question?
-    this.actor.setPreviousRoll(cprRoll);
+    // save the location so subsequent damage rolls hit/show the same place
+    if (cprRoll instanceof CPRRolls.CPRAimedAttackRoll) {
+      this.actor.setFlag("cyberpunk-red-core", "aimedLocation", cprRoll.location);
+    }
   }
 
   async _handleRollDialog(event, cprRoll) {
@@ -292,10 +303,20 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
+  _getFireCheckbox(event) {
+    LOGGER.trace("ActorID _getFireCheckbox | CPRActorSheet | Called.");
+    const weaponID = $(event.currentTarget).attr("data-item-id");
+    const box = this.actor.getFlag("cyberpunk-red-core", `firetype-${weaponID}`);
+    if (box) {
+      return box;
+    }
+    return CPRRolls.rollTypes.ATTACK;
+  }
+
   _resetActorValue(event) {
     const actorValue = $(event.currentTarget).attr("data-value");
     switch (actorValue) {
-      case "deathsave": {
+      case CPRRolls.rollTypes.DEATHSAVE: {
         this.actor.resetDeathPenalty();
         break;
       }
@@ -567,6 +588,17 @@ export default class CPRActorSheet extends ActorSheet {
       }
     }
     await this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
+  }
+
+  _fireCheckboxToggle(event) {
+    LOGGER.trace("CPRItemID _fireheckboxToggle Called | CPRItemSheet | Called.");
+    const weaponID = $(event.currentTarget).attr("data-item-id");
+    const target = $(event.currentTarget).attr("data-target");
+    if ($(`#${target}-${weaponID}`).is(":checked")) {
+      this.actor.setFlag("cyberpunk-red-core", `firetype-${weaponID}`, target);
+    } else {
+      this.actor.unsetFlag("cyberpunk-red-core", `firetype-${weaponID}`);
+    }
   }
 
   // TODO - Revist, do we need template data? Is function used.

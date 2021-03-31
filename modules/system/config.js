@@ -237,6 +237,7 @@ CPR.cyberwareInstallList = {
   mall: "CPR.mall",
   clinic: "CPR.clinic",
   hospital: "CPR.hospital",
+  notApplicable: "CPR.notapplicable",
 };
 
 CPR.woundState = {
