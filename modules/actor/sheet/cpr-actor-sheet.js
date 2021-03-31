@@ -103,8 +103,6 @@ export default class CPRActorSheet extends ActorSheet {
     // Set Lifepath for Character
     html.find(".set-lifepath").click((event) => this._setLifepath(event));
 
-    html.find(".sanity-check-cyberware").click(() => this.actor.sanityCheckCyberware());
-
     html.find(".checkbox").click((event) => this._checkboxToggle(event));
 
     html.find(".toggle-favorite-visibility").click((event) => {
