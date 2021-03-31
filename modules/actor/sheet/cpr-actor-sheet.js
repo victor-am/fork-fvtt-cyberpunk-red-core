@@ -595,7 +595,7 @@ export default class CPRActorSheet extends ActorSheet {
     if ($(`#${target}-${weaponID}`).is(":checked")) {
       this.actor.setFlag("cyberpunk-red-core", `firetype-${weaponID}`, target);
     } else {
-      this.actor.setFlag("cyberpunk-red-core", `firetype-${weaponID}`, null);
+      this.actor.unsetFlag("cyberpunk-red-core", `firetype-${weaponID}`);
     }
   }
 
