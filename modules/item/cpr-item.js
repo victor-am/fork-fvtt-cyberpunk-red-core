@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable max-len */
 /* eslint-disable consistent-return */
 /* global Item game */
@@ -174,7 +175,10 @@ export default class CPRItem extends Item {
 
   async _measureDv(actor, dvTable) {
     LOGGER.debug("_measureDv | CPRItem | Called.");
-    actor.token.update({ "flags.cprDvTable": dvTable });
+    if (actor.sheet.token !== null) {
+      actor.sheet.token.update({ "flags.cprDvTable": dvTable });
+      return;
+    }
   }
 
   // TODO - Refactor

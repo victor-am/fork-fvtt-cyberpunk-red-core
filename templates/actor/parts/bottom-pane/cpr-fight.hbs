@@ -106,6 +106,7 @@
                         <div class="fight-weapon-actions text-nowrap">
                             {{#if weapon.data.isRanged}}
                             {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
+                            {{>"systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs"}}
                             {{/if}}
                         </div>
                     </div>
@@ -144,11 +145,6 @@
                         </a>
                         {{/if}}
                     </div>
-                    {{#if weapon.data.isRanged}}
-                    <div class="item-detail weapon-measure text-nowrap">
-                        {{>"systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs"}}
-                    </div>
-                    {{/if}}
                 </li>
                 {{/if}}
                 {{/each}}
