@@ -211,6 +211,7 @@ CPR.objectTypes = {
   ammo: "CPR.ammo",
   armor: "CPR.armor",
   cyberware: "CPR.cyberware",
+  clothing: "CPR.clothing",
   gear: "CPR.gear",
   netarch: "CPR.netarch",
   program: "CPR.program",
