@@ -2,7 +2,9 @@
   "Actor": {
     "types": [
       "character",
-      "mook"
+      "mook",
+      "blackIce",
+      "container"
     ],
     "templates": {
       "common": {
@@ -46,15 +48,13 @@
             "max": 40,
             "transactions": []
           },
+          "currentWoundState": "notWounded",
           "seriouslyWounded": 20,
           "deathSave": {
-            "value": 6,
+            "value": 0,
             "penalty": 0,
             "basePenalty": 0
           }
-        },
-        "woundState": {
-          "currentWoundState": "notWounded"
         },
         "skills": {
           "accounting": 0,
@@ -187,9 +187,6 @@
           "notes": "",
           "history": ""
         },
-        "cyberware": {
-          "installed": []
-        },
         "humanity": {
           "value": 60,
           "max": 60,
@@ -217,9 +214,9 @@
         "familyCrisis": "",
         "lifeGoals": "",
         "roleLifepath": "",
-        "friends": [],
-        "tragicLoveAffairs": [],
-        "enemies": []
+        "friends": "",
+        "tragicLoveAffairs": "",
+        "enemies": ""
       },
       "reputation:": {
         "value": 0,
@@ -234,10 +231,25 @@
         "transactions": []
       },
       "lifestyle": {
-        "fashion": "",
-        "housing": "",
-        "rent": "",
-        "lifestyle": ""
+        "fashion": {
+          "description": ""
+        },
+        "housing": {
+          "description": "Cargo Container",
+          "cost": 1000
+        },
+        "lifestyle": {
+          "description": "Kibble",
+          "cost": 100
+        },
+        "traumaTeam": {
+          "description": "",
+          "cost": 0
+        },
+        "extras": {
+          "description": "",
+          "cost": 0
+        }
       }
     },
     "mook": {
@@ -254,6 +266,23 @@
       "atk": 0,
       "def": 0,
       "rez": 0
+    },
+    "container": {
+      "hp": {
+        "value": 40,
+        "max": 40,
+        "transactions": []
+      },
+      "reinforced": false,
+      "armor": {
+        "sp": 0,
+        "ablation": 0 
+      },
+      "restricted": false,
+      "DV": 0,
+      "wealth": {
+        "value": 0
+      }
     }
   },
   "Item": {
@@ -284,13 +313,8 @@
         "price": {
           "market": 0,
           "category": ""
-        }
-      },
-      "action": {
-        "isRanged": false,
-        "isMelee": false,
-        "rangedAction": {},
-        "meleeAction": {}
+        },
+        "amount": 1
       },
       "equippable": {
         "equipped": "owned"
@@ -299,26 +323,36 @@
         "isUpgraded": false,
         "upgrade": ""
       },
-      "mods": {
-        "list": [],
-        "mod": {
-          "category": "",
-          "item": "",
+      "weapon": {
+        "weaponType": "",
+        "weaponSkill": "",
+        "fireModes": {
+          "autoFire": 0, 
+          "suppresiveFire": false
+        },
+        "quality": "",
+        "damage": "1d6",
+        "rof": 1,
+        "attachmentSlots": 0,
+        "dvTable": "",
+        "isRanged": false
+      },
+      "uses": {
+        "usesType": "magazine",
+        "magazine": {
+            "value": 0,
+            "max": 0,
+            "ammoId": ""
+        },
+        "ammoVariety": [],
+        "charges": {
           "value": 0,
-          "isActive": false
+          "max": 0
         }
       },
-      "attack": {
-        "weaponSkill": "",
-        "damage": "1d6",
-        "isRanged": false,
-        "altFireModes": "",
-        "magazine": {
-          "value": 0,
-          "max": 0,
-          "ammoId": ""
-        },
-        "ammoVariety": []
+      "concealable": {
+        "concealable": false,
+        "isConcealed": false
       }
     },
     "ammo": {
@@ -328,7 +362,6 @@
         "upgradable"
       ],
       "variety": "",
-      "amount": 0,
       "type": ""
     },
     "armor": {
@@ -360,10 +393,12 @@
         "common",
         "physicalItem",
         "upgradable",
-        "attack"
+        "concealable",
+        "weapon",
+        "uses"
       ],
-      "type": "type",
-      "install": "install",
+      "type": "",
+      "install": "mall",
       "isInstalled": false,
       "isFoundational": true,
       "hasOptionalSlots": false,
@@ -389,8 +424,7 @@
       "templates": [
         "common",
         "physicalItem",
-        "upgradable",
-        "equippable"
+        "upgradable"
       ]
     },
     "netarch": {
@@ -403,7 +437,7 @@
     "program": {
       "templates": [
         "common",
-        "physicalItem" 
+        "physicalItem"
       ],
       "class": "",
       "isDemon": false,
@@ -420,15 +454,11 @@
         "physicalItem",
         "upgradable",
         "equippable",
-        "attack"
+        "concealable",
+        "weapon",
+        "uses"
       ],
-      "rof": 1,
-      "weaponType": "",
-      "concealable": false,
-      "isConcealed": false,
-      "handsReq": 1,
-      "quality": "standard",
-      "attachmentSlots": 0
+      "handsReq": 1
     },
     "skill": {
       "templates": [
