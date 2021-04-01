@@ -54,6 +54,11 @@
             "value": 0,
             "penalty": 0,
             "basePenalty": 0
+          },
+          "humanity": {
+            "value": 60,
+            "max": 60,
+            "transactions": []
           }
         },
         "skills": {
@@ -187,11 +192,7 @@
           "notes": "",
           "history": ""
         },
-        "humanity": {
-          "value": 60,
-          "max": 60,
-          "transactions": []
-        },
+
         "criticalInjuries": []
       }
     },

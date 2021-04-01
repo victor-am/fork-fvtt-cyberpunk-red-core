@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* globals Actor, game, getProperty, setProperty, hasProperty, randomID */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRChat from "../chat/cpr-chat.js";
@@ -87,12 +88,9 @@ export default class CPRActor extends Actor {
         derivedStats.hp.value,
         derivedStats.hp.max,
       );
-      changedData["data.hp.value"] = derivedStats.hp.value;
-      // if (derivedStats.hp.value > derivedStats.hp.max) { derivedStats.hp.value = derivedStats.hp.max; };
 
       const { humanity } = actorData.data;
       // Max Humanity
-      // TODO-- Subtract installed cyberware...
       let cyberwarePenalty = 0;
       this.getInstalledCyberware().forEach((cyberware) => {
         if (cyberware.getData().type === "borgware") {
@@ -101,16 +99,12 @@ export default class CPRActor extends Actor {
           cyberwarePenalty += 2;
         }
       });
-      humanity.max = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
-      changedData["data.humanity.max"] = humanity.max;
-      if (humanity.value > humanity.max) {
-        humanity.value = humanity.max;
-        changedData["data.humanity.value"] = humanity.value;
+      derivedStats.humanity.max = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
+      if (derivedStats.humanity.value > derivedStats.humanity.max) {
+        derivedStats.humanity.value = derivedStats.humanity.max;
       }
       // Setting EMP to value based on current humannity.
-      stats.emp.value = Math.floor(humanity.value / 10);
-
-      this.update(changedData);
+      stats.emp.value = Math.floor(derivedStats.humanity.value / 10);
     }
 
     // Seriously wounded
@@ -120,6 +114,8 @@ export default class CPRActor extends Actor {
     // We need to always call this because if the actor was wounded and now is not, their
     // value would be equal to max, however their current wound state was never updated.
     this._setWoundState();
+    // Updated derivedStats variable with currentWoundState
+    derivedStats.currentWoundState = this.data.data.derivedStats.currentWoundState;
 
     // Death save
     let basePenalty = 0;
@@ -133,12 +129,13 @@ export default class CPRActor extends Actor {
     });
     derivedStats.deathSave.basePenalty = basePenalty;
     derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
+    this.data.data.derivedStats = derivedStats;
   }
 
   // GET AND SET WOUND STATE
   getWoundState() {
     LOGGER.trace("getWoundState | CPRActor | Obtaining Wound State.");
-    return this.data.data.woundState.currentWoundState;
+    return this.data.data.derivedStats.currentWoundState;
   }
 
   _setWoundState() {
@@ -155,7 +152,7 @@ export default class CPRActor extends Actor {
     } else if (derivedStats.hp.value === derivedStats.hp.max) {
       newState = "notWounded";
     }
-    this.data.data.woundState.currentWoundState = newState;
+    this.data.data.derivedStats.currentWoundState = newState;
   }
 
   getInstalledCyberware() {
@@ -284,7 +281,7 @@ export default class CPRActor extends Actor {
       Rules.lawyer(false, "CPR.youcyberpsycho");
     }
 
-    this.update({ "data.humanity.value": value });
+    this.update({ "data.derivedStats.humanity.value": value });
   }
 
   gainHumanityValue(amount) {
@@ -295,7 +292,7 @@ export default class CPRActor extends Actor {
     if (value > max) {
       value = max;
     }
-    this.update({ "data.humanity.value": value });
+    this.update({ "data.derivedStats.humanity.value": value });
   }
 
   _getOwnedItem(itemId) {

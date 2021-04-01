@@ -227,6 +227,14 @@ export default class Migration {
       actorData.data.criticalInjuries = [];
     }
 
+    // Moved in 0.72
+    if ((typeof actorData.data.humanity) !== "undefined") {
+      actorData.data.derivedStats.humanity = actorData.data.humanity;
+    }
+
+    if ((typeof actorData.data.currentWoundState) !== "undefined") {
+      actorData.data.derivedStats.currentWoundState = actorData.data.currentWoundState;
+    }
     // Check the ActorData for properties no longer in use and add them
     // to the scrubData object to have them removed
     const scrubData = this.scrubActorData(actorData);
@@ -264,9 +272,17 @@ export default class Migration {
       if ((typeof actorData.data["reputation:"]) !== "undefined") {
         scrubData["data.-=reputation:"] = null;
       }
+      // Moved to derivedStats in 0.72
+      if ((typeof actorData.data["woundState"]) !== "undefined") {
+        scrubData["data.-=woundState"] = null;
+      }
       // Removed in 0.72
       if ((typeof actorData.data.lifestyle.rent) !== "undefined") {
         scrubData["data.lifestyle.-=rent"] = null;
+      }
+      // Removed in 0.72
+      if ((typeof actorData.data.hp) !== "undefined") {
+        scrubData["data.-=hp"] = null;
       }
     }
     // Remove unused data points from an actor (character & mooks)
