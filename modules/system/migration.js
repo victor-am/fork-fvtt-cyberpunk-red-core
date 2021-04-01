@@ -243,11 +243,34 @@ export default class Migration {
     // Update the actor with the new data model
     await actor.update(actorData, { diff: false, enforceTypes: false });
 
+    // This was added as part of 0.72.  We had one report of
+    // a scenario where the actors somehow lost their core Cyberware items
+    // so this ensures all actors have them.
+    const pack = game.packs.get("cyberpunk-red-core.cyberware");
+    // put into basickSkills array
+    const content = await pack.getContent();
+    await this.validateCoreContent(actor, content);
+
     // Remove any unused properties if needed
     if (scrubData !== {}) {
       await actor.update(scrubData);
     }
     return actor.data;
+  }
+
+  static async validateCoreContent(actor, content) {
+    // Get what cyberware is installed
+    const installedCyberware = actor.getInstalledCyberware();
+    // Remove any installed items from the core content since the actor has those items
+    installedCyberware.forEach((c) => {
+      content = content.filter((cw) => cw.name !== c.name);
+    });
+
+    // Loop through and add the items the actor is missing
+    content.forEach(async (c) => {
+      const itemData = c.data;
+      await actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+    });
   }
 
   // The following is code that is used to remove data points on the actor model that

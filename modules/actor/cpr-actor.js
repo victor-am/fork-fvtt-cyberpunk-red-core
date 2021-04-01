@@ -59,9 +59,11 @@ export default class CPRActor extends Actor {
 
   async createEmbeddedEntity(embeddedName, itemData, options = {}) {
     LOGGER.trace("createEmbeddedEntity | CPRActor | called.");
-    if (embeddedName === "OwnedItem") {
-      if (itemData.data.core) {
-        return Rules.lawyer(false, "CPR.dontaddcoreitems");
+    if (!options.force) {
+      if (embeddedName === "OwnedItem") {
+        if (itemData.data.core) {
+          return Rules.lawyer(false, "CPR.dontaddcoreitems");
+        }
       }
     }
     // Standard embedded entity creation
@@ -181,6 +183,7 @@ export default class CPRActor extends Actor {
   async addCyberware(itemId) {
     const item = this._getOwnedItem(itemId);
     const compatibleFoundationalCyberware = this.getInstalledFoundationalCyberware(item.getData().type);
+
     if (compatibleFoundationalCyberware.length < 1 && !item.getData().isFoundational) {
       Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
     } else if (item.getData().isFoundational) {
