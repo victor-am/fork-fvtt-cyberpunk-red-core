@@ -217,6 +217,7 @@
     "CPR.cryptography": "Cryptography",
     "CPR.cswat": "C-SWAT",
     "CPR.culturalorigins": "Cultural Origins",
+    "CPR.currenthitpoints": "Current Hit Points",
     "CPR.currentsp": "Current SP",
     "CPR.cyber": "Cyber",
     "CPR.cyberarm": "Cyberarm",
@@ -922,5 +923,7 @@
     "CPR.yougotnoinventory": "You got no",
     "CPR.youown": "You own",
     "CPR.yourhome": "Your Home",
+    "CPR.loadedammoquantity": "Loaded Ammo Quantity",
+    "CPR.isshield": "Is Shield",
     "CPR.zap": "Zap"
 }

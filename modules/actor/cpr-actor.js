@@ -516,6 +516,9 @@ export default class CPRActor extends Actor {
     if (location === "head") {
       return equipped.filter((item) => item.getData().isHeadLocation);
     }
+    if (location === "shield") {
+      return equipped.filter((item) => item.getData().isShield);
+    }
     throw new Error(`Bad location given: ${location}`);
   }
 
