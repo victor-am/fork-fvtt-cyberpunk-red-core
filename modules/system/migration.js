@@ -274,7 +274,7 @@ export default class Migration {
         scrubData["data.-=reputation:"] = null;
       }
       // Moved to derivedStats in 0.72
-      if ((typeof actorData.data["woundState"]) !== "undefined") {
+      if ((typeof actorData.data.woundState) !== "undefined") {
         scrubData["data.-=woundState"] = null;
       }
       // Removed in 0.72
