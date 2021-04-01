@@ -329,14 +329,15 @@
         "weaponSkill": "",
         "fireModes": {
           "autoFire": 0, 
-          "suppresiveFire": false
+          "suppressiveFire": false
         },
         "quality": "",
         "damage": "1d6",
         "rof": 1,
         "attachmentSlots": 0,
         "dvTable": "",
-        "isRanged": false
+        "isRanged": false,
+        "attackmod": 0
       },
       "uses": {
         "usesType": "magazine",

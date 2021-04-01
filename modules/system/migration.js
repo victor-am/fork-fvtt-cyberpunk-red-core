@@ -125,15 +125,16 @@ export default class Migration {
       }
 
       // Changed in 0.72
-      if ((typeof actorData.data.lifepath.friends) === "array") {
+      const myVar = (typeof actorData.data.lifepath.friends);
+      if ((typeof actorData.data.lifepath.friends) === "object") {
         actorData.data.lifepath.friends = "";
       }
       // Changed in 0.72
-      if ((typeof actorData.data.lifepath.tragicLoveAffairs) === "array") {
+      if ((typeof actorData.data.lifepath.tragicLoveAffairs) === "object") {
         actorData.data.lifepath.tragicLoveAffairs = "";
       }
       // Changed in 0.72
-      if ((typeof actorData.data.lifepath.enemies) === "array") {
+      if ((typeof actorData.data.lifepath.enemies) === "object") {
         actorData.data.lifepath.enemies = "";
       }
 
@@ -321,8 +322,8 @@ export default class Migration {
     if ((typeof itemData.data.isConcealed) === "undefined") {
       itemData.data.isConcealed = false;
     }
-    if ((typeof itemData.data.attackMod) === "undefined") {
-      itemData.data.attackMod = 0;
+    if ((typeof itemData.data.attackmod) === "undefined") {
+      itemData.data.attackmod = 0;
     }
     return itemData;
   }
