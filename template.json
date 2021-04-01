@@ -393,8 +393,9 @@
         "upgradable",
         "equippable"
       ],
-      "quality": "good",
-      "clothingType": "leisureware"
+      "quality": "",
+      "type": "",
+      "style": ""
     },
     "skill": {
       "templates": [

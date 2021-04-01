@@ -220,6 +220,41 @@ CPR.objectTypes = {
   weapon: "CPR.weapon",
 };
 
+// Sorted as listed in core rule book
+CPR.clothingStyle = {
+  bagLadyChic: "CPR.bagladychic",
+  gangColors: "CPR.gangcolors",
+  genericChic: "CPR.genericchic",
+  bohemian: "CPR.bohemian",
+  leisurewear: "CPR.leisurewear",
+  nomadLeathers: "CPR.nomadleathers",
+  asiaPop: "CPR.asiapop",
+  urbanFlash: "CPR.urbanflash",
+  businesswear: "CPR.businesswear",
+  highFashion: "CPR.highfashion",
+};
+
+// Sorted as listed in core rule book
+CPR.clothingType = {
+  bottoms: "CPR.bottoms",
+  top: "CPR.top",
+  jacket: "CPR.jacket",
+  footwear: "CPR.footwear",
+  jewelry: "CPR.jewelry",
+  mirrorshades: "CPR.mirrorshades",
+  glasses: "CPR.glasses",
+  contactLenses: "CPR.contactlenses",
+  hats: "CPR.hats",
+};
+
+CPR.clothingQuality = {
+  tattered: "CPR.tattered",
+  poor: "CPR.poor",
+  standard: "CPR.standard",
+  good: "CPR.good",
+  excellent: "CPR.excellent",
+};
+
 //
 CPR.cyberwareTypeList = {
   cyberAudioSuite: "CPR.cyberaudiosuite",

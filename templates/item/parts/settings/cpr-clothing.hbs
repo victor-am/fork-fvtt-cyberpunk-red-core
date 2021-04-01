@@ -9,8 +9,51 @@
                 {{!-- Physical Item Settings--}}
                 {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
 
-                {{!-- Clothing Item Settings--}}
-
+                {{!-- Clothing Style Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.clothing"}} {{localize "CPR.style"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="data.style" data-dtype="{{data.style}}">
+                            {{#select data.style}}
+                            {{#each (findConfigObj "clothingStyle") as |style s| }}
+                            <option value="{{s}}">{{localize style}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                </li>
+                {{!-- Clothing Type Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.clothing"}} {{localize "CPR.type"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="data.type" data-dtype="{{data.type}}">
+                            {{#select data.type}}
+                            {{#each (findConfigObj "clothingType") as |type t| }}
+                            <option value="{{t}}">{{localize type}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                </li>
+                {{!-- Clothing Quality Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.clothing"}} {{localize "CPR.quality"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="data.quality" data-dtype="{{data.quality}}">
+                            {{#select data.quality}}
+                            {{#each (findConfigObj "clothingQuality") as |quality q| }}
+                            <option value="{{q}}">{{localize quality}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                </li>
             </ol>
         </div>
     </div>
