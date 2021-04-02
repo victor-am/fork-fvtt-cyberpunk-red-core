@@ -32,7 +32,7 @@ export class CPRRoll {
     // the complete result of the roll after applying everything
     this.resultTotal = 0;
     // path to the right dialog box to pop up before rolling
-    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-base-prompt.hbs";
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-generic-prompt.hbs";
     // path to the roll card template for chat
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-base-rollcard.hbs";
   }

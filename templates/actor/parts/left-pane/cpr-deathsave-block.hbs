@@ -6,7 +6,7 @@
   </div>
   <div class="block-data flex-space-between">
     {{!-- <span>{{localize (findConfigValue "woundState" this.data.woundState.currentWoundState)}}</span> --}}
-    {{#with this.data.woundState.currentWoundState as |state| }}
+    {{#with this.data.derivedStats.currentWoundState as |state| }}
     {{#if (compare state "===" "notWounded")}}
     <i class="fg-green bg-white text-normal text-center width-full fas fa-smile" title="Not Wounded"></i>
     {{/if}}

@@ -70,6 +70,24 @@
                         </div>
                     </li>
                     {{/if}}
+                    {{#if armor.data.isShield}}
+                    <li class="flex-space-between">
+                        <div> {{localize "CPR.shield"}}</div>
+                        <div>
+                            {{#if (compare armor.data.shieldHitPoints.value "<" armor.data.shieldHitPoints.max)}}
+                                <span class="fg-red">
+                            {{/if}}
+                                {{armor.data.shieldHitPoints.value}}
+                            {{#if (compare armor.data.shieldHitPoints.value "<" armor.data.shieldHitPoints.max)}}
+                                </span>
+                            {{/if}}
+                            /{{armor.data.shieldHitPoints.max}}
+                                                        <a class="ablate" data-location="shield"><i
+                                    class="far fa-arrow-alt-circle-down" title="Damage Shield"></i></a>
+
+                        </div>
+                    </li>
+                    {{/if}}
                     </li>
                 {{/if}}
                 {{/each}}

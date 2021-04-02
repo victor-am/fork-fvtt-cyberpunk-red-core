@@ -1011,18 +1011,29 @@ ol {
   grid-template-columns: 270px;
   grid-template-rows: auto;
 }
+.generic-rollcard-data,
 .d10-rollcard-data {
   display: grid;
-  grid-template-columns: 175px auto;
+  grid-template-columns: 160px auto;
   grid-template-rows: auto auto;
   grid-template-areas: "d10-dice d10-number" "d10-data d10-data";
+}
+.generic-dice-div {
+  grid-area: d10-dice;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 5px;
 }
 .d10-dice-div {
   grid-area: d10-dice;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
 }
+.generic-number-div,
 .d10-number-div {
   grid-area: d10-number;
   min-height: 70px;
@@ -1030,6 +1041,7 @@ ol {
   font-size: 4rem;
   padding-right: 5px;
 }
+.generic-data-div,
 .d10-data-div {
   grid-area: d10-data;
   display: flex;
@@ -1079,6 +1091,14 @@ ol {
   border: none;
   align-self: center;
 }
+.d10-20 {
+  height: 20px;
+  width: 20px;
+}
+.d10-30 {
+  height: 30px;
+  width: 30px;
+}
 .d6 {
   display: block;
   border: none;
@@ -1091,6 +1111,10 @@ ol {
 .d6-30 {
   height: 30px;
   width: 30px;
+}
+.d6-40 {
+  height: 40px;
+  width: 40px;
 }
 /*-------------------------
 | Chat visibility design  |
