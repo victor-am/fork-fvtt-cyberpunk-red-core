@@ -361,7 +361,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "shield": {
         armorList.forEach((a) => {
-          let armorData = a.data;
+          const armorData = a.data;
           armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - 1), 0);
           updateList.push(armorData);
         });
