@@ -277,7 +277,7 @@
       "reinforced": false,
       "armor": {
         "sp": 0,
-        "ablation": 0 
+        "ablation": 0
       },
       "restricted": false,
       "DV": 0,
@@ -329,7 +329,7 @@
         "weaponType": "",
         "weaponSkill": "",
         "fireModes": {
-          "autoFire": 0, 
+          "autoFire": 0,
           "suppressiveFire": false
         },
         "quality": "",
@@ -431,6 +431,16 @@
       ]
     },
     "clothing": {
+      "templates": [
+        "common",
+        "physicalItem",
+        "upgradable",
+        "equippable"
+      ],
+      "quality": "",
+      "type": "",
+      "style": ""
+    },
     "netarch": {
       "templates": [
         "common",
@@ -457,11 +467,6 @@
         "common",
         "physicalItem",
         "upgradable",
-        "equippable"
-      ],
-      "quality": "",
-      "type": "",
-      "style": ""
         "equippable",
         "concealable",
         "weapon",
