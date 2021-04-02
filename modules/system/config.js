@@ -205,6 +205,7 @@ CPR.inventoryCategories = {
   cyberware: "CPR.cyberware",
   gear: "CPR.gear",
   vehicle: "CPR.vehicle",
+  clothing: "CPR.clothing",
 };
 
 CPR.objectTypes = {
