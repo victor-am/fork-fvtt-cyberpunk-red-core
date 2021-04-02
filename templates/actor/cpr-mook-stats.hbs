@@ -1,0 +1,15 @@
+{{trace "CPR-MOOK-STATS.HBS"}}
+{{!-- Partials to create stat-units from template --}}
+{{#each data.stats as |stat s|}}
+  <div class="mook-{{s}}-stat">
+    <div>
+      <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}">
+        {{localize (findConfigValue "statList" s)}}
+      </a>  
+    </div>
+    <div class="block-data text-large">
+      <input class="" name="data.stats.{{s}}.value" type="number" value="{{this.value}}" />
+    </div>  
+  </div>
+{{/each}}
+{{trace "END CPR-MOOK-STATS.HBS"}}

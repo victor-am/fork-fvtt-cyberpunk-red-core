@@ -850,6 +850,105 @@ button,
   flex-direction: column;
   flex-wrap: nowrap;
 }
+.mook-sheet {
+  font-family: "Audimat Mono";
+  background-color: #eaeaeaff;
+  grid-gap: 5px;
+  display: grid;
+  gap: 0px 0px;
+  grid-template-areas: "mook-stats" "mook-derived" "mook-gear" "mook-skills" "mook-special";
+}
+.mook-sheet .mook-stats {
+  display: grid;
+  grid-area: mook-stats;
+  grid-template-areas: "mook-int-stat mook-ref-stat mook-dex-stat mook-tech-stat mook-cool-stat" "mook-will-stat mook-luck-stat mook-move-stat mook-body-stat mook-emp-stat";
+}
+.mook-sheet .mook-stats .mook-int-stat {
+  grid-area: mook-int-stat;
+}
+.mook-sheet .mook-stats .mook-ref-stat {
+  grid-area: mook-ref-stat;
+}
+.mook-sheet .mook-stats .mook-dex-stat {
+  grid-area: mook-dex-stat;
+}
+.mook-sheet .mook-stats .mook-tech-stat {
+  grid-area: mook-tech-stat;
+}
+.mook-sheet .mook-stats .mook-cool-stat {
+  grid-area: mook-cool-stat;
+}
+.mook-sheet .mook-stats .mook-will-stat {
+  grid-area: mook-will-stat;
+}
+.mook-sheet .mook-stats .mook-luck-stat {
+  grid-area: mook-luck-stat;
+}
+.mook-sheet .mook-stats .mook-move-stat {
+  grid-area: mook-move-stat;
+}
+.mook-sheet .mook-stats .mook-body-stat {
+  grid-area: mook-body-stat;
+}
+.mook-sheet .mook-stats .mook-emp-stat {
+  grid-area: mook-emp-stat;
+}
+.mook-sheet .mook-derived-stats {
+  display: grid;
+  grid-area: mook-derived;
+  grid-template-columns: 1fr 1fr 0.5fr;
+  grid-template-areas: "mook-hp mook-wounded mook-deathsave";
+}
+.mook-sheet .mook-derived-stats .mook-hp {
+  grid-area: mook-hp;
+}
+.mook-sheet .mook-derived-stats .mook-wounded {
+  grid-area: mook-wounded;
+}
+.mook-sheet .mook-derived-stats .mook-deathsave {
+  grid-area: mook-deathsave;
+}
+.mook-sheet .mook-gear {
+  display: grid;
+  grid-area: mook-gear;
+  grid-template-areas: "mook-weapons mook-armor";
+}
+.mook-sheet .mook-gear .mook-weapons {
+  grid-area: mook-weapons;
+}
+.mook-sheet .mook-gear .mook-armor {
+  grid-area: mook-armor;
+}
+.mook-sheet .mook-skills {
+  grid-area: mook-skills;
+}
+.mook-sheet .mook-special {
+  grid-area: mook-special;
+}
+.handle-block,
+.hitpoint-block,
+.deathsave-block,
+.stat-block {
+  font-size: 1.2rem;
+  color: #2d2f2fff;
+  background-color: #eaeaeaff;
+}
+.stat-block {
+  height: 42px;
+  width: 48px;
+}
+.main-block {
+  height: 41px;
+  width: 190px;
+}
+.block-label {
+  font-weight: bold;
+  text-align: center;
+}
+.block-data {
+  text-align: center;
+  font-weight: lighter;
+}
 .items-list {
   list-style: none;
   margin: 0;

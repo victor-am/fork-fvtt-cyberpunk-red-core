@@ -67,6 +67,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/parts/debug/cpr-item-debug.hbs",
 
     // Mook Sheet Partials
+    "systems/cyberpunk-red-core/templates/actor/cpr-mook-stats.hbs",
 
     // Item Sheet
     "systems/cyberpunk-red-core/templates/item/cpr-item-sheet.hbs",
