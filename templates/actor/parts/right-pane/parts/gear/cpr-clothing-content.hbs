@@ -5,7 +5,11 @@
         <a class="name item-edit" title="{{item.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{item.name}}&nbsp;(x{{item.data.amount}})</a>
     </div>
     <div class="item-detail gear-data text-nowrap">
-        {{localize "CPR.price"}}: {{item.data.price.market}}
+        {{item.data.price.market}} eb
+        |
+        {{localize (findConfigValue "clothingQuality" item.data.quality)}}
+        |
+        {{localize (findConfigValue "clothingType" item.data.type)}}
     </div>
     <div class="item-detail gear-actions text-nowrap">
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}
