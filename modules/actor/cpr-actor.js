@@ -444,7 +444,7 @@ export default class CPRActor extends Actor {
     const newInjuryList = [];
     criticalInjuries.forEach((injury) => {
       const tmpInjury = injury;
-      if (injury.id === injuryId) {
+      if (tmpInjury.id === injuryId) {
         tmpInjury.location = location;
         tmpInjury.name = name;
         tmpInjury.effect = effect;

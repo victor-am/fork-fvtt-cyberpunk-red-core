@@ -88,16 +88,16 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".reset-value").click((event) => this._resetActorValue(event));
 
     // Select Roles for Character
-    html.find(".select-roles").click((event) => this._selectRoles(event));
+    html.find(".select-roles").click(() => this._selectRoles());
 
-    html.find(".add-critical-injury").click((event) => this._addCriticalInjury(event));
+    html.find(".add-critical-injury").click(() => this._addCriticalInjury());
 
     html.find(".edit-critical-injury").click((event) => this._editCriticalInjury(event));
 
     html.find(".delete-critical-injury").click((event) => this._deleteCriticalInjury(event));
 
     // Set Lifepath for Character
-    html.find(".set-lifepath").click((event) => this._setLifepath(event));
+    html.find(".set-lifepath").click(() => this._setLifepath());
 
     html.find(".checkbox").click((event) => this._checkboxToggle(event));
 
