@@ -18,19 +18,19 @@
       </div>
       <div class="mook-wounded">
         <span class="text-padding-left">{{localize "CPR.woundstate"}}</span>
-        <div class="block-data flex-space-between">
-          {{localize data.derivedStats.currentWoundState}}
+        <div class="block-data bg-white text-center text-normal text-bold fg-black">
+          {{localize (findConfigValue "woundState" data.derivedStats.currentWoundState)}}
         </div>
       </div>
       <div class="mook-deathsave">
         <span class="text-padding-right" title="{{localize "CPR.deathsaveroll"}}">
           <a class="rollable"  data-roll-title="{{localize "CPR.deathsave"}}" data-roll-type="deathsave">{{localize "CPR.deathsave"}}</a>
         </span>
-        <span class="width-full" title="{{localize "CPR.deathsavereset"}}
+        <div class="width-full block-data bg-white text-center text-normal text-bold fg-black" title="{{localize "CPR.deathsavereset"}}
           {{localize "CPR.deathpenalty"}}: {{data.derivedStats.deathSave.penalty}}
           {{localize "CPR.criticalinjuries"}} {{localize "CPR.penalty"}}: {{data.derivedStats.deathSave.basePenalty}}">
           <a class="reset-value text-bold" data-value="deathsave">{{data.derivedStats.deathSave.value}}</a>
-        </span>
+        </div>
       </div>
     </div>
     <div class="mook-gear fg-white bg-red">
@@ -38,7 +38,7 @@
         weapons
       </div>
       <div class="mook-armor">
-        armor
+        {{> "systems/cyberpunk-red-core/templates/actor/cpr-mook-armor.hbs"}}
       </div>
     </div>
     <div class="mook-skills fg-white bg-red">

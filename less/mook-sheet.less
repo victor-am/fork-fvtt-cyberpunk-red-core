@@ -1,24 +1,10 @@
+// Cyberpunk Red Core Mook Sheet Styling
 // Overall Sheet Layout
 .mook-sheet {
     font-family: "Audimat Mono";
-    // Cyberpunk Red Core Sheet Styling
-
-    // The basic sheet should be white
     background-color: @chrome-white;
-
-    // Utilize grid for element placement on the sheet
     display: grid;
-
-    // We want white borders between each element
-    // grid-gap: 5px;
-
-    // grid-template-columns: 265px auto;
-    // grid-template-rows   : auto auto;
-
-    display: grid;
-    // grid-template-columns: 1fr 1fr 1fr 1fr;
-    // grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-    gap: 0px 5px;
+    gap: 5px;
     grid-template-areas:
         "mook-stats"
         "mook-derived"
@@ -27,6 +13,7 @@
         "mook-special";
 
     .mook-stats {
+        padding: 5px;
         display: grid;
         grid-area: mook-stats; 
         grid-template-areas:
@@ -44,6 +31,8 @@
         .mook-emp-stat { grid-area: mook-emp-stat; }
     }
     .mook-derived-stats {
+        padding: 5px;
+        gap: 10px;
         display: grid; 
         grid-area: mook-derived;
         grid-template-columns: 1fr 1fr 0.5fr;
@@ -55,6 +44,7 @@
     }
 
     .mook-gear { 
+        padding: 5px;
         display: grid;
         grid-area: mook-gear;
         grid-template-areas: "mook-weapons mook-armor";
@@ -62,25 +52,21 @@
         .mook-armor { grid-area: mook-armor; }
     }
 
-    .mook-skills { grid-area: mook-skills; }
-    .mook-special { grid-area: mook-special; }
+    .mook-skills { 
+        padding: 5px;
+        grid-area: mook-skills;
+    }
+
+    .mook-special {
+        padding: 5px;
+        grid-area: mook-special;
+    }
 }
 
 // Section Specific CSS
 .handle-block,
 .hitpoint-block,
 .deathsave-block,
-.stat-block {
-    font-size       : @font-normal;
-    color           : @flint-black;
-    background-color: @chrome-white;
-}
-
-.stat-block {
-    height: 42px;
-    width : 48px;
-}
-
 .main-block {
     height: 41px;
     width : 190px;
