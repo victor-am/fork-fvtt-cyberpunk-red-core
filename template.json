@@ -437,7 +437,7 @@
         "upgradable",
         "equippable"
       ],
-      "quality": "",
+      "quality": "standard",
       "type": "",
       "style": ""
     },
