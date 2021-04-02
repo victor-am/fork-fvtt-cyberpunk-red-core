@@ -9,6 +9,16 @@
                 {{!-- Physical Item Settings--}}
                 {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
 
+                {{!-- Clothing Amount Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.amount"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.amount" class="" type="text" value="{{data.amount}}" placeholder="2">
+                    </div>
+                </li>
+
                 {{!-- Clothing Style Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
