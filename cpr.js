@@ -8,7 +8,7 @@ import CPRItem from "./modules/item/cpr-item.js";
 import CPRItemSheet from "./modules/item/sheet/cpr-item-sheet.js";
 import LOGGER from "./modules/utils/cpr-logger.js";
 import CPRMacro from "./modules/utils/cpr-macros.js";
-
+import SystemUtils from "./modules/utils/cpr-systemUtils.js";
 import Migration from "./modules/system/migration.js";
 
 // Function imports
@@ -24,8 +24,10 @@ Hooks.once("init", async () => {
   LOGGER.credits();
   // Register Actor Sheet Application Classes
   Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("cyberpunk-red-core", CPRCharacterActorSheet, { types: ["character"], makeDefault: true });
-  Actors.registerSheet("cyberpunk-red-core", CPRMookActorSheet, { types: ["mook"], makeDefault: true });
+  Actors.registerSheet("cyberpunk-red-core", CPRCharacterActorSheet,
+    { label: SystemUtils.Localize("CPR.charactersheet"), types: ["character", "mook"], makeDefault: true });
+  Actors.registerSheet("cyberpunk-red-core", CPRMookActorSheet,
+    { label: SystemUtils.Localize("CPR.mooksheet"), types: ["character", "mook"] });
 
   // Register Item Sheet Application Classes
   Items.unregisterSheet("core", ItemSheet);
