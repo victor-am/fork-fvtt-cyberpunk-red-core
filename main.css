@@ -853,9 +853,8 @@ button,
 .mook-sheet {
   font-family: "Audimat Mono";
   background-color: #eaeaeaff;
-  grid-gap: 5px;
   display: grid;
-  gap: 0px 0px;
+  gap: 0px 5px;
   grid-template-areas: "mook-stats" "mook-derived" "mook-gear" "mook-skills" "mook-special";
 }
 .mook-sheet .mook-stats {
