@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* globals Actor, game, getProperty, setProperty, hasProperty, randomID */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRChat from "../chat/cpr-chat.js";
@@ -58,9 +59,11 @@ export default class CPRActor extends Actor {
 
   async createEmbeddedEntity(embeddedName, itemData, options = {}) {
     LOGGER.trace("createEmbeddedEntity | CPRActor | called.");
-    if (embeddedName === "OwnedItem") {
-      if (itemData.data.core) {
-        return Rules.lawyer(false, "CPR.dontaddcoreitems");
+    if (!options.force) {
+      if (embeddedName === "OwnedItem") {
+        if (itemData.data.core) {
+          return Rules.lawyer(false, "CPR.dontaddcoreitems");
+        }
       }
     }
     // Standard embedded entity creation
@@ -87,12 +90,9 @@ export default class CPRActor extends Actor {
         derivedStats.hp.value,
         derivedStats.hp.max,
       );
-      changedData["data.hp.value"] = derivedStats.hp.value;
-      // if (derivedStats.hp.value > derivedStats.hp.max) { derivedStats.hp.value = derivedStats.hp.max; };
 
       const { humanity } = actorData.data;
       // Max Humanity
-      // TODO-- Subtract installed cyberware...
       let cyberwarePenalty = 0;
       this.getInstalledCyberware().forEach((cyberware) => {
         if (cyberware.getData().type === "borgware") {
@@ -101,16 +101,12 @@ export default class CPRActor extends Actor {
           cyberwarePenalty += 2;
         }
       });
-      humanity.max = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
-      changedData["data.humanity.max"] = humanity.max;
-      if (humanity.value > humanity.max) {
-        humanity.value = humanity.max;
-        changedData["data.humanity.value"] = humanity.value;
+      derivedStats.humanity.max = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
+      if (derivedStats.humanity.value > derivedStats.humanity.max) {
+        derivedStats.humanity.value = derivedStats.humanity.max;
       }
       // Setting EMP to value based on current humannity.
-      stats.emp.value = Math.floor(humanity.value / 10);
-
-      this.update(changedData);
+      stats.emp.value = Math.floor(derivedStats.humanity.value / 10);
     }
 
     // Seriously wounded
@@ -120,6 +116,8 @@ export default class CPRActor extends Actor {
     // We need to always call this because if the actor was wounded and now is not, their
     // value would be equal to max, however their current wound state was never updated.
     this._setWoundState();
+    // Updated derivedStats variable with currentWoundState
+    derivedStats.currentWoundState = this.data.data.derivedStats.currentWoundState;
 
     // Death save
     let basePenalty = 0;
@@ -133,12 +131,13 @@ export default class CPRActor extends Actor {
     });
     derivedStats.deathSave.basePenalty = basePenalty;
     derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
+    this.data.data.derivedStats = derivedStats;
   }
 
   // GET AND SET WOUND STATE
   getWoundState() {
     LOGGER.trace("getWoundState | CPRActor | Obtaining Wound State.");
-    return this.data.data.woundState.currentWoundState;
+    return this.data.data.derivedStats.currentWoundState;
   }
 
   _setWoundState() {
@@ -155,11 +154,10 @@ export default class CPRActor extends Actor {
     } else if (derivedStats.hp.value === derivedStats.hp.max) {
       newState = "notWounded";
     }
-    this.data.data.woundState.currentWoundState = newState;
+    this.data.data.derivedStats.currentWoundState = newState;
   }
 
   getInstalledCyberware() {
-    const installedCyberware = this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled);
     return this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled);
   }
 
@@ -185,6 +183,7 @@ export default class CPRActor extends Actor {
   async addCyberware(itemId) {
     const item = this._getOwnedItem(itemId);
     const compatibleFoundationalCyberware = this.getInstalledFoundationalCyberware(item.getData().type);
+
     if (compatibleFoundationalCyberware.length < 1 && !item.getData().isFoundational) {
       Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
     } else if (item.getData().isFoundational) {
@@ -285,7 +284,7 @@ export default class CPRActor extends Actor {
       Rules.lawyer(false, "CPR.youcyberpsycho");
     }
 
-    this.update({ "data.humanity.value": value });
+    this.update({ "data.derivedStats.humanity.value": value });
   }
 
   gainHumanityValue(amount) {
@@ -296,30 +295,7 @@ export default class CPRActor extends Actor {
     if (value > max) {
       value = max;
     }
-    this.update({ "data.humanity.value": value });
-  }
-
-  sanityCheckCyberware() {
-    const installedCyberware = this.getInstalledCyberware();
-    const allCyberware = this.data.filteredItems.cyberware;
-    let orphanedCyberware = allCyberware;
-
-    const foundationalCyberware = allCyberware.filter((cyberware) => cyberware.getData().isFoundational === true);
-    foundationalCyberware.forEach((fCyberware) => {
-      fCyberware.data.data.optionalIds = [...new Set(fCyberware.data.data.optionalIds)];
-      this.updateEmbeddedEntity("OwnedItem", fCyberware.data);
-      orphanedCyberware = orphanedCyberware.filter((i) => i.data._id !== fCyberware.data._id);
-      fCyberware.getData().optionalIds.forEach((oCyberwareId) => {
-        const oCyberware = allCyberware.filter((o) => o.data._id === oCyberwareId)[0];
-        oCyberware.data.data.isInstalled = true;
-        this.updateEmbeddedEntity("OwnedItem", oCyberware.data);
-        orphanedCyberware = orphanedCyberware.filter((i) => i.data._id !== oCyberwareId);
-      });
-    });
-    orphanedCyberware.forEach((orphan) => {
-      orphan.data.data.isInstalled = false;
-      this.updateEmbeddedEntity("OwnedItem", orphan.data);
-    });
+    this.update({ "data.derivedStats.humanity.value": value });
   }
 
   _getOwnedItem(itemId) {
@@ -542,6 +518,9 @@ export default class CPRActor extends Actor {
     }
     if (location === "head") {
       return equipped.filter((item) => item.getData().isHeadLocation);
+    }
+    if (location === "shield") {
+      return equipped.filter((item) => item.getData().isShield);
     }
     throw new Error(`Bad location given: ${location}`);
   }

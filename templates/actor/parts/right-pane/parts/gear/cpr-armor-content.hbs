@@ -12,6 +12,9 @@
         {{#if item.data.isBodyLocation}}
         {{localize "CPR.bodylocation"}}: {{ablated item.data "body"}}/{{item.data.bodyLocation.sp}} {{localize "CPR.sp"}}
         {{/if}}
+        {{#if item.data.isShield}}
+        {{localize "CPR.shield"}}: {{item.data.shieldHitPoints.value}}/{{item.data.shieldHitPoints.max}} {{localize "CPR.hitpoints"}}
+        {{/if}}
   </div>
   <div class="item-detail gear-actions text-nowrap">
     {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}

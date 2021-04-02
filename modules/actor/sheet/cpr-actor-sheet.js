@@ -103,8 +103,6 @@ export default class CPRActorSheet extends ActorSheet {
     // Set Lifepath for Character
     html.find(".set-lifepath").click((event) => this._setLifepath(event));
 
-    html.find(".sanity-check-cyberware").click(() => this.actor.sanityCheckCyberware());
-
     html.find(".checkbox").click((event) => this._checkboxToggle(event));
 
     html.find(".toggle-favorite-visibility").click((event) => {
@@ -330,6 +328,7 @@ export default class CPRActorSheet extends ActorSheet {
     // XXX: cannot use _getObjProp since we need to update 2 props
     this._updateOwnedItemProp(item, "data.headLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
+    this._updateOwnedItemProp(item, "data.shieldHitPoints.value", item.data.data.shieldHitPoints.max);
   }
 
   async _ablateArmor(event) {
@@ -351,6 +350,15 @@ export default class CPRActorSheet extends ActorSheet {
         armorList.forEach((a) => {
           let armorData = a.data;
           armorData.data.bodyLocation.ablation = Math.min((a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp);
+          updateList.push(armorData);
+        });
+        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        break;
+      }
+      case "shield": {
+        armorList.forEach((a) => {
+          let armorData = a.data;
+          armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - 1), 0);
           updateList.push(armorData);
         });
         await this.actor.updateEmbeddedEntity("OwnedItem", updateList);

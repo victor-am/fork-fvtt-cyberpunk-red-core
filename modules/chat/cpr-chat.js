@@ -107,6 +107,10 @@ export default class CPRChat {
     }
     if (formula) {
       const cprRoll = new CPRRoll(game.i18n.localize("CPR.roll"), formula);
+      if (cprRoll.die !== "d6" && cprRoll.die !== "d10") {
+        cprRoll.calculateCritical = false;
+        cprRoll.die = "generic";
+      }
       await cprRoll.roll();
       this.RenderRollCard(cprRoll);
     }
