@@ -177,7 +177,6 @@ export default class CPRItem extends Item {
     LOGGER.debug("_measureDv | CPRItem | Called.");
     if (actor.sheet.token !== null) {
       actor.sheet.token.update({ "flags.cprDvTable": dvTable });
-      return;
     }
   }
 
