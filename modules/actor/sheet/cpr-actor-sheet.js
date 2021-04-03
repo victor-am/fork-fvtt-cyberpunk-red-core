@@ -288,19 +288,6 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  async _handleRollDialog(event, cprRoll) {
-    // Handle skipping of the user verification step
-    let skipDialog = event.ctrlKey;
-
-    const ctrlSetting = game.settings.get("cyberpunk-red-core", "invertRollCtrlFunction");
-    skipDialog = ctrlSetting ? skipDialog : !skipDialog;
-
-    if (skipDialog) {
-      const formData = await VerifyRoll.RenderPrompt(cprRoll);
-      mergeObject(cprRoll, formData, { overwrite: true });
-    }
-  }
-
   _getFireCheckbox(event) {
     LOGGER.trace("ActorID _getFireCheckbox | CPRActorSheet | Called.");
     const weaponID = $(event.currentTarget).attr("data-item-id");
