@@ -215,6 +215,7 @@ CPR.objectTypes = {
   netarch: "CPR.netarch",
   program: "CPR.program",
   skill: "CPR.skill",
+  criticalInjury: "CPR.criticalinjurytitle",
   vehicle: "CPR.vehicle",
   weapon: "CPR.weapon",
 };

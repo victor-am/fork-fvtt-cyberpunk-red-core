@@ -37,6 +37,7 @@ Hooks.once("init", async () => {
       "ammo",
       "gear",
       "skill",
+      "criticalInjury",
       "vehicle",
       "cyberdeck",
       "program",

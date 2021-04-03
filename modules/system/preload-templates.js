@@ -78,6 +78,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-netarch.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-program.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-skill.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/header/cpr-criticalInjury.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-vehicle.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-weapon.hbs",
     // Item Sheet - Description Partials
@@ -88,6 +89,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-netarch.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-program.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-skill.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/description/cpr-criticalInjury.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-vehicle.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-weapon.hbs",
     // Item Sheet - Settings Partials
@@ -98,6 +100,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-netarch.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-program.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-skill.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-criticalInjury.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-vehicle.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-weapon.hbs",
     // Item Sheet - Settings Common Partials

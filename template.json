@@ -277,7 +277,7 @@
       "reinforced": false,
       "armor": {
         "sp": 0,
-        "ablation": 0 
+        "ablation": 0
       },
       "restricted": false,
       "DV": 0,
@@ -297,7 +297,8 @@
       "program",
       "skill",
       "vehicle",
-      "weapon"
+      "weapon",
+      "criticalInjury"
     ],
     "templates": {
       "common": {
@@ -328,7 +329,7 @@
         "weaponType": "",
         "weaponSkill": "",
         "fireModes": {
-          "autoFire": 0, 
+          "autoFire": 0,
           "suppressiveFire": false
         },
         "quality": "",
@@ -472,6 +473,22 @@
       "difficulty": "typical",
       "core": false,
       "basic": false
+    },
+    "criticalEInjury": {
+      "templates": [
+        "common"
+      ],
+      "location": "body",
+      "effects": "",
+      "quickFix": {
+        "type": "firstaid",
+        "dv": 0
+      },
+      "treatment": {
+        "type": "paramedic",
+        "dv": 0
+      },
+      "deathSaveIncrease": true
     },
     "vehicle": {
       "templates": [
