@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable max-len */
 /* eslint-disable consistent-return */
 /* global Item game */
@@ -39,6 +40,9 @@ export default class CPRItem extends Item {
     if (data['data.type'] === "cyberwareInternal" || data['data.type'] === "cyberwareExternal" || data['data.type'] === "fashionware") {
       data['data.isFoundational'] = false;
     }
+    if (this.data.type === "weapon") {
+      data['data.dvTable'] = data['data.dvTable'] === null ? "" : data['data.dvTable'];
+    }
     super.update(data, options);
   }
 
@@ -56,7 +60,7 @@ export default class CPRItem extends Item {
     // const changedItems = [];
     switch (itemType) {
       case "weapon":
-        this._weaponAction(actionAttributes);
+        this._weaponAction(actor, actionAttributes);
         break;
       case "ammo":
         this._ammoAction(actionAttributes);
@@ -149,7 +153,7 @@ export default class CPRItem extends Item {
 
   // Weapon Item Methods
   // TODO - Refactor
-  async _weaponAction(actionAttributes) {
+  async _weaponAction(actor, actionAttributes) {
     LOGGER.debug("_weaponAction | CPRItem | Called.");
     const actionData = actionAttributes["data-action"].nodeValue;
     switch (actionData) {
@@ -165,10 +169,20 @@ export default class CPRItem extends Item {
       case "reload-ammo":
         this._weaponLoad(this.data.data.magazine.ammoId);
         break;
+      case "measure-dv":
+        this._measureDv(actor, this.data.data.dvTable);
+        break;
       default:
     }
     if (this.actor) {
       this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+    }
+  }
+
+  async _measureDv(actor, dvTable) {
+    LOGGER.debug("_measureDv | CPRItem | Called.");
+    if (actor.sheet.token !== null) {
+      actor.sheet.token.update({ "flags.cprDvTable": dvTable });
     }
   }
 
