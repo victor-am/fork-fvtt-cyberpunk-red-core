@@ -488,7 +488,7 @@
         "type": "paramedic",
         "dv": 0
       },
-      "deathSaveIncrease": true
+      "deathSaveIncrease": false
     },
     "vehicle": {
       "templates": [

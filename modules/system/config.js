@@ -272,6 +272,21 @@ CPR.itemQuality = {
   excellent: "CPR.excellent",
 };
 
+CPR.criticalInjuryLocation = {
+  body: "CPR.bodylocation",
+  head: "CPR.head",
+};
+
+CPR.criticalInjuryQuickFix = {
+  firstAid: "CPR.firstaid",
+  paramedic: "CPR.paramedic",
+};
+
+CPR.criticalInjuryTreatment = {
+  quickFix: "CPR.quickfix",
+  paramedicSurgery: "CPR.paramedicsurgery",
+  surgery: "CPR.surgery",
+};
 CPR.aimedLocation = {
   head: "CPR.head",
   heldItem: "CPR.helditem",
