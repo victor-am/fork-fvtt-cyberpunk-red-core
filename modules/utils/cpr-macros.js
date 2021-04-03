@@ -40,6 +40,7 @@ export default class CPRMacro {
 
     item.confirmRoll(rollType, cprRoll);
     await cprRoll.roll();
+    cprRoll.entityData = speaker;
     CPRChat.RenderRollCard(cprRoll);
 
     actor.setPreviousRoll(cprRoll);
