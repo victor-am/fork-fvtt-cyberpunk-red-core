@@ -44,7 +44,7 @@ export default class CPRMacro {
     CPRChat.RenderRollCard(cprRoll);
 
     // Need to figure out what we did here since this is gone??
-    //actor.setPreviousRoll(cprRoll);
+    // actor.setPreviousRoll(cprRoll);
     return true;
   }
 }
