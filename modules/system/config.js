@@ -278,7 +278,7 @@ CPR.criticalInjuryLocation = {
 };
 
 CPR.criticalInjuryQuickFix = {
-  firstAid: "CPR.firstaid",
+  firstAidParamedic: "CPR.firstaidparamedic",
   paramedic: "CPR.paramedic",
   notApplicable: "CPR.notapplicable",
 };
