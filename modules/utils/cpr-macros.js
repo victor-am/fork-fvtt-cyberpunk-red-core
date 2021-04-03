@@ -29,7 +29,7 @@ export default class CPRMacro {
       }
       default:
     }
-    const cprRoll = item.createRoll(rollType, actor._id, extraData);
+    let cprRoll = item.createRoll(rollType, actor._id, extraData);
     const event = {};
     event.ctrlKey = false;
     event.type = "macro";
@@ -38,7 +38,7 @@ export default class CPRMacro {
       await cprRoll.handleRollDialog(event);
     }
 
-    item.confirmRoll(rollType, cprRoll);
+    cprRoll = await item.confirmRoll(rollType, cprRoll);
     await cprRoll.roll();
     cprRoll.entityData = speaker;
     CPRChat.RenderRollCard(cprRoll);

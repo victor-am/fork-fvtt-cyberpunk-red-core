@@ -68,18 +68,24 @@ export default class CPRItem extends Item {
   confirmRoll(cprRoll) {
     LOGGER.trace("confirmRoll | CPRItem | Called.");
     const itemType = this.data.type;
+    const localCprRoll = cprRoll;
     if (itemType === "weapon") {
-      if (cprRoll instanceof CPRRolls.CPRAttackRoll) {
+      if (localCprRoll instanceof CPRRolls.CPRAttackRoll) {
         if (this.data.data.isRanged) {
-          this.fireRangedWeapon(cprRoll);
+          this.fireRangedWeapon(localCprRoll);
+          const ammoType = this._getLoadedAmmoType();
+          if (ammoType !== "undefined") {
+            localCprRoll.rollCardExtraArgs.ammoType = ammoType;
+          }
         }
       }
-      if (cprRoll instanceof CPRRolls.CPRDamageRoll) {
-        if (cprRoll.isAutofire) {
-          cprRoll.setAutofire();
+      if (localCprRoll instanceof CPRRolls.CPRDamageRoll) {
+        if (localCprRoll.isAutofire) {
+          localCprRoll.setAutofire();
         }
       }
     }
+    return localCprRoll;
   }
 
   // ammo Item Methods
@@ -287,6 +293,17 @@ export default class CPRItem extends Item {
     // don't go negative
     this.data.data.magazine.value = Math.max(this.data.data.magazine.value - discharged, 0);
     return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+  }
+
+  _getLoadedAmmoType() {
+    LOGGER.trace("_getAmmoType | CPRItem | Called.");
+    if (this.actor) {
+      const ammo = this.actor.items.find((i) => i.data._id ===  this.data.data.magazine.ammoId);
+      if (ammo) {
+        return ammo.data.data.type;
+      }
+    }
+    return undefined;
   }
 
   toggleFavorite() {

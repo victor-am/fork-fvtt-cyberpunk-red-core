@@ -17,7 +17,8 @@
   grid-template-columns: 20px auto 20px;
   grid-template-rows: auto;
   grid-template-areas:
-    "subtitle-left subtitle-center subtitle-right";
+    "subtitle-left subtitle-center subtitle-right"
+    "subtitle-2-left subtitle-2-center subtitle-2-right";
 }
 
 .rollcard-subtitle-left{
@@ -33,6 +34,18 @@
   grid-area: subtitle-right;
 }
 
+.rollcard-subtitle-2-left{
+  grid-area: subtitle-2-left;
+}
+
+.rollcard-subtitle-2-center{
+  grid-area: subtitle-2-center;
+  justify-self: center;
+}
+
+.rollcard-subtitle-2-right{
+  grid-area: subtitle-2-right;
+}
 
 .rollcard {
   display              : grid;

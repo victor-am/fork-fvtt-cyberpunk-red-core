@@ -263,7 +263,7 @@ export default class CPRActorSheet extends ActorSheet {
 
     if (item !== null) {
       // Do any actions that need to be done as part of a roll, like ammo decrementing
-      await item.confirmRoll(cprRoll);
+      cprRoll = await item.confirmRoll(cprRoll);
     }
 
     // Let's roll!
