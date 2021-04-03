@@ -335,6 +335,10 @@ export default class Migration {
       case "vehicle": {
         return this.migrateVehicle(itemData);
       }
+      case "gear": {
+        return this.migrateGear(itemData);
+      }
+
       default:
     }
     return itemData;
@@ -366,6 +370,14 @@ export default class Migration {
       itemData.data.sdp = itemData.data.spd;
       delete itemData.data.spd;
     }
+    return itemData;
+  }
+
+  static migrateGear(itemData) {
+    if ((typeof itemData.data.equipped) === "undefined") {
+      itemData.data.equipped = "owned";
+    }
+
     return itemData;
   }
 }
