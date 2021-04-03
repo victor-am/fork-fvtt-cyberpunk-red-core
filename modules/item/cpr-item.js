@@ -298,7 +298,7 @@ export default class CPRItem extends Item {
   _getLoadedAmmoType() {
     LOGGER.trace("_getAmmoType | CPRItem | Called.");
     if (this.actor) {
-      const ammo = this.actor.items.find((i) => i.data._id ===  this.data.data.magazine.ammoId);
+      const ammo = this.actor.items.find((i) => i.data._id === this.data.data.magazine.ammoId);
       if (ammo) {
         return ammo.data.data.type;
       }
@@ -414,6 +414,12 @@ export default class CPRItem extends Item {
         break;
       }
       default:
+    }
+    if (this.data.data.isRanged) {
+      const ammoType = this._getLoadedAmmoType();
+      if (ammoType !== "undefined") {
+        cprRoll.rollCardExtraArgs.ammoType = ammoType;
+      }
     }
     return cprRoll;
   }
