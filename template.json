@@ -481,11 +481,11 @@
       "location": "body",
       "effects": "",
       "quickFix": {
-        "type": "firstaid",
+        "type": "firstAid",
         "dv": 0
       },
       "treatment": {
-        "type": "paramedic",
+        "type": "quickFix",
         "dv": 0
       },
       "deathSaveIncrease": false

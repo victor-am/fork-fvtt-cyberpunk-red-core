@@ -37,6 +37,7 @@
                     </div>
                 </li>
                 {{!-- Critical Injury Quick Fix DV Settings--}}
+                {{#if (compare data.quickFix.type "!==" "notApplicable")}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.quickfix"}} {{localize "CPR.dv"}}
@@ -45,6 +46,7 @@
                         <input name="data.quickFix.dv" class="" type="number" value="{{data.quickFix.dv}}">
                     </div>
                 </li>
+                {{/if}}
                 {{!-- Critical Injury Treatment Type Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">

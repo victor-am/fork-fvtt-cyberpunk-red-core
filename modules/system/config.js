@@ -280,11 +280,12 @@ CPR.criticalInjuryLocation = {
 CPR.criticalInjuryQuickFix = {
   firstAid: "CPR.firstaid",
   paramedic: "CPR.paramedic",
+  notApplicable: "CPR.notapplicable",
 };
 
 CPR.criticalInjuryTreatment = {
-  quickFix: "CPR.quickfix",
   paramedicSurgery: "CPR.paramedicsurgery",
+  quickFix: "CPR.quickfix",
   surgery: "CPR.surgery",
 };
 CPR.aimedLocation = {
