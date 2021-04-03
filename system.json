@@ -25,6 +25,14 @@
       "path": "packs/cyberware.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "DV Rolltables - Core",
+      "entity": "RollTable",
+      "name": "dvTables",
+      "path": "packs/dvTables.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
     }
   ],
   "languages": [
