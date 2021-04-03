@@ -474,7 +474,7 @@
       "core": false,
       "basic": false
     },
-    "criticalEInjury": {
+    "criticalInjury": {
       "templates": [
         "common"
       ],
