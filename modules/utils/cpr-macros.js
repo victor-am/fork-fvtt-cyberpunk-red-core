@@ -38,12 +38,13 @@ export default class CPRMacro {
       await cprRoll.handleRollDialog(event);
     }
 
-    cprRoll = await item.confirmRoll(rollType, cprRoll);
+    cprRoll = await item.confirmRoll(cprRoll);
     await cprRoll.roll();
     cprRoll.entityData = speaker;
     CPRChat.RenderRollCard(cprRoll);
 
-    actor.setPreviousRoll(cprRoll);
+    // Need to figure out what we did here since this is gone??
+    //actor.setPreviousRoll(cprRoll);
     return true;
   }
 }
