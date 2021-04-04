@@ -58,6 +58,7 @@ export default function preloadHandlebarsTemplates() {
     // Common Partials - Actions
     "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-equip-glyph.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-install-glyph.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-uninstall-glyph.hbs",
@@ -71,6 +72,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-armor.hbs",
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-weapons.hbs",
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-skills.hbs",
+    "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-cyberware.hbs",
 
     // Item Sheet
     "systems/cyberpunk-red-core/templates/item/cpr-item-sheet.hbs",

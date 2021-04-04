@@ -1,8 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 /* eslint-disable no-shadow */
-/* eslint-disable class-methods-use-this */
-/* global renderTemplate, FormDataExtended, Dialog */
+/* global renderTemplate, FormDataExtended, Dialog game */
 // TODO - Revist this method of dialog creation.
 
 import LOGGER from "../utils/cpr-logger.js";
@@ -30,16 +27,12 @@ export default class CyberwareInstallPrompt {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
               label: "Cancel",
-              /* eslint-disable no-shadow */
               callback: (html) => _onCancel(html), // TODO fix no-shadow
-              /* eslint-enable no-shadow */
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
               label: "Install",
-              /* eslint-disable no-shadow */
               callback: (html) => _onConfirm(html), // TODO fix no-shadow
-              /* eslint-enable no-shadow */
             },
           },
           default: "confirm",

@@ -922,6 +922,7 @@ button,
   padding: 5px;
   gap: 10px;
   display: grid;
+  grid-template-columns: 1fr 1fr;
   grid-area: mook-gear;
   grid-template-areas: "mook-weapon-list mook-armor";
 }
@@ -933,11 +934,12 @@ button,
 }
 .mook-sheet .mook-weapon {
   display: grid;
-  grid-template-columns: 1fr 0.5fr 0.5fr;
+  grid-template-columns: 3fr 1fr 1fr;
   grid-template-areas: "mook-weapon-name mook-weapon-mode mook-weapon-rolls";
 }
 .mook-sheet .mook-weapon .mook-weapon-name {
   grid-area: mook-weapon-name;
+  text-overflow: ellipsis;
 }
 .mook-sheet .mook-weapon .mook-weapon-mode {
   grid-area: mook-weapon-mode;
@@ -1076,6 +1078,7 @@ button,
 .fight-tab .weapon-name {
   flex: 0 0 25%;
 }
+.fight-tab .weapon-measure,
 .fight-tab .weapon-attack,
 .fight-tab .weapon-damage {
   flex: 0 0 20px;

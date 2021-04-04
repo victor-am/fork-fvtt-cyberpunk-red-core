@@ -1,4 +1,10 @@
+# DEV WIP CHANGES
+- Added the ability to show DV for ranged weapons when using the ruler for measurement
+  - Right clicking a token, you can select a DV table to use and after setting this, any ruler measurements will show the DV along with the measured range.
+  - Ranged Weapons can be also configured to use a specific DV table in the item settings. Weapons with DV Tables associated with them will have a ruler in their Fight Tab which can be clicked to set the DV Table for the associated token to quickly switch DV tables when using the Ruler Measurement Tool.
+- Added a Compendium with Roll Tables for Core Ranged DV Measurements from the book also providing a page reference in the description field.  Compendium contains a "DV Generic" table that has a description explaining how to create custom DV tables and how they work with the system.
 
+  
 # Version: 0.66  (Hotfix) |  Date:  2021-03-21
 **Bug Fix:**
 - Aimed shot was using the Autofire Skill when attacking instead of using the Weapon Skill

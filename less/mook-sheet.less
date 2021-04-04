@@ -57,6 +57,7 @@
         padding: 5px;
         gap: 10px;
         display: grid;
+        grid-template-columns: 1fr 1fr;
         grid-area: mook-gear;
         grid-template-areas: "mook-weapon-list mook-armor";
         .mook-weapon-list {grid-area: mook-weapon-list; }
@@ -65,9 +66,12 @@
 
     .mook-weapon { 
         display: grid;
-        grid-template-columns: 1fr 0.5fr 0.5fr;
+        grid-template-columns: 3fr 1fr 1fr;
         grid-template-areas: "mook-weapon-name mook-weapon-mode mook-weapon-rolls";
-        .mook-weapon-name { grid-area: mook-weapon-name; }
+        .mook-weapon-name { 
+            grid-area: mook-weapon-name; 
+            text-overflow: ellipsis;
+        }
         .mook-weapon-mode { grid-area: mook-weapon-mode; }
         .mook-weapon-rolls { grid-area: mook-weapon-rolls; }
     }

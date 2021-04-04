@@ -3,6 +3,7 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
+import DvUtils from "../../utils/cpr-dvUtils.js";
 /**
  * Extend the basic ActorSheet.
  * @extends {ItemSheet}
@@ -49,6 +50,7 @@ export default class CPRItemSheet extends ItemSheet {
     } else {
       data.filteredItems.skill = await SystemUtils.GetCoreSkills();
     }
+    data.dvTableNames = DvUtils.GetDvTables();
     return data;
   }
 
