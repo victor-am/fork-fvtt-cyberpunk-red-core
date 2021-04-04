@@ -7,7 +7,7 @@
                 <span class="item-detail gear-actions bg-black text-nowrap">{{#if (systemConfig "playersCreateInventory")}}<a class="item-create" title="{{localize "CPR.createnewitem"}}" data-item-type="{{criticalInjury}}"><i class="fas fa-plus-circle text-padding-right"></i></a>{{/if}}</span>
             </span>
         </li>
-        <div class="injuries-content">
+        <div class="critical-injury-content">
           {{!-- Critical Injury on Actor --}}
             <ol class="items-list critical-injuries-list"></ol>
             {{#each actor.data.criticalInjuries as |injury|}}
@@ -21,7 +21,7 @@
             </ol>
             <hr>
             {{!-- Critical Injury as Item --}}
-            <ol class="items-list critical-injuries-list">
+            <ol class="items-list critical-injury-list">
               {{#each (sort actor.filteredItems.criticalInjury "name") as |criticalInjury| }}
               <li class="flex-space-between item flexrow" data-item-id="{{criticalInjury._id}}" data-item-category="{{criticalInjury.type}}" draggable="true">
                 <div><a class="name item-edit text-nowrap" title="{{criticalInjury.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{criticalInjury.name}}</a></div>
