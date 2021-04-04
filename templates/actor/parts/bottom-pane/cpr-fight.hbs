@@ -4,9 +4,11 @@
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
                 {{localize "CPR.critinjuries"}}<a class="add-critical-injury" title="{{localize "CPR.addcriticalinjury"}}"><i class="fas fa-plus-circle text-float-right text-padding-right"></i></a>
+                <span class="item-detail gear-actions bg-black text-nowrap">{{#if (systemConfig "playersCreateInventory")}}<a class="item-create" title="{{localize "CPR.createnewitem"}}" data-item-type="{{criticalInjury}}"><i class="fas fa-plus-circle text-padding-right"></i></a>{{/if}}</span>
             </span>
         </li>
         <div class="injuries-content">
+          {{!-- Critical Injury on Actor --}}
             <ol class="items-list critical-injuries-list"></ol>
             {{#each actor.data.criticalInjuries as |injury|}}
             <li class="flex-space-between item flexrow" data-item-id="{{injury.id}}" >
@@ -18,10 +20,14 @@
             {{/each}}
             </ol>
             <hr>
+            {{!-- Critical Injury as Item --}}
             <ol class="items-list critical-injuries-list">
               {{#each (sort actor.filteredItems.criticalInjury "name") as |criticalInjury| }}
-              <li class="flex-space-between item flexrow" data-item-id="{{item._id}}" data-item-category="{{item.type}}" draggable="true">
-                <a class="name item-edit" title="{{criticalInjury.name}}">{{criticalInjury.name}}</a>
+              <li class="flex-space-between item flexrow" data-item-id="{{criticalInjury._id}}" data-item-category="{{criticalInjury.type}}" draggable="true">
+                <div><a class="name item-edit text-nowrap" title="{{criticalInjury.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{criticalInjury.name}}</a></div>
+                <div class="item-detail gear-actions text-nowrap">
+                  <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red text-float-right text-padding-right" title="Delete Item"></i></a>
+                </div>
               </li>
               {{/each}}
             </ol>
