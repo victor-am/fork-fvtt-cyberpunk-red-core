@@ -121,10 +121,17 @@ export default class CPRActor extends Actor {
     // Death save
     let basePenalty = 0;
     const { criticalInjuries } = this.data.data;
+    const critInjury = this.data.filteredItems.criticalInjury;
     criticalInjuries.forEach((injury) => {
       const { mods } = injury;
       const hasPenalty = (mods.filter((mod) => mod.name === "deathSavePenalty"))[0].value;
       if (hasPenalty) {
+        basePenalty += 1;
+      }
+    });
+    critInjury.forEach((criticalInjury) => {
+      const { deathSaveIncrease } = criticalInjury.data.data;
+      if (deathSaveIncrease) {
         basePenalty += 1;
       }
     });
