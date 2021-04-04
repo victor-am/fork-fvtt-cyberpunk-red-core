@@ -8,7 +8,7 @@
     </div>
     <div class="mook-details">
       <div class="mook-stats fg-white bg-red">
-        {{> "systems/cyberpunk-red-core/templates/actor/cpr-mook-stats.hbs"}}
+        {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-stats.hbs"}}
       </div>
       <div class="mook-derived-stats fg-white bg-red">
         <div class="mook-hp">
@@ -42,17 +42,16 @@
       </div>
       <div class="mook-gear fg-white bg-red">
         <div class="mook-weapon-list">
-          {{> "systems/cyberpunk-red-core/templates/actor/cpr-mook-weapons.hbs"}}
+          {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-weapons.hbs"}}
         </div>
         <div class="mook-armor">
-          {{> "systems/cyberpunk-red-core/templates/actor/cpr-mook-armor.hbs"}}
+          {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-armor.hbs"}}
         </div>
       </div>
       <div class="mook-skills fg-white bg-red">
-        {{> "systems/cyberpunk-red-core/templates/actor/cpr-mook-skills.hbs"}}
+        {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-skills.hbs"}}
       </div>
       <div class="mook-special fg-white bg-red">
-        <span>Cyberware and Special Equipment</span>
         <div class="note-pad">
           {{editor content=data.information.notes target="data.information.notes" button=true owner=owner
           editable=editable}}
