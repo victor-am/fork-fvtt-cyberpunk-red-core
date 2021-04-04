@@ -194,6 +194,18 @@ export default function registerHandlebarsHelpers() {
         }
       }
 
+      if (diceSides === 10) {
+        diceSize = 60;
+        if (diceCount > 2) {
+          diceSize = 40;
+        }
+        if (diceCount > 4) {
+          diceSize = 30;
+        }
+        if (diceCount > 10) {
+          diceSize = 20;
+        }
+      }
       if (diceSize) {
         className = `${className} ${className}-${diceSize}`;
       }
@@ -260,7 +272,8 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("fireflag", (actor, firetype, weaponID) => {
-    const flag = actor.flags["cyberpunk-red-core"][`firetype-${weaponID}`];
+    LOGGER.trace("Calling fireflag Helper");
+    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
     if (flag === firetype) {
       return "checked";
     }
@@ -268,4 +281,12 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("systemConfig", (settingName) => game.settings.get("cyberpunk-red-core", settingName));
+
+  Handlebars.registerHelper("debug", (msg) => {
+    LOGGER.debug(msg);
+  });
+
+  Handlebars.registerHelper("trace", (msg) => {
+    LOGGER.trace(msg);
+  });
 }

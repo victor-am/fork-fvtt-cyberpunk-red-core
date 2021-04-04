@@ -1,13 +1,22 @@
-{{log "CPR-REPAIR-GLYPH.HBS"}}
-{{#if (compare data.bodyLocation.ablation ">" 0)}}
-    <a class="repair" data-item-id="{{_id}}">
-        <i class="fas fa-tools" title={{localize "CPR.repair"}}></i>
-    </a>
-{{else}}
-    {{#if (compare data.headLocation.ablation ">" 0)}}
+{{trace "CPR-REPAIR-GLYPH.HBS"}}
+{{#if (compare data.isBodyLocation "||" data.isHeadLocation)}}
+    {{#if (compare data.bodyLocation.ablation ">" 0)}}
         <a class="repair" data-item-id="{{_id}}">
             <i class="fas fa-tools" title={{localize "CPR.repair"}}></i>
         </a>
+    {{else}}
+        {{#if (compare data.headLocation.ablation ">" 0)}}
+            <a class="repair" data-item-id="{{_id}}">
+                <i class="fas fa-tools" title={{localize "CPR.repair"}}></i>
+            </a>
+        {{/if}}
     {{/if}}
 {{/if}}
-{{log "END CPR-REPAIR-GLYPH.HBS"}}
+{{#if data.isShield}}
+    {{#if (compare data.shieldHitPoints.value "<" data.shieldHitPoints.max)}}
+        <a class="repair" data-item-id="{{_id}}">
+        <i class="fas fa-tools" title={{localize "CPR.repair"}}></i>
+        </a>
+    {{/if}}
+{{/if}}
+{{trace "END CPR-REPAIR-GLYPH.HBS"}}

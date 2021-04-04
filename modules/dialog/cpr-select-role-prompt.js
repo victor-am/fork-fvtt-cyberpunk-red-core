@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-/* eslint-disable no-undef */
+/* global renderTemplate FormDataExtended Dialog */
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
@@ -32,16 +32,12 @@ export default class SelectRolesPrompt {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
               label: "Cancel",
-              /* eslint-disable no-shadow */
               callback: (html) => _onCancel(html), // TODO fix no-shadow
-              /* eslint-enable no-shadow */
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
               label: "Confirm",
-              /* eslint-disable no-shadow */
               callback: (html) => _onConfirm(html), // TODO fix no-shadow
-              /* eslint-enable no-shadow */
             },
           },
           default: "confirm",
