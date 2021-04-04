@@ -1,0 +1,66 @@
+{{trace "CPR-MOOK-WEAPONS.HBS"}}
+<div class="weapon-section">
+  <div class="items-header flexrow">
+    <span class="item-name section-name fg-white bg-red text-nowrap text-padding-left">
+      {{localize "CPR.weapons"}}
+    </span>
+  </div>
+  <div class="weapon-content fg-black">
+    <ol class="items-list weapons-grid">
+      {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
+        {{#if (compare weapon.data.equipped "===" "equipped")}}
+          <li class="item flexrow" data-item-id="{{weapon._id}}">
+            <div class="mook-weapon">
+              <div class="item-name mook-weapon-name">
+                <a class="name item-edit" title="{{weapon.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">
+                  {{weapon.name}}
+                </a>
+                {{#if (compare weapon.data.quality "!==" "standard")}}
+                  ({{localize weapon.data.quality}})
+                {{/if}}
+                {{#if weapon.data.magazine.ammoId}}
+                  <br>
+                  ({{localize "CPR.ammo"}}: {{weapon.data.magazine.value}}/{{weapon.data.magazine.max}})
+                {{/if}}
+                {{#if weapon.data.isRanged}}
+                  {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
+                {{/if}}
+              </div>
+              <div class="mook-weapon-mode">
+                <div>
+                  {{localize "CPR.aim"}}
+                  <input class="fire-checkbox" type="checkbox" {{fireflag ../actor "aimed" weapon._id}}
+                    id="aimed-{{weapon._id}}" data-target="aimed" data-item-id={{weapon._id}}>
+                </div>
+                {{#if (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType)}}
+                  <div>
+                    {{localize "CPR.af"}}
+                    <input class="fire-checkbox" type="checkbox" {{fireflag ../actor "autofire" weapon._id}}
+                      id="autofire-{{weapon._id}}" data-target="autofire" data-item-id={{weapon._id}}>   
+                  </div>
+                  <div>
+                    {{localize "CPR.sf"}}
+                    <input class="fire-checkbox" type="checkbox" {{fireflag ../actor "suppressive" weapon._id}}
+                      id="suppressive-{{weapon._id}}" data-target="suppressive" data-item-id={{weapon._id}}>
+                  </div>
+                {{/if}}
+              </div>
+              <div class="mook-weapon-rolls item-detail text-large fight-weapon-attack text-nowrap">
+                <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
+                  <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
+                </a>
+                {{#if (compare (fireflag ../actor "suppressive" weapon._id) "!==" "checked")}}
+                  <a class="rollable damage-roll-{{weapon._id}}" data-roll-type="damage" data-item-id={{weapon._id}}
+                    data-damage="{{weapon.data.damage}}">
+                    <i class="fas fa-tint red-fg" title="Roll Damage"></i>
+                  </a>
+                {{/if}}
+              </div>
+            </div>
+          </li>
+        {{/if}}
+      {{/each}}
+    </ol>
+  </div>
+</div>
+{{trace "END CPR-MOOK-WEAPONS.HBS"}}

@@ -4,13 +4,22 @@
     font-family: "Audimat Mono";
     background-color: @chrome-white;
     display: grid;
-    gap: 5px;
     grid-template-areas:
-        "mook-stats"
-        "mook-derived"
-        "mook-gear"
-        "mook-skills"
-        "mook-special";
+        "mook-name mook-details";
+
+    .mook-name { grid-area: mook-name; }
+    
+    .mook-details {
+        display: grid;
+        gap: 5px;
+        grid-area: mook-details;
+        grid-template-areas:
+         "mook-stats"
+            "mook-derived"
+            "mook-gear"
+            "mook-skills"
+            "mook-special";
+    }
 
     .mook-stats {
         padding: 5px;
@@ -30,6 +39,7 @@
         .mook-body-stat { grid-area: mook-body-stat; }
         .mook-emp-stat { grid-area: mook-emp-stat; }
     }
+
     .mook-derived-stats {
         padding: 5px;
         gap: 10px;
@@ -45,11 +55,21 @@
 
     .mook-gear { 
         padding: 5px;
+        gap: 10px;
         display: grid;
         grid-area: mook-gear;
-        grid-template-areas: "mook-weapons mook-armor";
-        .mook-weapons { grid-area: mook-weapons; }
+        grid-template-areas: "mook-weapon-list mook-armor";
+        .mook-weapon-list {grid-area: mook-weapon-list; }
         .mook-armor { grid-area: mook-armor; }
+    }
+
+    .mook-weapon { 
+        display: grid;
+        grid-template-columns: 1fr 0.5fr 0.5fr;
+        grid-template-areas: "mook-weapon-name mook-weapon-mode mook-weapon-rolls";
+        .mook-weapon-name { grid-area: mook-weapon-name; }
+        .mook-weapon-mode { grid-area: mook-weapon-mode; }
+        .mook-weapon-rolls { grid-area: mook-weapon-rolls; }
     }
 
     .mook-skills { 
