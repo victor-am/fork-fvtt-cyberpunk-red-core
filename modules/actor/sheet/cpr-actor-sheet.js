@@ -1,11 +1,7 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable prefer-const */
-/* eslint-disable max-len */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable class-methods-use-this */
-/* global ActorSheet */
-/* global mergeObject, $, setProperty game */
-/* eslint no-prototype-builtins: ["warn"] */
+/* global ActorSheet, mergeObject, $, setProperty game */
+/* eslint class-methods-use-this: ["warn", {
+  "exceptMethods": ["_handleRollDialog", "_getHands", "_getItemId", "_getObjProp"]
+}] */
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
 import CPRChat from "../../chat/cpr-chat.js";
@@ -92,16 +88,16 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".reset-value").click((event) => this._resetActorValue(event));
 
     // Select Roles for Character
-    html.find(".select-roles").click((event) => this._selectRoles(event));
+    html.find(".select-roles").click(() => this._selectRoles());
 
-    html.find(".add-critical-injury").click((event) => this._addCriticalInjury(event));
+    html.find(".add-critical-injury").click(() => this._addCriticalInjury());
 
     html.find(".edit-critical-injury").click((event) => this._editCriticalInjury(event));
 
     html.find(".delete-critical-injury").click((event) => this._deleteCriticalInjury(event));
 
     // Set Lifepath for Character
-    html.find(".set-lifepath").click((event) => this._setLifepath(event));
+    html.find(".set-lifepath").click(() => this._setLifepath());
 
     html.find(".checkbox").click((event) => this._checkboxToggle(event));
 
@@ -118,7 +114,7 @@ export default class CPRActorSheet extends ActorSheet {
       const itemOrderedList = $(collapsibleElement).children("ol");
       const itemList = $(itemOrderedList).children("li");
       itemList.each((lineIndex) => {
-        let lineItem = itemList[lineIndex];
+        const lineItem = itemList[lineIndex];
         if ($(lineItem).hasClass("item") && $(lineItem).hasClass("favorite")) {
           $(lineItem).toggleClass("hide");
         }
@@ -128,28 +124,30 @@ export default class CPRActorSheet extends ActorSheet {
           this.options.collapsedSections.push(event.currentTarget.id);
         }
       } else {
-        this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
+        this.options.collapsedSections = this.options.collapsedSections.filter(
+          (sectionName) => sectionName !== event.currentTarget.id,
+        );
         $(categoryTarget).click();
       }
     });
 
     html.find(".expand-button").click((event) => {
       const collapsibleElement = $(event.currentTarget).parents(".collapsible");
-      const favoritesIdentifier = `${event.currentTarget.id}-showFavorites`;
-      const categoryTarget = $(collapsibleElement.find(`#${favoritesIdentifier}`));
       $(collapsibleElement).find(".collapse-icon").toggleClass("hide");
       $(collapsibleElement).find(".expand-icon").toggleClass("hide");
       const itemOrderedList = $(collapsibleElement).children("ol");
       const itemList = $(itemOrderedList).children("li");
       itemList.each((lineIndex) => {
-        let lineItem = itemList[lineIndex];
+        const lineItem = itemList[lineIndex];
         if ($(lineItem).hasClass("item") && !$(lineItem).hasClass("favorite")) {
           $(lineItem).toggleClass("hide");
         }
       });
 
       if (this.options.collapsedSections.includes(event.currentTarget.id)) {
-        this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
+        this.options.collapsedSections = this.options.collapsedSections.filter(
+          (sectionName) => sectionName !== event.currentTarget.id,
+        );
       } else {
         this.options.collapsedSections.push(event.currentTarget.id);
       }
@@ -182,8 +180,8 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Item Dragging
 
-    let handler = (ev) => this._onDragItemStart(ev);
-    html.find('.item').each((i, li) => {
+    const handler = (ev) => this._onDragItemStart(ev);
+    html.find(".item").each((i, li) => {
       li.setAttribute("draggable", true);
       li.addEventListener("dragstart", handler, false);
     });
@@ -206,7 +204,9 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
 
-    html.find(".eurobucks-input").click((event) => event.target.select()).change((event) => this._updateEurobucks(event));
+    html.find(".eurobucks-input").click((event) => event.target.select()).change(
+      (event) => this._updateEurobucks(event),
+    );
 
     html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
 
@@ -335,12 +335,14 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
     const location = $(event.currentTarget).attr("data-location");
     const armorList = this.actor.getEquippedArmors(location);
-    let updateList = [];
+    const updateList = [];
     switch (location) {
       case "head": {
         armorList.forEach((a) => {
-          let armorData = a.data;
-          armorData.data.headLocation.ablation = Math.min((a.getData().headLocation.ablation + 1), a.getData().headLocation.sp);
+          const armorData = a.data;
+          armorData.data.headLocation.ablation = Math.min(
+            (a.getData().headLocation.ablation + 1), a.getData().headLocation.sp,
+          );
           updateList.push(armorData);
         });
         await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
@@ -348,8 +350,10 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "body": {
         armorList.forEach((a) => {
-          let armorData = a.data;
-          armorData.data.bodyLocation.ablation = Math.min((a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp);
+          const armorData = a.data;
+          armorData.data.bodyLocation.ablation = Math.min(
+            (a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp,
+          );
           updateList.push(armorData);
         });
         await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
@@ -357,7 +361,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "shield": {
         armorList.forEach((a) => {
-          let armorData = a.data;
+          const armorData = a.data;
           armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - 1), 0);
           updateList.push(armorData);
         });
@@ -414,9 +418,11 @@ export default class CPRActorSheet extends ActorSheet {
     const installedFoundationalCyberware = installedCyberware.filter((c) => c.data.data.isFoundational === true);
 
     // Now sort allInstalledCybere by type, and only get foundational
-    let sortedInstalledCyberware = {};
+    const sortedInstalledCyberware = {};
     for (const [type] of Object.entries(CPR.cyberwareTypeList)) {
-      sortedInstalledCyberware[type] = installedFoundationalCyberware.filter((cyberware) => cyberware.getData().type === type);
+      sortedInstalledCyberware[type] = installedFoundationalCyberware.filter(
+        (cyberware) => cyberware.getData().type === type,
+      );
       sortedInstalledCyberware[type] = sortedInstalledCyberware[type].map(
         (cyberware) => ({ foundation: cyberware, optionals: [] }),
       );
@@ -463,17 +469,15 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  // TODO - Move to cpr-actor
-
   // ARMOR HELPERS
+  // TODO - Move to armor helpers to cpr-actor
+  // TODO - Assure all private methods can be used outside of the context of UI controls as well.
 
-  // TODO - Move to cpr-actor
   _getHands() {
     LOGGER.trace("ActorID _getHands | CPRActorSheet | Called.");
     return 2;
   }
 
-  // TODO - Move to cpr-actor
   _getFreeHands() {
     LOGGER.trace("ActorID _getFreeHands | CPRActorSheet | Called.");
     const weapons = this._getEquippedWeapons();
@@ -482,7 +486,6 @@ export default class CPRActorSheet extends ActorSheet {
     return freeHands;
   }
 
-  // TODO - Move to cpr-actor
   _canHoldWeapon(weapon) {
     LOGGER.trace("ActorID _canHoldWeapon | CPRActorSheet | Called.");
     const needed = weapon.data.data.handsReq;
@@ -492,15 +495,12 @@ export default class CPRActorSheet extends ActorSheet {
     return true;
   }
 
-  // TODO - Move to cpr-actor
   _getEquippedWeapons() {
     LOGGER.trace("ActorID _getEquippedWeapons | CPRActorSheet | Called.");
     const weapons = this.actor.data.filteredItems.weapon;
     return weapons.filter((a) => a.getData().equipped === "equipped");
   }
 
-  // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
-  // TODO - Move to cpr-actor
   _updateSkill(event) {
     LOGGER.trace("ActorID _updateSkill | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
@@ -553,7 +553,7 @@ export default class CPRActorSheet extends ActorSheet {
 
   _getItemId(event) {
     LOGGER.trace("ActorID _getItemId | CPRActorSheet | Called.");
-    let id = $(event.currentTarget).parents(".item").attr("data-item-id");
+    const id = $(event.currentTarget).parents(".item").attr("data-item-id");
     return id;
   }
 
@@ -573,7 +573,9 @@ export default class CPRActorSheet extends ActorSheet {
     // If setting is true, prompt before delete, else delete.
     if (setting) {
       const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${item.data.name}?`;
-      const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage);
+      const confirmDelete = await ConfirmPrompt.RenderPrompt(
+        SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,
+      );
       if (!confirmDelete) {
         return;
       }
@@ -620,22 +622,29 @@ export default class CPRActorSheet extends ActorSheet {
     this.actor.createOwnedItem(itemData, { renderSheet: true });
   }
 
-  async _selectRoles(event) {
+  async _selectRoles() {
     let formData = { actor: this.actor.getData().roleInfo, roles: CPR.roleList };
     formData = await SelectRolePrompt.RenderPrompt(formData);
     await this.actor.setRoles(formData);
   }
 
-  async _addCriticalInjury(event) {
-    let formData = await CriticalInjuryPrompt.RenderPrompt();
-    await this.actor.addCriticalInjury(formData.injuryLocation, formData.injuryName, formData.injuryEffects, formData.injuryQuickFix, formData.injuryTreatment, [{ name: "deathSavePenalty", value: formData.deathSave }]);
+  async _addCriticalInjury() {
+    const formData = await CriticalInjuryPrompt.RenderPrompt();
+    await this.actor.addCriticalInjury(
+      formData.injuryLocation, formData.injuryName, formData.injuryEffects,
+      formData.injuryQuickFix, formData.injuryTreatment,
+      [{ name: "deathSavePenalty", value: formData.deathSave }],
+    );
   }
 
   async _editCriticalInjury(event) {
     const injuryId = $(event.currentTarget).attr("data-injury-id");
     let formData = this.actor.getCriticalInjury(injuryId);
     formData = await CriticalInjuryPrompt.RenderPrompt(formData);
-    await this.actor.editCriticalInjury(injuryId, formData.injuryLocation, formData.injuryName, formData.injuryEffects, formData.injuryQuickFix, formData.injuryTreatment, [{ name: "deathSavePenalty", value: formData.deathSave }]);
+    await this.actor.editCriticalInjury(
+      injuryId, formData.injuryLocation, formData.injuryName, formData.injuryEffects,
+      formData.injuryQuickFix, formData.injuryTreatment, [{ name: "deathSavePenalty", value: formData.deathSave }],
+    );
   }
 
   async _deleteCriticalInjury(event) {
@@ -645,7 +654,9 @@ export default class CPRActorSheet extends ActorSheet {
     // If setting is true, prompt before delete, else delete.
     if (setting) {
       const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${injury.name}?`;
-      const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage);
+      const confirmDelete = await ConfirmPrompt.RenderPrompt(
+        SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,
+      );
       if (!confirmDelete) {
         return;
       }
@@ -653,7 +664,7 @@ export default class CPRActorSheet extends ActorSheet {
     await this.actor.deleteCriticalInjury(injuryId);
   }
 
-  async _setLifepath(event) {
+  async _setLifepath() {
     const formData = await SetLifepathPrompt.RenderPrompt(this.actor.data);
     await this.actor.setLifepath(formData);
   }
@@ -743,7 +754,7 @@ export default class CPRActorSheet extends ActorSheet {
 
   _onDragItemStart(event) {
     LOGGER.trace("ActorID _onDragItemStart | CPRActorSheet | called.");
-    let itemId = event.currentTarget.getAttribute("data-item-id");
+    const itemId = event.currentTarget.getAttribute("data-item-id");
     const item = this.actor.getEmbeddedEntity("OwnedItem", itemId);
     event.dataTransfer.setData("text/plain", JSON.stringify({
       type: "Item",
@@ -756,13 +767,14 @@ export default class CPRActorSheet extends ActorSheet {
   async _onDrop(event) {
     LOGGER.trace("ActorID _onDrop | CPRActorSheet | called.");
     // This is called whenever something is dropped onto the character sheet
-    let dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
-    let dropID = $(event.target).parents(".item").attr("data-item-id"); // Only relevant if container drop
+    const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
     if (dragData.actorId !== undefined) {
       // Transfer ownership from one player to another
       const actor = game.actors.find((a) => a._id === dragData.actorId);
       if (actor) {
-        if (actor.data._id === this.actor.data._id || dragData.data.data.core === true || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
+        if (actor.data._id === this.actor.data._id
+          || dragData.data.data.core === true
+          || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
           return;
         }
         super._onDrop(event).then(actor.deleteEmbeddedEntity("OwnedItem", dragData.data._id));

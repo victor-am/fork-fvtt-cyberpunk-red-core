@@ -427,6 +427,7 @@
       "templates": [
         "common",
         "physicalItem",
+        "equippable",
         "upgradable"
       ]
     },

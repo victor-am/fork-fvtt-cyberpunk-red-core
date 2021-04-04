@@ -335,6 +335,10 @@ export default class Migration {
       case "vehicle": {
         return this.migrateVehicle(itemData);
       }
+      case "gear": {
+        return this.migrateGear(itemData);
+      }
+
       default:
     }
     return itemData;
@@ -345,8 +349,11 @@ export default class Migration {
     if ((typeof itemData.data.isConcealed) === "undefined") {
       itemData.data.isConcealed = false;
     }
-    if ((typeof itemData.data.attackmod) === "undefined") {
-      itemData.data.attackmod = 0;
+    if ((typeof itemData.data.dvTable) === "undefined") {
+      itemData.data.dvTable = "";
+    }
+    if ((typeof itemData.data.attackMod) === "undefined") {
+      itemData.data.attackMod = 0;
     }
     return itemData;
   }
@@ -363,6 +370,14 @@ export default class Migration {
       itemData.data.sdp = itemData.data.spd;
       delete itemData.data.spd;
     }
+    return itemData;
+  }
+
+  static migrateGear(itemData) {
+    if ((typeof itemData.data.equipped) === "undefined") {
+      itemData.data.equipped = "owned";
+    }
+
     return itemData;
   }
 }
