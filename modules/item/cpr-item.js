@@ -116,6 +116,13 @@ export default class CPRItem extends Item {
     }
   }
 
+  setSkillMod(value) {
+    LOGGER.debug("setSkillMod | CPRItem | Called.");
+    if (this.type === "skill") {
+      this.getData().skillmod = Math.clamped(-99, value, 99);
+    }
+  }
+
   async setCompatibleAmmo(ammoList) {
     this.data.data.ammoVariety = ammoList;
     if (this.actor) {
