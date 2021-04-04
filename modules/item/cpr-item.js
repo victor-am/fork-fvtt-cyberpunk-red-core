@@ -431,7 +431,7 @@ export default class CPRItem extends Item {
   _getSkillMod() {
     switch (this.type) {
       case "skill": {
-        return this.data.data.mod.value;
+        return this.data.data.skillmod;
       }
       default:
     }
