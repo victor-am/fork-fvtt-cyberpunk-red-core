@@ -389,7 +389,7 @@ export default class Migration {
   // Testing that theory here.
   static migrateSkill(itemData) {
     if ((typeof itemData.data.skillmod) !== "number") {
-      itemData.data.skillmod = "0";
+      itemData.data.skillmod = 0;
     }
 
     return itemData;
