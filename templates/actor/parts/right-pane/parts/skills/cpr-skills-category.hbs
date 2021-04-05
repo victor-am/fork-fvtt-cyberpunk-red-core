@@ -44,11 +44,7 @@
                     data-item-prop="data.level" data-dtype="Number">
             </div>
             <div class="item-detail skill-base text-nowrap">
-              {{#if (compare skill.data.skillmod "!==" undefined)}}
                 {{math "sum" skill.data.level skill.data.skillmod (lookup (getProp ../actor.data.stats skill.data.stat) 'value')}}
-              {{else}}
-                {{math "sum" skill.data.level (lookup (getProp ../actor.data.stats skill.data.stat) 'value')}}
-              {{/if}}
             </div>
             <div class="item-detail skill-favorite text-nowrap">
                 <a class="item-action" data-action-type="favorite" title="{{localize "CPR.togglepin"}}">
