@@ -49,12 +49,13 @@ export default class CPRActor extends Actor {
   /** @override */
   static async create(data, options) {
     LOGGER.trace("create | CPRActor | called.");
+    const createData = data;
     if (typeof data.data === "undefined") {
       LOGGER.trace("create | New Actor | CPRActor | called.");
-      data.items = [];
-      data.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
+      createData.items = [];
+      createData.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
     }
-    super.create(data, options);
+    super.create(createData, options);
   }
 
   async createEmbeddedEntity(embeddedName, itemData, options = {}) {
@@ -82,7 +83,6 @@ export default class CPRActor extends Actor {
     // of stats for Mooks & Players for custom homebrew rules
 
     if (setting) {
-      const changedData = {};
       // Set max HP
       derivedStats.hp.max = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
 
@@ -91,7 +91,6 @@ export default class CPRActor extends Actor {
         derivedStats.hp.max,
       );
 
-      const { humanity } = actorData.data;
       // Max Humanity
       let cyberwarePenalty = 0;
       this.getInstalledCyberware().forEach((cyberware) => {
@@ -201,23 +200,26 @@ export default class CPRActor extends Actor {
 
   _addFoundationalCyberware(item, formData) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
-    this.loseHumanityValue(item, formData);
-    LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
-    item.data.data.isInstalled = true;
-    return this.updateEmbeddedEntity("OwnedItem", item.data);
+    const tmpItem = item;
+    this.loseHumanityValue(tmpItem, formData);
+    LOGGER.debug("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
+    tmpItem.data.data.isInstalled = true;
+    return this.updateEmbeddedEntity("OwnedItem", tmpItem.data);
   }
 
   async _addOptionalCyberware(item, formData) {
     LOGGER.trace("ActorID _addOptionalCyberware | CPRActorSheet | Called.");
-    this.loseHumanityValue(item, formData);
+    const tmpItem = item;
+    this.loseHumanityValue(tmpItem, formData);
+    // eslint-disable-next-line max-len
     LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
-    foundationalCyberware.data.data.optionalIds.push(item.data._id);
-    item.data.data.isInstalled = true;
+    foundationalCyberware.data.data.optionalIds.push(tmpItem.data._id);
+    tmpItem.data.data.isInstalled = true;
     const usedSlots = foundationalCyberware.getData().optionalIds.length;
     const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
     Rules.lawyer((usedSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
-    return this.updateEmbeddedEntity("OwnedItem", [item.data, foundationalCyberware.data]);
+    return this.updateEmbeddedEntity("OwnedItem", [tmpItem.data, foundationalCyberware.data]);
   }
 
   async removeCyberware(itemId, foundationalId) {
@@ -240,21 +242,24 @@ export default class CPRActor extends Actor {
   _removeOptionalCyberware(item, foundationalId) {
     LOGGER.trace("ActorID _removeOptionalCyberware | CPRActorSheet | Called.");
     const foundationalCyberware = this._getOwnedItem(foundationalId);
-    foundationalCyberware.getData().optionalIds = foundationalCyberware.getData().optionalIds.filter((optionId) => optionId !== item.data._id);
+    foundationalCyberware.getData().optionalIds = foundationalCyberware.getData().optionalIds.filter(
+      (optionId) => optionId !== item.data._id,
+    );
     return this.updateEmbeddedEntity("OwnedItem", foundationalCyberware.data);
   }
 
   _removeFoundationalCyberware(item) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
+    const tmpItem = item;
     const updateList = [];
-    if (item.getData().optionalIds) {
-      item.getData().optionalIds.forEach(async (optionalId) => {
+    if (tmpItem.getData().optionalIds) {
+      tmpItem.getData().optionalIds.forEach(async (optionalId) => {
         const optional = this._getOwnedItem(optionalId);
         optional.data.data.isInstalled = false;
         updateList.push(optional.data);
       });
-      item.data.data.optionalIds = [];
-      updateList.push(item.data);
+      tmpItem.data.data.optionalIds = [];
+      updateList.push(tmpItem.data);
       return this.updateEmbeddedEntity("OwnedItem", updateList);
     }
     return PromiseRejectionEvent();
@@ -438,15 +443,16 @@ export default class CPRActor extends Actor {
     const { criticalInjuries } = this.data.data;
     const newInjuryList = [];
     criticalInjuries.forEach((injury) => {
-      if (injury.id === injuryId) {
-        injury.location = location;
-        injury.name = name;
-        injury.effect = effect;
-        injury.quickfix = quickfix;
-        injury.treatment = treatment;
-        injury.mods = mods;
+      const tmpInjury = injury;
+      if (tmpInjury.id === injuryId) {
+        tmpInjury.location = location;
+        tmpInjury.name = name;
+        tmpInjury.effect = effect;
+        tmpInjury.quickfix = quickfix;
+        tmpInjury.treatment = treatment;
+        tmpInjury.mods = mods;
       }
-      newInjuryList.push(injury);
+      newInjuryList.push(tmpInjury);
     });
     return this.update({ "data.criticalInjuries": newInjuryList });
   }

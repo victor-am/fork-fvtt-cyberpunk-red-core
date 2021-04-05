@@ -1,5 +1,5 @@
 {
-  "version": 0.72,
+  "version": 0.73,
   "name": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
@@ -23,6 +23,14 @@
       "entity": "Item",
       "name": "cyberware",
       "path": "packs/cyberware.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "DV Rolltables - Core",
+      "entity": "RollTable",
+      "name": "dvTables",
+      "path": "packs/dvTables.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     }

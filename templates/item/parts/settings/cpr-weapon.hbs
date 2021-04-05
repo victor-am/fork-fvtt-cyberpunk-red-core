@@ -139,6 +139,25 @@
                     </div>
                 </li>
                 {{#if data.isRanged}}
+
+                {{!- DV Table Setting --}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.dvtable"}}:
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="data.dvTable" data-dtype="{{data.dvTable}}">
+                            {{#select data.dvTable}}
+                            <option value="">N/A</option>
+                            {{#each this.dvTableNames as |rollTable| }}
+                            <option value="{{rollTable}}">{{rollTable}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+
+
+                    </div>
+                </li>
                 <hr>
                 {{!- Ranged Weapon - Alternate Fire Modes Settings--}}
                 <li class="item flexrow">
