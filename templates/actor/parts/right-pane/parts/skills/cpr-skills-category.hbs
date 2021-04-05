@@ -35,7 +35,7 @@
                 <a class="item-action skill-custom" title="{{localize "CPR.deletecustomskill"}}" data-action-type="delete"><i class="fas fa-trash-alt"></i></a>
                 {{/if}}
             </div>
-            <div class="item-detail skill-mod-value text-nowrap">
+            <div class="item-detail skill-mod-value text-nowrap {{#if (compare skill.data.skillmod "===" 0)}} zero-not-visible {{/if}}">
                 <input class="number skill-input" value="{{skill.data.skillmod}}" type="number"
                   data-item-prop="data.mod" data-dtype="Number">
             </div>

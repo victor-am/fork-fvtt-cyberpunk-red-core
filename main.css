@@ -980,6 +980,9 @@ ol {
 .compatible-ammo li:nth-child(odd) {
   background-color: #eaeaeaff;
 }
+.zero-not-visible:not(:hover) {
+  opacity: 0;
+}
 .chat-message.message.flexcol {
   font-family: "Audimat Mono";
   background: #eaeaeaff;
