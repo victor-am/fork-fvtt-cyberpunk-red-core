@@ -7,14 +7,19 @@
     grid-template-areas:
         "mook-name mook-details";
 
-    .mook-name { grid-area: mook-name; }
+    .mook-name { 
+        grid-area: mook-name;
+        writing-mode: vertical-lr;
+        transform: rotate(270deg);
+        align-self: center;
+    }
     
     .mook-details {
         display: grid;
         gap: 5px;
         grid-area: mook-details;
         grid-template-areas:
-         "mook-stats"
+            "mook-stats"
             "mook-derived"
             "mook-gear"
             "mook-skills"

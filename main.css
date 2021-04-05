@@ -858,6 +858,9 @@ button,
 }
 .mook-sheet .mook-name {
   grid-area: mook-name;
+  writing-mode: vertical-lr;
+  transform: rotate(270deg);
+  align-self: center;
 }
 .mook-sheet .mook-details {
   display: grid;
