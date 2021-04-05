@@ -3,8 +3,8 @@
     <div class="injuries-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
-                {{localize "CPR.critinjuries"}}<a class="add-critical-injury" title="{{localize "CPR.addcriticalinjury"}}"><i class="fas fa-plus-circle text-float-right text-padding-right"></i></a>
-                <span class="item-detail gear-actions bg-black text-nowrap">{{#if (systemConfig "playersCreateInventory")}}<a class="item-create" title="{{localize "CPR.createnewitem"}}" data-item-type="{{criticalInjury}}"><i class="fas fa-plus-circle text-padding-right"></i></a>{{/if}}</span>
+                {{localize "CPR.critinjuries"}} {{!-- <a class="add-critical-injury" title="{{localize "CPR.addcriticalinjury"}}"><i class="fas fa-plus-circle text-float-right text-padding-right"></i></a> --}}
+                <span class="item-detail gear-actions bg-black text-nowrap text-float-right text-padding-right">{{#if (systemConfig "playersCreateInventory")}}<a class="item-create" title="{{localize "CPR.createnewitem"}}" data-item-type="criticalInjury"><i class="fas fa-plus-circle text-padding-right"></i></a>{{/if}}</span>
             </span>
         </li>
         <div class="critical-injury-content">
