@@ -365,6 +365,7 @@ export default class CPRItem extends Item {
 
     const skillValue = skillItem.data.data.level;
     const skillName = skillItem.data.name;
+    const skillMod = skillItem.data.data.skillmod;
     let cprRoll;
     let statName;
     if (weaponData.isRanged && this.data.data.weaponType !== "thrownWeapon") {
@@ -397,6 +398,7 @@ export default class CPRItem extends Item {
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
     cprRoll.addMod(this._getMods());
     cprRoll.addMod(this._getAttackMod());
+    cprRoll.addMod(skillMod);
 
     if (cprRoll instanceof CPRRolls.CPRAttackRoll && weaponData.isRanged) {
       Rules.lawyer(this.hasAmmo(cprRoll), "CPR.weaponattackoutofbullets");
