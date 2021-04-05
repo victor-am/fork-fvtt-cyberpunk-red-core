@@ -338,7 +338,9 @@ export default class Migration {
       case "gear": {
         return this.migrateGear(itemData);
       }
-
+      case "skill": {
+        return this.migrateSkill(itemData);
+      }
       default:
     }
     return itemData;
@@ -376,6 +378,18 @@ export default class Migration {
   static migrateGear(itemData) {
     if ((typeof itemData.data.equipped) === "undefined") {
       itemData.data.equipped = "owned";
+    }
+
+    return itemData;
+  }
+
+  // I (Jalen) spoke with Darin and he mentioned it might make most sense for
+  // migration code like this to check if the value isn't a number rather
+  // than if it is undefined because sometimes the value shows up as null.
+  // Testing that theory here.
+  static migrateSkill(itemData) {
+    if ((typeof itemData.data.skillmod) !== "number") {
+      itemData.data.skillmod = "0";
     }
 
     return itemData;
