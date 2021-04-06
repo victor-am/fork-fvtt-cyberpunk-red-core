@@ -693,6 +693,11 @@ button,
   align-self: center;
   padding: 0 2px 0 2px;
 }
+.side-banner {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  align-self: center;
+}
 .flex-space-between {
   display: flex;
   justify-content: space-between;
@@ -759,6 +764,18 @@ button,
 }
 .width-max-two-thirds {
   max-width: calc((100%/3)*2);
+}
+.pad-thinner {
+  padding: 2px;
+}
+.pad-thin {
+  padding: 5px;
+}
+.pad-thick {
+  padding: 8px;
+}
+.pad-thicker {
+  padding: 10px;
 }
 /*--------------------
   Text modifiers
@@ -858,9 +875,6 @@ button,
 }
 .mook-sheet .mook-name {
   grid-area: mook-name;
-  writing-mode: vertical-lr;
-  transform: rotate(270deg);
-  align-self: center;
 }
 .mook-sheet .mook-details {
   display: grid;
@@ -869,7 +883,6 @@ button,
   grid-template-areas: "mook-stats" "mook-derived" "mook-gear" "mook-skills" "mook-special";
 }
 .mook-sheet .mook-stats {
-  padding: 5px;
   display: grid;
   grid-area: mook-stats;
   grid-template-areas: "mook-int-stat mook-ref-stat mook-dex-stat mook-tech-stat mook-cool-stat" "mook-will-stat mook-luck-stat mook-move-stat mook-body-stat mook-emp-stat";
@@ -905,7 +918,6 @@ button,
   grid-area: mook-emp-stat;
 }
 .mook-sheet .mook-derived-stats {
-  padding: 5px;
   gap: 10px;
   display: grid;
   grid-area: mook-derived;
@@ -922,7 +934,6 @@ button,
   grid-area: mook-deathsave;
 }
 .mook-sheet .mook-gear {
-  padding: 5px;
   gap: 10px;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -942,6 +953,7 @@ button,
 }
 .mook-sheet .mook-weapon .mook-weapon-name {
   grid-area: mook-weapon-name;
+  padding-right: 6px;
   text-overflow: ellipsis;
 }
 .mook-sheet .mook-weapon .mook-weapon-mode {
@@ -951,27 +963,10 @@ button,
   grid-area: mook-weapon-rolls;
 }
 .mook-sheet .mook-skills {
-  padding: 5px;
   grid-area: mook-skills;
 }
 .mook-sheet .mook-special {
-  padding: 5px;
   grid-area: mook-special;
-}
-.handle-block,
-.hitpoint-block,
-.deathsave-block,
-.main-block {
-  height: 41px;
-  width: 190px;
-}
-.block-label {
-  font-weight: bold;
-  text-align: center;
-}
-.block-data {
-  text-align: center;
-  font-weight: lighter;
 }
 .items-list {
   list-style: none;

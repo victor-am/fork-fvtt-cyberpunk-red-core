@@ -9,9 +9,6 @@
 
     .mook-name { 
         grid-area: mook-name;
-        writing-mode: vertical-lr;
-        transform: rotate(270deg);
-        align-self: center;
     }
     
     .mook-details {
@@ -27,7 +24,6 @@
     }
 
     .mook-stats {
-        padding: 5px;
         display: grid;
         grid-area: mook-stats; 
         grid-template-areas:
@@ -46,7 +42,6 @@
     }
 
     .mook-derived-stats {
-        padding: 5px;
         gap: 10px;
         display: grid; 
         grid-area: mook-derived;
@@ -59,7 +54,6 @@
     }
 
     .mook-gear { 
-        padding: 5px;
         gap: 10px;
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -75,6 +69,7 @@
         grid-template-areas: "mook-weapon-name mook-weapon-mode mook-weapon-rolls";
         .mook-weapon-name { 
             grid-area: mook-weapon-name; 
+            padding-right: 6px;
             text-overflow: ellipsis;
         }
         .mook-weapon-mode { grid-area: mook-weapon-mode; }
@@ -82,31 +77,10 @@
     }
 
     .mook-skills { 
-        padding: 5px;
         grid-area: mook-skills;
     }
 
     .mook-special {
-        padding: 5px;
         grid-area: mook-special;
     }
-}
-
-// Section Specific CSS
-.handle-block,
-.hitpoint-block,
-.deathsave-block,
-.main-block {
-    height: 41px;
-    width : 190px;
-}
-
-.block-label {
-    font-weight: bold;
-    text-align : center;
-}
-
-.block-data {
-    text-align : center;
-    font-weight: lighter;
 }

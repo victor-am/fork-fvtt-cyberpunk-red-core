@@ -1,10 +1,15 @@
 {{trace "CPR-MOOK-SKILLS.HBS"}}
-<div class="items-header bg-red fg-white flexrow">
-  <span class="item-name section-name text-nowrap text-padding-left">
+<div class="bg-red fg-white flexrow">
+  <span class="text-nowrap text-padding-left">
     {{localize "CPR.skills"}}
   </span>
+  <span class="text-right">
+    <a class="mod-mook-skill">
+      <i class="fas fa-edit"></i>
+    </a>
+  </span>
 </div>
-<div class="items-list fg-black">
+<div class="bg-white fg-black text-padding-left">
   {{#each (sort actor.filteredItems.skill "name") as |skill s|}}
     {{#if (compare skill.data.level ">" 0)}}
       <a class="rollable" data-item-id="{{skill._id}}" data-roll-type="skill" data-roll-title="{{skill.name}}">

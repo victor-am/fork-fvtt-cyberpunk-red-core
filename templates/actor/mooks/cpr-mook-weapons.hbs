@@ -11,7 +11,7 @@
         {{#if (compare weapon.data.equipped "===" "equipped")}}
           <li class="item flexrow" data-item-id="{{weapon._id}}">
             <div class="mook-weapon">
-              <div class="item-name mook-weapon-name text-nowrap">
+              <div class="item-name mook-weapon-name text-pad-right text-nowrap">
                 <a class="name item-edit" title="{{weapon.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">
                   {{weapon.name}}
                 </a>
@@ -45,7 +45,7 @@
                   </div>
                 {{/if}}
               </div>
-              <div class="mook-weapon-rolls item-detail text-large fight-weapon-attack text-nowrap">
+              <div class="mook-weapon-rolls item-detail text-normal fight-weapon-attack text-nowrap">
                 <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
                   <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
                 </a>
