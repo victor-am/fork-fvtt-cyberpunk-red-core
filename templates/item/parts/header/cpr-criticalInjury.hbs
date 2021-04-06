@@ -1,2 +1,2 @@
-<li class="text-padding-left"></li>
-<li class="text-padding-left"></li>
+<li class="text-padding-left">{{localize "CPR.quickfix"}}: {{localize (findConfigValue "criticalInjuryQuickFix" data.quickFix.type)}} {{#if (compare data.quickFix.type "!==" "notApplicable")}}| {{localize "CPR.dv"}} {{data.quickFix.dv}}{{/if}}</li>
+<li class="text-padding-left">{{localize "CPR.treatment"}}: {{localize (findConfigValue "criticalInjuryTreatment" data.treatment.type)}} {{#if (compare data.treatment.type "!==" "quickFix")}}| {{localize "CPR.dv"}} {{data.treatment.dv}}{{/if}}</li>

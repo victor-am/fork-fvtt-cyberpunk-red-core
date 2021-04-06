@@ -482,11 +482,11 @@
       "location": "body",
       "effects": "",
       "quickFix": {
-        "type": "firstAid",
+        "type": "firstAidParamedic",
         "dv": 0
       },
       "treatment": {
-        "type": "quickFix",
+        "type": "paramedicSurgery",
         "dv": 0
       },
       "deathSaveIncrease": false
