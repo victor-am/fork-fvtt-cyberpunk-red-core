@@ -906,6 +906,7 @@ button,
 }
 .skills-tab .skill-level,
 .skills-tab .skill-base,
+.skills-tab .skill-mod-value,
 .skills-tab .skill-favorite {
   flex: 0 0 30px;
 }
@@ -978,6 +979,9 @@ ol {
 }
 .compatible-ammo li:nth-child(odd) {
   background-color: #eaeaeaff;
+}
+.zero-not-visible:not(:hover) {
+  opacity: 0;
 }
 .chat-message.message.flexcol {
   font-family: "Audimat Mono";

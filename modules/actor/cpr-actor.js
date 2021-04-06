@@ -328,6 +328,15 @@ export default class CPRActor extends Actor {
     return 0;
   }
 
+  getSkillMod(skillName) {
+    const skillList = (this.data.filteredItems.skill).filter((s) => s.name === skillName);
+    if (skillList.length > 0) {
+      const relevantSkill = skillList[0];
+      return parseInt(relevantSkill.data.data.skillmod, 10);
+    }
+    return 0;
+  }
+
   processDeathSave(cprRoll) {
     let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
     if (cprRoll.initialRoll === 10) {
