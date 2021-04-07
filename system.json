@@ -1,5 +1,5 @@
 {
-  "version": 0.73,
+  "version": "0.73.1",
   "name": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
@@ -40,7 +40,7 @@
       "lang": "en",
       "name": "English",
       "path": "lang/en.json"
-    }          
+    }
   ],
   "initiative": "1d10 + @stats.ref.value",
   "gridDistance": 2,
