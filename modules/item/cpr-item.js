@@ -116,6 +116,13 @@ export default class CPRItem extends Item {
     }
   }
 
+  setSkillMod(value) {
+    LOGGER.debug("setSkillMod | CPRItem | Called.");
+    if (this.type === "skill") {
+      this.getData().skillmod = Math.clamped(-99, value, 99);
+    }
+  }
+
   async setCompatibleAmmo(ammoList) {
     this.data.data.ammoVariety = ammoList;
     if (this.actor) {
@@ -337,6 +344,7 @@ export default class CPRItem extends Item {
     const skillLevel = itemData.level;
     const cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel);
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
+    cprRoll.addMod(this._getSkillMod());
     return cprRoll;
   }
 
@@ -357,6 +365,7 @@ export default class CPRItem extends Item {
 
     const skillValue = skillItem.data.data.level;
     const skillName = skillItem.data.name;
+    const skillMod = skillItem.data.data.skillmod;
     let cprRoll;
     let statName;
     if (weaponData.isRanged && this.data.data.weaponType !== "thrownWeapon") {
@@ -389,6 +398,7 @@ export default class CPRItem extends Item {
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
     cprRoll.addMod(this._getMods());
     cprRoll.addMod(this._getAttackMod());
+    cprRoll.addMod(skillMod);
 
     if (cprRoll instanceof CPRRolls.CPRAttackRoll && weaponData.isRanged) {
       Rules.lawyer(this.hasAmmo(cprRoll), "CPR.weaponattackoutofbullets");
@@ -435,6 +445,16 @@ export default class CPRItem extends Item {
           return this.data.data.attackmod;
         }
         break;
+      }
+      default:
+    }
+    return 0;
+  }
+
+  _getSkillMod() {
+    switch (this.type) {
+      case "skill": {
+        return this.data.data.skillmod;
       }
       default:
     }
