@@ -1,0 +1,39 @@
+{{trace "CPR-MOD-MOOK-SKILL-PROMPT.HBS"}}
+<form>
+  <div>
+    <ol class="items-list">
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.selectmookskill"}}:
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          <select name="skillName">
+            {{#select skillName}}
+              {{#each (findConfigObj "skillList") as |skill s|}}
+                <option value="{{localize skill}}">{{localize skill}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+        </div>
+      </li>
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.setmookskilllevel"}}:
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          <input class="text-right" name="skillLevel" type="number"/>
+        </div>
+      </li>
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.modifyanotherskill"}}?
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          <input type="checkbox" name="again">
+        </div>
+      </li>
+      <br>
+    </ol>
+  </div>
+</form>
+{{trace "END CPR-MOD-MOOK-SKILL-PROMPT.HBS"}}
