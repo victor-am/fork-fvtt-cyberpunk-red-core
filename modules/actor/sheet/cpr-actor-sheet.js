@@ -187,7 +187,7 @@ export default class CPRActorSheet extends ActorSheet {
     // Add New Skill Item To Sheet
     html.find(".add-skill").click((event) => this._addSkill(event));
 
-    html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
+    html.find(".skill-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
 
     html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
 
@@ -491,7 +491,13 @@ export default class CPRActorSheet extends ActorSheet {
   _updateSkill(event) {
     LOGGER.trace("ActorID _updateSkill | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
-    item.setSkillLevel(parseInt(event.target.value, 10));
+    const updateType = $(event.currentTarget).attr("data-item-prop");
+    if (updateType === "data.level") {
+      item.setSkillLevel(parseInt(event.target.value, 10));
+    }
+    if (updateType === "data.mod") {
+      item.setSkillMod(parseInt(event.target.value, 10));
+    }
     this._updateOwnedItem(item);
   }
 

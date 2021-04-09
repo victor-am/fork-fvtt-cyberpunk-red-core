@@ -297,6 +297,21 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("systemConfig", (settingName) => game.settings.get("cyberpunk-red-core", settingName));
 
+  Handlebars.registerHelper("splitJoinCoreSkills", (string) => {
+    LOGGER.trace("Calling splitJoinCoreSkills Helper");
+    const cprDot = "CPR.";
+    const initialSplit = string.split(" ").join("");
+    const orCaseSplit = initialSplit.split("/").join("or");
+    const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
+    const andCaseSplit = initialSplit.split("/").join("and").split("&").join("and");
+    if (string === "Conceal/Reveal Object" || string === "Paint/Draw/Sculpt" || string === "Resist Torture/Drugs") {
+      return cprDot + orCaseSplit.toLowerCase();
+    } else if (string === "Language (Streetslang)") {
+      return cprDot + parenCaseSplit.toLowerCase();
+    }
+    return cprDot + andCaseSplit.toLowerCase();
+  });
+
   Handlebars.registerHelper("debug", (msg) => {
     LOGGER.debug(msg);
   });
