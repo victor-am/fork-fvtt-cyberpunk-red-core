@@ -1,9 +1,15 @@
 {{trace "CPR-MOOK-WEAPONS.HBS"}}
 <div class="weapon-section">
   <div class="items-header flexrow">
-    <span class="item-name section-name fg-white bg-red text-nowrap text-padding-left">
+    <div class="item-name section-name fg-white bg-red text-nowrap text-padding-left">
       {{localize "CPR.weapons"}}
-    </span>
+    </div>
+    <div class="item-detail fg-white bg-red text-nowrap text-padding-left">
+      {{localize "CPR.aim"}}/{{localize "CPR.af"}}/{{localize "CPR.sf"}}
+    </div>
+    <div class="item-detail fg-white bg-red text-nowrap text-right text-padding-right">
+      {{localize "CPR.atk"}}/{{localize "CPR.dmg"}}
+    </div>
   </div>
   <div class="weapon-content fg-black">
     <ol class="items-list weapons-grid">
@@ -18,34 +24,44 @@
                 {{#if (compare weapon.data.quality "!==" "standard")}}
                   ({{localize weapon.data.quality}})
                 {{/if}}
-                {{#if weapon.data.magazine.ammoId}}
-                  <br>
-                  ({{localize "CPR.ammo"}}: {{weapon.data.magazine.value}}/{{weapon.data.magazine.max}})
-                {{/if}}
+                <br>
                 {{#if weapon.data.isRanged}}
+                  {{#if weapon.data.magazine.ammoId}}
+                    ({{localize "CPR.ammo"}}: {{weapon.data.magazine.value}}/{{weapon.data.magazine.max}})
+                  {{else}}
+                    ({{localize "CPR.unloaded"}})
+                  {{/if}}
                   {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
+                {{else}}
+                  ({{localize "CPR.meleeweapon"}})
                 {{/if}}
               </div>
               <div class="mook-weapon-mode">
-                <div>
-                  {{localize "CPR.aim"}}
-                  <input class="fire-checkbox" type="checkbox" {{fireflag ../actor "aimed" weapon._id}}
-                    id="aimed-{{weapon._id}}" data-target="aimed" data-item-id={{weapon._id}}>
-                </div>
+                <a class="mook-fire-mode" data-fire-mode="aimed" data-item-id="{{weapon._id}}">
+                  {{#if (mookFireMode ../actor "aimed" weapon._id)}}
+                    <i class="far fa-check-circle"></i>
+                  {{else}}
+                    <i class="far fa-circle"></i>
+                  {{/if}}
+                </a>
                 {{#if (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType)}}
-                  <div>
-                    {{localize "CPR.af"}}
-                    <input class="fire-checkbox" type="checkbox" {{fireflag ../actor "autofire" weapon._id}}
-                      id="autofire-{{weapon._id}}" data-target="autofire" data-item-id={{weapon._id}}>   
-                  </div>
-                  <div>
-                    {{localize "CPR.sf"}}
-                    <input class="fire-checkbox" type="checkbox" {{fireflag ../actor "suppressive" weapon._id}}
-                      id="suppressive-{{weapon._id}}" data-target="suppressive" data-item-id={{weapon._id}}>
-                  </div>
+                  <a class="mook-fire-mode" data-fire-mode="autofire" data-item-id="{{weapon._id}}">
+                    {{#if (mookFireMode ../actor "autofire" weapon._id)}}
+                      <i class="far fa-check-circle"></i>
+                    {{else}}
+                      <i class="far fa-circle"></i>
+                    {{/if}}
+                  </a>
+                  <a class="mook-fire-mode" data-fire-mode="suppressive" data-item-id="{{weapon._id}}">
+                    {{#if (mookFireMode ../actor "suppressive" weapon._id)}}
+                      <i class="far fa-check-circle"></i>
+                    {{else}}
+                      <i class="far fa-circle"></i>
+                    {{/if}}
+                  </a>
                 {{/if}}
               </div>
-              <div class="mook-weapon-rolls item-detail text-normal fight-weapon-attack text-nowrap">
+              <div class="mook-weapon-rolls item-detail text-normal fight-weapon-attack text-nowrap text-right">
                 <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
                   <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
                 </a>
