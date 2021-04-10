@@ -1,4 +1,8 @@
 {
+    "ACTOR.TypeCharacter": "Character",
+    "ACTOR.TypeMook": "Mook/NPC",
+    "ACTOR.TypeBlackice": "Black ICE",
+    "ACTOR.TypeContainer": "Container",
     "CPR.abilities": "Abilities",
     "CPR.abilityrank": "Ability Rank",
     "CPR.ablation": "Ablation",
@@ -949,5 +953,5 @@
     "ITEM.TypeSkill": "Skill",
     "ITEM.TypeVehicle": "Vehicle",
     "ITEM.TypeWeapon": "Weapon",
-    "ITEM.TypeCriticalInjury": "Critical Injury"
+    "ITEM.TypeCriticalinjury": "Critical Injury"
 }
