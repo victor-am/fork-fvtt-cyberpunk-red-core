@@ -937,5 +937,17 @@
     "CPR.yougotnoinventory": "You got no",
     "CPR.youown": "You own",
     "CPR.yourhome": "Your Home",
-    "CPR.zap": "Zap"
+    "CPR.zap": "Zap",
+    "ITEM.TypeAmmo": "Ammo",
+    "ITEM.TypeArmor": "Armor",
+    "ITEM.TypeClothing": "Clothing",
+    "ITEM.TypeCyberware": "Cyberware",
+    "ITEM.TypeCyberdeck": "Cyperdeck",
+    "ITEM.TypeGear": "Gear",
+    "ITEM.TypeNetarch": "Net Architecture",
+    "ITEM.TypeProgram": "Program",
+    "ITEM.TypeSkill": "Skill",
+    "ITEM.TypeVehicle": "Vehicle",
+    "ITEM.TypeWeapon": "Weapon",
+    "ITEM.TypeCriticalInjury": "Critical Injury"
 }
