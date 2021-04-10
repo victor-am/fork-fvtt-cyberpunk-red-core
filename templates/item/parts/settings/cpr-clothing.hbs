@@ -49,21 +49,6 @@
                         </select>
                     </div>
                 </li>
-                {{!-- Clothing Quality Settings--}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.clothing"}} {{localize "CPR.quality"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.quality" data-dtype="{{data.quality}}">
-                            {{#select data.quality}}
-                            {{#each (findConfigObj "clothingQuality") as |quality q| }}
-                            <option value="{{q}}">{{localize quality}}</option>
-                            {{/each}}
-                            {{/select}}
-                        </select>
-                    </div>
-                </li>
             </ol>
         </div>
     </div>
