@@ -248,14 +248,6 @@ CPR.clothingType = {
   hats: "CPR.hats",
 };
 
-CPR.clothingQuality = {
-  tattered: "CPR.tattered",
-  poor: "CPR.poor",
-  standard: "CPR.standard",
-  good: "CPR.good",
-  excellent: "CPR.excellent",
-};
-
 //
 CPR.cyberwareTypeList = {
   cyberAudioSuite: "CPR.cyberaudiosuite",
