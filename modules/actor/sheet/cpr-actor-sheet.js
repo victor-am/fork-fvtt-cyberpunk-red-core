@@ -263,7 +263,7 @@ export default class CPRActorSheet extends ActorSheet {
 
     if (item !== null) {
       // Do any actions that need to be done as part of a roll, like ammo decrementing
-      await item.confirmRoll(cprRoll);
+      cprRoll = await item.confirmRoll(cprRoll);
     }
 
     // Let's roll!
@@ -285,19 +285,6 @@ export default class CPRActorSheet extends ActorSheet {
     // save the location so subsequent damage rolls hit/show the same place
     if (cprRoll instanceof CPRRolls.CPRAimedAttackRoll) {
       this.actor.setFlag("cyberpunk-red-core", "aimedLocation", cprRoll.location);
-    }
-  }
-
-  async _handleRollDialog(event, cprRoll) {
-    // Handle skipping of the user verification step
-    let skipDialog = event.ctrlKey;
-
-    const ctrlSetting = game.settings.get("cyberpunk-red-core", "invertRollCtrlFunction");
-    skipDialog = ctrlSetting ? skipDialog : !skipDialog;
-
-    if (skipDialog) {
-      const formData = await VerifyRoll.RenderPrompt(cprRoll);
-      mergeObject(cprRoll, formData, { overwrite: true });
     }
   }
 
