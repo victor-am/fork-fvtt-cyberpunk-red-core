@@ -204,6 +204,7 @@ CPR.inventoryCategories = {
   armor: "CPR.armor",
   cyberware: "CPR.cyberware",
   gear: "CPR.gear",
+  clothing: "CPR.clothing",
   vehicle: "CPR.vehicle",
 };
 
@@ -211,6 +212,7 @@ CPR.objectTypes = {
   ammo: "CPR.ammo",
   armor: "CPR.armor",
   cyberware: "CPR.cyberware",
+  clothing: "CPR.clothing",
   gear: "CPR.gear",
   netarch: "CPR.netarch",
   program: "CPR.program",
@@ -218,6 +220,33 @@ CPR.objectTypes = {
   criticalInjury: "CPR.criticalinjurytitle",
   vehicle: "CPR.vehicle",
   weapon: "CPR.weapon",
+};
+
+// Sorted A-Z
+CPR.clothingStyle = {
+  asiaPop: "CPR.asiapop",
+  bagLadyChic: "CPR.bagladychic",
+  bohemian: "CPR.bohemian",
+  businesswear: "CPR.businesswear",
+  gangColors: "CPR.gangcolors",
+  genericChic: "CPR.genericchic",
+  highFashion: "CPR.highfashion",
+  leisurewear: "CPR.leisurewear",
+  nomadLeathers: "CPR.nomadleathers",
+  urbanFlash: "CPR.urbanflash",
+};
+
+// Sorted A-Z
+CPR.clothingType = {
+  bottoms: "CPR.bottoms",
+  contactLenses: "CPR.contactlenses",
+  footwear: "CPR.footwear",
+  glasses: "CPR.glasses",
+  hats: "CPR.hats",
+  jacket: "CPR.jacket",
+  jewelry: "CPR.jewelry",
+  mirrorshades: "CPR.mirrorshades",
+  top: "CPR.top",
 };
 
 //

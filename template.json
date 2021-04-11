@@ -290,6 +290,7 @@
     "types": [
       "ammo",
       "armor",
+      "clothing",
       "cyberware",
       "cyberdeck",
       "gear",
@@ -430,6 +431,16 @@
         "equippable",
         "upgradable"
       ]
+    },
+    "clothing": {
+      "templates": [
+        "common",
+        "physicalItem",
+        "upgradable",
+        "equippable"
+      ],
+      "type": "",
+      "style": ""
     },
     "netarch": {
       "templates": [
