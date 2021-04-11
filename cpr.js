@@ -33,6 +33,7 @@ Hooks.once("init", async () => {
   Items.registerSheet("cyberpunk-red-core", CPRItemSheet, {
     types: [
       "cyberware",
+      "clothing",
       "weapon",
       "armor",
       "ammo",
