@@ -221,31 +221,31 @@ CPR.objectTypes = {
   weapon: "CPR.weapon",
 };
 
-// Sorted as listed in core rule book
+// Sorted A-Z
 CPR.clothingStyle = {
+  asiaPop: "CPR.asiapop",
   bagLadyChic: "CPR.bagladychic",
+  bohemian: "CPR.bohemian",
+  businesswear: "CPR.businesswear",
   gangColors: "CPR.gangcolors",
   genericChic: "CPR.genericchic",
-  bohemian: "CPR.bohemian",
+  highFashion: "CPR.highfashion",
   leisurewear: "CPR.leisurewear",
   nomadLeathers: "CPR.nomadleathers",
-  asiaPop: "CPR.asiapop",
   urbanFlash: "CPR.urbanflash",
-  businesswear: "CPR.businesswear",
-  highFashion: "CPR.highfashion",
 };
 
-// Sorted as listed in core rule book
+// Sorted A-Z
 CPR.clothingType = {
   bottoms: "CPR.bottoms",
-  top: "CPR.top",
-  jacket: "CPR.jacket",
+  contactLenses: "CPR.contactlenses",
   footwear: "CPR.footwear",
+  glasses: "CPR.glasses",
+  hats: "CPR.hats",
+  jacket: "CPR.jacket",
   jewelry: "CPR.jewelry",
   mirrorshades: "CPR.mirrorshades",
-  glasses: "CPR.glasses",
-  contactLenses: "CPR.contactlenses",
-  hats: "CPR.hats",
+  top: "CPR.top",
 };
 
 //
