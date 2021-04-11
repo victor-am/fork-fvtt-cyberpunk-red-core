@@ -5,6 +5,9 @@
             <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
             <div class="text-center text-small">{{#if autofire}}{{localize "CPR.autofire"}} {{/if}}{{localize
                 "CPR.damage"}}</div>
+        {{#if rollCardExtraArgs.ammoType}}
+        <div class="text-center text-small">{{localize (findConfigValue "ammoType" rollCardExtraArgs.ammoType)}}</div>
+        {{/if}}
         </div>
     </div>
     <div class="rollcard-bottom">
