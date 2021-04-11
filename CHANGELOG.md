@@ -11,6 +11,7 @@
 # DEV WIP BUGFIXES
 - 'Basic' skills (the ones that all characters have points in) now display as bold again (no issue to reference)
 
+- Added the ammunition type to the attack and damage roll cards
 
 # Version: 0.66  (Hotfix) |  Date:  2021-03-21
 **Bug Fix:**
