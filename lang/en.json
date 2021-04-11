@@ -1,6 +1,6 @@
 {
     "ACTOR.TypeCharacter": "Character",
-    "ACTOR.TypeMook": "Mook/NPC",
+    "ACTOR.TypeMook": "Mook (NPC)",
     "ACTOR.TypeBlackice": "Black ICE",
     "ACTOR.TypeContainer": "Container",
     "CPR.abilities": "Abilities",
