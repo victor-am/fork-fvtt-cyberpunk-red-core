@@ -136,11 +136,11 @@ export default class CPRChat {
           const item = actor ? actor.items.find((i) => i._id === itemId) : null;
           const displayName = actor === null ? "ERROR" : actor.name;
           if (!item) return ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.actormissingitem")} ${itemId}`);
-          const cprRoll = item.createRoll(rollType, actor._id);
+          let cprRoll = item.createRoll(rollType, actor._id);
 
           await cprRoll.handleRollDialog(event);
 
-          item.confirmRoll(rollType, cprRoll);
+          cprRoll = await item.confirmRoll(rollType, cprRoll);
           await cprRoll.roll();
           CPRChat.RenderRollCard(cprRoll);
 
