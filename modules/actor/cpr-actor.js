@@ -156,6 +156,19 @@ export default class CPRActor extends Actor {
     this.data.data.derivedStats.currentWoundState = newState;
   }
 
+  getWoundStateMods() {
+    LOGGER.trace("setWoundState | CPRActor | Setting Wound State.");
+
+    let woundStateMod = 0;
+    if (this.getWoundState() === "seriouslyWounded") {
+      woundStateMod = -2;
+    }
+    if (this.getWoundState() === "mortallyWounded") {
+      woundStateMod = -4;
+    }
+    return woundStateMod;
+  }
+
   getInstalledCyberware() {
     return this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled);
   }
@@ -494,20 +507,6 @@ export default class CPRActor extends Actor {
       });
     }
     return Math.min(...penaltyMods);
-  }
-
-  getWoundStateMods() {
-    const currentHP = this.data.data.derivedStats.hp.value;
-    const maxHP = this.data.data.derivedStats.hp.max;
-    const halfHP = maxHP * 0.5;
-    let woundStateMod = 0;
-    if (currentHP < halfHP) {
-      woundStateMod = -2;
-    }
-    if (currentHP < 1) {
-      woundStateMod = -4;
-    }
-    return woundStateMod;
   }
 
   _getArmorValue(valueType, location) {
