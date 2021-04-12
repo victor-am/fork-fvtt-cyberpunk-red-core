@@ -668,7 +668,10 @@ export default class CPRActorSheet extends ActorSheet {
     const setting = true;
     if (setting) {
       const itemType = $(event.currentTarget).attr("data-item-type");
-      const itemName = `${SystemUtils.Localize("CPR.new")} ${itemType.capitalize()}`;
+      const itemTypeNice = itemType.toLowerCase().capitalize();
+      const itemString = "ITEM.Type";
+      const itemTypeLocal = itemString.concat(itemTypeNice);
+      const itemName = `${SystemUtils.Localize("CPR.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
       const itemData = {
         name: itemName,
         type: itemType,
