@@ -1,5 +1,6 @@
 {{trace "CPR-MOD-MOOK-SKILL-PROMPT.HBS"}}
 <form>
+  {{log this}}
   <div>
     <ol class="items-list">
       <li class="item flexrow">
@@ -9,8 +10,8 @@
         <div class="item flexrow setting-value text-nowrap item-end">
           <select name="skillName">
             {{#select skillName}}
-              {{#each (findConfigObj "skillList") as |skill s|}}
-                <option value="{{localize skill}}">{{localize skill}}</option>
+              {{#each skillList as |skill s|}}
+                <option value="{{skill}}">{{skill}}</option>
               {{/each}}
             {{/select}}
           </select>

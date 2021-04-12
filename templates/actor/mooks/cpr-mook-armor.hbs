@@ -27,7 +27,9 @@
                     </span>
                   {{/if}}
                   /{{armor.data.headLocation.sp}}
-                  <a class="ablate" data-location="head"><i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a>
+                  <a class="ablate" data-location="head">
+                    <i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i>
+                  </a>
                 </div>
               {{/if}}
               {{#if armor.data.isBodyLocation}}
@@ -43,7 +45,9 @@
                     </span>
                   {{/if}}
                   /{{armor.data.bodyLocation.sp}}
-                  <a class="ablate" data-location="body"><i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a>
+                  <a class="ablate" data-location="body">
+                    <i class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i>
+                  </a>
                 </div>
               {{/if}}
               {{#if armor.data.isShield}}
@@ -64,6 +68,11 @@
                   </a>
                 </div>
               {{/if}}
+              <div class="text-right">
+                <a class="item-action" data-action-type="delete">
+                  <i class="fas fa-trash-alt fg-red" title="Delete Item"></i>
+                </a>
+              </div>
             </li>
           </li>
         {{/if}}

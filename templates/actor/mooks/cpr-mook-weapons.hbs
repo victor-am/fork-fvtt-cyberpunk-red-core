@@ -7,9 +7,6 @@
     <div class="item-detail fg-white bg-red text-nowrap text-padding-left">
       {{localize "CPR.aim"}}/{{localize "CPR.af"}}/{{localize "CPR.sf"}}
     </div>
-    <div class="item-detail fg-white bg-red text-nowrap text-right text-padding-right">
-      {{localize "CPR.atk"}}/{{localize "CPR.dmg"}}
-    </div>
   </div>
   <div class="weapon-content fg-black">
     <ol class="items-list weapons-grid">
@@ -61,7 +58,7 @@
                   </a>
                 {{/if}}
               </div>
-              <div class="mook-weapon-rolls item-detail text-normal fight-weapon-attack text-nowrap text-right">
+              <div class="mook-weapon-rolls item-detail fight-weapon-attack text-nowrap text-right">
                 <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
                   <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
                 </a>
@@ -71,6 +68,9 @@
                     <i class="fas fa-tint red-fg" title="Roll Damage"></i>
                   </a>
                 {{/if}}
+                <a class="item-action" data-action-type="delete">
+                  <i class="fas fa-trash-alt fg-red" title="Delete Item"></i>
+                </a>
               </div>
             </div>
           </li>

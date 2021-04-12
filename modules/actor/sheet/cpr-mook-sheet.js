@@ -39,14 +39,19 @@ export default class CPRMookActorSheet extends CPRActorSheet {
   async _modMookSkill() {
     LOGGER.trace("_modMookSkill | CPRMookActorSheet | Called.");
     let again = true;
+    const skillList = [];
+    this.actor.data.filteredItems.skill.map((s) => {
+      LOGGER.debugObject(s);
+      skillList.push(s.data.name);
+      return skillList;
+    });
     while (again) {
-      // TODO - do this correctly with Promise.all()
-      // TODO - sort the list of skills and pass into RenderPrompt
       // eslint-disable-next-line no-await-in-loop
-      const formData = await ModMookSkillPrompt.RenderPrompt();
+      const formData = await ModMookSkillPrompt.RenderPrompt({ skillList });
       const skill = this.actor.data.filteredItems.skill.filter((s) => s.name === formData.skillName)[0];
       skill.setSkillLevel(formData.skillLevel);
       this._updateOwnedItem(skill);
+      // eslint-disable-next-line max-len
       const msg = `${SystemUtils.Localize("CPR.updated")} ${formData.skillName} ${SystemUtils.Localize("CPR.to")} ${formData.skillLevel}`;
       SystemUtils.DisplayMessage("notify", msg);
       again = formData.again;

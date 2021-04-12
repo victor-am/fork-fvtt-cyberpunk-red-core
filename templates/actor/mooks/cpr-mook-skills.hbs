@@ -12,9 +12,11 @@
 <div class="bg-white fg-black text-padding-left">
   {{#each (sort actor.filteredItems.skill "name") as |skill s|}}
     {{#if (compare skill.data.level ">" 0)}}
-      <a class="rollable" data-item-id="{{skill._id}}" data-roll-type="skill" data-roll-title="{{skill.name}}">
-        {{skill.name}} (+{{skill.data.level}}), 
-      </a>
+      <span class="item" data-item-id="{{skill._id}}">
+        <a class="rollable"  data-roll-type="skill" data-roll-title="{{skill.name}}">
+          {{skill.name}} (+{{skill.data.level}}), 
+        </a>
+      </span>
     {{/if}}
   {{/each}}
 </div>

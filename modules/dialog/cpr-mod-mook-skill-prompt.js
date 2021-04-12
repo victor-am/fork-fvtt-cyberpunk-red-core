@@ -3,9 +3,9 @@
 import LOGGER from "../utils/cpr-logger.js";
 
 export default class ModMookSkillPrompt {
-  static async RenderPrompt() {
+  static async RenderPrompt(skillList) {
     return new Promise((resolve, reject) => {
-      renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-mod-mook-skill-prompt.hbs").then((html) => {
+      renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-mod-mook-skill-prompt.hbs", skillList).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog ModMookSkillPrompt | called.");
           reject();
