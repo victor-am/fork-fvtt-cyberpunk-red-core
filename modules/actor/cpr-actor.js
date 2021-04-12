@@ -157,7 +157,7 @@ export default class CPRActor extends Actor {
   }
 
   getWoundStateMods() {
-    LOGGER.trace("setWoundState | CPRActor | Setting Wound State.");
+    LOGGER.trace("getWoundStateMods | CPRActor | Geting Wound State Mods.");
 
     let woundStateMod = 0;
     if (this.getWoundState() === "seriouslyWounded") {
