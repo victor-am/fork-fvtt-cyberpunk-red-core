@@ -496,6 +496,20 @@ export default class CPRActor extends Actor {
     return Math.min(...penaltyMods);
   }
 
+  getWoundStateMods() {
+    const currentHP = this.data.data.derivedStats.hp.value;
+    const maxHP = this.data.data.derivedStats.hp.max;
+    const halfHP = maxHP * 0.5;
+    let woundStateMod = 0;
+    if (currentHP < halfHP) {
+      woundStateMod = -2;
+    }
+    if (currentHP < 1) {
+      woundStateMod = -4;
+    }
+    return woundStateMod;
+  }
+
   _getArmorValue(valueType, location) {
     LOGGER.trace("ActorID _getArmorValue| CPRActorSheet | Called.");
 
@@ -561,13 +575,16 @@ export default class CPRActor extends Actor {
     const statValue = this.getStat(statName);
     const cprRoll = new CPRRolls.CPRStatRoll(niceStatName, statValue);
     cprRoll.addMod(this.getArmorPenaltyMods(statName));
+    cprRoll.addMod(this.getWoundStateMods());
     return cprRoll;
   }
 
   _createRoleRoll(roleName) {
     const niceRoleName = SystemUtils.Localize(CPR.roleAbilityList[roleName]);
     const roleValue = this._getRoleValue(roleName);
-    return new CPRRolls.CPRRoleRoll(niceRoleName, roleValue);
+    const cprRoll = new CPRRolls.CPRRoleRoll(niceRoleName, roleValue);
+    cprRoll.addMod(this.getWoundStateMods());
+    return cprRoll;
   }
 
   _getRoleValue(roleName) {
