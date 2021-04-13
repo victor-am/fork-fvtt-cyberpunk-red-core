@@ -307,6 +307,14 @@ export default class CPRItem extends Item {
     return (this.data.data.magazine.value - CPRItem.bulletConsumption(cprRoll)) >= 0;
   }
 
+  setWeaponAmmo(value) {
+    LOGGER.debug("setWeaponAmmo | CPRItem | Called.");
+    const maxAmmoPlusOne = this.getData().magazine.max + 1;
+    if (this.type === "weapon") {
+      this.getData().magazine.value = Math.clamped(0, value, maxAmmoPlusOne);
+    }
+  }
+
   // Returns true if weapon fired, otherwise returns false.
   fireRangedWeapon(cprRoll) {
     LOGGER.trace("fireRangedWeapon | CPRItem | Called.");
