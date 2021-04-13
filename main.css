@@ -696,7 +696,8 @@ button,
 .side-banner {
   writing-mode: vertical-lr;
   transform: rotate(180deg);
-  align-self: center;
+  min-height: -webkit-fill-available;
+  text-align: center;
 }
 .flex-space-between {
   display: flex;

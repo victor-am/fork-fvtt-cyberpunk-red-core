@@ -14,26 +14,23 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     LOGGER.trace("defaultOptions | CPRMookActorSheet | Called.");
     return mergeObject(super.defaultOptions, {
       template: "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-sheet.hbs",
+      width: 750,
+      height: 500,
     });
   }
 
   activateListeners(html) {
     LOGGER.trace("activateListeners | CPRMookActorSheet | Called.");
-    // clicking
-    html.find(".ablate").click((event) => this._ablateArmor(event));
-    html.find(".mook-fire-mode").click((event) => this._fireCheckboxToggle(event));
-    html.find(".item-action").click((event) => this._itemAction(event));
-    html.find(".item-edit").click((event) => this._renderItemCard(event));
-    html.find(".mod-mook-skill").click(() => this._modMookSkill());
-    html.find(".reset-value").click((event) => this._resetActorValue(event));
-    html.find(".rollable").click((event) => this._onRoll(event));
+    super.activateListeners(html);
 
-    // dragging
-    const handler = (event) => this._onDragItemStart(event);
-    html.find(".item").each((i, li) => {
-      li.setAttribute("draggable", true);
-      li.addEventListener("dragstart", handler, false);
-    });
+    // clicking
+    // html.find(".ablate").click((event) => this._ablateArmor(event));
+    html.find(".mook-fire-mode").click((event) => this._fireCheckboxToggle(event));
+    // html.find(".item-action").click((event) => this._itemAction(event));
+    // html.find(".item-edit").click((event) => this._renderItemCard(event));
+    html.find(".mod-mook-skill").click(() => this._modMookSkill());
+    // html.find(".reset-value").click((event) => this._resetActorValue(event));
+    // html.find(".rollable").click((event) => this._onRoll(event));
   }
 
   async _modMookSkill() {
@@ -77,12 +74,16 @@ export default class CPRMookActorSheet extends CPRActorSheet {
   }
 
   /** @override */
-  _onDragItemStart(event) {
-    LOGGER.trace("_onDragItemStart | CPRMookActorSheet | called.");
+  // This listener is normally provided by and activated by Foundry.
+  _onDrop(event) {
+    LOGGER.trace("_onDrop | CPRMookActorSheet | called.");
     super._onDragItemStart(event);
     // auto-equip the item
+    LOGGER.debugObject(event);
     const itemId = event.currentTarget.getAttribute("data-item-id");
+    LOGGER.debug(itemId);
     const item = this.actor.getEmbeddedEntity("OwnedItem", itemId);
+    LOGGER.debugObject(item);
     this._updateOwnedItemProp(item, "data.equipped", "equipped");
   }
 }
