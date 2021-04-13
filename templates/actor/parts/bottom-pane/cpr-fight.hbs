@@ -3,23 +3,11 @@
     <div class="injuries-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
-                {{localize "CPR.critinjuries"}} {{!-- <a class="add-critical-injury" title="{{localize "CPR.addcriticalinjury"}}"><i class="fas fa-plus-circle text-float-right text-padding-right"></i></a> --}}
+                {{localize "CPR.critinjuries"}}
                 <span class="item-detail gear-actions bg-black text-nowrap text-float-right text-padding-right">{{#if (systemConfig "playersCreateInventory")}}<a class="item-create" title="{{localize "CPR.createnewitem"}}" data-item-type="criticalInjury"><i class="fas fa-plus-circle text-padding-right"></i></a>{{/if}}</span>
             </span>
         </li>
         <div class="critical-injury-content">
-          {{!-- Critical Injury on Actor --}}
-            <ol class="items-list critical-injuries-list"></ol>
-            {{#each actor.data.criticalInjuries as |injury|}}
-            <li class="flex-space-between item flexrow" data-item-id="{{injury.id}}" >
-                <a class="edit-critical-injury text-nowrap" data-injury-id="{{injury.id}}"><span title="{{localize "CPR.effects"}}: {{injury.effect}}
-{{localize "CPR.quickfix"}}: {{injury.quickfix}}
-{{localize "CPR.treatment"}}: {{injury.treatment}}
-{{localize "CPR.criticalinjurydeathsave"}}: {{#if (getProp (findObj mods "name" "deathSavePenalty" ) "value")}}true{{else}}false{{/if}}">{{injury.name}}</span></a><a class="delete-critical-injury " data-injury-id="{{injury.id}}"><i class="fas fa-trash-alt fg-red text-float-right text-padding-right" title="Delete Item"></i></a>
-            </li>
-            {{/each}}
-            </ol>
-            <hr>
             {{!-- Critical Injury as Item --}}
             <ol class="items-list critical-injury-list">
               {{#each (sort actor.filteredItems.criticalInjury "name") as |criticalInjury| }}
