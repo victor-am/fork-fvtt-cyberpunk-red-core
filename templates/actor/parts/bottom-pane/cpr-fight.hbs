@@ -4,6 +4,7 @@
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
                 {{localize "CPR.critinjuries"}}
+                <span class="item-detail gear-actions bg-black text-nowrap text-float-right text-padding-right"><a class="roll-critical-injury" title="{{localize "CPR.rollcriticalinjury"}}" data-item-type="criticalInjury"><i class="fas fa-dice text-padding-right"></i></a></span>
                 <span class="item-detail gear-actions bg-black text-nowrap text-float-right text-padding-right">{{#if (systemConfig "playersCreateInventory")}}<a class="item-create" title="{{localize "CPR.createnewitem"}}" data-item-type="criticalInjury"><i class="fas fa-plus-circle text-padding-right"></i></a>{{/if}}</span>
             </span>
         </li>

@@ -191,6 +191,9 @@ export default class CPRActorSheet extends ActorSheet {
     // Create item in inventory
     html.find(".item-create").click((event) => this._createInventoryItem(event));
 
+    // Roll critical injuries and add to sheet
+    html.find(".roll-critical-injury").click(() => this._rollCriticalInjury());
+
     // Add New Skill Item To Sheet
     html.find(".add-skill").click((event) => this._addSkill(event));
 
@@ -638,6 +641,27 @@ export default class CPRActorSheet extends ActorSheet {
       };
       this.actor.createEmbeddedEntity("OwnedItem", itemData);
     }
+  }
+
+  _rollCriticalInjury() {
+    const critPattern = new RegExp("^CritInjury");
+    const table2 = game.tables.filter((t) => t.data.name.match(critPattern));
+    const table = game.tables.entities.find((t) => t.name === "CritInjuryBody");
+    console.log(table2);
+    table.draw()
+      .then((res) => {
+        /* console.log(res); */
+        if (res.results.length > 0) {
+          const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
+          const itemData = {
+            name: crit.name,
+            type: crit.type,
+            img: crit.img,
+            data: crit.data,
+          };
+          this.actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+        }
+      });
   }
 
   /* Ledger methods */
