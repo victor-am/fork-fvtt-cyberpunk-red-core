@@ -213,6 +213,7 @@
     "CPR.criticalinjuries": "Critical Injuries",
     "CPR.criticalinjury": "Critical Injury",
     "CPR.criticalinjurydeathsave": "Increases Base Death Save",
+    "CPR.criticalinjurynone": "You don't have any critical injury tables, Choomba!",
     "CPR.criticalinjuryroll": "Roll on Critical Injury Table",
     "CPR.criticalinjuryselect": "Select Critical Injury Table:",
     "CPR.criticalinjurytitleprompt": "You're Injured, Choomba!",
