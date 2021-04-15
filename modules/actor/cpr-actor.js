@@ -456,27 +456,6 @@ export default class CPRActor extends Actor {
     return this.createEmbeddedEntity("OwnedItem", itemData, { force: true });
   }
 
-  rollCriticalInjury() {
-    const critPattern = new RegExp("^CritInjury");
-    const table2 = game.tables.filter((t) => t.data.name.match(critPattern));
-    const table = game.tables.entities.find((t) => t.name === "CritInjuryBody");
-    console.log(table2);
-    table.draw()
-      .then((res) => {
-        /* console.log(res); */
-        if (res.results.length > 0) {
-          const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
-          const itemData = {
-            name: crit.name,
-            type: crit.type,
-            img: crit.img,
-            data: crit.data,
-          };
-          this.createEmbeddedEntity("OwnedItem", itemData, { force: true });
-        }
-      });
-  }
-
   getArmorPenaltyMods(stat) {
     const penaltyStats = ["ref", "dex", "move"];
     const penaltyMods = [0];

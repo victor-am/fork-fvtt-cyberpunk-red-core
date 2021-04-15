@@ -211,13 +211,13 @@ CPR.inventoryCategories = {
 CPR.objectTypes = {
   ammo: "CPR.ammo",
   armor: "CPR.armor",
-  cyberware: "CPR.cyberware",
   clothing: "CPR.clothing",
+  criticalInjury: "CPR.criticalinjury",
+  cyberware: "CPR.cyberware",
   gear: "CPR.gear",
   netarch: "CPR.netarch",
   program: "CPR.program",
   skill: "CPR.skill",
-  criticalInjury: "CPR.criticalinjurytitle",
   vehicle: "CPR.vehicle",
   weapon: "CPR.weapon",
 };

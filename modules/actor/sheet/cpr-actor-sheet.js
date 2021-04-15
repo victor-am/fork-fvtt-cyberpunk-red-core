@@ -6,7 +6,7 @@ import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
 import CPRChat from "../../chat/cpr-chat.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
-import CriticalInjuryPrompt from "../../dialog/cpr-critical-injury-prompt.js";
+import RollCriticalInjuryPrompt from "../../dialog/cpr-roll-critical-injury-prompt.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import Rules from "../../utils/cpr-rules.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
@@ -643,21 +643,32 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  _rollCriticalInjury() {
-    const critPattern = new RegExp("^CritInjury");
-    const table2 = game.tables.filter((t) => t.data.name.match(critPattern));
-    const table = game.tables.entities.find((t) => t.name === "CritInjuryBody");
-    console.log(table2);
+  _getCriticalInjuryTables() {
+    const critPattern = new RegExp("^Critical Injury|^CriticalInjury|^CritInjury|^Crit Injury");
+    const tableNames = [];
+    const tableList = game.tables.filter((t) => t.data.name.match(critPattern));
+    tableList.forEach((table) => tableNames.push(table.data.name));
+    return tableNames.sort();
+  }
+
+  async _setCriticalInjuryTable() {
+    const critInjuryTables = this._getCriticalInjuryTables();
+    const formData = await RollCriticalInjuryPrompt.RenderPrompt(critInjuryTables);
+    return formData.criticalInjuryTable;
+  }
+
+  async _rollCriticalInjury() {
+    const tableName = await this._setCriticalInjuryTable();
+    const table = game.tables.entities.find((t) => t.name === tableName);
     table.draw()
       .then((res) => {
-        /* console.log(res); */
         if (res.results.length > 0) {
           const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
           const itemData = {
             name: crit.name,
             type: crit.type,
             img: crit.img,
-            data: crit.data,
+            data: crit.data.data,
           };
           this.actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
         }
