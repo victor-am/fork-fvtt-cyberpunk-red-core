@@ -361,6 +361,7 @@ export default class CPRItem extends Item {
     const skillLevel = itemData.level;
     const cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel);
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
+    cprRoll.addMod(actor.getWoundStateMods());
     cprRoll.addMod(this._getSkillMod());
     return cprRoll;
   }
@@ -413,6 +414,7 @@ export default class CPRItem extends Item {
 
     // apply known mods
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
+    cprRoll.addMod(actor.getWoundStateMods());
     cprRoll.addMod(this._getMods());
     cprRoll.addMod(this._getAttackMod());
     cprRoll.addMod(skillMod);
