@@ -3,11 +3,14 @@
   <div class="cpr-hud-icon roll-critical-injury-config">
     <div>{{localize "CPR.criticalinjuryselect"}}</div>
     <div>
+      {{#if this}}
       <select name="criticalInjuryTable">
         {{#each this as |rollTableName|}}
         <option value="{{rollTableName}}">{{rollTableName}}</option>
         {{/each}}
       </select>
+      {{else}}{{localize "CPR.criticalinjuriesnone"}}
+      {{/if}}
     </div>
   </div>
 </form>
