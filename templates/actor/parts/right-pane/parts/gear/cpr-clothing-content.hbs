@@ -2,12 +2,12 @@
 <li class="item flexrow{{#if item.data.favorite}} favorite{{/if}}" data-item-id="{{item._id}}"
     data-item-category="{{item.type}}" draggable="true">
     <div class="item-name gear-name text-nowrap">
-        <a class="name item-edit" title="{{item.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{item.name}}&nbsp;(x{{item.data.amount}})</a>
+        <a class="name item-edit" title="{{item.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{item.name}}{{#if (compare item.data.amount ">" 1)}}&nbsp;(x{{item.data.amount}}){{/if}}</a>
     </div>
     <div class="item-detail gear-data text-nowrap">
         {{item.data.price.market}} eb
         |
-        {{localize (findConfigValue "clothingType" item.data.type)}}
+        {{localize (findConfigValue "clothingType" item.data.type)}} ({{localize (findConfigValue "clothingStyle" item.data.style)}})
     </div>
     <div class="item-detail gear-actions text-nowrap">
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}

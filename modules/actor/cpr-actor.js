@@ -155,6 +155,19 @@ export default class CPRActor extends Actor {
     this.data.data.derivedStats.currentWoundState = newState;
   }
 
+  getWoundStateMods() {
+    LOGGER.trace("getWoundStateMods | CPRActor | Obtaining Wound State Mods.");
+
+    let woundStateMod = 0;
+    if (this.getWoundState() === "seriouslyWounded") {
+      woundStateMod = -2;
+    }
+    if (this.getWoundState() === "mortallyWounded") {
+      woundStateMod = -4;
+    }
+    return woundStateMod;
+  }
+
   getInstalledCyberware() {
     return this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled);
   }
@@ -536,13 +549,16 @@ export default class CPRActor extends Actor {
     const statValue = this.getStat(statName);
     const cprRoll = new CPRRolls.CPRStatRoll(niceStatName, statValue);
     cprRoll.addMod(this.getArmorPenaltyMods(statName));
+    cprRoll.addMod(this.getWoundStateMods());
     return cprRoll;
   }
 
   _createRoleRoll(roleName) {
     const niceRoleName = SystemUtils.Localize(CPR.roleAbilityList[roleName]);
     const roleValue = this._getRoleValue(roleName);
-    return new CPRRolls.CPRRoleRoll(niceRoleName, roleValue);
+    const cprRoll = new CPRRolls.CPRRoleRoll(niceRoleName, roleValue);
+    cprRoll.addMod(this.getWoundStateMods());
+    return cprRoll;
   }
 
   _getRoleValue(roleName) {
