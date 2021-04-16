@@ -7,6 +7,7 @@
 - Introduced some code so that the core skills on the character sheet are localized, which will help with current and future translations.
 - Added a "Clothing" item for those stylish chooms (per feature request #165).
 - Localized the new item and actor drop-down menus so that they appear more professional.
+- Wound State penalties automatically apply as mods on the roll (e.g. if the token is Seriously Wounded all actions will automatically have a -2 penalty)
 
 # DEV WIP BUGFIXES
 - 'Basic' skills (the ones that all characters have points in) now display as bold again (no issue to reference)
