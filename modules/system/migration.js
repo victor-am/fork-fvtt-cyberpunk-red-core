@@ -3,9 +3,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-await-in-loop */
 export default class Migration {
-  static async migrateWorld(incomingDataModelVersion) {
-    ui.notifications.notify(`Beginning Migration of Cyberpunk Red Core from Data Model ${incomingDataModelVersion} to ${game.system.data.version}.`);
-    this.incomingDataModelVersion = incomingDataModelVersion;
+  static async migrateWorld(oldDataModelVersion, newDataModelVersion) {
+    ui.notifications.notify(`Beginning Migration of Cyberpunk Red Core from Data Model ${oldDataModelVersion} to ${newDataModelVersion}.`);
     let totalCount = game.items.entities.length;
     let quarterCount = totalCount / 4;
     let loopIndex = 0;
@@ -62,9 +61,9 @@ export default class Migration {
         });
       }
     }
-    ui.notifications.notify(`Migration of Cyberpunk Red Core to Data Model ${incomingDataModelVersion} Finished.`);
+    ui.notifications.notify(`Migration of Cyberpunk Red Core to Data Model ${newDataModelVersion} Finished.`);
 
-    game.settings.set("cyberpunk-red-core", "dataModelVersion", incomingDataModelVersion);
+    game.settings.set("cyberpunk-red-core", "dataModelVersion", newDataModelVersion);
   }
 
   static async migrateActorData(actor) {
@@ -295,11 +294,11 @@ export default class Migration {
             unidentified: "",
           },
           quickFix: {
-            type: "",
+            type: "firstAidParamedic",
             dv: 0,
           },
           treatment: {
-            type: "",
+            type: "paramedicSurgery",
             dv: 0,
           },
           deathSaveIncrease: hasPenalty,

@@ -85,7 +85,7 @@ Hooks.once("ready", () => {
   // Determine if we need to perform a migration
   const needsMigration = dataModelVersion && isNewerVersion(DATA_MODEL_VERSION, dataModelVersion);
   if (!needsMigration) return;
-  Migration.migrateWorld(dataModelVersion);
+  Migration.migrateWorld(dataModelVersion, DATA_MODEL_VERSION);
 });
 
 registerHooks();
