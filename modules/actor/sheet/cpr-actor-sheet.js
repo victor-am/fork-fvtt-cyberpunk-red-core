@@ -644,7 +644,7 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _getCriticalInjuryTables() {
-    const critPattern = new RegExp("^Critical Injury|^CriticalInjury|^CritInjury|^Crit Injury");
+    const critPattern = new RegExp("^Critical Injury|^CriticalInjury|^CritInjury|^Crit Injury|^Critical Injuries|^CriticalInjuries");
     const tableNames = [];
     const tableList = game.tables.filter((t) => t.data.name.match(critPattern));
     tableList.forEach((table) => tableNames.push(table.data.name));

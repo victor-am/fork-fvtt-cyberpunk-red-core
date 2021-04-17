@@ -295,11 +295,13 @@ export default class Migration {
           },
           quickFix: {
             type: "firstAidParamedic",
-            dv: 0,
+            dvFirstAid: 0,
+            dvParamedic: 0,
           },
           treatment: {
             type: "paramedicSurgery",
-            dv: 0,
+            dvParamedic: 0,
+            dvSurgery: 0,
           },
           deathSaveIncrease: hasPenalty,
         },
