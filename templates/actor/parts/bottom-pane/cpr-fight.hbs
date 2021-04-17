@@ -13,7 +13,7 @@
             <ol class="items-list critical-injury-list">
               {{#each (sort actor.filteredItems.criticalInjury "name") as |criticalInjury| }}
               <li class="flex-space-between item flexrow" data-item-id="{{criticalInjury._id}}" data-item-category="{{criticalInjury.type}}" draggable="true">
-                <div><a class="name item-edit text-nowrap" title="{{criticalInjury.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{criticalInjury.name}}</a></div>
+                <div><a class="name item-edit text-nowrap {{#if criticalInjury.data.deathSaveIncrease}}text-bold{{/if}}" title="{{criticalInjury.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{criticalInjury.name}} ({{localize (findConfigValue "criticalInjuryLocation" criticalInjury.data.location)}})</a></div>
                 <div class="item-detail gear-actions text-nowrap">
                   <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red text-float-right text-padding-right" title="Delete Item"></i></a>
                 </div>

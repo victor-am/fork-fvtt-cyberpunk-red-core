@@ -33,6 +33,30 @@
       "path": "packs/dvTables.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Critical Injuries (Body) - Core",
+      "entity": "Item",
+      "name": "criticalInjuriesBody",
+      "path": "packs/critical-injuries-body-core.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Critical Injuries (Head) - Core",
+      "entity": "Item",
+      "name": "criticalInjuriesHead",
+      "path": "packs/critical-injuries-head-core.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Critical Injury Tables - Core",
+      "entity": "RollTable",
+      "name": "criticalInjuryTables",
+      "path": "packs/critical-injury-tables-core.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
     }
   ],
   "languages": [
