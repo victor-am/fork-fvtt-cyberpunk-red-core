@@ -213,7 +213,7 @@
     "CPR.criticalinjuries": "Critical Injuries",
     "CPR.criticalinjury": "Critical Injury",
     "CPR.criticalinjurydeathsave": "Increases Base Death Save",
-    "CPR.criticalinjurynonewarning": "You don't have any critical injury tables, Choomba! Import the tables and items from the included compendia or you can make your own (as long as the title starts with 'Critical Injury' (no quotes)).",
+    "CPR.criticalinjurynonewarning": "You don't have any critical injury tables, Choomba! Import the items first, then the tables from the included compendia. Once imported, roll once on each table. You can also make your own (as long as the title starts with 'Critical Injuries' (no quotes)).",
     "CPR.criticalinjuryroll": "Roll on Critical Injury Table",
     "CPR.criticalinjuryselect": "Select Critical Injury Table:",
     "CPR.criticalinjurytitleprompt": "You're Injured, Choomba!",
