@@ -192,7 +192,6 @@
           "notes": "",
           "history": ""
         },
-
         "criticalInjuries": []
       }
     },
@@ -291,6 +290,7 @@
       "ammo",
       "armor",
       "clothing",
+      "criticalInjury",
       "cyberware",
       "cyberdeck",
       "gear",
@@ -485,6 +485,24 @@
       "core": false,
       "basic": false,
       "skillmod": 0
+    },
+    "criticalInjury": {
+      "templates": [
+        "common"
+      ],
+      "location": "body",
+      "effects": "",
+      "quickFix": {
+        "type": "firstAidParamedic",
+        "dvFirstAid": 0,
+        "dvParamedic": 0
+      },
+      "treatment": {
+        "type": "paramedicSurgery",
+        "dvParamedic": 0,
+        "dvSurgery": 0
+      },
+      "deathSaveIncrease": false
     },
     "vehicle": {
       "templates": [

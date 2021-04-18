@@ -120,11 +120,10 @@ export default class CPRActor extends Actor {
 
     // Death save
     let basePenalty = 0;
-    const { criticalInjuries } = this.data.data;
-    criticalInjuries.forEach((injury) => {
-      const { mods } = injury;
-      const hasPenalty = (mods.filter((mod) => mod.name === "deathSavePenalty"))[0].value;
-      if (hasPenalty) {
+    const critInjury = this.data.filteredItems.criticalInjury;
+    critInjury.forEach((criticalInjury) => {
+      const { deathSaveIncrease } = criticalInjury.data.data;
+      if (deathSaveIncrease) {
         basePenalty += 1;
       }
     });
@@ -154,6 +153,19 @@ export default class CPRActor extends Actor {
       newState = "notWounded";
     }
     this.data.data.derivedStats.currentWoundState = newState;
+  }
+
+  getWoundStateMods() {
+    LOGGER.trace("getWoundStateMods | CPRActor | Obtaining Wound State Mods.");
+
+    let woundStateMod = 0;
+    if (this.getWoundState() === "seriouslyWounded") {
+      woundStateMod = -2;
+    }
+    if (this.getWoundState() === "mortallyWounded") {
+      woundStateMod = -4;
+    }
+    return woundStateMod;
   }
 
   getInstalledCyberware() {
@@ -432,53 +444,29 @@ export default class CPRActor extends Actor {
     return true;
   }
 
-  addCriticalInjury(location, name, effect, quickfix, treatment, mods = []) {
-    const id = randomID(10);
-    const injuries = this.data.data.criticalInjuries;
-    const injuryDetails = {
-      id,
-      location,
+  addCriticalInjury(location, name, effect, quickFixType, quickFixDV, treatmentType, treatmentDV, deathSaveIncrease = false) {
+    const itemData = {
+      type: "criticalInjury",
       name,
-      effect,
-      quickfix,
-      treatment,
-      mods,
+      data: {
+        location,
+        description: {
+          value: effect,
+          chat: "",
+          unidentified: "",
+        },
+        quickFix: {
+          type: quickFixType,
+          dv: quickFixDV,
+        },
+        treatment: {
+          type: treatmentType,
+          dv: treatmentDV,
+        },
+        deathSaveIncrease,
+      },
     };
-    injuries.push(injuryDetails);
-    return this.update({ "data.criticalInjuries": injuries });
-  }
-
-  editCriticalInjury(injuryId, location, name, effect, quickfix, treatment, mods = []) {
-    const { criticalInjuries } = this.data.data;
-    const newInjuryList = [];
-    criticalInjuries.forEach((injury) => {
-      const tmpInjury = injury;
-      if (tmpInjury.id === injuryId) {
-        tmpInjury.location = location;
-        tmpInjury.name = name;
-        tmpInjury.effect = effect;
-        tmpInjury.quickfix = quickfix;
-        tmpInjury.treatment = treatment;
-        tmpInjury.mods = mods;
-      }
-      newInjuryList.push(tmpInjury);
-    });
-    return this.update({ "data.criticalInjuries": newInjuryList });
-  }
-
-  deleteCriticalInjury(injuryId) {
-    const { criticalInjuries } = this.data.data;
-    const filteredInjuries = criticalInjuries.filter((i) => i.id !== injuryId);
-    return this.update({ "data.criticalInjuries": filteredInjuries });
-  }
-
-  getCriticalInjury(injuryId) {
-    const { criticalInjuries } = this.data.data;
-    const filteredInjuries = criticalInjuries.filter((i) => i.id === injuryId);
-    if (filteredInjuries.length > 0) {
-      return filteredInjuries[0];
-    }
-    return {};
+    return this.createEmbeddedEntity("OwnedItem", itemData, { force: true });
   }
 
   getArmorPenaltyMods(stat) {
@@ -561,13 +549,16 @@ export default class CPRActor extends Actor {
     const statValue = this.getStat(statName);
     const cprRoll = new CPRRolls.CPRStatRoll(niceStatName, statValue);
     cprRoll.addMod(this.getArmorPenaltyMods(statName));
+    cprRoll.addMod(this.getWoundStateMods());
     return cprRoll;
   }
 
   _createRoleRoll(roleName) {
     const niceRoleName = SystemUtils.Localize(CPR.roleAbilityList[roleName]);
     const roleValue = this._getRoleValue(roleName);
-    return new CPRRolls.CPRRoleRoll(niceRoleName, roleValue);
+    const cprRoll = new CPRRolls.CPRRoleRoll(niceRoleName, roleValue);
+    cprRoll.addMod(this.getWoundStateMods());
+    return cprRoll;
   }
 
   _getRoleValue(roleName) {

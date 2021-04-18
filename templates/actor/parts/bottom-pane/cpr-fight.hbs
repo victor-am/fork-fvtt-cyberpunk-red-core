@@ -3,19 +3,22 @@
     <div class="injuries-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
-                {{localize "CPR.critinjuries"}}<a class="add-critical-injury" title="{{localize "CPR.addcriticalinjury"}}"><i class="fas fa-plus-circle text-float-right text-padding-right"></i></a>
+                {{localize "CPR.critinjuries"}}
+                <span class="item-detail gear-actions bg-black text-nowrap text-float-right text-padding-right"><a class="roll-critical-injury" title="{{localize "CPR.criticalinjuryroll"}}" data-item-type="criticalInjury"><i class="fas fa-dice text-padding-right"></i></a></span>
+                <span class="item-detail gear-actions bg-black text-nowrap text-float-right text-padding-right">{{#if (systemConfig "playersCreateInventory")}}<a class="item-create" title="{{localize "CPR.createnewitem"}}" data-item-type="criticalInjury"><i class="fas fa-plus-circle text-padding-right"></i></a>{{/if}}</span>
             </span>
         </li>
-        <div class="injuries-content">
-            <ol class="items-list critical-injuries-list"></ol>
-            {{#each actor.data.criticalInjuries as |injury|}}
-            <li class="flex-space-between item flexrow" data-item-id="{{injury.id}}" >
-                <a class="edit-critical-injury text-nowrap" data-injury-id="{{injury.id}}"><span title="{{localize "CPR.effects"}}: {{injury.effect}}
-{{localize "CPR.quickfix"}}: {{injury.quickfix}}
-{{localize "CPR.treatment"}}: {{injury.treatment}}
-{{localize "CPR.criticalinjurydeathsave"}}: {{#if (getProp (findObj mods "name" "deathSavePenalty" ) "value")}}true{{else}}false{{/if}}">{{injury.name}}</span></a><a class="delete-critical-injury " data-injury-id="{{injury.id}}"><i class="fas fa-trash-alt fg-red text-float-right text-padding-right" title="Delete Item"></i></a>
-            </li>
-            {{/each}}
+        <div class="critical-injury-content">
+            {{!-- Critical Injury as Item --}}
+            <ol class="items-list critical-injury-list">
+              {{#each (sort actor.filteredItems.criticalInjury "name") as |criticalInjury| }}
+              <li class="flex-space-between item flexrow" data-item-id="{{criticalInjury._id}}" data-item-category="{{criticalInjury.type}}" draggable="true">
+                <div><a class="name item-edit text-nowrap {{#if criticalInjury.data.deathSaveIncrease}}text-bold{{/if}}" title="{{criticalInjury.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{criticalInjury.name}} {{#if (compare criticalInjury.data.location "===" "body")}}<i class="fas fa-user-injured text-padding-left"></i>{{/if}}{{#if (compare criticalInjury.data.location "===" "head")}}<i class="fas fa-tired text-padding-left"></i>{{/if}}</a></div>
+                <div class="item-detail gear-actions text-nowrap">
+                  <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red text-float-right text-padding-right" title="Delete Item"></i></a>
+                </div>
+              </li>
+              {{/each}}
             </ol>
         </div>
     </div>
@@ -133,7 +136,7 @@
                             {{localize "CPR.aim"}}
                         </div>
                         <div class="fight-weapon-aim-box">
-                            <input class="fire-checkbox" type="checkbox" {{fireflag ../actor "aimed" weapon._id}} id="aimed-{{weapon._id}}" 
+                            <input class="fire-checkbox" type="checkbox" {{fireflag ../actor "aimed" weapon._id}} id="aimed-{{weapon._id}}"
                                 data-target="aimed" data-item-id={{weapon._id}}>
                         </div>
                         {{#if (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType)}}
