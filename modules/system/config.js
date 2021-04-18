@@ -211,8 +211,9 @@ CPR.inventoryCategories = {
 CPR.objectTypes = {
   ammo: "CPR.ammo",
   armor: "CPR.armor",
-  cyberware: "CPR.cyberware",
   clothing: "CPR.clothing",
+  criticalInjury: "CPR.criticalinjury",
+  cyberware: "CPR.cyberware",
   gear: "CPR.gear",
   netarch: "CPR.netarch",
   program: "CPR.program",
@@ -300,6 +301,22 @@ CPR.itemQuality = {
   excellent: "CPR.excellent",
 };
 
+CPR.criticalInjuryLocation = {
+  body: "CPR.bodylocation",
+  head: "CPR.head",
+};
+
+CPR.criticalInjuryQuickFix = {
+  firstAidParamedic: "CPR.firstaidparamedic",
+  paramedic: "CPR.paramedic",
+  notApplicable: "CPR.notapplicable",
+};
+
+CPR.criticalInjuryTreatment = {
+  paramedicSurgery: "CPR.paramedicsurgery",
+  quickFix: "CPR.quickfix",
+  surgery: "CPR.surgery",
+};
 CPR.aimedLocation = {
   head: "CPR.head",
   heldItem: "CPR.helditem",

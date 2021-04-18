@@ -3,9 +3,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-await-in-loop */
 export default class Migration {
-  static async migrateWorld(incomingDataModelVersion) {
-    ui.notifications.notify(`Beginning Migration of Cyberpunk Red Core from Data Model ${incomingDataModelVersion} to ${game.system.data.version}.`);
-    this.incomingDataModelVersion = incomingDataModelVersion;
+  static async migrateWorld(oldDataModelVersion, newDataModelVersion) {
+    ui.notifications.notify(`Beginning Migration of Cyberpunk Red Core from Data Model ${oldDataModelVersion} to ${newDataModelVersion}.`);
     let totalCount = game.items.entities.length;
     let quarterCount = totalCount / 4;
     let loopIndex = 0;
@@ -62,9 +61,9 @@ export default class Migration {
         });
       }
     }
-    ui.notifications.notify(`Migration of Cyberpunk Red Core to Data Model ${game.system.data.version} Finished.`);
+    ui.notifications.notify(`Migration of Cyberpunk Red Core to Data Model ${newDataModelVersion} Finished.`);
 
-    game.settings.set("cyberpunk-red-core", "dataModelVersion", game.system.data.version);
+    game.settings.set("cyberpunk-red-core", "dataModelVersion", newDataModelVersion);
   }
 
   static async migrateActorData(actor) {
@@ -79,6 +78,10 @@ export default class Migration {
       await actor.updateEmbeddedEntity("OwnedItem", updateItems);
     } else {
       actor.data.items = updateItems;
+    }
+
+    if ((typeof actor.data.data.criticalInjuries) !== "undefined") {
+      await this.migrateCriticalInjuries(actor);
     }
 
     // Moved to after all of the items have been migrated, since this is used to
@@ -236,6 +239,7 @@ export default class Migration {
     if ((typeof actorData.data.currentWoundState) !== "undefined") {
       actorData.data.derivedStats.currentWoundState = actorData.data.currentWoundState;
     }
+
     // Check the ActorData for properties no longer in use and add them
     // to the scrubData object to have them removed
     const scrubData = this.scrubActorData(actorData);
@@ -268,9 +272,43 @@ export default class Migration {
 
     // Loop through and add the items the actor is missing
     content.forEach(async (c) => {
-      const itemData = c.data;
+      const itemData = [c.data];
       await actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
     });
+  }
+
+  static async migrateCriticalInjuries(actor) {
+    const { criticalInjuries } = actor.data.data;
+    const injuryItems = [];
+    criticalInjuries.forEach(async (injury) => {
+      const { mods } = injury;
+      const hasPenalty = (mods.filter((mod) => mod.name === "deathSavePenalty"))[0].value;
+      const itemData = {
+        type: "criticalInjury",
+        name: injury.name,
+        data: {
+          location: injury.location,
+          description: {
+            value: injury.effect,
+            chat: "",
+            unidentified: "",
+          },
+          quickFix: {
+            type: "firstAidParamedic",
+            dvFirstAid: 0,
+            dvParamedic: 0,
+          },
+          treatment: {
+            type: "paramedicSurgery",
+            dvParamedic: 0,
+            dvSurgery: 0,
+          },
+          deathSaveIncrease: hasPenalty,
+        },
+      };
+      injuryItems.push(itemData);
+    });
+    return actor.createEmbeddedEntity("OwnedItem", injuryItems, { force: true });
   }
 
   // The following is code that is used to remove data points on the actor model that
@@ -307,6 +345,9 @@ export default class Migration {
       // Removed in 0.72
       if ((typeof actorData.data.hp) !== "undefined") {
         scrubData["data.-=hp"] = null;
+      }
+      if ((typeof actorData.data.criticalInjuries) !== "undefined") {
+        scrubData["data.-=criticalInjuries"] = null;
       }
     }
     // Remove unused data points from an actor (character & mooks)
