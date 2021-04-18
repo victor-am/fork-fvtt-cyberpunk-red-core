@@ -65,17 +65,30 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     }
   }
 
-  /** @override */
-  // This listener is normally provided by and activated by Foundry.
+  /** @override
+  This method is called as a byproduct of a drag-and-drop listener provided by Foundry. (_onDrop)
+  Foundry does not provide an easy way to look up an item that was just created via a drag-and-drop event.
+  An itemId is in the enclosed data, but it is for the item that was dragged, and it changes when the
+  (duplicate) owned item is created.
+  */
+  async _onDropItemCreate(itemData) {
+    LOGGER.debugObject(itemData);
+    const eqItem = itemData;
+    eqItem.data.equipped = "equipped";
+    return super._onDropItemCreate(eqItem);
+  }
+
+  /*
   _onDrop(event) {
     LOGGER.trace("_onDrop | CPRMookActorSheet | called.");
-    super._onDragItemStart(event);
+    const thing = super._onDrop(event);
+    LOGGER.debugObject(thing);
     // auto-equip the item
-    LOGGER.debugObject(event);
-    const itemId = event.currentTarget.getAttribute("data-item-id");
-    LOGGER.debug(itemId);
-    const item = this.actor.getEmbeddedEntity("OwnedItem", itemId);
+    const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
+    LOGGER.debugObject(dragData);
+    const item = this.actor.getOwnedItem(dragData.id);
     LOGGER.debugObject(item);
     this._updateOwnedItemProp(item, "data.equipped", "equipped");
   }
+  */
 }

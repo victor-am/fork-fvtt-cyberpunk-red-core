@@ -1,9 +1,9 @@
 {{trace "CPR-MOOK-CYBERWARE.HBS"}}
 <div class="items-header bg-red fg-white flexrow">
   <span class="item-name section-name text-nowrap text-padding-left">
-    {{localize "CPR.cyberware"}}/{{localize "CPR.specialfeatures"}}
+    {{localize "CPR.cyberware"}}/{{localize "CPR.specialgear"}}
   </span>
-</div>
+</div>  
 <div class="bg-white fg-black text-padding-left">
   <!-- Cyberware -->
   {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
@@ -23,9 +23,7 @@
     {{/each}}
   {{/each}}
   <!-- Gear -->
-  {{log this.items}}
   {{#each this.items as |item i|}}
-    {{log item}}
     {{#if (compare item.type "===" "ammo")}}
       <a class="name item-edit" title="{{item.name}}&#13Click to view the item&#13Ctrl-Click to send to chat" data-item-id="{{item._id}}">
         {{item.name}} (x{{item.data.amount}}),

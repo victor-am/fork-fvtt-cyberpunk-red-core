@@ -12,7 +12,6 @@ import Rules from "../../utils/cpr-rules.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
-import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
 
 /**
  * Extend the basic ActorSheet.
