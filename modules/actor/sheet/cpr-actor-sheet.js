@@ -6,7 +6,7 @@ import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
 import CPRChat from "../../chat/cpr-chat.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
-import CriticalInjuryPrompt from "../../dialog/cpr-critical-injury-prompt.js";
+import RollCriticalInjuryPrompt from "../../dialog/cpr-roll-critical-injury-prompt.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import Rules from "../../utils/cpr-rules.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
@@ -89,12 +89,6 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Select Roles for Character
     html.find(".select-roles").click(() => this._selectRoles());
-
-    html.find(".add-critical-injury").click(() => this._addCriticalInjury());
-
-    html.find(".edit-critical-injury").click((event) => this._editCriticalInjury(event));
-
-    html.find(".delete-critical-injury").click((event) => this._deleteCriticalInjury(event));
 
     // Set Lifepath for Character
     html.find(".set-lifepath").click(() => this._setLifepath());
@@ -196,6 +190,9 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Create item in inventory
     html.find(".item-create").click((event) => this._createInventoryItem(event));
+
+    // Roll critical injuries and add to sheet
+    html.find(".roll-critical-injury").click(() => this._rollCriticalInjury());
 
     // Add New Skill Item To Sheet
     html.find(".add-skill").click((event) => this._addSkill(event));
@@ -621,42 +618,6 @@ export default class CPRActorSheet extends ActorSheet {
     await this.actor.setRoles(formData);
   }
 
-  async _addCriticalInjury() {
-    const formData = await CriticalInjuryPrompt.RenderPrompt();
-    await this.actor.addCriticalInjury(
-      formData.injuryLocation, formData.injuryName, formData.injuryEffects,
-      formData.injuryQuickFix, formData.injuryTreatment,
-      [{ name: "deathSavePenalty", value: formData.deathSave }],
-    );
-  }
-
-  async _editCriticalInjury(event) {
-    const injuryId = $(event.currentTarget).attr("data-injury-id");
-    let formData = this.actor.getCriticalInjury(injuryId);
-    formData = await CriticalInjuryPrompt.RenderPrompt(formData);
-    await this.actor.editCriticalInjury(
-      injuryId, formData.injuryLocation, formData.injuryName, formData.injuryEffects,
-      formData.injuryQuickFix, formData.injuryTreatment, [{ name: "deathSavePenalty", value: formData.deathSave }],
-    );
-  }
-
-  async _deleteCriticalInjury(event) {
-    const injuryId = $(event.currentTarget).attr("data-injury-id");
-    const injury = this.actor.getCriticalInjury(injuryId);
-    const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
-    // If setting is true, prompt before delete, else delete.
-    if (setting) {
-      const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${injury.name}?`;
-      const confirmDelete = await ConfirmPrompt.RenderPrompt(
-        SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,
-      );
-      if (!confirmDelete) {
-        return;
-      }
-    }
-    await this.actor.deleteCriticalInjury(injuryId);
-  }
-
   async _setLifepath() {
     const formData = await SetLifepathPrompt.RenderPrompt(this.actor.data);
     await this.actor.setLifepath(formData);
@@ -668,7 +629,10 @@ export default class CPRActorSheet extends ActorSheet {
     const setting = true;
     if (setting) {
       const itemType = $(event.currentTarget).attr("data-item-type");
-      const itemName = `${SystemUtils.Localize("CPR.new")} ${itemType.capitalize()}`;
+      const itemTypeNice = itemType.toLowerCase().capitalize();
+      const itemString = "ITEM.Type";
+      const itemTypeLocal = itemString.concat(itemTypeNice);
+      const itemName = `${SystemUtils.Localize("CPR.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
       const itemData = {
         name: itemName,
         type: itemType,
@@ -677,6 +641,38 @@ export default class CPRActorSheet extends ActorSheet {
       };
       this.actor.createEmbeddedEntity("OwnedItem", itemData);
     }
+  }
+
+  _getCriticalInjuryTables() {
+    const critPattern = new RegExp("^Critical Injury|^CriticalInjury|^CritInjury|^Crit Injury|^Critical Injuries|^CriticalInjuries");
+    const tableNames = [];
+    const tableList = game.tables.filter((t) => t.data.name.match(critPattern));
+    tableList.forEach((table) => tableNames.push(table.data.name));
+    return tableNames.sort();
+  }
+
+  async _setCriticalInjuryTable() {
+    const critInjuryTables = this._getCriticalInjuryTables();
+    const formData = await RollCriticalInjuryPrompt.RenderPrompt(critInjuryTables);
+    return formData.criticalInjuryTable;
+  }
+
+  async _rollCriticalInjury() {
+    const tableName = await this._setCriticalInjuryTable();
+    const table = game.tables.entities.find((t) => t.name === tableName);
+    table.draw()
+      .then((res) => {
+        if (res.results.length > 0) {
+          const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
+          const itemData = {
+            name: crit.name,
+            type: crit.type,
+            img: crit.img,
+            data: crit.data.data,
+          };
+          this.actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+        }
+      });
   }
 
   /* Ledger methods */

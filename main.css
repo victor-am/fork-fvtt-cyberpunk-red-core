@@ -950,6 +950,12 @@ button,
 .fight-tab .armor-content .armor-piece {
   margin: 2px;
 }
+.fight-tab .critical-injury-content li:nth-child(even) {
+  background-color: #ffc3b6ff;
+}
+.fight-tab .critical-injury-content li:nth-child(odd) {
+  background-color: #eaeaeaff;
+}
 .fight-tab .weapon-content li:nth-child(even) {
   background-color: #ffc3b6ff;
 }
