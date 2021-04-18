@@ -22,15 +22,8 @@ export default class CPRMookActorSheet extends CPRActorSheet {
   activateListeners(html) {
     LOGGER.trace("activateListeners | CPRMookActorSheet | Called.");
     super.activateListeners(html);
-
-    // clicking
-    // html.find(".ablate").click((event) => this._ablateArmor(event));
     html.find(".mook-fire-mode").click((event) => this._fireCheckboxToggle(event));
-    // html.find(".item-action").click((event) => this._itemAction(event));
-    // html.find(".item-edit").click((event) => this._renderItemCard(event));
     html.find(".mod-mook-skill").click(() => this._modMookSkill());
-    // html.find(".reset-value").click((event) => this._resetActorValue(event));
-    // html.find(".rollable").click((event) => this._onRoll(event));
   }
 
   async _modMookSkill() {
@@ -61,7 +54,6 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     const weaponID = $(event.currentTarget).attr("data-item-id");
     const firemode = $(event.currentTarget).attr("data-fire-mode");
     const flag = getProperty(this.actor.data, `flags.cyberpunk-red-core.firetype-${weaponID}`);
-    LOGGER.debugObject(this.actor);
     LOGGER.debug(`firemode is ${firemode}`);
     LOGGER.debug(`weaponID is ${weaponID}`);
     LOGGER.debug(`flag is ${flag}`);

@@ -533,7 +533,11 @@ export default class CPRActorSheet extends ActorSheet {
 
   _getItemId(event) {
     LOGGER.trace("ActorID _getItemId | CPRActorSheet | Called.");
-    const id = $(event.currentTarget).parents(".item").attr("data-item-id");
+    let id = $(event.currentTarget).parents(".item").attr("data-item-id");
+    if (typeof id === "undefined") {
+      LOGGER.debug("Could not find itemId in parent elements, trying currentTarget");
+      id = $(event.currentTarget).attr("data-item-id");
+    }
     return id;
   }
 

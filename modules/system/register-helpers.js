@@ -275,7 +275,6 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace("Calling mookFireMode Helper");
     LOGGER.debug(`firemode is ${firemode}`);
     LOGGER.debug(`weaponID is ${weaponID}`);
-    LOGGER.debugObject(actor);
     const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
     LOGGER.debugObject(flag);
     if (flag === firemode) {
