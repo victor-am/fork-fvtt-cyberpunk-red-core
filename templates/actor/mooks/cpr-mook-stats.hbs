@@ -3,12 +3,13 @@
 {{#each data.stats as |stat s|}}
   <div class="mook-{{s}}-stat">
     <div>
-      <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}">
+      <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}" title="{{localize CPR.clicktorollthisstat}}">
         {{localize (findConfigValue "statList" s)}}
       </a>  
     </div>
     <div class="block-data text-large">
-      <input class="" name="data.stats.{{s}}.value" type="number" value="{{this.value}}" />
+      {{log s}}
+      <input class="" name="data.stats.{{s}}.value" type="number" {{#if (compare s "===" "luck")}} readonly {{else}} value="{{this.value}}"{{/if}} />
     </div>  
   </div>
 {{/each}}
