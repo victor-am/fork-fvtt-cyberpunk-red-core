@@ -12,6 +12,7 @@
 - Wound State penalties automatically apply as mods on the roll (e.g. if the token is Seriously Wounded all actions will automatically have a -2 penalty)
 - You can now change the amount of ammo in a weapon's clip right from the fight tab. In addition, you can type "+X" or "-Y" (where X and Y are numbers) into the input and it will perform the math.
 - Mook sheet introduced. Please use [issue #181](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues/181) to suggest improvements or point out rough edges.
+- Added "Source" field to item sheets to keep track of where items came from (e.g. Core Rules Pg. 351)
 
 # DEV WIP BUGFIXES
 - 'Basic' skills (the ones that all characters have points in) now display as bold again (no issue to reference)
