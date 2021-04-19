@@ -12,26 +12,12 @@ import Rules from "../../utils/cpr-rules.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
-import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
 
 /**
  * Extend the basic ActorSheet.
  * @extends {ActorSheet}
  */
 export default class CPRActorSheet extends ActorSheet {
-  constructor(actor, options) {
-    super(actor, options);
-
-    // Moved this to the constructor since this only needs to be set on the Sheet Object
-    // The first time it is created.  The contents are then loaded from the User Settings
-    // if they exist.
-    this.options.collapsedSections = [];
-    const collapsedSections = SystemUtils.GetUserSetting("sheetConfig", "sheetCollapsedSections", this.id);
-    if (collapsedSections) {
-      this.options.collapsedSections = collapsedSections;
-    }
-  }
-
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
@@ -543,7 +529,11 @@ export default class CPRActorSheet extends ActorSheet {
 
   _getItemId(event) {
     LOGGER.trace("ActorID _getItemId | CPRActorSheet | Called.");
-    const id = $(event.currentTarget).parents(".item").attr("data-item-id");
+    let id = $(event.currentTarget).parents(".item").attr("data-item-id");
+    if (typeof id === "undefined") {
+      LOGGER.debug("Could not find itemId in parent elements, trying currentTarget");
+      id = $(event.currentTarget).attr("data-item-id");
+    }
     return id;
   }
 
