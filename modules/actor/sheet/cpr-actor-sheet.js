@@ -505,7 +505,17 @@ export default class CPRActorSheet extends ActorSheet {
     const item = this._getOwnedItem(this._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "data.magazine.value") {
-      item.setWeaponAmmo(parseInt(event.target.value, 10));
+      item.setWeaponAmmo(event.target.value);
+    }
+    this._updateOwnedItem(item);
+  }
+
+  _updateAmount(event) {
+    LOGGER.trace("ActorID _updateAmount | CPRActorSheet | Called.");
+    const item = this._getOwnedItem(this._getItemId(event));
+    const updateType = $(event.currentTarget).attr("data-item-prop");
+    if (updateType === "item.data.amount") {
+      item.setAmount(event.target.value);
     }
     this._updateOwnedItem(item);
   }

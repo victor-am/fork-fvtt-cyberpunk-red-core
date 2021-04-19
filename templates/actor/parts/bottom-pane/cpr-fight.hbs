@@ -121,7 +121,7 @@
                             {{#if (compare weapon.data.attackmod "<" "0")}}({{weapon.data.attackmod}}){{/if}}
                             {{#if weapon.data.magazine.ammoId}}
                                 <br>
-                                ({{localize "CPR.ammo"}}:<input name = "data.magazine.value" class = "number weapon-input" style = "width:30px;text-align:right;" type = "number" data-item-prop = "data.magazine.value" value = "{{weapon.data.magazine.value}}">/{{weapon.data.magazine.max}})
+                                ({{localize "CPR.ammo"}}:<input name = "data.magazine.value" class = "number weapon-input" style = "width:30px;text-align:right;" type = "text" data-item-prop = "data.magazine.value" value = "{{weapon.data.magazine.value}}">/{{weapon.data.magazine.max}})
                             {{/if}}
                         </div>
                         <div class="fight-weapon-actions text-nowrap">
