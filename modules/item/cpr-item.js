@@ -309,12 +309,12 @@ export default class CPRItem extends Item {
 
   setWeaponAmmo(value) {
     LOGGER.debug("setWeaponAmmo | CPRItem | Called.");
-    const maxAmmoPlusOne = this.getData().magazine.max + 1;
+    const maxAmmo = this.getData().magazine.max;
     if (this.type === "weapon") {
       if (value.charAt(0) === "+" || value.charAt(0) === "-") {
-        this.getData().magazine.value = Math.clamped(0, this.getData().magazine.value + parseInt(value, 10), maxAmmoPlusOne);
+        this.getData().magazine.value = Math.clamped(0, this.getData().magazine.value + parseInt(value, 10), maxAmmo);
       } else {
-        this.getData().magazine.value = Math.clamped(0, value, maxAmmoPlusOne);
+        this.getData().magazine.value = Math.clamped(0, value, maxAmmo);
       }
     }
   }
