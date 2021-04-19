@@ -100,6 +100,14 @@
   }
 }
 
+.side-banner {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  // align-self: center;
+  min-height: -webkit-fill-available;
+  text-align: center; 
+}
+
 // Used to spread space between fields
 .flex-space-between {
   display        : flex;
@@ -186,5 +194,23 @@
 
   &max-two-thirds {
     max-width: calc((100%/3)*2);
+  }
+}
+
+.pad- {
+  &thinner {
+    padding: 2px;
+  }
+
+  &thin {
+    padding: 5px;
+  }
+
+  &thick {
+    padding: 8px;
+  }
+
+  &thicker {
+    padding: 10px;
   }
 }

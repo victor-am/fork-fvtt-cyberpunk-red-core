@@ -693,6 +693,12 @@ button,
   align-self: center;
   padding: 0 2px 0 2px;
 }
+.side-banner {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  min-height: -webkit-fill-available;
+  text-align: center;
+}
 .flex-space-between {
   display: flex;
   justify-content: space-between;
@@ -759,6 +765,18 @@ button,
 }
 .width-max-two-thirds {
   max-width: calc((100%/3)*2);
+}
+.pad-thinner {
+  padding: 2px;
+}
+.pad-thin {
+  padding: 5px;
+}
+.pad-thick {
+  padding: 8px;
+}
+.pad-thicker {
+  padding: 10px;
 }
 /*--------------------
   Text modifiers
@@ -849,6 +867,107 @@ button,
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+}
+.mook-sheet {
+  font-family: "Audimat Mono";
+  background-color: #eaeaeaff;
+  display: grid;
+  grid-template-areas: "mook-name mook-details";
+}
+.mook-sheet .mook-name {
+  grid-area: mook-name;
+}
+.mook-sheet .mook-details {
+  display: grid;
+  gap: 5px;
+  grid-area: mook-details;
+  grid-template-areas: "mook-stats" "mook-derived" "mook-gear" "mook-skills" "mook-special";
+}
+.mook-sheet .mook-stats {
+  display: grid;
+  grid-area: mook-stats;
+  grid-template-areas: "mook-int-stat mook-ref-stat mook-dex-stat mook-tech-stat mook-cool-stat" "mook-will-stat mook-luck-stat mook-move-stat mook-body-stat mook-emp-stat";
+}
+.mook-sheet .mook-stats .mook-int-stat {
+  grid-area: mook-int-stat;
+}
+.mook-sheet .mook-stats .mook-ref-stat {
+  grid-area: mook-ref-stat;
+}
+.mook-sheet .mook-stats .mook-dex-stat {
+  grid-area: mook-dex-stat;
+}
+.mook-sheet .mook-stats .mook-tech-stat {
+  grid-area: mook-tech-stat;
+}
+.mook-sheet .mook-stats .mook-cool-stat {
+  grid-area: mook-cool-stat;
+}
+.mook-sheet .mook-stats .mook-will-stat {
+  grid-area: mook-will-stat;
+}
+.mook-sheet .mook-stats .mook-luck-stat {
+  grid-area: mook-luck-stat;
+}
+.mook-sheet .mook-stats .mook-move-stat {
+  grid-area: mook-move-stat;
+}
+.mook-sheet .mook-stats .mook-body-stat {
+  grid-area: mook-body-stat;
+}
+.mook-sheet .mook-stats .mook-emp-stat {
+  grid-area: mook-emp-stat;
+}
+.mook-sheet .mook-derived-stats {
+  gap: 10px;
+  display: grid;
+  grid-area: mook-derived;
+  grid-template-columns: 1fr 1fr 0.5fr;
+  grid-template-areas: "mook-hp mook-wounded mook-deathsave";
+}
+.mook-sheet .mook-derived-stats .mook-hp {
+  grid-area: mook-hp;
+}
+.mook-sheet .mook-derived-stats .mook-wounded {
+  grid-area: mook-wounded;
+}
+.mook-sheet .mook-derived-stats .mook-deathsave {
+  grid-area: mook-deathsave;
+}
+.mook-sheet .mook-gear {
+  gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-area: mook-gear;
+  grid-template-areas: "mook-weapon-list mook-armor";
+}
+.mook-sheet .mook-gear .mook-weapon-list {
+  grid-area: mook-weapon-list;
+}
+.mook-sheet .mook-gear .mook-armor {
+  grid-area: mook-armor;
+}
+.mook-sheet .mook-weapon {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr;
+  grid-template-areas: "mook-weapon-name mook-weapon-mode mook-weapon-rolls";
+}
+.mook-sheet .mook-weapon .mook-weapon-name {
+  grid-area: mook-weapon-name;
+  padding-right: 6px;
+  text-overflow: ellipsis;
+}
+.mook-sheet .mook-weapon .mook-weapon-mode {
+  grid-area: mook-weapon-mode;
+}
+.mook-sheet .mook-weapon .mook-weapon-rolls {
+  grid-area: mook-weapon-rolls;
+}
+.mook-sheet .mook-skills {
+  grid-area: mook-skills;
+}
+.mook-sheet .mook-special {
+  grid-area: mook-special;
 }
 .items-list {
   list-style: none;
