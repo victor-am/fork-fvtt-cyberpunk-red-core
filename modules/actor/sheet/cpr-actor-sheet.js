@@ -1,4 +1,4 @@
-/* global ActorSheet, mergeObject, $, setProperty game */
+/* global ActorSheet, mergeObject, $, setProperty game getProperty */
 /* eslint class-methods-use-this: ["warn", {
   "exceptMethods": ["_handleRollDialog", "_getHands", "_getItemId", "_getObjProp"]
 }] */
@@ -593,13 +593,18 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _fireCheckboxToggle(event) {
-    LOGGER.trace("CPRItemID _fireheckboxToggle Called | CPRItemSheet | Called.");
+    LOGGER.trace("_fireCheckboxToggle Called | CPRActorSheet | Called.");
     const weaponID = $(event.currentTarget).attr("data-item-id");
-    const target = $(event.currentTarget).attr("data-target");
-    if ($(`#${target}-${weaponID}`).is(":checked")) {
-      this.actor.setFlag("cyberpunk-red-core", `firetype-${weaponID}`, target);
-    } else {
+    const firemode = $(event.currentTarget).attr("data-fire-mode");
+    const flag = getProperty(this.actor.data, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    LOGGER.debug(`firemode is ${firemode}`);
+    LOGGER.debug(`weaponID is ${weaponID}`);
+    LOGGER.debug(`flag is ${flag}`);
+    if (flag === firemode) {
+      // if the flag was already set to firemode, that means we unchecked a box
       this.actor.unsetFlag("cyberpunk-red-core", `firetype-${weaponID}`);
+    } else {
+      this.actor.setFlag("cyberpunk-red-core", `firetype-${weaponID}`, firemode);
     }
   }
 
