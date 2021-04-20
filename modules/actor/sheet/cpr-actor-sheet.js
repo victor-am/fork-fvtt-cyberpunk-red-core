@@ -189,6 +189,8 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
 
+    html.find(".ability-input").click((event) => event.target.select()).change((event) => this._updateRoleAbility(event));
+
     html.find(".eurobucks-input").click((event) => event.target.select()).change(
       (event) => this._updateEurobucks(event),
     );
@@ -484,6 +486,19 @@ export default class CPRActorSheet extends ActorSheet {
       item.setSkillMod(parseInt(event.target.value, 10));
     }
     this._updateOwnedItem(item);
+  }
+
+  _updateRoleAbility(event) {
+    LOGGER.trace("ActorID _updateSkill | CPRActorSheet | Called.");
+    const role = $(event.currentTarget).attr("data-role-name");
+    const ability = $(event.currentTarget).attr("data-ability-name");
+    const subskill = $(event.currentTarget).attr("data-subskill-name");
+    const value = parseInt(event.target.value, 10);
+    if (subskill) {
+      this.actor.data.data.roleInfo.roleskills[role].subSkills[subskill] = value;
+    } else {
+      this.actor.data.data.roleInfo.roleskills[role][ability] = value;
+    }
   }
 
   _updateWeaponAmmo(event) {
