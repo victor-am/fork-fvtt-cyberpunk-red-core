@@ -13,11 +13,26 @@
 - You can now change the amount of ammo in a weapon's clip right from the fight tab. In addition, you can type "+X" or "-Y" (where X and Y are numbers) into the input and it will perform the math.
 - Mook sheet introduced. Please use [issue #181](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues/181) to suggest improvements or point out rough edges.
 - Added "Source" field to item sheets to keep track of where items came from (e.g. Core Rules Pg. 351)
+- "Thrown Weapon" is now a weapon type and "Athletics" is now a weapon skill for throwing grenades, etc. Weapons that use the athletics skill also use DEX as the stat, which is consistent with the rules.
+- Weapon section of the Fight Tab has been slightly redesigned.
+- Shields have been implemented (they are an armor type item).
+- Added the ammunition type to the attack and damage roll cards.
+- Added "N/A" as a choice for cyberware install location.
+- New beautiful artwork for the d6s and d10s (thank you to Flintwyrm!)
+- Cleaned up display of chat cards. Most of the data is now by-default hidden and can be opened by clicking on the roll total.
+- Rolls now indicate if they are whispered, blind, or self.
+- Added ability to unload a weapon.
+- Added a field for a static attack modifier on weapons.
+- Added a warning on cyberware install to remind users that installing cyberware also deducts from maximum humanity.
 
 # DEV WIP BUGFIXES
 - 'Basic' skills (the ones that all characters have points in) now display as bold again (no issue to reference)
+- Token name now correctly displays in chat when rolling from a macro.
 
-- Added the ammunition type to the attack and damage roll cards
+
+# DEV WIP PLUMBING
+- Refactored data model to conform with plans going forward.
+- Logging has been overhauled.
 
 # Version: 0.66  (Hotfix) |  Date:  2021-03-21
 **Bug Fix:**
