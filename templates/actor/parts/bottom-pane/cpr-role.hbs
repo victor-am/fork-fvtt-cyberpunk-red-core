@@ -22,8 +22,7 @@
                                 roleAbility)}}:</a>
                         </div>
                         <div class="item-detail ability-rank text-nowrap">
-                            <input name="data.roleInfo.roleskills.{{role}}.{{roleAbility}}" value="{{roleValue}}"
-                                type="number">
+                            <input class="number ability-input" value="{{roleValue}}" data-role-name="{{role}}" data-ability-name="{{roleAbility}}" data-subskill-name="" type="number">
                         </div>
                     </li>
                     {{else}}
@@ -35,8 +34,7 @@
                                 subSkill)}}:</a>
                         </div>
                         <div class="item-detail ability-rank text-nowrap">
-                            <input name="data.roleInfo.roleskills.{{role}}.{{roleAbility}}.{{subSkill}}"
-                                value="{{subValue}}" type="number">
+                            <input class="number ability-input" value="{{subValue}}" data-role-name="{{role}}" data-ability-name="{{roleAbility}}" data-subskill-name="{{subSkill}}" type="number">
                         </div>
                     </li>
                     {{/each}}
