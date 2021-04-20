@@ -220,14 +220,14 @@ export default class CPRActorSheet extends ActorSheet {
       case CPRRolls.rollTypes.SKILL: {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
-        cprRoll = item.createRoll(rollType, this.actor._id);
+        cprRoll = item.createRoll(rollType, this.actor);
         break;
       }
       case CPRRolls.rollTypes.DAMAGE: {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
         rollType = this._getFireCheckbox(event);
-        cprRoll = item.createDamageRoll(rollType, this.actor._id);
+        cprRoll = item.createDamageRoll(rollType, this.actor);
         if (rollType === CPRRolls.rollTypes.AIMED) {
           cprRoll.location = this.actor.getFlag("cyberpunk-red-core", "aimedLocation") || "body";
         }
@@ -237,7 +237,7 @@ export default class CPRActorSheet extends ActorSheet {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
         rollType = this._getFireCheckbox(event);
-        cprRoll = item.createAttackRoll(rollType, this.actor._id);
+        cprRoll = item.createAttackRoll(rollType, this.actor);
         break;
       }
       default:
