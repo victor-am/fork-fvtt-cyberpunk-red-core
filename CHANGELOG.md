@@ -23,7 +23,6 @@
 **Bug Fix:**
 - Aimed shot was using the Autofire Skill when attacking instead of using the Weapon Skill
 - Suppressive Fire was using the Weapon Skill when attacking instead of using the Autofire Skill
-
 # Version: 0.65  |  Date:  2021-03-20
 
 **UI/UX**
