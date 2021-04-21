@@ -1,4 +1,4 @@
-/* global ActorSheet, mergeObject, $, setProperty game */
+/* global ActorSheet, mergeObject, $, setProperty game getProperty */
 /* eslint class-methods-use-this: ["warn", {
   "exceptMethods": ["_handleRollDialog", "_getHands", "_getItemId", "_getObjProp"]
 }] */
@@ -189,6 +189,8 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
 
+    html.find(".ability-input").click((event) => event.target.select()).change((event) => this._updateRoleAbility(event));
+
     html.find(".eurobucks-input").click((event) => event.target.select()).change(
       (event) => this._updateEurobucks(event),
     );
@@ -220,14 +222,14 @@ export default class CPRActorSheet extends ActorSheet {
       case CPRRolls.rollTypes.SKILL: {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
-        cprRoll = item.createRoll(rollType, this.actor._id);
+        cprRoll = item.createRoll(rollType, this.actor);
         break;
       }
       case CPRRolls.rollTypes.DAMAGE: {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
         rollType = this._getFireCheckbox(event);
-        cprRoll = item.createDamageRoll(rollType, this.actor._id);
+        cprRoll = item.createDamageRoll(rollType, this.actor);
         if (rollType === CPRRolls.rollTypes.AIMED) {
           cprRoll.location = this.actor.getFlag("cyberpunk-red-core", "aimedLocation") || "body";
         }
@@ -237,7 +239,7 @@ export default class CPRActorSheet extends ActorSheet {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
         rollType = this._getFireCheckbox(event);
-        cprRoll = item.createAttackRoll(rollType, this.actor._id);
+        cprRoll = item.createAttackRoll(rollType, this.actor);
         break;
       }
       default:
@@ -486,6 +488,19 @@ export default class CPRActorSheet extends ActorSheet {
     this._updateOwnedItem(item);
   }
 
+  _updateRoleAbility(event) {
+    LOGGER.trace("ActorID _updateSkill | CPRActorSheet | Called.");
+    const role = $(event.currentTarget).attr("data-role-name");
+    const ability = $(event.currentTarget).attr("data-ability-name");
+    const subskill = $(event.currentTarget).attr("data-subskill-name");
+    const value = parseInt(event.target.value, 10);
+    if (subskill) {
+      this.actor.data.data.roleInfo.roleskills[role].subSkills[subskill] = value;
+    } else {
+      this.actor.data.data.roleInfo.roleskills[role][ability] = value;
+    }
+  }
+
   _updateWeaponAmmo(event) {
     LOGGER.trace("ActorID _updateCurrentWeaponAmmo | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
@@ -593,13 +608,18 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _fireCheckboxToggle(event) {
-    LOGGER.trace("CPRItemID _fireheckboxToggle Called | CPRItemSheet | Called.");
+    LOGGER.trace("_fireCheckboxToggle Called | CPRActorSheet | Called.");
     const weaponID = $(event.currentTarget).attr("data-item-id");
-    const target = $(event.currentTarget).attr("data-target");
-    if ($(`#${target}-${weaponID}`).is(":checked")) {
-      this.actor.setFlag("cyberpunk-red-core", `firetype-${weaponID}`, target);
-    } else {
+    const firemode = $(event.currentTarget).attr("data-fire-mode");
+    const flag = getProperty(this.actor.data, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    LOGGER.debug(`firemode is ${firemode}`);
+    LOGGER.debug(`weaponID is ${weaponID}`);
+    LOGGER.debug(`flag is ${flag}`);
+    if (flag === firemode) {
+      // if the flag was already set to firemode, that means we unchecked a box
       this.actor.unsetFlag("cyberpunk-red-core", `firetype-${weaponID}`);
+    } else {
+      this.actor.setFlag("cyberpunk-red-core", `firetype-${weaponID}`, firemode);
     }
   }
 

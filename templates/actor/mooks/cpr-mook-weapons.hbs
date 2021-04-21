@@ -34,23 +34,23 @@
                 {{/if}}
               </div>
               <div class="mook-weapon-mode">
-                <a class="mook-fire-mode" data-fire-mode="aimed" data-item-id="{{weapon._id}}">
-                  {{#if (mookFireMode ../actor "aimed" weapon._id)}}
+                <a class="fire-checkbox" data-fire-mode="aimed" data-item-id="{{weapon._id}}">
+                  {{#if (fireMode ../actor "aimed" weapon._id)}}
                     <i class="far fa-check-circle"></i>
                   {{else}}
                     <i class="far fa-circle"></i>
                   {{/if}}
                 </a>
                 {{#if (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType)}}
-                  <a class="mook-fire-mode" data-fire-mode="autofire" data-item-id="{{weapon._id}}">
-                    {{#if (mookFireMode ../actor "autofire" weapon._id)}}
+                  <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon._id}}">
+                    {{#if (fireMode ../actor "autofire" weapon._id)}}
                       <i class="far fa-check-circle"></i>
                     {{else}}
                       <i class="far fa-circle"></i>
                     {{/if}}
                   </a>
-                  <a class="mook-fire-mode" data-fire-mode="suppressive" data-item-id="{{weapon._id}}">
-                    {{#if (mookFireMode ../actor "suppressive" weapon._id)}}
+                  <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon._id}}">
+                    {{#if (fireMode ../actor "suppressive" weapon._id)}}
                       <i class="far fa-check-circle"></i>
                     {{else}}
                       <i class="far fa-circle"></i>

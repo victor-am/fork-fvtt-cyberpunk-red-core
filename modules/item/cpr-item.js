@@ -343,17 +343,17 @@ export default class CPRItem extends Item {
     this.data.data.favorite = !this.data.data.favorite;
   }
 
-  createRoll(type, actorId) {
+  createRoll(type, actor) {
     LOGGER.trace("createRoll | CPRItem | Called.");
     switch (type) {
       case CPRRolls.rollTypes.SKILL: {
-        return this._createSkillRoll(actorId);
+        return this._createSkillRoll(actor);
       }
       case CPRRolls.rollTypes.SUPPRESSIVE:
       case CPRRolls.rollTypes.AUTOFIRE:
       case CPRRolls.rollTypes.AIMED:
       case CPRRolls.rollTypes.ATTACK: {
-        return this.createAttackRoll(type, actorId);
+        return this.createAttackRoll(type, actor);
       }
       case CPRRolls.rollTypes.DAMAGE: {
         return this.createDamageRoll(type);
@@ -362,9 +362,8 @@ export default class CPRItem extends Item {
     }
   }
 
-  _createSkillRoll(actorId) {
+  _createSkillRoll(actor) {
     LOGGER.trace("_createSkillRoll | CPRItem | Called.");
-    const actor = (game.actors.filter((a) => a._id === actorId))[0];
     const itemData = this.data.data;
     const statName = itemData.stat;
     const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
@@ -378,9 +377,8 @@ export default class CPRItem extends Item {
     return cprRoll;
   }
 
-  createAttackRoll(type, actorId) {
+  createAttackRoll(type, actor) {
     LOGGER.trace("_createAttackRoll | CPRItem | Called.");
-    const actor = (game.actors.filter((a) => a._id === actorId))[0];
     const weaponData = this.data.data;
     const weaponName = this.name;
     const { weaponType } = weaponData;
