@@ -22,7 +22,6 @@ export default class CPRMookActorSheet extends CPRActorSheet {
   activateListeners(html) {
     LOGGER.trace("activateListeners | CPRMookActorSheet | Called.");
     super.activateListeners(html);
-    html.find(".mook-fire-mode").click((event) => this._fireCheckboxToggle(event));
     html.find(".mod-mook-skill").click(() => this._modMookSkill());
   }
 
@@ -45,23 +44,6 @@ export default class CPRMookActorSheet extends CPRActorSheet {
       const msg = `${SystemUtils.Localize("CPR.updated")} ${formData.skillName} ${SystemUtils.Localize("CPR.to")} ${formData.skillLevel}`;
       SystemUtils.DisplayMessage("notify", msg);
       again = formData.again;
-    }
-  }
-
-  /** @override */
-  _fireCheckboxToggle(event) {
-    LOGGER.trace("_fireCheckboxToggle Called | CPRMookActorSheet | Called.");
-    const weaponID = $(event.currentTarget).attr("data-item-id");
-    const firemode = $(event.currentTarget).attr("data-fire-mode");
-    const flag = getProperty(this.actor.data, `flags.cyberpunk-red-core.firetype-${weaponID}`);
-    LOGGER.debug(`firemode is ${firemode}`);
-    LOGGER.debug(`weaponID is ${weaponID}`);
-    LOGGER.debug(`flag is ${flag}`);
-    if (flag === firemode) {
-      // if the flag was already set to firemode, that means we unchecked a box
-      this.actor.unsetFlag("cyberpunk-red-core", `firetype-${weaponID}`);
-    } else {
-      this.actor.setFlag("cyberpunk-red-core", `firetype-${weaponID}`, firemode);
     }
   }
 

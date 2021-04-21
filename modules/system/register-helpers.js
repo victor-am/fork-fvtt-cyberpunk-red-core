@@ -271,8 +271,8 @@ export default function registerHandlebarsHelpers() {
     return -1; // return a clear bug but not a broken behavior
   });
 
-  Handlebars.registerHelper("mookFireMode", (actor, firemode, weaponID) => {
-    LOGGER.trace("Calling mookFireMode Helper");
+  Handlebars.registerHelper("fireMode", (actor, firemode, weaponID) => {
+    LOGGER.trace("Calling fireMode Helper");
     LOGGER.debug(`firemode is ${firemode}`);
     LOGGER.debug(`weaponID is ${weaponID}`);
     const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
