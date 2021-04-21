@@ -28,6 +28,8 @@
 # DEV WIP BUGFIXES
 - 'Basic' skills (the ones that all characters have points in) now display as bold again (no issue to reference)
 - Token name now correctly displays in chat when rolling from a macro.
+- Fixed a bug which caused unlinked tokens to erroneously pull certain data from the parent actor.
+- Fixed a bug which caused collapsed gear categories to not retain their state upon character sheet update.
 
 
 # DEV WIP PLUMBING
