@@ -10,10 +10,9 @@
     {{#each (getProp ../this.installedCyberware t) as |cyberware c|}}
       {{#unless foundation.data.data.core}}
         <a class="name item-view" data-item-id="{{foundation.data._id}}">
-          {{foundation.name}}
+          {{foundation.name}}{{#if (compare foundation.data.data.hasOptionalSlots "===" false)}},{{/if}}
         </a>
-        ({{#each optionals as |optional o|}}<a class="name item-view" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}">{{optional.name}},</a>),
-        {{/each}}
+        {{#if foundation.data.data.hasOptionalSlots}}({{/if}}{{#each optionals as |optional o|}}<a class="name item-view" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}">{{optional.name}}</a>,{{/each}}{{#if foundation.data.data.hasOptionalSlots}}){{/if}}
       {{/unless}}
     {{/each}}
   {{/each}}

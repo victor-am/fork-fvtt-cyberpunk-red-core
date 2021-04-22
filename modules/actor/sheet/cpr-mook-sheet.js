@@ -32,13 +32,14 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     this.actor.data.filteredItems.skill.map((s) => {
       LOGGER.debugObject(s);
       skillList.push(s.data.name);
-      return skillList;
+      return skillList.sort();
     });
     while (again) {
       // eslint-disable-next-line no-await-in-loop
       const formData = await ModMookSkillPrompt.RenderPrompt({ skillList });
       const skill = this.actor.data.filteredItems.skill.filter((s) => s.name === formData.skillName)[0];
       skill.setSkillLevel(formData.skillLevel);
+      skill.setSkillMod(formData.skillMod);
       this._updateOwnedItem(skill);
       // eslint-disable-next-line max-len
       const msg = `${SystemUtils.Localize("CPR.updated")} ${formData.skillName} ${SystemUtils.Localize("CPR.to")} ${formData.skillLevel}`;
@@ -57,6 +58,9 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     LOGGER.debugObject(itemData);
     const eqItem = itemData;
     eqItem.data.equipped = "equipped";
+    if (eqItem.type === "cyberware" && eqItem.data.isFoundational) {
+      eqItem.data.isInstalled = true;
+    }
     return super._onDropItemCreate(eqItem);
   }
 
