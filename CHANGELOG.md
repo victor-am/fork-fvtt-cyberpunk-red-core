@@ -21,6 +21,7 @@
 - New beautiful artwork for the d6s and d10s (thank you to Flintwyrm!)
 - Cleaned up display of chat cards. Most of the data is now by-default hidden and can be opened by clicking on the roll total.
 - Rolls now indicate if they are whispered, blind, or self.
+- Can now roll damage from the chat card for attack rolls.
 - Added ability to unload a weapon.
 - Added a field for a static attack modifier on weapons.
 - Added a warning on cyberware install to remind users that installing cyberware also deducts from maximum humanity.
