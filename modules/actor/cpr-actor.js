@@ -283,7 +283,7 @@ export default class CPRActor extends Actor {
       LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was None.");
       return;
     }
-    const { humanity } = this.data.data;
+    const { humanity } = this.data.data.derivedStats;
     let value = Number.isInteger(humanity.value) ? humanity.value : humanity.max;
     if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
       const humRoll = new CPRRolls.CPRHumanityLossRoll(item.data.name, amount.humanityLoss);
