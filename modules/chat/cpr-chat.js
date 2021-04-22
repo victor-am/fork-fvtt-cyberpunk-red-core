@@ -35,6 +35,7 @@ export default class CPRChat {
 
   static RenderRollCard(cprRoll) {
     LOGGER.trace("RenderRollCard | Chat | Called.");
+
     cprRoll.criticalCard = cprRoll.wasCritical();
     return renderTemplate(cprRoll.rollCard, cprRoll).then((html) => {
       const chatOptions = this.ChatDataSetup(html);
@@ -132,16 +133,23 @@ export default class CPRChat {
           const rollType = "damage";
           const actorId = $(event.currentTarget).attr("data-actor-id");
           const itemId = $(event.currentTarget).attr("data-item-id");
+          const tokenId = $(event.currentTarget).attr("data-token-id");
+          const location = $(event.currentTarget).attr("data-damage-location");
           const actor = game.actors.find((a) => a._id === actorId);
           const item = actor ? actor.items.find((i) => i._id === itemId) : null;
           const displayName = actor === null ? "ERROR" : actor.name;
           if (!item) return ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.actormissingitem")} ${itemId}`);
-          let cprRoll = item.createRoll(rollType, actor._id);
+          let cprRoll = item.createRoll(rollType, actor);
 
+          if (location) {
+            cprRoll.location = location;
+          }
           await cprRoll.handleRollDialog(event);
 
-          cprRoll = await item.confirmRoll(rollType, cprRoll);
+          cprRoll = await item.confirmRoll(cprRoll);
+
           await cprRoll.roll();
+          cprRoll.entityData = { actor: actorId, token: tokenId, item: itemId };
           CPRChat.RenderRollCard(cprRoll);
 
           break;
