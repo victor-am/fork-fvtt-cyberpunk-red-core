@@ -136,7 +136,7 @@ export default class CPRChat {
           const tokenId = $(event.currentTarget).attr("data-token-id");
           const location = $(event.currentTarget).attr("data-damage-location");
           const attackType = $(event.currentTarget).attr("data-attack-type");
-          const actor = game.actors.find((a) => a._id === actorId);
+          const actor = (Object.keys(game.actors.tokens).includes(tokenId)) ? game.actors.tokens[tokenId] : game.actors.find((a) => a._id === actorId);
           const item = actor ? actor.items.find((i) => i._id === itemId) : null;
           const displayName = actor === null ? "ERROR" : actor.name;
           if (!item) return ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.actormissingitem")} ${itemId}`);
