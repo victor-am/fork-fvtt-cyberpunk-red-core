@@ -135,6 +135,7 @@ export default class CPRChat {
           const itemId = $(event.currentTarget).attr("data-item-id");
           const tokenId = $(event.currentTarget).attr("data-token-id");
           const location = $(event.currentTarget).attr("data-damage-location");
+          const attackType = $(event.currentTarget).attr("data-attack-type");
           const actor = game.actors.find((a) => a._id === actorId);
           const item = actor ? actor.items.find((i) => i._id === itemId) : null;
           const displayName = actor === null ? "ERROR" : actor.name;
@@ -144,6 +145,22 @@ export default class CPRChat {
           if (location) {
             cprRoll.location = location;
           }
+
+          if (attackType) {
+            switch (attackType) {
+              case "aimed": {
+                cprRoll.isAimed = true;
+                break;
+              }
+              case "autofire":
+              case "suppressive": {
+                cprRoll.isAutofire = true;
+                break;
+              }
+              default:
+            }
+          }
+
           await cprRoll.handleRollDialog(event);
 
           cprRoll = await item.confirmRoll(cprRoll);
