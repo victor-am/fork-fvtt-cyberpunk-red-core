@@ -3,7 +3,7 @@
   <span class="item-name section-name text-nowrap text-padding-left">
     {{localize "CPR.cyberware"}}/{{localize "CPR.specialgear"}}
   </span>
-</div>  
+</div>
 <div class="bg-white fg-black text-padding-left">
   <!-- Cyberware -->
   {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
@@ -12,13 +12,8 @@
         <a class="name item-view" data-item-id="{{foundation.data._id}}">
           {{foundation.name}}
         </a>
-        (
-        {{#each optionals as |optional o|}}
-          <a class="name item-view" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}">
-            {{optional.name}}, 
-          </a>
+        ({{#each optionals as |optional o|}}<a class="name item-view" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}">{{optional.name}},</a>),
         {{/each}}
-        )
       {{/unless}}
     {{/each}}
   {{/each}}

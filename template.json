@@ -2,7 +2,9 @@
   "Actor": {
     "types": [
       "character",
-      "mook"
+      "mook",
+      "blackIce",
+      "container"
     ],
     "templates": {
       "common": {
@@ -290,6 +292,7 @@
       "clothing",
       "criticalInjury",
       "cyberware",
+      "cyberdeck",
       "gear",
       "netarch",
       "program",
