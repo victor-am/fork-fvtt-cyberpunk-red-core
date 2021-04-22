@@ -39,15 +39,17 @@ export default class CPRChat {
     cprRoll.criticalCard = cprRoll.wasCritical();
     return renderTemplate(cprRoll.rollCard, cprRoll).then((html) => {
       const chatOptions = this.ChatDataSetup(html);
+
       if (cprRoll.entityData !== undefined && cprRoll.entityData !== null) {
-        const actor = game.actors.filter((a) => a._id === cprRoll.entityData.actor)[0];
-        let alias = actor.name;
-        if (cprRoll.entityData.token !== null) {
-          const token = game.actors.tokens[cprRoll.entityData.token];
-          if (token !== undefined) {
-            alias = token.data.name;
-          }
+        let actor;
+        const actorId = cprRoll.entityData.actor;
+        const tokenId = cprRoll.entityData.token;
+        if (tokenId) {
+          actor = (Object.keys(game.actors.tokens).includes(tokenId)) ? game.actors.tokens[tokenId] : game.actors.find((a) => a._id === actorId);
+        } else {
+          actor = game.actors.filter((a) => a._id === actorId)[0];
         }
+        const alias = actor.name;
         chatOptions.speaker = { actor, alias };
       }
       return ChatMessage.create(chatOptions, false);
