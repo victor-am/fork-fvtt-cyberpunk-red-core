@@ -43,7 +43,6 @@ Hooks.once("init", async () => {
       "skill",
       "criticalInjury",
       "vehicle",
-      "cyberdeck",
       "program",
       "netarch",
     ],
