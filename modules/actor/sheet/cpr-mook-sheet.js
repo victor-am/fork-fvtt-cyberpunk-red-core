@@ -58,8 +58,13 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     LOGGER.debugObject(itemData);
     const eqItem = itemData;
     eqItem.data.equipped = "equipped";
-    if (eqItem.type === "cyberware" && eqItem.data.isFoundational) {
-      eqItem.data.isInstalled = true;
+    if (eqItem.type === "cyberware") {
+      if (eqItem.data.isFoundational) {
+        eqItem.data.isInstalled = true;
+      } else {
+        const msg = `${SystemUtils.Localize("CPR.mookcyberwarewarning")}`;
+        SystemUtils.DisplayMessage("warn", msg);
+      }
     }
     return super._onDropItemCreate(eqItem);
   }
