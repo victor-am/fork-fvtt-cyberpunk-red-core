@@ -47,6 +47,7 @@ export default class CPRChat {
         if (tokenId) {
           actor = (Object.keys(game.actors.tokens).includes(tokenId)) ? game.actors.tokens[tokenId] : game.actors.find((a) => a._id === actorId);
         } else {
+          // eslint-disable-next-line prefer-destructuring
           actor = game.actors.filter((a) => a._id === actorId)[0];
         }
         const alias = actor.name;
