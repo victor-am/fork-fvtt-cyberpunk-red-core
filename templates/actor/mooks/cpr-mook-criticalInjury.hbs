@@ -1,0 +1,16 @@
+{{trace "CPR-MOOK-CRITICALINJURY.HBS"}}
+<div class="items-header bg-red fg-white flexrow">
+  <span class="item-name section-name text-nowrap text-padding-left">
+    {{localize "CPR.criticalinjuries"}} <a class="roll-critical-injury" title="{{localize "CPR.criticalinjuryroll"}}" data-item-type="criticalInjury"><i class="fas fa-dice text-padding-right"></i></a>
+  </span>
+</div>
+<div class="bg-white fg-black text-padding-left">
+{{#each this.items as |item i|}}
+    {{#if (compare item.type "===" "criticalInjury")}}
+      <a class="name item-edit" title="{{item.name}}&#13Click to view the item&#13Ctrl-Click to send to chat" data-item-id="{{item._id}}">
+        {{item.name}}{{#if (compare item.data.location "===" "body")}}<i class="fas fa-user-injured text-padding-left"></i>{{/if}}{{#if (compare item.data.location "===" "head")}}<i class="fas fa-tired text-padding-left"></i>{{/if}},
+      </a>
+    {{/if}}
+{{/each}}
+</div>
+{{trace "END CPR-MOOK-CYBERWARE.HBS"}}

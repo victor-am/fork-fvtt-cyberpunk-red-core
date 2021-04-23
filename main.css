@@ -881,7 +881,7 @@ button,
   display: grid;
   gap: 5px;
   grid-area: mook-details;
-  grid-template-areas: "mook-stats" "mook-derived" "mook-gear" "mook-skills" "mook-special";
+  grid-template-areas: "mook-stats" "mook-derived" "mook-gear" "mook-skills" "mook-special" "mook-crit";
 }
 .mook-sheet .mook-stats {
   display: grid;
@@ -968,6 +968,9 @@ button,
 }
 .mook-sheet .mook-special {
   grid-area: mook-special;
+}
+.mook-sheet .mook-crit {
+  grid-area: mook-crit;
 }
 .items-list {
   list-style: none;
