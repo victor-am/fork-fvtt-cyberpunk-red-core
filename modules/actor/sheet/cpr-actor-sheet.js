@@ -687,6 +687,11 @@ export default class CPRActorSheet extends ActorSheet {
         if (res.results.length > 0) {
           const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
           // eslint-disable-next-line no-undef
+          if (!crit) {
+            SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
+            return;
+          }
+          // eslint-disable-next-line no-undef
           const itemData = duplicate(crit.data);
           const result = await this.actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
           const cprRoll = new CPRRolls.CPRTableRoll(crit.data.name, res.roll, "systems/cyberpunk-red-core/templates/chat/cpr-critical-injury-rollcard.hbs");
