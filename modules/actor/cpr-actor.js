@@ -127,6 +127,19 @@ export default class CPRActor extends Actor {
         basePenalty += 1;
       }
     });
+    // In 0.73.2 we moved all of the Death Save data into the single data point of
+    // derivedStats.deathSave.basePenalty, however, it causes a chicken/egg situation
+    // since it loads the data up before it migrates, triggering this code to run which
+    // errors out and ultimately messing the migration up. Yay. We should be able to
+    // remove this code after a release or two
+    if ((typeof derivedStats.deathSave) === "number") {
+      const oldPenalty = derivedStats.deathSave;
+      derivedStats.deathSave = {
+        value: 0,
+        penalty: oldPenalty,
+        basePenalty,
+      };
+    }
     derivedStats.deathSave.basePenalty = basePenalty;
     derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
     this.data.data.derivedStats = derivedStats;
