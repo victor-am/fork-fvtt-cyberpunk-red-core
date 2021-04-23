@@ -174,6 +174,16 @@ export default class CPRChat {
 
           break;
         }
+        case "itemEdit": {
+          const itemId = $(event.currentTarget).attr("data-item-id");
+          const actorId = $(event.currentTarget).attr("data-actor-id");
+          const tokenId = $(event.currentTarget).attr("data-token-id");
+          const actor = (Object.keys(game.actors.tokens).includes(tokenId)) ? game.actors.tokens[tokenId] : game.actors.find((a) => a._id === actorId);
+          const item = actor.items.find((i) => i.data._id === itemId);
+          item.sheet.options.editable = false;
+          item.sheet.render(true);
+          break;
+        }
         default: {
           LOGGER.warn(`No action defined for ${clickAction}`);
         }
