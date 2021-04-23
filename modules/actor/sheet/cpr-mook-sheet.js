@@ -3,6 +3,7 @@ import CPRActorSheet from "./cpr-actor-sheet.js";
 import ModMookSkillPrompt from "../../dialog/cpr-mod-mook-skill-prompt.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
+import MookNamePrompt from "../../dialog/cpr-mook-name-prompt.js";
 
 /**
  * Extend the basic CPRActorSheet.
@@ -23,6 +24,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     LOGGER.trace("activateListeners | CPRMookActorSheet | Called.");
     super.activateListeners(html);
     html.find(".mod-mook-skill").click(() => this._modMookSkill());
+    html.find(".change-mook-name").click(() => this._changeMookName());
   }
 
   async _modMookSkill() {
@@ -45,6 +47,15 @@ export default class CPRMookActorSheet extends CPRActorSheet {
       const msg = `${SystemUtils.Localize("CPR.updated")} ${formData.skillName} ${SystemUtils.Localize("CPR.to")} ${formData.skillLevel}`;
       SystemUtils.DisplayMessage("notify", msg);
       again = formData.again;
+    }
+  }
+
+  async _changeMookName() {
+    const formData = await MookNamePrompt.RenderPrompt(this.actor.data.name);
+    if (!this.isToken) {
+      await this.actor.setMookName(formData);
+    } else {
+      await this.token.setMookName(formData);
     }
   }
 

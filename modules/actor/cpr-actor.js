@@ -344,6 +344,10 @@ export default class CPRActor extends Actor {
     return this.update(formData);
   }
 
+  setMookName(formData) {
+    return this.update(formData);
+  }
+
   getSkillLevel(skillName) {
     const skillList = (this.data.filteredItems.skill).filter((s) => s.name === skillName);
     if (skillList.length > 0) {
