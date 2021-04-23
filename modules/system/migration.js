@@ -81,7 +81,9 @@ export default class Migration {
     }
 
     if ((typeof actor.data.data.criticalInjuries) !== "undefined") {
-      await this.migrateCriticalInjuries(actor);
+      if (actor.data.data.criticalInjuries.length > 0) {
+        await this.migrateCriticalInjuries(actor);
+      }
     }
 
     // Moved to after all of the items have been migrated, since this is used to
@@ -334,10 +336,6 @@ export default class Migration {
       if ((typeof actorData.data["reputation:"]) !== "undefined") {
         scrubData["data.-=reputation:"] = null;
       }
-      // Moved to derivedStats in 0.72
-      if ((typeof actorData.data.woundState) !== "undefined") {
-        scrubData["data.-=woundState"] = null;
-      }
       // Removed in 0.72
       if ((typeof actorData.data.lifestyle.rent) !== "undefined") {
         scrubData["data.lifestyle.-=rent"] = null;
@@ -346,13 +344,22 @@ export default class Migration {
       if ((typeof actorData.data.hp) !== "undefined") {
         scrubData["data.-=hp"] = null;
       }
-      if ((typeof actorData.data.criticalInjuries) !== "undefined") {
-        scrubData["data.-=criticalInjuries"] = null;
-      }
     }
     // Remove unused data points from an actor (character & mooks)
     if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
       scrubData["data.derivedStats.-=deathSavePenlty"] = null;
+    }
+    // Moved to derivedStats in 0.72
+    if ((typeof actorData.data.woundState) !== "undefined") {
+      scrubData["data.-=woundState"] = null;
+    }
+    // Moved to derivedStats in 0.72
+    if ((typeof actorData.data.humanity) !== "undefined") {
+      scrubData["data.-=humanity"] = null;
+    }
+    // Moved to items in 0.72
+    if ((typeof actorData.data.criticalInjuries) !== "undefined") {
+      scrubData["data.-=criticalInjuries"] = null;
     }
     return scrubData;
   }
