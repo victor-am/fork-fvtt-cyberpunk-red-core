@@ -316,6 +316,7 @@ export class CPRTableRoll extends CPRRoll {
     (tableRoll.terms[0].results).forEach((die) => {
       this.faces.push(die.result);
     });
+    // eslint-disable-next-line prefer-destructuring
     this.resultTotal = tableRoll.results[0];
   }
 

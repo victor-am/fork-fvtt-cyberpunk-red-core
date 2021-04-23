@@ -182,6 +182,7 @@ export default class CPRChat {
           const item = actor.items.find((i) => i.data._id === itemId);
           item.sheet.options.editable = false;
           item.sheet.render(true);
+          break;
         }
         default: {
           LOGGER.warn(`No action defined for ${clickAction}`);
