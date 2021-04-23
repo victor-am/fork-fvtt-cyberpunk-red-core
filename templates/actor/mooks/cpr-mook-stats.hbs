@@ -5,11 +5,15 @@
     <div>
       <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}" title="{{localize CPR.clicktorollthisstat}}">
         {{localize (findConfigValue "statList" s)}}
-      </a>  
+      </a>
     </div>
     <div class="block-data text-large">
-      <input class="" name="data.stats.{{s}}.value" type="number" {{#if (compare s "===" "luck")}} readonly {{else}} value="{{this.value}}"{{/if}} />
-    </div>  
+      {{#if (compare s "!==" "luck")}}
+      <input class="" name="data.stats.{{s}}.value" type="number" value="{{this.value}}"/>
+      {{else}}
+      <input class="" name="dash" type="text" readonly value="-"/>
+      {{/if}}
+    </div>
   </div>
 {{/each}}
 {{trace "END CPR-MOOK-STATS.HBS"}}

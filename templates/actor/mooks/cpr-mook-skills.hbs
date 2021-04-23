@@ -14,8 +14,12 @@
     {{#if (compare skill.data.level ">" 0)}}
       <span class="item" data-item-id="{{skill._id}}">
         <a class="rollable"  data-roll-type="skill" data-roll-title="{{skill.name}}">
-          {{skill.name}} (+{{skill.data.level}}), 
+          {{#if skill.data.core}}{{localize (splitJoinCoreSkills skill.name)}}{{else}}{{skill.name}}{{/if}} (+{{math "sum" skill.data.level skill.data.skillmod}}),
         </a>
+        {{#if (compare skill.data.core "===" false)}}
+          <a class="item-edit skill-custom" title="{{localize "CPR.editcustomskill"}}"><i class="fas fa-edit"></i></a>
+          <a class="item-action skill-custom" title="{{localize "CPR.deletecustomskill"}}" data-action-type="delete"><i class="fas fa-trash-alt"></i></a>
+        {{/if}}
       </span>
     {{/if}}
   {{/each}}

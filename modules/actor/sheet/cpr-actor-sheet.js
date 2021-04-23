@@ -682,17 +682,24 @@ export default class CPRActorSheet extends ActorSheet {
   async _rollCriticalInjury() {
     const tableName = await this._setCriticalInjuryTable();
     const table = game.tables.entities.find((t) => t.name === tableName);
-    table.draw()
-      .then((res) => {
+    table.draw({ displayChat: false })
+      .then(async (res) => {
         if (res.results.length > 0) {
           const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
-          const itemData = {
-            name: crit.name,
-            type: crit.type,
-            img: crit.img,
-            data: crit.data.data,
-          };
-          this.actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+          // eslint-disable-next-line no-undef
+          if (!crit) {
+            SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
+            return;
+          }
+          // eslint-disable-next-line no-undef
+          const itemData = duplicate(crit.data);
+          const result = await this.actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+          const cprRoll = new CPRRolls.CPRTableRoll(crit.data.name, res.roll, "systems/cyberpunk-red-core/templates/chat/cpr-critical-injury-rollcard.hbs");
+          cprRoll.rollCardExtraArgs.tableName = tableName;
+          cprRoll.rollCardExtraArgs.itemName = result.name;
+          cprRoll.rollCardExtraArgs.itemImg = result.img;
+          cprRoll.entityData = { actor: this.actor._id, token: this.token.id, item: result._id };
+          CPRChat.RenderRollCard(cprRoll);
         }
       });
   }

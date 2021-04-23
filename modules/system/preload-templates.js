@@ -13,6 +13,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-load-ammo-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-mod-mook-skill-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-mook-name-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-roll-critical-injury-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-select-compatible-ammo-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-damage-prompt.hbs",
@@ -76,6 +77,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-weapons.hbs",
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-skills.hbs",
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-cyberware.hbs",
+    "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-criticalInjury.hbs",
 
     // Item Sheet
     "systems/cyberpunk-red-core/templates/item/cpr-item-sheet.hbs",

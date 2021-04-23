@@ -306,6 +306,48 @@ export class CPRDamageRoll extends CPRRoll {
   }
 }
 
+export class CPRTableRoll extends CPRRoll {
+  constructor(rollTitle, tableRoll, rollCard) {
+    // This is just to create a CPR Roll Object from an already rolled RollTable
+    const formula = tableRoll._formula;
+    super(rollTitle, formula);
+    LOGGER.trace(`CPRTableRoll | Constructor`);
+    this.rollCard = rollCard;
+    (tableRoll.terms[0].results).forEach((die) => {
+      this.faces.push(die.result);
+    });
+    // eslint-disable-next-line prefer-destructuring
+    this.resultTotal = tableRoll.results[0];
+  }
+
+  _computeBase() {
+    return (this.initialRoll + this.totalMods()) * this.autofireMultiplier;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  wasCritFail() {
+    // you cannot crit-fail damage
+    return false;
+  }
+
+  wasCritSuccess() {
+    return this.faces.filter((x) => x === 6).length >= 2;
+  }
+
+  _computeResult() {
+    // figure how aimed shots work...
+    this.resultTotal = this._computeBase();
+    if (this.wasCritical() && !this.isAutofire) {
+      this.resultTotal += this.bonusDamage;
+    }
+  }
+
+  setAutofire() {
+    this.isAutofire = true;
+    this.formula = "2d6";
+    this.mods = [];
+  }
+}
 export const rollTypes = {
   BASE: "base",
   STAT: "stat",
