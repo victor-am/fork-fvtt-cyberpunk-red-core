@@ -682,7 +682,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _rollCriticalInjury() {
     const tableName = await this._setCriticalInjuryTable();
     const table = game.tables.entities.find((t) => t.name === tableName);
-    table.draw({displayChat: false})
+    table.draw({ displayChat: false })
       .then(async (res) => {
         if (res.results.length > 0) {
           const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
