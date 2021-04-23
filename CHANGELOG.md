@@ -1,4 +1,7 @@
-# DEV WIP CHANGES
+# Version: 0.74.0  |  Date:  2021-04-23
+
+**UI/UX**
+- FnWeather made a great video demonstrating some of the following changes which you can find here: https://www.youtube.com/watch?v=Q8DP0qcR4AU. Thanks to him!
 - Added the ability to show DV for ranged weapons when using the ruler for measurement
   - Right clicking a token, you can select a DV table to use and after setting this, any ruler measurements will show the DV along with the measured range.
   - Ranged Weapons can be also configured to use a specific DV table in the item settings. Weapons with DV Tables associated with them will have a ruler in their Fight Tab which can be clicked to set the DV Table for the associated token to quickly switch DV tables when using the Ruler Measurement Tool.
@@ -26,14 +29,14 @@
 - Added a field for a static attack modifier on weapons.
 - Added a warning on cyberware install to remind users that installing cyberware also deducts from maximum humanity.
 
-# DEV WIP BUGFIXES
+**Bug Fixes**
 - 'Basic' skills (the ones that all characters have points in) now display as bold again (no issue to reference)
 - Token name now correctly displays in chat when rolling from a macro.
 - Fixed a bug which caused unlinked tokens to erroneously pull certain data from the parent actor.
 - Fixed a bug which caused collapsed gear categories to not retain their state upon character sheet update.
 
 
-# DEV WIP PLUMBING
+**Plumbing**
 - Refactored data model to conform with plans going forward.
 - Logging has been overhauled.
 
