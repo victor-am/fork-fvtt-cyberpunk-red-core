@@ -329,7 +329,7 @@
           "autoFire": 0,
           "suppressiveFire": false
         },
-        "quality": "",
+        "quality": "standard",
         "damage": "1d6",
         "rof": 1,
         "attachmentSlots": 0,
