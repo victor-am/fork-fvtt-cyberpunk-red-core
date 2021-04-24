@@ -1,3 +1,4 @@
+{{trace "CPR-CYBERWARE.HBS"}}
 <div class="item-description-tab">
     <div class="item-summary-section">
         <div class="item-summary-line">
@@ -7,6 +8,10 @@
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.market"}}:</span>
             <span class="summary-value">{{localize (findConfigValue "itemPriceCategory" data.price.category)}}</span>
+        </div>
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.install"}}: </span>
+            <span class="summary-value">{{localize (findConfigValue "cyberwareInstallList" data.install)}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.static"}} HL:</span>
@@ -33,3 +38,4 @@
         editable=editable}}
     </div>
 </div>
+{{trace "END CPR-CYBERWARE.HBS"}}

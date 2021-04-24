@@ -9,6 +9,7 @@ import VerifyRoll from "../dialog/cpr-verify-roll-prompt.js";
 export class CPRRoll {
   // Generic roll handler for CPR
   constructor(rollTitle, formula) {
+    LOGGER.trace(`CPRRoll | Constructor`);
     // (private) the resulting Roll() object from Foundry
     this._roll = null;
     // (private) a stack of mods to apply to the roll
@@ -31,13 +32,15 @@ export class CPRRoll {
     // the complete result of the roll after applying everything
     this.resultTotal = 0;
     // path to the right dialog box to pop up before rolling
-    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-base-prompt.hbs";
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-generic-prompt.hbs";
     // path to the roll card template for chat
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-base-rollcard.hbs";
-    LOGGER.log(`Created roll object`);
+    // Any additional data we want to pass to the roll card
+    this.rollCardExtraArgs = [];
   }
 
   _processFormula(formula) {
+    LOGGER.trace(`CPRRoll | _processFormula`);
     const dice = /[0-9][0-9]*d[0-9][0-9]*/;
     const die = /d[0-9][0-9]*/;
     // cut out the XdY term, leaving only + or - terms after
@@ -67,6 +70,7 @@ export class CPRRoll {
   }
 
   async roll() {
+    LOGGER.trace(`CPRRoll | roll`);
     // calculate the initial roll
     this._roll = new Roll(this.formula).roll();
     await DiceSoNice.ShowDiceSoNice(this._roll);
@@ -89,6 +93,7 @@ export class CPRRoll {
   }
 
   _computeResult() {
+    LOGGER.trace(`CPRRoll | _computeResult`);
     this.resultTotal = this._computeBase();
     if (this.wasCritFail()) {
       this.resultTotal += -1 * this.criticalRoll;
@@ -111,9 +116,10 @@ export class CPRRoll {
   }
 
   async handleRollDialog(event) {
+    LOGGER.trace(`CPRRoll | handleRollDialog`);
+
     // Handle skipping of the user verification step
     let skipDialog = event.ctrlKey;
-
     if (event.type === "click") {
       const ctrlSetting = game.settings.get("cyberpunk-red-core", "invertRollCtrlFunction");
       skipDialog = ctrlSetting ? !skipDialog : skipDialog;
@@ -129,6 +135,7 @@ export class CPRRoll {
 export class CPRStatRoll extends CPRRoll {
   constructor(name, value) {
     super(name, "1d10");
+    LOGGER.trace(`CPRStatRoll | Constructor`);
     this.statValue = value;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-stat-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-stat-rollcard.hbs";
@@ -142,6 +149,7 @@ export class CPRStatRoll extends CPRRoll {
 export class CPRSkillRoll extends CPRStatRoll {
   constructor(statName, statValue, skillName, skillValue) {
     super(skillName, statValue);
+    LOGGER.trace(`CPRSkillRoll | Constructor`);
     this.statName = statName;
     this.skillValue = skillValue;
     this.skillName = skillName;
@@ -157,6 +165,7 @@ export class CPRSkillRoll extends CPRStatRoll {
 export class CPRHumanityLossRoll extends CPRRoll {
   constructor(name, humanityLoss) {
     super(name, humanityLoss);
+    LOGGER.trace(`CPRHumanityLossRoll | Constructor`);
     this.rollTitle = SystemUtils.Localize("CPR.humanityloss");
     this.calculateCritical = false;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-humanity-loss-rollcard.hbs";
@@ -171,10 +180,9 @@ export class CPRHumanityLossRoll extends CPRRoll {
 export class CPRAttackRoll extends CPRSkillRoll {
   constructor(attackName, statName, statValue, skillName, skillValue, weaponType) {
     super(statName, statValue, skillName, skillValue);
-    this.rollTitle = `${attackName} ${SystemUtils.Localize("CPR.attack")}`;
-    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-attack-prompt.hbs";
+    LOGGER.trace(`CPRAttackRoll | Constructor`);
+    this.rollTitle = `${attackName}`;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-attack-rollcard.hbs";
-    this.fireMode = "single";
     this.weaponType = weaponType;
   }
 }
@@ -183,7 +191,8 @@ export class CPRAttackRoll extends CPRSkillRoll {
 export class CPRAimedAttackRoll extends CPRAttackRoll {
   constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
     super(weaponName, statName, statValue, skillName, skillValue, weaponType);
-    this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.aimedshot")}`;
+    LOGGER.trace(`CPRAimedAttackRoll | Constructor`);
+    this.rollTitle = `${weaponName}`;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-aimed-attack-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-aimed-attack-rollcard.hbs";
     this.addMod(-8);
@@ -194,26 +203,25 @@ export class CPRAimedAttackRoll extends CPRAttackRoll {
 export class CPRAutofireRoll extends CPRAttackRoll {
   constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
     super(weaponName, statName, statValue, skillName, skillValue, weaponType);
-    this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.autofire")}`;
-    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-autofire-prompt.hbs";
+    LOGGER.trace(`CPRAutofireRoll | Constructor`);
+    this.rollTitle = `${weaponName}`;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-autofire-rollcard.hbs";
-    this.fireMode = "autofire";
   }
 }
 
 export class CPRSuppressiveFireRoll extends CPRAttackRoll {
   constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
     super(weaponName, statName, statValue, skillName, skillValue, weaponType);
-    this.rollTitle = `${weaponName} ${SystemUtils.Localize("CPR.suppressivefire")}`;
-    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-suppressive-fire-prompt.hbs";
+    LOGGER.trace(`CPRSuppressiveFireRoll | Constructor`);
+    this.rollTitle = `${weaponName}`;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-suppressive-fire-rollcard.hbs";
-    this.fireMode = "suppressive";
   }
 }
 
 export class CPRRoleRoll extends CPRRoll {
   constructor(roleName, roleValue) {
     super(roleName, "1d10");
+    LOGGER.trace(`CPRRoleRoll | Constructor`);
     this.roleValue = roleValue;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-roleAbility-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-role-rollcard.hbs";
@@ -227,6 +235,7 @@ export class CPRRoleRoll extends CPRRoll {
 export class CPRDeathSaveRoll extends CPRRoll {
   constructor(penalty, basePenalty, bodyStat) {
     super(SystemUtils.Localize("CPR.deathsave"), "1d10");
+    LOGGER.trace(`CPRDeathSaveRoll | Constructor`);
     this.calculateCritical = false;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-deathsave-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-deathsave-rollcard.hbs";
@@ -250,6 +259,7 @@ export class CPRDamageRoll extends CPRRoll {
     // we assume always d6s
     // again, check if this makes sense or if it should accept formulas too
     super(rollTitle, formula);
+    LOGGER.trace(`CPRDamageRoll | Constructor`);
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-damage-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-damage-rollcard.hbs";
     // criticals just add 5 damage, they do not need more dice rolled
@@ -292,5 +302,62 @@ export class CPRDamageRoll extends CPRRoll {
   setAutofire() {
     this.isAutofire = true;
     this.formula = "2d6";
+    this.mods = [];
   }
 }
+
+export class CPRTableRoll extends CPRRoll {
+  constructor(rollTitle, tableRoll, rollCard) {
+    // This is just to create a CPR Roll Object from an already rolled RollTable
+    const formula = tableRoll._formula;
+    super(rollTitle, formula);
+    LOGGER.trace(`CPRTableRoll | Constructor`);
+    this.rollCard = rollCard;
+    (tableRoll.terms[0].results).forEach((die) => {
+      this.faces.push(die.result);
+    });
+    // eslint-disable-next-line prefer-destructuring
+    this.resultTotal = tableRoll.results[0];
+  }
+
+  _computeBase() {
+    return (this.initialRoll + this.totalMods()) * this.autofireMultiplier;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  wasCritFail() {
+    // you cannot crit-fail damage
+    return false;
+  }
+
+  wasCritSuccess() {
+    return this.faces.filter((x) => x === 6).length >= 2;
+  }
+
+  _computeResult() {
+    // figure how aimed shots work...
+    this.resultTotal = this._computeBase();
+    if (this.wasCritical() && !this.isAutofire) {
+      this.resultTotal += this.bonusDamage;
+    }
+  }
+
+  setAutofire() {
+    this.isAutofire = true;
+    this.formula = "2d6";
+    this.mods = [];
+  }
+}
+export const rollTypes = {
+  BASE: "base",
+  STAT: "stat",
+  SKILL: "skill",
+  HUMANITY: "humanity",
+  ROLEABILITY: "roleAbility",
+  ATTACK: "attack",
+  AIMED: "aimed",
+  AUTOFIRE: "autofire",
+  SUPPRESSIVE: "suppressive",
+  DAMAGE: "damage",
+  DEATHSAVE: "deathsave",
+};

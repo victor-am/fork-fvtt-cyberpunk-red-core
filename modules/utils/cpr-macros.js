@@ -29,7 +29,7 @@ export default class CPRMacro {
       }
       default:
     }
-    const cprRoll = item.createRoll(rollType, actor._id, extraData);
+    let cprRoll = item.createRoll(rollType, actor._id, extraData);
     const event = {};
     event.ctrlKey = false;
     event.type = "macro";
@@ -38,11 +38,13 @@ export default class CPRMacro {
       await cprRoll.handleRollDialog(event);
     }
 
-    item.confirmRoll(rollType, cprRoll);
+    cprRoll = await item.confirmRoll(cprRoll);
     await cprRoll.roll();
+    cprRoll.entityData = speaker;
     CPRChat.RenderRollCard(cprRoll);
 
-    actor.setPreviousRoll(cprRoll);
+    // Need to figure out what we did here since this is gone??
+    // actor.setPreviousRoll(cprRoll);
     return true;
   }
 }

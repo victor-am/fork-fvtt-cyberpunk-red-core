@@ -1,0 +1,91 @@
+// Cyberpunk Red Core Mook Sheet Styling
+// Overall Sheet Layout
+.mook-sheet {
+    font-family: "Audimat Mono";
+    background-color: @chrome-white;
+    display: grid;
+    grid-template-areas:
+        "mook-name mook-details";
+
+    .mook-name {
+        grid-area: mook-name;
+    }
+
+    .mook-details {
+        display: grid;
+        gap: 5px;
+        grid-area: mook-details;
+        grid-template-areas:
+            "mook-stats"
+            "mook-derived"
+            "mook-gear"
+            "mook-skills"
+            "mook-special"
+            "mook-crit";
+    }
+
+    .mook-stats {
+        display: grid;
+        grid-area: mook-stats;
+        grid-template-areas:
+            "mook-int-stat mook-ref-stat mook-dex-stat mook-tech-stat mook-cool-stat"
+            "mook-will-stat mook-luck-stat mook-move-stat mook-body-stat mook-emp-stat";
+        .mook-int-stat { grid-area: mook-int-stat; }
+        .mook-ref-stat { grid-area: mook-ref-stat; }
+        .mook-dex-stat { grid-area: mook-dex-stat; }
+        .mook-tech-stat { grid-area: mook-tech-stat; }
+        .mook-cool-stat { grid-area: mook-cool-stat; }
+        .mook-will-stat { grid-area: mook-will-stat; }
+        .mook-luck-stat { grid-area: mook-luck-stat; }
+        .mook-move-stat { grid-area: mook-move-stat; }
+        .mook-body-stat { grid-area: mook-body-stat; }
+        .mook-emp-stat { grid-area: mook-emp-stat; }
+    }
+
+    .mook-derived-stats {
+        gap: 10px;
+        display: grid;
+        grid-area: mook-derived;
+        grid-template-columns: 1fr 1fr 0.5fr;
+        grid-template-areas:
+            "mook-hp mook-wounded mook-deathsave";
+        .mook-hp { grid-area: mook-hp; }
+        .mook-wounded { grid-area: mook-wounded; }
+        .mook-deathsave { grid-area: mook-deathsave; }
+    }
+
+    .mook-gear {
+        gap: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-area: mook-gear;
+        grid-template-areas: "mook-weapon-list mook-armor";
+        .mook-weapon-list {grid-area: mook-weapon-list; }
+        .mook-armor { grid-area: mook-armor; }
+    }
+
+    .mook-weapon {
+        display: grid;
+        grid-template-columns: 3fr 1fr 1fr;
+        grid-template-areas: "mook-weapon-name mook-weapon-mode mook-weapon-rolls";
+        .mook-weapon-name {
+            grid-area: mook-weapon-name;
+            padding-right: 6px;
+            text-overflow: ellipsis;
+        }
+        .mook-weapon-mode { grid-area: mook-weapon-mode; }
+        .mook-weapon-rolls { grid-area: mook-weapon-rolls; }
+    }
+
+    .mook-skills {
+        grid-area: mook-skills;
+    }
+
+    .mook-special {
+        grid-area: mook-special;
+    }
+
+    .mook-crit {
+      grid-area: mook-crit;
+  }
+}

@@ -1,3 +1,4 @@
+/* global Actors ActorSheet CONFIG Hooks Items ItemSheet game isNewerVersion */
 // Object imports
 import CPRActor from "./modules/actor/cpr-actor.js";
 import CPRActorSheet from "./modules/actor/sheet/cpr-actor-sheet.js";
@@ -7,35 +8,40 @@ import CPRItem from "./modules/item/cpr-item.js";
 import CPRItemSheet from "./modules/item/sheet/cpr-item-sheet.js";
 import LOGGER from "./modules/utils/cpr-logger.js";
 import CPRMacro from "./modules/utils/cpr-macros.js";
-
+import SystemUtils from "./modules/utils/cpr-systemUtils.js";
 import Migration from "./modules/system/migration.js";
 
 // Function imports
 import registerHooks from "./modules/system/hooks.js";
 import preloadHandlebarsTemplates from "./modules/system/preload-templates.js";
 import registerHandlebarsHelpers from "./modules/system/register-helpers.js";
+import overrideRulerFunctions from "./modules/system/overrides.js";
 
 // System settings
-import { registerSystemSettings } from "./modules/system/settings.js";
+import registerSystemSettings from "./modules/system/settings.js";
 
 Hooks.once("init", async () => {
   LOGGER.log("THANK YOU TO EVERYONE WHO HELPED!!!!");
   LOGGER.credits();
   // Register Actor Sheet Application Classes
   Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("cyberpunk-red-core", CPRCharacterActorSheet, { types: ["character"], makeDefault: true });
-  Actors.registerSheet("cyberpunk-red-core", CPRMookActorSheet, { types: ["mook"], makeDefault: true });
+  Actors.registerSheet("cyberpunk-red-core", CPRCharacterActorSheet,
+    { label: SystemUtils.Localize("CPR.charactersheet"), types: ["character", "mook"], makeDefault: true });
+  Actors.registerSheet("cyberpunk-red-core", CPRMookActorSheet,
+    { label: SystemUtils.Localize("CPR.mooksheet"), types: ["character", "mook"] });
 
   // Register Item Sheet Application Classes
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("cyberpunk-red-core", CPRItemSheet, {
     types: [
       "cyberware",
+      "clothing",
       "weapon",
       "armor",
       "ammo",
       "gear",
       "skill",
+      "criticalInjury",
       "vehicle",
       "program",
       "netarch",
@@ -64,6 +70,7 @@ Hooks.once("init", async () => {
   preloadHandlebarsTemplates();
   registerHandlebarsHelpers();
   registerSystemSettings();
+  overrideRulerFunctions();
 });
 
 Hooks.once("ready", () => {
@@ -71,7 +78,7 @@ Hooks.once("ready", () => {
   if (!game.user.isGM) return;
   // This defines the version of the Data Model for this release.  We should
   // only update this when the Data Model Changes.
-  const DATA_MODEL_VERSION = "0.65";
+  const DATA_MODEL_VERSION = "0.74.0";
   // Get the version of the data model being used for the loaded world. At
   // the end of a migration, this is updated with the current version of the
   // CPR system.
@@ -79,7 +86,7 @@ Hooks.once("ready", () => {
   // Determine if we need to perform a migration
   const needsMigration = dataModelVersion && isNewerVersion(DATA_MODEL_VERSION, dataModelVersion);
   if (!needsMigration) return;
-  Migration.migrateWorld(dataModelVersion);
+  Migration.migrateWorld(dataModelVersion, DATA_MODEL_VERSION);
 });
 
 registerHooks();

@@ -69,6 +69,7 @@
 
     .skill-level,
     .skill-base,
+    .skill-mod-value,
     .skill-favorite {
         flex: 0 0 30px;
     }
@@ -131,6 +132,16 @@
         }
     }
 
+    .critical-injury-content {
+        li:nth-child(even) {
+            background-color: @meat-space-pink;
+        }
+
+        li:nth-child(odd) {
+            background-color: @chrome-white;
+        }
+    }
+
     .weapon-content {
         li:nth-child(even) {
             background-color: @meat-space-pink;
@@ -145,6 +156,7 @@
         flex: 0 0 25%;
     }
 
+    .weapon-measure,
     .weapon-attack,
     .weapon-damage {
         flex      : 0 0 20px;
@@ -171,4 +183,8 @@ ol {
     li:nth-child(odd) {
         background-color: @chrome-white;
     }
+}
+
+.zero-not-visible:not(:hover) {
+  opacity: 0
 }

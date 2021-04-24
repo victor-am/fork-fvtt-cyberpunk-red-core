@@ -1,4 +1,4 @@
-{{log "CPR-ACTIONS.HBS"}}
+{{trace "CPR-ACTIONS.HBS"}}
 {{#if (compare type "===" "weapon")}}
 {{!-- LOAD/RELOAD ACTION --}}
 {{#if data.isRanged}}
@@ -16,7 +16,7 @@
 {{#if (compare type "===" "armor")}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-repair-glyph.hbs"}}
 {{/if}}
-{{#if (listContains "weapon,armor,gear" type)}}
+{{#if (listContains "weapon,armor,gear,clothing" type)}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-equip-glyph.hbs"}}
 {{/if}}
 <a class="item-action" data-action-type="favorite" title="{{localize "CPR.togglepin"}}">
@@ -28,4 +28,4 @@
 </a>
 {{!-- ITEM MANAGEMENT --}}
 <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red" title="Delete Item"></i></a>
-{{log "END CPR-ACTIONS.HBS"}}
+{{trace "END CPR-ACTIONS.HBS"}}

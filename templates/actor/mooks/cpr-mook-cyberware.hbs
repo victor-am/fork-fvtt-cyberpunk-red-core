@@ -1,0 +1,33 @@
+{{trace "CPR-MOOK-CYBERWARE.HBS"}}
+<div class="items-header bg-red fg-white flexrow">
+  <span class="item-name section-name text-nowrap text-padding-left">
+    {{localize "CPR.cyberware"}}/{{localize "CPR.specialgear"}}
+  </span>
+</div>
+<div class="bg-white fg-black text-padding-left">
+  <!-- Cyberware -->
+  {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
+    {{#each (getProp ../this.installedCyberware t) as |cyberware c|}}
+      {{#unless foundation.data.data.core}}
+        <a class="name item-view" data-item-id="{{foundation.data._id}}">
+          {{foundation.name}}{{#if (compare foundation.data.data.hasOptionalSlots "===" false)}},{{/if}}
+        </a>
+        {{#if foundation.data.data.hasOptionalSlots}}({{/if}}{{#each optionals as |optional o|}}<a class="name item-view" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}">{{optional.name}}</a>,{{/each}}{{#if foundation.data.data.hasOptionalSlots}}),{{/if}}
+      {{/unless}}
+    {{/each}}
+  {{/each}}
+  <!-- Gear -->
+  {{#each this.items as |item i|}}
+    {{#if (compare item.type "===" "ammo")}}
+      <a class="name item-edit" title="{{item.name}}&#13Click to view the item&#13Ctrl-Click to send to chat" data-item-id="{{item._id}}">
+        {{item.name}} (x{{item.data.amount}}),
+      </a>
+    {{/if}}
+    {{#if (compare item.type "===" "gear")}}
+      <a class="name item-edit" title="{{item.name}}&#13Click to view the item&#13Ctrl-Click to send to chat" data-item-id="{{item._id}}">
+        {{item.name}},
+      </a>
+    {{/if}}
+  {{/each}}
+</div>
+{{trace "END CPR-MOOK-CYBERWARE.HBS"}}

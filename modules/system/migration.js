@@ -3,9 +3,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-await-in-loop */
 export default class Migration {
-  static async migrateWorld(incomingDataModelVersion) {
-    ui.notifications.notify(`Beginning Migration of Cyberpunk Red Core from Data Model ${incomingDataModelVersion} to ${game.system.data.version}.`);
-    this.incomingDataModelVersion = incomingDataModelVersion;
+  static async migrateWorld(oldDataModelVersion, newDataModelVersion) {
+    ui.notifications.notify(`Beginning Migration of Cyberpunk Red Core from Data Model ${oldDataModelVersion} to ${newDataModelVersion}.`);
     let totalCount = game.items.entities.length;
     let quarterCount = totalCount / 4;
     let loopIndex = 0;
@@ -62,9 +61,9 @@ export default class Migration {
         });
       }
     }
-    ui.notifications.notify(`Migration of Cyberpunk Red Core to Data Model ${game.system.data.version} Finished.`);
+    ui.notifications.notify(`Migration of Cyberpunk Red Core to Data Model ${newDataModelVersion} Finished.`);
 
-    game.settings.set("cyberpunk-red-core", "dataModelVersion", game.system.data.version);
+    game.settings.set("cyberpunk-red-core", "dataModelVersion", newDataModelVersion);
   }
 
   static async migrateActorData(actor) {
@@ -79,6 +78,12 @@ export default class Migration {
       await actor.updateEmbeddedEntity("OwnedItem", updateItems);
     } else {
       actor.data.items = updateItems;
+    }
+
+    if ((typeof actor.data.data.criticalInjuries) !== "undefined") {
+      if (actor.data.data.criticalInjuries.length > 0) {
+        await this.migrateCriticalInjuries(actor);
+      }
     }
 
     // Moved to after all of the items have been migrated, since this is used to
@@ -123,6 +128,48 @@ export default class Migration {
           actorData.data.lifestyle.fashion = actorData.data.lifestyle.fasion;
         }
       }
+
+      // Changed in 0.72
+      const myVar = (typeof actorData.data.lifepath.friends);
+      if ((typeof actorData.data.lifepath.friends) === "object") {
+        actorData.data.lifepath.friends = "";
+      }
+      // Changed in 0.72
+      if ((typeof actorData.data.lifepath.tragicLoveAffairs) === "object") {
+        actorData.data.lifepath.tragicLoveAffairs = "";
+      }
+      // Changed in 0.72
+      if ((typeof actorData.data.lifepath.enemies) === "object") {
+        actorData.data.lifepath.enemies = "";
+      }
+
+      // Changed in 0.72
+      if ((typeof actorData.data.lifestyle.fashion) === "string") {
+        const oldData = actorData.data.lifestyle.fashion;
+        actorData.data.lifestyle.fashion = { description: oldData };
+      }
+
+      // Changed in 0.72
+      if ((typeof actorData.data.lifestyle.housing) === "string") {
+        const oldData = actorData.data.lifestyle.housing;
+        actorData.data.lifestyle.housing = { description: oldData, cost: 0 };
+      }
+
+      // Changed in 0.72
+      if ((typeof actorData.data.lifestyle.lifestyle) === "string") {
+        const oldData = actorData.data.lifestyle.lifestyle;
+        actorData.data.lifestyle.lifestyle = { description: oldData, cost: 0 };
+      }
+
+      // Added in 0.72
+      if ((typeof actorData.data.lifestyle.traumaTeam) === "undefined") {
+        actorData.data.lifestyle.traumaTeam = { description: "", cost: 0 };
+      }
+      // Added in 0.72
+      if ((typeof actorData.data.lifestyle.extras) === "undefined") {
+        actorData.data.lifestyle.extras = { description: "", cost: 0 };
+      }
+
       if ((typeof actorData.data.improvementPoints) === "undefined") {
         actorData.data.improvementPoints = {
           value: 0,
@@ -186,6 +233,15 @@ export default class Migration {
       actorData.data.criticalInjuries = [];
     }
 
+    // Moved in 0.72
+    if ((typeof actorData.data.humanity) !== "undefined") {
+      actorData.data.derivedStats.humanity = actorData.data.humanity;
+    }
+
+    if ((typeof actorData.data.currentWoundState) !== "undefined") {
+      actorData.data.derivedStats.currentWoundState = actorData.data.currentWoundState;
+    }
+
     // Check the ActorData for properties no longer in use and add them
     // to the scrubData object to have them removed
     const scrubData = this.scrubActorData(actorData);
@@ -193,11 +249,68 @@ export default class Migration {
     // Update the actor with the new data model
     await actor.update(actorData, { diff: false, enforceTypes: false });
 
+    // This was added as part of 0.72.  We had one report of
+    // a scenario where the actors somehow lost their core Cyberware items
+    // so this ensures all actors have them.
+    const pack = game.packs.get("cyberpunk-red-core.cyberware");
+    // put into basickSkills array
+    const content = await pack.getContent();
+    await this.validateCoreContent(actor, content);
+
     // Remove any unused properties if needed
     if (scrubData !== {}) {
       await actor.update(scrubData);
     }
     return actor.data;
+  }
+
+  static async validateCoreContent(actor, content) {
+    // Get what cyberware is installed
+    const installedCyberware = actor.getInstalledCyberware();
+    // Remove any installed items from the core content since the actor has those items
+    installedCyberware.forEach((c) => {
+      content = content.filter((cw) => cw.name !== c.name);
+    });
+
+    // Loop through and add the items the actor is missing
+    content.forEach(async (c) => {
+      const itemData = [c.data];
+      await actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+    });
+  }
+
+  static async migrateCriticalInjuries(actor) {
+    const { criticalInjuries } = actor.data.data;
+    const injuryItems = [];
+    criticalInjuries.forEach(async (injury) => {
+      const { mods } = injury;
+      const hasPenalty = (mods.filter((mod) => mod.name === "deathSavePenalty"))[0].value;
+      const itemData = {
+        type: "criticalInjury",
+        name: injury.name,
+        data: {
+          location: injury.location,
+          description: {
+            value: injury.effect,
+            chat: "",
+            unidentified: "",
+          },
+          quickFix: {
+            type: "firstAidParamedic",
+            dvFirstAid: 0,
+            dvParamedic: 0,
+          },
+          treatment: {
+            type: "paramedicSurgery",
+            dvParamedic: 0,
+            dvSurgery: 0,
+          },
+          deathSaveIncrease: hasPenalty,
+        },
+      };
+      injuryItems.push(itemData);
+    });
+    return actor.createEmbeddedEntity("OwnedItem", injuryItems, { force: true });
   }
 
   // The following is code that is used to remove data points on the actor model that
@@ -223,10 +336,30 @@ export default class Migration {
       if ((typeof actorData.data["reputation:"]) !== "undefined") {
         scrubData["data.-=reputation:"] = null;
       }
+      // Removed in 0.72
+      if ((typeof actorData.data.lifestyle.rent) !== "undefined") {
+        scrubData["data.lifestyle.-=rent"] = null;
+      }
+      // Removed in 0.72
+      if ((typeof actorData.data.hp) !== "undefined") {
+        scrubData["data.-=hp"] = null;
+      }
     }
     // Remove unused data points from an actor (character & mooks)
     if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
       scrubData["data.derivedStats.-=deathSavePenlty"] = null;
+    }
+    // Moved to derivedStats in 0.72
+    if ((typeof actorData.data.woundState) !== "undefined") {
+      scrubData["data.-=woundState"] = null;
+    }
+    // Moved to derivedStats in 0.72
+    if ((typeof actorData.data.humanity) !== "undefined") {
+      scrubData["data.-=humanity"] = null;
+    }
+    // Moved to items in 0.72
+    if ((typeof actorData.data.criticalInjuries) !== "undefined") {
+      scrubData["data.-=criticalInjuries"] = null;
     }
     return scrubData;
   }
@@ -250,6 +383,12 @@ export default class Migration {
       case "vehicle": {
         return this.migrateVehicle(itemData);
       }
+      case "gear": {
+        return this.migrateGear(itemData);
+      }
+      case "skill": {
+        return this.migrateSkill(itemData);
+      }
       default:
     }
     return itemData;
@@ -259,6 +398,12 @@ export default class Migration {
   static migrateWeapon(itemData) {
     if ((typeof itemData.data.isConcealed) === "undefined") {
       itemData.data.isConcealed = false;
+    }
+    if ((typeof itemData.data.dvTable) === "undefined") {
+      itemData.data.dvTable = "";
+    }
+    if ((typeof itemData.data.attackMod) === "undefined") {
+      itemData.data.attackMod = 0;
     }
     return itemData;
   }
@@ -275,6 +420,26 @@ export default class Migration {
       itemData.data.sdp = itemData.data.spd;
       delete itemData.data.spd;
     }
+    return itemData;
+  }
+
+  static migrateGear(itemData) {
+    if ((typeof itemData.data.equipped) === "undefined") {
+      itemData.data.equipped = "owned";
+    }
+
+    return itemData;
+  }
+
+  // I (Jalen) spoke with Darin and he mentioned it might make most sense for
+  // migration code like this to check if the value isn't a number rather
+  // than if it is undefined because sometimes the value shows up as null.
+  // Testing that theory here.
+  static migrateSkill(itemData) {
+    if ((typeof itemData.data.skillmod) !== "number") {
+      itemData.data.skillmod = 0;
+    }
+
     return itemData;
   }
 }

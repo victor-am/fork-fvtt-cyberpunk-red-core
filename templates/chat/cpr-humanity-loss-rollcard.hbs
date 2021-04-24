@@ -1,27 +1,31 @@
-{{log "CPR-HUMANITY-LOSS-ROLLCARD.HBS"}}
-<div class="rollcard-body">
-    <div class="rollcard-top">
-        <div class="cpr-block chat-rollTitle-{{rollType}}">
-            <p class="text-center">{{rollTitle}}</p>
-        </div>
+{{trace "CPR-HUMANITY-LOSS-ROLLCARD.HBS"}}
+<div class="rollcard">
+  <div class="rollcard-top">
+    <div class="cpr-block chat-rollTitle-stat">
+      <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
+      <div class="text-center text-small">{{cyberwareName}}</div>
     </div>
-    <div class="rollcard-bottom">
-        {{!-- rollcard body --}}
-        <div class="cpr-block">
-            <div class="rollcard">
-                <div class="total-div">
-                    <span class="fg-red text-bold">{{resultTotal}}</span>
-                </div>
-                <div class="dice-div">
-                    {{#each faces as |die|}}
-                    <i class="fas fa-dice-{{numToWord die}} text-massive"></i>
-                    {{/each}}
-                </div>
-                <div class="info-div">
-                    {{localize "CPR.cyberware"}}: {{cyberwareName}}<br>
-                </div>
-            </div>
+  </div>
+  <div class="rollcard-bottom">
+    <div class="cpr-block">
+      <div class="d6-rollcard-data">
+        <div class="d6-dice-div">
+          {{!-- die image for initialRoll --}}
+
+          {{#each faces as |dieFace|}}
+            <img class="{{diceSizeImageClass ../formula}}" src="systems/cyberpunk-red-core/icons/dice/black/d6_{{dieFace}}.svg">
+          {{/each}}
+
         </div>
+        <div class="d6-number-div">
+          <span class="{{#if criticalCard}}fg-red text-bold{{/if}}">{{resultTotal}}</span>
+        </div>
+        <div class="d6-data-div">
+          <div class="d6-data-details">
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
-{{log "END CPR-HUMANITY-LOSS-ROLLCARD.HBS"}}
+{{trace "END CPR-HUMANITY-LOSS-ROLLCARD.HBS"}}

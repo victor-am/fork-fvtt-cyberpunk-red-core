@@ -171,6 +171,48 @@ export default function registerHandlebarsHelpers() {
     return arg1.replace("VAR", arg2);
   });
 
+  Handlebars.registerHelper("diceSizeImageClass", (formula) => {
+    LOGGER.trace(`Calling sizeDice Helper | formula:${formula}`);
+    let diceSize = "";
+    let className = "d10";
+    const formulaParts = formula.split("d");
+    if (formulaParts.length === 2) {
+      const diceCount = parseInt(formulaParts[0], 10);
+      const diceSides = parseInt(formulaParts[1], 10);
+      className = `d${diceSides}`;
+
+      if (diceSides === 6) {
+        diceSize = 60;
+        if (diceCount > 2) {
+          diceSize = 40;
+        }
+        if (diceCount > 4) {
+          diceSize = 30;
+        }
+        if (diceCount > 10) {
+          diceSize = 20;
+        }
+      }
+
+      if (diceSides === 10) {
+        diceSize = 60;
+        if (diceCount > 2) {
+          diceSize = 40;
+        }
+        if (diceCount > 4) {
+          diceSize = 30;
+        }
+        if (diceCount > 10) {
+          diceSize = 20;
+        }
+      }
+      if (diceSize) {
+        className = `${className} ${className}-${diceSize}`;
+      }
+    }
+    return className;
+  });
+
   Handlebars.registerHelper("sort", (object, property) => {
     LOGGER.trace(`Calling sort Helper | Sorting by ${property}`);
     object.sort((a, b) => {
@@ -229,5 +271,51 @@ export default function registerHandlebarsHelpers() {
     return -1; // return a clear bug but not a broken behavior
   });
 
+  Handlebars.registerHelper("fireMode", (actor, firemode, weaponID) => {
+    LOGGER.trace("Calling fireMode Helper");
+    LOGGER.debug(`firemode is ${firemode}`);
+    LOGGER.debug(`weaponID is ${weaponID}`);
+    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    LOGGER.debugObject(flag);
+    if (flag === firemode) {
+      LOGGER.debug("returning true");
+      return true;
+    }
+    LOGGER.debug("returning false");
+    return false;
+  });
+
+  Handlebars.registerHelper("fireflag", (actor, firetype, weaponID) => {
+    LOGGER.trace("Calling fireflag Helper");
+    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    if (flag === firetype) {
+      return "checked";
+    }
+    return "";
+  });
+
   Handlebars.registerHelper("systemConfig", (settingName) => game.settings.get("cyberpunk-red-core", settingName));
+
+  Handlebars.registerHelper("splitJoinCoreSkills", (string) => {
+    LOGGER.trace("Calling splitJoinCoreSkills Helper");
+    const cprDot = "CPR.";
+    const initialSplit = string.split(" ").join("");
+    const orCaseSplit = initialSplit.split("/").join("or");
+    const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
+    const andCaseSplit = initialSplit.split("/").join("and").split("&").join("and");
+    if (string === "Conceal/Reveal Object" || string === "Paint/Draw/Sculpt" || string === "Resist Torture/Drugs") {
+      return cprDot + orCaseSplit.toLowerCase();
+    } else if (string === "Language (Streetslang)") {
+      return cprDot + parenCaseSplit.toLowerCase();
+    }
+    return cprDot + andCaseSplit.toLowerCase();
+  });
+
+  Handlebars.registerHelper("debug", (msg) => {
+    LOGGER.debug(msg);
+  });
+
+  Handlebars.registerHelper("trace", (msg) => {
+    LOGGER.trace(msg);
+  });
 }

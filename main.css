@@ -693,6 +693,12 @@ button,
   align-self: center;
   padding: 0 2px 0 2px;
 }
+.side-banner {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  min-height: -webkit-fill-available;
+  text-align: center;
+}
 .flex-space-between {
   display: flex;
   justify-content: space-between;
@@ -759,6 +765,18 @@ button,
 }
 .width-max-two-thirds {
   max-width: calc((100%/3)*2);
+}
+.pad-thinner {
+  padding: 2px;
+}
+.pad-thin {
+  padding: 5px;
+}
+.pad-thick {
+  padding: 8px;
+}
+.pad-thicker {
+  padding: 10px;
 }
 /*--------------------
   Text modifiers
@@ -850,6 +868,110 @@ button,
   flex-direction: column;
   flex-wrap: nowrap;
 }
+.mook-sheet {
+  font-family: "Audimat Mono";
+  background-color: #eaeaeaff;
+  display: grid;
+  grid-template-areas: "mook-name mook-details";
+}
+.mook-sheet .mook-name {
+  grid-area: mook-name;
+}
+.mook-sheet .mook-details {
+  display: grid;
+  gap: 5px;
+  grid-area: mook-details;
+  grid-template-areas: "mook-stats" "mook-derived" "mook-gear" "mook-skills" "mook-special" "mook-crit";
+}
+.mook-sheet .mook-stats {
+  display: grid;
+  grid-area: mook-stats;
+  grid-template-areas: "mook-int-stat mook-ref-stat mook-dex-stat mook-tech-stat mook-cool-stat" "mook-will-stat mook-luck-stat mook-move-stat mook-body-stat mook-emp-stat";
+}
+.mook-sheet .mook-stats .mook-int-stat {
+  grid-area: mook-int-stat;
+}
+.mook-sheet .mook-stats .mook-ref-stat {
+  grid-area: mook-ref-stat;
+}
+.mook-sheet .mook-stats .mook-dex-stat {
+  grid-area: mook-dex-stat;
+}
+.mook-sheet .mook-stats .mook-tech-stat {
+  grid-area: mook-tech-stat;
+}
+.mook-sheet .mook-stats .mook-cool-stat {
+  grid-area: mook-cool-stat;
+}
+.mook-sheet .mook-stats .mook-will-stat {
+  grid-area: mook-will-stat;
+}
+.mook-sheet .mook-stats .mook-luck-stat {
+  grid-area: mook-luck-stat;
+}
+.mook-sheet .mook-stats .mook-move-stat {
+  grid-area: mook-move-stat;
+}
+.mook-sheet .mook-stats .mook-body-stat {
+  grid-area: mook-body-stat;
+}
+.mook-sheet .mook-stats .mook-emp-stat {
+  grid-area: mook-emp-stat;
+}
+.mook-sheet .mook-derived-stats {
+  gap: 10px;
+  display: grid;
+  grid-area: mook-derived;
+  grid-template-columns: 1fr 1fr 0.5fr;
+  grid-template-areas: "mook-hp mook-wounded mook-deathsave";
+}
+.mook-sheet .mook-derived-stats .mook-hp {
+  grid-area: mook-hp;
+}
+.mook-sheet .mook-derived-stats .mook-wounded {
+  grid-area: mook-wounded;
+}
+.mook-sheet .mook-derived-stats .mook-deathsave {
+  grid-area: mook-deathsave;
+}
+.mook-sheet .mook-gear {
+  gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-area: mook-gear;
+  grid-template-areas: "mook-weapon-list mook-armor";
+}
+.mook-sheet .mook-gear .mook-weapon-list {
+  grid-area: mook-weapon-list;
+}
+.mook-sheet .mook-gear .mook-armor {
+  grid-area: mook-armor;
+}
+.mook-sheet .mook-weapon {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr;
+  grid-template-areas: "mook-weapon-name mook-weapon-mode mook-weapon-rolls";
+}
+.mook-sheet .mook-weapon .mook-weapon-name {
+  grid-area: mook-weapon-name;
+  padding-right: 6px;
+  text-overflow: ellipsis;
+}
+.mook-sheet .mook-weapon .mook-weapon-mode {
+  grid-area: mook-weapon-mode;
+}
+.mook-sheet .mook-weapon .mook-weapon-rolls {
+  grid-area: mook-weapon-rolls;
+}
+.mook-sheet .mook-skills {
+  grid-area: mook-skills;
+}
+.mook-sheet .mook-special {
+  grid-area: mook-special;
+}
+.mook-sheet .mook-crit {
+  grid-area: mook-crit;
+}
 .items-list {
   list-style: none;
   margin: 0;
@@ -906,6 +1028,7 @@ button,
 }
 .skills-tab .skill-level,
 .skills-tab .skill-base,
+.skills-tab .skill-mod-value,
 .skills-tab .skill-favorite {
   flex: 0 0 30px;
 }
@@ -949,6 +1072,12 @@ button,
 .fight-tab .armor-content .armor-piece {
   margin: 2px;
 }
+.fight-tab .critical-injury-content li:nth-child(even) {
+  background-color: #ffc3b6ff;
+}
+.fight-tab .critical-injury-content li:nth-child(odd) {
+  background-color: #eaeaeaff;
+}
 .fight-tab .weapon-content li:nth-child(even) {
   background-color: #ffc3b6ff;
 }
@@ -958,6 +1087,7 @@ button,
 .fight-tab .weapon-name {
   flex: 0 0 25%;
 }
+.fight-tab .weapon-measure,
 .fight-tab .weapon-attack,
 .fight-tab .weapon-damage {
   flex: 0 0 20px;
@@ -978,6 +1108,9 @@ ol {
 .compatible-ammo li:nth-child(odd) {
   background-color: #eaeaeaff;
 }
+.zero-not-visible:not(:hover) {
+  opacity: 0;
+}
 .chat-message.message.flexcol {
   font-family: "Audimat Mono";
   background: #eaeaeaff;
@@ -989,101 +1122,163 @@ ol {
 .rollcard-top {
   padding-bottom: 5px;
 }
+.rollcard-critinjury-icon {
+  width: 52px;
+  height: 52px;
+}
+.rollcard-critinjury-data {
+  grid-area: d6-data;
+  display: flex;
+  padding-left: 5px;
+  align-items: center;
+}
+.rollcard-subtitle {
+  display: grid;
+  grid-template-columns: 20px auto 20px;
+  grid-template-rows: auto;
+  grid-template-areas: "subtitle-left subtitle-center subtitle-right" "subtitle-2-left subtitle-2-center subtitle-2-right";
+}
+.rollcard-subtitle-left {
+  grid-area: subtitle-left;
+}
+.rollcard-subtitle-center {
+  grid-area: subtitle-center;
+  justify-self: center;
+}
+.rollcard-subtitle-right {
+  grid-area: subtitle-right;
+}
+.rollcard-subtitle-2-left {
+  grid-area: subtitle-2-left;
+}
+.rollcard-subtitle-2-center {
+  grid-area: subtitle-2-center;
+  justify-self: center;
+}
+.rollcard-subtitle-2-right {
+  grid-area: subtitle-2-right;
+}
 .rollcard {
   display: grid;
-  padding: 15px;
-  grid-template-columns: 70px auto;
-  grid-template-rows: auto auto auto;
-  grid-template-areas: "rc-dice rc-total" "rc-dice rc-info" "rc-bottom rc-bottom";
+  grid-template-columns: 270px;
+  grid-template-rows: auto;
 }
-.dice-div {
-  grid-area: rc-dice;
+.generic-rollcard-data,
+.d10-rollcard-data {
+  display: grid;
+  grid-template-columns: 160px auto;
+  grid-template-rows: auto auto;
+  grid-template-areas: "d10-dice d10-number" "d10-data d10-data";
+}
+.generic-dice-div {
+  grid-area: d10-dice;
   display: flex;
-  flex-direction: column;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 5px;
 }
-.total-div {
-  grid-area: rc-total;
+.d10-dice-div {
+  grid-area: d10-dice;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.generic-number-div,
+.d10-number-div {
+  grid-area: d10-number;
   min-height: 70px;
   text-align: right;
   font-size: 4rem;
+  padding-right: 5px;
 }
-.info-div {
-  grid-area: rc-info;
+.generic-data-div,
+.d10-data-div {
+  grid-area: d10-data;
   display: flex;
   flex-direction: column;
   text-align: right;
   justify-content: flex-end;
+  padding-right: 5px;
+}
+.d6-rollcard-data {
+  display: grid;
+  grid-template-columns: 175px auto;
+  grid-template-rows: auto auto;
+  grid-template-areas: "d6-dice d6-number" "d6-data d6-data";
+}
+.d6-dice-div {
+  grid-area: d6-dice;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.d6-number-div {
+  grid-area: d6-number;
+  min-height: 70px;
+  text-align: right;
+  font-size: 4rem;
+  padding-right: 5px;
+}
+.d6-data-div {
+  grid-area: d6-data;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  justify-content: flex-end;
+  padding-right: 5px;
 }
 .bottom-div {
   grid-area: rc-bottom;
+}
+.hide {
+  display: none;
 }
 .d10 {
   height: 70px;
   width: 70px;
   display: block;
+  border: none;
   align-self: center;
 }
-.d10.one {
-  background-image: url("icons/dice/red/d10_1.png");
+.d10-20 {
+  height: 20px;
+  width: 20px;
 }
-.d10.one.black {
-  background-image: url("icons/dice/black/d10_1.png");
+.d10-30 {
+  height: 30px;
+  width: 30px;
 }
-.d10.two {
-  background-image: url("icons/dice/red/d10_2.png");
+.d6 {
+  display: block;
+  border: none;
+  align-self: center;
 }
-.d10.two.black {
-  background-image: url("icons/dice/black/d10_2.png");
+.d6-20 {
+  height: 20px;
+  width: 20px;
 }
-.d10.three {
-  background-image: url("icons/dice/red/d10_3.png");
+.d6-30 {
+  height: 30px;
+  width: 30px;
 }
-.d10.three.black {
-  background-image: url("icons/dice/black/d10_3.png");
+.d6-40 {
+  height: 40px;
+  width: 40px;
 }
-.d10.four {
-  background-image: url("icons/dice/red/d10_4.png");
-}
-.d10.four.black {
-  background-image: url("icons/dice/black/d10_4.png");
-}
-.d10.five {
-  background-image: url("icons/dice/red/d10_5.png");
-}
-.d10.five.black {
-  background-image: url("icons/dice/black/d10_5.png");
-}
-.d10.six {
-  background-image: url("icons/dice/red/d10_6.png");
-}
-.d10.six.black {
-  background-image: url("icons/dice/black/d10_6.png");
-}
-.d10.seven {
-  background-image: url("icons/dice/red/d10_7.png");
-}
-.d10.seven.black {
-  background-image: url("icons/dice/black/d10_7.png");
-}
-.d10.eight {
-  background-image: url("icons/dice/red/d10_8.png");
-}
-.d10.eight.black {
-  background-image: url("icons/dice/black/d10_8.png");
-}
-.d10.nine {
-  background-image: url("icons/dice/red/d10_9.png");
-}
-.d10.nine.black {
-  background-image: url("icons/dice/black/d10_9.png");
-}
-.d10.ten {
-  background-image: url("icons/dice/red/d10_10.png");
-}
-.d10.ten.black {
-  background-image: url("icons/dice/black/d10_10.png");
+/*-------------------------
+| Chat visibility design  |
+-------------------------*/
+.chat-mode-indicator {
+  display: inline-block;
+  margin: 0 3px 0 0;
+  padding: 0 3px;
+  line-height: 1rem;
+  border: 1px solid #999;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.05);
 }
 /*--------------------
   cpr-block element styling
@@ -1231,6 +1426,59 @@ form input.number {
   100% {
     clip: rect(5px, 9999px, 110px, 0);
   }
+}
+.weapon-grid {
+  display: grid;
+  grid-template-columns: 52px 1fr 64px 92px;
+  gap: 2px 4px;
+  grid-template-areas: "fight-weapon-icon fight-weapon fight-weapon-firetype fight-weapon-attack";
+}
+.fight-weapon-icon {
+  grid-area: fight-weapon-icon;
+  width: 52px;
+  height: 52px;
+}
+.fight-weapon {
+  display: grid;
+  gap: 4px 0px;
+  grid-template-areas: "fight-weapon-name" "fight-weapon-actions";
+  grid-area: fight-weapon;
+}
+.fight-weapon-name {
+  grid-area: fight-weapon-name;
+}
+.fight-weapon-actions {
+  grid-area: fight-weapon-actions;
+}
+.fight-weapon-firetype {
+  display: grid;
+  gap: 0px 0px;
+  grid-template-areas: "fight-weapon-aim fight-weapon-aim-box" "fight-weapon-auto fight-weapon-auto-box" "fight-weapon-suppress fight-weapon-supress-box";
+  grid-area: fight-weapon-firetype;
+}
+.fight-weapon-aim {
+  align-self: center;
+  grid-area: fight-weapon-aim;
+}
+.fight-weapon-auto {
+  align-self: center;
+  grid-area: fight-weapon-auto;
+}
+.fight-weapon-suppress {
+  align-self: center;
+  grid-area: fight-weapon-suppress;
+}
+.fight-weapon-aim-box {
+  grid-area: fight-weapon-aim-box;
+}
+.fight-weapon-auto-box {
+  grid-area: fight-weapon-auto-box;
+}
+.fight-weapon-supress-box {
+  grid-area: fight-weapon-supress-box;
+}
+.fight-weapon-attack {
+  grid-area: fight-weapon-attack;
 }
 .window-app .window-content {
   background: #eaeaeaff;

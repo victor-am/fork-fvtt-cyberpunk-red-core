@@ -162,6 +162,7 @@ CPR.weaponTypeList = {
   shotgun: "CPR.shotgun",
   smg: "CPR.smg",
   sniperRifle: "CPR.sniperrifle",
+  thrownWeapon: "CPR.thrownweapon",
   vHeavyMelee: "CPR.veryheavymeleeweapon",
   vHeavyPistol: "CPR.veryheavypistol",
 };
@@ -203,12 +204,15 @@ CPR.inventoryCategories = {
   armor: "CPR.armor",
   cyberware: "CPR.cyberware",
   gear: "CPR.gear",
+  clothing: "CPR.clothing",
   vehicle: "CPR.vehicle",
 };
 
 CPR.objectTypes = {
   ammo: "CPR.ammo",
   armor: "CPR.armor",
+  clothing: "CPR.clothing",
+  criticalInjury: "CPR.criticalinjury",
   cyberware: "CPR.cyberware",
   gear: "CPR.gear",
   netarch: "CPR.netarch",
@@ -216,6 +220,33 @@ CPR.objectTypes = {
   skill: "CPR.skill",
   vehicle: "CPR.vehicle",
   weapon: "CPR.weapon",
+};
+
+// Sorted A-Z
+CPR.clothingStyle = {
+  asiaPop: "CPR.asiapop",
+  bagLadyChic: "CPR.bagladychic",
+  bohemian: "CPR.bohemian",
+  businesswear: "CPR.businesswear",
+  gangColors: "CPR.gangcolors",
+  genericChic: "CPR.genericchic",
+  highFashion: "CPR.highfashion",
+  leisurewear: "CPR.leisurewear",
+  nomadLeathers: "CPR.nomadleathers",
+  urbanFlash: "CPR.urbanflash",
+};
+
+// Sorted A-Z
+CPR.clothingType = {
+  bottoms: "CPR.bottoms",
+  contactLenses: "CPR.contactlenses",
+  footwear: "CPR.footwear",
+  glasses: "CPR.glasses",
+  hats: "CPR.hats",
+  jacket: "CPR.jacket",
+  jewelry: "CPR.jewelry",
+  mirrorshades: "CPR.mirrorshades",
+  top: "CPR.top",
 };
 
 //
@@ -235,6 +266,7 @@ CPR.cyberwareInstallList = {
   mall: "CPR.mall",
   clinic: "CPR.clinic",
   hospital: "CPR.hospital",
+  notApplicable: "CPR.notapplicable",
 };
 
 CPR.woundState = {
@@ -269,6 +301,22 @@ CPR.itemQuality = {
   excellent: "CPR.excellent",
 };
 
+CPR.criticalInjuryLocation = {
+  body: "CPR.bodylocation",
+  head: "CPR.head",
+};
+
+CPR.criticalInjuryQuickFix = {
+  firstAidParamedic: "CPR.firstaidparamedic",
+  paramedic: "CPR.paramedic",
+  notApplicable: "CPR.notapplicable",
+};
+
+CPR.criticalInjuryTreatment = {
+  paramedicSurgery: "CPR.paramedicsurgery",
+  quickFix: "CPR.quickfix",
+  surgery: "CPR.surgery",
+};
 CPR.aimedLocation = {
   head: "CPR.head",
   heldItem: "CPR.helditem",

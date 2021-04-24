@@ -12,8 +12,10 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/dialog/cpr-confirmation-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-load-ammo-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-mod-mook-skill-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-mook-name-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-roll-critical-injury-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-select-compatible-ammo-prompt.hbs",
-    "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-attack-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-damage-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-deathsave-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-generic-prompt.hbs",
@@ -50,6 +52,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-ammo-content.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-armor-content.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-cyberware-content.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-clothing-content.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-vehicle-content.hbs",
 
     // Cyberware Tab Partials
@@ -59,6 +62,7 @@ export default function preloadHandlebarsTemplates() {
     // Common Partials - Actions
     "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-equip-glyph.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-install-glyph.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-uninstall-glyph.hbs",
@@ -68,12 +72,20 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/parts/debug/cpr-item-debug.hbs",
 
     // Mook Sheet Partials
+    "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-stats.hbs",
+    "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-armor.hbs",
+    "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-weapons.hbs",
+    "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-skills.hbs",
+    "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-cyberware.hbs",
+    "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-criticalInjury.hbs",
 
     // Item Sheet
     "systems/cyberpunk-red-core/templates/item/cpr-item-sheet.hbs",
     // Item Sheet - Header Partials
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-ammo.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-armor.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/header/cpr-clothing.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/header/cpr-criticalInjury.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-cyberware.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-netarch.hbs",
@@ -84,6 +96,8 @@ export default function preloadHandlebarsTemplates() {
     // Item Sheet - Description Partials
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-ammo.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-armor.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/description/cpr-clothing.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/description/cpr-criticalInjury.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-cyberware.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-netarch.hbs",
@@ -94,6 +108,8 @@ export default function preloadHandlebarsTemplates() {
     // Item Sheet - Settings Partials
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-ammo.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-armor.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-clothing.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-criticalInjury.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-cyberware.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-netarch.hbs",

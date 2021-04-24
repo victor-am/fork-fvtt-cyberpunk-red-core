@@ -1,5 +1,5 @@
-{{log "CPR-GEAR-INV-CONTENT.HBS"}}
-<li class="item flexrow{{#if item.data.favorite}} favorite{{/if}}" data-item-id="{{item._id}}"
+{{trace "CPR-GEAR-INV-CONTENT.HBS"}}
+<li class="item flexrow{{#if item.data.favorite}} favorite{{else}}{{#if (listContains sheet.options.collapsedSections "gearTab-gear")}} hide{{/if}}{{/if}}" data-item-id="{{item._id}}"
     data-item-category="{{item.type}}" draggable="true">
     <div class="item-name gear-name text-nowrap">
         <a class="name item-edit" title="{{item.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{item.name}}</a>
@@ -11,4 +11,4 @@
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}
     </div>
 </li>
-{{log "END CPR-GEAR-INV-CONTENT.HBS"}}
+{{trace "END CPR-GEAR-INV-CONTENT.HBS"}}

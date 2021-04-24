@@ -1,9 +1,8 @@
 /* global Hooks game */
-/* eslint no-unused-vars:1 */
 import LOGGER from "../utils/cpr-logger.js";
 import CPRChat from "../chat/cpr-chat.js";
 
-const chatPreHooks = () => {
+const chatHooks = () => {
   // eslint-disable-next-line no-unused-vars
   Hooks.on("renderChatMessage", async (app, html, msg) => {
     LOGGER.trace("renderChatMessage | chatHooks | Called.");
@@ -14,7 +13,10 @@ const chatPreHooks = () => {
       html.find(".message-header").remove(); // Remove header so Foundry does not attempt to update its timestamp
       html.html("").css("display", "none");
     }
+    CPRChat.chatListeners(html);
+    CPRChat.addMessageTags(html, msg);
   });
+
   // for now, we intentionally do not use log (ChatLog) or data (ChatData)
   // eslint-disable-next-line no-unused-vars
   Hooks.on("chatMessage", (log, message, data) => {
@@ -30,4 +32,4 @@ const chatPreHooks = () => {
   });
 };
 
-export default chatPreHooks;
+export default chatHooks;

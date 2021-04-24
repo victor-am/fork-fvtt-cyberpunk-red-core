@@ -1,37 +1,39 @@
-{{log "CPR-BASE-ROLLCARD.HBS"}}
-<div class="rollcard-body">
+{{trace "CPR-BASE-ROLLCARD.HBS"}}
+<div class="rollcard">
   <div class="rollcard-top">
-    <div class="text-center text-padding-top">{{rollTitle}}</div>
+    <div class="cpr-block chat-rollTitle-stat">
+      <div class="text-center text-padding-top text-normal">{{rollTitle}} ({{formula}})</div>
+    </div>
   </div>
   <div class="rollcard-bottom">
-    {{!-- rollcard body --}}
     <div class="cpr-block">
-      <div class="rollcard">
-        <div class="dice-div">
+      <div class="{{die}}-rollcard-data">
+        <div class="{{die}}-dice-div">
           {{!-- die image for initialRoll --}}
-          {{#if criticalCard}}
-            <i class="d10 {{numToWord initialRoll}}"></i>
-            {{#if wasCritSuccess}}
-              <i class="fas fa-plus text-center"></i>
+          
+          {{#each faces as |dieFace|}}
+          {{#if (compare (compare ../die "===" "d6") "||" (compare ../die "===" "d10"))}}
+            <img class="{{diceSizeImageClass ../formula}}" src="systems/cyberpunk-red-core/icons/dice/black/{{../die}}_{{dieFace}}.svg">
             {{else}}
-              <i class="fas fa-minus text-center"></i>
+            <span class="text-large">{{dieFace}}&nbsp;</span>
             {{/if}}
-            <i class="{{die}} {{numToWord (math "abs" criticalRoll)}}"></i>
-          {{else}}
-            <i class="{{die}} {{numToWord initialRoll}} black"></i>
-          {{/if}}
+          {{/each}}
         </div>
-        <div class="total-div">
-          <span class="{{#if criticalCard}}fg-red text-bold{{/if}}">{{resultTotal}}</span>
+        <div class="{{die}}-number-div">
+          <a><span class="{{#if mods}}clickable{{/if}}{{#if criticalCard}} fg-red text-bold{{/if}}"
+              data-action="toggleVisibility" data-visible-element="{{die}}-data-details">{{resultTotal}}</span></a>
         </div>
-        <div class="info-div">
-          {{#if mods}}
-          <span class="text-nowrap">{{localize "CPR.rollmods"}}: {{mods}}</span>
-          <div class="chat-rollTotal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}: {{totalMods}}</div>
-          {{/if}}
+        <div class="{{die}}-data-div">
+          <div class="{{die}}-data-details hide">
+            {{#if mods}}
+            <span class="text-normal text-nowrap">{{localize "CPR.rollmods"}}: {{mods}}</span>
+            <div class="text-normal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}:
+              {{totalMods}}</div>
+            {{/if}}
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-{{log "END CPR-BASE-ROLLCARD.HBS"}}
+{{trace "END CPR-BASE-ROLLCARD.HBS"}}

@@ -1,41 +1,23 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable prefer-const */
-/* eslint-disable max-len */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable class-methods-use-this */
-/* global ActorSheet */
-/* global mergeObject, $, setProperty game */
-/* eslint no-prototype-builtins: ["warn"] */
+/* global ActorSheet, mergeObject, $, setProperty game getProperty */
+/* eslint class-methods-use-this: ["warn", {
+  "exceptMethods": ["_handleRollDialog", "_getHands", "_getItemId", "_getObjProp"]
+}] */
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
 import CPRChat from "../../chat/cpr-chat.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
-import CriticalInjuryPrompt from "../../dialog/cpr-critical-injury-prompt.js";
+import RollCriticalInjuryPrompt from "../../dialog/cpr-roll-critical-injury-prompt.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import Rules from "../../utils/cpr-rules.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
-import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
 
 /**
  * Extend the basic ActorSheet.
  * @extends {ActorSheet}
  */
 export default class CPRActorSheet extends ActorSheet {
-  constructor(actor, options) {
-    super(actor, options);
-
-    // Moved this to the constructor since this only needs to be set on the Sheet Object
-    // The first time it is created.  The contents are then loaded from the User Settings
-    // if they exist.
-    this.options.collapsedSections = [];
-    const collapsedSections = SystemUtils.GetUserSetting("sheetConfig", "sheetCollapsedSections", this.id);
-    if (collapsedSections) {
-      this.options.collapsedSections = collapsedSections;
-    }
-  }
-
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
@@ -92,18 +74,10 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".reset-value").click((event) => this._resetActorValue(event));
 
     // Select Roles for Character
-    html.find(".select-roles").click((event) => this._selectRoles(event));
-
-    html.find(".add-critical-injury").click((event) => this._addCriticalInjury(event));
-
-    html.find(".edit-critical-injury").click((event) => this._editCriticalInjury(event));
-
-    html.find(".delete-critical-injury").click((event) => this._deleteCriticalInjury(event));
+    html.find(".select-roles").click(() => this._selectRoles());
 
     // Set Lifepath for Character
-    html.find(".set-lifepath").click((event) => this._setLifepath(event));
-
-    html.find(".sanity-check-cyberware").click(() => this.actor.sanityCheckCyberware());
+    html.find(".set-lifepath").click(() => this._setLifepath());
 
     html.find(".checkbox").click((event) => this._checkboxToggle(event));
 
@@ -120,7 +94,7 @@ export default class CPRActorSheet extends ActorSheet {
       const itemOrderedList = $(collapsibleElement).children("ol");
       const itemList = $(itemOrderedList).children("li");
       itemList.each((lineIndex) => {
-        let lineItem = itemList[lineIndex];
+        const lineItem = itemList[lineIndex];
         if ($(lineItem).hasClass("item") && $(lineItem).hasClass("favorite")) {
           $(lineItem).toggleClass("hide");
         }
@@ -130,28 +104,30 @@ export default class CPRActorSheet extends ActorSheet {
           this.options.collapsedSections.push(event.currentTarget.id);
         }
       } else {
-        this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
+        this.options.collapsedSections = this.options.collapsedSections.filter(
+          (sectionName) => sectionName !== event.currentTarget.id,
+        );
         $(categoryTarget).click();
       }
     });
 
     html.find(".expand-button").click((event) => {
       const collapsibleElement = $(event.currentTarget).parents(".collapsible");
-      const favoritesIdentifier = `${event.currentTarget.id}-showFavorites`;
-      const categoryTarget = $(collapsibleElement.find(`#${favoritesIdentifier}`));
       $(collapsibleElement).find(".collapse-icon").toggleClass("hide");
       $(collapsibleElement).find(".expand-icon").toggleClass("hide");
       const itemOrderedList = $(collapsibleElement).children("ol");
       const itemList = $(itemOrderedList).children("li");
       itemList.each((lineIndex) => {
-        let lineItem = itemList[lineIndex];
+        const lineItem = itemList[lineIndex];
         if ($(lineItem).hasClass("item") && !$(lineItem).hasClass("favorite")) {
           $(lineItem).toggleClass("hide");
         }
       });
 
       if (this.options.collapsedSections.includes(event.currentTarget.id)) {
-        this.options.collapsedSections = this.options.collapsedSections.filter((sectionName) => sectionName !== event.currentTarget.id);
+        this.options.collapsedSections = this.options.collapsedSections.filter(
+          (sectionName) => sectionName !== event.currentTarget.id,
+        );
       } else {
         this.options.collapsedSections.push(event.currentTarget.id);
       }
@@ -184,8 +160,8 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Item Dragging
 
-    let handler = (ev) => this._onDragItemStart(ev);
-    html.find('.item').each((i, li) => {
+    const handler = (ev) => this._onDragItemStart(ev);
+    html.find(".item").each((i, li) => {
       li.setAttribute("draggable", true);
       li.addEventListener("dragstart", handler, false);
     });
@@ -201,14 +177,25 @@ export default class CPRActorSheet extends ActorSheet {
     // Create item in inventory
     html.find(".item-create").click((event) => this._createInventoryItem(event));
 
+    // Roll critical injuries and add to sheet
+    html.find(".roll-critical-injury").click(() => this._rollCriticalInjury());
+
     // Add New Skill Item To Sheet
     html.find(".add-skill").click((event) => this._addSkill(event));
 
-    html.find(".skill-level-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
+    html.find(".skill-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
+
+    html.find(".weapon-input").click((event) => event.target.select()).change((event) => this._updateWeaponAmmo(event));
 
     html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
 
-    html.find(".eurobucks-input").click((event) => event.target.select()).change((event) => this._updateEurobucks(event));
+    html.find(".ability-input").click((event) => event.target.select()).change((event) => this._updateRoleAbility(event));
+
+    html.find(".eurobucks-input").click((event) => event.target.select()).change(
+      (event) => this._updateEurobucks(event),
+    );
+
+    html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
 
     super.activateListeners(html);
   }
@@ -221,37 +208,49 @@ export default class CPRActorSheet extends ActorSheet {
   async _onRoll(event) {
     LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
 
-    const rollType = $(event.currentTarget).attr("data-roll-type");
+    let rollType = $(event.currentTarget).attr("data-roll-type");
     let cprRoll;
     let item = null;
     switch (rollType) {
-      case "deathsave":
-      case "roleAbility":
-      case "stat": {
+      case CPRRolls.rollTypes.DEATHSAVE:
+      case CPRRolls.rollTypes.ROLEABILITY:
+      case CPRRolls.rollTypes.STAT: {
         const rollName = $(event.currentTarget).attr("data-roll-title");
         cprRoll = this.actor.createRoll(rollType, rollName);
         break;
       }
-      case "damage":
-      case "aimed":
-      case "attack":
-      case "autofire":
-      case "skill":
-      case "suppressive": {
+      case CPRRolls.rollTypes.SKILL: {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
-        cprRoll = item.createRoll(rollType, this.actor._id);
+        cprRoll = item.createRoll(rollType, this.actor);
+        break;
+      }
+      case CPRRolls.rollTypes.DAMAGE: {
+        const itemId = this._getItemId(event);
+        item = this._getOwnedItem(itemId);
+        rollType = this._getFireCheckbox(event);
+        cprRoll = item.createDamageRoll(rollType, this.actor);
+        if (rollType === CPRRolls.rollTypes.AIMED) {
+          cprRoll.location = this.actor.getFlag("cyberpunk-red-core", "aimedLocation") || "body";
+        }
+        break;
+      }
+      case CPRRolls.rollTypes.ATTACK: {
+        const itemId = this._getItemId(event);
+        item = this._getOwnedItem(itemId);
+        rollType = this._getFireCheckbox(event);
+        cprRoll = item.createAttackRoll(rollType, this.actor);
         break;
       }
       default:
     }
 
-    // note for aimed shots this is where location is set
+    // note: for aimed shots this is where location is set
     await cprRoll.handleRollDialog(event);
 
     if (item !== null) {
       // Do any actions that need to be done as part of a roll, like ammo decrementing
-      await item.confirmRoll(rollType, cprRoll);
+      cprRoll = await item.confirmRoll(cprRoll);
     }
 
     // Let's roll!
@@ -265,34 +264,31 @@ export default class CPRActorSheet extends ActorSheet {
     // output to chat
     const token = this.token === null ? null : this.token.data._id;
     cprRoll.entityData = { actor: this.actor._id, token };
+    if (item) {
+      cprRoll.entityData.item = item._id;
+    }
     CPRChat.RenderRollCard(cprRoll);
 
-    // Store last roll so we can query and use it
-    // after the fact. Examples of this would be
-    // if rolling Damage after an attack where autofire
-    // was used.
-    // Do we want to add this to the template is the
-    // question?
-    this.actor.setPreviousRoll(cprRoll);
+    // save the location so subsequent damage rolls hit/show the same place
+    if (cprRoll instanceof CPRRolls.CPRAimedAttackRoll) {
+      this.actor.setFlag("cyberpunk-red-core", "aimedLocation", cprRoll.location);
+    }
   }
 
-  async _handleRollDialog(event, cprRoll) {
-    // Handle skipping of the user verification step
-    let skipDialog = event.ctrlKey;
-
-    const ctrlSetting = game.settings.get("cyberpunk-red-core", "invertRollCtrlFunction");
-    skipDialog = ctrlSetting ? skipDialog : !skipDialog;
-
-    if (skipDialog) {
-      const formData = await VerifyRoll.RenderPrompt(cprRoll);
-      mergeObject(cprRoll, formData, { overwrite: true });
+  _getFireCheckbox(event) {
+    LOGGER.trace("ActorID _getFireCheckbox | CPRActorSheet | Called.");
+    const weaponID = $(event.currentTarget).attr("data-item-id");
+    const box = this.actor.getFlag("cyberpunk-red-core", `firetype-${weaponID}`);
+    if (box) {
+      return box;
     }
+    return CPRRolls.rollTypes.ATTACK;
   }
 
   _resetActorValue(event) {
     const actorValue = $(event.currentTarget).attr("data-value");
     switch (actorValue) {
-      case "deathsave": {
+      case CPRRolls.rollTypes.DEATHSAVE: {
         this.actor.resetDeathPenalty();
         break;
       }
@@ -306,18 +302,21 @@ export default class CPRActorSheet extends ActorSheet {
     // XXX: cannot use _getObjProp since we need to update 2 props
     this._updateOwnedItemProp(item, "data.headLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
+    this._updateOwnedItemProp(item, "data.shieldHitPoints.value", item.data.data.shieldHitPoints.max);
   }
 
   async _ablateArmor(event) {
     LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
     const location = $(event.currentTarget).attr("data-location");
     const armorList = this.actor.getEquippedArmors(location);
-    let updateList = [];
+    const updateList = [];
     switch (location) {
       case "head": {
         armorList.forEach((a) => {
-          let armorData = a.data;
-          armorData.data.headLocation.ablation = Math.min((a.getData().headLocation.ablation + 1), a.getData().headLocation.sp);
+          const armorData = a.data;
+          armorData.data.headLocation.ablation = Math.min(
+            (a.getData().headLocation.ablation + 1), a.getData().headLocation.sp,
+          );
           updateList.push(armorData);
         });
         await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
@@ -325,8 +324,19 @@ export default class CPRActorSheet extends ActorSheet {
       }
       case "body": {
         armorList.forEach((a) => {
-          let armorData = a.data;
-          armorData.data.bodyLocation.ablation = Math.min((a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp);
+          const armorData = a.data;
+          armorData.data.bodyLocation.ablation = Math.min(
+            (a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp,
+          );
+          updateList.push(armorData);
+        });
+        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        break;
+      }
+      case "shield": {
+        armorList.forEach((a) => {
+          const armorData = a.data;
+          armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - 1), 0);
           updateList.push(armorData);
         });
         await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
@@ -382,9 +392,11 @@ export default class CPRActorSheet extends ActorSheet {
     const installedFoundationalCyberware = installedCyberware.filter((c) => c.data.data.isFoundational === true);
 
     // Now sort allInstalledCybere by type, and only get foundational
-    let sortedInstalledCyberware = {};
+    const sortedInstalledCyberware = {};
     for (const [type] of Object.entries(CPR.cyberwareTypeList)) {
-      sortedInstalledCyberware[type] = installedFoundationalCyberware.filter((cyberware) => cyberware.getData().type === type);
+      sortedInstalledCyberware[type] = installedFoundationalCyberware.filter(
+        (cyberware) => cyberware.getData().type === type,
+      );
       sortedInstalledCyberware[type] = sortedInstalledCyberware[type].map(
         (cyberware) => ({ foundation: cyberware, optionals: [] }),
       );
@@ -431,17 +443,15 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  // TODO - Move to cpr-actor
-
   // ARMOR HELPERS
+  // TODO - Move to armor helpers to cpr-actor
+  // TODO - Assure all private methods can be used outside of the context of UI controls as well.
 
-  // TODO - Move to cpr-actor
   _getHands() {
     LOGGER.trace("ActorID _getHands | CPRActorSheet | Called.");
     return 2;
   }
 
-  // TODO - Move to cpr-actor
   _getFreeHands() {
     LOGGER.trace("ActorID _getFreeHands | CPRActorSheet | Called.");
     const weapons = this._getEquippedWeapons();
@@ -450,7 +460,6 @@ export default class CPRActorSheet extends ActorSheet {
     return freeHands;
   }
 
-  // TODO - Move to cpr-actor
   _canHoldWeapon(weapon) {
     LOGGER.trace("ActorID _canHoldWeapon | CPRActorSheet | Called.");
     const needed = weapon.data.data.handsReq;
@@ -460,19 +469,45 @@ export default class CPRActorSheet extends ActorSheet {
     return true;
   }
 
-  // TODO - Move to cpr-actor
   _getEquippedWeapons() {
     LOGGER.trace("ActorID _getEquippedWeapons | CPRActorSheet | Called.");
     const weapons = this.actor.data.filteredItems.weapon;
     return weapons.filter((a) => a.getData().equipped === "equipped");
   }
 
-  // TODO - We should go through the following, and assure all private methods can be used outside of the context of UI controls as well.
-  // TODO - Move to cpr-actor
   _updateSkill(event) {
     LOGGER.trace("ActorID _updateSkill | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
-    item.setSkillLevel(parseInt(event.target.value, 10));
+    const updateType = $(event.currentTarget).attr("data-item-prop");
+    if (updateType === "data.level") {
+      item.setSkillLevel(parseInt(event.target.value, 10));
+    }
+    if (updateType === "data.mod") {
+      item.setSkillMod(parseInt(event.target.value, 10));
+    }
+    this._updateOwnedItem(item);
+  }
+
+  _updateRoleAbility(event) {
+    LOGGER.trace("ActorID _updateSkill | CPRActorSheet | Called.");
+    const role = $(event.currentTarget).attr("data-role-name");
+    const ability = $(event.currentTarget).attr("data-ability-name");
+    const subskill = $(event.currentTarget).attr("data-subskill-name");
+    const value = parseInt(event.target.value, 10);
+    if (subskill) {
+      this.actor.data.data.roleInfo.roleskills[role].subSkills[subskill] = value;
+    } else {
+      this.actor.data.data.roleInfo.roleskills[role][ability] = value;
+    }
+  }
+
+  _updateWeaponAmmo(event) {
+    LOGGER.trace("ActorID _updateCurrentWeaponAmmo | CPRActorSheet | Called.");
+    const item = this._getOwnedItem(this._getItemId(event));
+    const updateType = $(event.currentTarget).attr("data-item-prop");
+    if (updateType === "data.magazine.value") {
+      item.setWeaponAmmo(event.target.value);
+    }
     this._updateOwnedItem(item);
   }
 
@@ -522,6 +557,10 @@ export default class CPRActorSheet extends ActorSheet {
   _getItemId(event) {
     LOGGER.trace("ActorID _getItemId | CPRActorSheet | Called.");
     let id = $(event.currentTarget).parents(".item").attr("data-item-id");
+    if (typeof id === "undefined") {
+      LOGGER.debug("Could not find itemId in parent elements, trying currentTarget");
+      id = $(event.currentTarget).attr("data-item-id");
+    }
     return id;
   }
 
@@ -541,7 +580,9 @@ export default class CPRActorSheet extends ActorSheet {
     // If setting is true, prompt before delete, else delete.
     if (setting) {
       const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${item.data.name}?`;
-      const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage);
+      const confirmDelete = await ConfirmPrompt.RenderPrompt(
+        SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,
+      );
       if (!confirmDelete) {
         return;
       }
@@ -566,6 +607,22 @@ export default class CPRActorSheet extends ActorSheet {
     await this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
   }
 
+  _fireCheckboxToggle(event) {
+    LOGGER.trace("_fireCheckboxToggle Called | CPRActorSheet | Called.");
+    const weaponID = $(event.currentTarget).attr("data-item-id");
+    const firemode = $(event.currentTarget).attr("data-fire-mode");
+    const flag = getProperty(this.actor.data, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    LOGGER.debug(`firemode is ${firemode}`);
+    LOGGER.debug(`weaponID is ${weaponID}`);
+    LOGGER.debug(`flag is ${flag}`);
+    if (flag === firemode) {
+      // if the flag was already set to firemode, that means we unchecked a box
+      this.actor.unsetFlag("cyberpunk-red-core", `firetype-${weaponID}`);
+    } else {
+      this.actor.setFlag("cyberpunk-red-core", `firetype-${weaponID}`, firemode);
+    }
+  }
+
   // TODO - Revist, do we need template data? Is function used.
   _addSkill() {
     LOGGER.trace("ActorID _addSkill | CPRActorSheet | called.");
@@ -577,40 +634,13 @@ export default class CPRActorSheet extends ActorSheet {
     this.actor.createOwnedItem(itemData, { renderSheet: true });
   }
 
-  async _selectRoles(event) {
+  async _selectRoles() {
     let formData = { actor: this.actor.getData().roleInfo, roles: CPR.roleList };
     formData = await SelectRolePrompt.RenderPrompt(formData);
     await this.actor.setRoles(formData);
   }
 
-  async _addCriticalInjury(event) {
-    let formData = await CriticalInjuryPrompt.RenderPrompt();
-    await this.actor.addCriticalInjury(formData.injuryLocation, formData.injuryName, formData.injuryEffects, formData.injuryQuickFix, formData.injuryTreatment, [{ name: "deathSavePenalty", value: formData.deathSave }]);
-  }
-
-  async _editCriticalInjury(event) {
-    const injuryId = $(event.currentTarget).attr("data-injury-id");
-    let formData = this.actor.getCriticalInjury(injuryId);
-    formData = await CriticalInjuryPrompt.RenderPrompt(formData);
-    await this.actor.editCriticalInjury(injuryId, formData.injuryLocation, formData.injuryName, formData.injuryEffects, formData.injuryQuickFix, formData.injuryTreatment, [{ name: "deathSavePenalty", value: formData.deathSave }]);
-  }
-
-  async _deleteCriticalInjury(event) {
-    const injuryId = $(event.currentTarget).attr("data-injury-id");
-    const injury = this.actor.getCriticalInjury(injuryId);
-    const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
-    // If setting is true, prompt before delete, else delete.
-    if (setting) {
-      const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${injury.name}?`;
-      const confirmDelete = await ConfirmPrompt.RenderPrompt(SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage);
-      if (!confirmDelete) {
-        return;
-      }
-    }
-    await this.actor.deleteCriticalInjury(injuryId);
-  }
-
-  async _setLifepath(event) {
+  async _setLifepath() {
     const formData = await SetLifepathPrompt.RenderPrompt(this.actor.data);
     await this.actor.setLifepath(formData);
   }
@@ -621,7 +651,10 @@ export default class CPRActorSheet extends ActorSheet {
     const setting = true;
     if (setting) {
       const itemType = $(event.currentTarget).attr("data-item-type");
-      const itemName = `${SystemUtils.Localize("CPR.new")} ${itemType.capitalize()}`;
+      const itemTypeNice = itemType.toLowerCase().capitalize();
+      const itemString = "ITEM.Type";
+      const itemTypeLocal = itemString.concat(itemTypeNice);
+      const itemName = `${SystemUtils.Localize("CPR.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
       const itemData = {
         name: itemName,
         type: itemType,
@@ -630,6 +663,45 @@ export default class CPRActorSheet extends ActorSheet {
       };
       this.actor.createEmbeddedEntity("OwnedItem", itemData);
     }
+  }
+
+  _getCriticalInjuryTables() {
+    const critPattern = new RegExp("^Critical Injury|^CriticalInjury|^CritInjury|^Crit Injury|^Critical Injuries|^CriticalInjuries");
+    const tableNames = [];
+    const tableList = game.tables.filter((t) => t.data.name.match(critPattern));
+    tableList.forEach((table) => tableNames.push(table.data.name));
+    return tableNames.sort();
+  }
+
+  async _setCriticalInjuryTable() {
+    const critInjuryTables = this._getCriticalInjuryTables();
+    const formData = await RollCriticalInjuryPrompt.RenderPrompt(critInjuryTables);
+    return formData.criticalInjuryTable;
+  }
+
+  async _rollCriticalInjury() {
+    const tableName = await this._setCriticalInjuryTable();
+    const table = game.tables.entities.find((t) => t.name === tableName);
+    table.draw({ displayChat: false })
+      .then(async (res) => {
+        if (res.results.length > 0) {
+          const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
+          // eslint-disable-next-line no-undef
+          if (!crit) {
+            SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
+            return;
+          }
+          // eslint-disable-next-line no-undef
+          const itemData = duplicate(crit.data);
+          const result = await this.actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+          const cprRoll = new CPRRolls.CPRTableRoll(crit.data.name, res.roll, "systems/cyberpunk-red-core/templates/chat/cpr-critical-injury-rollcard.hbs");
+          cprRoll.rollCardExtraArgs.tableName = tableName;
+          cprRoll.rollCardExtraArgs.itemName = result.name;
+          cprRoll.rollCardExtraArgs.itemImg = result.img;
+          cprRoll.entityData = { actor: this.actor._id, token: this.token.id, item: result._id };
+          CPRChat.RenderRollCard(cprRoll);
+        }
+      });
   }
 
   /* Ledger methods */
@@ -700,7 +772,7 @@ export default class CPRActorSheet extends ActorSheet {
 
   _onDragItemStart(event) {
     LOGGER.trace("ActorID _onDragItemStart | CPRActorSheet | called.");
-    let itemId = event.currentTarget.getAttribute("data-item-id");
+    const itemId = event.currentTarget.getAttribute("data-item-id");
     const item = this.actor.getEmbeddedEntity("OwnedItem", itemId);
     event.dataTransfer.setData("text/plain", JSON.stringify({
       type: "Item",
@@ -713,13 +785,14 @@ export default class CPRActorSheet extends ActorSheet {
   async _onDrop(event) {
     LOGGER.trace("ActorID _onDrop | CPRActorSheet | called.");
     // This is called whenever something is dropped onto the character sheet
-    let dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
-    let dropID = $(event.target).parents(".item").attr("data-item-id"); // Only relevant if container drop
+    const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
     if (dragData.actorId !== undefined) {
       // Transfer ownership from one player to another
       const actor = game.actors.find((a) => a._id === dragData.actorId);
       if (actor) {
-        if (actor.data._id === this.actor.data._id || dragData.data.data.core === true || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
+        if (actor.data._id === this.actor.data._id
+          || dragData.data.data.core === true
+          || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
           return;
         }
         super._onDrop(event).then(actor.deleteEmbeddedEntity("OwnedItem", dragData.data._id));

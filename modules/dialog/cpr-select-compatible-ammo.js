@@ -1,9 +1,9 @@
 /* eslint-disable no-shadow */
-/* eslint-disable no-undef */
+/* global renderTemplate FormDataExtended Dialog */
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
-export default class SelectRolesPrompt {
+export default class SelectCompatibleAmmo {
   static async RenderPrompt(data) {
     const template = "systems/cyberpunk-red-core/templates/dialog/cpr-select-compatible-ammo-prompt.hbs";
     return new Promise((resolve, reject) => {
@@ -32,16 +32,12 @@ export default class SelectRolesPrompt {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
               label: "Cancel",
-              /* eslint-disable no-shadow */
               callback: (html) => _onCancel(html), // TODO fix no-shadow
-              /* eslint-enable no-shadow */
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
               label: "Confirm",
-              /* eslint-disable no-shadow */
               callback: (html) => _onConfirm(html), // TODO fix no-shadow
-              /* eslint-enable no-shadow */
             },
           },
           default: "confirm",

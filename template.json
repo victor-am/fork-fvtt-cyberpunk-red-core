@@ -46,15 +46,18 @@
             "max": 40,
             "transactions": []
           },
+          "currentWoundState": "notWounded",
           "seriouslyWounded": 20,
           "deathSave": {
-            "value": 6,
+            "value": 0,
             "penalty": 0,
             "basePenalty": 0
+          },
+          "humanity": {
+            "value": 60,
+            "max": 60,
+            "transactions": []
           }
-        },
-        "woundState": {
-          "currentWoundState": "notWounded"
         },
         "skills": {
           "accounting": 0,
@@ -187,14 +190,6 @@
           "notes": "",
           "history": ""
         },
-        "cyberware": {
-          "installed": []
-        },
-        "humanity": {
-          "value": 60,
-          "max": 60,
-          "transactions": []
-        },
         "criticalInjuries": []
       }
     },
@@ -217,9 +212,9 @@
         "familyCrisis": "",
         "lifeGoals": "",
         "roleLifepath": "",
-        "friends": [],
-        "tragicLoveAffairs": [],
-        "enemies": []
+        "friends": "",
+        "tragicLoveAffairs": "",
+        "enemies": ""
       },
       "reputation:": {
         "value": 0,
@@ -234,22 +229,66 @@
         "transactions": []
       },
       "lifestyle": {
-        "fashion": "",
-        "housing": "",
-        "rent": "",
-        "lifestyle": ""
+        "fashion": {
+          "description": ""
+        },
+        "housing": {
+          "description": "Cargo Container",
+          "cost": 1000
+        },
+        "lifestyle": {
+          "description": "Kibble",
+          "cost": 100
+        },
+        "traumaTeam": {
+          "description": "",
+          "cost": 0
+        },
+        "extras": {
+          "description": "",
+          "cost": 0
+        }
       }
     },
     "mook": {
       "templates": [
         "common"
       ]
+    },
+    "blackIce": {
+      "class": "",
+      "isDemon": false,
+      "interface": 0,
+      "per": 0,
+      "spd": 0,
+      "atk": 0,
+      "def": 0,
+      "rez": 0
+    },
+    "container": {
+      "hp": {
+        "value": 40,
+        "max": 40,
+        "transactions": []
+      },
+      "reinforced": false,
+      "armor": {
+        "sp": 0,
+        "ablation": 0
+      },
+      "restricted": false,
+      "DV": 0,
+      "wealth": {
+        "value": 0
+      }
     }
   },
   "Item": {
     "types": [
       "ammo",
       "armor",
+      "clothing",
+      "criticalInjury",
       "cyberware",
       "gear",
       "netarch",
@@ -273,13 +312,8 @@
         "price": {
           "market": 0,
           "category": ""
-        }
-      },
-      "action": {
-        "isRanged": false,
-        "isMelee": false,
-        "rangedAction": {},
-        "meleeAction": {}
+        },
+        "amount": 1
       },
       "equippable": {
         "equipped": "owned"
@@ -288,59 +322,47 @@
         "isUpgraded": false,
         "upgrade": ""
       },
-      "mods": {
-        "list": [],
-        "mod": {
-          "category": "",
-          "item": "",
+      "weapon": {
+        "weaponType": "",
+        "weaponSkill": "",
+        "fireModes": {
+          "autoFire": 0,
+          "suppressiveFire": false
+        },
+        "quality": "standard",
+        "damage": "1d6",
+        "rof": 1,
+        "attachmentSlots": 0,
+        "dvTable": "",
+        "isRanged": false,
+        "attackmod": 0
+      },
+      "uses": {
+        "usesType": "magazine",
+        "magazine": {
+            "value": 0,
+            "max": 0,
+            "ammoId": ""
+        },
+        "ammoVariety": [],
+        "charges": {
           "value": 0,
-          "isActive": false
+          "max": 0
         }
+      },
+      "concealable": {
+        "concealable": false,
+        "isConcealed": false
       }
     },
-    "cyberware": {
+    "ammo": {
       "templates": [
         "common",
         "physicalItem",
         "upgradable"
       ],
-      "type": "type",
-      "install": "install",
-      "isInstalled": false,
-      "isFoundational": true,
-      "hasOptionalSlots": false,
-      "optionSlots": 0,
-      "core": false,
-      "optionalIds": [],
-      "humanityLoss": {
-        "static": 3,
-        "roll": "1d6"
-      }
-    },
-    "weapon": {
-      "templates": [
-        "common",
-        "physicalItem",
-        "upgradable",
-        "equippable"
-      ],
-      "rof": 1,
-      "weaponType": "",
-      "weaponSkill": "",
-      "damage": "1d6",
-      "concealable": false,
-      "isConcealed": false,
-      "handsReq": 1,
-      "isRanged": false,
-      "altFireModes": "",
-      "quality": "standard",
-      "magazine": {
-        "value": 0,
-        "max": 0,
-        "ammoId": ""
-      },
-      "ammoVariety": [],
-      "attachmentSlots": 0
+      "variety": "",
+      "type": ""
     },
     "armor": {
       "templates": [
@@ -366,23 +388,88 @@
       },
       "penalty": 0
     },
-    "ammo": {
+    "cyberware": {
       "templates": [
         "common",
         "physicalItem",
-        "upgradable"
+        "upgradable",
+        "concealable",
+        "weapon",
+        "uses"
       ],
-      "variety": "",
-      "amount": 0,
-      "type": ""
+      "type": "",
+      "install": "mall",
+      "isInstalled": false,
+      "isFoundational": true,
+      "hasOptionalSlots": false,
+      "optionSlots": 0,
+      "core": false,
+      "optionalIds": [],
+      "humanityLoss": {
+        "static": 3,
+        "roll": "1d6"
+      }
     },
-    "gear": {
+    "cyberdeck": {
       "templates": [
         "common",
         "physicalItem",
         "upgradable",
         "equippable"
+      ],
+      "slots": 0,
+      "programs": []
+    },
+    "gear": {
+      "templates": [
+        "common",
+        "physicalItem",
+        "equippable",
+        "upgradable"
       ]
+    },
+    "clothing": {
+      "templates": [
+        "common",
+        "physicalItem",
+        "upgradable",
+        "equippable"
+      ],
+      "type": "",
+      "style": ""
+    },
+    "netarch": {
+      "templates": [
+        "common",
+        "physicalItem"
+      ],
+      "floors": []
+    },
+    "program": {
+      "templates": [
+        "common",
+        "physicalItem"
+      ],
+      "class": "",
+      "isDemon": false,
+      "interface": 0,
+      "per": 0,
+      "spd": 0,
+      "atk": 0,
+      "def": 0,
+      "rez": 0
+    },
+    "weapon": {
+      "templates": [
+        "common",
+        "physicalItem",
+        "upgradable",
+        "equippable",
+        "concealable",
+        "weapon",
+        "uses"
+      ],
+      "handsReq": 1
     },
     "skill": {
       "templates": [
@@ -393,7 +480,26 @@
       "category": "none",
       "difficulty": "typical",
       "core": false,
-      "basic": false
+      "basic": false,
+      "skillmod": 0
+    },
+    "criticalInjury": {
+      "templates": [
+        "common"
+      ],
+      "location": "body",
+      "effects": "",
+      "quickFix": {
+        "type": "firstAidParamedic",
+        "dvFirstAid": 0,
+        "dvParamedic": 0
+      },
+      "treatment": {
+        "type": "paramedicSurgery",
+        "dvParamedic": 0,
+        "dvSurgery": 0
+      },
+      "deathSaveIncrease": false
     },
     "vehicle": {
       "templates": [
@@ -405,27 +511,6 @@
       "seats": 0,
       "speedCombat": 0,
       "speedNarrative": ""
-    },
-    "program": {
-      "templates": [
-        "common",
-        "physicalItem",
-        "equippable"
-      ],
-      "class": "",
-      "slots": 0,
-      "per": 0,
-      "spd": 0,
-      "atk": 0,
-      "def": 0,
-      "rez": 0
-    },
-    "netarch": {
-      "templates": [
-        "common",
-        "physicalItem"
-      ],
-      "floors": []
     }
   }
 }

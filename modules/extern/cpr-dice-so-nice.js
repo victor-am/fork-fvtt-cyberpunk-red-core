@@ -9,6 +9,7 @@ export default class DiceSoNice {
       switch (rollMode) {
         case "blindroll": { // GM only
           blind = true;
+          break;
         }
         case "gmroll": { // GM + rolling player
           const gmList = game.users.filter((user) => user.isGM);

@@ -1,5 +1,5 @@
 {
-  "version": 0.66,
+  "version": "0.74.0",
   "name": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
@@ -25,6 +25,38 @@
       "path": "packs/cyberware.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "DV Rolltables - Core",
+      "entity": "RollTable",
+      "name": "dvTables",
+      "path": "packs/dvTables.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Critical Injuries (Body) - Core",
+      "entity": "Item",
+      "name": "criticalInjuriesBody",
+      "path": "packs/critical-injuries-body-core.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Critical Injuries (Head) - Core",
+      "entity": "Item",
+      "name": "criticalInjuriesHead",
+      "path": "packs/critical-injuries-head-core.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Critical Injury Tables - Core",
+      "entity": "RollTable",
+      "name": "criticalInjuryTables",
+      "path": "packs/critical-injury-tables-core.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
     }
   ],
   "languages": [
@@ -32,7 +64,7 @@
       "lang": "en",
       "name": "English",
       "path": "lang/en.json"
-    }          
+    }
   ],
   "initiative": "1d10 + @stats.ref.value",
   "gridDistance": 2,

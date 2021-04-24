@@ -1,7 +1,7 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable max-len */
 /* eslint-disable consistent-return */
-/* eslint-disable no-undef */
-/* global Item */
+/* global Item game */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPR from "../system/config.js";
 import LOGGER from "../utils/cpr-logger.js";
@@ -40,6 +40,9 @@ export default class CPRItem extends Item {
     if (data['data.type'] === "cyberwareInternal" || data['data.type'] === "cyberwareExternal" || data['data.type'] === "fashionware") {
       data['data.isFoundational'] = false;
     }
+    if (this.data.type === "weapon") {
+      data['data.dvTable'] = data['data.dvTable'] === null ? "" : data['data.dvTable'];
+    }
     super.update(data, options);
   }
 
@@ -57,7 +60,7 @@ export default class CPRItem extends Item {
     // const changedItems = [];
     switch (itemType) {
       case "weapon":
-        this._weaponAction(actionAttributes);
+        this._weaponAction(actor, actionAttributes);
         break;
       case "ammo":
         this._ammoAction(actionAttributes);
@@ -66,28 +69,27 @@ export default class CPRItem extends Item {
     }
   }
 
-  confirmRoll(rollType, cprRoll) {
+  confirmRoll(cprRoll) {
+    LOGGER.trace("confirmRoll | CPRItem | Called.");
     const itemType = this.data.type;
+    const localCprRoll = cprRoll;
     if (itemType === "weapon") {
-      switch (rollType) {
-        case "aimed":
-        case "attack":
-        case "autofire":
-        case "suppressive": {
-          if (this.data.data.isRanged) {
-            this.fireRangedWeapon(cprRoll.fireMode);
+      if (localCprRoll instanceof CPRRolls.CPRAttackRoll) {
+        if (this.data.data.isRanged) {
+          this.fireRangedWeapon(localCprRoll);
+          const ammoType = this._getLoadedAmmoType();
+          if (ammoType !== "undefined") {
+            localCprRoll.rollCardExtraArgs.ammoType = ammoType;
           }
-          break;
         }
-        case "damage": {
-          if (cprRoll.isAutofire) {
-            cprRoll.setAutofire();
-          }
-          break;
+      }
+      if (localCprRoll instanceof CPRRolls.CPRDamageRoll) {
+        if (localCprRoll.isAutofire) {
+          localCprRoll.setAutofire();
         }
-        default:
       }
     }
+    return localCprRoll;
   }
 
   // ammo Item Methods
@@ -117,6 +119,13 @@ export default class CPRItem extends Item {
     LOGGER.debug("setSkillLevel | CPRItem | Called.");
     if (this.type === "skill") {
       this.getData().level = Math.clamped(-99, value, 99);
+    }
+  }
+
+  setSkillMod(value) {
+    LOGGER.debug("setSkillMod | CPRItem | Called.");
+    if (this.type === "skill") {
+      this.getData().skillmod = Math.clamped(-99, value, 99);
     }
   }
 
@@ -151,7 +160,7 @@ export default class CPRItem extends Item {
 
   // Weapon Item Methods
   // TODO - Refactor
-  async _weaponAction(actionAttributes) {
+  async _weaponAction(actor, actionAttributes) {
     LOGGER.debug("_weaponAction | CPRItem | Called.");
     const actionData = actionAttributes["data-action"].nodeValue;
     switch (actionData) {
@@ -167,10 +176,20 @@ export default class CPRItem extends Item {
       case "reload-ammo":
         this._weaponLoad(this.data.data.magazine.ammoId);
         break;
+      case "measure-dv":
+        this._measureDv(actor, this.data.data.dvTable);
+        break;
       default:
     }
     if (this.actor) {
       this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+    }
+  }
+
+  async _measureDv(actor, dvTable) {
+    LOGGER.debug("_measureDv | CPRItem | Called.");
+    if (actor.sheet.token !== null) {
+      actor.sheet.token.update({ "flags.cprDvTable": dvTable });
     }
   }
 
@@ -274,63 +293,77 @@ export default class CPRItem extends Item {
     }
   }
 
-  static bulletConsumption(fireMode) {
-    LOGGER.debug("bulletConsumption | CPRItem | Called.");
-    let bulletCount = 0;
-    switch (fireMode) {
-      case "single":
-        bulletCount = 1;
-        break;
-      case "suppressive":
-      case "autofire":
-        bulletCount = 10;
-        break;
-      default:
+  static bulletConsumption(cprRoll) {
+    LOGGER.trace("bulletConsumption | CPRItem | Called.");
+    let bulletCount = 1;
+    if (cprRoll instanceof CPRRolls.CPRAutofireRoll || cprRoll instanceof CPRRolls.CPRSuppressiveFireRoll) {
+      bulletCount = 10;
     }
     return bulletCount;
   }
 
-  hasAmmo(fireMode) {
-    LOGGER.debug("checkAmmo | CPRItem | Called.");
-    if (fireMode === "attack" || fireMode === "aimed") {
-      fireMode = "single";
+  hasAmmo(cprRoll) {
+    LOGGER.trace("checkAmmo | CPRItem | Called.");
+    return (this.data.data.magazine.value - CPRItem.bulletConsumption(cprRoll)) >= 0;
+  }
+
+  setWeaponAmmo(value) {
+    LOGGER.debug("setWeaponAmmo | CPRItem | Called.");
+    const maxAmmo = this.getData().magazine.max;
+    if (this.type === "weapon") {
+      if (value.charAt(0) === "+" || value.charAt(0) === "-") {
+        this.getData().magazine.value = Math.clamped(0, this.getData().magazine.value + parseInt(value, 10), maxAmmo);
+      } else {
+        this.getData().magazine.value = Math.clamped(0, value, maxAmmo);
+      }
     }
-    return (this.data.data.magazine.value - CPRItem.bulletConsumption(fireMode)) >= 0;
   }
 
   // Returns true if weapon fired, otherwise returns false.
-  fireRangedWeapon(fireMode) {
-    LOGGER.debug("fireRangedWeapon | CPRItem | Called.");
-    const discharged = CPRItem.bulletConsumption(fireMode);
+  fireRangedWeapon(cprRoll) {
+    LOGGER.trace("fireRangedWeapon | CPRItem | Called.");
+    const discharged = CPRItem.bulletConsumption(cprRoll);
     // don't go negative
     this.data.data.magazine.value = Math.max(this.data.data.magazine.value - discharged, 0);
     return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+  }
+
+  _getLoadedAmmoType() {
+    LOGGER.trace("_getAmmoType | CPRItem | Called.");
+    if (this.actor) {
+      const ammo = this.actor.items.find((i) => i.data._id === this.data.data.magazine.ammoId);
+      if (ammo) {
+        return ammo.data.data.type;
+      }
+    }
+    return undefined;
   }
 
   toggleFavorite() {
     this.data.data.favorite = !this.data.data.favorite;
   }
 
-  createRoll(type, actorId) {
+  createRoll(type, actor) {
+    LOGGER.trace("createRoll | CPRItem | Called.");
     switch (type) {
-      case "skill": {
-        return this._createSkillRoll(actorId);
+      case CPRRolls.rollTypes.SKILL: {
+        return this._createSkillRoll(actor);
       }
-      case "suppressive":
-      case "autofire":
-      case "aimed":
-      case "attack": {
-        return this._createAttackRoll(type, actorId);
+      case CPRRolls.rollTypes.SUPPRESSIVE:
+      case CPRRolls.rollTypes.AUTOFIRE:
+      case CPRRolls.rollTypes.AIMED:
+      case CPRRolls.rollTypes.ATTACK: {
+        return this.createAttackRoll(type, actor);
       }
-      case "damage": {
-        return this._createDamageRoll(actorId);
+      case CPRRolls.rollTypes.DAMAGE: {
+        return this.createDamageRoll(type);
       }
       default:
     }
   }
 
-  _createSkillRoll(actorId) {
-    const actor = (game.actors.filter((a) => a._id === actorId))[0];
+  _createSkillRoll(actor) {
+    LOGGER.trace("_createSkillRoll | CPRItem | Called.");
     const itemData = this.data.data;
     const statName = itemData.stat;
     const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
@@ -339,29 +372,31 @@ export default class CPRItem extends Item {
     const skillLevel = itemData.level;
     const cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel);
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
+    cprRoll.addMod(actor.getWoundStateMods());
+    cprRoll.addMod(this._getSkillMod());
     return cprRoll;
   }
 
-  _createAttackRoll(type, actorId) {
-    const actor = (game.actors.filter((a) => a._id === actorId))[0];
+  createAttackRoll(type, actor) {
+    LOGGER.trace("_createAttackRoll | CPRItem | Called.");
     const weaponData = this.data.data;
     const weaponName = this.name;
     const { weaponType } = weaponData;
     let skillItem = actor.items.find((i) => i.name === weaponData.weaponSkill);
-    if (type === "suppressive" || type === "autofire") {
-      skillItem = actor.items.find((i) => i.name === "Autofire");
-    }
 
-    if (type === "autofire" || type === "suppressive") {
+    if (type === CPRRolls.rollTypes.SUPPRESSIVE || type === CPRRolls.rollTypes.AUTOFIRE) {
+      skillItem = actor.items.find((i) => i.name === "Autofire");
       if (this.data.data.weaponType !== "smg" && this.data.data.weaponType !== "heavySmg" && this.data.data.weaponType !== "assaultRifle") {
         Rules.lawyer(false, "CPR.weapondoesntsupportaltmode");
       }
     }
+
     const skillValue = skillItem.data.data.level;
     const skillName = skillItem.data.name;
+    const skillMod = skillItem.data.data.skillmod;
     let cprRoll;
     let statName;
-    if (weaponData.isRanged) {
+    if (weaponData.isRanged && this.data.data.weaponType !== "thrownWeapon") {
       statName = "ref";
     } else {
       statName = "dex";
@@ -371,15 +406,15 @@ export default class CPRItem extends Item {
     const statValue = actor.getStat(statName);
 
     switch (type) {
-      case "aimed": {
+      case CPRRolls.rollTypes.AIMED: {
         cprRoll = new CPRRolls.CPRAimedAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
         break;
       }
-      case "autofire": {
+      case CPRRolls.rollTypes.AUTOFIRE: {
         cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
         break;
       }
-      case "suppressive": {
+      case CPRRolls.rollTypes.SUPPRESSIVE: {
         cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
         break;
       }
@@ -389,29 +424,37 @@ export default class CPRItem extends Item {
 
     // apply known mods
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
+    cprRoll.addMod(actor.getWoundStateMods());
     cprRoll.addMod(this._getMods());
+    cprRoll.addMod(this._getAttackMod());
+    cprRoll.addMod(skillMod);
 
     if (cprRoll instanceof CPRRolls.CPRAttackRoll && weaponData.isRanged) {
-      Rules.lawyer(this.hasAmmo(type), "CPR.weaponattackoutofbullets");
+      Rules.lawyer(this.hasAmmo(cprRoll), "CPR.weaponattackoutofbullets");
     }
     return cprRoll;
   }
 
-  _createDamageRoll(actorId) {
-    const actor = (game.actors.filter((a) => a._id === actorId))[0];
-    const prevRoll = actor.getPreviousRoll();
+  createDamageRoll(type) {
     const rollName = this.data.name;
     const { damage, weaponType } = this.data.data;
-    // const { weaponType } = weaponData;
     const cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType);
 
-    // remove this once we're in rollcards
-    if (typeof prevRoll !== "undefined") {
-      if (prevRoll instanceof CPRRolls.CPRAutofireRoll) {
-        cprRoll.isAutofire = true;
-      } else if (prevRoll instanceof CPRRolls.CPRAimedAttackRoll) {
+    switch (type) {
+      case CPRRolls.rollTypes.AIMED: {
         cprRoll.isAimed = true;
-        cprRoll.location = prevRoll.location;
+        break;
+      }
+      case CPRRolls.rollTypes.AUTOFIRE: {
+        cprRoll.setAutofire();
+        break;
+      }
+      default:
+    }
+    if (this.data.data.isRanged) {
+      const ammoType = this._getLoadedAmmoType();
+      if (ammoType !== "undefined") {
+        cprRoll.rollCardExtraArgs.ammoType = ammoType;
       }
     }
     return cprRoll;
@@ -424,6 +467,29 @@ export default class CPRItem extends Item {
           return 1;
         }
         break;
+      }
+      default:
+    }
+    return 0;
+  }
+
+  _getAttackMod() {
+    switch (this.type) {
+      case "weapon": {
+        if (typeof this.data.data.attackmod !== "undefined") {
+          return this.data.data.attackmod;
+        }
+        break;
+      }
+      default:
+    }
+    return 0;
+  }
+
+  _getSkillMod() {
+    switch (this.type) {
+      case "skill": {
+        return this.data.data.skillmod;
       }
       default:
     }

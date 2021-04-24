@@ -1,8 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-/* eslint-disable no-shadow */
-/* eslint-disable class-methods-use-this */
-/* global renderTemplate, FormDataExtended, Dialog */
+/* global renderTemplate, Dialog */
 
 import LOGGER from "../utils/cpr-logger.js";
 
@@ -30,13 +26,11 @@ export default class ConfirmationPrompt {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
               label: "Cancel",
-              /* eslint-disable no-shadow */
               callback: () => _onCancel(),
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
               label: "Confirm",
-              /* eslint-disable no-shadow */
               callback: () => _onConfirm(),
             },
           },

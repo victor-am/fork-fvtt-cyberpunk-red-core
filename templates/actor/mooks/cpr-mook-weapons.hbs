@@ -1,0 +1,83 @@
+{{trace "CPR-MOOK-WEAPONS.HBS"}}
+<div class="weapon-section">
+  <div class="items-header flexrow">
+    <div class="item-name section-name fg-white bg-red text-nowrap text-padding-left">
+      {{localize "CPR.weapons"}}
+    </div>
+    <div class="item-detail fg-white bg-red text-nowrap text-padding-left">
+      {{localize "CPR.aim"}}/{{localize "CPR.af"}}/{{localize "CPR.sf"}}
+    </div>
+  </div>
+  <div class="weapon-content fg-black">
+    <ol class="items-list weapons-grid">
+      {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
+        {{#if (compare weapon.data.equipped "===" "equipped")}}
+          <li class="item flexrow" data-item-id="{{weapon._id}}">
+            <div class="mook-weapon">
+              <div class="item-name mook-weapon-name text-pad-right text-nowrap">
+                <a class="name item-edit" title="{{weapon.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">
+                  {{weapon.name}}
+                </a>
+                {{#if (compare weapon.data.quality "!==" "standard")}}
+                  ({{localize weapon.data.quality}})
+                {{/if}}
+                <br>
+                {{#if weapon.data.isRanged}}
+                  {{#if weapon.data.magazine.ammoId}}
+                    ({{localize "CPR.ammo"}}: {{weapon.data.magazine.value}}/{{weapon.data.magazine.max}})
+                  {{else}}
+                    ({{localize "CPR.unloaded"}})
+                  {{/if}}
+                  {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
+                  {{>"systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs"}}
+                {{else}}
+                  ({{localize "CPR.meleeweapon"}})
+                {{/if}}
+              </div>
+              <div class="mook-weapon-mode">
+                <a class="fire-checkbox" data-fire-mode="aimed" data-item-id="{{weapon._id}}">
+                  {{#if (fireMode ../actor "aimed" weapon._id)}}
+                    <i class="far fa-check-circle"></i>
+                  {{else}}
+                    <i class="far fa-circle"></i>
+                  {{/if}}
+                </a>
+                {{#if (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType)}}
+                  <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon._id}}">
+                    {{#if (fireMode ../actor "autofire" weapon._id)}}
+                      <i class="far fa-check-circle"></i>
+                    {{else}}
+                      <i class="far fa-circle"></i>
+                    {{/if}}
+                  </a>
+                  <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon._id}}">
+                    {{#if (fireMode ../actor "suppressive" weapon._id)}}
+                      <i class="far fa-check-circle"></i>
+                    {{else}}
+                      <i class="far fa-circle"></i>
+                    {{/if}}
+                  </a>
+                {{/if}}
+              </div>
+              <div class="mook-weapon-rolls item-detail fight-weapon-attack text-nowrap text-right">
+                <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
+                  <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
+                </a>
+                {{#if (compare (fireflag ../actor "suppressive" weapon._id) "!==" "checked")}}
+                  <a class="rollable damage-roll-{{weapon._id}}" data-roll-type="damage" data-item-id={{weapon._id}}
+                    data-damage="{{weapon.data.damage}}">
+                    <i class="fas fa-tint red-fg" title="Roll Damage"></i>
+                  </a>
+                {{/if}}
+                <a class="item-action" data-action-type="delete">
+                  <i class="fas fa-trash-alt fg-red" title="Delete Item"></i>
+                </a>
+              </div>
+            </div>
+          </li>
+        {{/if}}
+      {{/each}}
+    </ol>
+  </div>
+</div>
+{{trace "END CPR-MOOK-WEAPONS.HBS"}}
