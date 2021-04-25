@@ -70,6 +70,23 @@ const registerSystemSettings = () => {
     },
   });
 
+  game.settings.register("cyberpunk-red-core", "preventDuplicateCriticalInjuries", {
+    name: "CPR.settingpreventduplicatecriticalinjuriesname",
+    hint: "CPR.settingpreventduplicatecriticalinjurieshint",
+    scope: "world",
+    config: true,
+    type: String,
+    choices: {
+      "off": "CPR.settingspreventduplicatecriticalinjuriesoff",
+      "warn": "CPR.settingspreventduplicatecriticalinjurieswarn",
+      "reroll": "CPR.settingspreventduplicatecriticalinjuriesoffreroll"
+    },
+    default: "warn",
+    onChange: (value) => {
+      LOGGER.log(`Changed playersCreateInventory to ${value}`);
+    },
+  });
+
   game.settings.register("cyberpunk-red-core", "userSettings", {
     name: "User Settings",
     scope: "client",

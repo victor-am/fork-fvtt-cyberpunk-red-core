@@ -678,13 +678,44 @@ export default class CPRActorSheet extends ActorSheet {
     const formData = await RollCriticalInjuryPrompt.RenderPrompt(critInjuryTables);
     return formData.criticalInjuryTable;
   }
-
   async _rollCriticalInjury() {
     const tableName = await this._setCriticalInjuryTable();
     const table = game.tables.entities.find((t) => t.name === tableName);
+    this._drawCriticalInjuryTable(tableName, table, 0);
+  }
+  async _drawCriticalInjuryTable(tableName, table, iteration) {
+    if(iteration > 100) {
+      //count number of critical injuries of the type given in the table
+      const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === table.data.results[0].text)));
+      // eslint-disable-next-line no-undef
+      if (!crit) {
+        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
+        return;
+      }
+      const critType = crit.data.data.location;
+      let numberCritInjurySameType = 0;
+      this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.data.location === critType) {numberCritInjurySameType += 1;} } );
+      if (table.data.results.length <= numberCritInjurySameType) {
+	    SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
+	    return;
+      }
+    }
     table.draw({ displayChat: false })
       .then(async (res) => {
         if (res.results.length > 0) {
+          //Check if the critical Injury already exists on the character
+          let injuryAlreadyExists = false
+          this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.name === res.results[0].text) {injuryAlreadyExists = true;} } );
+          if (injuryAlreadyExists) {
+            const setting = game.settings.get("cyberpunk-red-core", "preventDuplicateCriticalInjuries");
+            if (setting === "reroll") {
+              await this._drawCriticalInjuryTable(tableName, table, iteration+1);
+              return;
+            }
+            if (setting === "warn"){
+              SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicatewarning")));
+            }
+          }
           const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
           // eslint-disable-next-line no-undef
           if (!crit) {
