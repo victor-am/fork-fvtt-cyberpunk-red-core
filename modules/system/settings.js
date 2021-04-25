@@ -83,7 +83,7 @@ const registerSystemSettings = () => {
     },
     default: "warn",
     onChange: (value) => {
-      LOGGER.log(`Changed playersCreateInventory to ${value}`);
+      LOGGER.log(`Changed preventDuplicateCriticalInjuries to ${value}`);
     },
   });
 
