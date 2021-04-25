@@ -132,6 +132,18 @@ const registerSystemSettings = () => {
     },
   });
 
+  game.settings.register("cyberpunk-red-core", "debugElements", {
+    name: "CPR.debugelements",
+    hint: "CPR.debugelementshint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: (value) => {
+      LOGGER.log(`Changed debugElements to ${value}`);
+    },
+  });
+
   game.settings.register("cyberpunk-red-core", "traceLogs", {
     name: "CPR.tracelogs",
     hint: "CPR.tracelogshint",

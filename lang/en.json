@@ -262,6 +262,8 @@
     "CPR.deathsave": "Death Save",
     "CPR.deathsavereset": "Click to reset Death Save Penalty",
     "CPR.deathsaveroll": "Click to roll your Death Save.",
+    "CPR.debugelements": "Debug Elements in UI",
+    "CPR.debugelementshint": "Show debugging elements in the UI, such as internal itemIDs",
     "CPR.debuglogs": "Debug Logs",
     "CPR.debuglogshint": "Enable debugging logs, filling them with useful info for system developers and testers.",
     "CPR.deckkrash": "DeckKRASH",
