@@ -698,8 +698,8 @@ export default class CPRActorSheet extends ActorSheet {
       let numberCritInjurySameType = 0;
       this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.data.location === critType) {numberCritInjurySameType += 1;} } );
       if (table.data.results.length <= numberCritInjurySameType) {
-	    SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
-	    return;
+        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
+        return;
       }
       if (iteration > 1000) {
         SystemUtils.DisplayMessage("error", (game.i18n.localize("CPR.criticalinjuryduplicateloopwarning")));
@@ -718,7 +718,7 @@ export default class CPRActorSheet extends ActorSheet {
               await this._drawCriticalInjuryTable(tableName, table, iteration+1);
               return;
             }
-            if (setting === "warn"){
+            if (setting === "warn") {
               SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicatewarning")));
             }
           }
