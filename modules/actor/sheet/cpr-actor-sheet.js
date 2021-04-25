@@ -686,7 +686,7 @@ export default class CPRActorSheet extends ActorSheet {
   }
   
   async _drawCriticalInjuryTable(tableName, table, iteration) {
-    if(iteration > 100) {
+    if (iteration > 100) {
       //count number of critical injuries of the type given in the table
       const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === table.data.results[0].text)));
       // eslint-disable-next-line no-undef
@@ -700,6 +700,10 @@ export default class CPRActorSheet extends ActorSheet {
       if (table.data.results.length <= numberCritInjurySameType) {
 	    SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
 	    return;
+      }
+      if (iteration > 1000) {
+        SystemUtils.DisplayMessage("error", (game.i18n.localize("CPR.criticalinjuryduplicateloopwarning")));
+        return; //Prevent endless loop in case of mixed (head and body) Critical Injury tables.
       }
     }
     table.draw({ displayChat: false })
