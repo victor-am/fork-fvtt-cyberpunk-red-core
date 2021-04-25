@@ -29,7 +29,7 @@ export default class CPRMacro {
       }
       default:
     }
-    let cprRoll = item.createRoll(rollType, actor._id, extraData);
+    let cprRoll = item.createRoll(rollType, actor, extraData);
     const event = {};
     event.ctrlKey = false;
     event.type = "macro";

@@ -1,3 +1,6 @@
+# Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
+**Bug Fix**
+- Macros were not working due to a change in the way rolls were handled.
 # Version: 0.74.0  |  Date:  2021-04-23
 
 **UI/UX**
