@@ -6,58 +6,35 @@ This project is under heavy development to get a working experience together, so
 
 # Installing
 
+The recommended installation method is with the usual FoundryVTT installer (see the [tutorial](https://foundryvtt.com/article/tutorial/)). Our work is listed as [https://foundryvtt.com/packages/cyberpunk-red-core](https://foundryvtt.com/packages/cyberpunk-red-core). 
+
 Manifest: https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/system.json
 
 # Release Notes
 
-todo..
+See [CHANGELOG.md](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/blob/master/CONTRIBUTING.md)
 
 # Join the team!
 
-1.  Clone the repo!
-
-    > git clone git@gitlab.com:JasonAlanTerry/fvtt-cyberpunk-red-core.git
-
+1.  Clone the repo!<br>
+    > git clone git@gitlab.com:JasonAlanTerry/fvtt-cyberpunk-red-core.git<br>
     Conventions and more details on contributing to the process can be found in CONTRIBUTING.md
 
 2.  Check the Trello!<br>
-    Be sure to check out our current Roadmap if you want to help with high priotity functionality https://trello.com/b/zb5FBnKS/project-red-roadmap-todo
+    The developers use Trello to plan out the next features. If you want to help, [have a look](https://trello.com/b/zb5FBnKS/project-red-roadmap-todo).
 
-3.  Chat with us on Discord!<br>
+3. Check the issue lists<br>
+    If you want to report a bug or help us squish them, [check the list](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues).
 
-
-Useful Tools
-
-- https://code.visualstudio.com/
-- https://git-scm.com/
-- https://nodejs.org/en/
-
-Useful and helpful links to learn what you need to get started with helping!
-
-- https://dzone.com/articles/top-20-git-commands-with-examples
-- https://foundryvtt.com/api/
-- https://foundryvtt.com/article/system-development/
-- https://handlebarsjs.com/
-- https://foundryvtt.wiki/en/home
-
-# Updating CSS! IMPORTANT!
-
-We are using less files, and gulp to manage our project CSS.
-
-`DO NOT PUT CSS INTO MAIN.CSS! EVER! DON'T EVEN THINK ABOUT IT!`
-
-> run: `npm i` within the project directory to install gulp, gulp-cli and gulp-less locally as dev dependencies.
-
-> run: `npx gulp` to run the gulp command, this will also run watch, which will watch the project for changes.
+4.  Chat with us on [Discord](https://discord.gg/hpyz2nf6Vk)!
 
 # Contributing to the Project
 
-If you're interested in helping out, we would love to hear from you! Even if you're not a coder
-we can help you get started. Never too late to start a new hobby!
+If you're interested in helping out, we would love to hear from you! Even if you're not a coder we can help you get started. Never too late to start a new hobby! Look over the [project wiki](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/wikis/home).
 
-Read on to get a sense of the project's direction, the tools we use, and how we're organized. If you're still interested, continue to [CONTRIBUTING.md](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/blob/dev/CONTRIBUTING.md) to set up your environment.
+Read on to get a sense of the project's direction, the tools we use, and how we're organized. If you're still interested, continue to [CONTRIBUTING.md](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/blob/dev/CONTRIBUTING.md) to set up your dev environment.
 
-## Useful Tools
+## Useful Tools 
 
 Have a look through here to get a sense of what you'll be using when contributing code to this project. You do not need to be an expert in all these things, they're provided as an overview.
 
@@ -68,11 +45,13 @@ Have a look through here to get a sense of what you'll be using when contributin
 - Foundry uses [Handlebars](https://handlebarsjs.com/) to product HTML templates.
 - Of course, you'll need to be aware of the [FoundryVTT API](https://foundryvtt.com/api/), and read through how to do [system development](https://foundryvtt.com/article/system-development/) in it. Lastly, there's always the [Foundry wiki](https://foundryvtt.wiki/en/home) for more help.
 
-## Quick Project Tour
+## Useful and helpful links to learn what you need to get started with helping!
 
-- We manage our roadmap and plans in a [Trello board](https://trello.com/b/zb5FBnKS/project-red-roadmap-todo).
-- Bugs and defects are in the [Gitlab issue list](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues).
-- Chat with us on [Discord](https://discord.gg/hpyz2nf6Vk)
+- https://dzone.com/articles/top-20-git-commands-with-examples
+- https://foundryvtt.com/api/
+- https://foundryvtt.com/article/system-development/
+- https://handlebarsjs.com/
+- https://foundryvtt.wiki/en/home
 
 ### Repository Layout
 
@@ -87,3 +66,13 @@ Have a look through here to get a sense of what you'll be using when contributin
 For your first contribution, please make sure it is aligned with something in Trello first. If you have other things in mind, bring them in up Discord and see what the team thinks. More seasoned and regular contributors will get additional permissions in Trello to help steer and guide the project.
 
 Setting up your environment is covered in [CONTRIBUTING.md](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/blob/dev/CONTRIBUTING.md) now.
+
+### Updating CSS! IMPORTANT!
+
+We are using less files, and gulp to manage our project CSS.
+
+`DO NOT PUT CSS INTO MAIN.CSS! EVER! DON'T EVEN THINK ABOUT IT!`
+
+> run: `npm i` within the project directory to install gulp, gulp-cli and gulp-less locally as dev dependencies.
+
+> run: `npx gulp` to run the gulp command, this will also run watch, which will watch the project for changes.
