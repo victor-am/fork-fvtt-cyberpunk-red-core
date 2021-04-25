@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* globals Actor, game, getProperty, setProperty, hasProperty, randomID */
+/* globals Actor, game, getProperty, setProperty, hasProperty */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRChat from "../chat/cpr-chat.js";
 import CPR from "../system/config.js";
@@ -10,7 +10,12 @@ import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
- * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
+ * Extend the base Actor entity. Foundry only supports 1 Actor class that gets associated with
+ * different sheets. If we need need different classes, there are examples to work around this
+ * design limitation:
+ *   - Burning Wheel uses a proxy class to intiate the class they want
+ *   - PF2 instaniates a custom class in the constructor
+ * This may become relevant when we implement "container" actors, programs, and demons.
  * @extends {Actor}
  */
 export default class CPRActor extends Actor {
@@ -18,18 +23,13 @@ export default class CPRActor extends Actor {
   prepareData() {
     LOGGER.trace("prepareData | CPRActor | Called.");
     super.prepareData();
-
-    const actorData = this.data;
-    actorData.filteredItems = this.itemTypes;
-
-    // Prepare data for both types
     if (this.compendium === null) {
       // It looks like prepareData() is called for any actors/npc's that exist in
       // the game and the clients can't update them.  Everyone should only calculate
       // their own derived stats, or the GM should be able to calculate the derived
       // stat
       if (this.owner || game.user.isGM) {
-        this._calculateDerivedStats(actorData);
+        this._calculateDerivedStats();
       }
     }
   }
@@ -71,9 +71,11 @@ export default class CPRActor extends Actor {
     return super.createEmbeddedEntity(embeddedName, itemData, options);
   }
 
-  _calculateDerivedStats(actorData) {
+  _calculateDerivedStats() {
     // Calculate MAX HP
     LOGGER.trace("_calculateDerivedStats | CPRActor | Called.");
+    const actorData = this.data;
+    actorData.filteredItems = this.itemTypes;
 
     const { stats } = actorData.data;
     const { derivedStats } = actorData.data;
@@ -81,8 +83,7 @@ export default class CPRActor extends Actor {
 
     // After the initial config of the game, a GM may want to disable the auto-calculation
     // of stats for Mooks & Players for custom homebrew rules
-
-    if (setting) {
+    if (setting && actorData.type === "character") {
       // Set max HP
       derivedStats.hp.max = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
 
