@@ -678,11 +678,13 @@ export default class CPRActorSheet extends ActorSheet {
     const formData = await RollCriticalInjuryPrompt.RenderPrompt(critInjuryTables);
     return formData.criticalInjuryTable;
   }
+  
   async _rollCriticalInjury() {
     const tableName = await this._setCriticalInjuryTable();
     const table = game.tables.entities.find((t) => t.name === tableName);
     this._drawCriticalInjuryTable(tableName, table, 0);
   }
+  
   async _drawCriticalInjuryTable(tableName, table, iteration) {
     if(iteration > 100) {
       //count number of critical injuries of the type given in the table
