@@ -686,8 +686,8 @@ export default class CPRActorSheet extends ActorSheet {
   }
   
   async _drawCriticalInjuryTable(tableName, table, iteration) {
-    if (iteration > 100) {
-      //count number of critical injuries of the type given in the table
+    if (iteration > 100) { //6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6), otherwise lower chance
+      //count number of critical injuries of the type given in the table on the target
       const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === table.data.results[0].text)));
       // eslint-disable-next-line no-undef
       if (!crit) {
@@ -701,9 +701,9 @@ export default class CPRActorSheet extends ActorSheet {
         SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
         return;
       }
-      if (iteration > 1000) {
+      if (iteration > 1000) { //Techincally possible to reach even if a critical injury is still missing (chance: 6*10e-11 %), though unlikely.
         SystemUtils.DisplayMessage("error", (game.i18n.localize("CPR.criticalinjuryduplicateloopwarning")));
-        return; //Prevent endless loop in case of mixed (head and body) Critical Injury tables.
+        return; //Prevent endless loop in case of mixed (head and body) Critical Injury tables or unreachable elements in the rolltable.
       }
     }
     table.draw({ displayChat: false })
