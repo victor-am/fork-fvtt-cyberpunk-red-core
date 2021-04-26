@@ -40,6 +40,7 @@ const hotbarHooks = () => {
       command += "// Do not delete the semi-colon at the end of the line!\n";
       command += "const skipPrompt = false;\n";
       command += "\n";
+      const itemName = item.name.replace(/\\([\s\S])|(")/g, "\\$1$2");
       if (item.type === "weapon") {
         command += "// The roll type of the weapon for this macro is configurable.\n";
         command += "// By default, we do the standard attack, however the rollType,\n";
@@ -64,9 +65,9 @@ const hotbarHooks = () => {
         command += "\n";
         command += "// Do not edit anything below this line, please.\n";
         command += "\n";
-        command += `game.cpr.macro.rollItemMacro("${item.name}", {skipPrompt, rollType});`;
+        command += `game.cpr.macro.rollItemMacro("${itemName}", {skipPrompt, rollType});`;
       } else {
-        command += `game.cpr.macro.rollItemMacro("${item.name}", {skipPrompt});`;
+        command += `game.cpr.macro.rollItemMacro("${itemName}", {skipPrompt});`;
       }
       let macro = game.macros.entities.find((m) => (m.name === item.name) && (m.command === command));
       const img = item.type === "skill" ? "systems/cyberpunk-red-core/icons/chip-skill.png" : item.img;
