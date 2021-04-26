@@ -403,7 +403,9 @@
       "isFoundational": true,
       "hasOptionalSlots": false,
       "optionSlots": 0,
+      "slotSize": 0,
       "core": false,
+      "installedOptionSlots": 0,
       "optionalIds": [],
       "humanityLoss": {
         "static": 3,
