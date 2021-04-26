@@ -70,6 +70,18 @@ const registerSystemSettings = () => {
     },
   });
 
+  game.settings.register("cyberpunk-red-core", "automaticallyResizeSheets", {
+    name: "CPR.settingautomaticallyResizeSheetsname",
+    hint: "CPR.settingautomaticallyResizeSheetshint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: (value) => {
+      LOGGER.log(`Changed automaticallyResizeSheets to ${value}`);
+    },
+  });
+
   game.settings.register("cyberpunk-red-core", "userSettings", {
     name: "User Settings",
     scope: "client",
