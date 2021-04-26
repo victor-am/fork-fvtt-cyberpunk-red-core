@@ -11,6 +11,7 @@ export function enablePauseAnimation() {
   if (setting) {
     LOGGER.log("Enabling pause animation");
     $("#pause h3").attr("class", "pause-glitch");
+    $("#pause h3").attr("data-text", game.i18n.localize("GAME.Paused"));
     $("#pause img").attr("class", "pause-image");
   }
 }
