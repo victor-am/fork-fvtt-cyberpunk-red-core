@@ -241,8 +241,7 @@ export default class CPRActor extends Actor {
     LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
     foundationalCyberware.data.data.optionalIds.push(tmpItem.data._id);
-    const slotSize = tmpItem.data.data.slotSize;
-    foundationalCyberware.data.data.installedOptionSlots += slotSize;
+    foundationalCyberware.data.data.installedOptionSlots += tmpItem.data.data.slotSize;
     tmpItem.data.data.isInstalled = true;
     const usedSlots = foundationalCyberware.getData().installedOptionSlots;
     const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
@@ -270,8 +269,7 @@ export default class CPRActor extends Actor {
   _removeOptionalCyberware(item, foundationalId) {
     LOGGER.trace("ActorID _removeOptionalCyberware | CPRActorSheet | Called.");
     const foundationalCyberware = this._getOwnedItem(foundationalId);
-    const slotSize = item.data.data.slotSize;
-    foundationalCyberware.data.data.installedOptionSlots -= slotSize;
+    foundationalCyberware.data.data.installedOptionSlots -= item.data.data.slotSize;
     foundationalCyberware.getData().optionalIds = foundationalCyberware.getData().optionalIds.filter(
       (optionId) => optionId !== item.data._id,
     );
