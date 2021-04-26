@@ -1,7 +1,13 @@
 # DEV WIP CHANGES
+<<<<<<< HEAD
 - Added functionality to automatically resize the character and item sheets
+=======
+- added Debug Elements setting for developers
+- removed hp, humanity, and emp calculations for mooks
+>>>>>>> origin/dev
 
 # DEV WIP BUG FIXES
+- fixed #189
 
 # Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
 **Bug Fix**
