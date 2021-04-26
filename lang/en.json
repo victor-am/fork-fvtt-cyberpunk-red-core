@@ -743,6 +743,8 @@
     "CPR.settinginvertrollctrlfunctionname": "Invert function of CTRL on Rolls",
     "CPR.settingplayerscreateinventoryhint": "When enabled, players can create items directly in their inventory",
     "CPR.settingplayerscreateinventoryname": "Players can create items",
+    "CPR.settingautomaticallyResizeSheetsname": "Automatically resize Sheets",
+    "CPR.settingautomaticallyResizeSheetshint": "Automatically resize actor and item sheets depending on the content.",
     "CPR.settings": "Settings",
     "CPR.setto": "set to",
     "CPR.seximplant": "Sexual Implant (Midnight Lady/Mr. Studd)",
