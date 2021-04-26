@@ -87,13 +87,12 @@ export default class CPRItemSheet extends ItemSheet {
 
     // Sheet resizing
     html.find(".tab-label").click((event) => this._delayedRender(this));
-
   }
 
   /*
   INTERNAL METHODS BELOW HERE
 */
-  _delayedRender (sheet) {
+  _delayedRender(sheet) {
     // It seems that the size of the content does not change immediately upon updating the content
     setTimeout(() => {
       sheet._render();
