@@ -32,7 +32,6 @@ export default class CPRActorSheet extends ActorSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
-    console.log(this);
     if (this.position.height < this.form.offsetHeight + 46 && this.position.height === this.options.height) { //If it is too small and at default height
       this.setPosition({width: this.position.width, height: this.form.offsetHeight + 46}); //30px for the header and 8px top margin 8px bottom margin
     }

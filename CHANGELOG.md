@@ -1,5 +1,5 @@
 # DEV WIP CHANGES
-
+- Added functionality to automatically resize the character sheet on first openen
 
 # DEV WIP BUG FIXES
 
