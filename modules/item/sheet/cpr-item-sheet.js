@@ -20,14 +20,14 @@ export default class CPRItemSheet extends ItemSheet {
       height: 450,
     });
   }
-  
+
   async _render(force = false, options = {}) {
     LOGGER.trace("ItemSheet | _render | Called.");
     await super._render(force, options);
     const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
     if (setting) {
-      this.setPosition({width: this.position.width, height: 35}); //Make sheet small, so this.form.offsetHeight does not include whitespace
-      this.setPosition({width: this.position.width, height: this.form.offsetHeight + 46}); //30px for the header and 8px top margin 8px bottom margin
+      this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
+      this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 }); // 30px for the header and 8px top margin 8px bottom margin
     }
   }
 
@@ -80,7 +80,7 @@ export default class CPRItemSheet extends ItemSheet {
     html.find(".item-multi-option").click((event) => this._itemMultiOption(event));
 
     html.find(".select-compatible-ammo").click((event) => this._selectCompatibleAmmo(event));
-    
+
     html.find(".tab-label").click((event) => this._render());
   }
 
