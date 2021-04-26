@@ -77,9 +77,9 @@ const registerSystemSettings = () => {
     config: true,
     type: String,
     choices: {
-      "off": "CPR.settingspreventduplicatecriticalinjuriesoff",
-      "warn": "CPR.settingspreventduplicatecriticalinjurieswarn",
-      "reroll": "CPR.settingspreventduplicatecriticalinjuriesoffreroll"
+      off: "CPR.settingspreventduplicatecriticalinjuriesoff",
+      warn: "CPR.settingspreventduplicatecriticalinjurieswarn",
+      reroll: "CPR.settingspreventduplicatecriticalinjuriesoffreroll",
     },
     default: "warn",
     onChange: (value) => {
