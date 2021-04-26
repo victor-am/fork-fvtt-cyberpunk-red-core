@@ -750,7 +750,7 @@
     "CPR.settingpreventduplicatecriticalinjurieshint": "Off = Allow duplicate Critical Injuries. Warn = Warn if duplicate Critical Injury is apllied. Reroll = Reroll duplicate Critical Injuries.",
     "CPR.settingspreventduplicatecriticalinjuriesoff": "Off",
     "CPR.settingspreventduplicatecriticalinjurieswarn": "Warn",
-    "CPR.settingspreventduplicatecriticalinjuriesoffreroll": "Reroll",
+    "CPR.settingspreventduplicatecriticalinjuriesreroll": "Reroll",
     "CPR.settings": "Settings",
     "CPR.setto": "set to",
     "CPR.seximplant": "Sexual Implant (Midnight Lady/Mr. Studd)",
