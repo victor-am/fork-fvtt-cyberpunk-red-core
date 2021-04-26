@@ -1,5 +1,5 @@
 # DEV WIP CHANGES
-
+- Added option to reroll dupliate critical injuries
 
 # DEV WIP BUG FIXES
 
