@@ -625,6 +625,7 @@ export default class CPRActor extends Actor {
     LOGGER.debugObject(item);
     const newItem = item;
     switch (item.type) {
+      case "clothing":
       case "weapon":
       case "gear":
       case "armor": {
