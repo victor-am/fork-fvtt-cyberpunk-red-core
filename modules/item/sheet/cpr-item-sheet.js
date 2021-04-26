@@ -26,8 +26,12 @@ export default class CPRItemSheet extends ItemSheet {
     await super._render(force, options);
     const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
     if (setting) {
-      this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
-      this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 }); // 30px for the header and 8px top margin 8px bottom margin
+      if (Object.entries(options).length === 0) {
+        // In case of updating an item on an actor all the items, which were ever opened from that actor sheet are called with options = { action:"update" }
+        // to prevent rendering them it is checked that the options object is empty. For changes directly on the item _delayedRender is called after the change to resize the sheet
+        this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
+        this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 }); // 30px for the header and 8px top margin 8px bottom margin
+      }
     }
   }
 
@@ -82,17 +86,19 @@ export default class CPRItemSheet extends ItemSheet {
     html.find(".select-compatible-ammo").click((event) => this._selectCompatibleAmmo(event));
 
     // Sheet resizing
-    html.find(".tab-label").click((event) => {
-      // It seems that the size of the content does not change immediately
-      setTimeout(() => {
-        this._render();
-      }, 1);
-    });
+    html.find(".tab-label").click((event) => this._delayedRender(this));
+
   }
 
   /*
   INTERNAL METHODS BELOW HERE
 */
+  _delayedRender (sheet) {
+    // It seems that the size of the content does not change immediately upon updating the content
+    setTimeout(() => {
+      sheet._render();
+    }, 10);
+  }
 
   _itemCheckboxToggle(event) {
     LOGGER.trace("CPRItemID _itemCheckboxToggle Called | CPRItemSheet | Called.");
@@ -101,6 +107,7 @@ export default class CPRItemSheet extends ItemSheet {
     if (hasProperty(itemData, target)) {
       setProperty(itemData, target, !getProperty(itemData, target));
       this.item.update(itemData);
+      this._delayedRender(this);
     }
   }
 
@@ -119,6 +126,7 @@ export default class CPRItemSheet extends ItemSheet {
       }
       setProperty(itemData, target, prop);
       this.item.update(itemData);
+      this._delayedRender(this);
     }
   }
 
@@ -128,6 +136,7 @@ export default class CPRItemSheet extends ItemSheet {
     formData = await SelectCompatibleAmmo.RenderPrompt(formData);
     if (formData.selectedAmmo) {
       await this.item.setCompatibleAmmo(formData.selectedAmmo);
+      this._delayedRender(this);
     }
   }
 }
