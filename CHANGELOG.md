@@ -1,10 +1,8 @@
 # DEV WIP CHANGES
-<<<<<<< HEAD
+- Added option to reroll duplicate critical injuries
 - Added functionality to automatically resize the character and item sheets
-=======
 - added Debug Elements setting for developers
 - removed hp, humanity, and emp calculations for mooks
->>>>>>> origin/dev
 
 # DEV WIP BUG FIXES
 - fixed #189

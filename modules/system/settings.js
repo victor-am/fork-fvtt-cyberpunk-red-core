@@ -70,6 +70,23 @@ const registerSystemSettings = () => {
     },
   });
 
+  game.settings.register("cyberpunk-red-core", "preventDuplicateCriticalInjuries", {
+    name: "CPR.settingpreventduplicatecriticalinjuriesname",
+    hint: "CPR.settingpreventduplicatecriticalinjurieshint",
+    scope: "world",
+    config: true,
+    type: String,
+    choices: {
+      off: "CPR.settingspreventduplicatecriticalinjuriesoff",
+      warn: "CPR.settingspreventduplicatecriticalinjurieswarn",
+      reroll: "CPR.settingspreventduplicatecriticalinjuriesreroll",
+    },
+    default: "off",
+    onChange: (value) => {
+      LOGGER.log(`Changed preventDuplicateCriticalInjuries to ${value}`);
+    },
+  });
+
   game.settings.register("cyberpunk-red-core", "automaticallyResizeSheets", {
     name: "CPR.settingautomaticallyResizeSheetsname",
     hint: "CPR.settingautomaticallyResizeSheetshint",

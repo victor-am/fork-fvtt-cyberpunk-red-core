@@ -695,9 +695,46 @@ export default class CPRActorSheet extends ActorSheet {
   async _rollCriticalInjury() {
     const tableName = await this._setCriticalInjuryTable();
     const table = game.tables.entities.find((t) => t.name === tableName);
+    this._drawCriticalInjuryTable(tableName, table, 0);
+  }
+
+  async _drawCriticalInjuryTable(tableName, table, iteration) {
+    if (iteration > 100) { // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6), otherwise lower chance
+      // count number of critical injuries of the type given in the table on the target
+      const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === table.data.results[0].text)));
+      // eslint-disable-next-line no-undef
+      if (!crit) {
+        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
+        return;
+      }
+      const critType = crit.data.data.location;
+      let numberCritInjurySameType = 0;
+      this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.data.location === critType) { numberCritInjurySameType += 1; } });
+      if (table.data.results.length <= numberCritInjurySameType) {
+        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
+        return;
+      }
+      if (iteration > 1000) { // Techincally possible to reach even if a critical injury is still missing (chance: 6*10e-11 %), though unlikely.
+        SystemUtils.DisplayMessage("error", (game.i18n.localize("CPR.criticalinjuryduplicateloopwarning")));
+        return; // Prevent endless loop in case of mixed (head and body) Critical Injury tables or unreachable elements in the rolltable.
+      }
+    }
     table.draw({ displayChat: false })
       .then(async (res) => {
         if (res.results.length > 0) {
+          // Check if the critical Injury already exists on the character
+          let injuryAlreadyExists = false;
+          this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.name === res.results[0].text) { injuryAlreadyExists = true; } });
+          if (injuryAlreadyExists) {
+            const setting = game.settings.get("cyberpunk-red-core", "preventDuplicateCriticalInjuries");
+            if (setting === "reroll") {
+              await this._drawCriticalInjuryTable(tableName, table, iteration + 1);
+              return;
+            }
+            if (setting === "warn") {
+              SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicatewarning")));
+            }
+          }
           const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
           // eslint-disable-next-line no-undef
           if (!crit) {
