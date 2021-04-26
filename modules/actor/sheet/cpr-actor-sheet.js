@@ -32,6 +32,11 @@ export default class CPRActorSheet extends ActorSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
+    const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
+    if (setting) {
+      this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
+      this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 }); // 30px for the header and 8px top margin 8px bottom margin
+    }
   }
 
   /* -------------------------------------------- */
@@ -196,6 +201,14 @@ export default class CPRActorSheet extends ActorSheet {
     );
 
     html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
+
+    // Sheet resizing
+    html.find(".tab-label").click((event) => {
+      // It seems that the size of the content does not change immediately like with the item sheet, thus a small delay here
+      setTimeout(() => {
+        this._render();
+      }, 1);
+    });
 
     super.activateListeners(html);
   }
