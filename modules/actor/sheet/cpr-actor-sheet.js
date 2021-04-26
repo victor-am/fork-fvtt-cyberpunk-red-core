@@ -32,7 +32,9 @@ export default class CPRActorSheet extends ActorSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
-    this.setPosition({width: this.position.width, height: this.form.offsetHeight + 60}); //30px for the header 20px for the resize handle and 8px top margin 2px bottom margin
+    if (this.position.height < this.form.offsetHeight + 46) {
+      this.setPosition({width: this.position.width, height: this.form.offsetHeight + 46}); //30px for the header and 8px top margin 8px bottom margin
+    }
   }
 
   /* -------------------------------------------- */
