@@ -81,7 +81,13 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".select-compatible-ammo").click((event) => this._selectCompatibleAmmo(event));
 
-    html.find(".tab-label").click((event) => this._render());
+    // Sheet resizing
+    html.find(".tab-label").click((event) => {
+      // It seems that the size of the content does not change immediately
+      setTimeout(() => {
+        this._render();
+      }, 1);
+    });
   }
 
   /*

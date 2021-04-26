@@ -204,7 +204,7 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Sheet resizing
     html.find(".tab-label").click((event) => {
-      // It seems that the size of the content does not change immediately like with the item sheet, thus a small delay here
+      // It seems that the size of the content does not change immediately
       setTimeout(() => {
         this._render();
       }, 1);
