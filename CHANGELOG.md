@@ -6,7 +6,8 @@
 - Added "Unarmed" weapon type with optional (on by default) automatic damage determination based on BODY
 
 # DEV WIP BUG FIXES
-- fixed #189
+- fixed #189 - EMP stat on new mook sheet won't modify
+- fixed #192 - Double quotes break macros for weapon names
 
 # Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
 **Bug Fix**
