@@ -442,7 +442,7 @@ export default class CPRItem extends Item {
     const rollName = this.data.name;
     const { weaponType } = this.data.data;
     let { damage } = this.data.data;
-    if (weaponType === "unarmed") {
+    if (weaponType === "unarmed" && this.data.data.unarmedAutomaticCalculation) {
       // calculate damage based on BODY stat
       const actorBodyStat = this.actor.data.data.stats.body.value;
       if (actorBodyStat <= 4) {

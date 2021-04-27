@@ -914,6 +914,7 @@
     "CPR.typical": "Typical",
     "CPR.unarmed": "Unarmed",
     "CPR.unarmedAutomaticallyCalculated": "Automatically calculated based on BODY",
+    "CPR.unarmedAutomaticallyCalculatedSetting": "Calculate unarmed damage automatically",
     "CPR.uninstall": "Uninstall",
     "CPR.unknowndice": "Unknown dice",
     "CPR.unload": "Unload",
