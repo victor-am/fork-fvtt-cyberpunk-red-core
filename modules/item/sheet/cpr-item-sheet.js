@@ -24,12 +24,13 @@ export default class CPRItemSheet extends ItemSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ItemSheet | _render | Called.");
     await super._render(force, options);
-    if (!Object.keys(options).some( (k) => { return (k === "action") && (options[k] === "update"); })) {
+    if (!Object.keys(options).some((k) => ((k === "action") && (options[k] === "update")))) {
       // In case of updating a value on an item sheet the resizing should not happen.
       // If a value is updated the _render function is called with options = { action: "update" }
       // Should one still desire resizing the sheet afterwards, please call _automaticResize explicitly.
-      // Additionally if one item owned by an actor is updated, all items, which were opened before are called with options = { action: "update" }.
-      this._automaticResize()
+      // Additionally if one item owned by an actor is updated, all items, which were opened before
+      // are called with options = { action: "update" }.
+      this._automaticResize();
     }
   }
 
