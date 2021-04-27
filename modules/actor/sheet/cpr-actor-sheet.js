@@ -32,9 +32,8 @@ export default class CPRActorSheet extends ActorSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
-    if (!Object.keys(options).some((k) => ((k === "action") && (options[k] === "update")))) {
-      // In case of updating a value on an actor sheet the resizing should not happen.
-      // If a value is updated the _render function is called with options = { action: "update" }
+    if (this.position.width === 800 && this.position.height === 590) {
+      // Only resize the sheet with default size, as render option is called on several differnt update events
       // Should one still desire resizing the sheet afterwards, please call _automaticResize explicitly.
       this._automaticResize();
     }
@@ -380,6 +379,7 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
     }
+    this._automaticResize();
   }
 
   async _installRemoveCyberwareAction(event) {
@@ -692,6 +692,7 @@ export default class CPRActorSheet extends ActorSheet {
     const tableName = await this._setCriticalInjuryTable();
     const table = game.tables.entities.find((t) => t.name === tableName);
     this._drawCriticalInjuryTable(tableName, table, 0);
+    this._automaticResize();
   }
 
   async _drawCriticalInjuryTable(tableName, table, iteration) {
