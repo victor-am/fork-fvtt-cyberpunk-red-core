@@ -40,7 +40,7 @@ const hotbarHooks = () => {
       command += "// Do not delete the semi-colon at the end of the line!\n";
       command += "const skipPrompt = false;\n";
       command += "\n";
-      const itemName = item.name.replace(/\\([\s\S])|(")/g, "\\$1$2");
+      const itemName = item.name.replace(/\\/g, "\\\\").replace(/\\([\s\S])|(")/g, "\\$1$2");
       if (item.type === "weapon") {
         command += "// The roll type of the weapon for this macro is configurable.\n";
         command += "// By default, we do the standard attack, however the rollType,\n";
