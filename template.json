@@ -335,7 +335,8 @@
         "attachmentSlots": 0,
         "dvTable": "",
         "isRanged": false,
-        "attackmod": 0
+        "attackmod": 0,
+        "hasCyberarm": false
       },
       "uses": {
         "usesType": "magazine",
