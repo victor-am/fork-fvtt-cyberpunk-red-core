@@ -405,6 +405,9 @@ export default class Migration {
     if ((typeof itemData.data.attackMod) === "undefined") {
       itemData.data.attackMod = 0;
     }
+    if ((typeof itemData.data.unarmedAutomaticCalculation) === "undefined") {
+      itemData.data.unarmedAutomaticCalculation = true;
+    }
     return itemData;
   }
 
