@@ -32,11 +32,11 @@ export default class CPRActorSheet extends ActorSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
-    if (!Object.keys(options).some( (k) => { return (k === "action") && (options[k] === "update"); })) {
+    if (!Object.keys(options).some((k) => ((k === "action") && (options[k] === "update")))) {
       // In case of updating a value on an actor sheet the resizing should not happen.
       // If a value is updated the _render function is called with options = { action: "update" }
       // Should one still desire resizing the sheet afterwards, please call _automaticResize explicitly.
-      this._automaticResize()
+      this._automaticResize();
     }
   }
 
