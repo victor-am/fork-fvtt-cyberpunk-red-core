@@ -311,6 +311,11 @@ export default function registerHandlebarsHelpers() {
     return cprDot + andCaseSplit.toLowerCase();
   });
 
+  Handlebars.registerHelper("isDebug", () => {
+    LOGGER.trace("Calling isDebug Helper");
+    return game.settings.get("cyberpunk-red-core", "debugElements");
+  });
+
   Handlebars.registerHelper("debug", (msg) => {
     LOGGER.debug(msg);
   });
