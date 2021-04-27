@@ -40,6 +40,12 @@
             "max": 6
           }
         },
+
+        "currentArmor": {
+          "value": 11,
+          "max": 11
+        },
+
         "derivedStats": {
           "hp": {
             "value": 40,

@@ -62,6 +62,9 @@ export default class CPRActorSheet extends ActorSheet {
     // Ablate Armor
     html.find(".ablate").click((event) => this._ablateArmor(event));
 
+    // Set Armor as Current
+    html.find(".armor-current").click((event) => this._makeArmorCurrent(event));
+
     // Install Cyberware
     html.find(".install-remove-cyberware").click((event) => this._installRemoveCyberwareAction(event));
 
@@ -344,6 +347,14 @@ export default class CPRActorSheet extends ActorSheet {
       }
       default:
     }
+  }
+
+  _makeArmorCurrent(event) {
+    LOGGER.trace("ActorID _makeArmorCurrent | CPRActorSheet | Called.");
+    const location = $(event.currentTarget).attr("data-location");
+    this.actor.makeThisArmorCurrent(location);
+    console.log(this.actor.data.data.currentArmor.value);
+    console.log(this.actor.data.data.currentArmor.max);
   }
 
   _cycleEquipState(event) {

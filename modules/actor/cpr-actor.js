@@ -545,6 +545,13 @@ export default class CPRActor extends Actor {
     throw new Error(`Bad location given: ${location}`);
   }
 
+  makeThisArmorCurrent(location) {
+    const armorList = this.getEquippedArmors(location);
+    const currentArmorValue = armorList[0].data.data.bodyLocation.sp - armorList[0].data.data.bodyLocation.ablation;
+    const currentArmorMax = armorList[0].data.data.bodyLocation.sp;
+    return this.update({ "data.currentArmor.value": currentArmorValue, "data.currentArmor.max": currentArmorMax });
+  }
+
   createRoll(type, name) {
     switch (type) {
       case CPRRolls.rollTypes.STAT: {
