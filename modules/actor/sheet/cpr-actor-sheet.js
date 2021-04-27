@@ -204,7 +204,7 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
 
     // Sheet resizing
-    html.find(".tab-label").click((event) => this._automaticResize());
+    html.find(".tab-label:not(.skills-tab):not(.gear-tab):not(.cyberware-tab)").click((event) => this._automaticResize());
 
     super.activateListeners(html);
   }
