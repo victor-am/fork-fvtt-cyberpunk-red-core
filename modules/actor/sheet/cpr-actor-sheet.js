@@ -32,10 +32,11 @@ export default class CPRActorSheet extends ActorSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
-    const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
-    if (setting) {
-      this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
-      this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 }); // 30px for the header and 8px top margin 8px bottom margin
+    if (!Object.keys(options).some( (k) => { return (k === "action") && (options[k] === "update"); })) {
+      // In case of updating a value on an actor sheet the resizing should not happen.
+      // If a value is updated the _render function is called with options = { action: "update" }
+      // Should one still desire resizing the sheet afterwards, please call _automaticResize explicitly.
+      this._automaticResize()
     }
   }
 
@@ -203,12 +204,7 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
 
     // Sheet resizing
-    html.find(".tab-label").click((event) => {
-      // It seems that the size of the content does not change immediately
-      setTimeout(() => {
-        this._render();
-      }, 1);
-    });
+    html.find(".tab-label").click((event) => this._automaticResize());
 
     super.activateListeners(html);
   }
@@ -752,6 +748,18 @@ export default class CPRActorSheet extends ActorSheet {
           CPRChat.RenderRollCard(cprRoll);
         }
       });
+  }
+
+  _automaticResize() {
+    LOGGER.trace("ActorSheet | _automaticResize | Called.");
+    const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
+    if (setting) {
+      // It seems that the size of the content does not change immediately upon updating the content
+      setTimeout(() => {
+        this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
+        this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 }); // 30px for the header and 8px top margin 8px bottom margin
+      }, 10);
+    }
   }
 
   /* Ledger methods */
