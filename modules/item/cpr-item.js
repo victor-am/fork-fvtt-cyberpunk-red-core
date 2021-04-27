@@ -446,7 +446,8 @@ export default class CPRItem extends Item {
       // calculate damage based on BODY stat
       const actorBodyStat = this.actor.data.data.stats.body.value;
       if (actorBodyStat <= 4) {
-        if (this.data.data.hasCyberarm) {
+        if (this.actor.data.filteredItems.cyberware.some((c) => ((c.data.data.type === "cyberArm") && (c.data.data.isInstalled === true) && (c.data.data.isFoundational === true)))) {
+          // If the user has an installed Cyberarm, which is a foundational
           damage = "2d6";
         } else {
           damage = "1d6";

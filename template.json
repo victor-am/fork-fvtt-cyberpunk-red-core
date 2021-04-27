@@ -336,7 +336,6 @@
         "dvTable": "",
         "isRanged": false,
         "attackmod": 0,
-        "hasCyberarm": false,
         "unarmedAutomaticCalculation": true
       },
       "uses": {
