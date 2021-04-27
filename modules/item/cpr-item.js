@@ -437,7 +437,25 @@ export default class CPRItem extends Item {
 
   createDamageRoll(type) {
     const rollName = this.data.name;
-    const { damage, weaponType } = this.data.data;
+    const { weaponType } = this.data.data;
+    let { damage } = this.data.data;
+    if (weaponType === "unarmed") {
+      // calculate damage based on BODY stat
+      const actorBodyStat = this.actor.data.data.stats.body.value;
+      if (actorBodyStat <= 4) {
+        if (this.data.data.hasCyberarm) {
+          damage = "2d6";
+        } else {
+          damage = "1d6";
+        }
+      } else if (actorBodyStat <= 6) {
+        damage = "2d6";
+      } else if (actorBodyStat <= 10) {
+        damage = "3d6";
+      } else {
+        damage = "4d6";
+      }
+    }
     const cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType);
 
     switch (type) {
