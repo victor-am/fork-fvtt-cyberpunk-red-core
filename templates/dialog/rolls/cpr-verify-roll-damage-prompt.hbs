@@ -4,7 +4,7 @@
         {{localize "CPR.tellthemtosayhello"}}! {{localize "CPR.roll"}} {{localize "CPR.damage"}} {{localize "CPR.with"}} "{{rollTitle}}", Choomba!
     </div>
     <ol class="items-list">
-        {{#if (listContains "assaultRifle,smg,heavySmg" weaponType)}}
+        {{#if (compare (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType) "||" weapon.data.fireModes.suppressiveFire)}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.autofire"}}?
