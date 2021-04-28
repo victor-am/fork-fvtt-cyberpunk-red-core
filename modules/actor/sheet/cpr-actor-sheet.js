@@ -21,7 +21,7 @@ export default class CPRActorSheet extends ActorSheet {
   constructor(actor, options) {
     super(actor, options);
     this.defaultWidth = 800;
-    this.defaultHeight = 500;
+    this.defaultHeight = 590;
   }
 
   /** @override */
