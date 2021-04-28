@@ -18,13 +18,19 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
  * @extends {ActorSheet}
  */
 export default class CPRActorSheet extends ActorSheet {
+  constructor(actor, options) {
+    super(actor, options);
+    this.defaultWidth = 800;
+    this.defaultHeight = 500;
+  }
+
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
     return mergeObject(super.defaultOptions, {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
-      width: 800,
-      height: 590,
+      width: this.defaultWidth,
+      height: this.defaultHeight,
       scrollY: [".right-content-section"],
     });
   }
@@ -32,7 +38,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
-    if (this.position.width === 800 && this.position.height === 590) {
+    if (this.position.width === this.defaultWidth && this.position.height === this.defaultHeight) {
       // Only resize the sheet with default size, as render option is called on several differnt update events
       // Should one still desire resizing the sheet afterwards, please call _automaticResize explicitly.
       this._automaticResize();
