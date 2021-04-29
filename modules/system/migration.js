@@ -408,6 +408,7 @@ export default class Migration {
     if ((typeof itemData.data.attackMod) === "undefined") {
       itemData.data.attackMod = 0;
     }
+    // Added with 0.75.1
     if ((typeof itemData.data.unarmedAutomaticCalculation) === "undefined") {
       itemData.data.unarmedAutomaticCalculation = true;
     }
