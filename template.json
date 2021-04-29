@@ -42,6 +42,7 @@
         },
 
         "currentArmor": {
+          "armorId": "",
           "value": 11,
           "max": 11
         },

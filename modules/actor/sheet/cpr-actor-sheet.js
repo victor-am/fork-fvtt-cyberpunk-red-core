@@ -315,17 +315,21 @@ export default class CPRActorSheet extends ActorSheet {
   _repairArmor(event) {
     LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
+    let currentArmorValue = this.actor.data.data.currentArmor.value;
     // XXX: cannot use _getObjProp since we need to update 2 props
     this._updateOwnedItemProp(item, "data.headLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.shieldHitPoints.value", item.data.data.shieldHitPoints.max);
+    currentArmorValue = item.data.data.bodyLocation.sp;
+    this.actor.update({ "data.currentArmor.value": currentArmorValue });
   }
 
   async _ablateArmor(event) {
-    LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
+    LOGGER.trace("ActorID _ablateArmor | CPRActorSheet | Called.");
     const location = $(event.currentTarget).attr("data-location");
     const armorList = this.actor.getEquippedArmors(location);
     const updateList = [];
+    let currentArmorValue = this.actor.data.data.currentArmor.value;
     switch (location) {
       case "head": {
         armorList.forEach((a) => {
@@ -347,6 +351,9 @@ export default class CPRActorSheet extends ActorSheet {
           updateList.push(armorData);
         });
         await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        currentArmorValue = Math.max((currentArmorValue - 1), 0);
+        console.log(currentArmorValue);
+        this.actor.update({ "data.currentArmor.value": currentArmorValue });
         break;
       }
       case "shield": {
@@ -366,8 +373,6 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID _makeArmorCurrent | CPRActorSheet | Called.");
     const location = $(event.currentTarget).attr("data-location");
     this.actor.makeThisArmorCurrent(location);
-    console.log(this.actor.data.data.currentArmor.value);
-    console.log(this.actor.data.data.currentArmor.max);
   }
 
   _cycleEquipState(event) {
