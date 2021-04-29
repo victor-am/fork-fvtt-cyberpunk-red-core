@@ -85,7 +85,7 @@ export default class CPRItem extends Item {
       }
       if (localCprRoll instanceof CPRRolls.CPRDamageRoll) {
         if (localCprRoll.isAutofire) {
-          localCprRoll.setAutofire();
+          localCprRoll.setAutofire(cprRoll.autofireMultiplier);
         }
       }
     }
@@ -343,7 +343,7 @@ export default class CPRItem extends Item {
     this.data.data.favorite = !this.data.data.favorite;
   }
 
-  createRoll(type, actor) {
+  createRoll(type, actor, extraData = []) {
     LOGGER.trace("createRoll | CPRItem | Called.");
     switch (type) {
       case CPRRolls.rollTypes.SKILL: {
@@ -356,7 +356,8 @@ export default class CPRItem extends Item {
         return this.createAttackRoll(type, actor);
       }
       case CPRRolls.rollTypes.DAMAGE: {
-        return this.createDamageRoll(type);
+        const damageType = extraData.damageType ? extraData.damageType : type;
+        return this.createDamageRoll(damageType);
       }
       default:
     }
@@ -386,8 +387,10 @@ export default class CPRItem extends Item {
 
     if (type === CPRRolls.rollTypes.SUPPRESSIVE || type === CPRRolls.rollTypes.AUTOFIRE) {
       skillItem = actor.items.find((i) => i.name === "Autofire");
-      if (this.data.data.weaponType !== "smg" && this.data.data.weaponType !== "heavySmg" && this.data.data.weaponType !== "assaultRifle") {
-        Rules.lawyer(false, "CPR.weapondoesntsupportaltmode");
+      if (!this.data.data.fireModes.suppressiveFire) {
+        if (this.data.data.weaponType !== "smg" && this.data.data.weaponType !== "heavySmg" && this.data.data.weaponType !== "assaultRifle") {
+          Rules.lawyer(false, "CPR.weapondoesntsupportaltmode");
+        }
       }
     }
 
@@ -446,7 +449,12 @@ export default class CPRItem extends Item {
         break;
       }
       case CPRRolls.rollTypes.AUTOFIRE: {
-        cprRoll.setAutofire();
+        let maxAutoFire = this.data.data.fireModes.autoFire;
+        if (maxAutoFire === 0 && ((this.data.data.weaponType === "smg" || this.data.data.weaponType === "heavySmg" || this.data.data.weaponType === "assaultRifle")))
+        {
+          maxAutoFire = this.data.data.weaponType === "assaultRifle" ? 4 : 3;
+        }
+        cprRoll.setAutofire(0, maxAutoFire);
         break;
       }
       default:

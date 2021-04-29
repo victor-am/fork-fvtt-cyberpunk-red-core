@@ -4,7 +4,7 @@
         {{localize "CPR.tellthemtosayhello"}}! {{localize "CPR.roll"}} {{localize "CPR.damage"}} {{localize "CPR.with"}} "{{rollTitle}}", Choomba!
     </div>
     <ol class="items-list">
-        {{#if (compare (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType) "||" weapon.data.fireModes.suppressiveFire)}}
+        {{#if (compare (listContains "assaultRifle,smg,heavySmg" weaponType) "||" isAutofire)}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.autofire"}}?
@@ -15,7 +15,7 @@
         </li>
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.multiplier"}}:
+                {{localize "CPR.multiplier"}} (1-{{#if (compare autofireMultiplierMax ">" 0)}}{{autofireMultiplierMax}}{{else}}{{#if (compare weaponType "===" "assaultRifle")}}4{{else}}3{{/if}}{{/if}}):
             </div>
         <div class="item flexrow setting-value text-nowrap item-end">
             <input type="number" class="number" name="autofireMultiplier" data-dtype="Number" value=1
