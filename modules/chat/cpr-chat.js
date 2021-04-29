@@ -143,7 +143,7 @@ export default class CPRChat {
           const item = actor ? actor.items.find((i) => i._id === itemId) : null;
           const displayName = actor === null ? "ERROR" : actor.name;
           if (!item) return ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.actormissingitem")} ${itemId}`);
-          let cprRoll = item.createRoll(rollType, actor, { damageType: attackType});
+          let cprRoll = item.createRoll(rollType, actor, { damageType: attackType });
 
           if (location) {
             cprRoll.location = location;
