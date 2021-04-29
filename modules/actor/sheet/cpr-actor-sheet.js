@@ -243,7 +243,7 @@ export default class CPRActorSheet extends ActorSheet {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
         rollType = this._getFireCheckbox(event);
-        cprRoll = item.createDamageRoll(rollType, this.actor);
+        cprRoll = item.createDamageRoll(rollType);
         if (rollType === CPRRolls.rollTypes.AIMED) {
           cprRoll.location = this.actor.getFlag("cyberpunk-red-core", "aimedLocation") || "body";
         }

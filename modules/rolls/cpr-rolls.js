@@ -275,9 +275,12 @@ export class CPRDamageRoll extends CPRRoll {
     this.isAutofire = false;
     // multiple damage by this amount
     this.autofireMultiplier = 1;
+    // multiplier max
+    this.autofireMultiplierMax = 1;
   }
 
   _computeBase() {
+    this.autofireMultiplier = Math.min(this.autofireMultiplier, this.autofireMultiplierMax);
     return (this.initialRoll + this.totalMods()) * this.autofireMultiplier;
   }
 
@@ -299,10 +302,14 @@ export class CPRDamageRoll extends CPRRoll {
     }
   }
 
-  setAutofire() {
+  setAutofire(autofireMultiplier, autofireMultiplierMax = 0) {
     this.isAutofire = true;
     this.formula = "2d6";
     this.mods = [];
+    this.autofireMultiplier = autofireMultiplier;
+    if (autofireMultiplierMax > this.autofireMultiplierMax) {
+      this.autofireMultiplierMax = autofireMultiplierMax;
+    }
   }
 }
 
@@ -319,35 +326,8 @@ export class CPRTableRoll extends CPRRoll {
     // eslint-disable-next-line prefer-destructuring
     this.resultTotal = tableRoll.results[0];
   }
-
-  _computeBase() {
-    return (this.initialRoll + this.totalMods()) * this.autofireMultiplier;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  wasCritFail() {
-    // you cannot crit-fail damage
-    return false;
-  }
-
-  wasCritSuccess() {
-    return this.faces.filter((x) => x === 6).length >= 2;
-  }
-
-  _computeResult() {
-    // figure how aimed shots work...
-    this.resultTotal = this._computeBase();
-    if (this.wasCritical() && !this.isAutofire) {
-      this.resultTotal += this.bonusDamage;
-    }
-  }
-
-  setAutofire() {
-    this.isAutofire = true;
-    this.formula = "2d6";
-    this.mods = [];
-  }
 }
+
 export const rollTypes = {
   BASE: "base",
   STAT: "stat",
