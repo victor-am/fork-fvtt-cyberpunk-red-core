@@ -127,7 +127,7 @@ button,
 }
 #pause .pause-glitch::before,
 #pause .pause-glitch::after {
-  content: "GAME PAUSED";
+  content: attr(data-text);
 }
 /*--------------------
   Color modifiers

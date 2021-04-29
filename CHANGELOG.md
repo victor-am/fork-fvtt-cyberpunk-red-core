@@ -5,7 +5,9 @@
 - removed hp, humanity, and emp calculations for mooks
 
 # DEV WIP BUG FIXES
-- fixed #189
+- fixed #176 - Game paused animation properly translates now
+- fixed #189 - EMP stat on new mook sheet won't modify
+- fixed #192 - Double quotes break macros for weapon names
 
 # Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
 **Bug Fix**
