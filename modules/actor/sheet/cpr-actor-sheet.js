@@ -18,13 +18,19 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
  * @extends {ActorSheet}
  */
 export default class CPRActorSheet extends ActorSheet {
+  constructor(actor, options) {
+    super(actor, options);
+    this.defaultWidth = 800;
+    this.defaultHeight = 590;
+  }
+
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
     return mergeObject(super.defaultOptions, {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
-      width: 800,
-      height: 590,
+      width: this.defaultWidth,
+      height: this.defaultHeight,
       scrollY: [".right-content-section"],
     });
   }
@@ -32,10 +38,10 @@ export default class CPRActorSheet extends ActorSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
-    const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
-    if (setting) {
-      this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
-      this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 }); // 30px for the header and 8px top margin 8px bottom margin
+    if (this.position.width === this.defaultWidth && this.position.height === this.defaultHeight) {
+      // Only resize the sheet with default size, as render option is called on several differnt update events
+      // Should one still desire resizing the sheet afterwards, please call _automaticResize explicitly.
+      this._automaticResize();
     }
   }
 
@@ -203,12 +209,7 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
 
     // Sheet resizing
-    html.find(".tab-label").click((event) => {
-      // It seems that the size of the content does not change immediately like with the item sheet, thus a small delay here
-      setTimeout(() => {
-        this._render();
-      }, 1);
-    });
+    html.find(".tab-label:not(.skills-tab):not(.gear-tab):not(.cyberware-tab)").click((event) => this._automaticResize());
 
     super.activateListeners(html);
   }
@@ -384,6 +385,7 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
     }
+    this._automaticResize();
   }
 
   async _installRemoveCyberwareAction(event) {
@@ -696,6 +698,7 @@ export default class CPRActorSheet extends ActorSheet {
     const tableName = await this._setCriticalInjuryTable();
     const table = game.tables.entities.find((t) => t.name === tableName);
     this._drawCriticalInjuryTable(tableName, table, 0);
+    this._automaticResize();
   }
 
   async _drawCriticalInjuryTable(tableName, table, iteration) {
@@ -752,6 +755,18 @@ export default class CPRActorSheet extends ActorSheet {
           CPRChat.RenderRollCard(cprRoll);
         }
       });
+  }
+
+  _automaticResize() {
+    LOGGER.trace("ActorSheet | _automaticResize | Called.");
+    const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
+    if (setting) {
+      // It seems that the size of the content does not change immediately upon updating the content
+      setTimeout(() => {
+        this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
+        this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 }); // 30px for the header and 8px top margin 8px bottom margin
+      }, 10);
+    }
   }
 
   /* Ledger methods */
