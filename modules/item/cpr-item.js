@@ -450,8 +450,7 @@ export default class CPRItem extends Item {
       }
       case CPRRolls.rollTypes.AUTOFIRE: {
         let maxAutoFire = this.data.data.fireModes.autoFire;
-        if (maxAutoFire === 0 && ((this.data.data.weaponType === "smg" || this.data.data.weaponType === "heavySmg" || this.data.data.weaponType === "assaultRifle")))
-        {
+        if (maxAutoFire === 0 && ((this.data.data.weaponType === "smg" || this.data.data.weaponType === "heavySmg" || this.data.data.weaponType === "assaultRifle"))) {
           maxAutoFire = this.data.data.weaponType === "assaultRifle" ? 4 : 3;
         }
         cprRoll.setAutofire(0, maxAutoFire);
