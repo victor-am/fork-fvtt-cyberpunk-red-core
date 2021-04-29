@@ -54,7 +54,6 @@ export default class CPRMacro {
     await cprRoll.roll();
     cprRoll.entityData = speaker;
 
- 
     CPRChat.RenderRollCard(cprRoll);
 
     // Need to figure out what we did here since this is gone??
