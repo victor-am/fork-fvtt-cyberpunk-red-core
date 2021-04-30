@@ -346,7 +346,7 @@ export default class CPRActorSheet extends ActorSheet {
     const location = $(event.currentTarget).attr("data-location");
     const armorList = this.actor.getEquippedArmors(location);
     const updateList = [];
-    let currentArmorValue = this.actor.data.data.externalData.currentArmor.value;
+    let currentArmorValue;
     switch (location) {
       case "head": {
         armorList.forEach((a) => {

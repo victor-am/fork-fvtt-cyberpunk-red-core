@@ -44,26 +44,26 @@
         "externalData": {
           "currentArmor": {
             "id": "",
-            "value": 11,
-            "max": 11
+            "value": 0,
+            "max": 0
           },
 
           "currentArmorHead": {
             "id": "",
-            "value": 11,
-            "max": 11
+            "value": 0,
+            "max": 0
           },
 
           "currentArmorShield": {
             "id": "",
-            "value": 11,
-            "max": 11
+            "value": 0,
+            "max": 0
           },
 
           "currentWeapon": {
             "id": "",
-            "value": 11,
-            "max": 11
+            "value": 0,
+            "max": 0
           }
         },
 

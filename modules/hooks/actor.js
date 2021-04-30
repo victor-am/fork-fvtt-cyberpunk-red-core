@@ -25,7 +25,15 @@ const actorHooks = () => {
           if (item) {
             switch (item.data.type) {
               case "armor": {
-                item.data.data.bodyLocation.ablation = item.data.data.bodyLocation.sp - currentValue;
+                if (itemType === "currentArmor") {
+                  item.data.data.bodyLocation.ablation = item.data.data.bodyLocation.sp - currentValue;
+                }
+                if (itemType === "currentArmorHead") {
+                  item.data.data.headLocation.ablation = item.data.data.headLocation.sp - currentValue;
+                }
+                if (itemType === "currentArmorShield") {
+                  item.data.data.shieldHitPoints.value = currentValue;
+                }
                 break;
               }
               default:
