@@ -51,7 +51,8 @@
                             {{/if}}
                             /{{armor.data.headLocation.sp}}
                             <a class="ablate" data-location="head"><i
-                                    class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a>
+                                    class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a> <a class="armor-current" data-location="head" data-item-id="{{armor._id}}"><i
+                                    class="fas fa-star" title="Make Head Armor Current"></i></a>
                         </div>
                     </li>
                     {{/if}}
@@ -68,8 +69,8 @@
                             {{/if}}
                             /{{armor.data.bodyLocation.sp}}
                                                         <a class="ablate" data-location="body"><i
-                                    class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a> <a class="armor-current" data-location="body"><i
-                                    class="fas fa-star" title="Make Current Body Armor"></i></a>
+                                    class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a> <a class="armor-current" data-location="body" data-item-id="{{armor._id}}"><i
+                                    class="fas fa-star" title="Make Body Armor Current"></i></a>
 
                         </div>
                     </li>
@@ -87,7 +88,8 @@
                             {{/if}}
                             /{{armor.data.shieldHitPoints.max}}
                                                         <a class="ablate" data-location="shield"><i
-                                    class="far fa-arrow-alt-circle-down" title="Damage Shield"></i></a>
+                                    class="far fa-arrow-alt-circle-down" title="Damage Shield"></i></a> <a class="armor-current" data-location="shield" data-item-id="{{armor._id}}"><i
+                                    class="fas fa-star" title="Make Shield Current"></i></a>
                         </div>
                     </li>
                     {{/if}}

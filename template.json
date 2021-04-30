@@ -48,6 +48,18 @@
             "max": 11
           },
 
+          "currentArmorHead": {
+            "id": "",
+            "value": 11,
+            "max": 11
+          },
+
+          "currentArmorShield": {
+            "id": "",
+            "value": 11,
+            "max": 11
+          },
+
           "currentWeapon": {
             "id": "",
             "value": 11,

@@ -11,6 +11,7 @@ const actorHooks = () => {
     }
   });
 
+  // Updates the armor item when external data for armor is updated from the tokenHUD.
   Hooks.on("preUpdateActor", (actor, updatedData) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
     Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.invalidroledata");
