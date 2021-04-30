@@ -439,10 +439,10 @@ export default class Migration {
       itemData.data.slotSize = 1;
     }
 
-    if ((itemData.data.isInstalled == true) && (itemData.data.isFoundational == true)) {
+    if ((itemData.data.isInstalled === true) && (itemData.data.isFoundational === true)) {
       itemData.data.installedOptionSlots = itemData.data.optionalIds.length;
     }
-    
+
     return itemData;
   }
 
