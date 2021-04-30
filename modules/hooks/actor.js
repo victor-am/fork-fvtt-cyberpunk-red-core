@@ -14,6 +14,26 @@ const actorHooks = () => {
   Hooks.on("preUpdateActor", (actor, updatedData) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
     Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.invalidroledata");
+    if (updatedData.data.externalData) {
+      Object.entries(updatedData.data.externalData).forEach(
+        ([itemType, itemData]) => {
+          console.log(itemType, itemData);
+          const itemId = actor.data.data.externalData[itemType].id;
+          const item = actor._getOwnedItem(itemId);
+          const currentValue = updatedData.data.externalData[itemType].value;
+          if (item) {
+            switch (item.data.type) {
+              case "armor": {
+                item.data.data.bodyLocation.ablation = item.data.data.bodyLocation.sp - currentValue;
+                break;
+              }
+              default:
+            }
+            actor.updateEmbeddedEntity("OwnedItem", item.data);
+          }
+        },
+      );
+    }
   });
 };
 

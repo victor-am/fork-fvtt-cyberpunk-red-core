@@ -552,7 +552,7 @@ export default class CPRActor extends Actor {
     const currentArmorMax = armorList[0].data.data.bodyLocation.sp;
     const currentArmorId = armorList[0].data._id;
     console.log(currentArmorId);
-    return this.update({ "data.currentArmor.value": currentArmorValue, "data.currentArmor.max": currentArmorMax, "data.currentArmor.armorId": currentArmorId });
+    return this.update({ "data.externalData.currentArmor.value": currentArmorValue, "data.externalData.currentArmor.max": currentArmorMax, "data.externalData.currentArmor.id": currentArmorId });
   }
 
   createRoll(type, name) {

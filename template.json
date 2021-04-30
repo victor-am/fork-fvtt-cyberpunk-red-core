@@ -41,10 +41,18 @@
           }
         },
 
-        "currentArmor": {
-          "armorId": "",
-          "value": 11,
-          "max": 11
+        "externalData": {
+          "currentArmor": {
+            "id": "",
+            "value": 11,
+            "max": 11
+          },
+
+          "currentWeapon": {
+            "id": "",
+            "value": 11,
+            "max": 11
+          }
         },
 
         "derivedStats": {
