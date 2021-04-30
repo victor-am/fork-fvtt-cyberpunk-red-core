@@ -403,7 +403,7 @@
       "isFoundational": true,
       "hasOptionalSlots": false,
       "optionSlots": 0,
-      "slotSize": 0,
+      "slotSize": 1,
       "core": false,
       "installedOptionSlots": 0,
       "optionalIds": [],
