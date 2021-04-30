@@ -274,14 +274,15 @@ export class CPRDamageRoll extends CPRRoll {
     // indicate whether this is an autofire roll. Used when considering the +5 damage in crits
     this.isAutofire = false;
     // multiple damage by this amount
-    this.autofireMultiplier = 1;
+    this.autofireMultiplier = 0;
     // multiplier max
-    this.autofireMultiplierMax = 1;
+    this.autofireMultiplierMax = 0;
   }
 
   _computeBase() {
     this.autofireMultiplier = Math.min(this.autofireMultiplier, this.autofireMultiplierMax);
-    return (this.initialRoll + this.totalMods()) * this.autofireMultiplier;
+    const damageMultiplier = (this.isAutofire) ? this.autofireMultiplier : 1;
+    return (this.initialRoll + this.totalMods()) * damageMultiplier;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -302,10 +303,13 @@ export class CPRDamageRoll extends CPRRoll {
     }
   }
 
-  setAutofire(autofireMultiplier, autofireMultiplierMax = 0) {
+  setAutofire() {
     this.isAutofire = true;
     this.formula = "2d6";
     this.mods = [];
+  }
+
+  configureAutofire(autofireMultiplier, autofireMultiplierMax = 0) {
     this.autofireMultiplier = autofireMultiplier;
     if (autofireMultiplierMax > this.autofireMultiplierMax) {
       this.autofireMultiplierMax = autofireMultiplierMax;
