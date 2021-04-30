@@ -7,6 +7,7 @@
 >>>>>>> b914079 (update changelog)
 
 # DEV WIP BUG FIXES
+- fixed #158 - Stat padding fixed
 - fixed #176 - Game paused animation properly translates now
 - fixed #189 - EMP stat on new mook sheet won't modify
 - fixed #192 - Double quotes break macros for weapon names
