@@ -85,7 +85,7 @@ export default class CPRItem extends Item {
       }
       if (localCprRoll instanceof CPRRolls.CPRDamageRoll) {
         if (localCprRoll.isAutofire) {
-          localCprRoll.setAutofire(cprRoll.autofireMultiplier);
+          localCprRoll.setAutofire();
         }
       }
     }
@@ -443,17 +443,19 @@ export default class CPRItem extends Item {
     const { damage, weaponType } = this.data.data;
     const cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType);
 
+    if (this.data.data.fireModes.autoFire === 0 && ((this.data.data.weaponType === "smg" || this.data.data.weaponType === "heavySmg" || this.data.data.weaponType === "assaultRifle"))) {
+      this.data.data.fireModes.autoFire = this.data.data.weaponType === "assaultRifle" ? 4 : 3;
+    }
+
+    cprRoll.configureAutofire(1, this.data.data.fireModes.autoFire);
+
     switch (type) {
       case CPRRolls.rollTypes.AIMED: {
         cprRoll.isAimed = true;
         break;
       }
       case CPRRolls.rollTypes.AUTOFIRE: {
-        let maxAutoFire = this.data.data.fireModes.autoFire;
-        if (maxAutoFire === 0 && ((this.data.data.weaponType === "smg" || this.data.data.weaponType === "heavySmg" || this.data.data.weaponType === "assaultRifle"))) {
-          maxAutoFire = this.data.data.weaponType === "assaultRifle" ? 4 : 3;
-        }
-        cprRoll.setAutofire(0, maxAutoFire);
+        cprRoll.setAutofire();
         break;
       }
       default:
