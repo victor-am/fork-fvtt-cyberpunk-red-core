@@ -451,7 +451,7 @@ export default class Migration {
   // than if it is undefined because sometimes the value shows up as null.
   // Testing that theory here.
   static migrateSkill(itemData) {
-    if ((typeof itemData.data.isFoundational) !== "number") {
+    if ((typeof itemData.data.skillmod) !== "number") {
       itemData.data.skillmod = 0;
     }
 
