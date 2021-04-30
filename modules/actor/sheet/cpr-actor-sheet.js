@@ -18,13 +18,19 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
  * @extends {ActorSheet}
  */
 export default class CPRActorSheet extends ActorSheet {
+  constructor(actor, options) {
+    super(actor, options);
+    this.defaultWidth = 800;
+    this.defaultHeight = 590;
+  }
+
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
     return mergeObject(super.defaultOptions, {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
-      width: 800,
-      height: 590,
+      width: this.defaultWidth,
+      height: this.defaultHeight,
       scrollY: [".right-content-section"],
     });
   }
@@ -32,6 +38,11 @@ export default class CPRActorSheet extends ActorSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
+    if (this.position.width === this.defaultWidth && this.position.height === this.defaultHeight) {
+      // Only resize the sheet with default size, as render option is called on several differnt update events
+      // Should one still desire resizing the sheet afterwards, please call _automaticResize explicitly.
+      this._automaticResize();
+    }
   }
 
   /* -------------------------------------------- */
@@ -196,6 +207,9 @@ export default class CPRActorSheet extends ActorSheet {
     );
 
     html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
+
+    // Sheet resizing
+    html.find(".tab-label:not(.skills-tab):not(.gear-tab):not(.cyberware-tab)").click((event) => this._automaticResize());
 
     super.activateListeners(html);
   }
@@ -371,6 +385,7 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
     }
+    this._automaticResize();
   }
 
   async _installRemoveCyberwareAction(event) {
@@ -682,9 +697,47 @@ export default class CPRActorSheet extends ActorSheet {
   async _rollCriticalInjury() {
     const tableName = await this._setCriticalInjuryTable();
     const table = game.tables.entities.find((t) => t.name === tableName);
+    this._drawCriticalInjuryTable(tableName, table, 0);
+    this._automaticResize();
+  }
+
+  async _drawCriticalInjuryTable(tableName, table, iteration) {
+    if (iteration > 100) { // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6), otherwise lower chance
+      // count number of critical injuries of the type given in the table on the target
+      const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === table.data.results[0].text)));
+      // eslint-disable-next-line no-undef
+      if (!crit) {
+        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
+        return;
+      }
+      const critType = crit.data.data.location;
+      let numberCritInjurySameType = 0;
+      this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.data.location === critType) { numberCritInjurySameType += 1; } });
+      if (table.data.results.length <= numberCritInjurySameType) {
+        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
+        return;
+      }
+      if (iteration > 1000) { // Techincally possible to reach even if a critical injury is still missing (chance: 6*10e-11 %), though unlikely.
+        SystemUtils.DisplayMessage("error", (game.i18n.localize("CPR.criticalinjuryduplicateloopwarning")));
+        return; // Prevent endless loop in case of mixed (head and body) Critical Injury tables or unreachable elements in the rolltable.
+      }
+    }
     table.draw({ displayChat: false })
       .then(async (res) => {
         if (res.results.length > 0) {
+          // Check if the critical Injury already exists on the character
+          let injuryAlreadyExists = false;
+          this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.name === res.results[0].text) { injuryAlreadyExists = true; } });
+          if (injuryAlreadyExists) {
+            const setting = game.settings.get("cyberpunk-red-core", "preventDuplicateCriticalInjuries");
+            if (setting === "reroll") {
+              await this._drawCriticalInjuryTable(tableName, table, iteration + 1);
+              return;
+            }
+            if (setting === "warn") {
+              SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicatewarning")));
+            }
+          }
           const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
           // eslint-disable-next-line no-undef
           if (!crit) {
@@ -702,6 +755,18 @@ export default class CPRActorSheet extends ActorSheet {
           CPRChat.RenderRollCard(cprRoll);
         }
       });
+  }
+
+  _automaticResize() {
+    LOGGER.trace("ActorSheet | _automaticResize | Called.");
+    const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
+    if (setting) {
+      // It seems that the size of the content does not change immediately upon updating the content
+      setTimeout(() => {
+        this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
+        this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 }); // 30px for the header and 8px top margin 8px bottom margin
+      }, 10);
+    }
   }
 
   /* Ledger methods */
