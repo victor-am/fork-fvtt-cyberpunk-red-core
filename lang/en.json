@@ -580,6 +580,7 @@
     "CPR.netarchfloorcreate": "Create Floor",
     "CPR.netarchfloordata": "Data",
     "CPR.netarchfloordelete": "Delete Floor",
+    "CPR.netarchfloordeleteconfirmation": "the floor from the",
     "CPR.netarchfloordv": "DV",
     "CPR.netarchflooredit": "Edit Floor",
     "CPR.netarchfloorlevel": "LVL",

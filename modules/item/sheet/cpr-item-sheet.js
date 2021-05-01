@@ -4,6 +4,7 @@ import LOGGER from "../../utils/cpr-logger.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
 import NetarchLevelPrompt from "../../dialog/cpr-netarch-level-prompt.js";
+import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
 /**
  * Extend the basic ActorSheet.
@@ -152,6 +153,16 @@ export default class CPRItemSheet extends ItemSheet {
     const itemData = duplicate(this.item.data);
 
     if (action === "delete") {
+      const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
+      if (setting) {
+        const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${SystemUtils.Localize("CPR.netarchfloordeleteconfirmation")} ${SystemUtils.Localize("CPR.netarch")}?`;
+        const confirmDelete = await ConfirmPrompt.RenderPrompt(
+          SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,
+        );
+        if (!confirmDelete) {
+          return;
+        }
+      }
       if (hasProperty(itemData, "data.floors")) {
         const prop = getProperty(itemData, "data.floors");
         let deleteElement = null;
