@@ -3,6 +3,7 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
+import NetarchLevelPrompt from "../../dialog/cpr-netarch-level-prompt.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
 /**
  * Extend the basic ActorSheet.
@@ -84,6 +85,8 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".select-compatible-ammo").click((event) => this._selectCompatibleAmmo(event));
 
+    html.find(".netarch-level-action").click((event) => this._netarchLevelAction(event));
+
     // Sheet resizing
     html.find(".tab-label").click((event) => this._automaticResize());
   }
@@ -140,6 +143,119 @@ export default class CPRItemSheet extends ItemSheet {
         this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
         this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 }); // 30px for the header and 8px top margin 8px bottom margin
       }, 10);
+    }
+  }
+
+  async _netarchLevelAction(event) {
+    const target = Number($(event.currentTarget).attr("data-action-target"));
+    const action = $(event.currentTarget).attr("data-action-type");
+    const itemData = duplicate(this.item.data);
+
+    if (action === "delete") {
+      if (hasProperty(itemData, "data.floors")) {
+        const prop = getProperty(itemData, "data.floors");
+        let deleteElement = null;
+        prop.forEach((floor) => { if (floor.index === target) { deleteElement = floor; } });
+        prop.splice(prop.indexOf(deleteElement), 1);
+        setProperty(itemData, "data.floors", prop);
+        this.item.update(itemData);
+        this._automaticResize(); // Resize the sheet as length of settings list might have changed
+      }
+    }
+
+    if (action === "up" || action === "down") {
+      if (hasProperty(itemData, "data.floors")) {
+        const prop = getProperty(itemData, "data.floors");
+        const indices = [];
+        prop.forEach((floor) => { indices.push(floor.index); });
+        let swapPartner = null;
+        if (action === "up") {
+          swapPartner = Math.min(...indices);
+        } else {
+          swapPartner = Math.max(...indices);
+        }
+        if (target !== swapPartner) {
+          if (action === "up") {
+            indices.forEach((i) => { if (i < target && i > swapPartner) { swapPartner = i; } });
+          } else {
+            indices.forEach((i) => { if (i > target && i < swapPartner) { swapPartner = i; } });
+          }
+          let element1 = null;
+          let element2 = null;
+          prop.forEach((floor) => { if (floor.index === target) { element1 = floor; } });
+          prop.forEach((floor) => { if (floor.index === swapPartner) { element2 = floor; } });
+          const newElement1 = duplicate(element1);
+          const newElement2 = duplicate(element2);
+          prop.splice(prop.indexOf(element1), 1);
+          prop.splice(prop.indexOf(element2), 1);
+          newElement1.index = swapPartner;
+          newElement2.index = target;
+          prop.push(newElement1);
+          prop.push(newElement2);
+          setProperty(itemData, "data.floors", prop);
+          this.item.update(itemData);
+        }
+      }
+    }
+
+    if (action === "create") {
+      let formData = {
+        level: "",
+        dv: "",
+        content: "",
+        returnType: "string",
+      };
+      formData = await NetarchLevelPrompt.RenderPrompt(formData);
+
+      if (hasProperty(itemData, "data.floors")) {
+        const prop = getProperty(itemData, "data.floors");
+        let maxIndex = -1;
+        prop.forEach((floor) => { if (floor.index > maxIndex) { maxIndex = floor.index; } });
+        prop.push({
+          index: maxIndex + 1,
+          level: formData.level,
+          dv: formData.dv,
+          content: formData.content,
+        });
+        setProperty(itemData, "data.floors", prop);
+        this.item.update(itemData);
+        this._automaticResize(); // Resize the sheet as length of settings list might have changed
+      } else {
+        const prop = [{
+          index: 0,
+          level: formData.level,
+          dv: formData.dv,
+          content: formData.content,
+        }];
+        setProperty(itemData, "data.floors", prop);
+        this.item.update(itemData);
+        this._automaticResize(); // Resize the sheet as length of settings list might have changed
+      }
+    }
+
+    if (action === "edit") {
+      if (hasProperty(itemData, "data.floors")) {
+        const prop = getProperty(itemData, "data.floors");
+        let editElement = null;
+        prop.forEach((floor) => { if (floor.index === target) { editElement = floor; } });
+        let formData = {
+          level: editElement.level,
+          dv: editElement.dv,
+          content: editElement.content,
+          returnType: "string",
+        };
+        formData = await NetarchLevelPrompt.RenderPrompt(formData);
+        prop.splice(prop.indexOf(editElement), 1);
+        prop.push({
+          index: editElement.index,
+          level: formData.level,
+          dv: formData.dv,
+          content: formData.content,
+        });
+        setProperty(itemData, "data.floors", prop);
+        this.item.update(itemData);
+        this._automaticResize(); // Resize the sheet as length of settings list might have changed
+      }
     }
   }
 }

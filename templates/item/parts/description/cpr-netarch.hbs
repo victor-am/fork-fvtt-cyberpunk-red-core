@@ -15,4 +15,32 @@
         editable=editable}}
     </div>
 </div>
+<div class=""></div>
+<div class="item-netarch-section">
+  <li class="items-header flexrow">
+    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.netarchfloorlevel"}}</span>
+    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.netarchfloordv"}}</span>
+    <span class="item-name netarch-content fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.netarchfloordata"}}</span>
+    <span class="item-name netarch-actions fg-white bg-black text-nowrap text-padding-left">
+      <a class="netarch-level-action" data-action-type="create" data-action-target="-1"><i class="fas fa-plus-circle text-padding-right" title="{{localize "CPR.netarchfloorcreate"}}"></i></a>
+    </span>
+  </li>
+  <div class="netarch-list-content">
+    <ol class="items-list">
+      {{#each (sort data.floors "index") as |floor|}}
+        <li class=" item-netarch-grid item flexrow">
+          <div class="netarch-level">{{floor.level}}</div>
+          <div class="netarch-dv">{{floor.dv}}</div>
+          <div class="netarch-content">{{floor.content}}</div>
+          <div class="netarch-actions">
+            <a class="netarch-level-action" data-action-type="up" data-action-target="{{floor.index}}"><i class="fas fa-arrow-up fg-black" title="{{localize "CPR.netarchfloormoveup"}}"></i></a>
+            <a class="netarch-level-action" data-action-type="down" data-action-target="{{floor.index}}"><i class="fas fa-arrow-down fg-black" title="{{localize "CPR.netarchfloormovedown"}}"></i></a>
+            <a class="netarch-level-action" data-action-type="edit" data-action-target="{{floor.index}}"><i class="fas fa-edit fg-black" title="{{localize "CPR.netarchflooredit"}}"></i></a>
+            <a class="netarch-level-action" data-action-type="delete" data-action-target="{{floor.index}}"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.netarchfloordelete"}}"></i></a>
+          </div>
+        </li>
+      {{/each}}
+    </ol>
+  </div>
+</div>
 {{trace "END CPR-NETARCH.HBS"}}
