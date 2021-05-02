@@ -137,7 +137,7 @@
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if (compare (compare data.weaponType "===" "unarmed") "&&" data.unarmedAutomaticCalculation)}}
-                        <div class="item flexrow setting-value text-nowrap" style="justify-content: flex-end;">{{localize "CPR.unarmedAutomaticallyCalculated"}}</div>
+                        <div class="item text-flex-end setting-value text-nowrap">{{localize "CPR.unarmedAutomaticallyCalculated"}}</div>
                         {{else}}
                         <input name="data.damage" class="" type="text" value="{{data.damage}}">
                         {{/if}}
