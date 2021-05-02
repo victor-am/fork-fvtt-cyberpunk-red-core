@@ -97,21 +97,6 @@
                         </select>
                     </div>
                 </li>
-                {{#if (compare data.weaponType "===" "unarmed")}}
-                {{!-- Automatic damage calculation Settings for unarmed--}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.unarmedAutomaticallyCalculatedSetting"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        {{#if data.unarmedAutomaticCalculation}}
-                        <a class="item-checkbox" data-target="data.unarmedAutomaticCalculation"><i class="far fa-check-circle"></i></a>
-                        {{else}}
-                        <a class="item-checkbox" data-target="data.unarmedAutomaticCalculation"><i class="far fa-circle"></i></a>
-                        {{/if}}
-                    </div>
-                </li>
-                {{/if}}
                 {{!-- Attack Mod Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
@@ -130,6 +115,21 @@
                         <input name="data.handsReq" class="" type="number" value="{{data.handsReq}}">
                     </div>
                 </li>
+                {{#if (compare data.weaponType "===" "unarmed")}}
+                {{!-- Automatic damage calculation Settings for unarmed--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.unarmedAutomaticallyCalculatedSetting"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if data.unarmedAutomaticCalculation}}
+                        <a class="item-checkbox" data-target="data.unarmedAutomaticCalculation"><i class="far fa-check-circle"></i></a>
+                        {{else}}
+                        <a class="item-checkbox" data-target="data.unarmedAutomaticCalculation"><i class="far fa-circle"></i></a>
+                        {{/if}}
+                    </div>
+                </li>
+                {{/if}}
                 {{!- Weapon Damage Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
