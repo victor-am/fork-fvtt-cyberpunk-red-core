@@ -3,6 +3,7 @@
 - Added functionality to automatically resize the character and item sheets
 - added Debug Elements setting for developers
 - removed hp, humanity, and emp calculations for mooks
+- Added "Unarmed" weapon type with optional (on by default) automatic damage determination based on BODY
 
 # DEV WIP BUG FIXES
 - fixed #176 - Game paused animation properly translates now
