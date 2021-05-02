@@ -16,14 +16,14 @@
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.multiplier"}} 
-                {{#if (listContains "assaultRifle,smg,heavySmg" weaponType)}}
-                  (1-{{#if (compare weaponType "===" "assaultRifle")}}4{{else}}3{{/if}}):
-                {{else}}
-                  {{#if (compare autofireMultiplierMax ">" 0)}}
+                {{#if (compare autofireMultiplierMax ">" 0)}}
                     (1-{{autofireMultiplierMax}}):
                   {{else}}
-                    ({{localize "CPR.noautfiremaxconfig"}})
-                  {{/if}}
+                    {{#if (listContains "assaultRifle,smg,heavySmg" weaponType)}}
+                      (1-{{#if (compare weaponType "===" "assaultRifle")}}4{{else}}3{{/if}}):
+                    {{else}}
+                      ({{localize "CPR.noautfiremaxconfig"}})
+                    {{/if}}
                 {{/if}}
             </div>
         <div class="item flexrow setting-value text-nowrap item-end">
