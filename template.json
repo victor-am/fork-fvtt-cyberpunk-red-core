@@ -362,7 +362,8 @@
         "attachmentSlots": 0,
         "dvTable": "",
         "isRanged": false,
-        "attackmod": 0
+        "attackmod": 0,
+        "unarmedAutomaticCalculation": true
       },
       "uses": {
         "usesType": "magazine",
@@ -430,7 +431,9 @@
       "isFoundational": true,
       "hasOptionalSlots": false,
       "optionSlots": 0,
+      "slotSize": 1,
       "core": false,
+      "installedOptionSlots": 0,
       "optionalIds": [],
       "humanityLoss": {
         "static": 3,

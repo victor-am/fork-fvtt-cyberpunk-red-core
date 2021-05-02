@@ -437,7 +437,26 @@ export default class CPRItem extends Item {
 
   createDamageRoll(type) {
     const rollName = this.data.name;
-    const { damage, weaponType } = this.data.data;
+    const { weaponType } = this.data.data;
+    let { damage } = this.data.data;
+    if (weaponType === "unarmed" && this.data.data.unarmedAutomaticCalculation) {
+      // calculate damage based on BODY stat
+      const actorBodyStat = this.actor.data.data.stats.body.value;
+      if (actorBodyStat <= 4) {
+        if (this.actor.data.filteredItems.cyberware.some((c) => ((c.data.data.type === "cyberArm") && (c.data.data.isInstalled === true) && (c.data.data.isFoundational === true)))) {
+          // If the user has an installed Cyberarm, which is a foundational
+          damage = "2d6";
+        } else {
+          damage = "1d6";
+        }
+      } else if (actorBodyStat <= 6) {
+        damage = "2d6";
+      } else if (actorBodyStat <= 10) {
+        damage = "3d6";
+      } else {
+        damage = "4d6";
+      }
+    }
     const cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType);
 
     switch (type) {

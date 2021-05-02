@@ -1,8 +1,11 @@
 # DEV WIP CHANGES
+- Added "Option Slots Size" for optional cyberware. This allows proper tracking of cyberware that can use no slots, or multiple slots. By default when first updating to this version all cyberware has an assumed slot size of 1. Please update your optional cyberware accordingly in line with the core rulebook. 
+- Added extra content to the cyberware tab to display the amount of 'used' slots for foundational cyberware. 
 - Added option to reroll duplicate critical injuries
 - Added functionality to automatically resize the character and item sheets
 - added Debug Elements setting for developers
 - removed hp, humanity, and emp calculations for mooks
+- Added "Unarmed" weapon type with optional (on by default) automatic damage determination based on BODY
 
 # DEV WIP BUG FIXES
 - fixed #176 - Game paused animation properly translates now
