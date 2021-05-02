@@ -618,6 +618,11 @@ button,
 .item-image-block {
   clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
 }
+.item-image-block-img {
+  max-width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
 .text-smallest {
   font-size: 0.5rem;
 }
@@ -1310,8 +1315,9 @@ ol {
 }
 .item-card-icon {
   grid-area: item-card-icon;
-  width: 52px;
+  max-width: 52px;
   height: 52px;
+  object-fit: contain;
 }
 .item-card-description {
   grid-area: item-card-description;
@@ -1437,6 +1443,11 @@ form input.number {
   grid-area: fight-weapon-icon;
   width: 52px;
   height: 52px;
+}
+.fight-weapon-icon-img {
+  max-width: 52px;
+  height: 52px;
+  object-fit: contain;
 }
 .fight-weapon {
   display: grid;
