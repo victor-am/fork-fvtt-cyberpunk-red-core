@@ -9,6 +9,7 @@
 - Added "Unarmed" weapon type with optional (on by default) automatic damage determination based on BODY
 
 # DEV WIP BUG FIXES
+- fixed #158 - Stat padding fixed
 - fixed #176 - Game paused animation properly translates now
 - fixed #187 - Item icons are now resizing correctly
 - fixed #189 - EMP stat on new mook sheet won't modify
