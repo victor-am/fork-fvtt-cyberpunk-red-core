@@ -122,6 +122,19 @@
                         {{/if}}
                     </div>
                 </li>
+                {{else}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.slotSize"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
+                        <input name="data.slotSize" class="" type="number" value="{{data.slotSize}}">
+                        {{else}}
+                        <span class="text-flex-end">{{data.slotSize}}</span>
+                        {{/if}}
+                    </div>
+                </li>
                 {{/if}}
                 {{#if data.hasOptionalSlots}}
                 <li class="item flexrow">

@@ -18,7 +18,7 @@
     // |------------------------------------------+
     // | tabs: Role, Combat, Lifepath             |
     // +------------------------------------------+
-    // 
+    //
     // Originally we tried to just size this using auto and letting
     // the sub-elements dictate the size. The problem was that when
     // a sub-element didn't take up all of the space,
@@ -157,4 +157,10 @@
 
 .item-image-block {
     clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
+}
+
+.item-image-block-img {
+    max-width: 60px;
+    height: 60px;
+    object-fit: contain;
 }
