@@ -1,6 +1,6 @@
 # DEV WIP CHANGES
-- Added "Option Slots Size" for optional cyberware. This allows proper tracking of cyberware that can use no slots, or multiple slots. By default when first updating to this version all cyberware has an assumed slot size of 1. Please update your optional cyberware accordingly in line with the core rulebook. 
-- Added extra content to the cyberware tab to display the amount of 'used' slots for foundational cyberware. 
+- Added "Option Slots Size" for optional cyberware. This allows proper tracking of cyberware that can use no slots, or multiple slots. By default when first updating to this version all cyberware has an assumed slot size of 1. Please update your optional cyberware accordingly in line with the core rulebook.
+- Added extra content to the cyberware tab to display the amount of 'used' slots for foundational cyberware.
 - Added option to reroll duplicate critical injuries
 - Added functionality to automatically resize the character and item sheets
 - added Debug Elements setting for developers
@@ -14,6 +14,7 @@
 - fixed #189 - EMP stat on new mook sheet won't modify
 - fixed #192 - Double quotes break macros for weapon names
 - fixed #195 - 'Has Suppressive Fire' option doesn't seem to do anything
+- fixed #204 - fixed IP and Eurobucks Ledger functions to work with unlinked tokens
 
 # Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
 **Bug Fix**
