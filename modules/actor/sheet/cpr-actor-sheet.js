@@ -537,7 +537,7 @@ export default class CPRActorSheet extends ActorSheet {
     const item = this._getOwnedItem(this._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "item.data.amount") {
-      item.setAmount(event.target.value);
+      item.setItemAmount(event.target.value);
     }
     this._updateOwnedItem(item);
   }
