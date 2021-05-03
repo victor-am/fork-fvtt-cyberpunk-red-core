@@ -149,31 +149,33 @@
                                 {{/if}}
                             </a>
                         </div>
-                        {{#if (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType)}}
-                        <div class="fight-weapon-auto">
-                            {{localize "CPR.af"}}
-                        </div>
-                        <div class="fight-weapon-suppress">
-                            {{localize "CPR.sf"}}
-                        </div>
-                        <div class="fight-weapon-auto-box">
-                            <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon._id}}">
-                                {{#if (fireMode ../actor "autofire" weapon._id)}}
-                                    <i class="far fa-check-circle"></i>
-                                {{else}}
-                                    <i class="far fa-circle"></i>
-                                {{/if}}
-                            </a>
-                        </div>
-                        <div class="fight-weapon-suppress-box">
-                            <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon._id}}">
-                                {{#if (fireMode ../actor "suppressive" weapon._id)}}
-                                    <i class="far fa-check-circle"></i>
-                                {{else}}
-                                    <i class="far fa-circle"></i>
-                                {{/if}}
-                            </a>
-                        </div>
+                        {{#if weapon.data.isRanged}}
+                            {{#if (compare (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType) "||" weapon.data.fireModes.suppressiveFire)}}
+                            <div class="fight-weapon-auto">
+                                {{localize "CPR.af"}}
+                            </div>
+                            <div class="fight-weapon-suppress">
+                                {{localize "CPR.sf"}}
+                            </div>
+                            <div class="fight-weapon-auto-box">
+                                <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon._id}}">
+                                    {{#if (fireMode ../actor "autofire" weapon._id)}}
+                                        <i class="far fa-check-circle"></i>
+                                    {{else}}
+                                        <i class="far fa-circle"></i>
+                                    {{/if}}
+                                </a>
+                            </div>
+                            <div class="fight-weapon-suppress-box">
+                                <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon._id}}">
+                                    {{#if (fireMode ../actor "suppressive" weapon._id)}}
+                                        <i class="far fa-check-circle"></i>
+                                    {{else}}
+                                        <i class="far fa-circle"></i>
+                                    {{/if}}
+                                </a>
+                            </div>
+                            {{/if}}
                         {{/if}}
                     </div>
                     <div class="item-detail text-largest fight-weapon-attack text-nowrap">
