@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* globals Actor, game, getProperty, setProperty, hasProperty */
+/* globals Actor, game, getProperty, setProperty, hasProperty, duplicate */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRChat from "../chat/cpr-chat.js";
 import CPR from "../system/config.js";
@@ -392,11 +392,12 @@ export default class CPRActor extends Actor {
   clearLedger(prop) {
     LOGGER.trace("CPRActor clearLedger | called.");
     if (this.isLedgerProperty(prop)) {
-      const valProp = `${prop}.value`;
-      const ledgerProp = `${prop}.transactions`;
-      setProperty(this.data.data, valProp, 0);
-      setProperty(this.data.data, ledgerProp, []);
-      this.update(this.data);
+      const valProp = `data.${prop}.value`;
+      const ledgerProp = `data.${prop}.transactions`;
+      const actorData = duplicate(this.data);
+      setProperty(actorData, valProp, 0);
+      setProperty(actorData, ledgerProp, []);
+      this.update(actorData);
       return getProperty(this.data.data, prop);
     }
     return null;
@@ -406,18 +407,19 @@ export default class CPRActor extends Actor {
     LOGGER.trace("CPRActor setLedgerProperty | called.");
     if (this.isLedgerProperty(prop)) {
       // update "value"; it may be negative
-      const valProp = `${prop}.value`;
-      let newValue = getProperty(this.data.data, valProp);
+      const valProp = `data.${prop}.value`;
+      const actorData = duplicate(this.data);
+      let newValue = getProperty(actorData, valProp);
       newValue += value;
-      setProperty(this.data.data, valProp, newValue);
+      setProperty(actorData, valProp, newValue);
       // update the ledger with the change
-      const ledgerProp = `${prop}.transactions`;
+      const ledgerProp = `data.${prop}.transactions`;
       const action = (value > 0) ? SystemUtils.Localize("CPR.increased") : SystemUtils.Localize("CPR.decreased");
-      const ledger = getProperty(this.data.data, ledgerProp);
+      const ledger = getProperty(actorData, ledgerProp);
       ledger.push([`${prop} ${action} ${SystemUtils.Localize("CPR.to")} ${newValue}`, reason]);
-      setProperty(this.data.data, ledgerProp, ledger);
+      setProperty(actorData, ledgerProp, ledger);
       // update the actor and return the modified property
-      this.update(this.data, {});
+      this.update(actorData);
       return getProperty(this.data.data, prop);
     }
     return null;
@@ -426,13 +428,14 @@ export default class CPRActor extends Actor {
   setLedgerProperty(prop, value, reason) {
     LOGGER.trace("CPRActor setLedgerProperty | called.");
     if (this.isLedgerProperty(prop)) {
-      const valProp = `${prop}.value`;
-      const ledgerProp = `${prop}.transactions`;
-      setProperty(this.data.data, valProp, value);
-      const ledger = getProperty(this.data.data, ledgerProp);
+      const valProp = `data.${prop}.value`;
+      const ledgerProp = `data.${prop}.transactions`;
+      const actorData = duplicate(this.data);
+      setProperty(actorData, valProp, value);
+      const ledger = getProperty(actorData, ledgerProp);
       ledger.push([`${prop} ${SystemUtils.Localize("CPR.setto")} ${value}`, reason]);
-      setProperty(this.data.data, ledgerProp, ledger);
-      this.update(this.data, {});
+      setProperty(actorData, ledgerProp, ledger);
+      this.update(actorData);
       return getProperty(this.data.data, prop);
     }
     return null;
