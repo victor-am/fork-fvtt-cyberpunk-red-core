@@ -42,7 +42,7 @@
         },
 
         "externalData": {
-          "currentArmor": {
+          "currentArmorBody": {
             "id": "",
             "value": 0,
             "max": 0

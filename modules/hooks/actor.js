@@ -18,27 +18,29 @@ const actorHooks = () => {
     if (updatedData.data.externalData) {
       Object.entries(updatedData.data.externalData).forEach(
         ([itemType, itemData]) => {
-          console.log(itemType, itemData);
-          const itemId = actor.data.data.externalData[itemType].id;
-          const item = actor._getOwnedItem(itemId);
-          const currentValue = updatedData.data.externalData[itemType].value;
-          if (item) {
-            switch (item.data.type) {
-              case "armor": {
-                if (itemType === "currentArmor") {
-                  item.data.data.bodyLocation.ablation = item.data.data.bodyLocation.sp - currentValue;
+          if (!updatedData.data.externalData[itemType].id) {
+            console.log(itemType, itemData);
+            const itemId = actor.data.data.externalData[itemType].id;
+            const item = actor._getOwnedItem(itemId);
+            const currentValue = updatedData.data.externalData[itemType].value;
+            if (item) {
+              switch (item.data.type) {
+                case "armor": {
+                  if (itemType === "currentArmorBody") {
+                    item.data.data.bodyLocation.ablation = item.data.data.bodyLocation.sp - currentValue;
+                  }
+                  if (itemType === "currentArmorHead") {
+                    item.data.data.headLocation.ablation = item.data.data.headLocation.sp - currentValue;
+                  }
+                  if (itemType === "currentArmorShield") {
+                    item.data.data.shieldHitPoints.value = currentValue;
+                  }
+                  break;
                 }
-                if (itemType === "currentArmorHead") {
-                  item.data.data.headLocation.ablation = item.data.data.headLocation.sp - currentValue;
-                }
-                if (itemType === "currentArmorShield") {
-                  item.data.data.shieldHitPoints.value = currentValue;
-                }
-                break;
+                default:
               }
-              default:
+              actor.updateEmbeddedEntity("OwnedItem", item.data);
             }
-            actor.updateEmbeddedEntity("OwnedItem", item.data);
           }
         },
       );

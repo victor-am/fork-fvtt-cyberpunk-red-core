@@ -51,8 +51,8 @@
                             {{/if}}
                             /{{armor.data.headLocation.sp}}
                             <a class="ablate" data-location="head"><i
-                                    class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a> {{#if (compare armor._id "===" ../actor.data.externalData.currentArmorHead.id)}}<i
-                                    class="fas fa-star" title="Current Head Armor"></i>{{else}}<a class="armor-current" data-location="head" data-item-id="{{armor._id}}"><i
+                                    class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a> {{#if (compare armor._id "===" ../actor.data.externalData.currentArmorHead.id)}}<a class="armor-current" data-location="head" data-item-id="{{armor._id}}">
+                                    <i class="fas fa-star" title="Resync Head Armor"></i></a>{{else}}<a class="armor-current" data-location="head" data-item-id="{{armor._id}}"><i
                                     class="far fa-star" title="Make Head Armor Current"></i></a>{{/if}}
                         </div>
                     </li>
@@ -70,8 +70,8 @@
                             {{/if}}
                             /{{armor.data.bodyLocation.sp}}
                                                         <a class="ablate" data-location="body"><i
-                                    class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a> {{#if (compare armor._id "===" ../actor.data.externalData.currentArmor.id)}}<i
-                                    class="fas fa-star" title="Current Body Armor"></i>{{else}}<a class="armor-current" data-location="body" data-item-id="{{armor._id}}"><i
+                                    class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a> {{#if (compare armor._id "===" ../actor.data.externalData.currentArmorBody.id)}}<a class="armor-current" data-location="body" data-item-id="{{armor._id}}">
+                                    <i class="fas fa-star" title="Resync Body Armor"></i></a>{{else}}<a class="armor-current" data-location="body" data-item-id="{{armor._id}}"><i
                                     class="far fa-star" title="Make Body Armor Current"></i></a>{{/if}}
 
                         </div>
@@ -90,8 +90,8 @@
                             {{/if}}
                             /{{armor.data.shieldHitPoints.max}}
                                                         <a class="ablate" data-location="shield"><i
-                                    class="far fa-arrow-alt-circle-down" title="Damage Shield"></i></a> {{#if (compare armor._id "===" ../actor.data.externalData.currentArmorShield.id)}}<i
-                                    class="fas fa-star" title="Current Shield"></i>{{else}}<a class="armor-current" data-location="shield" data-item-id="{{armor._id}}"><i
+                                    class="far fa-arrow-alt-circle-down" title="Damage Shield"></i></a> {{#if (compare armor._id "===" ../actor.data.externalData.currentArmorShield.id)}}<a class="armor-current" data-location="shield" data-item-id="{{armor._id}}">
+                                    <i class="fas fa-star" title="Resync Shield"></i></a>{{else}}<a class="armor-current" data-location="shield" data-item-id="{{armor._id}}"><i
                                     class="far fa-star" title="Make Shield Current"></i></a>{{/if}}
                         </div>
                     </li>

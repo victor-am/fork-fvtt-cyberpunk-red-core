@@ -324,9 +324,9 @@ export default class CPRActorSheet extends ActorSheet {
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.shieldHitPoints.value", item.data.data.shieldHitPoints.max);
     // Update actor external data when armor is repaired:
-    if (this._getItemId(event) === this.actor.data.data.externalData.currentArmor.id) {
+    if (this._getItemId(event) === this.actor.data.data.externalData.currentArmorBody.id) {
       this.actor.update({
-        "data.externalData.currentArmor.value": currentArmorBodyValue,
+        "data.externalData.currentArmorBody.value": currentArmorBodyValue,
       });
     }
     if (this._getItemId(event) === this.actor.data.data.externalData.currentArmorHead.id) {
@@ -372,8 +372,8 @@ export default class CPRActorSheet extends ActorSheet {
         });
         await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
         // Update actor external data as body armor is ablated:
-        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmor.value - 1), 0);
-        this.actor.update({ "data.externalData.currentArmor.value": currentArmorValue });
+        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorBody.value - 1), 0);
+        this.actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
         break;
       }
       case "shield": {

@@ -556,9 +556,9 @@ export default class CPRActor extends Actor {
       const currentArmorValue = currentArmor.data.data.bodyLocation.sp - currentArmor.data.data.bodyLocation.ablation;
       const currentArmorMax = currentArmor.data.data.bodyLocation.sp;
       return this.update({
-        "data.externalData.currentArmor.value": currentArmorValue,
-        "data.externalData.currentArmor.max": currentArmorMax,
-        "data.externalData.currentArmor.id": id,
+        "data.externalData.currentArmorBody.value": currentArmorValue,
+        "data.externalData.currentArmorBody.max": currentArmorMax,
+        "data.externalData.currentArmorBody.id": id,
       });
     }
     if (location === "head") {
