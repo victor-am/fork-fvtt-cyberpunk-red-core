@@ -10,7 +10,7 @@ const tokenHooks = () => {
     if ("actorData" in updatedData && "data" in updatedData.actorData && "roleInfo" in updatedData.actorData.data) {
       Rules.lawyer(Rules.validRole(game.actors.get(token.actorId), updatedData.actorData), "CPR.invalidroledata");
     }
-    if (updatedData.actorData.data && updatedData.actorData.data.externalData) {
+    if (updatedData.actorData && updatedData.actorData.data && updatedData.actorData.data.externalData) {
       Object.entries(updatedData.actorData.data.externalData).forEach(
         ([itemType, itemData]) => {
           if (!updatedData.actorData.data.externalData[itemType].id) {
