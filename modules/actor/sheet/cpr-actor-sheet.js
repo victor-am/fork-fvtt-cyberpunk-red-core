@@ -1,4 +1,4 @@
-/* global ActorSheet, mergeObject, $, setProperty game getProperty */
+/* global ActorSheet, mergeObject, $, setProperty, game, getProperty, hasProperty, duplicate */
 /* eslint class-methods-use-this: ["warn", {
   "exceptMethods": ["_handleRollDialog", "_getHands", "_getItemId", "_getObjProp"]
 }] */
@@ -494,10 +494,16 @@ export default class CPRActorSheet extends ActorSheet {
     const ability = $(event.currentTarget).attr("data-ability-name");
     const subskill = $(event.currentTarget).attr("data-subskill-name");
     const value = parseInt(event.target.value, 10);
-    if (subskill) {
-      this.actor.data.data.roleInfo.roleskills[role].subSkills[subskill] = value;
-    } else {
-      this.actor.data.data.roleInfo.roleskills[role][ability] = value;
+    const actorData = duplicate(this.actor.data);
+    if (hasProperty(actorData, "data.roleInfo")) {
+      const prop = getProperty(actorData, "data.roleInfo");
+      if (subskill) {
+        prop.roleskills[role].subSkills[subskill] = value;
+      } else {
+        prop.roleskills[role][ability] = value;
+      }
+      setProperty(actorData, "data.roleInfo", prop);
+      this.actor.update(actorData);
     }
   }
 
