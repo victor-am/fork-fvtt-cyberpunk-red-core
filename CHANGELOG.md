@@ -1,3 +1,6 @@
+# Version: 0.74.2 (Hot Fix) |  Date:  2021-05-02
+**Bug Fix**
+- Role ability settings were lost when changing other data on the sheet. [issue #203](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues/203)
 # Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
 **Bug Fix**
 - Macros were not working due to a change in the way rolls were handled.
