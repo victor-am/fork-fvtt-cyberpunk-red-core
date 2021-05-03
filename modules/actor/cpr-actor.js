@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* globals Actor, game, getProperty, setProperty, hasProperty, randomID */
+/* globals Actor, game, getProperty, setProperty, hasProperty */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRChat from "../chat/cpr-chat.js";
 import CPR from "../system/config.js";
@@ -10,7 +10,12 @@ import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
- * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
+ * Extend the base Actor entity. Foundry only supports 1 Actor class that gets associated with
+ * different sheets. If we need need different classes, there are examples to work around this
+ * design limitation:
+ *   - Burning Wheel uses a proxy class to intiate the class they want
+ *   - PF2 instaniates a custom class in the constructor
+ * This may become relevant when we implement "container" actors, programs, and demons.
  * @extends {Actor}
  */
 export default class CPRActor extends Actor {
@@ -18,18 +23,13 @@ export default class CPRActor extends Actor {
   prepareData() {
     LOGGER.trace("prepareData | CPRActor | Called.");
     super.prepareData();
-
-    const actorData = this.data;
-    actorData.filteredItems = this.itemTypes;
-
-    // Prepare data for both types
     if (this.compendium === null) {
       // It looks like prepareData() is called for any actors/npc's that exist in
       // the game and the clients can't update them.  Everyone should only calculate
       // their own derived stats, or the GM should be able to calculate the derived
       // stat
       if (this.owner || game.user.isGM) {
-        this._calculateDerivedStats(actorData);
+        this._calculateDerivedStats();
       }
     }
   }
@@ -71,9 +71,11 @@ export default class CPRActor extends Actor {
     return super.createEmbeddedEntity(embeddedName, itemData, options);
   }
 
-  _calculateDerivedStats(actorData) {
+  _calculateDerivedStats() {
     // Calculate MAX HP
     LOGGER.trace("_calculateDerivedStats | CPRActor | Called.");
+    const actorData = this.data;
+    actorData.filteredItems = this.itemTypes;
 
     const { stats } = actorData.data;
     const { derivedStats } = actorData.data;
@@ -81,8 +83,7 @@ export default class CPRActor extends Actor {
 
     // After the initial config of the game, a GM may want to disable the auto-calculation
     // of stats for Mooks & Players for custom homebrew rules
-
-    if (setting) {
+    if (setting && actorData.type === "character") {
       // Set max HP
       derivedStats.hp.max = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
 
@@ -127,6 +128,19 @@ export default class CPRActor extends Actor {
         basePenalty += 1;
       }
     });
+    // In 0.73.2 we moved all of the Death Save data into the single data point of
+    // derivedStats.deathSave.basePenalty, however, it causes a chicken/egg situation
+    // since it loads the data up before it migrates, triggering this code to run which
+    // errors out and ultimately messing the migration up. Yay. We should be able to
+    // remove this code after a release or two
+    if ((typeof derivedStats.deathSave) === "number") {
+      const oldPenalty = derivedStats.deathSave;
+      derivedStats.deathSave = {
+        value: 0,
+        penalty: oldPenalty,
+        basePenalty,
+      };
+    }
     derivedStats.deathSave.basePenalty = basePenalty;
     derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
     this.data.data.derivedStats = derivedStats;
@@ -227,8 +241,9 @@ export default class CPRActor extends Actor {
     LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
     foundationalCyberware.data.data.optionalIds.push(tmpItem.data._id);
+    foundationalCyberware.data.data.installedOptionSlots += tmpItem.data.data.slotSize;
     tmpItem.data.data.isInstalled = true;
-    const usedSlots = foundationalCyberware.getData().optionalIds.length;
+    const usedSlots = foundationalCyberware.getData().installedOptionSlots;
     const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
     Rules.lawyer((usedSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
     return this.updateEmbeddedEntity("OwnedItem", [tmpItem.data, foundationalCyberware.data]);
@@ -254,6 +269,7 @@ export default class CPRActor extends Actor {
   _removeOptionalCyberware(item, foundationalId) {
     LOGGER.trace("ActorID _removeOptionalCyberware | CPRActorSheet | Called.");
     const foundationalCyberware = this._getOwnedItem(foundationalId);
+    foundationalCyberware.data.data.installedOptionSlots -= item.data.data.slotSize;
     foundationalCyberware.getData().optionalIds = foundationalCyberware.getData().optionalIds.filter(
       (optionId) => optionId !== item.data._id,
     );
@@ -283,7 +299,7 @@ export default class CPRActor extends Actor {
       LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was None.");
       return;
     }
-    const { humanity } = this.data.data;
+    const { humanity } = this.data.data.derivedStats;
     let value = Number.isInteger(humanity.value) ? humanity.value : humanity.max;
     if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
       const humRoll = new CPRRolls.CPRHumanityLossRoll(item.data.name, amount.humanityLoss);
@@ -328,6 +344,10 @@ export default class CPRActor extends Actor {
   }
 
   setLifepath(formData) {
+    return this.update(formData);
+  }
+
+  setMookName(formData) {
     return this.update(formData);
   }
 

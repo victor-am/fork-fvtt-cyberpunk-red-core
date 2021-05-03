@@ -3,13 +3,17 @@
   <div class="item-top-pane">
     <div class="item-image-section">
       <div class="item-image-block">
-        <img src="{{item.img}}" class="" data-edit="img" />
+        <img src="{{item.img}}" class="item-image-block-img" data-edit="img" />
       </div>
     </div>
     <div class="item-header-section items-list flexcol">
       <li class="item flexrow">
-        <div class="item-name text-large text-bold text-left text-padding-left">{{item.name}}</div>
-        <div class="item-detail text-right text-padding-right">{{localize (findConfigValue "objectTypes" item.type)}}
+        <div class="item-name text-large text-bold text-left text-padding-left">
+          {{item.name}}
+        </div>
+        <div class="item-detail text-right text-padding-right">
+           {{#if (isDebug)}}({{item._id}}){{/if}}
+          {{localize (findConfigValue "objectTypes" item.type)}}
         </div>
         {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/header/cpr-VAR.hbs" item.type) this}}
       </li>

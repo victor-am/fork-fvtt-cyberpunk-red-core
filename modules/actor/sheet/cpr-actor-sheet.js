@@ -1,4 +1,4 @@
-/* global ActorSheet, mergeObject, $, setProperty game */
+/* global ActorSheet, mergeObject, $, setProperty, game, getProperty, hasProperty, duplicate */
 /* eslint class-methods-use-this: ["warn", {
   "exceptMethods": ["_handleRollDialog", "_getHands", "_getItemId", "_getObjProp"]
 }] */
@@ -12,33 +12,23 @@ import Rules from "../../utils/cpr-rules.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
-import VerifyRoll from "../../dialog/cpr-verify-roll-prompt.js";
 
 /**
  * Extend the basic ActorSheet.
  * @extends {ActorSheet}
  */
 export default class CPRActorSheet extends ActorSheet {
-  constructor(actor, options) {
-    super(actor, options);
-
-    // Moved this to the constructor since this only needs to be set on the Sheet Object
-    // The first time it is created.  The contents are then loaded from the User Settings
-    // if they exist.
-    this.options.collapsedSections = [];
-    const collapsedSections = SystemUtils.GetUserSetting("sheetConfig", "sheetCollapsedSections", this.id);
-    if (collapsedSections) {
-      this.options.collapsedSections = collapsedSections;
-    }
-  }
-
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
+    const defaultWidth = 800;
+    const defaultHeight = 590;
     return mergeObject(super.defaultOptions, {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
-      width: 800,
-      height: 590,
+      defaultWidth,
+      defaultHeight,
+      width: defaultWidth,
+      height: defaultHeight,
       scrollY: [".right-content-section"],
     });
   }
@@ -46,6 +36,11 @@ export default class CPRActorSheet extends ActorSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
+    if (this.position.width === this.options.defaultWidth && this.position.height === this.options.defaultHeight) {
+      // Only resize the sheet with default size, as render option is called on several differnt update events
+      // Should one still desire resizing the sheet afterwards, please call _automaticResize explicitly.
+      this._automaticResize();
+    }
   }
 
   /* -------------------------------------------- */
@@ -205,11 +200,16 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
 
+    html.find(".ability-input").click((event) => event.target.select()).change((event) => this._updateRoleAbility(event));
+
     html.find(".eurobucks-input").click((event) => event.target.select()).change(
       (event) => this._updateEurobucks(event),
     );
 
     html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
+
+    // Sheet resizing
+    html.find(".tab-label:not(.skills-tab):not(.gear-tab):not(.cyberware-tab)").click((event) => this._automaticResize());
 
     super.activateListeners(html);
   }
@@ -236,14 +236,14 @@ export default class CPRActorSheet extends ActorSheet {
       case CPRRolls.rollTypes.SKILL: {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
-        cprRoll = item.createRoll(rollType, this.actor._id);
+        cprRoll = item.createRoll(rollType, this.actor);
         break;
       }
       case CPRRolls.rollTypes.DAMAGE: {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
         rollType = this._getFireCheckbox(event);
-        cprRoll = item.createDamageRoll(rollType, this.actor._id);
+        cprRoll = item.createDamageRoll(rollType);
         if (rollType === CPRRolls.rollTypes.AIMED) {
           cprRoll.location = this.actor.getFlag("cyberpunk-red-core", "aimedLocation") || "body";
         }
@@ -253,7 +253,7 @@ export default class CPRActorSheet extends ActorSheet {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
         rollType = this._getFireCheckbox(event);
-        cprRoll = item.createAttackRoll(rollType, this.actor._id);
+        cprRoll = item.createAttackRoll(rollType, this.actor);
         break;
       }
       default:
@@ -385,6 +385,7 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
     }
+    this._automaticResize();
   }
 
   async _installRemoveCyberwareAction(event) {
@@ -502,6 +503,25 @@ export default class CPRActorSheet extends ActorSheet {
     this._updateOwnedItem(item);
   }
 
+  _updateRoleAbility(event) {
+    LOGGER.trace("ActorID _updateSkill | CPRActorSheet | Called.");
+    const role = $(event.currentTarget).attr("data-role-name");
+    const ability = $(event.currentTarget).attr("data-ability-name");
+    const subskill = $(event.currentTarget).attr("data-subskill-name");
+    const value = parseInt(event.target.value, 10);
+    const actorData = duplicate(this.actor.data);
+    if (hasProperty(actorData, "data.roleInfo")) {
+      const prop = getProperty(actorData, "data.roleInfo");
+      if (subskill) {
+        prop.roleskills[role].subSkills[subskill] = value;
+      } else {
+        prop.roleskills[role][ability] = value;
+      }
+      setProperty(actorData, "data.roleInfo", prop);
+      this.actor.update(actorData);
+    }
+  }
+
   _updateWeaponAmmo(event) {
     LOGGER.trace("ActorID _updateCurrentWeaponAmmo | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
@@ -567,7 +587,11 @@ export default class CPRActorSheet extends ActorSheet {
 
   _getItemId(event) {
     LOGGER.trace("ActorID _getItemId | CPRActorSheet | Called.");
-    const id = $(event.currentTarget).parents(".item").attr("data-item-id");
+    let id = $(event.currentTarget).parents(".item").attr("data-item-id");
+    if (typeof id === "undefined") {
+      LOGGER.debug("Could not find itemId in parent elements, trying currentTarget");
+      id = $(event.currentTarget).attr("data-item-id");
+    }
     return id;
   }
 
@@ -615,13 +639,18 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _fireCheckboxToggle(event) {
-    LOGGER.trace("CPRItemID _fireheckboxToggle Called | CPRItemSheet | Called.");
+    LOGGER.trace("_fireCheckboxToggle Called | CPRActorSheet | Called.");
     const weaponID = $(event.currentTarget).attr("data-item-id");
-    const target = $(event.currentTarget).attr("data-target");
-    if ($(`#${target}-${weaponID}`).is(":checked")) {
-      this.actor.setFlag("cyberpunk-red-core", `firetype-${weaponID}`, target);
-    } else {
+    const firemode = $(event.currentTarget).attr("data-fire-mode");
+    const flag = getProperty(this.actor.data, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    LOGGER.debug(`firemode is ${firemode}`);
+    LOGGER.debug(`weaponID is ${weaponID}`);
+    LOGGER.debug(`flag is ${flag}`);
+    if (flag === firemode) {
+      // if the flag was already set to firemode, that means we unchecked a box
       this.actor.unsetFlag("cyberpunk-red-core", `firetype-${weaponID}`);
+    } else {
+      this.actor.setFlag("cyberpunk-red-core", `firetype-${weaponID}`, firemode);
     }
   }
 
@@ -684,19 +713,76 @@ export default class CPRActorSheet extends ActorSheet {
   async _rollCriticalInjury() {
     const tableName = await this._setCriticalInjuryTable();
     const table = game.tables.entities.find((t) => t.name === tableName);
-    table.draw()
-      .then((res) => {
+    this._drawCriticalInjuryTable(tableName, table, 0);
+    this._automaticResize();
+  }
+
+  async _drawCriticalInjuryTable(tableName, table, iteration) {
+    if (iteration > 100) { // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6), otherwise lower chance
+      // count number of critical injuries of the type given in the table on the target
+      const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === table.data.results[0].text)));
+      // eslint-disable-next-line no-undef
+      if (!crit) {
+        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
+        return;
+      }
+      const critType = crit.data.data.location;
+      let numberCritInjurySameType = 0;
+      this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.data.location === critType) { numberCritInjurySameType += 1; } });
+      if (table.data.results.length <= numberCritInjurySameType) {
+        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
+        return;
+      }
+      if (iteration > 1000) { // Techincally possible to reach even if a critical injury is still missing (chance: 6*10e-11 %), though unlikely.
+        SystemUtils.DisplayMessage("error", (game.i18n.localize("CPR.criticalinjuryduplicateloopwarning")));
+        return; // Prevent endless loop in case of mixed (head and body) Critical Injury tables or unreachable elements in the rolltable.
+      }
+    }
+    table.draw({ displayChat: false })
+      .then(async (res) => {
         if (res.results.length > 0) {
+          // Check if the critical Injury already exists on the character
+          let injuryAlreadyExists = false;
+          this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.name === res.results[0].text) { injuryAlreadyExists = true; } });
+          if (injuryAlreadyExists) {
+            const setting = game.settings.get("cyberpunk-red-core", "preventDuplicateCriticalInjuries");
+            if (setting === "reroll") {
+              await this._drawCriticalInjuryTable(tableName, table, iteration + 1);
+              return;
+            }
+            if (setting === "warn") {
+              SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicatewarning")));
+            }
+          }
           const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
-          const itemData = {
-            name: crit.name,
-            type: crit.type,
-            img: crit.img,
-            data: crit.data.data,
-          };
-          this.actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+          // eslint-disable-next-line no-undef
+          if (!crit) {
+            SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
+            return;
+          }
+          // eslint-disable-next-line no-undef
+          const itemData = duplicate(crit.data);
+          const result = await this.actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+          const cprRoll = new CPRRolls.CPRTableRoll(crit.data.name, res.roll, "systems/cyberpunk-red-core/templates/chat/cpr-critical-injury-rollcard.hbs");
+          cprRoll.rollCardExtraArgs.tableName = tableName;
+          cprRoll.rollCardExtraArgs.itemName = result.name;
+          cprRoll.rollCardExtraArgs.itemImg = result.img;
+          cprRoll.entityData = { actor: this.actor._id, token: this.token.id, item: result._id };
+          CPRChat.RenderRollCard(cprRoll);
         }
       });
+  }
+
+  _automaticResize() {
+    LOGGER.trace("ActorSheet | _automaticResize | Called.");
+    const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
+    if (setting) {
+      // It seems that the size of the content does not change immediately upon updating the content
+      setTimeout(() => {
+        this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
+        this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 }); // 30px for the header and 8px top margin 8px bottom margin
+      }, 10);
+    }
   }
 
   /* Ledger methods */

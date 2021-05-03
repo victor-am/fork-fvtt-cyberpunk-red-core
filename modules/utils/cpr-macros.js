@@ -14,13 +14,11 @@ export default class CPRMacro {
     const displayName = actor === null ? "ERROR" : actor.name;
     if (!item) return ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macroitemmissing")} ${itemName}`);
 
+    const validRollTypes = ["skill", "attack", "damage", "aimed", "autofire", "suppressive"];
     let rollType;
     switch (item.data.type) {
       case "weapon": {
-        rollType = extraData.rollType === "attack" ? "attack" : "damage";
-        if (item.data.data.isRanged) {
-          rollType = extraData.rollType;
-        }
+        rollType = extraData.rollType;
         break;
       }
       case "skill": {
@@ -29,10 +27,24 @@ export default class CPRMacro {
       }
       default:
     }
-    let cprRoll = item.createRoll(rollType, actor._id, extraData);
+
+    if (!validRollTypes.includes(rollType)) {
+      return ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macroinvalidrolltype")} ${rollType}`);
+    }
+
+    if (rollType === "damage") {
+      extraData.damageType = actor.getFlag("cyberpunk-red-core", `firetype-${item.data._id}`);
+    }
+
+    let cprRoll = item.createRoll(rollType, actor, extraData);
     const event = {};
     event.ctrlKey = false;
     event.type = "macro";
+
+    const fireModes = ["aimed", "autofire", "suppressive"];
+    if (fireModes.includes(rollType)) {
+      actor.setFlag("cyberpunk-red-core", `firetype-${item.data._id}`, rollType);
+    }
 
     if (!extraData.skipPrompt) {
       await cprRoll.handleRollDialog(event);
@@ -41,6 +53,8 @@ export default class CPRMacro {
     cprRoll = await item.confirmRoll(cprRoll);
     await cprRoll.roll();
     cprRoll.entityData = speaker;
+    cprRoll.entityData.item = item._id;
+
     CPRChat.RenderRollCard(cprRoll);
 
     // Need to figure out what we did here since this is gone??

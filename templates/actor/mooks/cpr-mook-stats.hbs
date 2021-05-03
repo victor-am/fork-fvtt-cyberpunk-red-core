@@ -1,0 +1,19 @@
+{{trace "CPR-MOOK-STATS.HBS"}}
+{{!-- Partials to create stat-units from template --}}
+{{#each data.stats as |stat s|}}
+  <div class="mook-{{s}}-stat">
+    <div>
+      <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}" title="{{localize CPR.clicktorollthisstat}}">
+        {{localize (findConfigValue "statList" s)}}
+      </a>
+    </div>
+    <div class="block-data text-large">
+      {{#if (compare s "!==" "luck")}}
+      <input class="" name="data.stats.{{s}}.value" type="number" value="{{this.value}}"/>
+      {{else}}
+      <input class="" name="dash" type="text" readonly value="-"/>
+      {{/if}}
+    </div>
+  </div>
+{{/each}}
+{{trace "END CPR-MOOK-STATS.HBS"}}

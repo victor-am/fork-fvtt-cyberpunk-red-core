@@ -274,11 +274,15 @@ export class CPRDamageRoll extends CPRRoll {
     // indicate whether this is an autofire roll. Used when considering the +5 damage in crits
     this.isAutofire = false;
     // multiple damage by this amount
-    this.autofireMultiplier = 1;
+    this.autofireMultiplier = 0;
+    // multiplier max
+    this.autofireMultiplierMax = 0;
   }
 
   _computeBase() {
-    return (this.initialRoll + this.totalMods()) * this.autofireMultiplier;
+    this.autofireMultiplier = Math.min(this.autofireMultiplier, this.autofireMultiplierMax);
+    const damageMultiplier = (this.isAutofire) ? this.autofireMultiplier : 1;
+    return (this.initialRoll + this.totalMods()) * damageMultiplier;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -303,6 +307,28 @@ export class CPRDamageRoll extends CPRRoll {
     this.isAutofire = true;
     this.formula = "2d6";
     this.mods = [];
+  }
+
+  configureAutofire(autofireMultiplier, autofireMultiplierMax = 0) {
+    this.autofireMultiplier = autofireMultiplier;
+    if (autofireMultiplierMax > this.autofireMultiplierMax) {
+      this.autofireMultiplierMax = autofireMultiplierMax;
+    }
+  }
+}
+
+export class CPRTableRoll extends CPRRoll {
+  constructor(rollTitle, tableRoll, rollCard) {
+    // This is just to create a CPR Roll Object from an already rolled RollTable
+    const formula = tableRoll._formula;
+    super(rollTitle, formula);
+    LOGGER.trace(`CPRTableRoll | Constructor`);
+    this.rollCard = rollCard;
+    (tableRoll.terms[0].results).forEach((die) => {
+      this.faces.push(die.result);
+    });
+    // eslint-disable-next-line prefer-destructuring
+    this.resultTotal = tableRoll.results[0];
   }
 }
 

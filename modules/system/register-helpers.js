@@ -271,6 +271,20 @@ export default function registerHandlebarsHelpers() {
     return -1; // return a clear bug but not a broken behavior
   });
 
+  Handlebars.registerHelper("fireMode", (actor, firemode, weaponID) => {
+    LOGGER.trace("Calling fireMode Helper");
+    LOGGER.debug(`firemode is ${firemode}`);
+    LOGGER.debug(`weaponID is ${weaponID}`);
+    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    LOGGER.debugObject(flag);
+    if (flag === firemode) {
+      LOGGER.debug("returning true");
+      return true;
+    }
+    LOGGER.debug("returning false");
+    return false;
+  });
+
   Handlebars.registerHelper("fireflag", (actor, firetype, weaponID) => {
     LOGGER.trace("Calling fireflag Helper");
     const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
@@ -295,6 +309,11 @@ export default function registerHandlebarsHelpers() {
       return cprDot + parenCaseSplit.toLowerCase();
     }
     return cprDot + andCaseSplit.toLowerCase();
+  });
+
+  Handlebars.registerHelper("isDebug", () => {
+    LOGGER.trace("Calling isDebug Helper");
+    return game.settings.get("cyberpunk-red-core", "debugElements");
   });
 
   Handlebars.registerHelper("debug", (msg) => {

@@ -109,7 +109,7 @@
                 {{#if (compare weapon.data.equipped "===" "equipped")}}
                 <li class="weapon-grid item flexrow" data-item-id="{{weapon._id}}">
                     <div class="fight-weapon-icon">
-                        <img src="{{img}}"/>
+                        <img class="fight-weapon-icon-img" src="{{img}}"/>
                     </div>
                     <div class="fight-weapon">
                         <div class="item-name fight-weapon-name">
@@ -136,24 +136,41 @@
                             {{localize "CPR.aim"}}
                         </div>
                         <div class="fight-weapon-aim-box">
-                            <input class="fire-checkbox" type="checkbox" {{fireflag ../actor "aimed" weapon._id}} id="aimed-{{weapon._id}}"
-                                data-target="aimed" data-item-id={{weapon._id}}>
+                            <a class="fire-checkbox" data-fire-mode="aimed" data-item-id="{{weapon._id}}">
+                                {{#if (fireMode ../actor "aimed" weapon._id)}}
+                                    <i class="far fa-check-circle"></i>
+                                {{else}}
+                                    <i class="far fa-circle"></i>
+                                {{/if}}
+                            </a>
                         </div>
-                        {{#if (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType)}}
-                        <div class="fight-weapon-auto">
-                            {{localize "CPR.af"}}
-                        </div>
-                        <div class="fight-weapon-suppress">
-                            {{localize "CPR.sf"}}
-                        </div>
-                        <div class="fight-weapon-auto-box">
-                            <input class="fire-checkbox" type="checkbox" {{fireflag ../actor "autofire" weapon._id}} id="autofire-{{weapon._id}}"
-                                data-target="autofire" data-item-id={{weapon._id}}>
-                        </div>
-                        <div class="fight-weapon-suppress-box">
-                            <input class="fire-checkbox" type="checkbox" {{fireflag ../actor "suppressive" weapon._id}} id="suppressive-{{weapon._id}}"
-                                data-target="suppressive" data-item-id={{weapon._id}}>
-                        </div>
+                        {{#if weapon.data.isRanged}}
+                            {{#if (compare (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType) "||" weapon.data.fireModes.suppressiveFire)}}
+                            <div class="fight-weapon-auto">
+                                {{localize "CPR.af"}}
+                            </div>
+                            <div class="fight-weapon-suppress">
+                                {{localize "CPR.sf"}}
+                            </div>
+                            <div class="fight-weapon-auto-box">
+                                <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon._id}}">
+                                    {{#if (fireMode ../actor "autofire" weapon._id)}}
+                                        <i class="far fa-check-circle"></i>
+                                    {{else}}
+                                        <i class="far fa-circle"></i>
+                                    {{/if}}
+                                </a>
+                            </div>
+                            <div class="fight-weapon-suppress-box">
+                                <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon._id}}">
+                                    {{#if (fireMode ../actor "suppressive" weapon._id)}}
+                                        <i class="far fa-check-circle"></i>
+                                    {{else}}
+                                        <i class="far fa-circle"></i>
+                                    {{/if}}
+                                </a>
+                            </div>
+                            {{/if}}
                         {{/if}}
                     </div>
                     <div class="item-detail text-largest fight-weapon-attack text-nowrap">

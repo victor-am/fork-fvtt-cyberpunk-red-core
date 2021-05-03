@@ -307,6 +307,18 @@ export default class CPRItem extends Item {
     return (this.data.data.magazine.value - CPRItem.bulletConsumption(cprRoll)) >= 0;
   }
 
+  setWeaponAmmo(value) {
+    LOGGER.debug("setWeaponAmmo | CPRItem | Called.");
+    const maxAmmo = this.getData().magazine.max;
+    if (this.type === "weapon") {
+      if (value.charAt(0) === "+" || value.charAt(0) === "-") {
+        this.getData().magazine.value = Math.clamped(0, this.getData().magazine.value + parseInt(value, 10), maxAmmo);
+      } else {
+        this.getData().magazine.value = Math.clamped(0, value, maxAmmo);
+      }
+    }
+  }
+
   // Returns true if weapon fired, otherwise returns false.
   fireRangedWeapon(cprRoll) {
     LOGGER.trace("fireRangedWeapon | CPRItem | Called.");
@@ -331,28 +343,28 @@ export default class CPRItem extends Item {
     this.data.data.favorite = !this.data.data.favorite;
   }
 
-  createRoll(type, actorId) {
+  createRoll(type, actor, extraData = []) {
     LOGGER.trace("createRoll | CPRItem | Called.");
     switch (type) {
       case CPRRolls.rollTypes.SKILL: {
-        return this._createSkillRoll(actorId);
+        return this._createSkillRoll(actor);
       }
       case CPRRolls.rollTypes.SUPPRESSIVE:
       case CPRRolls.rollTypes.AUTOFIRE:
       case CPRRolls.rollTypes.AIMED:
       case CPRRolls.rollTypes.ATTACK: {
-        return this.createAttackRoll(type, actorId);
+        return this.createAttackRoll(type, actor);
       }
       case CPRRolls.rollTypes.DAMAGE: {
-        return this.createDamageRoll(type);
+        const damageType = extraData.damageType ? extraData.damageType : type;
+        return this.createDamageRoll(damageType);
       }
       default:
     }
   }
 
-  _createSkillRoll(actorId) {
+  _createSkillRoll(actor) {
     LOGGER.trace("_createSkillRoll | CPRItem | Called.");
-    const actor = (game.actors.filter((a) => a._id === actorId))[0];
     const itemData = this.data.data;
     const statName = itemData.stat;
     const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
@@ -366,9 +378,8 @@ export default class CPRItem extends Item {
     return cprRoll;
   }
 
-  createAttackRoll(type, actorId) {
+  createAttackRoll(type, actor) {
     LOGGER.trace("_createAttackRoll | CPRItem | Called.");
-    const actor = (game.actors.filter((a) => a._id === actorId))[0];
     const weaponData = this.data.data;
     const weaponName = this.name;
     const { weaponType } = weaponData;
@@ -376,8 +387,10 @@ export default class CPRItem extends Item {
 
     if (type === CPRRolls.rollTypes.SUPPRESSIVE || type === CPRRolls.rollTypes.AUTOFIRE) {
       skillItem = actor.items.find((i) => i.name === "Autofire");
-      if (this.data.data.weaponType !== "smg" && this.data.data.weaponType !== "heavySmg" && this.data.data.weaponType !== "assaultRifle") {
-        Rules.lawyer(false, "CPR.weapondoesntsupportaltmode");
+      if (!this.data.data.fireModes.suppressiveFire) {
+        if (this.data.data.weaponType !== "smg" && this.data.data.weaponType !== "heavySmg" && this.data.data.weaponType !== "assaultRifle") {
+          Rules.lawyer(false, "CPR.weapondoesntsupportaltmode");
+        }
       }
     }
 
@@ -427,8 +440,33 @@ export default class CPRItem extends Item {
 
   createDamageRoll(type) {
     const rollName = this.data.name;
-    const { damage, weaponType } = this.data.data;
+    const { weaponType } = this.data.data;
+    let { damage } = this.data.data;
+    if (weaponType === "unarmed" && this.data.data.unarmedAutomaticCalculation) {
+      // calculate damage based on BODY stat
+      const actorBodyStat = this.actor.data.data.stats.body.value;
+      if (actorBodyStat <= 4) {
+        if (this.actor.data.filteredItems.cyberware.some((c) => ((c.data.data.type === "cyberArm") && (c.data.data.isInstalled === true) && (c.data.data.isFoundational === true)))) {
+          // If the user has an installed Cyberarm, which is a foundational
+          damage = "2d6";
+        } else {
+          damage = "1d6";
+        }
+      } else if (actorBodyStat <= 6) {
+        damage = "2d6";
+      } else if (actorBodyStat <= 10) {
+        damage = "3d6";
+      } else {
+        damage = "4d6";
+      }
+    }
     const cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType);
+
+    if (this.data.data.fireModes.autoFire === 0 && ((this.data.data.weaponType === "smg" || this.data.data.weaponType === "heavySmg" || this.data.data.weaponType === "assaultRifle"))) {
+      this.data.data.fireModes.autoFire = this.data.data.weaponType === "assaultRifle" ? 4 : 3;
+    }
+
+    cprRoll.configureAutofire(1, this.data.data.fireModes.autoFire);
 
     switch (type) {
       case CPRRolls.rollTypes.AIMED: {
