@@ -7,14 +7,15 @@
         "item-card-description item-card-description";
   }
 
-  .item-card-icon { 
+  .item-card-icon {
       grid-area: item-card-icon;
-      width: 52px;
+      max-width: 52px;
       height: 52px;
+      object-fit: contain;
   }
 
-  .item-card-description { 
-      grid-area: item-card-description; 
+  .item-card-description {
+      grid-area: item-card-description;
   }
 
   .item-card-header {
@@ -26,7 +27,7 @@
       "item-card-type";
     grid-area: item-card-header;
   }
-  
+
   .item-card-name {
       grid-area: item-card-name;
       flex-wrap: nowrap;

@@ -1,4 +1,4 @@
-/* global ActorSheet, mergeObject, $, setProperty game getProperty */
+/* global ActorSheet, mergeObject, $, setProperty, game, getProperty, hasProperty, duplicate */
 /* eslint class-methods-use-this: ["warn", {
   "exceptMethods": ["_handleRollDialog", "_getHands", "_getItemId", "_getObjProp"]
 }] */
@@ -18,19 +18,17 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
  * @extends {ActorSheet}
  */
 export default class CPRActorSheet extends ActorSheet {
-  constructor(actor, options) {
-    super(actor, options);
-    this.defaultWidth = 800;
-    this.defaultHeight = 590;
-  }
-
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
+    const defaultWidth = 800;
+    const defaultHeight = 590;
     return mergeObject(super.defaultOptions, {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
-      width: this.defaultWidth,
-      height: this.defaultHeight,
+      defaultWidth,
+      defaultHeight,
+      width: defaultWidth,
+      height: defaultHeight,
       scrollY: [".right-content-section"],
     });
   }
@@ -38,7 +36,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
-    if (this.position.width === this.defaultWidth && this.position.height === this.defaultHeight) {
+    if (this.position.width === this.options.defaultWidth && this.position.height === this.options.defaultHeight) {
       // Only resize the sheet with default size, as render option is called on several differnt update events
       // Should one still desire resizing the sheet afterwards, please call _automaticResize explicitly.
       this._automaticResize();
@@ -243,7 +241,7 @@ export default class CPRActorSheet extends ActorSheet {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
         rollType = this._getFireCheckbox(event);
-        cprRoll = item.createDamageRoll(rollType, this.actor);
+        cprRoll = item.createDamageRoll(rollType);
         if (rollType === CPRRolls.rollTypes.AIMED) {
           cprRoll.location = this.actor.getFlag("cyberpunk-red-core", "aimedLocation") || "body";
         }
@@ -509,10 +507,16 @@ export default class CPRActorSheet extends ActorSheet {
     const ability = $(event.currentTarget).attr("data-ability-name");
     const subskill = $(event.currentTarget).attr("data-subskill-name");
     const value = parseInt(event.target.value, 10);
-    if (subskill) {
-      this.actor.data.data.roleInfo.roleskills[role].subSkills[subskill] = value;
-    } else {
-      this.actor.data.data.roleInfo.roleskills[role][ability] = value;
+    const actorData = duplicate(this.actor.data);
+    if (hasProperty(actorData, "data.roleInfo")) {
+      const prop = getProperty(actorData, "data.roleInfo");
+      if (subskill) {
+        prop.roleskills[role].subSkills[subskill] = value;
+      } else {
+        prop.roleskills[role][ability] = value;
+      }
+      setProperty(actorData, "data.roleInfo", prop);
+      this.actor.update(actorData);
     }
   }
 
