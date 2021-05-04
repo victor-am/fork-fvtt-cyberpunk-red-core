@@ -15,7 +15,7 @@ const actorHooks = () => {
   Hooks.on("preUpdateActor", (actor, updatedData) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
     Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.invalidroledata");
-    if (updatedData.data.externalData) {
+    if (updatedData.data && updatedData.data.externalData) {
       Object.entries(updatedData.data.externalData).forEach(
         ([itemType, itemData]) => {
           if (!updatedData.data.externalData[itemType].id) {
@@ -32,9 +32,7 @@ const actorHooks = () => {
                     armorList.forEach((a) => {
                       if (item.data._id !== a.data._id) {
                         const armorData = a.data;
-                        if (diff < 0) {
-                          armorData.data.bodyLocation.ablation = Math.max(armorData.data.bodyLocation.ablation + diff, 0);
-                        } else {
+                        if (diff > 0) {
                           armorData.data.bodyLocation.ablation = Math.min(armorData.data.bodyLocation.ablation + diff, armorData.data.bodyLocation.sp);
                         }
                         updateList.push(armorData);
@@ -50,9 +48,7 @@ const actorHooks = () => {
                     armorList.forEach((a) => {
                       if (item.data._id !== a.data._id) {
                         const armorData = a.data;
-                        if (diff < 0) {
-                          armorData.data.headLocation.ablation = Math.max(armorData.data.headLocation.ablation + diff, 0);
-                        } else {
+                        if (diff > 0) {
                           armorData.data.headLocation.ablation = Math.min(armorData.data.headLocation.ablation + diff, armorData.data.headLocation.sp);
                         }
                         updateList.push(armorData);
