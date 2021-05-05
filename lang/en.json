@@ -738,6 +738,8 @@
     "CPR.setlifepathtitle": "Set Lifepath",
     "CPR.setmookskilllevel": "Set the new skill level",
     "CPR.setmookskillmod": "Set the new skill mod",
+    "CPR.settingautomaticallyResizeSheetsname": "Automatically resize Sheets",
+    "CPR.settingautomaticallyResizeSheetshint": "Automatically resize actor and item sheets depending on the content.",
     "CPR.settingdeleteconfirmationhint": "When enabled, deleting an item will prompt for confirmation",
     "CPR.settingdeleteconfirmationname": "Delete item confirmation",
     "CPR.settingderivedstatshint": "When enabled, derived stats will be auto-calculated and can not be over-ridden",

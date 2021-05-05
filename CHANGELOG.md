@@ -1,6 +1,5 @@
 # DEV WIP CHANGES
-- Added option to reroll dupliate critical injuries
-- Added functionality to automatically resize the character sheet on first openen
+- Added functionality to automatically resize the character and item sheets
 
 # DEV WIP BUG FIXES
 
