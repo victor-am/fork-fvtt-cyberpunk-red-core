@@ -1,4 +1,6 @@
-# Version: 0.74.2 (Hot Fix) |  Date:  2021-05-02
+# Version: 0.75.4 (Hot Fix) |  Date:  2021-05-05
+- Fixed release manifest to not lock users into version 0.75.3 without possibility to update
+# Version: 0.75.3 (Hot Fix) |  Date:  2021-05-02
 **Bug Fix**
 - Role ability settings were lost when changing other data on the sheet. [issue #203](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues/203)
 # Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
