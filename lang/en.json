@@ -751,6 +751,8 @@
     "CPR.settingspreventduplicatecriticalinjuriesoff": "Off",
     "CPR.settingspreventduplicatecriticalinjurieswarn": "Warn",
     "CPR.settingspreventduplicatecriticalinjuriesreroll": "Reroll",
+    "CPR.settingautomaticallyResizeSheetsname": "Automatically resize Sheets",
+    "CPR.settingautomaticallyResizeSheetshint": "Automatically resize actor and item sheets depending on the content.",
     "CPR.settings": "Settings",
     "CPR.setto": "set to",
     "CPR.seximplant": "Sexual Implant (Midnight Lady/Mr. Studd)",

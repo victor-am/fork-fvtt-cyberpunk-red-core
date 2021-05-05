@@ -69,6 +69,18 @@ const registerSystemSettings = () => {
       LOGGER.log(`Changed invertRollCtrlFunction to ${value}`);
     },
   });
+  
+  game.settings.register("cyberpunk-red-core", "automaticallyResizeSheets", {
+    name: "CPR.settingautomaticallyResizeSheetsname",
+    hint: "CPR.settingautomaticallyResizeSheetshint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      LOGGER.log(`Changed automaticallyResizeSheets to ${value}`);
+    },
+  });
 
   game.settings.register("cyberpunk-red-core", "preventDuplicateCriticalInjuries", {
     name: "CPR.settingpreventduplicatecriticalinjuriesname",
