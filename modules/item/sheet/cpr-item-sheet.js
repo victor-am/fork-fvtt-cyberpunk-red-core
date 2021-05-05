@@ -6,6 +6,7 @@ import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
 import NetarchLevelPrompt from "../../dialog/cpr-netarch-level-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
+import CPRNetarchUtils from "../../utils/cpr-netarchUtils.js";
 /**
  * Extend the basic ActorSheet.
  * @extends {ItemSheet}
@@ -88,6 +89,10 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".netarch-level-action").click((event) => this._netarchLevelAction(event));
 
+    html.find(".netarch-generate").click((event) => {
+      const netarchGenerator = new CPRNetarchUtils(this.item);
+      netarchGenerator._generateNetarchScene();
+    });
     // Sheet resizing
     html.find(".tab-label").click((event) => this._automaticResize());
   }
