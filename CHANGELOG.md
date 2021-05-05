@@ -1,10 +1,8 @@
 # DEV WIP CHANGES
-<<<<<<< HEAD
 - Added functionality to automatically resize the character and item sheets
-=======
 - added Debug Elements setting for developers
 - removed hp, humanity, and emp calculations for mooks
->>>>>>> b914079 (update changelog)
+- Setting the autofire maximum multiplier on an item will now be taken into account when rolling damage for autofire damage rolls.  For weapons defined in the core rules (SMG, H. SMG & Assault Rifles) leaving this as 0 will utilize the core rule set for those items.  You can over-ride the core rules (for homebrew) by actually setting this to a non-zero amount.  If you set the multiplier in the roll dialog to a value higher than the allowable value, it will default to the maximum allowable multiplier.
 
 # DEV WIP BUG FIXES
 - fixed #158 - Stat padding fixed
