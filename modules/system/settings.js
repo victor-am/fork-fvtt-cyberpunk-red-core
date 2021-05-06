@@ -70,18 +70,6 @@ const registerSystemSettings = () => {
     },
   });
 
-  game.settings.register("cyberpunk-red-core", "automaticallyResizeSheets", {
-    name: "CPR.settingautomaticallyResizeSheetsname",
-    hint: "CPR.settingautomaticallyResizeSheetshint",
-    scope: "client",
-    config: true,
-    type: Boolean,
-    default: true,
-    onChange: (value) => {
-      LOGGER.log(`Changed automaticallyResizeSheets to ${value}`);
-    },
-  });
-
   game.settings.register("cyberpunk-red-core", "preventDuplicateCriticalInjuries", {
     name: "CPR.settingpreventduplicatecriticalinjuriesname",
     hint: "CPR.settingpreventduplicatecriticalinjurieshint",
@@ -93,9 +81,21 @@ const registerSystemSettings = () => {
       warn: "CPR.settingspreventduplicatecriticalinjurieswarn",
       reroll: "CPR.settingspreventduplicatecriticalinjuriesreroll",
     },
-    default: "warn",
+    default: "off",
     onChange: (value) => {
       LOGGER.log(`Changed preventDuplicateCriticalInjuries to ${value}`);
+    },
+  });
+
+  game.settings.register("cyberpunk-red-core", "automaticallyResizeSheets", {
+    name: "CPR.settingautomaticallyResizeSheetsname",
+    hint: "CPR.settingautomaticallyResizeSheetshint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: (value) => {
+      LOGGER.log(`Changed automaticallyResizeSheets to ${value}`);
     },
   });
 

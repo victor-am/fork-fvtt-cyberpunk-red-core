@@ -742,10 +742,6 @@
     "CPR.setlifepathtitle": "Set Lifepath",
     "CPR.setmookskilllevel": "Set the new skill level",
     "CPR.setmookskillmod": "Set the new skill mod",
-<<<<<<< HEAD
-    "CPR.settingautomaticallyResizeSheetsname": "Automatically resize Sheets",
-=======
->>>>>>> 69dcff7 (This should get all of the fringe scenerios.  If they have a custom)
     "CPR.settingautomaticallyResizeSheetshint": "Automatically resize actor and item sheets depending on the content.",
     "CPR.settingautomaticallyResizeSheetsname": "Automatically resize sheets",
     "CPR.settingdeleteconfirmationhint": "When enabled, deleting an item will prompt for confirmation",
@@ -761,9 +757,6 @@
     "CPR.settings": "Settings",
     "CPR.settingspreventduplicatecriticalinjuriesoff": "Off",
     "CPR.settingspreventduplicatecriticalinjuriesreroll": "Reroll",
-    "CPR.settingautomaticallyResizeSheetsname": "Automatically resize Sheets",
-    "CPR.settingautomaticallyResizeSheetshint": "Automatically resize actor and item sheets depending on the content.",
-    "CPR.settings": "Settings",
     "CPR.settingspreventduplicatecriticalinjurieswarn": "Warn",
     "CPR.setto": "set to",
     "CPR.seximplant": "Sexual Implant (Midnight Lady/Mr. Studd)",
