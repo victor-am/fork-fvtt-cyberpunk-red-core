@@ -389,6 +389,9 @@ export default class Migration {
       case "skill": {
         return this.migrateSkill(itemData);
       }
+      case "cyberware": {
+        return this.migrateCyberware(itemData);
+      }
       default:
     }
     return itemData;
@@ -404,6 +407,10 @@ export default class Migration {
     }
     if ((typeof itemData.data.attackMod) === "undefined") {
       itemData.data.attackMod = 0;
+    }
+    // Added with 0.75.1
+    if ((typeof itemData.data.unarmedAutomaticCalculation) === "undefined") {
+      itemData.data.unarmedAutomaticCalculation = true;
     }
     return itemData;
   }
@@ -426,6 +433,18 @@ export default class Migration {
   static migrateGear(itemData) {
     if ((typeof itemData.data.equipped) === "undefined") {
       itemData.data.equipped = "owned";
+    }
+
+    return itemData;
+  }
+
+  static migrateCyberware(itemData) {
+    if (typeof itemData.data.slotSize !== "number") {
+      itemData.data.slotSize = 1;
+    }
+
+    if ((itemData.data.isInstalled === true) && (itemData.data.isFoundational === true)) {
+      itemData.data.installedOptionSlots = itemData.data.optionalIds.length;
     }
 
     return itemData;

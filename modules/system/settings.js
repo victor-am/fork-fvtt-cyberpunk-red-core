@@ -70,6 +70,35 @@ const registerSystemSettings = () => {
     },
   });
 
+  game.settings.register("cyberpunk-red-core", "preventDuplicateCriticalInjuries", {
+    name: "CPR.settingpreventduplicatecriticalinjuriesname",
+    hint: "CPR.settingpreventduplicatecriticalinjurieshint",
+    scope: "world",
+    config: true,
+    type: String,
+    choices: {
+      off: "CPR.settingspreventduplicatecriticalinjuriesoff",
+      warn: "CPR.settingspreventduplicatecriticalinjurieswarn",
+      reroll: "CPR.settingspreventduplicatecriticalinjuriesreroll",
+    },
+    default: "off",
+    onChange: (value) => {
+      LOGGER.log(`Changed preventDuplicateCriticalInjuries to ${value}`);
+    },
+  });
+
+  game.settings.register("cyberpunk-red-core", "automaticallyResizeSheets", {
+    name: "CPR.settingautomaticallyResizeSheetsname",
+    hint: "CPR.settingautomaticallyResizeSheetshint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: (value) => {
+      LOGGER.log(`Changed automaticallyResizeSheets to ${value}`);
+    },
+  });
+
   game.settings.register("cyberpunk-red-core", "userSettings", {
     name: "User Settings",
     scope: "client",
@@ -100,6 +129,18 @@ const registerSystemSettings = () => {
     default: false,
     onChange: (value) => {
       LOGGER.log(`Changed debugLogs to ${value}`);
+    },
+  });
+
+  game.settings.register("cyberpunk-red-core", "debugElements", {
+    name: "CPR.debugelements",
+    hint: "CPR.debugelementshint",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: (value) => {
+      LOGGER.log(`Changed debugElements to ${value}`);
     },
   });
 

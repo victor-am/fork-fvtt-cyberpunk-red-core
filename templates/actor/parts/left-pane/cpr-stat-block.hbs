@@ -2,7 +2,7 @@
 {{!-- Partials to create stat-units from template --}}
 {{#each data.stats as |stat s|}}
 <div class="stat-block">
-  <div class="block-label{{#if (isDefined this.max)}} text-small{{/if}}">
+  <div class="block-label">
     <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}">
       {{localize (findConfigValue "statList" s)}}
     </a>

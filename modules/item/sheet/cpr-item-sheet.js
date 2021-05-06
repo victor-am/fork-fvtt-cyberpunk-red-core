@@ -21,6 +21,19 @@ export default class CPRItemSheet extends ItemSheet {
     });
   }
 
+  async _render(force = false, options = {}) {
+    LOGGER.trace("ItemSheet | _render | Called.");
+    await super._render(force, options);
+    if (!Object.keys(options).some((k) => ((k === "action") && (options[k] === "update")))) {
+      // In case of updating a value on an item sheet the resizing should not happen.
+      // If a value is updated the _render function is called with options = { action: "update" }
+      // Should one still desire resizing the sheet afterwards, please call _automaticResize explicitly.
+      // Additionally if one item owned by an actor is updated, all items, which were opened before
+      // are called with options = { action: "update" }.
+      this._automaticResize();
+    }
+  }
+
   get template() {
     LOGGER.trace(`template | CPRItemSheet | Called with type [${this.item.type}].`);
     return `systems/cyberpunk-red-core/templates/item/cpr-item-sheet.hbs`;
@@ -70,12 +83,14 @@ export default class CPRItemSheet extends ItemSheet {
     html.find(".item-multi-option").click((event) => this._itemMultiOption(event));
 
     html.find(".select-compatible-ammo").click((event) => this._selectCompatibleAmmo(event));
+
+    // Sheet resizing
+    html.find(".tab-label").click((event) => this._automaticResize());
   }
 
   /*
   INTERNAL METHODS BELOW HERE
 */
-
   _itemCheckboxToggle(event) {
     LOGGER.trace("CPRItemID _itemCheckboxToggle Called | CPRItemSheet | Called.");
     const itemData = duplicate(this.item.data);
@@ -83,6 +98,7 @@ export default class CPRItemSheet extends ItemSheet {
     if (hasProperty(itemData, target)) {
       setProperty(itemData, target, !getProperty(itemData, target));
       this.item.update(itemData);
+      this._automaticResize(); // Resize the sheet as length of settings list might have changed
     }
   }
 
@@ -101,6 +117,7 @@ export default class CPRItemSheet extends ItemSheet {
       }
       setProperty(itemData, target, prop);
       this.item.update(itemData);
+      this._automaticResize(); // Resize the sheet as length of settings list might have changed
     }
   }
 
@@ -110,6 +127,19 @@ export default class CPRItemSheet extends ItemSheet {
     formData = await SelectCompatibleAmmo.RenderPrompt(formData);
     if (formData.selectedAmmo) {
       await this.item.setCompatibleAmmo(formData.selectedAmmo);
+      this._automaticResize(); // Resize the sheet as length of ammo list might have changed
+    }
+  }
+
+  _automaticResize() {
+    LOGGER.trace("ItemSheet | _automaticResize | Called.");
+    const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
+    if (setting) {
+      // It seems that the size of the content does not change immediately upon updating the content
+      setTimeout(() => {
+        this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
+        this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 }); // 30px for the header and 8px top margin 8px bottom margin
+      }, 10);
     }
   }
 }
