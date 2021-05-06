@@ -1,35 +1,45 @@
 /* eslint-disable class-methods-use-this */
-/* global game, mergeObject, $, hasProperty, getProperty, setProperty, duplicate */
+/* global game, duplicate */
 
 import LOGGER from "./cpr-logger.js";
 
 export default class CPRNetarchUtils {
-  constructor(item) {
-    console.log(item);
+  constructor(item, options = null) {
     this.netarchItem = item;
+    this.options = {
+      filePath: "systems/cyberpunk-red-core/tiles/netarch/PNG/",
+      fileExtension: "png",
+      sceneName: null,
+      gridSize: 110,
+      connectorWidth: 1,
+      connectorHeight: 1,
+      levelWidth: 3,
+      levelHeight: 3,
+      cornerOffsetX: 2,
+      cornerOffsetY: 2,
+    };
     this.scene = null;
-    this.gridSize = 110;
     this.tileData = {
       arrow: {
-        img: "assets/NetrunnerTilesPNGWebM/PNG/Arrow.png",
-        width: this.gridSize,
-        height: this.gridSize,
+        img: `${this.options.filePath}Arrow1.${this.options.fileExtension}`,
+        width: this.options.gridSize * this.options.connectorWidth,
+        height: this.options.gridSize * this.options.connectorHeight,
         scale: 1,
         x: 0,
         y: 0,
-        rotation: 270,
+        rotation: 0,
       },
       level: {
-        img: "assets/NetrunnerTilesPNGWebM/PNG/Password.png",
-        width: this.gridSize * 3,
-        height: this.gridSize * 3,
+        img: `${this.options.filePath}Password.${this.options.fileExtension}`,
+        width: this.options.gridSize * this.options.levelWidth,
+        height: this.options.gridSize * this.options.levelHeight,
         scale: 1,
         x: 0,
         y: 0,
         rotation: 0,
       },
     };
-    this.floorDict = ["Password", "File", "Control Node", "Black ICE", "Asp", "Hellhound", "Killer", "Kraken", "Skunk", "Wisp"];
+    this.floorDict = ["Password", "File", "Control Node", "Black ICE", "Asp", "Dragon", "Giant", "Hellhound", "Killer", "Kraken", "Liche", "Raven", "Sabertooth", "Skunk", "Wisp", "Demon", "Balron", "Efreet", "Imp", "Root"];
   }
 
   // game.netarch = CPRNetarchUtils;
@@ -40,10 +50,15 @@ export default class CPRNetarchUtils {
       console.log("There are no Floors!");
       return;
     }
-    if (game.scenes.find((f) => f.name === this.netarchItem.data.name) === null) {
-      await this._duplicateScene(this.netarchItem.data.name);
+    if (this.options.sceneName === null) {
+      if (game.scenes.find((f) => f.name === this.netarchItem.data.name) === null) {
+        await this._duplicateScene(this.netarchItem.data.name);
+      } else {
+        this.scene = game.scenes.find((f) => f.name === this.netarchItem.data.name);
+        await this._removeAllTiles();
+      }
     } else {
-      this.scene = game.scenes.find((f) => f.name === this.netarchItem.data.name);
+      this.scene = game.scenes.find((f) => f.name === this.options.sceneName);
       await this._removeAllTiles();
     }
     const newTiles = [];
@@ -58,30 +73,30 @@ export default class CPRNetarchUtils {
       }
       levelList.push(level);
       const newLevel = duplicate(this.tileData.level);
-      newLevel.x = this.gridSize * (-2 + 4 * level[0]);
+      newLevel.x = this.options.gridSize * (this.options.cornerOffsetX + (this.options.levelWidth + this.options.connectorWidth) * (level[0] - 1));
       if (level[1] === null) {
-        newLevel.y = this.gridSize * 2;
+        newLevel.y = this.options.gridSize * this.options.cornerOffsetY;
       } else {
-        newLevel.y = this.gridSize * (2 + 4 * (level[1].charCodeAt(0) - 97));
+        newLevel.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight + this.options.connectorHeight) * (level[1].charCodeAt(0) - 97));
       }
       if (content !== null) {
         if (content === "Password" || content === "File" || content === "Control Node") {
           if ([6, 8, 10, 12].includes(dv)) {
-            newLevel.img = `assets/NetrunnerTilesPNGWebM/PNG/${content.replace(/\s+/g, "")}DV${dv}.png`;
+            newLevel.img = `${this.options.filePath}${content.replace(/\s+/g, "")}DV${dv}.${this.options.fileExtension}`;
           } else {
-            newLevel.img = `assets/NetrunnerTilesPNGWebM/PNG/${content.replace(/\s+/g, "")}.png`;
+            newLevel.img = `${this.options.filePath}${content.replace(/\s+/g, "")}.${this.options.fileExtension}`;
           }
         } else {
-          newLevel.img = `assets/NetrunnerTilesPNGWebM/PNG/${content.replace(/\s+/g, "")}.png`;
+          newLevel.img = `${this.options.filePath}${content.replace(/\s+/g, "")}.${this.options.fileExtension}`;
         }
       }
       newTiles.push(newLevel);
       const newArrow = duplicate(this.tileData.arrow);
-      newArrow.x = this.gridSize * (-3 + 4 * level[0]);
+      newArrow.x = this.options.gridSize * (this.options.cornerOffsetX - this.options.connectorWidth + (this.options.levelWidth + this.options.connectorWidth) * (level[0] - 1));
       if (level[1] === null) {
-        newArrow.y = this.gridSize * 3;
+        newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2);
       } else {
-        newArrow.y = this.gridSize * (3 + 4 * (level[1].charCodeAt(0) - 97));
+        newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2 + (this.options.levelHeight + this.options.connectorHeight) * (level[1].charCodeAt(0) - 97));
       }
       newTiles.push(newArrow);
     });
@@ -91,28 +106,74 @@ export default class CPRNetarchUtils {
       if (level[1] !== null) {
         if (!branchCounter.includes(level[1])) {
           branchCounter.push(duplicate(level[1]));
-
           const newArrow = duplicate(this.tileData.arrow);
-          newArrow.x = this.gridSize * (-4 + 4 * level[0]);
-          newArrow.y = this.gridSize * (3 + 4 * (level[1].charCodeAt(0) - 97));
-          newTiles.push(duplicate(newArrow));
-          newArrow.x = this.gridSize * (-5 + 4 * level[0]);
-          newTiles.push(duplicate(newArrow));
-          newArrow.x = this.gridSize * (-5 + 4 * level[0]);
-          newArrow.y = this.gridSize * (2 + 4 * (level[1].charCodeAt(0) - 97));
-          newArrow.rotation = 0;
-          newTiles.push(duplicate(newArrow));
-          newArrow.y = this.gridSize * (1 + 4 * (level[1].charCodeAt(0) - 97));
-          newTiles.push(duplicate(newArrow));
+          let deltaHeight = (this.options.connectorHeight + (this.options.levelHeight - this.options.connectorHeight) / 2);
+          let deltaWidth = (this.options.levelWidth + this.options.connectorHeight) / 2;
+          if (this.options.connectorHeight >= this.options.connectorWidth) {
+            newArrow.rotation = 90;
+            while (deltaHeight >= this.options.connectorWidth) {
+              newArrow.x = this.options.gridSize * (this.options.cornerOffsetX + (this.options.levelWidth + this.options.connectorWidth) * (level[0] - 2) + (this.options.levelWidth - this.options.connectorWidth) / 2);
+              newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2 + (this.options.levelHeight + this.options.connectorHeight) * (level[1].charCodeAt(0) - 97) - deltaHeight + (this.options.connectorWidth - this.options.connectorHeight) / 2);
+              if (deltaHeight < 2 * this.options.connectorWidth) {
+                newArrow.x -= (newArrow.width / 2) * (deltaHeight / this.options.connectorWidth - 1);
+                newArrow.y += (newArrow.width / 2) * (deltaHeight / this.options.connectorWidth - 1);
+                newArrow.width *= deltaHeight / this.options.connectorWidth;
+                deltaHeight = 0;
+              }
+              newTiles.push(duplicate(newArrow));
+              deltaHeight -= this.options.connectorWidth;
+            }
+            newArrow.rotation = 0;
+            newArrow.width = this.tileData.arrow.width;
+            while (deltaWidth >= this.options.connectorWidth) {
+              newArrow.x = this.options.gridSize * (this.options.cornerOffsetX + (this.options.levelWidth + this.options.connectorWidth) * (level[0] - 2) + (this.options.levelWidth - this.options.connectorHeight) / 2 + deltaWidth - this.options.connectorWidth);
+              newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2 + (this.options.levelHeight + this.options.connectorHeight) * (level[1].charCodeAt(0) - 97));
+              if (deltaWidth < 2 * this.options.connectorWidth) {
+                newArrow.x -= newArrow.width * (deltaWidth / this.options.connectorWidth - 1);
+                newArrow.width *= deltaWidth / this.options.connectorWidth;
+                deltaWidth = 0;
+              }
+              newTiles.push(duplicate(newArrow));
+              deltaWidth -= this.options.connectorWidth;
+            }
+          } else {
+            newArrow.rotation = 90;
+            while (deltaHeight >= this.options.connectorWidth) {
+              newArrow.x = this.options.gridSize * (this.options.cornerOffsetX + (this.options.levelWidth + this.options.connectorWidth) * (level[0] - 2) + (this.options.levelWidth - this.options.connectorWidth) / 2);
+              newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2 + (this.options.levelHeight + this.options.connectorHeight) * (level[1].charCodeAt(0) - 97) - deltaHeight + (this.options.connectorWidth - this.options.connectorHeight) / 2);
+              if (deltaHeight < 2 * this.options.connectorWidth) {
+                newArrow.x -= (newArrow.width / 2) * (deltaHeight / this.options.connectorWidth - 1);
+                newArrow.y += (newArrow.width / 2) * (deltaHeight / this.options.connectorWidth - 1);
+                newArrow.width *= deltaHeight / this.options.connectorWidth;
+                deltaHeight = 0;
+              }
+              newTiles.push(duplicate(newArrow));
+              deltaHeight -= this.options.connectorWidth;
+            }
+            newArrow.rotation = 0;
+            newArrow.width = this.tileData.arrow.width;
+            while (deltaWidth >= this.options.connectorWidth) {
+              newArrow.x = this.options.gridSize * (this.options.cornerOffsetX + (this.options.levelWidth + this.options.connectorWidth) * (level[0] - 2) + (this.options.levelWidth - this.options.connectorHeight) / 2 + deltaWidth - this.options.connectorWidth);
+              newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2 + (this.options.levelHeight + this.options.connectorHeight) * (level[1].charCodeAt(0) - 97));
+              if (deltaWidth < 2 * this.options.connectorWidth) {
+                newArrow.x -= newArrow.width * (deltaWidth / this.options.connectorWidth - 1);
+                newArrow.width *= deltaWidth / this.options.connectorWidth;
+                deltaWidth = 0;
+              }
+              newTiles.push(duplicate(newArrow));
+              deltaWidth -= this.options.connectorWidth;
+            }
+          }
         }
       }
     });
-    this._addTilesToScene(newTiles);
+    await this._addTilesToScene(newTiles);
+    this.scene.activate();
   }
 
   async _duplicateScene(newName, name = "Net Template") {
     LOGGER.trace("_duplicateScene | CPRINetarchUtils | Called.");
-    const scene = game.scenes.find((f) => f.name === name);
+    const scene = await game.packs.get("cyberpunk-red-core.scenes").getEntity("vHjjIdBSOEQdrgrl");
     await scene.clone({ name: newName });
     this.scene = game.scenes.find((f) => f.name === newName);
   }
