@@ -555,6 +555,7 @@
     "CPR.minorsupportingcharacter": "Minor Supporting Character",
     "CPR.mirrorshades": "Mirrorshades",
     "CPR.miscellaneous": "Miscellaneous",
+    "CPR.missingowneditem": "Could not find newly owned item! Use Actor sheet to install/equip",
     "CPR.modifiervalue": "Modifier Value",
     "CPR.modifyanotherskill": "Modify another skill",
     "CPR.mods": "Mods",

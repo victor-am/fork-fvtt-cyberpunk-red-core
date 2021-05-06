@@ -623,7 +623,7 @@ export default class CPRActor extends Actor {
     });
   }
 
-  handleMookDraggedItem(actor, item) {
+  handleMookDraggedItem(item) {
     // called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
     // handles the automatic equipping of gear and installation of cyberware
     LOGGER.trace("_handleMookDraggedItem | CPRActor | Called.");
@@ -639,7 +639,7 @@ export default class CPRActor extends Actor {
         break;
       }
       case "cyberware": {
-        actor.addCyberware(item._id);
+        this.addCyberware(item._id);
         break;
       }
       default:
