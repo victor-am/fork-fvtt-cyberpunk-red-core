@@ -627,6 +627,7 @@ export default class CPRActor extends Actor {
     // called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
     // handles the automatic equipping of gear and installation of cyberware
     LOGGER.trace("_handleMookDraggedItem | CPRActor | Called.");
+    LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
     LOGGER.debugObject(item);
     const newItem = item;
     switch (item.type) {

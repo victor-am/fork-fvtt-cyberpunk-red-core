@@ -591,6 +591,7 @@
     "CPR.notapplicable": "N/A",
     "CPR.notes": "Notes",
     "CPR.notinstalled": "Not installed",
+    "CPR.notokenfound": "Cannot update token sheet when it is on another scene!",
     "CPR.notwounded": "Not Wounded",
     "CPR.novalidammo": "You have no ammo for that weapon, Choomba!",
     "CPR.observationcamera": "Observation Camera",
