@@ -21,7 +21,7 @@ export default class CPRNetarchUtils {
     this.scene = null;
     this.tileData = {
       arrow: {
-        img: `${this.options.filePath}Arrow1.${this.options.fileExtension}`,
+        img: `${this.options.filePath}Arrow.${this.options.fileExtension}`,
         width: this.options.gridSize * this.options.connectorWidth,
         height: this.options.gridSize * this.options.connectorHeight,
         scale: 1,
