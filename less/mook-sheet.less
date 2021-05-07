@@ -14,6 +14,7 @@
     .mook-details {
         display: grid;
         gap: 5px;
+        grid-template-rows: auto;
         grid-area: mook-details;
         grid-template-areas:
             "mook-stats"
@@ -92,5 +93,16 @@
 
     .mook-notes {
         grid-area: mook-notes;
+        min-height: 60px;
+    }
+
+    .mook-edit-section {
+        min-height: 80px;
+        min-width: 135px;
+        height: unset;
+        display: flex;
+        flex: 1 0 auto;
+        background-color: @chrome-white;
+        flex-wrap: wrap;
     }
 }
