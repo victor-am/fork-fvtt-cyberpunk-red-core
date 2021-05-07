@@ -89,9 +89,22 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".netarch-level-action").click((event) => this._netarchLevelAction(event));
 
-    html.find(".netarch-generate").click((event) => {
-      const netarchGenerator = new CPRNetarchUtils(this.item);
-      netarchGenerator._generateNetarchScene();
+    html.find(".netarch-generate-auto").click((event) => {
+      if (game.user.isGM) {
+        const netarchGenerator = new CPRNetarchUtils(this.item);
+        netarchGenerator._generateNetarchScene();
+      } else {
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratenogmerror"));
+      }
+    });
+
+    html.find(".netarch-generate-custom").click((event) => {
+      if (game.user.isGM) {
+        const netarchGenerator = new CPRNetarchUtils(this.item);
+        netarchGenerator._customize();
+      } else {
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratenogmerror"));
+      }
     });
     // Sheet resizing
     html.find(".tab-label").click((event) => this._automaticResize());

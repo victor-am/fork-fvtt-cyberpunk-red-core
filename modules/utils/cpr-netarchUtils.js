@@ -2,9 +2,11 @@
 /* global game, duplicate */
 
 import LOGGER from "./cpr-logger.js";
+import NetarchSceneGenerationPrompt from "../dialog/cpr-netarch-scene-generation-prompt.js";
+import SystemUtils from "./cpr-systemUtils.js";
 
 export default class CPRNetarchUtils {
-  constructor(item, options = null) {
+  constructor(item) {
     this.netarchItem = item;
     this.options = {
       filePath: "systems/cyberpunk-red-core/tiles/netarch/PNG/",
@@ -18,7 +20,13 @@ export default class CPRNetarchUtils {
       cornerOffsetX: 2,
       cornerOffsetY: 2,
     };
+    this.animated = false;
     this.scene = null;
+    this.tileData = null;
+    this.floorDict = ["Password", "File", "Control Node", "Black ICE", "Asp", "Dragon", "Giant", "Hellhound", "Killer", "Kraken", "Liche", "Raven", "Sabertooth", "Skunk", "Wisp", "Demon", "Balron", "Efreet", "Imp", "Root"];
+  }
+
+  async _generateNetarchScene() {
     this.tileData = {
       arrow: {
         img: `${this.options.filePath}Arrow.${this.options.fileExtension}`,
@@ -30,7 +38,7 @@ export default class CPRNetarchUtils {
         rotation: 0,
       },
       level: {
-        img: `${this.options.filePath}Password.${this.options.fileExtension}`,
+        img: `${this.options.filePath}Root.${this.options.fileExtension}`,
         width: this.options.gridSize * this.options.levelWidth,
         height: this.options.gridSize * this.options.levelHeight,
         scale: 1,
@@ -39,26 +47,32 @@ export default class CPRNetarchUtils {
         rotation: 0,
       },
     };
-    this.floorDict = ["Password", "File", "Control Node", "Black ICE", "Asp", "Dragon", "Giant", "Hellhound", "Killer", "Kraken", "Liche", "Raven", "Sabertooth", "Skunk", "Wisp", "Demon", "Balron", "Efreet", "Imp", "Root"];
-  }
 
-  // game.netarch = CPRNetarchUtils;
-
-  async _generateNetarchScene() {
     const floorData = duplicate(this.netarchItem.data.data.floors);
     if (floorData.length === 0) {
-      console.log("There are no Floors!");
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratenofloorerror"));
       return;
     }
     if (this.options.sceneName === null) {
-      if (game.scenes.find((f) => f.name === this.netarchItem.data.name) === null) {
-        await this._duplicateScene(this.netarchItem.data.name);
+      if (this.animated) {
+        if (game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`) === null) {
+          await this._duplicateScene(`${this.netarchItem.data.name} (animated)`);
+        } else {
+          this.scene = game.scenes.find((f) => f.name === this.netarchItem.data.name);
+          await this._removeAllTiles();
+        }
+      } else if (game.scenes.find((f) => f.name === this.netarchItem.data.name) === null) {
+        await this._duplicateScene(`${this.netarchItem.data.name}`);
       } else {
         this.scene = game.scenes.find((f) => f.name === this.netarchItem.data.name);
         await this._removeAllTiles();
       }
     } else {
       this.scene = game.scenes.find((f) => f.name === this.options.sceneName);
+      if (this.scene === null) {
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratenosceneerror"));
+        return;
+      }
       await this._removeAllTiles();
     }
     const newTiles = [];
@@ -68,7 +82,7 @@ export default class CPRNetarchUtils {
       const dv = this._checkDV(floor.dv);
       const content = this._checkFloorType(floor.content);
       if (level === null) {
-        console.log("Error with the formatting of the level number!");
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratefloorformattingerror"));
         return;
       }
       levelList.push(level);
@@ -168,12 +182,17 @@ export default class CPRNetarchUtils {
       }
     });
     await this._addTilesToScene(newTiles);
-    this.scene.activate();
+    await this.scene.activate();
   }
 
-  async _duplicateScene(newName, name = "Net Template") {
+  async _duplicateScene(newName) {
     LOGGER.trace("_duplicateScene | CPRINetarchUtils | Called.");
-    const scene = await game.packs.get("cyberpunk-red-core.scenes").getEntity("vHjjIdBSOEQdrgrl");
+    let scene = null;
+    if (this.animated) {
+      scene = await game.packs.get("cyberpunk-red-core.scenes").getEntity("kmVVudIkBTEODmcq");
+    } else {
+      scene = await game.packs.get("cyberpunk-red-core.scenes").getEntity("vHjjIdBSOEQdrgrl");
+    }
     await scene.clone({ name: newName });
     this.scene = game.scenes.find((f) => f.name === newName);
   }
@@ -227,5 +246,46 @@ export default class CPRNetarchUtils {
       return floorType[0];
     }
     return null;
+  }
+
+  async _customize() {
+    let formData = {
+      animated: false,
+      cusomTiles: false,
+      filePath: "systems/cyberpunk-red-core/tiles/netarch/PNG/",
+      fileExtension: "png",
+      sceneName: "",
+      gridSize: 110,
+      connectorWidth: 1,
+      connectorHeight: 1,
+      levelWidth: 3,
+      levelHeight: 3,
+      cornerOffsetX: 2,
+      cornerOffsetY: 2,
+      returnType: "string",
+    };
+    formData = await NetarchSceneGenerationPrompt.RenderPrompt(formData);
+    console.log(duplicate(formData));
+
+    if (formData.cusomTiles) {
+      this.options.filePath = formData.filePath;
+      this.options.fileExtension = formData.fileExtension;
+      this.options.gridSize = Number(formData.gridSize);
+      this.options.connectorWidth = Number(formData.connectorWidth);
+      this.options.connectorHeight = Number(formData.connectorHeight);
+      this.options.levelWidth = Number(formData.levelWidth);
+      this.options.levelHeight = Number(formData.levelHeight);
+      this.options.cornerOffsetX = Number(formData.cornerOffsetX);
+      this.options.cornerOffsetY = Number(formData.cornerOffsetY);
+      if (formData.sceneName !== "") {
+        this.options.sceneName = formData.sceneName;
+      }
+    } else if (formData.animated) {
+      this.options.filePath = "systems/cyberpunk-red-core/tiles/netarch/WebM/";
+      this.options.fileExtension = "webm";
+      this.animated = true;
+    }
+
+    this._generateNetarchScene();
   }
 }
