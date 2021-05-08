@@ -198,7 +198,9 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
 
-    html.find(".ability-input").click((event) => event.target.select()).change((event) => this._updateRoleAbility(event));
+    html.find(".ability-input").click((event) => event.target.select()).change(
+      (event) => this._updateRoleAbility(event),
+    );
 
     html.find(".eurobucks-input").click((event) => event.target.select()).change(
       (event) => this._updateEurobucks(event),
@@ -207,8 +209,14 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
 
     // Sheet resizing
-    html.find(".tab-label:not(.skills-tab):not(.gear-tab):not(.cyberware-tab)").click((event) => this._automaticResize());
+    html.find(".tab-label:not(.skills-tab):not(.gear-tab):not(.cyberware-tab)").click(
+      (event) => this._automaticResize(),
+    );
 
+    // handle the delete key
+    // div elements need focus for the DEL key to work on them
+    html.find(".deletable").hover((event) => $(event.currentTarget).focus());
+    html.find(".deletable").keydown((event) => this._handleKey(event));
     super.activateListeners(html);
   }
 
@@ -453,6 +461,32 @@ export default class CPRActorSheet extends ActorSheet {
         }
       }
       this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+    }
+  }
+
+  _handleKey(event) {
+    LOGGER.trace("_handleKey | CPRActorSheet | Called.");
+    LOGGER.debug(event.keyCode);
+    if (event.keyCode === 46) {
+      LOGGER.debug("delete key was pressed");
+      const itemId = $(event.currentTarget).attr("data-item-id");
+      const item = this._getOwnedItem(itemId);
+      switch (item.type) {
+        case "armor":
+        case "gear":
+        case "cyberware":
+        case "weapon": {
+          this._deleteOwnedItem(item);
+          break;
+        }
+        case "skill": {
+          item.setSkillLevel(0);
+          item.setSkillMod(0);
+          this._updateOwnedItem(item);
+          break;
+        }
+        default:
+      }
     }
   }
 
