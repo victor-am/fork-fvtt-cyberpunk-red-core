@@ -229,9 +229,36 @@ export default class CPRItemSheet extends ItemSheet {
 
     if (action === "create") {
       let formData = {
-        level: "",
-        dv: "",
-        content: "",
+        floornumbers: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"],
+        branchlabels: ["a", "b", "c", "d", "e", "f", "g", "h"],
+        dvoptions: ["N/A", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
+        contentoptions: {
+          "CPR.password": SystemUtils.Localize("CPR.password"),
+          "CPR.file": SystemUtils.Localize("CPR.file"),
+          "CPR.controlnode": SystemUtils.Localize("CPR.controlnode"),
+          "CPR.blackice": SystemUtils.Localize("CPR.blackice"),
+        },
+        blackiceoptions: {
+          "--": "--",
+          "CPR.asp": SystemUtils.Localize("CPR.asp"),
+          "CPR.giant": SystemUtils.Localize("CPR.giant"),
+          "CPR.hellhound": SystemUtils.Localize("CPR.hellhound"),
+          "CPR.kraken": SystemUtils.Localize("CPR.kraken"),
+          "CPR.liche": SystemUtils.Localize("CPR.liche"),
+          "CPR.raven": SystemUtils.Localize("CPR.raven"),
+          "CPR.scorpion": SystemUtils.Localize("CPR.scorpion"),
+          "CPR.skunk": SystemUtils.Localize("CPR.skunk"),
+          "CPR.wisp": SystemUtils.Localize("CPR.wisp"),
+          "CPR.dragon": SystemUtils.Localize("CPR.dragon"),
+          "CPR.killer": SystemUtils.Localize("CPR.killer"),
+          "CPR.sabertooth": SystemUtils.Localize("CPR.sabertooth"),
+        },
+        floor: "1",
+        branch: "a",
+        dv: "N/A",
+        content: SystemUtils.Localize("CPR.password"),
+        blackice: "--",
+        description: "",
         returnType: "string",
       };
       formData = await NetarchLevelPrompt.RenderPrompt(formData);
@@ -242,9 +269,12 @@ export default class CPRItemSheet extends ItemSheet {
         prop.forEach((floor) => { if (floor.index > maxIndex) { maxIndex = floor.index; } });
         prop.push({
           index: maxIndex + 1,
-          level: formData.level,
+          floor: formData.floor,
+          branch: formData.branch,
           dv: formData.dv,
           content: formData.content,
+          blackice: formData.blackice,
+          description: formData.description,
         });
         setProperty(itemData, "data.floors", prop);
         this.item.update(itemData);
@@ -252,9 +282,12 @@ export default class CPRItemSheet extends ItemSheet {
       } else {
         const prop = [{
           index: 0,
-          level: formData.level,
+          floor: formData.floor,
+          branch: formData.branch,
           dv: formData.dv,
           content: formData.content,
+          blackice: formData.blackice,
+          description: formData.description,
         }];
         setProperty(itemData, "data.floors", prop);
         this.item.update(itemData);
@@ -268,18 +301,48 @@ export default class CPRItemSheet extends ItemSheet {
         let editElement = null;
         prop.forEach((floor) => { if (floor.index === target) { editElement = floor; } });
         let formData = {
-          level: editElement.level,
+          floornumbers: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"],
+          branchlabels: ["a", "b", "c", "d", "e", "f", "g", "h"],
+          dvoptions: ["N/A", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
+          contentoptions: {
+            "CPR.password": SystemUtils.Localize("CPR.password"),
+            "CPR.file": SystemUtils.Localize("CPR.file"),
+            "CPR.controlnode": SystemUtils.Localize("CPR.controlnode"),
+            "CPR.blackice": SystemUtils.Localize("CPR.blackice"),
+          },
+          blackiceoptions: {
+            "--": "--",
+            "CPR.asp": SystemUtils.Localize("CPR.asp"),
+            "CPR.giant": SystemUtils.Localize("CPR.giant"),
+            "CPR.hellhound": SystemUtils.Localize("CPR.hellhound"),
+            "CPR.kraken": SystemUtils.Localize("CPR.kraken"),
+            "CPR.liche": SystemUtils.Localize("CPR.liche"),
+            "CPR.raven": SystemUtils.Localize("CPR.raven"),
+            "CPR.scorpion": SystemUtils.Localize("CPR.scorpion"),
+            "CPR.skunk": SystemUtils.Localize("CPR.skunk"),
+            "CPR.wisp": SystemUtils.Localize("CPR.wisp"),
+            "CPR.dragon": SystemUtils.Localize("CPR.dragon"),
+            "CPR.killer": SystemUtils.Localize("CPR.killer"),
+            "CPR.sabertooth": SystemUtils.Localize("CPR.sabertooth"),
+          },
+          floor: editElement.floor,
+          branch: editElement.branch,
           dv: editElement.dv,
           content: editElement.content,
+          blackice: editElement.blackice,
+          description: editElement.description,
           returnType: "string",
         };
         formData = await NetarchLevelPrompt.RenderPrompt(formData);
         prop.splice(prop.indexOf(editElement), 1);
         prop.push({
           index: editElement.index,
-          level: formData.level,
+          floor: formData.floor,
+          branch: formData.branch,
           dv: formData.dv,
           content: formData.content,
+          blackice: formData.blackice,
+          description: formData.description,
         });
         setProperty(itemData, "data.floors", prop);
         this.item.update(itemData);

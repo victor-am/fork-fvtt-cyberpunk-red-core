@@ -1,16 +1,73 @@
 {{trace "CPR-NETARCH-LEVEL-PROMPT.HBS"}}
 <form>
+  <ol class="items-list">
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span class="text-bold text-nowrap">{{localize "CPR.netarch"}} {{localize "CPR.netarchfloor"}}</span>
+        </div>
+        <div class="item flexrow setting-value">
+          <select name="floor">
+            {{#select floor}}
+            {{#each floornumbers}}
+            <option value="{{.}}">{{.}}</option>
+            {{/each}}
+            {{/select}}
+          </select>
+          <select name="branch">
+            {{#select branch}}
+            {{#each branchlabels}}
+            <option value="{{.}}">{{.}}</option>
+            {{/each}}
+            {{/select}}
+          </select>
+        </div>
+    </li>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span class="text-bold text-nowrap">{{localize "CPR.netarchfloorcontenttype"}}</span>
+        </div>
+        <div class="item flexrow setting-value">
+          <select name="content">
+            {{#select content}}
+            {{#each contentoptions}}
+            <option value="{{@key}}">{{.}}</option>
+            {{/each}}
+            {{/select}}
+          </select>
+        </div>
+    </li>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span class="text-bold text-nowrap">{{localize "CPR.netarchfloordv"}}</span>
+        </div>
+        <div class="item flexrow setting-value">
+          <select name="dv">
+            {{#select dv}}
+            {{#each dvoptions}}
+            <option value="{{.}}">{{.}}</option>
+            {{/each}}
+            {{/select}}
+          </select>
+        </div>
+    </li>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span class="text-bold text-nowrap">{{localize "CPR.netarchfloorblackicetype"}}</span>
+        </div>
+        <div class="item flexrow setting-value">
+          <select name="blackice">
+            {{#select blackice}}
+            {{#each blackiceoptions}}
+            <option value="{{@key}}">{{.}}</option>
+            {{/each}}
+            {{/select}}
+          </select>
+        </div>
+    </li>
+  </ol>
   <div class="">
-    <div class="text-bold">{{localize "CPR.netarch"}} {{localize "CPR.netarchfloorpromptlevel"}}</div>
-    <input type="text" name="level" value="{{level}}">
-  </div>
-  <div class="">
-    <div class="text-bold">{{localize "CPR.netarchfloordv"}}</div>
-    <input type="text" name="dv" value="{{dv}}">
-  </div>
-  <div class="">
-    <div class="text-bold">{{localize "CPR.netarchfloorpromptcontent"}}</div>
-    <textarea class="" name="content">{{content}}</textarea>
+    <div class="text-bold">{{localize "CPR.description"}}</div>
+    <textarea class="" name="description">{{description}}</textarea>
   </div>
 </form>
 {{trace "CPR-NETARCH-LEVEL-PROMPT.HBS"}}

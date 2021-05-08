@@ -23,7 +23,29 @@ export default class CPRNetarchUtils {
     this.animated = false;
     this.scene = null;
     this.tileData = null;
-    this.floorDict = ["Password", "File", "Control Node", "Black ICE", "Asp", "Dragon", "Giant", "Hellhound", "Killer", "Kraken", "Liche", "Raven", "Sabertooth", "Skunk", "Wisp", "Demon", "Balron", "Efreet", "Imp", "Root"];
+    this.floorDict = {
+      "CPR.password": "Password",
+      "CPR.file": "File",
+      "CPR.controlnode": "ControlNode",
+      "CPR.blackice": "BlackICE",
+      "CPR.asp": "Asp",
+      "CPR.giant": "Giant",
+      "CPR.hellhound": "Hellhound",
+      "CPR.kraken": "Kraken",
+      "CPR.liche": "Liche",
+      "CPR.raven": "Raven",
+      "CPR.scorpion": "Scorpion",
+      "CPR.skunk": "Skunk",
+      "CPR.wisp": "Wisp",
+      "CPR.dragon": "Dragon",
+      "CPR.killer": "Killer",
+      "CPR.sabertooth": "Sabertooth",
+      "CPR.demon": "Demon",
+      "CPR.balron": "Balron",
+      "CPR.efreet": "Efreet",
+      "CPR.imp": "Imp",
+      "CPR.root": "Root",
+    };
   }
 
   async _generateNetarchScene() {
@@ -78,39 +100,41 @@ export default class CPRNetarchUtils {
     const newTiles = [];
     const levelList = [];
     floorData.forEach((floor) => {
-      const level = this._checkLevelFormat(floor.level);
+      const level = Number(floor.floor);
+      // eslint-disable-next-line prefer-destructuring
+      const branch = floor.branch;
       const dv = this._checkDV(floor.dv);
-      const content = this._checkFloorType(floor.content);
+      const content = this._checkFloorType(floor);
       if (level === null) {
         SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratefloorformattingerror"));
         return;
       }
-      levelList.push(level);
+      levelList.push([level, branch]);
       const newLevel = duplicate(this.tileData.level);
-      newLevel.x = this.options.gridSize * (this.options.cornerOffsetX + (this.options.levelWidth + this.options.connectorWidth) * (level[0] - 1));
-      if (level[1] === null) {
+      newLevel.x = this.options.gridSize * (this.options.cornerOffsetX + (this.options.levelWidth + this.options.connectorWidth) * (level - 1));
+      if (branch === null) {
         newLevel.y = this.options.gridSize * this.options.cornerOffsetY;
       } else {
-        newLevel.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight + this.options.connectorHeight) * (level[1].charCodeAt(0) - 97));
+        newLevel.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight + this.options.connectorHeight) * (branch.charCodeAt(0) - 97));
       }
       if (content !== null) {
-        if (content === "Password" || content === "File" || content === "Control Node") {
+        if (content === "Password" || content === "File" || content === "ControlNode") {
           if ([6, 8, 10, 12].includes(dv)) {
-            newLevel.img = `${this.options.filePath}${content.replace(/\s+/g, "")}DV${dv}.${this.options.fileExtension}`;
+            newLevel.img = `${this.options.filePath}${content}DV${dv}.${this.options.fileExtension}`;
           } else {
-            newLevel.img = `${this.options.filePath}${content.replace(/\s+/g, "")}.${this.options.fileExtension}`;
+            newLevel.img = `${this.options.filePath}${content}.${this.options.fileExtension}`;
           }
         } else {
-          newLevel.img = `${this.options.filePath}${content.replace(/\s+/g, "")}.${this.options.fileExtension}`;
+          newLevel.img = `${this.options.filePath}${content}.${this.options.fileExtension}`;
         }
       }
       newTiles.push(newLevel);
       const newArrow = duplicate(this.tileData.arrow);
-      newArrow.x = this.options.gridSize * (this.options.cornerOffsetX - this.options.connectorWidth + (this.options.levelWidth + this.options.connectorWidth) * (level[0] - 1));
-      if (level[1] === null) {
+      newArrow.x = this.options.gridSize * (this.options.cornerOffsetX - this.options.connectorWidth + (this.options.levelWidth + this.options.connectorWidth) * (level - 1));
+      if (branch === null) {
         newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2);
       } else {
-        newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2 + (this.options.levelHeight + this.options.connectorHeight) * (level[1].charCodeAt(0) - 97));
+        newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2 + (this.options.levelHeight + this.options.connectorHeight) * (branch.charCodeAt(0) - 97));
       }
       newTiles.push(newArrow);
     });
@@ -215,7 +239,7 @@ export default class CPRNetarchUtils {
     await this.scene.update(sceneData);
   }
 
-  _checkLevelFormat(level) {
+  /* _checkLevelFormat(level) {
     const reg = new RegExp("^[0-9]+[a-z]?$");
     if (reg.test(level)) {
       const number = Number(level.match("^[0-9]+"));
@@ -226,7 +250,7 @@ export default class CPRNetarchUtils {
       return [number, letter[0]];
     }
     return null;
-  }
+  } */
 
   _checkDV(dv) {
     const reg = new RegExp("^[0-9]+$");
@@ -236,16 +260,11 @@ export default class CPRNetarchUtils {
     return null;
   }
 
-  _checkFloorType(content) {
-    let exp = "";
-    this.floorDict.forEach((d) => { exp = exp.concat("^", d, "(?!\\S)|"); });
-    exp = exp.slice(0, -1); // remove the last regex "or"
-    const reg = new RegExp(exp);
-    if (reg.test(content)) {
-      const floorType = content.match(reg);
-      return floorType[0];
+  _checkFloorType(floor) {
+    if (floor.content === "CPR.blackice" && floor.blackice !== "--") {
+      return this.floorDict[floor.blackice];
     }
-    return null;
+    return this.floorDict[floor.content];
   }
 
   async _customize() {

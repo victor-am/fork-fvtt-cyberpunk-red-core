@@ -18,7 +18,7 @@
 <div class=""></div>
 <div class="item-netarch-section">
   <li class="items-header flexrow">
-    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.netarchfloorlevel"}}</span>
+    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.netarchfloorshort"}}</span>
     <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.netarchfloordv"}}</span>
     <span class="item-name netarch-content fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.netarchfloordata"}}</span>
     <span class="item-name netarch-actions fg-white bg-black text-nowrap text-padding-left">
@@ -29,9 +29,19 @@
     <ol class="items-list">
       {{#each (sort data.floors "index") as |floor|}}
         <li class=" item-netarch-grid item flexrow">
-          <div class="netarch-level">{{floor.level}}</div>
-          <div class="netarch-dv">{{floor.dv}}</div>
-          <div class="netarch-content">{{floor.content}}</div>
+          <div class="netarch-level">{{floor.floor}}{{floor.branch}}</div>
+          <div class="netarch-dv">
+            {{#if (compare floor.content "!==" "CPR.blackice")}}
+              {{floor.dv}}
+            {{/if}}
+          </div>
+          <div class="netarch-content">
+            {{#if (compare (compare floor.content "===" "CPR.blackice") "&&" (compare floor.blackice "!==" "--"))}}
+              <div class="text-bold">{{localize floor.blackice}}</div><div>{{floor.description}}</div>
+            {{else}}
+              <div class="text-bold">{{localize floor.content}}</div><div>{{floor.description}}</div>
+            {{/if}}
+          </div>
           <div class="netarch-actions">
             <a class="netarch-level-action" data-action-type="up" data-action-target="{{floor.index}}"><i class="fas fa-arrow-up fg-black" title="{{localize "CPR.netarchfloormoveup"}}"></i></a>
             <a class="netarch-level-action" data-action-type="down" data-action-target="{{floor.index}}"><i class="fas fa-arrow-down fg-black" title="{{localize "CPR.netarchfloormovedown"}}"></i></a>
