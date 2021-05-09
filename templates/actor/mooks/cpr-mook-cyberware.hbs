@@ -9,12 +9,12 @@
   {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
     {{#each (getProp ../this.installedCyberware t) as |cyberware c|}}
       {{#unless foundation.data.data.core}}
-        <a class="name deletable item-view" tabindex="0" title="{{foundation.name}}&#13Click to view the item&#13Ctrl-Click to send to chat&#13Press delete to delete it" data-item-id="{{foundation.data._id}}">
+        <a class="name deletable item-view" tabindex="0" title="{{foundation.name}}&#13{{localize "CPR.clicktoviewitem"}}&#13{{localize "CPR.ctrlclicktosendtochat"}}&#13{{localize "CPR.pressdeletetodelete"}}" data-item-id="{{foundation.data._id}}">
           {{foundation.name}}{{#if (compare foundation.data.data.hasOptionalSlots "===" false)}},{{/if}}
         </a>
         {{#if foundation.data.data.hasOptionalSlots}}({{/if}}
         {{#each optionals as |optional o|}}
-          <a class="name deletable item-view" tabindex="0" title="{{optional.name}}&#13Click to view the item&#13Ctrl-Click to send to chat&#13Press delete to delete it" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}">
+          <a class="name deletable item-view" tabindex="0" title="{{optional.name}}&#13{{localize "CPR.clicktoviewitem"}}&#13{{localize "CPR.ctrlclicktosendtochat"}}&#13{{localize "CPR.pressdeletetodelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}">
             {{optional.name}}
           </a>,
         {{/each}}
@@ -25,7 +25,7 @@
   <!-- Gear -->
   {{#each this.items as |item i|}}
     {{#if (compare item.type "===" "ammo")}}
-      <a class="name deletable item-edit" tabindex="0" title="{{item.name}}&#13Click to view the item&#13Ctrl-Click to send to chat&#13Press delete to delete it" data-item-id="{{item._id}}">
+      <a class="name deletable item-edit" tabindex="0" title="{{item.name}}&#13{{localize "CPR.clicktoviewitem"}}&#13{{localize "CPR.ctrlclicktosendtochat"}}&#13{{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item._id}}">
         {{item.name}} (x{{item.data.amount}}),
       </a>
     {{/if}}

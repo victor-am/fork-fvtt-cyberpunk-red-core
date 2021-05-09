@@ -18,7 +18,7 @@
           <li class="item flexrow">
             <div class="mook-weapon">
               <div class="item-name deletable mook-weapon-name text-pad-right text-nowrap" tabindex="0" data-item-id="{{weapon._id}}">
-                <a class="name item-edit" title="{{weapon.name}}&#13Click to view the item&#13Ctrl-Click to send to chat&#13Press delete to delete it">
+                <a class="name item-edit" title="{{weapon.name}}&#13{{localize "CPR.clicktoviewitem"}}&#13{{localize "CPR.ctrlclicktosendtochat"}}&#13{{localize "CPR.pressdeletetodelete"}}">
                   {{weapon.name}}
                 </a>
                 {{#if (compare weapon.data.quality "!==" "standard")}}
