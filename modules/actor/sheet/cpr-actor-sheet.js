@@ -472,20 +472,16 @@ export default class CPRActorSheet extends ActorSheet {
       const itemId = $(event.currentTarget).attr("data-item-id");
       const item = this._getOwnedItem(itemId);
       switch (item.type) {
-        case "armor":
-        case "gear":
-        case "cyberware":
-        case "weapon": {
-          this._deleteOwnedItem(item);
-          break;
-        }
         case "skill": {
           item.setSkillLevel(0);
           item.setSkillMod(0);
           this._updateOwnedItem(item);
           break;
         }
-        default:
+        default: {
+          this._deleteOwnedItem(item);
+          break;
+        }
       }
     }
   }
