@@ -873,6 +873,9 @@ button,
   flex-direction: column;
   flex-wrap: nowrap;
 }
+*:focus {
+  outline: none;
+}
 .mook-sheet {
   font-family: "Audimat Mono";
   background-color: #eaeaeaff;
