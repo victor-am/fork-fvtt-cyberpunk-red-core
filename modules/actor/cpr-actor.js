@@ -55,7 +55,12 @@ export default class CPRActor extends Actor {
       createData.items = [];
       createData.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
       if (data.type === "character") {
-        createData.token = { actorLink: true };
+        createData.token = {
+          actorLink: true,
+          disposition: 1,
+          vision: true,
+          bar1: { attribute: "derivedStats.hp" },
+        };
       }
     }
     super.create(createData, options);
