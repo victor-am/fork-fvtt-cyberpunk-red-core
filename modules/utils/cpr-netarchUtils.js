@@ -284,7 +284,6 @@ export default class CPRNetarchUtils {
       returnType: "string",
     };
     formData = await NetarchSceneGenerationPrompt.RenderPrompt(formData);
-    console.log(duplicate(formData));
 
     if (formData.cusomTiles) {
       this.options.filePath = formData.filePath;
