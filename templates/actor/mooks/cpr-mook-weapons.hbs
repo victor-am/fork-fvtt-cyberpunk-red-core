@@ -2,22 +2,22 @@
 <div class="weapon-section">
   <div class="weapon-content fg-black">
     <ol class="items-list weapons-grid">
-      <li class="fg-white bg-red text-nowrap flexrow">
-        <div class="item-name section-name text-padding-left">
+      <li class="item mook-weapon fg-white bg-red text-nowrap flexrow">
+        <div class="mook-weapon-name text-pad-left">
           {{localize "CPR.weapons"}}
         </div>
-        <div class="item-detail text-nowrap">
+        <div class="mook-weapon-mode text-center">
           {{localize "CPR.aim"}}/{{localize "CPR.af"}}/{{localize "CPR.sf"}}
         </div>
-        <div class="item-detail text-right text-nowrap">
+        <div class="mook-weapon-rolls text-right">
           {{localize "CPR.actions"}}
         </div>
       </li>
       {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
         {{#if (compare weapon.data.equipped "===" "equipped")}}
-          <li class="item flexrow" data-item-id="{{weapon._id}}">
+          <li class="item flexrow text-nowrap" data-item-id="{{weapon._id}}">
             <div class="mook-weapon">
-              <div class="item-name mook-weapon-name text-pad-right text-nowrap">
+              <div class="mook-weapon-name text-pad-left">
                 <a class="name item-edit" title="{{weapon.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">
                   {{weapon.name}}
                 </a>
@@ -37,7 +37,7 @@
                   ({{localize "CPR.meleeweapon"}})
                 {{/if}}
               </div>
-              <div class="mook-weapon-mode">
+              <div class="mook-weapon-mode text-center">
                 <a class="fire-checkbox" data-fire-mode="aimed" data-item-id="{{weapon._id}}">
                   {{#if (fireMode ../actor "aimed" weapon._id)}}
                     <i class="far fa-check-circle"></i>
@@ -62,7 +62,7 @@
                   </a>
                 {{/if}}
               </div>
-              <div class="mook-weapon-rolls item-detail fight-weapon-attack text-nowrap text-right">
+              <div class="mook-weapon-rolls fight-weapon-attack text-nowrap text-right">
                 <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
                   <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
                 </a>
