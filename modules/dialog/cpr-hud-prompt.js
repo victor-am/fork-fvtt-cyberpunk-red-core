@@ -23,14 +23,14 @@ export default class HudPrompt {
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
-              label: "Cancel",
+              label: SystemUtils.Localize("CPR.cancel"),
               /* eslint-disable no-shadow */
               callback: (html) => _onCancel(html), // TODO fix no-shadow
               /* eslint-enable no-shadow */
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: "Confirm",
+              label: SystemUtils.Localize("CPR.confirm"),
               /* eslint-disable no-shadow */
               callback: (html) => _onConfirm(html), // TODO fix no-shadow
               /* eslint-enable no-shadow */
