@@ -1,15 +1,18 @@
 {{trace "CPR-MOOK-WEAPONS.HBS"}}
 <div class="weapon-section">
-  <div class="items-header flexrow">
-    <div class="item-name section-name fg-white bg-red text-nowrap text-padding-left">
-      {{localize "CPR.weapons"}}
-    </div>
-    <div class="item-detail fg-white bg-red text-nowrap text-padding-left">
-      {{localize "CPR.aim"}}/{{localize "CPR.af"}}/{{localize "CPR.sf"}}
-    </div>
-  </div>
   <div class="weapon-content fg-black">
     <ol class="items-list weapons-grid">
+      <li class="fg-white bg-red text-nowrap flexrow">
+        <div class="item-name section-name text-padding-left">
+          {{localize "CPR.weapons"}}
+        </div>
+        <div class="item-detail text-nowrap">
+          {{localize "CPR.aim"}}/{{localize "CPR.af"}}/{{localize "CPR.sf"}}
+        </div>
+        <div class="item-detail text-right text-nowrap">
+          {{localize "CPR.actions"}}
+        </div>
+      </li>
       {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
         {{#if (compare weapon.data.equipped "===" "equipped")}}
           <li class="item flexrow" data-item-id="{{weapon._id}}">
