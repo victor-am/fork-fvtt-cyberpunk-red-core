@@ -61,48 +61,48 @@
     {
       "label": "Weapons - Core",
       "entity": "Item",
-      "name": "weaponsCompendium",
-      "path": "packs/weaponscompendium.db",
+      "name": "weapons",
+      "path": "packs/weapons.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     },
     {
       "label": "Armor - Core",
       "entity": "Item",
-      "name": "armorCompendium",
-      "path": "packs/armorcompendium.db",
+      "name": "armor",
+      "path": "packs/armor.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     },
     {
       "label": "Ammo - Core",
       "entity": "Item",
-      "name": "ammoCompendium",
-      "path": "packs/ammocompendium.db",
+      "name": "ammo",
+      "path": "packs/ammo.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     },
     {
       "label": "Gear - Core",
       "entity": "Item",
-      "name": "gearCompendium",
-      "path": "packs/itemcompendium.db",
+      "name": "gear",
+      "path": "packs/gear.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     },
     {
       "label": "Programs - Core",
       "entity": "Item",
-      "name": "programCompendium",
-      "path": "packs/programcompendium.db",
+      "name": "programs",
+      "path": "packs/programs.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     },
     {
       "label": "Vehicles - Core",
       "entity": "Item",
-      "name": "vehicleCompendium",
-      "path": "packs/vehiclecompendium.db",
+      "name": "vehicles",
+      "path": "packs/vehicles.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     }
