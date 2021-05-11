@@ -14,8 +14,8 @@
         {{#if (compare weapon.data.equipped "===" "equipped")}}
           <li class="item flexrow">
             <div class="mook-weapon">
-              <div class="item-name deletable mook-weapon-name text-pad-right text-nowrap" tabindex="0" data-item-id="{{weapon._id}}">
-                <a class="name item-edit" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}">
+              <div class="item-name mook-weapon-name text-pad-right text-nowrap">
+                <a class="name item-edit deletable" tabindex="0" data-item-id="{{weapon._id}}" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}">
                   {{weapon.name}}
                 </a>
                 {{#if (compare weapon.data.quality "!==" "standard")}}

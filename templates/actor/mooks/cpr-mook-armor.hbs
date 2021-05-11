@@ -11,8 +11,8 @@
         {{#if (compare armor.data.equipped "===" "equipped")}}
           <li class="item armor-piece">
             <li class="flex-space-between item flexrow">
-              <div class="item-name deletable armor-name text-nowrap" tabindex="0" data-item-id="{{armor._id}}">
-                <a class="name item-edit" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}">{{armor.name}}</a>
+              <div class="item-name armor-name text-nowrap">
+                <a class="name deletable item-edit" tabindex="0" data-item-id="{{armor._id}}" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}">{{armor.name}}</a>
               </div>
               {{#if armor.data.isHeadLocation}}
                 <div class="text-right">
