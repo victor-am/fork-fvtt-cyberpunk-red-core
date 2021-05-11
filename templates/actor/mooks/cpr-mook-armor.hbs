@@ -12,7 +12,7 @@
           <li class="item armor-piece">
             <li class="flex-space-between item flexrow">
               <div class="item-name deletable armor-name text-nowrap" tabindex="0" data-item-id="{{armor._id}}">
-                <a class="name item-edit" title="{{armor.name}}&#13{{localize "CPR.clicktoviewitem"}}&#13{{localize "CPR.ctrlclicktosendtochat"}}&#13{{localize "CPR.pressdeletetodelete"}}">{{armor.name}}</a>
+                <a class="name item-edit" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}">{{armor.name}}</a>
               </div>
               {{#if armor.data.isHeadLocation}}
                 <div class="text-right">
