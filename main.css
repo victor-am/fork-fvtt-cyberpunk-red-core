@@ -981,6 +981,7 @@ button,
 .mook-sheet .mook-notes {
   grid-area: mook-notes;
   min-height: 60px;
+  min-width: 430px;
 }
 .mook-sheet .mook-edit-section {
   min-height: 80px;
