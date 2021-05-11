@@ -767,7 +767,7 @@
     "CPR.settingplayerscreateinventoryhint": "When enabled, players can create items directly in their inventory",
     "CPR.settingplayerscreateinventoryname": "Players can create items",
     "CPR.settingpreventduplicatecriticalinjurieshint": "Off = Allow duplicate Critical Injuries. Warn = Warn if duplicate Critical Injury is apllied. Reroll = Reroll duplicate Critical Injuries.",
-    "CPR.settingpreventduplicatecriticalinjuriesname": "Prevent dupliate Critical Injuries",
+    "CPR.settingpreventduplicatecriticalinjuriesname": "Prevent duplicate Critical Injuries",
     "CPR.settings": "Settings",
     "CPR.settingspreventduplicatecriticalinjuriesoff": "Off",
     "CPR.settingspreventduplicatecriticalinjuriesreroll": "Reroll",
