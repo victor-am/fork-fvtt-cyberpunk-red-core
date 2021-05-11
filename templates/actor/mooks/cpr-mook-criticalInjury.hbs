@@ -7,7 +7,7 @@
 <div class="bg-white fg-black text-padding-left">
 {{#each this.items as |item i|}}
     {{#if (compare item.type "===" "criticalInjury")}}
-      <a class="name item-edit deletable {{#if item.data.deathSaveIncrease}}text-bold{{/if}}" title="{{item.name}}&#13{{localize "CPR.clicktoviewitem"}}&#13{{localize "CPR.ctrlclicktosendtochat"}}&#13{{localize "CPR.pressdeletetodelete"}}" tabindex="0" data-item-id="{{item._id}}">
+      <a class="name item-edit deletable {{#if item.data.deathSaveIncrease}}text-bold{{/if}}" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" tabindex="0" data-item-id="{{item._id}}">
         {{item.name}}{{#if (compare item.data.location "===" "body")}}<i class="fas fa-user-injured text-padding-left"></i>{{/if}}{{#if (compare item.data.location "===" "head")}}<i class="fas fa-tired text-padding-left"></i>{{/if}},
       </a>
     {{/if}}
