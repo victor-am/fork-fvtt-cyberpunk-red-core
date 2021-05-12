@@ -7,6 +7,7 @@
 - removed hp, humanity, and emp calculations for mooks
 - Setting the autofire maximum multiplier on an item will now be taken into account when rolling damage for autofire damage rolls.  For weapons defined in the core rules (SMG, H. SMG & Assault Rifles) leaving this as 0 will utilize the core rule set for those items.  You can over-ride the core rules (for homebrew) by actually setting this to a non-zero amount.  If you set the multiplier in the roll dialog to a value higher than the allowable value, it will default to the maximum allowable multiplier.
 - Added "Unarmed" weapon type with optional (on by default) automatic damage determination based on BODY
+- Characters are now linked to their token by default, Mooks are not.
 
 # DEV WIP BUG FIXES
 - fixed #158 - Stat padding fixed

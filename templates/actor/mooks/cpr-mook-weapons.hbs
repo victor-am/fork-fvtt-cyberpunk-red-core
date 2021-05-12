@@ -1,15 +1,18 @@
 {{trace "CPR-MOOK-WEAPONS.HBS"}}
 <div class="weapon-section">
-  <div class="items-header flexrow">
-    <div class="item-name section-name fg-white bg-red text-nowrap text-padding-left">
-      {{localize "CPR.weapons"}}
-    </div>
-    <div class="item-detail fg-white bg-red text-nowrap text-padding-left">
-      {{localize "CPR.aim"}}/{{localize "CPR.af"}}/{{localize "CPR.sf"}}
-    </div>
-  </div>
   <div class="weapon-content fg-black">
     <ol class="items-list weapons-grid">
+      <li class="item mook-weapon fg-white bg-red text-nowrap flexrow">
+        <div class="mook-weapon-name text-pad-left">
+          {{localize "CPR.weapons"}}
+        </div>
+        <div class="mook-weapon-mode text-center">
+          {{localize "CPR.aim"}}/{{localize "CPR.af"}}/{{localize "CPR.sf"}}
+        </div>
+        <div class="mook-weapon-rolls text-right">
+          {{localize "CPR.actions"}}
+        </div>
+      </li>
       {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
         {{#if (compare weapon.data.equipped "===" "equipped")}}
           <li class="item flexrow">
@@ -34,7 +37,7 @@
                   ({{localize "CPR.meleeweapon"}})
                 {{/if}}
               </div>
-              <div class="mook-weapon-mode">
+              <div class="mook-weapon-mode text-center">
                 <a class="fire-checkbox" data-fire-mode="aimed" data-item-id="{{weapon._id}}">
                   {{#if (fireMode ../actor "aimed" weapon._id)}}
                     <i class="far fa-check-circle"></i>
@@ -59,7 +62,7 @@
                   </a>
                 {{/if}}
               </div>
-              <div class="mook-weapon-rolls item-detail fight-weapon-attack text-nowrap text-right">
+              <div class="mook-weapon-rolls fight-weapon-attack text-nowrap text-right">
                 <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
                   <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
                 </a>

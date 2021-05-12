@@ -54,6 +54,14 @@ export default class CPRActor extends Actor {
       LOGGER.trace("create | New Actor | CPRActor | called.");
       createData.items = [];
       createData.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
+      if (data.type === "character") {
+        createData.token = {
+          actorLink: true,
+          disposition: 1,
+          vision: true,
+          bar1: { attribute: "derivedStats.hp" },
+        };
+      }
     }
     super.create(createData, options);
   }
