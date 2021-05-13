@@ -1,4 +1,4 @@
-/* global ActorSheet, mergeObject, $, setProperty game getProperty */
+/* global ActorSheet, mergeObject, $, setProperty, game, getProperty, hasProperty, duplicate */
 /* eslint class-methods-use-this: ["warn", {
   "exceptMethods": ["_handleRollDialog", "_getHands", "_getItemId", "_getObjProp"]
 }] */
@@ -18,19 +18,17 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
  * @extends {ActorSheet}
  */
 export default class CPRActorSheet extends ActorSheet {
-  constructor(actor, options) {
-    super(actor, options);
-    this.defaultWidth = 800;
-    this.defaultHeight = 590;
-  }
-
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
+    const defaultWidth = 800;
+    const defaultHeight = 590;
     return mergeObject(super.defaultOptions, {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
-      width: this.defaultWidth,
-      height: this.defaultHeight,
+      defaultWidth,
+      defaultHeight,
+      width: defaultWidth,
+      height: defaultHeight,
       scrollY: [".right-content-section"],
     });
   }
@@ -38,7 +36,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
-    if (this.position.width === this.defaultWidth && this.position.height === this.defaultHeight) {
+    if (this.position.width === this.options.defaultWidth && this.position.height === this.options.defaultHeight) {
       // Only resize the sheet with default size, as render option is called on several differnt update events
       // Should one still desire resizing the sheet afterwards, please call _automaticResize explicitly.
       this._automaticResize();
@@ -200,7 +198,9 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
 
-    html.find(".ability-input").click((event) => event.target.select()).change((event) => this._updateRoleAbility(event));
+    html.find(".ability-input").click((event) => event.target.select()).change(
+      (event) => this._updateRoleAbility(event),
+    );
 
     html.find(".eurobucks-input").click((event) => event.target.select()).change(
       (event) => this._updateEurobucks(event),
@@ -209,8 +209,14 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
 
     // Sheet resizing
-    html.find(".tab-label:not(.skills-tab):not(.gear-tab):not(.cyberware-tab)").click((event) => this._automaticResize());
+    html.find(".tab-label:not(.skills-tab):not(.gear-tab):not(.cyberware-tab)").click(
+      (event) => this._automaticResize(),
+    );
 
+    // handle the delete key
+    // div elements need focus for the DEL key to work on them
+    html.find(".deletable").hover((event) => $(event.currentTarget).focus());
+    html.find(".deletable").keydown((event) => this._handleKey(event));
     super.activateListeners(html);
   }
 
@@ -243,7 +249,7 @@ export default class CPRActorSheet extends ActorSheet {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
         rollType = this._getFireCheckbox(event);
-        cprRoll = item.createDamageRoll(rollType, this.actor);
+        cprRoll = item.createDamageRoll(rollType);
         if (rollType === CPRRolls.rollTypes.AIMED) {
           cprRoll.location = this.actor.getFlag("cyberpunk-red-core", "aimedLocation") || "body";
         }
@@ -458,6 +464,28 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
+  _handleKey(event) {
+    LOGGER.trace("_handleKey | CPRActorSheet | Called.");
+    LOGGER.debug(event.keyCode);
+    if (event.keyCode === 46) {
+      LOGGER.debug("delete key was pressed");
+      const itemId = $(event.currentTarget).attr("data-item-id");
+      const item = this._getOwnedItem(itemId);
+      switch (item.type) {
+        case "skill": {
+          item.setSkillLevel(0);
+          item.setSkillMod(0);
+          this._updateOwnedItem(item);
+          break;
+        }
+        default: {
+          this._deleteOwnedItem(item);
+          break;
+        }
+      }
+    }
+  }
+
   // ARMOR HELPERS
   // TODO - Move to armor helpers to cpr-actor
   // TODO - Assure all private methods can be used outside of the context of UI controls as well.
@@ -509,10 +537,16 @@ export default class CPRActorSheet extends ActorSheet {
     const ability = $(event.currentTarget).attr("data-ability-name");
     const subskill = $(event.currentTarget).attr("data-subskill-name");
     const value = parseInt(event.target.value, 10);
-    if (subskill) {
-      this.actor.data.data.roleInfo.roleskills[role].subSkills[subskill] = value;
-    } else {
-      this.actor.data.data.roleInfo.roleskills[role][ability] = value;
+    const actorData = duplicate(this.actor.data);
+    if (hasProperty(actorData, "data.roleInfo")) {
+      const prop = getProperty(actorData, "data.roleInfo");
+      if (subskill) {
+        prop.roleskills[role].subSkills[subskill] = value;
+      } else {
+        prop.roleskills[role][ability] = value;
+      }
+      setProperty(actorData, "data.roleInfo", prop);
+      this.actor.update(actorData);
     }
   }
 
