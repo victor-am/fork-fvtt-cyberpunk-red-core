@@ -8,6 +8,11 @@
 - Setting the autofire maximum multiplier on an item will now be taken into account when rolling damage for autofire damage rolls.  For weapons defined in the core rules (SMG, H. SMG & Assault Rifles) leaving this as 0 will utilize the core rule set for those items.  You can over-ride the core rules (for homebrew) by actually setting this to a non-zero amount.  If you set the multiplier in the roll dialog to a value higher than the allowable value, it will default to the maximum allowable multiplier.
 - Added "Unarmed" weapon type with optional (on by default) automatic damage determination based on BODY
 - Characters are now linked to their token by default, Mooks are not.
+- Added functionality for the Net architecture.
+  - It can now be configured on its item sheet, adding, removing and editing the floors.
+  - If a specific black ICE is selected it is linked to the corresponding black ICE item sheet if it exists.
+  - In addition one can automatically generate a scene shwoing the net architecture. This scene generation allows for floors up to eight (8) deep and up to four (4) branches to be displayed.
+  - Experimental: The scene generation can be customized to use custom assets and custom sizes to allow for maximum flexibility.
 
 # DEV WIP BUG FIXES
 - fixed #158 - Stat padding fixed
