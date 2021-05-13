@@ -106,6 +106,9 @@ export default class CPRItemSheet extends ItemSheet {
         SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratenogmerror"));
       }
     });
+
+    html.find(".netarch-item-link").click((event) => this._openItemFromId(event));
+
     // Sheet resizing
     html.find(".tab-label").click((event) => this._automaticResize());
   }
@@ -166,6 +169,7 @@ export default class CPRItemSheet extends ItemSheet {
   }
 
   async _netarchLevelAction(event) {
+    LOGGER.trace("ItemSheet | _netarchLevelAction | Called.");
     const target = Number($(event.currentTarget).attr("data-action-target"));
     const action = $(event.currentTarget).attr("data-action-type");
     const itemData = duplicate(this.item.data);
@@ -348,6 +352,18 @@ export default class CPRItemSheet extends ItemSheet {
         this.item.update(itemData);
         this._automaticResize(); // Resize the sheet as length of settings list might have changed
       }
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  _openItemFromId(event) {
+    LOGGER.trace("ItemSheet | _netarchLevelAction | Called.");
+    const itemId = $(event.currentTarget).attr("data-item-id");
+    const itemEntity = game.items.get(itemId);
+    if (itemEntity !== null) {
+      itemEntity.sheet.render(true);
+    } else {
+      SystemUtils.DisplayMessage("error", SystemUtils.Format("CPR.itemdoesnotexisterror", { itemid: itemId }));
     }
   }
 }

@@ -37,9 +37,15 @@
           </div>
           <div class="netarch-content">
             {{#if (compare (compare floor.content "===" "CPR.blackice") "&&" (compare floor.blackice "!==" "--"))}}
-              <div class="text-bold">{{localize floor.blackice}}</div><div>{{floor.description}}</div>
+              {{#if (compare (itemIdFromName (localize floor.blackice)) "!==" "DOES NOT EXIST")}}
+              <div class="text-bold"><a class="netarch-item-link" data-item-id="{{itemIdFromName (localize floor.blackice)}}" title="{{localize "CPR.clicktoviewitem"}}">{{localize floor.blackice}}</a></div>
+              {{else}}
+                <div class="text-bold" title="{{localize "CPR.itemdoesnotexist"}}">{{localize floor.blackice}}</div>
+              {{/if}}
+              <div>{{floor.description}}</div>
             {{else}}
-              <div class="text-bold">{{localize floor.content}}</div><div>{{floor.description}}</div>
+              <div class="text-bold">{{localize floor.content}}</div>
+              <div>{{floor.description}}</div>
             {{/if}}
           </div>
           <div class="netarch-actions">
