@@ -1,7 +1,10 @@
 {
   "Actor": {
     "types": [
+      "blackIce",
       "character",
+      "container",
+      "demon",
       "mook"
     ],
     "templates": {
@@ -281,6 +284,11 @@
       "wealth": {
         "value": 0
       }
+    },
+    "demon": {
+      "templates": [
+        "common"
+      ]
     }
   },
   "Item": {

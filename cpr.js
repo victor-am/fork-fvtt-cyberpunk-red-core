@@ -2,9 +2,13 @@
 // Object imports
 import CPRActor from "./modules/actor/cpr-actor.js";
 import CPRActorSheet from "./modules/actor/sheet/cpr-actor-sheet.js";
+import CPRBlackIceActorSheet from "./modules/actor/sheet/cpr-black-ice-sheet.js";
 import CPRCharacterActorSheet from "./modules/actor/sheet/cpr-character-sheet.js";
+import CPRContainerActorSheet from "./modules/actor/sheet/cpr-container-sheet.js";
+import CPRDemonActorSheet from "./modules/actor/sheet/cpr-demon-sheet.js";
 import CPRMookActorSheet from "./modules/actor/sheet/cpr-mook-sheet.js";
 import CPRItem from "./modules/item/cpr-item.js";
+
 import CPRItemSheet from "./modules/item/sheet/cpr-item-sheet.js";
 import LOGGER from "./modules/utils/cpr-logger.js";
 import CPRMacro from "./modules/utils/cpr-macros.js";
@@ -27,6 +31,12 @@ Hooks.once("init", async () => {
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("cyberpunk-red-core", CPRCharacterActorSheet,
     { label: SystemUtils.Localize("CPR.charactersheet"), types: ["character", "mook"], makeDefault: true });
+  Actors.registerSheet("cyberpunk-red-core", CPRBlackIceActorSheet,
+    { label: SystemUtils.Localize("CPR.blackicesheet"), types: ["blackIce"], makeDefault: true });
+  Actors.registerSheet("cyberpunk-red-core", CPRContainerActorSheet,
+    { label: SystemUtils.Localize("CPR.containersheet"), types: ["container"], makeDefault: true });
+  Actors.registerSheet("cyberpunk-red-core", CPRDemonActorSheet,
+    { label: SystemUtils.Localize("CPR.demonsheet"), types: ["demon"], makeDefault: true });
   Actors.registerSheet("cyberpunk-red-core", CPRMookActorSheet,
     { label: SystemUtils.Localize("CPR.mooksheet"), types: ["character", "mook"] });
 
@@ -52,7 +62,10 @@ Hooks.once("init", async () => {
   game.cpr = {
     apps: {
       CPRActorSheet,
+      CPRBlackIceActorSheet,
       CPRCharacterActorSheet,
+      CPRContainerActorSheet,
+      CPRDemonActorSheet,
       CPRMookActorSheet,
       CPRItemSheet,
     },
