@@ -71,7 +71,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     } else {
       mookImageToggle.attr("data-text", SystemUtils.Localize("CPR.imagecollapse"));
     }
-    mookImageArea.toggleClass("mook-image-toggle-small");
+    mookImageArea.toggleClass("mook-image-small-toggle");
     mookImageImg.toggleClass("hide");
   }
 

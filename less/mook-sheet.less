@@ -38,8 +38,12 @@
         grid-area: mook-image;
         display: grid;
         grid-template-areas:"mook-image-toggle mook-image-block";
-        width: 167px;
+        width: 168px;
         height: 151px;
+    }
+
+    .mook-image-small-toggle {
+      width: 17px;
     }
 
     .mook-image-toggle {
@@ -49,20 +53,16 @@
       }
     }
 
-    .mook-image-toggle-small {
-      width: 17px;
-    }
-
     .mook-image-block {
       grid-area: "mook-image-block";
       clip-path: polygon(25px 0, 100% 0, 100% 100%, 0 100%, 0 25px);
-      height: 150px;
-      width: 150px;
+      height: 151px;
+      width: 151px;
     }
 
     .mook-image-block-img {
-      width: 150px;
-      height: 150px;
+      width: 151px;
+      height: 151px;
       object-fit: contain;
       border: 0;
     }
