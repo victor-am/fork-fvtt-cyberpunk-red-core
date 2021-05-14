@@ -25,6 +25,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     super.activateListeners(html);
     html.find(".mod-mook-skill").click(() => this._modMookSkill());
     html.find(".change-mook-name").click(() => this._changeMookName());
+    html.find(".mook-image-toggle").click((event) => this._expandMookImage(event));
   }
 
   async _modMookSkill() {
@@ -57,6 +58,21 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     } else {
       await this.token.setMookName(formData);
     }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  _expandMookImage(event) {
+    LOGGER.trace("_expandMookImage | CPRMookActorSheet | Called.");
+    const mookImageArea = $(event.currentTarget).parents(".mook-image");
+    const mookImageImg = $(event.currentTarget).parents(".mook-image").children(".mook-image-block");
+    const mookImageToggle = $(event.currentTarget);
+    if (mookImageToggle.attr("data-text") === SystemUtils.Localize("CPR.imagecollapse")) {
+      mookImageToggle.attr("data-text", SystemUtils.Localize("CPR.imageexpand"));
+    } else {
+      mookImageToggle.attr("data-text", SystemUtils.Localize("CPR.imagecollapse"));
+    }
+    mookImageArea.toggleClass("mook-image-toggle-small");
+    mookImageImg.toggleClass("hide");
   }
 
   /** @override
