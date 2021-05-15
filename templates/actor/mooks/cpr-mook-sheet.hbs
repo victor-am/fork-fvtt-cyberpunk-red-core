@@ -9,7 +9,7 @@
 
     <div class="mook-details">
       <div class="mook-img-and-stats">
-        <div class="mook-image bg-red mook-image-small-toggle">
+        <div class="mook-image bg-red {{#if (compare (compare actor.flags.collapsedImage "===" undefined) "||" (compare actor.flags.collapsedImage "===" true))}}mook-image-small-toggle{{/if}}">
           {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-image.hbs"}}
         </div>
         <div class="mook-stats-and-derived">

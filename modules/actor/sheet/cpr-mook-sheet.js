@@ -1,4 +1,4 @@
-/* global mergeObject getProperty $ */
+/* global mergeObject, getProperty, $, duplicate */
 import CPRActorSheet from "./cpr-actor-sheet.js";
 import ModMookSkillPrompt from "../../dialog/cpr-mod-mook-skill-prompt.js";
 import LOGGER from "../../utils/cpr-logger.js";
@@ -60,19 +60,26 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   _expandMookImage(event) {
     LOGGER.trace("_expandMookImage | CPRMookActorSheet | Called.");
     const mookImageArea = $(event.currentTarget).parents(".mook-image");
     const mookImageImg = $(event.currentTarget).parents(".mook-image").children(".mook-image-block");
     const mookImageToggle = $(event.currentTarget);
+    console.log(this);
+    let collapsedImage = null;
     if (mookImageToggle.attr("data-text") === SystemUtils.Localize("CPR.imagecollapse")) {
       mookImageToggle.attr("data-text", SystemUtils.Localize("CPR.imageexpand"));
+      collapsedImage = true;
     } else {
       mookImageToggle.attr("data-text", SystemUtils.Localize("CPR.imagecollapse"));
+      collapsedImage = false;
     }
     mookImageArea.toggleClass("mook-image-small-toggle");
     mookImageImg.toggleClass("hide");
+    const actorData = duplicate(this.actor.data);
+    actorData.flags.collapsedImage = collapsedImage;
+    console.log(actorData);
+    this.actor.update(actorData);
   }
 
   /** @override
