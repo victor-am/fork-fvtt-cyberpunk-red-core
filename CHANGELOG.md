@@ -1,19 +1,23 @@
 # DEV WIP CHANGES
-- Added "Option Slots Size" for optional cyberware. This allows proper tracking of cyberware that can use no slots, or multiple slots. By default when first updating to this version all cyberware has an assumed slot size of 1. Please update your optional cyberware accordingly in line with the core rulebook. 
-- Added extra content to the cyberware tab to display the amount of 'used' slots for foundational cyberware. 
+- Added "Option Slots Size" for optional cyberware. This allows proper tracking of cyberware that can use no slots, or multiple slots. By default when first updating to this version all cyberware has an assumed slot size of 1. Please update your optional cyberware accordingly in line with the core rulebook.
+- Added extra content to the cyberware tab to display the amount of 'used' slots for foundational cyberware.
 - Added option to reroll duplicate critical injuries
 - Added functionality to automatically resize the character and item sheets
 - added Debug Elements setting for developers
 - removed hp, humanity, and emp calculations for mooks
 - Setting the autofire maximum multiplier on an item will now be taken into account when rolling damage for autofire damage rolls.  For weapons defined in the core rules (SMG, H. SMG & Assault Rifles) leaving this as 0 will utilize the core rule set for those items.  You can over-ride the core rules (for homebrew) by actually setting this to a non-zero amount.  If you set the multiplier in the roll dialog to a value higher than the allowable value, it will default to the maximum allowable multiplier.
 - Added "Unarmed" weapon type with optional (on by default) automatic damage determination based on BODY
+- Characters are now linked to their token by default, Mooks are not.
 
 # DEV WIP BUG FIXES
+- fixed #158 - Stat padding fixed
 - fixed #176 - Game paused animation properly translates now
 - fixed #187 - Item icons are now resizing correctly
 - fixed #189 - EMP stat on new mook sheet won't modify
 - fixed #192 - Double quotes break macros for weapon names
 - fixed #195 - 'Has Suppressive Fire' option doesn't seem to do anything
+- fixed #204 - fixed IP and Eurobucks Ledger functions to work with unlinked tokens
+- fixed #221 & #222 - correction of two ciritcal injuries
 
 # Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
 **Bug Fix**
