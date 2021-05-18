@@ -317,6 +317,15 @@ export default class CPRItem extends Item {
     }
   }
 
+  setItemAmount(value) {
+    LOGGER.debug("setItemAmmo | CPRItem | Called.");
+    if (value.charAt(0) === "+" || value.charAt(0) === "-") {
+      this.getData().amount = this.getData().amount + parseInt(value, 10);
+    } else {
+      this.getData().amount = parseInt(value, 10);
+    }
+  }
+
   // Returns true if weapon fired, otherwise returns false.
   fireRangedWeapon(cprRoll) {
     LOGGER.trace("fireRangedWeapon | CPRItem | Called.");
