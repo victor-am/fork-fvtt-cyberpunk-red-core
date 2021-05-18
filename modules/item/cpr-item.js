@@ -17,10 +17,8 @@ export default class CPRItem extends Item {
   /* -------------------------------------------- */
   /** @override */
   prepareData() {
-    LOGGER.debug(`prepareData | CPRItem | Called for type: ${this.type}.`);
+    LOGGER.trace(`prepareData | CPRItem | Called for type: ${this.type}.`);
     super.prepareData();
-    // const itemData = this.data.data;
-    LOGGER.debug("prepareData | CPRItem | Checking itemData.");
   }
 
   /* -------------------------------------------- */
