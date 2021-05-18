@@ -8,6 +8,8 @@
 - Setting the autofire maximum multiplier on an item will now be taken into account when rolling damage for autofire damage rolls.  For weapons defined in the core rules (SMG, H. SMG & Assault Rifles) leaving this as 0 will utilize the core rule set for those items.  You can over-ride the core rules (for homebrew) by actually setting this to a non-zero amount.  If you set the multiplier in the roll dialog to a value higher than the allowable value, it will default to the maximum allowable multiplier.
 - Added "Unarmed" weapon type with optional (on by default) automatic damage determination based on BODY
 - Characters are now linked to their token by default, Mooks are not.
+- Can now change item-amount from character sheet for Ammo, Clothing, and Gear item-types.
+- Hoverable input fields now remain visible if field is focused and fade out for a more visually pleasing transition from visible to not-visible. (Thanks to sdenec#3813 because I borrowed some of his code from Tidy5e Sheet to accomplish this.)
 
 # DEV WIP BUG FIXES
 - fixed #158 - Stat padding fixed
@@ -17,7 +19,7 @@
 - fixed #192 - Double quotes break macros for weapon names
 - fixed #195 - 'Has Suppressive Fire' option doesn't seem to do anything
 - fixed #204 - fixed IP and Eurobucks Ledger functions to work with unlinked tokens
-- fixed #221 & #222 - correction of two ciritcal injuries
+- fixed #221 & #222 - correction of two criitcal injuries
 
 # Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
 **Bug Fix**
