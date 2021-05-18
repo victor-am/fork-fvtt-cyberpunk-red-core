@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 /* global renderTemplate, FormDataExtended, Dialog game */
 // TODO - Revist this method of dialog creation.
-
+import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
 
 export default class CyberwareInstallPrompt {
@@ -26,12 +26,12 @@ export default class CyberwareInstallPrompt {
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
-              label: "Cancel",
+              label: SystemUtils.Localize("CPR.cancel"),
               callback: (html) => _onCancel(html), // TODO fix no-shadow
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: "Install",
+              label: SystemUtils.Localize("CPR.install"),
               callback: (html) => _onConfirm(html), // TODO fix no-shadow
             },
           },

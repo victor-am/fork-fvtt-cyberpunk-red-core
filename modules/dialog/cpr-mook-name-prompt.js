@@ -1,5 +1,5 @@
 /* global renderTemplate, FormDataExtended, Dialog */
-
+import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
 
 export default class MookNamePrompt {
@@ -22,12 +22,12 @@ export default class MookNamePrompt {
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
-              label: "Cancel",
+              label: SystemUtils.Localize("CPR.cancel"),
               callback: () => _onCancel(html),
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: "Confirm",
+              label: SystemUtils.Localize("CPR.confirm"),
               // eslint-disable-next-line no-shadow
               callback: (html) => _onConfirm(html),
             },

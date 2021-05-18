@@ -378,11 +378,13 @@ export default class CPRActor extends Actor {
   }
 
   processDeathSave(cprRoll) {
-    let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
+    const success = SystemUtils.Localize("CPR.success");
+    const failed = SystemUtils.Localize("CPR.failed");
+    let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? success : failed;
     if (cprRoll.initialRoll === 10) {
-      saveResult = "Failed";
+      saveResult = failed;
     }
-    if (saveResult === "Success") {
+    if (saveResult === success) {
       const deathPenalty = this.data.data.derivedStats.deathSave.penalty + 1;
       this.update({ "data.derivedStats.deathSave.penalty": deathPenalty });
     }
