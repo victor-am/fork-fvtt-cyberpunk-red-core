@@ -10,9 +10,9 @@
       {{#each (sort actor.filteredItems.armor "name") as |armor| }}
         {{#if (compare armor.data.equipped "===" "equipped")}}
           <li class="item armor-piece">
-            <li class="flex-space-between item flexrow" data-item-id="{{armor._id}}">
+            <li class="flex-space-between item flexrow">
               <div class="item-name armor-name text-nowrap">
-                <a class="name item-edit">{{armor.name}}</a>
+                <a class="name deletable item-edit" tabindex="0" data-item-id="{{armor._id}}" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}">{{armor.name}}</a>
               </div>
               {{#if armor.data.isHeadLocation}}
                 <div class="text-right">
@@ -68,11 +68,6 @@
                   </a>
                 </div>
               {{/if}}
-              <div class="text-right">
-                <a class="item-action" data-action-type="delete">
-                  <i class="fas fa-trash-alt fg-red" title="Delete Item"></i>
-                </a>
-              </div>
             </li>
           </li>
         {{/if}}

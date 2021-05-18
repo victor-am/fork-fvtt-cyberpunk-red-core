@@ -873,6 +873,9 @@ button,
   flex-direction: column;
   flex-wrap: nowrap;
 }
+*:focus {
+  outline: none;
+}
 .mook-sheet {
   font-family: "Audimat Mono";
   background-color: #eaeaeaff;
@@ -885,8 +888,9 @@ button,
 .mook-sheet .mook-details {
   display: grid;
   gap: 5px;
+  grid-template-rows: auto;
   grid-area: mook-details;
-  grid-template-areas: "mook-stats" "mook-derived" "mook-gear" "mook-skills" "mook-special" "mook-crit";
+  grid-template-areas: "mook-stats" "mook-derived" "mook-gear" "mook-skills" "mook-special" "mook-crit" "mook-notes";
 }
 .mook-sheet .mook-stats {
   display: grid;
@@ -954,6 +958,7 @@ button,
 }
 .mook-sheet .mook-weapon {
   display: grid;
+  text-align: left;
   grid-template-columns: 3fr 1fr 1fr;
   grid-template-areas: "mook-weapon-name mook-weapon-mode mook-weapon-rolls";
 }
@@ -976,6 +981,20 @@ button,
 }
 .mook-sheet .mook-crit {
   grid-area: mook-crit;
+}
+.mook-sheet .mook-notes {
+  grid-area: mook-notes;
+  min-height: 60px;
+  min-width: 430px;
+}
+.mook-sheet .mook-edit-section {
+  min-height: 80px;
+  min-width: 135px;
+  height: unset;
+  display: flex;
+  flex: 1 0 auto;
+  background-color: #eaeaeaff;
+  flex-wrap: wrap;
 }
 .items-list {
   list-style: none;
