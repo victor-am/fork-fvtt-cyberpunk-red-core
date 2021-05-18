@@ -513,6 +513,17 @@ button,
 .expand-icon {
   font-size: xx-small;
 }
+.amount-input-wrap {
+  position: relative;
+}
+.amount-input-wrap .amount-input {
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+.amount-input-wrap .width-element {
+  visibility: hidden;
+}
 .item-sheet {
   font-family: "Audimat Mono";
   background-color: #eaeaeaff;
