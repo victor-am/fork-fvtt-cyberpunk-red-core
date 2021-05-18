@@ -17,6 +17,7 @@
 - fixed #192 - Double quotes break macros for weapon names
 - fixed #195 - 'Has Suppressive Fire' option doesn't seem to do anything
 - fixed #204 - fixed IP and Eurobucks Ledger functions to work with unlinked tokens
+- fixed #221 & #222 - correction of two ciritcal injuries
 
 # Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
 **Bug Fix**
