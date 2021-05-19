@@ -3,8 +3,16 @@
         <div class="item-settings-section">
             <ol class="items-list">
 
-                {{!--Item Name Settings--}}
+                {{!--Item Name/Source Settings--}}
                 {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs" this}}
+                <li class="item flexrow">
+                  <div class="item flexrow setting-name text-nowrap">
+                    {{localize "CPR.source"}}
+                  </div>
+                  <div class="item flexrow setting-value text-nowrap item-end">
+                    <input name="data.source" class="" type="text" value="{{data.source}}" placeholder="Example: pg. 1">
+                  </div>
+                </li>
 
                 {{!-- Critical Injury Location Settings--}}
                 <li class="item flexrow">
