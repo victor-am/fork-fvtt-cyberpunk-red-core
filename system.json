@@ -105,6 +105,14 @@
       "path": "packs/vehicles.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Scenes - Core",
+      "entity": "Scene",
+      "name": "scenes",
+      "path": "packs/scenes.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
     }
   ],
   "languages": [
