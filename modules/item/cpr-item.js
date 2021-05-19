@@ -17,10 +17,8 @@ export default class CPRItem extends Item {
   /* -------------------------------------------- */
   /** @override */
   prepareData() {
-    LOGGER.debug(`prepareData | CPRItem | Called for type: ${this.type}.`);
+    LOGGER.trace(`prepareData | CPRItem | Called for type: ${this.type}.`);
     super.prepareData();
-    // const itemData = this.data.data;
-    LOGGER.debug("prepareData | CPRItem | Checking itemData.");
   }
 
   /* -------------------------------------------- */
@@ -316,6 +314,15 @@ export default class CPRItem extends Item {
       } else {
         this.getData().magazine.value = Math.clamped(0, value, maxAmmo);
       }
+    }
+  }
+
+  setItemAmount(value) {
+    LOGGER.debug("setItemAmmo | CPRItem | Called.");
+    if (value.charAt(0) === "+" || value.charAt(0) === "-") {
+      this.getData().amount = this.getData().amount + parseInt(value, 10);
+    } else {
+      this.getData().amount = parseInt(value, 10);
     }
   }
 

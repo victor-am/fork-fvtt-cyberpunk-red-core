@@ -513,6 +513,17 @@ button,
 .expand-icon {
   font-size: xx-small;
 }
+.amount-input-wrap {
+  position: relative;
+}
+.amount-input-wrap .amount-input {
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+.amount-input-wrap .width-element {
+  visibility: hidden;
+}
 .item-sheet {
   font-family: "Audimat Mono";
   background-color: #eaeaeaff;
@@ -1166,8 +1177,9 @@ ol {
 .compatible-ammo li:nth-child(odd) {
   background-color: #eaeaeaff;
 }
-.zero-not-visible:not(:hover) {
+.zero-not-visible:not(:hover):not(:focus-within) {
   opacity: 0;
+  transition: opacity 0.2s ease;
 }
 .chat-message.message.flexcol {
   font-family: "Audimat Mono";

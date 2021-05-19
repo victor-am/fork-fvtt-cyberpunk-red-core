@@ -196,6 +196,8 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".weapon-input").click((event) => event.target.select()).change((event) => this._updateWeaponAmmo(event));
 
+    html.find(".amount-input").click((event) => event.target.select()).change((event) => this._updateAmount(event));
+
     html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
 
     html.find(".ability-input").click((event) => event.target.select()).change(
@@ -556,6 +558,16 @@ export default class CPRActorSheet extends ActorSheet {
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "data.magazine.value") {
       item.setWeaponAmmo(event.target.value);
+    }
+    this._updateOwnedItem(item);
+  }
+
+  _updateAmount(event) {
+    LOGGER.trace("ActorID _updateAmount | CPRActorSheet | Called.");
+    const item = this._getOwnedItem(this._getItemId(event));
+    const updateType = $(event.currentTarget).attr("data-item-prop");
+    if (updateType === "item.data.amount") {
+      item.setItemAmount(event.target.value);
     }
     this._updateOwnedItem(item);
   }

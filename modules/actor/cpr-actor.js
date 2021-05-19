@@ -378,11 +378,13 @@ export default class CPRActor extends Actor {
   }
 
   processDeathSave(cprRoll) {
-    let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
+    const success = SystemUtils.Localize("CPR.success");
+    const failed = SystemUtils.Localize("CPR.failed");
+    let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? success : failed;
     if (cprRoll.initialRoll === 10) {
-      saveResult = "Failed";
+      saveResult = failed;
     }
-    if (saveResult === "Success") {
+    if (saveResult === success) {
       const deathPenalty = this.data.data.derivedStats.deathSave.penalty + 1;
       this.update({ "data.derivedStats.deathSave.penalty": deathPenalty });
     }
@@ -629,5 +631,29 @@ export default class CPRActor extends Actor {
         }
       }
     });
+  }
+
+  handleMookDraggedItem(item) {
+    // called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
+    // handles the automatic equipping of gear and installation of cyberware
+    LOGGER.trace("_handleMookDraggedItem | CPRActor | Called.");
+    LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
+    LOGGER.debugObject(item);
+    const newItem = item;
+    switch (item.type) {
+      case "clothing":
+      case "weapon":
+      case "gear":
+      case "armor": {
+        newItem.data.data.equipped = "equipped";
+        this.updateEmbeddedEntity("OwnedItem", newItem.data);
+        break;
+      }
+      case "cyberware": {
+        this.addCyberware(item._id);
+        break;
+      }
+      default:
+    }
   }
 }
