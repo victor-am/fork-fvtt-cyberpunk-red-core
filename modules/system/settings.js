@@ -15,7 +15,7 @@ const registerSystemSettings = () => {
   });
 
   game.settings.register("cyberpunk-red-core", "createDVtables", {
-    name: "Create DV Tables",
+    name: "CPR.createdvtables",
     scope: "world",
     config: true,
     type: Boolean,
