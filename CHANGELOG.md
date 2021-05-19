@@ -10,6 +10,8 @@
 - Characters are now linked to their token by default, Mooks are not.
 - Can now change item-amount from character sheet for Ammo, Clothing, and Gear item-types.
 - Hoverable input fields now remain visible if field is focused and fade out for a more visually pleasing transition from visible to not-visible. (Thanks to sdenec#3813 because I borrowed some of his code from Tidy5e Sheet to accomplish this.)
+- The system compendium has now been updated to include ammo, armor, additional cyberware, gear, programs, vehicles and weapons. Simple descriptions are provided to align with the R. Talsorian "Homebrew Content Policy". Please ensure you always reference an official, legally-owned rulebook for the full item description and information. No Actors or "Black ICE" programs are provided, as these count as NPCs under the policy rules and cannot be distributed. 
+- Two built-in scenes (maps) are now available in the compendium. These have been graciously provided by [SolutionMaps](https://www.patreon.com/solutionmaps).
 
 # DEV WIP BUG FIXES
 - fixed #158 - Stat padding fixed
