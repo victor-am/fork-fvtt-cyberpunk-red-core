@@ -65,7 +65,6 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     const mookImageArea = $(event.currentTarget).parents(".mook-image");
     const mookImageImg = $(event.currentTarget).parents(".mook-image").children(".mook-image-block");
     const mookImageToggle = $(event.currentTarget);
-    console.log(this);
     let collapsedImage = null;
     if (mookImageToggle.attr("data-text") === SystemUtils.Localize("CPR.imagecollapse")) {
       mookImageToggle.attr("data-text", SystemUtils.Localize("CPR.imageexpand"));
@@ -78,42 +77,6 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     mookImageImg.toggleClass("hide");
     const actorData = duplicate(this.actor.data);
     actorData.flags.collapsedImage = collapsedImage;
-    console.log(actorData);
     this.actor.update(actorData);
   }
-
-  /** @override
-  This method is called as a byproduct of a drag-and-drop listener provided by Foundry. (_onDrop)
-  Foundry does not provide an easy way to look up an item that was just created via a drag-and-drop event.
-  An itemId is in the enclosed data, but it is for the item that was dragged, and it changes when the
-  (duplicate) owned item is created.
-  */
-  async _onDropItemCreate(itemData) {
-    LOGGER.debugObject(itemData);
-    const eqItem = itemData;
-    eqItem.data.equipped = "equipped";
-    if (eqItem.type === "cyberware") {
-      if (eqItem.data.isFoundational) {
-        eqItem.data.isInstalled = true;
-      } else {
-        const msg = `${SystemUtils.Localize("CPR.mookcyberwarewarning")}`;
-        SystemUtils.DisplayMessage("warn", msg);
-      }
-    }
-    return super._onDropItemCreate(eqItem);
-  }
-
-  /*
-  _onDrop(event) {
-    LOGGER.trace("_onDrop | CPRMookActorSheet | called.");
-    const thing = super._onDrop(event);
-    LOGGER.debugObject(thing);
-    // auto-equip the item
-    const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
-    LOGGER.debugObject(dragData);
-    const item = this.actor.getOwnedItem(dragData.id);
-    LOGGER.debugObject(item);
-    this._updateOwnedItemProp(item, "data.equipped", "equipped");
-  }
-  */
 }
