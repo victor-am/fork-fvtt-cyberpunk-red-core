@@ -242,6 +242,35 @@ export default class Migration {
       actorData.data.derivedStats.currentWoundState = actorData.data.currentWoundState;
     }
 
+    // Adds external data points to Actor (e.g. for Armor SP resource bars)
+    if ((typeof actorData.data.externalData) === "undefined") {
+      actorData.data.externalData = {
+        currentArmorBody: {
+          id: "",
+          value: 0,
+          max: 0,
+        },
+
+        currentArmorHead: {
+          id: "",
+          value: 0,
+          max: 0,
+        },
+
+        currentArmorShield: {
+          id: "",
+          value: 0,
+          max: 0,
+        },
+
+        currentWeapon: {
+          id: "",
+          value: 0,
+          max: 0,
+        },
+      };
+    }
+
     // Check the ActorData for properties no longer in use and add them
     // to the scrubData object to have them removed
     const scrubData = this.scrubActorData(actorData);

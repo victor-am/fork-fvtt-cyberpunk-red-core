@@ -71,6 +71,9 @@ export default class CPRActorSheet extends ActorSheet {
     // Ablate Armor
     html.find(".ablate").click((event) => this._ablateArmor(event));
 
+    // Set Armor as Current
+    html.find(".armor-current").click((event) => this._makeArmorCurrent(event));
+
     // Install Cyberware
     html.find(".install-remove-cyberware").click((event) => this._installRemoveCyberwareAction(event));
 
@@ -321,17 +324,37 @@ export default class CPRActorSheet extends ActorSheet {
   _repairArmor(event) {
     LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
+    const currentArmorBodyValue = item.data.data.bodyLocation.sp;
+    const currentArmorHeadValue = item.data.data.headLocation.sp;
+    const currentArmorShieldValue = item.data.data.shieldHitPoints.max;
     // XXX: cannot use _getObjProp since we need to update 2 props
     this._updateOwnedItemProp(item, "data.headLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.shieldHitPoints.value", item.data.data.shieldHitPoints.max);
+    // Update actor external data when armor is repaired:
+    if (this._getItemId(event) === this.actor.data.data.externalData.currentArmorBody.id) {
+      this.actor.update({
+        "data.externalData.currentArmorBody.value": currentArmorBodyValue,
+      });
+    }
+    if (this._getItemId(event) === this.actor.data.data.externalData.currentArmorHead.id) {
+      this.actor.update({
+        "data.externalData.currentArmorHead.value": currentArmorHeadValue,
+      });
+    }
+    if (this._getItemId(event) === this.actor.data.data.externalData.currentArmorShield.id) {
+      this.actor.update({
+        "data.externalData.currentArmorShield.value": currentArmorShieldValue,
+      });
+    }
   }
 
   async _ablateArmor(event) {
-    LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
+    LOGGER.trace("ActorID _ablateArmor | CPRActorSheet | Called.");
     const location = $(event.currentTarget).attr("data-location");
     const armorList = this.actor.getEquippedArmors(location);
     const updateList = [];
+    let currentArmorValue;
     switch (location) {
       case "head": {
         armorList.forEach((a) => {
@@ -342,6 +365,9 @@ export default class CPRActorSheet extends ActorSheet {
           updateList.push(armorData);
         });
         await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        // Update actor external data as head armor is ablated:
+        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorHead.value - 1), 0);
+        this.actor.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
         break;
       }
       case "body": {
@@ -353,6 +379,9 @@ export default class CPRActorSheet extends ActorSheet {
           updateList.push(armorData);
         });
         await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        // Update actor external data as body armor is ablated:
+        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorBody.value - 1), 0);
+        this.actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
         break;
       }
       case "shield": {
@@ -362,10 +391,20 @@ export default class CPRActorSheet extends ActorSheet {
           updateList.push(armorData);
         });
         await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        // Update actor external data as shield is damaged:
+        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorShield.value - 1), 0);
+        this.actor.update({ "data.externalData.currentArmorShield.value": currentArmorValue });
         break;
       }
       default:
     }
+  }
+
+  _makeArmorCurrent(event) {
+    LOGGER.trace("ActorID _makeArmorCurrent | CPRActorSheet | Called.");
+    const location = $(event.currentTarget).attr("data-location");
+    const id = $(event.currentTarget).attr("data-item-id");
+    this.actor.makeThisArmorCurrent(location, id);
   }
 
   _cycleEquipState(event) {

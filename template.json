@@ -40,6 +40,33 @@
             "max": 6
           }
         },
+
+        "externalData": {
+          "currentArmorBody": {
+            "id": "",
+            "value": 0,
+            "max": 0
+          },
+
+          "currentArmorHead": {
+            "id": "",
+            "value": 0,
+            "max": 0
+          },
+
+          "currentArmorShield": {
+            "id": "",
+            "value": 0,
+            "max": 0
+          },
+
+          "currentWeapon": {
+            "id": "",
+            "value": 0,
+            "max": 0
+          }
+        },
+
         "derivedStats": {
           "hp": {
             "value": 40,
