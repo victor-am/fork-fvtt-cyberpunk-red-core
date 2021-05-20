@@ -80,7 +80,7 @@ export default class CPRNetarchUtils {
         if (game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`) === null) {
           await this._duplicateScene(`${this.netarchItem.data.name} (animated)`);
         } else {
-          this.scene = game.scenes.find((f) => f.name === this.netarchItem.data.name);
+          this.scene = game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`);
           await this._removeAllTiles();
         }
       } else if (game.scenes.find((f) => f.name === this.netarchItem.data.name) === null) {
@@ -207,6 +207,7 @@ export default class CPRNetarchUtils {
     });
     await this._addTilesToScene(newTiles);
     await this.scene.activate();
+    SystemUtils.DisplayMessage("notify", SystemUtils.Localize("CPR.netarchgeneratedone"));
   }
 
   async _duplicateScene(newName) {

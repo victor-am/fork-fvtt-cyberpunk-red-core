@@ -638,6 +638,7 @@
     "CPR.netarchgeneratecustomtilescustomhint": "If this setting is used one can specify custom parameters below. Note, that 'Animate Scene?' will then be ignored.",
     "CPR.netarchgeneratecustomtitle": "Custom NET Architechture Scene generation",
     "CPR.netarchgeneratecustomwarning": "All further settings to be changed with care if custom tiles are desired. Automated generation might look wiered or fail if inapproprate settings are chosen.",
+    "CPR.netarchgeneratedone": "The scene generation is done, you might have to leave to another scene and load this scene again if it does not display correctly.",
     "CPR.netarchgeneratefloorformattingerror": "The name for the floor does not fir the desired format. Use a number followed directly by a small letter if desired, e.g. 4, 4a or 6c.",
     "CPR.netarchgeneratenofloorerror": "The Items seems to not have any floors specified!",
     "CPR.netarchgeneratenogmerror": "Error: You do not have GM permissions. No Scene generation allowed!",
