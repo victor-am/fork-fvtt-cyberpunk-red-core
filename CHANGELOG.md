@@ -13,8 +13,10 @@
   - If a specific black ICE is selected it is linked to the corresponding black ICE item sheet if it exists.
   - In addition one can automatically generate a scene shwoing the net architecture. This scene generation allows for floors up to eight (8) deep and up to four (4) branches to be displayed.
   - Experimental: The scene generation can be customized to use custom assets and custom sizes to allow for maximum flexibility.
+- Added Portrait to mooks
 - Can now change item-amount from character sheet for Ammo, Clothing, and Gear item-types.
 - Hoverable input fields now remain visible if field is focused and fade out for a more visually pleasing transition from visible to not-visible. (Thanks to sdenec#3813 because I borrowed some of his code from Tidy5e Sheet to accomplish this.)
+
 
 # DEV WIP BUG FIXES
 - fixed #158 - Stat padding fixed
