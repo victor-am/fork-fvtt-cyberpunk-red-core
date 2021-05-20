@@ -42,6 +42,10 @@ export default class CPRSystemUtils {
     return game.i18n.localize(string);
   }
 
+  static Format(string, object) {
+    return game.i18n.format(string, object);
+  }
+
   static SetUserSetting(type, name, value, extraSettings) {
     const userSettings = game.settings.get("cyberpunk-red-core", "userSettings") ? game.settings.get("cyberpunk-red-core", "userSettings") : {};
     switch (type) {

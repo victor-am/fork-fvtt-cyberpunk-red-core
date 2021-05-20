@@ -57,6 +57,14 @@
       "path": "packs/critical-injury-tables-core.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Scenes - Core",
+      "entity": "Scene",
+      "name": "scenes",
+      "path": "packs/scenes-core.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
     }
   ],
   "languages": [
