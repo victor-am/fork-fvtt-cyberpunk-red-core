@@ -513,6 +513,42 @@ button,
 .expand-icon {
   font-size: xx-small;
 }
+.bice-sheet {
+  font-family: "Audimat Mono";
+  background-color: #eaeaeaff;
+  display: grid;
+  min-width: 730px;
+  grid-template-rows: auto;
+  grid-template-areas: "bice-stats" "bice-effects" "bice-icon";
+}
+.bice-sheet .bice-stats {
+  display: grid;
+  grid-area: bice-stats;
+  grid-template-rows: 10px 1fr 1fr;
+  grid-template-areas: "bice-top" "bice-head" "bice-value";
+}
+.bice-sheet .bice-stats .bice-top {
+  grid-area: bice-top;
+  align-self: center;
+}
+.bice-sheet .bice-stats .bice-head {
+  grid-area: bice-head;
+}
+.bice-sheet .bice-stats .bice-value {
+  grid-area: bice-value;
+}
+.bice-sheet .bice-effects {
+  gap: 5px;
+  display: flex;
+  align-items: center;
+  grid-area: bice-effects;
+}
+.bice-sheet .bice-icon {
+  gap: 5px;
+  display: flex;
+  align-items: center;
+  grid-area: bice-icon;
+}
 .item-sheet {
   font-family: "Audimat Mono";
   background-color: #eaeaeaff;
@@ -748,6 +784,12 @@ button,
 }
 .width-auto-basis {
   flex-basis: auto;
+}
+.width-long {
+  flex-basis: 5%;
+}
+.width-longer {
+  flex-basis: 50%;
 }
 .width-fit {
   width: fit-content;

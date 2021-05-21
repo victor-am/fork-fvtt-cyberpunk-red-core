@@ -260,13 +260,16 @@
     },
     "blackIce": {
       "class": "",
-      "isDemon": false,
-      "interface": 0,
-      "per": 0,
-      "spd": 0,
-      "atk": 0,
-      "def": 0,
-      "rez": 0
+      "stats": {
+        "per": 0,
+        "spd": 0,
+        "atk": 0,
+        "def": 0,
+        "rez": 0
+      },
+      "cost": 100,
+      "effect": "",
+      "icon_desc": ""
     },
     "container": {
       "hp": {

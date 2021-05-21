@@ -13,7 +13,9 @@ const actorHooks = () => {
 
   Hooks.on("preUpdateActor", (actor, updatedData) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
-    Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.invalidroledata");
+    if (actor.data.type !== "blackIce") {
+      Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.invalidroledata");
+    }
   });
 };
 

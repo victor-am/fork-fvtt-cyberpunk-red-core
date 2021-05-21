@@ -28,7 +28,7 @@ export default class CPRActor extends Actor {
       // the game and the clients can't update them.  Everyone should only calculate
       // their own derived stats, or the GM should be able to calculate the derived
       // stat
-      if (this.owner || game.user.isGM) {
+      if ((this.owner || game.user.isGM) && this.data.type !== "blackIce") {
         this._calculateDerivedStats();
       }
     }
@@ -50,7 +50,7 @@ export default class CPRActor extends Actor {
   static async create(data, options) {
     LOGGER.trace("create | CPRActor | called.");
     const createData = data;
-    if (typeof data.data === "undefined") {
+    if (typeof data.data === "undefined" && data.type !== "blackIce") {
       LOGGER.trace("create | New Actor | CPRActor | called.");
       createData.items = [];
       createData.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());

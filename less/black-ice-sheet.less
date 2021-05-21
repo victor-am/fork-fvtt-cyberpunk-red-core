@@ -1,0 +1,48 @@
+// Cyberpunk Red Core Black-ICE Sheet Styling
+// Overall Sheet Layout
+.bice-sheet {
+    font-family: "Audimat Mono";
+    background-color: @chrome-white;
+    display: grid;
+    min-width: 730px;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "bice-stats"
+        "bice-effects"
+        "bice-icon";
+
+    .bice-stats {
+        display: grid;
+        grid-area: bice-stats;
+        grid-template-rows: 10px 1fr 1fr;
+        grid-template-areas:
+            "bice-top"
+            "bice-head"
+            "bice-value";
+
+        .bice-top { 
+            grid-area: bice-top;
+            align-self: center;
+        }
+        .bice-head { 
+            grid-area: bice-head;
+        }
+        .bice-value { 
+            grid-area: bice-value;
+        }
+    }
+
+    .bice-effects {
+        gap: 5px;
+        display: flex;
+        align-items: center;
+        grid-area: bice-effects;
+    }
+
+    .bice-icon {
+        gap: 5px;
+        display: flex;
+        align-items: center;
+        grid-area: bice-icon;
+    }
+}
