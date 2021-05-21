@@ -574,7 +574,7 @@ button,
   border-color: #b90202ff;
   border-style: solid;
   border-width: 5px;
-  overflow-y: scroll;
+  overflow-y: hidden;
   flex-wrap: wrap;
 }
 .item-description-grid,
@@ -633,6 +633,40 @@ button,
   width: 62px;
   height: 62px;
   object-fit: contain;
+}
+.item-netarch-section {
+  background-color: #b90202ff;
+  padding-top: 5px;
+}
+.item-netarch-grid {
+  display: grid;
+  grid-template-columns: 30px 30px 1fr 80px;
+  grid-template-areas: "netarch-level netarch-dv netarch-content netarch-actions";
+  gap: 4px 4px;
+}
+.netarch-level {
+  grid-area: netarch-level;
+  flex: 0 0 30px;
+  text-align: center;
+}
+.netarch-dv {
+  grid-area: netarch-dv;
+  flex: 0 0 30px;
+  text-align: center;
+}
+.netarch-content {
+  grid-area: netarch-content;
+}
+.netarch-actions {
+  grid-area: netarch-actions;
+  flex: 0 0 80px;
+  text-align: end;
+}
+.netarch-list-content li:nth-child(even) {
+  background-color: #ffc3b6ff;
+}
+.netarch-list-content li:nth-child(odd) {
+  background-color: #eaeaeaff;
 }
 .text-smallest {
   font-size: 0.5rem;
@@ -901,7 +935,47 @@ button,
   gap: 5px;
   grid-template-rows: auto;
   grid-area: mook-details;
-  grid-template-areas: "mook-stats" "mook-derived" "mook-gear" "mook-skills" "mook-special" "mook-crit" "mook-notes";
+  grid-template-areas: "mook-img-and-stats" "mook-gear" "mook-skills" "mook-special" "mook-crit" "mook-notes";
+}
+.mook-sheet .mook-img-and-stats {
+  display: grid;
+  grid-template-areas: "mook-image mook-stats-and-derived";
+}
+.mook-sheet .mook-image {
+  grid-area: mook-image;
+  display: grid;
+  grid-template-areas: "mook-image-toggle mook-image-block";
+  width: 168px;
+  height: 151px;
+}
+.mook-sheet .mook-image-small-toggle {
+  width: 17px;
+}
+.mook-sheet .mook-image-toggle {
+  grid-area: "mook-image-toggle";
+}
+.mook-sheet .mook-image-toggle::after {
+  content: attr(data-text);
+}
+.mook-sheet .mook-image-block {
+  grid-area: "mook-image-block";
+  clip-path: polygon(25px 0, 100% 0, 100% 100%, 0 100%, 0 25px);
+  height: 151px;
+  width: 151px;
+}
+.mook-sheet .mook-image-block-img {
+  width: 151px;
+  height: 151px;
+  object-fit: contain;
+  border: 0;
+}
+.mook-sheet .mook-stats-and-derived {
+  display: grid;
+  gap: 5px;
+  grid-template-rows: auto;
+  grid-area: mook-stats-and-derived;
+  grid-template-areas: "mook-stats" "mook-derived";
+  min-width: 420px;
 }
 .mook-sheet .mook-stats {
   display: grid;

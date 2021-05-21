@@ -561,6 +561,39 @@ export default class CPRActor extends Actor {
     throw new Error(`Bad location given: ${location}`);
   }
 
+  // Update actor data with data from the chosen armor so that it can be dislpayed in a resource bar.
+  // eslint-disable-next-line consistent-return
+  makeThisArmorCurrent(location, id) {
+    const currentArmor = this._getOwnedItem(id);
+    if (location === "body") {
+      const currentArmorValue = currentArmor.data.data.bodyLocation.sp - currentArmor.data.data.bodyLocation.ablation;
+      const currentArmorMax = currentArmor.data.data.bodyLocation.sp;
+      return this.update({
+        "data.externalData.currentArmorBody.value": currentArmorValue,
+        "data.externalData.currentArmorBody.max": currentArmorMax,
+        "data.externalData.currentArmorBody.id": id,
+      });
+    }
+    if (location === "head") {
+      const currentArmorValue = currentArmor.data.data.headLocation.sp - currentArmor.data.data.headLocation.ablation;
+      const currentArmorMax = currentArmor.data.data.headLocation.sp;
+      return this.update({
+        "data.externalData.currentArmorHead.value": currentArmorValue,
+        "data.externalData.currentArmorHead.max": currentArmorMax,
+        "data.externalData.currentArmorHead.id": id,
+      });
+    }
+    if (location === "shield") {
+      const currentArmorValue = currentArmor.data.data.shieldHitPoints.value;
+      const currentArmorMax = currentArmor.data.data.shieldHitPoints.max;
+      return this.update({
+        "data.externalData.currentArmorShield.value": currentArmorValue,
+        "data.externalData.currentArmorShield.max": currentArmorMax,
+        "data.externalData.currentArmorShield.id": id,
+      });
+    }
+  }
+
   createRoll(type, name) {
     switch (type) {
       case CPRRolls.rollTypes.STAT: {

@@ -1,5 +1,5 @@
 {
-  "version": "0.75.2",
+  "version": "0.75.3",
   "name": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
@@ -115,10 +115,10 @@
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Scenes",
+      "label": "Scenes - Core",
       "entity": "Scene",
       "name": "scenes",
-      "path": "packs/scenes.db",
+      "path": "packs/scenes-core.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     }

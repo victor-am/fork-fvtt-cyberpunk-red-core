@@ -21,13 +21,61 @@
         grid-template-rows: auto;
         grid-area: mook-details;
         grid-template-areas:
-            "mook-stats"
-            "mook-derived"
+            "mook-img-and-stats"
             "mook-gear"
             "mook-skills"
             "mook-special"
             "mook-crit"
             "mook-notes";
+    }
+
+    .mook-img-and-stats {
+      display: grid;
+      grid-template-areas: "mook-image mook-stats-and-derived";
+    }
+
+    .mook-image {
+        grid-area: mook-image;
+        display: grid;
+        grid-template-areas:"mook-image-toggle mook-image-block";
+        width: 168px;
+        height: 151px;
+    }
+
+    .mook-image-small-toggle {
+      width: 17px;
+    }
+
+    .mook-image-toggle {
+      grid-area: "mook-image-toggle";
+      &::after {
+          content: attr(data-text);
+      }
+    }
+
+    .mook-image-block {
+      grid-area: "mook-image-block";
+      clip-path: polygon(25px 0, 100% 0, 100% 100%, 0 100%, 0 25px);
+      height: 151px;
+      width: 151px;
+    }
+
+    .mook-image-block-img {
+      width: 151px;
+      height: 151px;
+      object-fit: contain;
+      border: 0;
+    }
+
+    .mook-stats-and-derived {
+        display: grid;
+        gap: 5px;
+        grid-template-rows: auto;
+        grid-area: mook-stats-and-derived;
+        grid-template-areas:
+            "mook-stats"
+            "mook-derived";
+        min-width: 420px;
     }
 
     .mook-stats {

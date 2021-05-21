@@ -311,6 +311,15 @@ export default function registerHandlebarsHelpers() {
     return cprDot + andCaseSplit.toLowerCase();
   });
 
+  Handlebars.registerHelper("itemIdFromName", (itemName) => {
+    LOGGER.trace("Calling itemIdFromName Helper");
+    const item = game.items.find((i) => i.data.name === itemName);
+    if (item !== null) {
+      return item.data._id;
+    }
+    return "DOES NOT EXIST";
+  });
+
   Handlebars.registerHelper("isDebug", () => {
     LOGGER.trace("Calling isDebug Helper");
     return game.settings.get("cyberpunk-red-core", "debugElements");
