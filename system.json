@@ -57,6 +57,14 @@
       "path": "packs/critical-injury-tables-core.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Scenes - Core",
+      "entity": "Scene",
+      "name": "scenes",
+      "path": "packs/scenes-core.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
     }
   ],
   "languages": [
@@ -79,6 +87,6 @@
   "background" : "Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
   "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/system.json",
-  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/master/fvtt-cyberpunk-red-core-master.zip",
+  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.76.0/fvtt-cyberpunk-red-core-v0.76.0.zip",
   "license": "Copyright 2020, The Project Red Team"
 }

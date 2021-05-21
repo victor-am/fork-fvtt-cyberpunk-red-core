@@ -8,9 +8,18 @@
 - Setting the autofire maximum multiplier on an item will now be taken into account when rolling damage for autofire damage rolls.  For weapons defined in the core rules (SMG, H. SMG & Assault Rifles) leaving this as 0 will utilize the core rule set for those items.  You can over-ride the core rules (for homebrew) by actually setting this to a non-zero amount.  If you set the multiplier in the roll dialog to a value higher than the allowable value, it will default to the maximum allowable multiplier.
 - Added "Unarmed" weapon type with optional (on by default) automatic damage determination based on BODY
 - Characters are now linked to their token by default, Mooks are not.
+- Added functionality for the Net architecture.
+  - It can now be configured on its item sheet, adding, removing and editing the floors.
+  - If a specific black ICE is selected it is linked to the corresponding black ICE item sheet if it exists.
+  - In addition one can automatically generate a scene shwoing the net architecture. This scene generation allows for floors up to eight (8) deep and up to four (4) branches to be displayed.
+  - Experimental: The scene generation can be customized to use custom assets and custom sizes to allow for maximum flexibility.
 - Added Portrait to mooks
 - Can now change item-amount from character sheet for Ammo, Clothing, and Gear item-types.
 - Hoverable input fields now remain visible if field is focused and fade out for a more visually pleasing transition from visible to not-visible. (Thanks to sdenec#3813 because I borrowed some of his code from Tidy5e Sheet to accomplish this.)
+- If an item has an inputted source, it now displays in the header of the item-sheet.
+- Armor SP can now be displayed in resource bars! Select the Star Icon next to equipped armor to make that armor active. Then, set the token up to display the resource(s) named externalData.currentHeadArmor, externalData.currentBodyArmor, and/or externalData.currentShieldArmor.
+  - NOTE: Currently if you ablate armor from the Token HUD, it will not ablate other equipped armors in the same location. When I coded this latter feature, it introduced a frustrating bug, but since it is a somewhat niche case, I decided to scrap it and figure it out later.
+  - Players/GMs, if you have multiple armors equipped in the same location, for now ablate from the character sheet and not from the Token HUD.
 
 
 # DEV WIP BUG FIXES

@@ -1,0 +1,154 @@
+{{trace "CPR-NETARCH-LEVEL-PROMPT.HBS"}}
+<form>
+  <ol class="items-list">
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span class="text-bold text-nowrap">Setting</span>
+        </div>
+        <div class="item flexrow setting-value">
+          <span class="text-bold text-nowrap text-center text-space-around">Value</span>
+        </div>
+    </li>
+    <hr>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span>
+            <div class="text-bold">{{localize "CPR.netarchgeneratecustomanimate"}}</div>
+            <div style="font-size: 0.7rem">{{localize "CPR.netarchgeneratecustomanimatehint"}}</div>
+          </span>
+        </div>
+        <div class="item flexrow setting-value">
+          <span class="text-nowrap text-center text-space-around"><input type="checkbox" name="animated" value="{{animated}}"></span>
+        </div>
+    </li>
+    <hr>
+    <div class="text-bold fg-red">{{localize "CPR.netarchgeneratecustomwarning"}}</div>
+    <hr>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span>
+            <div class="text-bold">{{localize "CPR.netarchgeneratecustomtilescustom"}}</div>
+            <div style="font-size: 0.7rem">{{localize "CPR.netarchgeneratecustomtilescustomhint"}}</div>
+          </span>
+        </div>
+        <div class="item flexrow setting-value">
+          <span class="text-nowrap text-center text-space-around"><input type="checkbox" name="cusomTiles" value="{{cusomTiles}}"></span>
+        </div>
+    </li>
+    <hr>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span>
+            <div class="text-bold">{{localize "CPR.netarchgeneratecustomimagefolder"}}</div>
+            <div style="font-size: 0.7rem">{{localize "CPR.netarchgeneratecustomimagefolderhint"}}</div>
+          </span>
+        </div>
+        <div class="item flexrow setting-value">
+          <span class="text-bold text-nowrap text-center text-space-around"><input type="text" name="filePath" value="{{filePath}}"></span>
+        </div>
+    </li>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span>
+            <div class="text-bold">{{localize "CPR.netarchgeneratecustomfileextension"}}</div>
+            <div style="font-size: 0.7rem">{{localize "CPR.netarchgeneratecustomfileextensionhint"}}</div>
+          </span>
+        </div>
+        <div class="item flexrow setting-value">
+          <span class="text-bold text-nowrap text-center text-space-around"><input type="text" name="fileExtension" value="{{fileExtension}}"></span>
+        </div>
+    </li>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span>
+            <div class="text-bold">{{localize "CPR.netarchgeneratecustomscenename"}}</div>
+            <div style="font-size: 0.7rem">{{localize "CPR.netarchgeneratecustomscenenamehint"}}</div>
+          </span>
+        </div>
+        <div class="item flexrow setting-value">
+          <span class="text-bold text-nowrap text-center text-space-around"><input type="text" name="sceneName" value="{{sceneName}}"></span>
+        </div>
+    </li>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span>
+            <div class="text-bold">{{localize "CPR.netarchgeneratecustomscenegrid"}}</div>
+            <div style="font-size: 0.7rem">{{localize "CPR.netarchgeneratecustomscenegridhint"}}</div>
+          </span>
+        </div>
+        <div class="item flexrow setting-value">
+          <span class="text-bold text-nowrap text-center text-space-around"><input type="text" name="gridSize" value="{{gridSize}}"></span>
+        </div>
+    </li>
+    <hr>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <div class="item flexrow setting-name">
+          <span>
+            <div class="text-bold">{{localize "CPR.netarchgeneratecustomlevelwidth"}}</div>
+            <div style="font-size: 0.7rem">{{localize "CPR.netarchgeneratecustomlevelwidthhint"}}</div>
+          </span>
+        </div>
+        <div class="item flexrow setting-value">
+          <span class="text-bold text-nowrap text-center text-space-around"><input type="text" name="levelWidth" value="{{levelWidth}}"></span>
+        </div>
+    </li>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span>
+            <div class="text-bold">{{localize "CPR.netarchgeneratecustomlevelheight"}}</div>
+            <div style="font-size: 0.7rem">{{localize "CPR.netarchgeneratecustomlevelheighthint"}}</div>
+          </span>
+        </div>
+        <div class="item flexrow setting-value">
+          <span class="text-bold text-nowrap text-center text-space-around"><input type="text" name="levelHeight" value="{{levelHeight}}"></span>
+        </div>
+    </li>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span>
+            <div class="text-bold">{{localize "CPR.netarchgeneratecustomconnectorwidth"}}</div>
+            <div style="font-size: 0.7rem">{{localize "CPR.netarchgeneratecustomconnectorwidthhint"}}</div>
+          </span>
+        </div>
+        <div class="item flexrow setting-value">
+          <span class="text-bold text-nowrap text-center text-space-around"><input type="text" name="connectorWidth" value="{{connectorWidth}}"></span>
+        </div>
+    </li>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span>
+            <div class="text-bold">{{localize "CPR.netarchgeneratecustomconnectorheight"}}</div>
+            <div style="font-size: 0.7rem">{{localize "CPR.netarchgeneratecustomconnectorwidthhint"}}</div>
+          </span>
+        </div>
+        <div class="item flexrow setting-value">
+          <span class="text-bold text-nowrap text-center text-space-around"><input type="text" name="connectorHeight" value="{{connectorHeight}}"></span>
+        </div>
+    </li>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span>
+            <div class="text-bold">{{localize "CPR.netarchgeneratecustomcorneroffsetx"}}</div>
+            <div style="font-size: 0.7rem">{{localize "CPR.netarchgeneratecustomcorneroffsetxhint"}}</div>
+          </span>
+        </div>
+        <div class="item flexrow setting-value">
+          <span class="text-bold text-nowrap text-center text-space-around"><input type="text" name="cornerOffsetX" value="{{cornerOffsetX}}"></span>
+        </div>
+    </li>
+    <li class="item flexrow">
+        <div class="item flexrow setting-name">
+          <span>
+            <div class="text-bold">{{localize "CPR.netarchgeneratecustomcorneroffsety"}}</div>
+            <div style="font-size: 0.7rem">{{localize "CPR.netarchgeneratecustomcorneroffsetyhint"}}</div>
+          </span>
+        </div>
+        <div class="item flexrow setting-value">
+          <span class="text-bold text-nowrap text-center text-space-around"><input type="text" name="cornerOffsetY" value="{{cornerOffsetY}}"></span>
+        </div>
+    </li>
+    <hr>
+  </ol>
+</form>
+{{trace "CPR-NETARCH-LEVEL-PROMPT.HBS"}}

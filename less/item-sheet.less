@@ -87,7 +87,7 @@
             border-color: @wyrm-red;
             border-style: solid;
             border-width: 5px;
-            overflow-y  : scroll;
+            overflow-y  : hidden;
             flex-wrap   : wrap;
         }
     }
@@ -163,4 +163,48 @@
     width: 62px;
     height: 62px;
     object-fit: contain;
+}
+
+.item-netarch-section {
+  background-color: @wyrm-red;
+  padding-top: 5px;
+}
+
+.item-netarch-grid {
+    display: grid;
+    grid-template-columns: 30px 30px 1fr 80px;
+    grid-template-areas: "netarch-level netarch-dv netarch-content netarch-actions";
+    gap: 4px 4px;
+}
+
+.netarch-level {
+    grid-area: netarch-level;
+    flex: 0 0 30px;
+    text-align: center;
+}
+
+.netarch-dv {
+  grid-area: netarch-dv;
+  flex: 0 0 30px;
+  text-align: center;
+}
+
+.netarch-content {
+  grid-area: netarch-content;
+}
+
+.netarch-actions {
+  grid-area: netarch-actions;
+  flex: 0 0 80px;
+  text-align: end;
+}
+
+.netarch-list-content {
+  li:nth-child(even) {
+      background-color: @meat-space-pink;
+  }
+
+  li:nth-child(odd) {
+      background-color: @chrome-white;
+  }
 }
