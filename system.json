@@ -59,6 +59,62 @@
       "package": "cyberpunk-red-core"
     },
     {
+      "label": "Weapons",
+      "entity": "Item",
+      "name": "weapons-items",
+      "path": "packs/weapons.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Armor",
+      "entity": "Item",
+      "name": "armor-items",
+      "path": "packs/armor.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Ammo",
+      "entity": "Item",
+      "name": "ammo-items",
+      "path": "packs/ammo.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Cyberware",
+      "entity": "Item",
+      "name": "cyberware-items",
+      "path": "packs/cyberware-items.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Gear",
+      "entity": "Item",
+      "name": "gear-items",
+      "path": "packs/gear.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Programs",
+      "entity": "Item",
+      "name": "programs-items",
+      "path": "packs/programs.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Vehicles",
+      "entity": "Item",
+      "name": "vehicles-items",
+      "path": "packs/vehicles.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
       "label": "Scenes - Core",
       "entity": "Scene",
       "name": "scenes",
