@@ -20,7 +20,8 @@
 - Armor SP can now be displayed in resource bars! Select the Star Icon next to equipped armor to make that armor active. Then, set the token up to display the resource(s) named externalData.currentHeadArmor, externalData.currentBodyArmor, and/or externalData.currentShieldArmor.
   - NOTE: Currently if you ablate armor from the Token HUD, it will not ablate other equipped armors in the same location. When I coded this latter feature, it introduced a frustrating bug, but since it is a somewhat niche case, I decided to scrap it and figure it out later.
   - Players/GMs, if you have multiple armors equipped in the same location, for now ablate from the character sheet and not from the Token HUD.
-
+- The system compendium has now been updated to include ammo, armor, additional cyberware, gear, programs, vehicles and weapons. Simple descriptions are provided to align with the R. Talsorian "Homebrew Content Policy". Please ensure you always reference an official, legally-owned rulebook for the full item description and information. No Actors or "Black ICE" programs are provided, as these count as NPCs under the policy rules and cannot be distributed. 
+- Two built-in scenes (maps) are now available in the compendium, alongside the NET architecture tile. These have been graciously provided by [SolutionMaps](https://www.patreon.com/solutionmaps).
 
 # DEV WIP BUG FIXES
 - fixed #158 - Stat padding fixed
