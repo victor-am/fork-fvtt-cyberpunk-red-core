@@ -18,6 +18,8 @@
 - Hoverable input fields now remain visible if field is focused and fade out for a more visually pleasing transition from visible to not-visible. (Thanks to sdenec#3813 because I borrowed some of his code from Tidy5e Sheet to accomplish this.)
 - If an item has an inputted source, it now displays in the header of the item-sheet.
 - Armor SP can now be displayed in resource bars! Select the Star Icon next to equipped armor to make that armor active. Then, set the token up to display the resource(s) named externalData.currentHeadArmor, externalData.currentBodyArmor, and/or externalData.currentShieldArmor.
+- The system compendium has now been updated to include ammo, armor, additional cyberware, gear, programs, vehicles and weapons. Simple descriptions are provided to align with the R. Talsorian "Homebrew Content Policy". Please ensure you always reference an official, legally-owned rulebook for the full item description and information. No Actors or "Black ICE" programs are provided, as these count as NPCs under the policy rules and cannot be distributed. 
+- Two built-in scenes (maps) are now available in the compendium, alongside the NET architecture tile. These have been graciously provided by [SolutionMaps](https://www.patreon.com/solutionmaps).
 
 # DEV WIP BUG FIXES
 - fixed #158 - Stat padding fixed
