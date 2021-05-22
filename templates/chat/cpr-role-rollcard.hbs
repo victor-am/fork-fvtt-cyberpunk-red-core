@@ -2,7 +2,7 @@
 <div class="rollcard">
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-stat">
-      <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
+      <div class="text-center text-padding-top text-normal">{{#if (compare roleName "===" "operator")}}{{localize "CPR.haggle"}}{{else}}{{localize (findConfigValue "roleAbilityList" roleName)}}{{/if}}</div>
       <div class="text-center text-small">{{localize "CPR.roleability"}}</div>
     </div>
   </div>
@@ -29,6 +29,16 @@
         </div>
         <div class="d10-data-div">
           <div class="d10-data-details hide">
+            <span class="text-normal text-nowrap">{{localize "CPR.abilityrank"}}: {{roleValue}}</span>
+
+            {{#if roleStat}}
+            <span class="text-normal text-nowrap">{{localize "CPR.abilitystat"}} ({{localize (findConfigValue "statList" statName)}}): {{roleStat}}</span>
+            {{/if}}
+
+            {{#if roleOther}}
+            <span class="text-normal text-nowrap">{{localize "CPR.other"}}: {{roleOther}}</span>
+            {{/if}}
+
             {{#if mods}}
             <span class="text-normal text-nowrap">{{localize "CPR.rollmods"}}: {{mods}}</span>
             <div class="text-normal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}:

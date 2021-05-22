@@ -219,9 +219,10 @@ export class CPRSuppressiveFireRoll extends CPRAttackRoll {
 }
 
 export class CPRRoleRoll extends CPRRoll {
-  constructor(roleName, statName, roleValue, roleStat, roleOther) {
-    super(roleName, "1d10");
+  constructor(roleName, niceRoleName, statName, roleValue, roleStat, roleOther) {
+    super(niceRoleName, "1d10");
     LOGGER.trace(`CPRRoleRoll | Constructor`);
+    this.roleName = roleName;
     this.statName = statName;
     this.roleValue = roleValue;
     this.roleStat = roleStat;

@@ -627,14 +627,14 @@ export default class CPRActor extends Actor {
     let roleOther = 0;
     if (roleName === "surgery") {
       roleStat = this.getStat(statName);
-      const cprRoll = new CPRRolls.CPRRoleRoll(niceRoleName, statName, roleValue, roleStat, roleOther);
+      const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
       cprRoll.addMod(this.getWoundStateMods());
       return cprRoll;
     }
     if (roleName === "medtechCryo" || roleName === "medtechPharma") {
       roleStat = this.getStat(statName);
       roleOther = this._getRoleValue("medtechPharma");
-      const cprRoll = new CPRRolls.CPRRoleRoll(niceRoleName, statName, roleValue, roleStat, roleOther);
+      const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
       cprRoll.addMod(this.getWoundStateMods());
       return cprRoll;
     }
@@ -642,11 +642,11 @@ export default class CPRActor extends Actor {
       statName = "cool";
       roleStat = this.getStat(statName);
       roleOther = this.getSkillLevel("Trading") + this.getSkillMod("Trading");
-      const cprRoll = new CPRRolls.CPRRoleRoll(niceRoleName, statName, roleValue, roleStat, roleOther);
+      const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
       cprRoll.addMod(this.getWoundStateMods());
       return cprRoll;
     }
-    const cprRoll = new CPRRolls.CPRRoleRoll(niceRoleName, statName, roleValue, roleStat, roleOther);
+    const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
     cprRoll.addMod(this.getWoundStateMods());
     return cprRoll;
   }
