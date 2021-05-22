@@ -23,19 +23,45 @@ const tokenHooks = () => {
                 switch (item.data.type) {
                   case "armor": {
                     if (itemType === "currentArmorBody") {
-                      item.data.data.bodyLocation.ablation = item.data.data.bodyLocation.sp - currentValue;
+                      const armorList = actor.getEquippedArmors("body");
+                      const updateList = [];
+                      const diff = item.data.data.bodyLocation.sp - item.data.data.bodyLocation.ablation - currentValue;
+                      armorList.forEach((a) => {
+                        const armorData = a.data;
+                        if (diff > 0) {
+                          armorData.data.bodyLocation.ablation = Math.min(armorData.data.bodyLocation.ablation + diff, armorData.data.bodyLocation.sp);
+                        }
+                        if (diff < 0 && item.data._id === a.data._id) {
+                          armorData.data.bodyLocation.ablation = Math.max(armorData.data.bodyLocation.ablation + diff, 0);
+                        }
+                        updateList.push(armorData);
+                      });
+                      actor.updateEmbeddedEntity("OwnedItem", updateList);
                     }
                     if (itemType === "currentArmorHead") {
-                      item.data.data.headLocation.ablation = item.data.data.headLocation.sp - currentValue;
+                      const armorList = actor.getEquippedArmors("head");
+                      const updateList = [];
+                      const diff = item.data.data.headLocation.sp - item.data.data.headLocation.ablation - currentValue;
+                      armorList.forEach((a) => {
+                        const armorData = a.data;
+                        if (diff > 0) {
+                          armorData.data.headLocation.ablation = Math.min(armorData.data.headLocation.ablation + diff, armorData.data.headLocation.sp);
+                        }
+                        if (diff < 0 && item.data._id === a.data._id) {
+                          armorData.data.headLocation.ablation = Math.max(armorData.data.headLocation.ablation + diff, 0);
+                        }
+                        updateList.push(armorData);
+                      });
+                      actor.updateEmbeddedEntity("OwnedItem", updateList);
                     }
                     if (itemType === "currentArmorShield") {
                       item.data.data.shieldHitPoints.value = currentValue;
+                      actor.updateEmbeddedEntity("OwnedItem", item.data);
                     }
                     break;
                   }
                   default:
                 }
-                actor.updateEmbeddedEntity("OwnedItem", item.data);
               }
             }
           }
