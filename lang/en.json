@@ -5,6 +5,7 @@
     "ACTOR.TypeMook": "Mook (NPC)",
     "CPR.abilities": "Abilities",
     "CPR.abilityrank": "Ability Rank",
+    "CPR.abilitystat": "Ability Stat",
     "CPR.ablatearmor": "Ablate Armor",
     "CPR.ablation": "Ablation",
     "CPR.access": "Access",

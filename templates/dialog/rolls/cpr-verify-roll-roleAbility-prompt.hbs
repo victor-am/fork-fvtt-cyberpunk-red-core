@@ -14,6 +14,28 @@
             </div>
         </li>
 
+        {{#if roleStat}}
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.abilitystat"}} ({{localize (findConfigValue "statList" statName)}}):
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <input name="roleStat" class="" type="number" data-dtype="Number" value={{roleStat}}>
+            </div>
+        </li>
+        {{/if}}
+
+        {{#if roleOther}}
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.other"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <input name="roleOther" class="" type="number" data-dtype="Number" value={{roleOther}}>
+            </div>
+        </li>
+        {{/if}}
+
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
