@@ -845,7 +845,7 @@ export default class CPRActorSheet extends ActorSheet {
   _automaticResize() {
     LOGGER.trace("ActorSheet | _automaticResize | Called.");
     const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
-    if (setting) {
+    if (setting && this.rendered) {
       // It seems that the size of the content does not change immediately upon updating the content
       setTimeout(() => {
         this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
