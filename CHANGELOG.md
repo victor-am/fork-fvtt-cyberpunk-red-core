@@ -30,6 +30,7 @@
 - fixed #195 - 'Has Suppressive Fire' option doesn't seem to do anything
 - fixed #204 - fixed IP and Eurobucks Ledger functions to work with unlinked tokens
 - fixed #221 & #222 - correction of two criitcal injuries
+- fixed #224 - Med Tech's and Fixer's role abilities should now roll correctly
 
 # Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
 **Bug Fix**
