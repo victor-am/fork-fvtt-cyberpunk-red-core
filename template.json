@@ -265,7 +265,11 @@
         "spd": 0,
         "atk": 0,
         "def": 0,
-        "rez": 0
+        "rez": {
+          "value": 10,
+          "max": 10,
+          "transactions": []
+        }
       },
       "cost": 100,
       "effect": "",

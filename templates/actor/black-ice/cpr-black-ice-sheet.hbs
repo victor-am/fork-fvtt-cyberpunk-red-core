@@ -43,9 +43,17 @@
           </select>
         </div>
         {{#each (findConfigObj "blackIceStatList") as |stat s|}}
-          <div class="block-data text-large">
-            <input name="data.stats.{{s}}" type="number" value="{{this.s}}"/>
-          </div>
+          {{#if (compare s "===" "rez")}}
+            <div class="min-of-max-container">
+              <input class="text-center" name="data.stats.rez.value" type="number" value="{{data.stats.rez.value}}" />
+              <div class="of bg-red fg-white text-normal text-bold">of</div>
+              <input class="text-center" name="data.stats.rez.max" type="number" value="{{data.stats.rez.max}}" />
+            </div>
+          {{else}}
+            <div class="block-data text-large">
+              <input name="data.stats.{{s}}" type="number" value="{{this.s}}"/>
+            </div>
+          {{/if}}
         {{/each}}
         <div class="block-data text-large">
           <input name="data.cost" type="number" value="{{data.cost}}"/>
