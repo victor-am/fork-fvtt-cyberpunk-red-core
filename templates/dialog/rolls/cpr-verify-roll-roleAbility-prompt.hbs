@@ -18,9 +18,9 @@
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.other"}} -
-                {{#if (compare roleName "===" "operator")}} {{localize "CPR.trading"}}{{/if}}
-                {{#if (compare roleName "===" "medtechPharma")}} {{localize "CPR.medicaltechcryooperation"}}{{/if}}
-                {{#if (compare roleName "===" "medtechCryo")}} {{localize "CPR.medicaltechpharmaceuticals"}}{{/if}}:
+                {{#if (compare roleName "===" "operator")}} {{localize "CPR.trading"}}:{{/if}}
+                {{#if (compare roleName "===" "medtechPharma")}} {{localize "CPR.medicaltechcryooperation"}}:{{/if}}
+                {{#if (compare roleName "===" "medtechCryo")}} {{localize "CPR.medicaltechpharmaceuticals"}}:{{/if}}
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="roleOther" class="" type="number" data-dtype="Number" value={{roleOther}}>
