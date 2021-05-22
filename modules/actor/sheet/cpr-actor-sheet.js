@@ -596,7 +596,11 @@ export default class CPRActorSheet extends ActorSheet {
     const item = this._getOwnedItem(this._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "data.magazine.value") {
-      item.setWeaponAmmo(event.target.value);
+      if (!Number.isNaN(parseInt(event.target.value, 10))) {
+        item.setWeaponAmmo(event.target.value);
+      } else {
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.amountnotnumber"));
+      }
     }
     this._updateOwnedItem(item);
   }
@@ -606,7 +610,11 @@ export default class CPRActorSheet extends ActorSheet {
     const item = this._getOwnedItem(this._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "item.data.amount") {
-      item.setItemAmount(event.target.value);
+      if (!Number.isNaN(parseInt(event.target.value, 10))) {
+        item.setItemAmount(event.target.value);
+      } else {
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.amountnotnumber"));
+      }
     }
     this._updateOwnedItem(item);
   }

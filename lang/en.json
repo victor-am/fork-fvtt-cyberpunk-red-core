@@ -59,6 +59,7 @@
     "CPR.ammovarvheavypistol": "Very Heavy Pistol Ammo",
     "CPR.ammunition": "Ammunition",
     "CPR.amount": "Amount",
+    "CPR.amountnotnumber": "Error: The amount entered could not be converted to a number!",
     "CPR.amplifiedhearing": "Amplified Hearing",
     "CPR.animalhandling": "Animal Handling",
     "CPR.antibiotic": "Antibiotic",

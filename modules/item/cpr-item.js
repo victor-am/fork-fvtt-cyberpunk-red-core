@@ -318,7 +318,7 @@ export default class CPRItem extends Item {
   }
 
   setItemAmount(value) {
-    LOGGER.debug("setItemAmmo | CPRItem | Called.");
+    LOGGER.debug("setItemAmount | CPRItem | Called.");
     if (value.charAt(0) === "+" || value.charAt(0) === "-") {
       this.getData().amount = this.getData().amount + parseInt(value, 10);
     } else {
