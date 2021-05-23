@@ -24,7 +24,7 @@ export default class CPRBlackIceActor extends Actor {
   createStatRoll(statName) {
     LOGGER.trace("createStatRoll | CPRBlackIceActor | called.");
     const niceStatName = SystemUtils.Localize(CPR.blackIceStatList[statName]);
-    const statValue = parseInt(this.data.data.stats[statName].value, 10);
+    const statValue = parseInt(this.data.data.stats[statName], 10);
     return new CPRRolls.CPRStatRoll(niceStatName, statValue);
   }
 }
