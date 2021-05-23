@@ -997,6 +997,7 @@
     "CPR.unknowndice": "Unknown dice",
     "CPR.unload": "Unload",
     "CPR.unloaded": "Unloaded",
+    "CPR.unsupportedentityerror": "Unsupported Entity type for create()",
     "CPR.updated": "Updated",
     "CPR.upgradeexpertise": "Upgrade Expertise",
     "CPR.urbanflash": "Urban Flash",
