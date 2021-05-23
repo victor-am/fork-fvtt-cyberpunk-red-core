@@ -513,13 +513,24 @@ button,
 .expand-icon {
   font-size: xx-small;
 }
+.amount-input-wrap {
+  position: relative;
+}
+.amount-input-wrap .amount-input {
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+.amount-input-wrap .width-element {
+  visibility: hidden;
+}
 .bice-sheet {
   font-family: "Audimat Mono";
   background-color: #eaeaeaff;
   display: grid;
   min-width: 730px;
   grid-template-rows: auto;
-  grid-template-areas: "bice-stats" "bice-effects" "bice-icon";
+  grid-template-areas: "bice-stats" "bice-details";
 }
 .bice-sheet .bice-stats {
   display: grid;
@@ -537,28 +548,23 @@ button,
 .bice-sheet .bice-stats .bice-value {
   grid-area: bice-value;
 }
-.bice-sheet .bice-effects {
-  gap: 5px;
-  display: flex;
-  align-items: center;
-  grid-area: bice-effects;
+.bice-sheet .bice-details {
+  display: grid;
+  grid-area: bice-details;
+  grid-template-columns: 72px 1fr;
+  grid-template-areas: "bice-icon bice-effects";
 }
-.bice-sheet .bice-icon {
+.bice-sheet .bice-details .bice-icon {
   gap: 5px;
-  display: flex;
-  align-items: center;
+  height: 72px;
+  width: 72px;
+  display: block;
   grid-area: bice-icon;
 }
-.amount-input-wrap {
-  position: relative;
-}
-.amount-input-wrap .amount-input {
-  position: absolute;
-  width: 100%;
-  left: 0;
-}
-.amount-input-wrap .width-element {
-  visibility: hidden;
+.bice-sheet .bice-details .bice-effects {
+  gap: 5px;
+  display: block;
+  grid-area: bice-effects;
 }
 .item-sheet {
   font-family: "Audimat Mono";
@@ -755,6 +761,9 @@ button,
 .text-rotate {
   transform: rotate(-90deg);
 }
+.text-vert-center {
+  align-self: center;
+}
 .min-of-max-container {
   display: flex;
 }
@@ -834,7 +843,7 @@ button,
   flex-basis: 5%;
 }
 .width-longer {
-  flex-basis: 50%;
+  flex-basis: 70%;
 }
 .width-fit {
   width: fit-content;

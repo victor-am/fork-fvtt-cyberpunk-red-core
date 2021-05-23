@@ -14,7 +14,7 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
     return mergeObject(super.defaultOptions, {
       template: "systems/cyberpunk-red-core/templates/actor/black-ice/cpr-black-ice-sheet.hbs",
       width: 745,
-      height: 203,
+      height: 212,
     });
   }
 
