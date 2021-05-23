@@ -302,9 +302,6 @@ export class CPRDamageRoll extends CPRRoll {
   _computeResult() {
     // figure how aimed shots work...
     this.resultTotal = this._computeBase();
-    if (this.wasCritical() && !this.isAutofire) {
-      this.resultTotal += this.bonusDamage;
-    }
   }
 
   setAutofire() {

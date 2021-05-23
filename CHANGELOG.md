@@ -23,7 +23,7 @@
   - The automatic calculations for removed hp, humanity, and emp has been disabled
   - Mook names can be changed on the sheet
   - The ruler glyph for calculating range DVs has been added
-  - Custom skills work as designed and can be edited 
+  - Custom skills work as designed and can be edited
   - Critical injuries added (same as character sheets)
   - Fixed an alignment issue on weapon section
   - A notes section has been added for free-form text about the mook
@@ -31,6 +31,7 @@
   - Skills can be reset to 0 using the DEL key in the same manner as deleting items
   - The suppressive fire option is now considered in mook sheets (same as character sheets, see issue #195)
   - Portrait added in an expandable frame
+  - Critical damage roll cards no longer show the bonus damage added to the total, since the bonus damage does not consider armor (issue #214).
 
 
 # DEV WIP BUG FIXES
