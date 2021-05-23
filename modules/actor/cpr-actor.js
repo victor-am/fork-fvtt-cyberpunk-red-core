@@ -378,11 +378,13 @@ export default class CPRActor extends Actor {
   }
 
   processDeathSave(cprRoll) {
-    let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
+    const success = SystemUtils.Localize("CPR.success");
+    const failed = SystemUtils.Localize("CPR.failed");
+    let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? success : failed;
     if (cprRoll.initialRoll === 10) {
-      saveResult = "Failed";
+      saveResult = failed;
     }
-    if (saveResult === "Success") {
+    if (saveResult === success) {
       const deathPenalty = this.data.data.derivedStats.deathSave.penalty + 1;
       this.update({ "data.derivedStats.deathSave.penalty": deathPenalty });
     }
@@ -559,6 +561,39 @@ export default class CPRActor extends Actor {
     throw new Error(`Bad location given: ${location}`);
   }
 
+  // Update actor data with data from the chosen armor so that it can be dislpayed in a resource bar.
+  // eslint-disable-next-line consistent-return
+  makeThisArmorCurrent(location, id) {
+    const currentArmor = this._getOwnedItem(id);
+    if (location === "body") {
+      const currentArmorValue = currentArmor.data.data.bodyLocation.sp - currentArmor.data.data.bodyLocation.ablation;
+      const currentArmorMax = currentArmor.data.data.bodyLocation.sp;
+      return this.update({
+        "data.externalData.currentArmorBody.value": currentArmorValue,
+        "data.externalData.currentArmorBody.max": currentArmorMax,
+        "data.externalData.currentArmorBody.id": id,
+      });
+    }
+    if (location === "head") {
+      const currentArmorValue = currentArmor.data.data.headLocation.sp - currentArmor.data.data.headLocation.ablation;
+      const currentArmorMax = currentArmor.data.data.headLocation.sp;
+      return this.update({
+        "data.externalData.currentArmorHead.value": currentArmorValue,
+        "data.externalData.currentArmorHead.max": currentArmorMax,
+        "data.externalData.currentArmorHead.id": id,
+      });
+    }
+    if (location === "shield") {
+      const currentArmorValue = currentArmor.data.data.shieldHitPoints.value;
+      const currentArmorMax = currentArmor.data.data.shieldHitPoints.max;
+      return this.update({
+        "data.externalData.currentArmorShield.value": currentArmorValue,
+        "data.externalData.currentArmorShield.max": currentArmorMax,
+        "data.externalData.currentArmorShield.id": id,
+      });
+    }
+  }
+
   createRoll(type, name) {
     switch (type) {
       case CPRRolls.rollTypes.STAT: {
@@ -629,5 +664,29 @@ export default class CPRActor extends Actor {
         }
       }
     });
+  }
+
+  handleMookDraggedItem(item) {
+    // called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
+    // handles the automatic equipping of gear and installation of cyberware
+    LOGGER.trace("_handleMookDraggedItem | CPRActor | Called.");
+    LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
+    LOGGER.debugObject(item);
+    const newItem = item;
+    switch (item.type) {
+      case "clothing":
+      case "weapon":
+      case "gear":
+      case "armor": {
+        newItem.data.data.equipped = "equipped";
+        this.updateEmbeddedEntity("OwnedItem", newItem.data);
+        break;
+      }
+      case "cyberware": {
+        this.addCyberware(item._id);
+        break;
+      }
+      default:
+    }
   }
 }

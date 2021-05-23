@@ -10,7 +10,7 @@
       <div class="d10-rollcard-data">
         <div class="d10-dice-div">
           {{!-- die image for initialRoll --}}
-          {{#if (compare saveResult "===" "Success")}}
+          {{#if (compare saveResult "===" (localize "CPR.success"))}}
             {{#if (compare initialRoll "===" 1)}}
             <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{initialRoll}}_preem.svg">
             {{else}}
@@ -21,7 +21,7 @@
           {{/if}}
         </div>
         <div class="d10-number-div">
-          <a><span class="clickable fg-{{#if (compare saveResult "===" "Success")}}green text-bold{{else}}red{{/if}}" data-action="toggleVisibility"
+          <a><span class="clickable fg-{{#if (compare saveResult "===" (localize "CPR.success"))}}green text-bold{{else}}red{{/if}}" data-action="toggleVisibility"
               data-visible-element="d10-data-details">{{resultTotal}}</span></a>
         </div>
         <div class="d10-data-div">
@@ -35,7 +35,7 @@
             {{/if}}
             <div class="text-normal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}:
               {{totalMods}}</div>
-            <div class="text-massive text-center fg-{{#if (compare saveResult "===" "Success")}}green{{else}}red{{/if}}">{{saveResult}}</div>
+            <div class="text-massive text-center fg-{{#if (compare saveResult "===" (localize "CPR.success"))}}green{{else}}red{{/if}}">{{saveResult}}</div>
           </div>
         </div>
       </div>

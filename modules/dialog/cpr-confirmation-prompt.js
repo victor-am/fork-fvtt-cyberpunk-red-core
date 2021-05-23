@@ -1,5 +1,5 @@
 /* global renderTemplate, Dialog */
-
+import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
 
 // Make this generic to be used as a Cancel/Confirm for any action (delete item, etc
@@ -25,12 +25,12 @@ export default class ConfirmationPrompt {
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
-              label: "Cancel",
+              label: SystemUtils.Localize("CPR.cancel"),
               callback: () => _onCancel(),
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: "Confirm",
+              label: SystemUtils.Localize("CPR.confirm"),
               callback: () => _onConfirm(),
             },
           },
