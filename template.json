@@ -425,7 +425,7 @@
         "weapon",
         "uses"
       ],
-      "type": "",
+      "type": "cyberArm",
       "install": "mall",
       "isInstalled": false,
       "isFoundational": true,
