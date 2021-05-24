@@ -1,6 +1,6 @@
 {{trace "CPR-RELOAD-GLYPH.HBS"}}
-{{#if (compare data.magazine.ammoId "!==" "")}}
-    {{#if (compare data.magazine.value "<" data.magazine.max)}}
+{{#if (compare data.data.magazine.ammoId "!==" "")}}
+    {{#if (compare data.data.magazine.value "<" data.data.magazine.max)}}
         <a class="item-action" data-item-id="{{_id}}" data-action="reload-ammo"><i class="fas fa-redo-alt" title="{{localize "CPR.reload"}}"></i></a>
     {{/if}}
 {{/if}}

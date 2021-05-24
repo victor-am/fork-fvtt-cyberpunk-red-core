@@ -9,7 +9,7 @@ export default class CPRSystemUtils {
     // grab basic skills from compendium
     const pack = game.packs.get("cyberpunk-red-core.skills");
     // put into basickSkills array
-    const content = await pack.getContent();
+    const content = await pack.getDocuments();
     return content;
   }
 
@@ -18,7 +18,7 @@ export default class CPRSystemUtils {
     // grab basic skills from compendium
     const pack = game.packs.get("cyberpunk-red-core.cyberware");
     // put into basickSkills array
-    const content = await pack.getContent();
+    const content = await pack.getDocuments();
     return content;
   }
 

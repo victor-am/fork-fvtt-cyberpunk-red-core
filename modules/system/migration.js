@@ -73,9 +73,9 @@ export default class Migration {
       updateItems.push(this.migrateItemData(i.data));
     }
 
-    // You can't updateEmbeddedEntity of a Compendium Entity since it is only data
+    // You can't updateEmbeddedDocuments of a Compendium Entity since it is only data
     if (actor.compendium === null) {
-      await actor.updateEmbeddedEntity("OwnedItem", updateItems);
+      await actor.updateEmbeddedDocuments("Item", updateItems);
     } else {
       actor.data.items = updateItems;
     }
@@ -304,7 +304,7 @@ export default class Migration {
     // Loop through and add the items the actor is missing
     content.forEach(async (c) => {
       const itemData = [c.data];
-      await actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+      await actor.createEmbeddedEntity("Item", itemData, { force: true });
     });
   }
 
@@ -339,7 +339,7 @@ export default class Migration {
       };
       injuryItems.push(itemData);
     });
-    return actor.createEmbeddedEntity("OwnedItem", injuryItems, { force: true });
+    return actor.createEmbeddedEntity("Item", injuryItems, { force: true });
   }
 
   // The following is code that is used to remove data points on the actor model that

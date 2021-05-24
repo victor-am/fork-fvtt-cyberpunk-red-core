@@ -15,7 +15,7 @@
                         {{localize "CPR.amount"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.amount" class="" type="number" value="{{data.amount}}" placeholder="10">
+                        <input name="data.amount" class="" type="number" value="{{data.data.amount}}" placeholder="10">
                     </div>
                 </li>
                 {{!-- Ammo Variety Setting --}}
@@ -24,8 +24,8 @@
                         {{localize "CPR.variety"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.variety" data-dtype="{{data.variety}}">
-                            {{#select data.variety}}
+                        <select name="data.variety" data-dtype="{{data.data.variety}}">
+                            {{#select data.data.variety}}
                             {{#each (findConfigObj "ammoVariety") as |variety v|}}
                             <option value="{{v}}">{{localize variety}}</option>
                             {{/each}}
@@ -39,8 +39,8 @@
                         {{localize "CPR.type"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                         <select name="data.type" data-dtype="{{data.type}}">
-                        {{#select data.type}}
+                         <select name="data.type" data-dtype="{{data.data.type}}">
+                        {{#select data.data.type}}
                         {{#each (findConfigObj "ammoType") as |type t|}}
                         <option value="{{t}}">{{localize type}}</option>
                         {{/each}}

@@ -38,7 +38,7 @@ const actorHooks = () => {
                       }
                       updateList.push(armorData);
                     });
-                    actor.updateEmbeddedEntity("OwnedItem", updateList);
+                    actor.updateEmbeddedDocuments("Item", updateList);
                   }
                   if (itemType === "currentArmorHead") {
                     const armorList = actor.getEquippedArmors("head");
@@ -54,11 +54,11 @@ const actorHooks = () => {
                       }
                       updateList.push(armorData);
                     });
-                    actor.updateEmbeddedEntity("OwnedItem", updateList);
+                    actor.updateEmbeddedDocuments("Item", updateList);
                   }
                   if (itemType === "currentArmorShield") {
                     item.data.data.shieldHitPoints.value = currentValue;
-                    actor.updateEmbeddedEntity("OwnedItem", item.data);
+                    actor.updateEmbeddedDocuments("Item", item.data);
                   }
                   break;
                 }
@@ -77,7 +77,7 @@ const actorHooks = () => {
     LOGGER.trace("createOwnedItem | actorHooks | Called.");
     if (actor.data.type === "mook") {
       LOGGER.debug("handling a dragged item to the mook sheet");
-      actor.handleMookDraggedItem(actor._getOwnedItem(itemData._id));
+      actor.handleMookDraggedItem(actor._getOwnedItem(itemdata._id));
     }
   });
 };

@@ -3,15 +3,15 @@
     <div class="item-summary-section">
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.price"}}:</span>
-            <span class="summary-value">{{data.price.market}}</span>
+            <span class="summary-value">{{data.data.price.market}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.market"}}:</span>
-            <span class="summary-value">{{localize (findConfigValue "itemPriceCategory" data.price.category)}}</span>
+            <span class="summary-value">{{localize (findConfigValue "itemPriceCategory" data.data.price.category)}}</span>
         </div>
     </div>
     <div class="item-description-section">
-        {{editor content=data.description.value target="data.description.value" button=true owner=owner
+        {{editor content=data.data.description.value target="data.description.value" button=true owner=owner
         editable=editable}}
     </div>
 </div>
@@ -27,7 +27,7 @@
   </li>
   <div class="netarch-list-content">
     <ol class="items-list">
-      {{#each (sort data.floors "index") as |floor|}}
+      {{#each (sort data.data.floors "index") as |floor|}}
         <li class=" item-netarch-grid item flexrow">
           <div class="netarch-level">{{floor.floor}}{{floor.branch}}</div>
           <div class="netarch-dv">

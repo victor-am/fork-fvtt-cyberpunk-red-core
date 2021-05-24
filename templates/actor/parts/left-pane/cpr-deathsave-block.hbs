@@ -6,7 +6,7 @@
   </div>
   <div class="block-data flex-space-between">
     {{!-- <span>{{localize (findConfigValue "woundState" this.data.woundState.currentWoundState)}}</span> --}}
-    {{#with this.data.derivedStats.currentWoundState as |state| }}
+    {{#with this.data.data.derivedStats.currentWoundState as |state| }}
     {{#if (compare state "===" "notWounded")}}
     <i class="fg-green bg-white text-normal text-center width-full fas fa-smile" title="Not Wounded"></i>
     {{/if}}
@@ -21,8 +21,8 @@
     {{/if}}
     {{/with}}
     <span class="width-full" title="{{localize "CPR.deathsavereset"}}
-    {{localize "CPR.deathpenalty"}}: {{data.derivedStats.deathSave.penalty}}
-    {{localize "CPR.criticalinjuries"}} {{localize "CPR.penalty"}}: {{data.derivedStats.deathSave.basePenalty}}"><a class="reset-value text-bold" data-value="deathsave">{{data.derivedStats.deathSave.value}}</a></span>
+    {{localize "CPR.deathpenalty"}}: {{data.data.derivedStats.deathSave.penalty}}
+    {{localize "CPR.criticalinjuries"}} {{localize "CPR.penalty"}}: {{data.data.derivedStats.deathSave.basePenalty}}"><a class="reset-value text-bold" data-value="deathsave">{{data.data.derivedStats.deathSave.value}}</a></span>
   </div>
 </div>
 {{trace "END CPR-DEATHSAVE-BLOCK.HBS"}}

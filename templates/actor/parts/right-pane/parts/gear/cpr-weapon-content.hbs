@@ -1,20 +1,20 @@
 {{trace "CPR-WEAPON-INV-CONTENT.HBS"}}
 {{!-- NAME --}}
-<li class="item flexrow{{#if item.data.favorite}} favorite{{else}}{{#if (listContains sheet.options.collapsedSections "gearTab-weapon")}} hide{{/if}}{{/if}}" data-item-id="{{item._id}}"
+<li class="item flexrow{{#if item.data.data.favorite}} favorite{{else}}{{#if (listContains sheet.options.collapsedSections "gearTab-weapon")}} hide{{/if}}{{/if}}" data-item-id="{{item.data._id}}"
   data-item-category="{{item.type}}" draggable="true">
   <div class="item-name gear-name text-nowrap">
     <a class="name item-edit" title="{{item.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{item.name}}</a>
   </div>
   <div class="item-detail gear-data text-nowrap">
-    {{localize (findConfigValue "weaponTypeList" item.data.weaponType)}}
-    {{#if (ne item.data.quality "standard")}}
-    ({{localize item.data.quality}})
+    {{localize (findConfigValue "weaponTypeList" item.data.data.weaponType)}}
+    {{#if (ne item.data.data.quality "standard")}}
+    ({{localize item.data.data.quality}})
     {{/if}}
-    {{#if item.data.isRanged}}
-    {{#if item.data.magazine.ammoId}}
+    {{#if item.data.data.isRanged}}
+    {{#if item.data.data.magazine.ammoId}}
     |
-    {{getProp (getOwnedItem actor item.data.magazine.ammoId) "name"}}
-    ({{item.data.magazine.value}}/{{item.data.magazine.max}})
+    {{getProp (getOwnedItem actor item.data.data.magazine.ammoId) "name"}}
+    ({{item.data.data.magazine.value}}/{{item.data.data.magazine.max}})
     {{/if}}
     {{/if}}
   </div>

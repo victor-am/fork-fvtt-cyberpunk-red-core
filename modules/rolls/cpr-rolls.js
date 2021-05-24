@@ -72,7 +72,7 @@ export class CPRRoll {
   async roll() {
     LOGGER.trace(`CPRRoll | roll`);
     // calculate the initial roll
-    this._roll = new Roll(this.formula).roll();
+    this._roll = await new Roll(this.formula).evaluate({ async: true });
     await DiceSoNice.ShowDiceSoNice(this._roll);
     this.initialRoll = this._roll.total;
     this.resultTotal = this.initialRoll + this.totalMods();
@@ -80,7 +80,7 @@ export class CPRRoll {
 
     // check and consider criticals (min or max # on die)
     if (this.wasCritical() && this.calculateCritical) {
-      const critroll = new Roll(this.formula).roll();
+      const critroll = await new Roll(this.formula).evaluate({ async: true });
       await DiceSoNice.ShowDiceSoNice(critroll);
       this.criticalRoll = critroll.total;
     }

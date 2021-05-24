@@ -1,6 +1,6 @@
 {{trace "CPR-STAT-BLOCK.HBS"}}
 {{!-- Partials to create stat-units from template --}}
-{{#each data.stats as |stat s|}}
+{{#each data.data.stats as |stat s|}}
 <div class="stat-block">
   <div class="block-label">
     <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}">

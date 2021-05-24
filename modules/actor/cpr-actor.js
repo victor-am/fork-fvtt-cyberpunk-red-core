@@ -23,12 +23,12 @@ export default class CPRActor extends Actor {
   prepareData() {
     LOGGER.trace("prepareData | CPRActor | Called.");
     super.prepareData();
-    if (this.compendium === null) {
+    if (this.compendium === null || this.compendium === undefined) {
       // It looks like prepareData() is called for any actors/npc's that exist in
       // the game and the clients can't update them.  Everyone should only calculate
       // their own derived stats, or the GM should be able to calculate the derived
       // stat
-      if (this.owner || game.user.isGM) {
+      if (this.isOwner || game.user.isGM) {
         this._calculateDerivedStats();
       }
     }
@@ -69,7 +69,7 @@ export default class CPRActor extends Actor {
   async createEmbeddedEntity(embeddedName, itemData, options = {}) {
     LOGGER.trace("createEmbeddedEntity | CPRActor | called.");
     if (!options.force) {
-      if (embeddedName === "OwnedItem") {
+      if (embeddedName === "Item") {
         if (itemData.data.core) {
           return Rules.lawyer(false, "CPR.dontaddcoreitems");
         }
@@ -238,7 +238,7 @@ export default class CPRActor extends Actor {
     this.loseHumanityValue(tmpItem, formData);
     LOGGER.debug("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
     tmpItem.data.data.isInstalled = true;
-    return this.updateEmbeddedEntity("OwnedItem", tmpItem.data);
+    return this.updateEmbeddedDocuments("Item", tmpItem.data);
   }
 
   async _addOptionalCyberware(item, formData) {
@@ -254,7 +254,7 @@ export default class CPRActor extends Actor {
     const usedSlots = foundationalCyberware.getData().installedOptionSlots;
     const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
     Rules.lawyer((usedSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
-    return this.updateEmbeddedEntity("OwnedItem", [tmpItem.data, foundationalCyberware.data]);
+    return this.updateEmbeddedDocuments("Item", [tmpItem.data, foundationalCyberware.data]);
   }
 
   async removeCyberware(itemId, foundationalId) {
@@ -271,7 +271,7 @@ export default class CPRActor extends Actor {
       }
       item.data.data.isInstalled = false;
     }
-    return this.updateEmbeddedEntity("OwnedItem", item.data);
+    return this.updateEmbeddedDocuments("Item", item.data);
   }
 
   _removeOptionalCyberware(item, foundationalId) {
@@ -281,7 +281,7 @@ export default class CPRActor extends Actor {
     foundationalCyberware.getData().optionalIds = foundationalCyberware.getData().optionalIds.filter(
       (optionId) => optionId !== item.data._id,
     );
-    return this.updateEmbeddedEntity("OwnedItem", foundationalCyberware.data);
+    return this.updateEmbeddedDocuments("Item", foundationalCyberware.data);
   }
 
   _removeFoundationalCyberware(item) {
@@ -296,7 +296,7 @@ export default class CPRActor extends Actor {
       });
       tmpItem.data.data.optionalIds = [];
       updateList.push(tmpItem.data);
-      return this.updateEmbeddedEntity("OwnedItem", updateList);
+      return this.updateEmbeddedDocuments("Item", updateList);
     }
     return PromiseRejectionEvent();
   }
@@ -313,7 +313,7 @@ export default class CPRActor extends Actor {
       const humRoll = new CPRRolls.CPRHumanityLossRoll(item.data.name, amount.humanityLoss);
       await humRoll.roll();
       value -= humRoll.resultTotal;
-      humRoll.entityData = { actor: this._id };
+      humRoll.entityData = { actor: this.id };
       CPRChat.RenderRollCard(humRoll);
       LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was rolled.");
     } else {
@@ -499,7 +499,7 @@ export default class CPRActor extends Actor {
         deathSaveIncrease,
       },
     };
-    return this.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+    return this.createEmbeddedEntity("Item", itemData, { force: true });
   }
 
   getArmorPenaltyMods(stat) {
@@ -703,11 +703,11 @@ export default class CPRActor extends Actor {
       case "gear":
       case "armor": {
         newItem.data.data.equipped = "equipped";
-        this.updateEmbeddedEntity("OwnedItem", newItem.data);
+        this.updateEmbeddedDocuments("Item", newItem.data);
         break;
       }
       case "cyberware": {
-        this.addCyberware(item._id);
+        this.addCyberware(item.id);
         break;
       }
       default:

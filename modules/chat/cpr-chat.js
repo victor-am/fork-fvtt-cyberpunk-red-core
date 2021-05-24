@@ -6,7 +6,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 export default class CPRChat {
   static ChatDataSetup(content, modeOverride, isRoll = false, forceWhisper) {
     const chatData = {
-      user: game.user._id,
+      user: game.user.id,
       rollMode: modeOverride || game.settings.get("core", "rollMode"),
       content,
     };
@@ -45,10 +45,10 @@ export default class CPRChat {
         const actorId = cprRoll.entityData.actor;
         const tokenId = cprRoll.entityData.token;
         if (tokenId) {
-          actor = (Object.keys(game.actors.tokens).includes(tokenId)) ? game.actors.tokens[tokenId] : game.actors.find((a) => a._id === actorId);
+          actor = (Object.keys(game.actors.tokens).includes(tokenId)) ? game.actors.tokens[tokenId] : game.actors.find((a) => a.id === actorId);
         } else {
           // eslint-disable-next-line prefer-destructuring
-          actor = game.actors.filter((a) => a._id === actorId)[0];
+          actor = game.actors.filter((a) => a.id === actorId)[0];
         }
         const alias = actor.name;
         chatOptions.speaker = { actor, alias };
@@ -80,7 +80,7 @@ export default class CPRChat {
     return renderTemplate(itemTemplate, trimmedItem).then((html) => {
       const chatOptions = this.ChatDataSetup(html);
       if (item.entityData !== undefined && item.entityData !== null) {
-        const actor = game.actors.filter((a) => a._id === item.entityData.actor)[0];
+        const actor = game.actors.filter((a) => a.id === item.entityData.actor)[0];
         let alias = actor.name;
         if (item.entityData.token !== null) {
           const token = game.actors.tokens[item.entityData.token];
@@ -139,8 +139,8 @@ export default class CPRChat {
           const tokenId = $(event.currentTarget).attr("data-token-id");
           const location = $(event.currentTarget).attr("data-damage-location");
           const attackType = $(event.currentTarget).attr("data-attack-type");
-          const actor = (Object.keys(game.actors.tokens).includes(tokenId)) ? game.actors.tokens[tokenId] : game.actors.find((a) => a._id === actorId);
-          const item = actor ? actor.items.find((i) => i._id === itemId) : null;
+          const actor = (Object.keys(game.actors.tokens).includes(tokenId)) ? game.actors.tokens[tokenId] : game.actors.find((a) => a.id === actorId);
+          const item = actor ? actor.items.find((i) => i.id === itemId) : null;
           const displayName = actor === null ? "ERROR" : actor.name;
           if (!item) return ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.actormissingitem")} ${itemId}`);
           let cprRoll = item.createRoll(rollType, actor, { damageType: attackType });
@@ -163,7 +163,7 @@ export default class CPRChat {
           const itemId = $(event.currentTarget).attr("data-item-id");
           const actorId = $(event.currentTarget).attr("data-actor-id");
           const tokenId = $(event.currentTarget).attr("data-token-id");
-          const actor = (Object.keys(game.actors.tokens).includes(tokenId)) ? game.actors.tokens[tokenId] : game.actors.find((a) => a._id === actorId);
+          const actor = (Object.keys(game.actors.tokens).includes(tokenId)) ? game.actors.tokens[tokenId] : game.actors.find((a) => a.id === actorId);
           const item = actor.items.find((i) => i.data._id === itemId);
           item.sheet.options.editable = false;
           item.sheet.render(true);

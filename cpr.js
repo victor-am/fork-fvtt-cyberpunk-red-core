@@ -64,8 +64,8 @@ Hooks.once("init", async () => {
   };
 
   // Assign the actor class to the CONFIG
-  CONFIG.Actor.entityClass = CPRActor;
-  CONFIG.Item.entityClass = CPRItem;
+  CONFIG.Actor.documentClass = CPRActor;
+  CONFIG.Item.documentClass = CPRItem;
 
   preloadHandlebarsTemplates();
   registerHandlebarsHelpers();

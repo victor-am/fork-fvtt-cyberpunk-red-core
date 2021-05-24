@@ -77,7 +77,7 @@ export default function registerHandlebarsHelpers() {
     return "";
   });
 
-  Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i._id === itemId));
+  Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i.id === itemId));
 
   Handlebars.registerHelper("isDefined", (object) => {
     if (typeof object === "undefined") {
@@ -275,7 +275,7 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace("Calling fireMode Helper");
     LOGGER.debug(`firemode is ${firemode}`);
     LOGGER.debug(`weaponID is ${weaponID}`);
-    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    const flag = getProperty(actor, `data.flags.cyberpunk-red-core.firetype-${weaponID}`);
     LOGGER.debugObject(flag);
     if (flag === firemode) {
       LOGGER.debug("returning true");
@@ -287,7 +287,7 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("fireflag", (actor, firetype, weaponID) => {
     LOGGER.trace("Calling fireflag Helper");
-    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    const flag = getProperty(actor, `data.flags.cyberpunk-red-core.firetype-${weaponID}`);
     if (flag === firetype) {
       return "checked";
     }

@@ -288,9 +288,9 @@ export default class CPRActorSheet extends ActorSheet {
 
     // output to chat
     const token = this.token === null ? null : this.token.data._id;
-    cprRoll.entityData = { actor: this.actor._id, token };
+    cprRoll.entityData = { actor: this.actor.id, token };
     if (item) {
-      cprRoll.entityData.item = item._id;
+      cprRoll.entityData.item = item.id;
     }
     CPRChat.RenderRollCard(cprRoll);
 
@@ -362,12 +362,12 @@ export default class CPRActorSheet extends ActorSheet {
           armorData.data.headLocation.ablation = Math.min(
             (a.getData().headLocation.ablation + 1), a.getData().headLocation.sp,
           );
-          updateList.push(armorData);
+          updateList.push({ _id: a.id, data: armorData.data });
         });
-        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        await this.actor.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as head armor is ablated:
         currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorHead.value - 1), 0);
-        this.actor.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
+        this.actor.update({ _id: this.actor.id, "data.externalData.currentArmorHead.value": currentArmorValue });
         break;
       }
       case "body": {
@@ -376,24 +376,24 @@ export default class CPRActorSheet extends ActorSheet {
           armorData.data.bodyLocation.ablation = Math.min(
             (a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp,
           );
-          updateList.push(armorData);
+          updateList.push({ _id: a.id, data: armorData.data });
         });
-        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        await this.actor.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as body armor is ablated:
         currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorBody.value - 1), 0);
-        this.actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
+        this.actor.update({ _id: this.actor.id, "data.externalData.currentArmorBody.value": currentArmorValue });
         break;
       }
       case "shield": {
         armorList.forEach((a) => {
           const armorData = a.data;
           armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - 1), 0);
-          updateList.push(armorData);
+          updateList.push({ _id: a.id, data: armorData.data });
         });
-        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        await this.actor.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as shield is damaged:
         currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorShield.value - 1), 0);
-        this.actor.update({ "data.externalData.currentArmorShield.value": currentArmorValue });
+        this.actor.update({ _id: this.actor.id, "data.externalData.currentArmorShield.value": currentArmorValue });
         break;
       }
       default:
@@ -501,7 +501,7 @@ export default class CPRActorSheet extends ActorSheet {
           item.doAction(this.actor, event.currentTarget.attributes);
         }
       }
-      this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
     }
   }
 
@@ -638,13 +638,14 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _updateOwnedItem(item) {
-    LOGGER.trace("ActorID _updateOwnedItemProp | Called.");
-    return this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+    LOGGER.trace("ActorID _updateOwnedItem | Called.");
+    return this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
   }
 
   _renderItemCard(event) {
     LOGGER.trace("ActorID _itemUpdate | CPRActorSheet | Called.");
     const itemId = this._getItemId(event);
+    console.log(itemId);
     const item = this.actor.items.find((i) => i.data._id === itemId);
     if (event.ctrlKey) {
       CPRChat.RenderItemCard(item);
@@ -701,7 +702,7 @@ export default class CPRActorSheet extends ActorSheet {
       weapons.forEach((weapon) => {
         const weaponData = weapon.data.data;
         if (weaponData.isRanged) {
-          if (weaponData.magazine.ammoId === item._id) {
+          if (weaponData.magazine.ammoId === item.id) {
             const warningMessage = `${game.i18n.localize("CPR.ammodeletewarning")}: ${weapon.name}`;
             SystemUtils.DisplayMessage("warn", warningMessage);
             ammoIsLoaded = true;
@@ -712,7 +713,7 @@ export default class CPRActorSheet extends ActorSheet {
         return;
       }
     }
-    await this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
+    await this.actor.deleteEmbeddedEntity("Item", item.id);
   }
 
   _fireCheckboxToggle(event) {
@@ -767,9 +768,9 @@ export default class CPRActorSheet extends ActorSheet {
         name: itemName,
         type: itemType,
         // eslint-disable-next-line no-undef
-        data: duplicate(itemType),
+        // data: duplicate(itemType),
       };
-      this.actor.createEmbeddedEntity("OwnedItem", itemData);
+      this.actor.createEmbeddedDocuments("Item", [itemData]);
     }
   }
 
@@ -839,12 +840,12 @@ export default class CPRActorSheet extends ActorSheet {
           }
           // eslint-disable-next-line no-undef
           const itemData = duplicate(crit.data);
-          const result = await this.actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+          const result = await this.actor.createEmbeddedEntity("Item", itemData, { force: true });
           const cprRoll = new CPRRolls.CPRTableRoll(crit.data.name, res.roll, "systems/cyberpunk-red-core/templates/chat/cpr-critical-injury-rollcard.hbs");
           cprRoll.rollCardExtraArgs.tableName = tableName;
           cprRoll.rollCardExtraArgs.itemName = result.name;
           cprRoll.rollCardExtraArgs.itemImg = result.img;
-          cprRoll.entityData = { actor: this.actor._id, token: this.token.id, item: result._id };
+          cprRoll.entityData = { actor: this.actor.id, token: this.token.id, item: result.id };
           CPRChat.RenderRollCard(cprRoll);
         }
       });
@@ -931,10 +932,10 @@ export default class CPRActorSheet extends ActorSheet {
   _onDragItemStart(event) {
     LOGGER.trace("ActorID _onDragItemStart | CPRActorSheet | called.");
     const itemId = event.currentTarget.getAttribute("data-item-id");
-    const item = this.actor.getEmbeddedEntity("OwnedItem", itemId);
+    const item = this.actor.getEmbeddedEntity("Item", itemId);
     event.dataTransfer.setData("text/plain", JSON.stringify({
       type: "Item",
-      actorId: this.actor._id,
+      actorId: this.actor.id,
       data: item,
       root: event.currentTarget.getAttribute("root"),
     }));
@@ -946,14 +947,14 @@ export default class CPRActorSheet extends ActorSheet {
     const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
     if (dragData.actorId !== undefined) {
       // Transfer ownership from one player to another
-      const actor = game.actors.find((a) => a._id === dragData.actorId);
+      const actor = game.actors.find((a) => a.id === dragData.actorId);
       if (actor) {
         if (actor.data._id === this.actor.data._id
           || dragData.data.data.core === true
           || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
           return;
         }
-        super._onDrop(event).then(actor.deleteEmbeddedEntity("OwnedItem", dragData.data._id));
+        super._onDrop(event).then(actor.deleteEmbeddedEntity("Item", dragData.data._id));
       }
     } else {
       super._onDrop(event);

@@ -14,7 +14,7 @@ const tokenHooks = () => {
         ([itemType, itemData]) => {
           if (!updatedData.actorData.data.externalData[itemType].id) {
             console.log(itemType, itemData);
-            const actor = (Object.keys(game.actors.tokens).includes(token._id)) ? game.actors.tokens[token._id] : null;
+            const actor = (Object.keys(game.actors.tokens).includes(token.id)) ? game.actors.tokens[token.id] : null;
             if (actor !== null) {
               const itemId = actor.data.data.externalData[itemType].id;
               const item = actor._getOwnedItem(itemId);
@@ -36,7 +36,7 @@ const tokenHooks = () => {
                         }
                         updateList.push(armorData);
                       });
-                      actor.updateEmbeddedEntity("OwnedItem", updateList);
+                      actor.updateEmbeddedDocuments("Item", updateList);
                     }
                     if (itemType === "currentArmorHead") {
                       const armorList = actor.getEquippedArmors("head");
@@ -52,11 +52,11 @@ const tokenHooks = () => {
                         }
                         updateList.push(armorData);
                       });
-                      actor.updateEmbeddedEntity("OwnedItem", updateList);
+                      actor.updateEmbeddedDocuments("Item", updateList);
                     }
                     if (itemType === "currentArmorShield") {
                       item.data.data.shieldHitPoints.value = currentValue;
-                      actor.updateEmbeddedEntity("OwnedItem", item.data);
+                      actor.updateEmbeddedDocuments("Item", item.data);
                     }
                     break;
                   }
@@ -78,7 +78,7 @@ const tokenHooks = () => {
     LOGGER.debugObject(tokenData);
     LOGGER.debugObject(updateData);
     if (("actorData" in tokenData) && ("actorData" in updateData)) {
-      const tokenActor = canvas.tokens.get(tokenData._id).actor;
+      const tokenActor = canvas.tokens.get(tokendata._id).actor;
       LOGGER.debugObject(tokenActor);
       if (typeof tokenActor === "undefined") {
         // this happens if the scene is changed while the mook sheet is still displayed and dragged to
@@ -89,10 +89,10 @@ const tokenHooks = () => {
           // this seems like a dangerous assumption... is the new item is always at the end of the array?
           const handledItem = tokenActor.getFlag("cyberpunk-red-core", "handled-item");
           const newItem = updateData.actorData.items[updateData.actorData.items.length - 1];
-          if (handledItem !== newItem._id) {
+          if (handledItem !== newItem.id) {
             // calling this fires updateToken a second time, so we use a flag to handle that
             tokenActor.handleMookDraggedItem(newItem);
-            tokenActor.setFlag("cyberpunk-red-core", "handled-item", newItem._id);
+            tokenActor.setFlag("cyberpunk-red-core", "handled-item", newItem.id);
           }
         }
       }
