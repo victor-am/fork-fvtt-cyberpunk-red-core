@@ -329,7 +329,8 @@ export class CPRTableRoll extends CPRRoll {
       this.faces.push(die.result);
     });
     // eslint-disable-next-line prefer-destructuring
-    this.resultTotal = tableRoll.results[0];
+    this.resultTotal = tableRoll.result;
+    this._roll = tableRoll;
   }
 }
 

@@ -1,6 +1,6 @@
 {{trace "CPR-MOOK-IMAGE.HBS"}}
-<div class="mook-image-toggle side-banner fg-white" data-text="{{#if (compare (compare actor.flags.collapsedImage "===" undefined) "||" (compare actor.flags.collapsedImage "===" true))}}{{localize "CPR.imageexpand"}}{{else}}{{localize "CPR.imagecollapse"}}{{/if}}"></div>
-<div class="mook-image-block {{#if (compare (compare actor.flags.collapsedImage "===" undefined) "||" (compare actor.flags.collapsedImage "===" true))}}hide{{/if}}">
+<div class="mook-image-toggle side-banner fg-white" data-text="{{#if (compare (compare actor.data.flags.collapsedImage "===" undefined) "||" (compare actor.data.flags.collapsedImage "===" true))}}{{localize "CPR.imageexpand"}}{{else}}{{localize "CPR.imagecollapse"}}{{/if}}"></div>
+<div class="mook-image-block {{#if (compare (compare actor.data.flags.collapsedImage "===" undefined) "||" (compare actor.data.flags.collapsedImage "===" true))}}hide{{/if}}">
   <img class="mook-image-block-img"
     src="{{actor.img}}"
     data-edit="img"

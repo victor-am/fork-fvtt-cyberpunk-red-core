@@ -53,7 +53,10 @@ export default class CPRActor extends Actor {
     if (typeof data.data === "undefined") {
       LOGGER.trace("create | New Actor | CPRActor | called.");
       createData.items = [];
-      createData.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
+      const tmpItems = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
+      tmpItems.forEach((item) => {
+        createData.items.push(item.data);
+      });
       if (data.type === "character") {
         createData.token = {
           actorLink: true,
@@ -234,27 +237,24 @@ export default class CPRActor extends Actor {
 
   _addFoundationalCyberware(item, formData) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
-    const tmpItem = item;
-    this.loseHumanityValue(tmpItem, formData);
+    this.loseHumanityValue(item, formData);
     LOGGER.debug("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
-    tmpItem.data.data.isInstalled = true;
-    return this.updateEmbeddedDocuments("Item", tmpItem.data);
+    return this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.isInstalled": true }]);
   }
 
   async _addOptionalCyberware(item, formData) {
     LOGGER.trace("ActorID _addOptionalCyberware | CPRActorSheet | Called.");
     const tmpItem = item;
-    this.loseHumanityValue(tmpItem, formData);
+    this.loseHumanityValue(item, formData);
     // eslint-disable-next-line max-len
     LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
-    foundationalCyberware.data.data.optionalIds.push(tmpItem.data._id);
-    foundationalCyberware.data.data.installedOptionSlots += tmpItem.data.data.slotSize;
+    const newOptionalIds = foundationalCyberware.data.data.optionalIds.concat(item.data._id);
+    const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots + item.data.data.slotSize;
     tmpItem.data.data.isInstalled = true;
-    const usedSlots = foundationalCyberware.getData().installedOptionSlots;
     const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
-    Rules.lawyer((usedSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
-    return this.updateEmbeddedDocuments("Item", [tmpItem.data, foundationalCyberware.data]);
+    Rules.lawyer((newInstalledOptionSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
+    return this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.isInstalled": true }, { _id: foundationalCyberware.id, "data.optionalIds": newOptionalIds, "data.installedOptionSlots": newInstalledOptionSlots }]);
   }
 
   async removeCyberware(itemId, foundationalId) {
@@ -269,33 +269,30 @@ export default class CPRActor extends Actor {
       } else {
         await this._removeOptionalCyberware(item, foundationalId);
       }
-      item.data.data.isInstalled = false;
+      return this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.isInstalled": false }]);
     }
-    return this.updateEmbeddedDocuments("Item", item.data);
+    return this.updateEmbeddedDocuments("Item", []);
   }
 
   _removeOptionalCyberware(item, foundationalId) {
     LOGGER.trace("ActorID _removeOptionalCyberware | CPRActorSheet | Called.");
     const foundationalCyberware = this._getOwnedItem(foundationalId);
-    foundationalCyberware.data.data.installedOptionSlots -= item.data.data.slotSize;
-    foundationalCyberware.getData().optionalIds = foundationalCyberware.getData().optionalIds.filter(
+    const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots - item.data.data.slotSize;
+    const newOptionalIds = foundationalCyberware.getData().optionalIds.filter(
       (optionId) => optionId !== item.data._id,
     );
-    return this.updateEmbeddedDocuments("Item", foundationalCyberware.data);
+    return this.updateEmbeddedDocuments("Item", [{ _id: foundationalCyberware.id, "data.optionalIds": newOptionalIds, "data.installedOptionSlots": newInstalledOptionSlots }]);
   }
 
   _removeFoundationalCyberware(item) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
-    const tmpItem = item;
     const updateList = [];
-    if (tmpItem.getData().optionalIds) {
-      tmpItem.getData().optionalIds.forEach(async (optionalId) => {
+    if (item.getData().optionalIds) {
+      item.getData().optionalIds.forEach(async (optionalId) => {
         const optional = this._getOwnedItem(optionalId);
-        optional.data.data.isInstalled = false;
-        updateList.push(optional.data);
+        updateList.push({ _id: optional.id, "data.isInstalled": false });
       });
-      tmpItem.data.data.optionalIds = [];
-      updateList.push(tmpItem.data);
+      updateList.push({ _id: item.id, "data.optionalIds": [], "data.installedOptionSlots": 0 });
       return this.updateEmbeddedDocuments("Item", updateList);
     }
     return PromiseRejectionEvent();
@@ -696,14 +693,12 @@ export default class CPRActor extends Actor {
     LOGGER.trace("_handleMookDraggedItem | CPRActor | Called.");
     LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
     LOGGER.debugObject(item);
-    const newItem = item;
-    switch (item.type) {
+    switch (item.data.type) {
       case "clothing":
       case "weapon":
       case "gear":
       case "armor": {
-        newItem.data.data.equipped = "equipped";
-        this.updateEmbeddedDocuments("Item", newItem.data);
+        this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.equipped": "equipped" }]);
         break;
       }
       case "cyberware": {

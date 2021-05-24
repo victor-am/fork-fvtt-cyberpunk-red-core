@@ -645,7 +645,6 @@ export default class CPRActorSheet extends ActorSheet {
   _renderItemCard(event) {
     LOGGER.trace("ActorID _itemUpdate | CPRActorSheet | Called.");
     const itemId = this._getItemId(event);
-    console.log(itemId);
     const item = this.actor.items.find((i) => i.data._id === itemId);
     if (event.ctrlKey) {
       CPRChat.RenderItemCard(item);
@@ -713,7 +712,7 @@ export default class CPRActorSheet extends ActorSheet {
         return;
       }
     }
-    await this.actor.deleteEmbeddedEntity("Item", item.id);
+    await this.actor.deleteEmbeddedDocuments("Item", [item.id]);
   }
 
   _fireCheckboxToggle(event) {
@@ -790,7 +789,7 @@ export default class CPRActorSheet extends ActorSheet {
 
   async _rollCriticalInjury() {
     const tableName = await this._setCriticalInjuryTable();
-    const table = game.tables.entities.find((t) => t.name === tableName);
+    const table = game.tables.contents.find((t) => t.name === tableName);
     this._drawCriticalInjuryTable(tableName, table, 0);
     this._automaticResize();
   }
@@ -798,7 +797,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _drawCriticalInjuryTable(tableName, table, iteration) {
     if (iteration > 100) { // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6), otherwise lower chance
       // count number of critical injuries of the type given in the table on the target
-      const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === table.data.results[0].text)));
+      const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === table.data.results.contents[0].data.text)));
       // eslint-disable-next-line no-undef
       if (!crit) {
         SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
@@ -821,7 +820,7 @@ export default class CPRActorSheet extends ActorSheet {
         if (res.results.length > 0) {
           // Check if the critical Injury already exists on the character
           let injuryAlreadyExists = false;
-          this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.name === res.results[0].text) { injuryAlreadyExists = true; } });
+          this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.name === res.results[0].data.text) { injuryAlreadyExists = true; } });
           if (injuryAlreadyExists) {
             const setting = game.settings.get("cyberpunk-red-core", "preventDuplicateCriticalInjuries");
             if (setting === "reroll") {
@@ -832,7 +831,7 @@ export default class CPRActorSheet extends ActorSheet {
               SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicatewarning")));
             }
           }
-          const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
+          const crit = game.items.find((item) => ((item.data.type === "criticalInjury") && (item.name === res.results[0].data.text)));
           // eslint-disable-next-line no-undef
           if (!crit) {
             SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
@@ -840,12 +839,12 @@ export default class CPRActorSheet extends ActorSheet {
           }
           // eslint-disable-next-line no-undef
           const itemData = duplicate(crit.data);
-          const result = await this.actor.createEmbeddedEntity("Item", itemData, { force: true });
+          const result = await this.actor.createEmbeddedDocuments("Item", [itemData]);
           const cprRoll = new CPRRolls.CPRTableRoll(crit.data.name, res.roll, "systems/cyberpunk-red-core/templates/chat/cpr-critical-injury-rollcard.hbs");
           cprRoll.rollCardExtraArgs.tableName = tableName;
-          cprRoll.rollCardExtraArgs.itemName = result.name;
-          cprRoll.rollCardExtraArgs.itemImg = result.img;
-          cprRoll.entityData = { actor: this.actor.id, token: this.token.id, item: result.id };
+          cprRoll.rollCardExtraArgs.itemName = result[0].name;
+          cprRoll.rollCardExtraArgs.itemImg = result[0].img;
+          cprRoll.entityData = { actor: this.actor.id, token: this.token.id, item: result[0].id };
           CPRChat.RenderRollCard(cprRoll);
         }
       });

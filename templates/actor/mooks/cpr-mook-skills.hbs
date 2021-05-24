@@ -10,13 +10,13 @@
   </span>
 </div>
 <div class="bg-white fg-black text-padding-left">
-  {{#each (sort actor.filteredItems.skill "name") as |skill s|}}
-    {{#if (compare skill.data.level ">" 0)}}
-      <span class="item deletable" data-item-id="{{skill._id}}" tabindex="0">
+  {{#each (sort actor.data.filteredItems.skill "name") as |skill s|}}
+    {{#if (compare skill.data.data.level ">" 0)}}
+      <span class="item deletable" data-item-id="{{skill.id}}" tabindex="0">
         <a class="rollable"  data-roll-type="skill" data-roll-title="{{skill.name}}" title="{{localize "CPR.clicktorollthisskill"}}, {{localize "CPR.pressdeletetoreset"}}">
-          {{#if skill.data.core}}{{localize (splitJoinCoreSkills skill.name)}}{{else}}{{skill.name}}{{/if}} (+{{math "sum" skill.data.level skill.data.skillmod}}),
+          {{#if skill.data.data.core}}{{localize (splitJoinCoreSkills skill.name)}}{{else}}{{skill.name}}{{/if}} (+{{math "sum" skill.data.data.level skill.data.data.skillmod}}),
         </a>
-        {{#if (compare skill.data.core "===" false)}}
+        {{#if (compare skill.data.data.core "===" false)}}
           <a class="item-edit skill-custom" title="{{localize "CPR.editcustomskill"}}"><i class="fas fa-edit"></i></a>
         {{/if}}
       </span>
