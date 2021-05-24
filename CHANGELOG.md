@@ -1,4 +1,4 @@
-# Version 0.76.0 | Date: (preliminary) 2021-04-25
+# Version 0.76.0 | Date: (preliminary) 2021-05-25
 
 **New Features**
 - Added "Option Slots Size" for optional cyberware. This allows proper tracking of cyberware that can use no slots, or multiple slots. By default when first updating to this version all cyberware has an assumed slot size of 1. Please update your optional cyberware accordingly in line with the core rulebook.
@@ -46,7 +46,7 @@
 - fixed #192 - Fixed that double quotes in wepon names break macros
 - fixed #195 - Fixed that 'Has Suppressive Fire' option didn't do anything
 - fixed #204 - Fixed IP and Eurobucks Ledger functions to work with unlinked tokens
-- fixed #221 & #222 - Correction of two criitcal injuries
+- fixed #221 & #222 - Correction of two critical injuries
 - fixed #224 - Med Tech and Fixer role abilities should now roll correctly, as per RAW
 
 # Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
