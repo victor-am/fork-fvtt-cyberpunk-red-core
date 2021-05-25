@@ -115,10 +115,10 @@
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Scenes - Core",
+      "label": "Scenes",
       "entity": "Scene",
       "name": "scenes",
-      "path": "packs/scenes-core.db",
+      "path": "packs/scenes.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     }
