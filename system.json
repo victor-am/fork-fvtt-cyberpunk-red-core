@@ -27,7 +27,7 @@
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "DV Rolltables - Core",
+      "label": "DV Rolltables",
       "entity": "RollTable",
       "name": "dvTables",
       "path": "packs/dvTables.db",
@@ -35,26 +35,26 @@
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Critical Injuries (Body) - Core",
+      "label": "Critical Injuries (Body)",
       "entity": "Item",
       "name": "criticalInjuriesBody",
-      "path": "packs/critical-injuries-body-core.db",
+      "path": "packs/critical-injuries-body.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Critical Injuries (Head) - Core",
+      "label": "Critical Injuries (Head)",
       "entity": "Item",
       "name": "criticalInjuriesHead",
-      "path": "packs/critical-injuries-head-core.db",
+      "path": "packs/critical-injuries-head.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Critical Injury Tables - Core",
+      "label": "Critical Injury Tables",
       "entity": "RollTable",
       "name": "criticalInjuryTables",
-      "path": "packs/critical-injury-tables-core.db",
+      "path": "packs/critical-injury-tables.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     },
@@ -115,10 +115,10 @@
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Scenes - Core",
+      "label": "Scenes",
       "entity": "Scene",
       "name": "scenes",
-      "path": "packs/scenes-core.db",
+      "path": "packs/scenes.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     }
