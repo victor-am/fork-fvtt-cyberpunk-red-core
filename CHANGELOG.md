@@ -1,4 +1,4 @@
-# Version 0.76.0 | Date: (preliminary) 2021-05-25
+# Version 0.76.0 | Date: 2021-05-25
 
 **New Features**
 - Added "Option Slots Size" for optional cyberware. This allows proper tracking of cyberware that can use no slots, or multiple slots. By default when first updating to this version all cyberware has an assumed slot size of 1. Please update your optional cyberware accordingly in line with the core rulebook.
@@ -55,6 +55,13 @@
 - fixed #228 - Fixed some mook sheet weapon/armor section alignment issues
 - fixed body ablation not being shown in description tab due to typo (!366)
 - fixed a bug where a newly created, non-edited cyberware would vanish upon install (!363)
+
+# Version: 0.75.4 (Hot Fix) |  Date:  2021-05-05
+- Fixed release manifest to not lock users into version 0.75.3 without possibility to update
+
+# Version: 0.75.3 (Hot Fix) |  Date:  2021-05-02
+**Bug Fix**
+- Role ability settings were lost when changing other data on the sheet. [issue #203](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues/203)
 
 # Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
 **Bug Fix**
