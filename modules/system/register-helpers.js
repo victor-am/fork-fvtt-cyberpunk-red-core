@@ -320,6 +320,11 @@ export default function registerHandlebarsHelpers() {
     return "DOES NOT EXIST";
   });
 
+  Handlebars.registerHelper("isTokenSheet", (actor) => {
+    LOGGER.trace("Calling isTokenSheet Helper");
+    return actor.token !== null;
+  });
+
   Handlebars.registerHelper("isDebug", () => {
     LOGGER.trace("Calling isDebug Helper");
     return game.settings.get("cyberpunk-red-core", "debugElements");
