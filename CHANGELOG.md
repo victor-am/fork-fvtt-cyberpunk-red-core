@@ -37,6 +37,7 @@
 - Characters are now linked to their token by default, Mooks are not.
 - Hoverable input fields now remain visible if field is focused and fade out for a more visually pleasing transition from visible to not-visible. (Thanks to sdenec#3813 because I borrowed some of his code from Tidy5e Sheet to accomplish this.)
 - Critical damage roll cards no longer show the bonus damage added to the total, since the bonus damage is directly applied to the hp and does not consider armor (issue #214).
+- Added localization to places where it was not implemented. (!325)
 
 
 **Bug Fixes**
@@ -46,9 +47,12 @@
 - fixed #189 - EMP stat on new mook sheet can now be modified
 - fixed #192 - Fixed that double quotes in wepon names break macros
 - fixed #195 - Fixed that 'Has Suppressive Fire' option didn't do anything
+- fixed #198 - Removes DV display when others are measuring
 - fixed #204 - Fixed IP and Eurobucks Ledger functions to work with unlinked tokens
 - fixed #221 & #222 - Correction of two critical injuries
 - fixed #224 - Med Tech and Fixer role abilities should now roll correctly, as per RAW
+- fixed body ablation not being shown in description tab due to typo (!366)
+- fixed a bug where a newly created, non-edited cyberware would vanish upon install (!363)
 
 # Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
 **Bug Fix**
