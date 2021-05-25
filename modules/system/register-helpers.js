@@ -3,6 +3,7 @@
 /* global Handlebars, getProperty */
 import LOGGER from "../utils/cpr-logger.js";
 import CPR from "./config.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers");
@@ -320,9 +321,11 @@ export default function registerHandlebarsHelpers() {
     return "DOES NOT EXIST";
   });
 
-  Handlebars.registerHelper("isTokenSheet", (actor) => {
+  Handlebars.registerHelper("isTokenSheet", (title) => {
     LOGGER.trace("Calling isTokenSheet Helper");
-    return actor.token !== null;
+    LOGGER.debug(`title is ${title}`);
+    const substr = `[${SystemUtils.Localize("CPR.token")}]`;
+    return title.includes(substr);
   });
 
   Handlebars.registerHelper("isDebug", () => {
