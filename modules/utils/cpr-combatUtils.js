@@ -28,6 +28,6 @@ export default class CPRCombatUtils {
       SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.nobodyrolledinitiative"));
       return null;
     }
-    return Math.max(definedInits);
+    return Math.max(...definedInits);
   }
 }

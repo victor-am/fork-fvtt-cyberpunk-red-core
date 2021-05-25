@@ -46,11 +46,13 @@ export default class CPRBlackIceActor extends Actor {
     // note this only works for the currently viewed combat, not all combats
     // this might help with that in the future:
     const combatant = this.getCombatant();
-    if (!combatant) return;
-    const initVal = CombatUtils.GetBestInit() + 1;
-    const cid = combatant._id;
-    LOGGER.debug(`setting combatant ${cid} to ${initVal}`);
-    game.combat.setInitiative(cid, initVal);
+    const bestInit = CombatUtils.GetBestInit();
+    if (combatant && bestInit !== combatant.initiative) {
+      const cid = combatant._id;
+      const initVal = bestInit + 1;
+      LOGGER.debug(`setting combatant ${cid} to ${initVal}`);
+      game.combat.setInitiative(cid, initVal);
+    }
   }
 
   // Black-ICE rolls are always "stat" rolls
