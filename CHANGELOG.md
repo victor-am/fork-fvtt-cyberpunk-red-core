@@ -51,6 +51,7 @@
 - fixed #204 - Fixed IP and Eurobucks Ledger functions to work with unlinked tokens
 - fixed #221 & #222 - Correction of two critical injuries
 - fixed #224 - Med Tech and Fixer role abilities should now roll correctly, as per RAW
+- fixed #228 - Fixed some mook sheet weapon/armor section alignment issues
 - fixed body ablation not being shown in description tab due to typo (!366)
 - fixed a bug where a newly created, non-edited cyberware would vanish upon install (!363)
 
