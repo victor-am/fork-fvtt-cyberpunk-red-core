@@ -702,8 +702,13 @@ export default class CPRActor extends Actor {
       case "weapon":
       case "gear":
       case "armor": {
-        newItem.data.data.equipped = "equipped";
-        this.updateEmbeddedEntity("OwnedItem", newItem.data);
+        if (newItem.data.data) {
+          newItem.data.data.equipped = "equipped";
+          this.updateEmbeddedEntity("OwnedItem", newItem.data);
+        } else {
+          newItem.data.equipped = "equipped";
+          this.updateEmbeddedEntity("OwnedItem", newItem);
+        }
         break;
       }
       case "cyberware": {
