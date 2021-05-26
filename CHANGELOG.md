@@ -1,6 +1,7 @@
-# Version 0.76.0 | Date: 2021-05-25
+# Version 0.76.0 | Date: 2021-05-26
 
 **New Features**
+- FnWeather made a great video demonstrating some of the following changes which you can find here: https://www.youtube.com/watch?v=csgB6c5KhkU. Thanks to him!
 - Added "Option Slots Size" for optional cyberware. This allows proper tracking of cyberware that can use no slots, or multiple slots. By default when first updating to this version all cyberware has an assumed slot size of 1. Please update your optional cyberware accordingly in line with the core rulebook.
 - Added extra content to the cyberware tab to display the amount of 'used' slots for foundational cyberware.
 - Added option to reroll duplicate critical injuries. There is a system setting to decide if you want to use it, with the default being off.
@@ -53,8 +54,8 @@
 - fixed #221 & #222 - Correction of two critical injuries
 - fixed #224 - Med Tech and Fixer role abilities should now roll correctly, as per RAW
 - fixed #228 - Fixed some mook sheet weapon/armor section alignment issues
-- fixed body ablation not being shown in description tab due to typo (!366)
-- fixed a bug where a newly created, non-edited cyberware would vanish upon install (!363)
+- fixed !366 - Body ablation not being shown in description tab due to typo
+- fixed #215 - A bug where a newly created, non-edited cyberware would vanish upon install
 
 # Version: 0.75.4 (Hot Fix) |  Date:  2021-05-05
 - Fixed release manifest to not lock users into version 0.75.3 without possibility to update
