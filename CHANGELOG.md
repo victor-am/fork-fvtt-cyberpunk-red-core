@@ -43,6 +43,7 @@
 
 
 **Bug Fixes**
+- fixed #49 - The equipped glyph now takes the same space as the other two
 - fixed #158 - Stat padding fixed for LUCK and EMP, so that they have the same font size as the others
 - fixed #176 - Game paused animation properly translates now
 - fixed #187 - Item icons are now resizing correctly to fit into their frame
