@@ -55,6 +55,7 @@
 - fixed #228 - Fixed some mook sheet weapon/armor section alignment issues
 - fixed body ablation not being shown in description tab due to typo (!366)
 - fixed a bug where a newly created, non-edited cyberware would vanish upon install (!363)
+- fixed #49 - The equipped glyph now takes the same space than the other two
 
 # Version: 0.75.4 (Hot Fix) |  Date:  2021-05-05
 - Fixed release manifest to not lock users into version 0.75.3 without possibility to update
