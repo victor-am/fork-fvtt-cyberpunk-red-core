@@ -54,7 +54,12 @@ export default class CPRActorSheet extends ActorSheet {
     data.filteredItems = this.actor.filteredItems;
     data.installedCyberware = this._getSortedInstalledCyberware();
     data.fightOptions = (this.actor.hasItemTypeEquipped("cyberdeck")) ? "both" : "";
-    data.fightState = "Meatspace";
+    let fightState = this.actor.getFlag("cyberpunk-red-core", "fightState");
+    console.log(fightState);
+    if (!fightState || data.fightOptions !== "both") {
+      fightState = "Meatspace";
+    }
+    data.fightState = fightState;
     return data;
   }
 
@@ -94,6 +99,10 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".set-lifepath").click(() => this._setLifepath());
 
     html.find(".checkbox").click((event) => this._checkboxToggle(event));
+
+   // Reset Death Penalty
+   html.find(".toggle-fight-state").click((event) => this._toggleFightState(event));
+
 
     html.find(".toggle-favorite-visibility").click((event) => {
       const collapsibleElement = $(event.currentTarget).parents(".collapsible");
@@ -421,6 +430,13 @@ export default class CPRActorSheet extends ActorSheet {
       case "carried": {
         if (item.data.type === "weapon") {
           Rules.lawyer(this._canHoldWeapon(item), "CPR.warningtoomanyhands");
+        }
+        if (item.data.type === "cyberdeck") {
+          if (this.actor.hasItemTypeEquipped(item.data.type)) {
+            Rules.lawyer(false, "CPR.errortoomanycyberdecks");
+            this._updateOwnedItemProp(item, prop, "owned");
+            break;
+          }
         }
         this._updateOwnedItemProp(item, prop, "equipped");
         break;
@@ -940,6 +956,12 @@ export default class CPRActorSheet extends ActorSheet {
       data: item,
       root: event.currentTarget.getAttribute("root"),
     }));
+  }
+
+  _toggleFightState(event) {
+    const fightState = $(event.currentTarget).attr("data-state");
+    console.log(fightState);
+    this.actor.setFlag("cyberpunk-red-core", "fightState", fightState)
   }
 
   async _onDrop(event) {

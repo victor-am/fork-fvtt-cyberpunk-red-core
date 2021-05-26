@@ -59,7 +59,12 @@
             <div class="tab-label text-bold tab-indent">
               <a data-tab="fight">{{localize "CPR.fight"}}</a>
               {{#if (compare fightOptions "===" "both")}}
-              &nbsp;({{localize "CPR.meat"}}|{{localize "CPR.net"}})
+                &nbsp;
+                {{#if (compare fightState "===" "Meatspace")}}
+                  ({{localize "CPR.meat"}}|<a class="toggle-fight-state" data-state="Netspace">{{localize "CPR.net"}}</a>)
+                {{else}}
+                  (<a class="toggle-fight-state" data-state="Meatspace">{{localize "CPR.meat"}}</a>|{{localize "CPR.net"}})
+                {{/if}}
               {{/if}}
             </div>
           </div>

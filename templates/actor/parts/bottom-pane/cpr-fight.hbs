@@ -196,5 +196,25 @@
         </div>
     </div>
     {{/if}}
+    {{#if (compare fightState "===" "Netspace")}}
+        <div class="cyberdeck-rezzed-section">
+        <li class="items-header flexrow">
+            <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
+                {{localize "CPR.cyberdeckrezzed"}}
+            </span>
+        </li>
+        <div class="cyberdeck-rezzed-content">
+        </div>
+    </div>
+    <div class="cyberdeck-installed-section">
+        <li class="items-header flexrow">
+            <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
+                {{localize "CPR.cyberdeckinstalled"}}
+            </span>
+        </li>
+        <div class="cyberdeck-installed-content">
+        </div>
+    </div>
+    {{/if}}
 </div>
 {{trace "END CPR-FIGHT.HBS"}}
