@@ -1,5 +1,4 @@
 {{trace "CPR-BLACK-ICE-SHEET.HBS"}}
-{{log this}}
 <form>
   {{#if (isDebug)}}
     actor ID: {{actor._id}}
@@ -32,13 +31,6 @@
             {{#unless (compare s "===" "rez")}}
               </a>
             {{/unless}}
-            {{#if (compare s "===" "spd")}}
-              {{#if (isTokenSheet ../this.title)}}
-                <a class="roll-init" title="{{localize "CPR.setinitiative"}}">
-                  <i class="fas fa-dice text-padding-right"></i>
-                </a>
-              {{/if}}
-            {{/if}}
           </div>
         {{/each}}
         <div>

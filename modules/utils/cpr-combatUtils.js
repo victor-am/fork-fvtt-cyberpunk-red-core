@@ -25,7 +25,7 @@ export default class CPRCombatUtils {
     LOGGER.debug(`definedInits: ${definedInits}`);
     if (definedInits.length === 0) {
       // a combat encounter is viewed but nobody has rolled initiative
-      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.nobodyrolledinitiative"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.nobodyrolledinitiative"));
       return null;
     }
     return Math.max(...definedInits);

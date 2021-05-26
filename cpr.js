@@ -6,6 +6,7 @@ import CPRCharacterActorSheet from "./modules/actor/sheet/cpr-character-sheet.js
 import CPRContainerActorSheet from "./modules/actor/sheet/cpr-container-sheet.js";
 import CPRDemonActorSheet from "./modules/actor/sheet/cpr-demon-sheet.js";
 import CPRMookActorSheet from "./modules/actor/sheet/cpr-mook-sheet.js";
+import CPRCombat from "./modules/combat/cpr-combat.js";
 import CPRItem from "./modules/item/cpr-item.js";
 
 import CPRItemSheet from "./modules/item/sheet/cpr-item-sheet.js";
@@ -72,6 +73,7 @@ Hooks.once("init", async () => {
 
   // Assign the actor class to the CONFIG
   CONFIG.Actor.entityClass = actorConstructor;
+  CONFIG.Combat.entityClass = CPRCombat;
   CONFIG.Item.entityClass = CPRItem;
 
   preloadHandlebarsTemplates();
