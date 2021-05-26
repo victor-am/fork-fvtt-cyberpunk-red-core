@@ -51,7 +51,9 @@
                             {{/if}}
                             /{{armor.data.headLocation.sp}}
                             <a class="ablate" data-location="head"><i
-                                    class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a>
+                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.ablatearmor"}}"></i></a> {{#if (compare armor._id "===" ../actor.data.externalData.currentArmorHead.id)}}<a class="armor-current" data-location="head" data-item-id="{{armor._id}}">
+                                    <i class="fas fa-star" title="{{localize "CPR.resyncheadarmor"}}"></i></a>{{else}}<a class="armor-current" data-location="head" data-item-id="{{armor._id}}"><i
+                                    class="far fa-star" title="{{localize "CPR.makeheadarmoractive"}}"></i></a>{{/if}}
                         </div>
                     </li>
                     {{/if}}
@@ -68,7 +70,9 @@
                             {{/if}}
                             /{{armor.data.bodyLocation.sp}}
                                                         <a class="ablate" data-location="body"><i
-                                    class="far fa-arrow-alt-circle-down" title="Ablate Armor"></i></a>
+                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.ablatearmor"}}"></i></a> {{#if (compare armor._id "===" ../actor.data.externalData.currentArmorBody.id)}}<a class="armor-current" data-location="body" data-item-id="{{armor._id}}">
+                                    <i class="fas fa-star" title="{{localize "CPR.resyncbodyarmor"}}"></i></a>{{else}}<a class="armor-current" data-location="body" data-item-id="{{armor._id}}"><i
+                                    class="far fa-star" title="{{localize "CPR.makebodyarmoractive"}}"></i></a>{{/if}}
 
                         </div>
                     </li>
@@ -86,8 +90,9 @@
                             {{/if}}
                             /{{armor.data.shieldHitPoints.max}}
                                                         <a class="ablate" data-location="shield"><i
-                                    class="far fa-arrow-alt-circle-down" title="Damage Shield"></i></a>
-
+                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.damageshield"}}"></i></a> {{#if (compare armor._id "===" ../actor.data.externalData.currentArmorShield.id)}}<a class="armor-current" data-location="shield" data-item-id="{{armor._id}}">
+                                    <i class="fas fa-star" title="{{localize "CPR.resyncshield"}}"></i></a>{{else}}<a class="armor-current" data-location="shield" data-item-id="{{armor._id}}"><i
+                                    class="far fa-star" title="{{localize "CPR.makeshieldactive"}}"></i></a>{{/if}}
                         </div>
                     </li>
                     {{/if}}
@@ -109,7 +114,7 @@
                 {{#if (compare weapon.data.equipped "===" "equipped")}}
                 <li class="weapon-grid item flexrow" data-item-id="{{weapon._id}}">
                     <div class="fight-weapon-icon">
-                        <img src="{{img}}"/>
+                        <img class="fight-weapon-icon-img" src="{{img}}"/>
                     </div>
                     <div class="fight-weapon">
                         <div class="item-name fight-weapon-name">
@@ -144,40 +149,42 @@
                                 {{/if}}
                             </a>
                         </div>
-                        {{#if (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType)}}
-                        <div class="fight-weapon-auto">
-                            {{localize "CPR.af"}}
-                        </div>
-                        <div class="fight-weapon-suppress">
-                            {{localize "CPR.sf"}}
-                        </div>
-                        <div class="fight-weapon-auto-box">
-                            <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon._id}}">
-                                {{#if (fireMode ../actor "autofire" weapon._id)}}
-                                    <i class="far fa-check-circle"></i>
-                                {{else}}
-                                    <i class="far fa-circle"></i>
-                                {{/if}}
-                            </a>
-                        </div>
-                        <div class="fight-weapon-suppress-box">
-                            <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon._id}}">
-                                {{#if (fireMode ../actor "suppressive" weapon._id)}}
-                                    <i class="far fa-check-circle"></i>
-                                {{else}}
-                                    <i class="far fa-circle"></i>
-                                {{/if}}
-                            </a>
-                        </div>
+                        {{#if weapon.data.isRanged}}
+                            {{#if (compare (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType) "||" weapon.data.fireModes.suppressiveFire)}}
+                            <div class="fight-weapon-auto">
+                                {{localize "CPR.af"}}
+                            </div>
+                            <div class="fight-weapon-suppress">
+                                {{localize "CPR.sf"}}
+                            </div>
+                            <div class="fight-weapon-auto-box">
+                                <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon._id}}">
+                                    {{#if (fireMode ../actor "autofire" weapon._id)}}
+                                        <i class="far fa-check-circle"></i>
+                                    {{else}}
+                                        <i class="far fa-circle"></i>
+                                    {{/if}}
+                                </a>
+                            </div>
+                            <div class="fight-weapon-suppress-box">
+                                <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon._id}}">
+                                    {{#if (fireMode ../actor "suppressive" weapon._id)}}
+                                        <i class="far fa-check-circle"></i>
+                                    {{else}}
+                                        <i class="far fa-circle"></i>
+                                    {{/if}}
+                                </a>
+                            </div>
+                            {{/if}}
                         {{/if}}
                     </div>
                     <div class="item-detail text-largest fight-weapon-attack text-nowrap">
                         <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
-                            <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
+                            <i class="fas fa-fist-raised red-fg" title="{{localize "CPR.rollanattack"}}"></i>
                         </a>
                         {{#if (compare (fireflag ../actor "suppressive" weapon._id) "!==" "checked")}}
                         <a class="rollable damage-roll-{{weapon._id}}" data-roll-type="damage" data-item-id={{weapon._id}} data-damage="{{weapon.data.damage}}">
-                            <i class="fas fa-tint red-fg" title="Roll Damage"></i>
+                            <i class="fas fa-tint red-fg" title="{{localize "CPR.rolldamage"}}"></i>
                         </a>
                         {{/if}}
                     </div>

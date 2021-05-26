@@ -40,6 +40,33 @@
             "max": 6
           }
         },
+
+        "externalData": {
+          "currentArmorBody": {
+            "id": "",
+            "value": 0,
+            "max": 0
+          },
+
+          "currentArmorHead": {
+            "id": "",
+            "value": 0,
+            "max": 0
+          },
+
+          "currentArmorShield": {
+            "id": "",
+            "value": 0,
+            "max": 0
+          },
+
+          "currentWeapon": {
+            "id": "",
+            "value": 0,
+            "max": 0
+          }
+        },
+
         "derivedStats": {
           "hp": {
             "value": 40,
@@ -335,7 +362,8 @@
         "attachmentSlots": 0,
         "dvTable": "",
         "isRanged": false,
-        "attackmod": 0
+        "attackmod": 0,
+        "unarmedAutomaticCalculation": true
       },
       "uses": {
         "usesType": "magazine",
@@ -397,13 +425,15 @@
         "weapon",
         "uses"
       ],
-      "type": "",
+      "type": "cyberArm",
       "install": "mall",
       "isInstalled": false,
       "isFoundational": true,
       "hasOptionalSlots": false,
       "optionSlots": 0,
+      "slotSize": 1,
       "core": false,
+      "installedOptionSlots": 0,
       "optionalIds": [],
       "humanityLoss": {
         "static": 3,

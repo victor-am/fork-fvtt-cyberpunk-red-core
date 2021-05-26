@@ -1,5 +1,5 @@
 {
-  "version": "0.75.4",
+  "version": "0.76.0",
   "name": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
@@ -27,7 +27,7 @@
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "DV Rolltables - Core",
+      "label": "DV Rolltables",
       "entity": "RollTable",
       "name": "dvTables",
       "path": "packs/dvTables.db",
@@ -35,26 +35,90 @@
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Critical Injuries (Body) - Core",
+      "label": "Critical Injuries (Body)",
       "entity": "Item",
       "name": "criticalInjuriesBody",
-      "path": "packs/critical-injuries-body-core.db",
+      "path": "packs/critical-injuries-body.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Critical Injuries (Head) - Core",
+      "label": "Critical Injuries (Head)",
       "entity": "Item",
       "name": "criticalInjuriesHead",
-      "path": "packs/critical-injuries-head-core.db",
+      "path": "packs/critical-injuries-head.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Critical Injury Tables - Core",
+      "label": "Critical Injury Tables",
       "entity": "RollTable",
       "name": "criticalInjuryTables",
-      "path": "packs/critical-injury-tables-core.db",
+      "path": "packs/critical-injury-tables.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Weapons",
+      "entity": "Item",
+      "name": "weapons-items",
+      "path": "packs/weapons.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Armor",
+      "entity": "Item",
+      "name": "armor-items",
+      "path": "packs/armor.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Ammo",
+      "entity": "Item",
+      "name": "ammo-items",
+      "path": "packs/ammo.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Cyberware",
+      "entity": "Item",
+      "name": "cyberware-items",
+      "path": "packs/cyberware-items.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Gear",
+      "entity": "Item",
+      "name": "gear-items",
+      "path": "packs/gear.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Programs",
+      "entity": "Item",
+      "name": "programs-items",
+      "path": "packs/programs.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Vehicles",
+      "entity": "Item",
+      "name": "vehicles-items",
+      "path": "packs/vehicles.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Scenes",
+      "entity": "Scene",
+      "name": "scenes",
+      "path": "packs/scenes.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     }
@@ -64,6 +128,11 @@
       "lang": "en",
       "name": "English",
       "path": "lang/en.json"
+    },
+    {
+      "lang": "fr",
+      "name": "French",
+      "path": "lang/fr.json"
     }
   ],
   "initiative": "1d10 + @stats.ref.value",
@@ -74,6 +143,6 @@
   "background" : "Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
   "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/system.json",
-  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/release-0.75.3/fvtt-cyberpunk-red-core-release-0.75.3.zip",
+  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.76.0/fvtt-cyberpunk-red-core-v0.76.0.zip",
   "license": "Copyright 2020, The Project Red Team"
 }

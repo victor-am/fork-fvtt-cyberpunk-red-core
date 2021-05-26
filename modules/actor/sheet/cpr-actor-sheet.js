@@ -21,10 +21,14 @@ export default class CPRActorSheet extends ActorSheet {
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
+    const defaultWidth = 800;
+    const defaultHeight = 590;
     return mergeObject(super.defaultOptions, {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
-      width: 800,
-      height: 590,
+      defaultWidth,
+      defaultHeight,
+      width: defaultWidth,
+      height: defaultHeight,
       scrollY: [".right-content-section"],
     });
   }
@@ -32,6 +36,11 @@ export default class CPRActorSheet extends ActorSheet {
   async _render(force = false, options = {}) {
     LOGGER.trace("ActorSheet | _render | Called.");
     await super._render(force, options);
+    if (this.position.width === this.options.defaultWidth && this.position.height === this.options.defaultHeight) {
+      // Only resize the sheet with default size, as render option is called on several differnt update events
+      // Should one still desire resizing the sheet afterwards, please call _automaticResize explicitly.
+      this._automaticResize();
+    }
   }
 
   /* -------------------------------------------- */
@@ -61,6 +70,9 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Ablate Armor
     html.find(".ablate").click((event) => this._ablateArmor(event));
+
+    // Set Armor as Current
+    html.find(".armor-current").click((event) => this._makeArmorCurrent(event));
 
     // Install Cyberware
     html.find(".install-remove-cyberware").click((event) => this._installRemoveCyberwareAction(event));
@@ -187,9 +199,13 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".weapon-input").click((event) => event.target.select()).change((event) => this._updateWeaponAmmo(event));
 
+    html.find(".amount-input").click((event) => event.target.select()).change((event) => this._updateAmount(event));
+
     html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
 
-    html.find(".ability-input").click((event) => event.target.select()).change((event) => this._updateRoleAbility(event));
+    html.find(".ability-input").click((event) => event.target.select()).change(
+      (event) => this._updateRoleAbility(event),
+    );
 
     html.find(".eurobucks-input").click((event) => event.target.select()).change(
       (event) => this._updateEurobucks(event),
@@ -197,6 +213,15 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
 
+    // Sheet resizing
+    html.find(".tab-label:not(.skills-tab):not(.gear-tab):not(.cyberware-tab)").click(
+      (event) => this._automaticResize(),
+    );
+
+    // handle the delete key
+    // div elements need focus for the DEL key to work on them
+    html.find(".deletable").hover((event) => $(event.currentTarget).focus());
+    html.find(".deletable").keydown((event) => this._handleKey(event));
     super.activateListeners(html);
   }
 
@@ -229,7 +254,7 @@ export default class CPRActorSheet extends ActorSheet {
         const itemId = this._getItemId(event);
         item = this._getOwnedItem(itemId);
         rollType = this._getFireCheckbox(event);
-        cprRoll = item.createDamageRoll(rollType, this.actor);
+        cprRoll = item.createDamageRoll(rollType);
         if (rollType === CPRRolls.rollTypes.AIMED) {
           cprRoll.location = this.actor.getFlag("cyberpunk-red-core", "aimedLocation") || "body";
         }
@@ -299,17 +324,37 @@ export default class CPRActorSheet extends ActorSheet {
   _repairArmor(event) {
     LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
+    const currentArmorBodyValue = item.data.data.bodyLocation.sp;
+    const currentArmorHeadValue = item.data.data.headLocation.sp;
+    const currentArmorShieldValue = item.data.data.shieldHitPoints.max;
     // XXX: cannot use _getObjProp since we need to update 2 props
     this._updateOwnedItemProp(item, "data.headLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.shieldHitPoints.value", item.data.data.shieldHitPoints.max);
+    // Update actor external data when armor is repaired:
+    if (this._getItemId(event) === this.actor.data.data.externalData.currentArmorBody.id) {
+      this.actor.update({
+        "data.externalData.currentArmorBody.value": currentArmorBodyValue,
+      });
+    }
+    if (this._getItemId(event) === this.actor.data.data.externalData.currentArmorHead.id) {
+      this.actor.update({
+        "data.externalData.currentArmorHead.value": currentArmorHeadValue,
+      });
+    }
+    if (this._getItemId(event) === this.actor.data.data.externalData.currentArmorShield.id) {
+      this.actor.update({
+        "data.externalData.currentArmorShield.value": currentArmorShieldValue,
+      });
+    }
   }
 
   async _ablateArmor(event) {
-    LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
+    LOGGER.trace("ActorID _ablateArmor | CPRActorSheet | Called.");
     const location = $(event.currentTarget).attr("data-location");
     const armorList = this.actor.getEquippedArmors(location);
     const updateList = [];
+    let currentArmorValue;
     switch (location) {
       case "head": {
         armorList.forEach((a) => {
@@ -320,6 +365,9 @@ export default class CPRActorSheet extends ActorSheet {
           updateList.push(armorData);
         });
         await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        // Update actor external data as head armor is ablated:
+        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorHead.value - 1), 0);
+        this.actor.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
         break;
       }
       case "body": {
@@ -331,6 +379,9 @@ export default class CPRActorSheet extends ActorSheet {
           updateList.push(armorData);
         });
         await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        // Update actor external data as body armor is ablated:
+        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorBody.value - 1), 0);
+        this.actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
         break;
       }
       case "shield": {
@@ -340,10 +391,20 @@ export default class CPRActorSheet extends ActorSheet {
           updateList.push(armorData);
         });
         await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        // Update actor external data as shield is damaged:
+        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorShield.value - 1), 0);
+        this.actor.update({ "data.externalData.currentArmorShield.value": currentArmorValue });
         break;
       }
       default:
     }
+  }
+
+  _makeArmorCurrent(event) {
+    LOGGER.trace("ActorID _makeArmorCurrent | CPRActorSheet | Called.");
+    const location = $(event.currentTarget).attr("data-location");
+    const id = $(event.currentTarget).attr("data-item-id");
+    this.actor.makeThisArmorCurrent(location, id);
   }
 
   _cycleEquipState(event) {
@@ -371,6 +432,7 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
     }
+    this._automaticResize();
   }
 
   async _installRemoveCyberwareAction(event) {
@@ -443,6 +505,28 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
+  _handleKey(event) {
+    LOGGER.trace("_handleKey | CPRActorSheet | Called.");
+    LOGGER.debug(event.keyCode);
+    if (event.keyCode === 46) {
+      LOGGER.debug("delete key was pressed");
+      const itemId = $(event.currentTarget).attr("data-item-id");
+      const item = this._getOwnedItem(itemId);
+      switch (item.type) {
+        case "skill": {
+          item.setSkillLevel(0);
+          item.setSkillMod(0);
+          this._updateOwnedItem(item);
+          break;
+        }
+        default: {
+          this._deleteOwnedItem(item);
+          break;
+        }
+      }
+    }
+  }
+
   // ARMOR HELPERS
   // TODO - Move to armor helpers to cpr-actor
   // TODO - Assure all private methods can be used outside of the context of UI controls as well.
@@ -512,7 +596,25 @@ export default class CPRActorSheet extends ActorSheet {
     const item = this._getOwnedItem(this._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "data.magazine.value") {
-      item.setWeaponAmmo(event.target.value);
+      if (!Number.isNaN(parseInt(event.target.value, 10))) {
+        item.setWeaponAmmo(event.target.value);
+      } else {
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.amountnotnumber"));
+      }
+    }
+    this._updateOwnedItem(item);
+  }
+
+  _updateAmount(event) {
+    LOGGER.trace("ActorID _updateAmount | CPRActorSheet | Called.");
+    const item = this._getOwnedItem(this._getItemId(event));
+    const updateType = $(event.currentTarget).attr("data-item-prop");
+    if (updateType === "item.data.amount") {
+      if (!Number.isNaN(parseInt(event.target.value, 10))) {
+        item.setItemAmount(event.target.value);
+      } else {
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.amountnotnumber"));
+      }
     }
     this._updateOwnedItem(item);
   }
@@ -688,9 +790,47 @@ export default class CPRActorSheet extends ActorSheet {
   async _rollCriticalInjury() {
     const tableName = await this._setCriticalInjuryTable();
     const table = game.tables.entities.find((t) => t.name === tableName);
+    this._drawCriticalInjuryTable(tableName, table, 0);
+    this._automaticResize();
+  }
+
+  async _drawCriticalInjuryTable(tableName, table, iteration) {
+    if (iteration > 100) { // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6), otherwise lower chance
+      // count number of critical injuries of the type given in the table on the target
+      const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === table.data.results[0].text)));
+      // eslint-disable-next-line no-undef
+      if (!crit) {
+        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
+        return;
+      }
+      const critType = crit.data.data.location;
+      let numberCritInjurySameType = 0;
+      this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.data.location === critType) { numberCritInjurySameType += 1; } });
+      if (table.data.results.length <= numberCritInjurySameType) {
+        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
+        return;
+      }
+      if (iteration > 1000) { // Techincally possible to reach even if a critical injury is still missing (chance: 6*10e-11 %), though unlikely.
+        SystemUtils.DisplayMessage("error", (game.i18n.localize("CPR.criticalinjuryduplicateloopwarning")));
+        return; // Prevent endless loop in case of mixed (head and body) Critical Injury tables or unreachable elements in the rolltable.
+      }
+    }
     table.draw({ displayChat: false })
       .then(async (res) => {
         if (res.results.length > 0) {
+          // Check if the critical Injury already exists on the character
+          let injuryAlreadyExists = false;
+          this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.name === res.results[0].text) { injuryAlreadyExists = true; } });
+          if (injuryAlreadyExists) {
+            const setting = game.settings.get("cyberpunk-red-core", "preventDuplicateCriticalInjuries");
+            if (setting === "reroll") {
+              await this._drawCriticalInjuryTable(tableName, table, iteration + 1);
+              return;
+            }
+            if (setting === "warn") {
+              SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicatewarning")));
+            }
+          }
           const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
           // eslint-disable-next-line no-undef
           if (!crit) {
@@ -708,6 +848,18 @@ export default class CPRActorSheet extends ActorSheet {
           CPRChat.RenderRollCard(cprRoll);
         }
       });
+  }
+
+  _automaticResize() {
+    LOGGER.trace("ActorSheet | _automaticResize | Called.");
+    const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
+    if (setting && this.rendered) {
+      // It seems that the size of the content does not change immediately upon updating the content
+      setTimeout(() => {
+        this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
+        this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 }); // 30px for the header and 8px top margin 8px bottom margin
+      }, 10);
+    }
   }
 
   /* Ledger methods */

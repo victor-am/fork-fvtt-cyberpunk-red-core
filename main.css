@@ -127,7 +127,7 @@ button,
 }
 #pause .pause-glitch::before,
 #pause .pause-glitch::after {
-  content: "GAME PAUSED";
+  content: attr(data-text);
 }
 /*--------------------
   Color modifiers
@@ -513,6 +513,17 @@ button,
 .expand-icon {
   font-size: xx-small;
 }
+.amount-input-wrap {
+  position: relative;
+}
+.amount-input-wrap .amount-input {
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+.amount-input-wrap .width-element {
+  visibility: hidden;
+}
 .item-sheet {
   font-family: "Audimat Mono";
   background-color: #eaeaeaff;
@@ -563,7 +574,7 @@ button,
   border-color: #b90202ff;
   border-style: solid;
   border-width: 5px;
-  overflow-y: scroll;
+  overflow-y: hidden;
   flex-wrap: wrap;
 }
 .item-description-grid,
@@ -617,6 +628,45 @@ button,
 }
 .item-image-block {
   clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
+}
+.item-image-block-img {
+  width: 62px;
+  height: 62px;
+  object-fit: contain;
+}
+.item-netarch-section {
+  background-color: #b90202ff;
+  padding-top: 5px;
+}
+.item-netarch-grid {
+  display: grid;
+  grid-template-columns: 30px 30px 1fr 80px;
+  grid-template-areas: "netarch-level netarch-dv netarch-content netarch-actions";
+  gap: 4px 4px;
+}
+.netarch-level {
+  grid-area: netarch-level;
+  flex: 0 0 30px;
+  text-align: center;
+}
+.netarch-dv {
+  grid-area: netarch-dv;
+  flex: 0 0 30px;
+  text-align: center;
+}
+.netarch-content {
+  grid-area: netarch-content;
+}
+.netarch-actions {
+  grid-area: netarch-actions;
+  flex: 0 0 80px;
+  text-align: end;
+}
+.netarch-list-content li:nth-child(even) {
+  background-color: #ffc3b6ff;
+}
+.netarch-list-content li:nth-child(odd) {
+  background-color: #eaeaeaff;
 }
 .text-smallest {
   font-size: 0.5rem;
@@ -683,8 +733,8 @@ button,
   flex: 0 1;
   font-size: 75%;
   transform: rotate(270deg);
-  align-self: flex-end;
-  padding: 0 2px 0 2px;
+  align-self: center;
+  padding: 0 2px 1px 2px;
 }
 .min-of-max-container .of {
   flex: 0 1;
@@ -868,6 +918,9 @@ button,
   flex-direction: column;
   flex-wrap: nowrap;
 }
+*:focus {
+  outline: none;
+}
 .mook-sheet {
   font-family: "Audimat Mono";
   background-color: #eaeaeaff;
@@ -880,8 +933,49 @@ button,
 .mook-sheet .mook-details {
   display: grid;
   gap: 5px;
+  grid-template-rows: auto;
   grid-area: mook-details;
-  grid-template-areas: "mook-stats" "mook-derived" "mook-gear" "mook-skills" "mook-special" "mook-crit";
+  grid-template-areas: "mook-img-and-stats" "mook-gear" "mook-skills" "mook-special" "mook-crit" "mook-notes";
+}
+.mook-sheet .mook-img-and-stats {
+  display: grid;
+  grid-template-areas: "mook-image mook-stats-and-derived";
+}
+.mook-sheet .mook-image {
+  grid-area: mook-image;
+  display: grid;
+  grid-template-areas: "mook-image-toggle mook-image-block";
+  width: 168px;
+  height: 151px;
+}
+.mook-sheet .mook-image-small-toggle {
+  width: 17px;
+}
+.mook-sheet .mook-image-toggle {
+  grid-area: "mook-image-toggle";
+}
+.mook-sheet .mook-image-toggle::after {
+  content: attr(data-text);
+}
+.mook-sheet .mook-image-block {
+  grid-area: "mook-image-block";
+  clip-path: polygon(25px 0, 100% 0, 100% 100%, 0 100%, 0 25px);
+  height: 151px;
+  width: 151px;
+}
+.mook-sheet .mook-image-block-img {
+  width: 151px;
+  height: 151px;
+  object-fit: contain;
+  border: 0;
+}
+.mook-sheet .mook-stats-and-derived {
+  display: grid;
+  gap: 5px;
+  grid-template-rows: auto;
+  grid-area: mook-stats-and-derived;
+  grid-template-areas: "mook-stats" "mook-derived";
+  min-width: 420px;
 }
 .mook-sheet .mook-stats {
   display: grid;
@@ -949,7 +1043,8 @@ button,
 }
 .mook-sheet .mook-weapon {
   display: grid;
-  grid-template-columns: 3fr 1fr 1fr;
+  text-align: left;
+  grid-template-columns: 3fr 2fr 1fr;
   grid-template-areas: "mook-weapon-name mook-weapon-mode mook-weapon-rolls";
 }
 .mook-sheet .mook-weapon .mook-weapon-name {
@@ -959,6 +1054,18 @@ button,
 }
 .mook-sheet .mook-weapon .mook-weapon-mode {
   grid-area: mook-weapon-mode;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: "mook-weapon-aim mook-weapon-auto mook-weapon-supp";
+}
+.mook-sheet .mook-weapon .mook-weapon-mode .mook-weapon-aim {
+  grid-area: mook-weapon-aim;
+}
+.mook-sheet .mook-weapon .mook-weapon-mode .mook-weapon-auto {
+  grid-area: mook-weapon-auto;
+}
+.mook-sheet .mook-weapon .mook-weapon-mode .mook-weapon-supp {
+  grid-area: mook-weapon-supp;
 }
 .mook-sheet .mook-weapon .mook-weapon-rolls {
   grid-area: mook-weapon-rolls;
@@ -971,6 +1078,20 @@ button,
 }
 .mook-sheet .mook-crit {
   grid-area: mook-crit;
+}
+.mook-sheet .mook-notes {
+  grid-area: mook-notes;
+  min-height: 60px;
+  min-width: 430px;
+}
+.mook-sheet .mook-edit-section {
+  min-height: 80px;
+  min-width: 135px;
+  height: unset;
+  display: flex;
+  flex: 1 0 auto;
+  background-color: #eaeaeaff;
+  flex-wrap: wrap;
 }
 .items-list {
   list-style: none;
@@ -1108,8 +1229,9 @@ ol {
 .compatible-ammo li:nth-child(odd) {
   background-color: #eaeaeaff;
 }
-.zero-not-visible:not(:hover) {
+.zero-not-visible:not(:hover):not(:focus-within) {
   opacity: 0;
+  transition: opacity 0.2s ease;
 }
 .chat-message.message.flexcol {
   font-family: "Audimat Mono";
@@ -1313,6 +1435,11 @@ ol {
   width: 52px;
   height: 52px;
 }
+.item-card-icon-img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
 .item-card-description {
   grid-area: item-card-description;
 }
@@ -1437,6 +1564,11 @@ form input.number {
   grid-area: fight-weapon-icon;
   width: 52px;
   height: 52px;
+}
+.fight-weapon-icon-img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
 }
 .fight-weapon {
   display: grid;

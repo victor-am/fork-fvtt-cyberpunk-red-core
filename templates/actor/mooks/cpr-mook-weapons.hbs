@@ -1,21 +1,25 @@
 {{trace "CPR-MOOK-WEAPONS.HBS"}}
 <div class="weapon-section">
-  <div class="items-header flexrow">
-    <div class="item-name section-name fg-white bg-red text-nowrap text-padding-left">
-      {{localize "CPR.weapons"}}
-    </div>
-    <div class="item-detail fg-white bg-red text-nowrap text-padding-left">
-      {{localize "CPR.aim"}}/{{localize "CPR.af"}}/{{localize "CPR.sf"}}
-    </div>
-  </div>
   <div class="weapon-content fg-black">
     <ol class="items-list weapons-grid">
+      <li class="item mook-weapon fg-white bg-red text-nowrap flexrow">
+        <div class="mook-weapon-name text-pad-left">
+          {{localize "CPR.weapons"}}
+        </div>
+        <div class="mook-weapon-mode">
+          <div class="mook-weapon-aim text-center">{{localize "CPR.aim"}}</div>
+          <div class="mook-weapon-auto text-center">{{localize "CPR.af"}}</div>
+          <div class="mook-weapon-supp text-center">{{localize "CPR.sf"}}</div>
+        </div>
+        <div class="mook-weapon-rolls text-right">
+          {{localize "CPR.actions"}}
+        </div>
+      </li>
       {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
         {{#if (compare weapon.data.equipped "===" "equipped")}}
-          <li class="item flexrow" data-item-id="{{weapon._id}}">
-            <div class="mook-weapon">
+          <li class="item flexrow mook-weapon">
               <div class="item-name mook-weapon-name text-pad-right text-nowrap">
-                <a class="name item-edit" title="{{weapon.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">
+                <a class="name item-edit deletable" tabindex="0" data-item-id="{{weapon._id}}" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}">
                   {{weapon.name}}
                 </a>
                 {{#if (compare weapon.data.quality "!==" "standard")}}
@@ -35,6 +39,7 @@
                 {{/if}}
               </div>
               <div class="mook-weapon-mode">
+                <div class="mook-weapon-aim text-center">
                 <a class="fire-checkbox" data-fire-mode="aimed" data-item-id="{{weapon._id}}">
                   {{#if (fireMode ../actor "aimed" weapon._id)}}
                     <i class="far fa-check-circle"></i>
@@ -42,7 +47,9 @@
                     <i class="far fa-circle"></i>
                   {{/if}}
                 </a>
-                {{#if (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType)}}
+                </div>
+                {{#if (compare (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType) "||" weapon.data.fireModes.suppressiveFire)}}
+                  <div class="mook-weapon-auto text-center">
                   <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon._id}}">
                     {{#if (fireMode ../actor "autofire" weapon._id)}}
                       <i class="far fa-check-circle"></i>
@@ -50,6 +57,8 @@
                       <i class="far fa-circle"></i>
                     {{/if}}
                   </a>
+                  </div>
+                  <div class="mook-weapon-supp text-center">
                   <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon._id}}">
                     {{#if (fireMode ../actor "suppressive" weapon._id)}}
                       <i class="far fa-check-circle"></i>
@@ -57,9 +66,10 @@
                       <i class="far fa-circle"></i>
                     {{/if}}
                   </a>
+                  </div>
                 {{/if}}
               </div>
-              <div class="mook-weapon-rolls item-detail fight-weapon-attack text-nowrap text-right">
+              <div class="mook-weapon-rolls fight-weapon-attack text-nowrap text-right">
                 <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
                   <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
                 </a>
@@ -69,11 +79,7 @@
                     <i class="fas fa-tint red-fg" title="Roll Damage"></i>
                   </a>
                 {{/if}}
-                <a class="item-action" data-action-type="delete">
-                  <i class="fas fa-trash-alt fg-red" title="Delete Item"></i>
-                </a>
               </div>
-            </div>
           </li>
         {{/if}}
       {{/each}}

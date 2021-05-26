@@ -219,16 +219,20 @@ export class CPRSuppressiveFireRoll extends CPRAttackRoll {
 }
 
 export class CPRRoleRoll extends CPRRoll {
-  constructor(roleName, roleValue) {
-    super(roleName, "1d10");
+  constructor(roleName, niceRoleName, statName, roleValue, roleStat, roleOther) {
+    super(niceRoleName, "1d10");
     LOGGER.trace(`CPRRoleRoll | Constructor`);
+    this.roleName = roleName;
+    this.statName = statName;
     this.roleValue = roleValue;
+    this.roleStat = roleStat;
+    this.roleOther = roleOther;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-roleAbility-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-role-rollcard.hbs";
   }
 
   _computeBase() {
-    return this.initialRoll + this.totalMods() + this.roleValue;
+    return this.initialRoll + this.totalMods() + this.roleValue + this.roleStat + this.roleOther;
   }
 }
 
@@ -274,11 +278,15 @@ export class CPRDamageRoll extends CPRRoll {
     // indicate whether this is an autofire roll. Used when considering the +5 damage in crits
     this.isAutofire = false;
     // multiple damage by this amount
-    this.autofireMultiplier = 1;
+    this.autofireMultiplier = 0;
+    // multiplier max
+    this.autofireMultiplierMax = 0;
   }
 
   _computeBase() {
-    return (this.initialRoll + this.totalMods()) * this.autofireMultiplier;
+    this.autofireMultiplier = Math.min(this.autofireMultiplier, this.autofireMultiplierMax);
+    const damageMultiplier = (this.isAutofire) ? this.autofireMultiplier : 1;
+    return (this.initialRoll + this.totalMods()) * damageMultiplier;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -294,15 +302,19 @@ export class CPRDamageRoll extends CPRRoll {
   _computeResult() {
     // figure how aimed shots work...
     this.resultTotal = this._computeBase();
-    if (this.wasCritical() && !this.isAutofire) {
-      this.resultTotal += this.bonusDamage;
-    }
   }
 
   setAutofire() {
     this.isAutofire = true;
     this.formula = "2d6";
     this.mods = [];
+  }
+
+  configureAutofire(autofireMultiplier, autofireMultiplierMax = 0) {
+    this.autofireMultiplier = autofireMultiplier;
+    if (autofireMultiplierMax > this.autofireMultiplierMax) {
+      this.autofireMultiplierMax = autofireMultiplierMax;
+    }
   }
 }
 
@@ -319,35 +331,8 @@ export class CPRTableRoll extends CPRRoll {
     // eslint-disable-next-line prefer-destructuring
     this.resultTotal = tableRoll.results[0];
   }
-
-  _computeBase() {
-    return (this.initialRoll + this.totalMods()) * this.autofireMultiplier;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  wasCritFail() {
-    // you cannot crit-fail damage
-    return false;
-  }
-
-  wasCritSuccess() {
-    return this.faces.filter((x) => x === 6).length >= 2;
-  }
-
-  _computeResult() {
-    // figure how aimed shots work...
-    this.resultTotal = this._computeBase();
-    if (this.wasCritical() && !this.isAutofire) {
-      this.resultTotal += this.bonusDamage;
-    }
-  }
-
-  setAutofire() {
-    this.isAutofire = true;
-    this.formula = "2d6";
-    this.mods = [];
-  }
 }
+
 export const rollTypes = {
   BASE: "base",
   STAT: "stat",

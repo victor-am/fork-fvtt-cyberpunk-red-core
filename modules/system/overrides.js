@@ -6,14 +6,16 @@ export default function overrideRulerFunctions() {
   Ruler.prototype._getSegmentLabel = function (segmentDistance, totalDistance, isTotal) {
     const distance = segmentDistance;
     let returnLabel = originalLabel.call(segmentDistance, totalDistance, isTotal);
-    const token = canvas.tokens.controlled['0'];
-    if (token) {
-      const DvTable = token.data.flags.cprDvTable;
-      if (DvTable) {
-        const DV = DvUtils.GetDv(DvTable, distance);
-        if (DV !== null) {
-          const displayTable = DvTable.replace(/^DV /, "");
-          returnLabel = `${returnLabel} (${displayTable} DV: ${DV})`;
+    if (this.user.isSelf) {
+      const token = canvas.tokens.controlled['0'];
+      if (token) {
+        const DvTable = token.data.flags.cprDvTable;
+        if (DvTable) {
+          const DV = DvUtils.GetDv(DvTable, distance);
+          if (DV !== null) {
+            const displayTable = DvTable.replace(/^DV /, "");
+            returnLabel = `${returnLabel} (${displayTable} DV: ${DV})`;
+          }
         }
       }
     }

@@ -1,11 +1,74 @@
+# Version 0.76.0 | Date: 2021-05-26
+
+**New Features**
+- FnWeather made a great video demonstrating some of the following changes which you can find here: https://www.youtube.com/watch?v=csgB6c5KhkU. Thanks to him!
+- Added "Option Slots Size" for optional cyberware. This allows proper tracking of cyberware that can use no slots, or multiple slots. By default when first updating to this version all cyberware has an assumed slot size of 1. Please update your optional cyberware accordingly in line with the core rulebook.
+- Added extra content to the cyberware tab to display the amount of 'used' slots for foundational cyberware.
+- Added option to reroll duplicate critical injuries. There is a system setting to decide if you want to use it, with the default being off.
+- Added functionality to automatically resize the character and item sheets. There is a system setting to decide if you want to use it, with the default being off.
+- Added Debug Elements setting for developers.
+- Added "Unarmed" weapon type with optional (on by default) automatic damage determination based on BODY.
+- Added new functionality for the Net architectures.
+  - It can now be configured on its item sheet, adding, removing and editing the floors.
+  - If a specific black ICE is selected it is linked to the corresponding black ICE item sheet if it exists. You have to create these black ICE items yourself.
+  - In addition one can automatically generate a scene showing the NET architecture. This scene generation allows for floors up to eight (8) deep and up to four (4) branches to be displayed.
+  - Experimental: The scene generation can be customized to use custom assets and custom sizes to allow for maximum flexibility.
+  - As these new features of the Net architecture are experimental, there might be some problems or bugs. If you find any, please let us know.
+- Two built-in scenes (maps) are now available in the compendium, alongside the NET architecture tiles. These have been graciously provided by [SolutionMaps](https://www.patreon.com/solutionmaps).
+- The system compendium has now been updated to include ammo, armor, additional cyberware, gear, programs, vehicles and weapons. Simple descriptions are provided to align with the R. Talsorian "Homebrew Content Policy". Please ensure you always reference an official, legally-owned rulebook for the full item description and information. No Actors or "Black ICE" programs are provided, as these count as NPCs under the policy rules and cannot be distributed. If you find any mistakes or typos in the compendia, please let us know in issue #226.
+- One can now change item-amount from character sheet for Ammo, Clothing, and Gear item-types.
+- If an item has a source set, it now displays in the header of the item sheet.
+- Armor SP can now be displayed in resource bars! Select the Star Icon next to equipped armor to make that armor active. Then, set the token up to display the resource(s) named externalData.currentArmorHead, externalData.currentArmorBody, and/or externalData.currentArmorShield.
+- Mook sheet improvements
+  - Cyberware can be dragged on the sheet and it will automatically be installed.
+  - The automatic calculations for hp, humanity, and emp has been disabled.
+  - Mook names can be changed on the sheet.
+  - The ruler glyph for calculating range DVs has been added.
+  - Custom skills work as designed and can be edited.
+  - Critical injuries added (same as character sheets).
+  - Fixed an alignment issue on weapon section.
+  - A notes section has been added for free-form text about the mook.
+  - All gear and cyberware can be removed by hovering over and pressing DEL. The tooltips reflect this.
+  - Skills can be reset to 0 using the DEL key in the same manner as deleting items.
+  - The suppressive fire option is now considered in mook sheets (same as character sheets, see issue #195).
+  - Portrait added in an expandable frame.
+
+**Changes**
+- Setting the autofire maximum multiplier on an item will now be taken into account when rolling damage for autofire damage rolls.  For weapons defined in the core rules (SMG, H. SMG & Assault Rifles) leaving this as 0 will utilize the core rule set for those items.  You can over-ride the core rules (for homebrew) by actually setting this to a non-zero amount.  If you set the multiplier in the roll dialog to a value higher than the allowable value, it will default to the maximum allowable multiplier.
+- Characters are now linked to their token by default, Mooks are not.
+- Hoverable input fields now remain visible if field is focused and fade out for a more visually pleasing transition from visible to not-visible. (Thanks to sdenec#3813 because I borrowed some of his code from Tidy5e Sheet to accomplish this.)
+- Critical damage roll cards no longer show the bonus damage added to the total, since the bonus damage is directly applied to the hp and does not consider armor (issue #214).
+- Added localization to places where it was not implemented. (!325)
+- Removed "Core" tag from Critical Injury and DV compendia (which should be imported) to make them distinct from "Skills - Core" and "Cyberware - Core" (which should NOT be imported). (!379)
+
+
+**Bug Fixes**
+- fixed #49 - The equipped glyph now takes the same space as the other two
+- fixed #158 - Stat padding fixed for LUCK and EMP, so that they have the same font size as the others
+- fixed #176 - Game paused animation properly translates now
+- fixed #187 - Item icons are now resizing correctly to fit into their frame
+- fixed #189 - EMP stat on new mook sheet can now be modified
+- fixed #192 - Fixed that double quotes in wepon names break macros
+- fixed #195 - Fixed that 'Has Suppressive Fire' option didn't do anything
+- fixed #198 - Removes DV display when others are measuring
+- fixed #204 - Fixed IP and Eurobucks Ledger functions to work with unlinked tokens
+- fixed #215 - A bug where a newly created, non-edited cyberware would vanish upon install
+- fixed #221 & #222 - Correction of two critical injuries
+- fixed #224 - Med Tech and Fixer role abilities should now roll correctly, as per RAW
+- fixed #228 - Fixed some mook sheet weapon/armor section alignment issues
+- fixed !366 - Body ablation not being shown in description tab due to typo
+
 # Version: 0.75.4 (Hot Fix) |  Date:  2021-05-05
 - Fixed release manifest to not lock users into version 0.75.3 without possibility to update
+
 # Version: 0.75.3 (Hot Fix) |  Date:  2021-05-02
 **Bug Fix**
 - Role ability settings were lost when changing other data on the sheet. [issue #203](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues/203)
+
 # Version: 0.74.1 (Hot Fix) |  Date:  2021-04-25
 **Bug Fix**
 - Macros were not working due to a change in the way rolls were handled.
+
 # Version: 0.74.0  |  Date:  2021-04-23
 
 **UI/UX**

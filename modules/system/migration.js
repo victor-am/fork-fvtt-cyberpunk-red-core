@@ -242,6 +242,35 @@ export default class Migration {
       actorData.data.derivedStats.currentWoundState = actorData.data.currentWoundState;
     }
 
+    // Adds external data points to Actor (e.g. for Armor SP resource bars)
+    if ((typeof actorData.data.externalData) === "undefined") {
+      actorData.data.externalData = {
+        currentArmorBody: {
+          id: "",
+          value: 0,
+          max: 0,
+        },
+
+        currentArmorHead: {
+          id: "",
+          value: 0,
+          max: 0,
+        },
+
+        currentArmorShield: {
+          id: "",
+          value: 0,
+          max: 0,
+        },
+
+        currentWeapon: {
+          id: "",
+          value: 0,
+          max: 0,
+        },
+      };
+    }
+
     // Check the ActorData for properties no longer in use and add them
     // to the scrubData object to have them removed
     const scrubData = this.scrubActorData(actorData);
@@ -389,6 +418,9 @@ export default class Migration {
       case "skill": {
         return this.migrateSkill(itemData);
       }
+      case "cyberware": {
+        return this.migrateCyberware(itemData);
+      }
       default:
     }
     return itemData;
@@ -404,6 +436,10 @@ export default class Migration {
     }
     if ((typeof itemData.data.attackMod) === "undefined") {
       itemData.data.attackMod = 0;
+    }
+    // Added with 0.75.1
+    if ((typeof itemData.data.unarmedAutomaticCalculation) === "undefined") {
+      itemData.data.unarmedAutomaticCalculation = true;
     }
     return itemData;
   }
@@ -426,6 +462,22 @@ export default class Migration {
   static migrateGear(itemData) {
     if ((typeof itemData.data.equipped) === "undefined") {
       itemData.data.equipped = "owned";
+    }
+
+    return itemData;
+  }
+
+  static migrateCyberware(itemData) {
+    if (typeof itemData.data.slotSize !== "number") {
+      itemData.data.slotSize = 1;
+    }
+
+    if ((itemData.data.isInstalled === true) && (itemData.data.isFoundational === true)) {
+      itemData.data.installedOptionSlots = itemData.data.optionalIds.length;
+    }
+
+    if (itemData.data.type === "") {
+      itemData.data.type = "cyberArm";
     }
 
     return itemData;

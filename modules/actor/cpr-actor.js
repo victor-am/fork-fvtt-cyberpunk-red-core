@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* globals Actor, game, getProperty, setProperty, hasProperty, randomID */
+/* globals Actor, game, getProperty, setProperty, hasProperty, duplicate */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRChat from "../chat/cpr-chat.js";
 import CPR from "../system/config.js";
@@ -10,7 +10,12 @@ import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
- * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
+ * Extend the base Actor entity. Foundry only supports 1 Actor class that gets associated with
+ * different sheets. If we need need different classes, there are examples to work around this
+ * design limitation:
+ *   - Burning Wheel uses a proxy class to intiate the class they want
+ *   - PF2 instaniates a custom class in the constructor
+ * This may become relevant when we implement "container" actors, programs, and demons.
  * @extends {Actor}
  */
 export default class CPRActor extends Actor {
@@ -18,18 +23,13 @@ export default class CPRActor extends Actor {
   prepareData() {
     LOGGER.trace("prepareData | CPRActor | Called.");
     super.prepareData();
-
-    const actorData = this.data;
-    actorData.filteredItems = this.itemTypes;
-
-    // Prepare data for both types
     if (this.compendium === null) {
       // It looks like prepareData() is called for any actors/npc's that exist in
       // the game and the clients can't update them.  Everyone should only calculate
       // their own derived stats, or the GM should be able to calculate the derived
       // stat
       if (this.owner || game.user.isGM) {
-        this._calculateDerivedStats(actorData);
+        this._calculateDerivedStats();
       }
     }
   }
@@ -54,6 +54,14 @@ export default class CPRActor extends Actor {
       LOGGER.trace("create | New Actor | CPRActor | called.");
       createData.items = [];
       createData.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
+      if (data.type === "character") {
+        createData.token = {
+          actorLink: true,
+          disposition: 1,
+          vision: true,
+          bar1: { attribute: "derivedStats.hp" },
+        };
+      }
     }
     super.create(createData, options);
   }
@@ -71,9 +79,11 @@ export default class CPRActor extends Actor {
     return super.createEmbeddedEntity(embeddedName, itemData, options);
   }
 
-  _calculateDerivedStats(actorData) {
+  _calculateDerivedStats() {
     // Calculate MAX HP
     LOGGER.trace("_calculateDerivedStats | CPRActor | Called.");
+    const actorData = this.data;
+    actorData.filteredItems = this.itemTypes;
 
     const { stats } = actorData.data;
     const { derivedStats } = actorData.data;
@@ -81,8 +91,7 @@ export default class CPRActor extends Actor {
 
     // After the initial config of the game, a GM may want to disable the auto-calculation
     // of stats for Mooks & Players for custom homebrew rules
-
-    if (setting) {
+    if (setting && actorData.type === "character") {
       // Set max HP
       derivedStats.hp.max = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
 
@@ -240,8 +249,9 @@ export default class CPRActor extends Actor {
     LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
     foundationalCyberware.data.data.optionalIds.push(tmpItem.data._id);
+    foundationalCyberware.data.data.installedOptionSlots += tmpItem.data.data.slotSize;
     tmpItem.data.data.isInstalled = true;
-    const usedSlots = foundationalCyberware.getData().optionalIds.length;
+    const usedSlots = foundationalCyberware.getData().installedOptionSlots;
     const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
     Rules.lawyer((usedSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
     return this.updateEmbeddedEntity("OwnedItem", [tmpItem.data, foundationalCyberware.data]);
@@ -267,6 +277,7 @@ export default class CPRActor extends Actor {
   _removeOptionalCyberware(item, foundationalId) {
     LOGGER.trace("ActorID _removeOptionalCyberware | CPRActorSheet | Called.");
     const foundationalCyberware = this._getOwnedItem(foundationalId);
+    foundationalCyberware.data.data.installedOptionSlots -= item.data.data.slotSize;
     foundationalCyberware.getData().optionalIds = foundationalCyberware.getData().optionalIds.filter(
       (optionId) => optionId !== item.data._id,
     );
@@ -367,11 +378,13 @@ export default class CPRActor extends Actor {
   }
 
   processDeathSave(cprRoll) {
-    let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? "Success" : "Failed";
+    const success = SystemUtils.Localize("CPR.success");
+    const failed = SystemUtils.Localize("CPR.failed");
+    let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? success : failed;
     if (cprRoll.initialRoll === 10) {
-      saveResult = "Failed";
+      saveResult = failed;
     }
-    if (saveResult === "Success") {
+    if (saveResult === success) {
       const deathPenalty = this.data.data.derivedStats.deathSave.penalty + 1;
       this.update({ "data.derivedStats.deathSave.penalty": deathPenalty });
     }
@@ -389,11 +402,12 @@ export default class CPRActor extends Actor {
   clearLedger(prop) {
     LOGGER.trace("CPRActor clearLedger | called.");
     if (this.isLedgerProperty(prop)) {
-      const valProp = `${prop}.value`;
-      const ledgerProp = `${prop}.transactions`;
-      setProperty(this.data.data, valProp, 0);
-      setProperty(this.data.data, ledgerProp, []);
-      this.update(this.data);
+      const valProp = `data.${prop}.value`;
+      const ledgerProp = `data.${prop}.transactions`;
+      const actorData = duplicate(this.data);
+      setProperty(actorData, valProp, 0);
+      setProperty(actorData, ledgerProp, []);
+      this.update(actorData);
       return getProperty(this.data.data, prop);
     }
     return null;
@@ -403,18 +417,19 @@ export default class CPRActor extends Actor {
     LOGGER.trace("CPRActor setLedgerProperty | called.");
     if (this.isLedgerProperty(prop)) {
       // update "value"; it may be negative
-      const valProp = `${prop}.value`;
-      let newValue = getProperty(this.data.data, valProp);
+      const valProp = `data.${prop}.value`;
+      const actorData = duplicate(this.data);
+      let newValue = getProperty(actorData, valProp);
       newValue += value;
-      setProperty(this.data.data, valProp, newValue);
+      setProperty(actorData, valProp, newValue);
       // update the ledger with the change
-      const ledgerProp = `${prop}.transactions`;
+      const ledgerProp = `data.${prop}.transactions`;
       const action = (value > 0) ? SystemUtils.Localize("CPR.increased") : SystemUtils.Localize("CPR.decreased");
-      const ledger = getProperty(this.data.data, ledgerProp);
+      const ledger = getProperty(actorData, ledgerProp);
       ledger.push([`${prop} ${action} ${SystemUtils.Localize("CPR.to")} ${newValue}`, reason]);
-      setProperty(this.data.data, ledgerProp, ledger);
+      setProperty(actorData, ledgerProp, ledger);
       // update the actor and return the modified property
-      this.update(this.data, {});
+      this.update(actorData);
       return getProperty(this.data.data, prop);
     }
     return null;
@@ -423,13 +438,14 @@ export default class CPRActor extends Actor {
   setLedgerProperty(prop, value, reason) {
     LOGGER.trace("CPRActor setLedgerProperty | called.");
     if (this.isLedgerProperty(prop)) {
-      const valProp = `${prop}.value`;
-      const ledgerProp = `${prop}.transactions`;
-      setProperty(this.data.data, valProp, value);
-      const ledger = getProperty(this.data.data, ledgerProp);
+      const valProp = `data.${prop}.value`;
+      const ledgerProp = `data.${prop}.transactions`;
+      const actorData = duplicate(this.data);
+      setProperty(actorData, valProp, value);
+      const ledger = getProperty(actorData, ledgerProp);
       ledger.push([`${prop} ${SystemUtils.Localize("CPR.setto")} ${value}`, reason]);
-      setProperty(this.data.data, ledgerProp, ledger);
-      this.update(this.data, {});
+      setProperty(actorData, ledgerProp, ledger);
+      this.update(actorData);
       return getProperty(this.data.data, prop);
     }
     return null;
@@ -545,6 +561,39 @@ export default class CPRActor extends Actor {
     throw new Error(`Bad location given: ${location}`);
   }
 
+  // Update actor data with data from the chosen armor so that it can be dislpayed in a resource bar.
+  // eslint-disable-next-line consistent-return
+  makeThisArmorCurrent(location, id) {
+    const currentArmor = this._getOwnedItem(id);
+    if (location === "body") {
+      const currentArmorValue = currentArmor.data.data.bodyLocation.sp - currentArmor.data.data.bodyLocation.ablation;
+      const currentArmorMax = currentArmor.data.data.bodyLocation.sp;
+      return this.update({
+        "data.externalData.currentArmorBody.value": currentArmorValue,
+        "data.externalData.currentArmorBody.max": currentArmorMax,
+        "data.externalData.currentArmorBody.id": id,
+      });
+    }
+    if (location === "head") {
+      const currentArmorValue = currentArmor.data.data.headLocation.sp - currentArmor.data.data.headLocation.ablation;
+      const currentArmorMax = currentArmor.data.data.headLocation.sp;
+      return this.update({
+        "data.externalData.currentArmorHead.value": currentArmorValue,
+        "data.externalData.currentArmorHead.max": currentArmorMax,
+        "data.externalData.currentArmorHead.id": id,
+      });
+    }
+    if (location === "shield") {
+      const currentArmorValue = currentArmor.data.data.shieldHitPoints.value;
+      const currentArmorMax = currentArmor.data.data.shieldHitPoints.max;
+      return this.update({
+        "data.externalData.currentArmorShield.value": currentArmorValue,
+        "data.externalData.currentArmorShield.max": currentArmorMax,
+        "data.externalData.currentArmorShield.id": id,
+      });
+    }
+  }
+
   createRoll(type, name) {
     switch (type) {
       case CPRRolls.rollTypes.STAT: {
@@ -573,7 +622,31 @@ export default class CPRActor extends Actor {
   _createRoleRoll(roleName) {
     const niceRoleName = SystemUtils.Localize(CPR.roleAbilityList[roleName]);
     const roleValue = this._getRoleValue(roleName);
-    const cprRoll = new CPRRolls.CPRRoleRoll(niceRoleName, roleValue);
+    let statName = "tech";
+    let roleStat = 0;
+    let roleOther = 0;
+    if (roleName === "surgery") {
+      roleStat = this.getStat(statName);
+      const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
+      cprRoll.addMod(this.getWoundStateMods());
+      return cprRoll;
+    }
+    if (roleName === "medtechCryo" || roleName === "medtechPharma") {
+      roleStat = this.getStat(statName);
+      roleOther = this._getRoleValue("medtechPharma");
+      const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
+      cprRoll.addMod(this.getWoundStateMods());
+      return cprRoll;
+    }
+    if (roleName === "operator") {
+      statName = "cool";
+      roleStat = this.getStat(statName);
+      roleOther = this.getSkillLevel("Trading") + this.getSkillMod("Trading");
+      const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
+      cprRoll.addMod(this.getWoundStateMods());
+      return cprRoll;
+    }
+    const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
     cprRoll.addMod(this.getWoundStateMods());
     return cprRoll;
   }
@@ -615,5 +688,34 @@ export default class CPRActor extends Actor {
         }
       }
     });
+  }
+
+  handleMookDraggedItem(item) {
+    // called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
+    // handles the automatic equipping of gear and installation of cyberware
+    LOGGER.trace("_handleMookDraggedItem | CPRActor | Called.");
+    LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
+    LOGGER.debugObject(item);
+    const newItem = item;
+    switch (item.type) {
+      case "clothing":
+      case "weapon":
+      case "gear":
+      case "armor": {
+        if (newItem.data.data) {
+          newItem.data.data.equipped = "equipped";
+          this.updateEmbeddedEntity("OwnedItem", newItem.data);
+        } else {
+          newItem.data.equipped = "equipped";
+          this.updateEmbeddedEntity("OwnedItem", newItem);
+        }
+        break;
+      }
+      case "cyberware": {
+        this.addCyberware(item._id);
+        break;
+      }
+      default:
+    }
   }
 }

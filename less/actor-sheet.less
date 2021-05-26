@@ -18,7 +18,7 @@
     // |------------------------------------------+
     // | tabs: Role, Combat, Lifepath             |
     // +------------------------------------------+
-    // 
+    //
     // Originally we tried to just size this using auto and letting
     // the sub-elements dictate the size. The problem was that when
     // a sub-element didn't take up all of the space,
@@ -359,4 +359,18 @@
 .collapse-icon,
 .expand-icon {
     font-size: xx-small;
+}
+
+.amount-input-wrap {
+    position: relative;
+}
+
+.amount-input-wrap .amount-input {
+    position: absolute;
+    width: 100%;
+    left: 0;
+}
+
+.amount-input-wrap .width-element {
+    visibility: hidden;
 }
