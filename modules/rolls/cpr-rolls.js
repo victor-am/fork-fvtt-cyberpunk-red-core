@@ -219,16 +219,20 @@ export class CPRSuppressiveFireRoll extends CPRAttackRoll {
 }
 
 export class CPRRoleRoll extends CPRRoll {
-  constructor(roleName, roleValue) {
-    super(roleName, "1d10");
+  constructor(roleName, niceRoleName, statName, roleValue, roleStat, roleOther) {
+    super(niceRoleName, "1d10");
     LOGGER.trace(`CPRRoleRoll | Constructor`);
+    this.roleName = roleName;
+    this.statName = statName;
     this.roleValue = roleValue;
+    this.roleStat = roleStat;
+    this.roleOther = roleOther;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-roleAbility-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-role-rollcard.hbs";
   }
 
   _computeBase() {
-    return this.initialRoll + this.totalMods() + this.roleValue;
+    return this.initialRoll + this.totalMods() + this.roleValue + this.roleStat + this.roleOther;
   }
 }
 
@@ -298,9 +302,6 @@ export class CPRDamageRoll extends CPRRoll {
   _computeResult() {
     // figure how aimed shots work...
     this.resultTotal = this._computeBase();
-    if (this.wasCritical() && !this.isAutofire) {
-      this.resultTotal += this.bonusDamage;
-    }
   }
 
   setAutofire() {

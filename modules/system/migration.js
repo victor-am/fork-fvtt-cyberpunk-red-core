@@ -476,6 +476,10 @@ export default class Migration {
       itemData.data.installedOptionSlots = itemData.data.optionalIds.length;
     }
 
+    if (itemData.data.type === "") {
+      itemData.data.type = "cyberArm";
+    }
+
     return itemData;
   }
 
