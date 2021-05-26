@@ -1,20 +1,43 @@
-/* global mergeObject */
-import CPRActorSheet from "./cpr-actor-sheet.js";
+/* global mergeObject ActorSheet $ */
+import CPRChat from "../../chat/cpr-chat.js";
 import LOGGER from "../../utils/cpr-logger.js";
-import SystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
  * Implement the sheet for demons.
  * @extends {CPRActorSheet}
  */
-export default class CPRDemonActorSheet extends CPRActorSheet {
+export default class CPRDemonActorSheet extends ActorSheet {
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("defaultOptions | CPRDemonActorSheet | Called.");
     return mergeObject(super.defaultOptions, {
-      template: "systems/cyberpunk-red-core/templates/actor/work-in-progress.hbs",
+      template: "systems/cyberpunk-red-core/templates/actor/cpr-demon-sheet.hbs",
       width: 750,
       height: 500,
     });
+  }
+
+  /** @override */
+  activateListeners(html) {
+    html.find(".rollable").click((event) => this._onRoll(event));
+    super.activateListeners(html);
+  }
+
+  /* -------------------------------------------- */
+  //  INTERNAL METHODS BELOW HERE
+  /* -------------------------------------------- */
+
+  async _onRoll(event) {
+    LOGGER.trace("_onRoll | CPRDemonActorSheet | Called.");
+    const rollName = $(event.currentTarget).attr("data-roll-title");
+    const cprRoll = this.actor.createStatRoll(rollName);
+
+    await cprRoll.handleRollDialog(event);
+    await cprRoll.roll();
+
+    // output to chat
+    const token = this.token === null ? null : this.token.data._id;
+    cprRoll.entityData = { actor: this.actor._id, token };
+    CPRChat.RenderRollCard(cprRoll);
   }
 }

@@ -339,4 +339,11 @@ CPR.blackIceStatList = {
   rez: "CPR.rez",
 };
 
+CPR.demonStatList = {
+  rez: "CPR.rez",
+  interface: "CPR.interface",
+  netaction: "CPR.netaction",
+  combatNumber: "CPR.combatnumber",
+};
+
 export default CPR;

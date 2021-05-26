@@ -1,6 +1,5 @@
 /* global ActorSheet mergeObject $ */
 import CPRChat from "../../chat/cpr-chat.js";
-import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import LOGGER from "../../utils/cpr-logger.js";
 
 /**
@@ -21,7 +20,6 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
   /** @override */
   activateListeners(html) {
     html.find(".rollable").click((event) => this._onRoll(event));
-    html.find(".roll-init").click(() => this._setInit());
     super.activateListeners(html);
   }
 
@@ -41,10 +39,5 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
     const token = this.token === null ? null : this.token.data._id;
     cprRoll.entityData = { actor: this.actor._id, token };
     CPRChat.RenderRollCard(cprRoll);
-  }
-
-  _setInit() {
-    LOGGER.trace("_setInit | CPRBlackIceActorSheet | Called.");
-    this.actor.setInitiative();
   }
 }

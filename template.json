@@ -320,9 +320,17 @@
       }
     },
     "demon": {
-      "templates": [
-        "common"
-      ]
+      "stats": {
+        "rez": {
+          "value": 10,
+          "max": 10,
+          "transactions": []
+        },
+        "interface": 0,
+        "combatNumber": 14
+      },
+      "actions": 2,
+      "notes": ""
     }
   },
   "Item": {
