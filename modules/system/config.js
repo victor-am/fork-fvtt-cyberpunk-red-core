@@ -207,6 +207,8 @@ CPR.inventoryCategories = {
   gear: "CPR.gear",
   clothing: "CPR.clothing",
   vehicle: "CPR.vehicle",
+  cyberdeck: "CPR.cyberdeck",
+  program: "CPR.programs",
 };
 
 CPR.objectTypes = {

@@ -53,6 +53,8 @@ export default class CPRActorSheet extends ActorSheet {
     const data = super.getData();
     data.filteredItems = this.actor.filteredItems;
     data.installedCyberware = this._getSortedInstalledCyberware();
+    data.fightOptions = (this.actor.hasItemTypeEquipped("cyberdeck")) ? "both" : "";
+    data.fightState = "Meatspace";
     return data;
   }
 

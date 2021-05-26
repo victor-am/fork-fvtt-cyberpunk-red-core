@@ -690,6 +690,21 @@ export default class CPRActor extends Actor {
     });
   }
 
+  // Determine if this actor has a specific item type equipped
+  hasItemTypeEquipped(itemType) {
+    let equipped = false;
+    if (this.data.filteredItems[itemType]) {
+      this.data.filteredItems[itemType].forEach((i) => {
+        if (i.data.data.equipped) {
+          if (i.data.data.equipped === "equipped") {
+            equipped = true;
+          }
+        }
+      });
+    }
+    return equipped;
+  }
+
   handleMookDraggedItem(item) {
     // called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
     // handles the automatic equipping of gear and installation of cyberware

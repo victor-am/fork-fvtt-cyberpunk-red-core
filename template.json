@@ -316,6 +316,7 @@
       "armor",
       "clothing",
       "criticalInjury",
+      "cyberdeck",
       "cyberware",
       "gear",
       "netarch",
@@ -347,7 +348,7 @@
       },
       "upgradable": {
         "isUpgraded": false,
-        "upgrade": ""
+        "upgrades": []
       },
       "weapon": {
         "weaponType": "",
@@ -447,8 +448,11 @@
         "upgradable",
         "equippable"
       ],
-      "slots": 0,
-      "programs": []
+      "slots": 1,
+      "programs": {
+        "installed": [],
+        "rezzed": []
+      }
     },
     "gear": {
       "templates": [

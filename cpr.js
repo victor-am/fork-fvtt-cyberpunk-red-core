@@ -34,6 +34,7 @@ Hooks.once("init", async () => {
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("cyberpunk-red-core", CPRItemSheet, {
     types: [
+      "cyberdeck",
       "cyberware",
       "clothing",
       "weapon",

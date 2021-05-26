@@ -47,13 +47,15 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/skills/cpr-skills-category.hbs",
 
     // Gear Tab Partials
-    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-gear-content.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-weapon-content.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-ammo-content.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-armor-content.hbs",
-    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-cyberware-content.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-clothing-content.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-cyberdeck-content.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-cyberware-content.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-gear-content.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-program-content.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-vehicle-content.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-weapon-content.hbs",
 
     // Cyberware Tab Partials
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/cyberware/cpr-cyberware-header.hbs",
@@ -87,6 +89,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-armor.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-clothing.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-criticalInjury.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/header/cpr-cyberdeck.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-cyberware.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-netarch.hbs",
@@ -99,6 +102,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-armor.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-clothing.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-criticalInjury.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/description/cpr-cyberdeck.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-cyberware.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-netarch.hbs",
@@ -111,6 +115,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-armor.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-clothing.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-criticalInjury.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-cyberdeck.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-cyberware.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-netarch.hbs",
