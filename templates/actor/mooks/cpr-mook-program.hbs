@@ -1,0 +1,17 @@
+{{trace "CPR-MOOK-PROGRAM.HBS"}}
+<div class="items-header bg-red fg-white flexrow">
+  <span class="item-name section-name text-nowrap text-padding-left">
+    {{localize "CPR.cyberdeckprograms"}}
+  </span>
+</div>
+<div class="bg-white fg-black text-padding-left">
+  <!-- Program -->
+  {{#each this.items as |item i|}}
+    {{#if (compare item.type "===" "program")}}
+      <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item._id}}">
+        {{item.name}}{{#if (compare item.data.amount "!==" 1)}} (x{{item.data.amount}}){{/if}},
+      </a>
+    {{/if}}
+  {{/each}}
+</div>
+{{trace "END CPR-MOOK-PROGRAM.HBS"}}

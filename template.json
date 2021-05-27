@@ -1,7 +1,10 @@
 {
   "Actor": {
     "types": [
+      "blackIce",
       "character",
+      "container",
+      "demon",
       "mook"
     ],
     "templates": {
@@ -284,13 +287,20 @@
     },
     "blackIce": {
       "class": "",
-      "isDemon": false,
-      "interface": 0,
-      "per": 0,
-      "spd": 0,
-      "atk": 0,
-      "def": 0,
-      "rez": 0
+      "stats": {
+        "per": 0,
+        "spd": 0,
+        "atk": 0,
+        "def": 0,
+        "rez": {
+          "value": 10,
+          "max": 10,
+          "transactions": []
+        }
+      },
+      "cost": 100,
+      "effect": "",
+      "notes": ""
     },
     "container": {
       "hp": {
@@ -308,6 +318,19 @@
       "wealth": {
         "value": 0
       }
+    },
+    "demon": {
+      "stats": {
+        "rez": {
+          "value": 10,
+          "max": 10,
+          "transactions": []
+        },
+        "interface": 0,
+        "actions": 2,
+        "combatNumber": 14
+      },
+      "notes": ""
     }
   },
   "Item": {
@@ -478,7 +501,8 @@
     "program": {
       "templates": [
         "common",
-        "physicalItem"
+        "physicalItem",
+        "equippable"
       ],
       "class": "",
       "isDemon": false,
