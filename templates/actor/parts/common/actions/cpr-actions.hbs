@@ -16,7 +16,7 @@
 {{#if (compare type "===" "armor")}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-repair-glyph.hbs"}}
 {{/if}}
-{{#if (listContains "weapon,armor,gear,clothing" type)}}
+{{#if (listContains "weapon,armor,gear,program,clothing" type)}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-equip-glyph.hbs"}}
 {{/if}}
 <a class="item-action" data-action-type="favorite" title="{{localize "CPR.togglepin"}}">

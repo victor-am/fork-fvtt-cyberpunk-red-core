@@ -9,6 +9,32 @@
                 {{!-- Physical Item Settings--}}
                 {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
 
+                {{!-- Program Equipped Setting --}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.equipped"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="data.equipped" data-dtype="{{data.equipped}}">
+                            {{#select data.equipped}}
+                            {{#each (findConfigObj "equipped") as |vic v|}}
+                            <option value="{{v}}">{{localize vic}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                </li>
+
+                {{!-- Program Amount Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.amount"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.amount" class="" type="number" value="{{data.amount}}">
+                    </div>
+                </li>
+
                 {{!-- Program Item Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
