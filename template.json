@@ -501,7 +501,8 @@
     "program": {
       "templates": [
         "common",
-        "physicalItem"
+        "physicalItem",
+        "equippable"
       ],
       "class": "",
       "isDemon": false,

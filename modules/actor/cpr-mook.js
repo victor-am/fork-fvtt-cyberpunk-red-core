@@ -80,6 +80,7 @@ export default class CPRMookActor extends CPRActor {
       case "clothing":
       case "weapon":
       case "gear":
+      case "program":
       case "armor": {
         if (newItem.data.data) {
           newItem.data.data.equipped = "equipped";

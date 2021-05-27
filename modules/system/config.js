@@ -204,6 +204,7 @@ CPR.inventoryCategories = {
   ammo: "CPR.ammo",
   armor: "CPR.armor",
   cyberware: "CPR.cyberware",
+  program: "CPR.program",
   gear: "CPR.gear",
   clothing: "CPR.clothing",
   vehicle: "CPR.vehicle",

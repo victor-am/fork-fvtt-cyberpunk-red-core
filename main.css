@@ -1037,7 +1037,7 @@ button,
   gap: 5px;
   grid-template-rows: auto;
   grid-area: mook-details;
-  grid-template-areas: "mook-img-and-stats" "mook-gear" "mook-skills" "mook-special" "mook-crit" "mook-notes";
+  grid-template-areas: "mook-img-and-stats" "mook-gear" "mook-skills" "mook-special" "mook-program" "mook-crit" "mook-notes";
 }
 .mook-sheet .mook-img-and-stats {
   display: grid;
