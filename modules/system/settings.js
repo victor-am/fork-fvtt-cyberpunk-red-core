@@ -14,14 +14,6 @@ const registerSystemSettings = () => {
     },
   });
 
-  game.settings.register("cyberpunk-red-core", "createDVtables", {
-    name: "CPR.createdvtables",
-    scope: "world",
-    config: true,
-    type: Boolean,
-    default: false,
-  });
-
   game.settings.register("cyberpunk-red-core", "playersCreateInventory", {
     name: "CPR.settingplayerscreateinventoryname",
     hint: "CPR.settingplayerscreateinventoryhint",

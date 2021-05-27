@@ -14,8 +14,7 @@ const tokenHooks = () => {
       Object.entries(updatedData.actorData.data.externalData).forEach(
         ([itemType, itemData]) => {
           if (!updatedData.actorData.data.externalData[itemType].id) {
-            console.log(itemType, itemData);
-            const actor = (Object.keys(game.actors.tokens).includes(token.id)) ? game.actors.tokens[token.id] : null;
+            const actor = (Object.keys(game.actors.tokens).includes(token._id)) ? game.actors.tokens[token._id] : null;
             if (actor !== null) {
               const itemId = actor.data.data.externalData[itemType].id;
               const item = actor._getOwnedItem(itemId);

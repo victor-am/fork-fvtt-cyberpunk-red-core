@@ -704,6 +704,7 @@ export default class CPRActor extends Actor {
       case "weapon":
       case "gear":
       case "armor": {
+        // chose change done for 0.8.x, and not the fix from dev, as it seems to work without it.
         this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.equipped": "equipped" }]);
         break;
       }

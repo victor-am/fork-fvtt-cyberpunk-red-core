@@ -6,8 +6,10 @@
         <div class="mook-weapon-name text-pad-left">
           {{localize "CPR.weapons"}}
         </div>
-        <div class="mook-weapon-mode text-center">
-          {{localize "CPR.aim"}}/{{localize "CPR.af"}}/{{localize "CPR.sf"}}
+        <div class="mook-weapon-mode">
+          <div class="mook-weapon-aim text-center">{{localize "CPR.aim"}}</div>
+          <div class="mook-weapon-auto text-center">{{localize "CPR.af"}}</div>
+          <div class="mook-weapon-supp text-center">{{localize "CPR.sf"}}</div>
         </div>
         <div class="mook-weapon-rolls text-right">
           {{localize "CPR.actions"}}
@@ -37,7 +39,8 @@
                   ({{localize "CPR.meleeweapon"}})
                 {{/if}}
               </div>
-              <div class="mook-weapon-mode text-center">
+              <div class="mook-weapon-mode">
+                <div class="mook-weapon-aim text-center">
                 <a class="fire-checkbox" data-fire-mode="aimed" data-item-id="{{weapon.id}}">
                   {{#if (fireMode ../actor "aimed" weapon.id)}}
                     <i class="far fa-check-circle"></i>
@@ -45,7 +48,9 @@
                     <i class="far fa-circle"></i>
                   {{/if}}
                 </a>
+                </div>
                 {{#if (compare (listContains "assaultRifle,smg,heavySmg" weapon.data.data.weaponType) "||" weapon.data.data.fireModes.suppressiveFire)}}
+                  <div class="mook-weapon-auto text-center">
                   <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon.id}}">
                     {{#if (fireMode ../actor "autofire" weapon.id)}}
                       <i class="far fa-check-circle"></i>
@@ -53,6 +58,8 @@
                       <i class="far fa-circle"></i>
                     {{/if}}
                   </a>
+                  </div>
+                  <div class="mook-weapon-supp text-center">
                   <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon.id}}">
                     {{#if (fireMode ../actor "suppressive" weapon.id)}}
                       <i class="far fa-check-circle"></i>
@@ -60,6 +67,7 @@
                       <i class="far fa-circle"></i>
                     {{/if}}
                   </a>
+                  </div>
                 {{/if}}
               </div>
               <div class="mook-weapon-rolls fight-weapon-attack text-nowrap text-right">
@@ -73,7 +81,6 @@
                   </a>
                 {{/if}}
               </div>
-            </div>
           </li>
         {{/if}}
       {{/each}}
