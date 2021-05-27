@@ -62,6 +62,23 @@ const registerSystemSettings = () => {
     },
   });
 
+  game.settings.register("cyberpunk-red-core", "mookSheetSkillDisplay", {
+    name: "CPR.settingmooksheetskilldisplay",
+    hint: "CPR.settingmooksheetskilldisplayhint",
+    scope: "client",
+    config: true,
+    type: String,
+    choices: {
+      level: "CPR.settingmooksheetskilldisplaylevel",
+      base: "CPR.settingmooksheetskilldisplaybase",
+      total: "CPR.settingmooksheetskilldisplaytotal",
+    },
+    default: "base",
+    onChange: (value) => {
+      LOGGER.log(`Changed mookSheetSkillDisplay to ${value}`);
+    },
+  });
+
   game.settings.register("cyberpunk-red-core", "preventDuplicateCriticalInjuries", {
     name: "CPR.settingpreventduplicatecriticalinjuriesname",
     hint: "CPR.settingpreventduplicatecriticalinjurieshint",

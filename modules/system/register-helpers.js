@@ -261,6 +261,12 @@ export default function registerHandlebarsHelpers() {
     }
   });
 
+  Handlebars.registerHelper("getSkillStat", (skill, actor) => {
+    LOGGER.trace("Calling getSkillStat Helper");
+    const skillStat = skill.data.stat;
+    return actor.data.stats[skillStat].value;
+  });
+
   Handlebars.registerHelper("ablated", (armor, slot) => {
     LOGGER.trace(`Calling ablated Helper | Arg1:${armor} Arg2:${slot}`);
     if (slot === "body") {
