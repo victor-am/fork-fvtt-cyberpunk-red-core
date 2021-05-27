@@ -1,4 +1,5 @@
 {{trace "CPR-GEAR-INV-CONTENT.HBS"}}
+{{#unless item.data.isInstalled}}
 <li class="item flexrow{{#if item.data.favorite}} favorite{{else}}{{#if (listContains sheet.options.collapsedSections "gearTab-gear")}} hide{{/if}}{{/if}}" data-item-id="{{item._id}}"
     data-item-category="{{item.type}}" draggable="true">
     <div class="item-name gear-name text-nowrap">
@@ -17,4 +18,5 @@
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}
     </div>
 </li>
+{{/unless}}
 {{trace "END CPR-GEAR-INV-CONTENT.HBS"}}

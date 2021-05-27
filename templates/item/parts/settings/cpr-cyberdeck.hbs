@@ -32,13 +32,25 @@
                         <input name="data.slots" class="" type="number" value="{{data.slots}}">
                     </div>
                 </li>
-                <div class="item flexrow setting-name text-nowrap text-bold">
-                      <a class="select-installed-programs" data-item-prop="select-installed-programs">{{localize
-                          "CPR.configureinstalledprograms"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
-                </div>
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap text-bold">
+                        <a class="select-installed-programs" data-item-prop="select-installed-programs">{{localize
+                            "CPR.configureinstalledprograms"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
+                    </div>
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.availableslots"}}: {{data.availableSlots}}
+                    </div>
+                </li>
                 <div class="installed-programs">
-
+                    {{log this}}
                 </div>
+                {{#each this.data.programs.installed as |program|}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{program.name}} ({{program.data.class}})
+                    </div>
+                </li>
+                {{/each}}
 
             </ol>
         </div>

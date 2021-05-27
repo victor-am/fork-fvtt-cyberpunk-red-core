@@ -61,9 +61,9 @@
               {{#if (compare fightOptions "===" "both")}}
                 &nbsp;
                 {{#if (compare fightState "===" "Meatspace")}}
-                  ({{localize "CPR.meat"}}|<a class="toggle-fight-state" data-state="Netspace">{{localize "CPR.net"}}</a>)
+                  (<span class="fg-yellow">{{localize "CPR.meat"}}</span>|<a class="toggle-fight-state" data-state="Netspace">{{localize "CPR.net"}}</a>)
                 {{else}}
-                  (<a class="toggle-fight-state" data-state="Meatspace">{{localize "CPR.meat"}}</a>|{{localize "CPR.net"}})
+                  (<a class="toggle-fight-state" data-state="Meatspace">{{localize "CPR.meat"}}</a>|<span class="fg-yellow">{{localize "CPR.net"}}</span>)
                 {{/if}}
               {{/if}}
             </div>

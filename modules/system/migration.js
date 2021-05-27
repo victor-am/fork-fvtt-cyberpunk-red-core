@@ -446,7 +446,13 @@ export default class Migration {
 
   static migrateProgram(itemData) {
     if ((typeof itemData.data.slots) === "undefined") {
-      itemData.data.slots = 0;
+      itemData.data.slots = 1;
+    }
+    if ((typeof itemData.data.install) === "undefined") {
+      itemData.data.install = "";
+    }
+    if ((typeof itemData.data.isInstalled) === "undefined") {
+      itemData.data.isInstalled = false;
     }
     return itemData;
   }

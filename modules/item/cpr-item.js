@@ -6,6 +6,7 @@ import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPR from "../system/config.js";
 import LOGGER from "../utils/cpr-logger.js";
 import LoadAmmoPrompt from "../dialog/cpr-load-ammo-prompt.js";
+import InstallProgramsPrompt from "../dialog/cpr-install-programs-prompt.js";
 import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
@@ -529,5 +530,87 @@ export default class CPRItem extends Item {
       default:
     }
     return 0;
+  }
+
+  // Cyberdeck Code
+  _availableSlots() {
+    if (this.data.type !== "cyberdeck") {
+      return;
+    }
+    const itemData = duplicate(this.data.data);
+
+    let unusedSlots = itemData.slots;
+
+    itemData.programs.installed.forEach((program) => {
+      unusedSlots = unusedSlots - program.data.slots;
+    });
+
+    return unusedSlots;
+  }
+  async installPrograms() {
+    LOGGER.debug("installPrograms | CPRItem | Called.");
+    if (this.data.type !== "cyberdeck") {
+      return;
+    }
+
+    const programPack = game.packs.get("cyberpunk-red-core.programs-items");
+    const corePrograms = await programPack.getContent();
+
+    const installedPrograms = this.data.data.programs.installed;
+    const actor = (this.isOwned) ? this.actor : null;
+    let programList = [];
+    if (actor) {
+      programList = actor.data.filteredItems.program.filter((p) => p.data.data.isInstalled === false);
+      installedPrograms.forEach((ip) => {
+        programList.push((actor.data.filteredItems.program.filter((p) => p._id === ip._id))[0]);
+      });
+    } else {
+      programList = corePrograms;
+    }
+
+    let formData = {
+      cyberdeck: this,
+      programList,
+      returnType: "array",
+    };
+   
+    formData = await InstallProgramsPrompt.RenderPrompt(formData);
+    
+    const selectedPrograms = [];
+    let storageRequired = 0;
+
+    formData.selectedPrograms.forEach((pId) => {
+      const program = (programList.filter((p) => p.data._id === pId))[0];
+      storageRequired = storageRequired + program.data.data.slots;
+      selectedPrograms.push(program);
+    });
+
+    if (storageRequired > this.data.data.slots) {
+      return SystemUtils.DisplayMessage("error", "CPR.cyberdeckinsufficientstorage");
+    }
+
+    if (actor) {
+      const updateList = [];
+      updateList.push({ _id: this.data._id, "data.programs.installed": selectedPrograms });
+
+      // Set isInstalled flag on programs that get installed
+      selectedPrograms.forEach((program) => {
+        console.log(program);
+        programList = programList.filter((pl) => pl.data._id !== program.data._id);
+        updateList.push({ _id: program.data._id, "data.isInstalled": true });
+      });
+
+      // Unset isInstalled flag on programs that do not get installed
+      programList.forEach((program) => {
+        updateList.push({ _id: program.data._id, "data.isInstalled": false });
+      });
+
+      actor.updateEmbeddedEntity("OwnedItem", updateList);
+    }
+    else
+    {
+      this.data.data.programs.installed = selectedPrograms;
+    }
+
   }
 }

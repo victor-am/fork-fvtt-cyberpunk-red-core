@@ -66,6 +66,9 @@ export default class CPRItemSheet extends ItemSheet {
     } else {
       data.filteredItems.skill = await SystemUtils.GetCoreSkills();
     }
+    if (data.item.type === "cyberdeck") {
+      data.item.data.availableSlots = this.object._availableSlots();
+    }
     data.dvTableNames = DvUtils.GetDvTables();
     return data;
   }
@@ -88,6 +91,8 @@ export default class CPRItemSheet extends ItemSheet {
     html.find(".select-compatible-ammo").click((event) => this._selectCompatibleAmmo(event));
 
     html.find(".netarch-level-action").click((event) => this._netarchLevelAction(event));
+
+    html.find(".select-installed-programs").click((event) => this._cyberdeckInstallPrograms(event));
 
     html.find(".netarch-generate-auto").click((event) => {
       if (game.user.isGM) {
@@ -365,5 +370,12 @@ export default class CPRItemSheet extends ItemSheet {
     } else {
       SystemUtils.DisplayMessage("error", SystemUtils.Format("CPR.itemdoesnotexisterror", { itemid: itemId }));
     }
+  }
+
+  // Cyberdeck
+  async _cyberdeckInstallPrograms(event) {
+    const cyberdeck = this.item;
+    await cyberdeck.installPrograms();
+    console.log(event);
   }
 }

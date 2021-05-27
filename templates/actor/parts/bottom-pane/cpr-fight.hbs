@@ -200,7 +200,7 @@
         <div class="cyberdeck-rezzed-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
-                {{localize "CPR.cyberdeckrezzed"}}
+                {{cyberdeck.data.name}} {{localize "CPR.rezzed"}}
             </span>
         </li>
         <div class="cyberdeck-rezzed-content">
@@ -209,10 +209,17 @@
     <div class="cyberdeck-installed-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
-                {{localize "CPR.cyberdeckinstalled"}}
+                {{cyberdeck.data.name}} {{localize "CPR.installed"}}
             </span>
         </li>
         <div class="cyberdeck-installed-content">
+            <div class="cyberdeck-installed-software">
+
+            </div>
+            <div class="cyberdeck-installed-hardware">
+                
+            </div>
+
         </div>
     </div>
     {{/if}}

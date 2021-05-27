@@ -55,11 +55,14 @@ export default class CPRActorSheet extends ActorSheet {
     data.installedCyberware = this._getSortedInstalledCyberware();
     data.fightOptions = (this.actor.hasItemTypeEquipped("cyberdeck")) ? "both" : "";
     let fightState = this.actor.getFlag("cyberpunk-red-core", "fightState");
-    console.log(fightState);
     if (!fightState || data.fightOptions !== "both") {
       fightState = "Meatspace";
     }
     data.fightState = fightState;
+    data.cyberdeck = "";
+    if (fightState === "Netspace") {
+      data.cyberdeck = this.actor.getEquippedCyberdeck();
+    }
     return data;
   }
 
@@ -83,7 +86,7 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Install Cyberware
     html.find(".install-remove-cyberware").click((event) => this._installRemoveCyberwareAction(event));
-
+   
     // Generic item action
     html.find(".item-action").click((event) => this._itemAction(event));
 
