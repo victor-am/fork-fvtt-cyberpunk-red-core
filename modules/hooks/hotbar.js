@@ -22,7 +22,7 @@ const hotbarHooks = () => {
         if (data.actorId !== undefined) {
           const actor = game.actors.find((a) => a.id === data.actorId);
           if (actor !== null) {
-            item = actor.getEmbeddedEntity("Item", itemId);
+            item = actor.getEmbeddedDocument("Item", itemId);
           }
         }
       }

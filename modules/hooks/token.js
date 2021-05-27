@@ -4,6 +4,7 @@ import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 const tokenHooks = () => {
+  /* // Not needed anymore as with an unlinked token preUpdateActor is also called now.
   Hooks.on("preUpdateToken", (scene, token, updatedData) => {
     LOGGER.trace("preUpdateToken | tokenHooks | Called.");
     if ("actorData" in updatedData && "data" in updatedData.actorData && "roleInfo" in updatedData.actorData.data) {
@@ -68,7 +69,7 @@ const tokenHooks = () => {
         },
       );
     }
-  });
+  }); */
 
   // this hook auto-installs cyberware or equips gear when dragging to a mook sheet
   // that belongs to an unlinked token
@@ -78,7 +79,7 @@ const tokenHooks = () => {
     LOGGER.debugObject(tokenData);
     LOGGER.debugObject(updateData);
     if (("actorData" in tokenData) && ("actorData" in updateData)) {
-      const tokenActor = canvas.tokens.get(tokendata._id).actor;
+      const tokenActor = canvas.tokens.get(tokenData._id).actor;
       LOGGER.debugObject(tokenActor);
       if (typeof tokenActor === "undefined") {
         // this happens if the scene is changed while the mook sheet is still displayed and dragged to

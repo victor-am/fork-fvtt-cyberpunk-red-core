@@ -36,7 +36,7 @@ const actorHooks = () => {
                       if (diff < 0 && item.data._id === a.data._id) {
                         armorData.data.bodyLocation.ablation = Math.max(armorData.data.bodyLocation.ablation + diff, 0);
                       }
-                      updateList.push(armorData);
+                      updateList.push({ _id: a.id, data: armorData.data });
                     });
                     actor.updateEmbeddedDocuments("Item", updateList);
                   }
@@ -52,13 +52,13 @@ const actorHooks = () => {
                       if (diff < 0 && item.data._id === a.data._id) {
                         armorData.data.headLocation.ablation = Math.max(armorData.data.headLocation.ablation + diff, 0);
                       }
-                      updateList.push(armorData);
+                      updateList.push({ _id: a.id, data: armorData.data });
                     });
                     actor.updateEmbeddedDocuments("Item", updateList);
                   }
                   if (itemType === "currentArmorShield") {
                     item.data.data.shieldHitPoints.value = currentValue;
-                    actor.updateEmbeddedDocuments("Item", item.data);
+                    actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
                   }
                   break;
                 }
@@ -78,7 +78,7 @@ const actorHooks = () => {
     const actor = itemData.parent;
     if (actor.type === "mook") {
       LOGGER.debug("handling a dragged item to the mook sheet");
-      actor.handleMookDraggedItem(actor._getOwnedItem(itemData._id));
+      actor.handleMookDraggedItem(actor._getOwnedItem(itemData.id));
     }
   });
 };

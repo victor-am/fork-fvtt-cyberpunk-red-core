@@ -69,17 +69,21 @@ export default class CPRActor extends Actor {
     super.create(createData, options);
   }
 
-  async createEmbeddedEntity(embeddedName, itemData, options = {}) {
-    LOGGER.trace("createEmbeddedEntity | CPRActor | called.");
-    if (!options.force) {
-      if (embeddedName === "Item") {
-        if (itemData.data.core) {
-          return Rules.lawyer(false, "CPR.dontaddcoreitems");
+  async createEmbeddedDocuments(embeddedName, data, context) {
+    LOGGER.trace("createEmbeddedDocuments | CPRActor | called.");
+    if (embeddedName === "Item") {
+      let containsCoreItem = false;
+      data.forEach((document) => {
+        if (document.data && document.data.core) {
+          containsCoreItem = true;
         }
+      });
+      if (containsCoreItem) {
+        return Rules.lawyer(false, "CPR.dontaddcoreitems");
       }
     }
     // Standard embedded entity creation
-    return super.createEmbeddedEntity(embeddedName, itemData, options);
+    return super.createEmbeddedDocuments(embeddedName, data, context);
   }
 
   _calculateDerivedStats() {
@@ -474,6 +478,7 @@ export default class CPRActor extends Actor {
     return true;
   }
 
+  /* // Unused function, not called anywhere! Replaced by _rollCriticalInjury() from cpr-actor-sheet.js.
   addCriticalInjury(location, name, effect, quickFixType, quickFixDV, treatmentType, treatmentDV, deathSaveIncrease = false) {
     const itemData = {
       type: "criticalInjury",
@@ -498,6 +503,7 @@ export default class CPRActor extends Actor {
     };
     return this.createEmbeddedEntity("Item", itemData, { force: true });
   }
+  */
 
   getArmorPenaltyMods(stat) {
     const penaltyStats = ["ref", "dex", "move"];

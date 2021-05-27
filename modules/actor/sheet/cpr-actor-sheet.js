@@ -367,7 +367,7 @@ export default class CPRActorSheet extends ActorSheet {
         await this.actor.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as head armor is ablated:
         currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorHead.value - 1), 0);
-        this.actor.update({ _id: this.actor.id, "data.externalData.currentArmorHead.value": currentArmorValue });
+        await this.actor.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
         break;
       }
       case "body": {
@@ -381,7 +381,7 @@ export default class CPRActorSheet extends ActorSheet {
         await this.actor.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as body armor is ablated:
         currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorBody.value - 1), 0);
-        this.actor.update({ _id: this.actor.id, "data.externalData.currentArmorBody.value": currentArmorValue });
+        await this.actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
         break;
       }
       case "shield": {
@@ -393,7 +393,7 @@ export default class CPRActorSheet extends ActorSheet {
         await this.actor.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as shield is damaged:
         currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorShield.value - 1), 0);
-        this.actor.update({ _id: this.actor.id, "data.externalData.currentArmorShield.value": currentArmorValue });
+        await this.actor.update({ "data.externalData.currentArmorShield.value": currentArmorValue });
         break;
       }
       default:
@@ -474,18 +474,18 @@ export default class CPRActorSheet extends ActorSheet {
   // through here.  Things such as:
   // Weapon: Load, Unload
   // Armor: Ablate, Repair
-  _itemAction(event) {
+  async _itemAction(event) {
     LOGGER.trace("ActorID _itemAction | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
     const actionType = $(event.currentTarget).attr("data-action-type");
     if (item) {
       switch (actionType) {
         case "delete": {
-          this._deleteOwnedItem(item);
+          await this._deleteOwnedItem(item);
           break;
         }
         case "create": {
-          this._createInventoryItem($(event.currentTarget).attr("data-item-type"));
+          await this._createInventoryItem($(event.currentTarget).attr("data-item-type"));
           break;
         }
         // TODO
@@ -712,6 +712,7 @@ export default class CPRActorSheet extends ActorSheet {
         return;
       }
     }
+    console.log(item.id);
     await this.actor.deleteEmbeddedDocuments("Item", [item.id]);
   }
 
@@ -753,7 +754,7 @@ export default class CPRActorSheet extends ActorSheet {
     await this.actor.setLifepath(formData);
   }
 
-  _createInventoryItem(event) {
+  async _createInventoryItem(event) {
     // We can allow a global setting which allows/denies players from creating their
     // own items?
     const setting = true;
@@ -769,10 +770,11 @@ export default class CPRActorSheet extends ActorSheet {
         // eslint-disable-next-line no-undef
         // data: duplicate(itemType),
       };
-      this.actor.createEmbeddedDocuments("Item", [itemData]);
+      await this.actor.createEmbeddedDocuments("Item", [itemData]);
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   _getCriticalInjuryTables() {
     const critPattern = new RegExp("^Critical Injury|^CriticalInjury|^CritInjury|^Crit Injury|^Critical Injuries|^CriticalInjuries");
     const tableNames = [];
@@ -795,7 +797,8 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   async _drawCriticalInjuryTable(tableName, table, iteration) {
-    if (iteration > 100) { // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6), otherwise lower chance
+    if (iteration > 100) {
+      // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6), otherwise lower
       // count number of critical injuries of the type given in the table on the target
       const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === table.data.results.contents[0].data.text)));
       // eslint-disable-next-line no-undef
@@ -810,7 +813,8 @@ export default class CPRActorSheet extends ActorSheet {
         SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
         return;
       }
-      if (iteration > 1000) { // Techincally possible to reach even if a critical injury is still missing (chance: 6*10e-11 %), though unlikely.
+      if (iteration > 1000) {
+        // Techincally possible to reach even if a critical injury is still missing (chance: 6*10e-11 %).
         SystemUtils.DisplayMessage("error", (game.i18n.localize("CPR.criticalinjuryduplicateloopwarning")));
         return; // Prevent endless loop in case of mixed (head and body) Critical Injury tables or unreachable elements in the rolltable.
       }
@@ -844,7 +848,11 @@ export default class CPRActorSheet extends ActorSheet {
           cprRoll.rollCardExtraArgs.tableName = tableName;
           cprRoll.rollCardExtraArgs.itemName = result[0].name;
           cprRoll.rollCardExtraArgs.itemImg = result[0].img;
-          cprRoll.entityData = { actor: this.actor.id, token: this.token.id, item: result[0].id };
+          if (this.token) {
+            cprRoll.entityData = { actor: this.actor.id, token: this.token.id, item: result[0].id };
+          } else {
+            cprRoll.entityData = { actor: this.actor.id, item: result[0].id };
+          }
           CPRChat.RenderRollCard(cprRoll);
         }
       });
@@ -853,7 +861,7 @@ export default class CPRActorSheet extends ActorSheet {
   _automaticResize() {
     LOGGER.trace("ActorSheet | _automaticResize | Called.");
     const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
-    if (setting && this.rendered) {
+    if (setting && this.rendered && !this._minimized) {
       // It seems that the size of the content does not change immediately upon updating the content
       setTimeout(() => {
         this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
@@ -931,7 +939,7 @@ export default class CPRActorSheet extends ActorSheet {
   _onDragItemStart(event) {
     LOGGER.trace("ActorID _onDragItemStart | CPRActorSheet | called.");
     const itemId = event.currentTarget.getAttribute("data-item-id");
-    const item = this.actor.getEmbeddedEntity("Item", itemId);
+    const item = this.actor.getEmbeddedDocument("Item", itemId);
     event.dataTransfer.setData("text/plain", JSON.stringify({
       type: "Item",
       actorId: this.actor.id,
@@ -953,7 +961,7 @@ export default class CPRActorSheet extends ActorSheet {
           || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
           return;
         }
-        super._onDrop(event).then(actor.deleteEmbeddedEntity("Item", dragData.data._id));
+        super._onDrop(event).then(actor.deleteEmbeddedDocuments("Item", [dragData.data._id]));
       }
     } else {
       super._onDrop(event);
