@@ -318,10 +318,32 @@ CPR.criticalInjuryTreatment = {
   quickFix: "CPR.quickfix",
   surgery: "CPR.surgery",
 };
+
 CPR.aimedLocation = {
   head: "CPR.head",
   heldItem: "CPR.helditem",
   leg: "CPR.leg",
+};
+
+CPR.blackIceType = {
+  antipersonnel: "CPR.antipersonnel",
+  antiprogram: "CPR.antiprogram",
+  other: "CPR.other",
+};
+
+CPR.blackIceStatList = {
+  per: "CPR.per",
+  spd: "CPR.spd",
+  atk: "CPR.atk",
+  def: "CPR.def",
+  rez: "CPR.rez",
+};
+
+CPR.demonStatList = {
+  rez: "CPR.rez",
+  interface: "CPR.interface",
+  netactions: "CPR.netactions",
+  combatNumber: "CPR.combatnumber",
 };
 
 export default CPR;
