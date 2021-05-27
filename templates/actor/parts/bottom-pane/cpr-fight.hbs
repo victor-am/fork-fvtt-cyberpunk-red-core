@@ -197,6 +197,7 @@
     </div>
     {{/if}}
     {{#if (compare fightState "===" "Netspace")}}
+    {{log cyberdeck}}
         <div class="cyberdeck-rezzed-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
@@ -214,10 +215,15 @@
         </li>
         <div class="cyberdeck-installed-content">
             <div class="cyberdeck-installed-software">
-
+              {{#each cyberdeck.data.data.programs.installed as |program|}}
+              <li class="items-header flexrow">
+                {{program.name}}
+              </li>
+              {{/each}}
             </div>
             <div class="cyberdeck-installed-hardware">
-                
+
+
             </div>
 
         </div>

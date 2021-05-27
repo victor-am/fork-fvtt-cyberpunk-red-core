@@ -326,4 +326,11 @@ CPR.aimedLocation = {
   leg: "CPR.leg",
 };
 
+CPR.programClass = {
+  attacker: "CPR.attacker",
+  booster: "CPR.booster",
+  defender: "CPR.defender",
+  blackIce: "CPR.blackice",
+};
+
 export default CPR;

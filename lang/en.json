@@ -1069,6 +1069,7 @@
     "CPR.availableslots": "Available Slots",
     "CPR.errortoomanycyberdecks": "You can only have one cyberdeck equipped at a time!",
     "CPR.cyberdeckinsufficientstorage": "Cyberdeck can't store all of those programs, Choom!",
+    "CPR.selectinstalledprograms": "Select programs you wan't installed on cyberdeck",
     "ITEM.TypeAmmo": "Ammo",
     "ITEM.TypeArmor": "Armor",
     "ITEM.TypeClothing": "Clothing",

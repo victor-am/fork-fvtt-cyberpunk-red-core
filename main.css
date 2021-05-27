@@ -917,6 +917,9 @@ button,
 .text-flex-end {
   justify-content: flex-end;
 }
+.text-align-last-end {
+  text-align-last: end;
+}
 .flexrow {
   display: flex;
   flex-direction: row;

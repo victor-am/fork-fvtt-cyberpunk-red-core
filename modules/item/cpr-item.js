@@ -570,6 +570,8 @@ export default class CPRItem extends Item {
       programList = corePrograms;
     }
 
+    programList = programList.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+
     let formData = {
       cyberdeck: this,
       programList,
@@ -578,7 +580,7 @@ export default class CPRItem extends Item {
 
     formData = await InstallProgramsPrompt.RenderPrompt(formData);
 
-    const selectedPrograms = [];
+    let selectedPrograms = [];
     let storageRequired = 0;
 
     formData.selectedPrograms.forEach((pId) => {
@@ -586,6 +588,8 @@ export default class CPRItem extends Item {
       storageRequired += program.data.data.slots;
       selectedPrograms.push(program);
     });
+
+    selectedPrograms = selectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
 
     if (storageRequired > this.data.data.slots) {
       return SystemUtils.DisplayMessage("error", "CPR.cyberdeckinsufficientstorage");
