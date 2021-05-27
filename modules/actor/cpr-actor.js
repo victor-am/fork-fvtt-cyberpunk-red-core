@@ -561,15 +561,6 @@ export default class CPRActor extends Actor {
     throw new Error(`Bad location given: ${location}`);
   }
 
-  getEquippedCyberdeck() {
-    LOGGER.trace("ActorID _getEquippedArmors | CPRActorSheet | Called.");
-    const cyberdecks = this.data.filteredItems.cyberdeck;
-    const equipped = cyberdecks.filter((item) => item.getData().equipped === "equipped");
-    if (equipped) {
-      return equipped[0];
-    }
-    return;
-  }
   // Update actor data with data from the chosen armor so that it can be dislpayed in a resource bar.
   // eslint-disable-next-line consistent-return
   makeThisArmorCurrent(location, id) {
@@ -741,5 +732,16 @@ export default class CPRActor extends Actor {
       }
       default:
     }
+  }
+
+  // Netrunning
+  getEquippedCyberdeck() {
+    LOGGER.trace("ActorID _getEquippedArmors | CPRActorSheet | Called.");
+    const cyberdecks = this.data.filteredItems.cyberdeck;
+    const equipped = cyberdecks.filter((item) => item.getData().equipped === "equipped");
+    if (equipped) {
+      return equipped[0];
+    }
+    return null;
   }
 }

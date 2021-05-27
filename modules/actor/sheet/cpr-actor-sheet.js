@@ -86,7 +86,7 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Install Cyberware
     html.find(".install-remove-cyberware").click((event) => this._installRemoveCyberwareAction(event));
-   
+
     // Generic item action
     html.find(".item-action").click((event) => this._itemAction(event));
 
@@ -103,9 +103,8 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".checkbox").click((event) => this._checkboxToggle(event));
 
-   // Reset Death Penalty
-   html.find(".toggle-fight-state").click((event) => this._toggleFightState(event));
-
+    // Reset Death Penalty
+    html.find(".toggle-fight-state").click((event) => this._toggleFightState(event));
 
     html.find(".toggle-favorite-visibility").click((event) => {
       const collapsibleElement = $(event.currentTarget).parents(".collapsible");
@@ -964,7 +963,7 @@ export default class CPRActorSheet extends ActorSheet {
   _toggleFightState(event) {
     const fightState = $(event.currentTarget).attr("data-state");
     console.log(fightState);
-    this.actor.setFlag("cyberpunk-red-core", "fightState", fightState)
+    this.actor.setFlag("cyberpunk-red-core", "fightState", fightState);
   }
 
   async _onDrop(event) {

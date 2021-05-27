@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable max-len */
 /* eslint-disable consistent-return */
@@ -542,11 +543,12 @@ export default class CPRItem extends Item {
     let unusedSlots = itemData.slots;
 
     itemData.programs.installed.forEach((program) => {
-      unusedSlots = unusedSlots - program.data.slots;
+      unusedSlots -= program.data.slots;
     });
 
     return unusedSlots;
   }
+
   async installPrograms() {
     LOGGER.debug("installPrograms | CPRItem | Called.");
     if (this.data.type !== "cyberdeck") {
@@ -573,15 +575,15 @@ export default class CPRItem extends Item {
       programList,
       returnType: "array",
     };
-   
+
     formData = await InstallProgramsPrompt.RenderPrompt(formData);
-    
+
     const selectedPrograms = [];
     let storageRequired = 0;
 
     formData.selectedPrograms.forEach((pId) => {
       const program = (programList.filter((p) => p.data._id === pId))[0];
-      storageRequired = storageRequired + program.data.data.slots;
+      storageRequired += program.data.data.slots;
       selectedPrograms.push(program);
     });
 
@@ -595,7 +597,6 @@ export default class CPRItem extends Item {
 
       // Set isInstalled flag on programs that get installed
       selectedPrograms.forEach((program) => {
-        console.log(program);
         programList = programList.filter((pl) => pl.data._id !== program.data._id);
         updateList.push({ _id: program.data._id, "data.isInstalled": true });
       });
@@ -606,11 +607,8 @@ export default class CPRItem extends Item {
       });
 
       actor.updateEmbeddedEntity("OwnedItem", updateList);
-    }
-    else
-    {
+    } else {
       this.data.data.programs.installed = selectedPrograms;
     }
-
   }
 }
