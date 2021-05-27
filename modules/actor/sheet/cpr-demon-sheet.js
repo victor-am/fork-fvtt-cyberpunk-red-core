@@ -12,8 +12,8 @@ export default class CPRDemonActorSheet extends ActorSheet {
     LOGGER.trace("defaultOptions | CPRDemonActorSheet | Called.");
     return mergeObject(super.defaultOptions, {
       template: "systems/cyberpunk-red-core/templates/actor/cpr-demon-sheet.hbs",
-      width: 750,
-      height: 500,
+      width: 630,
+      height: 205,
     });
   }
 

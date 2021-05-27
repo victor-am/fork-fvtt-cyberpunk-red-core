@@ -83,6 +83,7 @@ export default function preloadHandlebarsTemplates() {
 
     // Item Sheet
     "systems/cyberpunk-red-core/templates/item/cpr-item-sheet.hbs",
+
     // Item Sheet - Header Partials
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-ammo.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-armor.hbs",

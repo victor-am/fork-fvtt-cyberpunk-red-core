@@ -327,9 +327,9 @@
           "transactions": []
         },
         "interface": 0,
+        "actions": 2,
         "combatNumber": 14
       },
-      "actions": 2,
       "notes": ""
     }
   },

@@ -342,7 +342,7 @@ CPR.blackIceStatList = {
 CPR.demonStatList = {
   rez: "CPR.rez",
   interface: "CPR.interface",
-  netaction: "CPR.netaction",
+  netactions: "CPR.netactions",
   combatNumber: "CPR.combatnumber",
 };
 
