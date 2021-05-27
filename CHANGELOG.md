@@ -1,3 +1,6 @@
+# Version: 0.76.1 (Hot Fix) |  Date:  2021-05-27
+- Programs can now be displayed in gear tab and on mook sheets so that they are actually functional.
+
 # Version 0.76.0 | Date: 2021-05-26
 
 **New Features**

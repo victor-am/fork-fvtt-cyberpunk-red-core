@@ -701,6 +701,7 @@ export default class CPRActor extends Actor {
       case "clothing":
       case "weapon":
       case "gear":
+      case "program":
       case "armor": {
         if (newItem.data.data) {
           newItem.data.data.equipped = "equipped";
