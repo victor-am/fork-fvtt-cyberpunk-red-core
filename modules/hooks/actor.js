@@ -76,7 +76,7 @@ const actorHooks = () => {
   Hooks.on("createItem", (itemData) => {
     LOGGER.trace("createOwnedItem | actorHooks | Called.");
     const actor = itemData.parent;
-    if (actor.type === "mook") {
+    if (actor && actor.type === "mook") {
       LOGGER.debug("handling a dragged item to the mook sheet");
       actor.handleMookDraggedItem(actor._getOwnedItem(itemData.id));
     }
