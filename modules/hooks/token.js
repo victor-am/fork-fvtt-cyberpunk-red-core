@@ -7,9 +7,10 @@ const tokenHooks = () => {
   Hooks.on("preUpdateToken", (scene, token, updatedData) => {
     LOGGER.trace("preUpdateToken | tokenHooks | Called.");
     if (updatedData.actorData && updatedData.actorData.items) {
-      // This following line assumes that the most recently added item is the last in the array; may be bad assumption.
+      // This following line assumes that the most recently added item is the last in the array,
+      // and that the order of actor.items does not get shuffled; may be bad assumption.
       // Necessary in Foundry 0.7 because createEmbeddedEntity is not called when dragging items to unlinked tokens.
-      // May become unnecessary in Doundry 0.8 as hooks should be more consistent across linked/unlinked tokens
+      // May become unnecessary in Foundry 0.8 as hooks should be more consistent across linked/unlinked tokens
       // We should revisit then.
       const newItem = updatedData.actorData.items[updatedData.actorData.items.length - 1];
       if (newItem.data.core) {
