@@ -6,9 +6,23 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 const tokenHooks = () => {
   Hooks.on("preUpdateToken", (scene, token, updatedData) => {
     LOGGER.trace("preUpdateToken | tokenHooks | Called.");
+    if (updatedData.actorData && updatedData.actorData.items) {
+      // This following line assumes that the most recently added item is the last in the array; may be bad assumption.
+      // Necessary in Foundry 0.7 because createEmbeddedEntity is not called when dragging items to unlinked tokens.
+      // May become unnecessary in Doundry 0.8 as hooks should be more consistent across linked/unlinked tokens
+      // We should revisit then.
+      const newItem = updatedData.actorData.items[updatedData.actorData.items.length - 1];
+      if (newItem.data.core) {
+        SystemUtils.DisplayMessage("warn", "CPR.dontaddcoreitems");
+        // If preUpdateToken returns false, no further hooks get called.
+        return false;
+      }
+    }
+
     if ("actorData" in updatedData && "data" in updatedData.actorData && "roleInfo" in updatedData.actorData.data) {
       Rules.lawyer(Rules.validRole(game.actors.get(token.actorId), updatedData.actorData), "CPR.invalidroledata");
     }
+
     if (updatedData.actorData && updatedData.actorData.data && updatedData.actorData.data.externalData) {
       Object.entries(updatedData.actorData.data.externalData).forEach(
         ([itemType, itemData]) => {
@@ -67,6 +81,7 @@ const tokenHooks = () => {
         },
       );
     }
+    return true;
   });
 
   // this hook auto-installs cyberware or equips gear when dragging to a mook sheet
