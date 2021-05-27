@@ -7,7 +7,7 @@ export default class CPRCombat extends Combat {
   // eslint-disable-next-line class-methods-use-this
   _getInitiativeFormula(combatant) {
     LOGGER.trace("_getInitiativeFormula | CPRCombat | Called.");
-    if (combatant.actor.data.type === "blackIce") {
+    if (combatant.actor.data.type === "blackIce" || combatant.actor.data.type === "demon") {
       const bestInit = CombatUtils.GetBestInit();
       if (!bestInit) return "30";
       if (bestInit !== combatant.initiative) {
