@@ -476,7 +476,7 @@
     "CPR.settinginvertrollctrlfunctionname": "Invert function of CTRL on Rolls",
     "CPR.settingmooksheetskilldisplay": "Mook Sheet Skill Display Options",
     "CPR.settingmooksheetskilldisplaybase": "Base",
-    "CPR.settingmooksheetskilldisplayhint": "On the Mook sheet, choose how skills are displayed. You will need to re-open mook sheets for any change to take effect. Level = points in the skill only (this matches examples in the rule book), Base = Level + Stat, and Total = Level + Stat + Persistent Mods.",
+    "CPR.settingmooksheetskilldisplayhint": "On the Mook sheet, choose how skills are displayed. You will need to re-open mook sheets for any change to take effect. Level = points in the skill only, Base = Level + Stat (this matches examples in the rule book), and Total = Level + Stat + Persistent Mods.",
     "CPR.settingmooksheetskilldisplaylevel": "Level",
     "CPR.settingmooksheetskilldisplaytotal": "Total",
     "CPR.settingplayerscreateinventoryhint": "When enabled, players can create items directly in their inventory",

@@ -73,7 +73,7 @@ const registerSystemSettings = () => {
       base: "CPR.settingmooksheetskilldisplaybase",
       total: "CPR.settingmooksheetskilldisplaytotal",
     },
-    default: "level",
+    default: "base",
     onChange: (value) => {
       LOGGER.log(`Changed mookSheetSkillDisplay to ${value}`);
     },
