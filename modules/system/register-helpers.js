@@ -139,6 +139,17 @@ export default function registerHandlebarsHelpers() {
     return "INVALID_LIST";
   });
 
+  Handlebars.registerHelper("hasOptionalSlots", (installedOptionSlots, optionSlots) => {
+    LOGGER.trace(`Calling hasOptionalSlots`);
+    if (optionSlots > 0) {
+      LOGGER.trace(`hasOptionalSlots is greater than 0`);
+      return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.optionalslots")}`);
+    } else {
+      LOGGER.trace(`hasOptionalSlots is 0`);
+    }
+    return "";
+  });
+
   Handlebars.registerHelper("findObj", (objList, propertyName, propertyValue) => {
     LOGGER.trace(`Calling findObj Helper | Arg1:${objList}`);
     if (typeof objList === "object") {
