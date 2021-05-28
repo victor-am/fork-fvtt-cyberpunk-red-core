@@ -1,6 +1,7 @@
 /* global Hooks */
 import LOGGER from "../utils/cpr-logger.js";
 import Rules from "../utils/cpr-rules.js";
+import CPRMookActorSheet from "../actor/sheet/cpr-mook-sheet.js";
 
 const actorHooks = () => {
   Hooks.on("preCreateActor", (createData) => {
@@ -75,7 +76,7 @@ const actorHooks = () => {
   // this does not fire when dragging to an unlinked token's sheet, see token.js for that
   Hooks.on("createOwnedItem", (actor, itemData) => {
     LOGGER.trace("createOwnedItem | actorHooks | Called.");
-    if (actor.data.type === "mook") {
+    if (Object.values(actor.apps).some((app) => app instanceof CPRMookActorSheet)) {
       LOGGER.debug("handling a dragged item to the mook sheet");
       actor.handleMookDraggedItem(actor._getOwnedItem(itemData._id));
     }
