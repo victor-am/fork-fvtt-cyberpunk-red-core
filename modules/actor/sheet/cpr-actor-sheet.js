@@ -59,9 +59,8 @@ export default class CPRActorSheet extends ActorSheet {
   /* -------------------------------------------- */
   /** @override */
   activateListeners(html) {
-
     // allow navigation for non owned actors
-    this._tabs.forEach(t => t.bind(html[0]));
+    this._tabs.forEach((t) => t.bind(html[0]));
 
     // Make a roll
     html.find(".rollable").click((event) => this._onRoll(event));
