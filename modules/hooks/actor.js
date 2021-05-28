@@ -1,4 +1,4 @@
-/* global Hooks */
+/* global Hooks game */
 import LOGGER from "../utils/cpr-logger.js";
 import Rules from "../utils/cpr-rules.js";
 import CPRMookActorSheet from "../actor/sheet/cpr-mook-sheet.js";
@@ -74,9 +74,9 @@ const actorHooks = () => {
 
   // when a new item is created (dragged) on a mook sheet, auto install or equip it
   // this does not fire when dragging to an unlinked token's sheet, see token.js for that
-  Hooks.on("createOwnedItem", (actor, itemData) => {
+  Hooks.on("createOwnedItem", (actor, itemData, options, userId) => {
     LOGGER.trace("createOwnedItem | actorHooks | Called.");
-    if (Object.values(actor.apps).some((app) => app instanceof CPRMookActorSheet)) {
+    if (Object.values(actor.apps).some((app) => app instanceof CPRMookActorSheet) && userId === game.user.data._id) {
       LOGGER.debug("handling a dragged item to the mook sheet");
       actor.handleMookDraggedItem(actor._getOwnedItem(itemData._id));
     }
