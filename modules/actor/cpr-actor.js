@@ -30,6 +30,9 @@ export default class CPRActor extends Actor {
       // stat
       if (this.owner || game.user.isGM) {
         this._calculateDerivedStats();
+      } else {
+        const actorData = this.data;
+        actorData.filteredItems = this.itemTypes;
       }
     }
   }
@@ -257,12 +260,17 @@ export default class CPRActor extends Actor {
     return this.updateEmbeddedEntity("OwnedItem", [tmpItem.data, foundationalCyberware.data]);
   }
 
-  async removeCyberware(itemId, foundationalId) {
+  async removeCyberware(itemId, foundationalId, skipConfirm = false) {
     LOGGER.trace("ActorID _removeCyberware | CPRActorSheet | Called.");
     const item = this._getOwnedItem(itemId);
-    const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
-    const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
-    const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
+    let confirmRemove;
+    if (!skipConfirm) {
+      const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
+      const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
+      confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
+    } else {
+      confirmRemove = true;
+    }
     if (confirmRemove) {
       if (item.getData().isFoundational) {
         await this._removeFoundationalCyberware(item);
