@@ -1,0 +1,65 @@
+{{trace "CPR-DEMON-SHEET.HBS"}}
+{{log this}}
+<form>
+  {{#if (isDebug)}}
+    actor ID: {{actor._id}}
+  {{/if}}
+  <div class="demon-sheet">
+    <div class="demon-stats bg-red fg-white text-normal">
+      <div class="demon-top flexrow">
+        <div class="text-right">&#9701;</div>
+        {{#each (findConfigObj "demonStatList") as |stat s|}}
+          <div class="flexrow">
+            <div>&#9700;</div>
+            {{#unless (compare s "===" "combatNumber")}}
+              <div class="text-right">&#9701;</div>
+            {{/unless}}
+          </div>
+        {{/each}}
+      </div>
+      <div class="demon-head flexrow text-center block-label">
+        <div>{{localize "CPR.name"}}</div>
+        {{#each (findConfigObj "demonStatList") as |stat s|}}
+          <div>
+            {{#unless (listContains "rez,netactions" s)}}
+              <a class="rollable" data-roll-title="{{s}}" title="{{localize "CPR.clicktorollthisstat"}}">
+            {{/unless}}
+            {{localize stat}}
+            {{#unless (listContains "rez,netactions" s)}}
+              </a>
+            {{/unless}}
+          </div>
+        {{/each}}
+      </div>
+      <div class="demon-val flexrow pad-thin">
+        <div class="block-data bg-red fg-black">
+          <input name="name" type="text" value="{{actor.name}}"/>
+        </div>
+        {{#each data.stats as |stat s|}}
+          {{#if (compare s "===" "rez")}}
+            <div class="min-of-max-container">
+              <input class="text-center" name="data.stats.rez.value" type="number" value="{{this.value}}" />
+              <div class="of bg-red fg-white text-normal text-bold">of</div>
+              <input class="text-center" name="data.stats.rez.max" type="number" value="{{this.max}}" />
+            </div>
+          {{else}}
+            <div class="block-data text-large">
+              <input name="data.stats.{{s}}" type="number" value="{{this}}"/>
+            </div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="demon-details bg-red pad-thin">
+      <div class="demon-icon">
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}"/>
+      </div>
+      <div class="demon-notes pad-thin fg-white bg-red">
+        <div class="demon-edit-section fg-black text-padding-left">
+          {{editor content=data.notes target="data.notes" button=true owner=owner editable=editable}}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{{trace "END CPR-DEMON-SHEET.HBS"}}
