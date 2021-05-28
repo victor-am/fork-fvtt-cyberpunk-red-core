@@ -30,6 +30,9 @@ export default class CPRActor extends Actor {
       // stat
       if (this.owner || game.user.isGM) {
         this._calculateDerivedStats();
+      } else {
+        const actorData = this.data;
+        actorData.filteredItems = this.itemTypes;
       }
     }
   }
