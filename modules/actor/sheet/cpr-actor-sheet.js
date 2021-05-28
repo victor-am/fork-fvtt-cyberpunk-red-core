@@ -505,7 +505,7 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  _handleKey(event) {
+  async _handleKey(event) {
     LOGGER.trace("_handleKey | CPRActorSheet | Called.");
     LOGGER.debug(event.keyCode);
     if (event.keyCode === 46) {
@@ -523,7 +523,14 @@ export default class CPRActorSheet extends ActorSheet {
           if (item.data.data.core === true) {
             SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.cannotdeletecorecyberware"));
           } else {
-            this._deleteOwnedItem(item);
+            const foundationalId = $(event.currentTarget).attr("data-foundational-id");
+            const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
+            const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
+            const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
+            if (confirmRemove) {
+              this.actor.removeCyberware(itemId, foundationalId, true);
+              this._deleteOwnedItem(item, true);
+            }
           }
           break;
         }
@@ -688,13 +695,13 @@ export default class CPRActorSheet extends ActorSheet {
     return $(event.currentTarget).attr("data-item-prop");
   }
 
-  async _deleteOwnedItem(item) {
+  async _deleteOwnedItem(item, skipConfirm = false) {
     LOGGER.trace("ActorID _deleteOwnedItem | CPRActorSheet | Called.");
     // There's a bug here somewhere.  If the prompt is disabled, it doesn't seem
     // to delete, but if the player is prompted, it deletes fine???
     const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
-    // If setting is true, prompt before delete, else delete.
-    if (setting) {
+    // Only show the delete confirmation if the setting is on, and internally we do not want to skip it.
+    if (setting && !skipConfirm) {
       const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${item.data.name}?`;
       const confirmDelete = await ConfirmPrompt.RenderPrompt(
         SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,

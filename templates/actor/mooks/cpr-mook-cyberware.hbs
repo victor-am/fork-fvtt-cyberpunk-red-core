@@ -10,7 +10,9 @@
   {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
     {{#each (getProp ../this.installedCyberware t) as |cyberware c|}}
       {{#if foundation.data.data.core}}
-        <!-- this messy mapping is because the names of internal cyberware are not concise enough -->
+        <!-- This messy mapping is because the names of internal cyberware are not concise enough
+             Also hasOptionalSlots is false for core cyberware for an unknown reason. We have to
+            look at the length of optionals to know the truth about used slots. -->
         {{#if (compare optionals.length ">" 0)}}
           {{#if (compare foundation.data.name "===" "Internal (7 Option Slots)")}}
             {{localize "CPR.internal"}} (
