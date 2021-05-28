@@ -2,6 +2,7 @@
 import LOGGER from "../utils/cpr-logger.js";
 import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
+import CPRMookActorSheet from "../actor/sheet/cpr-mook-sheet.js";
 
 const tokenHooks = () => {
   Hooks.on("preUpdateToken", (scene, token, updatedData) => {
@@ -83,7 +84,7 @@ const tokenHooks = () => {
         // this happens if the scene is changed while the mook sheet is still displayed and dragged to
         const warning = SystemUtils.Localize("CPR.notokenfound");
         SystemUtils.DisplayMessage("error", warning);
-      } else if (tokenActor.data.type === "mook") {
+      } else if (Object.values(tokenActor.apps).some((app) => app instanceof CPRMookActorSheet)) {
         if ("items" in updateData.actorData) {
           // this seems like a dangerous assumption... is the new item is always at the end of the array?
           const handledItem = tokenActor.getFlag("cyberpunk-red-core", "handled-item");
