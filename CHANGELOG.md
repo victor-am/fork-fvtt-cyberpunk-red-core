@@ -1,8 +1,10 @@
 # Version 0.77.0 | Dev Branch
 
 **WIP Features**
+- Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title. 
 
 **WIP Bug Fixes**
+- Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item. 
 
 # Version: 0.76.1 (Hot Fix) |  Date:  2021-05-27
 - Programs can now be displayed in gear tab and on mook sheets for easier tracking.
