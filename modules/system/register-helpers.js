@@ -3,6 +3,7 @@
 /* global Handlebars, getProperty */
 import LOGGER from "../utils/cpr-logger.js";
 import CPR from "./config.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers");
@@ -136,6 +137,17 @@ export default function registerHandlebarsHelpers() {
       return CPR[obj];
     }
     return "INVALID_LIST";
+  });
+
+  Handlebars.registerHelper("hasOptionalSlots", (installedOptionSlots, optionSlots) => {
+    LOGGER.trace(`Calling hasOptionalSlots`);
+    if (optionSlots > 0) {
+      LOGGER.trace(`hasOptionalSlots is greater than 0`);
+      return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.optionalslots")}`);
+    } else {
+      LOGGER.trace(`hasOptionalSlots is 0`);
+    }
+    return "";
   });
 
   Handlebars.registerHelper("findObj", (objList, propertyName, propertyValue) => {
