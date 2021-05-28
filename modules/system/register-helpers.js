@@ -3,7 +3,6 @@
 /* global Handlebars, getProperty */
 import LOGGER from "../utils/cpr-logger.js";
 import CPR from "./config.js";
-import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers");
@@ -272,12 +271,6 @@ export default function registerHandlebarsHelpers() {
     }
   });
 
-  Handlebars.registerHelper("getSkillStat", (skill, actor) => {
-    LOGGER.trace("Calling getSkillStat Helper");
-    const skillStat = skill.data.stat;
-    return actor.data.stats[skillStat].value;
-  });
-
   Handlebars.registerHelper("ablated", (armor, slot) => {
     LOGGER.trace(`Calling ablated Helper | Arg1:${armor} Arg2:${slot}`);
     if (slot === "body") {
@@ -336,13 +329,6 @@ export default function registerHandlebarsHelpers() {
       return item.data._id;
     }
     return "DOES NOT EXIST";
-  });
-
-  Handlebars.registerHelper("isTokenSheet", (title) => {
-    LOGGER.trace("Calling isTokenSheet Helper");
-    LOGGER.debug(`title is ${title}`);
-    const substr = `[${SystemUtils.Localize("CPR.token")}]`;
-    return title.includes(substr);
   });
 
   Handlebars.registerHelper("isDebug", () => {
