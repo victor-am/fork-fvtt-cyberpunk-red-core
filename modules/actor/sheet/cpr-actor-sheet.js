@@ -519,6 +519,14 @@ export default class CPRActorSheet extends ActorSheet {
           this._updateOwnedItem(item);
           break;
         }
+        case "cyberware": {
+          if (item.data.data.core === true) {
+            SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.cannotdeletecorecyberware"));
+          } else {
+            this._deleteOwnedItem(item);
+          }
+          break;
+        }
         default: {
           this._deleteOwnedItem(item);
           break;
