@@ -7,6 +7,7 @@
 - Auto-install cyberware prompt for mook sheets now only displays to the user who initiated the prompt.
 - Internal, external, and fashionware cyberware now display correctly on mook sheets.
 - Deleting/uninstalling optional cyberware from mook sheets now works correctly.
+- Cleaned up of many (but not all) trailing commas in mook sheet.
 
 
 # Version: 0.76.1 (Hot Fix) |  Date:  2021-05-27
