@@ -143,7 +143,7 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace(`Calling hasOptionalSlots`);
     if (optionSlots > 0) {
       LOGGER.trace(`hasOptionalSlots is greater than 0`);
-      return ("-" + installedOptionSlots + "/" + optionSlots + " " + SystemUtils.Localize("CPR.optionalslots"))
+      return ("- " + installedOptionSlots + "/" + optionSlots + " " + SystemUtils.Localize("CPR.optionalslots"))
     }
     else {
       LOGGER.trace(`hasOptionalSlots is 0`);
