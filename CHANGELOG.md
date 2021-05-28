@@ -1,3 +1,14 @@
+# Version: 0.76.2 (Hot Fix) |  Date:  2021-05-28
+- Borgware items are now configured correctly as foundational in compendium.
+- Borgware no longer displays "0/0 Optional slots" when installed on character sheet.
+- Observer/limited view permissions for character sheets now work correctly.
+- Core skills/cyberware now cannot be added to unlinked tokens.
+- Auto-install cyberware prompt now correctly shows based on sheet type rather than actor type.
+- Auto-install cyberware prompt for mook sheets now only displays to the user who initiated the prompt.
+- Internal, external, and fashionware cyberware now display correctly on mook sheets.
+- Deleting/uninstalling optional cyberware from mook sheets now works correctly.
+
+
 # Version: 0.76.1 (Hot Fix) |  Date:  2021-05-27
 - Programs can now be displayed in gear tab and on mook sheets so that they are actually functional.
 
