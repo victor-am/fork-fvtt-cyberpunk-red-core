@@ -4,6 +4,10 @@
 
 **WIP Bug Fixes**
 
+
+# Version: 0.76.2 (Hot Fix) |  Date:  2021-05-28
+- Non owned actor sheets (Limited and Observer permissions) render again, the content is also shown now.
+
 # Version: 0.76.1 (Hot Fix) |  Date:  2021-05-27
 - Programs can now be displayed in gear tab and on mook sheets for easier tracking.
 
