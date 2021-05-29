@@ -79,9 +79,11 @@ const actorHooks = () => {
   Hooks.on("createItem", (itemData, options, userId) => {
     LOGGER.trace("createOwnedItem | actorHooks | Called.");
     const actor = itemData.parent;
-    if (Object.values(actor.apps).some((app) => app instanceof CPRMookActorSheet) && userId === game.user.data._id) {
-      LOGGER.debug("handling a dragged item to the mook sheet");
-      actor.handleMookDraggedItem(actor._getOwnedItem(itemData.id));
+    if (actor !== null) {
+      if (Object.values(actor.apps).some((app) => app instanceof CPRMookActorSheet) && userId === game.user.data._id) {
+        LOGGER.debug("handling a dragged item to the mook sheet");
+        actor.handleMookDraggedItem(actor._getOwnedItem(itemData.id));
+      }
     }
   });
 };
