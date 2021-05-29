@@ -52,7 +52,9 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
     const data = super.getData();
     data.filteredItems = this.actor.filteredItems;
-    data.installedCyberware = this._getSortedInstalledCyberware();
+    if (this.actor.data.type === "mook" || this.actor.data.type === "character") {
+      data.installedCyberware = this._getSortedInstalledCyberware();
+    }
     return data;
   }
 
