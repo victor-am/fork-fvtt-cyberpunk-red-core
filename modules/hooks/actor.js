@@ -76,7 +76,6 @@ const actorHooks = () => {
   });
 
   // when a new item is created (dragged) on a mook sheet, auto install or equip it
-  // this does not fire when dragging to an unlinked token's sheet, see token.js for that
   Hooks.on("createItem", (itemData, options, userId) => {
     LOGGER.trace("createOwnedItem | actorHooks | Called.");
     const actor = itemData.parent;

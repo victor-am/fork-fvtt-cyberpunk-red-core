@@ -90,7 +90,7 @@ const tokenHooks = () => {
   // this hook auto-installs cyberware or equips gear when dragging to a mook sheet
   // that belongs to an unlinked token
   // Moo Man claims this can go away with 0.8 because hooks will be more consistent for unlinked tokens
-  Hooks.on("updateToken", (scene, tokenData, updateData, diff, userId) => {
+  /* Hooks.on("updateToken", (scene, tokenData, updateData, diff, userId) => {
     LOGGER.trace("updateToken | tokenHooks | Called.");
     LOGGER.debugObject(tokenData);
     LOGGER.debugObject(updateData);
@@ -114,7 +114,7 @@ const tokenHooks = () => {
         }
       }
     }
-  });
+  }); */
 };
 
 export default tokenHooks;
