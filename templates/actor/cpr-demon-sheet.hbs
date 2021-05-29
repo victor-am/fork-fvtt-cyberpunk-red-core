@@ -6,16 +6,14 @@
   {{/if}}
   <div class="demon-sheet">
     <div class="demon-stats bg-red fg-white text-normal">
-      <div class="demon-top flexrow">
-        <div class="text-right">&#9701;</div>
+      <div class="demon-top flexrow bg-white">
+        <div class="flexrow demon-label-corner-right bg-red"></div>
         {{#each (findConfigObj "demonStatList") as |stat s|}}
-          <div class="flexrow">
-            <div>&#9700;</div>
             {{#unless (compare s "===" "combatNumber")}}
-              <div class="text-right">&#9701;</div>
+              <div class="flexrow demon-label-corner-both bg-red"></div>
             {{/unless}}
-          </div>
         {{/each}}
+        <div class="flexrow demon-label-corner-left bg-red"></div>
       </div>
       <div class="demon-head flexrow text-center block-label">
         <div>{{localize "CPR.name"}}</div>

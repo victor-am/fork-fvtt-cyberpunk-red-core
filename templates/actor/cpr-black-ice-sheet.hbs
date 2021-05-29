@@ -5,19 +5,13 @@
   {{/if}}
   <div class="bice-sheet">
     <div class="bice-stats bg-red fg-white text-normal">
-      <div class="bice-top flexrow">
-        <div class="text-right width-long">&#9701;</div>
-        <div class="flexrow width-long">
-          <div>&#9700;</div>
-          <div class="text-right">&#9701;</div>
-        </div>
+      <div class="bice-top flexrow bg-white">
+        <div class="flexrow width-long bice-label-corner-right bg-red"></div>
+        <div class="flexrow width-long bice-label-corner-both bg-red"></div>
         {{#each (findConfigObj "blackIceStatList")}}
-          <div class="flexrow">
-            <div>&#9700;</div>
-            <div class="text-right">&#9701;</div>
-          </div>
+          <div class="flexrow bice-label-corner-both bg-red"></div>
         {{/each}}
-        <div>&#9700;</div>
+        <div class="flexrow bice-label-corner-left bg-red"></div>
       </div>
       <div class="bice-head flexrow text-center block-label">
         <div class="width-long">{{localize "CPR.name"}}</div>
