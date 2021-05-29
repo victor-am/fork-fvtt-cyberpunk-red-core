@@ -6,7 +6,6 @@
 </div>
 <div class="bg-white fg-black text-padding-left">
   <!-- Cyberware -->
-  {{log this}}
   {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
     {{#each (getProp ../this.installedCyberware t) as |cyberware c|}}
       {{#if foundation.data.data.core}}
