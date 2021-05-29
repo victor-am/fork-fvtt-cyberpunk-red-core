@@ -67,7 +67,7 @@ export default class Migration {
     const actorItems = actor.items;
     const updateItems = [];
     for (const i of actorItems) {
-      updateItems.push({ _id: i.id, data: this.migrateItemData(i.data) });
+      updateItems.push({ _id: i.id, data: this.migrateItemData(i.data).data });
     }
 
     await actor.updateEmbeddedDocuments("Item", updateItems);

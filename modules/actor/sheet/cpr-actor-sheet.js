@@ -455,7 +455,6 @@ export default class CPRActorSheet extends ActorSheet {
     // Get all Installed Cyberware first...
     const installedCyberware = this.actor.getInstalledCyberware();
     const installedFoundationalCyberware = installedCyberware.filter((c) => c.data.data.isFoundational === true);
-
     // Now sort allInstalledCybere by type, and only get foundational
     const sortedInstalledCyberware = {};
     for (const [type] of Object.entries(CPR.cyberwareTypeList)) {
@@ -730,7 +729,6 @@ export default class CPRActorSheet extends ActorSheet {
         return;
       }
     }
-    console.log(item.id);
     await this.actor.deleteEmbeddedDocuments("Item", [item.id]);
   }
 
