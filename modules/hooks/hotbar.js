@@ -17,7 +17,7 @@ const hotbarHooks = () => {
       const itemId = data.data._id;
       let item = game.items.find((i) => i.id === itemId);
 
-      if (item === null) {
+      if (item === null || typeof(item) === "undefined") {
         // Item not found in the world, check actor for the item
         if (data.actorId !== undefined) {
           const actor = game.actors.find((a) => a.id === data.actorId);
