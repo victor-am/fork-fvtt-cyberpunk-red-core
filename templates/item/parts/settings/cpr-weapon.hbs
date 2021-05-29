@@ -223,7 +223,7 @@
                   </div>
                   <div class="compatible-ammo">
                   {{#each (findConfigObj "ammoVariety") as |ammoVariety a|}}
-                  {{#if (listContains (getProp ../this.data "ammoVariety") a)}}
+                  {{#if (listContains (getProp ../this.data.data "ammoVariety") a)}}
                   <li class="item flexrow">
                       <div class="item flexrow setting-name text-nowrap text-padding-left">
                           &nbsp;{{localize ammoVariety}}
