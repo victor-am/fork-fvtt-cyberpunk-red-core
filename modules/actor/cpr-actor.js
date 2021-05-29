@@ -43,29 +43,6 @@ export default class CPRActor extends Actor {
     return this.data.data;
   }
 
-  /** @override */
-  /*static async create(data, options) {
-    LOGGER.trace("create | CPRActor | called.");
-    const createData = data;
-    if (typeof data.data === "undefined") {
-      LOGGER.trace("create | New Actor | CPRActor | called.");
-      createData.items = [];
-      const tmpItems = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
-      tmpItems.forEach((item) => {
-        createData.items.push(item.data);
-      });
-      if (data.type === "character") {
-        createData.token = {
-          actorLink: true,
-          disposition: 1,
-          vision: true,
-          bar1: { attribute: "derivedStats.hp" },
-        };
-      }
-    }
-    super.create(createData, options);
-  }*/
-
   async createEmbeddedDocuments(embeddedName, data, context) {
     LOGGER.trace("createEmbeddedDocuments | CPRActor | called.");
     if (embeddedName === "Item") {
@@ -619,7 +596,6 @@ export default class CPRActor extends Actor {
       }
     });
   }
-<<<<<<< HEAD
 
   handleMookDraggedItem(item) {
     // called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
@@ -643,6 +619,4 @@ export default class CPRActor extends Actor {
       default:
     }
   }
-=======
->>>>>>> origin/dev
 }

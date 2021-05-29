@@ -2,7 +2,7 @@
 {{log this}}
 <form>
   {{#if (isDebug)}}
-    actor ID: {{actor._id}}
+    actor ID: {{actor.id}}
   {{/if}}
   <div class="demon-sheet">
     <div class="demon-stats bg-red fg-white text-normal">
@@ -35,7 +35,7 @@
         <div class="block-data bg-red fg-black">
           <input name="name" type="text" value="{{actor.name}}"/>
         </div>
-        {{#each data.stats as |stat s|}}
+        {{#each data.data.stats as |stat s|}}
           {{#if (compare s "===" "rez")}}
             <div class="min-of-max-container">
               <input class="text-center" name="data.stats.rez.value" type="number" value="{{this.value}}" />
@@ -56,7 +56,7 @@
       </div>
       <div class="demon-notes pad-thin fg-white bg-red">
         <div class="demon-edit-section fg-black text-padding-left">
-          {{editor content=data.notes target="data.notes" button=true owner=owner editable=editable}}
+          {{editor content=data.data.notes target="data.notes" button=true owner=owner editable=editable}}
         </div>
       </div>
     </div>

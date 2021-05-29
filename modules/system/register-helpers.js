@@ -274,8 +274,8 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("getSkillStat", (skill, actor) => {
     LOGGER.trace("Calling getSkillStat Helper");
-    const skillStat = skill.data.stat;
-    return actor.data.stats[skillStat].value;
+    const skillStat = skill.data.data.stat;
+    return actor.data.data.stats[skillStat].value;
   });
 
   Handlebars.registerHelper("ablated", (armor, slot) => {

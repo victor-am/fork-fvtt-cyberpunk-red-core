@@ -1,7 +1,7 @@
 {{trace "CPR-BLACK-ICE-SHEET.HBS"}}
 <form>
   {{#if (isDebug)}}
-    actor ID: {{actor._id}}
+    actor ID: {{actor.id}}
   {{/if}}
   <div class="bice-sheet">
     <div class="bice-stats bg-red fg-white text-normal">
@@ -43,14 +43,14 @@
         </div>
         <div class="width-long width-full">
           <select name="data.class">
-            {{#select data.class}}
+            {{#select data.data.class}}
               {{#each (findConfigObj "blackIceType") as |class c|}}
                 <option value="{{c}}">{{localize class}}</option>
               {{/each}}
             {{/select}}
           </select>
         </div>
-        {{#each data.stats as |stat s|}}
+        {{#each data.data.stats as |stat s|}}
           {{#if (compare s "===" "rez")}}
             <div class="min-of-max-container">
               <input class="text-center" name="data.stats.rez.value" type="number" value="{{this.value}}" />
@@ -64,7 +64,7 @@
           {{/if}}
         {{/each}}
         <div class="block-data text-large">
-          <input name="data.cost" type="number" value="{{data.cost}}"/>
+          <input name="data.cost" type="number" value="{{data.data.cost}}"/>
         </div>
       </div>
     </div>
@@ -75,11 +75,11 @@
       <div class="bice-effects">
         <div class="flexrow bg-red pad-thin text-padding-left">
           <span class="fg-white text-center text-vert-center">{{localize "CPR.effects"}}:</span>
-          <input class="bg-white fg-black width-longer" name="data.effect" type="text" value="{{data.effect}}"/>
+          <input class="bg-white fg-black width-longer" name="data.effect" type="text" value="{{data.data.effect}}"/>
         </div>
         <div class="flexrow bg-red pad-thin text-padding-left">
           <span class="fg-white text-center text-vert-center">{{localize "CPR.notes"}}:</span>
-          <input class="bg-white fg-black width-longer" name="data.notes" type="text" value="{{data.notes}}"/>
+          <input class="bg-white fg-black width-longer" name="data.notes" type="text" value="{{data.data.notes}}"/>
         </div>
       </div>
     </div>

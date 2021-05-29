@@ -15,8 +15,8 @@
                         {{localize "CPR.equipped"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.equipped" data-dtype="{{data.equipped}}">
-                            {{#select data.equipped}}
+                        <select name="data.equipped" data-dtype="{{data.data.equipped}}">
+                            {{#select data.data.equipped}}
                             {{#each (findConfigObj "equipped") as |vic v|}}
                             <option value="{{v}}">{{localize vic}}</option>
                             {{/each}}
@@ -31,7 +31,7 @@
                         {{localize "CPR.amount"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.amount" class="" type="number" value="{{data.amount}}">
+                        <input name="data.amount" class="" type="number" value="{{data.data.amount}}">
                     </div>
                 </li>
 

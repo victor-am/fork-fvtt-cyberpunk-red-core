@@ -31,7 +31,7 @@
       {{/if}}
       {{#if foundation.data.data.hasOptionalSlots}}({{/if}}
       {{#each optionals as |optional o|}}
-        <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}">
+        <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}">
           {{optional.name}}{{#unless @last}},{{/unless}}
         </a>
       {{/each}}
@@ -48,12 +48,12 @@
   {{#each this.items as |item i|}}
     {{#if (compare item.type "===" "ammo")}}
     {{trace item}}
-      <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item._id}}">
+      <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item.id}}">
         {{item.name}} (x{{item.data.amount}}){{#unless @last}},{{/unless}}
       </a>
     {{/if}}
     {{#if (compare item.type "===" "gear")}}
-      <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item._id}}">
+      <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item.id}}">
         {{item.name}}{{#unless @last}},{{/unless}}
       </a>
     {{/if}}
