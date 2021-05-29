@@ -6,20 +6,42 @@
 </div>
 <div class="bg-white fg-black text-padding-left">
   <!-- Cyberware -->
+  {{log this}}
   {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
     {{#each (getProp ../this.installedCyberware t) as |cyberware c|}}
-      {{#unless foundation.data.data.core}}
-        <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{foundation._id}}">
-          {{foundation.name}}{{#if (compare foundation.data.data.hasOptionalSlots "===" false)}},{{/if}}
+      {{#if foundation.data.data.core}}
+        <!-- This messy mapping is because the names of internal cyberware are not concise enough
+             Also hasOptionalSlots is false for core cyberware for an unknown reason. We have to
+            look at the length of optionals to know the truth about used slots. -->
+        {{#if (compare optionals.length ">" 0)}}
+          {{#if (compare foundation.data.name "===" "Internal (7 Option Slots)")}}
+            {{localize "CPR.internal"}} (
+          {{/if}}
+          {{#if (compare foundation.data.name "===" "External (7 Option Slots)")}}
+            {{localize "CPR.external"}} (
+          {{/if}}
+          {{#if (compare foundation.data.name "===" "Fashionware (7 Option Slots)")}}
+            {{localize "CPR.fashionware"}} (
+          {{/if}}
+        {{/if}}
+      {{else}}
+        <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{foundation.data._id}}">
+          {{foundation.name}}{{#if (compare foundation.data.data.hasOptionalSlots "===" false)}}{{#unless @last}},{{/unless}}{{/if}}
         </a>
-        {{#if foundation.data.data.hasOptionalSlots}}({{/if}}
-        {{#each optionals as |optional o|}}
-          <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{optional._id}}" data-foundational-id="{{../foundation.id}}">
-            {{optional.name}}
-          </a>,
-        {{/each}}
-        {{#if foundation.data.data.hasOptionalSlots}}),{{/if}}
-      {{/unless}}
+      {{/if}}
+      {{#if foundation.data.data.hasOptionalSlots}}({{/if}}
+      {{#each optionals as |optional o|}}
+        <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}">
+          {{optional.name}}{{#unless @last}},{{/unless}}
+        </a>
+      {{/each}}
+      {{#if foundation.data.data.core}}
+        {{#if (compare optionals.length ">" 0)}}
+          ),
+        {{/if}}
+      {{else}}
+        ),
+      {{/if}}
     {{/each}}
   {{/each}}
   <!-- Gear -->
@@ -27,12 +49,12 @@
     {{#if (compare item.type "===" "ammo")}}
     {{trace item}}
       <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item._id}}">
-        {{item.name}} (x{{item.data.amount}}),
+        {{item.name}} (x{{item.data.amount}}){{#unless @last}},{{/unless}}
       </a>
     {{/if}}
     {{#if (compare item.type "===" "gear")}}
       <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item._id}}">
-        {{item.name}},
+        {{item.name}}{{#unless @last}},{{/unless}}
       </a>
     {{/if}}
   {{/each}}

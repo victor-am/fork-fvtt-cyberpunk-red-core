@@ -448,6 +448,10 @@ export default class Migration {
     if ((typeof itemData.data.slots) === "undefined") {
       itemData.data.slots = 0;
     }
+
+    if ((typeof itemData.data.equipped) === "undefined") {
+      itemData.data.equipped = "owned";
+    }
     return itemData;
   }
 

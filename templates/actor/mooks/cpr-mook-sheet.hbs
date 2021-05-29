@@ -59,6 +59,11 @@
       <div class="mook-special pad-thin fg-white bg-red">
         {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-cyberware.hbs"}}
       </div>
+      {{#if actor.filteredItems.program}}
+        <div class="mook-program pad-thin fg-white bg-red">
+          {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-program.hbs"}}
+        </div>
+      {{/if}}
       <div class="mook-crit pad-thin fg-white bg-red">
         {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-criticalInjury.hbs"}}
       </div>

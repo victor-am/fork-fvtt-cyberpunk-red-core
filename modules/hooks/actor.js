@@ -1,6 +1,7 @@
 /* global Hooks game */
 import LOGGER from "../utils/cpr-logger.js";
 import Rules from "../utils/cpr-rules.js";
+import CPRMookActorSheet from "../actor/sheet/cpr-mook-sheet.js";
 
 const actorHooks = () => {
   Hooks.on("preCreateActor", (createData) => {
@@ -13,7 +14,10 @@ const actorHooks = () => {
   // Updates the armor item when external data for armor is updated from the tokenHUD.
   Hooks.on("preUpdateActor", (actor, updatedData) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
-    Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.invalidroledata");
+    if (actor.data.type !== "blackIce") {
+      Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.invalidroledata");
+    }
+
     if (updatedData.data && updatedData.data.externalData) {
       Object.entries(updatedData.data.externalData).forEach(
         ([itemType, itemData]) => {
@@ -73,10 +77,10 @@ const actorHooks = () => {
 
   // when a new item is created (dragged) on a mook sheet, auto install or equip it
   // this does not fire when dragging to an unlinked token's sheet, see token.js for that
-  Hooks.on("createItem", (itemData) => {
+  Hooks.on("createItem", (itemData, options, userId) => {
     LOGGER.trace("createOwnedItem | actorHooks | Called.");
     const actor = itemData.parent;
-    if (actor && actor.type === "mook") {
+    if (Object.values(actor.apps).some((app) => app instanceof CPRMookActorSheet) && userId === game.user.data._id) {
       LOGGER.debug("handling a dragged item to the mook sheet");
       actor.handleMookDraggedItem(actor._getOwnedItem(itemData.id));
     }
