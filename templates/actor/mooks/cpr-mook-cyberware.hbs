@@ -6,7 +6,6 @@
 </div>
 <div class="bg-white fg-black text-padding-left">
   <!-- Cyberware -->
-  {{!-- {{log this}} --}}
   {{#each (getMookCyberware this.installedCyberware) as |type t|}}
     {{#if foundation.data.data.core}}
       <!-- This messy mapping is because the names of internal cyberware are not concise enough
@@ -37,10 +36,7 @@
     {{#if (compare optionals.length ">" 0)}}
       ){{#unless @last}},{{/unless}}
     {{/if}}
-  {{/each}}
-{{!--   {{#each (getMookCyberware this.installedCyberware) as |type t|}}
-    A{{foundation.data.name}}1
-  {{/each}} --}}
+  {{/each}}{{#if (compare (compare actor.filteredItems.ammo.length ">" 0) "||" (compare actor.filteredItems.gear.length ">" 0))}},{{/if}}
   <!-- Gear -->
   {{#each (sort (arrayConcat actor.filteredItems.ammo actor.filteredItems.gear) "name") as |item i|}}
     {{#if (compare item.type "===" "ammo")}}

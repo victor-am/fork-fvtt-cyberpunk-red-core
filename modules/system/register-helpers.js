@@ -65,7 +65,6 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("getProp", (object, property) => {
     if (typeof object !== "undefined") {
       if (typeof object.length === "undefined") {
-        console.log(getProperty(object, property));
         return getProperty(object, property);
       }
       if (object.length > 0) {
@@ -363,17 +362,23 @@ export default function registerHandlebarsHelpers() {
     return skillList;
   });
 
-  Handlebars.registerHelper("getMookCyberware", (object) => {
+  Handlebars.registerHelper("getMookCyberware", (installedCyberware) => {
     LOGGER.trace("Calling getMookCyberware Helper");
-    const newList = [];
-    Object.entries(object).forEach(([k, v]) => {
-      if (object[k].length > 0) {
-        v.forEach((a) => {
-          newList.push(a);
-        });
+    const installedCyberwareList = [];
+    Object.entries(installedCyberware).forEach(([k, v]) => {
+      if (installedCyberware[k].length > 0) {
+        if (k !== "cyberwareInternal" && k !== "cyberwareExternal" && k !== "fashionware") {
+          v.forEach((a) => {
+            installedCyberwareList.push(a);
+          });
+        } else if (installedCyberware[k][0].optionals.length > 0) {
+          v.forEach((a) => {
+            installedCyberwareList.push(a);
+          });
+        }
       }
     });
-    return newList;
+    return installedCyberwareList;
   });
 
   Handlebars.registerHelper("isDebug", () => {
