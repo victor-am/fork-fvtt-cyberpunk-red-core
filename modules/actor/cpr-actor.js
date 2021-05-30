@@ -596,4 +596,39 @@ export default class CPRActor extends Actor {
       }
     });
   }
+
+  _getHands() {
+    LOGGER.trace("_getHands | CPRActor | Called.");
+    return 2;
+  }
+
+  _getFreeHands() {
+    LOGGER.trace("_getFreeHands | CPRActor | Called.");
+    const weapons = this._getEquippedWeapons();
+    const needed = weapons.map((w) => w.data.data.handsReq);
+    const freeHands = this._getHands() - needed.reduce((a, b) => a + b, 0);
+    return freeHands;
+  }
+
+  _getEquippedWeapons() {
+    LOGGER.trace("_getEquippedWeapons | CPRActor | Called.");
+    const weapons = this.data.filteredItems.weapon;
+    return weapons.filter((a) => a.getData().equipped === "equipped");
+  }
+
+  /**
+   * Helper method to assess whether the actor can hold another weapon. Used to assess whether
+   * an item can be equipped.
+   *
+   * @param {Item} weapon - item proposed to be held
+   * @returns {Boolean}
+   */
+  canHoldWeapon(weapon) {
+    LOGGER.trace("canHoldWeapon | CPRActorSheet | Called.");
+    const needed = weapon.data.data.handsReq;
+    if (needed > this._getFreeHands()) {
+      return false;
+    }
+    return true;
+  }
 }
