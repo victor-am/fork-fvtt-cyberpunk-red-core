@@ -65,6 +65,7 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("getProp", (object, property) => {
     if (typeof object !== "undefined") {
       if (typeof object.length === "undefined") {
+        console.log(getProperty(object, property));
         return getProperty(object, property);
       }
       if (object.length > 0) {
@@ -343,6 +344,36 @@ export default function registerHandlebarsHelpers() {
     LOGGER.debug(`title is ${title}`);
     const substr = `[${SystemUtils.Localize("CPR.token")}]`;
     return title.includes(substr);
+  });
+
+  Handlebars.registerHelper("arrayConcat", (array1, array2) => {
+    LOGGER.trace("Calling arrayConcat Helper");
+    const array = array1.concat(array2);
+    return array;
+  });
+
+  Handlebars.registerHelper("getMookSkills", (array) => {
+    LOGGER.trace("Calling getMookSkills Helper");
+    const skillList = [];
+    array.forEach((skill) => {
+      if (skill.data.level > 0 || skill.data.skillmod > 0) {
+        skillList.push(skill);
+      }
+    });
+    return skillList;
+  });
+
+  Handlebars.registerHelper("getMookCyberware", (object) => {
+    LOGGER.trace("Calling getMookCyberware Helper");
+    const newList = [];
+    Object.entries(object).forEach(([k, v]) => {
+      if (object[k].length > 0) {
+        v.forEach((a) => {
+          newList.push(a);
+        });
+      }
+    });
+    return newList;
   });
 
   Handlebars.registerHelper("isDebug", () => {
