@@ -5,29 +5,28 @@
 export default class Migration {
   static async migrateWorld(oldDataModelVersion, newDataModelVersion) {
     ui.notifications.notify(`Beginning Migration of Cyberpunk Red Core from Data Model ${oldDataModelVersion} to ${newDataModelVersion}.`);
-    let totalCount = game.items.entities.length;
+    let totalCount = game.items.contents.length;
     let quarterCount = totalCount / 4;
     let loopIndex = 0;
     let displayPercent = 25;
 
     ui.notifications.notify(`Beginning migration of ${totalCount} Items.`);
-    for (const i of game.items.entities) {
+    for (const i of game.items.contents) {
       loopIndex += 1;
       if (loopIndex > quarterCount) {
         ui.notifications.notify(`Migration of Items ${displayPercent}% completed.`);
         displayPercent += 25;
         loopIndex = 0;
       }
-      await i.update(this.migrateItemData(i.data));
+      await i.update([this.migrateItemData(i.data)]);
     }
-
-    totalCount = game.actors.entities.length;
+    totalCount = game.actors.contents.length;
     quarterCount = totalCount / 4;
     displayPercent = 25;
     loopIndex = 0;
 
     ui.notifications.notify(`Beginning migration of ${totalCount} Actors.`);
-    for (const a of game.actors.entities) {
+    for (const a of game.actors.contents) {
       loopIndex += 1;
       if (loopIndex > quarterCount) {
         ui.notifications.notify(`Migration of Actors ${displayPercent}% completed.`);
@@ -37,7 +36,6 @@ export default class Migration {
 
       await this.migrateActorData(a);
     }
-
     totalCount = game.packs.size;
     loopIndex = 0;
 
@@ -46,17 +44,16 @@ export default class Migration {
       loopIndex += 1;
       ui.notifications.notify(`Migration of Pack ${loopIndex}/${totalCount} started.`);
       if (p.metadata.entity === "Item" && p.metadata.package === "world") {
-        p.getContent().then(async (items) => {
+        p.getDocuments().then(async (items) => {
           items.forEach(async (i) => {
-            await p.updateEntity(this.migrateItemData(i.data));
+            await i.update({ _id: i.id, data: this.migrateItemData(i.data) });
           });
         });
       }
-
       if (p.metadata.entity === "Actor" && p.metadata.package === "world") {
-        p.getContent().then(async (actors) => {
+        p.getDocuments().then(async (actors) => {
           actors.forEach(async (a) => {
-            p.updateEntity(await this.migrateActorData(a));
+            await a.update({ _id: a.id, data: await this.migrateActorData(a) });
           });
         });
       }
@@ -70,15 +67,10 @@ export default class Migration {
     const actorItems = actor.items;
     const updateItems = [];
     for (const i of actorItems) {
-      updateItems.push(this.migrateItemData(i.data));
+      updateItems.push({ _id: i.id, data: this.migrateItemData(i.data).data });
     }
 
-    // You can't updateEmbeddedEntity of a Compendium Entity since it is only data
-    if (actor.compendium === null) {
-      await actor.updateEmbeddedEntity("OwnedItem", updateItems);
-    } else {
-      actor.data.items = updateItems;
-    }
+    await actor.updateEmbeddedDocuments("Item", updateItems);
 
     if ((typeof actor.data.data.criticalInjuries) !== "undefined") {
       if (actor.data.data.criticalInjuries.length > 0) {
@@ -91,7 +83,6 @@ export default class Migration {
     // OLD item data! Oops!
 
     const actorData = actor.data;
-
     /*
     After version 0.53, we moved deathSave to 3 values to support the rules:
 
@@ -210,65 +201,67 @@ export default class Migration {
       }
     }
 
-    // Applies to both characters and mooks
-    if ((typeof actorData.data.derivedStats.deathSave) === "number") {
-      const oldDeathSave = actorData.data.derivedStats.deathSave;
-      let oldDeathPenalty = 0;
-      if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
-        oldDeathPenalty = actorData.data.derivedStats.deathSavePenlty;
+    if (actorData.type === "character" || actorData.type === "mook") {
+      // Applies to both characters and mooks
+      if ((typeof actorData.data.derivedStats.deathSave) === "number") {
+        const oldDeathSave = actorData.data.derivedStats.deathSave;
+        let oldDeathPenalty = 0;
+        if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
+          oldDeathPenalty = actorData.data.derivedStats.deathSavePenlty;
+        }
+        actorData.data.derivedStats.deathSave = { value: oldDeathSave, penalty: oldDeathPenalty, basePenalty: 0 };
       }
-      actorData.data.derivedStats.deathSave = { value: oldDeathSave, penalty: oldDeathPenalty, basePenalty: 0 };
-    }
 
-    if ((typeof actorData.data.roleInfo.activeRole) === "undefined") {
-      let configuredRole = "solo";
-      if (actorData.data.roleInfo.roles.length > 0) {
-        // eslint-disable-next-line prefer-destructuring
-        configuredRole = actorData.data.roleInfo.roles[0];
+      if ((typeof actorData.data.roleInfo.activeRole) === "undefined") {
+        let configuredRole = "solo";
+        if (actorData.data.roleInfo.roles.length > 0) {
+          // eslint-disable-next-line prefer-destructuring
+          configuredRole = actorData.data.roleInfo.roles[0];
+        }
+        actorData.data.roleInfo.activeRole = configuredRole;
       }
-      actorData.data.roleInfo.activeRole = configuredRole;
-    }
 
-    if ((typeof actorData.data.criticalInjuries) === "undefined") {
-      actorData.data.criticalInjuries = [];
-    }
+      if ((typeof actorData.data.criticalInjuries) === "undefined") {
+        actorData.data.criticalInjuries = [];
+      }
 
-    // Moved in 0.72
-    if ((typeof actorData.data.humanity) !== "undefined") {
-      actorData.data.derivedStats.humanity = actorData.data.humanity;
-    }
+      // Moved in 0.72
+      if ((typeof actorData.data.humanity) !== "undefined") {
+        actorData.data.derivedStats.humanity = actorData.data.humanity;
+      }
 
-    if ((typeof actorData.data.currentWoundState) !== "undefined") {
-      actorData.data.derivedStats.currentWoundState = actorData.data.currentWoundState;
-    }
+      if ((typeof actorData.data.currentWoundState) !== "undefined") {
+        actorData.data.derivedStats.currentWoundState = actorData.data.currentWoundState;
+      }
 
-    // Adds external data points to Actor (e.g. for Armor SP resource bars)
-    if ((typeof actorData.data.externalData) === "undefined") {
-      actorData.data.externalData = {
-        currentArmorBody: {
-          id: "",
-          value: 0,
-          max: 0,
-        },
+      // Adds external data points to Actor (e.g. for Armor SP resource bars)
+      if ((typeof actorData.data.externalData) === "undefined") {
+        actorData.data.externalData = {
+          currentArmorBody: {
+            id: "",
+            value: 0,
+            max: 0,
+          },
 
-        currentArmorHead: {
-          id: "",
-          value: 0,
-          max: 0,
-        },
+          currentArmorHead: {
+            id: "",
+            value: 0,
+            max: 0,
+          },
 
-        currentArmorShield: {
-          id: "",
-          value: 0,
-          max: 0,
-        },
+          currentArmorShield: {
+            id: "",
+            value: 0,
+            max: 0,
+          },
 
-        currentWeapon: {
-          id: "",
-          value: 0,
-          max: 0,
-        },
-      };
+          currentWeapon: {
+            id: "",
+            value: 0,
+            max: 0,
+          },
+        };
+      }
     }
 
     // Check the ActorData for properties no longer in use and add them
@@ -278,14 +271,15 @@ export default class Migration {
     // Update the actor with the new data model
     await actor.update(actorData, { diff: false, enforceTypes: false });
 
-    // This was added as part of 0.72.  We had one report of
-    // a scenario where the actors somehow lost their core Cyberware items
-    // so this ensures all actors have them.
-    const pack = game.packs.get("cyberpunk-red-core.cyberware");
-    // put into basickSkills array
-    const content = await pack.getContent();
-    await this.validateCoreContent(actor, content);
-
+    if (actor.type === "character" || actor.type === "mook") {
+      // This was added as part of 0.72.  We had one report of
+      // a scenario where the actors somehow lost their core Cyberware items
+      // so this ensures all actors have them.
+      const pack = game.packs.get("cyberpunk-red-core.cyberware");
+      // put into basickSkills array
+      const content = await pack.getDocuments();
+      await this.validateCoreContent(actor, content);
+    }
     // Remove any unused properties if needed
     if (scrubData !== {}) {
       await actor.update(scrubData);
@@ -294,8 +288,14 @@ export default class Migration {
   }
 
   static async validateCoreContent(actor, content) {
-    // Get what cyberware is installed
-    const installedCyberware = actor.getInstalledCyberware();
+    let installedCyberware;
+    if (actor.pack) {
+      // if an actor is inside a compendium there are no filterd items for that actor
+      installedCyberware = actor.items.filter((i) => i.type === "cyberware" && i.data.data.isInstalled === true);
+    } else {
+      // Get what cyberware is installed
+      installedCyberware = actor.getInstalledCyberware();
+    }
     // Remove any installed items from the core content since the actor has those items
     installedCyberware.forEach((c) => {
       content = content.filter((cw) => cw.name !== c.name);
@@ -304,7 +304,7 @@ export default class Migration {
     // Loop through and add the items the actor is missing
     content.forEach(async (c) => {
       const itemData = [c.data];
-      await actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+      await actor.createEmbeddedDocuments("Item", [{ data: itemData }]);
     });
   }
 
@@ -337,9 +337,9 @@ export default class Migration {
           deathSaveIncrease: hasPenalty,
         },
       };
-      injuryItems.push(itemData);
+      injuryItems.push({ _id: injury.id, data: itemData });
     });
-    return actor.createEmbeddedEntity("OwnedItem", injuryItems, { force: true });
+    return actor.createEmbeddedDocuments("Item", injuryItems, { force: true });
   }
 
   // The following is code that is used to remove data points on the actor model that
@@ -374,21 +374,23 @@ export default class Migration {
         scrubData["data.-=hp"] = null;
       }
     }
-    // Remove unused data points from an actor (character & mooks)
-    if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
-      scrubData["data.derivedStats.-=deathSavePenlty"] = null;
-    }
-    // Moved to derivedStats in 0.72
-    if ((typeof actorData.data.woundState) !== "undefined") {
-      scrubData["data.-=woundState"] = null;
-    }
-    // Moved to derivedStats in 0.72
-    if ((typeof actorData.data.humanity) !== "undefined") {
-      scrubData["data.-=humanity"] = null;
-    }
-    // Moved to items in 0.72
-    if ((typeof actorData.data.criticalInjuries) !== "undefined") {
-      scrubData["data.-=criticalInjuries"] = null;
+    if (actorData.type === "character" || actorData.type === "mook") {
+      // Remove unused data points from an actor (character & mooks)
+      if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
+        scrubData["data.derivedStats.-=deathSavePenlty"] = null;
+      }
+      // Moved to derivedStats in 0.72
+      if ((typeof actorData.data.woundState) !== "undefined") {
+        scrubData["data.-=woundState"] = null;
+      }
+      // Moved to derivedStats in 0.72
+      if ((typeof actorData.data.humanity) !== "undefined") {
+        scrubData["data.-=humanity"] = null;
+      }
+      // Moved to items in 0.72
+      if ((typeof actorData.data.criticalInjuries) !== "undefined") {
+        scrubData["data.-=criticalInjuries"] = null;
+      }
     }
     return scrubData;
   }

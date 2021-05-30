@@ -45,7 +45,9 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("getData | CPRActorSheet | Called.");
     const data = super.getData();
     data.filteredItems = this.actor.filteredItems;
-    data.installedCyberware = this._getSortedInstalledCyberware();
+    if (this.actor.data.type === "mook" || this.actor.data.type === "character") {
+      data.installedCyberware = this._getSortedInstalledCyberware();
+    }
     return data;
   }
 
@@ -215,9 +217,9 @@ export default class CPRActorSheet extends ActorSheet {
 
     // output to chat
     const token = this.token === null ? null : this.token.data._id;
-    cprRoll.entityData = { actor: this.actor._id, token };
+    cprRoll.entityData = { actor: this.actor.id, token };
     if (item) {
-      cprRoll.entityData.item = item._id;
+      cprRoll.entityData.item = item.id;
     }
     CPRChat.RenderRollCard(cprRoll);
 
@@ -269,6 +271,7 @@ export default class CPRActorSheet extends ActorSheet {
   /**
    * Callback for ablating armor
    *
+   * @async
    * @private
    * @callback
    * @param {Object} event - object with details of the event
@@ -286,12 +289,12 @@ export default class CPRActorSheet extends ActorSheet {
           armorData.data.headLocation.ablation = Math.min(
             (a.getData().headLocation.ablation + 1), a.getData().headLocation.sp,
           );
-          updateList.push(armorData);
+          updateList.push({ _id: a.id, data: armorData.data });
         });
-        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        await this.actor.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as head armor is ablated:
         currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorHead.value - 1), 0);
-        this.actor.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
+        await this.actor.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
         break;
       }
       case "body": {
@@ -300,24 +303,24 @@ export default class CPRActorSheet extends ActorSheet {
           armorData.data.bodyLocation.ablation = Math.min(
             (a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp,
           );
-          updateList.push(armorData);
+          updateList.push({ _id: a.id, data: armorData.data });
         });
-        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        await this.actor.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as body armor is ablated:
         currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorBody.value - 1), 0);
-        this.actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
+        await this.actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
         break;
       }
       case "shield": {
         armorList.forEach((a) => {
           const armorData = a.data;
           armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - 1), 0);
-          updateList.push(armorData);
+          updateList.push({ _id: a.id, data: armorData.data });
         });
-        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        await this.actor.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as shield is damaged:
         currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorShield.value - 1), 0);
-        this.actor.update({ "data.externalData.currentArmorShield.value": currentArmorValue });
+        await this.actor.update({ "data.externalData.currentArmorShield.value": currentArmorValue });
         break;
       }
       default:
@@ -330,22 +333,23 @@ export default class CPRActorSheet extends ActorSheet {
    *  Weapon: Load, Unload
    *  Armor: Ablate, Repair
    *
+   * @async
    * @private
    * @callback
    * @param {event} event - object capturing event data (what was clicked and where?)
    */
-  _itemAction(event) {
+  async _itemAction(event) {
     LOGGER.trace("_itemAction | CPRActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const actionType = $(event.currentTarget).attr("data-action-type");
     if (item) {
       switch (actionType) {
         case "delete": {
-          this._deleteOwnedItem(item);
+          await this._deleteOwnedItem(item);
           break;
         }
         case "create": {
-          this._createInventoryItem($(event.currentTarget).attr("data-item-type"));
+          await this._createInventoryItem($(event.currentTarget).attr("data-item-type"));
           break;
         }
         case "ablate-armor": {
@@ -360,7 +364,7 @@ export default class CPRActorSheet extends ActorSheet {
           item.doAction(this.actor, event.currentTarget.attributes);
         }
       }
-      this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
     }
   }
 
@@ -385,11 +389,11 @@ export default class CPRActorSheet extends ActorSheet {
    *
    * @private
    * @param {Item} item - the updated object to replace in-line
-   * @returns - the updated object (entity) or array of entities
+   * @returns - the updated object (document) or array of entities
    */
   _updateOwnedItem(item) {
     LOGGER.trace("_updateOwnedItem | CPRActorSheet | Called.");
-    return this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+    return this.actor.updateEmbeddedDocuments("OwnedItem", item.data);
   }
 
   /**
@@ -480,6 +484,7 @@ export default class CPRActorSheet extends ActorSheet {
    * Delete an Item owned by the actor.
    *
    * @private
+   * @async
    * @param {Item} item - the item to be deleted
    * @param {Boolean} skipConfirm - bypass rendering the confirmation dialog box
    * @returns {null}
@@ -505,7 +510,7 @@ export default class CPRActorSheet extends ActorSheet {
       weapons.forEach((weapon) => {
         const weaponData = weapon.data.data;
         if (weaponData.isRanged) {
-          if (weaponData.magazine.ammoId === item._id) {
+          if (weaponData.magazine.ammoId === item.id) {
             const warningMessage = `${game.i18n.localize("CPR.ammodeletewarning")}: ${weapon.name}`;
             SystemUtils.DisplayMessage("warn", warningMessage);
             ammoIsLoaded = true;
@@ -516,7 +521,7 @@ export default class CPRActorSheet extends ActorSheet {
         return;
       }
     }
-    await this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
+    await this.actor.deleteEmbeddedDocuments("Item", [item.id]);
   }
 
   /**
@@ -550,7 +555,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @private
    * @param {Object} event - object capturing event data (what was clicked and where?)
    */
-  _createInventoryItem(event) {
+  async _createInventoryItem(event) {
     LOGGER.trace("_createInventoryItem | CPRActorSheet | Called.");
     const setting = true;
     if (setting) {
@@ -563,9 +568,9 @@ export default class CPRActorSheet extends ActorSheet {
         name: itemName,
         type: itemType,
         // eslint-disable-next-line no-undef
-        data: duplicate(itemType),
+        // data: duplicate(itemType),
       };
-      this.actor.createEmbeddedEntity("OwnedItem", itemData);
+      await this.actor.createEmbeddedDocuments("Item", [itemData]);
     }
   }
 
@@ -602,6 +607,7 @@ export default class CPRActorSheet extends ActorSheet {
   /**
    * Roll a critical injury. This is the top-level event handler for the sheet.
    *
+   * @async
    * @callback
    * @private
    */
@@ -678,14 +684,18 @@ export default class CPRActorSheet extends ActorSheet {
             return;
           }
           const itemData = duplicate(crit.data);
-          const result = await this.actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+          const result = await this.actor.createEmbeddedDocuments("Item", [itemData]);
           const cprRoll = new CPRRolls.CPRTableRoll(
             crit.data.name, res.roll, "systems/cyberpunk-red-core/templates/chat/cpr-critical-injury-rollcard.hbs",
           );
           cprRoll.rollCardExtraArgs.tableName = tableName;
-          cprRoll.rollCardExtraArgs.itemName = result.name;
-          cprRoll.rollCardExtraArgs.itemImg = result.img;
-          cprRoll.entityData = { actor: this.actor._id, token: this.token.id, item: result._id };
+          cprRoll.rollCardExtraArgs.itemName = result[0].name;
+          cprRoll.rollCardExtraArgs.itemImg = result[0].img;
+          if (this.token) {
+            cprRoll.entityData = { actor: this.actor.id, token: this.token.id, item: result[0].id };
+          } else {
+            cprRoll.entityData = { actor: this.actor.id, item: result[0].id };
+          }
           CPRChat.RenderRollCard(cprRoll);
         }
       });
@@ -700,7 +710,7 @@ export default class CPRActorSheet extends ActorSheet {
   _automaticResize() {
     LOGGER.trace("ActorSheet | _automaticResize | Called.");
     const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
-    if (setting && this.rendered) {
+    if (setting && this.rendered && !this._minimized) {
       // It seems that the size of the content does not change immediately upon updating the content
       setTimeout(() => {
         // Make sheet small, so this.form.offsetHeight does not include whitespace
@@ -860,10 +870,10 @@ export default class CPRActorSheet extends ActorSheet {
   _onDragItemStart(event) {
     LOGGER.trace("_onDragItemStart | CPRActorSheet | called.");
     const itemId = event.currentTarget.getAttribute("data-item-id");
-    const item = this.actor.getEmbeddedEntity("OwnedItem", itemId);
+    const item = this.actor.getEmbeddedDocument("Item", itemId);
     event.dataTransfer.setData("text/plain", JSON.stringify({
       type: "Item",
-      actorId: this.actor._id,
+      actorId: this.actor.id,
       data: item,
       root: event.currentTarget.getAttribute("root"),
     }));
@@ -885,14 +895,14 @@ export default class CPRActorSheet extends ActorSheet {
     const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
     if (dragData.actorId !== undefined) {
       // Transfer ownership from one player to another
-      const actor = game.actors.find((a) => a._id === dragData.actorId);
+      const actor = game.actors.find((a) => a.id === dragData.actorId);
       if (actor) {
         if (actor.data._id === this.actor.data._id
           || dragData.data.data.core === true
           || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
           return;
         }
-        super._onDrop(event).then(actor.deleteEmbeddedEntity("OwnedItem", dragData.data._id));
+        super._onDrop(event).then(actor.deleteEmbeddedDocuments("Item", [dragData.data._id]));
       }
     } else {
       super._onDrop(event);

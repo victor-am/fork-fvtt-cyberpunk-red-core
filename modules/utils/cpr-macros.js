@@ -53,7 +53,7 @@ export default class CPRMacro {
     cprRoll = await item.confirmRoll(cprRoll);
     await cprRoll.roll();
     cprRoll.entityData = speaker;
-    cprRoll.entityData.item = item._id;
+    cprRoll.entityData.item = item.id;
 
     CPRChat.RenderRollCard(cprRoll);
 

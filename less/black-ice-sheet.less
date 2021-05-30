@@ -19,14 +19,14 @@
             "bice-head"
             "bice-value";
 
-        .bice-top { 
+        .bice-top {
             grid-area: bice-top;
             align-self: center;
         }
-        .bice-head { 
+        .bice-head {
             grid-area: bice-head;
         }
-        .bice-value { 
+        .bice-value {
             grid-area: bice-value;
         }
     }
@@ -50,5 +50,20 @@
             display: block;
             grid-area: bice-effects;
         }
+    }
+
+    .bice-label-corner-both {
+      clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%, 0 10px);
+      height:11px;
+    }
+
+    .bice-label-corner-left {
+      clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+      height:11px;
+    }
+
+    .bice-label-corner-right {
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+      height:11px;
     }
 }

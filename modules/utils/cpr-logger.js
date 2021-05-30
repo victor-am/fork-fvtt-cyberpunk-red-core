@@ -8,6 +8,9 @@ export default class LOGGER {
   static debug(msg) {
     if (game.settings.get("cyberpunk-red-core", "debugLogs")) {
       console.debug(`CPR DBG | ${msg}`);
+      if (typeof msg === "object" && msg !== null) {
+        console.log(msg);
+      }
     }
   }
 
@@ -39,7 +42,7 @@ export default class LOGGER {
    /-------\\/      /-------\\/      /-------\\/      /-------\\/
   / |     ||       / |     ||       / |     ||       / |     ||
  *  ||----||      *  ||W---||      *  ||w---||      *  ||V---||
-    ^^    ^^ 
+    ^^    ^^
     `);
   }
 }

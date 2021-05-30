@@ -1,7 +1,7 @@
 {{trace "CPR-ROLE.HBS"}}
 <div class="role-tab">
     <div class="role-content">
-        {{#each data.roleInfo.roles as |role|}}
+        {{#each data.data.roleInfo.roles as |role|}}
         <ol class="items-list role-list">
             <div class="collapsible">
                 <li class="items-header flexrow collapsible">
@@ -13,7 +13,7 @@
                     <span class="item-detail role-rank bg-black text-nowrap text-right">{{localize "CPR.rank"}}</span>
                 </li>
                 <ol class="items-list">
-                    {{#each (getProp ../this.data.roleInfo.roleskills role) as |roleValue roleAbility|}}
+                    {{#each (getProp ../this.data.data.roleInfo.roleskills role) as |roleValue roleAbility|}}
                     {{#if (compare roleAbility "!==" "subSkills")}}
                     <li class="item flexrow" draggable="true">
                         <div class="item-name role-name flexrow  text-nowrap">

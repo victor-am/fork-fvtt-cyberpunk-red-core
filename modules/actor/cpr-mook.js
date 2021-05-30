@@ -13,7 +13,10 @@ export default class CPRMookActor extends CPRActor {
     if (typeof data.data === "undefined") {
       LOGGER.trace("create | New Actor | CPRMookActor | called.");
       createData.items = [];
-      createData.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
+      const tmpItems = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
+      tmpItems.forEach((item) => {
+        createData.items.push(item.data);
+      });
       createData.token = {
         vision: true,
         bar1: { attribute: "derivedStats.hp" },
@@ -67,35 +70,5 @@ export default class CPRMookActor extends CPRActor {
     derivedStats.deathSave.basePenalty = basePenalty;
     derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
     this.data.data.derivedStats = derivedStats;
-  }
-
-  handleMookDraggedItem(item) {
-    // called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
-    // handles the automatic equipping of gear and installation of cyberware
-    LOGGER.trace("_handleMookDraggedItem | CPRActor | Called.");
-    LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
-    LOGGER.debugObject(item);
-    const newItem = item;
-    switch (item.type) {
-      case "clothing":
-      case "weapon":
-      case "gear":
-      case "program":
-      case "armor": {
-        if (newItem.data.data) {
-          newItem.data.data.equipped = "equipped";
-          this.updateEmbeddedEntity("OwnedItem", newItem.data);
-        } else {
-          newItem.data.equipped = "equipped";
-          this.updateEmbeddedEntity("OwnedItem", newItem);
-        }
-        break;
-      }
-      case "cyberware": {
-        this.addCyberware(item._id);
-        break;
-      }
-      default:
-    }
   }
 }

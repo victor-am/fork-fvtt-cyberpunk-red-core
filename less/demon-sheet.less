@@ -19,14 +19,14 @@
             "demon-head"
             "demon-value";
 
-        .demon-top { 
+        .demon-top {
             grid-area: demon-top;
             align-self: center;
         }
-        .demon-head { 
+        .demon-head {
             grid-area: demon-head;
         }
-        .demon-value { 
+        .demon-value {
             grid-area: demon-value;
         }
     }
@@ -60,5 +60,20 @@
         flex: 1 0 auto;
         background-color: @chrome-white;
         flex-wrap: wrap;
+    }
+
+    .demon-label-corner-both {
+      clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%, 0 10px);
+      height:12px;
+    }
+
+    .demon-label-corner-left {
+      clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+      height:12px;
+    }
+
+    .demon-label-corner-right {
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+      height:12px;
     }
 }

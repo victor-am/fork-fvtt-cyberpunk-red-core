@@ -5,6 +5,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 import CPRMookActorSheet from "../actor/sheet/cpr-mook-sheet.js";
 
 const tokenHooks = () => {
+  /* // Not needed anymore as with an unlinked token preUpdateActor is also called now.
   Hooks.on("preUpdateToken", (scene, token, updatedData) => {
     LOGGER.trace("preUpdateToken | tokenHooks | Called.");
     if (updatedData.actorData && updatedData.actorData.items) {
@@ -51,7 +52,7 @@ const tokenHooks = () => {
                         }
                         updateList.push(armorData);
                       });
-                      actor.updateEmbeddedEntity("OwnedItem", updateList);
+                      actor.updateEmbeddedDocuments("Item", updateList);
                     }
                     if (itemType === "currentArmorHead") {
                       const armorList = actor.getEquippedArmors("head");
@@ -67,11 +68,11 @@ const tokenHooks = () => {
                         }
                         updateList.push(armorData);
                       });
-                      actor.updateEmbeddedEntity("OwnedItem", updateList);
+                      actor.updateEmbeddedDocuments("Item", updateList);
                     }
                     if (itemType === "currentArmorShield") {
                       item.data.data.shieldHitPoints.value = currentValue;
-                      actor.updateEmbeddedEntity("OwnedItem", item.data);
+                      actor.updateEmbeddedDocuments("Item", item.data);
                     }
                     break;
                   }
@@ -84,12 +85,12 @@ const tokenHooks = () => {
       );
     }
     return true;
-  });
+  }); */
 
   // this hook auto-installs cyberware or equips gear when dragging to a mook sheet
   // that belongs to an unlinked token
   // Moo Man claims this can go away with 0.8 because hooks will be more consistent for unlinked tokens
-  Hooks.on("updateToken", (scene, tokenData, updateData, diff, userId) => {
+  /* Hooks.on("updateToken", (scene, tokenData, updateData, diff, userId) => {
     LOGGER.trace("updateToken | tokenHooks | Called.");
     LOGGER.debugObject(tokenData);
     LOGGER.debugObject(updateData);
@@ -105,15 +106,15 @@ const tokenHooks = () => {
           // this seems like a dangerous assumption... is the new item is always at the end of the array?
           const handledItem = tokenActor.getFlag("cyberpunk-red-core", "handled-item");
           const newItem = updateData.actorData.items[updateData.actorData.items.length - 1];
-          if (handledItem !== newItem._id) {
+          if (handledItem !== newItem.id) {
             // calling this fires updateToken a second time, so we use a flag to handle that
             tokenActor.handleMookDraggedItem(newItem);
-            tokenActor.setFlag("cyberpunk-red-core", "handled-item", newItem._id);
+            tokenActor.setFlag("cyberpunk-red-core", "handled-item", newItem.id);
           }
         }
       }
     }
-  });
+  }); */
 };
 
 export default tokenHooks;

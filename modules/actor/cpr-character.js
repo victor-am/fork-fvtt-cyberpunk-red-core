@@ -14,7 +14,10 @@ export default class CPRCharacterActor extends CPRActor {
     if (typeof data.data === "undefined") {
       LOGGER.trace("create | New Actor | CPRCharacterActor | called.");
       createData.items = [];
-      createData.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
+      const tmpItems = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
+      tmpItems.forEach((item) => {
+        createData.items.push(item.data);
+      });
       createData.token = {
         actorLink: true,
         disposition: 1,
