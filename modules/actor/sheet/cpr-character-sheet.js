@@ -93,11 +93,13 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     html.find(".eurobucks-input").click((event) => event.target.select()).change(
       (event) => this._updateEurobucks(event),
     );
+
+    super.activateListeners(html);
   }
 
   _cycleEquipState(event) {
     LOGGER.trace("ActorID _cycleEquipState | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
+    const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const prop = CPRActorSheet._getObjProp(event);
     switch (item.data.data.equipped) {
       case "owned": {
@@ -125,7 +127,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
   _repairArmor(event) {
     LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
+    const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const currentArmorBodyValue = item.data.data.bodyLocation.sp;
     const currentArmorHeadValue = item.data.data.headLocation.sp;
     const currentArmorShieldValue = item.data.data.shieldHitPoints.max;
@@ -134,17 +136,17 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.shieldHitPoints.value", item.data.data.shieldHitPoints.max);
     // Update actor external data when armor is repaired:
-    if (this._getItemId(event) === this.actor.data.data.externalData.currentArmorBody.id) {
+    if (CPRActorSheet._getItemId(event) === this.actor.data.data.externalData.currentArmorBody.id) {
       this.actor.update({
         "data.externalData.currentArmorBody.value": currentArmorBodyValue,
       });
     }
-    if (this._getItemId(event) === this.actor.data.data.externalData.currentArmorHead.id) {
+    if (CPRActorSheet._getItemId(event) === this.actor.data.data.externalData.currentArmorHead.id) {
       this.actor.update({
         "data.externalData.currentArmorHead.value": currentArmorHeadValue,
       });
     }
-    if (this._getItemId(event) === this.actor.data.data.externalData.currentArmorShield.id) {
+    if (CPRActorSheet._getItemId(event) === this.actor.data.data.externalData.currentArmorShield.id) {
       this.actor.update({
         "data.externalData.currentArmorShield.value": currentArmorShieldValue,
       });
@@ -160,7 +162,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
   async _installRemoveCyberwareAction(event) {
     LOGGER.trace("ActorID _installCyberware | CPRActorSheet | Called.");
-    const itemId = this._getItemId(event);
+    const itemId = CPRActorSheet._getItemId(event);
     const item = this._getOwnedItem(itemId);
     if (item.getData().isInstalled) {
       const foundationalId = $(event.currentTarget).parents(".item").attr("data-foundational-id");
@@ -247,7 +249,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
   _updateSkill(event) {
     LOGGER.trace("ActorID _updateSkill | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
+    const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "data.level") {
       item.setSkillLevel(parseInt(event.target.value, 10));
@@ -260,7 +262,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
   _updateWeaponAmmo(event) {
     LOGGER.trace("ActorID _updateCurrentWeaponAmmo | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
+    const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "data.magazine.value") {
       if (!Number.isNaN(parseInt(event.target.value, 10))) {
@@ -274,7 +276,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
   _updateAmount(event) {
     LOGGER.trace("ActorID _updateAmount | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
+    const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "item.data.amount") {
       if (!Number.isNaN(parseInt(event.target.value, 10))) {

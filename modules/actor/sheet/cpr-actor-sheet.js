@@ -393,7 +393,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   _updateOwnedItem(item) {
     LOGGER.trace("_updateOwnedItem | CPRActorSheet | Called.");
-    return this.actor.updateEmbeddedDocuments("OwnedItem", item.data);
+    return this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
   }
 
   /**

@@ -1,6 +1,7 @@
 /* global Hooks game */
 import LOGGER from "../utils/cpr-logger.js";
 import Rules from "../utils/cpr-rules.js";
+import CPRCharacterActorSheet from "../actor/sheet/cpr-character-sheet.js";
 import CPRMookActorSheet from "../actor/sheet/cpr-mook-sheet.js";
 
 const actorHooks = () => {
@@ -12,9 +13,10 @@ const actorHooks = () => {
   });
 
   // Updates the armor item when external data for armor is updated from the tokenHUD.
-  Hooks.on("preUpdateActor", (actor, updatedData) => {
+  Hooks.on("preUpdateActor", (actor, updatedData, options, userId) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
-    if (actor.data.type !== "blackIce") {
+    const isCSheet = Object.values(actor.apps).some((app) => app instanceof CPRCharacterActorSheet);
+    if (isCSheet && userId === game.user.data._id && actor.type === "character") {
       Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.invalidroledata");
     }
 
@@ -35,7 +37,9 @@ const actorHooks = () => {
                     armorList.forEach((a) => {
                       const armorData = a.data;
                       if (diff > 0) {
-                        armorData.data.bodyLocation.ablation = Math.min(armorData.data.bodyLocation.ablation + diff, armorData.data.bodyLocation.sp);
+                        armorData.data.bodyLocation.ablation = Math.min(
+                          armorData.data.bodyLocation.ablation + diff, armorData.data.bodyLocation.sp,
+                        );
                       }
                       if (diff < 0 && item.data._id === a.data._id) {
                         armorData.data.bodyLocation.ablation = Math.max(armorData.data.bodyLocation.ablation + diff, 0);
@@ -51,7 +55,9 @@ const actorHooks = () => {
                     armorList.forEach((a) => {
                       const armorData = a.data;
                       if (diff > 0) {
-                        armorData.data.headLocation.ablation = Math.min(armorData.data.headLocation.ablation + diff, armorData.data.headLocation.sp);
+                        armorData.data.headLocation.ablation = Math.min(
+                          armorData.data.headLocation.ablation + diff, armorData.data.headLocation.sp,
+                        );
                       }
                       if (diff < 0 && item.data._id === a.data._id) {
                         armorData.data.headLocation.ablation = Math.max(armorData.data.headLocation.ablation + diff, 0);
