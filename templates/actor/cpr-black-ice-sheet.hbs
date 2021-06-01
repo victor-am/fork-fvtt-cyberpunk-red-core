@@ -1,0 +1,82 @@
+{{trace "CPR-BLACK-ICE-SHEET.HBS"}}
+<form>
+  {{#if (isDebug)}}
+    actor ID: {{actor.id}}
+  {{/if}}
+  <div class="bice-sheet">
+    <div class="bice-stats bg-red fg-white text-normal">
+      <div class="bice-top flexrow bg-white">
+        <div class="flexrow width-long bice-label-corner-right bg-red"></div>
+        <div class="flexrow width-long bice-label-corner-both bg-red"></div>
+        {{#each (findConfigObj "blackIceStatList")}}
+          <div class="flexrow bice-label-corner-both bg-red"></div>
+        {{/each}}
+        <div class="flexrow bice-label-corner-left bg-red"></div>
+      </div>
+      <div class="bice-head flexrow text-center block-label">
+        <div class="width-long">{{localize "CPR.name"}}</div>
+        <div class="width-long">{{localize "CPR.class"}}</div>
+        {{#each (findConfigObj "blackIceStatList") as |stat s|}}
+          <div>
+            {{#unless (compare s "===" "rez")}}
+              <a class="rollable" data-roll-title="{{s}}" title="{{localize "CPR.clicktorollthisstat"}}">
+            {{/unless}}
+            {{localize stat}}
+            {{#unless (compare s "===" "rez")}}
+              </a>
+            {{/unless}}
+          </div>
+        {{/each}}
+        <div>
+          {{localize "CPR.cost"}}
+        </div>
+      </div>
+      <div class="bice-val flexrow pad-thin">
+        <div class="block-data width-long bg-white fg-black">
+          <input name="name" type="text" value="{{actor.name}}"/>
+        </div>
+        <div class="width-long width-full">
+          <select name="data.class">
+            {{#select data.data.class}}
+              {{#each (findConfigObj "blackIceType") as |class c|}}
+                <option value="{{c}}">{{localize class}}</option>
+              {{/each}}
+            {{/select}}
+          </select>
+        </div>
+        {{#each data.data.stats as |stat s|}}
+          {{#if (compare s "===" "rez")}}
+            <div class="min-of-max-container">
+              <input class="text-center" name="data.stats.rez.value" type="number" value="{{this.value}}" />
+              <div class="of bg-red fg-white text-normal text-bold">of</div>
+              <input class="text-center" name="data.stats.rez.max" type="number" value="{{this.max}}" />
+            </div>
+          {{else}}
+            <div class="block-data text-large">
+              <input name="data.stats.{{s}}" type="number" value="{{this}}"/>
+            </div>
+          {{/if}}
+        {{/each}}
+        <div class="block-data text-large">
+          <input name="data.cost" type="number" value="{{data.data.cost}}"/>
+        </div>
+      </div>
+    </div>
+    <div class="bice-details bg-red pad-thin">
+      <div class="bice-icon">
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}"/>
+      </div>
+      <div class="bice-effects">
+        <div class="flexrow bg-red pad-thin text-padding-left">
+          <span class="fg-white text-center text-vert-center">{{localize "CPR.effects"}}:</span>
+          <input class="bg-white fg-black width-longer" name="data.effect" type="text" value="{{data.data.effect}}"/>
+        </div>
+        <div class="flexrow bg-red pad-thin text-padding-left">
+          <span class="fg-white text-center text-vert-center">{{localize "CPR.notes"}}:</span>
+          <input class="bg-white fg-black width-longer" name="data.notes" type="text" value="{{data.data.notes}}"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{{trace "END CPR-BLACK-ICE-SHEET.HBS"}}

@@ -110,7 +110,7 @@ export default class CPRItem extends Item {
 
     // If the actor, is updating his owned item, this logic should live within the actor.
     if (this.actor) {
-      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
   }
 
@@ -132,7 +132,7 @@ export default class CPRItem extends Item {
   async setCompatibleAmmo(ammoList) {
     this.data.data.ammoVariety = ammoList;
     if (this.actor) {
-      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
     return this.update({ "data.ammoVariety": ammoList });
   }
@@ -144,7 +144,7 @@ export default class CPRItem extends Item {
     const newValue = Math.max(0, Number(currentValue) - Number(changeAmount));
     this.data.data.amount = newValue;
     if (this.actor) {
-      return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
   }
 
@@ -154,7 +154,7 @@ export default class CPRItem extends Item {
     const newValue = Number(currentValue) + Number(changeAmount);
     this.data.data.amount = newValue;
     if (this.actor) {
-      return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
   }
 
@@ -182,7 +182,7 @@ export default class CPRItem extends Item {
       default:
     }
     if (this.actor) {
-      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
   }
 
@@ -212,7 +212,7 @@ export default class CPRItem extends Item {
       }
       this.data.data.magazine.value = 0;
       this.data.data.magazine.ammoId = "";
-      return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
   }
 
@@ -289,7 +289,7 @@ export default class CPRItem extends Item {
         }
         loadUpdate.push({ _id: this.data._id, "data.magazine": magazineData });
       }
-      this.actor.updateEmbeddedEntity("OwnedItem", loadUpdate);
+      this.actor.updateEmbeddedDocuments("Item", loadUpdate);
     }
   }
 
@@ -334,7 +334,7 @@ export default class CPRItem extends Item {
     const discharged = CPRItem.bulletConsumption(cprRoll);
     // don't go negative
     this.data.data.magazine.value = Math.max(this.data.data.magazine.value - discharged, 0);
-    return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+    return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
   }
 
   _getLoadedAmmoType() {
@@ -349,7 +349,7 @@ export default class CPRItem extends Item {
   }
 
   toggleFavorite() {
-    this.data.data.favorite = !this.data.data.favorite;
+    this.update({ "data.favorite": !this.data.data.favorite });
   }
 
   createRoll(type, actor, extraData = []) {

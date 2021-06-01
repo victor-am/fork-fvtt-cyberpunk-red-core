@@ -534,6 +534,123 @@ button,
 .amount-input-wrap .width-element {
   visibility: hidden;
 }
+.bice-sheet {
+  font-family: "Audimat Mono";
+  background-color: #eaeaeaff;
+  display: grid;
+  min-width: 730px;
+  grid-template-rows: auto;
+  grid-template-areas: "bice-stats" "bice-details";
+}
+.bice-sheet .bice-stats {
+  display: grid;
+  grid-area: bice-stats;
+  grid-template-rows: 10px 20px;
+  grid-template-areas: "bice-top" "bice-head" "bice-value";
+}
+.bice-sheet .bice-stats .bice-top {
+  grid-area: bice-top;
+  align-self: center;
+}
+.bice-sheet .bice-stats .bice-head {
+  grid-area: bice-head;
+}
+.bice-sheet .bice-stats .bice-value {
+  grid-area: bice-value;
+}
+.bice-sheet .bice-details {
+  display: grid;
+  grid-area: bice-details;
+  grid-template-columns: 72px 1fr;
+  grid-template-areas: "bice-icon bice-effects";
+}
+.bice-sheet .bice-details .bice-icon {
+  gap: 5px;
+  height: 72px;
+  width: 72px;
+  display: block;
+  grid-area: bice-icon;
+}
+.bice-sheet .bice-details .bice-effects {
+  gap: 5px;
+  display: block;
+  grid-area: bice-effects;
+}
+.bice-sheet .bice-label-corner-both {
+  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%, 0 10px);
+  height: 11px;
+}
+.bice-sheet .bice-label-corner-left {
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+  height: 11px;
+}
+.bice-sheet .bice-label-corner-right {
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  height: 11px;
+}
+.demon-sheet {
+  font-family: "Audimat Mono";
+  background-color: #eaeaeaff;
+  display: grid;
+  min-width: 615px;
+  grid-template-rows: auto;
+  grid-template-areas: "demon-stats" "demon-details";
+}
+.demon-sheet .demon-stats {
+  display: grid;
+  grid-area: demon-stats;
+  grid-template-rows: 10px 20px;
+  grid-template-areas: "demon-top" "demon-head" "demon-value";
+}
+.demon-sheet .demon-stats .demon-top {
+  grid-area: demon-top;
+  align-self: center;
+}
+.demon-sheet .demon-stats .demon-head {
+  grid-area: demon-head;
+}
+.demon-sheet .demon-stats .demon-value {
+  grid-area: demon-value;
+}
+.demon-sheet .demon-details {
+  display: grid;
+  grid-area: demon-details;
+  grid-template-columns: 72px 1fr;
+  grid-template-areas: "demon-icon demon-notes";
+}
+.demon-sheet .demon-details .demon-icon {
+  gap: 5px;
+  padding-top: 5px;
+  height: 72px;
+  width: 72px;
+  display: block;
+  grid-area: demon-icon;
+}
+.demon-sheet .demon-details .demon-notes {
+  gap: 5px;
+  grid-area: demon-notes;
+}
+.demon-sheet .demon-edit-section {
+  min-height: 72px;
+  min-width: 135px;
+  height: unset;
+  display: flex;
+  flex: 1 0 auto;
+  background-color: #eaeaeaff;
+  flex-wrap: wrap;
+}
+.demon-sheet .demon-label-corner-both {
+  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%, 0 10px);
+  height: 12px;
+}
+.demon-sheet .demon-label-corner-left {
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+  height: 12px;
+}
+.demon-sheet .demon-label-corner-right {
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  height: 12px;
+}
 .item-sheet {
   font-family: "Audimat Mono";
   background-color: #eaeaeaff;
@@ -729,6 +846,9 @@ button,
 .text-rotate {
   transform: rotate(-90deg);
 }
+.text-vert-center {
+  align-self: center;
+}
 .min-of-max-container {
   display: flex;
 }
@@ -803,6 +923,12 @@ button,
 }
 .width-auto-basis {
   flex-basis: auto;
+}
+.width-long {
+  flex-basis: 5%;
+}
+.width-longer {
+  flex-basis: 70%;
 }
 .width-fit {
   width: fit-content;
@@ -948,7 +1074,7 @@ button,
   gap: 5px;
   grid-template-rows: auto;
   grid-area: mook-details;
-  grid-template-areas: "mook-img-and-stats" "mook-gear" "mook-skills" "mook-special" "mook-crit" "mook-notes";
+  grid-template-areas: "mook-img-and-stats" "mook-gear" "mook-skills" "mook-special" "mook-program" "mook-crit" "mook-notes";
 }
 .mook-sheet .mook-img-and-stats {
   display: grid;

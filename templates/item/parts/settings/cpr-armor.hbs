@@ -17,8 +17,8 @@
                         {{localize "CPR.equipped"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.equipped" data-dtype="{{data.equipped}}">
-                            {{#select data.equipped}}
+                        <select name="data.equipped" data-dtype="{{data.data.equipped}}">
+                            {{#select data.data.equipped}}
                             {{#each (findConfigObj "equipped") as |vic v|}}
                             <option value="{{v}}">{{localize vic}}</option>
                             {{/each}}
@@ -32,16 +32,16 @@
                         {{localize "CPR.armorpenalty"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.penalty" class="" type="text" value="{{data.penalty}}">
+                        <input name="data.penalty" class="" type="text" value="{{data.data.penalty}}">
                     </div>
                 </li>
-                {{#unless (compare data.isBodyLocation "||" data.isHeadLocation)}}
+                {{#unless (compare data.data.isBodyLocation "||" data.data.isHeadLocation)}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.isshield"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        {{#if data.isShield}}
+                        {{#if data.data.isShield}}
                         <a class="item-checkbox" data-target="data.isShield"><i class="far fa-check-circle"></i></a>
                         {{else}}
                         <a class="item-checkbox" data-target="data.isShield"><i class="far fa-circle"></i></a>
@@ -49,14 +49,14 @@
                     </div>
                 </li>
                 {{/unless}}
-                {{#if data.isShield}}
+                {{#if data.data.isShield}}
                     <hr>
                     <li class="item flexrow">
                         <div class="item flexrow setting-name text-nowrap">
                             {{localize "CPR.maximum"}} {{localize "CPR.hitpoints"}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
-                            <input name="data.shieldHitPoints.max" class="" type="number" value="{{data.shieldHitPoints.max}}">
+                            <input name="data.shieldHitPoints.max" class="" type="number" value="{{data.data.shieldHitPoints.max}}">
                         </div>
                     </li>
                     <li class="item flexrow">
@@ -64,7 +64,7 @@
                             {{localize "CPR.currenthitpoints"}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
-                            <input name="data.shieldHitPoints.value" class="" type="number" value="{{data.shieldHitPoints.value}}">
+                            <input name="data.shieldHitPoints.value" class="" type="number" value="{{data.data.shieldHitPoints.value}}">
                         </div>
                     </li>
                 {{else}}
@@ -74,7 +74,7 @@
                             {{localize "CPR.head"}} {{localize "CPR.armor"}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
-                            {{#if data.isHeadLocation}}
+                            {{#if data.data.isHeadLocation}}
                             <a class="item-checkbox" data-target="data.isHeadLocation"><i
                                     class="far fa-check-circle"></i></a>
                             {{else}}
@@ -82,14 +82,14 @@
                             {{/if}}
                         </div>
                     </li>
-                    {{#if data.isHeadLocation}}
+                    {{#if data.data.isHeadLocation}}
                     <hr>
                     <li class="item flexrow">
                         <div class="item flexrow setting-name text-nowrap">
                             {{localize "CPR.head"}} {{localize "CPR.armor"}} {{localize "CPR.sp"}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
-                            <input name="data.headLocation.sp" class="" type="number" value="{{data.headLocation.sp}}">
+                            <input name="data.headLocation.sp" class="" type="number" value="{{data.data.headLocation.sp}}">
                         </div>
                     </li>
                     <li class="item flexrow">
@@ -98,7 +98,7 @@
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
                             <input name="data.headLocation.ablation" class="" type="number"
-                                value="{{data.headLocation.ablation}}">
+                                value="{{data.data.headLocation.ablation}}">
                         </div>
                     </li>
                     <hr>
@@ -109,7 +109,7 @@
                             {{localize "CPR.bodylocation"}} {{localize "CPR.armor"}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
-                            {{#if data.isBodyLocation}}
+                            {{#if data.data.isBodyLocation}}
                             <a class="item-checkbox" data-target="data.isBodyLocation"><i
                                     class="far fa-check-circle"></i></a>
                             {{else}}
@@ -117,14 +117,14 @@
                             {{/if}}
                         </div>
                     </li>
-                    {{#if data.isBodyLocation}}
+                    {{#if data.data.isBodyLocation}}
                     <hr>
                     <li class="item flexrow">
                         <div class="item flexrow setting-name text-nowrap">
                             {{localize "CPR.bodylocation"}} {{localize "CPR.armor"}} {{localize "CPR.armor"}} {{localize "CPR.sp"}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
-                            <input name="data.bodyLocation.sp" class="" type="number" value="{{data.bodyLocation.sp}}">
+                            <input name="data.bodyLocation.sp" class="" type="number" value="{{data.data.bodyLocation.sp}}">
                         </div>
                     </li>
                     <li class="item flexrow">
@@ -133,7 +133,7 @@
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
                             <input name="data.bodyLocation.ablation" class="" type="number"
-                                value="{{data.bodyLocation.ablation}}">
+                                value="{{data.data.bodyLocation.ablation}}">
                         </div>
                     </li>
                     {{/if}}

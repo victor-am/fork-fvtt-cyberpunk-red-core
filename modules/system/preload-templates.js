@@ -49,6 +49,8 @@ export default function preloadHandlebarsTemplates() {
     // Gear Tab Partials
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-ammo-content.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-armor-content.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-program-content.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-cyberware-content.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-clothing-content.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-cyberdeck-content.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-cyberware-content.hbs",
@@ -72,6 +74,7 @@ export default function preloadHandlebarsTemplates() {
 
     // Debug
     "systems/cyberpunk-red-core/templates/actor/parts/debug/cpr-item-debug.hbs",
+    "systems/cyberpunk-red-core/templates/actor/work-in-progress.hbs",
 
     // Mook Sheet Partials
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-image.hbs",
@@ -80,10 +83,12 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-weapons.hbs",
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-skills.hbs",
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-cyberware.hbs",
+    "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-program.hbs",
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-criticalInjury.hbs",
 
     // Item Sheet
     "systems/cyberpunk-red-core/templates/item/cpr-item-sheet.hbs",
+
     // Item Sheet - Header Partials
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-ammo.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-armor.hbs",

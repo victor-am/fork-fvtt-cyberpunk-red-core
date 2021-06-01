@@ -1,4 +1,4 @@
-/* global mergeObject, getProperty, $, duplicate */
+/* global mergeObject, $, duplicate */
 import CPRActorSheet from "./cpr-actor-sheet.js";
 import ModMookSkillPrompt from "../../dialog/cpr-mod-mook-skill-prompt.js";
 import LOGGER from "../../utils/cpr-logger.js";

@@ -10,12 +10,6 @@ import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
- * Extend the base Actor entity. Foundry only supports 1 Actor class that gets associated with
- * different sheets. If we need need different classes, there are examples to work around this
- * design limitation:
- *   - Burning Wheel uses a proxy class to intiate the class they want
- *   - PF2 instaniates a custom class in the constructor
- * This may become relevant when we implement "container" actors, programs, and demons.
  * @extends {Actor}
  */
 export default class CPRActor extends Actor {
@@ -23,13 +17,16 @@ export default class CPRActor extends Actor {
   prepareData() {
     LOGGER.trace("prepareData | CPRActor | Called.");
     super.prepareData();
-    if (this.compendium === null) {
+    if (this.compendium === null || this.compendium === undefined) {
       // It looks like prepareData() is called for any actors/npc's that exist in
       // the game and the clients can't update them.  Everyone should only calculate
       // their own derived stats, or the GM should be able to calculate the derived
       // stat
-      if (this.owner || game.user.isGM) {
+      if (this.isOwner || game.user.isGM) {
         this._calculateDerivedStats();
+      } else {
+        const actorData = this.data;
+        actorData.filteredItems = this.itemTypes;
       }
     }
   }
@@ -46,112 +43,25 @@ export default class CPRActor extends Actor {
     return this.data.data;
   }
 
-  /** @override */
-  static async create(data, options) {
-    LOGGER.trace("create | CPRActor | called.");
-    const createData = data;
-    if (typeof data.data === "undefined") {
-      LOGGER.trace("create | New Actor | CPRActor | called.");
-      createData.items = [];
-      createData.items = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
-      if (data.type === "character") {
-        createData.token = {
-          actorLink: true,
-          disposition: 1,
-          vision: true,
-          bar1: { attribute: "derivedStats.hp" },
-        };
-      }
-    }
-    super.create(createData, options);
-  }
-
-  async createEmbeddedEntity(embeddedName, itemData, options = {}) {
-    LOGGER.trace("createEmbeddedEntity | CPRActor | called.");
-    if (!options.force) {
-      if (embeddedName === "OwnedItem") {
-        if (itemData.data.core) {
-          return Rules.lawyer(false, "CPR.dontaddcoreitems");
+  async createEmbeddedDocuments(embeddedName, data, context) {
+    LOGGER.trace("createEmbeddedDocuments | CPRActor | called.");
+    if (embeddedName === "Item") {
+      let containsCoreItem = false;
+      data.forEach((document) => {
+        if (document.data && document.data.core) {
+          containsCoreItem = true;
         }
+      });
+      if (containsCoreItem) {
+        return Rules.lawyer(false, "CPR.dontaddcoreitems");
       }
     }
     // Standard embedded entity creation
-    return super.createEmbeddedEntity(embeddedName, itemData, options);
+    return super.createEmbeddedDocuments(embeddedName, data, context);
   }
 
   _calculateDerivedStats() {
-    // Calculate MAX HP
-    LOGGER.trace("_calculateDerivedStats | CPRActor | Called.");
-    const actorData = this.data;
-    actorData.filteredItems = this.itemTypes;
-
-    const { stats } = actorData.data;
-    const { derivedStats } = actorData.data;
-    const setting = game.settings.get("cyberpunk-red-core", "calculateDerivedStats");
-
-    // After the initial config of the game, a GM may want to disable the auto-calculation
-    // of stats for Mooks & Players for custom homebrew rules
-    if (setting && actorData.type === "character") {
-      // Set max HP
-      derivedStats.hp.max = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
-
-      derivedStats.hp.value = Math.min(
-        derivedStats.hp.value,
-        derivedStats.hp.max,
-      );
-
-      // Max Humanity
-      let cyberwarePenalty = 0;
-      this.getInstalledCyberware().forEach((cyberware) => {
-        if (cyberware.getData().type === "borgware") {
-          cyberwarePenalty += 4;
-        } else if (parseInt(cyberware.getData().humanityLoss.static, 10) > 0) {
-          cyberwarePenalty += 2;
-        }
-      });
-      derivedStats.humanity.max = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
-      if (derivedStats.humanity.value > derivedStats.humanity.max) {
-        derivedStats.humanity.value = derivedStats.humanity.max;
-      }
-      // Setting EMP to value based on current humannity.
-      stats.emp.value = Math.floor(derivedStats.humanity.value / 10);
-    }
-
-    // Seriously wounded
-    // Do we really need to store this or can we just calculate it dynamically as needed???
-    derivedStats.seriouslyWounded = Math.ceil(derivedStats.hp.max / 2);
-
-    // We need to always call this because if the actor was wounded and now is not, their
-    // value would be equal to max, however their current wound state was never updated.
-    this._setWoundState();
-    // Updated derivedStats variable with currentWoundState
-    derivedStats.currentWoundState = this.data.data.derivedStats.currentWoundState;
-
-    // Death save
-    let basePenalty = 0;
-    const critInjury = this.data.filteredItems.criticalInjury;
-    critInjury.forEach((criticalInjury) => {
-      const { deathSaveIncrease } = criticalInjury.data.data;
-      if (deathSaveIncrease) {
-        basePenalty += 1;
-      }
-    });
-    // In 0.73.2 we moved all of the Death Save data into the single data point of
-    // derivedStats.deathSave.basePenalty, however, it causes a chicken/egg situation
-    // since it loads the data up before it migrates, triggering this code to run which
-    // errors out and ultimately messing the migration up. Yay. We should be able to
-    // remove this code after a release or two
-    if ((typeof derivedStats.deathSave) === "number") {
-      const oldPenalty = derivedStats.deathSave;
-      derivedStats.deathSave = {
-        value: 0,
-        penalty: oldPenalty,
-        basePenalty,
-      };
-    }
-    derivedStats.deathSave.basePenalty = basePenalty;
-    derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
-    this.data.data.derivedStats = derivedStats;
+    throw new Error("This is an abstract method");
   }
 
   // GET AND SET WOUND STATE
@@ -234,69 +144,68 @@ export default class CPRActor extends Actor {
 
   _addFoundationalCyberware(item, formData) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
-    const tmpItem = item;
-    this.loseHumanityValue(tmpItem, formData);
+    this.loseHumanityValue(item, formData);
     LOGGER.debug("ActorID _addFoundationalCyberware | CPRActorSheet | Applying foundational cyberware.");
-    tmpItem.data.data.isInstalled = true;
-    return this.updateEmbeddedEntity("OwnedItem", tmpItem.data);
+    return this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.isInstalled": true }]);
   }
 
   async _addOptionalCyberware(item, formData) {
     LOGGER.trace("ActorID _addOptionalCyberware | CPRActorSheet | Called.");
     const tmpItem = item;
-    this.loseHumanityValue(tmpItem, formData);
+    this.loseHumanityValue(item, formData);
     // eslint-disable-next-line max-len
     LOGGER.trace(`ActorID _addOptionalCyberware | CPRActorSheet | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
-    foundationalCyberware.data.data.optionalIds.push(tmpItem.data._id);
-    foundationalCyberware.data.data.installedOptionSlots += tmpItem.data.data.slotSize;
+    const newOptionalIds = foundationalCyberware.data.data.optionalIds.concat(item.data._id);
+    const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots + item.data.data.slotSize;
     tmpItem.data.data.isInstalled = true;
-    const usedSlots = foundationalCyberware.getData().installedOptionSlots;
     const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
-    Rules.lawyer((usedSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
-    return this.updateEmbeddedEntity("OwnedItem", [tmpItem.data, foundationalCyberware.data]);
+    Rules.lawyer((newInstalledOptionSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
+    return this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.isInstalled": true }, { _id: foundationalCyberware.id, "data.optionalIds": newOptionalIds, "data.installedOptionSlots": newInstalledOptionSlots }]);
   }
 
-  async removeCyberware(itemId, foundationalId) {
+  async removeCyberware(itemId, foundationalId, skipConfirm = false) {
     LOGGER.trace("ActorID _removeCyberware | CPRActorSheet | Called.");
     const item = this._getOwnedItem(itemId);
-    const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
-    const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
-    const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
+    let confirmRemove;
+    if (!skipConfirm) {
+      const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
+      const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
+      confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
+    } else {
+      confirmRemove = true;
+    }
     if (confirmRemove) {
       if (item.getData().isFoundational) {
         await this._removeFoundationalCyberware(item);
       } else {
         await this._removeOptionalCyberware(item, foundationalId);
       }
-      item.data.data.isInstalled = false;
+      return this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.isInstalled": false }]);
     }
-    return this.updateEmbeddedEntity("OwnedItem", item.data);
+    return this.updateEmbeddedDocuments("Item", []);
   }
 
   _removeOptionalCyberware(item, foundationalId) {
     LOGGER.trace("ActorID _removeOptionalCyberware | CPRActorSheet | Called.");
     const foundationalCyberware = this._getOwnedItem(foundationalId);
-    foundationalCyberware.data.data.installedOptionSlots -= item.data.data.slotSize;
-    foundationalCyberware.getData().optionalIds = foundationalCyberware.getData().optionalIds.filter(
+    const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots - item.data.data.slotSize;
+    const newOptionalIds = foundationalCyberware.getData().optionalIds.filter(
       (optionId) => optionId !== item.data._id,
     );
-    return this.updateEmbeddedEntity("OwnedItem", foundationalCyberware.data);
+    return this.updateEmbeddedDocuments("Item", [{ _id: foundationalCyberware.id, "data.optionalIds": newOptionalIds, "data.installedOptionSlots": newInstalledOptionSlots }]);
   }
 
   _removeFoundationalCyberware(item) {
     LOGGER.trace("ActorID _addFoundationalCyberware | CPRActorSheet | Called.");
-    const tmpItem = item;
     const updateList = [];
-    if (tmpItem.getData().optionalIds) {
-      tmpItem.getData().optionalIds.forEach(async (optionalId) => {
+    if (item.getData().optionalIds) {
+      item.getData().optionalIds.forEach(async (optionalId) => {
         const optional = this._getOwnedItem(optionalId);
-        optional.data.data.isInstalled = false;
-        updateList.push(optional.data);
+        updateList.push({ _id: optional.id, "data.isInstalled": false });
       });
-      tmpItem.data.data.optionalIds = [];
-      updateList.push(tmpItem.data);
-      return this.updateEmbeddedEntity("OwnedItem", updateList);
+      updateList.push({ _id: item.id, "data.optionalIds": [], "data.installedOptionSlots": 0 });
+      return this.updateEmbeddedDocuments("Item", updateList);
     }
     return PromiseRejectionEvent();
   }
@@ -313,7 +222,7 @@ export default class CPRActor extends Actor {
       const humRoll = new CPRRolls.CPRHumanityLossRoll(item.data.name, amount.humanityLoss);
       await humRoll.roll();
       value -= humRoll.resultTotal;
-      humRoll.entityData = { actor: this._id };
+      humRoll.entityData = { actor: this.id };
       CPRChat.RenderRollCard(humRoll);
       LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was rolled.");
     } else {
@@ -352,10 +261,6 @@ export default class CPRActor extends Actor {
   }
 
   setLifepath(formData) {
-    return this.update(formData);
-  }
-
-  setMookName(formData) {
     return this.update(formData);
   }
 
@@ -477,6 +382,7 @@ export default class CPRActor extends Actor {
     return true;
   }
 
+  /* // Unused function, not called anywhere! Replaced by _rollCriticalInjury() from cpr-actor-sheet.js.
   addCriticalInjury(location, name, effect, quickFixType, quickFixDV, treatmentType, treatmentDV, deathSaveIncrease = false) {
     const itemData = {
       type: "criticalInjury",
@@ -499,8 +405,9 @@ export default class CPRActor extends Actor {
         deathSaveIncrease,
       },
     };
-    return this.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+    return this.createEmbeddedEntity("Item", itemData, { force: true });
   }
+  */
 
   getArmorPenaltyMods(stat) {
     const penaltyStats = ["ref", "dex", "move"];
@@ -711,23 +618,17 @@ export default class CPRActor extends Actor {
     LOGGER.trace("_handleMookDraggedItem | CPRActor | Called.");
     LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
     LOGGER.debugObject(item);
-    const newItem = item;
-    switch (item.type) {
+    switch (item.data.type) {
       case "clothing":
       case "weapon":
       case "gear":
       case "armor": {
-        if (newItem.data.data) {
-          newItem.data.data.equipped = "equipped";
-          this.updateEmbeddedEntity("OwnedItem", newItem.data);
-        } else {
-          newItem.data.equipped = "equipped";
-          this.updateEmbeddedEntity("OwnedItem", newItem);
-        }
+        // chose change done for 0.8.x, and not the fix from dev, as it seems to work without it.
+        this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.equipped": "equipped" }]);
         break;
       }
       case "cyberware": {
-        this.addCyberware(item._id);
+        this.addCyberware(item.id);
         break;
       }
       default:

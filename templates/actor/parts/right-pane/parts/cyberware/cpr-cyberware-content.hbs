@@ -3,7 +3,7 @@
 {{#unless foundation.data.data.core}}
 <li class="item flexrow" data-item-id="{{foundation.data._id}}" draggable="false">
     <div class="item-name cyberware-name text-nowrap">
-        <a class="name item-view">{{foundation.name}} - {{foundation.data.data.installedOptionSlots}}/{{foundation.data.data.optionSlots}} {{localize "CPR.optionalslots"}}</a>
+        <a class="name item-view">{{foundation.name}} {{hasOptionalSlots foundation.data.data.installedOptionSlots foundation.data.data.optionSlots}}</a>
     </div>
     <div class="item-detail cyberware-data text-nowrap">
         {{localize (findConfigValue "cyberwareTypeList" foundation.data.data.type)}}
@@ -18,7 +18,7 @@
 </li>
 {{/unless}}
 {{#each optionals as |optional o|}}
-<li class="item flexrow" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}" draggable="false">
+<li class="item flexrow" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}" draggable="false">
     <div class="item-name cyberware-name flexrow text-nowrap">
         <a class="name item-view"><span class="name">&nbsp;{{optional.name}}</span></a>
     </div>

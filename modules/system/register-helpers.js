@@ -3,6 +3,7 @@
 /* global Handlebars, getProperty */
 import LOGGER from "../utils/cpr-logger.js";
 import CPR from "./config.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers");
@@ -77,7 +78,7 @@ export default function registerHandlebarsHelpers() {
     return "";
   });
 
-  Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i._id === itemId));
+  Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i.id === itemId));
 
   Handlebars.registerHelper("isDefined", (object) => {
     if (typeof object === "undefined") {
@@ -136,6 +137,17 @@ export default function registerHandlebarsHelpers() {
       return CPR[obj];
     }
     return "INVALID_LIST";
+  });
+
+  Handlebars.registerHelper("hasOptionalSlots", (installedOptionSlots, optionSlots) => {
+    LOGGER.trace(`Calling hasOptionalSlots`);
+    if (optionSlots > 0) {
+      LOGGER.trace(`hasOptionalSlots is greater than 0`);
+      return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.optionalslots")}`);
+    } else {
+      LOGGER.trace(`hasOptionalSlots is 0`);
+    }
+    return "";
   });
 
   Handlebars.registerHelper("findObj", (objList, propertyName, propertyValue) => {
@@ -260,6 +272,12 @@ export default function registerHandlebarsHelpers() {
     }
   });
 
+  Handlebars.registerHelper("getSkillStat", (skill, actor) => {
+    LOGGER.trace("Calling getSkillStat Helper");
+    const skillStat = skill.data.data.stat;
+    return actor.data.data.stats[skillStat].value;
+  });
+
   Handlebars.registerHelper("ablated", (armor, slot) => {
     LOGGER.trace(`Calling ablated Helper | Arg1:${armor} Arg2:${slot}`);
     if (slot === "body") {
@@ -275,7 +293,7 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace("Calling fireMode Helper");
     LOGGER.debug(`firemode is ${firemode}`);
     LOGGER.debug(`weaponID is ${weaponID}`);
-    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    const flag = getProperty(actor, `data.flags.cyberpunk-red-core.firetype-${weaponID}`);
     LOGGER.debugObject(flag);
     if (flag === firemode) {
       LOGGER.debug("returning true");
@@ -287,7 +305,7 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("fireflag", (actor, firetype, weaponID) => {
     LOGGER.trace("Calling fireflag Helper");
-    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    const flag = getProperty(actor, `data.flags.cyberpunk-red-core.firetype-${weaponID}`);
     if (flag === firetype) {
       return "checked";
     }
@@ -318,6 +336,13 @@ export default function registerHandlebarsHelpers() {
       return item.data._id;
     }
     return "DOES NOT EXIST";
+  });
+
+  Handlebars.registerHelper("isTokenSheet", (title) => {
+    LOGGER.trace("Calling isTokenSheet Helper");
+    LOGGER.debug(`title is ${title}`);
+    const substr = `[${SystemUtils.Localize("CPR.token")}]`;
+    return title.includes(substr);
   });
 
   Handlebars.registerHelper("isDebug", () => {

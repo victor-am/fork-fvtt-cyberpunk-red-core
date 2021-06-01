@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* global game, duplicate */
+/* global game, duplicate, Scene */
 
 import LOGGER from "./cpr-logger.js";
 import NetarchSceneGenerationPrompt from "../dialog/cpr-netarch-scene-generation-prompt.js";
@@ -77,13 +77,13 @@ export default class CPRNetarchUtils {
     }
     if (this.options.sceneName === null) {
       if (this.animated) {
-        if (game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`) === null) {
+        if (game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`) === null || game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`) === undefined) {
           await this._duplicateScene(`${this.netarchItem.data.name} (animated)`);
         } else {
           this.scene = game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`);
           await this._removeAllTiles();
         }
-      } else if (game.scenes.find((f) => f.name === this.netarchItem.data.name) === null) {
+      } else if (game.scenes.find((f) => f.name === this.netarchItem.data.name) === null || game.scenes.find((f) => f.name === this.netarchItem.data.name) === undefined) {
         await this._duplicateScene(`${this.netarchItem.data.name}`);
       } else {
         this.scene = game.scenes.find((f) => f.name === this.netarchItem.data.name);
@@ -214,11 +214,14 @@ export default class CPRNetarchUtils {
     LOGGER.trace("_duplicateScene | CPRINetarchUtils | Called.");
     let scene = null;
     if (this.animated) {
-      scene = await game.packs.get("cyberpunk-red-core.scenes").getEntity("kmVVudIkBTEODmcq");
+      scene = await game.packs.get("cyberpunk-red-core.scenes").getDocument("kmVVudIkBTEODmcq");
     } else {
-      scene = await game.packs.get("cyberpunk-red-core.scenes").getEntity("vHjjIdBSOEQdrgrl");
+      scene = await game.packs.get("cyberpunk-red-core.scenes").getDocument("vHjjIdBSOEQdrgrl");
     }
-    await scene.clone({ name: newName });
+    const sceneData = duplicate(scene.data);
+    sceneData.id = null;
+    sceneData.name = newName;
+    await Scene.createDocuments([sceneData]);
     this.scene = game.scenes.find((f) => f.name === newName);
   }
 
@@ -228,6 +231,7 @@ export default class CPRNetarchUtils {
       console.log("Error no scene defined!");
       return;
     }
+    console.log(this.scene);
     const sceneData = duplicate(this.scene.data);
     tileData.forEach((t) => { sceneData.tiles.push(duplicate(t)); });
     await this.scene.update(sceneData);

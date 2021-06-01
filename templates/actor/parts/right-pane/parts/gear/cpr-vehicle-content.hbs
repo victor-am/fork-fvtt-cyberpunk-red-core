@@ -1,15 +1,15 @@
 {{trace "CPR-WEAPON-INV-CONTENT.HBS"}}
-<li class="item flexrow{{#if item.data.favorite}} favorite{{else}}{{#if (listContains sheet.options.collapsedSections "gearTab-vehicle")}} hide{{/if}}{{/if}}" data-item-id="{{item._id}}"
+<li class="item flexrow{{#if item.data.data.favorite}} favorite{{else}}{{#if (listContains sheet.options.collapsedSections "gearTab-vehicle")}} hide{{/if}}{{/if}}" data-item-id="{{item.data._id}}"
     data-item-category="{{item.type}}" draggable="true">
     <div class="item-name gear-name text-nowrap">
         <a class="name item-edit" title="{{item.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{item.name}}</a>
     </div>
     <div class="item-detail gear-data text-nowrap">
-    {{localize "CPR.seats"}}: {{item.data.seats}}
+    {{localize "CPR.seats"}}: {{item.data.data.seats}}
     |
-    {{localize "CPR.sdp"}}: {{item.data.sdp}}
+    {{localize "CPR.sdp"}}: {{item.data.data.sdp}}
     |
-    {{localize "CPR.combatspeed"}}: {{item.data.speedCombat}}
+    {{localize "CPR.combatspeed"}}: {{item.data.data.speedCombat}}
     </div>
     <div class="item-detail gear-actions text-nowrap">
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}

@@ -1,6 +1,30 @@
-# Version 0.76.0 | Date: 2021-05-25
+# Version 0.77.0 | Dev Branch
+
+**WIP Features**
+- Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title. 
+
+**WIP Bug Fixes**
+- Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item. 
+
+# Version: 0.76.2 (Hot Fix) |  Date:  2021-05-28
+- Non owned actor sheets (Limited and Observer permissions) render again, the content is also shown now.
+- Borgware items are now configured correctly as foundational in compendium.
+- Borgware no longer displays "0/0 Optional slots" when installed on character sheet.
+- Observer/limited view permissions for character sheets now work correctly.
+- Core skills/cyberware now cannot be added to unlinked tokens.
+- Auto-install cyberware prompt now correctly shows based on sheet type rather than actor type.
+- Auto-install cyberware prompt for mook sheets now only displays to the user who initiated the prompt.
+- Internal, external, and fashionware cyberware now display correctly on mook sheets.
+- Deleting/uninstalling optional cyberware from mook sheets now works correctly.
+- Cleaned up of many (but not all) trailing commas in mook sheet.
+
+# Version: 0.76.1 (Hot Fix) |  Date:  2021-05-27
+- Programs can now be displayed in gear tab and on mook sheets for easier tracking.
+
+# Version 0.76.0 | Date: 2021-05-26
 
 **New Features**
+- FnWeather made a great video demonstrating some of the following changes which you can find here: https://www.youtube.com/watch?v=csgB6c5KhkU. Thanks to him!
 - Added "Option Slots Size" for optional cyberware. This allows proper tracking of cyberware that can use no slots, or multiple slots. By default when first updating to this version all cyberware has an assumed slot size of 1. Please update your optional cyberware accordingly in line with the core rulebook.
 - Added extra content to the cyberware tab to display the amount of 'used' slots for foundational cyberware.
 - Added option to reroll duplicate critical injuries. There is a system setting to decide if you want to use it, with the default being off.
@@ -42,6 +66,7 @@
 
 
 **Bug Fixes**
+- fixed #49 - The equipped glyph now takes the same space as the other two
 - fixed #158 - Stat padding fixed for LUCK and EMP, so that they have the same font size as the others
 - fixed #176 - Game paused animation properly translates now
 - fixed #187 - Item icons are now resizing correctly to fit into their frame
@@ -50,11 +75,11 @@
 - fixed #195 - Fixed that 'Has Suppressive Fire' option didn't do anything
 - fixed #198 - Removes DV display when others are measuring
 - fixed #204 - Fixed IP and Eurobucks Ledger functions to work with unlinked tokens
+- fixed #215 - A bug where a newly created, non-edited cyberware would vanish upon install
 - fixed #221 & #222 - Correction of two critical injuries
 - fixed #224 - Med Tech and Fixer role abilities should now roll correctly, as per RAW
 - fixed #228 - Fixed some mook sheet weapon/armor section alignment issues
-- fixed body ablation not being shown in description tab due to typo (!366)
-- fixed a bug where a newly created, non-edited cyberware would vanish upon install (!363)
+- fixed !366 - Body ablation not being shown in description tab due to typo
 
 # Version: 0.75.4 (Hot Fix) |  Date:  2021-05-05
 - Fixed release manifest to not lock users into version 0.75.3 without possibility to update

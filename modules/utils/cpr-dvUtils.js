@@ -13,9 +13,9 @@ export default class DvUtils {
     let DV = null;
     if (dvTables.includes(tableName)) {
       const rollTable = (game.tables.filter((t) => t.data.name === tableName))[0];
-      const tableResults = rollTable._getResultsForRoll(distance);
+      const tableResults = rollTable.getResultsForRoll(distance);
       if (tableResults.length === 1) {
-        DV = tableResults[0].text;
+        DV = tableResults[0].data.text;
       }
     }
     return DV;

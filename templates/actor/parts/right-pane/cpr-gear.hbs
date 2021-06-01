@@ -23,7 +23,7 @@
                     </span>
                 </li>
                 <ol class="items-list">
-                    {{#each (sort (getProp ../actor.filteredItems c) "name") as |item i|}}
+                    {{#each (sort (getProp ../actor.data.filteredItems c) "name") as |item i|}}
                     {{!-- Partial handles Name and Data columns --}}
                     {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-VAR-content.hbs" c) (mergeForPartialArg "item,actor,sheet" this ../../this.actor ../../this)}}
                     {{!- Item actions column --}}
@@ -35,7 +35,7 @@
     </div>
     <div class="bottom-pane-gear">
         <div class="eurobucks">
-            {{localize "CPR.eurobucks"}}: <input class="number eurobucks-input" value="{{actor.data.wealth.value}}" type="number">
+            {{localize "CPR.eurobucks"}}: <input class="number eurobucks-input" value="{{actor.data.data.wealth.value}}" type="number">
         </div>
     </div>
 </div>

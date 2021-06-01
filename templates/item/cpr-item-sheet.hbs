@@ -13,8 +13,8 @@
           {{item.name}}
         </div>
         <div class="item-detail text-right text-padding-right">
-           {{#if (isDebug)}}({{item._id}}){{/if}}
-          {{localize (findConfigValue "objectTypes" item.type)}}{{#if (compare data.source "!==" "")}} | {{data.source}}{{/if}}
+           {{#if (isDebug)}}({{item.id}}){{/if}}
+          {{localize (findConfigValue "objectTypes" item.type)}}{{#if (compare data.data.source "!==" "")}} | {{data.data.source}}{{/if}}
         </div>
         {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/header/cpr-VAR.hbs" item.type) this}}
       </li>

@@ -3,29 +3,29 @@
     <div class="item-summary-section">
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.price"}}:</span>
-            <span class="summary-value">{{data.price.market}}</span>
+            <span class="summary-value">{{data.data.price.market}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.market"}}:</span>
-            <span class="summary-value">{{localize (findConfigValue "itemPriceCategory" data.price.category)}}</span>
+            <span class="summary-value">{{localize (findConfigValue "itemPriceCategory" data.data.price.category)}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.rof"}}:</span>
-            <span class="summary-value">{{data.rof}}</span>
+            <span class="summary-value">{{data.data.rof}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.damage"}}:</span>
-            <span class="summary-value">{{data.damage}}</span>
+            <span class="summary-value">{{data.data.damage}}</span>
         </div>
-        {{#if data.isRanged}}
+        {{#if data.data.isRanged}}
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.magsize"}}:</span>
-            <span class="summary-value">{{data.magazine.max}}</span>
+            <span class="summary-value">{{data.data.magazine.max}}</span>
         </div>
         {{/if}}
     </div>
     <div class="item-description-section">
-        {{editor content=data.description.value target="data.description.value" button=true owner=owner
+        {{editor content=data.data.description.value target="data.description.value" button=true owner=owner
         editable=editable}}
     </div>
 </div>

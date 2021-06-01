@@ -9,6 +9,32 @@
                 {{!-- Physical Item Settings--}}
                 {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
 
+                {{!-- Program Equipped Setting --}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.equipped"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="data.equipped" data-dtype="{{data.data.equipped}}">
+                            {{#select data.data.equipped}}
+                            {{#each (findConfigObj "equipped") as |vic v|}}
+                            <option value="{{v}}">{{localize vic}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                </li>
+
+                {{!-- Program Amount Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.amount"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.amount" class="" type="number" value="{{data.data.amount}}">
+                    </div>
+                </li>
+
                 {{!-- Program Item Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
@@ -23,7 +49,7 @@
                         {{localize "CPR.class"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.class" class="" type="text" value="{{data.class}}" placeholder="ex: Attack">
+                        <input name="data.class" class="" type="text" value="{{data.data.class}}" placeholder="ex: Attack">
                     </div>
                 </li>
 
@@ -33,7 +59,7 @@
                         {{localize "CPR.per"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.per" class="" type="number" value="{{data.per}}" placeholder="5">
+                        <input name="data.per" class="" type="number" value="{{data.data.per}}" placeholder="5">
                     </div>
                 </li>
 
@@ -42,7 +68,7 @@
                         {{localize "CPR.spd"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.spd" class="" type="number" value="{{data.spd}}" placeholder="5">
+                        <input name="data.spd" class="" type="number" value="{{data.data.spd}}" placeholder="5">
                     </div>
                 </li>
 
@@ -51,7 +77,7 @@
                         {{localize "CPR.atk"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.atk" class="" type="number" value="{{data.atk}}" placeholder="5">
+                        <input name="data.atk" class="" type="number" value="{{data.data.atk}}" placeholder="5">
                     </div>
                 </li>
 
@@ -60,7 +86,7 @@
                         {{localize "CPR.def"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.def" class="" type="number" value="{{data.def}}" placeholder="5">
+                        <input name="data.def" class="" type="number" value="{{data.data.def}}" placeholder="5">
                     </div>
                 </li>
 
@@ -69,7 +95,7 @@
                         {{localize "CPR.rez"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.rez" class="" type="number" value="{{data.rez}}" placeholder="5">
+                        <input name="data.rez" class="" type="number" value="{{data.data.rez}}" placeholder="5">
                     </div>
                 </li>
             </ol>
