@@ -15,8 +15,8 @@
                         {{localize "CPR.equipped"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.equipped" data-dtype="{{data.equipped}}">
-                            {{#select data.equipped}}
+                        <select name="data.equipped" data-dtype="{{data.data.equipped}}">
+                            {{#select data.data.equipped}}
                             {{#each (findConfigObj "equipped") as |vic v|}}
                             <option value="{{v}}">{{localize vic}}</option>
                             {{/each}}
@@ -31,7 +31,7 @@
                         {{localize "CPR.amount"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.amount" class="" type="number" value="{{data.amount}}">
+                        <input name="data.amount" class="" type="number" value="{{data.data.amount}}">
                     </div>
                 </li>
 
@@ -41,8 +41,8 @@
                         {{localize "CPR.clothing"}} {{localize "CPR.style"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.style" data-dtype="{{data.style}}">
-                            {{#select data.style}}
+                        <select name="data.style" data-dtype="{{data.data.style}}">
+                            {{#select data.data.style}}
                             {{#each (findConfigObj "clothingStyle") as |style s| }}
                             <option value="{{s}}">{{localize style}}</option>
                             {{/each}}
@@ -56,8 +56,8 @@
                         {{localize "CPR.clothing"}} {{localize "CPR.type"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.type" data-dtype="{{data.type}}">
-                            {{#select data.type}}
+                        <select name="data.type" data-dtype="{{data.data.type}}">
+                            {{#select data.data.type}}
                             {{#each (findConfigObj "clothingType") as |type t| }}
                             <option value="{{t}}">{{localize type}}</option>
                             {{/each}}

@@ -10,7 +10,7 @@
                     {{localize "CPR.source"}}
                   </div>
                   <div class="item flexrow setting-value text-nowrap item-end">
-                    <input name="data.source" class="" type="text" value="{{data.source}}" placeholder="Example: pg. 1">
+                    <input name="data.source" class="" type="text" value="{{data.data.source}}" placeholder="Example: pg. 1">
                   </div>
                 </li>
 
@@ -20,8 +20,8 @@
                         {{localize "CPR.criticalinjury"}} {{localize "CPR.location"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.location" data-dtype="{{data.location}}">
-                            {{#select data.location}}
+                        <select name="data.location" data-dtype="{{data.data.location}}">
+                            {{#select data.data.location}}
                             {{#each (findConfigObj "criticalInjuryLocation") as |location l|}}
                             <option value="{{l}}">{{localize location}}</option>
                             {{/each}}
@@ -35,8 +35,8 @@
                         {{localize "CPR.quickfix"}} {{localize "CPR.type"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.quickFix.type" data-dtype="{{data.quickFix.type}}">
-                            {{#select data.quickFix.type}}
+                        <select name="data.quickFix.type" data-dtype="{{data.data.quickFix.type}}">
+                            {{#select data.data.quickFix.type}}
                             {{#each (findConfigObj "criticalInjuryQuickFix") as |quickfix q|}}
                             <option value="{{q}}">{{localize quickfix}}</option>
                             {{/each}}
@@ -45,23 +45,23 @@
                     </div>
                 </li>
                 {{!-- Critical Injury Quick Fix DV Settings--}}
-                {{#if (compare data.quickFix.type "===" "paramedic")}}
+                {{#if (compare data.data.quickFix.type "===" "paramedic")}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.quickfix"}} {{localize "CPR.dv"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.quickFix.dvParamedic" class="" type="number" value="{{data.quickFix.dvParamedic}}">
+                        <input name="data.quickFix.dvParamedic" class="" type="number" value="{{data.data.quickFix.dvParamedic}}">
                     </div>
                 </li>
                 {{/if}}
-                {{#if (compare data.quickFix.type "===" "firstAidParamedic")}}
+                {{#if (compare data.data.quickFix.type "===" "firstAidParamedic")}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.quickfix"}} {{localize "CPR.dv"}} ({{localize "CPR.firstaid"}})
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.quickFix.dvFirstAid" class="" type="number" value="{{data.quickFix.dvFirstAid}}">
+                        <input name="data.quickFix.dvFirstAid" class="" type="number" value="{{data.data.quickFix.dvFirstAid}}">
                     </div>
                 </li>
                 <li class="item flexrow">
@@ -69,7 +69,7 @@
                         {{localize "CPR.quickfix"}} {{localize "CPR.dv"}} ({{localize "CPR.paramedic"}})
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.quickFix.dvParamedic" class="" type="number" value="{{data.quickFix.dvParamedic}}">
+                        <input name="data.quickFix.dvParamedic" class="" type="number" value="{{data.data.quickFix.dvParamedic}}">
                     </div>
                 </li>
                 {{/if}}
@@ -79,8 +79,8 @@
                         {{localize "CPR.treatment"}} {{localize "CPR.type"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.treatment.type" data-dtype="{{data.treatment.type}}">
-                            {{#select data.treatment.type}}
+                        <select name="data.treatment.type" data-dtype="{{data.data.treatment.type}}">
+                            {{#select data.data.treatment.type}}
                             {{#each (findConfigObj "criticalInjuryTreatment") as |treatment t|}}
                             <option value="{{t}}">{{localize treatment}}</option>
                             {{/each}}
@@ -89,23 +89,23 @@
                     </div>
                 </li>
                 {{!-- Critical Injury Treatment DV Settings--}}
-                {{#if (compare data.treatment.type "===" "surgery")}}
+                {{#if (compare data.data.treatment.type "===" "surgery")}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.treatment"}} {{localize "CPR.dv"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.treatment.dvSurgery" class="" type="number" value="{{data.treatment.dvSurgery}}">
+                        <input name="data.treatment.dvSurgery" class="" type="number" value="{{data.data.treatment.dvSurgery}}">
                     </div>
                 </li>
                 {{/if}}
-                {{#if (compare data.treatment.type "===" "paramedicSurgery")}}
+                {{#if (compare data.data.treatment.type "===" "paramedicSurgery")}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.treatment"}} {{localize "CPR.dv"}} ({{localize "CPR.paramedic"}})
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.treatment.dvParamedic" class="" type="number" value="{{data.treatment.dvParamedic}}">
+                        <input name="data.treatment.dvParamedic" class="" type="number" value="{{data.data.treatment.dvParamedic}}">
                     </div>
                 </li>
                 <li class="item flexrow">
@@ -113,7 +113,7 @@
                         {{localize "CPR.treatment"}} {{localize "CPR.dv"}} ({{localize "CPR.surgery"}})
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.treatment.dvSurgery" class="" type="number" value="{{data.treatment.dvSurgery}}">
+                        <input name="data.treatment.dvSurgery" class="" type="number" value="{{data.data.treatment.dvSurgery}}">
                     </div>
                 </li>
                 {{/if}}
@@ -123,7 +123,7 @@
                         {{localize "CPR.criticalinjurydeathsave"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        {{#if data.deathSaveIncrease}}
+                        {{#if data.data.deathSaveIncrease}}
                         <a class="item-checkbox" data-target="data.deathSaveIncrease"><i class="far fa-check-circle"></i></a>
                         {{else}}
                         <a class="item-checkbox" data-target="data.deathSaveIncrease"><i class="far fa-circle"></i></a>

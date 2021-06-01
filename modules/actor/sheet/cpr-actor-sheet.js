@@ -52,7 +52,9 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
     const data = super.getData();
     data.filteredItems = this.actor.filteredItems;
-    data.installedCyberware = this._getSortedInstalledCyberware();
+    if (this.actor.data.type === "mook" || this.actor.data.type === "character") {
+      data.installedCyberware = this._getSortedInstalledCyberware();
+    }
     return data;
   }
 
@@ -291,9 +293,9 @@ export default class CPRActorSheet extends ActorSheet {
 
     // output to chat
     const token = this.token === null ? null : this.token.data._id;
-    cprRoll.entityData = { actor: this.actor._id, token };
+    cprRoll.entityData = { actor: this.actor.id, token };
     if (item) {
-      cprRoll.entityData.item = item._id;
+      cprRoll.entityData.item = item.id;
     }
     CPRChat.RenderRollCard(cprRoll);
 
@@ -365,12 +367,12 @@ export default class CPRActorSheet extends ActorSheet {
           armorData.data.headLocation.ablation = Math.min(
             (a.getData().headLocation.ablation + 1), a.getData().headLocation.sp,
           );
-          updateList.push(armorData);
+          updateList.push({ _id: a.id, data: armorData.data });
         });
-        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        await this.actor.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as head armor is ablated:
         currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorHead.value - 1), 0);
-        this.actor.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
+        await this.actor.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
         break;
       }
       case "body": {
@@ -379,24 +381,24 @@ export default class CPRActorSheet extends ActorSheet {
           armorData.data.bodyLocation.ablation = Math.min(
             (a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp,
           );
-          updateList.push(armorData);
+          updateList.push({ _id: a.id, data: armorData.data });
         });
-        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        await this.actor.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as body armor is ablated:
         currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorBody.value - 1), 0);
-        this.actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
+        await this.actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
         break;
       }
       case "shield": {
         armorList.forEach((a) => {
           const armorData = a.data;
           armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - 1), 0);
-          updateList.push(armorData);
+          updateList.push({ _id: a.id, data: armorData.data });
         });
-        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
+        await this.actor.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as shield is damaged:
         currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorShield.value - 1), 0);
-        this.actor.update({ "data.externalData.currentArmorShield.value": currentArmorValue });
+        await this.actor.update({ "data.externalData.currentArmorShield.value": currentArmorValue });
         break;
       }
       default:
@@ -455,7 +457,6 @@ export default class CPRActorSheet extends ActorSheet {
     // Get all Installed Cyberware first...
     const installedCyberware = this.actor.getInstalledCyberware();
     const installedFoundationalCyberware = installedCyberware.filter((c) => c.data.data.isFoundational === true);
-
     // Now sort allInstalledCybere by type, and only get foundational
     const sortedInstalledCyberware = {};
     for (const [type] of Object.entries(CPR.cyberwareTypeList)) {
@@ -477,18 +478,18 @@ export default class CPRActorSheet extends ActorSheet {
   // through here.  Things such as:
   // Weapon: Load, Unload
   // Armor: Ablate, Repair
-  _itemAction(event) {
+  async _itemAction(event) {
     LOGGER.trace("ActorID _itemAction | CPRActorSheet | Called.");
     const item = this._getOwnedItem(this._getItemId(event));
     const actionType = $(event.currentTarget).attr("data-action-type");
     if (item) {
       switch (actionType) {
         case "delete": {
-          this._deleteOwnedItem(item);
+          await this._deleteOwnedItem(item);
           break;
         }
         case "create": {
-          this._createInventoryItem($(event.currentTarget).attr("data-item-type"));
+          await this._createInventoryItem($(event.currentTarget).attr("data-item-type"));
           break;
         }
         // TODO
@@ -504,7 +505,7 @@ export default class CPRActorSheet extends ActorSheet {
           item.doAction(this.actor, event.currentTarget.attributes);
         }
       }
-      this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
     }
   }
 
@@ -656,8 +657,8 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   _updateOwnedItem(item) {
-    LOGGER.trace("ActorID _updateOwnedItemProp | Called.");
-    return this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+    LOGGER.trace("ActorID _updateOwnedItem | Called.");
+    return this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
   }
 
   _renderItemCard(event) {
@@ -719,7 +720,7 @@ export default class CPRActorSheet extends ActorSheet {
       weapons.forEach((weapon) => {
         const weaponData = weapon.data.data;
         if (weaponData.isRanged) {
-          if (weaponData.magazine.ammoId === item._id) {
+          if (weaponData.magazine.ammoId === item.id) {
             const warningMessage = `${game.i18n.localize("CPR.ammodeletewarning")}: ${weapon.name}`;
             SystemUtils.DisplayMessage("warn", warningMessage);
             ammoIsLoaded = true;
@@ -730,7 +731,7 @@ export default class CPRActorSheet extends ActorSheet {
         return;
       }
     }
-    await this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
+    await this.actor.deleteEmbeddedDocuments("Item", [item.id]);
   }
 
   _fireCheckboxToggle(event) {
@@ -771,7 +772,7 @@ export default class CPRActorSheet extends ActorSheet {
     await this.actor.setLifepath(formData);
   }
 
-  _createInventoryItem(event) {
+  async _createInventoryItem(event) {
     // We can allow a global setting which allows/denies players from creating their
     // own items?
     const setting = true;
@@ -785,12 +786,13 @@ export default class CPRActorSheet extends ActorSheet {
         name: itemName,
         type: itemType,
         // eslint-disable-next-line no-undef
-        data: duplicate(itemType),
+        // data: duplicate(itemType),
       };
-      this.actor.createEmbeddedEntity("OwnedItem", itemData);
+      await this.actor.createEmbeddedDocuments("Item", [itemData]);
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   _getCriticalInjuryTables() {
     const critPattern = new RegExp("^Critical Injury|^CriticalInjury|^CritInjury|^Crit Injury|^Critical Injuries|^CriticalInjuries");
     const tableNames = [];
@@ -807,15 +809,16 @@ export default class CPRActorSheet extends ActorSheet {
 
   async _rollCriticalInjury() {
     const tableName = await this._setCriticalInjuryTable();
-    const table = game.tables.entities.find((t) => t.name === tableName);
+    const table = game.tables.contents.find((t) => t.name === tableName);
     this._drawCriticalInjuryTable(tableName, table, 0);
     this._automaticResize();
   }
 
   async _drawCriticalInjuryTable(tableName, table, iteration) {
-    if (iteration > 100) { // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6), otherwise lower chance
+    if (iteration > 100) {
+      // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6), otherwise lower
       // count number of critical injuries of the type given in the table on the target
-      const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === table.data.results[0].text)));
+      const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === table.data.results.contents[0].data.text)));
       // eslint-disable-next-line no-undef
       if (!crit) {
         SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
@@ -828,7 +831,8 @@ export default class CPRActorSheet extends ActorSheet {
         SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
         return;
       }
-      if (iteration > 1000) { // Techincally possible to reach even if a critical injury is still missing (chance: 6*10e-11 %), though unlikely.
+      if (iteration > 1000) {
+        // Techincally possible to reach even if a critical injury is still missing (chance: 6*10e-11 %).
         SystemUtils.DisplayMessage("error", (game.i18n.localize("CPR.criticalinjuryduplicateloopwarning")));
         return; // Prevent endless loop in case of mixed (head and body) Critical Injury tables or unreachable elements in the rolltable.
       }
@@ -838,7 +842,7 @@ export default class CPRActorSheet extends ActorSheet {
         if (res.results.length > 0) {
           // Check if the critical Injury already exists on the character
           let injuryAlreadyExists = false;
-          this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.name === res.results[0].text) { injuryAlreadyExists = true; } });
+          this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.name === res.results[0].data.text) { injuryAlreadyExists = true; } });
           if (injuryAlreadyExists) {
             const setting = game.settings.get("cyberpunk-red-core", "preventDuplicateCriticalInjuries");
             if (setting === "reroll") {
@@ -849,7 +853,7 @@ export default class CPRActorSheet extends ActorSheet {
               SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicatewarning")));
             }
           }
-          const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
+          const crit = game.items.find((item) => ((item.data.type === "criticalInjury") && (item.name === res.results[0].data.text)));
           // eslint-disable-next-line no-undef
           if (!crit) {
             SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
@@ -857,12 +861,16 @@ export default class CPRActorSheet extends ActorSheet {
           }
           // eslint-disable-next-line no-undef
           const itemData = duplicate(crit.data);
-          const result = await this.actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
+          const result = await this.actor.createEmbeddedDocuments("Item", [itemData]);
           const cprRoll = new CPRRolls.CPRTableRoll(crit.data.name, res.roll, "systems/cyberpunk-red-core/templates/chat/cpr-critical-injury-rollcard.hbs");
           cprRoll.rollCardExtraArgs.tableName = tableName;
-          cprRoll.rollCardExtraArgs.itemName = result.name;
-          cprRoll.rollCardExtraArgs.itemImg = result.img;
-          cprRoll.entityData = { actor: this.actor._id, token: this.token.id, item: result._id };
+          cprRoll.rollCardExtraArgs.itemName = result[0].name;
+          cprRoll.rollCardExtraArgs.itemImg = result[0].img;
+          if (this.token) {
+            cprRoll.entityData = { actor: this.actor.id, token: this.token.id, item: result[0].id };
+          } else {
+            cprRoll.entityData = { actor: this.actor.id, item: result[0].id };
+          }
           CPRChat.RenderRollCard(cprRoll);
         }
       });
@@ -871,7 +879,7 @@ export default class CPRActorSheet extends ActorSheet {
   _automaticResize() {
     LOGGER.trace("ActorSheet | _automaticResize | Called.");
     const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
-    if (setting && this.rendered) {
+    if (setting && this.rendered && !this._minimized) {
       // It seems that the size of the content does not change immediately upon updating the content
       setTimeout(() => {
         this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
@@ -949,10 +957,10 @@ export default class CPRActorSheet extends ActorSheet {
   _onDragItemStart(event) {
     LOGGER.trace("ActorID _onDragItemStart | CPRActorSheet | called.");
     const itemId = event.currentTarget.getAttribute("data-item-id");
-    const item = this.actor.getEmbeddedEntity("OwnedItem", itemId);
+    const item = this.actor.getEmbeddedDocument("Item", itemId);
     event.dataTransfer.setData("text/plain", JSON.stringify({
       type: "Item",
-      actorId: this.actor._id,
+      actorId: this.actor.id,
       data: item,
       root: event.currentTarget.getAttribute("root"),
     }));
@@ -964,14 +972,14 @@ export default class CPRActorSheet extends ActorSheet {
     const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
     if (dragData.actorId !== undefined) {
       // Transfer ownership from one player to another
-      const actor = game.actors.find((a) => a._id === dragData.actorId);
+      const actor = game.actors.find((a) => a.id === dragData.actorId);
       if (actor) {
         if (actor.data._id === this.actor.data._id
           || dragData.data.data.core === true
           || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
           return;
         }
-        super._onDrop(event).then(actor.deleteEmbeddedEntity("OwnedItem", dragData.data._id));
+        super._onDrop(event).then(actor.deleteEmbeddedDocuments("Item", [dragData.data._id]));
       }
     } else {
       super._onDrop(event);

@@ -1,6 +1,6 @@
 {{trace "CPR-MOOK-STATS.HBS"}}
 {{!-- Partials to create stat-units from template --}}
-{{#each data.stats as |stat s|}}
+{{#each data.data.stats as |stat s|}}
   <div class="mook-{{s}}-stat">
     <div>
       <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}" title="{{localize CPR.clicktorollthisstat}}">

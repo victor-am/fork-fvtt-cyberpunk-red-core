@@ -1,14 +1,14 @@
 {{trace "CPR-CYBERWARE-INV-CONTENT.HBS"}}
-{{#unless item.data.isInstalled}}
-<li class="item flexrow{{#if item.data.favorite}} favorite{{else}}{{#if (listContains sheet.options.collapsedSections "gearTab-cyberware")}} hide{{/if}}{{/if}}" data-item-id="{{item._id}}"
+{{#unless item.data.data.isInstalled}}
+<li class="item flexrow{{#if item.data.data.favorite}} favorite{{else}}{{#if (listContains sheet.options.collapsedSections "gearTab-cyberware")}} hide{{/if}}{{/if}}" data-item-id="{{item.data._id}}"
   data-item-category="{{item.type}}" draggable="true">
   <div class="item-name gear-name text-nowrap">
     <a class="name item-edit" title="{{item.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{item.name}}</a>
   </div>
   <div class="item-detail gear-data text-nowrap">
-        {{localize (findConfigValue "cyberwareTypeList" item.data.type)}}
-        {{#if item.data.isFoundational}}
-        {{#if (compare item.data.optionSlots ">" 0)}}
+        {{localize (findConfigValue "cyberwareTypeList" item.data.data.type)}}
+        {{#if item.data.data.isFoundational}}
+        {{#if (compare item.data.data.optionSlots ">" 0)}}
         ({{localize "CPR.foundational"}})
         {{/if}}
         {{/if}}
