@@ -136,9 +136,6 @@ export default class CPRActorSheet extends ActorSheet {
     // Render Item Card
     html.find(".item-edit").click((event) => this._renderItemCard(event));
 
-    // Create item in inventory
-    html.find(".item-create").click((event) => this._createInventoryItem(event));
-
     // Roll critical injuries and add to sheet
     html.find(".roll-critical-injury").click(() => this._rollCriticalInjury());
 
@@ -349,6 +346,10 @@ export default class CPRActorSheet extends ActorSheet {
           break;
         }
         case "create": {
+          // TODO
+          // only character sheets call this so note it is actually in the child class
+          // also note no templates call this with data-action="create", so this case can
+          // probably be removed
           await this._createInventoryItem($(event.currentTarget).attr("data-item-type"));
           break;
         }
@@ -545,32 +546,6 @@ export default class CPRActorSheet extends ActorSheet {
       this.actor.unsetFlag("cyberpunk-red-core", `firetype-${weaponID}`);
     } else {
       this.actor.setFlag("cyberpunk-red-core", `firetype-${weaponID}`, firemode);
-    }
-  }
-
-  /**
-   * Create an item in the inventory of the actor.
-   * TODO: verify whether the global setting to allow/deny this is something we actually
-   *       want to use.
-   * @private
-   * @param {Object} event - object capturing event data (what was clicked and where?)
-   */
-  async _createInventoryItem(event) {
-    LOGGER.trace("_createInventoryItem | CPRActorSheet | Called.");
-    const setting = true;
-    if (setting) {
-      const itemType = $(event.currentTarget).attr("data-item-type");
-      const itemTypeNice = itemType.toLowerCase().capitalize();
-      const itemString = "ITEM.Type";
-      const itemTypeLocal = itemString.concat(itemTypeNice);
-      const itemName = `${SystemUtils.Localize("CPR.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
-      const itemData = {
-        name: itemName,
-        type: itemType,
-        // eslint-disable-next-line no-undef
-        // data: duplicate(itemType),
-      };
-      await this.actor.createEmbeddedDocuments("Item", [itemData]);
     }
   }
 

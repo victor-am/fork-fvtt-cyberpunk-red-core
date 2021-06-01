@@ -88,11 +88,16 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       (event) => this._updateRoleAbility(event),
     );
 
+    // create a proper ledger record for IP
     html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
 
+    // create a proper ledger record for EB
     html.find(".eurobucks-input").click((event) => event.target.select()).change(
       (event) => this._updateEurobucks(event),
     );
+
+    // Create item in inventory
+    html.find(".item-create").click((event) => this._createInventoryItem(event));
 
     super.activateListeners(html);
   }
@@ -315,5 +320,24 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   _updateEurobucks(event) {
     LOGGER.trace("ActorID _updateEurobucks | CPRActorSheet | Called.");
     this._setEb(parseInt(event.target.value, 10), "player input in gear tab");
+  }
+
+  /**
+   * Create an item in the inventory of the actor. The templates will hide this functionality
+   * if the GMs does not want to permit players to create their own items.
+   *
+   * @private
+   * @callback
+   * @param {Object} event - object capturing event data (what was clicked and where?)
+   */
+  async _createInventoryItem(event) {
+    LOGGER.trace("_createInventoryItem | CPRActorSheet | Called.");
+    const itemType = $(event.currentTarget).attr("data-item-type");
+    const itemTypeNice = itemType.toLowerCase().capitalize();
+    const itemString = "ITEM.Type";
+    const itemTypeLocal = itemString.concat(itemTypeNice);
+    const itemName = `${SystemUtils.Localize("CPR.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
+    const itemData = { name: itemName, type: itemType };
+    await this.actor.createEmbeddedDocuments("Item", [itemData]);
   }
 }
