@@ -7,7 +7,6 @@ import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPR from "../system/config.js";
 import LOGGER from "../utils/cpr-logger.js";
 import LoadAmmoPrompt from "../dialog/cpr-load-ammo-prompt.js";
-import InstallProgramsPrompt from "../dialog/cpr-install-programs-prompt.js";
 import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
@@ -533,8 +532,34 @@ export default class CPRItem extends Item {
     return 0;
   }
 
+  // Program Code
+  setInstalled() {
+    LOGGER.debug("setInstalled | CPRItem | Called.");
+    if (this.data.type !== "program") {
+      return;
+    }
+    this.data.data.isInstalled = true;
+  }
+
+  unsetInstalled() {
+    LOGGER.debug("setInstalled | CPRItem | Called.");
+    if (this.data.type !== "program") {
+      return;
+    }
+    this.data.data.isInstalled = false;
+  }
+
+  getInstalled() {
+    LOGGER.debug("setInstalled | CPRItem | Called.");
+    if (this.data.type !== "program") {
+      return;
+    }
+    return this.data.data.isInstalled;
+  }
+
   // Cyberdeck Code
-  _availableSlots() {
+  availableSlots() {
+    LOGGER.debug("availableSlots | CPRItem | Called.");
     if (this.data.type !== "cyberdeck") {
       return;
     }
@@ -549,70 +574,52 @@ export default class CPRItem extends Item {
     return unusedSlots;
   }
 
-  async installPrograms() {
-    LOGGER.debug("installPrograms | CPRItem | Called.");
-    if (this.data.type !== "cyberdeck") {
-      return;
-    }
+  getInstalledPrograms() {
+    LOGGER.debug("getInstalledPrograms | CPRItem | Called.");
+    return this.data.data.programs.installed;
+  }
 
-    const programPack = game.packs.get("cyberpunk-red-core.programs-items");
-    const corePrograms = await programPack.getContent();
+  getRezzedPrograms() {
+    LOGGER.debug("getRezzedPrograms | CPRItem | Called.");
+    return this.data.data.programs.rezzed;
+  }
 
-    const installedPrograms = this.data.data.programs.installed;
-    const actor = (this.isOwned) ? this.actor : null;
-    let programList = [];
-    if (actor) {
-      programList = actor.data.filteredItems.program.filter((p) => p.data.data.isInstalled === false);
-      installedPrograms.forEach((ip) => {
-        programList.push((actor.data.filteredItems.program.filter((p) => p._id === ip._id))[0]);
-      });
-    } else {
-      programList = corePrograms;
-    }
-
-    programList = programList.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
-
-    let formData = {
-      cyberdeck: this,
-      programList,
-      returnType: "array",
-    };
-
-    formData = await InstallProgramsPrompt.RenderPrompt(formData);
-
-    let selectedPrograms = [];
-    let storageRequired = 0;
-
-    formData.selectedPrograms.forEach((pId) => {
-      const program = (programList.filter((p) => p.data._id === pId))[0];
-      storageRequired += program.data.data.slots;
-      selectedPrograms.push(program);
+  async installPrograms(programs) {
+    LOGGER.debug("installProgram | CPRItem | Called.");
+    console.log("INSTALL PROGRAM");
+    console.log(programs);
+    const { installed } = this.data.data.programs;
+    programs.forEach((p) => {
+      const onDeck = installed.filter((iProgram) => iProgram._id === p._id);
+      if (onDeck.length === 0) {
+        installed.push(p);
+        p.setInstalled();
+      }
     });
+    this.data.data.programs.installed = installed;
+  }
 
-    selectedPrograms = selectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+  async uninstallPrograms(programs) {
+    let { rezzed } = this.data.data.programs;
+    let { installed } = this.data.data.programs;
+    programs.forEach((program) => {
+      rezzed = rezzed.filter((p) => p._id !== program.id);
+      installed = installed.filter((p) => p._id !== program.id);
+      if ((typeof program.unsetInstalled === "function")) {
+        program.unsetInstalled();
+      }
+    });
+    this.data.data.programs.rezzed = rezzed;
+    this.data.data.programs.installed = installed;
+  }
 
-    if (storageRequired > this.data.data.slots) {
-      return SystemUtils.DisplayMessage("error", "CPR.cyberdeckinsufficientstorage");
-    }
+  async rezProgram(program) {
+    const rezzed = this.data.data.programs.rezzed.push(program);
+    this.data.data.programs.rezzed = rezzed;
+  }
 
-    if (actor) {
-      const updateList = [];
-      updateList.push({ _id: this.data._id, "data.programs.installed": selectedPrograms });
-
-      // Set isInstalled flag on programs that get installed
-      selectedPrograms.forEach((program) => {
-        programList = programList.filter((pl) => pl.data._id !== program.data._id);
-        updateList.push({ _id: program.data._id, "data.isInstalled": true });
-      });
-
-      // Unset isInstalled flag on programs that do not get installed
-      programList.forEach((program) => {
-        updateList.push({ _id: program.data._id, "data.isInstalled": false });
-      });
-
-      actor.updateEmbeddedEntity("OwnedItem", updateList);
-    } else {
-      this.data.data.programs.installed = selectedPrograms;
-    }
+  async derezProgram(program) {
+    const rezzed = this.data.data.programs.rezzed.filter((p) => p !== program);
+    this.data.data.programs.rezzed = rezzed;
   }
 }

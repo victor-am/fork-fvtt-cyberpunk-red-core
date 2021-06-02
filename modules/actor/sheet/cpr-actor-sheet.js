@@ -51,7 +51,7 @@ export default class CPRActorSheet extends ActorSheet {
     // DO NOT add new data points into getData to shorten dataPaths
     LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
     const data = super.getData();
-    data.filteredItems = this.actor.filteredItems;
+    data.filteredItems = this.actor.data.filteredItems;
     if (this.actor.data.type === "mook" || this.actor.data.type === "character") {
       data.installedCyberware = this._getSortedInstalledCyberware();
     }
@@ -65,6 +65,13 @@ export default class CPRActorSheet extends ActorSheet {
     if (fightState === "Netspace") {
       data.cyberdeck = this.actor.getEquippedCyberdeck();
     }
+    const programsInstalled = [];
+    this.actor.data.filteredItems.cyberdeck.forEach((deck) => {
+      deck.data.data.programs.installed.forEach((program) => {
+        programsInstalled.push(program._id);
+      });
+    });
+    data.filteredItems["programsInstalled"] = programsInstalled;
     return data;
   }
 

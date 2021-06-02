@@ -4,6 +4,7 @@ import LOGGER from "../../utils/cpr-logger.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
 import NetarchLevelPrompt from "../../dialog/cpr-netarch-level-prompt.js";
+import CyberdeckSelectProgramsPrompt from "../../dialog/cpr-select-install-programs-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
 import CPRNetarchUtils from "../../utils/cpr-netarchUtils.js";
@@ -67,7 +68,7 @@ export default class CPRItemSheet extends ItemSheet {
       data.filteredItems.skill = await SystemUtils.GetCoreSkills();
     }
     if (data.item.type === "cyberdeck") {
-      data.item.data.availableSlots = this.object._availableSlots();
+      data.data.data.availableSlots = this.object.availableSlots();
     }
     data.dvTableNames = DvUtils.GetDvTables();
     return data;
@@ -92,7 +93,9 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".netarch-level-action").click((event) => this._netarchLevelAction(event));
 
-    html.find(".select-installed-programs").click((event) => this._cyberdeckInstallPrograms(event));
+    html.find(".select-installed-programs").click((event) => this._cyberdeckSelectInstalledPrograms(event));
+
+    html.find(".uninstall-program").click((event) => this._cyberdeckUninstallProgram(event));
 
     html.find(".netarch-generate-auto").click((event) => {
       if (game.user.isGM) {
@@ -372,10 +375,101 @@ export default class CPRItemSheet extends ItemSheet {
     }
   }
 
-  // Cyberdeck
-  async _cyberdeckInstallPrograms(event) {
+  // Cyberdeck Code
+
+  async _cyberdeckSelectInstalledPrograms(event) {
+    LOGGER.debug("_cyberdeckSelectInstalledPrograms | CPRItem | Called.");
     const cyberdeck = this.item;
-    await cyberdeck.installPrograms();
-    console.log(event);
+    if (cyberdeck.data.type !== "cyberdeck") {
+      return;
+    }
+
+    // We only support loading programs onto owned decks, so let's get the actor
+    // Get the actor that owns this cyberdeck (if owned)
+    const actor = (cyberdeck.isOwned) ? cyberdeck.actor : null;
+
+    if (!actor) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.owneditemonlyerror"));
+      return;
+    }
+
+    // Get a list of programs that are installed on this cyberdeck
+    const installedPrograms = cyberdeck.getInstalledPrograms();
+
+    // Prepare a list of programs for the prompt to select from
+    let programList = [];
+
+    // Start with the list of all programs owned by the actor
+    programList = actor.data.filteredItems.program;
+
+    // Remove all programs that are installed somewhere other than this deck
+    actor.data.filteredItems.programsInstalled.forEach((programId) => {
+      const onDeck = installedPrograms.filter((p) => p._id === programId);
+      if (onDeck.length === 0) {
+        programList = programList.filter((p) => p.id !== programId);
+      }
+    });
+
+    programList = programList.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+
+    let formData = {
+      cyberdeck,
+      programList,
+      returnType: "array",
+    };
+
+    formData = await CyberdeckSelectProgramsPrompt.RenderPrompt(formData);
+
+    let selectedPrograms = [];
+    let unselectedPrograms = programList;
+
+    let storageRequired = 0;
+
+    formData.selectedPrograms.forEach((pId) => {
+      const program = (programList.filter((p) => p.data._id === pId))[0];
+      storageRequired += program.data.data.slots;
+      selectedPrograms.push(program);
+      unselectedPrograms = unselectedPrograms.filter((p) => p.data._id !== program.data._id);
+    });
+
+    selectedPrograms = selectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+    unselectedPrograms = unselectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+
+    if (storageRequired > cyberdeck.availableSlots()) {
+      return SystemUtils.DisplayMessage("error", "CPR.cyberdeckinsufficientstorage");
+    }
+
+    cyberdeck.uninstallPrograms(unselectedPrograms);
+    cyberdeck.installPrograms(selectedPrograms);
+
+    const updateList = [{ _id: cyberdeck.id, data: cyberdeck.data.data }];
+    programList.forEach((program) => {
+      updateList.push({ _id: program.id, data: program.data.data });
+    });
+    await actor.updateEmbeddedDocuments("Item", updateList);
+  }
+
+  async _cyberdeckUninstallProgram(event) {
+    const programId = $(event.currentTarget).attr("data-item-id");
+    LOGGER.debug("_cyberdeckUninstallProgram | CPRItem | Called.");
+    const cyberdeck = this.item;
+    if (cyberdeck.data.type !== "cyberdeck") {
+      return;
+    }
+
+    const actor = (cyberdeck.isOwned) ? cyberdeck.actor : null;
+
+    if (!actor) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.owneditemonlyerror"));
+      return;
+    }
+
+    const program = (actor.data.filteredItems.program.filter((p) => p._id === programId))[0];
+
+    cyberdeck.uninstallPrograms([program]);
+
+    const updateList = [{ _id: cyberdeck.id, data: cyberdeck.data.data }];
+    updateList.push({ _id: program._id, "data.isInstalled": false });
+    await actor.updateEmbeddedDocuments("Item", updateList);
   }
 }

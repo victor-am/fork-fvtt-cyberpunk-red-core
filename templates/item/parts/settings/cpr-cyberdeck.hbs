@@ -15,8 +15,8 @@
                         {{localize "CPR.cyberdeck"}} {{localize "CPR.quality"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.quality" data-dtype="{{data.quality}}">
-                            {{#select data.quality}}
+                        <select name="data.quality" data-dtype="{{data.data.quality}}">
+                            {{#select data.data.quality}}
                             {{#each (findConfigObj "itemQuality") as |quality q| }}
                             <option value="{{q}}">{{localize quality}}</option>
                             {{/each}}
@@ -29,7 +29,7 @@
                         {{localize "CPR.hardwareprogramslots"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.slots" class="" type="number" value="{{data.slots}}">
+                        <input name="data.slots" class="" type="number" value="{{data.data.slots}}">
                     </div>
                 </li>
                 <li class="item flexrow">
@@ -38,16 +38,16 @@
                             "CPR.configureinstalledprograms"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
                     </div>
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.availableslots"}}: {{data.availableSlots}}
+                        {{localize "CPR.availableslots"}}: {{data.data.availableSlots}}
                     </div>
                 </li>
                 <div class="installed-programs">
-                    {{log this}}
+
                 </div>
-                {{#each this.data.programs.installed as |program|}}
+                {{#each data.data.programs.installed as |program|}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{program.name}} ({{program.data.class}})
+                        &nbsp;{{program.name}} ({{program.data.class}}) &nbsp;<a class="uninstall-program" data-item-id="{{program._id}}"><i class="fas fa-trash-alt fg-red"></i></a>
                     </div>
                 </li>
                 {{/each}}
