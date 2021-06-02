@@ -505,7 +505,10 @@ export default class CPRActorSheet extends ActorSheet {
           item.doAction(this.actor, event.currentTarget.attributes);
         }
       }
-      this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
+      // Only update if we aren't deleting the item.  Item deletion is handled in this._deleteOwnedItem()
+      if (actionType !== "delete") {
+        this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
+      }
     }
   }
 
