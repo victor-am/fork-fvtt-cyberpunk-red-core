@@ -364,6 +364,7 @@
           "market": 0,
           "category": ""
         },
+        "quality": "standard",
         "amount": 1
       },
       "equippable": {
@@ -380,7 +381,6 @@
           "autoFire": 0,
           "suppressiveFire": false
         },
-        "quality": "standard",
         "damage": "1d6",
         "rof": 1,
         "attachmentSlots": 0,
