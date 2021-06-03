@@ -26,7 +26,7 @@ export default class Migration {
           await i.update(updateData, { diff: false });
         }
       } catch (err) {
-        err.message = `Failed dnd5e system migration for Item ${i.name}: ${err.message}`;
+        err.message = `Failed cyberpunk-red-core system migration for Item ${i.name}: ${err.message}`;
         console.error(err);
       }
     }
@@ -46,19 +46,23 @@ export default class Migration {
       }
 
       try {
-        const updateData = this.migrateActorData(a);
+        // Create any new items needed for the Actor before manipulating
+        // any data points
+        await this.createActorItems(a);
+        const updateData = this.migrateActorData(a.data);
         if (!foundry.utils.isObjectEmpty(updateData)) {
           console.log(`Migrating Actor entity ${a.name}`);
           await a.update(updateData, { enforceTypes: false });
         }
       } catch (err) {
-        err.message = `Failed dnd5e system migration for Actor ${a.name}: ${err.message}`;
+        err.message = `Failed cyberpunk-red-core system migration for Actor ${a.name}: ${err.message}`;
         console.error(err);
       }
     }
     totalCount = game.packs.size;
     loopIndex = 0;
 
+    // Migrate World Compendiums
     ui.notifications.notify(`Beginning migration of ${totalCount} Packs.`);
     for (const p of game.packs) {
       loopIndex += 1;
@@ -68,28 +72,39 @@ export default class Migration {
         this.migrateCompendium(p);
       }
     }
+
+    // Migrate Actor Override Tokens
+    for (const s of game.scenes.contents) {
+      try {
+        const updateData = this.migrateSceneData(s.data);
+        if (!foundry.utils.isObjectEmpty(updateData)) {
+          console.log(`Migrating Scene entity ${s.name}`);
+          await s.update(updateData, { enforceTypes: false });
+          // If we do not do this, then synthetic token actors remain in cache
+          // with the un-updated actorData.
+          s.tokens.contents.forEach((t) => {
+            // eslint-disable-next-line no-param-reassign
+            t._actor = null;
+          });
+        }
+      } catch (err) {
+        err.message = `Failed cyberpunk-red-core system migration for Scene ${s.name}: ${err.message}`;
+        console.error(err);
+      }
+    }
+
     ui.notifications.notify(`Migration of Cyberpunk Red Core to Data Model ${newDataModelVersion} Finished.`);
 
     game.settings.set("cyberpunk-red-core", "dataModelVersion", newDataModelVersion);
   }
 
-  static async migrateActorData(actorDocument) {
-    const actor = actorDocument.data;
-    let updateData = {};
-
-    // Migrate critical injures to items
-    if ((typeof actor.data.criticalInjuries) !== "undefined") {
-      if (actor.data.criticalInjuries.length > 0) {
-        const migratedInjuries = this.migrateCriticalInjuries(actor);
-        if (!isObjectEmpty(migratedInjures)) {
-          await actor.createEmbeddedDocuments("Item", migratedInjuries, { CPRmigration: true });
-        }
-      }
-    }
+  // @param {object} actorData    The actor data object to update
+  static async migrateActorData(actorData) {
+    const updateData = {};
 
     // Migrate Owned Items
-    if (actor.items) {
-      const items = actor.items.reduce((arr, i) => {
+    if (actorData.items) {
+      const items = actorData.items.reduce((arr, i) => {
         // Migrate the Owned Item
         const itemData = i instanceof CONFIG.Item.documentClass ? i.toObject() : i;
         const itemUpdate = this.migrateItemData(itemData);
@@ -130,72 +145,88 @@ export default class Migration {
     */
 
     // The following only applies to the character data model
-    if (actor.type === "character") {
+    if (actorData.type === "character") {
       // Original Data Model had a spelling issue
-      if ((typeof actor.data.lifepath.familyBackground) === "undefined") {
+      if ((typeof actorData.data.lifepath.familyBackground) === "undefined") {
         updateData["data.lifepath.familyBackground"] = "";
-        if ((typeof actor.data.lifepath.familyBackgrond) !== "undefined") {
-          updateData["data.lifepath.familyBackground"] = actor.data.lifepath.familyBackgrond;
+        if ((typeof actorData.data.lifepath.familyBackgrond) !== "undefined") {
+          updateData["data.lifepath.familyBackground"] = actorData.data.lifepath.familyBackgrond;
           updateData["data.lifepath.-=familyBackgrond"] = null;
         }
       }
-      if ((typeof actor.data.lifestyle.fashion) === "undefined") {
+      if ((typeof actorData.data.lifestyle.fashion) === "undefined") {
         updateData["data.lifestyle.fashion"] = "";
-        if ((typeof actor.data.lifestyle.fasion) !== "undefined") {
-          updateData["data.lifestyle.fashion"] = actor.data.lifestyle.fasion;
+        if ((typeof actorData.data.lifestyle.fasion) !== "undefined") {
+          updateData["data.lifestyle.fashion"] = actorData.data.lifestyle.fasion;
           updateData["data.lifestyle.-=fasion"] = null;
+        }
+
+        if ((typeof actorData.data.improvementPoints.total) !== "undefined") {
+          updateData["data.improvementPoints.-=total"] = null;
+        }
+
+        // Removed in 0.72
+        if ((typeof actorData.data.hp) !== "undefined") {
+          updateData["data.-=hp"] = null;
         }
       }
 
+      // Lifepath migration/fixes
       // Changed in 0.72
-      if ((typeof actor.data.lifepath.friends) === "object") {
+      if ((typeof actorData.data.lifepath.friends) === "object") {
         updateData["data.lifepath.friends"] = "";
       }
       // Changed in 0.72
-      if ((typeof actor.data.lifepath.tragicLoveAffairs) === "object") {
+      if ((typeof actorData.data.lifepath.tragicLoveAffairs) === "object") {
         updateData["data.lifepath.tragicLoveAffairs"] = "";
       }
       // Changed in 0.72
-      if ((typeof actor.data.lifepath.enemies) === "object") {
+      if ((typeof actorData.data.lifepath.enemies) === "object") {
         updateData["data.lifepath.enemies"] = "";
       }
 
+      // Lifestyle migration/fixes
       // Changed in 0.72
-      if ((typeof actor.data.lifestyle.fashion) === "string") {
-        const oldData = actor.data.lifestyle.fashion;
+      if ((typeof actorData.data.lifestyle.fashion) === "string") {
+        const oldData = actorData.data.lifestyle.fashion;
         updateData["data.lifestyle.fashion"] = { description: oldData };
       }
 
       // Changed in 0.72
-      if ((typeof actor.data.lifestyle.housing) === "string") {
-        const oldData = actor.data.lifestyle.housing;
+      if ((typeof actorData.data.lifestyle.housing) === "string") {
+        const oldData = actorData.data.lifestyle.housing;
         updateData["data.lifestyle.housing"] = { description: oldData, cost: 0 };
       }
-
       // Changed in 0.72
-      if ((typeof actor.data.lifestyle.lifestyle) === "string") {
-        const oldData = actor.data.lifestyle.lifestyle;
+      if ((typeof actorData.data.lifestyle.lifestyle) === "string") {
+        const oldData = actorData.data.lifestyle.lifestyle;
         updateData["data.lifestyle.lifestyle"] = { description: oldData, cost: 0 };
       }
 
+      // Removed in 0.72
+      if ((typeof actorData.data.lifestyle.rent) !== "undefined") {
+        updateData["data.lifestyle.-=rent"] = null;
+      }
+
       // Added in 0.72
-      if ((typeof actor.data.lifestyle.traumaTeam) === "undefined") {
+      if ((typeof actorData.data.lifestyle.traumaTeam) === "undefined") {
         updateData["data.lifestyle.traumaTeam"] = { description: "", cost: 0 };
       }
       // Added in 0.72
-      if ((typeof actor.data.lifestyle.extras) === "undefined") {
+      if ((typeof actorData.data.lifestyle.extras) === "undefined") {
         updateData["data.lifestyle.extras"] = { description: "", cost: 0 };
       }
 
-      if ((typeof actor.data.improvementPoints) === "undefined") {
+      // Improvement Points migration/fixes
+      if ((typeof actorData.data.improvementPoints) === "undefined") {
         updateData["data.improvementPoints"] = {
           value: 0,
           transactions: [],
         };
-      } else if ((typeof actor.data.improvementPoints.value) === "undefined") {
+      } else if ((typeof actorData.data.improvementPoints.value) === "undefined") {
         let ipValue = 0;
-        if ((typeof actor.data.improvementPoints.total) !== "undefined") {
-          ipValue = actor.data.improvementPoints.total;
+        if ((typeof actorData.data.improvementPoints.total) !== "undefined") {
+          ipValue = actorData.data.improvementPoints.total;
         }
         updateData["data.improvementPoints"] = {
           value: ipValue,
@@ -203,15 +234,16 @@ export default class Migration {
         };
       }
 
-      if ((typeof actor.data.wealth) === "undefined") {
+      // Wealth/Eddies migration/fixes
+      if ((typeof actorData.data.wealth) === "undefined") {
         updateData["data.wealth"] = {
           value: 0,
           transactions: [],
         };
-      } else if ((typeof actor.data.wealth.value) === "undefined") {
+      } else if ((typeof actorData.data.wealth.value) === "undefined") {
         let eddies = 0;
-        if ((typeof actor.data.wealth.eddies) !== "undefined") {
-          eddies = actor.data.wealth.eddies;
+        if ((typeof actorData.data.wealth.eddies) !== "undefined") {
+          eddies = actorData.data.wealth.eddies;
         }
         updateData["data.wealth"] = {
           value: eddies,
@@ -219,49 +251,79 @@ export default class Migration {
         };
       }
 
-      if ((typeof actor.data.reputation) === "undefined") {
+      if ((typeof actorData.data.wealth.eddies) !== "undefined") {
+        updateData["data.wealth.-=eddies"] = null;
+      }
+
+      // Reputation migration/fixes
+      if ((typeof actorData.data.reputation) === "undefined") {
         updateData["data.reputation"] = {
           value: 0,
           transactions: [],
         };
       }
+      if ((typeof actorData.data["reputation:"]) !== "undefined") {
+        updateData["data.-=reputation:"] = null;
+      }
     }
 
-    if (actor.type === "character" || actor.type === "mook") {
+    if (actorData.type === "character" || actorData.type === "mook") {
       // Applies to both characters and mooks
-      if ((typeof actor.data.derivedStats.deathSave) === "number") {
-        const oldDeathSave = actor.data.derivedStats.deathSave;
+      // Death Save/Death Penalty migration/fixes
+      if ((typeof actorData.data.derivedStats.deathSave) === "number") {
+        const oldDeathSave = actorData.data.derivedStats.deathSave;
         let oldDeathPenalty = 0;
-        if (typeof actor.data.derivedStats.deathSavePenlty !== "undefined") {
-          oldDeathPenalty = actor.data.derivedStats.deathSavePenlty;
+        if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
+          oldDeathPenalty = actorData.data.derivedStats.deathSavePenlty;
         }
         updateData["data.derivedStats.deathSave"] = { value: oldDeathSave, penalty: oldDeathPenalty, basePenalty: 0 };
       }
 
-      if ((typeof actor.data.roleInfo.activeRole) === "undefined") {
+      if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
+        updateData["data.derivedStats.-=deathSavePenlty"] = null;
+      }
+
+      if ((typeof actorData.data.roleInfo.activeRole) === "undefined") {
         let configuredRole = "solo";
-        if (actor.data.roleInfo.roles.length > 0) {
+        if (actorData.data.roleInfo.roles.length > 0) {
           // eslint-disable-next-line prefer-destructuring
-          configuredRole = actor.data.roleInfo.roles[0];
+          configuredRole = actorData.data.roleInfo.roles[0];
         }
         updateData["data.roleInfo.activeRole"] = configuredRole;
       }
 
-      if ((typeof actor.data.criticalInjuries) === "undefined") {
+      if ((typeof actorData.data.criticalInjuries) === "undefined") {
         updateData["data.criticalInjuries"] = [];
       }
 
-      // Moved in 0.72
-      if ((typeof actor.data.humanity) !== "undefined") {
-        updateData["data.derivedStats.humanity"] = actor.data.humanity;
+      // Humanity migration/fixes
+      // Moved to derivedStats in 0.72
+      if ((typeof actorData.data.humanity) !== "undefined") {
+        updateData["data.derivedStats.humanity"] = actorData.data.humanity;
       }
 
-      if ((typeof actor.data.currentWoundState) !== "undefined") {
-        updateData["data.derivedStats.currentWoundState"] = actor.data.currentWoundState;
+      if ((typeof actorData.data.humanity) !== "undefined") {
+        updateData["data.-=humanity"] = null;
       }
 
-      // Adds external data points to Actor (e.g. for Armor SP resource bars)
-      if ((typeof actor.data.externalData) === "undefined") {
+      // Wound State migration/fixes
+      // Moved to derivedStats in 0.72
+      if ((typeof actorData.data.currentWoundState) !== "undefined") {
+        updateData["data.derivedStats.currentWoundState"] = actorData.data.currentWoundState;
+      }
+
+      if ((typeof actorData.data.woundState) !== "undefined") {
+        updateData["data.-=woundState"] = null;
+      }
+
+      // Critical Injuries migration/fixes
+      // Moved to items in 0.72
+      if ((typeof actorData.data.criticalInjuries) !== "undefined") {
+        updateData["data.-=criticalInjuries"] = null;
+      }
+
+      // Adds external data points to actorData (e.g. for Armor SP resource bars)
+      if ((typeof actorData.data.externalData) === "undefined") {
         updateData["data.externalData"] = {
           currentArmorBody: {
             id: "",
@@ -290,33 +352,54 @@ export default class Migration {
       }
     }
 
-    // Check the ActorData for properties no longer in use and add them
-    // to the scrubData object to have them removed
-    updateData = this._scrubActorData(actor, updateData);
-
-    if (actor.type === "character" || actor.type === "mook") {
-      // This was added as part of 0.72.  We had one report of
-      // a scenario where the actors somehow lost their core Cyberware items
-      // so this ensures all actors have them.
-      const pack = game.packs.get("cyberpunk-red-core.cyberware");
-      // put into basickSkills array
-      const content = await pack.getDocuments();
-      const missingContent = this._validateCoreContent(actor, content);
-      if (missingContent.length > 0) {
-        missingContent.forEach(async (c) => {
-          const missingItem = c.data;
-          await actorDocument.createEmbeddedDocuments("Item", [missingItem], { CPRmigration: true });
-        });
-      }
-    }
-
     return updateData;
   }
 
-  static _validateCoreContent(actor, content) {
-    const installedCyberware = actor.items.filter((i) => i.type === "cyberware" && i.data.data.isInstalled === true);
+  // Segmented out the creation of items for the Actors as they are not just
+  // manipulating the Actor Data, they are creating new Item entities in the
+  // world and adding them to the actors.
+  static async createActorItems(actorDocument) {
+    const actorData = actorDocument.data;
+    // Migrate critical injures to items
+    if ((typeof actorData.data.criticalInjuries) !== "undefined") {
+      if (actorData.data.criticalInjuries.length > 0) {
+        const migratedInjuries = this.migrateCriticalInjuries(actorData);
+        if (!isObjectEmpty(migratedInjures)) {
+          await actorDocument.createEmbeddedDocuments("Item", migratedInjuries, { CPRmigration: true });
+        }
+      }
+    }
 
-    // Remove any installed items from the core content since the actor has those items
+    // This was added as part of 0.72.  We had one report of
+    // a scenario where the actors somehow lost their core Cyberware items
+    // so this ensures all actors have them.
+    const pack = game.packs.get("cyberpunk-red-core.cyberware");
+    // put into basickSkills array
+    const content = await pack.getDocuments();
+    const missingContent = this._validateCoreContent(actorData, content);
+    if (missingContent.length > 0) {
+      missingContent.forEach(async (c) => {
+        const missingItem = c.data;
+        console.log(`Actor "${actorData.name}" (${actorData._id}) is missing "${missingItem.name}". Creating.`);
+        await actorDocument.createEmbeddedDocuments("Item", [missingItem], { CPRmigration: true });
+      });
+    }
+  }
+
+  static _validateCoreContent(actorData, content) {
+    const ownedCyberware = actorData.items.filter((o) => o.type === "cyberware");
+    const installedCyberware = ownedCyberware.filter((i) => {
+      let isInstalled = false;
+      if ((typeof i.data.isInstalled) !== undefined) {
+        isInstalled = i.data.isInstalled;
+      }
+      if ((typeof i.data.data.isInstalled) !== undefined) {
+        isInstalled = i.data.data.isInstalled;
+      }
+      return isInstalled;
+    });
+
+    // Remove any installed items from the core content since the actorData has those items
     installedCyberware.forEach((c) => {
       content = content.filter((cw) => cw.name !== c.name);
     });
@@ -325,8 +408,8 @@ export default class Migration {
     return content;
   }
 
-  static _migrateCriticalInjuries(actor) {
-    const { criticalInjuries } = actor.data;
+  static _migrateCriticalInjuries(actorData) {
+    const { criticalInjuries } = actorData.data;
     const injuryItems = [];
     criticalInjuries.forEach(async (injury) => {
       const { mods } = injury;
@@ -359,58 +442,7 @@ export default class Migration {
     return injuryItems;
   }
 
-  // The following is code that is used to remove data points on the actor model that
-  // is no longer in use.  Removing properties uses a special syntax for actor.update()
-  // Basically you prefix the data point you want to remove with '-=' and set it to null.
-  // We build up scrubData with anything that needs to be removed and return it
-  static _scrubActorData(actor, updateData) {
-    // Remove unused data points from a character actor
-    if (actor.type === "character") {
-      if ((typeof actor.data.lifepath.familyBackgrond) !== "undefined") {
-        updateData["data.lifepath.-=familyBackgrond"] = null;
-      }
-      if ((typeof actor.data.lifestyle.fasion) !== "undefined") {
-        updateData["data.lifestyle.-=fasion"] = null;
-      }
-      if ((typeof actor.data.improvementPoints.total) !== "undefined") {
-        updateData["data.improvementPoints.-=total"] = null;
-      }
-      if ((typeof actor.data.wealth.eddies) !== "undefined") {
-        updateData["data.wealth.-=eddies"] = null;
-      }
-      if ((typeof actor.data["reputation:"]) !== "undefined") {
-        updateData["data.-=reputation:"] = null;
-      }
-      // Removed in 0.72
-      if ((typeof actor.data.lifestyle.rent) !== "undefined") {
-        updateData["data.lifestyle.-=rent"] = null;
-      }
-      // Removed in 0.72
-      if ((typeof actor.data.hp) !== "undefined") {
-        updateData["data.-=hp"] = null;
-      }
-    }
-    if (actor.type === "character" || actor.type === "mook") {
-      // Remove unused data points from an actor (character & mooks)
-      if (typeof actor.data.derivedStats.deathSavePenlty !== "undefined") {
-        updateData["data.derivedStats.-=deathSavePenlty"] = null;
-      }
-      // Moved to derivedStats in 0.72
-      if ((typeof actor.data.woundState) !== "undefined") {
-        updateData["data.-=woundState"] = null;
-      }
-      // Moved to derivedStats in 0.72
-      if ((typeof actor.data.humanity) !== "undefined") {
-        updateData["data.-=humanity"] = null;
-      }
-      // Moved to items in 0.72
-      if ((typeof actor.data.criticalInjuries) !== "undefined") {
-        updateData["data.-=criticalInjuries"] = null;
-      }
-    }
-    return updateData;
-  }
-
+  // @param {object} itemData    The actor data object to update
   static migrateItemData(itemData) {
     let updateData = {};
 
@@ -610,7 +642,7 @@ export default class Migration {
       try {
         switch (entity) {
           case "Actor": {
-            updateData = this.migrateActorData(doc);
+            updateData = this.migrateActorData(doc.data);
             break;
           }
           case "Item": {
@@ -630,5 +662,35 @@ export default class Migration {
 
     // Apply the original locked status for the pack
     await pack.configure({ locked: wasLocked });
+  }
+
+  static async migrateSceneData(scene) {
+    const tokens = scene.tokens.map((token) => {
+      const t = token.toJSON();
+      if (!t.actorId || t.actorLink) {
+        t.actorData = {};
+      } else if (!game.actors.has(t.actorId)) {
+        t.actorId = null;
+        t.actorData = {};
+      } else if (!t.actorLink) {
+        // If we get here, we have an unlinked token actor.
+        const actorData = duplicate(token.actor.data);
+        actorData.type = token.actor?.type;
+        const update = this.migrateActorData(actorData);
+        ["items", "effects"].forEach((embeddedName) => {
+          if (!update[embeddedName]?.length) return;
+          const updates = new Map(update[embeddedName].map((u) => [u._id, u]));
+          t.actorData[embeddedName].forEach((original) => {
+            const updateMerge = updates.get(original._id);
+            if (updateMerge) mergeObject(original, updateMerge);
+          });
+          delete update[embeddedName];
+        });
+
+        mergeObject(t.actorData, update);
+      }
+      return t;
+    });
+    return { tokens };
   }
 }
