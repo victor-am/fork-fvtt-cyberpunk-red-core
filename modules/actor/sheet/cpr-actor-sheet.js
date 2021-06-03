@@ -212,9 +212,9 @@ export default class CPRActorSheet extends ActorSheet {
       (event) => this._updateRoleAbility(event),
     );
 
-    html.find(".eurobucks-input").click((event) => event.target.select()).change(
-      (event) => this._updateEurobucks(event),
-    );
+    html.find(".eurobucks-input-button").click((event) => this._updateEurobucks(event));
+
+    html.find(".eurobucks-open-ledger").click(() => this.actor.showLedger("wealth"));
 
     html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
 
@@ -643,7 +643,32 @@ export default class CPRActorSheet extends ActorSheet {
 
   _updateEurobucks(event) {
     LOGGER.trace("ActorID _updateEurobucks | CPRActorSheet | Called.");
-    this._setEb(parseInt(event.target.value, 10), "player input in gear tab");
+    // eslint-disable-next-line prefer-destructuring
+    const value = event.currentTarget.parentElement.parentElement.children[1].value;
+    const reason = event.currentTarget.parentElement.parentElement.nextElementSibling.lastElementChild.value;
+    const action = $(event.currentTarget).attr("data-action");
+    if (value !== "") {
+      switch (action) {
+        case "add": {
+          this._gainEb(parseInt(value, 10), reason);
+          break;
+        }
+        case "subtract": {
+          this._loseEb(parseInt(value, 10), reason);
+          break;
+        }
+        case "set": {
+          this._setEb(parseInt(value, 10), reason);
+          break;
+        }
+        default: {
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.eurobucksmodifyinvalidaction"));
+          break;
+        }
+      }
+    } else {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.eurobucksmodifywarn"));
+    }
   }
 
   _updateIp(event) {

@@ -187,6 +187,50 @@
         border-width    : 5px;
         border-top-color: @wyrm-red;
         border-top-style: solid;
+
+        .eurobucks {
+          display: grid;
+          grid-template-areas:
+            "current-eurobucks"
+            "modify-eurobucks";
+
+          .current-eurobucks {
+            grid-area: current-eurobucks;
+
+            .eurobucks-text {
+              flex: 0 0 83px;
+            }
+
+            .eurobucks-value {
+              flex: 1;
+            }
+
+            .eurobucks-open-ledger {
+              flex: 0 0 15px;
+              text-align: right;
+            }
+          }
+
+          .modify-eurobucks {
+            grid-area: modify-eurobucks;
+
+            .eurobucks-modify-text {
+              flex: 0 0 80px;
+            }
+
+            .eurobucks-modify-input {
+              flex: 1 0 100px;
+            }
+
+            .eurobucks-modify-buttons {
+              flex: 1 0 50px;
+            }
+
+            .eurobucks-modify-reason {
+              flex: 1 0 150px;
+            }
+          }
+        }
     }
 }
 
