@@ -45,15 +45,20 @@ export default class CPRActor extends Actor {
 
   async createEmbeddedDocuments(embeddedName, data, context) {
     LOGGER.trace("createEmbeddedDocuments | CPRActor | called.");
-    if (embeddedName === "Item") {
-      let containsCoreItem = false;
-      data.forEach((document) => {
-        if (document.data && document.data.core) {
-          containsCoreItem = true;
+    // If migration is calling this, we definitely want to
+    // create the Embedded Documents.
+    const isMigration = ((typeof context) !== "undefined" && context.CPRmigration) ? true : false;
+    if (!isMigration) {
+      if (embeddedName === "Item") {
+        let containsCoreItem = false;
+        data.forEach((document) => {
+          if (document.data && document.data.core) {
+            containsCoreItem = true;
+          }
+        });
+        if (containsCoreItem) {
+          return Rules.lawyer(false, "CPR.dontaddcoreitems");
         }
-      });
-      if (containsCoreItem) {
-        return Rules.lawyer(false, "CPR.dontaddcoreitems");
       }
     }
     // Standard embedded entity creation

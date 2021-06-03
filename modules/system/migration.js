@@ -10,6 +10,7 @@ export default class Migration {
     let loopIndex = 0;
     let displayPercent = 25;
 
+    // Migrate World Items
     ui.notifications.notify(`Beginning migration of ${totalCount} Items.`);
     for (const i of game.items.contents) {
       loopIndex += 1;
@@ -18,13 +19,23 @@ export default class Migration {
         displayPercent += 25;
         loopIndex = 0;
       }
-      await i.update([this.migrateItemData(i.data)]);
+      try {
+        const updateData = this.migrateItemData(i.toObject());
+        if (!foundry.utils.isObjectEmpty(updateData)) {
+          console.log(`Migrating Item entity ${i.name}`);
+          await i.update(updateData, { diff: false });
+        }
+      } catch (err) {
+        err.message = `Failed dnd5e system migration for Item ${i.name}: ${err.message}`;
+        console.error(err);
+      }
     }
     totalCount = game.actors.contents.length;
     quarterCount = totalCount / 4;
     displayPercent = 25;
     loopIndex = 0;
 
+    // Migrate World Actors
     ui.notifications.notify(`Beginning migration of ${totalCount} Actors.`);
     for (const a of game.actors.contents) {
       loopIndex += 1;
@@ -34,7 +45,16 @@ export default class Migration {
         loopIndex = 0;
       }
 
-      await this.migrateActorData(a);
+      try {
+        const updateData = this.migrateActorData(a);
+        if (!foundry.utils.isObjectEmpty(updateData)) {
+          console.log(`Migrating Actor entity ${a.name}`);
+          await a.update(updateData, { enforceTypes: false });
+        }
+      } catch (err) {
+        err.message = `Failed dnd5e system migration for Actor ${a.name}: ${err.message}`;
+        console.error(err);
+      }
     }
     totalCount = game.packs.size;
     loopIndex = 0;
@@ -43,19 +63,9 @@ export default class Migration {
     for (const p of game.packs) {
       loopIndex += 1;
       ui.notifications.notify(`Migration of Pack ${loopIndex}/${totalCount} started.`);
-      if (p.metadata.entity === "Item" && p.metadata.package === "world") {
-        p.getDocuments().then(async (items) => {
-          items.forEach(async (i) => {
-            await i.update({ _id: i.id, data: this.migrateItemData(i.data) });
-          });
-        });
-      }
-      if (p.metadata.entity === "Actor" && p.metadata.package === "world") {
-        p.getDocuments().then(async (actors) => {
-          actors.forEach(async (a) => {
-            await a.update({ _id: a.id, data: await this.migrateActorData(a) });
-          });
-        });
+
+      if (p.metadata.package === "world") {
+        this.migrateCompendium(p);
       }
     }
     ui.notifications.notify(`Migration of Cyberpunk Red Core to Data Model ${newDataModelVersion} Finished.`);
@@ -63,26 +73,41 @@ export default class Migration {
     game.settings.set("cyberpunk-red-core", "dataModelVersion", newDataModelVersion);
   }
 
-  static async migrateActorData(actor) {
-    const actorItems = actor.items;
-    const updateItems = [];
-    for (const i of actorItems) {
-      updateItems.push({ _id: i.id, data: this.migrateItemData(i.data).data });
-    }
+  static async migrateActorData(actorDocument) {
+    const actor = actorDocument.data;
+    let updateData = {};
 
-    await actor.updateEmbeddedDocuments("Item", updateItems);
-
-    if ((typeof actor.data.data.criticalInjuries) !== "undefined") {
-      if (actor.data.data.criticalInjuries.length > 0) {
-        await this.migrateCriticalInjuries(actor);
+    // Migrate critical injures to items
+    if ((typeof actor.data.criticalInjuries) !== "undefined") {
+      if (actor.data.criticalInjuries.length > 0) {
+        const migratedInjuries = this.migrateCriticalInjuries(actor);
+        if (!isObjectEmpty(migratedInjures)) {
+          await actor.createEmbeddedDocuments("Item", migratedInjuries, { CPRmigration: true });
+        }
       }
     }
 
-    // Moved to after all of the items have been migrated, since this is used to
-    // update our Actor.  If we set it before, the actor just gets updated with all of the
-    // OLD item data! Oops!
+    // Migrate Owned Items
+    if (actor.items) {
+      const items = actor.items.reduce((arr, i) => {
+        // Migrate the Owned Item
+        const itemData = i instanceof CONFIG.Item.documentClass ? i.toObject() : i;
+        const itemUpdate = this.migrateItemData(itemData);
 
-    const actorData = actor.data;
+        // Update the Owned Item
+        if (!isObjectEmpty(itemUpdate)) {
+          itemUpdate._id = itemData._id;
+          arr.push(expandObject(itemUpdate));
+        }
+
+        return arr;
+      }, []);
+
+      if (items.length > 0) {
+        updateData.items = items;
+      }
+    }
+
     /*
     After version 0.53, we moved deathSave to 3 values to support the rules:
 
@@ -105,138 +130,140 @@ export default class Migration {
     */
 
     // The following only applies to the character data model
-    if (actorData.type === "character") {
+    if (actor.type === "character") {
       // Original Data Model had a spelling issue
-      if ((typeof actorData.data.lifepath.familyBackground) === "undefined") {
-        actorData.data.lifepath.familyBackground = "";
-        if ((typeof actorData.data.lifepath.familyBackgrond) !== "undefined") {
-          actorData.data.lifepath.familyBackground = actorData.data.lifepath.familyBackgrond;
+      if ((typeof actor.data.lifepath.familyBackground) === "undefined") {
+        updateData["data.lifepath.familyBackground"] = "";
+        if ((typeof actor.data.lifepath.familyBackgrond) !== "undefined") {
+          updateData["data.lifepath.familyBackground"] = actor.data.lifepath.familyBackgrond;
+          updateData["data.lifepath.-=familyBackgrond"] = null;
         }
       }
-      if ((typeof actorData.data.lifestyle.fashion) === "undefined") {
-        actorData.data.lifestyle.fashion = "";
-        if ((typeof actorData.data.lifestyle.fasion) !== "undefined") {
-          actorData.data.lifestyle.fashion = actorData.data.lifestyle.fasion;
+      if ((typeof actor.data.lifestyle.fashion) === "undefined") {
+        updateData["data.lifestyle.fashion"] = "";
+        if ((typeof actor.data.lifestyle.fasion) !== "undefined") {
+          updateData["data.lifestyle.fashion"] = actor.data.lifestyle.fasion;
+          updateData["data.lifestyle.-=fasion"] = null;
         }
       }
 
       // Changed in 0.72
-      const myVar = (typeof actorData.data.lifepath.friends);
-      if ((typeof actorData.data.lifepath.friends) === "object") {
-        actorData.data.lifepath.friends = "";
+      const myVar = (typeof actor.data.lifepath.friends);
+      if ((typeof actor.data.lifepath.friends) === "object") {
+        updateData["data.lifepath.friends"] = "";
       }
       // Changed in 0.72
-      if ((typeof actorData.data.lifepath.tragicLoveAffairs) === "object") {
-        actorData.data.lifepath.tragicLoveAffairs = "";
+      if ((typeof actor.data.lifepath.tragicLoveAffairs) === "object") {
+        updateData["data.lifepath.tragicLoveAffairs"] = "";
       }
       // Changed in 0.72
-      if ((typeof actorData.data.lifepath.enemies) === "object") {
-        actorData.data.lifepath.enemies = "";
-      }
-
-      // Changed in 0.72
-      if ((typeof actorData.data.lifestyle.fashion) === "string") {
-        const oldData = actorData.data.lifestyle.fashion;
-        actorData.data.lifestyle.fashion = { description: oldData };
+      if ((typeof actor.data.lifepath.enemies) === "object") {
+        updateData["data.lifepath.enemies"] = "";
       }
 
       // Changed in 0.72
-      if ((typeof actorData.data.lifestyle.housing) === "string") {
-        const oldData = actorData.data.lifestyle.housing;
-        actorData.data.lifestyle.housing = { description: oldData, cost: 0 };
+      if ((typeof actor.data.lifestyle.fashion) === "string") {
+        const oldData = actor.data.lifestyle.fashion;
+        updateData["data.lifestyle.fashion"] = { description: oldData };
       }
 
       // Changed in 0.72
-      if ((typeof actorData.data.lifestyle.lifestyle) === "string") {
-        const oldData = actorData.data.lifestyle.lifestyle;
-        actorData.data.lifestyle.lifestyle = { description: oldData, cost: 0 };
+      if ((typeof actor.data.lifestyle.housing) === "string") {
+        const oldData = actor.data.lifestyle.housing;
+        updateData["data.lifestyle.housing"] = { description: oldData, cost: 0 };
+      }
+
+      // Changed in 0.72
+      if ((typeof actor.data.lifestyle.lifestyle) === "string") {
+        const oldData = actor.data.lifestyle.lifestyle;
+        updateData["data.lifestyle.lifestyle"] = { description: oldData, cost: 0 };
       }
 
       // Added in 0.72
-      if ((typeof actorData.data.lifestyle.traumaTeam) === "undefined") {
-        actorData.data.lifestyle.traumaTeam = { description: "", cost: 0 };
+      if ((typeof actor.data.lifestyle.traumaTeam) === "undefined") {
+        updateData["data.lifestyle.traumaTeam"] = { description: "", cost: 0 };
       }
       // Added in 0.72
-      if ((typeof actorData.data.lifestyle.extras) === "undefined") {
-        actorData.data.lifestyle.extras = { description: "", cost: 0 };
+      if ((typeof actor.data.lifestyle.extras) === "undefined") {
+        updateData["data.lifestyle.extras"] = { description: "", cost: 0 };
       }
 
-      if ((typeof actorData.data.improvementPoints) === "undefined") {
-        actorData.data.improvementPoints = {
+      if ((typeof actor.data.improvementPoints) === "undefined") {
+        updateData["data.improvementPoints"] = {
           value: 0,
           transactions: [],
         };
-      } else if ((typeof actorData.data.improvementPoints.value) === "undefined") {
+      } else if ((typeof actor.data.improvementPoints.value) === "undefined") {
         let ipValue = 0;
-        if ((typeof actorData.data.improvementPoints.total) !== "undefined") {
-          ipValue = actorData.data.improvementPoints.total;
+        if ((typeof actor.data.improvementPoints.total) !== "undefined") {
+          ipValue = actor.data.improvementPoints.total;
         }
-        actorData.data.improvementPoints = {
+        updateData["data.improvementPoints"] = {
           value: ipValue,
           transactions: [],
         };
       }
 
-      if ((typeof actorData.data.wealth) === "undefined") {
-        actorData.data.wealth = {
+      if ((typeof actor.data.wealth) === "undefined") {
+        updateData["data.wealth"] = {
           value: 0,
           transactions: [],
         };
-      } else if ((typeof actorData.data.wealth.value) === "undefined") {
+      } else if ((typeof actor.data.wealth.value) === "undefined") {
         let eddies = 0;
-        if ((typeof actorData.data.wealth.eddies) !== "undefined") {
-          eddies = actorData.data.wealth.eddies;
+        if ((typeof actor.data.wealth.eddies) !== "undefined") {
+          eddies = actor.data.wealth.eddies;
         }
-        actorData.data.wealth = {
+        updateData["data.wealth"] = {
           value: eddies,
           transactions: [],
         };
       }
 
-      if ((typeof actorData.data.reputation) === "undefined") {
-        actorData.data.reputation = {
+      if ((typeof actor.data.reputation) === "undefined") {
+        updateData["data.reputation"] = {
           value: 0,
           transactions: [],
         };
       }
     }
 
-    if (actorData.type === "character" || actorData.type === "mook") {
+    if (actor.type === "character" || actor.type === "mook") {
       // Applies to both characters and mooks
-      if ((typeof actorData.data.derivedStats.deathSave) === "number") {
-        const oldDeathSave = actorData.data.derivedStats.deathSave;
+      if ((typeof actor.data.derivedStats.deathSave) === "number") {
+        const oldDeathSave = actor.data.derivedStats.deathSave;
         let oldDeathPenalty = 0;
-        if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
-          oldDeathPenalty = actorData.data.derivedStats.deathSavePenlty;
+        if (typeof actor.data.derivedStats.deathSavePenlty !== "undefined") {
+          oldDeathPenalty = actor.data.derivedStats.deathSavePenlty;
         }
-        actorData.data.derivedStats.deathSave = { value: oldDeathSave, penalty: oldDeathPenalty, basePenalty: 0 };
+        updateData["data.derivedStats.deathSave"] = { value: oldDeathSave, penalty: oldDeathPenalty, basePenalty: 0 };
       }
 
-      if ((typeof actorData.data.roleInfo.activeRole) === "undefined") {
+      if ((typeof actor.data.roleInfo.activeRole) === "undefined") {
         let configuredRole = "solo";
-        if (actorData.data.roleInfo.roles.length > 0) {
+        if (actor.data.roleInfo.roles.length > 0) {
           // eslint-disable-next-line prefer-destructuring
-          configuredRole = actorData.data.roleInfo.roles[0];
+          configuredRole = actor.data.roleInfo.roles[0];
         }
-        actorData.data.roleInfo.activeRole = configuredRole;
+        updateData["data.roleInfo.activeRole"] = configuredRole;
       }
 
-      if ((typeof actorData.data.criticalInjuries) === "undefined") {
-        actorData.data.criticalInjuries = [];
+      if ((typeof actor.data.criticalInjuries) === "undefined") {
+        updateData["data.criticalInjuries"] = [];
       }
 
       // Moved in 0.72
-      if ((typeof actorData.data.humanity) !== "undefined") {
-        actorData.data.derivedStats.humanity = actorData.data.humanity;
+      if ((typeof actor.data.humanity) !== "undefined") {
+        updateData["data.derivedStats.humanity"] = actor.data.humanity;
       }
 
-      if ((typeof actorData.data.currentWoundState) !== "undefined") {
-        actorData.data.derivedStats.currentWoundState = actorData.data.currentWoundState;
+      if ((typeof actor.data.currentWoundState) !== "undefined") {
+        updateData["data.derivedStats.currentWoundState"] = actor.data.currentWoundState;
       }
 
       // Adds external data points to Actor (e.g. for Armor SP resource bars)
-      if ((typeof actorData.data.externalData) === "undefined") {
-        actorData.data.externalData = {
+      if ((typeof actor.data.externalData) === "undefined") {
+        updateData["data.externalData"] = {
           currentArmorBody: {
             id: "",
             value: 0,
@@ -266,10 +293,7 @@ export default class Migration {
 
     // Check the ActorData for properties no longer in use and add them
     // to the scrubData object to have them removed
-    const scrubData = this.scrubActorData(actorData);
-
-    // Update the actor with the new data model
-    await actor.update(actorData, { diff: false, enforceTypes: false });
+    updateData = this._scrubActorData(actor, updateData);
 
     if (actor.type === "character" || actor.type === "mook") {
       // This was added as part of 0.72.  We had one report of
@@ -278,38 +302,32 @@ export default class Migration {
       const pack = game.packs.get("cyberpunk-red-core.cyberware");
       // put into basickSkills array
       const content = await pack.getDocuments();
-      await this.validateCoreContent(actor, content);
+      const missingContent = this._validateCoreContent(actor, content);
+      if (missingContent.length > 0) {
+        missingContent.forEach(async (c) => {
+          const missingItem = c.data;
+          await actorDocument.createEmbeddedDocuments("Item", [missingItem], { CPRmigration: true });
+        });
+      }
     }
-    // Remove any unused properties if needed
-    if (scrubData !== {}) {
-      await actor.update(scrubData);
-    }
-    return actor.data;
+
+    return updateData;
   }
 
-  static async validateCoreContent(actor, content) {
-    let installedCyberware;
-    if (actor.pack) {
-      // if an actor is inside a compendium there are no filterd items for that actor
-      installedCyberware = actor.items.filter((i) => i.type === "cyberware" && i.data.data.isInstalled === true);
-    } else {
-      // Get what cyberware is installed
-      installedCyberware = actor.getInstalledCyberware();
-    }
+  static _validateCoreContent(actor, content) {
+    const installedCyberware = actor.items.filter((i) => i.type === "cyberware" && i.data.data.isInstalled === true);
+
     // Remove any installed items from the core content since the actor has those items
     installedCyberware.forEach((c) => {
       content = content.filter((cw) => cw.name !== c.name);
     });
 
-    // Loop through and add the items the actor is missing
-    content.forEach(async (c) => {
-      const itemData = [c.data];
-      await actor.createEmbeddedDocuments("Item", [{ data: itemData }]);
-    });
+    // Anything left in content is missing
+    return content;
   }
 
-  static async migrateCriticalInjuries(actor) {
-    const { criticalInjuries } = actor.data.data;
+  static _migrateCriticalInjuries(actor) {
+    const { criticalInjuries } = actor.data;
     const injuryItems = [];
     criticalInjuries.forEach(async (injury) => {
       const { mods } = injury;
@@ -339,66 +357,67 @@ export default class Migration {
       };
       injuryItems.push({ _id: injury.id, data: itemData });
     });
-    return actor.createEmbeddedDocuments("Item", injuryItems, { force: true });
+    return injuryItems;
   }
 
   // The following is code that is used to remove data points on the actor model that
   // is no longer in use.  Removing properties uses a special syntax for actor.update()
   // Basically you prefix the data point you want to remove with '-=' and set it to null.
   // We build up scrubData with anything that needs to be removed and return it
-  static scrubActorData(actorData) {
-    const scrubData = {};
+  static _scrubActorData(actor, updateData) {
     // Remove unused data points from a character actor
-    if (actorData.type === "character") {
-      if ((typeof actorData.data.lifepath.familyBackgrond) !== "undefined") {
-        scrubData["data.lifepath.-=familyBackgrond"] = null;
+    if (actor.type === "character") {
+      if ((typeof actor.data.lifepath.familyBackgrond) !== "undefined") {
+        updateData["data.lifepath.-=familyBackgrond"] = null;
       }
-      if ((typeof actorData.data.lifestyle.fasion) !== "undefined") {
-        scrubData["data.lifestyle.-=fasion"] = null;
+      if ((typeof actor.data.lifestyle.fasion) !== "undefined") {
+        updateData["data.lifestyle.-=fasion"] = null;
       }
-      if ((typeof actorData.data.improvementPoints.total) !== "undefined") {
-        scrubData["data.improvementPoints.-=total"] = null;
+      if ((typeof actor.data.improvementPoints.total) !== "undefined") {
+        updateData["data.improvementPoints.-=total"] = null;
       }
-      if ((typeof actorData.data.wealth.eddies) !== "undefined") {
-        scrubData["data.wealth.-=eddies"] = null;
+      if ((typeof actor.data.wealth.eddies) !== "undefined") {
+        updateData["data.wealth.-=eddies"] = null;
       }
-      if ((typeof actorData.data["reputation:"]) !== "undefined") {
-        scrubData["data.-=reputation:"] = null;
-      }
-      // Removed in 0.72
-      if ((typeof actorData.data.lifestyle.rent) !== "undefined") {
-        scrubData["data.lifestyle.-=rent"] = null;
+      if ((typeof actor.data["reputation:"]) !== "undefined") {
+        updateData["data.-=reputation:"] = null;
       }
       // Removed in 0.72
-      if ((typeof actorData.data.hp) !== "undefined") {
-        scrubData["data.-=hp"] = null;
+      if ((typeof actor.data.lifestyle.rent) !== "undefined") {
+        updateData["data.lifestyle.-=rent"] = null;
+      }
+      // Removed in 0.72
+      if ((typeof actor.data.hp) !== "undefined") {
+        updateData["data.-=hp"] = null;
       }
     }
-    if (actorData.type === "character" || actorData.type === "mook") {
+    if (actor.type === "character" || actor.type === "mook") {
       // Remove unused data points from an actor (character & mooks)
-      if (typeof actorData.data.derivedStats.deathSavePenlty !== "undefined") {
-        scrubData["data.derivedStats.-=deathSavePenlty"] = null;
+      if (typeof actor.data.derivedStats.deathSavePenlty !== "undefined") {
+        updateData["data.derivedStats.-=deathSavePenlty"] = null;
       }
       // Moved to derivedStats in 0.72
-      if ((typeof actorData.data.woundState) !== "undefined") {
-        scrubData["data.-=woundState"] = null;
+      if ((typeof actor.data.woundState) !== "undefined") {
+        updateData["data.-=woundState"] = null;
       }
       // Moved to derivedStats in 0.72
-      if ((typeof actorData.data.humanity) !== "undefined") {
-        scrubData["data.-=humanity"] = null;
+      if ((typeof actor.data.humanity) !== "undefined") {
+        updateData["data.-=humanity"] = null;
       }
       // Moved to items in 0.72
-      if ((typeof actorData.data.criticalInjuries) !== "undefined") {
-        scrubData["data.-=criticalInjuries"] = null;
+      if ((typeof actor.data.criticalInjuries) !== "undefined") {
+        updateData["data.-=criticalInjuries"] = null;
       }
     }
-    return scrubData;
+    return updateData;
   }
 
   static migrateItemData(itemData) {
+    let updateData = {};
+
     if (typeof itemData.data.description === "string") {
       const oldDescription = itemData.data.description;
-      itemData.data.description = {
+      updateData["data.description"] = {
         value: oldDescription,
         chat: "",
         unidentified: "",
@@ -406,98 +425,211 @@ export default class Migration {
     }
     switch (itemData.type) {
       case "weapon": {
-        return this.migrateWeapon(itemData);
+        updateData = this._migrateWeapon(itemData, updateData);
+        break;
       }
       case "program": {
-        return this.migrateProgram(itemData);
+        updateData = this._migrateProgram(itemData, updateData);
+        break;
       }
       case "vehicle": {
-        return this.migrateVehicle(itemData);
+        updateData = this._migrateVehicle(itemData, updateData);
+        break;
       }
       case "gear": {
-        return this.migrateGear(itemData);
+        updateData = this._migrateGear(itemData, updateData);
+        break;
       }
       case "skill": {
-        return this.migrateSkill(itemData);
+        updateData = this._migrateSkill(itemData, updateData);
+        break;
       }
       case "cyberware": {
-        return this.migrateCyberware(itemData);
+        updateData = this._migrateCyberware(itemData, updateData);
+        break;
       }
       default:
     }
-    return itemData;
+    return updateData;
   }
 
   // Item specific migration tasks
-  static migrateWeapon(itemData) {
+  static _migrateWeapon(itemData, updateData) {
     if ((typeof itemData.data.isConcealed) === "undefined") {
-      itemData.data.isConcealed = false;
+      updateData["data.isConcealed"] = false;
     }
     if ((typeof itemData.data.dvTable) === "undefined") {
-      itemData.data.dvTable = "";
+      updateData["data.dvTable"] = "";
     }
     if ((typeof itemData.data.attackMod) === "undefined") {
-      itemData.data.attackMod = 0;
+      updateData["data.attackMod"] = 0;
     }
     // Added with 0.75.1
     if ((typeof itemData.data.unarmedAutomaticCalculation) === "undefined") {
-      itemData.data.unarmedAutomaticCalculation = true;
+      updateData["data.unarmedAutomaticCalculation"] = true;
     }
-    return itemData;
+    return updateData;
   }
 
-  static migrateProgram(itemData) {
-    if ((typeof itemData.data.slots) === "undefined") {
-      itemData.data.slots = 0;
+  static _migrateProgram(itemData, updateData) {
+    if ((typeof itemData.data.slots) === "undefined" || itemData.data.slots === null) {
+      updateData["data.slots"] = 1;
+    }
+    if ((typeof itemData.data.install) === "undefined" || itemData.data.install === null) {
+      updateData["data.install"] = "";
+    }
+    if ((typeof itemData.data.isInstalled) === "undefined" || itemData.data.isInstalled === null) {
+      updateData["data.isInstalled"] = false;
     }
 
-    if ((typeof itemData.data.equipped) === "undefined") {
-      itemData.data.equipped = "owned";
+    const lowerName = itemData.name.toLowerCase().replace(/\s/g, "");
+
+    // Setting a default program class since we are moving from
+    // a free-form text to a selectable program class
+    updateData["data.class"] = "antipersonnelattacker";
+    // Set program class based on name
+    switch (lowerName) {
+      case "eraser":
+      case "seeya":
+      case "see-ya":
+      case "speedygonzalez":
+      case "worm": {
+        updateData["data.class"] = "booster";
+        break;
+      }
+      case "armor":
+      case "flak":
+      case "shield": {
+        updateData["data.class"] = "defender";
+        break;
+      }
+      case "banhammer":
+      case "sword": {
+        updateData["data.class"] = "antiprogramattacker";
+        break;
+      }
+      case "deckkrash":
+      case "hellbolt":
+      case "nervescrub":
+      case "poisonflatline":
+      case "superglue":
+      case "vrizzbolt": {
+        updateData["data.class"] = "antipersonnelattacker";
+        break;
+      }
+      default:
     }
-    return itemData;
+
+    switch (itemData.data.class) {
+      case "Anti-Program Attacker": {
+        updateData["data.class"] = "antiprogramattacker";
+        break;
+      }
+      case "Anti-Personnel Attacker": {
+        updateData["data.class"] = "antipersonnelattacker";
+        break;
+      }
+      case "Booster": {
+        updateData["data.class"] = "booster";
+        break;
+      }
+      case "Defender": {
+        updateData["data.class"] = "defender";
+        break;
+      }
+      default:
+    }
+
+    if ((typeof itemData.data.equipped) === "undefined" || itemData.data.equipped === null) {
+      updateData["data.equipped"] = "owned";
+    }
+    return updateData;
   }
 
-  static migrateVehicle(itemData) {
+  static _migrateVehicle(itemData, updateData) {
     if ((typeof itemData.data.sdp) === "undefined") {
-      itemData.data.sdp = itemData.data.spd;
-      delete itemData.data.spd;
+      updateData["data.sdp"] = 0;
     }
-    return itemData;
+
+    if ((typeof itemData.data.spd) !== "undefined") {
+      updateData["data.sdp"] = itemData.data.spd;
+      updateData["data.-=spd"] = null;
+    }
+    return updateData;
   }
 
-  static migrateGear(itemData) {
+  static _migrateGear(itemData, updateData) {
     if ((typeof itemData.data.equipped) === "undefined") {
-      itemData.data.equipped = "owned";
+      updateData["data.equipped"] = "owned";
     }
 
-    return itemData;
+    return updateData;
   }
 
-  static migrateCyberware(itemData) {
+  static _migrateCyberware(itemData, updateData) {
     if (typeof itemData.data.slotSize !== "number") {
-      itemData.data.slotSize = 1;
+      updateData["data.slotSize"] = 1;
     }
 
     if ((itemData.data.isInstalled === true) && (itemData.data.isFoundational === true)) {
-      itemData.data.installedOptionSlots = itemData.data.optionalIds.length;
+      updateData["data.installedOptionSlots"] = itemData.data.optionalIds.length;
     }
 
     if (itemData.data.type === "") {
-      itemData.data.type = "cyberArm";
+      updateData["data.type"] = "cyberArm";
     }
 
-    return itemData;
+    return updateData;
   }
 
   // I (Jalen) spoke with Darin and he mentioned it might make most sense for
   // migration code like this to check if the value isn't a number rather
   // than if it is undefined because sometimes the value shows up as null.
   // Testing that theory here.
-  static migrateSkill(itemData) {
+  static _migrateSkill(itemData, updateData) {
     if ((typeof itemData.data.skillmod) !== "number") {
-      itemData.data.skillmod = 0;
+      updateData["data.skillmod"] = 0;
     }
 
-    return itemData;
+    return updateData;
+  }
+
+  static async migrateCompendium(pack) {
+    const { entity } = pack.metadata;
+    if (!["Actor", "Item", "Scene"].includes(entity)) return;
+    // Unlock the pack for editing
+    const wasLocked = pack.locked;
+    await pack.configure({ locked: false });
+
+    // Begin by requesting server-side data model migration and get the migrated content
+    await pack.migrate();
+    const documents = await pack.getDocuments();
+
+    // Iterate over compendium entries - applying fine-tuned migration functions
+    for (const doc of documents) {
+      let updateData = {};
+      try {
+        switch (entity) {
+          case "Actor": {
+            updateData = this.migrateActorData(doc);
+            break;
+          }
+          case "Item": {
+            updateData = this.migrateItemData(doc.toObject());
+            break;
+          }
+          default:
+        }
+
+        // Save the entry
+        await doc.update(updateData);
+      } catch (err) {
+        err.message = `Failed cyberpunk-red-core system migration for entity ${doc.name} in pack ${pack.collection}: ${err.message}`;
+        console.error(err);
+      }
+    }
+
+    // Apply the original locked status for the pack
+    await pack.configure({ locked: wasLocked });
   }
 }
