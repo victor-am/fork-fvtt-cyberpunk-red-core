@@ -1,4 +1,4 @@
-/* globals FormApplication mergeObject */
+/* globals FormApplication mergeObject duplicate */
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 /**
@@ -29,7 +29,7 @@ export default class CPRLedger extends FormApplication {
   setLedgerContent(name, contents) {
     LOGGER.trace("CPRLedger setLedgerContent | called.");
     this.ledgername = "CPR.ledger".concat(name.toLowerCase());
-    this.contents = contents;
+    this.contents = duplicate(contents);
     this._makeLedgerReadable(name);
   }
 
