@@ -6,6 +6,7 @@ import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
 import CPRChat from "../../chat/cpr-chat.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
+import ImprovementPointEditPrompt from "../../dialog/cpr-improvement-point-edit-prompt.js";
 import RollCriticalInjuryPrompt from "../../dialog/cpr-roll-critical-injury-prompt.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import Rules from "../../utils/cpr-rules.js";
@@ -206,7 +207,9 @@ export default class CPRActorSheet extends ActorSheet {
 
     html.find(".amount-input").click((event) => event.target.select()).change((event) => this._updateAmount(event));
 
-    html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
+    html.find(".improvement-points-edit-button").click(() => this._updateIp());
+
+    html.find(".improvement-points-open-ledger").click(() => this.actor.showLedger("improvementPoints"));
 
     html.find(".ability-input").click((event) => event.target.select()).change(
       (event) => this._updateRoleAbility(event),
@@ -671,9 +674,31 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  _updateIp(event) {
+  async _updateIp() {
     LOGGER.trace("ActorID _updateIp | CPRActorSheet | Called.");
-    this._setIp(parseInt(event.target.value, 10), "player input in gear tab");
+    const formData = await ImprovementPointEditPrompt.RenderPrompt({});
+    if (formData.changeValue !== "") {
+      switch (formData.action) {
+        case "add": {
+          this._gainIp(parseInt(formData.changeValue, 10), formData.changeReason);
+          break;
+        }
+        case "subtract": {
+          this._loseIp(parseInt(formData.changeValue, 10), formData.changeReason);
+          break;
+        }
+        case "set": {
+          this._setIp(parseInt(formData.changeValue, 10), formData.changeReason);
+          break;
+        }
+        default: {
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.improvementpointseditinvalidaction"));
+          break;
+        }
+      }
+    } else {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.improvementpointseditwarn"));
+    }
   }
 
   // OWNED ITEM HELPER FUNCTIONS
@@ -968,7 +993,7 @@ export default class CPRActorSheet extends ActorSheet {
       tempVal = -tempVal;
     }
     const ledgerProp = this.actor.deltaLedgerProperty("improvementPoints", tempVal, reason);
-    Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenougheb");
+    Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenoughip");
     return ledgerProp;
   }
 

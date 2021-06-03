@@ -3,11 +3,12 @@
   <div class="block-label">
     {{localize "CPR.improvementpoints"}}
   </div>
-  <div class="block-data">
-    <input class="number ip-input"
-      type="number"
-      value="{{actor.data.data.improvementPoints.value}}"
-    />
+  <div class="block-data flex-space-between">
+    <span class="width-full text-center">{{actor.data.data.improvementPoints.value}}</span>
+    <div class="width-half no-wrap">
+      <a class="improvement-points-edit-button" title="{{localize "CPR.improvementpointsedit"}}"><i class="fas fa-edit"></i></a>
+      <a class="improvement-points-open-ledger" title="{{localize "CPR.ledgeropen"}}"><i class="fas fa-sticky-note"></i></a>
+    </div>
   </div>
 </div>
 {{trace "END CPR-IP-BLOCK.HBS"}}
