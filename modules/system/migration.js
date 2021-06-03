@@ -390,10 +390,10 @@ export default class Migration {
     const ownedCyberware = actorData.items.filter((o) => o.type === "cyberware");
     const installedCyberware = ownedCyberware.filter((i) => {
       let isInstalled = false;
-      if ((typeof i.data.isInstalled) !== undefined) {
+      if ((typeof i.data.isInstalled) !== "undefined") {
         isInstalled = i.data.isInstalled;
       }
-      if ((typeof i.data.data.isInstalled) !== undefined) {
+      if ((typeof i.data.data.isInstalled) !== "undefined") {
         isInstalled = i.data.data.isInstalled;
       }
       return isInstalled;
