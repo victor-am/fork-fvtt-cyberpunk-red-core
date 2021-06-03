@@ -677,7 +677,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _updateIp() {
     LOGGER.trace("ActorID _updateIp | CPRActorSheet | Called.");
     const formData = await ImprovementPointEditPrompt.RenderPrompt({});
-    if (formData.changeValue !== "") {
+    if (formData.changeValue !== null && formData.changeValue !== "") {
       switch (formData.action) {
         case "add": {
           this._gainIp(parseInt(formData.changeValue, 10), formData.changeReason);
