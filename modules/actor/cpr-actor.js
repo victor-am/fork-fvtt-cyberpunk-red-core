@@ -47,7 +47,7 @@ export default class CPRActor extends Actor {
     LOGGER.trace("createEmbeddedDocuments | CPRActor | called.");
     // If migration is calling this, we definitely want to
     // create the Embedded Documents.
-    const isMigration = ((typeof context) !== "undefined" && context.CPRmigration) ? true : false;
+    const isMigration = !!(((typeof context) !== "undefined" && context.CPRmigration));
     if (!isMigration) {
       if (embeddedName === "Item") {
         let containsCoreItem = false;

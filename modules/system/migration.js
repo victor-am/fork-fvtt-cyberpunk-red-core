@@ -148,7 +148,6 @@ export default class Migration {
       }
 
       // Changed in 0.72
-      const myVar = (typeof actor.data.lifepath.friends);
       if ((typeof actor.data.lifepath.friends) === "object") {
         updateData["data.lifepath.friends"] = "";
       }
