@@ -51,7 +51,7 @@ export default class Migration {
         if (a.type === "character" || a.type === "mook") {
           await this.createActorItems(a);
         }
-        const updateData = this.migrateActorData(a.data);
+        const updateData = await this.migrateActorData(a.data);
         if (!foundry.utils.isObjectEmpty(updateData)) {
           this._migrationLog(`Migrating Actor entity ${a.name}`);
           await a.update(updateData, { enforceTypes: false });
@@ -361,6 +361,7 @@ export default class Migration {
   // manipulating the Actor Data, they are creating new Item entities in the
   // world and adding them to the actors.
   static async createActorItems(actorDocument) {
+    let newItems = [];
     const actorData = actorDocument.data;
     // Migrate critical injures to items
     if ((typeof actorData.data.criticalInjuries) !== "undefined") {
@@ -368,7 +369,8 @@ export default class Migration {
         const migratedInjuries = this.migrateCriticalInjuries(actorData);
         if (!foundry.utils.isObjectEmpty(migratedInjures)) {
           this._migrationLog(`Migration critical injuries for Actor "${actorData.name}" (${actorData._id})`);
-          await actorDocument.createEmbeddedDocuments("Item", migratedInjuries, { CPRmigration: true });
+          newItems = migratedInjuries;
+          // await actorDocument.createEmbeddedDocuments("Item", migratedInjuries, { CPRmigration: true });
         }
       }
     }
@@ -381,10 +383,11 @@ export default class Migration {
     const content = await pack.getDocuments();
     const missingContent = this._validateCoreContent(actorData, content);
     if (missingContent.length > 0) {
-      missingContent.forEach(async (c) => {
+      missingContent.forEach((c) => {
         const missingItem = c.data;
         this._migrationLog(`Actor "${actorData.name}" (${actorData._id}) is missing "${missingItem.name}". Creating.`);
-        await actorDocument.createEmbeddedDocuments("Item", [missingItem], { CPRmigration: true });
+        newItems.push(missingItem);
+        //await actorDocument.createEmbeddedDocuments("Item", [missingItem], { CPRmigration: true });
       });
     }
 
@@ -392,19 +395,24 @@ export default class Migration {
     // programs should be handled like Cyberware as the Program ID gets correlated to the Cyberdeck
     // Item
     const programList = actorData.filteredItems.program;
-    programList.forEach(async (p) => {
+    programList.forEach((p) => {
       const itemData = p.data;
       let quantity = itemData.data.amount;
       if (quantity > 1) {
-        this._migrationLog(`Splitting Program "${itemData.name}" (${itemData._id}) Quanity: ${quantity} on actor "${actorData.name}" (${actorData._id})`);
-        await actorDocument.updateEmbeddedDocuments("Item", [{ _id: itemData._id, "data.amount": 1 }]);
+        this._migrationLog(`Splitting Program "${itemData.name}" (${itemData._id}) Quanity: ${quantity} on actor "${actorData.name}" (${actorData._id}). Net new items: ${quantity - 1}`);
+        //await actorDocument.updateEmbeddedDocuments("Item", [{ _id: itemData._id, "data.amount": 1 }]);
         itemData.data.amount = 1;
         while (quantity > 1) {
-          await actorDocument.createEmbeddedDocuments("Item", [itemData], { CPRmigration: true });
+          newItems.push(itemData);
+          //await actorDocument.createEmbeddedDocuments("Item", [itemData], { CPRmigration: true });
           quantity -= 1;
         }
       }
     });
+
+    if (newItems.length > 0) {
+      await actorDocument.createEmbeddedDocuments("Item", newItems, { CPRmigration: true });
+    }
   }
 
   static _validateCoreContent(actorData, content) {
