@@ -367,6 +367,7 @@ export default class Migration {
       if (actorData.data.criticalInjuries.length > 0) {
         const migratedInjuries = this.migrateCriticalInjuries(actorData);
         if (!foundry.utils.isObjectEmpty(migratedInjures)) {
+          this._migrationLog(`Migration critical injuries for Actor "${actorData.name}" (${actorData._id})`);
           await actorDocument.createEmbeddedDocuments("Item", migratedInjuries, { CPRmigration: true });
         }
       }
@@ -386,6 +387,24 @@ export default class Migration {
         await actorDocument.createEmbeddedDocuments("Item", [missingItem], { CPRmigration: true });
       });
     }
+
+    // Previously we supported stackable programs, but with the upcoming Netrunning changes
+    // programs should be handled like Cyberware as the Program ID gets correlated to the Cyberdeck
+    // Item
+    const programList = actorData.filteredItems.program;
+    programList.forEach(async (p) => {
+      const itemData = p.data;
+      let quantity = itemData.data.amount;
+      if (quantity > 1) {
+        this._migrationLog(`Splitting Program "${itemData.name}" (${itemData._id}) Quanity: ${quantity} on actor "${actorData.name}" (${actorData._id})`);
+        await actorDocument.updateEmbeddedDocuments("Item", [{ _id: itemData._id, "data.amount": 1 }]);
+        itemData.data.amount = 1;
+        while (quantity > 1) {
+          await actorDocument.createEmbeddedDocuments("Item", [itemData], { CPRmigration: true });
+          quantity -= 1;
+        }
+      }
+    });
   }
 
   static _validateCoreContent(actorData, content) {
@@ -513,6 +532,10 @@ export default class Migration {
     }
     if ((typeof itemData.data.isInstalled) === "undefined" || itemData.data.isInstalled === null) {
       updateData["data.isInstalled"] = false;
+    }
+
+    if (itemData.data.amount !== 1) {
+      updateData["data.amount"] = 1;
     }
 
     const lowerName = itemData.name.toLowerCase().replace(/\s/g, "");
