@@ -110,7 +110,7 @@ export default class Migration {
         const itemUpdate = this.migrateItemData(itemData);
 
         // Update the Owned Item
-        if (!isObjectEmpty(itemUpdate)) {
+        if (!foundry.utils.isObjectEmpty(itemUpdate)) {
           itemUpdate._id = itemData._id;
           arr.push(expandObject(itemUpdate));
         }
@@ -364,7 +364,7 @@ export default class Migration {
     if ((typeof actorData.data.criticalInjuries) !== "undefined") {
       if (actorData.data.criticalInjuries.length > 0) {
         const migratedInjuries = this.migrateCriticalInjuries(actorData);
-        if (!isObjectEmpty(migratedInjures)) {
+        if (!foundry.utils.isObjectEmpty(migratedInjures)) {
           await actorDocument.createEmbeddedDocuments("Item", migratedInjuries, { CPRmigration: true });
         }
       }
