@@ -47,7 +47,7 @@ export default class Migration {
 
       try {
         // Create any new items needed for the character or mook before manipulating
-        // any data points
+        // any data points, example: Missing core Cyberware, Critical Injury Items, etc
         if (a.type === "character" || a.type === "mook") {
           await this.createActorItems(a);
         }
@@ -387,7 +387,6 @@ export default class Migration {
         const missingItem = c.data;
         this._migrationLog(`Actor "${actorData.name}" (${actorData._id}) is missing "${missingItem.name}". Creating.`);
         newItems.push(missingItem);
-        //await actorDocument.createEmbeddedDocuments("Item", [missingItem], { CPRmigration: true });
       });
     }
 
@@ -400,11 +399,9 @@ export default class Migration {
       let quantity = itemData.data.amount;
       if (quantity > 1) {
         this._migrationLog(`Splitting Program "${itemData.name}" (${itemData._id}) Quanity: ${quantity} on actor "${actorData.name}" (${actorData._id}). Net new items: ${quantity - 1}`);
-        //await actorDocument.updateEmbeddedDocuments("Item", [{ _id: itemData._id, "data.amount": 1 }]);
         itemData.data.amount = 1;
         while (quantity > 1) {
           newItems.push(itemData);
-          //await actorDocument.createEmbeddedDocuments("Item", [itemData], { CPRmigration: true });
           quantity -= 1;
         }
       }
@@ -698,29 +695,46 @@ export default class Migration {
   }
 
   static async migrateSceneData(scene) {
-    const tokens = scene.tokens.map((token) => {
+    // Tokens contain an actorData element which is a diff from the original actor
+    // and does NOT have all of the data elements of the original actor.  As best
+    // as I can tell, token.actor.data is from the original actor with
+    // the token.actorData merged to it.
+    const tokens = scene.tokens.map(async (token) => {
       const t = token.toJSON();
       if (!t.actorId || t.actorLink) {
+        // If we get here, we have a linked token and don't have
+        // to do anything as the link actor was already migrated
         t.actorData = {};
       } else if (!game.actors.has(t.actorId)) {
+        // If we get here, the token has an ID and is unlinked, however
+        // the original actor that the token was created from was deleted.
+        // This makes token.actor null so we don't have a full view of all
+        // of the actor data.  I am unsure where the token charactersheet
+        // is pulling the data from?  Either way, this is technically a broken
+        // token and even Foundry throws errors when you do certain things
+        // with this token.
+        this._migrationLog(`WARNING: Token "${t.name}" (${t.actorId}) on Scene "${scene.name}" (${scene._id}) appears to be missing the source Actor and may cause Foundry issues.`);
         t.actorId = null;
         t.actorData = {};
       } else if (!t.actorLink) {
-        // If we get here, we have an unlinked token actor.
+        // If we get here, we have an unlinked token actor, but the original
+        // actor still exists.
         const actorData = duplicate(token.actor.data);
         actorData.type = token.actor?.type;
-        const update = this.migrateActorData(actorData);
+        const updateData = await this.migrateActorData(actorData);
         ["items", "effects"].forEach((embeddedName) => {
-          if (!update[embeddedName]?.length) return;
-          const updates = new Map(update[embeddedName].map((u) => [u._id, u]));
-          t.actorData[embeddedName].forEach((original) => {
-            const updateMerge = updates.get(original._id);
-            if (updateMerge) mergeObject(original, updateMerge);
-          });
-          delete update[embeddedName];
+          if (!updateData[embeddedName]?.length) return;
+          const embeddedUpdates = new Map(updateData[embeddedName].map((u) => [u._id, u]));
+          if (t.actorData[embeddedName]) {
+            t.actorData[embeddedName].forEach((original) => {
+              const updateMerge = embeddedUpdates.get(original._id);
+              if (updateMerge) mergeObject(original, updateMerge);
+            });
+          }
+          delete updateData[embeddedName];
         });
 
-        mergeObject(t.actorData, update);
+        mergeObject(t.actorData, updateData);
       }
       return t;
     });
