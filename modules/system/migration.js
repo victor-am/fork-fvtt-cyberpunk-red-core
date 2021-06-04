@@ -701,6 +701,9 @@ export default class Migration {
     // the token.actorData merged to it.
     const tokens = scene.tokens.map(async (token) => {
       const t = token.toJSON();
+      if (t.name === "unlinkedToken") {
+        console.log("BREAKPOINT");
+      }
       if (!t.actorId || t.actorLink) {
         // If we get here, we have a linked token and don't have
         // to do anything as the link actor was already migrated
