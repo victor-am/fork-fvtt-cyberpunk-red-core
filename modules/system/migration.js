@@ -26,7 +26,7 @@ export default class Migration {
           await i.update(updateData, { diff: false });
         }
       } catch (err) {
-        err.message = `Failed cyberpunk-red-core system migration for Item ${i.name}: ${err.message}`;
+        err.message = `CPR MIGRATION | Failed cyberpunk-red-core system migration for Item ${i.name}: ${err.message}`;
         console.error(err);
       }
     }
@@ -51,13 +51,13 @@ export default class Migration {
         if (a.type === "character" || a.type === "mook") {
           await this.createActorItems(a);
         }
-        const updateData = await this.migrateActorData(a.data);
+        const updateData = this.migrateActorData(a.data);
         if (!foundry.utils.isObjectEmpty(updateData)) {
           this._migrationLog(`Migrating Actor entity ${a.name}`);
           await a.update(updateData, { enforceTypes: false });
         }
       } catch (err) {
-        err.message = `Failed cyberpunk-red-core system migration for Actor ${a.name}: ${err.message}`;
+        err.message = `CPR MIGRATION | Failed cyberpunk-red-core system migration for Actor ${a.name}: ${err.message}`;
         console.error(err);
       }
     }
@@ -90,7 +90,7 @@ export default class Migration {
           });
         }
       } catch (err) {
-        err.message = `Failed cyberpunk-red-core system migration for Scene ${s.name}: ${err.message}`;
+        err.message = `CPR MIGRATION | Failed cyberpunk-red-core system migration for Scene ${s.name}: ${err.message}`;
         console.error(err);
       }
     }
@@ -101,7 +101,7 @@ export default class Migration {
   }
 
   // @param {object} actorData    The actor data object to update
-  static async migrateActorData(actorData) {
+  static migrateActorData(actorData) {
     const updateData = {};
 
     // Migrate Owned Items
@@ -693,16 +693,13 @@ export default class Migration {
     await pack.configure({ locked: wasLocked });
   }
 
-  static async migrateSceneData(scene) {
+  static migrateSceneData(scene) {
     // Tokens contain an actorData element which is a diff from the original actor
     // and does NOT have all of the data elements of the original actor.  As best
     // as I can tell, token.actor.data is from the original actor with
     // the token.actorData merged to it.
-    const tokens = scene.tokens.map(async (token) => {
+    const tokens = scene.tokens.map((token) => {
       const t = token.toJSON();
-      if (t.name === "Rex") {
-        console.log("BREAKPOINT");
-      }
       if (!t.actorId || t.actorLink) {
         // If we get here, we have a linked token and don't have
         // to do anything as the link actor was already migrated
@@ -723,7 +720,8 @@ export default class Migration {
         // actor still exists.
         const actorData = duplicate(token.actor.data);
         actorData.type = token.actor?.type;
-        const updateData = await this.migrateActorData(actorData);
+
+        const updateData = this.migrateActorData(actorData);
         ["items", "effects"].forEach((embeddedName) => {
           if (!updateData[embeddedName]?.length) return;
           const embeddedUpdates = new Map(updateData[embeddedName].map((u) => [u._id, u]));
