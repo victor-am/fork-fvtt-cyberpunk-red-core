@@ -332,7 +332,7 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("itemIdFromName", (itemName) => {
     LOGGER.trace("Calling itemIdFromName Helper");
     const item = game.items.find((i) => i.data.name === itemName);
-    if (item !== null) {
+    if (item !== undefined) {
       return item.data._id;
     }
     return "DOES NOT EXIST";
