@@ -22,7 +22,7 @@ export default class Migration {
       try {
         const updateData = this.migrateItemData(i.toObject());
         if (!foundry.utils.isObjectEmpty(updateData)) {
-          console.log(`Migrating Item entity ${i.name}`);
+          this._migrationLog(`Migrating Item entity ${i.name}`);
           await i.update(updateData, { diff: false });
         }
       } catch (err) {
@@ -51,7 +51,7 @@ export default class Migration {
         await this.createActorItems(a);
         const updateData = this.migrateActorData(a.data);
         if (!foundry.utils.isObjectEmpty(updateData)) {
-          console.log(`Migrating Actor entity ${a.name}`);
+          this._migrationLog(`Migrating Actor entity ${a.name}`);
           await a.update(updateData, { enforceTypes: false });
         }
       } catch (err) {
@@ -78,7 +78,7 @@ export default class Migration {
       try {
         const updateData = this.migrateSceneData(s.data);
         if (!foundry.utils.isObjectEmpty(updateData)) {
-          console.log(`Migrating Scene entity ${s.name}`);
+          this._migrationLog(`Migrating Scene entity ${s.name}`);
           await s.update(updateData, { enforceTypes: false });
           // If we do not do this, then synthetic token actors remain in cache
           // with the un-updated actorData.
@@ -380,7 +380,7 @@ export default class Migration {
     if (missingContent.length > 0) {
       missingContent.forEach(async (c) => {
         const missingItem = c.data;
-        console.log(`Actor "${actorData.name}" (${actorData._id}) is missing "${missingItem.name}". Creating.`);
+        this._migrationLog(`Actor "${actorData.name}" (${actorData._id}) is missing "${missingItem.name}". Creating.`);
         await actorDocument.createEmbeddedDocuments("Item", [missingItem], { CPRmigration: true });
       });
     }
@@ -692,5 +692,9 @@ export default class Migration {
       return t;
     });
     return { tokens };
+  }
+
+  static _migrationLog(message) {
+    console.log(`CPR MIGRATION | ${message}`);
   }
 }
