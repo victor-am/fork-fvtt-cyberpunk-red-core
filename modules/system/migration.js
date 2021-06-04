@@ -370,7 +370,6 @@ export default class Migration {
         if (!foundry.utils.isObjectEmpty(migratedInjures)) {
           this._migrationLog(`Migration critical injuries for Actor "${actorData.name}" (${actorData._id})`);
           newItems = migratedInjuries;
-          // await actorDocument.createEmbeddedDocuments("Item", migratedInjuries, { CPRmigration: true });
         }
       }
     }
@@ -701,7 +700,7 @@ export default class Migration {
     // the token.actorData merged to it.
     const tokens = scene.tokens.map(async (token) => {
       const t = token.toJSON();
-      if (t.name === "unlinkedToken") {
+      if (t.name === "Rex") {
         console.log("BREAKPOINT");
       }
       if (!t.actorId || t.actorLink) {
