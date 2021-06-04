@@ -46,9 +46,11 @@ export default class Migration {
       }
 
       try {
-        // Create any new items needed for the Actor before manipulating
+        // Create any new items needed for the character or mook before manipulating
         // any data points
-        await this.createActorItems(a);
+        if (a.type === "character" || a.type === "mook") {
+          await this.createActorItems(a);
+        }
         const updateData = this.migrateActorData(a.data);
         if (!foundry.utils.isObjectEmpty(updateData)) {
           this._migrationLog(`Migrating Actor entity ${a.name}`);
