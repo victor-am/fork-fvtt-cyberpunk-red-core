@@ -637,4 +637,35 @@ export default class CPRActor extends Actor {
       default:
     }
   }
+
+  /**
+   * TODO:
+   * This method was created to facilitate homebrew critical injuries with a macro.
+   * It is not used anywhere else, and likely belongs in its own file to be exposed in
+   * a sanctioned API. (_rollCriticalInjury() largely replaces this functionality.)
+   */
+  addCriticalInjury(location, name, effect, quickFixType, quickFixDV, treatmentType, treatmentDV, deathSaveIncrease = false) {
+    const itemData = {
+      type: "criticalInjury",
+      name,
+      data: {
+        location,
+        description: {
+          value: effect,
+          chat: "",
+          unidentified: "",
+        },
+        quickFix: {
+          type: quickFixType,
+          dv: quickFixDV,
+        },
+        treatment: {
+          type: treatmentType,
+          dv: treatmentDV,
+        },
+        deathSaveIncrease,
+      },
+    };
+    return this.createEmbeddedEntity("Item", itemData, { force: true });
+  }
 }

@@ -1,4 +1,4 @@
-/* global ActorSheet, $, setProperty, game, getProperty, duplicate */
+/* global ActorSheet, $, setProperty, game, getProperty, mergeObject duplicate */
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
@@ -31,6 +31,27 @@ export default class CPRActorSheet extends ActorSheet {
     if (this.position.width === this.options.defaultWidth && this.position.height === this.options.defaultHeight) {
       this._automaticResize();
     }
+  }
+
+  /**
+   * Set the default width and height so auto-resizing of the window works. Child classes will
+   * merge additional default options with this object.
+   *
+   * @override
+   * @returns - sheet options merged with default options in ActorSheet
+   */
+  static get defaultOptions() {
+    LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
+    const defaultWidth = 800;
+    const defaultHeight = 590;
+    return mergeObject(super.defaultOptions, {
+      classes: super.defaultOptions.classes.concat(["sheet", "actor"]),
+      defaultWidth,
+      defaultHeight,
+      width: defaultWidth,
+      height: defaultHeight,
+      scrollY: [".right-content-section"],
+    });
   }
 
   /**
@@ -575,6 +596,7 @@ export default class CPRActorSheet extends ActorSheet {
   static async _setCriticalInjuryTable() {
     LOGGER.trace("_setCriticalInjuryTable | CPRActorSheet | Called.");
     const critInjuryTables = CPRActorSheet._getCriticalInjuryTables();
+    LOGGER.debugObject(critInjuryTables);
     const formData = await RollCriticalInjuryPrompt.RenderPrompt(critInjuryTables);
     return formData.criticalInjuryTable;
   }
@@ -589,6 +611,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _rollCriticalInjury() {
     LOGGER.trace("_rollCriticalInjury | CPRActorSheet | Called.");
     const tableName = await CPRActorSheet._setCriticalInjuryTable();
+    LOGGER.debugObject(tableName);
     const table = game.tables.entities.find((t) => t.name === tableName);
     this._drawCriticalInjuryTable(tableName, table, 0);
     this._automaticResize();
@@ -609,8 +632,9 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("_drawCriticalInjuryTable | CPRActorSheet | Called.");
     if (iteration > 100) {
       // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6)
+      LOGGER.debug(table);
       const crit = game.items.find((item) => (
-        (item.type === "criticalInjury") && (item.name === table.data.results[0].text)
+        (item.type === "criticalInjury") && (item.name === table.data.results._source[0].text)
       ));
       if (!crit) {
         SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
@@ -639,7 +663,7 @@ export default class CPRActorSheet extends ActorSheet {
           // Check if the critical Injury already exists on the character
           let injuryAlreadyExists = false;
           this.actor.data.filteredItems.criticalInjury.forEach((injury) => {
-            if (injury.data.name === res.results[0].text) { injuryAlreadyExists = true; }
+            if (injury.data.name === res.results[0].data.text) { injuryAlreadyExists = true; }
           });
           if (injuryAlreadyExists) {
             const setting = game.settings.get("cyberpunk-red-core", "preventDuplicateCriticalInjuries");
@@ -652,7 +676,7 @@ export default class CPRActorSheet extends ActorSheet {
             }
           }
           const crit = game.items.find((item) => (
-            (item.type === "criticalInjury") && (item.name === res.results[0].text)
+            (item.type === "criticalInjury") && (item.name === res.results[0].data.text)
           ));
           if (!crit) {
             SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
