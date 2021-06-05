@@ -653,15 +653,15 @@ export default class CPRActorSheet extends ActorSheet {
     if (value !== "") {
       switch (action) {
         case "add": {
-          this._gainEb(parseInt(value, 10), reason);
+          this._gainEb(parseInt(value, 10), `${reason} - ${game.user.name}`);
           break;
         }
         case "subtract": {
-          this._loseEb(parseInt(value, 10), reason);
+          this._loseEb(parseInt(value, 10), `${reason} - ${game.user.name}`);
           break;
         }
         case "set": {
-          this._setEb(parseInt(value, 10), reason);
+          this._setEb(parseInt(value, 10), `${reason} - ${game.user.name}`);
           break;
         }
         default: {
@@ -680,15 +680,15 @@ export default class CPRActorSheet extends ActorSheet {
     if (formData.changeValue !== null && formData.changeValue !== "") {
       switch (formData.action) {
         case "add": {
-          this._gainIp(parseInt(formData.changeValue, 10), formData.changeReason);
+          this._gainIp(parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
           break;
         }
         case "subtract": {
-          this._loseIp(parseInt(formData.changeValue, 10), formData.changeReason);
+          this._loseIp(parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
           break;
         }
         case "set": {
-          this._setIp(parseInt(formData.changeValue, 10), formData.changeReason);
+          this._setIp(parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
           break;
         }
         default: {
