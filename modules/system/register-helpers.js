@@ -329,9 +329,9 @@ export default function registerHandlebarsHelpers() {
     return cprDot + andCaseSplit.toLowerCase();
   });
 
-  Handlebars.registerHelper("itemIdFromName", (itemName) => {
+  Handlebars.registerHelper("itemIdFromName", (itemName, itemType) => {
     LOGGER.trace("Calling itemIdFromName Helper");
-    const item = game.items.find((i) => i.data.name === itemName);
+    const item = game.items.find((i) => i.data.name === itemName && i.type === itemType);
     if (item !== undefined) {
       return item.data._id;
     }
