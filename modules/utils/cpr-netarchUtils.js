@@ -228,34 +228,19 @@ export default class CPRNetarchUtils {
   async _addTilesToScene(tileData) {
     LOGGER.trace("_addTilesToScene | CPRINetarchUtils | Called.");
     if (this.scene === null) {
-      console.log("Error no scene defined!");
+      LOGGER.log("Error no scene defined!");
       return;
     }
-    console.log(this.scene);
-    const sceneData = duplicate(this.scene.data);
-    tileData.forEach((t) => { sceneData.tiles.push(duplicate(t)); });
-    await this.scene.update(sceneData);
+    LOGGER.debug(this.scene);
+    await this.scene.createEmbeddedDocuments("Tile", tileData);
   }
 
   async _removeAllTiles() {
     LOGGER.trace("_removeAllTiles | CPRINetarchUtils | Called.");
-    const sceneData = duplicate(this.scene.data);
-    sceneData.tiles = [];
-    await this.scene.update(sceneData);
+    const tileIds = [];
+    this.scene.tiles.forEach((t) => { tileIds.push(t.id); });
+    await this.scene.deleteEmbeddedDocuments("Tile", tileIds);
   }
-
-  /* _checkLevelFormat(level) {
-    const reg = new RegExp("^[0-9]+[a-z]?$");
-    if (reg.test(level)) {
-      const number = Number(level.match("^[0-9]+"));
-      const letter = level.match("[a-z]$");
-      if (letter === null) {
-        return [number, null];
-      }
-      return [number, letter[0]];
-    }
-    return null;
-  } */
 
   _checkDV(dv) {
     const reg = new RegExp("^[0-9]+$");

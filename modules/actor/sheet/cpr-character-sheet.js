@@ -1,4 +1,4 @@
-/* global mergeObject $ getProperty setProperty hasProperty duplicate */
+/* global game mergeObject $ getProperty setProperty hasProperty duplicate */
 import CPR from "../../system/config.js";
 import CPRActorSheet from "./cpr-actor-sheet.js";
 import LOGGER from "../../utils/cpr-logger.js";
@@ -6,6 +6,7 @@ import Rules from "../../utils/cpr-rules.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
+import ImprovementPointEditPrompt from "../../dialog/cpr-improvement-point-edit-prompt.js";
 
 /**
  * Extend the basic CPRActorSheet with Character specific functionality.
@@ -85,13 +86,15 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       (event) => this._updateRoleAbility(event),
     );
 
-    // create a proper ledger record for IP
-    html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
-
     // create a proper ledger record for EB
     html.find(".eurobucks-input").click((event) => event.target.select()).change(
       (event) => this._updateEurobucks(event),
     );
+
+    html.find(".improvement-points-edit-button").click(() => this._updateIp());
+    html.find(".improvement-points-open-ledger").click(() => this.actor.showLedger("improvementPoints"));
+    html.find(".eurobucks-input-button").click((event) => this._updateEurobucks(event));
+    html.find(".eurobucks-open-ledger").click(() => this.actor.showLedger("wealth"));
 
     // Create item in inventory
     html.find(".item-create").click((event) => this._createInventoryItem(event));
@@ -100,7 +103,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   }
 
   _cycleEquipState(event) {
-    LOGGER.trace("ActorID _cycleEquipState | CPRActorSheet | Called.");
+    LOGGER.trace("ActorID _cycleEquipState | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const prop = CPRActorSheet._getObjProp(event);
     switch (item.data.data.equipped) {
@@ -128,7 +131,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   }
 
   _repairArmor(event) {
-    LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
+    LOGGER.trace("ActorID _repairArmor | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const currentArmorBodyValue = item.data.data.bodyLocation.sp;
     const currentArmorHeadValue = item.data.data.headLocation.sp;
@@ -156,7 +159,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   }
 
   async _installRemoveCyberwareAction(event) {
-    LOGGER.trace("ActorID _installCyberware | CPRActorSheet | Called.");
+    LOGGER.trace("ActorID _installCyberware | CPRCharacterActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
     const item = this._getOwnedItem(itemId);
     if (item.getData().isInstalled) {
@@ -243,7 +246,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   }
 
   _updateSkill(event) {
-    LOGGER.trace("ActorID _updateSkill | CPRActorSheet | Called.");
+    LOGGER.trace("ActorID _updateSkill | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "data.level") {
@@ -256,7 +259,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   }
 
   _updateWeaponAmmo(event) {
-    LOGGER.trace("ActorID _updateCurrentWeaponAmmo | CPRActorSheet | Called.");
+    LOGGER.trace("ActorID _updateCurrentWeaponAmmo | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "data.magazine.value") {
@@ -270,7 +273,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   }
 
   _updateAmount(event) {
-    LOGGER.trace("ActorID _updateAmount | CPRActorSheet | Called.");
+    LOGGER.trace("ActorID _updateAmount | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "item.data.amount") {
@@ -284,7 +287,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   }
 
   _updateRoleAbility(event) {
-    LOGGER.trace("ActorID _updateRoleAbility | CPRActorSheet | Called.");
+    LOGGER.trace("ActorID _updateRoleAbility | CPRCharacterActorSheet | Called.");
     const role = $(event.currentTarget).attr("data-role-name");
     const ability = $(event.currentTarget).attr("data-ability-name");
     const subskill = $(event.currentTarget).attr("data-subskill-name");
@@ -302,14 +305,60 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     }
   }
 
-  _updateIp(event) {
-    LOGGER.trace("ActorID _updateIp | CPRActorSheet | Called.");
-    this._setIp(parseInt(event.target.value, 10), "player input in gear tab");
+  async _updateIp() {
+    LOGGER.trace("ActorID _updateIp | CPRCharacterActorSheet | Called.");
+    const formData = await ImprovementPointEditPrompt.RenderPrompt({});
+    if (formData.changeValue !== null && formData.changeValue !== "") {
+      switch (formData.action) {
+        case "add": {
+          this._gainIp(parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
+          break;
+        }
+        case "subtract": {
+          this._loseIp(parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
+          break;
+        }
+        case "set": {
+          this._setIp(parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
+          break;
+        }
+        default: {
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.improvementpointseditinvalidaction"));
+          break;
+        }
+      }
+    } else {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.improvementpointseditwarn"));
+    }
   }
 
   _updateEurobucks(event) {
-    LOGGER.trace("ActorID _updateEurobucks | CPRActorSheet | Called.");
-    this._setEb(parseInt(event.target.value, 10), "player input in gear tab");
+    LOGGER.trace("ActorID _updateEurobucks | CPRCharacterActorSheet | Called.");
+    const { value } = event.currentTarget.parentElement.parentElement.children[1];
+    const reason = event.currentTarget.parentElement.parentElement.nextElementSibling.lastElementChild.value;
+    const action = $(event.currentTarget).attr("data-action");
+    if (value !== "") {
+      switch (action) {
+        case "add": {
+          this._gainEb(parseInt(value, 10), `${reason} - ${game.user.name}`);
+          break;
+        }
+        case "subtract": {
+          this._loseEb(parseInt(value, 10), `${reason} - ${game.user.name}`);
+          break;
+        }
+        case "set": {
+          this._setEb(parseInt(value, 10), `${reason} - ${game.user.name}`);
+          break;
+        }
+        default: {
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.eurobucksmodifyinvalidaction"));
+          break;
+        }
+      }
+    } else {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.eurobucksmodifywarn"));
+    }
   }
 
   /**

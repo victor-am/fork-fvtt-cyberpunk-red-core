@@ -1,6 +1,7 @@
 /* globals Actor, game, getProperty, setProperty, hasProperty, duplicate */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRChat from "../chat/cpr-chat.js";
+import CPRLedger from "../dialog/cpr-ledger-form.js";
 import CPR from "../system/config.js";
 import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
 import InstallCyberwarePrompt from "../dialog/cpr-cyberware-install-prompt.js";
@@ -390,6 +391,17 @@ export default class CPRActor extends Actor {
       return false;
     }
     return true;
+  }
+
+  showLedger(prop) {
+    LOGGER.trace("CPRActor showLedger | called.");
+    if (this.isLedgerProperty(prop)) {
+      const led = new CPRLedger();
+      led.setLedgerContent(prop, this.listRecords(prop));
+      led.render(true);
+    } else {
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.ledgererrorisnoledger"));
+    }
   }
 
   getArmorPenaltyMods(stat) {

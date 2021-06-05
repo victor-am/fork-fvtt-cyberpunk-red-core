@@ -1,0 +1,37 @@
+{{trace "CPR-IMPROVEMENT-POINT-EDIT-PROMPT.HBS"}}
+<form>
+  <div>
+    <ol class="items-list">
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.improvementpointseditaction"}}:
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          <select name="action">
+            <option value="add">{{localize "CPR.add"}}</option>
+            <option value="subtract">{{localize "CPR.subtract"}}</option>
+            <option value="set">{{localize "CPR.set"}}</option>
+          </select>
+        </div>
+      </li>
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.improvementpointseditchangeby"}}:
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          <input class="text-right" name="changeValue" type="number" value="" placeholder="0" />
+        </div>
+      </li>
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.improvementpointseditchangereason"}}:
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          <input class="text-right" name="changeReason" type="text" value="" />
+        </div>
+      </li>
+    </ol>
+  </div>
+</form>
+{{trace "END CPR-IMPROVEMENT-POINT-EDIT-PROMPT.HBS"}}
+

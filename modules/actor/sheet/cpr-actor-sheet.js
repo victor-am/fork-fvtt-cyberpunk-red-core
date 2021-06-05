@@ -402,7 +402,7 @@ export default class CPRActorSheet extends ActorSheet {
    *
    * @callback
    * @private
-   * @param {} event 
+   * @param {} event - object capturing event data (what was clicked and where?)
    */
   _makeArmorCurrent(event) {
     LOGGER.trace("ActorID _makeArmorCurrent | CPRActorSheet | Called.");
@@ -812,7 +812,7 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   /**
-   * Set the ImprovementPoints on the actor to a specific value, with a reason.
+   * Set the Points on the actor to a specific value, with a reason.
    *
    * @private
    * @param {Number} value - the value to set IP to
@@ -821,6 +821,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   _setIp(value, reason) {
     LOGGER.trace("_setIp | CPRActorSheet | called.");
+    LOGGER.debug(`setting IP to ${value}`);
     return this.actor.setLedgerProperty("improvementPoints", value, reason);
   }
 
@@ -852,7 +853,7 @@ export default class CPRActorSheet extends ActorSheet {
       tempVal = -tempVal;
     }
     const ledgerProp = this.actor.deltaLedgerProperty("improvementPoints", tempVal, reason);
-    Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenougheb");
+    Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenoughip");
     return ledgerProp;
   }
 
