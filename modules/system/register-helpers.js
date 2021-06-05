@@ -239,6 +239,12 @@ export default function registerHandlebarsHelpers() {
     return object;
   });
 
+  Handlebars.registerHelper("reverse", (object) => {
+    LOGGER.trace(`Calling reverse Helper | Reversing array object`);
+    object.reverse();
+    return object;
+  });
+
   Handlebars.registerHelper("math", (...args) => {
     LOGGER.trace(`Calling math Helper | Arg1:${args}`);
     let mathArgs = [...args];
