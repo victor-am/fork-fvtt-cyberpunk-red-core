@@ -54,9 +54,6 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     // Repair Armor
     html.find(".repair").click((event) => this._repairArmor(event));
 
-    // Set Armor as Current
-    html.find(".armor-current").click((event) => this._makeArmorCurrent(event));
-
     // Install Cyberware
     html.find(".install-remove-cyberware").click((event) => this._installRemoveCyberwareAction(event));
 
@@ -156,13 +153,6 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
         "data.externalData.currentArmorShield.value": currentArmorShieldValue,
       });
     }
-  }
-
-  _makeArmorCurrent(event) {
-    LOGGER.trace("ActorID _makeArmorCurrent | CPRActorSheet | Called.");
-    const location = $(event.currentTarget).attr("data-location");
-    const id = $(event.currentTarget).attr("data-item-id");
-    this.actor.makeThisArmorCurrent(location, id);
   }
 
   async _installRemoveCyberwareAction(event) {

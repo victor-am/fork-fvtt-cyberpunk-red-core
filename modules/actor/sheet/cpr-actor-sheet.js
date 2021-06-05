@@ -120,6 +120,9 @@ export default class CPRActorSheet extends ActorSheet {
     // Ablate Armor
     html.find(".ablate").click((event) => this._ablateArmor(event));
 
+    // Set Armor as Current
+    html.find(".armor-current").click((event) => this._makeArmorCurrent(event));
+
     // Generic item action
     html.find(".item-action").click((event) => this._itemAction(event));
 
@@ -391,6 +394,21 @@ export default class CPRActorSheet extends ActorSheet {
         this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
       }
     }
+  }
+
+  /**
+   * This is the callback for setting armor as "current", which is the star glyph. Setting this enables
+   * the SP of the armor to be tracked as a resource bar on the corresponding token.
+   *
+   * @callback
+   * @private
+   * @param {} event 
+   */
+  _makeArmorCurrent(event) {
+    LOGGER.trace("ActorID _makeArmorCurrent | CPRActorSheet | Called.");
+    const location = $(event.currentTarget).attr("data-location");
+    const id = $(event.currentTarget).attr("data-item-id");
+    this.actor.makeThisArmorCurrent(location, id);
   }
 
   /**

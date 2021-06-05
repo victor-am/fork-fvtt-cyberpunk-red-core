@@ -14,10 +14,14 @@ export default class CPRMookActorSheet extends CPRActorSheet {
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("defaultOptions | CPRMookActorSheet | Called.");
+    const defaultWidth = 750;
+    const defaultHeight = 500;
     return mergeObject(super.defaultOptions, {
       template: "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-sheet.hbs",
-      width: 750,
-      height: 500,
+      defaultWidth,
+      defaultHeight,
+      width: defaultWidth,
+      height: defaultHeight,
     });
   }
 
