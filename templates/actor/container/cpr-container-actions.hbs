@@ -1,0 +1,8 @@
+{{trace "CPR-CONTAINER-ACTIONS.HBS"}}
+{{!-- Item purchase--}}
+<a class="item-action" data-action-type="purchase"><i class="fas fa-shopping-cart" title="{{localize "CPR.purchaseitem"}}"></i></a>
+{{!-- Item deletion --}}
+{{#if isGM}}
+<a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.deleteitem"}}"></i></a>
+{{/if}}
+{{trace "END CPR-CONTAINER-ACTIONS.HBS"}}

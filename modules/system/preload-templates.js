@@ -85,6 +85,11 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-program.hbs",
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-criticalInjury.hbs",
 
+    // Container Sheet
+    "systems/cyberpunk-red-core/templates/actor/cpr-container-sheet.hbs",
+    "systems/cyberpunk-red-core/templates/actor/container/cpr-container-actions.hbs",
+    "systems/cyberpunk-red-core/templates/actor/container/cpr-item-content.hbs",
+
     // Item Sheet
     "systems/cyberpunk-red-core/templates/item/cpr-item-sheet.hbs",
 
