@@ -89,19 +89,20 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     }
 
     const tradePartnerActor = game.actors.get(this.tradePartnerId);
-    console.log(this.tradePartnerId);
-    console.log(tradePartnerActor);
-    console.log(item);
-    await tradePartnerActor.createEmbeddedDocuments("Item", [item.data]);
     const price = item.data.data.price.market;
-    const amount = item.data.data.amount;
+    if (tradePartnerActor.data.data.wealth.value < price) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.tradepricewarn"));
+      return;
+    }
+    const { amount } = item.data.data;
     let reason = "";
     if (amount > 1) {
-      reason = `Purchased ${amount} ${item.name} for ${price} eb each. - ${game.user.name}`;
+      reason = `${SystemUtils.Format("CPR.tradelogmultiple", { amount, name: item.name, price })} - ${game.user.name}`;
     } else {
-      reason = `Purchased ${item.name} for ${price} eb. - ${game.user.name}`;
+      reason = `${SystemUtils.Format("CPR.tradelogsingle", { name: item.name, price })} - ${game.user.name}`;
     }
+    await tradePartnerActor.createEmbeddedDocuments("Item", [item.data]);
     await tradePartnerActor.deltaLedgerProperty("wealth", -1 * price, reason);
-    await this._deleteOwnedItem(item);
+    await this._deleteOwnedItem(item, true);
   }
 }
