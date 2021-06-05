@@ -662,11 +662,12 @@ export default class CPRActorSheet extends ActorSheet {
         return;
       }
       const critType = crit.data.data.location;
+      LOGGER.debug(`critType is ${critType}`);
       let numberCritInjurySameType = 0;
       this.actor.data.filteredItems.criticalInjury.forEach((injury) => {
         if (injury.data.data.location === critType) { numberCritInjurySameType += 1; }
       });
-      if (table.data.results.length <= numberCritInjurySameType) {
+      if (table.data.results.contents.length <= numberCritInjurySameType) {
         SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
         return;
       }
