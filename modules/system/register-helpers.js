@@ -239,6 +239,12 @@ export default function registerHandlebarsHelpers() {
     return object;
   });
 
+  Handlebars.registerHelper("reverse", (object) => {
+    LOGGER.trace(`Calling reverse Helper | Reversing array object`);
+    object.reverse();
+    return object;
+  });
+
   Handlebars.registerHelper("math", (...args) => {
     LOGGER.trace(`Calling math Helper | Arg1:${args}`);
     let mathArgs = [...args];
@@ -329,10 +335,10 @@ export default function registerHandlebarsHelpers() {
     return cprDot + andCaseSplit.toLowerCase();
   });
 
-  Handlebars.registerHelper("itemIdFromName", (itemName) => {
+  Handlebars.registerHelper("itemIdFromName", (itemName, itemType) => {
     LOGGER.trace("Calling itemIdFromName Helper");
-    const item = game.items.find((i) => i.data.name === itemName);
-    if (item !== null) {
+    const item = game.items.find((i) => i.data.name === itemName && i.type === itemType);
+    if (item !== undefined) {
       return item.data._id;
     }
     return "DOES NOT EXIST";

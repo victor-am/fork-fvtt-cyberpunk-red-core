@@ -1,0 +1,37 @@
+.ledger-grid {
+  display: grid;
+  //grid-template-columns: 50px 1fr 6fr;
+  grid-template-areas: "ledger-number ledger-transaction ledger-reason";
+  //gap: 4px 4px;
+
+  .ledger-number {
+    grid-area: ledger-number;
+    flex: 0 0 50px;
+    text-align: center;
+  }
+
+  .ledger-transaction {
+    grid-area: ledger-transaction;
+    flex: 1;
+  }
+
+  .ledger-reason {
+    grid-area: ledger-reason;
+    flex: 2;
+  }
+}
+
+.ledger-list {
+  li:nth-child(even) {
+      background-color: @meat-space-pink;
+  }
+
+  li:nth-child(odd) {
+      background-color: @chrome-white;
+  }
+}
+
+.ledger-content-scroll {
+  height: 250px;
+  overflow-y  : scroll;
+}
