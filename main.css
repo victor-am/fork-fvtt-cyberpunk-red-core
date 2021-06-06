@@ -639,7 +639,7 @@ button,
   max-width: 210px;
   grid-gap: 5px;
   padding: 5px;
-  grid-template-rows: 200px 28px auto auto;
+  grid-template-rows: 200px 28px 28px auto auto;
   grid-template-areas: "image" "name" "settings" "settingsgm" "money";
 }
 .container-sheet .left-pane .image-block {
