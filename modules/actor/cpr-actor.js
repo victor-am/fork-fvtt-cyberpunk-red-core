@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 /* globals Actor, game, getProperty, setProperty, hasProperty, duplicate */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRChat from "../chat/cpr-chat.js";
@@ -61,6 +60,7 @@ export default class CPRActor extends Actor {
     return super.createEmbeddedDocuments(embeddedName, data, context);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   _calculateDerivedStats() {
     throw new Error("This is an abstract method");
   }
@@ -162,7 +162,13 @@ export default class CPRActor extends Actor {
     tmpItem.data.data.isInstalled = true;
     const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
     Rules.lawyer((newInstalledOptionSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
-    return this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.isInstalled": true }, { _id: foundationalCyberware.id, "data.optionalIds": newOptionalIds, "data.installedOptionSlots": newInstalledOptionSlots }]);
+    return this.updateEmbeddedDocuments("Item", [
+      { _id: item.id, "data.isInstalled": true }, {
+        _id: foundationalCyberware.id,
+        "data.optionalIds": newOptionalIds,
+        "data.installedOptionSlots": newInstalledOptionSlots,
+      },
+    ]);
   }
 
   async removeCyberware(itemId, foundationalId, skipConfirm = false) {
@@ -194,7 +200,11 @@ export default class CPRActor extends Actor {
     const newOptionalIds = foundationalCyberware.getData().optionalIds.filter(
       (optionId) => optionId !== item.data._id,
     );
-    return this.updateEmbeddedDocuments("Item", [{ _id: foundationalCyberware.id, "data.optionalIds": newOptionalIds, "data.installedOptionSlots": newInstalledOptionSlots }]);
+    return this.updateEmbeddedDocuments("Item", [{
+      _id: foundationalCyberware.id,
+      "data.optionalIds": newOptionalIds,
+      "data.installedOptionSlots": newInstalledOptionSlots,
+    }]);
   }
 
   _removeFoundationalCyberware(item) {
@@ -394,33 +404,6 @@ export default class CPRActor extends Actor {
     }
   }
 
-  /* // Unused function, not called anywhere! Replaced by _rollCriticalInjury() from cpr-actor-sheet.js.
-  addCriticalInjury(location, name, effect, quickFixType, quickFixDV, treatmentType, treatmentDV, deathSaveIncrease = false) {
-    const itemData = {
-      type: "criticalInjury",
-      name,
-      data: {
-        location,
-        description: {
-          value: effect,
-          chat: "",
-          unidentified: "",
-        },
-        quickFix: {
-          type: quickFixType,
-          dv: quickFixDV,
-        },
-        treatment: {
-          type: treatmentType,
-          dv: treatmentDV,
-        },
-        deathSaveIncrease,
-      },
-    };
-    return this.createEmbeddedEntity("Item", itemData, { force: true });
-  }
-  */
-
   getArmorPenaltyMods(stat) {
     const penaltyStats = ["ref", "dex", "move"];
     const penaltyMods = [0];
@@ -609,6 +592,41 @@ export default class CPRActor extends Actor {
     });
   }
 
+  static _getHands() {
+    LOGGER.trace("_getHands | CPRActor | Called.");
+    return 2;
+  }
+
+  _getFreeHands() {
+    LOGGER.trace("_getFreeHands | CPRActor | Called.");
+    const weapons = this._getEquippedWeapons();
+    const needed = weapons.map((w) => w.data.data.handsReq);
+    const freeHands = CPRActor._getHands() - needed.reduce((a, b) => a + b, 0);
+    return freeHands;
+  }
+
+  _getEquippedWeapons() {
+    LOGGER.trace("_getEquippedWeapons | CPRActor | Called.");
+    const weapons = this.data.filteredItems.weapon;
+    return weapons.filter((a) => a.getData().equipped === "equipped");
+  }
+
+  /**
+   * Helper method to assess whether the actor can hold another weapon. Used to assess whether
+   * an item can be equipped.
+   *
+   * @param {Item} weapon - item proposed to be held
+   * @returns {Boolean}
+   */
+  canHoldWeapon(weapon) {
+    LOGGER.trace("canHoldWeapon | CPRActorSheet | Called.");
+    const needed = weapon.data.data.handsReq;
+    if (needed > this._getFreeHands()) {
+      return false;
+    }
+    return true;
+  }
+
   handleMookDraggedItem(item) {
     // called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
     // handles the automatic equipping of gear and installation of cyberware
@@ -630,5 +648,36 @@ export default class CPRActor extends Actor {
       }
       default:
     }
+  }
+
+  /**
+   * TODO:
+   * This method was created to facilitate homebrew critical injuries with a macro.
+   * It is not used anywhere else, and likely belongs in its own file to be exposed in
+   * a sanctioned API. (_rollCriticalInjury() largely replaces this functionality.)
+   */
+  addCriticalInjury(location, name, effect, quickFixType, quickFixDV, treatmentType, treatmentDV, deathSaveIncrease = false) {
+    const itemData = {
+      type: "criticalInjury",
+      name,
+      data: {
+        location,
+        description: {
+          value: effect,
+          chat: "",
+          unidentified: "",
+        },
+        quickFix: {
+          type: quickFixType,
+          dv: quickFixDV,
+        },
+        treatment: {
+          type: treatmentType,
+          dv: treatmentDV,
+        },
+        deathSaveIncrease,
+      },
+    };
+    return this.createEmbeddedEntity("Item", itemData, { force: true });
   }
 }
