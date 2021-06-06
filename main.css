@@ -669,6 +669,14 @@ button,
 .container-sheet .left-pane .settings-gm-section {
   grid-area: settingsgm;
 }
+.container-sheet .left-pane .settings-gm-section .container-type-label {
+  display: flex;
+  align-items: center;
+}
+.container-sheet .left-pane .settings-gm-section .container-type-dropdown {
+  width: 150px;
+  float: right;
+}
 .container-sheet .left-pane .money-section {
   grid-area: money;
 }

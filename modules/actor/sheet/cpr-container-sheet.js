@@ -59,6 +59,8 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     html.find(".trade-with-dropdown").change((event) => this._setTradePartner(event));
     // Create item in inventory
     html.find(".item-create").click((event) => this._createInventoryItem(event));
+    //
+    html.find(".container-type-dropdown").change((event) => this._setContainerType(event));
     // Toggle the state of a flag for the data of the checkbox
     html.find(".checkbox-toggle").click((event) => this._checkboxToggle(event));
 
@@ -210,6 +212,50 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       this.actor.setFlag("cyberpunk-red-core", flagName, true);
     } else {
       this.actor.unsetFlag("cyberpunk-red-core", flagName);
+    }
+  }
+
+  /**
+   * This is the callback for setting the container type.
+   *
+   * @callback
+   * @private
+   * @param {} event - object capturing event data (what was clicked and where?)
+   */
+  async _setContainerType(event) {
+    LOGGER.trace("_setContainerType | CPRContainerSheet | Called.");
+    const containerType = $(event.currentTarget).val();
+    await this.actor.setFlag("cyberpunk-red-core", "container-type", containerType);
+    switch (containerType) {
+      case "shop": {
+        await this.actor.unsetFlag("cyberpunk-red-core", "items-free");
+        await this.actor.unsetFlag("cyberpunk-red-core", "players-create");
+        await this.actor.unsetFlag("cyberpunk-red-core", "players-delete");
+        await this.actor.unsetFlag("cyberpunk-red-core", "players-modify");
+        break;
+      }
+      case "loot": {
+        await this.actor.unsetFlag("cyberpunk-red-core", "infinite-stock");
+        await this.actor.setFlag("cyberpunk-red-core", "items-free", true);
+        await this.actor.unsetFlag("cyberpunk-red-core", "players-create");
+        await this.actor.unsetFlag("cyberpunk-red-core", "players-delete");
+        await this.actor.unsetFlag("cyberpunk-red-core", "players-modify");
+        break;
+      }
+      case "stash": {
+        await this.actor.unsetFlag("cyberpunk-red-core", "infinite-stock");
+        await this.actor.setFlag("cyberpunk-red-core", "items-free", true);
+        await this.actor.setFlag("cyberpunk-red-core", "players-create", true);
+        await this.actor.setFlag("cyberpunk-red-core", "players-delete", true);
+        await this.actor.setFlag("cyberpunk-red-core", "players-modify", true);
+        break;
+      }
+      case "custom": {
+        break;
+      }
+      default: {
+        break;
+      }
     }
   }
 }
