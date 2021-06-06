@@ -633,7 +633,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("_rollCriticalInjury | CPRActorSheet | Called.");
     const tableName = await CPRActorSheet._setCriticalInjuryTable();
     LOGGER.debugObject(tableName);
-    const table = game.tables.entities.find((t) => t.name === tableName);
+    const table = game.tables.contents.find((t) => t.name === tableName);
     this._drawCriticalInjuryTable(tableName, table, 0);
     this._automaticResize();
   }
