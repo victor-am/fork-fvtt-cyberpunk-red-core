@@ -404,6 +404,10 @@
       "concealable": {
         "concealable": false,
         "isConcealed": false
+      },
+      "installable": {
+        "install": "mall",
+        "isInstalled": false
       }
     },
     "ammo": {
@@ -446,11 +450,10 @@
         "upgradable",
         "concealable",
         "weapon",
-        "uses"
+        "uses",
+        "installable"
       ],
       "type": "cyberArm",
-      "install": "mall",
-      "isInstalled": false,
       "isFoundational": true,
       "hasOptionalSlots": false,
       "optionSlots": 0,
@@ -502,9 +505,11 @@
       "templates": [
         "common",
         "physicalItem",
-        "equippable"
+        "equippable",
+        "installable"
       ],
-      "class": "",
+      "slots": 1,
+      "class": "defender",
       "isDemon": false,
       "interface": 0,
       "per": 0,
