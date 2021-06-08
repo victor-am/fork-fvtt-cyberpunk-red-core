@@ -611,7 +611,7 @@ export default class CPRActor extends Actor {
     }
     return equipped;
   }
-  
+
   static _getHands() {
     LOGGER.trace("_getHands | CPRActor | Called.");
     return 2;

@@ -85,7 +85,7 @@ export default class CPRActorSheet extends ActorSheet {
         programsInstalled.push(program._id);
       });
     });
-    data.filteredItems["programsInstalled"] = programsInstalled;
+    data.filteredItems.programsInstalled = programsInstalled;
     return data;
   }
 
