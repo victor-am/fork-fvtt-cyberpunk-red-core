@@ -512,7 +512,7 @@
         "installable"
       ],
       "slots": 1,
-      "class": "",
+      "class": "defender",
       "isDemon": false,
       "interface": 0,
       "per": 0,

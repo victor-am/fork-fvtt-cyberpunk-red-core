@@ -39,7 +39,13 @@
                         {{localize "CPR.class"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.class" class="" type="text" value="{{data.data.class}}" placeholder="ex: Attack">
+                        <select name="data.class" data-dtype="{{data.data.class}}">
+                            {{#select data.data.class}}
+                            {{#each (findConfigObj "programClassList") as |class c| }}
+                            <option value="{{c}}">{{localize class}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
                     </div>
                 </li>
 

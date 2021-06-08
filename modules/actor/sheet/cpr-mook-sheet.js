@@ -1,4 +1,5 @@
 /* global mergeObject, $, duplicate */
+import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import CPRActorSheet from "./cpr-actor-sheet.js";
 import ModMookSkillPrompt from "../../dialog/cpr-mod-mook-skill-prompt.js";
 import LOGGER from "../../utils/cpr-logger.js";
@@ -13,10 +14,14 @@ export default class CPRMookActorSheet extends CPRActorSheet {
   /** @override */
   static get defaultOptions() {
     LOGGER.trace("defaultOptions | CPRMookActorSheet | Called.");
+    const defaultWidth = 750;
+    const defaultHeight = 500;
     return mergeObject(super.defaultOptions, {
       template: "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-sheet.hbs",
-      width: 750,
-      height: 500,
+      defaultWidth,
+      defaultHeight,
+      width: defaultWidth,
+      height: defaultHeight,
     });
   }
 
@@ -26,6 +31,11 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     html.find(".mod-mook-skill").click(() => this._modMookSkill());
     html.find(".change-mook-name").click(() => this._changeMookName());
     html.find(".mook-image-toggle").click((event) => this._expandMookImage(event));
+
+    // handle the delete key
+    // div elements need focus for the DEL key to work on them
+    html.find(".deletable").hover((event) => $(event.currentTarget).focus());
+    html.find(".deletable").keydown((event) => this._handleDelKey(event));
   }
 
   async _modMookSkill() {
@@ -78,5 +88,45 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     const actorData = duplicate(this.actor.data);
     actorData.flags.collapsedImage = collapsedImage;
     this.actor.update(actorData);
+  }
+
+  async _handleDelKey(event) {
+    LOGGER.trace("_handleDelKey | CPRActorSheet | Called.");
+    LOGGER.debug(event.keyCode);
+    if (event.keyCode === 46) {
+      LOGGER.debug("DEL key was pressed");
+      const itemId = $(event.currentTarget).attr("data-item-id");
+      const item = this._getOwnedItem(itemId);
+      switch (item.type) {
+        case "skill": {
+          item.setSkillLevel(0);
+          item.setSkillMod(0);
+          this._updateOwnedItem(item);
+          break;
+        }
+        case "cyberware": {
+          if (item.data.data.core === true) {
+            SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.cannotdeletecorecyberware"));
+          } else {
+            const foundationalId = $(event.currentTarget).attr("data-foundational-id");
+            const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
+            const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
+            const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
+            if (confirmRemove) {
+              this.actor.removeCyberware(itemId, foundationalId, true);
+              this._deleteOwnedItem(item, true);
+            }
+          }
+          break;
+        }
+        default: {
+          this._deleteOwnedItem(item);
+          break;
+        }
+      }
+    } else if (event.keyCode === 18) {
+      LOGGER.debug("ALT key was pressed");
+      $(".skill-name").hide();
+    }
   }
 }

@@ -1,24 +1,32 @@
 .actor-sheet,
+.container-sheet,
 .item-sheet {
   font-family: "Audimat Mono";
 }
 .actor-sheet img,
+.container-sheet img,
 .item-sheet img {
   border: none;
 }
 .actor-sheet ol li,
+.container-sheet ol li,
 .item-sheet ol li {
   list-style-type: none;
 }
 .actor-sheet input[type="text"],
+.container-sheet input[type="text"],
 .item-sheet input[type="text"],
 .actor-sheet input[type="number"],
+.container-sheet input[type="number"],
 .item-sheet input[type="number"],
 .actor-sheet input[type="password"],
+.container-sheet input[type="password"],
 .item-sheet input[type="password"],
 .actor-sheet input[type="date"],
+.container-sheet input[type="date"],
 .item-sheet input[type="date"],
 .actor-sheet input[type="time"],
+.container-sheet input[type="time"],
 .item-sheet input[type="time"] {
   border: none;
   outline: none;
@@ -40,14 +48,19 @@
   user-select: text;
 }
 .actor-sheet input[type="text"]:hover,
+.container-sheet input[type="text"]:hover,
 .item-sheet input[type="text"]:hover,
 .actor-sheet input[type="number"]:hover,
+.container-sheet input[type="number"]:hover,
 .item-sheet input[type="number"]:hover,
 .actor-sheet input[type="password"]:hover,
+.container-sheet input[type="password"]:hover,
 .item-sheet input[type="password"]:hover,
 .actor-sheet input[type="date"]:hover,
+.container-sheet input[type="date"]:hover,
 .item-sheet input[type="date"]:hover,
 .actor-sheet input[type="time"]:hover,
+.container-sheet input[type="time"]:hover,
 .item-sheet input[type="time"]:hover {
   text-shadow: 0 0 8px #b90202ff;
   border-right: 1px;
@@ -57,8 +70,10 @@
   border-color: #b90202ff;
 }
 .actor-sheet .editor .tox-toolbar-overlord,
+.container-sheet .editor .tox-toolbar-overlord,
 .item-sheet .editor .tox-toolbar-overlord,
 .actor-sheet .editor .tox-toolbar__primary,
+.container-sheet .editor .tox-toolbar__primary,
 .item-sheet .editor .tox-toolbar__primary {
   background: none;
 }
@@ -374,6 +389,38 @@ button,
   border-top-color: #b90202ff;
   border-top-style: solid;
 }
+.gear-tab-data .bottom-pane-gear .eurobucks {
+  display: grid;
+  grid-template-areas: "current-eurobucks" "modify-eurobucks";
+}
+.gear-tab-data .bottom-pane-gear .eurobucks .current-eurobucks {
+  grid-area: current-eurobucks;
+}
+.gear-tab-data .bottom-pane-gear .eurobucks .current-eurobucks .eurobucks-text {
+  flex: 0 0 83px;
+}
+.gear-tab-data .bottom-pane-gear .eurobucks .current-eurobucks .eurobucks-value {
+  flex: 1;
+}
+.gear-tab-data .bottom-pane-gear .eurobucks .current-eurobucks .eurobucks-open-ledger {
+  flex: 0 0 15px;
+  text-align: right;
+}
+.gear-tab-data .bottom-pane-gear .eurobucks .modify-eurobucks {
+  grid-area: modify-eurobucks;
+}
+.gear-tab-data .bottom-pane-gear .eurobucks .modify-eurobucks .eurobucks-modify-text {
+  flex: 0 0 80px;
+}
+.gear-tab-data .bottom-pane-gear .eurobucks .modify-eurobucks .eurobucks-modify-input {
+  flex: 1 0 100px;
+}
+.gear-tab-data .bottom-pane-gear .eurobucks .modify-eurobucks .eurobucks-modify-buttons {
+  flex: 1 0 50px;
+}
+.gear-tab-data .bottom-pane-gear .eurobucks .modify-eurobucks .eurobucks-modify-reason {
+  flex: 1 0 150px;
+}
 .lifepath-tab {
   display: flex;
   background-color: #eaeaeaff;
@@ -587,6 +634,66 @@ button,
 .bice-sheet .bice-label-corner-right {
   clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
   height: 11px;
+}
+.container-sheet {
+  font-family: "Audimat Mono";
+  background-color: #eaeaeaff;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: 210px auto;
+  grid-template-areas: "pane-left pane-right";
+}
+.container-sheet .left-pane {
+  grid-area: pane-left;
+  display: grid;
+  max-width: 210px;
+  grid-gap: 5px;
+  padding: 5px;
+  grid-template-rows: 200px 28px auto auto;
+  grid-template-areas: "image" "name" "settings" "settingsgm" "money";
+}
+.container-sheet .left-pane .image-block {
+  grid-area: image;
+  width: 200px;
+  height: 200px;
+  background-color: #b90202ff;
+}
+.container-sheet .left-pane .image-block .profile-img {
+  width: 200px;
+  height: 200px;
+}
+.container-sheet .left-pane .name-section {
+  grid-area: name;
+}
+.container-sheet .left-pane .settings-section {
+  grid-area: settings;
+}
+.container-sheet .left-pane .settings-section .trade-with-label {
+  display: flex;
+  align-items: center;
+}
+.container-sheet .left-pane .settings-section .trade-with-dropdown {
+  width: 110px;
+  float: right;
+}
+.container-sheet .left-pane .settings-gm-section {
+  grid-area: settingsgm;
+}
+.container-sheet .left-pane .money-section {
+  grid-area: money;
+}
+.container-sheet .right-pane {
+  grid-area: pane-right;
+  display: flex;
+  height: 450px;
+  width: 100%;
+  border-color: #b90202ff;
+  border-style: solid;
+  border-width: 5px;
+}
+.container-sheet .right-pane .right-content {
+  width: inherit;
+  overflow-y: scroll;
 }
 .demon-sheet {
   font-family: "Audimat Mono";
@@ -963,6 +1070,33 @@ button,
 }
 .pad-thicker {
   padding: 10px;
+}
+.ledger-grid {
+  display: grid;
+  grid-template-areas: "ledger-number ledger-transaction ledger-reason";
+}
+.ledger-grid .ledger-number {
+  grid-area: ledger-number;
+  flex: 0 0 50px;
+  text-align: center;
+}
+.ledger-grid .ledger-transaction {
+  grid-area: ledger-transaction;
+  flex: 1;
+}
+.ledger-grid .ledger-reason {
+  grid-area: ledger-reason;
+  flex: 2;
+}
+.ledger-list li:nth-child(even) {
+  background-color: #ffc3b6ff;
+}
+.ledger-list li:nth-child(odd) {
+  background-color: #eaeaeaff;
+}
+.ledger-content-scroll {
+  height: 250px;
+  overflow-y: scroll;
 }
 /*--------------------
   Text modifiers
