@@ -26,7 +26,7 @@ export default class InstallProgramsPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.installprogramstitle"),
+          title: SystemUtils.Localize("CPR.configureinstalledprograms"),
           content: html,
           buttons: {
             cancel: {

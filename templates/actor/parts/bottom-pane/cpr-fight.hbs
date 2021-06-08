@@ -201,25 +201,51 @@
         <div class="cyberdeck-rezzed-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
-                {{cyberdeck.data.name}} {{localize "CPR.rezzed"}}
+                {{localize "CPR.active"}} {{localize "CPR.programs"}} ({{cyberdeck.data.name}})
             </span>
         </li>
         <div class="cyberdeck-rezzed-content">
+            {{log "REZZED"}}
+            {{#each (toArray "booster,defender" ",") as |pc|}}
+            {{log pc}}
+            <li class="items-header flexrow">
+                <span class="text-bold bg-pink">{{pc}}</span>
+            </li>
+                {{#each ../cyberdeck.data.data.programs.rezzed as |program|}}
+                    {{#if (compare program.data.class "===" pc)}}
+                    <li class="items-header flexrow">
+                        &nbsp;<a class="cyberdeck-toggle-program-rez" title="{{localize "CPR.clicktoactivatedeactivateprogram"}}"
+                                data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}">{{program.name}}</a>
+                    </li>
+                    {{/if}}
+                {{/each}}
+            {{/each}}
         </div>
     </div>
     <div class="cyberdeck-installed-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
-                {{cyberdeck.data.name}} {{localize "CPR.installed"}}
+                {{localize "CPR.installed"}} {{localize "CPR.programs"}} ({{cyberdeck.data.name}})
             </span>
         </li>
         <div class="cyberdeck-installed-content">
             <div class="cyberdeck-installed-software">
-              {{#each cyberdeck.data.data.programs.installed as |program|}}
-              <li class="items-header flexrow">
-                {{program.name}}
-              </li>
-              {{/each}}
+              {{#each (findConfigObj "programClassList") as |pgmClass pc|}}
+                    <li class="items-header flexrow">
+                        <span class="text-bold bg-pink">{{localize pgmClass}}</span>
+                    </li>
+                  {{#each ../cyberdeck.data.data.programs.installed as |program|}}
+                    {{#if (compare program.data.class "===" pc)}}
+                    <li class="items-header flexrow">
+                        {{#if (listContains "booster,defender" pc)}}
+                        &nbsp;<a class="cyberdeck-toggle-program-rez" title="{{localize "CPR.clicktoactivatedeactivateprogram"}}" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}">{{program.name}}</a>
+                        {{else}}
+                        &nbsp;<a class="cyberdeck-exec-pgm" title="{{localize "CPR.clicktoactivateprogram"}}">{{program.name}}</a>
+                        {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/each}}
+                {{/each}}
             </div>
             <div class="cyberdeck-installed-hardware">
 

@@ -586,8 +586,6 @@ export default class CPRItem extends Item {
 
   async installPrograms(programs) {
     LOGGER.debug("installProgram | CPRItem | Called.");
-    console.log("INSTALL PROGRAM");
-    console.log(programs);
     const { installed } = this.data.data.programs;
     programs.forEach((p) => {
       const onDeck = installed.filter((iProgram) => iProgram._id === p._id);
@@ -613,13 +611,22 @@ export default class CPRItem extends Item {
     this.data.data.programs.installed = installed;
   }
 
+  async uninstallAllPrograms() {
+    const { installed } = this.data.data.programs;
+    await this.uninstallPrograms(installed);
+  }
+
+  isRezzed(program) {
+    const rezzedPrograms = this.data.data.programs.rezzed.filter((p) => p._id === program.id);
+    return (rezzedPrograms.length > 0);
+  }
+
   async rezProgram(program) {
-    const rezzed = this.data.data.programs.rezzed.push(program);
-    this.data.data.programs.rezzed = rezzed;
+    this.data.data.programs.rezzed.push(program);
   }
 
   async derezProgram(program) {
-    const rezzed = this.data.data.programs.rezzed.filter((p) => p !== program);
+    const rezzed = this.data.data.programs.rezzed.filter((p) => p._id !== program.id);
     this.data.data.programs.rezzed = rezzed;
   }
 }

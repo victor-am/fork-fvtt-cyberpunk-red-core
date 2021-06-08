@@ -351,8 +351,8 @@ CPR.demonStatList = {
 CPR.programClassList = {
   antipersonnelattacker: "CPR.antipersonnelattacker",
   antiprogramattacker: "CPR.antiprogramattacker",
-  defender: "CPR.defender",
   booster: "CPR.booster",
+  defender: "CPR.defender",
 };
 
 export default CPR;

@@ -14,7 +14,7 @@
     {{#each this.programList as |program|}}
     <li class="item flexrow">
       <div class="item flexrow setting-name text-nowrap">
-        {{program.data.name}} ({{program.data.data.class}})
+        {{program.data.name}} ({{localize (findConfigValue "programClassList" program.data.data.class)}})
       </div>
       <div class="item flexrow setting-value text-nowrap text-space-around">
         {{#if program.data.data.isInstalled}}

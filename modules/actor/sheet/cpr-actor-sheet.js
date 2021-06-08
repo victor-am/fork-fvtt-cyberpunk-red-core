@@ -577,9 +577,20 @@ export default class CPRActorSheet extends ActorSheet {
           }
         }
       });
+
       if (ammoIsLoaded) {
         return;
       }
+    }
+    if (item.type === "cyberdeck") {
+      // Set all of the owned programs that were installed on
+      // this cyberdeck to uninstalled.
+      const programs = item.getInstalledPrograms();
+      const updateList = [];
+      programs.forEach((p) => {
+        updateList.push({ _id: p._id, "data.isInstalled": false });
+      });
+      await this.actor.updateEmbeddedDocuments("Item", updateList);
     }
     await this.actor.deleteEmbeddedDocuments("Item", [item.id]);
   }

@@ -344,6 +344,8 @@ export default function registerHandlebarsHelpers() {
     return "DOES NOT EXIST";
   });
 
+  Handlebars.registerHelper("toArray", (string, delimiter) => string.split(delimiter));
+
   Handlebars.registerHelper("isTokenSheet", (title) => {
     LOGGER.trace("Calling isTokenSheet Helper");
     LOGGER.debug(`title is ${title}`);

@@ -52,9 +52,6 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     // Cycle equipment status
     html.find(".equip").click((event) => this._cycleEquipState(event));
 
-    // Switch between meat and net fight states
-    html.find(".toggle-fight-state").click((event) => this._toggleFightState(event));
-
     // Repair Armor
     html.find(".repair").click((event) => this._repairArmor(event));
 
@@ -102,6 +99,14 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     // Create item in inventory
     html.find(".item-create").click((event) => this._createInventoryItem(event));
 
+    // Fight tab listeners
+
+    // Switch between meat and net fight states
+    html.find(".toggle-fight-state").click((event) => this._toggleFightState(event));
+
+    // Rez or de-rez a program
+    html.find(".cyberdeck-toggle-program-rez").click((event) => this._toggleProgramRez(event));
+
     super.activateListeners(html);
   }
 
@@ -117,6 +122,13 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       case "carried": {
         if (item.data.type === "weapon") {
           Rules.lawyer(this.actor.canHoldWeapon(item), "CPR.warningtoomanyhands");
+        }
+        if (item.data.type === "cyberdeck") {
+          if (this.actor.hasItemTypeEquipped(item.data.type)) {
+            Rules.lawyer(false, "CPR.errortoomanycyberdecks");
+            this._updateOwnedItemProp(item, prop, "owned");
+            break;
+          }
         }
         this._updateOwnedItemProp(item, prop, "equipped");
         break;
@@ -383,10 +395,33 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     await this.actor.createEmbeddedDocuments("Item", [itemData]);
   }
 
-  // Toggle fight state between Meat and Net
+  /**
+   * Create set a flag on the actor of what their current Fight State is which affects
+   * what is viewed in the Fight Tab of the character sheet.
+   *
+   * Currently the two fight states are valid:
+   *
+   * "Meatspace" - Fight data relative to combat when not "jacked in"
+   * "Netspace"  - Fight data relative to combat when "jacked in"
+   *
+   * @private
+   * @param {Object} event - object capturing event data (what was clicked and where?)
+   */
   _toggleFightState(event) {
     const fightState = $(event.currentTarget).attr("data-state");
-    console.log(fightState);
     this.actor.setFlag("cyberpunk-red-core", "fightState", fightState);
+  }
+
+  _toggleProgramRez(event) {
+    const programId = $(event.currentTarget).attr("data-program-id");
+    const program = this._getOwnedItem(programId);
+    const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
+    const cyberdeck = this._getOwnedItem(cyberdeckId);
+    if (cyberdeck.isRezzed(program)) {
+      cyberdeck.derezProgram(program);
+    } else {
+      cyberdeck.rezProgram(program);
+    }
+    this._updateOwnedItem(cyberdeck);
   }
 }
