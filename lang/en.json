@@ -694,6 +694,8 @@
     "CPR.clicktoperformaction": "Click to perform action.",
     "CPR.rezzedboosters": "Rezzed Boosters",
     "CPR.programactivation": "Program Activation",
+    "CPR.damagetoblackice": "Damage to Black-ICE",
+    "CPR.damagetononblackice": "Damage to non Black-ICE",
     "ITEM.TypeAmmo": "Ammo",
     "ITEM.TypeArmor": "Armor",
     "ITEM.TypeClothing": "Clothing",

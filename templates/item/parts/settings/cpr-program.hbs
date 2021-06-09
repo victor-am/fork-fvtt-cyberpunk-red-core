@@ -91,6 +91,33 @@
                 {{/each}}
                  <hr>
                 {{/if}}
+                {{#if (compare (compare data.data.class "===" "antiprogramattacker") "||" (compare data.data.class "===" "antipersonnelattacker")) }}
+                <hr>
+                    <li class="item flexrow">
+                        <div class="item flexrow setting-name text-nowrap">
+                            {{#if (compare data.data.class "===" "antipersonnelattacker")}}
+                            {{localize "CPR.damage"}}
+                            {{else}}
+                            {{localize "CPR.damagetononblackice"}}
+                            {{/if}}
+                        </div>
+                        <div class="item flexrow setting-value text-nowrap item-end">
+                            <input name="data.damage.standard" class="" type="text" value="{{data.data.damage.standard}}">
+                        </div>
+                    </li>
+                    {{#if (compare data.data.class "===" "antiprogramattacker")}}
+                    <li class="item flexrow">
+                        <div class="item flexrow setting-name text-nowrap">
+                            {{localize "CPR.damagetoblackice"}}
+                        </div>
+                        <div class="item flexrow setting-value text-nowrap item-end">
+                            <input name="data.damage.blackIce" class="" type="text" value="{{data.data.damage.blackIce}}">
+                        </div>
+                    </li>
+                    {{/if}}
+                <hr>
+                {{/if}}
+
                 {{!-- Program PER--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
