@@ -2,6 +2,7 @@
 /* eslint-disable max-classes-per-file */
 /* global Roll */
 import LOGGER from "../utils/cpr-logger.js";
+import CPR from "../system/config.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import VerifyRoll from "../dialog/cpr-verify-roll-prompt.js";
@@ -185,6 +186,11 @@ export class CPRAttackRoll extends CPRSkillRoll {
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-attack-rollcard.hbs";
     this.weaponType = weaponType;
   }
+
+  setNetCombat() {
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-program-attack-prompt.hbs";
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-program-attack-rollcard.hbs";
+  }
 }
 
 // this deliberately does not set the location until after the verify dialog box
@@ -234,8 +240,13 @@ export class CPRRoleRoll extends CPRRoll {
   _computeBase() {
     return this.initialRoll + this.totalMods() + this.roleValue + this.roleStat + this.roleOther;
   }
-}
 
+  setNetCombat(rollTitle) {
+    this.rollTitle = rollTitle;
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-cyberdeck-prompt.hbs";
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-cyberdeck-rollcard.hbs";
+  }
+}
 export class CPRDeathSaveRoll extends CPRRoll {
   constructor(penalty, basePenalty, bodyStat) {
     super(SystemUtils.Localize("CPR.deathsave"), "1d10");
@@ -316,6 +327,11 @@ export class CPRDamageRoll extends CPRRoll {
       this.autofireMultiplierMax = autofireMultiplierMax;
     }
   }
+
+  setNetCombat() {
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-program-damage-prompt.hbs";
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-program-damage-rollcard.hbs";
+  }
 }
 
 export class CPRTableRoll extends CPRRoll {
@@ -346,4 +362,6 @@ export const rollTypes = {
   SUPPRESSIVE: "suppressive",
   DAMAGE: "damage",
   DEATHSAVE: "deathsave",
+  INTERFACEABILITY: "interfaceAbility",
+  CYBERDECKPROGRAM: "cyberdeckProgram",
 };

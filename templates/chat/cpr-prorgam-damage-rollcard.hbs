@@ -1,0 +1,66 @@
+{{trace "CPR-DAMAGE-ROLLCARD.HBS"}}
+<div class="rollcard">
+    <div class="rollcard-top">
+        <div class="cpr-block chat-rollTitle-stat">
+            <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
+            <div class="text-center text-small">{{#if autofire}}{{localize "CPR.autofire"}} {{/if}}{{localize
+                "CPR.damage"}}</div>
+        {{#if rollCardExtraArgs.ammoType}}
+        <div class="text-center text-small">{{localize (findConfigValue "ammoType" rollCardExtraArgs.ammoType)}}</div>
+        {{/if}}
+        </div>
+    </div>
+    <div class="rollcard-bottom">
+        <div class="cpr-block">
+            <div class="d6-rollcard-data">
+                <div class="d6-dice-div">
+                    {{!-- die image for initialRoll --}}
+
+                    {{#each faces as |dieFace|}}
+                    {{#if (compare dieFace "===" 6)}}
+                    {{#if ../criticalCard}}
+                    <img class="{{diceSizeImageClass ../formula}}"
+                        src="systems/cyberpunk-red-core/icons/dice/red/d6_{{dieFace}}_preem.svg">
+                    {{else}}
+                    <img class="{{diceSizeImageClass ../formula}}"
+                        src="systems/cyberpunk-red-core/icons/dice/black/d6_{{dieFace}}.svg">
+                    {{/if}}
+                    {{else}}
+                    <img class="{{diceSizeImageClass ../formula}}"
+                        src="systems/cyberpunk-red-core/icons/dice/black/d6_{{dieFace}}.svg">
+                    {{/if}}
+                    {{/each}}
+
+                </div>
+                <div class="d6-number-div">
+                    {{#if (compare mods.length ">" 0)}}
+                    <a>
+                    {{/if}}
+                    <span class="clickable{{#if criticalCard}} fg-red text-bold{{/if}}" data-action="toggleVisibility" data-visible-element="d6-data-details">{{resultTotal}}</span>
+                    {{#if (compare mods.length ">" 0)}}
+                    </a>
+                    {{/if}}
+                </div>
+                <div class="d6-data-div">
+                    {{#if isAutofire}}
+                    <div class="text-normal text-bold">{{localize "CPR.autofire"}}! (x{{autofireMultiplier}})</div>
+                    {{/if}}
+                    {{#if isAimed}}
+                    <div class="text-normal text-bold">{{localize "CPR.location"}}: {{localize (findConfigValue
+                        "aimedLocation" location)}}</div>
+                    {{/if}}
+                    {{#if criticalCard}}
+                    <div class="text-normal text-bold">{{localize "CPR.bonus"}} {{localize "CPR.damage"}}:
+                        {{bonusDamage}}</div>
+                    {{/if}}
+                    <div class="d6-data-details hide">
+                        {{#if (compare mods.length ">" 0)}}
+                        <div class="text-normal text-bold">{{localize "CPR.mods"}}: {{totalMods}}</div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{trace "END CPR-DAMAGE-ROLLCARD.HBS"}}

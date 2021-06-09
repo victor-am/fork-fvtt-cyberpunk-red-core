@@ -361,11 +361,15 @@ export default class CPRItem extends Item {
       case CPRRolls.rollTypes.AUTOFIRE:
       case CPRRolls.rollTypes.AIMED:
       case CPRRolls.rollTypes.ATTACK: {
-        return this.createAttackRoll(type, actor);
+        return this._createAttackRoll(type, actor);
       }
       case CPRRolls.rollTypes.DAMAGE: {
         const damageType = extraData.damageType ? extraData.damageType : type;
-        return this.createDamageRoll(damageType);
+        return this._createDamageRoll(damageType);
+      }
+      case CPRRolls.rollTypes.INTERFACEABILITY:
+      case CPRRolls.rollTypes.CYBERDECKPROGRAM: {
+        return this._createCyberdeckRoll(type, actor, extraData);
       }
       default:
     }
@@ -386,7 +390,7 @@ export default class CPRItem extends Item {
     return cprRoll;
   }
 
-  createAttackRoll(type, actor) {
+  _createAttackRoll(type, actor) {
     LOGGER.trace("_createAttackRoll | CPRItem | Called.");
     const weaponData = this.data.data;
     const weaponName = this.name;
@@ -446,7 +450,7 @@ export default class CPRItem extends Item {
     return cprRoll;
   }
 
-  createDamageRoll(type) {
+  _createDamageRoll(type) {
     const rollName = this.data.name;
     const { weaponType } = this.data.data;
     let { damage } = this.data.data;
@@ -652,6 +656,54 @@ export default class CPRItem extends Item {
         modifierTotal += program.data.modifiers[boosterType];
       }
     });
+    console.log(boosterType);
+    console.log(rezzed);
+    console.log(modifierTotal);
     return modifierTotal;
+  }
+
+  _createCyberdeckRoll(rollType, actor, extraData = {}) {
+    let rollTitle = "";
+    let rollModifiers = 0;
+    let cprRoll;
+    switch (rollType) {
+      case CPRRolls.rollTypes.INTERFACEABILITY: {
+        const { interfaceAbility } = extraData;
+        if (interfaceAbility !== "speed") {
+          rollTitle = SystemUtils.Localize(CPR.interfaceAbilities[interfaceAbility]);
+        } else {
+          rollTitle = SystemUtils.Localize("CPR.speed");
+        }
+        rollModifiers = this.getBoosters(interfaceAbility);
+        cprRoll = actor.createRoll("roleAbility", "interface");
+        cprRoll.setNetCombat(rollTitle);
+        break;
+      }
+      case CPRRolls.rollTypes.CYBERDECKPROGRAM: {
+        const { programId } = extraData;
+        const programList = this.getInstalledPrograms().filter((program) => program._id === programId);
+        const program = (programList.length > 0) ? programList[0] : null;
+        const atkValue = (program === null) ? 0 : program.data.atk;
+        const pgmName = (program === null) ? "Program" : program.name;
+        const { executionType } = extraData;
+        rollModifiers = this.getBoosters(executionType);
+        switch (executionType) {
+          case "attack": {
+            cprRoll = new CPRRolls.CPRAttackRoll(pgmName, pgmName, atkValue, "Interface", extraData.interfaceValue, "program");
+            break;
+          }
+          case "damage": {
+            cprRoll = new CPRRolls.CPRDamageRoll("Program Damage", "1d6", "program");
+            break;
+          }
+          default:
+        }
+        cprRoll.setNetCombat();
+        break;
+      }
+      default:
+    }
+    cprRoll.addMod(rollModifiers);
+    return cprRoll;
   }
 }

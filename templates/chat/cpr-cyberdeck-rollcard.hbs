@@ -3,13 +3,9 @@
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-stat">
       <div class="text-center text-padding-top text-normal">
-        {{#if (compare roleName "===" "operator")}}
-          {{localize "CPR.haggle"}}
-        {{else}}
           {{localize (findConfigValue "roleAbilityList" roleName)}}{{#if (compare (localize (findConfigValue "roleAbilityList" roleName)) "!==" rollTitle)}}: {{rollTitle}}{{/if}}
-        {{/if}}
       </div>
-      <div class="text-center text-small">{{localize "CPR.roleability"}}</div>
+      <div class="text-center text-small">{{localize "CPR.programactivation"}}</div>
     </div>
   </div>
   <div class="rollcard-bottom">

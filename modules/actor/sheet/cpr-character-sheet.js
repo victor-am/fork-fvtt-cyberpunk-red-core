@@ -104,8 +104,8 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     // Switch between meat and net fight states
     html.find(".toggle-fight-state").click((event) => this._toggleFightState(event));
 
-    // Rez or de-rez a program
-    html.find(".cyberdeck-toggle-program-rez").click((event) => this._toggleProgramRez(event));
+    // Execute a program on a Cyberdeck
+    html.find(".program-execution").click((event) => this._cyberdeckProgramExecution(event));
 
     super.activateListeners(html);
   }
@@ -408,11 +408,43 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @param {Object} event - object capturing event data (what was clicked and where?)
    */
   _toggleFightState(event) {
+    LOGGER.trace("_toggleFightState | CPRActorSheet | Called.");
     const fightState = $(event.currentTarget).attr("data-state");
     this.actor.setFlag("cyberpunk-red-core", "fightState", fightState);
   }
 
+  _cyberdeckProgramExecution(event) {
+    const executionType = $(event.currentTarget).attr("data-execution-type");
+    const programId = $(event.currentTarget).attr("data-program-id");
+    const program = this._getOwnedItem(programId);
+    const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
+    const cyberdeck = this._getOwnedItem(cyberdeckId);
+    switch (executionType) {
+      case "rez": {
+        if (!cyberdeck.isRezzed(program)) {
+          cyberdeck.rezProgram(program);
+          this._updateOwnedItem(cyberdeck);
+        }
+        break;
+      }
+      case "derez": {
+        if (cyberdeck.isRezzed(program)) {
+          cyberdeck.derezProgram(program);
+          this._updateOwnedItem(cyberdeck);
+        }
+        break;
+      }
+      case "attack":
+      case "damage": {
+        this._onRoll(event);
+        break;
+      }
+      default:
+    }
+  }
+
   _toggleProgramRez(event) {
+    LOGGER.trace("_toggleProgramRez | CPRActorSheet | Called.");
     const programId = $(event.currentTarget).attr("data-program-id");
     const program = this._getOwnedItem(programId);
     const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");

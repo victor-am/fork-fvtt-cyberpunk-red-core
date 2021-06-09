@@ -12,8 +12,10 @@
     - Roll Attacker Programs (TODO)
   - Booster Programs have enhanced settings tab to allow the configuration of Roll Modifiers when the Booster program is Rezzed
   - Booster Modifiers automatically entered into Roll Modifier for Interface Abilities (TODO)
+  - Deletion of the Cyberdeck Item will auto-return all programs to Actors inventory
 - Netrunning Known Issues (adding for now to track, will try to resolve before merge)
   - Actors must own the Cyberdeck + Programs to install onto the Cyberdeck. ie inability to pre-load the Cyberdeck with programs before adding to an Actor.
+  - Programs must be fully configured before installing onto the Cyberdeck and can not be changed after installation.
 
 **WIP Bug Fixes**
 - Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item. 

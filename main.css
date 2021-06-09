@@ -479,12 +479,12 @@ button,
   background-color: #eaeaeaff;
   min-height: 35px;
 }
-.fight-tab .cyberdeck-rezzed-section {
+.fight-tab .cyberdeck-installed-section {
   grid-area: armor;
   background-color: #eaeaeaff;
   min-height: 35px;
 }
-.fight-tab .cyberdeck-installed-section {
+.fight-tab .cyberdeck-rezzed-section {
   grid-area: weapon;
   background-color: #eaeaeaff;
   min-height: 35px;
