@@ -514,6 +514,7 @@
       "slots": 1,
       "class": "defender",
       "isDemon": false,
+      "modifiers": {},
       "interface": 0,
       "per": 0,
       "spd": 0,

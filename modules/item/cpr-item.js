@@ -590,7 +590,9 @@ export default class CPRItem extends Item {
     programs.forEach((p) => {
       const onDeck = installed.filter((iProgram) => iProgram._id === p._id);
       if (onDeck.length === 0) {
-        installed.push(p);
+        const programInstallation = p;
+        programInstallation.data.data.isRezzed = false;
+        installed.push(programInstallation);
         p.setInstalled();
       }
     });
@@ -611,22 +613,45 @@ export default class CPRItem extends Item {
     this.data.data.programs.installed = installed;
   }
 
-  async uninstallAllPrograms() {
-    const { installed } = this.data.data.programs;
-    await this.uninstallPrograms(installed);
-  }
-
   isRezzed(program) {
     const rezzedPrograms = this.data.data.programs.rezzed.filter((p) => p._id === program.id);
     return (rezzedPrograms.length > 0);
   }
 
   async rezProgram(program) {
+    const { installed } = this.data.data.programs;
+    const installIndex = installed.findIndex((p) => p._id === program.id);
+    const programState = installed[installIndex];
+    programState.data.isRezzed = true;
+    installed[installIndex] = programState;
+    this.data.data.programs.installed = installed;
     this.data.data.programs.rezzed.push(program);
   }
 
   async derezProgram(program) {
+    const { installed } = this.data.data.programs;
+    const installIndex = installed.findIndex((p) => p._id === program.id);
+    const programState = installed[installIndex];
+    programState.data.isRezzed = false;
+    installed[installIndex] = programState;
     const rezzed = this.data.data.programs.rezzed.filter((p) => p._id !== program.id);
     this.data.data.programs.rezzed = rezzed;
+  }
+
+  /**
+   * Get total modifiers for a specified boosterType from the programs rezzed on the Cyberdeck.
+   *
+   * @public
+   * @param {String} boosterType - string defining the type of boosters to return.
+   */
+  getBoosters(boosterType) {
+    const { rezzed } = this.data.data.programs;
+    let modifierTotal = 0;
+    rezzed.forEach((program) => {
+      if (program.data.modifiers[boosterType]) {
+        modifierTotal += program.data.modifiers[boosterType];
+      }
+    });
+    return modifierTotal;
   }
 }

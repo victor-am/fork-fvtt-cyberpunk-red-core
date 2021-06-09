@@ -1,5 +1,6 @@
 {{trace "CPR-FIGHT.HBS"}}
 <div class="fight-tab">
+    {{#if (compare fightState "===" "Meatspace")}}
     <div class="injuries-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
@@ -22,7 +23,6 @@
             </ol>
         </div>
     </div>
-    {{#if (compare fightState "===" "Meatspace")}}
     <div class="armor-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
@@ -198,16 +198,29 @@
     </div>
     {{/if}}
     {{#if (compare fightState "===" "Netspace")}}
-        <div class="cyberdeck-rezzed-section">
+    <div class="interface-abilities-section">
+        <li class="items-header flexrow">
+            <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
+                {{localize "CPR.interface"}} {{localize "CPR.abilities"}}
+            </span>
+        </li>
+        <div class="net-actions-content">
+            {{#each (findConfigObj "interfaceAbilities") as |intAbility ia|}}
+            <li class="items-header flexrow">
+                {{localize intAbility}}
+            </li>
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="cyberdeck-rezzed-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
                 {{localize "CPR.active"}} {{localize "CPR.programs"}} ({{cyberdeck.data.name}})
             </span>
         </li>
         <div class="cyberdeck-rezzed-content">
-            {{log "REZZED"}}
             {{#each (toArray "booster,defender" ",") as |pc|}}
-            {{log pc}}
             <li class="items-header flexrow">
                 <span class="text-bold bg-pink">{{pc}}</span>
             </li>
@@ -237,11 +250,14 @@
                   {{#each ../cyberdeck.data.data.programs.installed as |program|}}
                     {{#if (compare program.data.class "===" pc)}}
                     <li class="items-header flexrow">
+  
                         {{#if (listContains "booster,defender" pc)}}
+                        {{#if program.data.isRezzed}}<span class="text-italics">{{/if}}
                         &nbsp;<a class="cyberdeck-toggle-program-rez" title="{{localize "CPR.clicktoactivatedeactivateprogram"}}" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}">{{program.name}}</a>
                         {{else}}
                         &nbsp;<a class="cyberdeck-exec-pgm" title="{{localize "CPR.clicktoactivateprogram"}}">{{program.name}}</a>
                         {{/if}}
+                        {{#if program.data.isRezzed}}</span>{{/if}}
                     </li>
                     {{/if}}
                   {{/each}}

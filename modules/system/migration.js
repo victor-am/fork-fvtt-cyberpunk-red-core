@@ -538,6 +538,10 @@ export default class Migration {
       updateData["data.isInstalled"] = false;
     }
 
+    if ((typeof itemData.data.modifiers) !== "object") {
+      updateData["data.modifiers"] = {};
+    }
+
     if (itemData.data.amount !== 1) {
       updateData["data.amount"] = 1;
     }

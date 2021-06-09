@@ -1,10 +1,12 @@
 /* global ItemSheet */
 /* global mergeObject, game, $, hasProperty, getProperty, setProperty, duplicate */
 import LOGGER from "../../utils/cpr-logger.js";
+import CPR from "../../system/config.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
 import NetarchLevelPrompt from "../../dialog/cpr-netarch-level-prompt.js";
 import CyberdeckSelectProgramsPrompt from "../../dialog/cpr-select-install-programs-prompt.js";
+import BoosterAddModifierPrompt from "../../dialog/cpr-booster-add-modifier-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
 import CPRNetarchUtils from "../../utils/cpr-netarchUtils.js";
@@ -96,6 +98,10 @@ export default class CPRItemSheet extends ItemSheet {
     html.find(".select-installed-programs").click((event) => this._cyberdeckSelectInstalledPrograms(event));
 
     html.find(".uninstall-program").click((event) => this._cyberdeckUninstallProgram(event));
+
+    html.find(".program-add-booster-modifier").click((event) => this._addBoosterModifier(event));
+
+    html.find(".program-del-booster-modifier").click((event) => this._delBoosterModifier(event));
 
     html.find(".netarch-generate-auto").click((event) => {
       if (game.user.isGM) {
@@ -373,6 +379,36 @@ export default class CPRItemSheet extends ItemSheet {
     } else {
       SystemUtils.DisplayMessage("error", SystemUtils.Format("CPR.itemdoesnotexisterror", { itemid: itemId }));
     }
+  }
+
+  // Program Code
+
+  async _addBoosterModifier(event) {
+    const boosterTypes = Object.keys(CPR.interfaceAbilities);
+    let formData = {
+      boosterTypes,
+      returnType: "array",
+    };
+    formData = await BoosterAddModifierPrompt.RenderPrompt(formData);
+    if (formData) {
+      this.item.data.data.modifiers[formData.boosterType] = formData.modifierValue;
+    }
+    if (this.actor) {
+      await this.actor.updateEmbeddedDocuments("Item", [{ _id: this.item.id, "data.modifiers": this.item.data.data.modifiers }]);
+    }
+    return this.item.update({ "data.modifiers": this.item.data.data.modifiers });
+  }
+
+  async _delBoosterModifier(event) {
+    const boosterType = $(event.currentTarget).attr("data-booster-type");
+    delete this.item.data.data.modifiers[boosterType];
+    if (this.actor) {
+      const updatedObject = { _id: this.item.id };
+      const objectKey = `data.modifiers.-=${boosterType}`;
+      updatedObject[objectKey] = null;
+      await this.actor.updateEmbeddedDocuments("Item", [updatedObject]);
+    }
+    return this.item.update({ "data.modifiers": this.item.data.data.modifiers });
   }
 
   // Cyberdeck Code

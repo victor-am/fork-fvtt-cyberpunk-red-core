@@ -26,6 +26,7 @@
                 </li>
 
                 {{!-- Program Item Settings--}}
+                {{!-- Program Class--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.slots"}}
@@ -49,7 +50,48 @@
                     </div>
                 </li>
 
-
+                {{!-- Program Modifier--}}
+                {{#if (compare data.data.class "===" "booster")}}
+                <hr>
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.boostermodifiers"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <a class="program-add-booster-modifier" title="{{localize "CPR.addboostermodifier"}}"><i class="fas fa-plus-circle text-padding-right"></i></a>
+                    </div>
+                </li>
+                <li class="item flexrow text-bold">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.name"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        {{localize "CPR.modifier"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        
+                    </div>
+                </li>
+                {{#each data.data.modifiers as |boosterValue boosterType|}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{#if (compare boosterType "===" "speed")}}
+                        {{localize "CPR.speed"}}
+                        {{else}}
+                        {{localize (findConfigValue "interfaceAbilities" boosterType)}}
+                        {{/if}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        {{boosterValue}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <a class="program-del-booster-modifier" data-booster-type="{{boosterType}}"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.delboostermodifier"}}"></i></a>
+                    </div>
+                </li>
+                {{/each}}
+                 <hr>
+                {{/if}}
+                {{!-- Program PER--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.per"}}
@@ -68,6 +110,7 @@
                     </div>
                 </li>
 
+                {{!-- Program ATK--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.atk"}}
@@ -77,6 +120,7 @@
                     </div>
                 </li>
 
+                {{!-- Program DEF--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.def"}}
@@ -86,6 +130,7 @@
                     </div>
                 </li>
 
+                {{!-- Program REZ--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.rez"}}

@@ -355,4 +355,15 @@ CPR.programClassList = {
   defender: "CPR.defender",
 };
 
+CPR.interfaceAbilities = {
+  scanner: "CPR.scanner",
+  backdoor: "CPR.backdoor",
+  cloak: "CPR.cloak",
+  control: "CPR.control",
+  eyedee: "CPR.eyedee",
+  pathfinder: "CPR.pathfinder",
+  slide: "CPR.slide",
+  virus: "CPR.virus",
+};
+
 export default CPR;
