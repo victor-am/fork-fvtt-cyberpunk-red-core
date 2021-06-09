@@ -2,6 +2,18 @@
 
 **WIP Features**
 - Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title. 
+- Netrunning Initial Implementation
+  - Introduction of the Item Object: Cyberdeck
+  - Ability to install Programs on the Cyberdeck from the Cyberdeck Settings Page
+  - Ability to equip one (1) Cyberdeck enables Meat/Net toggle on Fight Tab
+  - Net Fight Tab enables quick access to:
+    - Roll Interface Abilities (TODO)
+    - Activate/Deactivate & track Rezzed Boosters and Defenders
+    - Roll Attacker Programs (TODO)
+  - Booster Programs have enhanced settings tab to allow the configuration of Roll Modifiers when the Booster program is Rezzed
+  - Booster Modifiers automatically entered into Roll Modifier for Interface Abilities (TODO)
+- Netrunning Known Issues (adding for now to track, will try to resolve before merge)
+  - Actors must own the Cyberdeck + Programs to install onto the Cyberdeck. ie inability to pre-load the Cyberdeck with programs before adding to an Actor.
 
 **WIP Bug Fixes**
 - Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item. 
