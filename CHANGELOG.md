@@ -1,10 +1,28 @@
-# Version 0.77.0 | Dev Branch
+# WIP Version 0.77.x | Dev Branch
 
-**WIP Features**
-- Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title. 
+**New Features**
+- Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title.
+- Added options to choose how to display the skill valies for the mook character sheet. Now one can show it in the same way as it is printed in the book. Please look at the settings for this.
+- Improved Ledger functionality of the Eurobucks/wealth and Improvement Points of characters
+    - A new display of the ledger of both of these properties, to show all transactions done in the past, is now available.
+    - Modification now gives the possibility to give a reason for the change and it is recorded who did the change.
+- Added container actor sheet, which can be used for shops, loot or storage purposes. Please note, that the players have to be owners of the container actor for full functionality.
 
-**WIP Bug Fixes**
-- Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item. 
+**Migration to foundry 0.8.X**
+- Migrated the source code to work with foundry version 0.8.X
+- Rewrote the migration code support new features from foundry 0.8.X
+- Several bugfixes after initial migration to foundry version 0.8.X
+    - !402 Fixed error in console, when deleting an item from the inventory
+    - !405 Fixed error message appearing, when rolling for critical injuries in case all possible ones were already applied
+    - !406 Fixed an error when rendering the item sheet of a net architecture
+    - !407 Tiles are now properly removed when regenerating the net architecture scene
+
+**Changes**
+- Restructured the code for character and mook sheets for ease of development
+
+**Bug Fixes**
+- Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item.
+
 
 # Version: 0.76.2 (Hot Fix) |  Date:  2021-05-28
 - Non owned actor sheets (Limited and Observer permissions) render again, the content is also shown now.
