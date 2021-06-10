@@ -205,7 +205,6 @@
             </span>
         </li>
         <div class="net-actions-content">
-            {{log cyberdeck.id}}
             {{#each (findConfigObj "interfaceAbilities") as |intAbility ia|}}
             <li class="items-header flexrow">
                 <a class="rollable" data-roll-type="interfaceAbility" data-interface-ability="{{ia}}" data-cyberdeck-id="{{../cyberdeck.id}}" title="{{localize "CP.clicktoperformaction"}}">{{localize intAbility}}</a>
@@ -233,18 +232,21 @@
                             &nbsp;<a class="name item-view{{#if program.data.isRezzed}} text-italics{{/if}}">{{program.name}}</a>
                         </div>
                         <div class="program-activation text-align-last-end">
-                            <a class="program-execution" data-execution-type="{{#if program.data.isRezzed}}de{{/if}}rez" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="far fa-arrow-alt-circle-{{#if program.data.isRezzed}}down{{else}}up{{/if}}" title="{{localize "CPR.clicktoactivatedeactivateprogram"}}" ></i></a>
+                            <a class="program-execution" data-execution-type="{{#if program.data.isRezzed}}de{{/if}}rez" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}">{{#if program.data.isRezzed}}<i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.clicktodeactivateprogram"}}">{{else}}<i class="far fa-arrow-alt-circle-up" title="{{localize "CPR.clicktoactivateprogram"}}">{{/if}}</i></a>
+                            &nbsp;
+                            <a class="program-uninstall" data-cyberdeck-id="{{../../cyberdeck.id}}" data-item-id="{{program._id}}"><i class="fas fa-trash-alt fg-red"></i></a>
                         </div>
                         {{else}}
                         <div class="installed-program-name">
                             &nbsp;<a class="name item-view">{{program.name}}</a>
                         </div>
                         <div class="program-activation text-align-last-end">
-                            <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="attack" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-fist-raised red-fg" title="{{localize "CPR.clicktoactivateprogram"}}" ></i></a>
-                        </div>
-
-                        <div class="program-activation text-align-last-end">
+                            {{#if (compare program.data.damage.standard "!==" "")}}
                             <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="damage" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.clicktoactivateprogram"}}" ></i></a>
+                            {{/if}}
+                            <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="attack" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-fist-raised red-fg" title="{{localize "CPR.clicktoactivateprogram"}}" ></i></a>
+                            &nbsp;
+                            <a class="program-uninstall" data-cyberdeck-id="{{../../cyberdeck.id}}" data-item-id="{{program._id}}"><i class="fas fa-trash-alt fg-red"></i></a>
                         </div>
                         {{/if}}
                     </li>

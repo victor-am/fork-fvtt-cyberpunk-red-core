@@ -656,9 +656,6 @@ export default class CPRItem extends Item {
         modifierTotal += program.data.modifiers[boosterType];
       }
     });
-    console.log(boosterType);
-    console.log(rezzed);
-    console.log(modifierTotal);
     return modifierTotal;
   }
 
@@ -693,7 +690,10 @@ export default class CPRItem extends Item {
             break;
           }
           case "damage": {
-            cprRoll = new CPRRolls.CPRDamageRoll("Program Damage", "1d6", "program");
+            cprRoll = new CPRRolls.CPRDamageRoll("Program Damage", program.data.damage.standard, "program");
+            cprRoll.rollCardExtraArgs.pgmClass = program.data.class;
+            cprRoll.rollCardExtraArgs.pgmDamage = program.data.damage;
+            cprRoll.rollCardExtraArgs.program = program;
             break;
           }
           default:
