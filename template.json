@@ -518,7 +518,7 @@
       "interface": 0,
       "damage": {
         "standard": "1d6",
-        "blackIce": "1d6"
+        "blackIce": ""
       },
       "per": 0,
       "spd": 0,
