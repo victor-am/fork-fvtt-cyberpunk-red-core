@@ -543,7 +543,7 @@ export default class Migration {
     }
 
     if ((typeof itemData.data.damage) !== "object") {
-      updateData["data.damage"] = { standard: "1d6", blackIce: "1d6" };
+      updateData["data.damage"] = { standard: "1d6", blackIce: "" };
     }
 
     if (itemData.data.amount !== 1) {
