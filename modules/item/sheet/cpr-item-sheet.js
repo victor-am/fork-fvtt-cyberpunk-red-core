@@ -97,7 +97,7 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".select-installed-programs").click((event) => this._cyberdeckSelectInstalledPrograms(event));
 
-    html.find(".uninstall-program").click((event) => this._cyberdeckUninstallProgram(event));
+    html.find(".program-uninstall").click((event) => this._cyberdeckProgramUninstall(event));
 
     html.find(".program-add-booster-modifier").click((event) => this._addBoosterModifier(event));
 
@@ -486,9 +486,9 @@ export default class CPRItemSheet extends ItemSheet {
     await actor.updateEmbeddedDocuments("Item", updateList);
   }
 
-  async _cyberdeckUninstallProgram(event) {
+  async _cyberdeckProgramUninstall(event) {
     const programId = $(event.currentTarget).attr("data-item-id");
-    LOGGER.debug("_cyberdeckUninstallProgram | CPRItem | Called.");
+    LOGGER.debug("_cyberdeckProgramUninstall | CPRItem | Called.");
     const cyberdeck = this.item;
     if (cyberdeck.data.type !== "cyberdeck") {
       return;

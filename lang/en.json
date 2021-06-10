@@ -697,6 +697,8 @@
     "CPR.youown": "You own",
     "CPR.yourhome": "Your Home",
     "CPR.zap": "Zap",
+    "CPR.eraseprogram": "Erase program",
+    "CPR.selecttarget": "Select target",
     "ITEM.TypeAmmo": "Ammo",
     "ITEM.TypeArmor": "Armor",
     "ITEM.TypeClothing": "Clothing",

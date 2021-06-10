@@ -107,6 +107,9 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     // Execute a program on a Cyberdeck
     html.find(".program-execution").click((event) => this._cyberdeckProgramExecution(event));
 
+    // Execute a program on a Cyberdeck
+    html.find(".program-uninstall").click((event) => this._cyberdeckProgramUninstall(event));
+
     super.activateListeners(html);
   }
 
@@ -443,17 +446,28 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     }
   }
 
-  _toggleProgramRez(event) {
-    LOGGER.trace("_toggleProgramRez | CPRActorSheet | Called.");
-    const programId = $(event.currentTarget).attr("data-program-id");
+  async _cyberdeckProgramUninstall(event) {
+    const programId = $(event.currentTarget).attr("data-item-id");
     const program = this._getOwnedItem(programId);
     const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
     const cyberdeck = this._getOwnedItem(cyberdeckId);
-    if (cyberdeck.isRezzed(program)) {
-      cyberdeck.derezProgram(program);
-    } else {
-      cyberdeck.rezProgram(program);
+    LOGGER.debug("_cyberdeckProgramUninstall | CPRItem | Called.");
+
+    if (cyberdeck.data.type !== "cyberdeck") {
+      return;
     }
-    this._updateOwnedItem(cyberdeck);
+
+    const { actor } = this;
+
+    if (!actor) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.owneditemonlyerror"));
+      return;
+    }
+
+    cyberdeck.uninstallPrograms([program]);
+
+    const updateList = [{ _id: cyberdeck.id, data: cyberdeck.data.data }];
+    updateList.push({ _id: program._id, "data.isInstalled": false });
+    await actor.updateEmbeddedDocuments("Item", updateList);
   }
 }

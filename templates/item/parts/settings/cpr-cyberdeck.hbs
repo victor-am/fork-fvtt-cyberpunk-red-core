@@ -47,7 +47,7 @@
                 {{#each data.data.programs.installed as |program|}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        &nbsp;{{program.name}} ({{localize (findConfigValue "programClassList" program.data.class)}}) &nbsp;<a class="uninstall-program" data-item-id="{{program._id}}"><i class="fas fa-trash-alt fg-red"></i></a>
+                        &nbsp;{{program.name}} ({{localize (findConfigValue "programClassList" program.data.class)}}) &nbsp;<a class="program-uninstall" data-item-id="{{program._id}}"><i class="fas fa-eraser fg-red" title="{{localize "CPR.eraseprogram"}}"></i></a>
                     </div>
                 </li>
                 {{/each}}
