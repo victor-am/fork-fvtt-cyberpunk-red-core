@@ -229,9 +229,7 @@
                     <li class="items-header flexrow">
                         <span class="text-bold bg-pink">{{localize pgmClass}}</span>
                     </li>
-                    {{log "INSTALLED"}}
                   {{#each ../cyberdeck.data.data.programs.installed as |program|}}
-                  {{log program}}
                     {{#if (compare program.data.class "===" pc)}}
                     <li class="items-header item flexrow cyberdeck-installed-software-list" data-item-id="{{program._id}}">
                         {{#if (listContains "booster,defender" pc)}}
@@ -284,7 +282,6 @@
         </li>
         <div class="cyberdeck-rezzed-content">
           <div class="cyberdeck-rezzed-software">
-          {{log "REZZED"}}
             {{#each (toArray "booster,defender" ",") as |pc|}}
               <li class="items-header flexrow cyberdeck-rezzed-software-list">
                 <div class="rezzed-program-name text-bold bg-pink">{{pc}}</div>
@@ -294,7 +291,6 @@
                 <div class="rezzed-program-reset text-bold bg-pink text-center"></div>
               </li>
               {{#each ../cyberdeck.data.data.programs.rezzed as |program|}}
-              {{log program}}
                 {{#if (compare program.data.class "===" pc)}}
                   <li class="items-header item flexrow cyberdeck-rezzed-software-list" data-item-id="{{program._id}}">
                     <div class="rezzed-program-name">
