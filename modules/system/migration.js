@@ -631,6 +631,12 @@ export default class Migration {
       updateData["data.equipped"] = "owned";
     }
 
+    const gearName = itemData.name.toLowerCase();
+
+    if (gearName.includes("cyberdeck")) {
+      updateData["name"] = `${game.i18n.localize("CPR.migratetag")} ${oldName}`;
+    }
+
     return updateData;
   }
 
