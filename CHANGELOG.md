@@ -1,24 +1,28 @@
 # Version 0.77.0 | Dev Branch
 
 **WIP Features**
-- Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title. 
+- Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title.
 - Netrunning Initial Implementation
   - Introduction of the Item Object: Cyberdeck
   - Ability to install Programs on the Cyberdeck from the Cyberdeck Settings Page
+  - Programs (Booster) have been enhanced to allow the addition of Roll Modifiers for Interface Abilities (ie Eraser gives a +2 to Cloak)
+    - Booster Roll Modifiers exposed in Roll verification dialog and added to the roll
+    - Shipped program compendium updated to include these roll modifiers
+  - Programs (Attacker) have been enhanced to allow the setting of Damage. For Anti-Program Attackers, both BlackICE and non-BlackICE rolls can be configured
+  - Attack rolls for Anto-Program Attack Rolls will prompt on which damage type to roll
   - Ability to equip one (1) Cyberdeck enables Meat/Net toggle on Fight Tab
   - Net Fight Tab enables quick access to:
-    - Roll Interface Abilities (TODO)
+    - Roll Interface Abilities
     - Activate/Deactivate & track Rezzed Boosters and Defenders
-    - Roll Attacker Programs (TODO)
-  - Booster Programs have enhanced settings tab to allow the configuration of Roll Modifiers when the Booster program is Rezzed
-  - Booster Modifiers automatically entered into Roll Modifier for Interface Abilities (TODO)
+      - Capability to install a Booster twice to a Cyberdeck and rez both thereby multiplying their bonus modifiers per discussion with RTG on Discord
+    - Roll Attacker Programs
   - Deletion of the Cyberdeck Item will auto-return all programs to Actors inventory
 - Netrunning Known Issues (adding for now to track, will try to resolve before merge)
   - Actors must own the Cyberdeck + Programs to install onto the Cyberdeck. ie inability to pre-load the Cyberdeck with programs before adding to an Actor.
-  - Programs must be fully configured before installing onto the Cyberdeck and can not be changed after installation.
+  - Currently we have a bug with 0.8.x branch that is preventing us from opening items in "Read-Only" mode. This affects installed Installed Programs and Installed Cyberware.  You can currently break your Character/Cyberdeck if you edit these items **after** installation. DO NOT DO THIS.
 
 **WIP Bug Fixes**
-- Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item. 
+- Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item.
 
 # Version: 0.76.2 (Hot Fix) |  Date:  2021-05-28
 - Non owned actor sheets (Limited and Observer permissions) render again, the content is also shown now.
