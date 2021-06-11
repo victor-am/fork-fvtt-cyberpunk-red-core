@@ -47,7 +47,11 @@
                 {{#each data.data.programs.installed as |program|}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
+                      {{#if (listContains "speed,attack,defense" program.data.class)}}
+                        &nbsp;{{program.name}} ({{localize program.data.class}}) &nbsp;<a class="program-uninstall" data-item-id="{{program._id}}"><i class="fas fa-folder-minus fg-red" title="{{localize "CPR.eraseprogram"}}"></i></a>
+                      {{else}}
                         &nbsp;{{program.name}} ({{localize (findConfigValue "programClassList" program.data.class)}}) &nbsp;<a class="program-uninstall" data-item-id="{{program._id}}"><i class="fas fa-folder-minus fg-red" title="{{localize "CPR.eraseprogram"}}"></i></a>
+                      {{/if}}
                     </div>
                 </li>
                 {{/each}}

@@ -69,7 +69,7 @@
                         {{localize "CPR.modifier"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        
+
                     </div>
                 </li>
                 {{#each data.data.modifiers as |boosterValue boosterType|}}
@@ -77,6 +77,10 @@
                     <div class="item flexrow setting-name text-nowrap">
                         {{#if (compare boosterType "===" "speed")}}
                         {{localize "CPR.speed"}}
+                        {{else if (compare boosterType "===" "attack")}}
+                        {{localize "CPR.attack"}}
+                        {{else if (compare boosterType "===" "defense")}}
+                        {{localize "CPR.defense"}}
                         {{else}}
                         {{localize (findConfigValue "interfaceAbilities" boosterType)}}
                         {{/if}}

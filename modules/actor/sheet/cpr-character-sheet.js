@@ -437,6 +437,20 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
         }
         break;
       }
+      case "reduce-rez": {
+        if (cyberdeck.isRezzed(program)) {
+          cyberdeck.reduceRezProgram(program);
+          this._updateOwnedItem(cyberdeck);
+        }
+        break;
+      }
+      case "reset-rez": {
+        if (cyberdeck.isRezzed(program)) {
+          cyberdeck.resetRezProgram(program);
+          this._updateOwnedItem(cyberdeck);
+        }
+        break;
+      }
       case "attack":
       case "damage": {
         this._onRoll(event);

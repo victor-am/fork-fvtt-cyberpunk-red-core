@@ -512,6 +512,29 @@ button,
   background-color: #eaeaeaff;
   min-height: 35px;
 }
+.fight-tab .cyberdeck-rezzed-section .cyberdeck-rezzed-software-list {
+  display: grid;
+  grid-template-columns: 1fr 30px 30px 30px 40px;
+  grid-template-areas: "program-name program-atk program-def program-rez-and-decrement program-reset";
+}
+.fight-tab .cyberdeck-rezzed-section .cyberdeck-rezzed-software-list .rezzed-program-name {
+  grid-area: "program-name";
+}
+.fight-tab .cyberdeck-rezzed-section .cyberdeck-rezzed-software-list .rezzed-program-rez-and-decrement {
+  grid-area: "program-rez-and-decrement";
+  display: grid;
+  grid-template-columns: 15px 15px;
+  grid-template-areas: "program-rez program-rez-decrement";
+}
+.fight-tab .cyberdeck-rezzed-section .cyberdeck-rezzed-software-list .rezzed-program-rez-and-decrement .rezzed-program-rez {
+  grid-area: "program-rez";
+}
+.fight-tab .cyberdeck-rezzed-section .cyberdeck-rezzed-software-list .rezzed-program-rez-and-decrement .rezzed-program-rez-decrement {
+  grid-area: "program-rez-decrement";
+}
+.fight-tab .cyberdeck-rezzed-section .cyberdeck-rezzed-software-list .rezzed-program-reset {
+  grid-area: "program-reset";
+}
 .handle-block,
 .role-block,
 .hitpoint-block,

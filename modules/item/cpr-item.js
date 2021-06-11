@@ -588,14 +588,14 @@ export default class CPRItem extends Item {
     return this.data.data.programs.rezzed;
   }
 
-  async installPrograms(programs) {
+  installPrograms(programs) {
     LOGGER.debug("installProgram | CPRItem | Called.");
     const { installed } = this.data.data.programs;
     programs.forEach((p) => {
-      const onDeck = installed.filter((iProgram) => iProgram._id === p._id);
+      const onDeck = installed.filter((iProgram) => iProgram._id === p.data._id);
       if (onDeck.length === 0) {
-        const programInstallation = p;
-        programInstallation.data.data.isRezzed = false;
+        const programInstallation = p.data;
+        programInstallation.data.isRezzed = false;
         installed.push(programInstallation);
         p.setInstalled();
       }
@@ -603,7 +603,7 @@ export default class CPRItem extends Item {
     this.data.data.programs.installed = installed;
   }
 
-  async uninstallPrograms(programs) {
+  uninstallPrograms(programs) {
     let { rezzed } = this.data.data.programs;
     let { installed } = this.data.data.programs;
     programs.forEach((program) => {
@@ -622,9 +622,10 @@ export default class CPRItem extends Item {
     return (rezzedPrograms.length > 0);
   }
 
-  async rezProgram(program) {
+  rezProgram(program) {
+    const programData = program.data;
     const { installed } = this.data.data.programs;
-    const installIndex = installed.findIndex((p) => p._id === program.id);
+    const installIndex = installed.findIndex((p) => p._id === programData._id);
     const programState = installed[installIndex];
     // This instance ID is being added pro-actively because the rulebook
     // is a bit fuzzy on the bottom of Page 201 with regards to rezzing the
@@ -638,13 +639,13 @@ export default class CPRItem extends Item {
     // the different rezzes.
     const rezzedInstance = randomID();
     programState.data.isRezzed = true;
-    programState.data.rezInstanceId = rezzedInstance;
+    programData.data.rezInstanceId = rezzedInstance;
     installed[installIndex] = programState;
     this.data.data.programs.installed = installed;
-    this.data.data.programs.rezzed.push(program);
+    this.data.data.programs.rezzed.push(programData);
   }
 
-  async derezProgram(program) {
+  derezProgram(program) {
     const { installed } = this.data.data.programs;
     const installIndex = installed.findIndex((p) => p._id === program.id);
     const programState = installed[installIndex];
@@ -652,6 +653,23 @@ export default class CPRItem extends Item {
     installed[installIndex] = programState;
     const rezzed = this.data.data.programs.rezzed.filter((p) => p._id !== program.id);
     this.data.data.programs.rezzed = rezzed;
+  }
+
+  resetRezProgram(program) {
+    const { rezzed } = this.data.data.programs;
+    const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
+    const { installed } = this.data.data.programs;
+    const installedIndex = installed.findIndex((p) => p._id === program.id);
+    this.data.data.programs.rezzed[rezzedIndex] = this.data.data.programs.installed[installedIndex];
+  }
+
+  reduceRezProgram(program) {
+    const { rezzed } = this.data.data.programs;
+    const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
+    const programState = rezzed[rezzedIndex];
+    const newRez = Math.max(programState.data.rez - 1, 0);
+    programState.data.rez = newRez;
+    this.data.data.programs.rezzed[rezzedIndex] = programState;
   }
 
   /**
@@ -663,11 +681,31 @@ export default class CPRItem extends Item {
   getBoosters(boosterType) {
     const { rezzed } = this.data.data.programs;
     let modifierTotal = 0;
-    rezzed.forEach((program) => {
-      if (program.data.modifiers[boosterType]) {
-        modifierTotal += program.data.modifiers[boosterType];
+    switch (boosterType) {
+      case "attack": {
+        rezzed.forEach((program) => {
+          if (typeof program.data.atk === "number") {
+            modifierTotal += program.data.atk;
+          }
+        });
+        break;
       }
-    });
+      case "defense": {
+        rezzed.forEach((program) => {
+          if (typeof program.data.def === "number") {
+            modifierTotal += program.data.def;
+          }
+        });
+        break;
+      }
+      default: {
+        rezzed.forEach((program) => {
+          if (program.data.modifiers[boosterType]) {
+            modifierTotal += program.data.modifiers[boosterType];
+          }
+        });
+      }
+    }
     return modifierTotal;
   }
 
@@ -678,11 +716,16 @@ export default class CPRItem extends Item {
     switch (rollType) {
       case CPRRolls.rollTypes.INTERFACEABILITY: {
         const { interfaceAbility } = extraData;
-        if (interfaceAbility !== "speed") {
-          rollTitle = SystemUtils.Localize(CPR.interfaceAbilities[interfaceAbility]);
-        } else {
-          rollTitle = SystemUtils.Localize("CPR.speed");
+        switch (interfaceAbility) {
+          case "speed": {
+            rollTitle = SystemUtils.Localize("CPR.speed");
+            break;
+          }
+          default: {
+            rollTitle = SystemUtils.Localize(CPR.interfaceAbilities[interfaceAbility]);
+          }
         }
+
         rollModifiers = this.getBoosters(interfaceAbility);
         cprRoll = actor.createRoll("roleAbility", "interface");
         cprRoll.setNetCombat(rollTitle);

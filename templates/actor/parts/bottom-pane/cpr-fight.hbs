@@ -207,10 +207,15 @@
         <div class="net-actions-content">
             {{#each (findConfigObj "interfaceAbilities") as |intAbility ia|}}
             <li class="items-header flexrow">
-                <a class="rollable" data-roll-type="interfaceAbility" data-interface-ability="{{ia}}" data-cyberdeck-id="{{../cyberdeck.id}}" title="{{localize "CP.clicktoperformaction"}}">{{localize intAbility}}</a>
+                <a class="rollable" data-roll-type="interfaceAbility" data-interface-ability="{{ia}}" data-cyberdeck-id="{{../cyberdeck.id}}" title="{{localize "CPR.clicktoperformaction"}}">{{localize intAbility}}</a>
             </li>
             {{/each}}
+            <hr>
+            <li class="items-header flexrow">
+                <a class="rollable" data-roll-type="interfaceAbility" data-interface-ability="defense" data-cyberdeck-id="{{cyberdeck.id}}" title="{{localize "CPR.clicktoperformaction"}}">{{localize "CPR.defense"}}</a>
+            </li>
         </div>
+
     </div>
     <div class="cyberdeck-installed-section">
         <li class="items-header flexrow">
@@ -278,29 +283,37 @@
             </span>
         </li>
         <div class="cyberdeck-rezzed-content">
+          <div class="cyberdeck-rezzed-software">
           {{log "REZZED"}}
             {{#each (toArray "booster,defender" ",") as |pc|}}
-            <li class="items-header flexrow">
-              <div class="text-bold bg-pink">{{pc}}</div>
-              <div class="text-bold bg-pink">ATK</div>
-              <div class="text-bold bg-pink">DEF</div>
-              <div class="text-bold bg-pink">REZ</div>
-              <div class="text-bold bg-pink">RESET</div>
-            </li>
-                {{#each ../cyberdeck.data.data.programs.rezzed as |program|}}
-                {{log program}}
-                    {{#if (compare program.data.class "===" pc)}}
-                    <li class="items-header flexrow" data-item-id="{{program._id}}">
-                      <div>
-                        &nbsp;<a class="name item-view" title="{{localize "CPR.clicktoview"}}" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}">{{program.name}}</a>
-                      </div>
-                    </li>
-                    {{/if}}
-                {{/each}}
+              <li class="items-header flexrow cyberdeck-rezzed-software-list">
+                <div class="rezzed-program-name text-bold bg-pink">{{pc}}</div>
+                <div class="rezzed-program-atk text-bold bg-pink text-center">{{localize "CPR.atk"}}</div>
+                <div class="rezzed-program-def text-bold bg-pink text-center">{{localize "CPR.def"}}</div>
+                <div class="rezzed-program-rez-and-decrement text-bold bg-pink text-center">{{localize "CPR.rez"}}</div>
+                <div class="rezzed-program-reset text-bold bg-pink text-center"></div>
+              </li>
+              {{#each ../cyberdeck.data.data.programs.rezzed as |program|}}
+              {{log program}}
+                {{#if (compare program.data.class "===" pc)}}
+                  <li class="items-header item flexrow cyberdeck-rezzed-software-list" data-item-id="{{program._id}}">
+                    <div class="rezzed-program-name">
+                          &nbsp;<a class="name item-view" title="{{localize "CPR.clicktoview"}}" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}">{{program.name}}</a>
+                    </div>
+                    <div class="rezzed-program-atk text-center">{{program.data.atk}}</div>
+                    <div class="rezzed-program-def text-center">{{program.data.def}}</div>
+                    <div class="rezzed-program-rez-and-decrement text-center">
+                      <div class="rezzed-program-rez text-center">{{program.data.rez}}</div>
+                      <div class="rezzed-program-decrement-rez text-center">{{#if (compare program.data.rez ">" 0)}}<a class="program-execution" data-execution-type="reduce-rez" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.reducerez"}}"></i></a>{{/if}}</div>
+                    </div>
+                    <div class="rezzed-program-reset text-center"><a class="program-execution" data-execution-type="reset-rez" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-undo" title="{{localize "CPR.resetrez"}}"></i></a></div>
+                  </li>
+                {{/if}}
+              {{/each}}
             {{/each}}
+          </div>
         </div>
     </div>
-
     {{/if}}
 </div>
 {{trace "END CPR-FIGHT.HBS"}}

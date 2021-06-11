@@ -330,6 +330,26 @@
         grid-area       : weapon;
         background-color: @chrome-white;
         min-height      : 35px;
+
+        .cyberdeck-rezzed-software-list {
+          display         : grid;
+          grid-template-columns: 1fr 30px 30px 30px 40px;
+          grid-template-areas: "program-name program-atk program-def program-rez-and-decrement program-reset";
+
+          .rezzed-program-name {grid-area: "program-name";}
+
+          .rezzed-program-rez-and-decrement {
+              grid-area: "program-rez-and-decrement";
+              display         : grid;
+              grid-template-columns: 15px 15px;
+              grid-template-areas: "program-rez program-rez-decrement";
+
+                  .rezzed-program-rez {grid-area: "program-rez";}
+                  .rezzed-program-rez-decrement {grid-area: "program-rez-decrement";}
+          }
+
+          .rezzed-program-reset {grid-area: "program-reset";}
+      }
     }
 }
 
