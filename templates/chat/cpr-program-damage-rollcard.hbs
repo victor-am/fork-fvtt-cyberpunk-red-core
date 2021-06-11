@@ -1,13 +1,18 @@
-{{trace "CPR-DAMAGE-ROLLCARD.HBS"}}
+{{trace "CPR-PROGRAM-DAMAGE-ROLLCARD.HBS"}}
 <div class="rollcard">
     <div class="rollcard-top">
         <div class="cpr-block chat-rollTitle-stat">
             <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
-            <div class="text-center text-small">{{#if autofire}}{{localize "CPR.autofire"}} {{/if}}{{localize
-                "CPR.damage"}}</div>
-        {{#if rollCardExtraArgs.ammoType}}
-        <div class="text-center text-small">{{localize (findConfigValue "ammoType" rollCardExtraArgs.ammoType)}}</div>
-        {{/if}}
+            {{#if (compare (compare rollCardExtraArgs.program.data.class "===" "antiprogramattacker") "&&" (compare rollCardExtraArgs.program.data.damage.blackIce "!==" "")) }}
+              {{#if (compare formula "===" rollCardExtraArgs.program.data.damage.standard)}}
+                <div class="text-center text-small">{{localize "CPR.damagetononblackice"}}</div>
+              {{else}}
+              <div class="text-center text-small">{{localize "CPR.damagetoblackice"}}</div>
+              {{/if}}
+            {{else}}
+            <div class="text-center text-small">{{localize "CPR.damage"}}</div>
+            {{/if}}
+
         </div>
     </div>
     <div class="rollcard-bottom">
@@ -63,4 +68,4 @@
         </div>
     </div>
 </div>
-{{trace "END CPR-DAMAGE-ROLLCARD.HBS"}}
+{{trace "END CPR-PROGRAM-DAMAGE-ROLLCARD.HBS"}}

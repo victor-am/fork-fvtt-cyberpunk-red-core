@@ -626,7 +626,19 @@ export default class CPRItem extends Item {
     const { installed } = this.data.data.programs;
     const installIndex = installed.findIndex((p) => p._id === program.id);
     const programState = installed[installIndex];
+    // This instance ID is being added pro-actively because the rulebook
+    // is a bit fuzzy on the bottom of Page 201 with regards to rezzing the
+    // same program multiple times.  The rulebook says:
+    // "You can run multiple copies of the same Program on your Cyberdeck"
+    // however when I asked on the Discord, I was told you can not do this,
+    // you have to install a program twice on the Cyberdeck if you want to
+    // rez it twice.  So the code here supports what was told to me in Discord.
+    // If it ever comes back that a single install of a program can be run
+    // multiple times, we will already have a an instance ID to differentiate
+    // the different rezzes.
+    const rezzedInstance = randomID();
     programState.data.isRezzed = true;
+    programState.data.rezInstanceId = rezzedInstance;
     installed[installIndex] = programState;
     this.data.data.programs.installed = installed;
     this.data.data.programs.rezzed.push(program);
@@ -690,7 +702,7 @@ export default class CPRItem extends Item {
             break;
           }
           case "damage": {
-            cprRoll = new CPRRolls.CPRDamageRoll("Program Damage", program.data.damage.standard, "program");
+            cprRoll = new CPRRolls.CPRDamageRoll(program.name, program.data.damage.standard, "program");
             cprRoll.rollCardExtraArgs.pgmClass = program.data.class;
             cprRoll.rollCardExtraArgs.pgmDamage = program.data.damage;
             cprRoll.rollCardExtraArgs.program = program;
