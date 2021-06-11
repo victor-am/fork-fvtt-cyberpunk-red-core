@@ -304,6 +304,26 @@
         grid-area       : armor;
         background-color: @chrome-white;
         min-height      : 35px;
+
+        .cyberdeck-installed-software-list {
+            display         : grid;
+            grid-template-columns: 1fr 30px 30px;
+            grid-template-areas: "porpgram-name program-attack-and-damage program-actions";
+
+            .installed-program-name {grid-area: "program-name";}
+
+            .installed-program-attack-and-damage {
+                grid-area: "program-attack-and-damage";
+                display         : grid;
+                grid-template-columns: 15px 15px;
+                grid-template-areas: "program-attack program-damage";
+
+                    .installed-program-attack {grid-area: "program-attack";}
+                    .installed-program-damage {grid-area: "program-damage";}
+            }
+
+            .installed-program-actions {grid-area: "program-actions";}
+        }
     }
 
     .cyberdeck-rezzed-section {
