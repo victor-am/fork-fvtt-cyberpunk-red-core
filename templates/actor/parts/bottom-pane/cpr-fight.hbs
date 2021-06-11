@@ -224,7 +224,9 @@
                     <li class="items-header flexrow">
                         <span class="text-bold bg-pink">{{localize pgmClass}}</span>
                     </li>
+                    {{log "INSTALLED"}}
                   {{#each ../cyberdeck.data.data.programs.installed as |program|}}
+                  {{log program}}
                     {{#if (compare program.data.class "===" pc)}}
                     <li class="items-header item flexrow cyberdeck-installed-software-list" data-item-id="{{program._id}}">
                         {{#if (listContains "booster,defender" pc)}}
@@ -240,15 +242,15 @@
                             </div>
                         {{else}}
                             <div class="installed-program-name">
-                                &nbsp;<a class="name item-view">{{program.name}}</a>
+                                &nbsp;<a class="name item-view" title="{{localize "CPR.clicktoview"}}">{{program.name}}</a>
                             </div>
                             <div class="installed-program-attack-and-damage">
                                 <div class="installed-program-attack">
-                                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="attack" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-fist-raised red-fg" title="{{localize "CPR.clicktoactivateprogram"}}" ></i></a>
+                                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="attack" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-fist-raised red-fg" title="{{localize "CPR.rollanattack"}}" ></i></a>
                                 </div>
                                 {{#if (compare program.data.damage.standard "!==" "")}}
                                 <div class="installed-program-damage">
-                                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="damage" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.clicktoactivateprogram"}}" ></i></a>
+                                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="damage" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.rolldamage"}}" ></i></a>
                                 </div>
                                 {{/if}}
                             </div>
@@ -276,15 +278,22 @@
             </span>
         </li>
         <div class="cyberdeck-rezzed-content">
+          {{log "REZZED"}}
             {{#each (toArray "booster,defender" ",") as |pc|}}
             <li class="items-header flexrow">
-                <span class="text-bold bg-pink">{{pc}}</span>
+              <div class="text-bold bg-pink">{{pc}}</div>
+              <div class="text-bold bg-pink">ATK</div>
+              <div class="text-bold bg-pink">DEF</div>
+              <div class="text-bold bg-pink">REZ</div>
+              <div class="text-bold bg-pink">RESET</div>
             </li>
                 {{#each ../cyberdeck.data.data.programs.rezzed as |program|}}
+                {{log program}}
                     {{#if (compare program.data.class "===" pc)}}
-                    <li class="items-header flexrow">
-                        &nbsp;<a class="cyberdeck-toggle-program-rez" title="{{localize "CPR.clicktoactivatedeactivateprogram"}}"
-                                data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}">{{program.name}}</a>
+                    <li class="items-header flexrow" data-item-id="{{program._id}}">
+                      <div>
+                        &nbsp;<a class="name item-view" title="{{localize "CPR.clicktoview"}}" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}">{{program.name}}</a>
+                      </div>
                     </li>
                     {{/if}}
                 {{/each}}
