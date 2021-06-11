@@ -454,8 +454,7 @@ export default class CPRActorSheet extends ActorSheet {
     if (event.ctrlKey) {
       CPRChat.RenderItemCard(item);
     } else {
-      item.sheet.options.editable = true;
-      item.sheet.render(true);
+      item.sheet.render(true, { editable: true });
     }
   }
 
@@ -471,8 +470,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("_itemUpdate | CPRActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
     const item = this.actor.items.find((i) => i.data._id === itemId);
-    item.sheet.options.editable = false;
-    item.sheet.render(true);
+    item.sheet.render(true, { editable: false });
   }
 
   /**

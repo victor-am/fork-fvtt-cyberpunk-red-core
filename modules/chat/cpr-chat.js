@@ -165,8 +165,7 @@ export default class CPRChat {
           const tokenId = $(event.currentTarget).attr("data-token-id");
           const actor = (Object.keys(game.actors.tokens).includes(tokenId)) ? game.actors.tokens[tokenId] : game.actors.find((a) => a.id === actorId);
           const item = actor.items.find((i) => i.data._id === itemId);
-          item.sheet.options.editable = false;
-          item.sheet.render(true);
+          item.sheet.render(true, { editable: false });
           break;
         }
         default: {
