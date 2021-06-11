@@ -634,7 +634,7 @@ export default class Migration {
     const gearName = itemData.name.toLowerCase();
 
     if (gearName.includes("cyberdeck")) {
-      updateData["name"] = `${game.i18n.localize("CPR.migratetag")} ${oldName}`;
+      updateData.name = `${game.i18n.localize("CPR.migratetag")} ${oldName}`;
     }
 
     return updateData;
