@@ -199,9 +199,9 @@
     {{/if}}
     {{#if (compare fightState "===" "Netspace")}}
     <div class="interface-abilities-section">
-        <li class="items-header flexrow">
+        <li class="items-header item flexrow" data-item-id="{{cyberdeck.id}}">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
-                {{cyberdeck.data.name}}
+                <a class="name item-view">{{cyberdeck.data.name}}</a>
             </span>
         </li>
         <div class="net-actions-content">
