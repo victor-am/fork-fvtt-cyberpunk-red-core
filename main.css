@@ -484,6 +484,29 @@ button,
   background-color: #eaeaeaff;
   min-height: 35px;
 }
+.fight-tab .cyberdeck-installed-section .cyberdeck-installed-software-list {
+  display: grid;
+  grid-template-columns: 1fr 30px 30px;
+  grid-template-areas: "porpgram-name program-attack-and-damage program-actions";
+}
+.fight-tab .cyberdeck-installed-section .cyberdeck-installed-software-list .installed-program-name {
+  grid-area: "program-name";
+}
+.fight-tab .cyberdeck-installed-section .cyberdeck-installed-software-list .installed-program-attack-and-damage {
+  grid-area: "program-attack-and-damage";
+  display: grid;
+  grid-template-columns: 15px 15px;
+  grid-template-areas: "program-attack program-damage";
+}
+.fight-tab .cyberdeck-installed-section .cyberdeck-installed-software-list .installed-program-attack-and-damage .installed-program-attack {
+  grid-area: "program-attack";
+}
+.fight-tab .cyberdeck-installed-section .cyberdeck-installed-software-list .installed-program-attack-and-damage .installed-program-damage {
+  grid-area: "program-damage";
+}
+.fight-tab .cyberdeck-installed-section .cyberdeck-installed-software-list .installed-program-actions {
+  grid-area: "program-actions";
+}
 .fight-tab .cyberdeck-rezzed-section {
   grid-area: weapon;
   background-color: #eaeaeaff;
