@@ -504,7 +504,7 @@ export default class CPRItemSheet extends ItemSheet {
       return;
     }
 
-    const program = (actor.data.filteredItems.program.filter((p) => p._id === programId))[0];
+    const program = (actor.data.filteredItems.program.filter((p) => p.data._id === programId))[0];
 
     cyberdeck.uninstallPrograms([program]);
 
