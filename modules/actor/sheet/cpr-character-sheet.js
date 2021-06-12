@@ -480,8 +480,8 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
     cyberdeck.uninstallPrograms([program]);
 
-    const updateList = [{ _id: cyberdeck.id, data: cyberdeck.data.data }];
-    updateList.push({ _id: program._id, "data.isInstalled": false });
+    const updateList = [{ _id: cyberdeck.data._id, data: cyberdeck.data.data }];
+    updateList.push({ _id: program.data._id, "data.isInstalled": false });
     await actor.updateEmbeddedDocuments("Item", updateList);
   }
 }
