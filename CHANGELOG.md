@@ -1,25 +1,30 @@
-# Version 0.77.0 | Dev Branch
+# Version 0.77.3 | Dev Branch
 
 **WIP Features**
 - Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title.
 - Netrunning Initial Implementation
   - Introduction of the Item Object: Cyberdeck
-  - Ability to install Programs on the Cyberdeck from the Cyberdeck Settings Page
-  - Programs (Booster) have been enhanced to allow the addition of Roll Modifiers for Interface Abilities (ie Eraser gives a +2 to Cloak)
-    - Booster Roll Modifiers exposed in Roll verification dialog and added to the roll
-    - Shipped program compendium updated to include these roll modifiers
-  - Programs (Attacker) have been enhanced to allow the setting of Damage. For Anti-Program Attackers, both BlackICE and non-BlackICE rolls can be configured
-  - Attack rolls for Anto-Program Attack Rolls will prompt on which damage type to roll
+    - Existing "Gear" items which have the word "cyberdeck" in the name will be pre-pended with a '[MIGRATED]' tag on it to help
+      identify that the item should be replaced with a new Cyberdeck Item. We have opted to not automate this replacement as people
+      may update just prior to hosting a game and this would/could cause issues for planned sessions.
   - Ability to equip one (1) Cyberdeck enables Meat/Net toggle on Fight Tab
   - Net Fight Tab enables quick access to:
     - Roll Interface Abilities
+    - Roll Defense for a Net Attack
+      - Includes any Rezzed Boosters that may have a DEF rating in the Modifiers field
     - Activate/Deactivate & track Rezzed Boosters and Defenders
-      - Capability to install a Booster twice to a Cyberdeck and rez both thereby multiplying their bonus modifiers per discussion with RTG on Discord
-    - Roll Attacker Programs
+      - Capability to install a Booster twice to a Cyberdeck and rez both thereby stacking their bonus modifiers per discussion with RTG on Discord
+  - Ability to install Programs on the Cyberdeck from the Cyberdeck Settings Page
+  - Ability to REZ Boosters and Defenders programs, reduce & reset their REZ numbers
+  - Programs (Booster) have been enhanced to allow the addition of Roll Modifiers for Interface Abilities (ie Eraser gives a +2 to Cloak) & speed
+    - Booster Roll Modifiers exposed in Roll verification dialog and added to the roll for Rezzed Boosters Only
+    - Shipped program compendium updated to include these roll modifiers
+  - Programs (Attacker) have been enhanced to allow the setting of Damage. For Anti-Program Attackers, both BlackICE and non-BlackICE damage rolls may be configured
+    -  Attack rolls for Anti-Program Attack Rolls will prompt on which damage type to roll
   - Deletion of the Cyberdeck Item will auto-return all programs to Actors inventory
-- Netrunning Known Issues (adding for now to track, will try to resolve before merge)
-  - Actors must own the Cyberdeck + Programs to install onto the Cyberdeck. ie inability to pre-load the Cyberdeck with programs before adding to an Actor.
-  - Currently we have a bug with 0.8.x branch that is preventing us from opening items in "Read-Only" mode. This affects installed Installed Programs and Installed Cyberware.  You can currently break your Character/Cyberdeck if you edit these items **after** installation. DO NOT DO THIS.
+- Netrunning Restrictions
+  - Actors must own the Cyberdeck + Programs to install onto the Cyberdeck. ie inability to pre-load the Cyberdeck with programs before adding to an Actor. This is due to the direct relationship of the Program Items and the Cyberdeck.  Although, because Programs become un-tethered objects in the Cyberdeck, this might be possible, however it would then break the ability to view the program information when clicking the program in the cyberdeck.  We might be able to Cast this as suggested by t.wagner since the object for the item-sheet-view would essentially be ephemeral to just view the data.  Need to investigate more.
+  - Booster Speed is not taken into account for Netrunning Initiative rolls.  Need to look into how to incorporate this.
 
 **WIP Bug Fixes**
 - Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item.

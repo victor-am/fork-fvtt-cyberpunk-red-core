@@ -633,7 +633,10 @@ export default class Migration {
 
     const gearName = itemData.name.toLowerCase();
 
+    // Cyberdecks became their own item type, so any "Gear" object with the name "cyberdeck"
+    // in it's name will be prepended with a MIGRATE tag to let users know there's a new item type.
     if (gearName.includes("cyberdeck")) {
+      const oldName = itemData.name;
       updateData.name = `${game.i18n.localize("CPR.migratetag")} ${oldName}`;
     }
 
