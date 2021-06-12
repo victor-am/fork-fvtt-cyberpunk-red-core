@@ -721,6 +721,10 @@ export default class CPRItem extends Item {
             rollTitle = SystemUtils.Localize("CPR.speed");
             break;
           }
+          case "defense": {
+            rollTitle = SystemUtils.Localize("CPR.defense");
+            break;
+          }
           default: {
             rollTitle = SystemUtils.Localize(CPR.interfaceAbilities[interfaceAbility]);
           }
