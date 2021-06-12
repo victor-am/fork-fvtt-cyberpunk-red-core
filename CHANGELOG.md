@@ -25,6 +25,7 @@
 - Netrunning Restrictions
   - Actors must own the Cyberdeck + Programs to install onto the Cyberdeck. ie inability to pre-load the Cyberdeck with programs before adding to an Actor. This is due to the direct relationship of the Program Items and the Cyberdeck.  Although, because Programs become un-tethered objects in the Cyberdeck, this might be possible, however it would then break the ability to view the program information when clicking the program in the cyberdeck.  We might be able to Cast this as suggested by t.wagner since the object for the item-sheet-view would essentially be ephemeral to just view the data.  Need to investigate more.
   - Booster Speed is not taken into account for Netrunning Initiative rolls.  Need to look into how to incorporate this.
+  - Black ICE programs loaded onto the Cyberdeck are not supported in this initial release for Netrunning.  Implementation of this is TBD.
 
 **WIP Bug Fixes**
 - Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item.
