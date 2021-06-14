@@ -121,7 +121,7 @@ const registerSystemSettings = () => {
     name: "CPR.systemdatamodelversion",
     hint: "CPR.systemdatamodelversionhint",
     scope: "world",
-    config: true,
+    config: false,
     type: String,
     default: "",
     onChange: (value) => {
