@@ -483,9 +483,6 @@ export default class CPRItemSheet extends ItemSheet {
     programList.forEach((program) => {
       updateList.push({ _id: program.id, data: program.data.data });
     });
-    // The next line is triggering:
-    // foundry.js:9717 The Document#_id property is deprecated in favor of Document#id or Document#data#_id. Support will be removed in 0.9.0
-    // Not sure why?
     await actor.updateEmbeddedDocuments("Item", updateList);
   }
 
