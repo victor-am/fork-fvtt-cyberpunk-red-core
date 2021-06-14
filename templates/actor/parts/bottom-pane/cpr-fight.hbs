@@ -1,5 +1,6 @@
 {{trace "CPR-FIGHT.HBS"}}
 <div class="fight-tab">
+    {{#if (compare fightState "===" "Meatspace")}}
     <div class="injuries-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
@@ -195,5 +196,123 @@
             </ol>
         </div>
     </div>
+    {{/if}}
+    {{#if (compare fightState "===" "Netspace")}}
+    <div class="interface-abilities-section">
+        <li class="items-header item flexrow" data-item-id="{{cyberdeck.id}}">
+            <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
+                <a class="name item-view">{{cyberdeck.data.name}}</a>
+            </span>
+        </li>
+        <div class="net-actions-content">
+            {{#each (findConfigObj "interfaceAbilities") as |intAbility ia|}}
+            <li class="items-header flexrow">
+                <a class="rollable" data-roll-type="interfaceAbility" data-interface-ability="{{ia}}" data-cyberdeck-id="{{../cyberdeck.id}}" title="{{localize "CPR.clicktoperformaction"}}">{{localize intAbility}}</a>
+            </li>
+            {{/each}}
+            <hr>
+            <li class="items-header flexrow">
+                <a class="rollable" data-roll-type="interfaceAbility" data-interface-ability="defense" data-cyberdeck-id="{{cyberdeck.id}}" title="{{localize "CPR.clicktoperformaction"}}">{{localize "CPR.defense"}}</a>
+            </li>
+            <li class="items-header flexrow">
+                <a class="rollable" data-roll-type="interfaceAbility" data-interface-ability="speed" data-cyberdeck-id="{{cyberdeck.id}}" title="{{localize "CPR.clicktoperformaction"}}">{{localize "CPR.speed"}}</a>
+            </li>
+        </div>
+
+    </div>
+    <div class="cyberdeck-installed-section">
+        <li class="items-header flexrow">
+            <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
+                {{localize "CPR.installed"}}
+            </span>
+        </li>
+        <div class="cyberdeck-installed-content">
+            <div class="cyberdeck-installed-software">
+              {{#each (findConfigObj "programClassList") as |pgmClass pc|}}
+                    <li class="items-header flexrow">
+                        <span class="text-bold bg-pink">{{localize pgmClass}}</span>
+                    </li>
+                  {{#each ../cyberdeck.data.data.programs.installed as |program|}}
+                    {{#if (compare program.data.class "===" pc)}}
+                    <li class="items-header item flexrow cyberdeck-installed-software-list" data-item-id="{{program._id}}">
+                        {{#if (listContains "booster,defender" pc)}}
+                            <div class="installed-program-name">
+                                &nbsp;<a class="name item-view{{#if program.data.isRezzed}} text-italics{{/if}}">{{program.name}}</a>
+                            </div>
+                            <div class="installed-program-attack-and-damage">
+                                <a class="program-execution" data-execution-type="{{#if program.data.isRezzed}}de{{/if}}rez" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}">{{#if program.data.isRezzed}}<i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.clicktodeactivateprogram"}}">{{else}}<i class="far fa-arrow-alt-circle-up" title="{{localize "CPR.clicktoactivateprogram"}}">{{/if}}</i></a>
+                            </div>
+                            <div class="installed-program-actions">
+                                &nbsp;
+                                <a class="program-uninstall" data-cyberdeck-id="{{../../cyberdeck.id}}" data-item-id="{{program._id}}"><i class="fas fa-folder-minus fg-red" title="{{localize "CPR.eraseprogram"}}"></i></a>
+                            </div>
+                        {{else}}
+                            <div class="installed-program-name">
+                                &nbsp;<a class="name item-view" title="{{localize "CPR.clicktoview"}}">{{program.name}}</a>
+                            </div>
+                            <div class="installed-program-attack-and-damage">
+                                <div class="installed-program-attack">
+                                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="attack" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-fist-raised red-fg" title="{{localize "CPR.rollanattack"}}" ></i></a>
+                                </div>
+                                {{#if (compare program.data.damage.standard "!==" "")}}
+                                <div class="installed-program-damage">
+                                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="damage" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.rolldamage"}}" ></i></a>
+                                </div>
+                                {{/if}}
+                            </div>
+                            <div class="installed-program-actions">
+                                &nbsp;
+                                <a class="program-uninstall" data-cyberdeck-id="{{../../cyberdeck.id}}" data-item-id="{{program._id}}"><i class="fas fa-folder-minus fg-red" title="{{localize "CPR.eraseprogram"}}"></i></a>
+                            </div>
+                        {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/each}}
+                {{/each}}
+            </div>
+            <div class="cyberdeck-installed-hardware">
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="cyberdeck-rezzed-section">
+        <li class="items-header flexrow">
+            <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
+                {{localize "CPR.rezzed"}}
+            </span>
+        </li>
+        <div class="cyberdeck-rezzed-content">
+          <div class="cyberdeck-rezzed-software">
+            {{#each (toArray "booster,defender" ",") as |pc|}}
+              <li class="items-header flexrow cyberdeck-rezzed-software-list">
+                <div class="rezzed-program-name text-bold bg-pink">{{pc}}</div>
+                <div class="rezzed-program-atk text-bold bg-pink text-center">{{localize "CPR.atk"}}</div>
+                <div class="rezzed-program-def text-bold bg-pink text-center">{{localize "CPR.def"}}</div>
+                <div class="rezzed-program-rez-and-decrement text-bold bg-pink text-center">{{localize "CPR.rez"}}</div>
+                <div class="rezzed-program-reset text-bold bg-pink text-center"></div>
+              </li>
+              {{#each ../cyberdeck.data.data.programs.rezzed as |program|}}
+                {{#if (compare program.data.class "===" pc)}}
+                  <li class="items-header item flexrow cyberdeck-rezzed-software-list" data-item-id="{{program._id}}">
+                    <div class="rezzed-program-name">
+                          &nbsp;<a class="name item-view" title="{{localize "CPR.clicktoview"}}" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}">{{program.name}}</a>
+                    </div>
+                    <div class="rezzed-program-atk text-center">{{program.data.atk}}</div>
+                    <div class="rezzed-program-def text-center">{{program.data.def}}</div>
+                    <div class="rezzed-program-rez-and-decrement text-center">
+                      <div class="rezzed-program-rez text-center">{{program.data.rez}}</div>
+                      <div class="rezzed-program-decrement-rez text-center">{{#if (compare program.data.rez ">" 0)}}<a class="program-execution" data-execution-type="reduce-rez" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.reducerez"}}"></i></a>{{/if}}</div>
+                    </div>
+                    <div class="rezzed-program-reset text-center"><a class="program-execution" data-execution-type="reset-rez" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-undo" title="{{localize "CPR.resetrez"}}"></i></a></div>
+                  </li>
+                {{/if}}
+              {{/each}}
+            {{/each}}
+          </div>
+        </div>
+    </div>
+    {{/if}}
 </div>
 {{trace "END CPR-FIGHT.HBS"}}

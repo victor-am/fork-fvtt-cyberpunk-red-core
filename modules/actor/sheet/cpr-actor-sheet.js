@@ -65,10 +65,27 @@ export default class CPRActorSheet extends ActorSheet {
   getData() {
     LOGGER.trace("getData | CPRActorSheet | Called.");
     const data = super.getData();
-    data.filteredItems = this.actor.filteredItems;
+    data.filteredItems = this.actor.data.filteredItems;
     if (this.actor.data.type === "mook" || this.actor.data.type === "character") {
       data.installedCyberware = this._getSortedInstalledCyberware();
     }
+    data.fightOptions = (this.actor.hasItemTypeEquipped("cyberdeck")) ? "both" : "";
+    let fightState = this.actor.getFlag("cyberpunk-red-core", "fightState");
+    if (!fightState || data.fightOptions !== "both") {
+      fightState = "Meatspace";
+    }
+    data.fightState = fightState;
+    data.cyberdeck = "";
+    if (fightState === "Netspace") {
+      data.cyberdeck = this.actor.getEquippedCyberdeck();
+    }
+    const programsInstalled = [];
+    this.actor.data.filteredItems.cyberdeck.forEach((deck) => {
+      deck.data.data.programs.installed.forEach((program) => {
+        programsInstalled.push(program._id);
+      });
+    });
+    data.filteredItems.programsInstalled = programsInstalled;
     return data;
   }
 
@@ -203,8 +220,8 @@ export default class CPRActorSheet extends ActorSheet {
       case CPRRolls.rollTypes.DAMAGE: {
         const itemId = CPRActorSheet._getItemId(event);
         item = this._getOwnedItem(itemId);
-        rollType = this._getFireCheckbox(event);
-        cprRoll = item.createDamageRoll(rollType);
+        const damageType = this._getFireCheckbox(event);
+        cprRoll = item.createRoll(rollType, this.actor, { damageType });
         if (rollType === CPRRolls.rollTypes.AIMED) {
           cprRoll.location = this.actor.getFlag("cyberpunk-red-core", "aimedLocation") || "body";
         }
@@ -214,7 +231,29 @@ export default class CPRActorSheet extends ActorSheet {
         const itemId = CPRActorSheet._getItemId(event);
         item = this._getOwnedItem(itemId);
         rollType = this._getFireCheckbox(event);
-        cprRoll = item.createAttackRoll(rollType, this.actor);
+        cprRoll = item.createRoll(rollType, this.actor);
+        break;
+      }
+      case CPRRolls.rollTypes.INTERFACEABILITY: {
+        const interfaceAbility = $(event.currentTarget).attr("data-interface-ability");
+        const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
+        const cyberdeck = this._getOwnedItem(cyberdeckId);
+        cprRoll = cyberdeck.createRoll(rollType, this.actor, { interfaceAbility });
+        break;
+      }
+      case CPRRolls.rollTypes.CYBERDECKPROGRAM: {
+        const programId = $(event.currentTarget).attr("data-program-id");
+        const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
+        const executionType = $(event.currentTarget).attr("data-execution-type");
+        const cyberdeck = this._getOwnedItem(cyberdeckId);
+        const interfaceValue = this.actor._getRoleValue("interface");
+        const extraData = {
+          cyberdeckId,
+          programId,
+          executionType,
+          interfaceValue,
+        };
+        cprRoll = cyberdeck.createRoll(rollType, this.actor, extraData);
         break;
       }
       default:
@@ -454,8 +493,7 @@ export default class CPRActorSheet extends ActorSheet {
     if (event.ctrlKey) {
       CPRChat.RenderItemCard(item);
     } else {
-      item.sheet.options.editable = true;
-      item.sheet.render(true);
+      item.sheet.render(true, { editable: true });
     }
   }
 
@@ -471,8 +509,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("_itemUpdate | CPRActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
     const item = this.actor.items.find((i) => i.data._id === itemId);
-    item.sheet.options.editable = false;
-    item.sheet.render(true);
+    item.sheet.render(true, { editable: false });
   }
 
   /**
@@ -560,9 +597,20 @@ export default class CPRActorSheet extends ActorSheet {
           }
         }
       });
+
       if (ammoIsLoaded) {
         return;
       }
+    }
+    if (item.type === "cyberdeck") {
+      // Set all of the owned programs that were installed on
+      // this cyberdeck to uninstalled.
+      const programs = item.getInstalledPrograms();
+      const updateList = [];
+      programs.forEach((p) => {
+        updateList.push({ _id: p._id, "data.isInstalled": false });
+      });
+      await this.actor.updateEmbeddedDocuments("Item", updateList);
     }
     await this.actor.deleteEmbeddedDocuments("Item", [item.id]);
   }

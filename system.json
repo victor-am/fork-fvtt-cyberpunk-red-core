@@ -1,10 +1,10 @@
 {
-  "version": "0.77.2",
+  "version": "0.77.3",
   "name": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
-  "minimumCoreVersion": "0.8.5",
-  "compatibleCoreVersion": "0.8.5",
+  "minimumCoreVersion": "0.8.6",
+  "compatibleCoreVersion": "0.8.6",
   "templateVersion": 2,
   "author": "The Project Red Team",
   "esmodules": ["cpr.js"],

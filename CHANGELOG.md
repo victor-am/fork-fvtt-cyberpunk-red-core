@@ -1,4 +1,4 @@
-# WIP Version 0.77.x | Dev Branch
+# WIP Version 0.77.3 | Dev Branch
 
 **New Features**
 - Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title.
@@ -7,6 +7,32 @@
     - A new display of the ledger of both of these properties, to show all transactions done in the past, is now available.
     - Modification now gives the possibility to give a reason for the change and it is recorded who did the change.
 - Added container actor sheet, which can be used for shops, loot or storage purposes. Please note, that the players have to be owners of the container actor for full functionality.
+- Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title.
+- Netrunning Initial Implementation
+  - Introduction of the Item Object: Cyberdeck
+    - Migration code added for existing "Gear" items which have the word "cyberdeck" in the name. These items will be pre-pended with a '[MIGRATED]' tag on it to help identify that the item should be replaced with a new Cyberdeck Item. We have opted to not automate this replacement as people may update just prior to hosting a game and this would/could cause issues for planned sessions.
+    - Cyberdeck items in the Shipped Gear Compendium have been replaced with versions utilizing the new Cyberdeck Item Object
+  - Ability to equip one (1) Cyberdeck enables Meat/Net toggle on Fight Tab
+  - Ability to install Programs on the Cyberdeck from the Cyberdeck Settings Page
+  - Programs (Booster) have been enhanced to allow the addition of Roll Modifiers for Interface Abilities (ie Eraser gives a +2 to Cloak)
+  - Booster Roll Modifiers exposed in Roll verification dialog and added to the roll for Rezzed Boosters Only
+    - Shipped Program Compendium updated to include these roll modifiers
+  - Programs (Attacker) have been enhanced to allow the setting of Damage. For Anti-Program Attackers, both BlackICE and non-BlackICE damage rolls may be configured
+    -  Attack rolls for Anti-Program Attack Rolls will prompt on which damage type to roll
+  - When equipping a Cyberdeck in inventory, the Fight Tab | Net | enables quick access to:
+    - Roll Interface Abilities
+    - Roll Speed aginst a Black-ICE encounter
+    - Roll Defense against a Net Attack
+      - Includes any Rezzed Boosters that may have a DEF rating in the Modifiers field
+    - Activate/Deactivate & track Rezzed Boosters and Defenders
+      - Ability to manage (reduce & reset) the REZ on Boosters and Defenders programs when they take an attack
+      - Capability to install a Booster twice to a Cyberdeck (requires 2 of the same program item in inventory) and REZ both thereby stacking their bonus modifiers per discussion with RTG on Discord
+  - Deletion of the Cyberdeck Item will auto-return all programs to Actors inventory
+- Cyberdeck Loading Requirement
+  - Actors must own the Cyberdeck + Programs to install onto the Cyberdeck. ie inability to pre-load the Cyberdeck with programs before adding to an Actor. This is due to the direct relationship of the Program Items and the Cyberdeck.  Although, because Programs become un-tethered objects in the Cyberdeck, this might be possible, however it would then break the ability to view the program information when clicking the program in the cyberdeck.  We might be able to Cast this as suggested by t.wagner since the object for the item-sheet-view would essentially be ephemeral to just view the data.  Need to investigate more.
+- Netrunning TODO
+  - Booster Speed is not taken into account for Foundry Initiative rolls.
+  - Black ICE programs loaded onto the Cyberdeck are not supported in this initial release for Netrunning.  This will be implemented in a future release.
 
 **Migration to foundry 0.8.X**
 - Migrated the source code to work with foundry version 0.8.X

@@ -99,6 +99,17 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     // Create item in inventory
     html.find(".item-create").click((event) => this._createInventoryItem(event));
 
+    // Fight tab listeners
+
+    // Switch between meat and net fight states
+    html.find(".toggle-fight-state").click((event) => this._toggleFightState(event));
+
+    // Execute a program on a Cyberdeck
+    html.find(".program-execution").click((event) => this._cyberdeckProgramExecution(event));
+
+    // Execute a program on a Cyberdeck
+    html.find(".program-uninstall").click((event) => this._cyberdeckProgramUninstall(event));
+
     super.activateListeners(html);
   }
 
@@ -114,6 +125,13 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       case "carried": {
         if (item.data.type === "weapon") {
           Rules.lawyer(this.actor.canHoldWeapon(item), "CPR.warningtoomanyhands");
+        }
+        if (item.data.type === "cyberdeck") {
+          if (this.actor.hasItemTypeEquipped(item.data.type)) {
+            Rules.lawyer(false, "CPR.errortoomanycyberdecks");
+            this._updateOwnedItemProp(item, prop, "owned");
+            break;
+          }
         }
         this._updateOwnedItemProp(item, prop, "equipped");
         break;
@@ -378,5 +396,92 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     const itemName = `${SystemUtils.Localize("CPR.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
     const itemData = { name: itemName, type: itemType };
     await this.actor.createEmbeddedDocuments("Item", [itemData]);
+  }
+
+  /**
+   * Create set a flag on the actor of what their current Fight State is which affects
+   * what is viewed in the Fight Tab of the character sheet.
+   *
+   * Currently the two fight states are valid:
+   *
+   * "Meatspace" - Fight data relative to combat when not "jacked in"
+   * "Netspace"  - Fight data relative to combat when "jacked in"
+   *
+   * @private
+   * @param {Object} event - object capturing event data (what was clicked and where?)
+   */
+  _toggleFightState(event) {
+    LOGGER.trace("_toggleFightState | CPRActorSheet | Called.");
+    const fightState = $(event.currentTarget).attr("data-state");
+    this.actor.setFlag("cyberpunk-red-core", "fightState", fightState);
+  }
+
+  _cyberdeckProgramExecution(event) {
+    const executionType = $(event.currentTarget).attr("data-execution-type");
+    const programId = $(event.currentTarget).attr("data-program-id");
+    const program = this._getOwnedItem(programId);
+    const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
+    const cyberdeck = this._getOwnedItem(cyberdeckId);
+    switch (executionType) {
+      case "rez": {
+        if (!cyberdeck.isRezzed(program)) {
+          cyberdeck.rezProgram(program);
+          this._updateOwnedItem(cyberdeck);
+        }
+        break;
+      }
+      case "derez": {
+        if (cyberdeck.isRezzed(program)) {
+          cyberdeck.derezProgram(program);
+          this._updateOwnedItem(cyberdeck);
+        }
+        break;
+      }
+      case "reduce-rez": {
+        if (cyberdeck.isRezzed(program)) {
+          cyberdeck.reduceRezProgram(program);
+          this._updateOwnedItem(cyberdeck);
+        }
+        break;
+      }
+      case "reset-rez": {
+        if (cyberdeck.isRezzed(program)) {
+          cyberdeck.resetRezProgram(program);
+          this._updateOwnedItem(cyberdeck);
+        }
+        break;
+      }
+      case "attack":
+      case "damage": {
+        this._onRoll(event);
+        break;
+      }
+      default:
+    }
+  }
+
+  async _cyberdeckProgramUninstall(event) {
+    const programId = $(event.currentTarget).attr("data-item-id");
+    const program = this._getOwnedItem(programId);
+    const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
+    const cyberdeck = this._getOwnedItem(cyberdeckId);
+    LOGGER.debug("_cyberdeckProgramUninstall | CPRItem | Called.");
+
+    if (cyberdeck.data.type !== "cyberdeck") {
+      return;
+    }
+
+    const { actor } = this;
+
+    if (!actor) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.owneditemonlyerror"));
+      return;
+    }
+
+    cyberdeck.uninstallPrograms([program]);
+
+    const updateList = [{ _id: cyberdeck.data._id, data: cyberdeck.data.data }];
+    updateList.push({ _id: program.data._id, "data.isInstalled": false });
+    await actor.updateEmbeddedDocuments("Item", updateList);
   }
 }

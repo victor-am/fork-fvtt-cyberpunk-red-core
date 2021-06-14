@@ -55,7 +55,17 @@
           </div>
           {{!-- <a class="navtab center-text bold white-fg" data-tab="role">{{localize "CPR.role"}}</a> --}}
           <div class="tab-pink-underlay">
-            <a class="tab-label text-bold tab-indent" data-tab="fight">{{localize "CPR.fight"}}</a>
+            <div class="tab-label text-bold tab-indent" data-tab="fight">
+              <a data-tab="fight">{{localize "CPR.fight"}}</a>
+              {{#if (compare fightOptions "===" "both")}}
+                &nbsp;
+                {{#if (compare fightState "===" "Meatspace")}}
+                  (<span class="fg-yellow">{{localize "CPR.meat"}}</span>|<a class="toggle-fight-state" data-state="Netspace">{{localize "CPR.net"}}</a>)
+                {{else}}
+                  (<a class="toggle-fight-state" data-state="Meatspace">{{localize "CPR.meat"}}</a>|<span class="fg-yellow">{{localize "CPR.net"}}</span>)
+                {{/if}}
+              {{/if}}
+            </div>
           </div>
           <div class="tab-pink-underlay">
             <a class="tab-label text-bold tab-indent" data-tab="lifepath">{{localize "CPR.lifepath"}}</a>
