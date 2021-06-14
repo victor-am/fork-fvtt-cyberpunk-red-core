@@ -8,13 +8,14 @@
     - Cyberdeck items in the Shipped Gear Compendium have been replaced with versions utilizing the new Cyberdeck Item Object
   - Ability to equip one (1) Cyberdeck enables Meat/Net toggle on Fight Tab
   - Ability to install Programs on the Cyberdeck from the Cyberdeck Settings Page
-  - Programs (Booster) have been enhanced to allow the addition of Roll Modifiers for Interface Abilities (ie Eraser gives a +2 to Cloak) & speed (See below TODO regarding speed)
+  - Programs (Booster) have been enhanced to allow the addition of Roll Modifiers for Interface Abilities (ie Eraser gives a +2 to Cloak)
   - Booster Roll Modifiers exposed in Roll verification dialog and added to the roll for Rezzed Boosters Only
     - Shipped Program Compendium updated to include these roll modifiers
   - Programs (Attacker) have been enhanced to allow the setting of Damage. For Anti-Program Attackers, both BlackICE and non-BlackICE damage rolls may be configured
     -  Attack rolls for Anti-Program Attack Rolls will prompt on which damage type to roll
   - When equipping a Cyberdeck in inventory, the Fight Tab | Net | enables quick access to:
     - Roll Interface Abilities
+    - Roll Speed aginst a Black-ICE encounter
     - Roll Defense against a Net Attack
       - Includes any Rezzed Boosters that may have a DEF rating in the Modifiers field
     - Activate/Deactivate & track Rezzed Boosters and Defenders
@@ -24,7 +25,7 @@
 - Cyberdeck Loading Requirement
   - Actors must own the Cyberdeck + Programs to install onto the Cyberdeck. ie inability to pre-load the Cyberdeck with programs before adding to an Actor. This is due to the direct relationship of the Program Items and the Cyberdeck.  Although, because Programs become un-tethered objects in the Cyberdeck, this might be possible, however it would then break the ability to view the program information when clicking the program in the cyberdeck.  We might be able to Cast this as suggested by t.wagner since the object for the item-sheet-view would essentially be ephemeral to just view the data.  Need to investigate more.
 - Netrunning TODO
-  - Booster Speed is not taken into account for Netrunning Initiative rolls.  This will be implemented in a future release.
+  - Booster Speed is not taken into account for Foundry Initiative rolls.
   - Black ICE programs loaded onto the Cyberdeck are not supported in this initial release for Netrunning.  This will be implemented in a future release.
 
 **WIP Bug Fixes**
