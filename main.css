@@ -474,6 +474,67 @@ button,
   background-color: #eaeaeaff;
   min-height: 35px;
 }
+.fight-tab .interface-abilities-section {
+  grid-area: injuries;
+  background-color: #eaeaeaff;
+  min-height: 35px;
+}
+.fight-tab .cyberdeck-installed-section {
+  grid-area: armor;
+  background-color: #eaeaeaff;
+  min-height: 35px;
+}
+.fight-tab .cyberdeck-installed-section .cyberdeck-installed-software-list {
+  display: grid;
+  grid-template-columns: 1fr 30px 30px;
+  grid-template-areas: "program-name program-attack-and-damage program-actions";
+}
+.fight-tab .cyberdeck-installed-section .cyberdeck-installed-software-list .installed-program-name {
+  grid-area: "program-name";
+}
+.fight-tab .cyberdeck-installed-section .cyberdeck-installed-software-list .installed-program-attack-and-damage {
+  grid-area: "program-attack-and-damage";
+  display: grid;
+  grid-template-columns: 15px 15px;
+  grid-template-areas: "program-attack program-damage";
+}
+.fight-tab .cyberdeck-installed-section .cyberdeck-installed-software-list .installed-program-attack-and-damage .installed-program-attack {
+  grid-area: "program-attack";
+}
+.fight-tab .cyberdeck-installed-section .cyberdeck-installed-software-list .installed-program-attack-and-damage .installed-program-damage {
+  grid-area: "program-damage";
+}
+.fight-tab .cyberdeck-installed-section .cyberdeck-installed-software-list .installed-program-actions {
+  grid-area: "program-actions";
+}
+.fight-tab .cyberdeck-rezzed-section {
+  grid-area: weapon;
+  background-color: #eaeaeaff;
+  min-height: 35px;
+}
+.fight-tab .cyberdeck-rezzed-section .cyberdeck-rezzed-software-list {
+  display: grid;
+  grid-template-columns: 1fr 30px 30px 30px 40px;
+  grid-template-areas: "program-name program-atk program-def program-rez-and-decrement program-reset";
+}
+.fight-tab .cyberdeck-rezzed-section .cyberdeck-rezzed-software-list .rezzed-program-name {
+  grid-area: "program-name";
+}
+.fight-tab .cyberdeck-rezzed-section .cyberdeck-rezzed-software-list .rezzed-program-rez-and-decrement {
+  grid-area: "program-rez-and-decrement";
+  display: grid;
+  grid-template-columns: 15px 15px;
+  grid-template-areas: "program-rez program-rez-decrement";
+}
+.fight-tab .cyberdeck-rezzed-section .cyberdeck-rezzed-software-list .rezzed-program-rez-and-decrement .rezzed-program-rez {
+  grid-area: "program-rez";
+}
+.fight-tab .cyberdeck-rezzed-section .cyberdeck-rezzed-software-list .rezzed-program-rez-and-decrement .rezzed-program-rez-decrement {
+  grid-area: "program-rez-decrement";
+}
+.fight-tab .cyberdeck-rezzed-section .cyberdeck-rezzed-software-list .rezzed-program-reset {
+  grid-area: "program-reset";
+}
 .handle-block,
 .role-block,
 .hitpoint-block,
@@ -1166,6 +1227,12 @@ button,
 }
 .text-flex-end {
   justify-content: flex-end;
+}
+.text-align-last-end {
+  text-align-last: end;
+}
+.text-italics {
+  font-style: italic;
 }
 .flexrow {
   display: flex;

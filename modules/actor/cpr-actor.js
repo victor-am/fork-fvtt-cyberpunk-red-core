@@ -597,6 +597,21 @@ export default class CPRActor extends Actor {
     });
   }
 
+  // Determine if this actor has a specific item type equipped
+  hasItemTypeEquipped(itemType) {
+    let equipped = false;
+    if (this.data.filteredItems[itemType]) {
+      this.data.filteredItems[itemType].forEach((i) => {
+        if (i.data.data.equipped) {
+          if (i.data.data.equipped === "equipped") {
+            equipped = true;
+          }
+        }
+      });
+    }
+    return equipped;
+  }
+
   static _getHands() {
     LOGGER.trace("_getHands | CPRActor | Called.");
     return 2;
@@ -653,6 +668,17 @@ export default class CPRActor extends Actor {
       }
       default:
     }
+  }
+
+  // Netrunning
+  getEquippedCyberdeck() {
+    LOGGER.trace("ActorID _getEquippedArmors | CPRActorSheet | Called.");
+    const cyberdecks = this.data.filteredItems.cyberdeck;
+    const equipped = cyberdecks.filter((item) => item.getData().equipped === "equipped");
+    if (equipped) {
+      return equipped[0];
+    }
+    return null;
   }
 
   /**

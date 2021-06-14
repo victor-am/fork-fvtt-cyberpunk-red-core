@@ -207,6 +207,7 @@ CPR.inventoryCategories = {
   gear: "CPR.gear",
   clothing: "CPR.clothing",
   vehicle: "CPR.vehicle",
+  cyberdeck: "CPR.cyberdeck",
   program: "CPR.programs",
 };
 
@@ -350,8 +351,19 @@ CPR.demonStatList = {
 CPR.programClassList = {
   antipersonnelattacker: "CPR.antipersonnelattacker",
   antiprogramattacker: "CPR.antiprogramattacker",
-  defender: "CPR.defender",
   booster: "CPR.booster",
+  defender: "CPR.defender",
+};
+
+CPR.interfaceAbilities = {
+  scanner: "CPR.scanner",
+  backdoor: "CPR.backdoor",
+  cloak: "CPR.cloak",
+  control: "CPR.control",
+  eyedee: "CPR.eyedee",
+  pathfinder: "CPR.pathfinder",
+  slide: "CPR.slide",
+  virus: "CPR.virus",
 };
 
 export default CPR;

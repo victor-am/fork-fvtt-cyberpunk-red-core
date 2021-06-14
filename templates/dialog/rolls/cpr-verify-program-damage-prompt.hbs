@@ -1,0 +1,30 @@
+{{trace "VERIFY-PROGRAM-DAMAGE-PROMPT.HBS"}}
+<form>
+    <div>
+        {{localize "CPR.roll"}} {{localize "CPR.damagefor"}} "{{rollCardExtraArgs.program.name}} ({{localize (findConfigValue "programClassList" rollCardExtraArgs.program.data.class)}})", Choomba!
+    </div>
+    <ol class="items-list">
+      {{#if (compare (compare rollCardExtraArgs.program.data.class "===" "antiprogramattacker") "&&" (compare rollCardExtraArgs.program.data.damage.blackIce "!==" "")) }}
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.selecttarget"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+              <select name="formula">
+                    <option selected value="{{rollCardExtraArgs.program.data.damage.standard}}">{{localize "CPR.damagetononblackice"}} ({{rollCardExtraArgs.program.data.damage.standard}})</option>
+                    <option value="{{rollCardExtraArgs.program.data.damage.blackIce}}">{{localize "CPR.damagetoblackice"}} ({{rollCardExtraArgs.program.data.damage.blackIce}})</option>
+                </select>
+            </div>
+        </li>
+        {{/if}}
+         <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.mods"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <input name="mods" class="" type="text" data-dtype="String" value={{mods}}>
+            </div>
+        </li>
+    </ol>
+</form>
+{{trace "END VERIFY-PROGRAM-DAMAGE-PROMPT.HBS"}}

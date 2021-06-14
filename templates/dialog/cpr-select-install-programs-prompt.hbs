@@ -1,0 +1,31 @@
+{{trace "CPR-SELECT-INSTALL-PROGRAMS.HBS"}}
+<form>
+  {{localize "CPR.selectinstalledprograms"}} "{{cyberdeck.name}}", Choomba!
+  <ol class="items-list">
+    <li class="item flexrow">
+      <div class="item flexrow setting-name">
+        <span class="text-bold text-nowrap">{{localize "CPR.programs"}}</span>
+      </div>
+      <div class="item flexrow setting-value">
+        <span class="text-bold text-nowrap text-align-last-end text-space-around">{{localize "CPR.select"}}</span>
+      </div>
+    </li>
+
+    {{#each this.programList as |program|}}
+    <li class="item flexrow">
+      <div class="item flexrow setting-name text-nowrap">
+        {{program.data.name}} ({{localize (findConfigValue "programClassList" program.data.data.class)}})
+      </div>
+      <div class="item flexrow setting-value text-nowrap text-space-around">
+        {{#if program.data.data.isInstalled}}
+        <span class="text-bold text-nowrap text-align-last-end text-space-around"><input type="checkbox" name="selectedPrograms" value="{{program.data._id}}" checked></span>
+        {{else}}
+        <span class="text-bold text-nowrap text-align-last-end text-space-around"><input type="checkbox" name="selectedPrograms" value="{{program.data._id}}"></span>
+        {{/if}}
+      </div>
+    </li>
+    {{/each}}
+
+  </ol>
+</form>
+{{trace "CPR-SELECT-INSTALL-PROGRAMS.HBS"}}
