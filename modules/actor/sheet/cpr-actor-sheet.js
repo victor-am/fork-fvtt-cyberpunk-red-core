@@ -68,24 +68,25 @@ export default class CPRActorSheet extends ActorSheet {
     data.filteredItems = this.actor.data.filteredItems;
     if (this.actor.data.type === "mook" || this.actor.data.type === "character") {
       data.installedCyberware = this._getSortedInstalledCyberware();
-    }
-    data.fightOptions = (this.actor.hasItemTypeEquipped("cyberdeck")) ? "both" : "";
-    let fightState = this.actor.getFlag("cyberpunk-red-core", "fightState");
-    if (!fightState || data.fightOptions !== "both") {
-      fightState = "Meatspace";
-    }
-    data.fightState = fightState;
-    data.cyberdeck = "";
-    if (fightState === "Netspace") {
-      data.cyberdeck = this.actor.getEquippedCyberdeck();
-    }
-    const programsInstalled = [];
-    this.actor.data.filteredItems.cyberdeck.forEach((deck) => {
-      deck.data.data.programs.installed.forEach((program) => {
-        programsInstalled.push(program._id);
+
+      data.fightOptions = (this.actor.hasItemTypeEquipped("cyberdeck")) ? "both" : "";
+      let fightState = this.actor.getFlag("cyberpunk-red-core", "fightState");
+      if (!fightState || data.fightOptions !== "both") {
+        fightState = "Meatspace";
+      }
+      data.fightState = fightState;
+      data.cyberdeck = "";
+      if (fightState === "Netspace") {
+        data.cyberdeck = this.actor.getEquippedCyberdeck();
+      }
+      const programsInstalled = [];
+      this.actor.data.filteredItems.cyberdeck.forEach((deck) => {
+        deck.data.data.programs.installed.forEach((program) => {
+          programsInstalled.push(program._id);
+        });
       });
-    });
-    data.filteredItems.programsInstalled = programsInstalled;
+      data.filteredItems.programsInstalled = programsInstalled;
+    }
     return data;
   }
 
