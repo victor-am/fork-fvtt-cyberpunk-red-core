@@ -1,4 +1,5 @@
 <form>
+  {{log this}}
     <div class="item-settings-tab">
         <div class="item-settings-section">
             <ol class="items-list">
@@ -26,7 +27,7 @@
                 </li>
 
                 {{!-- Program Item Settings--}}
-                {{!-- Program Class--}}
+                {{!-- Program Slots--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.slots"}}
@@ -35,6 +36,8 @@
                         <input name="data.slots" class="" type="number" value="{{data.data.slots}}" placeholder="1">
                     </div>
                 </li>
+
+                {{!-- Program Class--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.class"}}
@@ -50,7 +53,26 @@
                     </div>
                 </li>
 
-                {{!-- Program Modifier--}}
+                {{!-- Black ICE Configuration--}}
+                {{#if (compare data.data.class "===" "blackice")}}
+                <hr>
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.blackice"}} {{localize "CPR.type"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="data.blackIceType" data-dtype="{{data.data.blackIceType}}">
+                            {{#select data.data.blackIceType}}
+                            {{#each (findConfigObj "blackIceType") as |blackIceType bit| }}
+                            <option value="{{bit}}">{{localize blackIceType}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                </li>
+                {{/if}}
+
+                {{!-- Program Modifier for Boosters--}}
                 {{#if (compare data.data.class "===" "booster")}}
                 <hr>
                 <li class="item flexrow">
@@ -95,24 +117,30 @@
                 {{/each}}
                  <hr>
                 {{/if}}
-                {{#if (compare (compare data.data.class "===" "antiprogramattacker") "||" (compare data.data.class "===" "antipersonnelattacker")) }}
+
+                {{!-- Program Damage Rolls--}}
+                {{#if (compare (compare (compare data.data.class "===" "antiprogramattacker") "||" (compare data.data.class "===" "antipersonnelattacker")) "||" (compare data.data.class "===" "blackice")) }}
                 <hr>
+                    {{!-- Anti-Personnel Damage Rolls--}}
+                    {{#if (compare (compare data.data.class "!==" "blackice") "||" (compare data.data.blackIceType "===" "antipersonnel"))}}
                     <li class="item flexrow">
                         <div class="item flexrow setting-name text-nowrap">
                             {{#if (compare data.data.class "===" "antipersonnelattacker")}}
                             {{localize "CPR.damage"}}
                             {{else}}
-                            {{localize "CPR.damagetononblackice"}}
+                            {{localize "CPR.damageto"}} {{#if (compare data.data.class "===" "blackice")}}{{localize "CPR.netrunnerrole"}}{{else}}{{localize "CPR.nonblackice"}}{{/if}}
                             {{/if}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
                             <input name="data.damage.standard" class="" type="text" value="{{data.data.damage.standard}}">
                         </div>
                     </li>
-                    {{#if (compare data.data.class "===" "antiprogramattacker")}}
+                    {{/if}}
+                    {{!-- Anti-Program Damage Rolls--}}
+                    {{#if (compare (compare data.data.class "===" "antiprogramattacker") "||" (compare (compare data.data.class "===" "blackice") "&&" (compare data.data.blackIceType "===" "antiprogram")))}}
                     <li class="item flexrow">
                         <div class="item flexrow setting-name text-nowrap">
-                            {{localize "CPR.damagetoblackice"}}
+                          {{localize "CPR.damageto"}} {{#if (compare data.data.class "===" "blackice")}}{{localize "CPR.programs"}}{{else}}{{localize "CPR.blackice"}}{{/if}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
                             <input name="data.damage.blackIce" class="" type="text" value="{{data.data.damage.blackIce}}">

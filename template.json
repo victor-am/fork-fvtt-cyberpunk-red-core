@@ -513,6 +513,7 @@
       ],
       "slots": 1,
       "class": "defender",
+      "blackIceType": "",
       "isDemon": false,
       "modifiers": {},
       "interface": 0,

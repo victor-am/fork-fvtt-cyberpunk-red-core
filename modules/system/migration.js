@@ -585,16 +585,37 @@ export default class Migration {
         updateData["data.class"] = "antipersonnelattacker";
         break;
       }
+      case "asp":
+      case "giant":
+      case "hellhound":
+      case "kracken":
+      case "liche":
+      case "raven":
+      case "scorpion":
+      case "skunk":
+      case "wisp": {
+        updateData["data.class"] = "blackice";
+        updateData["data.blackIceType"] = "antipersonnel";
+        break;
+      }
+      case "dragon":
+      case "killer":
+      case "sabertooth": {
+        updateData["data.class"] = "blackice";
+        updateData["data.blackIceType"] = "antiprogram";
+        break;
+      }
+
       default:
     }
 
     switch (itemData.data.class) {
       case "Anti-Program Attacker": {
-        updateData["data.class"] = "antiprogramattacker";
+        updateData["data.class"] = "antiprogram";
         break;
       }
       case "Anti-Personnel Attacker": {
-        updateData["data.class"] = "antipersonnelattacker";
+        updateData["data.class"] = "antipersonnel";
         break;
       }
       case "Booster": {
@@ -603,6 +624,13 @@ export default class Migration {
       }
       case "Defender": {
         updateData["data.class"] = "defender";
+        break;
+      }
+      case "BlackICE":
+      case "Black ICE":
+      case "Black-ICE": {
+        updateData["data.class"] = "blackice";
+        updateData["data.blackIceType"] = "other";
         break;
       }
       default:
