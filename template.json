@@ -515,6 +515,7 @@
       "class": "defender",
       "blackIceType": "",
       "isDemon": false,
+      "prototypeActor": "",
       "modifiers": {},
       "interface": 0,
       "damage": {

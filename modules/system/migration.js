@@ -550,6 +550,14 @@ export default class Migration {
       updateData["data.amount"] = 1;
     }
 
+    if ((typeof itemData.data.blackIceType) === "undefined" || itemData.data.blackIceType === null) {
+      updateData["data.blackIceType"] = "";
+    }
+
+    if ((typeof itemData.data.prototypeActor) === "undefined" || itemData.data.prototypeActor === null) {
+      updateData["data.prototypeActor"] = "";
+    }
+
     const lowerName = itemData.name.toLowerCase().replace(/\s/g, "");
 
     // Setting a default program class since we are moving from

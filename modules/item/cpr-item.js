@@ -536,7 +536,17 @@ export default class CPRItem extends Item {
     return 0;
   }
 
-  // Program Code
+  /**
+   * Program Code
+   *
+   * The methods below apply to the CPRItem.type = "program"
+  */
+
+  /**
+   * Sets a program to uninstalled.
+   *
+   * @public
+   */
   setInstalled() {
     LOGGER.debug("setInstalled | CPRItem | Called.");
     if (this.data.type !== "program") {
@@ -545,6 +555,11 @@ export default class CPRItem extends Item {
     this.data.data.isInstalled = true;
   }
 
+  /**
+   * Sets a program to uninstalled.
+   *
+   * @public
+   */
   unsetInstalled() {
     LOGGER.debug("setInstalled | CPRItem | Called.");
     if (this.data.type !== "program") {
@@ -553,6 +568,11 @@ export default class CPRItem extends Item {
     this.data.data.isInstalled = false;
   }
 
+  /**
+   * Returns a boolean if the program is installed.
+   *
+   * @public
+   */
   getInstalled() {
     LOGGER.debug("setInstalled | CPRItem | Called.");
     if (this.data.type !== "program") {
@@ -561,7 +581,19 @@ export default class CPRItem extends Item {
     return this.data.data.isInstalled;
   }
 
-  // Cyberdeck Code
+  /**
+   * Cyberdeck Code
+   *
+   * The methods below apply to the CPRItem.type = "cyberdeck"
+  */
+
+  /**
+   * Dynamically calculates the number of free slots on the Cyberdeck
+   * by starting with the number of slots this cyberdeck has and substacting
+   * the slot size of each of the installed programs.
+   *
+   * @public
+   */
   availableSlots() {
     LOGGER.debug("availableSlots | CPRItem | Called.");
     if (this.data.type !== "cyberdeck") {
@@ -578,16 +610,38 @@ export default class CPRItem extends Item {
     return unusedSlots;
   }
 
+  /**
+   * Returns a list of installed programs.  This is a list of ItemData as the
+   * Item itself is not stored because Items can't own Items. As such, if you
+   * are looking for a specific program, each Array entry has a entry._id of
+   * the Object it represents.
+   *
+   * @public
+   */
   getInstalledPrograms() {
     LOGGER.debug("getInstalledPrograms | CPRItem | Called.");
     return this.data.data.programs.installed;
   }
 
+  /**
+   * Returns a list of rezzed programs.  This is a list of ItemData as the
+   * Item itself is not stored because Items can't own Items. As such, if you
+   * are looking for a specific program, each Array entry has a entry._id of
+   * the Object it represents.
+   *
+   * @public
+   */
   getRezzedPrograms() {
     LOGGER.debug("getRezzedPrograms | CPRItem | Called.");
     return this.data.data.programs.rezzed;
   }
 
+  /**
+   * Install programs from the Cyberdeck
+   *
+   * @public
+   * @param {Array} programs      - Array of CPRItem programs
+   */
   installPrograms(programs) {
     LOGGER.debug("installProgram | CPRItem | Called.");
     const { installed } = this.data.data.programs;
@@ -603,7 +657,14 @@ export default class CPRItem extends Item {
     this.data.data.programs.installed = installed;
   }
 
+  /**
+   * Uninstall programs from the Cyberdeck
+   *
+   * @public
+   * @param {Array} programs      - Array of CPRItem programs
+   */
   uninstallPrograms(programs) {
+    LOGGER.debug("uninstallPrograms | CPRItem | Called.");
     let { rezzed } = this.data.data.programs;
     let { installed } = this.data.data.programs;
     programs.forEach((program) => {
@@ -617,12 +678,27 @@ export default class CPRItem extends Item {
     this.data.data.programs.installed = installed;
   }
 
+  /**
+   * Return true/false if the program is Rezzed
+   *
+   * @public
+   * @param {CPRItem} program      - CPRItem of the program to check
+   */
   isRezzed(program) {
+    LOGGER.debug("isRezzed | CPRItem | Called.");
     const rezzedPrograms = this.data.data.programs.rezzed.filter((p) => p._id === program.id);
     return (rezzedPrograms.length > 0);
   }
 
+  /**
+   * Rez a program by setting the isRezzed boolean on the program to true
+   * and push the program onto the rezzed array of the Cyberdeck
+   *
+   * @public
+   * @param {CPRItem} program      - CPRItem of the program to REZ
+   */
   rezProgram(program) {
+    LOGGER.debug("rezProgram | CPRItem | Called.");
     const programData = program.data;
     const { installed } = this.data.data.programs;
     const installIndex = installed.findIndex((p) => p._id === programData._id);
@@ -638,24 +714,139 @@ export default class CPRItem extends Item {
     // multiple times, we will already have a an instance ID to differentiate
     // the different rezzes.
     const rezzedInstance = randomID();
+    program.setFlag("cyberpunk-red-core", "rezInstanceId", rezzedInstance);
     programState.data.isRezzed = true;
-    programData.data.rezInstanceId = rezzedInstance;
     installed[installIndex] = programState;
     this.data.data.programs.installed = installed;
     this.data.data.programs.rezzed.push(programData);
+    if (programData.data.class === "blackice") {
+      this._rezBlackIceToken(program);
+    }
   }
 
+  /**
+   * Create a Black ICE Token on the active scene as it was just rezzed
+   *
+   * @private
+   * @param {CPRItem} program      - CPRItem of the program create the Token for
+   */
+  async _rezBlackIceToken(program) {
+    LOGGER.debug("_rezBlackIceToken | CPRItem | Called.");
+    const programData = program.data;
+    const blackIceName = program.name;
+    // First, let's see if an Actor exists that is a blackIce Actor with the same name, if so, we will use that
+    // to model the token Actor Data.
+    const blackIceActors = game.actors.filter((bi) => bi.type === "blackIce" && bi.name === blackIceName);
+    let blackIce;
+    if (blackIceActors.length === 0) {
+      // We didn't find a blackIce Actor with a matching name so we need to create one dynamically.
+      // We will keep all auto-generated Actors in a Folder called CPR Autogenerated to ensure the Actors
+      // list of the user stays clean.
+      const dynamicFolderName = "CPR Autogenerated";
+      const folderList = game.folders.filter((folder) => folder.name === dynamicFolderName && folder.type === "Actor");
+      // If the folder does not exist, we create it.
+      const dynamicFolder = (folderList.length > 0) ? folderList[0] : await Folder.create({ name: dynamicFolderName, type: "Actor" });
+      // Create a new Black ICE Actor
+      blackIce = await Actor.create({
+        name: blackIceName,
+        type: "blackIce",
+        folder: dynamicFolder,
+      });
+      // Configure the Actor based on the Black ICE Program Stats.
+      blackIce.programmaticallyUpdate(programData.data.blackIceType, programData.data.per, programData.data.spd, programData.data.atk, programData.data.def, programData.data.rez, programData.data.rez, programData.data.description.value);
+    } else {
+      // We found a matching Actor so we will use that to model our Token Data
+      // eslint-disable-next-line prefer-destructuring
+      blackIce = blackIceActors[0];
+    }
+
+    const sceneList = game.scenes.filter((s) => s.active === true);
+    if (sceneList.length === 1) {
+      const scene = sceneList[0];
+      const netrunnerToken = this.actor.token;
+      const tokenFlags = {
+        netrunnerTokenId: netrunnerToken.id,
+        sourceCyberdeckId: this.id,
+        programId: program.id,
+      };
+      const tokenData = [{
+        name: blackIce.name,
+        actorId: blackIce.data._id,
+        actorData: blackIce.data,
+        actorLink: false,
+        img: blackIce.img,
+        x: netrunnerToken.data.x + 75,
+        y: netrunnerToken.data.y,
+        flags: { "cyberpunk-red-core": tokenFlags },
+      }];
+      const biTokenList = await scene.createEmbeddedDocuments("Token", tokenData);
+      const biToken = (biTokenList.length > 0) ? biTokenList[0] : null;
+      if (biToken !== null) {
+        // Update the Token Actor based on the Black ICE Program Stats, leaving any effect description in place.
+        biToken.actor.programmaticallyUpdate(programData.data.blackIceType, programData.data.per, programData.data.spd, programData.data.atk, programData.data.def, programData.data.rez, programData.data.rez);
+        program.setFlag("cyberpunk-red-core", "biTokenId", biToken.id);
+      }
+    } else {
+      LOGGER.error("_rezBlackIceToken | CPRItem | Attempting to rez a Black ICE however no scene appears to be active.");
+    }
+  }
+
+  /**
+   * Remove a program from the rezzed list on the Cyberdeck
+   *
+   * @public
+   * @param {CPRItem} program      - CPRItem of the program de-rez
+   */
   derezProgram(program) {
+    LOGGER.debug("derezProgram | CPRItem | Called.");
     const { installed } = this.data.data.programs;
     const installIndex = installed.findIndex((p) => p._id === program.id);
     const programState = installed[installIndex];
     programState.data.isRezzed = false;
     installed[installIndex] = programState;
+    if (program.data.data.class === "blackice") {
+      this._derezBlackIceToken(program);
+    }
     const rezzed = this.data.data.programs.rezzed.filter((p) => p._id !== program.id);
     this.data.data.programs.rezzed = rezzed;
   }
 
+  /**
+   * Remove a Black ICE Token from the game as it is de-rezzed
+   *
+   * @private
+   * @param {CPRItem} program      - CPRItem of the program to remove the token for
+   */
+  async _derezBlackIceToken(program) {
+    LOGGER.debug("_derezBlackIceToken | CPRItem | Called.");
+    const rezzedList = this.data.data.programs.rezzed.filter((p) => p._id === program.id);
+    if (rezzedList.length === 1) {
+      const rezzedData = rezzedList[0];
+      const { biTokenId } = rezzedData.flags["cyberpunk-red-core"];
+      const sceneList = game.scenes.filter((s) => s.active === true);
+      if (sceneList.length === 1) {
+        const scene = sceneList[0];
+        const tokenList = scene.tokens.map((tokenDoc) => tokenDoc.actor.token).filter((token) => token).filter((t) => t.id === biTokenId);
+
+        if (tokenList.length === 1) {
+          await scene.deleteEmbeddedDocuments("Token", [biTokenId]);
+        }
+      } else {
+        LOGGER.error(`_derezBlackIceToken | CPRItem | Unable to retrieve token (${biTokenId}) for program: ${program.name} (${program.id})`);
+      }
+    } else {
+      LOGGER.error(`_derezBlackIceToken | CPRItem | Unable to retrieve rez data for program: ${program.name} (${program.id})`);
+    }
+  }
+
+  /**
+   * Reset a rezzed program numbers to be that of the installed version of the program
+   *
+   * @public
+   * @param {CPRItem} program      - CPRItem of the program to reset
+   */
   resetRezProgram(program) {
+    LOGGER.debug("resetRezProgram | CPRItem | Called.");
     const { rezzed } = this.data.data.programs;
     const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
     const { installed } = this.data.data.programs;
@@ -663,13 +854,56 @@ export default class CPRItem extends Item {
     this.data.data.programs.rezzed[rezzedIndex] = this.data.data.programs.installed[installedIndex];
   }
 
-  reduceRezProgram(program) {
+  /**
+   * Reduce the rezzed value of a rezzed program.
+   *
+   * @public
+   * @param {CPRItem} program     - The program to reduce the REZ of
+   * @param {Number} reduceAmount - Amount to reduce REZ by. Defaults to 1.
+   */
+  reduceRezProgram(program, reduceAmount = 1) {
+    LOGGER.debug("reduceRezProgram | CPRItem | Called.");
     const { rezzed } = this.data.data.programs;
     const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
     const programState = rezzed[rezzedIndex];
-    const newRez = Math.max(programState.data.rez - 1, 0);
+    const newRez = Math.max(programState.data.rez - reduceAmount, 0);
     programState.data.rez = newRez;
     this.data.data.programs.rezzed[rezzedIndex] = programState;
+    if (programState.data.class === "blackice" && typeof programState.flags["cyberpunk-red-core"] !== "undefined") {
+      const cprFlags = programState.flags["cyberpunk-red-core"];
+      if (typeof cprFlags.biTokenId !== "undefined") {
+        const { biTokenId } = cprFlags;
+        const tokenList = canvas.scene.tokens.map((tokenDoc) => tokenDoc.actor.token).filter((token) => token).filter((t) => t.id === biTokenId);
+        if (tokenList.length === 1) {
+          const biToken = tokenList[0];
+          biToken.actor.programmaticallyUpdate(programState.data.blackIceType, programState.data.per, programState.data.spd, programState.data.atk, programState.data.def, programState.data.rez);
+        }
+      }
+    }
+  }
+
+  updateRezzedProgram(programId, updatedData) {
+    LOGGER.debug("updateRezProgram | CPRItem | Called.");
+    const { rezzed } = this.data.data.programs;
+    const rezzedIndex = rezzed.findIndex((p) => p._id === programId);
+    const programState = rezzed[rezzedIndex];
+    const dataPoints = Object.keys(updatedData);
+    dataPoints.forEach((attribute) => {
+      switch (attribute) {
+        case "per":
+        case "spd":
+        case "atk":
+        case "def": {
+          programState.data[attribute] = updatedData[attribute];
+          break;
+        }
+        case "rez": {
+          programState.data.rez = updatedData.rez.value;
+          break;
+        }
+        default:
+      }
+    });
   }
 
   /**
@@ -679,6 +913,7 @@ export default class CPRItem extends Item {
    * @param {String} boosterType - string defining the type of boosters to return.
    */
   getBoosters(boosterType) {
+    LOGGER.debug("getBoosters | CPRItem | Called.");
     const { rezzed } = this.data.data.programs;
     let modifierTotal = 0;
     switch (boosterType) {
@@ -710,6 +945,7 @@ export default class CPRItem extends Item {
   }
 
   _createCyberdeckRoll(rollType, actor, extraData = {}) {
+    LOGGER.debug("_createCyberdeckRoll | CPRItem | Called.");
     let rollTitle = "";
     let rollModifiers = 0;
     let cprRoll;
