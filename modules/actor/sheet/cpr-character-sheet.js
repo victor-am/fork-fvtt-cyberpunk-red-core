@@ -190,12 +190,18 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
   async _selectRoles() {
     let formData = { actor: this.actor.getData().roleInfo, roles: CPR.roleList };
-    formData = await SelectRolePrompt.RenderPrompt(formData);
+    formData = await SelectRolePrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
     await this.actor.setRoles(formData);
   }
 
   async _setLifepath() {
-    const formData = await SetLifepathPrompt.RenderPrompt(this.actor.data);
+    const formData = await SetLifepathPrompt.RenderPrompt(this.actor.data).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
     await this.actor.setLifepath(formData);
   }
 
@@ -325,7 +331,11 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
   async _updateIp() {
     LOGGER.trace("ActorID _updateIp | CPRCharacterActorSheet | Called.");
-    const formData = await ImprovementPointEditPrompt.RenderPrompt({});
+    const formData = await ImprovementPointEditPrompt.RenderPrompt().catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      // Prompt was closed
+      return;
+    }
     if (formData.changeValue !== null && formData.changeValue !== "") {
       switch (formData.action) {
         case "add": {

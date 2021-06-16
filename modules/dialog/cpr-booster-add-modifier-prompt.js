@@ -10,7 +10,7 @@ export default class BoosterAddModifierPrompt {
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog BoosterAddModifierPrompt | called.");
-          reject();
+          reject(new Error("Promise rejected: Window Closed"));
         };
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog BoosterAddModifierPrompt | called.");
@@ -35,7 +35,7 @@ export default class BoosterAddModifierPrompt {
           default: "confirm",
           render: LOGGER.trace("confirm | Dialog BoosterAddModifierPrompt | called."),
           close: () => {
-            reject();
+            reject(new Error("Promise rejected: Window Closed"));
           },
         }).render(true);
       });

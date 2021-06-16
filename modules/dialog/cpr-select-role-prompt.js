@@ -10,7 +10,7 @@ export default class SelectRolesPrompt {
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog SelectRolesPrompt | called.");
-          reject();
+          reject(new Error("Promise rejected: Window Closed"));
         };
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog SelectRolesPrompt | called.");
@@ -43,7 +43,7 @@ export default class SelectRolesPrompt {
           default: "confirm",
           render: LOGGER.trace("confirm | Dialog SelectRolesPrompt | called."),
           close: () => {
-            reject();
+            reject(new Error("Promise rejected: Window Closed"));
           },
         }).render(true);
       });
