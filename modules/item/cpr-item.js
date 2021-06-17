@@ -933,13 +933,15 @@ export default class CPRItem extends Item {
         });
         break;
       }
-      default: {
+      case "booster": {
         rezzed.forEach((program) => {
           if (program.data.modifiers[boosterType]) {
             modifierTotal += program.data.modifiers[boosterType];
           }
         });
+        break;
       }
+      default:
     }
     return modifierTotal;
   }
