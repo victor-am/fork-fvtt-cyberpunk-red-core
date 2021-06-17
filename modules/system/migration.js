@@ -551,7 +551,7 @@ export default class Migration {
     }
 
     if ((typeof itemData.data.blackIceType) === "undefined" || itemData.data.blackIceType === null) {
-      updateData["data.blackIceType"] = "";
+      updateData["data.blackIceType"] = "antipersonnel";
     }
 
     if ((typeof itemData.data.prototypeActor) === "undefined" || itemData.data.prototypeActor === null) {
@@ -619,11 +619,11 @@ export default class Migration {
 
     switch (itemData.data.class) {
       case "Anti-Program Attacker": {
-        updateData["data.class"] = "antiprogram";
+        updateData["data.class"] = "antiprogramattacker";
         break;
       }
       case "Anti-Personnel Attacker": {
-        updateData["data.class"] = "antipersonnel";
+        updateData["data.class"] = "antipersonnelattacker";
         break;
       }
       case "Booster": {
