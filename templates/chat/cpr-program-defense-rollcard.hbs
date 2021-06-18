@@ -8,7 +8,7 @@
         <div class="rollcard-subtitle-center text-small">{{localize "CPR.defense"}}</div>
         <div class="rollcard-subtitle-right">
         </div>
-        <div class="rollcard-subtitle-2-center text-small">{{localize (findConfigValue "programClassList" rollCardExtraArgs.program.data.class)}}</div>
+        <div class="rollcard-subtitle-2-center text-small">{{#if (compare rollCardExtraArgs.program.data.class "===" "blackice")}}{{localize (findConfigValue "blackIceType" rollCardExtraArgs.program.data.blackIceType)}} {{/if}}{{localize (findConfigValue "programClassList" rollCardExtraArgs.program.data.class)}}</div>
       </div>
     </div>
   </div>
