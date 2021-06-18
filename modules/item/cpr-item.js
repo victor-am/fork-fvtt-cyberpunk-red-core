@@ -943,7 +943,7 @@ export default class CPRItem extends Item {
     switch (boosterType) {
       case "attack": {
         rezzed.forEach((program) => {
-          if (typeof program.data.atk === "number") {
+          if (typeof program.data.atk === "number" && program.data.class !== "blackice") {
             modifierTotal += program.data.atk;
           }
         });
@@ -951,7 +951,7 @@ export default class CPRItem extends Item {
       }
       case "defense": {
         rezzed.forEach((program) => {
-          if (typeof program.data.def === "number") {
+          if (typeof program.data.def === "number" && program.data.class !== "blackice") {
             modifierTotal += program.data.def;
           }
         });
@@ -999,22 +999,41 @@ export default class CPRItem extends Item {
       }
       case CPRRolls.rollTypes.CYBERDECKPROGRAM: {
         const { programId } = extraData;
-        const programList = this.getInstalledPrograms().filter((program) => program._id === programId);
-        const program = (programList.length > 0) ? programList[0] : null;
+        const programList = this.getInstalledPrograms().filter((iProgram) => iProgram._id === programId);
+        let program = (programList.length > 0) ? programList[0] : null;
+        let damageFormula = (program === null) ? "1d6" : program.data.damage.standard;
+        if (program.data.class === "blackice") {
+          const rezzedList = this.getRezzedPrograms().filter((rProgram) => rProgram._id === programId);
+          program = (rezzedList.length > 0) ? rezzedList[0] : null;
+          if (program.data.blackIceType === "antiprogram") {
+            damageFormula = program.data.damage.blackIce;
+          }
+        }
+        const interfaceValue = (program.data.class === "blackice") ? 0 : extraData.interfaceValue;
+        const skillName = (program.data.class === "blackice") ? "Black ICE" : "Interface";
         const atkValue = (program === null) ? 0 : program.data.atk;
         const pgmName = (program === null) ? "Program" : program.name;
         const { executionType } = extraData;
-        rollModifiers = this.getBoosters(executionType);
+        rollModifiers = (program.data.class === "blackice") ? 0 : this.getBoosters(executionType);
         switch (executionType) {
           case "attack": {
-            cprRoll = new CPRRolls.CPRAttackRoll(pgmName, pgmName, atkValue, "Interface", extraData.interfaceValue, "program");
+            cprRoll = new CPRRolls.CPRAttackRoll(pgmName, pgmName, atkValue, skillName, interfaceValue, "program");
+            cprRoll.rollCardExtraArgs.program = program;
             break;
           }
           case "damage": {
-            cprRoll = new CPRRolls.CPRDamageRoll(program.name, program.data.damage.standard, "program");
+            cprRoll = new CPRRolls.CPRDamageRoll(program.name, damageFormula, "program");
             cprRoll.rollCardExtraArgs.pgmClass = program.data.class;
             cprRoll.rollCardExtraArgs.pgmDamage = program.data.damage;
             cprRoll.rollCardExtraArgs.program = program;
+            break;
+          }
+          case "defense": {
+            if (program.data.class === "blackice") {
+              cprRoll = new CPRRolls.CPRStatRoll(pgmName, program.data.def);
+              cprRoll.statName = "DEF";
+              cprRoll.rollCardExtraArgs.program = program;
+            }
             break;
           }
           default:

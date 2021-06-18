@@ -145,6 +145,11 @@ export class CPRStatRoll extends CPRRoll {
   _computeBase() {
     return this.initialRoll + this.totalMods() + this.statValue;
   }
+
+  setNetCombat() {
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-program-defense-prompt.hbs";
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-program-defense-rollcard.hbs";
+  }
 }
 
 export class CPRSkillRoll extends CPRStatRoll {

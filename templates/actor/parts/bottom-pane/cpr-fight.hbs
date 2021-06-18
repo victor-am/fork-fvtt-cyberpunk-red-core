@@ -336,7 +336,12 @@
                     <div class="rezzed-program-rez text-center">{{program.data.rez}}</div>
                     <div class="rezzed-program-decrement-rez text-center">{{#if (compare program.data.rez ">" 0)}}<a class="program-execution" data-execution-type="reduce-rez" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.reducerez"}}"></i></a>{{/if}}</div>
                   </div>
-                  <div class="rezzed-program-reset text-center"></div>
+                  <div class="rezzed-program-reset">
+                    &nbsp;
+                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="attack" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-fist-raised red-fg" title="{{localize "CPR.rollanattack"}}"></i></a>
+                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="damage" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.rolldamage"}}" ></i></a>
+                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="defense" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-shield-virus red-fg" title="{{localize "CPR.rolldefense"}}" ></i></a>
+                  </div>
                   </li>
               {{/if}}
             {{/each}}
