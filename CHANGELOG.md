@@ -44,9 +44,14 @@
       - Configure the new Black ICE Actor according to the specs stored on the Black ICE Program
     - Place a Token on the Active Scene with unlinked Actor Data to the previously mentioned Black ICE Actor
     - Token Actor Data is updated with the numbers from the Black ICE Progam regardless if it is a new Actor or not
-  - De-rezzing a Black ICE on a Cyberdeck will delete the Token from the scene
+  - Deleting or de-rezzing a Black ICE on a Cyberdeck will delete the Token from the scene
   - Black ICE Rez numbers are synchronized between the Cyberdeck Rezzed section and the associated Black ICE Token
-  - Mook Character Sheets have the ability to execute Black ICE attack, damage and defense rolls from the Rezzed section of the Cyberdeck allowing the GM to roll the Black ICE from the controlling NPC
+  - Netrunner Mook Character Sheets have added functionality in the Rezzed Section for the GM:
+    - Ability to execute Black ICE attack, damage and defense rolls
+    - Ability to decremened REZ
+  - Black ICE Actors unassociated with a Netrunner have had functionality added to them to quickly configure them using Black ICE Program Items
+    - If a player opts to do this configuration, it further enables the ability to roll Damage from the Black ICE Actor
+      - In a later release, we may decouple this and allow the ability to configure damage right on the Black ICE Actor
 
 **Migration to foundry 0.8.X**
 - Migrated the source code to work with foundry version 0.8.X
