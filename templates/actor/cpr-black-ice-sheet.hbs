@@ -1,5 +1,4 @@
 {{trace "CPR-BLACK-ICE-SHEET.HBS"}}
-{{log this}}
 <form>
   {{#if (isDebug)}}
     actor ID: {{actor.id}}
@@ -68,7 +67,6 @@
 
         <div class="block-data text-large">
           {{#if actor.token.data.flags.cyberpunk-red-core.programId}}
-          {{log actor.token.data.flags.cyberpunk-red-core.programId}}
           {{#if (compare data.data.class "!==" "other")}}
             <a class="rollable" data-roll-type="damage"  data-program-id="{{actor.token.data.flags.cyberpunk-red-core.programId}}" data-netrunner-id="{{actor.token.data.flags.cyberpunk-red-core.netrunnerTokenId}}" data-scene-id="{{actor.token.data.flags.cyberpunk-red-core.sceneId}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.rolldamage"}}" ></i></a>
           {{/if}}

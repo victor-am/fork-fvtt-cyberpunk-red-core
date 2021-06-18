@@ -667,15 +667,36 @@ export default class CPRItem extends Item {
     LOGGER.debug("uninstallPrograms | CPRItem | Called.");
     let { rezzed } = this.data.data.programs;
     let { installed } = this.data.data.programs;
-    programs.forEach((program) => {
-      rezzed = rezzed.filter((p) => p._id !== program.id);
+    const tokenList = [];
+    let sceneId;
+    programs.forEach(async (program) => {
+      if (program.data.data.class === "blackice" && this.isRezzed(program)) {
+        const rezzedIndex = this.data.data.programs.rezzed.findIndex((p) => p._id === program.id);
+        const programData = this.data.data.programs.rezzed[rezzedIndex];
+        const cprFlags = programData.flags["cyberpunk-red-core"];
+        if (cprFlags.biTokenId) {
+          tokenList.push(cprFlags.biTokenId);
+        }
+        if (cprFlags.sceneId) {
+          sceneId = cprFlags.sceneId;
+        }
+      }
       installed = installed.filter((p) => p._id !== program.id);
+      rezzed = rezzed.filter((p) => p._id !== program.id);
       if ((typeof program.unsetInstalled === "function")) {
         program.unsetInstalled();
       }
     });
-    this.data.data.programs.rezzed = rezzed;
     this.data.data.programs.installed = installed;
+    this.data.data.programs.rezzed = rezzed;
+
+    if (tokenList.length > 0 && sceneId) {
+      const sceneList = game.scenes.filter((s) => s.id === sceneId);
+      if (sceneList.length === 1) {
+        const [scene] = sceneList;
+        return scene.deleteEmbeddedDocuments("Token", tokenList);
+      }
+    }
   }
 
   /**
