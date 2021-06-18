@@ -416,7 +416,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     this.actor.setFlag("cyberpunk-red-core", "fightState", fightState);
   }
 
-  _cyberdeckProgramExecution(event) {
+  async _cyberdeckProgramExecution(event) {
     const executionType = $(event.currentTarget).attr("data-execution-type");
     const programId = $(event.currentTarget).attr("data-program-id");
     const program = this._getOwnedItem(programId);
@@ -425,38 +425,42 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     switch (executionType) {
       case "rez": {
         if (!cyberdeck.isRezzed(program)) {
-          cyberdeck.rezProgram(program);
+          await cyberdeck.rezProgram(program);
           this._updateOwnedItem(cyberdeck);
         }
         break;
       }
       case "derez": {
         if (cyberdeck.isRezzed(program)) {
-          cyberdeck.derezProgram(program);
+          await cyberdeck.derezProgram(program);
           this._updateOwnedItem(cyberdeck);
         }
         break;
       }
       case "reduce-rez": {
         if (cyberdeck.isRezzed(program)) {
-          cyberdeck.reduceRezProgram(program);
+          await cyberdeck.reduceRezProgram(program);
           this._updateOwnedItem(cyberdeck);
         }
         break;
       }
       case "reset-rez": {
         if (cyberdeck.isRezzed(program)) {
-          cyberdeck.resetRezProgram(program);
+          await cyberdeck.resetRezProgram(program);
           this._updateOwnedItem(cyberdeck);
         }
         break;
       }
       case "attack":
       case "damage": {
-        this._onRoll(event);
+        await this._onRoll(event);
         break;
       }
       default:
+    }
+
+    if (cyberdeck.isOwned && cyberdeck.isEmbedded) {
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: cyberdeck.id, data: cyberdeck.data.data }]);
     }
   }
 

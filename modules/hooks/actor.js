@@ -86,13 +86,18 @@ const actorHooks = () => {
       const netrunnerTokenId = biToken.getFlag("cyberpunk-red-core", "netrunnerTokenId");
       const cyberdeckId = biToken.getFlag("cyberpunk-red-core", "sourceCyberdeckId");
       const programId = biToken.getFlag("cyberpunk-red-core", "programId");
-      const tokenList = canvas.scene.tokens.map((tokenDoc) => tokenDoc.actor.token).filter((token) => token).filter((t) => t.id === netrunnerTokenId);
-      if (tokenList.length === 1) {
-        const netrunnerToken = tokenList[0];
-        const netrunner = netrunnerToken.actor;
-        const cyberdeck = netrunner._getOwnedItem(cyberdeckId);
-        cyberdeck.updateRezzedProgram(programId, updatedData.data.stats);
-        netrunner.updateEmbeddedDocuments("Item", [{ _id: cyberdeck.id, data: cyberdeck.data.data }]);
+      const sceneId = biToken.getFlag("cyberpunk-red-core", "sceneId");
+      const sceneList = game.scenes.filter((s) => s.id === sceneId);
+      if (sceneList.length === 1) {
+        const scene = sceneList[0];
+        const tokenList = scene.tokens.filter((t) => t.id === netrunnerTokenId);
+        if (tokenList.length === 1) {
+          const netrunnerToken = tokenList[0];
+          const netrunner = netrunnerToken.actor;
+          const cyberdeck = netrunner._getOwnedItem(cyberdeckId);
+          cyberdeck.updateRezzedProgram(programId, updatedData.data.stats);
+          netrunner.updateEmbeddedDocuments("Item", [{ _id: cyberdeck.id, data: cyberdeck.data.data }]);
+        }
       }
     }
   });
