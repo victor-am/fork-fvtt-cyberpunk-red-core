@@ -1,0 +1,20 @@
+{{trace "CPR-CONFIGURE-BI-ACTOR-FROM-PROGRAM-PROMPT.HBS"}}
+{{log this}}
+<form>
+  <div>
+    <ol class="items-list">
+      <li class="item flexrow">
+        <div class="item flexrow">
+          <select name="programId">
+            <option value = "unlink">{{localize "CPR.unlinkbifromprogram"}}</option>
+            {{#each biProgramList as |program|}}
+              <option value="{{program.data._id}}">{{#if (compare program.data._id "===" linkedProgramId)}}* {{/if}}{{program.data.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </li>
+    </ol>
+  </div>
+</form>
+{{trace "CPR-CONFIGURE-BI-ACTOR-FROM-PROGRAM-PROMPT.HBS"}}
+

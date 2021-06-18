@@ -957,15 +957,13 @@ export default class CPRItem extends Item {
         });
         break;
       }
-      case "booster": {
+      default: {
         rezzed.forEach((program) => {
-          if (program.data.modifiers[boosterType]) {
+          if (program.data.modifiers[boosterType] && program.data.class !== "blackice") {
             modifierTotal += program.data.modifiers[boosterType];
           }
         });
-        break;
       }
-      default:
     }
     return modifierTotal;
   }
@@ -1009,6 +1007,10 @@ export default class CPRItem extends Item {
             damageFormula = program.data.damage.blackIce;
           }
         }
+        if (program === null) {
+          LOGGER.error(`_createCyberdeckRoll | CPRItem | Unable to locate program ${programId}.`);
+          return CPRRolls.CPRRoll("Unknown Program", "1d10");
+        }
         const interfaceValue = (program.data.class === "blackice") ? 0 : extraData.interfaceValue;
         const skillName = (program.data.class === "blackice") ? "Black ICE" : "Interface";
         const atkValue = (program === null) ? 0 : program.data.atk;
@@ -1016,8 +1018,10 @@ export default class CPRItem extends Item {
         const { executionType } = extraData;
         rollModifiers = (program.data.class === "blackice") ? 0 : this.getBoosters(executionType);
         switch (executionType) {
-          case "attack": {
-            cprRoll = new CPRRolls.CPRAttackRoll(pgmName, pgmName, atkValue, skillName, interfaceValue, "program");
+          case "atk":
+          case "def": {
+            const niceName = executionType.toUpperCase();
+            cprRoll = (program.data.class === "blackice") ? new CPRRolls.CPRStatRoll(niceName, program.data[executionType]) : new CPRRolls.CPRAttackRoll(pgmName, niceName, atkValue, skillName, interfaceValue, "program");
             cprRoll.rollCardExtraArgs.program = program;
             break;
           }
@@ -1028,17 +1032,9 @@ export default class CPRItem extends Item {
             cprRoll.rollCardExtraArgs.program = program;
             break;
           }
-          case "defense": {
-            if (program.data.class === "blackice") {
-              cprRoll = new CPRRolls.CPRStatRoll(pgmName, program.data.def);
-              cprRoll.statName = "DEF";
-              cprRoll.rollCardExtraArgs.program = program;
-            }
-            break;
-          }
           default:
         }
-        cprRoll.setNetCombat();
+        cprRoll.setNetCombat(pgmName);
         break;
       }
       default:

@@ -1,4 +1,5 @@
 {{trace "CPR-BLACK-ICE-SHEET.HBS"}}
+{{log this}}
 <form>
   {{#if (isDebug)}}
     actor ID: {{actor.id}}
@@ -11,6 +12,7 @@
         {{#each (findConfigObj "blackIceStatList")}}
           <div class="flexrow bice-label-corner-both bg-red"></div>
         {{/each}}
+        <div class="flexrow bice-label-corner-both bg-red"></div>
         <div class="flexrow bice-label-corner-left bg-red"></div>
       </div>
       <div class="bice-head flexrow text-center block-label">
@@ -19,7 +21,7 @@
         {{#each (findConfigObj "blackIceStatList") as |stat s|}}
           <div>
             {{#unless (compare s "===" "rez")}}
-              <a class="rollable" data-roll-title="{{s}}" title="{{localize "CPR.clicktorollthisstat"}}">
+              <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}" title="{{localize "CPR.clicktorollthisstat"}}">
             {{/unless}}
             {{localize stat}}
             {{#unless (compare s "===" "rez")}}
@@ -29,6 +31,9 @@
         {{/each}}
         <div>
           {{localize "CPR.cost"}}
+        </div>
+        <div>
+          {{localize "CPR.actions"}}
         </div>
       </div>
       <div class="bice-val flexrow pad-thin">
@@ -60,6 +65,19 @@
         <div class="block-data text-large">
           <input name="data.cost" type="number" value="{{data.data.cost}}"/>
         </div>
+
+        <div class="block-data text-large">
+          {{#if actor.token.data.flags.cyberpunk-red-core.programId}}
+          {{log actor.token.data.flags.cyberpunk-red-core.programId}}
+          {{#if (compare data.data.class "!==" "other")}}
+            <a class="rollable" data-roll-type="damage"  data-program-id="{{actor.token.data.flags.cyberpunk-red-core.programId}}" data-netrunner-id="{{actor.token.data.flags.cyberpunk-red-core.netrunnerTokenId}}" data-scene-id="{{actor.token.data.flags.cyberpunk-red-core.sceneId}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.rolldamage"}}" ></i></a>
+          {{/if}}
+          {{/if}}
+          {{#unless actor.token.data.flags.cyberpunk-red-core.netrunnerTokenId}}
+          <a class="configure-from-program"><i class="fas fa-wrench red-fg" title="{{localize "CPR.configurefromprogram"}}" ></i></a>
+          {{/unless}}
+        </div>
+
       </div>
     </div>
     <div class="bice-details bg-red pad-thin">

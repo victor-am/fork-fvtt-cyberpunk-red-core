@@ -46,7 +46,7 @@
     - Token Actor Data is updated with the numbers from the Black ICE Progam regardless if it is a new Actor or not
   - De-rezzing a Black ICE on a Cyberdeck will delete the Token from the scene
   - Black ICE Rez numbers are synchronized between the Cyberdeck Rezzed section and the associated Black ICE Token
-  - Ability to execute Black ICE attack, damage and defense rolls from the Rezzed section of the Cyberdeck
+  - Mook Character Sheets have the ability to execute Black ICE attack, damage and defense rolls from the Rezzed section of the Cyberdeck allowing the GM to roll the Black ICE from the controlling NPC
 
 **Migration to foundry 0.8.X**
 - Migrated the source code to work with foundry version 0.8.X

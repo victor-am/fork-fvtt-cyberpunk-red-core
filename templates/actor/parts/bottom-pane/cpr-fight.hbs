@@ -1,4 +1,5 @@
 {{trace "CPR-FIGHT.HBS"}}
+{{log this}}
 <div class="fight-tab">
     {{#if (compare fightState "===" "Meatspace")}}
     <div class="injuries-section">
@@ -252,7 +253,7 @@
                             </div>
                             <div class="installed-program-attack-and-damage">
                                 <div class="installed-program-attack">
-                                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="attack" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-fist-raised red-fg" title="{{localize "CPR.rollanattack"}}" ></i></a>
+                                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="atk" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-fist-raised red-fg" title="{{localize "CPR.rollanattack"}}" ></i></a>
                                 </div>
                                 {{#if (compare program.data.damage.standard "!==" "")}}
                                 <div class="installed-program-damage">
@@ -334,13 +335,15 @@
                   <div class="rezzed-program-def text-center">{{program.data.def}}</div>
                   <div class="rezzed-program-rez-and-decrement text-center">
                     <div class="rezzed-program-rez text-center">{{program.data.rez}}</div>
-                    <div class="rezzed-program-decrement-rez text-center">{{#if (compare program.data.rez ">" 0)}}<a class="program-execution" data-execution-type="reduce-rez" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.reducerez"}}"></i></a>{{/if}}</div>
+                    <div class="rezzed-program-decrement-rez text-center">{{#if (compare ../actor.data.type "===" "mook")}}{{#if (compare program.data.rez ">" 0)}}<a class="program-execution" data-execution-type="reduce-rez" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.reducerez"}}"></i></a>{{/if}}{{/if}}</div>
                   </div>
                   <div class="rezzed-program-reset">
+                    {{#if (compare ../actor.data.type "===" "mook")}}
                     &nbsp;
-                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="attack" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-fist-raised red-fg" title="{{localize "CPR.rollanattack"}}"></i></a>
+                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="atk" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-fist-raised red-fg" title="{{localize "CPR.rollanattack"}}"></i></a>
                     <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="damage" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.rolldamage"}}" ></i></a>
-                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="defense" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-shield-virus red-fg" title="{{localize "CPR.rolldefense"}}" ></i></a>
+                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="def" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-shield-virus red-fg" title="{{localize "CPR.rolldefense"}}" ></i></a>
+                    {{/if}}
                   </div>
                   </li>
               {{/if}}
