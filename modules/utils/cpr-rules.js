@@ -23,11 +23,9 @@ export default class Rules {
     const validateRoles = roleData.roles;
 
     if (validateRoles.includes("solo") || validateRoles.includes("tech") || validateRoles.includes("medtech")) {
-      let abilityRank = 0;
-      let subskillRank = 0;
       validateRoles.forEach((role) => {
-        abilityRank = 0;
-        subskillRank = 0;
+        let abilityRank = 0;
+        let subskillRank = 0;
         const roleSkills = roleData.roleskills[role];
         Object.keys(roleSkills).forEach((roleSkill) => {
           if (roleSkill === "subSkills") {
