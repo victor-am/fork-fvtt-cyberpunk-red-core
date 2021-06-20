@@ -13,13 +13,13 @@
           look at the length of optionals to know the truth about used slots. -->
       {{#if (compare optionals.length ">" 0)}}
         {{#if (compare foundation.data.name "===" "Internal (7 Option Slots)")}}
-          {{localize "CPR.internal"}}
+          {{localize "CPR.internal"~}}
         {{/if}}
         {{#if (compare foundation.data.name "===" "External (7 Option Slots)")}}
-          {{localize "CPR.external"}}
+          {{localize "CPR.external"~}}
         {{/if}}
         {{#if (compare foundation.data.name "===" "Fashionware (7 Option Slots)")}}
-          {{localize "CPR.fashionware"}}
+          {{localize "CPR.fashionware"~}}
         {{/if}}
       {{/if}}
     {{else}}
@@ -27,7 +27,7 @@
         {{~foundation.name~}}{{~#unless (compare optionals.length ">" 0)~}}{{~#unless @last~}},{{~/unless~}}{{~/unless~}}
       </a>
     {{~/if}}
-    {{~#if (compare optionals.length ">" 0)~}}({{/if~}}
+    {{~#if (compare optionals.length ">" 0)~}}&nbsp;({{/if~}}
     {{~#each optionals as |optional o|~}}
       <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}">
         {{~optional.name}}{{#unless @last}},&nbsp;{{/unless~}}
