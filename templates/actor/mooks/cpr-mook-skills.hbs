@@ -10,22 +10,22 @@
   </span>
 </div>
 <div class="bg-white fg-black text-padding-left">
-  {{#each (sort (getMookSkills actor.filteredItems.skill) "name") as |skill s|}}
-    {{#if (compare skill.data.level ">" 0)}}
+  {{#each (sort (getMookSkills actor.data.filteredItems.skill) "name") as |skill s|}}
+    {{#if (compare skill.data.data.level ">" 0)}}
       <span class="item deletable" data-item-id="{{skill._id}}" tabindex="0">
         <a class="rollable"  data-roll-type="skill" data-roll-title="{{skill.name}}" title="{{localize "CPR.clicktorollthisskill"}}, {{localize "CPR.pressdeletetoreset"}}">
-          {{#if skill.data.core}}{{localize (splitJoinCoreSkills skill.name)}}{{else}}{{skill.name}}{{/if}}
+          {{#if skill.data.data.core}}{{localize (splitJoinCoreSkills skill.name)}}{{else}}{{skill.name}}{{/if}}
             {{#if (compare (systemConfig "mookSheetSkillDisplay") "===" "level")}}
-              (+{{skill.data.level}}){{#unless @last}},{{/unless}}
+              (+{{skill.data.data.level}}){{#unless @last}},{{/unless}}
             {{/if}}
             {{#if (compare (systemConfig "mookSheetSkillDisplay") "===" "base")}}
-              (+{{math "sum" skill.data.level (getSkillStat skill ../actor)}}){{#unless @last}},{{/unless}}
+              (+{{math "sum" skill.data.data.level (getSkillStat skill ../actor)}}){{#unless @last}},{{/unless}}
             {{/if}}
             {{#if (compare (systemConfig "mookSheetSkillDisplay") "===" "total")}}
-              (+{{math "sum" skill.data.level (getSkillStat skill ../actor) skill.data.skillmod}}){{#unless @last}},{{/unless}}
+              (+{{math "sum" skill.data.data.level (getSkillStat skill ../actor) skill.data.data.skillmod}}){{#unless @last}},{{/unless}}
             {{/if}}
         </a>
-        {{#if (compare skill.data.core "===" false)}}
+        {{#if (compare skill.data.data.core "===" false)}}
           <a class="item-edit skill-custom" title="{{localize "CPR.editcustomskill"}}"><i class="fas fa-edit"></i></a>
         {{/if}}
       </span>

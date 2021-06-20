@@ -78,7 +78,7 @@ export default function registerHandlebarsHelpers() {
     return "";
   });
 
-  Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i._id === itemId));
+  Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i.id === itemId));
 
   Handlebars.registerHelper("isDefined", (object) => {
     if (typeof object === "undefined") {
@@ -239,6 +239,12 @@ export default function registerHandlebarsHelpers() {
     return object;
   });
 
+  Handlebars.registerHelper("reverse", (object) => {
+    LOGGER.trace(`Calling reverse Helper | Reversing array object`);
+    object.reverse();
+    return object;
+  });
+
   Handlebars.registerHelper("math", (...args) => {
     LOGGER.trace(`Calling math Helper | Arg1:${args}`);
     let mathArgs = [...args];
@@ -274,8 +280,8 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("getSkillStat", (skill, actor) => {
     LOGGER.trace("Calling getSkillStat Helper");
-    const skillStat = skill.data.stat;
-    return actor.data.stats[skillStat].value;
+    const skillStat = skill.data.data.stat;
+    return actor.data.data.stats[skillStat].value;
   });
 
   Handlebars.registerHelper("ablated", (armor, slot) => {
@@ -293,7 +299,7 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace("Calling fireMode Helper");
     LOGGER.debug(`firemode is ${firemode}`);
     LOGGER.debug(`weaponID is ${weaponID}`);
-    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    const flag = getProperty(actor, `data.flags.cyberpunk-red-core.firetype-${weaponID}`);
     LOGGER.debugObject(flag);
     if (flag === firemode) {
       LOGGER.debug("returning true");
@@ -305,7 +311,7 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("fireflag", (actor, firetype, weaponID) => {
     LOGGER.trace("Calling fireflag Helper");
-    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    const flag = getProperty(actor, `data.flags.cyberpunk-red-core.firetype-${weaponID}`);
     if (flag === firetype) {
       return "checked";
     }
@@ -329,14 +335,16 @@ export default function registerHandlebarsHelpers() {
     return cprDot + andCaseSplit.toLowerCase();
   });
 
-  Handlebars.registerHelper("itemIdFromName", (itemName) => {
+  Handlebars.registerHelper("itemIdFromName", (itemName, itemType) => {
     LOGGER.trace("Calling itemIdFromName Helper");
-    const item = game.items.find((i) => i.data.name === itemName);
-    if (item !== null) {
+    const item = game.items.find((i) => i.data.name === itemName && i.type === itemType);
+    if (item !== undefined) {
       return item.data._id;
     }
     return "DOES NOT EXIST";
   });
+
+  Handlebars.registerHelper("toArray", (string, delimiter) => string.split(delimiter));
 
   Handlebars.registerHelper("isTokenSheet", (title) => {
     LOGGER.trace("Calling isTokenSheet Helper");

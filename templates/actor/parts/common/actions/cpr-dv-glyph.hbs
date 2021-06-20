@@ -1,5 +1,5 @@
 {{trace "CPR-DV-GLYPH.HBS"}}
-{{#if (compare data.dvTable "!==" "")}}
-    <a class="item-action" data-item-id="{{_id}}" data-action="measure-dv"><i class="fas fa-ruler" title="{{localize "CPR.measuredv"}}"></i></a>
+{{#if (compare data.data.dvTable "!==" "")}}
+    <a class="item-action" data-item-id="{{data._id}}" data-action="measure-dv"><i class="fas fa-ruler" title="{{localize "CPR.measuredv"}}"></i></a>
 {{/if}}
 {{trace "END CPR-DV-GLYPH.HBS"}}

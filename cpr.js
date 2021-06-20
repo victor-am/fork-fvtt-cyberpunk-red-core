@@ -44,6 +44,7 @@ Hooks.once("init", async () => {
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("cyberpunk-red-core", CPRItemSheet, {
     types: [
+      "cyberdeck",
       "cyberware",
       "clothing",
       "weapon",
@@ -72,9 +73,9 @@ Hooks.once("init", async () => {
   };
 
   // Assign the actor class to the CONFIG
-  CONFIG.Actor.entityClass = actorConstructor;
-  CONFIG.Combat.entityClass = CPRCombat;
-  CONFIG.Item.entityClass = CPRItem;
+  CONFIG.Actor.documentClass = actorConstructor;
+  CONFIG.Combat.documentClass = CPRCombat;
+  CONFIG.Item.documentClass = CPRItem;
 
   preloadHandlebarsTemplates();
   registerHandlebarsHelpers();
@@ -87,7 +88,7 @@ Hooks.once("ready", () => {
   if (!game.user.isGM) return;
   // This defines the version of the Data Model for this release.  We should
   // only update this when the Data Model Changes.
-  const DATA_MODEL_VERSION = "0.77.1";
+  const DATA_MODEL_VERSION = "0.77.3";
   // Get the version of the data model being used for the loaded world. At
   // the end of a migration, this is updated with the current version of the
   // CPR system.

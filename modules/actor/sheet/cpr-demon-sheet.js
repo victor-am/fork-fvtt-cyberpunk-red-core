@@ -32,12 +32,15 @@ export default class CPRDemonActorSheet extends ActorSheet {
     const rollName = $(event.currentTarget).attr("data-roll-title");
     const cprRoll = this.actor.createStatRoll(rollName);
 
-    await cprRoll.handleRollDialog(event);
+    const keepRolling = await cprRoll.handleRollDialog(event);
+    if (!keepRolling) {
+      return;
+    }
     await cprRoll.roll();
 
     // output to chat
     const token = this.token === null ? null : this.token.data._id;
-    cprRoll.entityData = { actor: this.actor._id, token };
+    cprRoll.entityData = { actor: this.actor.id, token };
     CPRChat.RenderRollCard(cprRoll);
   }
 }

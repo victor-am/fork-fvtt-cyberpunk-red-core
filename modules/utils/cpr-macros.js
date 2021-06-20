@@ -12,7 +12,10 @@ export default class CPRMacro {
     const item = actor ? actor.items.find((i) => i.name === itemName) : null;
 
     const displayName = actor === null ? "ERROR" : actor.name;
-    if (!item) return ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macroitemmissing")} ${itemName}`);
+    if (!item) {
+      ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macroitemmissing")} ${itemName}`);
+      return;
+    }
 
     const validRollTypes = ["skill", "attack", "damage", "aimed", "autofire", "suppressive"];
     let rollType;
@@ -29,7 +32,8 @@ export default class CPRMacro {
     }
 
     if (!validRollTypes.includes(rollType)) {
-      return ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macroinvalidrolltype")} ${rollType}`);
+      ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macroinvalidrolltype")} ${rollType}`);
+      return;
     }
 
     if (rollType === "damage") {
@@ -47,18 +51,20 @@ export default class CPRMacro {
     }
 
     if (!extraData.skipPrompt) {
-      await cprRoll.handleRollDialog(event);
+      const keepRolling = await cprRoll.handleRollDialog(event);
+      if (!keepRolling) {
+        return;
+      }
     }
 
     cprRoll = await item.confirmRoll(cprRoll);
     await cprRoll.roll();
     cprRoll.entityData = speaker;
-    cprRoll.entityData.item = item._id;
+    cprRoll.entityData.item = item.id;
 
     CPRChat.RenderRollCard(cprRoll);
 
     // Need to figure out what we did here since this is gone??
     // actor.setPreviousRoll(cprRoll);
-    return true;
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable max-len */
 /* eslint-disable consistent-return */
@@ -108,7 +109,7 @@ export default class CPRItem extends Item {
 
     // If the actor, is updating his owned item, this logic should live within the actor.
     if (this.actor) {
-      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
   }
 
@@ -130,7 +131,7 @@ export default class CPRItem extends Item {
   async setCompatibleAmmo(ammoList) {
     this.data.data.ammoVariety = ammoList;
     if (this.actor) {
-      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
     return this.update({ "data.ammoVariety": ammoList });
   }
@@ -142,7 +143,7 @@ export default class CPRItem extends Item {
     const newValue = Math.max(0, Number(currentValue) - Number(changeAmount));
     this.data.data.amount = newValue;
     if (this.actor) {
-      return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
   }
 
@@ -152,7 +153,7 @@ export default class CPRItem extends Item {
     const newValue = Number(currentValue) + Number(changeAmount);
     this.data.data.amount = newValue;
     if (this.actor) {
-      return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
   }
 
@@ -180,7 +181,7 @@ export default class CPRItem extends Item {
       default:
     }
     if (this.actor) {
-      this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
   }
 
@@ -210,7 +211,7 @@ export default class CPRItem extends Item {
       }
       this.data.data.magazine.value = 0;
       this.data.data.magazine.ammoId = "";
-      return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
   }
 
@@ -241,7 +242,10 @@ export default class CPRItem extends Item {
           return;
         }
 
-        formData = await LoadAmmoPrompt.RenderPrompt(formData);
+        formData = await LoadAmmoPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+        if (formData === undefined) {
+          return;
+        }
 
         selectedAmmoId = formData.selectedAmmo;
       }
@@ -287,7 +291,7 @@ export default class CPRItem extends Item {
         }
         loadUpdate.push({ _id: this.data._id, "data.magazine": magazineData });
       }
-      this.actor.updateEmbeddedEntity("OwnedItem", loadUpdate);
+      this.actor.updateEmbeddedDocuments("Item", loadUpdate);
     }
   }
 
@@ -332,7 +336,7 @@ export default class CPRItem extends Item {
     const discharged = CPRItem.bulletConsumption(cprRoll);
     // don't go negative
     this.data.data.magazine.value = Math.max(this.data.data.magazine.value - discharged, 0);
-    return this.actor.updateEmbeddedEntity("OwnedItem", this.data);
+    return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
   }
 
   _getLoadedAmmoType() {
@@ -347,7 +351,7 @@ export default class CPRItem extends Item {
   }
 
   toggleFavorite() {
-    this.data.data.favorite = !this.data.data.favorite;
+    this.update({ "data.favorite": !this.data.data.favorite });
   }
 
   createRoll(type, actor, extraData = []) {
@@ -360,11 +364,15 @@ export default class CPRItem extends Item {
       case CPRRolls.rollTypes.AUTOFIRE:
       case CPRRolls.rollTypes.AIMED:
       case CPRRolls.rollTypes.ATTACK: {
-        return this.createAttackRoll(type, actor);
+        return this._createAttackRoll(type, actor);
       }
       case CPRRolls.rollTypes.DAMAGE: {
         const damageType = extraData.damageType ? extraData.damageType : type;
-        return this.createDamageRoll(damageType);
+        return this._createDamageRoll(damageType);
+      }
+      case CPRRolls.rollTypes.INTERFACEABILITY:
+      case CPRRolls.rollTypes.CYBERDECKPROGRAM: {
+        return this._createCyberdeckRoll(type, actor, extraData);
       }
       default:
     }
@@ -385,7 +393,7 @@ export default class CPRItem extends Item {
     return cprRoll;
   }
 
-  createAttackRoll(type, actor) {
+  _createAttackRoll(type, actor) {
     LOGGER.trace("_createAttackRoll | CPRItem | Called.");
     const weaponData = this.data.data;
     const weaponName = this.name;
@@ -445,7 +453,7 @@ export default class CPRItem extends Item {
     return cprRoll;
   }
 
-  createDamageRoll(type) {
+  _createDamageRoll(type) {
     const rollName = this.data.name;
     const { weaponType } = this.data.data;
     let { damage } = this.data.data;
@@ -529,5 +537,235 @@ export default class CPRItem extends Item {
       default:
     }
     return 0;
+  }
+
+  // Program Code
+  setInstalled() {
+    LOGGER.debug("setInstalled | CPRItem | Called.");
+    if (this.data.type !== "program") {
+      return;
+    }
+    this.data.data.isInstalled = true;
+  }
+
+  unsetInstalled() {
+    LOGGER.debug("setInstalled | CPRItem | Called.");
+    if (this.data.type !== "program") {
+      return;
+    }
+    this.data.data.isInstalled = false;
+  }
+
+  getInstalled() {
+    LOGGER.debug("setInstalled | CPRItem | Called.");
+    if (this.data.type !== "program") {
+      return;
+    }
+    return this.data.data.isInstalled;
+  }
+
+  // Cyberdeck Code
+  availableSlots() {
+    LOGGER.debug("availableSlots | CPRItem | Called.");
+    if (this.data.type !== "cyberdeck") {
+      return;
+    }
+    const itemData = duplicate(this.data.data);
+
+    let unusedSlots = itemData.slots;
+
+    itemData.programs.installed.forEach((program) => {
+      unusedSlots -= program.data.slots;
+    });
+
+    return unusedSlots;
+  }
+
+  getInstalledPrograms() {
+    LOGGER.debug("getInstalledPrograms | CPRItem | Called.");
+    return this.data.data.programs.installed;
+  }
+
+  getRezzedPrograms() {
+    LOGGER.debug("getRezzedPrograms | CPRItem | Called.");
+    return this.data.data.programs.rezzed;
+  }
+
+  installPrograms(programs) {
+    LOGGER.debug("installProgram | CPRItem | Called.");
+    const { installed } = this.data.data.programs;
+    programs.forEach((p) => {
+      const onDeck = installed.filter((iProgram) => iProgram._id === p.data._id);
+      if (onDeck.length === 0) {
+        const programInstallation = p.data;
+        programInstallation.data.isRezzed = false;
+        installed.push(programInstallation);
+        p.setInstalled();
+      }
+    });
+    this.data.data.programs.installed = installed;
+  }
+
+  uninstallPrograms(programs) {
+    let { rezzed } = this.data.data.programs;
+    let { installed } = this.data.data.programs;
+    programs.forEach((program) => {
+      rezzed = rezzed.filter((p) => p._id !== program.id);
+      installed = installed.filter((p) => p._id !== program.id);
+      if ((typeof program.unsetInstalled === "function")) {
+        program.unsetInstalled();
+      }
+    });
+    this.data.data.programs.rezzed = rezzed;
+    this.data.data.programs.installed = installed;
+  }
+
+  isRezzed(program) {
+    const rezzedPrograms = this.data.data.programs.rezzed.filter((p) => p._id === program.id);
+    return (rezzedPrograms.length > 0);
+  }
+
+  rezProgram(program) {
+    const programData = program.data;
+    const { installed } = this.data.data.programs;
+    const installIndex = installed.findIndex((p) => p._id === programData._id);
+    const programState = installed[installIndex];
+    // This instance ID is being added pro-actively because the rulebook
+    // is a bit fuzzy on the bottom of Page 201 with regards to rezzing the
+    // same program multiple times.  The rulebook says:
+    // "You can run multiple copies of the same Program on your Cyberdeck"
+    // however when I asked on the Discord, I was told you can not do this,
+    // you have to install a program twice on the Cyberdeck if you want to
+    // rez it twice.  So the code here supports what was told to me in Discord.
+    // If it ever comes back that a single install of a program can be run
+    // multiple times, we will already have a an instance ID to differentiate
+    // the different rezzes.
+    const rezzedInstance = randomID();
+    programState.data.isRezzed = true;
+    programData.data.rezInstanceId = rezzedInstance;
+    installed[installIndex] = programState;
+    this.data.data.programs.installed = installed;
+    this.data.data.programs.rezzed.push(programData);
+  }
+
+  derezProgram(program) {
+    const { installed } = this.data.data.programs;
+    const installIndex = installed.findIndex((p) => p._id === program.id);
+    const programState = installed[installIndex];
+    programState.data.isRezzed = false;
+    installed[installIndex] = programState;
+    const rezzed = this.data.data.programs.rezzed.filter((p) => p._id !== program.id);
+    this.data.data.programs.rezzed = rezzed;
+  }
+
+  resetRezProgram(program) {
+    const { rezzed } = this.data.data.programs;
+    const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
+    const { installed } = this.data.data.programs;
+    const installedIndex = installed.findIndex((p) => p._id === program.id);
+    this.data.data.programs.rezzed[rezzedIndex] = this.data.data.programs.installed[installedIndex];
+  }
+
+  reduceRezProgram(program) {
+    const { rezzed } = this.data.data.programs;
+    const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
+    const programState = rezzed[rezzedIndex];
+    const newRez = Math.max(programState.data.rez - 1, 0);
+    programState.data.rez = newRez;
+    this.data.data.programs.rezzed[rezzedIndex] = programState;
+  }
+
+  /**
+   * Get total modifiers for a specified boosterType from the programs rezzed on the Cyberdeck.
+   *
+   * @public
+   * @param {String} boosterType - string defining the type of boosters to return.
+   */
+  getBoosters(boosterType) {
+    const { rezzed } = this.data.data.programs;
+    let modifierTotal = 0;
+    switch (boosterType) {
+      case "attack": {
+        rezzed.forEach((program) => {
+          if (typeof program.data.atk === "number") {
+            modifierTotal += program.data.atk;
+          }
+        });
+        break;
+      }
+      case "defense": {
+        rezzed.forEach((program) => {
+          if (typeof program.data.def === "number") {
+            modifierTotal += program.data.def;
+          }
+        });
+        break;
+      }
+      default: {
+        rezzed.forEach((program) => {
+          if (program.data.modifiers[boosterType]) {
+            modifierTotal += program.data.modifiers[boosterType];
+          }
+        });
+      }
+    }
+    return modifierTotal;
+  }
+
+  _createCyberdeckRoll(rollType, actor, extraData = {}) {
+    let rollTitle = "";
+    let rollModifiers = 0;
+    let cprRoll;
+    switch (rollType) {
+      case CPRRolls.rollTypes.INTERFACEABILITY: {
+        const { interfaceAbility } = extraData;
+        switch (interfaceAbility) {
+          case "speed": {
+            rollTitle = SystemUtils.Localize("CPR.speed");
+            break;
+          }
+          case "defense": {
+            rollTitle = SystemUtils.Localize("CPR.defense");
+            break;
+          }
+          default: {
+            rollTitle = SystemUtils.Localize(CPR.interfaceAbilities[interfaceAbility]);
+          }
+        }
+
+        rollModifiers = this.getBoosters(interfaceAbility);
+        cprRoll = actor.createRoll("roleAbility", "interface");
+        cprRoll.setNetCombat(rollTitle);
+        break;
+      }
+      case CPRRolls.rollTypes.CYBERDECKPROGRAM: {
+        const { programId } = extraData;
+        const programList = this.getInstalledPrograms().filter((program) => program._id === programId);
+        const program = (programList.length > 0) ? programList[0] : null;
+        const atkValue = (program === null) ? 0 : program.data.atk;
+        const pgmName = (program === null) ? "Program" : program.name;
+        const { executionType } = extraData;
+        rollModifiers = this.getBoosters(executionType);
+        switch (executionType) {
+          case "attack": {
+            cprRoll = new CPRRolls.CPRAttackRoll(pgmName, pgmName, atkValue, "Interface", extraData.interfaceValue, "program");
+            break;
+          }
+          case "damage": {
+            cprRoll = new CPRRolls.CPRDamageRoll(program.name, program.data.damage.standard, "program");
+            cprRoll.rollCardExtraArgs.pgmClass = program.data.class;
+            cprRoll.rollCardExtraArgs.pgmDamage = program.data.damage;
+            cprRoll.rollCardExtraArgs.program = program;
+            break;
+          }
+          default:
+        }
+        cprRoll.setNetCombat();
+        break;
+      }
+      default:
+    }
+    cprRoll.addMod(rollModifiers);
+    return cprRoll;
   }
 }

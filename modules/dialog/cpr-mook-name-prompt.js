@@ -8,7 +8,7 @@ export default class MookNamePrompt {
       renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-mook-name-prompt.hbs", mookName).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog MookNamePrompt | called.");
-          reject();
+          reject(new Error("Promise rejected: Window Closed"));
         };
         // eslint-disable-next-line no-shadow
         const _onConfirm = (html) => {
@@ -35,7 +35,7 @@ export default class MookNamePrompt {
           default: "confirm",
           render: LOGGER.trace("confirm | Dialog MookNamePrompt | called."),
           close: () => {
-            reject();
+            reject(new Error("Promise rejected: Window Closed"));
           },
         }).render(true);
       });

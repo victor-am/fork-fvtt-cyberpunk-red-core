@@ -1,10 +1,58 @@
-# Version 0.77.0 | Dev Branch
+# WIP Version 0.77.3 | Dev Branch
 
-**WIP Features**
-- Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title. 
+**New Features**
+- Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title.
+- Added options to choose how to display the skill values for the mook character sheet. Now one can show it in the same way as it is printed in the book. Please look at the settings for this.
+- Improved Ledger functionality of the Eurobucks/wealth and Improvement Points of characters
+    - A new display of the ledger of both of these properties, to show all transactions done in the past, is now available.
+    - Modification now gives the possibility to give a reason for the change and it is recorded who did the change.
+- Added container actor sheet, which can be used for shops, loot or storage purposes. Please note, that the players have to be owners of the container actor for full functionality.
+- Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title.
+- Netrunning Initial Implementation
+  - Introduction of the Item Object: Cyberdeck
+    - Migration code added for existing "Gear" items which have the word "cyberdeck" in the name. These items will be pre-pended with a '[MIGRATED]' tag on it to help identify that the item should be replaced with a new Cyberdeck Item. We have opted to not automate this replacement as people may update just prior to hosting a game and this would/could cause issues for planned sessions.
+    - Cyberdeck items in the Shipped Gear Compendium have been replaced with versions utilizing the new Cyberdeck Item Object
+  - Ability to equip one (1) Cyberdeck enables Meat/Net toggle on Fight Tab
+  - Ability to install Programs on the Cyberdeck from the Cyberdeck Settings Page
+  - Programs (Booster) have been enhanced to allow the addition of Roll Modifiers for Interface Abilities (ie Eraser gives a +2 to Cloak)
+  - Booster Roll Modifiers exposed in Roll verification dialog and added to the roll for Rezzed Boosters Only
+    - Shipped Program Compendium updated to include these roll modifiers
+  - Programs (Attacker) have been enhanced to allow the setting of Damage. For Anti-Program Attackers, both BlackICE and non-BlackICE damage rolls may be configured
+    -  Attack rolls for Anti-Program Attack Rolls will prompt on which damage type to roll
+  - When equipping a Cyberdeck in inventory, the Fight Tab | Net | enables quick access to:
+    - Roll Interface Abilities
+    - Roll Speed aginst a Black-ICE encounter
+    - Roll Defense against a Net Attack
+      - Includes any Rezzed Boosters that may have a DEF rating in the Modifiers field
+    - Activate/Deactivate & track Rezzed Boosters and Defenders
+      - Ability to manage (reduce & reset) the REZ on Boosters and Defenders programs when they take an attack
+      - Capability to install a Booster twice to a Cyberdeck (requires 2 of the same program item in inventory) and REZ both thereby stacking their bonus modifiers per discussion with RTG on Discord
+  - Deletion of the Cyberdeck Item will auto-return all programs to Actors inventory
+- Cyberdeck Loading Requirement
+  - Actors must own the Cyberdeck + Programs to install onto the Cyberdeck. ie inability to pre-load the Cyberdeck with programs before adding to an Actor. This is due to the direct relationship of the Program Items and the Cyberdeck.  Although, because Programs become un-tethered objects in the Cyberdeck, this might be possible, however it would then break the ability to view the program information when clicking the program in the cyberdeck.  We might be able to Cast this as suggested by t.wagner since the object for the item-sheet-view would essentially be ephemeral to just view the data.  Need to investigate more.
+- Netrunning TODO
+  - Booster Speed is not taken into account for Foundry Initiative rolls.
+  - Black ICE programs loaded onto the Cyberdeck are not supported in this initial release for Netrunning.  This will be implemented in a future release.
 
-**WIP Bug Fixes**
-- Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item. 
+**Migration to foundry 0.8.X**
+- Migrated the source code to work with foundry version 0.8.X
+- Rewrote the migration code support new features from foundry 0.8.X
+- Several bugfixes after initial migration to foundry version 0.8.X
+    - !402 Fixed error in console, when deleting an item from the inventory
+    - !405 Fixed error message appearing, when rolling for critical injuries in case all possible ones were already applied
+    - !406 Fixed an error when rendering the item sheet of a net architecture
+    - !407 Tiles are now properly removed when regenerating the net architecture scene
+
+**Changes**
+- Restructured the code for character and mook sheets for ease of development
+- Changed the scene activation when generating a scene from a net architecture to just viewing the scene. This allows to show the new scene to the GM, but not the players in order to do some more preparation if needed.
+
+**Bug Fixes**
+- Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item.
+- Fixed warning when the medtech would put the proper amount of points into surgery. The intention is, that per time you choose the surergy skill you should add two point there.
+- Fixed #232 - Cancelling dialog boxes no longer creates errors in dev log
+- Fixed #234 - Attempting to install cyberware, where there is no suitable foundation no longer throws an error in the console.
+
 
 # Version: 0.76.2 (Hot Fix) |  Date:  2021-05-28
 - Non owned actor sheets (Limited and Observer permissions) render again, the content is also shown now.

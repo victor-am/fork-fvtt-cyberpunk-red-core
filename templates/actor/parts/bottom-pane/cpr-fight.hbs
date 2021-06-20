@@ -1,5 +1,6 @@
 {{trace "CPR-FIGHT.HBS"}}
 <div class="fight-tab">
+    {{#if (compare fightState "===" "Meatspace")}}
     <div class="injuries-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
@@ -11,9 +12,9 @@
         <div class="critical-injury-content">
             {{!-- Critical Injury as Item --}}
             <ol class="items-list critical-injury-list">
-              {{#each (sort actor.filteredItems.criticalInjury "name") as |criticalInjury| }}
-              <li class="flex-space-between item flexrow" data-item-id="{{criticalInjury._id}}" data-item-category="{{criticalInjury.type}}" draggable="true">
-                <div><a class="name item-edit text-nowrap {{#if criticalInjury.data.deathSaveIncrease}}text-bold{{/if}}" title="{{criticalInjury.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{criticalInjury.name}} {{#if (compare criticalInjury.data.location "===" "body")}}<i class="fas fa-user-injured text-padding-left"></i>{{/if}}{{#if (compare criticalInjury.data.location "===" "head")}}<i class="fas fa-tired text-padding-left"></i>{{/if}}</a></div>
+              {{#each (sort actor.data.filteredItems.criticalInjury "name") as |criticalInjury| }}
+              <li class="flex-space-between item flexrow" data-item-id="{{criticalInjury.id}}" data-item-category="{{criticalInjury.type}}" draggable="true">
+                <div><a class="name item-edit text-nowrap {{#if criticalInjury.data.data.deathSaveIncrease}}text-bold{{/if}}" title="{{criticalInjury.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{criticalInjury.name}} {{#if (compare criticalInjury.data.data.location "===" "body")}}<i class="fas fa-user-injured text-padding-left"></i>{{/if}}{{#if (compare criticalInjury.data.data.location "===" "head")}}<i class="fas fa-tired text-padding-left"></i>{{/if}}</a></div>
                 <div class="item-detail gear-actions text-nowrap">
                   <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red text-float-right text-padding-right" title="Delete Item"></i></a>
                 </div>
@@ -30,68 +31,69 @@
         </li>
         <div class="armor-content">
             <ol class="items-list fight-armor-list">
-                {{#each (sort actor.filteredItems.armor "name") as |armor| }}
-                {{#if (compare armor.data.equipped "===" "equipped")}}
+                {{#each (sort actor.data.filteredItems.armor "name") as |armor| }}
+                {{trace armor}}
+                {{#if (compare armor.data.data.equipped "===" "equipped")}}
                 <li class="item armor-piece" >
-                    <li class="flex-space-between item flexrow" data-item-id="{{armor._id}}" >
+                    <li class="flex-space-between item flexrow" data-item-id="{{armor.id}}" >
                         <div class="item-name armor-name text-nowrap"><a class="name item-edit">{{armor.name}}</a>
                         </div>
 
                     </li>
-                    {{#if armor.data.isHeadLocation}}
+                    {{#if armor.data.data.isHeadLocation}}
                     <li class="flex-space-between">
                         <div class="text-padding-left">{{localize "CPR.head"}}</div>
                         <div>
-                            {{#if (compare armor.data.headLocation.ablation ">" 0)}}
+                            {{#if (compare armor.data.data.headLocation.ablation ">" 0)}}
                                 <span class="fg-red">
                             {{/if}}
-                            {{math "subtract" armor.data.headLocation.sp armor.data.headLocation.ablation}}
-                            {{#if (compare armor.data.headLocation.ablation ">" 0)}}
+                            {{math "subtract" armor.data.data.headLocation.sp armor.data.data.headLocation.ablation}}
+                            {{#if (compare armor.data.data.headLocation.ablation ">" 0)}}
                                 </span>
                             {{/if}}
-                            /{{armor.data.headLocation.sp}}
+                            /{{armor.data.data.headLocation.sp}}
                             <a class="ablate" data-location="head"><i
-                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.ablatearmor"}}"></i></a> {{#if (compare armor._id "===" ../actor.data.externalData.currentArmorHead.id)}}<a class="armor-current" data-location="head" data-item-id="{{armor._id}}">
-                                    <i class="fas fa-star" title="{{localize "CPR.resyncheadarmor"}}"></i></a>{{else}}<a class="armor-current" data-location="head" data-item-id="{{armor._id}}"><i
+                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.ablatearmor"}}"></i></a> {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorHead.id)}}<a class="armor-current" data-location="head" data-item-id="{{armor.id}}">
+                                    <i class="fas fa-star" title="{{localize "CPR.resyncheadarmor"}}"></i></a>{{else}}<a class="armor-current" data-location="head" data-item-id="{{armor.id}}"><i
                                     class="far fa-star" title="{{localize "CPR.makeheadarmoractive"}}"></i></a>{{/if}}
                         </div>
                     </li>
                     {{/if}}
-                    {{#if armor.data.isBodyLocation}}
+                    {{#if armor.data.data.isBodyLocation}}
                     <li class="flex-space-between">
                         <div> {{localize "CPR.bodylocation"}}</div>
                         <div>
-                            {{#if (compare armor.data.bodyLocation.ablation ">" 0)}}
+                            {{#if (compare armor.data.data.bodyLocation.ablation ">" 0)}}
                                 <span class="fg-red">
                             {{/if}}
-                                {{math "subtract" armor.data.bodyLocation.sp armor.data.bodyLocation.ablation}}
-                            {{#if (compare armor.data.bodyLocation.ablation ">" 0)}}
+                                {{math "subtract" armor.data.data.bodyLocation.sp armor.data.data.bodyLocation.ablation}}
+                            {{#if (compare armor.data.data.bodyLocation.ablation ">" 0)}}
                                 </span>
                             {{/if}}
-                            /{{armor.data.bodyLocation.sp}}
+                            /{{armor.data.data.bodyLocation.sp}}
                                                         <a class="ablate" data-location="body"><i
-                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.ablatearmor"}}"></i></a> {{#if (compare armor._id "===" ../actor.data.externalData.currentArmorBody.id)}}<a class="armor-current" data-location="body" data-item-id="{{armor._id}}">
-                                    <i class="fas fa-star" title="{{localize "CPR.resyncbodyarmor"}}"></i></a>{{else}}<a class="armor-current" data-location="body" data-item-id="{{armor._id}}"><i
+                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.ablatearmor"}}"></i></a> {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorBody.id)}}<a class="armor-current" data-location="body" data-item-id="{{armor.id}}">
+                                    <i class="fas fa-star" title="{{localize "CPR.resyncbodyarmor"}}"></i></a>{{else}}<a class="armor-current" data-location="body" data-item-id="{{armor.id}}"><i
                                     class="far fa-star" title="{{localize "CPR.makebodyarmoractive"}}"></i></a>{{/if}}
 
                         </div>
                     </li>
                     {{/if}}
-                    {{#if armor.data.isShield}}
+                    {{#if armor.data.data.isShield}}
                     <li class="flex-space-between">
                         <div> {{localize "CPR.shield"}}</div>
                         <div>
-                            {{#if (compare armor.data.shieldHitPoints.value "<" armor.data.shieldHitPoints.max)}}
+                            {{#if (compare armor.data.data.shieldHitPoints.value "<" armor.data.data.shieldHitPoints.max)}}
                                 <span class="fg-red">
                             {{/if}}
-                                {{armor.data.shieldHitPoints.value}}
-                            {{#if (compare armor.data.shieldHitPoints.value "<" armor.data.shieldHitPoints.max)}}
+                                {{armor.data.data.shieldHitPoints.value}}
+                            {{#if (compare armor.data.data.shieldHitPoints.value "<" armor.data.data.shieldHitPoints.max)}}
                                 </span>
                             {{/if}}
-                            /{{armor.data.shieldHitPoints.max}}
+                            /{{armor.data.data.shieldHitPoints.max}}
                                                         <a class="ablate" data-location="shield"><i
-                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.damageshield"}}"></i></a> {{#if (compare armor._id "===" ../actor.data.externalData.currentArmorShield.id)}}<a class="armor-current" data-location="shield" data-item-id="{{armor._id}}">
-                                    <i class="fas fa-star" title="{{localize "CPR.resyncshield"}}"></i></a>{{else}}<a class="armor-current" data-location="shield" data-item-id="{{armor._id}}"><i
+                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.damageshield"}}"></i></a> {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorShield.id)}}<a class="armor-current" data-location="shield" data-item-id="{{armor.id}}">
+                                    <i class="fas fa-star" title="{{localize "CPR.resyncshield"}}"></i></a>{{else}}<a class="armor-current" data-location="shield" data-item-id="{{armor.id}}"><i
                                     class="far fa-star" title="{{localize "CPR.makeshieldactive"}}"></i></a>{{/if}}
                         </div>
                     </li>
@@ -110,27 +112,27 @@
         </li>
         <div class="weapon-content">
             <ol class="items-list weapons-grid">
-                {{#each (sort actor.filteredItems.weapon "name") as |weapon|}}
-                {{#if (compare weapon.data.equipped "===" "equipped")}}
-                <li class="weapon-grid item flexrow" data-item-id="{{weapon._id}}">
+                {{#each (sort actor.data.filteredItems.weapon "name") as |weapon|}}
+                {{#if (compare weapon.data.data.equipped "===" "equipped")}}
+                <li class="weapon-grid item flexrow" data-item-id="{{weapon.id}}">
                     <div class="fight-weapon-icon">
                         <img class="fight-weapon-icon-img" src="{{img}}"/>
                     </div>
                     <div class="fight-weapon">
                         <div class="item-name fight-weapon-name">
                             <a class="name item-edit" title="{{weapon.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{weapon.name}}</a>
-                            {{#if (compare weapon.data.quality "!==" "standard")}}
-                            ({{localize weapon.data.quality}})
+                            {{#if (compare weapon.data.data.quality "!==" "standard")}}
+                            ({{localize weapon.data.data.quality}})
                             {{/if}}
-                            {{#if (compare weapon.data.attackmod ">" "0")}}(+{{weapon.data.attackmod}}){{/if}}
-                            {{#if (compare weapon.data.attackmod "<" "0")}}({{weapon.data.attackmod}}){{/if}}
-                            {{#if weapon.data.magazine.ammoId}}
+                            {{#if (compare weapon.data.data.attackmod ">" "0")}}(+{{weapon.data.data.attackmod}}){{/if}}
+                            {{#if (compare weapon.data.data.attackmod "<" "0")}}({{weapon.data.data.attackmod}}){{/if}}
+                            {{#if weapon.data.data.magazine.ammoId}}
                                 <br>
-                                ({{localize "CPR.ammo"}}:<input name = "data.magazine.value" class = "number weapon-input" style = "width:30px;text-align:right;" type = "text" data-item-prop = "data.magazine.value" value = "{{weapon.data.magazine.value}}">/{{weapon.data.magazine.max}})
+                                ({{localize "CPR.ammo"}}:<input name = "data.magazine.value" class = "number weapon-input" style = "width:30px;text-align:right;" type = "text" data-item-prop = "data.magazine.value" value = "{{weapon.data.data.magazine.value}}">/{{weapon.data.data.magazine.max}})
                             {{/if}}
                         </div>
                         <div class="fight-weapon-actions text-nowrap">
-                            {{#if weapon.data.isRanged}}
+                            {{#if weapon.data.data.isRanged}}
                             {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
                             {{>"systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs"}}
                             {{/if}}
@@ -141,16 +143,16 @@
                             {{localize "CPR.aim"}}
                         </div>
                         <div class="fight-weapon-aim-box">
-                            <a class="fire-checkbox" data-fire-mode="aimed" data-item-id="{{weapon._id}}">
-                                {{#if (fireMode ../actor "aimed" weapon._id)}}
+                            <a class="fire-checkbox" data-fire-mode="aimed" data-item-id="{{weapon.id}}">
+                                {{#if (fireMode ../actor "aimed" weapon.id)}}
                                     <i class="far fa-check-circle"></i>
                                 {{else}}
                                     <i class="far fa-circle"></i>
                                 {{/if}}
                             </a>
                         </div>
-                        {{#if weapon.data.isRanged}}
-                            {{#if (compare (listContains "assaultRifle,smg,heavySmg" weapon.data.weaponType) "||" weapon.data.fireModes.suppressiveFire)}}
+                        {{#if weapon.data.data.isRanged}}
+                            {{#if (compare (listContains "assaultRifle,smg,heavySmg" weapon.data.data.weaponType) "||" weapon.data.data.fireModes.suppressiveFire)}}
                             <div class="fight-weapon-auto">
                                 {{localize "CPR.af"}}
                             </div>
@@ -158,8 +160,8 @@
                                 {{localize "CPR.sf"}}
                             </div>
                             <div class="fight-weapon-auto-box">
-                                <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon._id}}">
-                                    {{#if (fireMode ../actor "autofire" weapon._id)}}
+                                <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon.id}}">
+                                    {{#if (fireMode ../actor "autofire" weapon.id)}}
                                         <i class="far fa-check-circle"></i>
                                     {{else}}
                                         <i class="far fa-circle"></i>
@@ -167,8 +169,8 @@
                                 </a>
                             </div>
                             <div class="fight-weapon-suppress-box">
-                                <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon._id}}">
-                                    {{#if (fireMode ../actor "suppressive" weapon._id)}}
+                                <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon.id}}">
+                                    {{#if (fireMode ../actor "suppressive" weapon.id)}}
                                         <i class="far fa-check-circle"></i>
                                     {{else}}
                                         <i class="far fa-circle"></i>
@@ -179,11 +181,11 @@
                         {{/if}}
                     </div>
                     <div class="item-detail text-largest fight-weapon-attack text-nowrap">
-                        <a class="rollable" data-roll-type="attack" data-item-id={{weapon._id}}>
+                        <a class="rollable" data-roll-type="attack" data-item-id={{weapon.id}}>
                             <i class="fas fa-fist-raised red-fg" title="{{localize "CPR.rollanattack"}}"></i>
                         </a>
-                        {{#if (compare (fireflag ../actor "suppressive" weapon._id) "!==" "checked")}}
-                        <a class="rollable damage-roll-{{weapon._id}}" data-roll-type="damage" data-item-id={{weapon._id}} data-damage="{{weapon.data.damage}}">
+                        {{#if (compare (fireflag ../actor "suppressive" weapon.id) "!==" "checked")}}
+                        <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}} data-damage="{{weapon.data.data.damage}}">
                             <i class="fas fa-tint red-fg" title="{{localize "CPR.rolldamage"}}"></i>
                         </a>
                         {{/if}}
@@ -194,5 +196,123 @@
             </ol>
         </div>
     </div>
+    {{/if}}
+    {{#if (compare fightState "===" "Netspace")}}
+    <div class="interface-abilities-section">
+        <li class="items-header item flexrow" data-item-id="{{cyberdeck.id}}">
+            <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
+                <a class="name item-view">{{cyberdeck.data.name}}</a>
+            </span>
+        </li>
+        <div class="net-actions-content">
+            {{#each (findConfigObj "interfaceAbilities") as |intAbility ia|}}
+            <li class="items-header flexrow">
+                <a class="rollable" data-roll-type="interfaceAbility" data-interface-ability="{{ia}}" data-cyberdeck-id="{{../cyberdeck.id}}" title="{{localize "CPR.clicktoperformaction"}}">{{localize intAbility}}</a>
+            </li>
+            {{/each}}
+            <hr>
+            <li class="items-header flexrow">
+                <a class="rollable" data-roll-type="interfaceAbility" data-interface-ability="defense" data-cyberdeck-id="{{cyberdeck.id}}" title="{{localize "CPR.clicktoperformaction"}}">{{localize "CPR.defense"}}</a>
+            </li>
+            <li class="items-header flexrow">
+                <a class="rollable" data-roll-type="interfaceAbility" data-interface-ability="speed" data-cyberdeck-id="{{cyberdeck.id}}" title="{{localize "CPR.clicktoperformaction"}}">{{localize "CPR.speed"}}</a>
+            </li>
+        </div>
+
+    </div>
+    <div class="cyberdeck-installed-section">
+        <li class="items-header flexrow">
+            <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
+                {{localize "CPR.installed"}}
+            </span>
+        </li>
+        <div class="cyberdeck-installed-content">
+            <div class="cyberdeck-installed-software">
+              {{#each (findConfigObj "programClassList") as |pgmClass pc|}}
+                    <li class="items-header flexrow">
+                        <span class="text-bold bg-pink">{{localize pgmClass}}</span>
+                    </li>
+                  {{#each ../cyberdeck.data.data.programs.installed as |program|}}
+                    {{#if (compare program.data.class "===" pc)}}
+                    <li class="items-header item flexrow cyberdeck-installed-software-list" data-item-id="{{program._id}}">
+                        {{#if (listContains "booster,defender" pc)}}
+                            <div class="installed-program-name">
+                                &nbsp;<a class="name item-view{{#if program.data.isRezzed}} text-italics{{/if}}">{{program.name}}</a>
+                            </div>
+                            <div class="installed-program-attack-and-damage">
+                                <a class="program-execution" data-execution-type="{{#if program.data.isRezzed}}de{{/if}}rez" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}">{{#if program.data.isRezzed}}<i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.clicktodeactivateprogram"}}">{{else}}<i class="far fa-arrow-alt-circle-up" title="{{localize "CPR.clicktoactivateprogram"}}">{{/if}}</i></a>
+                            </div>
+                            <div class="installed-program-actions">
+                                &nbsp;
+                                <a class="program-uninstall" data-cyberdeck-id="{{../../cyberdeck.id}}" data-item-id="{{program._id}}"><i class="fas fa-folder-minus fg-red" title="{{localize "CPR.eraseprogram"}}"></i></a>
+                            </div>
+                        {{else}}
+                            <div class="installed-program-name">
+                                &nbsp;<a class="name item-view" title="{{localize "CPR.clicktoview"}}">{{program.name}}</a>
+                            </div>
+                            <div class="installed-program-attack-and-damage">
+                                <div class="installed-program-attack">
+                                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="attack" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-fist-raised red-fg" title="{{localize "CPR.rollanattack"}}" ></i></a>
+                                </div>
+                                {{#if (compare program.data.damage.standard "!==" "")}}
+                                <div class="installed-program-damage">
+                                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="damage" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.rolldamage"}}" ></i></a>
+                                </div>
+                                {{/if}}
+                            </div>
+                            <div class="installed-program-actions">
+                                &nbsp;
+                                <a class="program-uninstall" data-cyberdeck-id="{{../../cyberdeck.id}}" data-item-id="{{program._id}}"><i class="fas fa-folder-minus fg-red" title="{{localize "CPR.eraseprogram"}}"></i></a>
+                            </div>
+                        {{/if}}
+                    </li>
+                    {{/if}}
+                  {{/each}}
+                {{/each}}
+            </div>
+            <div class="cyberdeck-installed-hardware">
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="cyberdeck-rezzed-section">
+        <li class="items-header flexrow">
+            <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
+                {{localize "CPR.rezzed"}}
+            </span>
+        </li>
+        <div class="cyberdeck-rezzed-content">
+          <div class="cyberdeck-rezzed-software">
+            {{#each (toArray "booster,defender" ",") as |pc|}}
+              <li class="items-header flexrow cyberdeck-rezzed-software-list">
+                <div class="rezzed-program-name text-bold bg-pink">{{pc}}</div>
+                <div class="rezzed-program-atk text-bold bg-pink text-center">{{localize "CPR.atk"}}</div>
+                <div class="rezzed-program-def text-bold bg-pink text-center">{{localize "CPR.def"}}</div>
+                <div class="rezzed-program-rez-and-decrement text-bold bg-pink text-center">{{localize "CPR.rez"}}</div>
+                <div class="rezzed-program-reset text-bold bg-pink text-center"></div>
+              </li>
+              {{#each ../cyberdeck.data.data.programs.rezzed as |program|}}
+                {{#if (compare program.data.class "===" pc)}}
+                  <li class="items-header item flexrow cyberdeck-rezzed-software-list" data-item-id="{{program._id}}">
+                    <div class="rezzed-program-name">
+                          &nbsp;<a class="name item-view" title="{{localize "CPR.clicktoview"}}" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}">{{program.name}}</a>
+                    </div>
+                    <div class="rezzed-program-atk text-center">{{program.data.atk}}</div>
+                    <div class="rezzed-program-def text-center">{{program.data.def}}</div>
+                    <div class="rezzed-program-rez-and-decrement text-center">
+                      <div class="rezzed-program-rez text-center">{{program.data.rez}}</div>
+                      <div class="rezzed-program-decrement-rez text-center">{{#if (compare program.data.rez ">" 0)}}<a class="program-execution" data-execution-type="reduce-rez" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.reducerez"}}"></i></a>{{/if}}</div>
+                    </div>
+                    <div class="rezzed-program-reset text-center"><a class="program-execution" data-execution-type="reset-rez" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-undo" title="{{localize "CPR.resetrez"}}"></i></a></div>
+                  </li>
+                {{/if}}
+              {{/each}}
+            {{/each}}
+          </div>
+        </div>
+    </div>
+    {{/if}}
 </div>
 {{trace "END CPR-FIGHT.HBS"}}

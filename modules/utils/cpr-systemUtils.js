@@ -8,17 +8,17 @@ export default class CPRSystemUtils {
     LOGGER.trace("CPRSystemUtils GetCoreSkills | CPRSystemUtils | called.");
     // grab basic skills from compendium
     const pack = game.packs.get("cyberpunk-red-core.skills");
-    // put into basickSkills array
-    const content = await pack.getContent();
+    // put into basickSills array
+    const content = await pack.getDocuments();
     return content;
   }
 
   static async GetCoreCyberware() {
     LOGGER.trace("CPRSystemUtils GetCoreCyberware | CPRSystemUtils | called.");
-    // grab basic skills from compendium
+    // grab basic cyberware from compendium
     const pack = game.packs.get("cyberpunk-red-core.cyberware");
-    // put into basickSkills array
-    const content = await pack.getContent();
+    // put into basicCyberware array
+    const content = await pack.getDocuments();
     return content;
   }
 

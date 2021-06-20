@@ -10,7 +10,7 @@ export default class NetarchSceneGenerationPrompt {
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog NetarchSceneGenerationPrompt | called.");
-          reject();
+          reject(new Error("Promise rejected: Window Closed"));
         };
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog NetarchSceneGenerationPrompt | called.");
@@ -35,7 +35,7 @@ export default class NetarchSceneGenerationPrompt {
           default: "confirm",
           render: LOGGER.trace("confirm | Dialog NetarchSceneGenerationPrompt | called."),
           close: () => {
-            reject();
+            reject(new Error("Promise rejected: Window Closed"));
           },
         }).render(true);
       });

@@ -1,9 +1,12 @@
 /* global ItemSheet */
 /* global mergeObject, game, $, hasProperty, getProperty, setProperty, duplicate */
 import LOGGER from "../../utils/cpr-logger.js";
+import CPR from "../../system/config.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
 import NetarchLevelPrompt from "../../dialog/cpr-netarch-level-prompt.js";
+import CyberdeckSelectProgramsPrompt from "../../dialog/cpr-select-install-programs-prompt.js";
+import BoosterAddModifierPrompt from "../../dialog/cpr-booster-add-modifier-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
 import CPRNetarchUtils from "../../utils/cpr-netarchUtils.js";
@@ -66,6 +69,9 @@ export default class CPRItemSheet extends ItemSheet {
     } else {
       data.filteredItems.skill = await SystemUtils.GetCoreSkills();
     }
+    if (data.item.type === "cyberdeck") {
+      data.data.data.availableSlots = this.object.availableSlots();
+    }
     data.dvTableNames = DvUtils.GetDvTables();
     return data;
   }
@@ -88,6 +94,14 @@ export default class CPRItemSheet extends ItemSheet {
     html.find(".select-compatible-ammo").click((event) => this._selectCompatibleAmmo(event));
 
     html.find(".netarch-level-action").click((event) => this._netarchLevelAction(event));
+
+    html.find(".select-installed-programs").click((event) => this._cyberdeckSelectInstalledPrograms(event));
+
+    html.find(".program-uninstall").click((event) => this._cyberdeckProgramUninstall(event));
+
+    html.find(".program-add-booster-modifier").click((event) => this._addBoosterModifier(event));
+
+    html.find(".program-del-booster-modifier").click((event) => this._delBoosterModifier(event));
 
     html.find(".netarch-generate-auto").click((event) => {
       if (game.user.isGM) {
@@ -149,7 +163,10 @@ export default class CPRItemSheet extends ItemSheet {
   async _selectCompatibleAmmo(event) {
     const itemData = this.item.getData();
     let formData = { id: this.item.data._id, name: this.item.data.name, data: itemData };
-    formData = await SelectCompatibleAmmo.RenderPrompt(formData);
+    formData = await SelectCompatibleAmmo.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
     if (formData.selectedAmmo) {
       await this.item.setCompatibleAmmo(formData.selectedAmmo);
       this._automaticResize(); // Resize the sheet as length of ammo list might have changed
@@ -159,7 +176,7 @@ export default class CPRItemSheet extends ItemSheet {
   _automaticResize() {
     LOGGER.trace("ItemSheet | _automaticResize | Called.");
     const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
-    if (setting && this.rendered) {
+    if (setting && this.rendered && !this._minimized) {
       // It seems that the size of the content does not change immediately upon updating the content
       setTimeout(() => {
         this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
@@ -265,7 +282,10 @@ export default class CPRItemSheet extends ItemSheet {
         description: "",
         returnType: "string",
       };
-      formData = await NetarchLevelPrompt.RenderPrompt(formData);
+      formData = await NetarchLevelPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+      if (formData === undefined) {
+        return;
+      }
 
       if (hasProperty(itemData, "data.floors")) {
         const prop = getProperty(itemData, "data.floors");
@@ -337,7 +357,10 @@ export default class CPRItemSheet extends ItemSheet {
           description: editElement.description,
           returnType: "string",
         };
-        formData = await NetarchLevelPrompt.RenderPrompt(formData);
+        formData = await NetarchLevelPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+        if (formData === undefined) {
+          return;
+        }
         prop.splice(prop.indexOf(editElement), 1);
         prop.push({
           index: editElement.index,
@@ -365,5 +388,140 @@ export default class CPRItemSheet extends ItemSheet {
     } else {
       SystemUtils.DisplayMessage("error", SystemUtils.Format("CPR.itemdoesnotexisterror", { itemid: itemId }));
     }
+  }
+
+  // Program Code
+
+  async _addBoosterModifier(event) {
+    const boosterTypes = Object.keys(CPR.interfaceAbilities);
+    let formData = {
+      boosterTypes,
+      returnType: "array",
+    };
+    formData = await BoosterAddModifierPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
+    if (formData) {
+      this.item.data.data.modifiers[formData.boosterType] = formData.modifierValue;
+    }
+    if (this.actor) {
+      await this.actor.updateEmbeddedDocuments("Item", [{ _id: this.item.id, "data.modifiers": this.item.data.data.modifiers }]);
+    }
+    this.item.update({ "data.modifiers": this.item.data.data.modifiers });
+  }
+
+  async _delBoosterModifier(event) {
+    const boosterType = $(event.currentTarget).attr("data-booster-type");
+    delete this.item.data.data.modifiers[boosterType];
+    if (this.actor) {
+      const updatedObject = { _id: this.item.id };
+      const objectKey = `data.modifiers.-=${boosterType}`;
+      updatedObject[objectKey] = null;
+      await this.actor.updateEmbeddedDocuments("Item", [updatedObject]);
+    }
+    return this.item.update({ "data.modifiers": this.item.data.data.modifiers });
+  }
+
+  // Cyberdeck Code
+
+  async _cyberdeckSelectInstalledPrograms(event) {
+    LOGGER.debug("_cyberdeckSelectInstalledPrograms | CPRItem | Called.");
+    const cyberdeck = this.item;
+    if (cyberdeck.data.type !== "cyberdeck") {
+      return;
+    }
+
+    // We only support loading programs onto owned decks, so let's get the actor
+    // Get the actor that owns this cyberdeck (if owned)
+    const actor = (cyberdeck.isOwned) ? cyberdeck.actor : null;
+
+    if (!actor) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.owneditemonlyerror"));
+      return;
+    }
+
+    // Get a list of programs that are installed on this cyberdeck
+    const installedPrograms = cyberdeck.getInstalledPrograms();
+
+    // Prepare a list of programs for the prompt to select from
+    let programList = [];
+
+    // Start with the list of all programs owned by the actor
+    programList = actor.data.filteredItems.program;
+
+    // Remove all programs that are installed somewhere other than this deck
+    actor.data.filteredItems.programsInstalled.forEach((programId) => {
+      const onDeck = installedPrograms.filter((p) => p._id === programId);
+      if (onDeck.length === 0) {
+        programList = programList.filter((p) => p.id !== programId);
+      }
+    });
+
+    programList = programList.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+
+    let formData = {
+      cyberdeck,
+      programList,
+      returnType: "array",
+    };
+
+    formData = await CyberdeckSelectProgramsPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
+
+    let selectedPrograms = [];
+    let unselectedPrograms = programList;
+
+    let storageRequired = 0;
+
+    formData.selectedPrograms.forEach((pId) => {
+      const program = (programList.filter((p) => p.data._id === pId))[0];
+      storageRequired += program.data.data.slots;
+      selectedPrograms.push(program);
+      unselectedPrograms = unselectedPrograms.filter((p) => p.data._id !== program.data._id);
+    });
+
+    selectedPrograms = selectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+    unselectedPrograms = unselectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+
+    if (storageRequired > cyberdeck.data.data.slots) {
+      SystemUtils.DisplayMessage("error", "CPR.cyberdeckinsufficientstorage");
+      return;
+    }
+
+    cyberdeck.uninstallPrograms(unselectedPrograms);
+    cyberdeck.installPrograms(selectedPrograms);
+
+    const updateList = [{ _id: cyberdeck.id, data: cyberdeck.data.data }];
+    programList.forEach((program) => {
+      updateList.push({ _id: program.id, data: program.data.data });
+    });
+    await actor.updateEmbeddedDocuments("Item", updateList);
+  }
+
+  async _cyberdeckProgramUninstall(event) {
+    const programId = $(event.currentTarget).attr("data-item-id");
+    LOGGER.debug("_cyberdeckProgramUninstall | CPRItem | Called.");
+    const cyberdeck = this.item;
+    if (cyberdeck.data.type !== "cyberdeck") {
+      return;
+    }
+
+    const actor = (cyberdeck.isOwned) ? cyberdeck.actor : null;
+
+    if (!actor) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.owneditemonlyerror"));
+      return;
+    }
+
+    const program = (actor.data.filteredItems.program.filter((p) => p.data._id === programId))[0];
+
+    cyberdeck.uninstallPrograms([program]);
+
+    const updateList = [{ _id: cyberdeck.data._id, data: cyberdeck.data.data }];
+    updateList.push({ _id: program.data._id, "data.isInstalled": false });
+    await actor.updateEmbeddedDocuments("Item", updateList);
   }
 }

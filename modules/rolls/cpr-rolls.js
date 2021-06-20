@@ -2,6 +2,7 @@
 /* eslint-disable max-classes-per-file */
 /* global Roll */
 import LOGGER from "../utils/cpr-logger.js";
+import CPR from "../system/config.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import VerifyRoll from "../dialog/cpr-verify-roll-prompt.js";
@@ -72,7 +73,7 @@ export class CPRRoll {
   async roll() {
     LOGGER.trace(`CPRRoll | roll`);
     // calculate the initial roll
-    this._roll = new Roll(this.formula).roll();
+    this._roll = await new Roll(this.formula).evaluate({ async: true });
     await DiceSoNice.ShowDiceSoNice(this._roll);
     this.initialRoll = this._roll.total;
     this.resultTotal = this.initialRoll + this.totalMods();
@@ -80,7 +81,7 @@ export class CPRRoll {
 
     // check and consider criticals (min or max # on die)
     if (this.wasCritical() && this.calculateCritical) {
-      const critroll = new Roll(this.formula).roll();
+      const critroll = await new Roll(this.formula).evaluate({ async: true });
       await DiceSoNice.ShowDiceSoNice(critroll);
       this.criticalRoll = critroll.total;
     }
@@ -126,9 +127,14 @@ export class CPRRoll {
     }
 
     if (!skipDialog) {
-      const formData = await VerifyRoll.RenderPrompt(this);
+      const formData = await VerifyRoll.RenderPrompt(this).catch((err) => LOGGER.debug(err));
+      if (formData === undefined) {
+        // returns false if the dialog was closed
+        return false;
+      }
       mergeObject(this, formData, { overwrite: true });
     }
+    return true;
   }
 }
 
@@ -185,6 +191,11 @@ export class CPRAttackRoll extends CPRSkillRoll {
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-attack-rollcard.hbs";
     this.weaponType = weaponType;
   }
+
+  setNetCombat() {
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-program-attack-prompt.hbs";
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-program-attack-rollcard.hbs";
+  }
 }
 
 // this deliberately does not set the location until after the verify dialog box
@@ -234,8 +245,13 @@ export class CPRRoleRoll extends CPRRoll {
   _computeBase() {
     return this.initialRoll + this.totalMods() + this.roleValue + this.roleStat + this.roleOther;
   }
-}
 
+  setNetCombat(rollTitle) {
+    this.rollTitle = rollTitle;
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-cyberdeck-prompt.hbs";
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-cyberdeck-rollcard.hbs";
+  }
+}
 export class CPRDeathSaveRoll extends CPRRoll {
   constructor(penalty, basePenalty, bodyStat) {
     super(SystemUtils.Localize("CPR.deathsave"), "1d10");
@@ -316,6 +332,11 @@ export class CPRDamageRoll extends CPRRoll {
       this.autofireMultiplierMax = autofireMultiplierMax;
     }
   }
+
+  setNetCombat() {
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-program-damage-prompt.hbs";
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-program-damage-rollcard.hbs";
+  }
 }
 
 export class CPRTableRoll extends CPRRoll {
@@ -329,7 +350,8 @@ export class CPRTableRoll extends CPRRoll {
       this.faces.push(die.result);
     });
     // eslint-disable-next-line prefer-destructuring
-    this.resultTotal = tableRoll.results[0];
+    this.resultTotal = tableRoll.result;
+    this._roll = tableRoll;
   }
 }
 
@@ -345,4 +367,6 @@ export const rollTypes = {
   SUPPRESSIVE: "suppressive",
   DAMAGE: "damage",
   DEATHSAVE: "deathsave",
+  INTERFACEABILITY: "interfaceAbility",
+  CYBERDECKPROGRAM: "cyberdeckProgram",
 };

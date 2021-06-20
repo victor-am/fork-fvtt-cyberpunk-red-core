@@ -8,7 +8,7 @@ export default class ModMookSkillPrompt {
       renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-mod-mook-skill-prompt.hbs", skillList).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog ModMookSkillPrompt | called.");
-          reject();
+          reject(new Error("Promise rejected: Window Closed"));
         };
         // eslint-disable-next-line no-shadow
         const _onConfirm = (html) => {
@@ -35,7 +35,7 @@ export default class ModMookSkillPrompt {
           default: "confirm",
           render: LOGGER.trace("confirm | Dialog ModMookSkillPrompt | called."),
           close: () => {
-            reject();
+            reject(new Error("Promise rejected: Window Closed"));
           },
         }).render(true);
       });
