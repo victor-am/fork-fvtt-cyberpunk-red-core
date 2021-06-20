@@ -36,12 +36,12 @@
     {{#if (compare optionals.length ">" 0)~}}
       ){{#unless @last}},{{/unless~}}
     {{/if}}
-  {{~/each}}{{#if (compare (compare actor.filteredItems.ammo.length ">" 0) "||" (compare actor.filteredItems.gear.length ">" 0))}},{{/if}}
+  {{~/each}}{{#if (compare (compare actor.data.filteredItems.ammo.length ">" 0) "||" (compare actor.data.filteredItems.gear.length ">" 0))}},{{/if}}
   <!-- Gear -->
-  {{#each (sort (arrayConcat actor.filteredItems.ammo actor.filteredItems.gear) "name") as |item i|}}
+  {{#each (sort (arrayConcat actor.data.filteredItems.ammo actor.data.filteredItems.gear) "name") as |item i|}}
     {{#if (compare item.type "===" "ammo")}}
       <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item._id}}">
-        {{item.name}} (x{{item.data.amount}}){{#unless @last}},{{/unless}}
+        {{item.name}} (x{{item.data.data.amount}}){{#unless @last}},{{/unless}}
       </a>
     {{/if}}
     {{#if (compare item.type "===" "gear")}}

@@ -363,7 +363,7 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace("Calling getMookSkills Helper");
     const skillList = [];
     array.forEach((skill) => {
-      if (skill.data.level > 0 || skill.data.skillmod > 0) {
+      if (skill.data.data.level > 0 || skill.data.data.skillmod > 0) {
         skillList.push(skill);
       }
     });
