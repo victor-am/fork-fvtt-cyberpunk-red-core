@@ -10,7 +10,7 @@ export default class ConfigureBIActorFromProgramPrompt {
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog ConfigureBIActorFromProgramPrompt | called.");
-          reject();
+          reject(new Error("Promise rejected: Window Closed"));
         };
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog ConfigureBIActorFromProgramPrompt | called.");
@@ -35,7 +35,7 @@ export default class ConfigureBIActorFromProgramPrompt {
           default: "confirm",
           render: LOGGER.trace("confirm | Dialog ConfigureBIActorFromProgramPrompt | called."),
           close: () => {
-            reject();
+            reject(new Error("Promise rejected: Window Closed"));
           },
         }).render(true);
       });
