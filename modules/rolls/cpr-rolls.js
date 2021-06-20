@@ -127,9 +127,14 @@ export class CPRRoll {
     }
 
     if (!skipDialog) {
-      const formData = await VerifyRoll.RenderPrompt(this);
+      const formData = await VerifyRoll.RenderPrompt(this).catch((err) => LOGGER.debug(err));
+      if (formData === undefined) {
+        // returns false if the dialog was closed
+        return false;
+      }
       mergeObject(this, formData, { overwrite: true });
     }
+    return true;
   }
 }
 

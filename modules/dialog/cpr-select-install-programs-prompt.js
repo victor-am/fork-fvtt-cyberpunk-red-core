@@ -10,7 +10,7 @@ export default class InstallProgramsPrompt {
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog InstallProgramsPrompt | called.");
-          reject();
+          reject(new Error("Promise rejected: Window Closed"));
         };
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog InstallProgramsPrompt | called.");
@@ -43,7 +43,7 @@ export default class InstallProgramsPrompt {
           default: "confirm",
           render: LOGGER.trace("confirm | Dialog InstallProgramsPrompt | called."),
           close: () => {
-            reject();
+            reject(new Error("Promise rejected: Window Closed"));
           },
         }).render(true);
       });

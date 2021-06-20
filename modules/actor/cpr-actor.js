@@ -136,13 +136,19 @@ export default class CPRActor extends Actor {
     if (compatibleFoundationalCyberware.length < 1 && !item.getData().isFoundational) {
       Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
     } else if (item.getData().isFoundational) {
-      const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data });
+      const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data }).catch((err) => LOGGER.debug(err));
+      if (formData === undefined) {
+        return;
+      }
       this._addFoundationalCyberware(item, formData);
     } else {
       const formData = await InstallCyberwarePrompt.RenderPrompt({
         item: item.data,
         foundationalCyberware: compatibleFoundationalCyberware,
-      });
+      }).catch((err) => LOGGER.debug(err));
+      if (formData === undefined) {
+        return;
+      }
       this._addOptionalCyberware(item, formData);
     }
   }

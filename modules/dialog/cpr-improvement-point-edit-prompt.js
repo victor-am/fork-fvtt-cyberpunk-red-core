@@ -3,12 +3,12 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
 
 export default class ImprovementPointEditPrompt {
-  static async RenderPrompt(skillList) {
+  static async RenderPrompt() {
     return new Promise((resolve, reject) => {
       renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-improvement-point-edit-prompt.hbs").then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog ImprovementPointEditPrompt | called.");
-          reject();
+          reject(new Error("Promise rejected: Window Closed"));
         };
         // eslint-disable-next-line no-shadow
         const _onConfirm = (html) => {
@@ -35,7 +35,7 @@ export default class ImprovementPointEditPrompt {
           default: "confirm",
           render: LOGGER.trace("confirm | Dialog ImprovementPointEditPrompt | called."),
           close: () => {
-            reject();
+            reject(new Error("Promise rejected: Window Closed"));
           },
         }).render(true);
       });

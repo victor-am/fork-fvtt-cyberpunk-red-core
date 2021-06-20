@@ -13,7 +13,7 @@ export default class CyberwareInstallPrompt {
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog CyberwareInstallPrompt | called.");
-          reject();
+          reject(new Error("Promise rejected: Window Closed"));
         };
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog CyberwareInstallPrompt | called.");
@@ -38,7 +38,7 @@ export default class CyberwareInstallPrompt {
           default: "confirm",
           render: LOGGER.trace("render | Dialog CyberwareInstallPrompt | Called."),
           close: () => {
-            reject();
+            reject(new Error("Promise rejected: Window Closed"));
           },
         }).render(true);
       });
