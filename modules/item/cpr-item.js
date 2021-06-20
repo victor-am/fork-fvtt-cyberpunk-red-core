@@ -242,7 +242,10 @@ export default class CPRItem extends Item {
           return;
         }
 
-        formData = await LoadAmmoPrompt.RenderPrompt(formData);
+        formData = await LoadAmmoPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+        if (formData === undefined) {
+          return;
+        }
 
         selectedAmmoId = formData.selectedAmmo;
       }

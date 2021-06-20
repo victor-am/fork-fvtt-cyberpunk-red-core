@@ -49,6 +49,7 @@
 **Bug Fixes**
 - Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item.
 - Fixed warning when the medtech would put the proper amount of points into surgery. The intention is, that per time you choose the surergy skill you should add two point there.
+- Fixed #232 - Cancelling dialog boxes no longer creates errors in dev log
 - Fixed #234 - Attempting to install cyberware, where there is no suitable foundation no longer throws an error in the console.
 
 

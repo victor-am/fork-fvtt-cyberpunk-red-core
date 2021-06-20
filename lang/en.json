@@ -380,6 +380,7 @@
     "CPR.name": "Name",
     "CPR.net": "Net",
     "CPR.netaction": "NET Action",
+    "CPR.netactions": "NET Actions",
     "CPR.netarch": "NET Architecture",
     "CPR.netarchfloor": "Floor",
     "CPR.netarchfloorblackicetype": "Black ICE type",

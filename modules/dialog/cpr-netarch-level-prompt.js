@@ -10,7 +10,7 @@ export default class NetarchLevelPrompt {
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog NetarchLevelPrompt | called.");
-          reject();
+          reject(new Error("Promise rejected: Window Closed"));
         };
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog NetarchLevelPrompt | called.");
@@ -35,7 +35,7 @@ export default class NetarchLevelPrompt {
           default: "confirm",
           render: LOGGER.trace("confirm | Dialog NetarchLevelPrompt | called."),
           close: () => {
-            reject();
+            reject(new Error("Promise rejected: Window Closed"));
           },
         }).render(true);
       });
