@@ -389,6 +389,25 @@ export default function registerHandlebarsHelpers() {
     return installedCyberwareList;
   });
 
+  Handlebars.registerHelper("getMookCyberwareLength", (installedCyberware) => {
+    LOGGER.trace("Calling getMookCyberwareLength Helper");
+    const installedCyberwareList = [];
+    Object.entries(installedCyberware).forEach(([k, v]) => {
+      if (installedCyberware[k].length > 0) {
+        if (k !== "cyberwareInternal" && k !== "cyberwareExternal" && k !== "fashionware") {
+          v.forEach((a) => {
+            installedCyberwareList.push(a);
+          });
+        } else if (installedCyberware[k][0].optionals.length > 0) {
+          v.forEach((a) => {
+            installedCyberwareList.push(a);
+          });
+        }
+      }
+    });
+    return installedCyberwareList.length;
+  });
+
   Handlebars.registerHelper("isDebug", () => {
     LOGGER.trace("Calling isDebug Helper");
     return game.settings.get("cyberpunk-red-core", "debugElements");

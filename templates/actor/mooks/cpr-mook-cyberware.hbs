@@ -29,14 +29,14 @@
     {{/if}}
     {{#if (compare optionals.length ">" 0)~}}({{/if~}}
     {{#each optionals as |optional o|~}}
-      <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}">
+      <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}">
         {{~optional.name}}{{#unless @last}},&nbsp;{{/unless~}}
       </a>
     {{~/each}}
     {{#if (compare optionals.length ">" 0)~}}
       ){{#unless @last}},{{/unless~}}
     {{/if}}
-  {{~/each}}{{#if (compare (compare actor.data.filteredItems.ammo.length ">" 0) "||" (compare actor.data.filteredItems.gear.length ">" 0))}},{{/if}}
+  {{~/each}}{{#if (compare (compare (getMookCyberwareLength this.installedCyberware) ">" 0) "&&" (compare (compare actor.data.filteredItems.ammo.length ">" 0) "||" (compare actor.data.filteredItems.gear.length ">" 0)))}},{{/if}}
   <!-- Gear -->
   {{#each (sort (arrayConcat actor.data.filteredItems.ammo actor.data.filteredItems.gear) "name") as |item i|}}
     {{#if (compare item.type "===" "ammo")}}
