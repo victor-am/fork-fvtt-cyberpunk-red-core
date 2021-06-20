@@ -24,16 +24,16 @@
       {{/if}}
     {{else}}
       <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{foundation.data._id}}">
-        {{foundation.name}}{{#unless (compare optionals.length ">" 0)}}{{#unless @last}},{{/unless}}{{/unless}}
+        {{~foundation.name~}}{{~#unless (compare optionals.length ">" 0)~}}{{~#unless @last~}},{{~/unless~}}{{~/unless~}}
       </a>
-    {{/if}}
-    {{#if (compare optionals.length ">" 0)~}}({{/if~}}
-    {{#each optionals as |optional o|~}}
+    {{~/if}}
+    {{~#if (compare optionals.length ">" 0)~}}({{/if~}}
+    {{~#each optionals as |optional o|~}}
       <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}">
         {{~optional.name}}{{#unless @last}},&nbsp;{{/unless~}}
       </a>
     {{~/each}}
-    {{#if (compare optionals.length ">" 0)~}}
+    {{~#if (compare optionals.length ">" 0)~}}
       ){{#unless @last}},{{/unless~}}
     {{/if}}
   {{~/each}}{{#if (compare (compare actor.data.filteredItems.ammo.length ">" 0) "||" (compare actor.data.filteredItems.gear.length ">" 0))}},{{/if}}
