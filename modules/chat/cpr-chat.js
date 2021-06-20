@@ -142,14 +142,20 @@ export default class CPRChat {
           const actor = (Object.keys(game.actors.tokens).includes(tokenId)) ? game.actors.tokens[tokenId] : game.actors.find((a) => a.id === actorId);
           const item = actor ? actor.items.find((i) => i.id === itemId) : null;
           const displayName = actor === null ? "ERROR" : actor.name;
-          if (!item) return ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.actormissingitem")} ${itemId}`);
+          if (!item) {
+            ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.actormissingitem")} ${itemId}`);
+            return;
+          }
           let cprRoll = item.createRoll(rollType, actor, { damageType: attackType });
 
           if (location) {
             cprRoll.location = location;
           }
 
-          await cprRoll.handleRollDialog(event);
+          const keepRolling = await cprRoll.handleRollDialog(event);
+          if (!keepRolling) {
+            return;
+          }
 
           cprRoll = await item.confirmRoll(cprRoll);
 
@@ -172,7 +178,6 @@ export default class CPRChat {
           LOGGER.warn(`No action defined for ${clickAction}`);
         }
       }
-      return true;
     });
   }
 

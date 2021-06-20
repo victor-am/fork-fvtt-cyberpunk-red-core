@@ -10,7 +10,7 @@ export default class HudPrompt {
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog HudPrompt | called.");
-          reject();
+          reject(new Error("Promise rejected: Window Closed"));
         };
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog HudPrompt | called.");
@@ -39,7 +39,7 @@ export default class HudPrompt {
           default: "confirm",
           render: LOGGER.trace("confirm | Dialog HudPrompt | called."),
           close: () => {
-            reject();
+            reject(new Error("Promise rejected: Window Closed"));
           },
         }).render(true);
       });

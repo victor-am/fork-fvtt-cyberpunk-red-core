@@ -49,7 +49,10 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     });
     while (again) {
       // eslint-disable-next-line no-await-in-loop
-      const formData = await ModMookSkillPrompt.RenderPrompt({ skillList });
+      const formData = await ModMookSkillPrompt.RenderPrompt({ skillList }).catch((err) => LOGGER.debug(err));
+      if (formData === undefined) {
+        return;
+      }
       const skill = this.actor.data.filteredItems.skill.filter((s) => s.name === formData.skillName)[0];
       skill.setSkillLevel(formData.skillLevel);
       skill.setSkillMod(formData.skillMod);
@@ -62,7 +65,10 @@ export default class CPRMookActorSheet extends CPRActorSheet {
   }
 
   async _changeMookName() {
-    const formData = await MookNamePrompt.RenderPrompt(this.actor.data.name);
+    const formData = await MookNamePrompt.RenderPrompt(this.actor.data.name).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
     if (!this.isToken) {
       await this.actor.setMookName(formData);
     } else {

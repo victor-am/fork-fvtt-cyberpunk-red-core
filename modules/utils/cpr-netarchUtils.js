@@ -273,7 +273,10 @@ export default class CPRNetarchUtils {
       cornerOffsetY: 2,
       returnType: "string",
     };
-    formData = await NetarchSceneGenerationPrompt.RenderPrompt(formData);
+    formData = await NetarchSceneGenerationPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
 
     if (formData.cusomTiles) {
       this.options.filePath = formData.filePath;

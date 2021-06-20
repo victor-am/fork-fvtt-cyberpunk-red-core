@@ -261,7 +261,10 @@ export default class CPRActorSheet extends ActorSheet {
     }
 
     // note: for aimed shots this is where location is set
-    await cprRoll.handleRollDialog(event);
+    const keepRolling = await cprRoll.handleRollDialog(event);
+    if (!keepRolling) {
+      return;
+    }
 
     if (item !== null) {
       // Do any actions that need to be done as part of a roll, like ammo decrementing
@@ -580,7 +583,10 @@ export default class CPRActorSheet extends ActorSheet {
       const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${item.data.name}?`;
       const confirmDelete = await ConfirmPrompt.RenderPrompt(
         SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,
-      );
+      ).catch((err) => LOGGER.debug(err));
+      if (confirmDelete === undefined) {
+        return;
+      }
       if (!confirmDelete) {
         return;
       }
@@ -667,7 +673,10 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("_setCriticalInjuryTable | CPRActorSheet | Called.");
     const critInjuryTables = CPRActorSheet._getCriticalInjuryTables();
     LOGGER.debugObject(critInjuryTables);
-    const formData = await RollCriticalInjuryPrompt.RenderPrompt(critInjuryTables);
+    const formData = await RollCriticalInjuryPrompt.RenderPrompt(critInjuryTables).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return undefined;
+    }
     return formData.criticalInjuryTable;
   }
 
@@ -681,6 +690,9 @@ export default class CPRActorSheet extends ActorSheet {
   async _rollCriticalInjury() {
     LOGGER.trace("_rollCriticalInjury | CPRActorSheet | Called.");
     const tableName = await CPRActorSheet._setCriticalInjuryTable();
+    if (tableName === undefined) {
+      return;
+    }
     LOGGER.debugObject(tableName);
     const table = game.tables.contents.find((t) => t.name === tableName);
     this._drawCriticalInjuryTable(tableName, table, 0);

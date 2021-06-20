@@ -163,7 +163,10 @@ export default class CPRItemSheet extends ItemSheet {
   async _selectCompatibleAmmo(event) {
     const itemData = this.item.getData();
     let formData = { id: this.item.data._id, name: this.item.data.name, data: itemData };
-    formData = await SelectCompatibleAmmo.RenderPrompt(formData);
+    formData = await SelectCompatibleAmmo.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
     if (formData.selectedAmmo) {
       await this.item.setCompatibleAmmo(formData.selectedAmmo);
       this._automaticResize(); // Resize the sheet as length of ammo list might have changed
@@ -279,7 +282,10 @@ export default class CPRItemSheet extends ItemSheet {
         description: "",
         returnType: "string",
       };
-      formData = await NetarchLevelPrompt.RenderPrompt(formData);
+      formData = await NetarchLevelPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+      if (formData === undefined) {
+        return;
+      }
 
       if (hasProperty(itemData, "data.floors")) {
         const prop = getProperty(itemData, "data.floors");
@@ -351,7 +357,10 @@ export default class CPRItemSheet extends ItemSheet {
           description: editElement.description,
           returnType: "string",
         };
-        formData = await NetarchLevelPrompt.RenderPrompt(formData);
+        formData = await NetarchLevelPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+        if (formData === undefined) {
+          return;
+        }
         prop.splice(prop.indexOf(editElement), 1);
         prop.push({
           index: editElement.index,
@@ -389,14 +398,17 @@ export default class CPRItemSheet extends ItemSheet {
       boosterTypes,
       returnType: "array",
     };
-    formData = await BoosterAddModifierPrompt.RenderPrompt(formData);
+    formData = await BoosterAddModifierPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
     if (formData) {
       this.item.data.data.modifiers[formData.boosterType] = formData.modifierValue;
     }
     if (this.actor) {
       await this.actor.updateEmbeddedDocuments("Item", [{ _id: this.item.id, "data.modifiers": this.item.data.data.modifiers }]);
     }
-    return this.item.update({ "data.modifiers": this.item.data.data.modifiers });
+    this.item.update({ "data.modifiers": this.item.data.data.modifiers });
   }
 
   async _delBoosterModifier(event) {
@@ -454,7 +466,10 @@ export default class CPRItemSheet extends ItemSheet {
       returnType: "array",
     };
 
-    formData = await CyberdeckSelectProgramsPrompt.RenderPrompt(formData);
+    formData = await CyberdeckSelectProgramsPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
 
     let selectedPrograms = [];
     let unselectedPrograms = programList;

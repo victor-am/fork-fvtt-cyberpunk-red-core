@@ -2,7 +2,7 @@
 
 **New Features**
 - Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title.
-- Added options to choose how to display the skill valies for the mook character sheet. Now one can show it in the same way as it is printed in the book. Please look at the settings for this.
+- Added options to choose how to display the skill values for the mook character sheet. Now one can show it in the same way as it is printed in the book. Please look at the settings for this.
 - Improved Ledger functionality of the Eurobucks/wealth and Improvement Points of characters
     - A new display of the ledger of both of these properties, to show all transactions done in the past, is now available.
     - Modification now gives the possibility to give a reason for the change and it is recorded who did the change.
@@ -68,6 +68,10 @@
 **Bug Fixes**
 - Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item.
 - Code added so New Worlds will not immediately go through migration
+- Fixed warning when the medtech would put the proper amount of points into surgery. The intention is, that per time you choose the surergy skill you should add two point there.
+- Fixed #232 - Cancelling dialog boxes no longer creates errors in dev log
+- Fixed #234 - Attempting to install cyberware, where there is no suitable foundation no longer throws an error in the console.
+
 
 # Version: 0.76.2 (Hot Fix) |  Date:  2021-05-28
 - Non owned actor sheets (Limited and Observer permissions) render again, the content is also shown now.
