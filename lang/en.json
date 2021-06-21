@@ -697,6 +697,7 @@
     "CPR.you": "you",
     "CPR.youcyberpsycho": "Choom, you've gone too far! Cyberpsychosis has set in.",
     "CPR.youown": "You own",
+    "CPR.rezbiwithouttoken": "You have attempted to REZ a Black ICE, however that actor has no token, therefore it is only shown as REZ'd in the Cyberdeck.  You can de-rez it and re-rez it once the actor has a token if you want the associated Black ICE created.",
     "ITEM.TypeAmmo": "Ammo",
     "ITEM.TypeArmor": "Armor",
     "ITEM.TypeClothing": "Clothing",

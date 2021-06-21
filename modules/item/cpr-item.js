@@ -794,6 +794,10 @@ export default class CPRItem extends Item {
         const tokenList = scene.tokens.filter((t) => t.actor.id === this.actor.id);
         if (tokenList.length === 1) {
           [netrunnerToken] = tokenList;
+        } else {
+          LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed because the Netrunner ${this.actor.name} does not have a token.`);
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.rezbiwithouttoken"));
+          return;
         }
       }
       const tokenFlags = {
