@@ -33,7 +33,7 @@
 - Netrunning TODO
   - Booster Speed is not taken into account for Foundry Initiative rolls.
   - Black ICE programs loaded onto the Cyberdeck are not supported in this initial release for Netrunning.  This will be implemented in a future release.
-  - Street Drugs have been added to the "Gear" compendium. 
+  - Street Drugs have been added to the "Gear" compendium.
 
 **Migration to foundry 0.8.X**
 - Migrated the source code to work with foundry version 0.8.X
@@ -52,9 +52,10 @@
 **Bug Fixes**
 - Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item.
 - Fixed warning when the medtech would put the proper amount of points into surgery. The intention is, that per time you choose the surergy skill you should add two point there.
-- Fixed #226 - Lock Pick is now "Lock Picking Set". Meat arms and legs now exist and operate correctly with standard hands, feet and usable accessories. 
+- Fixed #226 - Lock Pick is now "Lock Picking Set". Meat arms and legs now exist and operate correctly with standard hands, feet and usable accessories.
 - Fixed #232 - Cancelling dialog boxes no longer creates errors in dev log
 - Fixed #234 - Attempting to install cyberware, where there is no suitable foundation no longer throws an error in the console.
+- Fixed #248 - Removed listener for the text field, which snuck back into the code
 
 
 # Version: 0.76.2 (Hot Fix) |  Date:  2021-05-28
