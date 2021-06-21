@@ -774,7 +774,7 @@ export default class CPRItem extends Item {
       }
     }
 
-    if (netrunnerToken.isEmbedded) {
+    if (netrunnerToken.isEmbedded && netrunnerToken.parent instanceof Scene) {
       scene = netrunnerToken.parent;
     } else {
       LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed because the token does not appear to be part of a scene.`);
@@ -882,7 +882,7 @@ export default class CPRItem extends Item {
         const sceneList = game.scenes.filter((s) => s.id === sceneId);
         if (sceneList.length === 1) {
           const [scene] = sceneList;
-          const tokenList = scene.tokens.map((tokenDoc) => tokenDoc.actor.token).filter((token) => token).filter((t) => t.id === biTokenId);
+          const tokenList = scene.tokens.filter((t) => t.id === biTokenId);
           if (tokenList.length === 1) {
             await scene.deleteEmbeddedDocuments("Token", [biTokenId]);
           } else {
