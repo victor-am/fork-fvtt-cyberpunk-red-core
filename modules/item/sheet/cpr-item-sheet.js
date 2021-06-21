@@ -487,8 +487,7 @@ export default class CPRItemSheet extends ItemSheet {
     unselectedPrograms = unselectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
 
     if (storageRequired > cyberdeck.data.data.slots) {
-      SystemUtils.DisplayMessage("error", "CPR.cyberdeckinsufficientstorage");
-      return;
+      SystemUtils.DisplayMessage("warn", "CPR.cyberdeckinsufficientstorage");
     }
 
     cyberdeck.uninstallPrograms(unselectedPrograms);

@@ -11,7 +11,10 @@
 --}}
 {{/if}}
 {{#if (compare type "===" "cyberware")}}
-{{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-install-glyph.hbs"}}
+{{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-install-cyberware-glyph.hbs"}}
+{{/if}}
+{{#if (compare type "===" "cyberdeck")}}
+{{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-install-programs-glyph.hbs"}}
 {{/if}}
 {{#if (compare type "===" "armor")}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-repair-glyph.hbs"}}

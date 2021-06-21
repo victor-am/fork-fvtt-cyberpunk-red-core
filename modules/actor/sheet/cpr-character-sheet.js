@@ -5,6 +5,7 @@ import LOGGER from "../../utils/cpr-logger.js";
 import Rules from "../../utils/cpr-rules.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
+import CyberdeckSelectProgramsPrompt from "../../dialog/cpr-select-install-programs-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import ImprovementPointEditPrompt from "../../dialog/cpr-improvement-point-edit-prompt.js";
 
@@ -107,7 +108,10 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     // Execute a program on a Cyberdeck
     html.find(".program-execution").click((event) => this._cyberdeckProgramExecution(event));
 
-    // Execute a program on a Cyberdeck
+    // Install programs on a Cyberdeck
+    html.find(".program-install").click((event) => this._cyberdeckProgramInstall(event));
+
+    // Uninstall a program on a Cyberdeck
     html.find(".program-uninstall").click((event) => this._cyberdeckProgramUninstall(event));
 
     super.activateListeners(html);
@@ -475,12 +479,78 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     }
   }
 
+  async _cyberdeckProgramInstall(event) {
+    LOGGER.debug("_cyberdeckProgramInstall | CPRItem | Called.");
+    const cyberdeckId = $(event.currentTarget).attr("data-item-id");
+    const cyberdeck = this._getOwnedItem(cyberdeckId);
+
+    const { actor } = this;
+
+    // Get a list of programs that are installed on this cyberdeck
+    const installedPrograms = cyberdeck.getInstalledPrograms();
+
+    // Prepare a list of programs for the prompt to select from
+    let programList = [];
+
+    // Start with the list of all programs owned by the actor
+    programList = actor.data.filteredItems.program;
+
+    // Remove all programs that are installed somewhere other than this deck
+    actor.data.filteredItems.programsInstalled.forEach((programId) => {
+      const onDeck = installedPrograms.filter((p) => p._id === programId);
+      if (onDeck.length === 0) {
+        programList = programList.filter((p) => p.id !== programId);
+      }
+    });
+
+    programList = programList.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+
+    let formData = {
+      cyberdeck,
+      programList,
+      returnType: "array",
+    };
+
+    formData = await CyberdeckSelectProgramsPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
+
+    let selectedPrograms = [];
+    let unselectedPrograms = programList;
+
+    let storageRequired = 0;
+
+    formData.selectedPrograms.forEach((pId) => {
+      const program = (programList.filter((p) => p.data._id === pId))[0];
+      storageRequired += program.data.data.slots;
+      selectedPrograms.push(program);
+      unselectedPrograms = unselectedPrograms.filter((p) => p.data._id !== program.data._id);
+    });
+
+    selectedPrograms = selectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+    unselectedPrograms = unselectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+
+    if (storageRequired > cyberdeck.data.data.slots) {
+      SystemUtils.DisplayMessage("warn", "CPR.cyberdeckinsufficientstorage");
+    }
+
+    cyberdeck.uninstallPrograms(unselectedPrograms);
+    cyberdeck.installPrograms(selectedPrograms);
+
+    const updateList = [{ _id: cyberdeck.id, data: cyberdeck.data.data }];
+    programList.forEach((program) => {
+      updateList.push({ _id: program.id, data: program.data.data });
+    });
+    await actor.updateEmbeddedDocuments("Item", updateList);
+  }
+
   async _cyberdeckProgramUninstall(event) {
+    LOGGER.debug("_cyberdeckProgramUninstall | CPRItem | Called.");
     const programId = $(event.currentTarget).attr("data-item-id");
     const program = this._getOwnedItem(programId);
     const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
     const cyberdeck = this._getOwnedItem(cyberdeckId);
-    LOGGER.debug("_cyberdeckProgramUninstall | CPRItem | Called.");
 
     if (cyberdeck.data.type !== "cyberdeck") {
       return;
