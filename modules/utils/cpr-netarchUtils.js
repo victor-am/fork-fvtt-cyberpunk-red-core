@@ -27,7 +27,7 @@ export default class CPRNetarchUtils {
       "CPR.password": "Password",
       "CPR.file": "File",
       "CPR.controlnode": "ControlNode",
-      "CPR.blackice": "BlackICE",
+      "CPR.blackice": "BlackIce",
       "CPR.asp": "Asp",
       "CPR.giant": "Giant",
       "CPR.hellhound": "Hellhound",
