@@ -307,7 +307,7 @@
                     <div class="rezzed-program-def text-center">{{program.data.def}}</div>
                     <div class="rezzed-program-rez-and-decrement text-center">
                       <div class="rezzed-program-rez text-center">{{program.data.rez}}</div>
-                      <div class="rezzed-program-decrement-rez text-center">{{#if (compare program.data.rez ">" 0)}}<a class="program-execution" data-execution-type="reduce-rez" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.reducerez"}}"></i></a>{{/if}}</div>
+                      <div class="rezzed-program-decrement-rez text-center">{{#if (compare program.data.rez ">" 0)}}<a class="program-execution" data-execution-type="reduce-rez" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="far fa-minus-square" title="{{localize "CPR.reducerez"}}"></i></a>{{/if}}</div>
                     </div>
                     <div class="rezzed-program-reset text-center"><a class="program-execution" data-execution-type="reset-rez" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-undo" title="{{localize "CPR.resetrez"}}"></i></a></div>
                   </li>
@@ -334,7 +334,7 @@
                   <div class="rezzed-program-def text-center">{{program.data.def}}</div>
                   <div class="rezzed-program-rez-and-decrement text-center">
                     <div class="rezzed-program-rez text-center">{{program.data.rez}}</div>
-                    <div class="rezzed-program-decrement-rez text-center">{{#if (compare ../actor.data.type "===" "mook")}}{{#if (compare program.data.rez ">" 0)}}<a class="program-execution" data-execution-type="reduce-rez" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.reducerez"}}"></i></a>{{/if}}{{/if}}</div>
+                    <div class="rezzed-program-decrement-rez text-center">{{#if (compare ../actor.data.type "===" "mook")}}{{#if (compare program.data.rez ">" 0)}}<a class="program-execution" data-execution-type="reduce-rez" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="far fa-minus-square" title="{{localize "CPR.reducerez"}}"></i></a>{{/if}}{{/if}}</div>
                   </div>
                   <div class="rezzed-program-reset">
                     {{#if (compare ../actor.data.type "===" "mook")}}
