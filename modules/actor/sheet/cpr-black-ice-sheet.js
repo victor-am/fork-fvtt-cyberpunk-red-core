@@ -71,7 +71,10 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
       return;
     }
     let formData = { biProgramList: biPrograms, linkedProgramId };
-    formData = await ConfigureBIActorFromProgramPrompt.RenderPrompt(formData);
+    formData = await ConfigureBIActorFromProgramPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
     const { programId } = formData;
     if (programId === "unlink") {
       await this.actor.token.unsetFlag("cyberpunk-red-core", "programId");
