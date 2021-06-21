@@ -756,7 +756,35 @@ export default class CPRItem extends Item {
    */
   async _rezBlackIceToken(programData) {
     LOGGER.debug("_rezBlackIceToken | CPRItem | Called.");
+    let netrunnerToken;
+    let scene;
     const blackIceName = programData.name;
+
+    const sceneList = game.scenes.filter((s) => s.active === true);
+    if (sceneList.length === 1) {
+      [scene] = sceneList;
+      if (this.actor.isToken) {
+        netrunnerToken = this.actor.token;
+      } else {
+        const tokenList = scene.tokens.filter((t) => t.actor.id === this.actor.id);
+        if (tokenList.length === 1) {
+          [netrunnerToken] = tokenList;
+          if (!netrunnerToken.isLinked) {
+            LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed because the call was made from a World Actor ${this.actor.name} which does not have a token.`);
+            SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.rezbiwithouttoken"));
+            return;
+          }
+        } else {
+          LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed because the Netrunner ${this.actor.name} does not have a token.`);
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.rezbiwithouttoken"));
+          return;
+        }
+      }
+    } else {
+      LOGGER.error("_rezBlackIceToken | CPRItem | Attempting to rez a Black ICE however no scene appears to be active.");
+      return;
+    }
+
     // First, let's see if an Actor exists that is a blackIce Actor with the same name, if so, we will use that
     // to model the token Actor Data.
     const blackIceActors = game.actors.filter((bi) => bi.type === "blackIce" && bi.name === blackIceName);
@@ -778,60 +806,42 @@ export default class CPRItem extends Item {
         blackIce.programmaticallyUpdate(programData.data.blackIceType, programData.data.per, programData.data.spd, programData.data.atk, programData.data.def, programData.data.rez, programData.data.rez, programData.data.description.value);
       } catch (error) {
         LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Actor failed. Error: ${error}`);
+        return;
       }
     } else {
       // We found a matching Actor so we will use that to model our Token Data
       [blackIce] = blackIceActors;
     }
 
-    const sceneList = game.scenes.filter((s) => s.active === true);
-    if (sceneList.length === 1) {
-      const [scene] = sceneList;
-      let netrunnerToken;
-      if (this.actor.isToken) {
-        netrunnerToken = this.actor.token;
-      } else {
-        const tokenList = scene.tokens.filter((t) => t.actor.id === this.actor.id);
-        if (tokenList.length === 1) {
-          [netrunnerToken] = tokenList;
-        } else {
-          LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed because the Netrunner ${this.actor.name} does not have a token.`);
-          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.rezbiwithouttoken"));
-          return;
-        }
+    const tokenFlags = {
+      netrunnerTokenId: netrunnerToken.id,
+      sourceCyberdeckId: this.id,
+      programId: programData._id,
+      sceneId: scene.id,
+    };
+    const tokenData = [{
+      name: blackIce.name,
+      actorId: blackIce.data._id,
+      actorData: blackIce.data,
+      actorLink: false,
+      img: blackIce.img,
+      x: netrunnerToken.data.x + 75,
+      y: netrunnerToken.data.y,
+      flags: { "cyberpunk-red-core": tokenFlags },
+    }];
+    try {
+      const biTokenList = await scene.createEmbeddedDocuments("Token", tokenData);
+      const biToken = (biTokenList.length > 0) ? biTokenList[0] : null;
+      if (biToken !== null) {
+        // Update the Token Actor based on the Black ICE Program Stats, leaving any effect description in place.
+        biToken.actor.programmaticallyUpdate(programData.data.blackIceType, programData.data.per, programData.data.spd, programData.data.atk, programData.data.def, programData.data.rez, programData.data.rez);
+        const cprFlags = (typeof programData.flags["cyberpunk-red-core"] !== "undefined") ? programData.flags["cyberpunk-red-core"] : {};
+        cprFlags.biTokenId = biToken.id;
+        cprFlags.sceneId = scene.id;
+        programData.flags["cyberpunk-red-core"] = cprFlags;
       }
-      const tokenFlags = {
-        netrunnerTokenId: netrunnerToken.id,
-        sourceCyberdeckId: this.id,
-        programId: programData._id,
-        sceneId: scene.id,
-      };
-      const tokenData = [{
-        name: blackIce.name,
-        actorId: blackIce.data._id,
-        actorData: blackIce.data,
-        actorLink: false,
-        img: blackIce.img,
-        x: netrunnerToken.data.x + 75,
-        y: netrunnerToken.data.y,
-        flags: { "cyberpunk-red-core": tokenFlags },
-      }];
-      try {
-        const biTokenList = await scene.createEmbeddedDocuments("Token", tokenData);
-        const biToken = (biTokenList.length > 0) ? biTokenList[0] : null;
-        if (biToken !== null) {
-          // Update the Token Actor based on the Black ICE Program Stats, leaving any effect description in place.
-          biToken.actor.programmaticallyUpdate(programData.data.blackIceType, programData.data.per, programData.data.spd, programData.data.atk, programData.data.def, programData.data.rez, programData.data.rez);
-          const cprFlags = (typeof programData.flags["cyberpunk-red-core"] !== "undefined") ? programData.flags["cyberpunk-red-core"] : {};
-          cprFlags.biTokenId = biToken.id;
-          cprFlags.sceneId = scene.id;
-          programData.flags["cyberpunk-red-core"] = cprFlags;
-        }
-      } catch (error) {
-        LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed. Error: ${error}`);
-      }
-    } else {
-      LOGGER.error("_rezBlackIceToken | CPRItem | Attempting to rez a Black ICE however no scene appears to be active.");
+    } catch (error) {
+      LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed. Error: ${error}`);
     }
   }
 

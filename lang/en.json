@@ -511,7 +511,7 @@
     "CPR.resyncheadarmor": "Resync Head Armor",
     "CPR.resyncshield": "Resync Shield",
     "CPR.rez": "REZ",
-    "CPR.rezbiwithouttoken": "You have attempted to REZ a Black ICE, however that actor has no token, therefore it is only shown as REZ'd in the Cyberdeck.  You can de-rez it and re-rez it once the actor has a token if you want the associated Black ICE created.",
+    "CPR.rezbiwithouttoken": "You have attempted to REZ a Black ICE from a World Actor, however that actor has no token linked to it, therefore a Black ICE Actor/Token can not be created. The Black ICE Program is only shown as REZ'd in the Cyberdeck.  You can de-rez it, place an Actor Token and re-rez it from the Token Character Sheet to create the Black ICE Actor.",
     "CPR.rezzed": "Rezzed",
     "CPR.rezzedboosters": "Rezzed Boosters",
     "CPR.riding": "Riding",
