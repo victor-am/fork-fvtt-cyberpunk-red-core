@@ -86,11 +86,6 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       (event) => this._updateRoleAbility(event),
     );
 
-    // create a proper ledger record for EB
-    html.find(".eurobucks-input").click((event) => event.target.select()).change(
-      (event) => this._updateEurobucks(event),
-    );
-
     html.find(".improvement-points-edit-button").click(() => this._updateIp());
     html.find(".improvement-points-open-ledger").click(() => this.actor.showLedger("improvementPoints"));
     html.find(".eurobucks-input-button").click((event) => this._updateEurobucks(event));
