@@ -50,6 +50,7 @@
 - Fixed #226 - Lock Pick is now "Lock Picking Set". Meat arms and legs now exist and operate correctly with standard hands, feet and usable accessories.
 - Fixed #232 - Cancelling dialog boxes no longer creates errors in dev log
 - Fixed #234 - Attempting to install cyberware, where there is no suitable foundation no longer throws an error in the console.
+- Fixed Issue, with netrunning tile naming case. This caused tiles to not be displayed on linux systems.
 
 
 # Version: 0.76.2 (Hot Fix) |  Date:  2021-05-28
