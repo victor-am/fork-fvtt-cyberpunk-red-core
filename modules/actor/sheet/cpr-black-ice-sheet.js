@@ -2,6 +2,7 @@
 import CPRChat from "../../chat/cpr-chat.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import ConfigureBIActorFromProgramPrompt from "../../dialog/cpr-configure-bi-actor-from-program.js";
+import SystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
  * Implement the Black-ICE sheet.
@@ -64,7 +65,11 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
 
   async _configureFromProgram() {
     const biPrograms = game.items.filter((i) => i.type === "program" && i.data.data.class === "blackice");
-    const linkedProgramId = this.actor.token.getFlag("cyberpunk-red-core", "programId");
+    const linkedProgramId = (this.actor.isToken) ? this.actor.token.getFlag("cyberpunk-red-core", "programId") : null;
+    if (linkedProgramId === null) {
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.linkbiwithouttoken"));
+      return;
+    }
     let formData = { biProgramList: biPrograms, linkedProgramId };
     formData = await ConfigureBIActorFromProgramPrompt.RenderPrompt(formData);
     const { programId } = formData;
