@@ -48,7 +48,7 @@
     - Token Actor Data is updated with the numbers from the Black ICE Progam regardless if it is a new Actor or not
   - Deleting or de-rezzing a Black ICE on a Cyberdeck will delete the Token from the scene
   - Black ICE Rez numbers are synchronized between the Cyberdeck Rezzed section and the associated Black ICE Token
-  - Netrunner Mook Character Sheets have added functionality in the Rezzed Section for the GM:
+  - GM Only Enhancement: When using the "Character Sheet" Sheet for Mooks, GM's have added functionality in the Rezzed Section:
     - Ability to execute Black ICE attack, damage and defense rolls
     - Ability to decremened REZ
   - Black ICE Actors unassociated with a Netrunner have had functionality added to them to quickly configure them using Black ICE Program Items

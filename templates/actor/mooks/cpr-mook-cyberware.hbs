@@ -50,7 +50,7 @@
         {{item.name}} (x{{item.data.amount}}){{#unless @last}},{{/unless}}
       </a>
     {{/if}}
-    {{#if (compare item.type "===" "gear")}}
+    {{#if (compare (compare item.type "===" "gear") "||" (compare item.type "===" "cyberdeck"))}}
       <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item._id}}">
         {{item.name}}{{#unless @last}},{{/unless}}
       </a>
