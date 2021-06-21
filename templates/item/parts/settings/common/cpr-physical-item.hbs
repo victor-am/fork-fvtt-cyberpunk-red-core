@@ -34,6 +34,10 @@
         {{localize "CPR.source"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        <input name="data.source" class="" type="text" value="{{data.data.source}}" placeholder="Example: pg. 1">
+        {{#if this.editable}}
+          <input name="data.source" class="" type="text" value="{{data.data.source}}" placeholder="Example: pg. 1">
+        {{else}}
+          <span>{{data.data.source}}</span>
+        {{/if}}
     </div>
 </li>

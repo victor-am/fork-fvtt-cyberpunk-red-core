@@ -206,7 +206,7 @@ export default class CPRNetarchUtils {
       }
     });
     await this._addTilesToScene(newTiles);
-    await this.scene.activate();
+    await this.scene.view();
     SystemUtils.DisplayMessage("notify", SystemUtils.Localize("CPR.netarchgeneratedone"));
   }
 
