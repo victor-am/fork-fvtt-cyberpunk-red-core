@@ -760,28 +760,25 @@ export default class CPRItem extends Item {
     let scene;
     const blackIceName = programData.name;
 
-    const sceneList = game.scenes.filter((s) => s.active === true);
-    if (sceneList.length === 1) {
-      [scene] = sceneList;
-      if (this.actor.isToken) {
-        netrunnerToken = this.actor.token;
-      } else {
-        const tokenList = scene.tokens.filter((t) => t.actor.id === this.actor.id);
-        if (tokenList.length === 1) {
-          [netrunnerToken] = tokenList;
-          if (!netrunnerToken.isLinked) {
-            LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed because the call was made from a World Actor ${this.actor.name} which does not have a token.`);
-            SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.rezbiwithouttoken"));
-            return;
-          }
-        } else {
-          LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed because the Netrunner ${this.actor.name} does not have a token.`);
-          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.rezbiwithouttoken"));
-          return;
-        }
-      }
+    if (this.actor.isToken) {
+      netrunnerToken = this.actor.token;
     } else {
-      LOGGER.error("_rezBlackIceToken | CPRItem | Attempting to rez a Black ICE however no scene appears to be active.");
+      // Search for a token associated with this Actor ID.
+      const tokenList = game.scenes.map((tokenDoc) => tokenDoc.tokens.filter((t) => t.id === this.actor.id)).filter((s) => s.length > 0);
+      if (tokenList.length === 1) {
+        [netrunnerToken] = tokenList;
+      } else {
+        LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed because we were unable to find a Token associated with World Actor "${this.actor.name}".`);
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.rezbiwithouttoken"));
+        return;
+      }
+    }
+
+    if (netrunnerToken.isEmbedded) {
+      scene = netrunnerToken.parent;
+    } else {
+      LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed because the token does not appear to be part of a scene.`);
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.rezbiwithoutscene"));
       return;
     }
 
@@ -801,6 +798,7 @@ export default class CPRItem extends Item {
           name: blackIceName,
           type: "blackIce",
           folder: dynamicFolder,
+          img: "systems/cyberpunk-red-core/icons/netrunning/BLACK_ICE.svg",
         });
         // Configure the Actor based on the Black ICE Program Stats.
         blackIce.programmaticallyUpdate(programData.data.blackIceType, programData.data.per, programData.data.spd, programData.data.atk, programData.data.def, programData.data.rez, programData.data.rez, programData.data.description.value);
