@@ -711,6 +711,13 @@ export default class CPRItem extends Item {
   isRezzed(program) {
     LOGGER.debug("isRezzed | CPRItem | Called.");
     const rezzedPrograms = this.data.data.programs.rezzed.filter((p) => p._id === program.id);
+    const { installed } = this.data.data.programs;
+    const installIndex = installed.findIndex((p) => p._id === program.data._id);
+    const programState = installed[installIndex];
+    programState.data.isRezzed = (rezzedPrograms.length > 0);
+    installed[installIndex] = programState;
+    this.data.data.programs.installed = installed;
+    program.data.isRezzed = (rezzedPrograms.length > 0);
     return (rezzedPrograms.length > 0);
   }
 
@@ -721,7 +728,7 @@ export default class CPRItem extends Item {
    * @public
    * @param {CPRItem} program      - CPRItem of the program to REZ
    */
-  async rezProgram(program) {
+  async rezProgram(program, callingToken) {
     LOGGER.debug("rezProgram | CPRItem | Called.");
     const programData = duplicate(program.data);
     const { installed } = this.data.data.programs;
@@ -742,7 +749,7 @@ export default class CPRItem extends Item {
     programState.data.isRezzed = true;
     installed[installIndex] = programState;
     if (programData.data.class === "blackice") {
-      await this._rezBlackIceToken(programData);
+      await this._rezBlackIceToken(programData, callingToken);
     }
     this.data.data.programs.installed = installed;
     this.data.data.programs.rezzed.push(programData);
@@ -754,15 +761,17 @@ export default class CPRItem extends Item {
    * @private
    * @param {CPRItem} program      - CPRItem of the program create the Token for
    */
-  async _rezBlackIceToken(programData) {
+  async _rezBlackIceToken(programData, callingToken) {
     LOGGER.debug("_rezBlackIceToken | CPRItem | Called.");
-    let netrunnerToken;
+    let netrunnerToken = callingToken;
     let scene;
     const blackIceName = programData.name;
 
-    if (this.actor.isToken) {
+    if (!netrunnerToken && this.actor.isToken) {
       netrunnerToken = this.actor.token;
-    } else {
+    }
+
+    if (!netrunnerToken) {
       // Search for a token associated with this Actor ID.
       const tokenList = game.scenes.map((tokenDoc) => tokenDoc.tokens.filter((t) => t.id === this.actor.id)).filter((s) => s.length > 0);
       if (tokenList.length === 1) {
@@ -849,7 +858,7 @@ export default class CPRItem extends Item {
    * @public
    * @param {CPRItem} program      - CPRItem of the program de-rez
    */
-  async derezProgram(program) {
+  async derezProgram(program, token) {
     LOGGER.debug("derezProgram | CPRItem | Called.");
     const { installed } = this.data.data.programs;
     const installIndex = installed.findIndex((p) => p._id === program.id);
@@ -860,7 +869,7 @@ export default class CPRItem extends Item {
     programState.data.isRezzed = false;
     installed[installIndex] = programState;
     if (program.data.data.class === "blackice") {
-      await this._derezBlackIceToken(programData);
+      await this._derezBlackIceToken(programData, token);
     }
     const newRezzed = this.data.data.programs.rezzed.filter((p) => p._id !== program.id);
     this.data.data.programs.rezzed = newRezzed;

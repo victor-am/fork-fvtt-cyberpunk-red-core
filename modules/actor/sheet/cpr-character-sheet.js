@@ -436,17 +436,18 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     const program = this._getOwnedItem(programId);
     const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
     const cyberdeck = this._getOwnedItem(cyberdeckId);
+    const token = this.token;
     switch (executionType) {
       case "rez": {
         if (!cyberdeck.isRezzed(program)) {
-          await cyberdeck.rezProgram(program);
+          await cyberdeck.rezProgram(program, token);
           this._updateOwnedItem(cyberdeck);
         }
         break;
       }
       case "derez": {
         if (cyberdeck.isRezzed(program)) {
-          await cyberdeck.derezProgram(program);
+          await cyberdeck.derezProgram(program, token);
           this._updateOwnedItem(cyberdeck);
         }
         break;
@@ -474,8 +475,17 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       default:
     }
 
+    const updateList = [];
     if (cyberdeck.isOwned && cyberdeck.isEmbedded) {
-      this.actor.updateEmbeddedDocuments("Item", [{ _id: cyberdeck.id, data: cyberdeck.data.data }]);
+      updateList.push({ _id: cyberdeck.id, data: cyberdeck.data.data });
+    }
+
+    if (program.isOwned && program.isEmbedded) {
+      updateList.push({ _id: program.id, data: program.data.data });
+    }
+
+    if (updateList.length > 0) {
+      this.actor.updateEmbeddedDocuments("Item", updateList);
     }
   }
 
