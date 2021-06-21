@@ -36,6 +36,8 @@
 
 - Black ICE changes (will be merged with above if it all goes into the same push to master)
   - Black ICE Program type added
+  - The ability to REZ a Black ICE Program on the Cyberdeck will create a Black ICE Actor next to the Token performing the REZ
+    - **NOTE: In order for Players to REZ Black ICE Actors, they will need Foundry Permissions to create actors and tokens in the World otherwise the GM will need to REZ/deREZ the Black ICE for the players.**
   - Rezzing a Black ICE Program will:
     - Try to find a Black ICE Actor of the same name
     - If a Black ICE Actor is not found:
