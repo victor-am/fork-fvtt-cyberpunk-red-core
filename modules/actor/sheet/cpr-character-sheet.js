@@ -447,7 +447,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       }
       case "derez": {
         if (cyberdeck.isRezzed(program)) {
-          await cyberdeck.derezProgram(program, token);
+          await cyberdeck.derezProgram(program);
           this._updateOwnedItem(cyberdeck);
         }
         break;

@@ -858,7 +858,7 @@ export default class CPRItem extends Item {
    * @public
    * @param {CPRItem} program      - CPRItem of the program de-rez
    */
-  async derezProgram(program, token) {
+  async derezProgram(program) {
     LOGGER.debug("derezProgram | CPRItem | Called.");
     const { installed } = this.data.data.programs;
     const installIndex = installed.findIndex((p) => p._id === program.id);
@@ -869,7 +869,7 @@ export default class CPRItem extends Item {
     programState.data.isRezzed = false;
     installed[installIndex] = programState;
     if (program.data.data.class === "blackice") {
-      await this._derezBlackIceToken(programData, token);
+      await this._derezBlackIceToken(programData);
     }
     const newRezzed = this.data.data.programs.rezzed.filter((p) => p._id !== program.id);
     this.data.data.programs.rezzed = newRezzed;
