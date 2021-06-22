@@ -95,4 +95,10 @@ export default class CPRSystemUtils {
     }
     return requestedValue;
   }
+
+  static async GetFolder(type, name) {
+    const folderList = game.folders.filter((folder) => folder.name === name && folder.type === type);
+    // If the folder does not exist, we create it.
+    return (folderList.length === 1) ? folderList[0] : Folder.create({ name, type });
+  }
 }

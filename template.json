@@ -513,7 +513,9 @@
       ],
       "slots": 1,
       "class": "defender",
+      "blackIceType": "antipersonnel",
       "isDemon": false,
+      "prototypeActor": "",
       "modifiers": {},
       "interface": 0,
       "damage": {

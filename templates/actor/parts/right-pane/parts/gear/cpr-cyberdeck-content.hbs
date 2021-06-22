@@ -5,7 +5,7 @@
         <a class="name item-edit" title="{{item.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{item.name}}</a>
     </div>
     <div class="item-detail gear-data text-nowrap">
-        {{localize "CPR.price"}}: {{item.data.price.market}}
+        {{localize "CPR.slots"}}: {{item.data.data.slots}} | {{localize "CPR.price"}}: {{item.data.data.price.market}}
     </div>
     <div class="item-detail gear-actions text-nowrap">
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}

@@ -353,6 +353,7 @@ CPR.programClassList = {
   antiprogramattacker: "CPR.antiprogramattacker",
   booster: "CPR.booster",
   defender: "CPR.defender",
+  blackice: "CPR.blackice",
 };
 
 CPR.interfaceAbilities = {

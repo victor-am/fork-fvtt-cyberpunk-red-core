@@ -1,13 +1,12 @@
-{{trace "VERIFY-PROGRAM-ATTACK-PROMPT.HBS"}}
+{{trace "VERIFY-PROGRAM-STAT-PROMPT.HBS"}}
 <form>
     <div>
-        {{localize "CPR.rollingfor"}} "{{rollTitle}}", Choomba!
+        {{localize "CPR.rollingfor"}} "{{rollTitle}}" {{localize "CPR.defense"}}, Choomba!
     </div>
-
     <ol class="items-list">
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.stat"}} {{localize "CPR.value"}} ({{localize statName}})
+                {{localize "CPR.defense"}} {{localize "CPR.value"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="statValue" class="" type="number" data-dtype="Number" value={{statValue}}>
@@ -16,22 +15,12 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.abilityrank"}} ({{localize skillName}})
-            </div>
-            <div class="item flexrow setting-value text-nowrap item-end">
-                <input name="skillValue" class="" type="number" data-dtype="Number" value={{skillValue}}>
-            </div>
-        </li>
-
-        <li class="item flexrow">
-            <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.mods"}}/{{localize "CPR.rezzedboosters"}}:
+                {{localize "CPR.mods"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="mods" class="" type="text" data-dtype="String" value={{mods}}>
             </div>
         </li>
-
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
@@ -43,4 +32,4 @@
         </li>
     </ol>
 </form>
-{{trace "END VERIFY-PROGRAM-ATTACK-PROMPT.HBS"}}
+{{trace "END VERIFY-PROGRAM-STAT-PROMPT.HBS"}}

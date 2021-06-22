@@ -142,6 +142,7 @@ export class CPRStatRoll extends CPRRoll {
   constructor(name, value) {
     super(name, "1d10");
     LOGGER.trace(`CPRStatRoll | Constructor`);
+    this.statName = name;
     this.statValue = value;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-stat-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-stat-rollcard.hbs";
@@ -149,6 +150,11 @@ export class CPRStatRoll extends CPRRoll {
 
   _computeBase() {
     return this.initialRoll + this.totalMods() + this.statValue;
+  }
+
+  setNetCombat(rollTitle) {
+    this.rollTitle = rollTitle;
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-program-stat-rollcard.hbs";
   }
 }
 
@@ -192,7 +198,8 @@ export class CPRAttackRoll extends CPRSkillRoll {
     this.weaponType = weaponType;
   }
 
-  setNetCombat() {
+  setNetCombat(rollTitle) {
+    this.rollTitle = rollTitle;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-program-attack-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-program-attack-rollcard.hbs";
   }
@@ -333,7 +340,8 @@ export class CPRDamageRoll extends CPRRoll {
     }
   }
 
-  setNetCombat() {
+  setNetCombat(rollTitle) {
+    this.rollTitle = rollTitle;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-program-damage-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-program-damage-rollcard.hbs";
   }

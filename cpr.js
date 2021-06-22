@@ -92,12 +92,15 @@ Hooks.once("ready", () => {
   // Get the version of the data model being used for the loaded world. At
   // the end of a migration, this is updated with the current version of the
   // CPR system.
-  const dataModelVersion = game.settings.get("cyberpunk-red-core", "dataModelVersion")
-    ? game.settings.get("cyberpunk-red-core", "dataModelVersion") : "0.52";
-  // Determine if we need to perform a migration
-  const needsMigration = dataModelVersion && isNewerVersion(DATA_MODEL_VERSION, dataModelVersion);
-  if (!needsMigration) return;
-  Migration.migrateWorld(dataModelVersion, DATA_MODEL_VERSION);
+  if (!game.settings.get("cyberpunk-red-core", "dataModelVersion")) {
+    game.settings.set("cyberpunk-red-core", "dataModelVersion", DATA_MODEL_VERSION);
+  } else {
+    const dataModelVersion = game.settings.get("cyberpunk-red-core", "dataModelVersion");
+    // Determine if we need to perform a migration
+    const needsMigration = dataModelVersion && isNewerVersion(DATA_MODEL_VERSION, dataModelVersion);
+    if (!needsMigration) return;
+    Migration.migrateWorld(dataModelVersion, DATA_MODEL_VERSION);
+  }
 });
 
 registerHooks();

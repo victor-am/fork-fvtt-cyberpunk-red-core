@@ -550,6 +550,14 @@ export default class Migration {
       updateData["data.amount"] = 1;
     }
 
+    if ((typeof itemData.data.blackIceType) === "undefined" || itemData.data.blackIceType === null) {
+      updateData["data.blackIceType"] = "antipersonnel";
+    }
+
+    if ((typeof itemData.data.prototypeActor) === "undefined" || itemData.data.prototypeActor === null) {
+      updateData["data.prototypeActor"] = "";
+    }
+
     const lowerName = itemData.name.toLowerCase().replace(/\s/g, "");
 
     // Setting a default program class since we are moving from
@@ -585,6 +593,27 @@ export default class Migration {
         updateData["data.class"] = "antipersonnelattacker";
         break;
       }
+      case "asp":
+      case "giant":
+      case "hellhound":
+      case "kracken":
+      case "liche":
+      case "raven":
+      case "scorpion":
+      case "skunk":
+      case "wisp": {
+        updateData["data.class"] = "blackice";
+        updateData["data.blackIceType"] = "antipersonnel";
+        break;
+      }
+      case "dragon":
+      case "killer":
+      case "sabertooth": {
+        updateData["data.class"] = "blackice";
+        updateData["data.blackIceType"] = "antiprogram";
+        break;
+      }
+
       default:
     }
 
@@ -603,6 +632,13 @@ export default class Migration {
       }
       case "Defender": {
         updateData["data.class"] = "defender";
+        break;
+      }
+      case "BlackICE":
+      case "Black ICE":
+      case "Black-ICE": {
+        updateData["data.class"] = "blackice";
+        updateData["data.blackIceType"] = "other";
         break;
       }
       default:

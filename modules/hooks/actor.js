@@ -1,4 +1,4 @@
-/* global Hooks game */
+/* global Hooks game canvas */
 import LOGGER from "../utils/cpr-logger.js";
 import Rules from "../utils/cpr-rules.js";
 import CPRCharacterActorSheet from "../actor/sheet/cpr-character-sheet.js";
@@ -78,6 +78,27 @@ const actorHooks = () => {
           }
         },
       );
+    }
+
+    if (actor.type === "blackIce" && actor.isToken && updatedData.data && updatedData.data.stats) {
+      const biToken = actor.token;
+
+      const netrunnerTokenId = biToken.getFlag("cyberpunk-red-core", "netrunnerTokenId");
+      const cyberdeckId = biToken.getFlag("cyberpunk-red-core", "sourceCyberdeckId");
+      const programId = biToken.getFlag("cyberpunk-red-core", "programId");
+      const sceneId = biToken.getFlag("cyberpunk-red-core", "sceneId");
+      const sceneList = game.scenes.filter((s) => s.id === sceneId);
+      if (sceneList.length === 1) {
+        const scene = sceneList[0];
+        const tokenList = scene.tokens.filter((t) => t.id === netrunnerTokenId);
+        if (tokenList.length === 1) {
+          const netrunnerToken = tokenList[0];
+          const netrunner = netrunnerToken.actor;
+          const cyberdeck = netrunner._getOwnedItem(cyberdeckId);
+          cyberdeck.updateRezzedProgram(programId, updatedData.data.stats);
+          netrunner.updateEmbeddedDocuments("Item", [{ _id: cyberdeck.id, data: cyberdeck.data.data }]);
+        }
+      }
     }
   });
 
