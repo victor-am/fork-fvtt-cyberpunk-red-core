@@ -807,7 +807,7 @@ export default class CPRItem extends Item {
           name: blackIceName,
           type: "blackIce",
           folder: dynamicFolder,
-          img: "systems/cyberpunk-red-core/icons/netrunning/BLACK_ICE.svg",
+          img: "systems/cyberpunk-red-core/icons/netrunning/Black_Ice.png",
         });
         // Configure the Actor based on the Black ICE Program Stats.
         blackIce.programmaticallyUpdate(programData.data.blackIceType, programData.data.per, programData.data.spd, programData.data.atk, programData.data.def, programData.data.rez, programData.data.rez, programData.data.description.value);
