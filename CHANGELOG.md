@@ -34,7 +34,7 @@
   - Booster Speed is not taken into account for Foundry Initiative rolls.
   - Black ICE programs loaded onto the Cyberdeck are not supported in this initial release for Netrunning.  This will be implemented in a future release.
 - Street Drugs have been added to the "Gear" compendium.
-- Netrunning icons for actors (and some other things) are now included in the system. They can be accessed from the tile browser in "systems/cyberpunk-red-core/icons/netrunning". Big big thanks to Verasunrise (the artist) and Hyriu33 for letting us provide this awesome artwork with our system!
+- Netrunning icons for actors (and some other things) are now included in the system. They can be accessed from the file browser in "systems/cyberpunk-red-core/icons/netrunning". Big big thanks to Verasunrise (the artist) and Hyriu33 for letting us provide this awesome artwork with our system!
 
 - Black ICE changes (will be merged with above if it all goes into the same push to master)
   - Black ICE Program type added
@@ -67,6 +67,7 @@
 - Fixed various formatting issues on the mook sheet - i.e. whitespace trimmed; trailing commas and erroneous parentheses removed for Skills, Cyberware/Gear, Programs, and Critical Injuries lists.
 - Added icon artwork for many of the items in the shipped Weapons Compendium.  Artwork provided by [Flintwyrm](https://twitter.com/Flintwyrm).
 - Renamed some compendia to make it more clear which are necessary to import and which should not be imported.
+- Default images added for compendia. Images from from https://game-icons.net. They can be accessed from the file browser in "systems/cyberpunk-red-core/icons/compendium/default".
 
 **Bug Fixes**
 - Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item.

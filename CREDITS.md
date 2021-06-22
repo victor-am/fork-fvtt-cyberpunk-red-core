@@ -3,6 +3,7 @@
 
 ### ICON CREDITS
 - Icons, Art, Design, and Styling: [Flintwyrm](https://twitter.com/Flintwyrm)
+- Default icons for compendia provided by Lorc, Delapouite, Skoll, sbed, and John Colburn (from https://game-icons.net) under the CC-BY license (https://creativecommons.org/licenses/by/3.0/)
 
 ### ART CREDITS
 - Pause overlay image: [Olena Panasovska](https://thenounproject.com/term/cyberpunk/1797860/) (CCBY)
