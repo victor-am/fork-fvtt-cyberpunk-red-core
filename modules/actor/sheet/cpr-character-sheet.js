@@ -436,7 +436,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     const program = this._getOwnedItem(programId);
     const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
     const cyberdeck = this._getOwnedItem(cyberdeckId);
-    const token = this.token;
+    const { token } = this;
     switch (executionType) {
       case "rez": {
         if (!cyberdeck.isRezzed(program)) {
