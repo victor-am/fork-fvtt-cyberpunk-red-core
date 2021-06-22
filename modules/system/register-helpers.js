@@ -353,6 +353,61 @@ export default function registerHandlebarsHelpers() {
     return title.includes(substr);
   });
 
+  Handlebars.registerHelper("arrayConcat", (array1, array2) => {
+    LOGGER.trace("Calling arrayConcat Helper");
+    const array = array1.concat(array2);
+    return array;
+  });
+
+  Handlebars.registerHelper("getMookSkills", (array) => {
+    LOGGER.trace("Calling getMookSkills Helper");
+    const skillList = [];
+    array.forEach((skill) => {
+      if (skill.data.data.level > 0 || skill.data.data.skillmod > 0) {
+        skillList.push(skill);
+      }
+    });
+    return skillList;
+  });
+
+  Handlebars.registerHelper("getMookCyberware", (installedCyberware) => {
+    LOGGER.trace("Calling getMookCyberware Helper");
+    const installedCyberwareList = [];
+    Object.entries(installedCyberware).forEach(([k, v]) => {
+      if (installedCyberware[k].length > 0) {
+        if (k !== "cyberwareInternal" && k !== "cyberwareExternal" && k !== "fashionware") {
+          v.forEach((a) => {
+            installedCyberwareList.push(a);
+          });
+        } else if (installedCyberware[k][0].optionals.length > 0) {
+          v.forEach((a) => {
+            installedCyberwareList.push(a);
+          });
+        }
+      }
+    });
+    return installedCyberwareList;
+  });
+
+  Handlebars.registerHelper("getMookCyberwareLength", (installedCyberware) => {
+    LOGGER.trace("Calling getMookCyberwareLength Helper");
+    const installedCyberwareList = [];
+    Object.entries(installedCyberware).forEach(([k, v]) => {
+      if (installedCyberware[k].length > 0) {
+        if (k !== "cyberwareInternal" && k !== "cyberwareExternal" && k !== "fashionware") {
+          v.forEach((a) => {
+            installedCyberwareList.push(a);
+          });
+        } else if (installedCyberware[k][0].optionals.length > 0) {
+          v.forEach((a) => {
+            installedCyberwareList.push(a);
+          });
+        }
+      }
+    });
+    return installedCyberwareList.length;
+  });
+
   Handlebars.registerHelper("isDebug", () => {
     LOGGER.trace("Calling isDebug Helper");
     return game.settings.get("cyberpunk-red-core", "debugElements");

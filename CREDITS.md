@@ -7,6 +7,7 @@
 ### ART CREDITS
 - Pause overlay image: [Olena Panasovska](https://thenounproject.com/term/cyberpunk/1797860/) (CCBY)
 - Netarchitecture tiles, Dystopian City Streets, Dystopian City Junction scenes and and background picture created by [SolutionMaps](https://www.patreon.com/solutionmaps).
+- Netrunning icons provided by Verasunrise and Hyriu33.
 
 ### CODE CREDITS
 - Some of our chat message code was inspired from the [Chat Message Accessibility Indicators module](https://github.com/schultzcole/FVTT-Chat-Message-Accessibility-Indicators)

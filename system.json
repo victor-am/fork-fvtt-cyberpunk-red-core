@@ -11,7 +11,7 @@
   "styles": ["main.css"],
   "packs": [
     {
-      "label": "Skills - Core",
+      "label": "Skills (Core) - DO NOT USE",
       "entity": "Item",
       "name": "skills",
       "path": "packs/skills.db",
@@ -19,7 +19,7 @@
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Cyberware - Core",
+      "label": "Cyberware (Core) - DO NOT USE",
       "entity": "Item",
       "name": "cyberware",
       "path": "packs/cyberware.db",
@@ -27,7 +27,7 @@
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "DV Rolltables",
+      "label": "DV Rolltables - IMPORT ME",
       "entity": "RollTable",
       "name": "dvTables",
       "path": "packs/dvTables.db",
@@ -35,7 +35,7 @@
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Critical Injuries (Body)",
+      "label": "Critical Injuries (Body) - IMPORT ME",
       "entity": "Item",
       "name": "criticalInjuriesBody",
       "path": "packs/critical-injuries-body.db",
@@ -43,7 +43,7 @@
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Critical Injuries (Head)",
+      "label": "Critical Injuries (Head) - IMPORT ME",
       "entity": "Item",
       "name": "criticalInjuriesHead",
       "path": "packs/critical-injuries-head.db",
@@ -51,7 +51,7 @@
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Critical Injury Tables",
+      "label": "Critical Injury Tables - IMPORT ME",
       "entity": "RollTable",
       "name": "criticalInjuryTables",
       "path": "packs/critical-injury-tables.db",

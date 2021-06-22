@@ -33,7 +33,8 @@
 - Netrunning TODO
   - Booster Speed is not taken into account for Foundry Initiative rolls.
   - Black ICE programs loaded onto the Cyberdeck are not supported in this initial release for Netrunning.  This will be implemented in a future release.
-  - Street Drugs have been added to the "Gear" compendium. 
+- Street Drugs have been added to the "Gear" compendium.
+- Netrunning icons for actors (and some other things) are now included in the system. They can be accessed from the tile browser in "systems/cyberpunk-red-core/icons/netrunning". Big big thanks to Verasunrise (the artist) and Hyriu33 for letting us provide this awesome artwork with our system!
 
 - Black ICE changes (will be merged with above if it all goes into the same push to master)
   - Black ICE Program type added
@@ -59,24 +60,22 @@
 **Migration to foundry 0.8.X**
 - Migrated the source code to work with foundry version 0.8.X
 - Rewrote the migration code support new features from foundry 0.8.X
-- Several bugfixes after initial migration to foundry version 0.8.X
-    - !402 Fixed error in console, when deleting an item from the inventory
-    - !405 Fixed error message appearing, when rolling for critical injuries in case all possible ones were already applied
-    - !406 Fixed an error when rendering the item sheet of a net architecture
-    - !407 Tiles are now properly removed when regenerating the net architecture scene
 
 **Changes**
 - Restructured the code for character and mook sheets for ease of development
 - Changed the scene activation when generating a scene from a net architecture to just viewing the scene. This allows to show the new scene to the GM, but not the players in order to do some more preparation if needed.
+- Fixed various formatting issues on the mook sheet - i.e. whitespace trimmed; trailing commas and erroneous parentheses removed for Skills, Cyberware/Gear, Programs, and Critical Injuries lists.
 - Added icon artwork for many of the items in the shipped Weapons Compendium.  Artwork provided by [Flintwyrm](https://twitter.com/Flintwyrm).
+- Renamed some compendia to make it more clear which are necessary to import and which should not be imported.
 
 **Bug Fixes**
 - Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item.
 - Code added so New Worlds will not immediately go through migration
 - Fixed warning when the medtech would put the proper amount of points into surgery. The intention is, that per time you choose the surergy skill you should add two point there.
-- Fixed #226 - Lock Pick is now "Lock Picking Set". Meat arms and legs now exist and operate correctly with standard hands, feet and usable accessories. 
+- Fixed #226 - Lock Pick is now "Lock Picking Set". Meat arms and legs now exist and operate correctly with standard hands, feet and usable accessories.
 - Fixed #232 - Cancelling dialog boxes no longer creates errors in dev log
 - Fixed #234 - Attempting to install cyberware, where there is no suitable foundation no longer throws an error in the console.
+- Fixed Issue, with netrunning tile naming case. This caused tiles to not be displayed on linux systems.
 
 
 # Version: 0.76.2 (Hot Fix) |  Date:  2021-05-28
