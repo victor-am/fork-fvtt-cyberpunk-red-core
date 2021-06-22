@@ -33,7 +33,8 @@
 - Netrunning TODO
   - Booster Speed is not taken into account for Foundry Initiative rolls.
   - Black ICE programs loaded onto the Cyberdeck are not supported in this initial release for Netrunning.  This will be implemented in a future release.
-  - Street Drugs have been added to the "Gear" compendium.
+- Street Drugs have been added to the "Gear" compendium.
+- Netrunning icons for actors (and some other things) are now included in the system. They can be accessed from the tile browser in "systems/cyberpunk-red-core/icons/netrunning". Big big thanks to Verasunrise (the artist) and Hyriu33 for letting us provide this awesome artwork with our system!
 
 **Migration to foundry 0.8.X**
 - Migrated the source code to work with foundry version 0.8.X
