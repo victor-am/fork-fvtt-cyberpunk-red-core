@@ -192,7 +192,59 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     const itemString = "ITEM.Type";
     const itemTypeLocal = itemString.concat(itemTypeNice);
     const itemName = `${SystemUtils.Localize("CPR.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
-    const itemData = { name: itemName, type: itemType };
+    let itemImage;
+    switch (itemType) {
+      case "ammo": {
+        itemImage = "systems/cyberpunk-red-core/icons/compendium/default/Default_Ammo.svg";
+        break;
+      }
+      case "armor": {
+        itemImage = "systems/cyberpunk-red-core/icons/compendium/default/Default_Armor.svg";
+        break;
+      }
+      case "clothing": {
+        itemImage = "systems/cyberpunk-red-core/icons/compendium/default/Default_Clothing.svg";
+        break;
+      }
+      case "criticalInjury": {
+        itemImage = "systems/cyberpunk-red-core/icons/compendium/default/Default_Critical_Injury.svg";
+        break;
+      }
+      case "cyberdeck": {
+        itemImage = "systems/cyberpunk-red-core/icons/compendium/default/Default_Cyberdeck.svg";
+        break;
+      }
+      case "cyberware": {
+        itemImage = "systems/cyberpunk-red-core/icons/compendium/default/Default_Cyberware.svg";
+        break;
+      }
+      case "gear": {
+        itemImage = "systems/cyberpunk-red-core/icons/compendium/default/Default_Gear.svg";
+        break;
+      }
+      case "netarch": {
+        itemImage = "systems/cyberpunk-red-core/icons/compendium/default/Default_Net_Architecture.svg";
+        break;
+      }
+      case "program": {
+        itemImage = "systems/cyberpunk-red-core/icons/compendium/default/Default_Program.svg";
+        break;
+      }
+      case "skill": {
+        itemImage = "systems/cyberpunk-red-core/icons/compendium/default/Default_Skill.svg";
+        break;
+      }
+      case "vehicle": {
+        itemImage = "systems/cyberpunk-red-core/icons/compendium/default/Default_Vehicle.svg";
+        break;
+      }
+      case "weapon": {
+        itemImage = "systems/cyberpunk-red-core/icons/compendium/weapons/heavyPistol.svg";
+        break;
+      }
+      default:
+    }
+    const itemData = { img: itemImage, name: itemName, type: itemType };
     await this.actor.createEmbeddedDocuments("Item", [itemData]);
   }
 
