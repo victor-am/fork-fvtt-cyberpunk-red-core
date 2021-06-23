@@ -1,5 +1,6 @@
 /* global Hooks game canvas */
 import LOGGER from "../utils/cpr-logger.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 const itemHooks = () => {
   Hooks.on("preCreateItem", (doc, createData, options, userId) => {
@@ -14,57 +15,8 @@ const itemHooks = () => {
       the function _createInventoryItem in cpr-character-sheet.js and cpr-container-sheet.js.
       */
     if ((typeof createData.img === "undefined") && doc.parent === null) {
-      switch (createData.type) {
-        case "ammo": {
-          doc.data.update({ img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Ammo.svg" });
-          break;
-        }
-        case "armor": {
-          doc.data.update({ img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Armor.svg" });
-          break;
-        }
-        case "clothing": {
-          doc.data.update({ img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Clothing.svg" });
-          break;
-        }
-        case "criticalInjury": {
-          doc.data.update({ img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Critical_Injury.svg" });
-          break;
-        }
-        case "cyberdeck": {
-          doc.data.update({ img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Cyberdeck.svg" });
-          break;
-        }
-        case "cyberware": {
-          doc.data.update({ img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Cyberware.svg" });
-          break;
-        }
-        case "gear": {
-          doc.data.update({ img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Gear.svg" });
-          break;
-        }
-        case "netarch": {
-          doc.data.update({ img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Net_Architecture.svg" });
-          break;
-        }
-        case "program": {
-          doc.data.update({ img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Program.svg" });
-          break;
-        }
-        case "skill": {
-          doc.data.update({ img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Skill.svg" });
-          break;
-        }
-        case "vehicle": {
-          doc.data.update({ img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Vehicle.svg" });
-          break;
-        }
-        case "weapon": {
-          doc.data.update({ img: "systems/cyberpunk-red-core/icons/compendium/weapons/heavyPistol.svg" });
-          break;
-        }
-        default:
-      }
+      const itemImage = SystemUtils.GetDefaultImage("Item", createData.type);
+      doc.data.update({ img: itemImage });
     }
   });
 };
