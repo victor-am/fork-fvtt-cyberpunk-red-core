@@ -4,19 +4,16 @@ import LOGGER from "../utils/cpr-logger.js";
 const itemHooks = () => {
   Hooks.on("preCreateItem", (doc, createData, options, userId) => {
     LOGGER.trace("preCreateItem | itemHooks | Called.");
-    /* This hook overrides Foundry's default item images when items are created in, dragged to, or imported to the
-      sidebar.
+    /* This hook overrides Foundry's default item images when items are created in the sidebar.
 
-      The first check makes sure the image isn't overridden if the item is dragged from the character sheet to the
-      sidebar. This is the case if createData.img is defined. This addresses the niche case where a user chooses the
-      default item-bag.svg from Foundry for an item on their sheet, and then drags it to the sidebar.
+      The first check makes sure the image isn't overridden if the item is dragged from a character sheet to the
+      sidebar, or imported to the sidebar from a compendium. In both of these cases, createData.img is defined,
+      whereas when creating an item from the sidebar directly, it is not.
 
-      The second check makes sure the item isn't being created on an actor.
-
-      The third check makes sure that the image isn't overridden when being imported from the compendium. That is,
-      it verifies that the item being created is trying to use the default Foundry item image.
+      The second check makes sure the item isn't being created on an actor. This case is addressed in
+      the function _createInventoryItem in cpr-character-sheet.js and cpr-container-sheet.js.
       */
-    if ((typeof createData.img === "undefined") && doc.parent === null && doc.data.img === "icons/svg/item-bag.svg") {
+    if ((typeof createData.img === "undefined") && doc.parent === null) {
       switch (createData.type) {
         case "ammo": {
           doc.data.update({ img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Ammo.svg" });
