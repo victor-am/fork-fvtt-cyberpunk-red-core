@@ -113,6 +113,63 @@ const actorHooks = () => {
       }
     }
   });
+
+  Hooks.on("preCreateItem", (itemData, createData, options, userId) => {
+    LOGGER.trace("createOwnedItem | actorHooks | Called.");
+    if (itemData.parent === null) {
+      switch (createData.type) {
+        case "ammo": {
+          itemData.data.update({img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Ammo.svg"});
+          break;
+        }
+        case "armor": {
+          itemData.data.update({img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Armor.svg"});
+          break;
+        }
+        case "clothing": {
+          itemData.data.update({img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Clothing.svg"});
+          break;
+        }
+        case "criticalInjury": {
+          itemData.data.update({img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Critical_Injury.svg"});
+          break;
+        }
+        case "cyberdeck": {
+          itemData.data.update({img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Cyberdeck.svg"});
+          break;
+        }
+        case "cyberware": {
+          itemData.data.update({img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Cyberware.svg"});
+          break;
+        }
+        case "gear": {
+          itemData.data.update({img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Gear.svg"});
+          break;
+        }
+        case "netarch": {
+          itemData.data.update({img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Net_Architecture.svg"});
+          break;
+        }
+        case "program": {
+          itemData.data.update({img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Program.svg"});
+          break;
+        }
+        case "skill": {
+          itemData.data.update({img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Skill.svg"});
+          break;
+        }
+        case "vehicle": {
+          itemData.data.update({img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Vehicle.svg"});
+          break;
+        }
+        case "weapon": {
+          itemData.data.update({img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Weapon.svg"});
+          break;
+        }
+        default:
+      }
+    }
+  });
 };
 
 export default actorHooks;
