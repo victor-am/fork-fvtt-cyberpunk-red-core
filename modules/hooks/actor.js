@@ -163,7 +163,7 @@ const actorHooks = () => {
           break;
         }
         case "weapon": {
-          itemData.data.update({img: "systems/cyberpunk-red-core/icons/compendium/default/Default_Weapon.svg"});
+          itemData.data.update({img: "systems/cyberpunk-red-core/icons/compendium/weapons/heavyPistol.svg"});
           break;
         }
         default:
