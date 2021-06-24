@@ -156,15 +156,15 @@ export default class CPRSystemUtils {
     } else if (foundryObject === "Actor") {
       switch (objectType) {
         case "blackIce": {
-          imageLink = "systems/cyberpunk-red-core/icons/netrunning/Black_Ice/png";
+          imageLink = "systems/cyberpunk-red-core/icons/netrunning/Black_Ice.png";
           break;
         }
         case "container": {
-          imageLink = "icons/svg/item-bag.svg";
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Gear.svg";
           break;
         }
         default: {
-          imageLink = "icons/svg/mystery-man.svg";
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_CPR_Mystery_Man.svg";
         }
       }
     }
