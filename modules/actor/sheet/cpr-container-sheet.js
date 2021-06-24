@@ -40,9 +40,13 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     data.userOwnedActors.unshift({ id: "", name: "--" });
     if (game.user.character !== undefined) {
       data.userCharacter = game.user.character.id;
-      this.tradePartnerId = game.user.character.id;
+      if (this.tradePartnerId === undefined) {
+        this.tradePartnerId = game.user.character.id;
+      }
+      data.tradePartnerId = this.tradePartnerId;
     } else {
       data.userCharacter = "";
+      data.tradePartnerId = this.tradePartnerId;
     }
     return data;
   }
