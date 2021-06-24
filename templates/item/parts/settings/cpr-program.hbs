@@ -32,7 +32,11 @@
                         {{localize "CPR.slots"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
                         <input name="data.slots" class="" type="number" value="{{data.data.slots}}" placeholder="1">
+                        {{else}}
+                        <span class="text-flex-end">{{data.data.slots}}</span>
+                        {{/if}}
                     </div>
                 </li>
 
@@ -81,7 +85,11 @@
                         {{localize "CPR.boostermodifiers"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
                         <a class="program-add-booster-modifier" title="{{localize "CPR.addboostermodifier"}}"><i class="fas fa-plus-circle text-padding-right"></i></a>
+                        {{else}}
+                        <i class="fas fa-plus-circle text-padding-right"></i>
+                        {{/if}}
                     </div>
                 </li>
                 <li class="item flexrow text-bold">
@@ -112,7 +120,9 @@
                         {{boosterValue}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
                         <a class="program-del-booster-modifier" data-booster-type="{{boosterType}}"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.delboostermodifier"}}"></i></a>
+                        {{/if}}
                     </div>
                 </li>
                 {{/each}}
@@ -133,7 +143,11 @@
                             {{/if}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
+                            {{#if this.editable}}
                             <input name="data.damage.standard" class="" type="text" value="{{data.data.damage.standard}}">
+                            {{else}}
+                            <span class="text-flex-end">{{data.data.damage.standard}}</span>
+                            {{/if}}
                         </div>
                     </li>
                     {{/if}}
@@ -144,7 +158,11 @@
                           {{localize "CPR.damageto"}} {{#if (compare data.data.class "===" "blackice")}}{{localize "CPR.programs"}}{{else}}{{localize "CPR.blackice"}}{{/if}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
+                            {{#if this.editable}}
                             <input name="data.damage.blackIce" class="" type="text" value="{{data.data.damage.blackIce}}">
+                            {{else}}
+                            <span class="text-flex-end">{{data.data.damage.blackIce}}</span>
+                            {{/if}}
                         </div>
                     </li>
                     {{/if}}
@@ -157,7 +175,11 @@
                         {{localize "CPR.per"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
                         <input name="data.per" class="" type="number" value="{{data.data.per}}" placeholder="5">
+                        {{else}}
+                        <span class="text-flex-end">{{data.data.per}}</span>
+                        {{/if}}
                     </div>
                 </li>
 
@@ -166,7 +188,11 @@
                         {{localize "CPR.spd"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
                         <input name="data.spd" class="" type="number" value="{{data.data.spd}}" placeholder="5">
+                        {{else}}
+                        <span class="text-flex-end">{{data.data.spd}}</span>
+                        {{/if}}
                     </div>
                 </li>
 
@@ -176,7 +202,11 @@
                         {{localize "CPR.atk"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
                         <input name="data.atk" class="" type="number" value="{{data.data.atk}}" placeholder="5">
+                        {{else}}
+                        <span class="text-flex-end">{{data.data.atk}}</span>
+                        {{/if}}
                     </div>
                 </li>
 
@@ -186,7 +216,11 @@
                         {{localize "CPR.def"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
                         <input name="data.def" class="" type="number" value="{{data.data.def}}" placeholder="5">
+                        {{else}}
+                        <span class="text-flex-end">{{data.data.def}}</span>
+                        {{/if}}
                     </div>
                 </li>
 
@@ -196,7 +230,11 @@
                         {{localize "CPR.rez"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
                         <input name="data.rez" class="" type="number" value="{{data.data.rez}}" placeholder="5">
+                        {{else}}
+                        <span class="text-flex-end">{{data.data.rez}}</span>
+                        {{/if}}
                     </div>
                 </li>
             </ol>
