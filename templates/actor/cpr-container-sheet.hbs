@@ -27,7 +27,7 @@
             <div class="item-name text-nowrap trade-with-label">{{localize "CPR.tradewith"}}:</div>
             <div class="item-end">
               <select class="trade-with-dropdown">
-                {{#select userCharacter}}
+                {{#select tradePartnerId}}
                   {{#each userOwnedActors}}
                     <option value="{{this.id}}">{{this.name}}</option>
                   {{/each}}
