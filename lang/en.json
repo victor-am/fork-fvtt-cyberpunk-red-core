@@ -455,7 +455,7 @@
     "CPR.optionalslots": "Optional slots",
     "CPR.other": "Other",
     "CPR.owned": "Owned",
-    "CPR.owneditemonlyerror": "Error: Feature only enabled for items owned by an Actor",
+    "CPR.owneditemonlyerror": "Error: Feature only enabled for items owned by a Character or Mook",
     "CPR.paintordraworsculpt": "Paint/Draw/Sculpt",
     "CPR.paramedic": "Paramedic",
     "CPR.paramedicsurgery": "Paramedic/Surgery",

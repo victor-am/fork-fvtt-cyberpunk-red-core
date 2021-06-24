@@ -436,7 +436,7 @@ export default class CPRItemSheet extends ItemSheet {
     // Get the actor that owns this cyberdeck (if owned)
     const actor = (cyberdeck.isOwned) ? cyberdeck.actor : null;
 
-    if (!actor) {
+    if (!actor || (actor.type !== "character" && actor.type !== "mook")) {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.owneditemonlyerror"));
       return;
     }
