@@ -258,4 +258,13 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       }
     }
   }
+
+  async _onDrop(event) {
+    const playersCanCreate = getProperty(this.actor.data, "flags.cyberpunk-red-core.players-create");
+    if (game.user.isGM || playersCanCreate) {
+      super._onDrop(event);
+    } else {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.tradedraginwarn"));
+    }
+  }
 }

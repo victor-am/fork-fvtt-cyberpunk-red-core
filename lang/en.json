@@ -648,6 +648,8 @@
     "CPR.tradecontainertypeloot": "Loot - All items are free",
     "CPR.tradecontainertypeshop": "Shop - Items can be purchased",
     "CPR.tradecontainertypestash": "Stash - Storage container",
+    "CPR.tradedraginwarn": "You lack the permission to create items in this container.",
+    "CPR.tradedragoutwarn": "It is not allowed to drag an item out of a container actor.",
     "CPR.tradefreeitems": "Are all Items free?",
     "CPR.tradegmsettings": "GM Settings",
     "CPR.tradeinfinitestock": "Infinite Stock?",
