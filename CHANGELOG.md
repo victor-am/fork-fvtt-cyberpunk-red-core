@@ -6,7 +6,18 @@
 - Improved Ledger functionality of the Eurobucks/wealth and Improvement Points of characters
     - A new display of the ledger of both of these properties, to show all transactions done in the past, is now available.
     - Modification now gives the possibility to give a reason for the change and it is recorded who did the change.
-- Added container actor sheet, which can be used for shops, loot or storage purposes. Please note, that the players have to be owners of the container actor for full functionality.
+- Added container actor sheet, which can be used for shops, loot or storage purposes.
+  - **Please note, that the players have to be owners of the container actor for full functionality.**
+  - Type Shop: Items cost their configured price and can be bought by the players with the click of a button. The GM has the option to make the stock of the shop be infinite or not. If it is not infinite the item will be removed after purchase.
+  - Type Loot: Items are free to take and will be removed after taking them.
+  - Type Stash: In addition to the same functionality as "Loot", the players can also modify the contents of the container, e.g. to use it as a group stash.
+  - Type Custom: The GM has the option to specify the settings as desired.
+    - Are all items free? - Makes taking an item from the container not cost anything. (On for Loot and Stash, Off for Shop)
+    - Infinite Stock? - Items are not removed from the container after purchasing/taking them. (Off for Loot and Stash, GM can decide in case of Shop)
+    - Players can create items? - Allows to add new items with the plus sign in the header of each category for the players. Also allows players to drag items into the container. (On for Stash, else Off)
+    - Players can delete items? - Allows players to delete items with the trash can symbol. (On for Stahl, else Off)
+    - Players can modify items? - Allows modification of the items. If enabled the item sheets render in an editable way, otherwise they render in a non-editable way. (On for Stash, else Off)
+  - Players are not allowed to drag an item out of the container actor to their character sheet. This is only enabled for the GM, as otherwise the players could "steal" items from the container. Players have to use the take/purchase button for that.
 
 - Netrunning Initial Implementation
   - Introduction of the Item Object: Cyberdeck
