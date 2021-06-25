@@ -1,4 +1,4 @@
-# WIP Version 0.77.3 | Dev Branch
+# Version 0.77.0 | Date: 2021-06-25
 
 **New Features**
 - Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title.
@@ -20,7 +20,7 @@
   - Players are not allowed to drag an item out of the container actor to their character sheet. This is only enabled for the GM, as otherwise the players could "steal" items from the container. Players have to use the take/purchase button for that.
   - **KNOWN ISSUE:** Currently, there is a [bug](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues/261) affecting unlinked container actors therefore we recommend to workaround this bug, when you create a new container actor, change the Prototype Token to Link Actor Data.  This bug will be addressed in a future release.
   - We now support an Italian translation! (thank you Misthero!)
-  
+
 - Netrunning Initial Implementation
   - Introduction of the Item Object: Cyberdeck
     - Migration code added for existing "Gear" items which have the word "cyberdeck" in the name. These items will be pre-pended with a '[MIGRATED]' tag on it to help identify that the item should be replaced with a new Cyberdeck Item. We have opted to not automate this replacement as people may update just prior to hosting a game and this would/could cause issues for planned sessions.
