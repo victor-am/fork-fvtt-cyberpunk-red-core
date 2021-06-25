@@ -16,6 +16,10 @@ export default class CPRCharacterActor extends CPRActor {
       createData.items = [];
       const tmpItems = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
       tmpItems.forEach((item) => {
+        // With 0.8.8 a warning about effects not being an array was thrown,
+        // this converts it into an array for the creation.
+        // eslint-disable-next-line no-param-reassign
+        item.data.effects = item.data.effects.contents;
         createData.items.push(item.data);
       });
       createData.token = {
