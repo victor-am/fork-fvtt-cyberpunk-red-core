@@ -1,5 +1,5 @@
 {
-  "version": "0.77.0",
+  "version": "0.78.0",
   "name": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
@@ -148,6 +148,6 @@
   "background" : "Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
   "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/system.json",
-  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.77.0/fvtt-cyberpunk-red-core-v0.77.0.zip",
+  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.78.0/fvtt-cyberpunk-red-core-v0.78.0.zip",
   "license": "Copyright 2020, The Project Red Team"
 }
