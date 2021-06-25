@@ -1,24 +1,45 @@
-/* global ActorSheet, mergeObject, $, setProperty, game, getProperty, hasProperty, duplicate */
-/* eslint class-methods-use-this: ["warn", {
-  "exceptMethods": ["_handleRollDialog", "_getHands", "_getItemId", "_getObjProp"]
-}] */
+/* global ActorSheet, $, setProperty, game, getProperty, mergeObject duplicate */
+import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
 import CPRChat from "../../chat/cpr-chat.js";
-import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
-import RollCriticalInjuryPrompt from "../../dialog/cpr-roll-critical-injury-prompt.js";
 import LOGGER from "../../utils/cpr-logger.js";
+import RollCriticalInjuryPrompt from "../../dialog/cpr-roll-critical-injury-prompt.js";
 import Rules from "../../utils/cpr-rules.js";
-import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
-import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
- * Extend the basic ActorSheet.
+ * Extend the basic ActorSheet, which comes from Foundry. Not all sheets used in
+ * this system module may extend from this. Others also extend ActorSheet. CPRActor
+ * is used for common code between Mook sheets and Character sheets.
  * @extends {ActorSheet}
  */
 export default class CPRActorSheet extends ActorSheet {
-  /** @override */
+  /**
+   * We extend ActorSheet._render to enable automatic window resizing.
+   * Only resize the sheet with default size, as render option is called on several differnt update events.
+   * Should one still desire resizing the sheet afterwards, please call _automaticResize explicitly.
+   *
+   * @override
+   * @private
+   * @param {Boolean} force - for this to be rendered. We don't use this, but the parent class does.
+   * @param {Object} options - rendering options that are passed up the chain to the parent
+   */
+  async _render(force = false, options = {}) {
+    LOGGER.trace("_render | CPRActorSheet | Called.");
+    await super._render(force, options);
+    if (this.position.width === this.options.defaultWidth && this.position.height === this.options.defaultHeight) {
+      this._automaticResize();
+    }
+  }
+
+  /**
+   * Set the default width and height so auto-resizing of the window works. Child classes will
+   * merge additional default options with this object.
+   *
+   * @override
+   * @returns - sheet options merged with default options in ActorSheet
+   */
   static get defaultOptions() {
     LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
     const defaultWidth = 800;
@@ -33,425 +54,50 @@ export default class CPRActorSheet extends ActorSheet {
     });
   }
 
-  async _render(force = false, options = {}) {
-    LOGGER.trace("ActorSheet | _render | Called.");
-    await super._render(force, options);
-    if (this.position.width === this.options.defaultWidth && this.position.height === this.options.defaultHeight) {
-      // Only resize the sheet with default size, as render option is called on several differnt update events
-      // Should one still desire resizing the sheet afterwards, please call _automaticResize explicitly.
-      this._automaticResize();
-    }
-  }
-
-  /* -------------------------------------------- */
-  /** @override */
+  /**
+   * Get actor data into a more convenient organized structure. This should be called sparingly in code.
+   * Only add new data points to getData when you need a complex struct, not when you only need to add
+   * new data points to shorten dataPaths.
+   *
+   * @override
+   * @returns {Object} data - a curated structure of actorSheet data
+   */
   getData() {
-    // TODO - Understand how to use getData and when.
-    // INFO - Only add new data points to getData when you need a complex struct.
-    // DO NOT add new data points into getData to shorten dataPaths
-    LOGGER.trace("ActorID getData | CPRActorSheet | Called.");
+    LOGGER.trace("getData | CPRActorSheet | Called.");
     const data = super.getData();
-    data.filteredItems = this.actor.filteredItems;
-    data.installedCyberware = this._getSortedInstalledCyberware();
+    data.filteredItems = this.actor.data.filteredItems;
+    if (this.actor.data.type === "mook" || this.actor.data.type === "character") {
+      data.installedCyberware = this._getSortedInstalledCyberware();
+
+      data.fightOptions = (this.actor.hasItemTypeEquipped("cyberdeck")) ? "both" : "";
+      let fightState = this.actor.getFlag("cyberpunk-red-core", "fightState");
+      if (!fightState || data.fightOptions !== "both") {
+        fightState = "Meatspace";
+      }
+      data.fightState = fightState;
+      data.cyberdeck = "";
+      if (fightState === "Netspace") {
+        data.cyberdeck = this.actor.getEquippedCyberdeck();
+      }
+      const programsInstalled = [];
+      this.actor.data.filteredItems.cyberdeck.forEach((deck) => {
+        deck.data.data.programs.installed.forEach((program) => {
+          programsInstalled.push(program._id);
+        });
+      });
+      data.filteredItems.programsInstalled = programsInstalled;
+    }
     return data;
   }
 
-  /* -------------------------------------------- */
-  /** @override */
-  activateListeners(html) {
-    // allow navigation for non owned actors
-    this._tabs.forEach((t) => t.bind(html[0]));
-
-    // Make a roll
-    html.find(".rollable").click((event) => this._onRoll(event));
-
-    // Cycle equipment status
-    html.find(".equip").click((event) => this._cycleEquipState(event));
-
-    // Repair Armor
-    html.find(".repair").click((event) => this._repairArmor(event));
-
-    // Ablate Armor
-    html.find(".ablate").click((event) => this._ablateArmor(event));
-
-    // Set Armor as Current
-    html.find(".armor-current").click((event) => this._makeArmorCurrent(event));
-
-    // Install Cyberware
-    html.find(".install-remove-cyberware").click((event) => this._installRemoveCyberwareAction(event));
-
-    // Generic item action
-    html.find(".item-action").click((event) => this._itemAction(event));
-
-    html.find(".item-view").click((event) => this._renderReadOnlyItemCard(event));
-
-    // Reset Death Penalty
-    html.find(".reset-value").click((event) => this._resetActorValue(event));
-
-    // Select Roles for Character
-    html.find(".select-roles").click(() => this._selectRoles());
-
-    // Set Lifepath for Character
-    html.find(".set-lifepath").click(() => this._setLifepath());
-
-    html.find(".checkbox").click((event) => this._checkboxToggle(event));
-
-    html.find(".toggle-favorite-visibility").click((event) => {
-      const collapsibleElement = $(event.currentTarget).parents(".collapsible");
-      const skillCategory = event.currentTarget.id.replace("-showFavorites", "");
-      const categoryTarget = $(collapsibleElement.find(`#${skillCategory}`));
-
-      if ($(collapsibleElement).find(".collapse-icon").hasClass("hide")) {
-        $(categoryTarget).click();
-      }
-      $(collapsibleElement).find(".show-favorites").toggleClass("hide");
-      $(collapsibleElement).find(".hide-favorites").toggleClass("hide");
-      const itemOrderedList = $(collapsibleElement).children("ol");
-      const itemList = $(itemOrderedList).children("li");
-      itemList.each((lineIndex) => {
-        const lineItem = itemList[lineIndex];
-        if ($(lineItem).hasClass("item") && $(lineItem).hasClass("favorite")) {
-          $(lineItem).toggleClass("hide");
-        }
-      });
-      if ($(collapsibleElement).find(".show-favorites").hasClass("hide")) {
-        if (!this.options.collapsedSections.includes(event.currentTarget.id)) {
-          this.options.collapsedSections.push(event.currentTarget.id);
-        }
-      } else {
-        this.options.collapsedSections = this.options.collapsedSections.filter(
-          (sectionName) => sectionName !== event.currentTarget.id,
-        );
-        $(categoryTarget).click();
-      }
-    });
-
-    html.find(".expand-button").click((event) => {
-      const collapsibleElement = $(event.currentTarget).parents(".collapsible");
-      $(collapsibleElement).find(".collapse-icon").toggleClass("hide");
-      $(collapsibleElement).find(".expand-icon").toggleClass("hide");
-      const itemOrderedList = $(collapsibleElement).children("ol");
-      const itemList = $(itemOrderedList).children("li");
-      itemList.each((lineIndex) => {
-        const lineItem = itemList[lineIndex];
-        if ($(lineItem).hasClass("item") && !$(lineItem).hasClass("favorite")) {
-          $(lineItem).toggleClass("hide");
-        }
-      });
-
-      if (this.options.collapsedSections.includes(event.currentTarget.id)) {
-        this.options.collapsedSections = this.options.collapsedSections.filter(
-          (sectionName) => sectionName !== event.currentTarget.id,
-        );
-      } else {
-        this.options.collapsedSections.push(event.currentTarget.id);
-      }
-    });
-
-    // Show edit and delete buttons
-    html.find(".row.item").hover(
-      (event) => {
-        // show edit and delete buttons
-        $(event.currentTarget).contents().contents().addClass("show");
-      },
-      (event) => {
-        // hide edit and delete buttons
-        $(event.currentTarget).contents().contents().removeClass("show");
-      },
-    );
-
-    // hide skills by category on clicking header
-    html.find(".skills .header").click((event) => {
-      const header = $(event.currentTarget);
-      const category = header.attr("data-skill-category-name");
-      // eslint-disable-next-line no-restricted-syntax
-      for (const i of html.find(".row.skill")) {
-        if (i.attributes[2].nodeValue === category) {
-          // eslint-disable-next-line no-unused-expressions
-          i.classList.contains("hide") ? i.classList.remove("hide") : i.classList.add("hide");
-        }
-      }
-    });
-
-    // Item Dragging
-
-    const handler = (ev) => this._onDragItemStart(ev);
-    html.find(".item").each((i, li) => {
-      li.setAttribute("draggable", true);
-      li.addEventListener("dragstart", handler, false);
-    });
-
-    if (!this.options.editable) return;
-    // Listeners for editable fields under here
-
-    $("input[type=text]").focusin(() => $(this).select());
-
-    // Render Item Card
-    html.find(".item-edit").click((event) => this._renderItemCard(event));
-
-    // Create item in inventory
-    html.find(".item-create").click((event) => this._createInventoryItem(event));
-
-    // Roll critical injuries and add to sheet
-    html.find(".roll-critical-injury").click(() => this._rollCriticalInjury());
-
-    // Add New Skill Item To Sheet
-    html.find(".add-skill").click((event) => this._addSkill(event));
-
-    html.find(".skill-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
-
-    html.find(".weapon-input").click((event) => event.target.select()).change((event) => this._updateWeaponAmmo(event));
-
-    html.find(".amount-input").click((event) => event.target.select()).change((event) => this._updateAmount(event));
-
-    html.find(".ip-input").click((event) => event.target.select()).change((event) => this._updateIp(event));
-
-    html.find(".ability-input").click((event) => event.target.select()).change(
-      (event) => this._updateRoleAbility(event),
-    );
-
-    html.find(".eurobucks-input").click((event) => event.target.select()).change(
-      (event) => this._updateEurobucks(event),
-    );
-
-    html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
-
-    // Sheet resizing
-    html.find(".tab-label:not(.skills-tab):not(.gear-tab):not(.cyberware-tab)").click(
-      (event) => this._automaticResize(),
-    );
-
-    // handle the delete key
-    // div elements need focus for the DEL key to work on them
-    html.find(".deletable").hover((event) => $(event.currentTarget).focus());
-    html.find(".deletable").keydown((event) => this._handleKey(event));
-    super.activateListeners(html);
-  }
-
-  /* -------------------------------------------- */
-  //  INTERNAL METHODS BELOW HERE
-  /* -------------------------------------------- */
-
-  // Dispatcher that executes a roll based on the "type" passed in the event
-  async _onRoll(event) {
-    LOGGER.trace("ActorID _onRoll | CPRActorSheet | Called.");
-
-    let rollType = $(event.currentTarget).attr("data-roll-type");
-    let cprRoll;
-    let item = null;
-    switch (rollType) {
-      case CPRRolls.rollTypes.DEATHSAVE:
-      case CPRRolls.rollTypes.ROLEABILITY:
-      case CPRRolls.rollTypes.STAT: {
-        const rollName = $(event.currentTarget).attr("data-roll-title");
-        cprRoll = this.actor.createRoll(rollType, rollName);
-        break;
-      }
-      case CPRRolls.rollTypes.SKILL: {
-        const itemId = this._getItemId(event);
-        item = this._getOwnedItem(itemId);
-        cprRoll = item.createRoll(rollType, this.actor);
-        break;
-      }
-      case CPRRolls.rollTypes.DAMAGE: {
-        const itemId = this._getItemId(event);
-        item = this._getOwnedItem(itemId);
-        rollType = this._getFireCheckbox(event);
-        cprRoll = item.createDamageRoll(rollType);
-        if (rollType === CPRRolls.rollTypes.AIMED) {
-          cprRoll.location = this.actor.getFlag("cyberpunk-red-core", "aimedLocation") || "body";
-        }
-        break;
-      }
-      case CPRRolls.rollTypes.ATTACK: {
-        const itemId = this._getItemId(event);
-        item = this._getOwnedItem(itemId);
-        rollType = this._getFireCheckbox(event);
-        cprRoll = item.createAttackRoll(rollType, this.actor);
-        break;
-      }
-      default:
-    }
-
-    // note: for aimed shots this is where location is set
-    await cprRoll.handleRollDialog(event);
-
-    if (item !== null) {
-      // Do any actions that need to be done as part of a roll, like ammo decrementing
-      cprRoll = await item.confirmRoll(cprRoll);
-    }
-
-    // Let's roll!
-    await cprRoll.roll();
-
-    // Post roll tasks
-    if (cprRoll instanceof CPRRolls.CPRDeathSaveRoll) {
-      cprRoll.saveResult = this.actor.processDeathSave(cprRoll);
-    }
-
-    // output to chat
-    const token = this.token === null ? null : this.token.data._id;
-    cprRoll.entityData = { actor: this.actor._id, token };
-    if (item) {
-      cprRoll.entityData.item = item._id;
-    }
-    CPRChat.RenderRollCard(cprRoll);
-
-    // save the location so subsequent damage rolls hit/show the same place
-    if (cprRoll instanceof CPRRolls.CPRAimedAttackRoll) {
-      this.actor.setFlag("cyberpunk-red-core", "aimedLocation", cprRoll.location);
-    }
-  }
-
-  _getFireCheckbox(event) {
-    LOGGER.trace("ActorID _getFireCheckbox | CPRActorSheet | Called.");
-    const weaponID = $(event.currentTarget).attr("data-item-id");
-    const box = this.actor.getFlag("cyberpunk-red-core", `firetype-${weaponID}`);
-    if (box) {
-      return box;
-    }
-    return CPRRolls.rollTypes.ATTACK;
-  }
-
-  _resetActorValue(event) {
-    const actorValue = $(event.currentTarget).attr("data-value");
-    switch (actorValue) {
-      case CPRRolls.rollTypes.DEATHSAVE: {
-        this.actor.resetDeathPenalty();
-        break;
-      }
-      default:
-    }
-  }
-
-  _repairArmor(event) {
-    LOGGER.trace("ActorID _repairArmor | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
-    const currentArmorBodyValue = item.data.data.bodyLocation.sp;
-    const currentArmorHeadValue = item.data.data.headLocation.sp;
-    const currentArmorShieldValue = item.data.data.shieldHitPoints.max;
-    // XXX: cannot use _getObjProp since we need to update 2 props
-    this._updateOwnedItemProp(item, "data.headLocation.ablation", 0);
-    this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
-    this._updateOwnedItemProp(item, "data.shieldHitPoints.value", item.data.data.shieldHitPoints.max);
-    // Update actor external data when armor is repaired:
-    if (this._getItemId(event) === this.actor.data.data.externalData.currentArmorBody.id) {
-      this.actor.update({
-        "data.externalData.currentArmorBody.value": currentArmorBodyValue,
-      });
-    }
-    if (this._getItemId(event) === this.actor.data.data.externalData.currentArmorHead.id) {
-      this.actor.update({
-        "data.externalData.currentArmorHead.value": currentArmorHeadValue,
-      });
-    }
-    if (this._getItemId(event) === this.actor.data.data.externalData.currentArmorShield.id) {
-      this.actor.update({
-        "data.externalData.currentArmorShield.value": currentArmorShieldValue,
-      });
-    }
-  }
-
-  async _ablateArmor(event) {
-    LOGGER.trace("ActorID _ablateArmor | CPRActorSheet | Called.");
-    const location = $(event.currentTarget).attr("data-location");
-    const armorList = this.actor.getEquippedArmors(location);
-    const updateList = [];
-    let currentArmorValue;
-    switch (location) {
-      case "head": {
-        armorList.forEach((a) => {
-          const armorData = a.data;
-          armorData.data.headLocation.ablation = Math.min(
-            (a.getData().headLocation.ablation + 1), a.getData().headLocation.sp,
-          );
-          updateList.push(armorData);
-        });
-        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
-        // Update actor external data as head armor is ablated:
-        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorHead.value - 1), 0);
-        this.actor.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
-        break;
-      }
-      case "body": {
-        armorList.forEach((a) => {
-          const armorData = a.data;
-          armorData.data.bodyLocation.ablation = Math.min(
-            (a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp,
-          );
-          updateList.push(armorData);
-        });
-        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
-        // Update actor external data as body armor is ablated:
-        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorBody.value - 1), 0);
-        this.actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
-        break;
-      }
-      case "shield": {
-        armorList.forEach((a) => {
-          const armorData = a.data;
-          armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - 1), 0);
-          updateList.push(armorData);
-        });
-        await this.actor.updateEmbeddedEntity("OwnedItem", updateList);
-        // Update actor external data as shield is damaged:
-        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorShield.value - 1), 0);
-        this.actor.update({ "data.externalData.currentArmorShield.value": currentArmorValue });
-        break;
-      }
-      default:
-    }
-  }
-
-  _makeArmorCurrent(event) {
-    LOGGER.trace("ActorID _makeArmorCurrent | CPRActorSheet | Called.");
-    const location = $(event.currentTarget).attr("data-location");
-    const id = $(event.currentTarget).attr("data-item-id");
-    this.actor.makeThisArmorCurrent(location, id);
-  }
-
-  _cycleEquipState(event) {
-    LOGGER.trace("ActorID _cycleEquipState | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
-    const prop = this._getObjProp(event);
-    switch (item.data.data.equipped) {
-      case "owned": {
-        this._updateOwnedItemProp(item, prop, "carried");
-        break;
-      }
-      case "carried": {
-        if (item.data.type === "weapon") {
-          Rules.lawyer(this._canHoldWeapon(item), "CPR.warningtoomanyhands");
-        }
-        this._updateOwnedItemProp(item, prop, "equipped");
-        break;
-      }
-      case "equipped": {
-        this._updateOwnedItemProp(item, prop, "owned");
-        break;
-      }
-      default: {
-        this._updateOwnedItemProp(item, prop, "carried");
-        break;
-      }
-    }
-    this._automaticResize();
-  }
-
-  async _installRemoveCyberwareAction(event) {
-    LOGGER.trace("ActorID _installCyberware | CPRActorSheet | Called.");
-    const itemId = this._getItemId(event);
-    const item = this._getOwnedItem(itemId);
-    if (item.getData().isInstalled) {
-      const foundationalId = $(event.currentTarget).parents(".item").attr("data-foundational-id");
-      this.actor.removeCyberware(itemId, foundationalId);
-    } else {
-      this.actor.addCyberware(itemId);
-    }
-  }
-
+  /**
+   * Used in getData to turn installable Cyberware data into an organized structure
+   *
+   * @private
+   * @returns - object data about Cyberware
+   */
   _getSortedInstalledCyberware() {
-    LOGGER.trace("ActorID _getInstalledCyberware | CPRActorSheet | Called.");
+    LOGGER.trace("_getSortedInstalledCyberware | CPRActorSheet | Called.");
     // Get all Installed Cyberware first...
     const installedCyberware = this.actor.getInstalledCyberware();
     const installedFoundationalCyberware = installedCyberware.filter((c) => c.data.data.isFoundational === true);
@@ -472,26 +118,308 @@ export default class CPRActorSheet extends ActorSheet {
     return sortedInstalledCyberware;
   }
 
-  // As a first step to re-organizing the methods to the appropriate
-  // objects (Actor/Item), let's filter calls to manipulate items
-  // through here.  Things such as:
-  // Weapon: Load, Unload
-  // Armor: Ablate, Repair
-  _itemAction(event) {
-    LOGGER.trace("ActorID _itemAction | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
+  /**
+   * Activate listeners for the sheet. This should be only common listeners across Mook and Character sheets.
+   * This has to call super at the end for Foundry to process events properly and get built-in functionality
+   * like dragging items to sheets.
+   *
+   * @override
+   * @param {Object} html - the DOM object
+   */
+  activateListeners(html) {
+    LOGGER.trace("activateListeners | CPRActorSheet | Called.");
+
+    // allow navigation for non owned actors
+    this._tabs.forEach((t) => t.bind(html[0]));
+
+    // Make a roll
+    html.find(".rollable").click((event) => this._onRoll(event));
+
+    // Ablate Armor
+    html.find(".ablate").click((event) => this._ablateArmor(event));
+
+    // Set Armor as Current
+    html.find(".armor-current").click((event) => this._makeArmorCurrent(event));
+
+    // Generic item action
+    html.find(".item-action").click((event) => this._itemAction(event));
+
+    // bring up read-only versions of the item card (sheet), used with installed cyberware
+    html.find(".item-view").click((event) => this._renderReadOnlyItemCard(event));
+
+    // Reset Death Penalty
+    html.find(".reset-value").click((event) => this._resetDeathSave(event));
+
+    // Show edit and delete buttons
+    html.find(".row.item").hover(
+      (event) => {
+        // show edit and delete buttons
+        $(event.currentTarget).contents().contents().addClass("show");
+      },
+      (event) => {
+        // hide edit and delete buttons
+        $(event.currentTarget).contents().contents().removeClass("show");
+      },
+    );
+
+    // Item Dragging
+    const handler = (ev) => this._onDragItemStart(ev);
+    html.find(".item").each((i, li) => {
+      li.setAttribute("draggable", true);
+      li.addEventListener("dragstart", handler, false);
+    });
+
+    if (!this.options.editable) return;
+    // Listeners for editable fields under here. Fields might not be editable because
+    // the user viewing the sheet might not have permission to. They may not be the owner.
+
+    $("input[type=text]").focusin(() => $(this).select());
+
+    // Render Item Card
+    html.find(".item-edit").click((event) => this._renderItemCard(event));
+
+    // Roll critical injuries and add to sheet
+    html.find(".roll-critical-injury").click(() => this._rollCriticalInjury());
+
+    // set/unset "checkboxes" used with fire modes
+    html.find(".fire-checkbox").click((event) => this._fireCheckboxToggle(event));
+
+    // Sheet resizing
+    html.find(".tab-label:not(.skills-tab):not(.gear-tab):not(.cyberware-tab)").click(
+      () => this._automaticResize(),
+    );
+
+    super.activateListeners(html);
+  }
+
+  /**
+   * Dispatcher that executes a roll based on the "type" passed in the event
+   *
+   * @private
+   * @callback
+   * @param {Object} event - object with details of the event
+   */
+  async _onRoll(event) {
+    LOGGER.trace("_onRoll | CPRActorSheet | Called.");
+    let rollType = $(event.currentTarget).attr("data-roll-type");
+    let cprRoll;
+    let item = null;
+    switch (rollType) {
+      case CPRRolls.rollTypes.DEATHSAVE:
+      case CPRRolls.rollTypes.ROLEABILITY:
+      case CPRRolls.rollTypes.STAT: {
+        const rollName = $(event.currentTarget).attr("data-roll-title");
+        cprRoll = this.actor.createRoll(rollType, rollName);
+        break;
+      }
+      case CPRRolls.rollTypes.SKILL: {
+        const itemId = CPRActorSheet._getItemId(event);
+        item = this._getOwnedItem(itemId);
+        cprRoll = item.createRoll(rollType, this.actor);
+        break;
+      }
+      case CPRRolls.rollTypes.DAMAGE: {
+        const itemId = CPRActorSheet._getItemId(event);
+        item = this._getOwnedItem(itemId);
+        const damageType = this._getFireCheckbox(event);
+        cprRoll = item.createRoll(rollType, this.actor, { damageType });
+        if (rollType === CPRRolls.rollTypes.AIMED) {
+          cprRoll.location = this.actor.getFlag("cyberpunk-red-core", "aimedLocation") || "body";
+        }
+        break;
+      }
+      case CPRRolls.rollTypes.ATTACK: {
+        const itemId = CPRActorSheet._getItemId(event);
+        item = this._getOwnedItem(itemId);
+        rollType = this._getFireCheckbox(event);
+        cprRoll = item.createRoll(rollType, this.actor);
+        break;
+      }
+      case CPRRolls.rollTypes.INTERFACEABILITY: {
+        const interfaceAbility = $(event.currentTarget).attr("data-interface-ability");
+        const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
+        const cyberdeck = this._getOwnedItem(cyberdeckId);
+        cprRoll = cyberdeck.createRoll(rollType, this.actor, { interfaceAbility });
+        break;
+      }
+      case CPRRolls.rollTypes.CYBERDECKPROGRAM: {
+        const programId = $(event.currentTarget).attr("data-program-id");
+        const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
+        const executionType = $(event.currentTarget).attr("data-execution-type");
+        const cyberdeck = this._getOwnedItem(cyberdeckId);
+        const interfaceValue = this.actor._getRoleValue("interface");
+        const extraData = {
+          cyberdeckId,
+          programId,
+          executionType,
+          interfaceValue,
+        };
+        cprRoll = cyberdeck.createRoll(rollType, this.actor, extraData);
+        break;
+      }
+      default:
+    }
+
+    // note: for aimed shots this is where location is set
+    const keepRolling = await cprRoll.handleRollDialog(event);
+    if (!keepRolling) {
+      return;
+    }
+
+    if (item !== null) {
+      // Do any actions that need to be done as part of a roll, like ammo decrementing
+      cprRoll = await item.confirmRoll(cprRoll);
+    }
+
+    // Let's roll!
+    await cprRoll.roll();
+
+    // Post roll tasks
+    if (cprRoll instanceof CPRRolls.CPRDeathSaveRoll) {
+      cprRoll.saveResult = this.actor.processDeathSave(cprRoll);
+    }
+
+    // output to chat
+    const token = this.token === null ? null : this.token.data._id;
+    cprRoll.entityData = { actor: this.actor.id, token };
+    if (item) {
+      cprRoll.entityData.item = item.id;
+    }
+    CPRChat.RenderRollCard(cprRoll);
+
+    // save the location so subsequent damage rolls hit/show the same place
+    if (cprRoll instanceof CPRRolls.CPRAimedAttackRoll) {
+      this.actor.setFlag("cyberpunk-red-core", "aimedLocation", cprRoll.location);
+    }
+  }
+
+  /**
+   * Callback for the checkboxes that control weapon fire modes
+   *
+   * @callback
+   * @private
+   * @param {Object} event - object with details of the event
+   * @returns {CPRRoll}
+   */
+  _getFireCheckbox(event) {
+    LOGGER.trace("_getFireCheckbox | CPRActorSheet | Called.");
+    const weaponID = $(event.currentTarget).attr("data-item-id");
+    const box = this.actor.getFlag("cyberpunk-red-core", `firetype-${weaponID}`);
+    if (box) {
+      return box;
+    }
+    return CPRRolls.rollTypes.ATTACK;
+  }
+
+  /**
+   * Callback for reseting an actor's death save
+   * TODO: the data-value attribute is only used for this method, it is safe to remove it from the templates
+   *       and remove the switch statement herein.
+   *
+   * @callback
+   * @private
+   * @param {Object} event - object with details of the event
+   */
+  _resetDeathSave(event) {
+    LOGGER.trace("_resetDeathSave | CPRActorSheet | Called.");
+    const actorValue = $(event.currentTarget).attr("data-value");
+    switch (actorValue) {
+      case CPRRolls.rollTypes.DEATHSAVE: {
+        this.actor.resetDeathPenalty();
+        break;
+      }
+      default:
+    }
+  }
+
+  /**
+   * Callback for ablating armor
+   *
+   * @async
+   * @private
+   * @callback
+   * @param {Object} event - object with details of the event
+   */
+  async _ablateArmor(event) {
+    LOGGER.trace("_ablateArmor | CPRActorSheet | Called.");
+    const location = $(event.currentTarget).attr("data-location");
+    const armorList = this.actor.getEquippedArmors(location);
+    const updateList = [];
+    let currentArmorValue;
+    switch (location) {
+      case "head": {
+        armorList.forEach((a) => {
+          const armorData = a.data;
+          armorData.data.headLocation.ablation = Math.min(
+            (a.getData().headLocation.ablation + 1), a.getData().headLocation.sp,
+          );
+          updateList.push({ _id: a.id, data: armorData.data });
+        });
+        await this.actor.updateEmbeddedDocuments("Item", updateList);
+        // Update actor external data as head armor is ablated:
+        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorHead.value - 1), 0);
+        await this.actor.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
+        break;
+      }
+      case "body": {
+        armorList.forEach((a) => {
+          const armorData = a.data;
+          armorData.data.bodyLocation.ablation = Math.min(
+            (a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp,
+          );
+          updateList.push({ _id: a.id, data: armorData.data });
+        });
+        await this.actor.updateEmbeddedDocuments("Item", updateList);
+        // Update actor external data as body armor is ablated:
+        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorBody.value - 1), 0);
+        await this.actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
+        break;
+      }
+      case "shield": {
+        armorList.forEach((a) => {
+          const armorData = a.data;
+          armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - 1), 0);
+          updateList.push({ _id: a.id, data: armorData.data });
+        });
+        await this.actor.updateEmbeddedDocuments("Item", updateList);
+        // Update actor external data as shield is damaged:
+        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorShield.value - 1), 0);
+        await this.actor.update({ "data.externalData.currentArmorShield.value": currentArmorValue });
+        break;
+      }
+      default:
+    }
+  }
+
+  /**
+   * As a first step to re-organizing the methods to the appropriate, objects (Actor/Item),
+   * we filter calls to manipulate items through here.  Things such as:
+   *  Weapon: Load, Unload
+   *  Armor: Ablate, Repair
+   *
+   * @async
+   * @private
+   * @callback
+   * @param {event} event - object capturing event data (what was clicked and where?)
+   */
+  async _itemAction(event) {
+    LOGGER.trace("_itemAction | CPRActorSheet | Called.");
+    const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const actionType = $(event.currentTarget).attr("data-action-type");
     if (item) {
       switch (actionType) {
         case "delete": {
-          this._deleteOwnedItem(item);
+          await this._deleteOwnedItem(item);
           break;
         }
         case "create": {
-          this._createInventoryItem($(event.currentTarget).attr("data-item-type"));
+          // TODO
+          // only character sheets call this so note it is actually in the child class
+          // also note no templates call this with data-action="create", so this case can
+          // probably be removed
+          await this._createInventoryItem($(event.currentTarget).attr("data-item-type"));
           break;
         }
-        // TODO
         case "ablate-armor": {
           item.ablateArmor();
           break;
@@ -504,184 +432,101 @@ export default class CPRActorSheet extends ActorSheet {
           item.doAction(this.actor, event.currentTarget.attributes);
         }
       }
-      this.actor.updateEmbeddedEntity("OwnedItem", item.data);
-    }
-  }
-
-  async _handleKey(event) {
-    LOGGER.trace("_handleKey | CPRActorSheet | Called.");
-    LOGGER.debug(event.keyCode);
-    if (event.keyCode === 46) {
-      LOGGER.debug("delete key was pressed");
-      const itemId = $(event.currentTarget).attr("data-item-id");
-      const item = this._getOwnedItem(itemId);
-      switch (item.type) {
-        case "skill": {
-          item.setSkillLevel(0);
-          item.setSkillMod(0);
-          this._updateOwnedItem(item);
-          break;
-        }
-        case "cyberware": {
-          if (item.data.data.core === true) {
-            SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.cannotdeletecorecyberware"));
-          } else {
-            const foundationalId = $(event.currentTarget).attr("data-foundational-id");
-            const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
-            const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
-            const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
-            if (confirmRemove) {
-              this.actor.removeCyberware(itemId, foundationalId, true);
-              this._deleteOwnedItem(item, true);
-            }
-          }
-          break;
-        }
-        default: {
-          this._deleteOwnedItem(item);
-          break;
-        }
+      // Only update if we aren't deleting the item.  Item deletion is handled in this._deleteOwnedItem()
+      if (actionType !== "delete") {
+        this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
       }
     }
   }
 
-  // ARMOR HELPERS
-  // TODO - Move to armor helpers to cpr-actor
-  // TODO - Assure all private methods can be used outside of the context of UI controls as well.
-
-  _getHands() {
-    LOGGER.trace("ActorID _getHands | CPRActorSheet | Called.");
-    return 2;
+  /**
+   * This is the callback for setting armor as "current", which is the star glyph. Setting this enables
+   * the SP of the armor to be tracked as a resource bar on the corresponding token.
+   *
+   * @callback
+   * @private
+   * @param {} event - object capturing event data (what was clicked and where?)
+   */
+  _makeArmorCurrent(event) {
+    LOGGER.trace("ActorID _makeArmorCurrent | CPRActorSheet | Called.");
+    const location = $(event.currentTarget).attr("data-location");
+    const id = $(event.currentTarget).attr("data-item-id");
+    this.actor.makeThisArmorCurrent(location, id);
   }
 
-  _getFreeHands() {
-    LOGGER.trace("ActorID _getFreeHands | CPRActorSheet | Called.");
-    const weapons = this._getEquippedWeapons();
-    const needed = weapons.map((w) => w.data.data.handsReq);
-    const freeHands = this._getHands() - needed.reduce((a, b) => a + b, 0);
-    return freeHands;
-  }
-
-  _canHoldWeapon(weapon) {
-    LOGGER.trace("ActorID _canHoldWeapon | CPRActorSheet | Called.");
-    const needed = weapon.data.data.handsReq;
-    if (needed > this._getFreeHands()) {
-      return false;
-    }
-    return true;
-  }
-
-  _getEquippedWeapons() {
-    LOGGER.trace("ActorID _getEquippedWeapons | CPRActorSheet | Called.");
-    const weapons = this.actor.data.filteredItems.weapon;
-    return weapons.filter((a) => a.getData().equipped === "equipped");
-  }
-
-  _updateSkill(event) {
-    LOGGER.trace("ActorID _updateSkill | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
-    const updateType = $(event.currentTarget).attr("data-item-prop");
-    if (updateType === "data.level") {
-      item.setSkillLevel(parseInt(event.target.value, 10));
-    }
-    if (updateType === "data.mod") {
-      item.setSkillMod(parseInt(event.target.value, 10));
-    }
-    this._updateOwnedItem(item);
-  }
-
-  _updateRoleAbility(event) {
-    LOGGER.trace("ActorID _updateSkill | CPRActorSheet | Called.");
-    const role = $(event.currentTarget).attr("data-role-name");
-    const ability = $(event.currentTarget).attr("data-ability-name");
-    const subskill = $(event.currentTarget).attr("data-subskill-name");
-    const value = parseInt(event.target.value, 10);
-    const actorData = duplicate(this.actor.data);
-    if (hasProperty(actorData, "data.roleInfo")) {
-      const prop = getProperty(actorData, "data.roleInfo");
-      if (subskill) {
-        prop.roleskills[role].subSkills[subskill] = value;
-      } else {
-        prop.roleskills[role][ability] = value;
-      }
-      setProperty(actorData, "data.roleInfo", prop);
-      this.actor.update(actorData);
-    }
-  }
-
-  _updateWeaponAmmo(event) {
-    LOGGER.trace("ActorID _updateCurrentWeaponAmmo | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
-    const updateType = $(event.currentTarget).attr("data-item-prop");
-    if (updateType === "data.magazine.value") {
-      if (!Number.isNaN(parseInt(event.target.value, 10))) {
-        item.setWeaponAmmo(event.target.value);
-      } else {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.amountnotnumber"));
-      }
-    }
-    this._updateOwnedItem(item);
-  }
-
-  _updateAmount(event) {
-    LOGGER.trace("ActorID _updateAmount | CPRActorSheet | Called.");
-    const item = this._getOwnedItem(this._getItemId(event));
-    const updateType = $(event.currentTarget).attr("data-item-prop");
-    if (updateType === "item.data.amount") {
-      if (!Number.isNaN(parseInt(event.target.value, 10))) {
-        item.setItemAmount(event.target.value);
-      } else {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.amountnotnumber"));
-      }
-    }
-    this._updateOwnedItem(item);
-  }
-
-  _updateEurobucks(event) {
-    LOGGER.trace("ActorID _updateEurobucks | CPRActorSheet | Called.");
-    this._setEb(parseInt(event.target.value, 10), "player input in gear tab");
-  }
-
-  _updateIp(event) {
-    LOGGER.trace("ActorID _updateIp | CPRActorSheet | Called.");
-    this._setIp(parseInt(event.target.value, 10), "player input in gear tab");
-  }
-
-  // OWNED ITEM HELPER FUNCTIONS
-  // TODO - Assert all usage correct.
+  /**
+   * Update a property of an Item that is owned by this actor. There is a round trip to the
+   * Foundry server with this call, so do not over use it.
+   *
+   * @private
+   * @param {Item} item - object to be updated
+   * @param {String} prop - property to be updated in a dot notation (e.g. "item.data.name")
+   * @param {*} value - value to set the property to
+   */
   _updateOwnedItemProp(item, prop, value) {
-    LOGGER.trace("ActorID _updateOwnedItemProp | Called.");
+    LOGGER.trace("_updateOwnedItemProp | CPRActorSheet | Called.");
     setProperty(item.data, prop, value);
     this._updateOwnedItem(item);
   }
 
+  /**
+   * Update an Item owned by this actor. There is a round trip to the Foundry server with this
+   * call, so do not over use it in your code.
+   *
+   * @private
+   * @param {Item} item - the updated object to replace in-line
+   * @returns - the updated object (document) or array of entities
+   */
   _updateOwnedItem(item) {
-    LOGGER.trace("ActorID _updateOwnedItemProp | Called.");
-    return this.actor.updateEmbeddedEntity("OwnedItem", item.data);
+    LOGGER.trace("_updateOwnedItem | CPRActorSheet | Called.");
+    return this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
   }
 
+  /**
+   * Render the item card (chat message) when ctrl-click happens on an item link, or display
+   * the item sheet if ctrl was not pressed.
+   *
+   * @private
+   * @callback
+   * @param {Object} event - object capturing event data (what was clicked and where?)
+   */
   _renderItemCard(event) {
-    LOGGER.trace("ActorID _itemUpdate | CPRActorSheet | Called.");
-    const itemId = this._getItemId(event);
+    LOGGER.trace("_renderItemCard | CPRActorSheet | Called.");
+    const itemId = CPRActorSheet._getItemId(event);
     const item = this.actor.items.find((i) => i.data._id === itemId);
     if (event.ctrlKey) {
       CPRChat.RenderItemCard(item);
     } else {
-      item.sheet.options.editable = true;
-      item.sheet.render(true);
+      item.sheet.render(true, { editable: true });
     }
   }
 
+  /**
+   * Render an item sheet in read-only mode, which is used on installed cyberware. This is to
+   * prevent a user from editing data while it is installed, such as the foundation type.
+   *
+   * @private
+   * @callback
+   * @param {Object} event - object capturing event data (what was clicked and where?)
+   */
   _renderReadOnlyItemCard(event) {
-    LOGGER.trace("ActorID _itemUpdate | CPRActorSheet | Called.");
-    const itemId = this._getItemId(event);
+    LOGGER.trace("_itemUpdate | CPRActorSheet | Called.");
+    const itemId = CPRActorSheet._getItemId(event);
     const item = this.actor.items.find((i) => i.data._id === itemId);
-    item.sheet.options.editable = false;
-    item.sheet.render(true);
+    item.sheet.render(true, { editable: false });
   }
 
-  _getItemId(event) {
-    LOGGER.trace("ActorID _getItemId | CPRActorSheet | Called.");
+  /**
+   * Get an itemId if specified as an attribute of a clicked link.
+   * TODO: this may belong in a cpr-templateutils.js library
+   *
+   * @private
+   * @static
+   * @param {Object} event - the event object to inspect
+   * @returns {String} - the string Id of the item
+   */
+  static _getItemId(event) {
+    LOGGER.trace("_getItemId | CPRActorSheet | Called.");
     let id = $(event.currentTarget).parents(".item").attr("data-item-id");
     if (typeof id === "undefined") {
       LOGGER.debug("Could not find itemId in parent elements, trying currentTarget");
@@ -690,16 +535,46 @@ export default class CPRActorSheet extends ActorSheet {
     return id;
   }
 
+  /**
+   * Return an owned Item object given the desired ID
+   *
+   * @private
+   * @param {String} itemId - the Id of the owned item to retrieve
+   * @returns the Item object matching the given Id
+   */
   _getOwnedItem(itemId) {
     return this.actor.items.find((i) => i.data._id === itemId);
   }
 
-  _getObjProp(event) {
+  /**
+   * Often clickable elements in a sheet reference a complex object on the actor or item.
+   * When a property deep in the object needs to be retrieved, a "property-string" is provided
+   * for use with the object. This method retrieve that property-string from an attribute in
+   * the link. Therefore this method is often pared with _getItemId since it is the first step
+   * to getting the object with the property we want.
+   *
+   * TODO: this may belong in a cpr-templateutils.js library
+   *
+   * @private
+   * @static
+   * @param {Object} event - the event object to inspect
+   * @returns {String} - the property string
+   */
+  static _getObjProp(event) {
     return $(event.currentTarget).attr("data-item-prop");
   }
 
+  /**
+   * Delete an Item owned by the actor.
+   *
+   * @private
+   * @async
+   * @param {Item} item - the item to be deleted
+   * @param {Boolean} skipConfirm - bypass rendering the confirmation dialog box
+   * @returns {null}
+   */
   async _deleteOwnedItem(item, skipConfirm = false) {
-    LOGGER.trace("ActorID _deleteOwnedItem | CPRActorSheet | Called.");
+    LOGGER.trace("_deleteOwnedItem | CPRActorSheet | Called.");
     // There's a bug here somewhere.  If the prompt is disabled, it doesn't seem
     // to delete, but if the player is prompted, it deletes fine???
     const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
@@ -708,7 +583,10 @@ export default class CPRActorSheet extends ActorSheet {
       const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${item.data.name}?`;
       const confirmDelete = await ConfirmPrompt.RenderPrompt(
         SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,
-      );
+      ).catch((err) => LOGGER.debug(err));
+      if (confirmDelete === undefined) {
+        return;
+      }
       if (!confirmDelete) {
         return;
       }
@@ -719,22 +597,41 @@ export default class CPRActorSheet extends ActorSheet {
       weapons.forEach((weapon) => {
         const weaponData = weapon.data.data;
         if (weaponData.isRanged) {
-          if (weaponData.magazine.ammoId === item._id) {
+          if (weaponData.magazine.ammoId === item.id) {
             const warningMessage = `${game.i18n.localize("CPR.ammodeletewarning")}: ${weapon.name}`;
             SystemUtils.DisplayMessage("warn", warningMessage);
             ammoIsLoaded = true;
           }
         }
       });
+
       if (ammoIsLoaded) {
         return;
       }
     }
-    await this.actor.deleteEmbeddedEntity("OwnedItem", item._id);
+    if (item.type === "cyberdeck") {
+      // Set all of the owned programs that were installed on
+      // this cyberdeck to uninstalled.
+      const programs = item.getInstalledPrograms();
+      const updateList = [];
+      programs.forEach((p) => {
+        updateList.push({ _id: p._id, "data.isInstalled": false });
+      });
+      await this.actor.updateEmbeddedDocuments("Item", updateList);
+    }
+    await this.actor.deleteEmbeddedDocuments("Item", [item.id]);
   }
 
+  /**
+   * Handle a fire mode checkbox being clicked. This will clear the others and set a Flag on the actor
+   * to indicate what was selected when an attack was made. Flags are a Foundry feature on Actors/Items.
+   *
+   * @private
+   * @callback
+   * @param {Object} event - object capturing event data (what was clicked and where?)
+   */
   _fireCheckboxToggle(event) {
-    LOGGER.trace("_fireCheckboxToggle Called | CPRActorSheet | Called.");
+    LOGGER.trace("_fireCheckboxToggle | CPRActorSheet | Called.");
     const weaponID = $(event.currentTarget).attr("data-item-id");
     const firemode = $(event.currentTarget).attr("data-fire-mode");
     const flag = getProperty(this.actor.data, `flags.cyberpunk-red-core.firetype-${weaponID}`);
@@ -749,88 +646,98 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  // TODO - Revist, do we need template data? Is function used.
-  _addSkill() {
-    LOGGER.trace("ActorID _addSkill | CPRActorSheet | called.");
-    const itemData = {
-      name: "skill",
-      type: "skill",
-      data: {},
-    };
-    this.actor.createOwnedItem(itemData, { renderSheet: true });
-  }
-
-  async _selectRoles() {
-    let formData = { actor: this.actor.getData().roleInfo, roles: CPR.roleList };
-    formData = await SelectRolePrompt.RenderPrompt(formData);
-    await this.actor.setRoles(formData);
-  }
-
-  async _setLifepath() {
-    const formData = await SetLifepathPrompt.RenderPrompt(this.actor.data);
-    await this.actor.setLifepath(formData);
-  }
-
-  _createInventoryItem(event) {
-    // We can allow a global setting which allows/denies players from creating their
-    // own items?
-    const setting = true;
-    if (setting) {
-      const itemType = $(event.currentTarget).attr("data-item-type");
-      const itemTypeNice = itemType.toLowerCase().capitalize();
-      const itemString = "ITEM.Type";
-      const itemTypeLocal = itemString.concat(itemTypeNice);
-      const itemName = `${SystemUtils.Localize("CPR.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
-      const itemData = {
-        name: itemName,
-        type: itemType,
-        // eslint-disable-next-line no-undef
-        data: duplicate(itemType),
-      };
-      this.actor.createEmbeddedEntity("OwnedItem", itemData);
-    }
-  }
-
-  _getCriticalInjuryTables() {
-    const critPattern = new RegExp("^Critical Injury|^CriticalInjury|^CritInjury|^Crit Injury|^Critical Injuries|^CriticalInjuries");
+  /**
+   * Look up the critical injury rollable tables based on name.
+   * TODO: revisit whether regexes are the way to go here, and whether this is an actorSheet function
+   *
+   * @private
+   * @returns {Array} - a sorted list of rollable table names that match expectations
+   */
+  static _getCriticalInjuryTables() {
+    LOGGER.trace("_getCriticalInjuryTables | CPRActorSheet | Called.");
+    const pattern = "^Critical Injury|^CriticalInjury|^CritInjury|^Crit Injury|^Critical Injuries|^CriticalInjuries";
+    const critPattern = new RegExp(pattern);
     const tableNames = [];
     const tableList = game.tables.filter((t) => t.data.name.match(critPattern));
     tableList.forEach((table) => tableNames.push(table.data.name));
     return tableNames.sort();
   }
 
-  async _setCriticalInjuryTable() {
-    const critInjuryTables = this._getCriticalInjuryTables();
-    const formData = await RollCriticalInjuryPrompt.RenderPrompt(critInjuryTables);
+  /**
+   * Pop up a dialog box asking which critical injury table to use and return the user's answer.
+   *
+   * @private
+   * @returns {String} - chosen name of the rollable table to be used for critical injuries
+   */
+  static async _setCriticalInjuryTable() {
+    LOGGER.trace("_setCriticalInjuryTable | CPRActorSheet | Called.");
+    const critInjuryTables = CPRActorSheet._getCriticalInjuryTables();
+    LOGGER.debugObject(critInjuryTables);
+    const formData = await RollCriticalInjuryPrompt.RenderPrompt(critInjuryTables).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return undefined;
+    }
     return formData.criticalInjuryTable;
   }
 
+  /**
+   * Roll a critical injury. This is the top-level event handler for the sheet.
+   *
+   * @async
+   * @callback
+   * @private
+   */
   async _rollCriticalInjury() {
-    const tableName = await this._setCriticalInjuryTable();
-    const table = game.tables.entities.find((t) => t.name === tableName);
+    LOGGER.trace("_rollCriticalInjury | CPRActorSheet | Called.");
+    const tableName = await CPRActorSheet._setCriticalInjuryTable();
+    if (tableName === undefined) {
+      return;
+    }
+    LOGGER.debugObject(tableName);
+    const table = game.tables.contents.find((t) => t.name === tableName);
     this._drawCriticalInjuryTable(tableName, table, 0);
     this._automaticResize();
   }
 
+  /**
+   * Roll on the given critical injury table. Some heuristics are going on to handle user settings where
+   * they do not want duplicate results on a character. When that happens, reroll by recursively calling
+   * this method. There is cap to prevent recursing too much or if there are unreachable entries on the
+   * table.
+   *
+   * @param {String} tableName - the name of the table to roll on
+   * @param {RollTable} table - the rollable table to draw from (roll on)
+   * @param {Number} iteration - iteration #, used to track how many times we have rolled to bail if too many
+   * @returns {null}
+   */
   async _drawCriticalInjuryTable(tableName, table, iteration) {
-    if (iteration > 100) { // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6), otherwise lower chance
-      // count number of critical injuries of the type given in the table on the target
-      const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === table.data.results[0].text)));
-      // eslint-disable-next-line no-undef
+    LOGGER.trace("_drawCriticalInjuryTable | CPRActorSheet | Called.");
+    if (iteration > 100) {
+      // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6)
+      LOGGER.debug(table);
+      const crit = game.items.find((item) => (
+        (item.type === "criticalInjury") && (item.name === table.data.results._source[0].text)
+      ));
       if (!crit) {
         SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
         return;
       }
       const critType = crit.data.data.location;
+      LOGGER.debug(`critType is ${critType}`);
       let numberCritInjurySameType = 0;
-      this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.data.location === critType) { numberCritInjurySameType += 1; } });
-      if (table.data.results.length <= numberCritInjurySameType) {
+      this.actor.data.filteredItems.criticalInjury.forEach((injury) => {
+        if (injury.data.data.location === critType) { numberCritInjurySameType += 1; }
+      });
+      if (table.data.results.contents.length <= numberCritInjurySameType) {
         SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
         return;
       }
-      if (iteration > 1000) { // Techincally possible to reach even if a critical injury is still missing (chance: 6*10e-11 %), though unlikely.
+      // Techincally possible to reach even if a critical injury is still missing (chance: 6*10e-11 %), though unlikely.
+      if (iteration > 1000) {
         SystemUtils.DisplayMessage("error", (game.i18n.localize("CPR.criticalinjuryduplicateloopwarning")));
-        return; // Prevent endless loop in case of mixed (head and body) Critical Injury tables or unreachable elements in the rolltable.
+        // Prevent endless loop in case of mixed (head and body) Critical Injury tables
+        // or unreachable elements in the rolltable.
+        return;
       }
     }
     table.draw({ displayChat: false })
@@ -838,63 +745,102 @@ export default class CPRActorSheet extends ActorSheet {
         if (res.results.length > 0) {
           // Check if the critical Injury already exists on the character
           let injuryAlreadyExists = false;
-          this.actor.data.filteredItems.criticalInjury.forEach((injury) => { if (injury.data.name === res.results[0].text) { injuryAlreadyExists = true; } });
+          this.actor.data.filteredItems.criticalInjury.forEach((injury) => {
+            if (injury.data.name === res.results[0].data.text) { injuryAlreadyExists = true; }
+          });
           if (injuryAlreadyExists) {
             const setting = game.settings.get("cyberpunk-red-core", "preventDuplicateCriticalInjuries");
             if (setting === "reroll") {
-              await this._drawCriticalInjuryTable(tableName, table, iteration + 1);
+              this._drawCriticalInjuryTable(tableName, table, iteration + 1);
               return;
             }
             if (setting === "warn") {
               SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicatewarning")));
             }
           }
-          const crit = game.items.find((item) => ((item.type === "criticalInjury") && (item.name === res.results[0].text)));
-          // eslint-disable-next-line no-undef
+          const crit = game.items.find((item) => (
+            (item.type === "criticalInjury") && (item.name === res.results[0].data.text)
+          ));
           if (!crit) {
             SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
             return;
           }
-          // eslint-disable-next-line no-undef
           const itemData = duplicate(crit.data);
-          const result = await this.actor.createEmbeddedEntity("OwnedItem", itemData, { force: true });
-          const cprRoll = new CPRRolls.CPRTableRoll(crit.data.name, res.roll, "systems/cyberpunk-red-core/templates/chat/cpr-critical-injury-rollcard.hbs");
+          const result = await this.actor.createEmbeddedDocuments("Item", [itemData]);
+          const cprRoll = new CPRRolls.CPRTableRoll(
+            crit.data.name, res.roll, "systems/cyberpunk-red-core/templates/chat/cpr-critical-injury-rollcard.hbs",
+          );
           cprRoll.rollCardExtraArgs.tableName = tableName;
-          cprRoll.rollCardExtraArgs.itemName = result.name;
-          cprRoll.rollCardExtraArgs.itemImg = result.img;
-          cprRoll.entityData = { actor: this.actor._id, token: this.token.id, item: result._id };
+          cprRoll.rollCardExtraArgs.itemName = result[0].name;
+          cprRoll.rollCardExtraArgs.itemImg = result[0].img;
+          if (this.token) {
+            cprRoll.entityData = { actor: this.actor.id, token: this.token.id, item: result[0].id };
+          } else {
+            cprRoll.entityData = { actor: this.actor.id, item: result[0].id };
+          }
           CPRChat.RenderRollCard(cprRoll);
         }
       });
   }
 
+  /**
+   * Automatically resize the actor sheet to dimensions that will fit all revealed elements, assuming the
+   * user has this set to happen in their settings.
+   *
+   * @private
+   */
   _automaticResize() {
     LOGGER.trace("ActorSheet | _automaticResize | Called.");
     const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
-    if (setting && this.rendered) {
+    if (setting && this.rendered && !this._minimized) {
       // It seems that the size of the content does not change immediately upon updating the content
       setTimeout(() => {
-        this.setPosition({ width: this.position.width, height: 35 }); // Make sheet small, so this.form.offsetHeight does not include whitespace
-        this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 }); // 30px for the header and 8px top margin 8px bottom margin
+        // Make sheet small, so this.form.offsetHeight does not include whitespace
+        this.setPosition({ width: this.position.width, height: 35 });
+        // 30px for the header and 8px top margin 8px bottom margin
+        this.setPosition({ width: this.position.width, height: this.form.offsetHeight + 46 });
       }, 10);
     }
   }
 
   /* Ledger methods */
 
-  /* Wealth */
+  /**
+   * Set the EB on the actor to a specific value, with a reason.
+   *
+   * @private
+   * @param {Number} value - the value to set Eb to
+   * @param {String} reason - a freeform comment of why the Eb is changing to the given value
+   * @returns - the modified property or null if it was unsuccessful
+   */
   _setEb(value, reason) {
-    LOGGER.trace("ActorID _setEb | CPRActorSheet | called.");
+    LOGGER.trace("_setEb | CPRActorSheet | called.");
     return this.actor.setLedgerProperty("wealth", value, reason);
   }
 
+  /**
+   * Increase EB by an amount, with a reason
+   *
+   * @private
+   * @param {Number} value - the value to increase Eb by
+   * @param {String} reason - a freeform comment of why the Eb is changing to the given value
+   * @returns - the modified property or null if it was unsuccessful
+   */
   _gainEb(value, reason) {
-    LOGGER.trace("ActorID _gainEb | CPRActorSheet | called.");
+    LOGGER.trace("_gainEb | CPRActorSheet | called.");
     return this.actor.deltaLedgerProperty("wealth", value, reason);
   }
 
+  /**
+   * Reduce EB by an amount, with a reason
+   *
+   * @private
+   * @param {Number} value - the value to reduce Eb to
+   * @param {String} reason - a freeform comment of why the Eb is changing to the given value
+   * @returns - the modified property or null if it was unsuccessful
+   */
   _loseEb(value, reason) {
-    LOGGER.trace("ActorID _loseEb | CPRActorSheet | called.");
+    LOGGER.trace("_loseEb | CPRActorSheet | called.");
     let tempVal = value;
     if (tempVal > 0) {
       tempVal = -tempVal;
@@ -904,74 +850,146 @@ export default class CPRActorSheet extends ActorSheet {
     return ledgerProp;
   }
 
+  /**
+   * Provide an Array of values and reasons the EB has changed. Together this is the "ledger", a
+   * collection of records for EB changes.
+   *
+   * @private
+   * @returns {Array} - the records
+   */
   _listEbRecords() {
-    LOGGER.trace("ActorID _listEbRecords | CPRActorSheet | called.");
+    LOGGER.trace("_listEbRecords | CPRActorSheet | called.");
     return this.actor.listRecords("wealth");
   }
 
+  /**
+   * Clear all EB records, effectively setting it back to 0.
+   *
+   * @private
+   * @returns - any empty Array, or null if unsuccessful
+   */
   _clearEbRecords() {
-    LOGGER.trace("ActorID _clearEbRecords | CPRActorSheet | called.");
+    LOGGER.trace("_clearEbRecords | CPRActorSheet | called.");
     return this.actor.clearLedger("wealth");
   }
 
-  /* Improvement Points */
+  /**
+   * Set the Points on the actor to a specific value, with a reason.
+   *
+   * @private
+   * @param {Number} value - the value to set IP to
+   * @param {String} reason - a freeform comment of why the IP is changing to the given value
+   * @returns - the modified property or null if it was unsuccessful
+   */
   _setIp(value, reason) {
-    LOGGER.trace("ActorID _setIp | CPRActorSheet | called.");
+    LOGGER.trace("_setIp | CPRActorSheet | called.");
+    LOGGER.debug(`setting IP to ${value}`);
     return this.actor.setLedgerProperty("improvementPoints", value, reason);
   }
 
+  /**
+   * Increase ImprovementPoints by an amount, with a reason
+   *
+   * @private
+   * @param {Number} value - the value to increase IP by
+   * @param {String} reason - a freeform comment of why the IP is changing to the given value
+   * @returns - the modified property or null if it was unsuccessful
+   */
   _gainIp(value, reason) {
-    LOGGER.trace("ActorID _gainIp | CPRActorSheet | called.");
+    LOGGER.trace("_gainIp | CPRActorSheet | called.");
     return this.actor.deltaLedgerProperty("improvementPoints", value, reason);
   }
 
+  /**
+   * Reduce ImprovementPoints by an amount, with a reason
+   *
+   * @private
+   * @param {Number} value - the value to reduce IP to
+   * @param {String} reason - a freeform comment of why the IP is changing to the given value
+   * @returns - the modified property or null if it was unsuccessful
+   */
   _loseIp(value, reason) {
-    LOGGER.trace("ActorID _loseIp | CPRActorSheet | called.");
+    LOGGER.trace("_loseIp | CPRActorSheet | called.");
     let tempVal = value;
     if (tempVal > 0) {
       tempVal = -tempVal;
     }
     const ledgerProp = this.actor.deltaLedgerProperty("improvementPoints", tempVal, reason);
-    Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenougheb");
+    Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenoughip");
     return ledgerProp;
   }
 
+  /**
+   * Provide an Array of values and reasons IP has changed. Together this is the "ledger", a
+   * collection of records for IP changes.
+   *
+   * @private
+   * @returns {Array} - the records
+   */
   _listIpRecords() {
-    LOGGER.trace("ActorID _listIpRecords | CPRActorSheet | called.");
+    LOGGER.trace("_listIpRecords | CPRActorSheet | called.");
     return this.actor.listRecords("improvementPoints");
   }
 
+  /**
+   * Clear all IP records, effectively setting it back to 0.
+   *
+   * @private
+   * @returns - any empty Array, or null if unsuccessful
+   */
   _clearIpRecords() {
-    LOGGER.trace("ActorID _clearIpRecords | CPRActorSheet | called.");
+    LOGGER.trace("_clearIpRecords | CPRActorSheet | called.");
     return this.actor.clearLedger("improvementPoints");
   }
 
+  /**
+   * Called when an Item is dragged on the ActorSheet. This "stringifies" the Item into attributes
+   * that can be inspected later. Doing so allows the system to make changes to the item before/after it
+   * is added to the Actor's inventory.
+   *
+   * @private
+   * @param {Object} event - an object capturing event details
+   */
   _onDragItemStart(event) {
-    LOGGER.trace("ActorID _onDragItemStart | CPRActorSheet | called.");
+    LOGGER.trace("_onDragItemStart | CPRActorSheet | called.");
     const itemId = event.currentTarget.getAttribute("data-item-id");
-    const item = this.actor.getEmbeddedEntity("OwnedItem", itemId);
+    const item = this.actor.getEmbeddedDocument("Item", itemId);
     event.dataTransfer.setData("text/plain", JSON.stringify({
       type: "Item",
-      actorId: this.actor._id,
+      actorId: this.actor.id,
       data: item,
       root: event.currentTarget.getAttribute("root"),
     }));
   }
 
+  /**
+   * _onDrop is provided by Foundry and extended here. When an Item is dragged to an ActorSheet a new copy is created.
+   * This extension ensure that the copy is owned by the right actor afterward. In the case that an item is dragged from
+   * one Actor sheet to another, the item on the source sheet is deleted, simulating an actor giving an item to another
+   * actor.
+   *
+   * @private
+   * @override
+   * @param {Object} event - an object capturing event details
+   * @returns {null}
+   */
   async _onDrop(event) {
-    LOGGER.trace("ActorID _onDrop | CPRActorSheet | called.");
-    // This is called whenever something is dropped onto the character sheet
+    LOGGER.trace("_onDrop | CPRActorSheet | called.");
     const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
     if (dragData.actorId !== undefined) {
       // Transfer ownership from one player to another
-      const actor = game.actors.find((a) => a._id === dragData.actorId);
+      const actor = game.actors.find((a) => a.id === dragData.actorId);
+      if (actor.type === "container" && !game.user.isGM) {
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.tradedragoutwarn"));
+        return;
+      }
       if (actor) {
         if (actor.data._id === this.actor.data._id
           || dragData.data.data.core === true
           || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
           return;
         }
-        super._onDrop(event).then(actor.deleteEmbeddedEntity("OwnedItem", dragData.data._id));
+        super._onDrop(event).then(actor.deleteEmbeddedDocuments("Item", [dragData.data._id]));
       }
     } else {
       super._onDrop(event);

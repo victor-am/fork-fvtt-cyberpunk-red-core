@@ -11,8 +11,8 @@
                     {{localize "CPR.category"}}
                 </div>
                 <div class="item flexrow setting-value text-nowrap item-end">
-                    <select name="data.category" data-dtype="{{data.category}}">
-                        {{#select data.category}}
+                    <select name="data.category" data-dtype="{{data.data.category}}">
+                        {{#select data.data.category}}
                         {{#each (findConfigObj "skillCategories") as |category c|}}
                         <option value="{{c}}">{{localize category}}</option>
                         {{/each}}
@@ -27,8 +27,8 @@
                     {{localize "CPR.difficulty"}}
                 </div>
                 <div class="item flexrow setting-value text-nowrap item-end">
-                    <select name="data.difficulty" data-dtype="{{data.difficulty}}">
-                        {{#select data.difficulty}}
+                    <select name="data.difficulty" data-dtype="{{data.data.difficulty}}">
+                        {{#select data.data.difficulty}}
                         {{#each (findConfigObj "skillDifficulties") as |difficulty d|}}
                         <option value="{{d}}">{{localize difficulty}}</option>
                         {{/each}}
@@ -42,7 +42,7 @@
                     {{localize "CPR.basic"}}
                 </div>
                 <div class="item flexrow setting-value text-nowrap item-end">
-                    {{#if data.basic}}
+                    {{#if data.data.basic}}
                     <a class="item-checkbox" data-target="data.basic"><i class="far fa-check-circle"></i></a>
                     {{else}}
                     <a class="item-checkbox" data-target="data.basic"><i class="far fa-circle"></i></a>
@@ -55,7 +55,7 @@
                     {{localize "CPR.level"}}
                 </div>
                 <div class="item flexrow setting-value text-nowrap item-end">
-                    <input name="data.level" class="" data-dtype="{{data.level}}" value="{{data.level}}" type="number">
+                    <input name="data.level" class="" data-dtype="{{data.data.level}}" value="{{data.data.level}}" type="number">
                 </div>
             </li>
 
@@ -64,7 +64,7 @@
                     {{localize "CPR.mods"}}
                 </div>
                 <div class="item flexrow setting-value text-nowrap item-end">
-                    <input name="data.skillmod" class="" data-dtype="{{data.skillmod}}" value="{{data.skillmod}}" type="number">
+                    <input name="data.skillmod" class="" data-dtype="{{data.data.skillmod}}" value="{{data.data.skillmod}}" type="number">
                 </div>
             </li>
 
@@ -73,8 +73,8 @@
                     {{localize "CPR.stat"}}
                 </div>
                 <div class="item flexrow setting-value text-nowrap item-end">
-                    <select name="data.stat" data-dtype="{{data.stat}}">
-                        {{#select data.stat}}
+                    <select name="data.stat" data-dtype="{{data.data.stat}}">
+                        {{#select data.data.stat}}
                         {{#each (findConfigObj "statList") as |stat s|}}
                         <option value="{{s}}">{{localize stat}}</option>
                         {{/each}}

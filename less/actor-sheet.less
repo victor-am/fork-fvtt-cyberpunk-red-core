@@ -187,6 +187,50 @@
         border-width    : 5px;
         border-top-color: @wyrm-red;
         border-top-style: solid;
+
+        .eurobucks {
+          display: grid;
+          grid-template-areas:
+            "current-eurobucks"
+            "modify-eurobucks";
+
+          .current-eurobucks {
+            grid-area: current-eurobucks;
+
+            .eurobucks-text {
+              flex: 0 0 83px;
+            }
+
+            .eurobucks-value {
+              flex: 1;
+            }
+
+            .eurobucks-open-ledger {
+              flex: 0 0 15px;
+              text-align: right;
+            }
+          }
+
+          .modify-eurobucks {
+            grid-area: modify-eurobucks;
+
+            .eurobucks-modify-text {
+              flex: 0 0 80px;
+            }
+
+            .eurobucks-modify-input {
+              flex: 1 0 100px;
+            }
+
+            .eurobucks-modify-buttons {
+              flex: 1 0 50px;
+            }
+
+            .eurobucks-modify-reason {
+              flex: 1 0 150px;
+            }
+          }
+        }
     }
 }
 
@@ -250,6 +294,68 @@
         min-height      : 35px;
     }
 
+    .interface-abilities-section {
+        grid-area       : injuries;
+        background-color: @chrome-white;
+        min-height      : 35px;
+    }
+
+    .cyberdeck-installed-section {
+        grid-area       : armor;
+        background-color: @chrome-white;
+        min-height      : 35px;
+
+        .cyberdeck-installed-software-list {
+            display         : grid;
+            grid-template-columns: 1fr 30px 30px;
+            grid-template-areas: "program-name program-attack-and-damage program-actions";
+
+            .installed-program-name {grid-area: "program-name";}
+
+            .installed-program-attack-and-damage {
+                grid-area: "program-attack-and-damage";
+                display         : grid;
+                grid-template-columns: 15px 15px;
+                grid-template-areas: "program-attack program-damage";
+
+                    .installed-program-attack {grid-area: "program-attack";}
+                    .installed-program-damage {grid-area: "program-damage";}
+            }
+
+            .installed-program-actions {grid-area: "program-actions";}
+        }
+    }
+
+    .cyberdeck-rezzed-section {
+        grid-area       : weapon;
+        background-color: @chrome-white;
+        min-height      : 35px;
+
+        .cyberdeck-rezzed-software-list {
+          display         : grid;
+          grid-template-columns: 1fr 30px 30px 30px 30px 30px 70px;
+          grid-template-areas: "program-name program-per  program-spd program-atk program-def program-rez-and-decrement program-reset";
+
+          .rezzed-program-name {grid-area: "program-name";}
+
+          .rezzed-program-per {grid-area: "program-per";}
+          .rezzed-program-spd {grid-area: "program-spd";}
+          .rezzed-program-atk {grid-area: "program-atk";}
+          .rezzed-program-def {grid-area: "program-def";}
+
+          .rezzed-program-rez-and-decrement {
+              grid-area: "program-rez-and-decrement";
+              display         : grid;
+              grid-template-columns: 15px 15px;
+              grid-template-areas: "program-rez program-rez-decrement";
+
+                  .rezzed-program-rez {grid-area: "program-rez";}
+                  .rezzed-program-rez-decrement {grid-area: "program-rez-decrement";}
+          }
+
+          .rezzed-program-reset {grid-area: "program-reset";}
+      }
+    }
 }
 
 // Section Specific CSS

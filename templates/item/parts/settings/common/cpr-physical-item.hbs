@@ -4,9 +4,9 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-        <input name="data.price.market" class="" type="number" value="{{data.price.market}}">
+        <input name="data.price.market" class="" type="number" value="{{data.data.price.market}}">
         {{else}}
-        <span class="text-flex-end">{{data.price.market}}</span>
+        <span class="text-flex-end">{{data.data.price.market}}</span>
         {{/if}}
     </div>
 </li>
@@ -17,15 +17,15 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-        <select name="data.price.category" data-dtype="{{data.price.category}}">
-            {{#select data.price.category}}
+        <select name="data.price.category" data-dtype="{{data.data.price.category}}">
+            {{#select data.data.price.category}}
             {{#each (findConfigObj "itemPriceCategory") as |category c|}}
             <option value="{{c}}">{{localize category}}</option>
             {{/each}}
             {{/select}}
         </select>
          {{else}}
-        <span class="text-flex-end">{{localize (findConfigValue "itemPriceCategory" data.price.category)}}</span>
+        <span class="text-flex-end">{{localize (findConfigValue "itemPriceCategory" data.data.price.category)}}</span>
         {{/if}}
     </div>
 </li>
@@ -34,6 +34,10 @@
         {{localize "CPR.source"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        <input name="data.source" class="" type="text" value="{{data.source}}" placeholder="Example: pg. 1">
+        {{#if this.editable}}
+          <input name="data.source" class="" type="text" value="{{data.data.source}}" placeholder="Example: pg. 1">
+        {{else}}
+          <span>{{data.data.source}}</span>
+        {{/if}}
     </div>
 </li>

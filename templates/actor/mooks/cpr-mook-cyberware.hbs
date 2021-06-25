@@ -6,52 +6,45 @@
 </div>
 <div class="bg-white fg-black text-padding-left">
   <!-- Cyberware -->
-  {{log this}}
-  {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
-    {{#each (getProp ../this.installedCyberware t) as |cyberware c|}}
-      {{#if foundation.data.data.core}}
-        <!-- This messy mapping is because the names of internal cyberware are not concise enough
-             Also hasOptionalSlots is false for core cyberware for an unknown reason. We have to
-            look at the length of optionals to know the truth about used slots. -->
-        {{#if (compare optionals.length ">" 0)}}
-          {{#if (compare foundation.data.name "===" "Internal (7 Option Slots)")}}
-            {{localize "CPR.internal"}} (
-          {{/if}}
-          {{#if (compare foundation.data.name "===" "External (7 Option Slots)")}}
-            {{localize "CPR.external"}} (
-          {{/if}}
-          {{#if (compare foundation.data.name "===" "Fashionware (7 Option Slots)")}}
-            {{localize "CPR.fashionware"}} (
-          {{/if}}
+  {{#each (getMookCyberware this.installedCyberware) as |type t|}}
+    {{#if foundation.data.data.core}}
+      <!-- This messy mapping is because the names of internal cyberware are not concise enough
+           Also hasOptionalSlots is false for core cyberware for an unknown reason. We have to
+          look at the length of optionals to know the truth about used slots. -->
+      {{#if (compare optionals.length ">" 0)}}
+        {{#if (compare foundation.data.name "===" "Internal (7 Option Slots)")}}
+          {{localize "CPR.internal"~}}
         {{/if}}
-      {{else}}
-        <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{foundation.data._id}}">
-          {{foundation.name}}{{#if (compare foundation.data.data.hasOptionalSlots "===" false)}}{{#unless @last}},{{/unless}}{{/if}}
-        </a>
-      {{/if}}
-      {{#if foundation.data.data.hasOptionalSlots}}({{/if}}
-      {{#each optionals as |optional o|}}
-        <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation._id}}">
-          {{optional.name}}{{#unless @last}},{{/unless}}
-        </a>
-      {{/each}}
-      {{#if foundation.data.data.core}}
-        {{#if (compare optionals.length ">" 0)}}
-          ),
+        {{#if (compare foundation.data.name "===" "External (7 Option Slots)")}}
+          {{localize "CPR.external"~}}
         {{/if}}
-      {{else}}
-        ),
+        {{#if (compare foundation.data.name "===" "Fashionware (7 Option Slots)")}}
+          {{localize "CPR.fashionware"~}}
+        {{/if}}
       {{/if}}
-    {{/each}}
-  {{/each}}
+    {{else}}
+      <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{foundation.data._id}}">
+        {{~foundation.name~}}{{~#unless (compare optionals.length ">" 0)~}}{{~#unless @last~}},{{~/unless~}}{{~/unless~}}
+      </a>
+    {{~/if}}
+    {{~#if (compare optionals.length ">" 0)~}}&nbsp;({{/if~}}
+    {{~#each optionals as |optional o|~}}
+      <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}">
+        {{~optional.name}}{{#unless @last}},&nbsp;{{/unless~}}
+      </a>
+    {{~/each}}
+    {{~#if (compare optionals.length ">" 0)~}}
+      ){{#unless @last}},{{/unless~}}
+    {{/if}}
+  {{~/each}}{{#if (compare (compare (getMookCyberwareLength this.installedCyberware) ">" 0) "&&" (compare (compare actor.data.filteredItems.ammo.length ">" 0) "||" (compare actor.data.filteredItems.gear.length ">" 0)))}},{{/if}}
   <!-- Gear -->
-  {{#each this.items as |item i|}}
+  {{#each (sort (arrayConcat actor.data.filteredItems.ammo actor.data.filteredItems.gear) "name") as |item i|}}
     {{#if (compare item.type "===" "ammo")}}
       <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item._id}}">
-        {{item.name}} (x{{item.data.amount}}){{#unless @last}},{{/unless}}
+        {{item.name}} (x{{item.data.data.amount}}){{#unless @last}},{{/unless}}
       </a>
     {{/if}}
-    {{#if (compare item.type "===" "gear")}}
+    {{#if (compare (compare item.type "===" "gear") "||" (compare item.type "===" "cyberdeck"))}}
       <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item._id}}">
         {{item.name}}{{#unless @last}},{{/unless}}
       </a>

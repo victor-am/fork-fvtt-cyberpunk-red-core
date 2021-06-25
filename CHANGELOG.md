@@ -1,4 +1,98 @@
+# Version 0.77.0 | Date: 2021-06-25
+
+**Migration to foundry 0.8.X**
+- **BREAKING:** This version of our system will not work with Foundry version 0.7.X and below. Do not update this system until you are ready to update your Foundry to version 0.8.X. And as always, **make a backup of your user data** before updating!
+- Migrated the source code to work with foundry version 0.8.X
+- Rewrote the migration code support new features from foundry 0.8.X
+
+**New Features**
+- Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title.
+- Added options to choose how to display the skill values for the mook character sheet. Now one can show it in the same way as it is printed in the book. Please look at the settings for this.
+- Improved Ledger functionality of the Eurobucks/wealth and Improvement Points of characters
+  - A new display of the ledger of both of these properties, to show all transactions done in the past, is now available.
+  - Modification now gives the possibility to give a reason for the change and it is recorded who did the change.
+- Added container actor sheet, which can be used for shops, loot or storage purposes.
+  - **Please note, that the players have to be owners of the container actor for full functionality.**
+  - Type Shop: Items cost their configured price and can be bought by the players with the click of a button. The GM has the option to make the stock of the shop be infinite or not. If it is not infinite the item will be removed after purchase.
+  - Type Loot: Items are free to take and will be removed after taking them.
+  - Type Stash: In addition to the same functionality as "Loot", the players can also modify the contents of the container, e.g. to use it as a group stash.
+  - Type Custom: The GM has the option to specify the settings as desired.
+    - Are all items free? - Makes taking an item from the container not cost anything. (On for Loot and Stash, Off for Shop)
+    - Infinite Stock? - Items are not removed from the container after purchasing/taking them. (Off for Loot and Stash, GM can decide in case of Shop)
+    - Players can create items? - Allows to add new items with the plus sign in the header of each category for the players. Also allows players to drag items into the container. (On for Stash, else Off)
+    - Players can delete items? - Allows players to delete items with the trash can symbol. (On for Stahl, else Off)
+    - Players can modify items? - Allows modification of the items. If enabled the item sheets render in an editable way, otherwise they render in a non-editable way. (On for Stash, else Off)
+  - Players are not allowed to drag an item out of the container actor to their character sheet. This is only enabled for the GM, as otherwise the players could "steal" items from the container. Players have to use the take/purchase button for that.
+  - **KNOWN ISSUE:** Currently, there is a [bug](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues/261) affecting unlinked container actors therefore we recommend to workaround this bug, when you create a new container actor, change the Prototype Token to Link Actor Data.  This bug will be addressed in a future release.
+- We now support an Italian translation! (thank you Misthero!)
+- Netrunning Initial Implementation
+  - Introduction of the Item Object: Cyberdeck
+    - Migration code added for existing "Gear" items which have the word "cyberdeck" in the name. These items will be pre-pended with a '[MIGRATED]' tag on it to help identify that the item should be replaced with a new Cyberdeck Item. We have opted to not automate this replacement as people may update just prior to hosting a game and this would/could cause issues for planned sessions.
+    - Cyberdeck items in the Shipped Gear Compendium have been replaced with versions utilizing the new Cyberdeck Item Object
+  - Ability to equip one (1) Cyberdeck enables Meat/Net toggle on Fight Tab
+  - Ability to install Programs on the Cyberdeck from the Cyberdeck Settings Page and directly from the Gear Tab
+  - Programs (Booster) have been enhanced to allow the addition of Roll Modifiers for Interface Abilities (i.e. Eraser gives a +2 to Cloak)
+  - Booster Roll Modifiers exposed in Roll verification dialog and added to the roll for Rezzed Boosters Only
+    - Shipped Program Compendium updated to include these roll modifiers (Any imported items should be re-imported or manually updated to add these)
+  - Programs (Attacker) have been enhanced to allow the setting of Damage. For Anti-Program Attackers, both BlackICE and non-BlackICE damage rolls may be configured
+    -  Attack rolls for Anti-Program Attack Rolls will prompt on which damage type to roll
+  - When equipping a Cyberdeck in inventory, the Fight Tab exposes a toggle between Meat and Net space. Net space enables quick access to:
+    - Roll Interface Abilities
+    - Roll Speed against a Black-ICE encounter
+    - Roll Defense against a Net Attack
+      - Includes any Rezzed Boosters that may have a DEF rating in the Modifiers field
+    - Activate/Deactivate & track Rezzed Boosters, Defenders & Black ICE
+      - Ability to manage (reduce & reset) the REZ on Boosters and Defenders programs when they take an attack
+      - Capability to install a Booster twice to a Cyberdeck (requires 2 of the same program item in inventory) and REZ both thereby stacking their bonus modifiers per discussion with RTG on Discord
+  - Deletion of the Cyberdeck Item will auto-return all programs to Actors inventory
+  - Black ICE changes/enhancements
+    - Black ICE Program type added
+    - The ability to REZ a Black ICE Program on the Cyberdeck will create a Black ICE Actor next to the Token performing the REZ
+      - **NOTE: In order for Players to REZ Black ICE Actors, they will need Foundry Permissions to create actors and tokens in the World otherwise the GM will need to REZ/deREZ the Black ICE for the players.**
+    - Rezzing a Black ICE Program will:
+      - Try to find a Black ICE Actor of the same name
+      - If a Black ICE Actor is not found:
+        - Look for an Actor folder called "CPR Autogenerated" and if it does not exist, create it
+        - Create a Black ICE Actor of the same name as the Black ICE Program in the Actor Folder "CPR Autogenerated"
+        - Configure the new Black ICE Actor according to the specs stored on the Black ICE Program
+      - Place a Token on the Active Scene with unlinked Actor Data to the previously mentioned Black ICE Actor
+      - Token Actor Data is updated with the numbers from the Black ICE Program regardless if it is a new Actor or not
+    - Deleting or de-rezzing a Black ICE on a Cyberdeck will delete the Token from the scene
+    - Black ICE Rez numbers are synchronized between the Cyberdeck Rezzed section and the associated Black ICE Token
+    - GM Only Enhancement: When using the "Character Sheet" Sheet for Mooks, GM's have added functionality in the Rezzed Section:
+      - Ability to execute Black ICE attack, damage and defense rolls
+      - Ability to decrement REZ
+    - Black ICE Actors unassociated with a Netrunner have had functionality added to them to quickly configure them using Black ICE Program Items
+      - If a player opts to do this configuration, it further enables the ability to roll Damage from the Black ICE Actor
+        - In a later release, we may decouple this and allow the ability to configure damage right on the Black ICE Actor
+  - Cyberdeck Loading Requirement
+    - Actors must own the Cyberdeck + Programs to install onto the Cyberdeck. ie inability to pre-load the Cyberdeck with programs before adding to an Actor. This is due to the direct relationship of the Program Items and the Cyberdeck.
+  - Netrunning TODO
+    - Booster Speed is not taken into account for Foundry Initiative rolls.
+  - Netrunning icons for actors (and some other things) are now included in the system. They can be accessed from the tile browser in "systems/cyberpunk-red-core/icons/netrunning". Big big thanks to Verasunrise (the artist) and Hyriu33 for letting us provide this awesome artwork with our system!
+- Street Drugs have been added to the "Gear" compendium.
+
+**Changes**
+- Restructured the code for character and mook sheets for ease of development
+- Changed the scene activation when generating a scene from a net architecture to just viewing the scene. This allows to show the new scene to the GM, but not the players in order to do some more preparation if needed.
+- Fixed various formatting issues on the mook sheet - i.e. whitespace trimmed; trailing commas and erroneous parentheses removed for Skills, Cyberware/Gear, Programs, and Critical Injuries lists.
+- Added icon artwork for many of the items in the shipped Weapons Compendium.  Artwork provided by [Flintwyrm](https://twitter.com/Flintwyrm).
+- Renamed some compendia to make it more clear which are necessary to import and which should not be imported.
+- Default images added for compendia. Images from https://game-icons.net. They can be accessed from the file browser in "systems/cyberpunk-red-core/icons/compendium/default".
+- The French translation has been updated to account for all strings in this release. (Thank you VinceKun!)
+
+**Bug Fixes**
+- Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item.
+- Code added so New Worlds will not immediately go through migration
+- Fixed warning when the medtech would put the proper amount of points into surgery. The intention is, that per time you choose the surgery skill you should add two points there.
+- Fixed #226 - Lock Pick is now "Lock Picking Set". Meat arms and legs now exist and operate correctly with standard hands, feet and usable accessories.
+- Fixed #232 - Cancelling dialog boxes no longer creates errors in dev log
+- Fixed #234 - Attempting to install cyberware, where there is no suitable foundation no longer throws an error in the console.
+- Fixed Issue, with netrunning tile naming case. This caused tiles to not be displayed on linux systems.
+
+
 # Version: 0.76.2 (Hot Fix) |  Date:  2021-05-28
+- Non owned actor sheets (Limited and Observer permissions) render again, the content is also shown now.
 - Borgware items are now configured correctly as foundational in compendium.
 - Borgware no longer displays "0/0 Optional slots" when installed on character sheet.
 - Observer/limited view permissions for character sheets now work correctly.
@@ -9,9 +103,8 @@
 - Deleting/uninstalling optional cyberware from mook sheets now works correctly.
 - Cleaned up of many (but not all) trailing commas in mook sheet.
 
-
 # Version: 0.76.1 (Hot Fix) |  Date:  2021-05-27
-- Programs can now be displayed in gear tab and on mook sheets so that they are actually functional.
+- Programs can now be displayed in gear tab and on mook sheets for easier tracking.
 
 # Version 0.76.0 | Date: 2021-05-26
 

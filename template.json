@@ -1,7 +1,10 @@
 {
   "Actor": {
     "types": [
+      "blackIce",
       "character",
+      "container",
+      "demon",
       "mook"
     ],
     "templates": {
@@ -284,13 +287,20 @@
     },
     "blackIce": {
       "class": "",
-      "isDemon": false,
-      "interface": 0,
-      "per": 0,
-      "spd": 0,
-      "atk": 0,
-      "def": 0,
-      "rez": 0
+      "stats": {
+        "per": 0,
+        "spd": 0,
+        "atk": 0,
+        "def": 0,
+        "rez": {
+          "value": 10,
+          "max": 10,
+          "transactions": []
+        }
+      },
+      "cost": 100,
+      "effect": "",
+      "notes": ""
     },
     "container": {
       "hp": {
@@ -308,6 +318,19 @@
       "wealth": {
         "value": 0
       }
+    },
+    "demon": {
+      "stats": {
+        "rez": {
+          "value": 10,
+          "max": 10,
+          "transactions": []
+        },
+        "interface": 0,
+        "actions": 2,
+        "combatNumber": 14
+      },
+      "notes": ""
     }
   },
   "Item": {
@@ -316,6 +339,7 @@
       "armor",
       "clothing",
       "criticalInjury",
+      "cyberdeck",
       "cyberware",
       "gear",
       "netarch",
@@ -340,6 +364,7 @@
           "market": 0,
           "category": ""
         },
+        "quality": "standard",
         "amount": 1
       },
       "equippable": {
@@ -347,7 +372,7 @@
       },
       "upgradable": {
         "isUpgraded": false,
-        "upgrade": ""
+        "upgrades": []
       },
       "weapon": {
         "weaponType": "",
@@ -356,7 +381,6 @@
           "autoFire": 0,
           "suppressiveFire": false
         },
-        "quality": "standard",
         "damage": "1d6",
         "rof": 1,
         "attachmentSlots": 0,
@@ -381,6 +405,10 @@
       "concealable": {
         "concealable": false,
         "isConcealed": false
+      },
+      "installable": {
+        "install": "mall",
+        "isInstalled": false
       }
     },
     "ammo": {
@@ -423,11 +451,10 @@
         "upgradable",
         "concealable",
         "weapon",
-        "uses"
+        "uses",
+        "installable"
       ],
       "type": "cyberArm",
-      "install": "mall",
-      "isInstalled": false,
       "isFoundational": true,
       "hasOptionalSlots": false,
       "optionSlots": 0,
@@ -447,8 +474,11 @@
         "upgradable",
         "equippable"
       ],
-      "slots": 0,
-      "programs": []
+      "slots": 1,
+      "programs": {
+        "installed": [],
+        "rezzed": []
+      }
     },
     "gear": {
       "templates": [
@@ -479,11 +509,19 @@
       "templates": [
         "common",
         "physicalItem",
-        "equippable"
+        "installable"
       ],
-      "class": "",
+      "slots": 1,
+      "class": "defender",
+      "blackIceType": "antipersonnel",
       "isDemon": false,
+      "prototypeActor": "",
+      "modifiers": {},
       "interface": 0,
+      "damage": {
+        "standard": "1d6",
+        "blackIce": ""
+      },
       "per": 0,
       "spd": 0,
       "atk": 0,

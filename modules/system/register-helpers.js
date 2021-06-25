@@ -78,7 +78,7 @@ export default function registerHandlebarsHelpers() {
     return "";
   });
 
-  Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i._id === itemId));
+  Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i.id === itemId));
 
   Handlebars.registerHelper("isDefined", (object) => {
     if (typeof object === "undefined") {
@@ -239,6 +239,12 @@ export default function registerHandlebarsHelpers() {
     return object;
   });
 
+  Handlebars.registerHelper("reverse", (object) => {
+    LOGGER.trace(`Calling reverse Helper | Reversing array object`);
+    object.reverse();
+    return object;
+  });
+
   Handlebars.registerHelper("math", (...args) => {
     LOGGER.trace(`Calling math Helper | Arg1:${args}`);
     let mathArgs = [...args];
@@ -272,6 +278,12 @@ export default function registerHandlebarsHelpers() {
     }
   });
 
+  Handlebars.registerHelper("getSkillStat", (skill, actor) => {
+    LOGGER.trace("Calling getSkillStat Helper");
+    const skillStat = skill.data.data.stat;
+    return actor.data.data.stats[skillStat].value;
+  });
+
   Handlebars.registerHelper("ablated", (armor, slot) => {
     LOGGER.trace(`Calling ablated Helper | Arg1:${armor} Arg2:${slot}`);
     if (slot === "body") {
@@ -287,7 +299,7 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace("Calling fireMode Helper");
     LOGGER.debug(`firemode is ${firemode}`);
     LOGGER.debug(`weaponID is ${weaponID}`);
-    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    const flag = getProperty(actor, `data.flags.cyberpunk-red-core.firetype-${weaponID}`);
     LOGGER.debugObject(flag);
     if (flag === firemode) {
       LOGGER.debug("returning true");
@@ -299,7 +311,7 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("fireflag", (actor, firetype, weaponID) => {
     LOGGER.trace("Calling fireflag Helper");
-    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    const flag = getProperty(actor, `data.flags.cyberpunk-red-core.firetype-${weaponID}`);
     if (flag === firetype) {
       return "checked";
     }
@@ -323,13 +335,77 @@ export default function registerHandlebarsHelpers() {
     return cprDot + andCaseSplit.toLowerCase();
   });
 
-  Handlebars.registerHelper("itemIdFromName", (itemName) => {
+  Handlebars.registerHelper("itemIdFromName", (itemName, itemType) => {
     LOGGER.trace("Calling itemIdFromName Helper");
-    const item = game.items.find((i) => i.data.name === itemName);
-    if (item !== null) {
+    const item = game.items.find((i) => i.data.name === itemName && i.type === itemType);
+    if (item !== undefined) {
       return item.data._id;
     }
     return "DOES NOT EXIST";
+  });
+
+  Handlebars.registerHelper("toArray", (string, delimiter) => string.split(delimiter));
+
+  Handlebars.registerHelper("isTokenSheet", (title) => {
+    LOGGER.trace("Calling isTokenSheet Helper");
+    LOGGER.debug(`title is ${title}`);
+    const substr = `[${SystemUtils.Localize("CPR.token")}]`;
+    return title.includes(substr);
+  });
+
+  Handlebars.registerHelper("arrayConcat", (array1, array2) => {
+    LOGGER.trace("Calling arrayConcat Helper");
+    const array = array1.concat(array2);
+    return array;
+  });
+
+  Handlebars.registerHelper("getMookSkills", (array) => {
+    LOGGER.trace("Calling getMookSkills Helper");
+    const skillList = [];
+    array.forEach((skill) => {
+      if (skill.data.data.level > 0 || skill.data.data.skillmod > 0) {
+        skillList.push(skill);
+      }
+    });
+    return skillList;
+  });
+
+  Handlebars.registerHelper("getMookCyberware", (installedCyberware) => {
+    LOGGER.trace("Calling getMookCyberware Helper");
+    const installedCyberwareList = [];
+    Object.entries(installedCyberware).forEach(([k, v]) => {
+      if (installedCyberware[k].length > 0) {
+        if (k !== "cyberwareInternal" && k !== "cyberwareExternal" && k !== "fashionware") {
+          v.forEach((a) => {
+            installedCyberwareList.push(a);
+          });
+        } else if (installedCyberware[k][0].optionals.length > 0) {
+          v.forEach((a) => {
+            installedCyberwareList.push(a);
+          });
+        }
+      }
+    });
+    return installedCyberwareList;
+  });
+
+  Handlebars.registerHelper("getMookCyberwareLength", (installedCyberware) => {
+    LOGGER.trace("Calling getMookCyberwareLength Helper");
+    const installedCyberwareList = [];
+    Object.entries(installedCyberware).forEach(([k, v]) => {
+      if (installedCyberware[k].length > 0) {
+        if (k !== "cyberwareInternal" && k !== "cyberwareExternal" && k !== "fashionware") {
+          v.forEach((a) => {
+            installedCyberwareList.push(a);
+          });
+        } else if (installedCyberware[k][0].optionals.length > 0) {
+          v.forEach((a) => {
+            installedCyberwareList.push(a);
+          });
+        }
+      }
+    });
+    return installedCyberwareList.length;
   });
 
   Handlebars.registerHelper("isDebug", () => {

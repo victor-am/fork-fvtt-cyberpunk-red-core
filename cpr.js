@@ -1,10 +1,14 @@
 /* global Actors ActorSheet CONFIG Hooks Items ItemSheet game isNewerVersion */
 // Object imports
-import CPRActor from "./modules/actor/cpr-actor.js";
-import CPRActorSheet from "./modules/actor/sheet/cpr-actor-sheet.js";
+import actorConstructor from "./modules/actor/actor-factory.js";
+import CPRBlackIceActorSheet from "./modules/actor/sheet/cpr-black-ice-sheet.js";
 import CPRCharacterActorSheet from "./modules/actor/sheet/cpr-character-sheet.js";
+import CPRContainerActorSheet from "./modules/actor/sheet/cpr-container-sheet.js";
+import CPRDemonActorSheet from "./modules/actor/sheet/cpr-demon-sheet.js";
 import CPRMookActorSheet from "./modules/actor/sheet/cpr-mook-sheet.js";
+import CPRCombat from "./modules/combat/cpr-combat.js";
 import CPRItem from "./modules/item/cpr-item.js";
+
 import CPRItemSheet from "./modules/item/sheet/cpr-item-sheet.js";
 import LOGGER from "./modules/utils/cpr-logger.js";
 import CPRMacro from "./modules/utils/cpr-macros.js";
@@ -27,6 +31,12 @@ Hooks.once("init", async () => {
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("cyberpunk-red-core", CPRCharacterActorSheet,
     { label: SystemUtils.Localize("CPR.charactersheet"), types: ["character", "mook"], makeDefault: true });
+  Actors.registerSheet("cyberpunk-red-core", CPRBlackIceActorSheet,
+    { label: SystemUtils.Localize("CPR.blackicesheet"), types: ["blackIce"], makeDefault: true });
+  Actors.registerSheet("cyberpunk-red-core", CPRContainerActorSheet,
+    { label: SystemUtils.Localize("CPR.containersheet"), types: ["container"], makeDefault: true });
+  Actors.registerSheet("cyberpunk-red-core", CPRDemonActorSheet,
+    { label: SystemUtils.Localize("CPR.demonsheet"), types: ["demon"], makeDefault: true });
   Actors.registerSheet("cyberpunk-red-core", CPRMookActorSheet,
     { label: SystemUtils.Localize("CPR.mooksheet"), types: ["character", "mook"] });
 
@@ -34,6 +44,7 @@ Hooks.once("init", async () => {
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("cyberpunk-red-core", CPRItemSheet, {
     types: [
+      "cyberdeck",
       "cyberware",
       "clothing",
       "weapon",
@@ -51,21 +62,20 @@ Hooks.once("init", async () => {
 
   game.cpr = {
     apps: {
-      CPRActorSheet,
+      CPRBlackIceActorSheet,
       CPRCharacterActorSheet,
+      CPRContainerActorSheet,
+      CPRDemonActorSheet,
       CPRMookActorSheet,
       CPRItemSheet,
-    },
-    entities: {
-      CPRActor,
-      CPRItem,
     },
     macro: CPRMacro,
   };
 
   // Assign the actor class to the CONFIG
-  CONFIG.Actor.entityClass = CPRActor;
-  CONFIG.Item.entityClass = CPRItem;
+  CONFIG.Actor.documentClass = actorConstructor;
+  CONFIG.Combat.documentClass = CPRCombat;
+  CONFIG.Item.documentClass = CPRItem;
 
   preloadHandlebarsTemplates();
   registerHandlebarsHelpers();
@@ -78,15 +88,19 @@ Hooks.once("ready", () => {
   if (!game.user.isGM) return;
   // This defines the version of the Data Model for this release.  We should
   // only update this when the Data Model Changes.
-  const DATA_MODEL_VERSION = "0.76.1";
+  const DATA_MODEL_VERSION = "0.77.3";
   // Get the version of the data model being used for the loaded world. At
   // the end of a migration, this is updated with the current version of the
   // CPR system.
-  const dataModelVersion = game.settings.get("cyberpunk-red-core", "dataModelVersion") ? game.settings.get("cyberpunk-red-core", "dataModelVersion") : "0.52";
-  // Determine if we need to perform a migration
-  const needsMigration = dataModelVersion && isNewerVersion(DATA_MODEL_VERSION, dataModelVersion);
-  if (!needsMigration) return;
-  Migration.migrateWorld(dataModelVersion, DATA_MODEL_VERSION);
+  if (!game.settings.get("cyberpunk-red-core", "dataModelVersion")) {
+    game.settings.set("cyberpunk-red-core", "dataModelVersion", DATA_MODEL_VERSION);
+  } else {
+    const dataModelVersion = game.settings.get("cyberpunk-red-core", "dataModelVersion");
+    // Determine if we need to perform a migration
+    const needsMigration = dataModelVersion && isNewerVersion(DATA_MODEL_VERSION, dataModelVersion);
+    if (!needsMigration) return;
+    Migration.migrateWorld(dataModelVersion, DATA_MODEL_VERSION);
+  }
 });
 
 registerHooks();

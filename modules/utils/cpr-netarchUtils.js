@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* global game, duplicate */
+/* global game, duplicate, Scene */
 
 import LOGGER from "./cpr-logger.js";
 import NetarchSceneGenerationPrompt from "../dialog/cpr-netarch-scene-generation-prompt.js";
@@ -27,7 +27,7 @@ export default class CPRNetarchUtils {
       "CPR.password": "Password",
       "CPR.file": "File",
       "CPR.controlnode": "ControlNode",
-      "CPR.blackice": "BlackICE",
+      "CPR.blackice": "BlackIce",
       "CPR.asp": "Asp",
       "CPR.giant": "Giant",
       "CPR.hellhound": "Hellhound",
@@ -77,13 +77,13 @@ export default class CPRNetarchUtils {
     }
     if (this.options.sceneName === null) {
       if (this.animated) {
-        if (game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`) === null) {
+        if (game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`) === null || game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`) === undefined) {
           await this._duplicateScene(`${this.netarchItem.data.name} (animated)`);
         } else {
           this.scene = game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`);
           await this._removeAllTiles();
         }
-      } else if (game.scenes.find((f) => f.name === this.netarchItem.data.name) === null) {
+      } else if (game.scenes.find((f) => f.name === this.netarchItem.data.name) === null || game.scenes.find((f) => f.name === this.netarchItem.data.name) === undefined) {
         await this._duplicateScene(`${this.netarchItem.data.name}`);
       } else {
         this.scene = game.scenes.find((f) => f.name === this.netarchItem.data.name);
@@ -206,7 +206,7 @@ export default class CPRNetarchUtils {
       }
     });
     await this._addTilesToScene(newTiles);
-    await this.scene.activate();
+    await this.scene.view();
     SystemUtils.DisplayMessage("notify", SystemUtils.Localize("CPR.netarchgeneratedone"));
   }
 
@@ -214,44 +214,33 @@ export default class CPRNetarchUtils {
     LOGGER.trace("_duplicateScene | CPRINetarchUtils | Called.");
     let scene = null;
     if (this.animated) {
-      scene = await game.packs.get("cyberpunk-red-core.scenes").getEntity("kmVVudIkBTEODmcq");
+      scene = await game.packs.get("cyberpunk-red-core.scenes").getDocument("kmVVudIkBTEODmcq");
     } else {
-      scene = await game.packs.get("cyberpunk-red-core.scenes").getEntity("vHjjIdBSOEQdrgrl");
+      scene = await game.packs.get("cyberpunk-red-core.scenes").getDocument("vHjjIdBSOEQdrgrl");
     }
-    await scene.clone({ name: newName });
+    const sceneData = duplicate(scene.data);
+    sceneData.id = null;
+    sceneData.name = newName;
+    await Scene.createDocuments([sceneData]);
     this.scene = game.scenes.find((f) => f.name === newName);
   }
 
   async _addTilesToScene(tileData) {
     LOGGER.trace("_addTilesToScene | CPRINetarchUtils | Called.");
     if (this.scene === null) {
-      console.log("Error no scene defined!");
+      LOGGER.log("Error no scene defined!");
       return;
     }
-    const sceneData = duplicate(this.scene.data);
-    tileData.forEach((t) => { sceneData.tiles.push(duplicate(t)); });
-    await this.scene.update(sceneData);
+    LOGGER.debug(this.scene);
+    await this.scene.createEmbeddedDocuments("Tile", tileData);
   }
 
   async _removeAllTiles() {
     LOGGER.trace("_removeAllTiles | CPRINetarchUtils | Called.");
-    const sceneData = duplicate(this.scene.data);
-    sceneData.tiles = [];
-    await this.scene.update(sceneData);
+    const tileIds = [];
+    this.scene.tiles.forEach((t) => { tileIds.push(t.id); });
+    await this.scene.deleteEmbeddedDocuments("Tile", tileIds);
   }
-
-  /* _checkLevelFormat(level) {
-    const reg = new RegExp("^[0-9]+[a-z]?$");
-    if (reg.test(level)) {
-      const number = Number(level.match("^[0-9]+"));
-      const letter = level.match("[a-z]$");
-      if (letter === null) {
-        return [number, null];
-      }
-      return [number, letter[0]];
-    }
-    return null;
-  } */
 
   _checkDV(dv) {
     const reg = new RegExp("^[0-9]+$");
@@ -284,7 +273,10 @@ export default class CPRNetarchUtils {
       cornerOffsetY: 2,
       returnType: "string",
     };
-    formData = await NetarchSceneGenerationPrompt.RenderPrompt(formData);
+    formData = await NetarchSceneGenerationPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
 
     if (formData.cusomTiles) {
       this.options.filePath = formData.filePath;

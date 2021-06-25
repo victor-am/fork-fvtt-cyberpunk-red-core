@@ -9,7 +9,7 @@ export default class VerifyRollPrompt {
       renderTemplate(cprRoll.rollPrompt, cprRoll).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog VerifyRollPrompt | called.");
-          reject();
+          reject(new Error("Promise rejected: Window Closed"));
         };
         // eslint-disable-next-line no-shadow
         const _onConfirm = (html) => {
@@ -57,7 +57,7 @@ export default class VerifyRollPrompt {
           default: "confirm",
           render: LOGGER.trace("confirm | Dialog VerifyRollPrompt | called."),
           close: () => {
-            reject();
+            reject(new Error("Promise rejected: Window Closed"));
           },
         }).render(true);
       });

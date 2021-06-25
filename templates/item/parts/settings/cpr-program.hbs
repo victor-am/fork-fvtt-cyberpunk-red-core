@@ -15,8 +15,8 @@
                         {{localize "CPR.equipped"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.equipped" data-dtype="{{data.equipped}}">
-                            {{#select data.equipped}}
+                        <select name="data.equipped" data-dtype="{{data.data.equipped}}">
+                            {{#select data.data.equipped}}
                             {{#each (findConfigObj "equipped") as |vic v|}}
                             <option value="{{v}}">{{localize vic}}</option>
                             {{/each}}
@@ -25,33 +25,161 @@
                     </div>
                 </li>
 
-                {{!-- Program Amount Settings--}}
+                {{!-- Program Item Settings--}}
+                {{!-- Program Slots--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.amount"}}
+                        {{localize "CPR.slots"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.amount" class="" type="number" value="{{data.amount}}">
+                        {{#if this.editable}}
+                        <input name="data.slots" class="" type="number" value="{{data.data.slots}}" placeholder="1">
+                        {{else}}
+                        <span class="text-flex-end">{{data.data.slots}}</span>
+                        {{/if}}
                     </div>
                 </li>
 
-                {{!-- Program Item Settings--}}
+                {{!-- Program Class--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.class"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.class" class="" type="text" value="{{data.class}}" placeholder="ex: Attack">
+                        <select name="data.class" data-dtype="{{data.data.class}}">
+                            {{#select data.data.class}}
+                            {{#each (findConfigObj "programClassList") as |class c| }}
+                            <option value="{{c}}">{{localize class}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
                     </div>
                 </li>
 
+                {{#if (compare data.data.class "!==" "defender")}}
+                <hr>
+                {{/if}}
 
+                {{!-- Black ICE Configuration--}}
+                {{#if (compare data.data.class "===" "blackice")}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.blackice"}} {{localize "CPR.type"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <select name="data.blackIceType" data-dtype="{{data.data.blackIceType}}">
+                            {{#select data.data.blackIceType}}
+                            {{#each (findConfigObj "blackIceType") as |blackIceType bit| }}
+                            <option value="{{bit}}">{{localize blackIceType}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </div>
+                </li>
+                {{/if}}
+
+                {{!-- Program Modifier for Boosters--}}
+                {{#if (compare data.data.class "===" "booster")}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.boostermodifiers"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
+                        <a class="program-add-booster-modifier" title="{{localize "CPR.addboostermodifier"}}"><i class="fas fa-plus-circle text-padding-right"></i></a>
+                        {{else}}
+                        <i class="fas fa-plus-circle text-padding-right"></i>
+                        {{/if}}
+                    </div>
+                </li>
+                <li class="item flexrow text-bold">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.name"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        {{localize "CPR.modifier"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+
+                    </div>
+                </li>
+                {{#each data.data.modifiers as |boosterValue boosterType|}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{#if (compare boosterType "===" "speed")}}
+                        {{localize "CPR.speed"}}
+                        {{else if (compare boosterType "===" "attack")}}
+                        {{localize "CPR.attack"}}
+                        {{else if (compare boosterType "===" "defense")}}
+                        {{localize "CPR.defense"}}
+                        {{else}}
+                        {{localize (findConfigValue "interfaceAbilities" boosterType)}}
+                        {{/if}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        {{boosterValue}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
+                        <a class="program-del-booster-modifier" data-booster-type="{{boosterType}}"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.delboostermodifier"}}"></i></a>
+                        {{/if}}
+                    </div>
+                </li>
+                {{/each}}
+                 <hr>
+                {{/if}}
+
+                {{!-- Program Damage Rolls--}}
+                {{#if (compare (compare (compare data.data.class "===" "antiprogramattacker") "||" (compare data.data.class "===" "antipersonnelattacker")) "||" (compare data.data.class "===" "blackice")) }}
+
+                    {{!-- Anti-Personnel Damage Rolls--}}
+                    {{#if (compare (compare data.data.class "!==" "blackice") "||" (compare data.data.blackIceType "===" "antipersonnel"))}}
+                    <li class="item flexrow">
+                        <div class="item flexrow setting-name text-nowrap">
+                            {{#if (compare data.data.class "===" "antipersonnelattacker")}}
+                            {{localize "CPR.damage"}}
+                            {{else}}
+                            {{localize "CPR.damageto"}} {{#if (compare data.data.class "===" "blackice")}}{{localize "CPR.netrunnerrole"}}{{else}}{{localize "CPR.nonblackice"}}{{/if}}
+                            {{/if}}
+                        </div>
+                        <div class="item flexrow setting-value text-nowrap item-end">
+                            {{#if this.editable}}
+                            <input name="data.damage.standard" class="" type="text" value="{{data.data.damage.standard}}">
+                            {{else}}
+                            <span class="text-flex-end">{{data.data.damage.standard}}</span>
+                            {{/if}}
+                        </div>
+                    </li>
+                    {{/if}}
+                    {{!-- Anti-Program Damage Rolls--}}
+                    {{#if (compare (compare data.data.class "===" "antiprogramattacker") "||" (compare (compare data.data.class "===" "blackice") "&&" (compare data.data.blackIceType "===" "antiprogram")))}}
+                    <li class="item flexrow">
+                        <div class="item flexrow setting-name text-nowrap">
+                          {{localize "CPR.damageto"}} {{#if (compare data.data.class "===" "blackice")}}{{localize "CPR.programs"}}{{else}}{{localize "CPR.blackice"}}{{/if}}
+                        </div>
+                        <div class="item flexrow setting-value text-nowrap item-end">
+                            {{#if this.editable}}
+                            <input name="data.damage.blackIce" class="" type="text" value="{{data.data.damage.blackIce}}">
+                            {{else}}
+                            <span class="text-flex-end">{{data.data.damage.blackIce}}</span>
+                            {{/if}}
+                        </div>
+                    </li>
+                    {{/if}}
+                <hr>
+                {{/if}}
+
+                {{!-- Program PER--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.per"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.per" class="" type="number" value="{{data.per}}" placeholder="5">
+                        {{#if this.editable}}
+                        <input name="data.per" class="" type="number" value="{{data.data.per}}" placeholder="5">
+                        {{else}}
+                        <span class="text-flex-end">{{data.data.per}}</span>
+                        {{/if}}
                     </div>
                 </li>
 
@@ -60,34 +188,53 @@
                         {{localize "CPR.spd"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.spd" class="" type="number" value="{{data.spd}}" placeholder="5">
+                        {{#if this.editable}}
+                        <input name="data.spd" class="" type="number" value="{{data.data.spd}}" placeholder="5">
+                        {{else}}
+                        <span class="text-flex-end">{{data.data.spd}}</span>
+                        {{/if}}
                     </div>
                 </li>
 
+                {{!-- Program ATK--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.atk"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.atk" class="" type="number" value="{{data.atk}}" placeholder="5">
+                        {{#if this.editable}}
+                        <input name="data.atk" class="" type="number" value="{{data.data.atk}}" placeholder="5">
+                        {{else}}
+                        <span class="text-flex-end">{{data.data.atk}}</span>
+                        {{/if}}
                     </div>
                 </li>
 
+                {{!-- Program DEF--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.def"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.def" class="" type="number" value="{{data.def}}" placeholder="5">
+                        {{#if this.editable}}
+                        <input name="data.def" class="" type="number" value="{{data.data.def}}" placeholder="5">
+                        {{else}}
+                        <span class="text-flex-end">{{data.data.def}}</span>
+                        {{/if}}
                     </div>
                 </li>
 
+                {{!-- Program REZ--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.rez"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.rez" class="" type="number" value="{{data.rez}}" placeholder="5">
+                        {{#if this.editable}}
+                        <input name="data.rez" class="" type="number" value="{{data.data.rez}}" placeholder="5">
+                        {{else}}
+                        <span class="text-flex-end">{{data.data.rez}}</span>
+                        {{/if}}
                     </div>
                 </li>
             </ol>

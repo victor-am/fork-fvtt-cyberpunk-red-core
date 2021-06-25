@@ -204,10 +204,11 @@ CPR.inventoryCategories = {
   ammo: "CPR.ammo",
   armor: "CPR.armor",
   cyberware: "CPR.cyberware",
-  program: "CPR.program",
   gear: "CPR.gear",
   clothing: "CPR.clothing",
   vehicle: "CPR.vehicle",
+  cyberdeck: "CPR.cyberdeck",
+  program: "CPR.programs",
 };
 
 CPR.objectTypes = {
@@ -319,10 +320,51 @@ CPR.criticalInjuryTreatment = {
   quickFix: "CPR.quickfix",
   surgery: "CPR.surgery",
 };
+
 CPR.aimedLocation = {
   head: "CPR.head",
   heldItem: "CPR.helditem",
   leg: "CPR.leg",
+};
+
+CPR.blackIceType = {
+  antipersonnel: "CPR.antipersonnel",
+  antiprogram: "CPR.antiprogram",
+  other: "CPR.other",
+};
+
+CPR.blackIceStatList = {
+  per: "CPR.per",
+  spd: "CPR.spd",
+  atk: "CPR.atk",
+  def: "CPR.def",
+  rez: "CPR.rez",
+};
+
+CPR.demonStatList = {
+  rez: "CPR.rez",
+  interface: "CPR.interface",
+  netactions: "CPR.netactions",
+  combatNumber: "CPR.combatnumber",
+};
+
+CPR.programClassList = {
+  antipersonnelattacker: "CPR.antipersonnelattacker",
+  antiprogramattacker: "CPR.antiprogramattacker",
+  booster: "CPR.booster",
+  defender: "CPR.defender",
+  blackice: "CPR.blackice",
+};
+
+CPR.interfaceAbilities = {
+  scanner: "CPR.scanner",
+  backdoor: "CPR.backdoor",
+  cloak: "CPR.cloak",
+  control: "CPR.control",
+  eyedee: "CPR.eyedee",
+  pathfinder: "CPR.pathfinder",
+  slide: "CPR.slide",
+  virus: "CPR.virus",
 };
 
 export default CPR;

@@ -6,10 +6,16 @@
 </div>
 <div class="bg-white fg-black text-padding-left">
   <!-- Program -->
-  {{#each actor.filteredItems.program as |item i|}}
-    <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item._id}}">
-      {{item.name}}{{#if (compare item.data.amount "!==" 1)}} (x{{item.data.amount}}){{/if}}{{#unless @last}},{{/unless}}
+  {{#each actor.data.filteredItems.program as |item i|}}
+  {{#if (listContains actor.data.filteredItems.programsInstalled item.id)}}
+    <a class="name item-view" tabindex="0" title="{{localize "CPR.installed"}}: {{localize "CPR.clicktoviewitemreadonly"}}", {{localize "CPR.ctrlclicktosendtochat"}} data-item-id="{{item.id}}">
+      <span class="text-italics">{{item.name}}</span>{{#unless @last}},{{/unless}}
     </a>
+    {{else}}
+    <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item.id}}">
+      {{item.name}}{{#unless @last}},{{/unless}}
+    </a>
+    {{/if}}
   {{/each}}
 </div>
 {{trace "END CPR-MOOK-PROGRAM.HBS"}}
