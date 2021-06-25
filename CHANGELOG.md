@@ -1,11 +1,16 @@
-# WIP Version 0.77.3 | Dev Branch
+# Version 0.77.0 | Date: 2021-06-25
+
+**Migration to foundry 0.8.X**
+- **BREAKING:** This version of our system will not work with Foundry version 0.7.X and below. Do not update this system until you are ready to update your Foundry to version 0.8.X. And as always, **make a backup of your user data** before updating!
+- Migrated the source code to work with foundry version 0.8.X
+- Rewrote the migration code support new features from foundry 0.8.X
 
 **New Features**
 - Improvements have been added to the cyberware tab. For foundational cyberware that has no optional slots (such as Borgware), no Used/Total is displayed in the title.
 - Added options to choose how to display the skill values for the mook character sheet. Now one can show it in the same way as it is printed in the book. Please look at the settings for this.
 - Improved Ledger functionality of the Eurobucks/wealth and Improvement Points of characters
-    - A new display of the ledger of both of these properties, to show all transactions done in the past, is now available.
-    - Modification now gives the possibility to give a reason for the change and it is recorded who did the change.
+  - A new display of the ledger of both of these properties, to show all transactions done in the past, is now available.
+  - Modification now gives the possibility to give a reason for the change and it is recorded who did the change.
 - Added container actor sheet, which can be used for shops, loot or storage purposes.
   - **Please note, that the players have to be owners of the container actor for full functionality.**
   - Type Shop: Items cost their configured price and can be bought by the players with the click of a button. The GM has the option to make the stock of the shop be infinite or not. If it is not infinite the item will be removed after purchase.
@@ -19,8 +24,7 @@
     - Players can modify items? - Allows modification of the items. If enabled the item sheets render in an editable way, otherwise they render in a non-editable way. (On for Stash, else Off)
   - Players are not allowed to drag an item out of the container actor to their character sheet. This is only enabled for the GM, as otherwise the players could "steal" items from the container. Players have to use the take/purchase button for that.
   - **KNOWN ISSUE:** Currently, there is a [bug](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues/261) affecting unlinked container actors therefore we recommend to workaround this bug, when you create a new container actor, change the Prototype Token to Link Actor Data.  This bug will be addressed in a future release.
-  - We now support an Italian translation! (thank you Misthero!)
-  
+- We now support an Italian translation! (thank you Misthero!)
 - Netrunning Initial Implementation
   - Introduction of the Item Object: Cyberdeck
     - Migration code added for existing "Gear" items which have the word "cyberdeck" in the name. These items will be pre-pended with a '[MIGRATED]' tag on it to help identify that the item should be replaced with a new Cyberdeck Item. We have opted to not automate this replacement as people may update just prior to hosting a game and this would/could cause issues for planned sessions.
@@ -61,19 +65,12 @@
     - Black ICE Actors unassociated with a Netrunner have had functionality added to them to quickly configure them using Black ICE Program Items
       - If a player opts to do this configuration, it further enables the ability to roll Damage from the Black ICE Actor
         - In a later release, we may decouple this and allow the ability to configure damage right on the Black ICE Actor
-
-- Cyberdeck Loading Requirement
-  - Actors must own the Cyberdeck + Programs to install onto the Cyberdeck. ie inability to pre-load the Cyberdeck with programs before adding to an Actor. This is due to the direct relationship of the Program Items and the Cyberdeck.
-
+  - Cyberdeck Loading Requirement
+    - Actors must own the Cyberdeck + Programs to install onto the Cyberdeck. ie inability to pre-load the Cyberdeck with programs before adding to an Actor. This is due to the direct relationship of the Program Items and the Cyberdeck.
+  - Netrunning TODO
+    - Booster Speed is not taken into account for Foundry Initiative rolls.
+  - Netrunning icons for actors (and some other things) are now included in the system. They can be accessed from the tile browser in "systems/cyberpunk-red-core/icons/netrunning". Big big thanks to Verasunrise (the artist) and Hyriu33 for letting us provide this awesome artwork with our system!
 - Street Drugs have been added to the "Gear" compendium.
-- Netrunning icons for actors (and some other things) are now included in the system. They can be accessed from the tile browser in "systems/cyberpunk-red-core/icons/netrunning". Big big thanks to Verasunrise (the artist) and Hyriu33 for letting us provide this awesome artwork with our system!
-
-- Netrunning TODO
-  - Booster Speed is not taken into account for Foundry Initiative rolls.
-
-**Migration to foundry 0.8.X**
-- Migrated the source code to work with foundry version 0.8.X
-- Rewrote the migration code support new features from foundry 0.8.X
 
 **Changes**
 - Restructured the code for character and mook sheets for ease of development
@@ -87,7 +84,7 @@
 **Bug Fixes**
 - Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item.
 - Code added so New Worlds will not immediately go through migration
-- Fixed warning when the medtech would put the proper amount of points into surgery. The intention is, that per time you choose the surgery skill you should add two point there.
+- Fixed warning when the medtech would put the proper amount of points into surgery. The intention is, that per time you choose the surgery skill you should add two points there.
 - Fixed #226 - Lock Pick is now "Lock Picking Set". Meat arms and legs now exist and operate correctly with standard hands, feet and usable accessories.
 - Fixed #232 - Cancelling dialog boxes no longer creates errors in dev log
 - Fixed #234 - Attempting to install cyberware, where there is no suitable foundation no longer throws an error in the console.
