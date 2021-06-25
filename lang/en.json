@@ -668,6 +668,7 @@
     "CPR.unarmed": "Unarmed",
     "CPR.unarmedAutomaticallyCalculated": "Auto-calculated based on BODY",
     "CPR.unarmedAutomaticallyCalculatedSetting": "Auto-calculate unarmed damage?",
+    "CPR.uninstall": "Uninstall",
     "CPR.unlinkbifromprogram": "Unlink Black ICE Actor from any Black ICE Program",
     "CPR.unload": "Unload",
     "CPR.unloaded": "Unloaded",
