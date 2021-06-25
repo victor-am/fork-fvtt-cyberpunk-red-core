@@ -133,6 +133,11 @@
       "lang": "fr",
       "name": "French",
       "path": "lang/fr.json"
+    },
+    {
+      "lang": "it",
+      "name": "Italian",
+      "path": "lang/it.json"
     }
   ],
   "initiative": "1d10 + @stats.ref.value",

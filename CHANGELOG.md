@@ -19,6 +19,7 @@
     - Players can modify items? - Allows modification of the items. If enabled the item sheets render in an editable way, otherwise they render in a non-editable way. (On for Stash, else Off)
   - Players are not allowed to drag an item out of the container actor to their character sheet. This is only enabled for the GM, as otherwise the players could "steal" items from the container. Players have to use the take/purchase button for that.
   - **KNOWN ISSUE:** Currently, there is a [bug](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues/261) affecting unlinked container actors therefore we recommend to workaround this bug, when you create a new container actor, change the Prototype Token to Link Actor Data.  This bug will be addressed in a future release.
+  - We now support an Italian translation! (thank you Misthero!)
   
 - Netrunning Initial Implementation
   - Introduction of the Item Object: Cyberdeck
@@ -81,6 +82,7 @@
 - Added icon artwork for many of the items in the shipped Weapons Compendium.  Artwork provided by [Flintwyrm](https://twitter.com/Flintwyrm).
 - Renamed some compendia to make it more clear which are necessary to import and which should not be imported.
 - Default images added for compendia. Images from https://game-icons.net. They can be accessed from the file browser in "systems/cyberpunk-red-core/icons/compendium/default".
+- The French translation has been updated to account for all strings in this release. (Thank you VinceKun!)
 
 **Bug Fixes**
 - Borgware items (Shoulder Mount / Implanted Frames / MultiOptic Mount / Shoulder Array) are now classified as foundational cyberware and do not require a missing foundational item.
