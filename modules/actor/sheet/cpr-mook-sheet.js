@@ -119,7 +119,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
             const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
             const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
             if (confirmRemove) {
-              this.actor.removeCyberware(itemId, foundationalId, true);
+              await this.actor.removeCyberware(itemId, foundationalId, true);
               this._deleteOwnedItem(item, true);
             }
           }
