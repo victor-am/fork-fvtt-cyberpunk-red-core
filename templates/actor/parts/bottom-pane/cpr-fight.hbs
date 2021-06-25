@@ -26,7 +26,7 @@
     <div class="armor-section">
         <li class="items-header flexrow">
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
-                {{localize "CPR.armor"}}
+                {{localize "CPR.global.itemTypes.armor"}}
             </span>
         </li>
         <div class="armor-content">
@@ -42,7 +42,7 @@
                     </li>
                     {{#if armor.data.data.isHeadLocation}}
                     <li class="flex-space-between">
-                        <div class="text-padding-left">{{localize "CPR.head"}}</div>
+                        <div class="text-padding-left">{{localize "CPR.global.location.head"}}</div>
                         <div>
                             {{#if (compare armor.data.data.headLocation.ablation ">" 0)}}
                                 <span class="fg-red">
@@ -61,7 +61,7 @@
                     {{/if}}
                     {{#if armor.data.data.isBodyLocation}}
                     <li class="flex-space-between">
-                        <div> {{localize "CPR.bodylocation"}}</div>
+                        <div> {{localize "CPR.global.location.body"}}</div>
                         <div>
                             {{#if (compare armor.data.data.bodyLocation.ablation ">" 0)}}
                                 <span class="fg-red">
@@ -128,7 +128,7 @@
                             {{#if (compare weapon.data.data.attackmod "<" "0")}}({{weapon.data.data.attackmod}}){{/if}}
                             {{#if weapon.data.data.magazine.ammoId}}
                                 <br>
-                                ({{localize "CPR.ammo"}}:<input name = "data.magazine.value" class = "number weapon-input" style = "width:30px;text-align:right;" type = "text" data-item-prop = "data.magazine.value" value = "{{weapon.data.data.magazine.value}}">/{{weapon.data.data.magazine.max}})
+                                ({{localize "CPR.global.itemTypes.ammo"}}:<input name = "data.magazine.value" class = "number weapon-input" style = "width:30px;text-align:right;" type = "text" data-item-prop = "data.magazine.value" value = "{{weapon.data.data.magazine.value}}">/{{weapon.data.data.magazine.max}})
                             {{/if}}
                         </div>
                         <div class="fight-weapon-actions text-nowrap">
@@ -290,9 +290,9 @@
                 <div class="rezzed-program-name text-bold bg-pink">{{pc}}</div>
                 <div class="rezzed-program-per text-bold bg-pink text-center"></div>
                 <div class="rezzed-program-spd text-bold bg-pink text-center"></div>
-                <div class="rezzed-program-atk text-bold bg-pink text-center">{{localize "CPR.atk"}}</div>
-                <div class="rezzed-program-def text-bold bg-pink text-center">{{localize "CPR.def"}}</div>
-                <div class="rezzed-program-rez-and-decrement text-bold bg-pink text-center">{{localize "CPR.rez"}}</div>
+                <div class="rezzed-program-atk text-bold bg-pink text-center">{{localize "CPR.global.blackIce.stats.atk"}}</div>
+                <div class="rezzed-program-def text-bold bg-pink text-center">{{localize "CPR.global.blackIce.stats.def"}}</div>
+                <div class="rezzed-program-rez-and-decrement text-bold bg-pink text-center">{{localize "CPR.global.generic.rez"}}</div>
                 <div class="rezzed-program-reset text-bold bg-pink text-center"></div>
               </li>
               {{#each ../cyberdeck.data.data.programs.rezzed as |program|}}
@@ -315,12 +315,12 @@
               {{/each}}
             {{/each}}
             <li class="items-header flexrow cyberdeck-rezzed-software-list bg-pink">
-              <div class="rezzed-program-name text-bold bg-pink">{{localize "CPR.blackice"}}</div>
-              <div class="rezzed-program-per text-bold bg-pink text-center">{{localize "CPR.per"}}</div>
-              <div class="rezzed-program-spd text-bold bg-pink text-center">{{localize "CPR.spd"}}</div>
-              <div class="rezzed-program-atk text-bold bg-pink text-center">{{localize "CPR.atk"}}</div>
-              <div class="rezzed-program-def text-bold bg-pink text-center">{{localize "CPR.def"}}</div>
-              <div class="rezzed-program-rez-and-decrement text-bold bg-pink text-center">{{localize "CPR.rez"}}</div>
+              <div class="rezzed-program-name text-bold bg-pink">{{localize "CPR.global.programClass.blackice"}}</div>
+              <div class="rezzed-program-per text-bold bg-pink text-center">{{localize "CPR.global.blackIce.stats.per"}}</div>
+              <div class="rezzed-program-spd text-bold bg-pink text-center">{{localize "CPR.global.blackIce.stats.spd"}}</div>
+              <div class="rezzed-program-atk text-bold bg-pink text-center">{{localize "CPR.global.blackIce.stats.atk"}}</div>
+              <div class="rezzed-program-def text-bold bg-pink text-center">{{localize "CPR.global.blackIce.stats.def"}}</div>
+              <div class="rezzed-program-rez-and-decrement text-bold bg-pink text-center">{{localize "CPR.global.generic.rez"}}</div>
             </li>
             {{#each cyberdeck.data.data.programs.rezzed as |program|}}
               {{#if (compare program.data.class "===" "blackice")}}

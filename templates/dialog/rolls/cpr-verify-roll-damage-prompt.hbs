@@ -7,7 +7,7 @@
         {{#if (compare (listContains "assaultRifle,smg,heavySmg" weaponType) "||" isAutofire)}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.autofire"}}?
+                {{localize "CPR.global.skills.autofire"}}?
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input type="checkbox" id="isAutofire" name="isAutofire" {{#if isAutofire}} checked{{/if}}>
@@ -15,7 +15,7 @@
         </li>
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.multiplier"}} 
+                {{localize "CPR.multiplier"}}
                 {{#if (compare autofireMultiplierMax ">" 0)}}
                     (1-{{autofireMultiplierMax}}):
                   {{else}}
@@ -31,13 +31,13 @@
                 max="{{#if (compare weaponType "===" "assaultRifle")}}4{{else}}3{{/if}}" min="1">
         </div>
         {{/if}}
-        
+
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.aimedshot"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
-                
+
                 <input name="isAimed" class="" type="checkbox" data-dtype="Checkbox"{{#if isAimed}} checked{{/if}}>
             </div>
         </li>
@@ -55,7 +55,7 @@
                 </select>
             </div>
         </li>
-        
+
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">

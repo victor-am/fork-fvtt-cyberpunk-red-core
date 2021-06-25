@@ -27,7 +27,7 @@ export default class CPRNetarchUtils {
       "CPR.password": "Password",
       "CPR.file": "File",
       "CPR.controlnode": "ControlNode",
-      "CPR.blackice": "BlackIce",
+      "CPR.global.programClass.blackice": "BlackIce",
       "CPR.asp": "Asp",
       "CPR.giant": "Giant",
       "CPR.hellhound": "Hellhound",
@@ -72,7 +72,7 @@ export default class CPRNetarchUtils {
 
     const floorData = duplicate(this.netarchItem.data.data.floors);
     if (floorData.length === 0) {
-      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratenofloorerror"));
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noFloorError"));
       return;
     }
     if (this.options.sceneName === null) {
@@ -92,7 +92,7 @@ export default class CPRNetarchUtils {
     } else {
       this.scene = game.scenes.find((f) => f.name === this.options.sceneName);
       if (this.scene === null) {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratenosceneerror"));
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noSceneError"));
         return;
       }
       await this._removeAllTiles();
@@ -106,7 +106,7 @@ export default class CPRNetarchUtils {
       const dv = this._checkDV(floor.dv);
       const content = this._checkFloorType(floor);
       if (level === null) {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratefloorformattingerror"));
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.floorFormattingError"));
         return;
       }
       levelList.push([level, branch]);
@@ -207,7 +207,7 @@ export default class CPRNetarchUtils {
     });
     await this._addTilesToScene(newTiles);
     await this.scene.view();
-    SystemUtils.DisplayMessage("notify", SystemUtils.Localize("CPR.netarchgeneratedone"));
+    SystemUtils.DisplayMessage("notify", SystemUtils.Localize("CPR.netArchitecture.generation.done"));
   }
 
   async _duplicateScene(newName) {
@@ -251,7 +251,7 @@ export default class CPRNetarchUtils {
   }
 
   _checkFloorType(floor) {
-    if (floor.content === "CPR.blackice" && floor.blackice !== "--") {
+    if (floor.content === "CPR.global.programClass.blackice" && floor.blackice !== "--") {
       return this.floorDict[floor.blackice];
     }
     return this.floorDict[floor.content];

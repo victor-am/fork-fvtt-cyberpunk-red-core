@@ -12,7 +12,7 @@
                 {{!-- Program Equipped Setting --}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.equipped"}}
+                        {{localize "CPR.global.EquipState.equipped"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.equipped" data-dtype="{{data.data.equipped}}">
@@ -64,7 +64,7 @@
                 {{#if (compare data.data.class "===" "blackice")}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.blackice"}} {{localize "CPR.type"}}
+                        {{localize "CPR.global.programClass.blackice"}} {{localize "CPR.type"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.blackIceType" data-dtype="{{data.data.blackIceType}}">
@@ -139,7 +139,7 @@
                             {{#if (compare data.data.class "===" "antipersonnelattacker")}}
                             {{localize "CPR.damage"}}
                             {{else}}
-                            {{localize "CPR.damageto"}} {{#if (compare data.data.class "===" "blackice")}}{{localize "CPR.netrunnerrole"}}{{else}}{{localize "CPR.nonblackice"}}{{/if}}
+                            {{localize "CPR.damageto"}} {{#if (compare data.data.class "===" "blackice")}}{{localize "CPR.global.role.netrunner.name"}}{{else}}{{localize "CPR.nonblackice"}}{{/if}}
                             {{/if}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
@@ -155,7 +155,7 @@
                     {{#if (compare (compare data.data.class "===" "antiprogramattacker") "||" (compare (compare data.data.class "===" "blackice") "&&" (compare data.data.blackIceType "===" "antiprogram")))}}
                     <li class="item flexrow">
                         <div class="item flexrow setting-name text-nowrap">
-                          {{localize "CPR.damageto"}} {{#if (compare data.data.class "===" "blackice")}}{{localize "CPR.programs"}}{{else}}{{localize "CPR.blackice"}}{{/if}}
+                          {{localize "CPR.damageto"}} {{#if (compare data.data.class "===" "blackice")}}{{localize "CPR.programs"}}{{else}}{{localize "CPR.global.programClass.blackice"}}{{/if}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
                             {{#if this.editable}}
@@ -172,7 +172,7 @@
                 {{!-- Program PER--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.per"}}
+                        {{localize "CPR.global.blackIce.stats.per"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if this.editable}}
@@ -185,7 +185,7 @@
 
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.spd"}}
+                        {{localize "CPR.global.blackIce.stats.spd"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if this.editable}}
@@ -199,7 +199,7 @@
                 {{!-- Program ATK--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.atk"}}
+                        {{localize "CPR.global.blackIce.stats.atk"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if this.editable}}
@@ -213,7 +213,7 @@
                 {{!-- Program DEF--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.def"}}
+                        {{localize "CPR.global.blackIce.stats.def"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if this.editable}}
@@ -227,7 +227,7 @@
                 {{!-- Program REZ--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.rez"}}
+                        {{localize "CPR.global.generic.rez"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if this.editable}}

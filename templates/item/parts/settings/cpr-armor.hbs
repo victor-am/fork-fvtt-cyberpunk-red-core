@@ -14,7 +14,7 @@
                 {{!-- Armor Equipped Setting --}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.equipped"}}
+                        {{localize "CPR.global.EquipState.equipped"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.equipped" data-dtype="{{data.data.equipped}}">
@@ -71,7 +71,7 @@
                 {{!--Head Armor Settings--}}
                     <li class="item flexrow">
                         <div class="item flexrow setting-name text-nowrap">
-                            {{localize "CPR.head"}} {{localize "CPR.armor"}}
+                            {{localize "CPR.global.location.head"}} {{localize "CPR.global.itemTypes.armor"}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
                             {{#if data.data.isHeadLocation}}
@@ -86,7 +86,7 @@
                     <hr>
                     <li class="item flexrow">
                         <div class="item flexrow setting-name text-nowrap">
-                            {{localize "CPR.head"}} {{localize "CPR.armor"}} {{localize "CPR.sp"}}
+                            {{localize "CPR.global.location.head"}} {{localize "CPR.global.itemTypes.armor"}} {{localize "CPR.sp"}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
                             <input name="data.headLocation.sp" class="" type="number" value="{{data.data.headLocation.sp}}">
@@ -94,7 +94,7 @@
                     </li>
                     <li class="item flexrow">
                         <div class="item flexrow setting-name text-nowrap">
-                           {{localize "CPR.head"}} {{localize "CPR.armor"}} {{localize "CPR.ablation"}}
+                           {{localize "CPR.global.location.head"}} {{localize "CPR.global.itemTypes.armor"}} {{localize "CPR.ablation"}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
                             <input name="data.headLocation.ablation" class="" type="number"
@@ -106,7 +106,7 @@
                     {{!-- Body Armor Settings--}}
                     <li class="item flexrow">
                         <div class="item flexrow setting-name text-nowrap">
-                            {{localize "CPR.bodylocation"}} {{localize "CPR.armor"}}
+                            {{localize "CPR.global.location.body"}} {{localize "CPR.global.itemTypes.armor"}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
                             {{#if data.data.isBodyLocation}}
@@ -121,7 +121,7 @@
                     <hr>
                     <li class="item flexrow">
                         <div class="item flexrow setting-name text-nowrap">
-                            {{localize "CPR.bodylocation"}} {{localize "CPR.armor"}} {{localize "CPR.armor"}} {{localize "CPR.sp"}}
+                            {{localize "CPR.global.location.body"}} {{localize "CPR.global.itemTypes.armor"}} {{localize "CPR.global.itemTypes.armor"}} {{localize "CPR.sp"}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
                             <input name="data.bodyLocation.sp" class="" type="number" value="{{data.data.bodyLocation.sp}}">
@@ -129,7 +129,7 @@
                     </li>
                     <li class="item flexrow">
                         <div class="item flexrow setting-name text-nowrap">
-                            {{localize "CPR.bodylocation"}} {{localize "CPR.armor"}} {{localize "CPR.ablation"}}
+                            {{localize "CPR.global.location.body"}} {{localize "CPR.global.itemTypes.armor"}} {{localize "CPR.ablation"}}
                         </div>
                         <div class="item flexrow setting-value text-nowrap item-end">
                             <input name="data.bodyLocation.ablation" class="" type="number"

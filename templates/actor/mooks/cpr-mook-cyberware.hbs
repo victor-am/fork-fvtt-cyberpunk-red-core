@@ -1,7 +1,7 @@
 {{trace "CPR-MOOK-CYBERWARE.HBS"}}
 <div class="items-header bg-red fg-white flexrow">
   <span class="item-name section-name text-nowrap text-padding-left">
-    {{localize "CPR.cyberware"}}/{{localize "CPR.specialgear"}}
+    {{localize "CPR.global.itemTypes.cyberware"}}/{{localize "CPR.specialgear"}}
   </span>
 </div>
 <div class="bg-white fg-black text-padding-left">
@@ -19,7 +19,7 @@
           {{localize "CPR.external"~}}
         {{/if}}
         {{#if (compare foundation.data.name "===" "Fashionware (7 Option Slots)")}}
-          {{localize "CPR.fashionware"~}}
+          {{localize "CPR.global.cyberwareType.fashionware"~}}
         {{/if}}
       {{/if}}
     {{else}}

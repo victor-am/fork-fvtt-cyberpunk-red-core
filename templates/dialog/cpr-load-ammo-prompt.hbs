@@ -5,7 +5,7 @@
         <select name="selectedAmmo">
             {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
             {{#if (compare weapon.data.data.magazine.ammoId "!==" "")}}
-            <option value="">{{localize "CPR.unload"}} {{localize "CPR.weapon"}}</option>
+            <option value="">{{localize "CPR.unload"}} {{localize "CPR.global.itemTypes.weapon"}}</option>
             {{/if}}
             {{#each this.ammoList as |ammo|}}
             <option value="{{ammo.data._id}}">{{ammo.data.name}} ({{localize (findConfigValue "ammoType"

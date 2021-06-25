@@ -29,14 +29,14 @@
                 <br>
                 {{#if weapon.data.data.isRanged}}
                   {{#if weapon.data.data.magazine.ammoId}}
-                    ({{localize "CPR.ammo"}}: {{weapon.data.data.magazine.value}}/{{weapon.data.data.magazine.max}})
+                    ({{localize "CPR.global.itemTypes.ammo"}}: {{weapon.data.data.magazine.value}}/{{weapon.data.data.magazine.max}})
                   {{else}}
                     ({{localize "CPR.unloaded"}})
                   {{/if}}
                   {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
                   {{>"systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs"}}
                 {{else}}
-                  ({{localize "CPR.meleeweapon"}})
+                  ({{localize "CPR.global.skills.meleeWeapon"}})
                 {{/if}}
               </div>
               <div class="mook-weapon-mode">

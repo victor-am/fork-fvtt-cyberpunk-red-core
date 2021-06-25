@@ -2,7 +2,7 @@
 <div class="armor-section">
   <div class="bg-red fg-white">
     <span class="item-name section-name text-nowrap text-padding-left">
-      {{localize "CPR.armor"}}
+      {{localize "CPR.global.itemTypes.armor"}}
     </span>
   </div>
   <div class="armor-content fg-black">
@@ -16,7 +16,7 @@
               </div>
               {{#if armor.data.data.isHeadLocation}}
                 <div class="text-right">
-                  {{localize "CPR.head"}}
+                  {{localize "CPR.global.location.head"}}
                 </div>
                 <div class="text-right">
                   {{#if (compare armor.data.data.headLocation.ablation ">" 0)}}
@@ -41,7 +41,7 @@
               {{/if}}
               {{#if armor.data.data.isBodyLocation}}
                 <div class="text-right">
-                  {{localize "CPR.bodylocation"}}
+                  {{localize "CPR.global.location.body"}}
                 </div>
                 <div class="text-right">
                   {{#if (compare armor.data.data.bodyLocation.ablation ">" 0)}}

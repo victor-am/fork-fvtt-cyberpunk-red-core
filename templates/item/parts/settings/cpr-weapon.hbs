@@ -12,7 +12,7 @@
                 {{!-- Weapon Item Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.equipped"}}
+                        {{localize "CPR.global.EquipState.equipped"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.equipped" data-dtype="{{data.data.equipped}}">
@@ -49,7 +49,7 @@
                 {{!-- Weapon Type Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.weapon"}} {{localize "CPR.type"}}
+                        {{localize "CPR.global.itemTypes.weapon"}} {{localize "CPR.type"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.weaponType" data-dtype="{{data.data.weaponType}}">
@@ -64,7 +64,7 @@
                 {{!-- Weapon Skill Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.weapon"}} {{localize "CPR.skill"}}
+                        {{localize "CPR.global.itemTypes.weapon"}} {{localize "CPR.global.itemTypes.skill"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.weaponSkill" data-dtype="{{data.data.weaponSkill}}">
@@ -85,7 +85,7 @@
                 {{!-- Item Quality Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.weapon"}} {{localize "CPR.quality"}}
+                        {{localize "CPR.global.itemTypes.weapon"}} {{localize "CPR.quality"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.quality" data-dtype="{{data.data.quality}}">
@@ -180,7 +180,7 @@
                   {{!- Ranged Weapon - Alternate Fire Modes Settings--}}
                   <li class="item flexrow">
                       <div class="item flexrow setting-name text-nowrap">
-                          {{localize "CPR.autofire"}} {{localize "CPR.maximum"}} {{localize "CPR.multiplier"}}
+                          {{localize "CPR.global.skills.autofire"}} {{localize "CPR.maximum"}} {{localize "CPR.multiplier"}}
                       </div>
                       <div class="item flexrow setting-value text-nowrap item-end">
                           <input name="data.fireModes.autoFire" class="" type="number" value="{{data.data.fireModes.autoFire}}">

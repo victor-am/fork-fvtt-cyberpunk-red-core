@@ -6,11 +6,11 @@
   </div>
   <div class="item-detail gear-data text-nowrap">
         {{#if item.data.data.isHeadLocation}}
-        {{localize "CPR.head"}}: {{ablated item.data.data "head"}}/{{item.data.data.headLocation.sp}} {{localize "CPR.sp"}}
+        {{localize "CPR.global.location.head"}}: {{ablated item.data.data "head"}}/{{item.data.data.headLocation.sp}} {{localize "CPR.sp"}}
         {{#if item.data.data.isBodyLocation}}|{{/if}}
         {{/if}}
         {{#if item.data.data.isBodyLocation}}
-        {{localize "CPR.bodylocation"}}: {{ablated item.data.data "body"}}/{{item.data.data.bodyLocation.sp}} {{localize "CPR.sp"}}
+        {{localize "CPR.global.location.body"}}: {{ablated item.data.data "body"}}/{{item.data.data.bodyLocation.sp}} {{localize "CPR.sp"}}
         {{/if}}
         {{#if item.data.data.isShield}}
         {{localize "CPR.shield"}}: {{item.data.data.shieldHitPoints.value}}/{{item.data.data.shieldHitPoints.max}} {{localize "CPR.hitpoints"}}

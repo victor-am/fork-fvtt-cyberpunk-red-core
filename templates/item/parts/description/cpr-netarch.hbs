@@ -18,11 +18,11 @@
 <div class=""></div>
 <div class="item-netarch-section">
   <li class="items-header flexrow">
-    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.netarchfloorshort"}}</span>
-    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.netarchfloordv"}}</span>
-    <span class="item-name netarch-content fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.netarchfloordata"}}</span>
+    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.netArchitecture.floor.shortWord"}}</span>
+    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.netArchitecture.floor.dv"}}</span>
+    <span class="item-name netarch-content fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.netArchitecture.floor.data"}}</span>
     <span class="item-name netarch-actions fg-white bg-black text-nowrap text-padding-left">
-      <a class="netarch-level-action" data-action-type="create" data-action-target="-1"><i class="fas fa-plus-circle text-padding-right" title="{{localize "CPR.netarchfloorcreate"}}"></i></a>
+      <a class="netarch-level-action" data-action-type="create" data-action-target="-1"><i class="fas fa-plus-circle text-padding-right" title="{{localize "CPR.prompt.netArchitectureNewFloor.title"}}"></i></a>
     </span>
   </li>
   <div class="netarch-list-content">
@@ -31,12 +31,12 @@
         <li class=" item-netarch-grid item flexrow">
           <div class="netarch-level">{{floor.floor}}{{floor.branch}}</div>
           <div class="netarch-dv">
-            {{#if (compare floor.content "!==" "CPR.blackice")}}
+            {{#if (compare floor.content "!==" "CPR.global.programClass.blackice")}}
               {{floor.dv}}
             {{/if}}
           </div>
           <div class="netarch-content">
-            {{#if (compare (compare floor.content "===" "CPR.blackice") "&&" (compare floor.blackice "!==" "--"))}}
+            {{#if (compare (compare floor.content "===" "CPR.global.programClass.blackice") "&&" (compare floor.blackice "!==" "--"))}}
               {{#if (compare (itemIdFromName (localize floor.blackice) "program") "!==" "DOES NOT EXIST")}}
               <div class="text-bold"><a class="netarch-item-link" data-item-id="{{itemIdFromName (localize floor.blackice) "program"}}" title="{{localize "CPR.clicktoviewitem"}}">{{localize floor.blackice}}</a></div>
               {{else}}
@@ -49,16 +49,16 @@
             {{/if}}
           </div>
           <div class="netarch-actions">
-            <a class="netarch-level-action" data-action-type="up" data-action-target="{{floor.index}}"><i class="fas fa-arrow-up fg-black" title="{{localize "CPR.netarchfloormoveup"}}"></i></a>
-            <a class="netarch-level-action" data-action-type="down" data-action-target="{{floor.index}}"><i class="fas fa-arrow-down fg-black" title="{{localize "CPR.netarchfloormovedown"}}"></i></a>
-            <a class="netarch-level-action" data-action-type="edit" data-action-target="{{floor.index}}"><i class="fas fa-edit fg-black" title="{{localize "CPR.netarchflooredit"}}"></i></a>
-            <a class="netarch-level-action" data-action-type="delete" data-action-target="{{floor.index}}"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.netarchfloordelete"}}"></i></a>
+            <a class="netarch-level-action" data-action-type="up" data-action-target="{{floor.index}}"><i class="fas fa-arrow-up fg-black" title="{{localize "CPR.netArchitecture.floor.moveUp"}}"></i></a>
+            <a class="netarch-level-action" data-action-type="down" data-action-target="{{floor.index}}"><i class="fas fa-arrow-down fg-black" title="{{localize "CPR.netArchitecture.floor.moveDown"}}"></i></a>
+            <a class="netarch-level-action" data-action-type="edit" data-action-target="{{floor.index}}"><i class="fas fa-edit fg-black" title="{{localize "CPR.netArchitecture.floor.edit"}}"></i></a>
+            <a class="netarch-level-action" data-action-type="delete" data-action-target="{{floor.index}}"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.netArchitecture.floor.delete"}}"></i></a>
           </div>
         </li>
       {{/each}}
     </ol>
   </div>
-  <div class="netarch-generate-auto fg-white"><i class="fas fa-cog fa-sm fg-white"></i>{{localize "CPR.netarchgenerateauto"}}</div>
-  <div class="netarch-generate-custom fg-white"><i class="fas fa-cog fa-sm fg-white"></i>{{localize "CPR.netarchgeneratecustom"}}</div>
+  <div class="netarch-generate-auto fg-white"><i class="fas fa-cog fa-sm fg-white"></i>{{localize "CPR.netArchitecture.generation.auto"}}</div>
+  <div class="netarch-generate-custom fg-white"><i class="fas fa-cog fa-sm fg-white"></i>{{localize "CPR.netArchitecture.generation.custom"}}</div>
 </div>
 {{trace "END CPR-NETARCH.HBS"}}

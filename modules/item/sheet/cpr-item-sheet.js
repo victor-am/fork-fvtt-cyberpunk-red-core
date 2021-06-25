@@ -108,7 +108,7 @@ export default class CPRItemSheet extends ItemSheet {
         const netarchGenerator = new CPRNetarchUtils(this.item);
         netarchGenerator._generateNetarchScene();
       } else {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratenogmerror"));
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noGMError"));
       }
     });
 
@@ -117,7 +117,7 @@ export default class CPRItemSheet extends ItemSheet {
         const netarchGenerator = new CPRNetarchUtils(this.item);
         netarchGenerator._customize();
       } else {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratenogmerror"));
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noGMError"));
       }
     });
 
@@ -194,7 +194,7 @@ export default class CPRItemSheet extends ItemSheet {
     if (action === "delete") {
       const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
       if (setting) {
-        const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${SystemUtils.Localize("CPR.netarchfloordeleteconfirmation")} ${SystemUtils.Localize("CPR.netarch")}?`;
+        const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${SystemUtils.Localize("CPR.netArchitecture.floor.deleteConfirmation")}?`;
         const confirmDelete = await ConfirmPrompt.RenderPrompt(
           SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,
         );
@@ -257,7 +257,7 @@ export default class CPRItemSheet extends ItemSheet {
           "CPR.password": SystemUtils.Localize("CPR.password"),
           "CPR.file": SystemUtils.Localize("CPR.file"),
           "CPR.controlnode": SystemUtils.Localize("CPR.controlnode"),
-          "CPR.blackice": SystemUtils.Localize("CPR.blackice"),
+          "CPR.global.programClass.blackice": SystemUtils.Localize("CPR.global.programClass.blackice"),
         },
         blackiceoptions: {
           "--": "--",
@@ -332,7 +332,7 @@ export default class CPRItemSheet extends ItemSheet {
             "CPR.password": SystemUtils.Localize("CPR.password"),
             "CPR.file": SystemUtils.Localize("CPR.file"),
             "CPR.controlnode": SystemUtils.Localize("CPR.controlnode"),
-            "CPR.blackice": SystemUtils.Localize("CPR.blackice"),
+            "CPR.global.programClass.blackice": SystemUtils.Localize("CPR.global.programClass.blackice"),
           },
           blackiceoptions: {
             "--": "--",
