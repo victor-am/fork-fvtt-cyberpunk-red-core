@@ -979,6 +979,10 @@ export default class CPRActorSheet extends ActorSheet {
     if (dragData.actorId !== undefined) {
       // Transfer ownership from one player to another
       const actor = game.actors.find((a) => a.id === dragData.actorId);
+      if (actor.type === "container" && !game.user.isGM) {
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.tradedragoutwarn"));
+        return;
+      }
       if (actor) {
         if (actor.data._id === this.actor.data._id
           || dragData.data.data.core === true
