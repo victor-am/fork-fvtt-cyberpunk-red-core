@@ -159,12 +159,16 @@ export default class CPRSystemUtils {
           imageLink = "systems/cyberpunk-red-core/icons/netrunning/Black_Ice.png";
           break;
         }
+        case "container": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Container.svg";
+          break;
+        }
         case "demon": {
           imageLink = "systems/cyberpunk-red-core/icons/netrunning/Demon.png";
           break;
         }
-        case "container": {
-          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Gear.svg";
+        case "mook": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Mook.svg";
           break;
         }
         default: {
