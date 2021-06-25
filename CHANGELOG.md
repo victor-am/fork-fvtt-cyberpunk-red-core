@@ -3,7 +3,7 @@
 **New Features**
 
 **Changes**
-- Newly created actors and items will be created with the new default icons.
+- Newly created actors and items will automatically have default icons configured.
 
 **Bug Fixes**
 
