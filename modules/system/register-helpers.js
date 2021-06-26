@@ -322,17 +322,17 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("splitJoinCoreSkills", (string) => {
     LOGGER.trace("Calling splitJoinCoreSkills Helper");
-    const cprDot = "CPR.";
+    const cprDot = "CPR.global.skills.";
     const initialSplit = string.split(" ").join("");
-    const orCaseSplit = initialSplit.split("/").join("or");
+    const orCaseSplit = initialSplit.split("/").join("Or");
     const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
-    const andCaseSplit = initialSplit.split("/").join("and").split("&").join("and");
+    const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
     if (string === "Conceal/Reveal Object" || string === "Paint/Draw/Sculpt" || string === "Resist Torture/Drugs") {
-      return cprDot + orCaseSplit.toLowerCase();
+      return cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
     } else if (string === "Language (Streetslang)") {
-      return cprDot + parenCaseSplit.toLowerCase();
+      return cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
     }
-    return cprDot + andCaseSplit.toLowerCase();
+    return cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
   });
 
   Handlebars.registerHelper("itemIdFromName", (itemName, itemType) => {
