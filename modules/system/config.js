@@ -106,7 +106,7 @@ CPR.skillList = {
   deduction: "CPR.global.skills.deduction",
   demolitions: "CPR.global.skills.demolitions",
   driveLandVehicle: "CPR.global.skills.driveLandVehicle",
-  electronicsAndSecurityTech: "CPR.global.skills.electronicsAndEecurityTech",
+  electronicsAndSecurityTech: "CPR.global.skills.electronicsAndSecurityTech",
   endurance: "CPR.global.skills.endurance",
   forgery: "CPR.global.skills.forgery",
   gamble: "CPR.global.skills.gamble",

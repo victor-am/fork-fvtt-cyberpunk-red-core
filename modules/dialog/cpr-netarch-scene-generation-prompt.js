@@ -18,7 +18,7 @@ export default class NetarchSceneGenerationPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.prompt.netArchitectureGeneration.title"),
+          title: SystemUtils.Localize("CPR.dialog.netArchitectureGeneration.title"),
           content: html,
           buttons: {
             cancel: {
