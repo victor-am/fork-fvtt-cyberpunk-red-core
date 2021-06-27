@@ -50,7 +50,7 @@ export default class CPRActorSheet extends ActorSheet {
       defaultHeight,
       width: defaultWidth,
       height: defaultHeight,
-      scrollY: [".right-content-section"],
+      scrollY: [".right-content-section", ".top-pane-gear"],
     });
   }
 
