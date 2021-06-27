@@ -22,6 +22,7 @@
 {{#if (listContains "weapon,armor,gear,clothing,cyberdeck" type)}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-equip-glyph.hbs"}}
 {{/if}}
+{{#if (compare type "!==" "role")}}
 <a class="item-action" data-action-type="favorite" title="{{localize "CPR.togglepin"}}">
     {{#if data.data.favorite}}
     <i class="fas fa-thumbtack fg-black favorite"></i>
@@ -29,6 +30,7 @@
     <i class="fas fa-thumbtack fg-grey"></i>
     {{/if}}
 </a>
+{{/if}}
 {{!-- ITEM MANAGEMENT --}}
 <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.deleteitem"}}"></i></a>
 {{trace "END CPR-ACTIONS.HBS"}}

@@ -18,7 +18,7 @@ export default class RoleAbilityPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: "Create New Role Ability",
+          title: "Create/Edit New Role Ability",
           content: html,
           buttons: {
             cancel: {

@@ -1,6 +1,5 @@
 {{trace "CPR-ROLE-ABILTIY-PROMPT.HBS"}}
 <form>
-  {{log this}}
   <ol class="items-list">
     <li class="item flexrow">
       <div class="item flexrow setting-name">
@@ -12,10 +11,10 @@
     </li>
     <li class="item flexrow">
       <div class="item flexrow setting-name">
-        <span class="text-bold text-nowrap">Role Ability Value</span>
+        <span class="text-bold text-nowrap">Role Ability Rank</span>
       </div>
       <div class="item flexrow setting-value text-nowrap item-end">
-        <input class="text-right" name="value" type="number" value={{value}} />
+        <input class="text-right" name="rank" type="number" value={{rank}} />
       </div>
     </li>
     <li class="item flexrow">
@@ -27,7 +26,7 @@
           {{#select multiplier}}
             <option value = "--">--</option>
             {{#each multiplierOptions}}
-              <option value="{{@key}}">{{.}}</option>
+              <option value="{{.}}">{{.}}</option>
             {{/each}}
           {{/select}}
         </select>
@@ -64,6 +63,14 @@
             {{/each}}
           {{/select}}
         </select>
+      </div>
+    </li>
+    <li class="item flexrow">
+      <div class="item flexrow setting-name">
+        <span class="text-bold text-nowrap">Has Roll?</span>
+      </div>
+      <div class="item flexrow setting-value text-nowrap item-end">
+        <input class="text-right" name="hasRoll" type="checkbox"/>
       </div>
     </li>
   </ol>

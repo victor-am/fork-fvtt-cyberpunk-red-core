@@ -558,7 +558,7 @@
         "common"
       ],
       "level": 0,
-      "roleName": "",
+      "mainRoleAbility": "",
       "abilities": []
     },
     "criticalInjury": {

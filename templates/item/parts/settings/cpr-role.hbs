@@ -6,10 +6,10 @@
       {{!-- Role Item Settings--}}
       <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-          Role Name
+          Main Ability Name
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
-          <input name="data.roleName" class="" data-dtype="{{data.data.roleName}}" value="{{data.data.roleName}}" type="text">
+          <input name="data.mainRoleAbility" class="" data-dtype="{{data.data.mainRoleAbility}}" value="{{data.data.mainRoleAbility}}" type="text">
         </div>
       </li>
       <li class="item flexrow">
@@ -26,13 +26,13 @@
 <div class="item-netarch-section">
   <li class="items-header flexrow">
     <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">Name &nbsp;</span>
-    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">Value &nbsp;</span>
+    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">Rank &nbsp;</span>
     <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">Stat &nbsp;</span>
     <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">Skill &nbsp;</span>
     <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">Mult. &nbsp;</span>
     <span class="item-name netarch-content fg-white bg-black text-nowrap text-padding-left">Description</span>
     <span class="item-name netarch-actions fg-white bg-black text-nowrap text-padding-left">
-      <a class="role-ability-action" data-action-type="create"><i class="fas fa-plus-circle text-padding-right" title="New Role Ability"></i></a>
+      <a class="role-ability-action" data-action-type="create" data-action-target="-1"><i class="fas fa-plus-circle text-padding-right" title="New Role Ability"></i></a>
     </span>
   </li>
     <div class="netarch-list-content">
@@ -41,7 +41,7 @@
           <li class="item-netarch-grid item flexrow">
             <div class="netarch-level">{{ability.name}}</div>
             <div class="netarch-dv">
-              {{ability.value}}
+              {{ability.rank}}
             </div>
             <div class="netarch-dv">
               {{localize ability.stat}}
@@ -56,8 +56,8 @@
               <div>{{ability.description}}</div>
             </div>
             <div class="netarch-actions">
-              <a class="role-ability-action" data-action-type="edit"><i class="fas fa-edit fg-black" title="{{localize "CPR.netarchflooredit"}}"></i></a>
-              <a class="role-ability-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.netarchfloordelete"}}"></i></a>
+              <a class="role-ability-action" data-action-type="edit" data-action-target="{{ability.index}}"><i class="fas fa-edit fg-black" title=Edit Role Ability></i></a>
+              <a class="role-ability-action" data-action-type="delete" data-action-target="{{ability.index}}"><i class="fas fa-trash-alt fg-red" title=Delete Role Ability></i></a>
             </div>
           </li>
         {{/each}}

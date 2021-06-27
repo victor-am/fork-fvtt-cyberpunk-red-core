@@ -529,19 +529,21 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _roleAbilityAction(event) {
     LOGGER.trace("ItemSheet | _roleAbilityAction | Called.");
+    const target = Number($(event.currentTarget).attr("data-action-target"));
     const action = $(event.currentTarget).attr("data-action-type");
     const itemData = duplicate(this.item.data);
     const customSkills = game.items.filter((i) => i.type === "skill");
     if (action === "create") {
       let formData = {
         name: "",
-        value: 0,
+        rank: 0,
         multiplierOptions: [.25, .5, 1, 2],
         multiplier: 1,
         stat: "int",
         skillOptions: customSkills,
         skill: "",
         description: "",
+        hasRoll: false,
         returnType: "array",
       };
 
@@ -551,26 +553,92 @@ export default class CPRItemSheet extends ItemSheet {
       }
       if (hasProperty(itemData, "data.abilities")) {
         const prop = getProperty(itemData, "data.abilities");
+        let maxIndex = -1;
+        prop.forEach((ability) => { if (ability.index > maxIndex) { maxIndex = ability.index; } });
         prop.push({
+          index: maxIndex + 1,
           name: formData.name,
-          value: formData.value,
+          rank: formData.rank,
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: formData.skill,
           description: formData.description,
+          hasRoll: formData.hasRoll
         });
         setProperty(itemData, "data.abilities", prop);
         this.item.update(itemData);
         this._automaticResize(); // Resize the sheet as length of settings list might have changed
       } else {
         const prop = [{
+          index: 0,
           name: formData.name,
-          value: formData.value,
+          rank: formData.rank,
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: formData.skill,
           description: formData.description,
+          hasRoll: formData.hasRoll,
         }];
+        setProperty(itemData, "data.abilities", prop);
+        this.item.update(itemData);
+        this._automaticResize(); // Resize the sheet as length of settings list might have changed
+      }
+    }
+
+    if (action === "delete") {
+      const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
+      if (setting) {
+        const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${SystemUtils.Localize("CPR.netarchfloordeleteconfirmation")} ${SystemUtils.Localize("CPR.netarch")}?`;
+        const confirmDelete = await ConfirmPrompt.RenderPrompt(
+          SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,
+        );
+        if (!confirmDelete) {
+          return;
+        }
+      }
+      if (hasProperty(itemData, "data.abilities")) {
+        const prop = getProperty(itemData, "data.abilities");
+        let deleteElement = null;
+        prop.forEach((ability) => { if (ability.index === target) { deleteElement = ability; } });
+        prop.splice(prop.indexOf(deleteElement), 1);
+        setProperty(itemData, "data.abilities", prop);
+        this.item.update(itemData);
+        this._automaticResize(); // Resize the sheet as length of settings list might have changed
+      }
+    }
+
+    if (action === "edit") {
+      if (hasProperty(itemData, "data.abilities")) {
+        const prop = getProperty(itemData, "data.abilities");
+        let editElement = null;
+        prop.forEach((ability) => { if (ability.index === target) { editElement = ability; } });
+        let formData = {
+          name: editElement.name,
+          rank: editElement.rank,
+          multiplierOptions: [.25, .5, 1, 2],
+          multiplier: editElement.multiplier,
+          stat: editElement.stat,
+          skillOptions: customSkills,
+          skill: editElement.skill,
+          description: editElement.description,
+          hasRoll: editElement.hasRoll,
+          returnType: "array",
+        };
+        formData = await RoleAbilityPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+        if (formData === undefined) {
+          return;
+        }
+        prop.splice(prop.indexOf(editElement), 1);
+        prop.push({
+          index: editElement.index,
+          name: formData.name,
+          rank: formData.rank,
+          multiplier: formData.multiplier,
+          stat: formData.stat,
+          skill: formData.skill,
+          description: formData.description,
+          hasRoll: formData.hasRoll,
+        });
         setProperty(itemData, "data.abilities", prop);
         this.item.update(itemData);
         this._automaticResize(); // Resize the sheet as length of settings list might have changed
