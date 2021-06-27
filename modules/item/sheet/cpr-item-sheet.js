@@ -5,6 +5,7 @@ import CPR from "../../system/config.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
 import NetarchLevelPrompt from "../../dialog/cpr-netarch-level-prompt.js";
+import RoleAbilityPrompt from "../../dialog/cpr-role-ability-prompt.js";
 import CyberdeckSelectProgramsPrompt from "../../dialog/cpr-select-install-programs-prompt.js";
 import BoosterAddModifierPrompt from "../../dialog/cpr-booster-add-modifier-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
@@ -94,6 +95,8 @@ export default class CPRItemSheet extends ItemSheet {
     html.find(".select-compatible-ammo").click((event) => this._selectCompatibleAmmo(event));
 
     html.find(".netarch-level-action").click((event) => this._netarchLevelAction(event));
+
+    html.find(".role-ability-action").click((event) => this._roleAbilityAction(event));
 
     html.find(".select-installed-programs").click((event) => this._cyberdeckSelectInstalledPrograms(event));
 
@@ -522,5 +525,56 @@ export default class CPRItemSheet extends ItemSheet {
     const updateList = [{ _id: cyberdeck.data._id, data: cyberdeck.data.data }];
     updateList.push({ _id: program.data._id, "data.isInstalled": false });
     await actor.updateEmbeddedDocuments("Item", updateList);
+  }
+
+  async _roleAbilityAction(event) {
+    LOGGER.trace("ItemSheet | _roleAbilityAction | Called.");
+    const action = $(event.currentTarget).attr("data-action-type");
+    const itemData = duplicate(this.item.data);
+    const customSkills = game.items.filter((i) => i.type === "skill");
+    if (action === "create") {
+      let formData = {
+        name: "",
+        value: 0,
+        multiplierOptions: [.25, .5, 1, 2],
+        multiplier: 1,
+        stat: "int",
+        skillOptions: customSkills,
+        skill: "",
+        description: "",
+        returnType: "array",
+      };
+
+      formData = await RoleAbilityPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+      if (formData === undefined) {
+        return;
+      }
+      if (hasProperty(itemData, "data.abilities")) {
+        const prop = getProperty(itemData, "data.abilities");
+        prop.push({
+          name: formData.name,
+          value: formData.value,
+          multiplier: formData.multiplier,
+          stat: formData.stat,
+          skill: formData.skill,
+          description: formData.description,
+        });
+        setProperty(itemData, "data.abilities", prop);
+        this.item.update(itemData);
+        this._automaticResize(); // Resize the sheet as length of settings list might have changed
+      } else {
+        const prop = [{
+          name: formData.name,
+          value: formData.value,
+          multiplier: formData.multiplier,
+          stat: formData.stat,
+          skill: formData.skill,
+          description: formData.description,
+        }];
+        setProperty(itemData, "data.abilities", prop);
+        this.item.update(itemData);
+        this._automaticResize(); // Resize the sheet as length of settings list might have changed
+      }
+    }
   }
 }

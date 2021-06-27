@@ -1,0 +1,66 @@
+<div class="item-settings-tab">
+  <div class="item-settings-section">
+    <ol class="items-list">
+      {{!--Item Name Settings--}}
+      {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs" this}}
+      {{!-- Role Item Settings--}}
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          Role Name
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          <input name="data.roleName" class="" data-dtype="{{data.data.roleName}}" value="{{data.data.roleName}}" type="text">
+        </div>
+      </li>
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.level"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          <input name="data.level" class="" data-dtype="{{data.data.level}}" value="{{data.data.level}}" type="number">
+        </div>
+      </li>
+    </ol>
+  </div>
+</div>
+<div class="item-netarch-section">
+  <li class="items-header flexrow">
+    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">Name &nbsp;</span>
+    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">Value &nbsp;</span>
+    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">Stat &nbsp;</span>
+    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">Skill &nbsp;</span>
+    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">Mult. &nbsp;</span>
+    <span class="item-name netarch-content fg-white bg-black text-nowrap text-padding-left">Description</span>
+    <span class="item-name netarch-actions fg-white bg-black text-nowrap text-padding-left">
+      <a class="role-ability-action" data-action-type="create"><i class="fas fa-plus-circle text-padding-right" title="New Role Ability"></i></a>
+    </span>
+  </li>
+    <div class="netarch-list-content">
+      <ol class="items-list">
+        {{#each (sort data.data.abilities "name") as |ability|}}
+          <li class="item-netarch-grid item flexrow">
+            <div class="netarch-level">{{ability.name}}</div>
+            <div class="netarch-dv">
+              {{ability.value}}
+            </div>
+            <div class="netarch-dv">
+              {{localize ability.stat}}
+            </div>
+            <div class="netarch-dv">
+              {{localize ability.skill}}
+            </div>
+            <div class="netarch-dv">
+              {{ability.multiplier}}
+            </div>
+            <div class="netarch-content">
+              <div>{{ability.description}}</div>
+            </div>
+            <div class="netarch-actions">
+              <a class="role-ability-action" data-action-type="edit"><i class="fas fa-edit fg-black" title="{{localize "CPR.netarchflooredit"}}"></i></a>
+              <a class="role-ability-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.netarchfloordelete"}}"></i></a>
+            </div>
+          </li>
+        {{/each}}
+      </ol>
+    </div>
+</div>

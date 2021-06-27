@@ -52,6 +52,7 @@ Hooks.once("init", async () => {
       "ammo",
       "gear",
       "skill",
+      "role",
       "criticalInjury",
       "vehicle",
       "program",

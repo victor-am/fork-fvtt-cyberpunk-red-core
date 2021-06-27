@@ -1,0 +1,75 @@
+{{trace "CPR-ROLE-ABILTIY-PROMPT.HBS"}}
+<form>
+  {{log this}}
+  <ol class="items-list">
+    <li class="item flexrow">
+      <div class="item flexrow setting-name">
+        <span class="text-bold text-nowrap">Role Ability Name</span>
+      </div>
+      <div class="item flexrow setting-value text-nowrap item-end">
+        <input class="text-right" name="name" type="text" value="{{name}}" />
+      </div>
+    </li>
+    <li class="item flexrow">
+      <div class="item flexrow setting-name">
+        <span class="text-bold text-nowrap">Role Ability Value</span>
+      </div>
+      <div class="item flexrow setting-value text-nowrap item-end">
+        <input class="text-right" name="value" type="number" value={{value}} />
+      </div>
+    </li>
+    <li class="item flexrow">
+      <div class="item flexrow setting-name">
+        <span class="text-bold text-nowrap">Multiplier</span>
+      </div>
+      <div class="item flexrow setting-value">
+        <select name="multiplier">
+          {{#select multiplier}}
+            <option value = "--">--</option>
+            {{#each multiplierOptions}}
+              <option value="{{@key}}">{{.}}</option>
+            {{/each}}
+          {{/select}}
+        </select>
+      </div>
+    </li>
+    <li class="item flexrow">
+      <div class="item flexrow setting-name">
+        <span class="text-bold text-nowrap">Stat</span>
+      </div>
+      <div class="item flexrow setting-value">
+        <select name="stat">
+          {{#select stat}}
+            <option value = "--">--</option>
+            {{#each (findConfigObj "statList") as |stat s|}}
+              <option value="{{stat}}">{{localize stat}}</option>
+            {{/each}}
+          {{/select}}
+        </select>
+      </div>
+    </li>
+    <li class="item flexrow">
+      <div class="item flexrow setting-name">
+        <span class="text-bold text-nowrap">Skill</span>
+      </div>
+      <div class="item flexrow setting-value">
+        <select name="skill">
+          {{#select skill}}
+          <option value = "--">--</option>
+            {{#each (findConfigObj "skillList") as |skill s|}}
+              <option value="{{skill}}">{{localize skill}}</option>
+            {{/each}}
+            {{#each skillOptions as |option o|}}
+              <option value="{{option.data.name}}">{{option.data.name}}</option>
+            {{/each}}
+          {{/select}}
+        </select>
+      </div>
+    </li>
+  </ol>
+  <div class="">
+    <div class="text-bold">{{localize "CPR.description"}}</div>
+    <textarea class="" name="description">{{description}}</textarea>
+  </div>
+</form>
+{{trace "CPR-ROLE-ABILITY-PROMPT.HBS"}}

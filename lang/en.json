@@ -713,6 +713,7 @@
     "ITEM.TypeGear": "Gear",
     "ITEM.TypeNetarch": "Net Architecture",
     "ITEM.TypeProgram": "Program",
+    "ITEM.TypeRole": "Role",
     "ITEM.TypeSkill": "Skill",
     "ITEM.TypeVehicle": "Vehicle",
     "ITEM.TypeWeapon": "Weapon"

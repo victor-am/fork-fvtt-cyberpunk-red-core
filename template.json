@@ -344,6 +344,7 @@
       "gear",
       "netarch",
       "program",
+      "role",
       "skill",
       "vehicle",
       "weapon"
@@ -551,6 +552,14 @@
       "core": false,
       "basic": false,
       "skillmod": 0
+    },
+    "role": {
+      "templates": [
+        "common"
+      ],
+      "level": 0,
+      "roleName": "",
+      "abilities": []
     },
     "criticalInjury": {
       "templates": [
