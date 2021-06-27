@@ -20,7 +20,7 @@
                 <input class="number ability-input" value="{{role.data.data.level}}" data-role-name="{{role.data.name}}" data-ability-name="{{role.data.data.mainRoleAbility}}" data-subskill-name="" type="number">
               </div>
             </li>
-            {{#each role.data.data.abilities as |ability|}}
+            {{#each (sort role.data.data.abilities "name") as |ability|}}
             <li class="item flexrow" draggable="true">
               <div class="item-name role-name flexrow  text-nowrap">
                 <a class="rollable ability-name subskill" data-roll-type="roleAbility" data-roll-title="{{ability.name}}">&nbsp;{{ability.name}}:</a>

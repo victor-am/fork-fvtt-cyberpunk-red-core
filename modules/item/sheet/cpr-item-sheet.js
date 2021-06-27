@@ -537,7 +537,7 @@ export default class CPRItemSheet extends ItemSheet {
       let formData = {
         name: "",
         rank: 0,
-        multiplierOptions: [.25, .5, 1, 2],
+        multiplierOptions: [0.25, 0.5, 1, 2],
         multiplier: 1,
         stat: "int",
         skillOptions: customSkills,
@@ -563,7 +563,7 @@ export default class CPRItemSheet extends ItemSheet {
           stat: formData.stat,
           skill: formData.skill,
           description: formData.description,
-          hasRoll: formData.hasRoll
+          hasRoll: formData.hasRoll,
         });
         setProperty(itemData, "data.abilities", prop);
         this.item.update(itemData);
@@ -615,7 +615,7 @@ export default class CPRItemSheet extends ItemSheet {
         let formData = {
           name: editElement.name,
           rank: editElement.rank,
-          multiplierOptions: [.25, .5, 1, 2],
+          multiplierOptions: [0.25, 0.5, 1, 2],
           multiplier: editElement.multiplier,
           stat: editElement.stat,
           skillOptions: customSkills,

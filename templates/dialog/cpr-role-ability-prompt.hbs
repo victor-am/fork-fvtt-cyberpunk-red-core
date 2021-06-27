@@ -70,7 +70,11 @@
         <span class="text-bold text-nowrap">Has Roll?</span>
       </div>
       <div class="item flexrow setting-value text-nowrap item-end">
-        <input class="text-right" name="hasRoll" type="checkbox"/>
+        {{#if hasRoll}}
+          <input class="text-right" name="hasRoll" type="checkbox" value = "{{hasRoll}}" checked/>
+        {{else}}
+          <input class="text-right" name="hasRoll" type="checkbox" value = "{{hasRoll}}"/>
+        {{/if}}
       </div>
     </li>
   </ol>
