@@ -396,7 +396,7 @@ export default class CPRItem extends Item {
     return cprRoll;
   }
 
-  _createRoleRoll(actor, extraData) {
+  _createRoleRoll(actor, rollInfo) {
     const itemData = this.data.data;
     let rollName = this.data.data.mainRoleAbility;
     let statName = "--";
@@ -404,23 +404,23 @@ export default class CPRItem extends Item {
     let roleValue = 0;
     let roleStat = 0;
     let roleSkill = 0;
-    if (extraData[0] === "mainRoleAbility") {
+    if (rollInfo.rollSubType === "mainRoleAbility") {
       if (itemData.addRoleAbilityRank) {
         rollName = itemData.mainRoleAbility;
         roleValue = itemData.rank;
       }
     }
 
-    if (extraData[0] === "subRoleAbility") {
-      const subRoleAbility = itemData.abilities.filter((a) => a.name === extraData[1]);
-      rollName = subRoleAbility[0].name;
-      roleValue = subRoleAbility[0].rank;
-      if (subRoleAbility[0].stat !== "--") {
-        statName = subRoleAbility[0].stat;
+    if (rollInfo.rollSubType === "subRoleAbility") {
+      const subRoleAbility = itemData.abilities.find((a) => a.name === rollInfo.subRoleName);
+      rollName = subRoleAbility.name;
+      roleValue = subRoleAbility.rank;
+      if (subRoleAbility.stat !== "--") {
+        statName = subRoleAbility.stat;
         roleStat = actor.getStat(statName);
       }
-      if (subRoleAbility[0].skill !== "--") {
-        skillName = subRoleAbility[0].skill;
+      if (subRoleAbility.skill !== "--") {
+        skillName = subRoleAbility.skill;
         const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
         if (skillObject !== undefined) {
           roleSkill = skillObject.data.data.level + skillObject.data.data.skillmod;

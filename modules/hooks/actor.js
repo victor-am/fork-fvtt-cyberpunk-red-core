@@ -21,11 +21,6 @@ const actorHooks = () => {
   // Updates the armor item when external data for armor is updated from the tokenHUD.
   Hooks.on("preUpdateActor", (actor, updatedData, options, userId) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
-    const isCSheet = Object.values(actor.apps).some((app) => app instanceof CPRCharacterActorSheet);
-    if (isCSheet && userId === game.user.data._id && actor.type === "character") {
-      Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.invalidroledata");
-    }
-
     if (updatedData.data && updatedData.data.externalData) {
       Object.entries(updatedData.data.externalData).forEach(
         ([itemType, itemData]) => {

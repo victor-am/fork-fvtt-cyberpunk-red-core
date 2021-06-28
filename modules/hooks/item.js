@@ -1,8 +1,26 @@
 /* global Hooks game canvas */
 import LOGGER from "../utils/cpr-logger.js";
+import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 const itemHooks = () => {
+  Hooks.on("updateItem", (doc, updateData, options, userId) => {
+    LOGGER.trace("preUpdateItem | itemHooks | Called.");
+    if (updateData.data && updateData.data.abilities) {
+      const roleRank = doc.data.data.rank;
+      let subRolesValue = 0;
+      doc.data.data.abilities.forEach((a) => {
+        if (a.multiplier !== "--") {
+          subRolesValue += (a.rank * a.multiplier);
+        }
+      });
+      console.log(subRolesValue);
+      if (subRolesValue > roleRank) {
+        Rules.lawyer(false, "CPR.invalidroledata");
+      }
+    }
+  });
+
   Hooks.on("preCreateItem", (doc, createData, options, userId) => {
     LOGGER.trace("preCreateItem | itemHooks | Called.");
     /* This hook overrides Foundry's default item images when items are created in the sidebar.

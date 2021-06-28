@@ -219,8 +219,12 @@ export default class CPRActorSheet extends ActorSheet {
         const itemId = CPRActorSheet._getItemId(event);
         const rollSubType = $(event.currentTarget).attr("data-roll-subtype");
         const subRoleName = $(event.currentTarget).attr("data-roll-title");
+        const rollInfo = {
+          rollSubType,
+          subRoleName,
+        };
         item = this._getOwnedItem(itemId);
-        cprRoll = item.createRoll(rollType, this.actor, [rollSubType, subRoleName]);
+        cprRoll = item.createRoll(rollType, this.actor, rollInfo);
         break;
       }
       case CPRRolls.rollTypes.DAMAGE: {
