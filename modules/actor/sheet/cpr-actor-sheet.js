@@ -35,7 +35,10 @@ export default class CPRActorSheet extends ActorSheet {
 
   /**
    * Set the default width and height so auto-resizing of the window works. Child classes will
-   * merge additional default options with this object.
+   * merge additional default options with this object. The scrollY option identifies elements where the
+   * vertical position should be preserved during a re-render.
+   *
+   * See https://foundryvtt.com/api/Application.html for the complete list of options available.
    *
    * @override
    * @returns - sheet options merged with default options in ActorSheet
