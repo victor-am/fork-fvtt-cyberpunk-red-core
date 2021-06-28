@@ -96,6 +96,89 @@ export default class CPRSystemUtils {
     return requestedValue;
   }
 
+  static GetDefaultImage(foundryObject, objectType) {
+    let imageLink = "";
+    if (foundryObject === "Item") {
+      switch (objectType) {
+        case "ammo": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Ammo.svg";
+          break;
+        }
+        case "armor": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Armor.svg";
+          break;
+        }
+        case "clothing": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Clothing.svg";
+          break;
+        }
+        case "criticalInjury": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Critical_Injury.svg";
+          break;
+        }
+        case "cyberdeck": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Cyberdeck.svg";
+          break;
+        }
+        case "cyberware": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Cyberware.svg";
+          break;
+        }
+        case "gear": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Gear.svg";
+          break;
+        }
+        case "netarch": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Net_Architecture.svg";
+          break;
+        }
+        case "program": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Program.svg";
+          break;
+        }
+        case "skill": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Skill.svg";
+          break;
+        }
+        case "vehicle": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Vehicle.svg";
+          break;
+        }
+        case "weapon": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/weapons/heavyPistol.svg";
+          break;
+        }
+        default: {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Gear.svg";
+          break;
+        }
+      }
+    } else if (foundryObject === "Actor") {
+      switch (objectType) {
+        case "blackIce": {
+          imageLink = "systems/cyberpunk-red-core/icons/netrunning/Black_Ice.png";
+          break;
+        }
+        case "container": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Container.svg";
+          break;
+        }
+        case "demon": {
+          imageLink = "systems/cyberpunk-red-core/icons/netrunning/Demon.png";
+          break;
+        }
+        case "mook": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Mook.svg";
+          break;
+        }
+        default: {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_CPR_Mystery_Man.svg";
+        }
+      }
+    }
+    return imageLink;
+  }
+
   static async GetFolder(type, name) {
     const folderList = game.folders.filter((folder) => folder.name === name && folder.type === type);
     // If the folder does not exist, we create it.
