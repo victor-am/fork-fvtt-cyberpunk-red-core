@@ -3,12 +3,18 @@ import LOGGER from "../utils/cpr-logger.js";
 import Rules from "../utils/cpr-rules.js";
 import CPRCharacterActorSheet from "../actor/sheet/cpr-character-sheet.js";
 import CPRMookActorSheet from "../actor/sheet/cpr-mook-sheet.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 const actorHooks = () => {
-  Hooks.on("preCreateActor", (createData) => {
+  Hooks.on("preCreateActor", (doc, createData, options, userId) => {
     LOGGER.trace("\"preCreateActor | actorHooks | Called.\"");
     if (!createData.token) {
       // TODO - Token Setup Goes Here
+    }
+
+    if ((typeof createData.img === "undefined")) {
+      const actorImage = SystemUtils.GetDefaultImage("Actor", createData.type);
+      doc.data.update({ img: actorImage });
     }
   });
 
