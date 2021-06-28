@@ -311,20 +311,26 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
   _updateRoleAbility(event) {
     LOGGER.trace("ActorID _updateRoleAbility | CPRCharacterActorSheet | Called.");
-    const role = $(event.currentTarget).attr("data-role-name");
-    const ability = $(event.currentTarget).attr("data-ability-name");
+    const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
+    const itemData = duplicate(item.data);
     const subskill = $(event.currentTarget).attr("data-subskill-name");
     const value = parseInt(event.target.value, 10);
-    const actorData = duplicate(this.actor.data);
-    if (hasProperty(actorData, "data.roleInfo")) {
-      const prop = getProperty(actorData, "data.roleInfo");
-      if (subskill) {
-        prop.roleskills[role].subSkills[subskill] = value;
-      } else {
-        prop.roleskills[role][ability] = value;
+    if (!Number.isNaN(value)) {
+      if (hasProperty(itemData, "data.level")) {
+        if (subskill) {
+          const updateSubskill = itemData.data.abilities.filter((a) => a.name === subskill);
+          if (updateSubskill.length === 1) {
+            updateSubskill[0].rank = value;
+          } else {
+            SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.multipleAbilitiesWithTheSameName"));
+          }
+        } else {
+          itemData.data.level = value;
+        }
+        item.update(itemData);
       }
-      setProperty(actorData, "data.roleInfo", prop);
-      this.actor.update(actorData);
+    } else {
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.amountnotnumber"));
     }
   }
 

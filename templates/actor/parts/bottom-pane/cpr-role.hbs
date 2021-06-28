@@ -8,20 +8,20 @@
             <span class="item-name role-name bg-black text-nowrap text-padding-left"
               id="roleTab-{{role}}"><a class = "item-edit">{{role.data.name}} {{localize "CPR.abilities"}}&nbsp;</a></span><span class = "expand-button"><i
                 class="fas fa-plus bg-black collapse-icon hide"></i><i
-                class="fas fa-minus bg-black expand-icon"></i><a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.deleteitem"}}"></i></a></span>
+                class="fas fa-minus bg-black expand-icon"></i></span> <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.deleteitem"}}"></i></a>
             <span class="item-detail role-rank bg-black text-nowrap text-right">{{localize "CPR.rank"}}</span>
           </li>
           <ol class="items-list">
-            <li class="item flexrow" draggable="true">
+            <li class="item flexrow" draggable="true" data-item-id="{{role.data._id}}">
               <div class="item-name role-name flexrow  text-nowrap">
                 <a class="rollable ability-name text-bold" data-roll-type="roleAbility" data-roll-title="{{role.data.data.mainRoleAbility}}">{{role.data.data.mainRoleAbility}}:</a>
               </div>
               <div class="item-detail ability-rank text-nowrap">
-                <input class="number ability-input" value="{{role.data.data.level}}" data-role-name="{{role.data.name}}" data-ability-name="{{role.data.data.mainRoleAbility}}" data-subskill-name="" type="number">
+                <input class="number ability-input" value="{{role.data.data.level}}" data-role-name="{{role.data.name}}" data-ability-name="{{role.data.data.mainRoleAbility}}" type="number">
               </div>
             </li>
             {{#each (sort role.data.data.abilities "name") as |ability|}}
-            <li class="item flexrow" draggable="true">
+            <li class="item flexrow" draggable="true" data-item-id="{{role.data._id}}">
               <div class="item-name role-name flexrow  text-nowrap">
                 <a class="rollable ability-name subskill" data-roll-type="roleAbility" data-roll-title="{{ability.name}}">&nbsp;{{ability.name}}:</a>
               </div>
