@@ -237,20 +237,21 @@ export class CPRSuppressiveFireRoll extends CPRAttackRoll {
 }
 
 export class CPRRoleRoll extends CPRRoll {
-  constructor(roleName, niceRoleName, statName, roleValue, roleStat, roleOther) {
-    super(niceRoleName, "1d10");
+  constructor(rollName, statName, skillName, roleValue, roleStat, roleSkill) {
+    super(rollName, "1d10");
     LOGGER.trace(`CPRRoleRoll | Constructor`);
-    this.roleName = roleName;
+    this.rollName = rollName;
     this.statName = statName;
+    this.skillName = skillName;
     this.roleValue = roleValue;
     this.roleStat = roleStat;
-    this.roleOther = roleOther;
+    this.roleSkill = roleSkill;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-roleAbility-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-role-rollcard.hbs";
   }
 
   _computeBase() {
-    return this.initialRoll + this.totalMods() + this.roleValue + this.roleStat + this.roleOther;
+    return this.initialRoll + this.totalMods() + this.roleValue + this.roleStat + this.roleSkill;
   }
 
   setNetCombat(rollTitle) {

@@ -360,6 +360,9 @@ export default class CPRItem extends Item {
       case CPRRolls.rollTypes.SKILL: {
         return this._createSkillRoll(actor);
       }
+      case CPRRolls.rollTypes.ROLEABILITY: {
+        return this._createRoleRoll(actor, extraData);
+      }
       case CPRRolls.rollTypes.SUPPRESSIVE:
       case CPRRolls.rollTypes.AUTOFIRE:
       case CPRRolls.rollTypes.AIMED:
@@ -390,6 +393,44 @@ export default class CPRItem extends Item {
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
     cprRoll.addMod(actor.getWoundStateMods());
     cprRoll.addMod(this._getSkillMod());
+    return cprRoll;
+  }
+
+  _createRoleRoll(actor, extraData) {
+    const itemData = this.data.data;
+    let rollName = this.data.data.mainRoleAbility;
+    let statName = "--";
+    let skillName = "--";
+    let roleValue = 0;
+    let roleStat = 0;
+    let roleSkill = 0;
+    if (extraData[0] === "mainRoleAbility") {
+      if (itemData.addRoleAbilityRank) {
+        rollName = itemData.mainRoleAbility;
+        roleValue = itemData.rank;
+      }
+    }
+
+    if (extraData[0] === "subRoleAbility") {
+      const subRoleAbility = itemData.abilities.filter((a) => a.name === extraData[1]);
+      rollName = subRoleAbility[0].name;
+      roleValue = subRoleAbility[0].rank;
+      if (subRoleAbility[0].stat !== "--") {
+        statName = subRoleAbility[0].stat;
+        roleStat = actor.getStat(statName);
+      }
+      if (subRoleAbility[0].skill !== "--") {
+        skillName = subRoleAbility[0].skill;
+        const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
+        if (skillObject !== undefined) {
+          roleSkill = skillObject.data.data.level + skillObject.data.data.skillmod;
+        } else {
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
+        }
+      }
+    }
+    const cprRoll = new CPRRolls.CPRRoleRoll(rollName, statName, skillName, roleValue, roleStat, roleSkill);
+    cprRoll.addMod(actor.getWoundStateMods());
     return cprRoll;
   }
 

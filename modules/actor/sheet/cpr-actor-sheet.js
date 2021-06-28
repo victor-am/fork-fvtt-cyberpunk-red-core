@@ -206,16 +206,18 @@ export default class CPRActorSheet extends ActorSheet {
     let item = null;
     switch (rollType) {
       case CPRRolls.rollTypes.DEATHSAVE:
-      case CPRRolls.rollTypes.ROLEABILITY:
       case CPRRolls.rollTypes.STAT: {
         const rollName = $(event.currentTarget).attr("data-roll-title");
         cprRoll = this.actor.createRoll(rollType, rollName);
         break;
       }
+      case CPRRolls.rollTypes.ROLEABILITY:
       case CPRRolls.rollTypes.SKILL: {
         const itemId = CPRActorSheet._getItemId(event);
+        const rollSubType = $(event.currentTarget).attr("data-roll-subtype");
+        const subRoleName = $(event.currentTarget).attr("data-roll-title");
         item = this._getOwnedItem(itemId);
-        cprRoll = item.createRoll(rollType, this.actor);
+        cprRoll = item.createRoll(rollType, this.actor, [rollSubType, subRoleName]);
         break;
       }
       case CPRRolls.rollTypes.DAMAGE: {

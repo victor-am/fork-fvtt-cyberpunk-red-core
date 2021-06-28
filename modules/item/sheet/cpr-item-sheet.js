@@ -532,7 +532,10 @@ export default class CPRItemSheet extends ItemSheet {
     const target = Number($(event.currentTarget).attr("data-action-target"));
     const action = $(event.currentTarget).attr("data-action-type");
     const itemData = duplicate(this.item.data);
+    const pack = game.packs.get("cyberpunk-red-core.skills");
+    const coreSkills = await pack.getDocuments();
     const customSkills = game.items.filter((i) => i.type === "skill");
+    const allSkills = coreSkills.concat(customSkills).sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
     if (action === "create") {
       let formData = {
         name: "",
@@ -540,7 +543,7 @@ export default class CPRItemSheet extends ItemSheet {
         multiplierOptions: [0.25, 0.5, 1, 2],
         multiplier: 1,
         stat: "int",
-        skillOptions: customSkills,
+        skillOptions: allSkills,
         skill: "",
         description: "",
         hasRoll: false,
@@ -618,7 +621,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplierOptions: [0.25, 0.5, 1, 2],
           multiplier: editElement.multiplier,
           stat: editElement.stat,
-          skillOptions: customSkills,
+          skillOptions: allSkills,
           skill: editElement.skill,
           description: editElement.description,
           hasRoll: editElement.hasRoll,

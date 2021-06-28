@@ -41,7 +41,7 @@
           {{#select stat}}
             <option value = "--">--</option>
             {{#each (findConfigObj "statList") as |stat s|}}
-              <option value="{{stat}}">{{localize stat}}</option>
+              <option value="{{s}}">{{localize stat}}</option>
             {{/each}}
           {{/select}}
         </select>
@@ -55,9 +55,9 @@
         <select name="skill">
           {{#select skill}}
           <option value = "--">--</option>
-            {{#each (findConfigObj "skillList") as |skill s|}}
+{{!--             {{#each (findConfigObj "skillList") as |skill s|}}
               <option value="{{skill}}">{{localize skill}}</option>
-            {{/each}}
+            {{/each}} --}}
             {{#each skillOptions as |option o|}}
               <option value="{{option.data.name}}">{{option.data.name}}</option>
             {{/each}}

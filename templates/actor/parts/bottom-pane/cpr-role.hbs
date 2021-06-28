@@ -14,7 +14,7 @@
           <ol class="items-list">
             <li class="item flexrow" draggable="true" data-item-id="{{role.data._id}}">
               <div class="item-name role-name flexrow  text-nowrap">
-                <a class="rollable ability-name text-bold" data-roll-type="roleAbility" data-roll-title="{{role.data.data.mainRoleAbility}}">{{role.data.data.mainRoleAbility}}:</a>
+                <a class="rollable ability-name text-bold" data-roll-type="roleAbility" data-roll-subtype = "mainRoleAbility" data-roll-title="{{role.data.data.mainRoleAbility}}">{{role.data.data.mainRoleAbility}}:</a>
               </div>
               <div class="item-detail ability-rank text-nowrap">
                 <input class="number ability-input" value="{{role.data.data.rank}}" data-role-name="{{role.data.name}}" data-ability-name="{{role.data.data.mainRoleAbility}}" type="number">
@@ -23,7 +23,7 @@
             {{#each (sort role.data.data.abilities "name") as |ability|}}
             <li class="item flexrow" draggable="true" data-item-id="{{role.data._id}}">
               <div class="item-name role-name flexrow  text-nowrap">
-                <a class="rollable ability-name subskill" data-roll-type="roleAbility" data-roll-title="{{ability.name}}">&nbsp;{{ability.name}}:</a>
+                <a class="rollable ability-name subskill" data-roll-type="roleAbility" data-roll-subtype = "subRoleAbility" data-roll-title="{{ability.name}}">&nbsp;{{ability.name}}:</a>
               </div>
               <div class="item-detail ability-rank text-nowrap">
                 <input class="number ability-input" value="{{ability.rank}}" data-role-name="{{role}}" data-ability-name="{{role.data.data.mainRoleAbility}}" data-subskill-name="{{ability.name}}" type="number">
