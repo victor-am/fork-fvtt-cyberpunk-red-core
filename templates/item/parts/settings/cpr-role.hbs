@@ -14,12 +14,37 @@
       </li>
       <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-          {{localize "CPR.level"}}
+          {{localize "CPR.rank"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
-          <input name="data.level" class="" data-dtype="{{data.data.level}}" value="{{data.data.level}}" type="number">
+          <input name="data.rank" class="" data-dtype="{{data.data.rank}}" value="{{data.data.rank}}" type="number">
         </div>
       </li>
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.hasroll?"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          {{#if data.data.hasRoll}}
+          <a class="item-checkbox" data-target="data.hasRoll"><i class="far fa-check-circle"></i></a>
+          {{else}}
+          <a class="item-checkbox" data-target="data.hasRoll"><i class="far fa-circle"></i></a>
+          {{/if}}
+        </div>
+      </li>
+      {{#if data.data.hasRoll}}
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.addroleabilityrank?"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          {{#if data.data.addRoleAbilityRank}}
+          <a class="item-checkbox" data-target="data.addRoleAbilityRank"><i class="far fa-check-circle"></i></a>
+          {{else}}
+          <a class="item-checkbox" data-target="data.addRoleAbilityRank"><i class="far fa-circle"></i></a>
+          {{/if}}
+        </div>
+      {{/if}}
     </ol>
   </div>
 </div>

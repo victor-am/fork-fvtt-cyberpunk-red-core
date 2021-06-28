@@ -557,8 +557,10 @@
       "templates": [
         "common"
       ],
-      "level": 0,
+      "rank": 0,
       "mainRoleAbility": "",
+      "hasRoll": true,
+      "addRoleAbilityRank": true,
       "abilities": []
     },
     "criticalInjury": {

@@ -316,7 +316,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     const subskill = $(event.currentTarget).attr("data-subskill-name");
     const value = parseInt(event.target.value, 10);
     if (!Number.isNaN(value)) {
-      if (hasProperty(itemData, "data.level")) {
+      if (hasProperty(itemData, "data.rank")) {
         if (subskill) {
           const updateSubskill = itemData.data.abilities.filter((a) => a.name === subskill);
           if (updateSubskill.length === 1) {
@@ -325,7 +325,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
             SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.multipleAbilitiesWithTheSameName"));
           }
         } else {
-          itemData.data.level = value;
+          itemData.data.rank = value;
         }
         item.update(itemData);
       }

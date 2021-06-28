@@ -17,7 +17,7 @@
                 <a class="rollable ability-name text-bold" data-roll-type="roleAbility" data-roll-title="{{role.data.data.mainRoleAbility}}">{{role.data.data.mainRoleAbility}}:</a>
               </div>
               <div class="item-detail ability-rank text-nowrap">
-                <input class="number ability-input" value="{{role.data.data.level}}" data-role-name="{{role.data.name}}" data-ability-name="{{role.data.data.mainRoleAbility}}" type="number">
+                <input class="number ability-input" value="{{role.data.data.rank}}" data-role-name="{{role.data.name}}" data-ability-name="{{role.data.data.mainRoleAbility}}" type="number">
               </div>
             </li>
             {{#each (sort role.data.data.abilities "name") as |ability|}}
