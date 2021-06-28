@@ -554,6 +554,7 @@ export default class CPRItemSheet extends ItemSheet {
       if (formData === undefined) {
         return;
       }
+      const skillObject = formData.skill !== "--" ? allSkills.find((a) => a.data.name === formData.skill) : "--";
       if (hasProperty(itemData, "data.abilities")) {
         const prop = getProperty(itemData, "data.abilities");
         let maxIndex = -1;
@@ -564,10 +565,11 @@ export default class CPRItemSheet extends ItemSheet {
           rank: formData.rank,
           multiplier: formData.multiplier,
           stat: formData.stat,
-          skill: formData.skill,
+          skill: skillObject,
           description: formData.description,
           hasRoll: formData.hasRoll,
         });
+        console.log(formData.skill);
         setProperty(itemData, "data.abilities", prop);
         this.item.update(itemData);
         this._automaticResize(); // Resize the sheet as length of settings list might have changed
@@ -578,7 +580,7 @@ export default class CPRItemSheet extends ItemSheet {
           rank: formData.rank,
           multiplier: formData.multiplier,
           stat: formData.stat,
-          skill: formData.skill,
+          skill: skillObject,
           description: formData.description,
           hasRoll: formData.hasRoll,
         }];
@@ -615,6 +617,7 @@ export default class CPRItemSheet extends ItemSheet {
         const prop = getProperty(itemData, "data.abilities");
         let editElement = null;
         prop.forEach((ability) => { if (ability.index === target) { editElement = ability; } });
+        const editElementSkill = editElement.skill !== "--" ? editElement.skill.name : editElement.skill;
         let formData = {
           name: editElement.name,
           rank: editElement.rank,
@@ -622,7 +625,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: editElement.multiplier,
           stat: editElement.stat,
           skillOptions: allSkills,
-          skill: editElement.skill,
+          skill: editElement.skill.name,
           description: editElement.description,
           hasRoll: editElement.hasRoll,
           returnType: "array",
@@ -631,6 +634,7 @@ export default class CPRItemSheet extends ItemSheet {
         if (formData === undefined) {
           return;
         }
+        const skillObject = formData.skill !== "--" ? allSkills.find((a) => a.data.name === formData.skill) : "--";
         prop.splice(prop.indexOf(editElement), 1);
         prop.push({
           index: editElement.index,
@@ -638,7 +642,7 @@ export default class CPRItemSheet extends ItemSheet {
           rank: formData.rank,
           multiplier: formData.multiplier,
           stat: formData.stat,
-          skill: formData.skill,
+          skill: skillObject,
           description: formData.description,
           hasRoll: formData.hasRoll,
         });

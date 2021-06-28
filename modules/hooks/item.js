@@ -14,7 +14,6 @@ const itemHooks = () => {
           subRolesValue += (a.rank * a.multiplier);
         }
       });
-      console.log(subRolesValue);
       if (subRolesValue > roleRank) {
         Rules.lawyer(false, "CPR.invalidroledata");
       }

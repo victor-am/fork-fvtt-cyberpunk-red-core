@@ -69,10 +69,10 @@
               {{ability.rank}}
             </div>
             <div class="netarch-dv">
-              {{localize ability.stat}}
+              {{localize (findConfigValue "statList" ability.stat)}}
             </div>
             <div class="netarch-dv">
-              {{localize ability.skill}}
+              {{#if ability.skill.data.core}}{{localize (splitJoinCoreSkills ability.skill.name)}}{{else}}{{ability.skill.name}}{{/if}}{{#if (compare ability.skill "===" "--")}}{{ability.skill}}{{/if}}
             </div>
             <div class="netarch-dv">
               {{ability.multiplier}}
