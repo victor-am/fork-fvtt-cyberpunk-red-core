@@ -14,16 +14,16 @@
           <ol class="items-list">
             <li class="item flexrow" draggable="true" data-item-id="{{role.data._id}}">
               <div class="item-name role-name flexrow  text-nowrap">
-                <a class="rollable ability-name text-bold" data-roll-type="roleAbility" data-roll-subtype = "mainRoleAbility" data-roll-title="{{role.data.data.mainRoleAbility}}">{{role.data.data.mainRoleAbility}}:</a>
+                {{#if role.data.data.hasRoll}}<a class="rollable ability-name text-bold" data-roll-type="roleAbility" data-roll-subtype = "mainRoleAbility" data-roll-title="{{role.data.data.mainRoleAbility}}">{{/if}}{{role.data.data.mainRoleAbility}}:{{#if role.data.data.hasRoll}}</a>{{/if}}
               </div>
               <div class="item-detail ability-rank text-nowrap">
                 <input class="number ability-input" value="{{role.data.data.rank}}" data-role-name="{{role.data.name}}" data-ability-name="{{role.data.data.mainRoleAbility}}" type="number">
               </div>
             </li>
-            {{#each (sort role.data.data.abilities "name") as |ability|}}
+            {{#each (reverse (sort role.data.data.abilities "hasRoll")) as |ability|}}
             <li class="item flexrow" draggable="true" data-item-id="{{role.data._id}}">
               <div class="item-name role-name flexrow  text-nowrap">
-                <a class="rollable ability-name subskill" data-roll-type="roleAbility" data-roll-subtype = "subRoleAbility" data-roll-title="{{ability.name}}">&nbsp;{{ability.name}}:</a>
+                {{#if ability.hasRoll}}<a class="rollable ability-name subskill" data-roll-type="roleAbility" data-roll-subtype = "subRoleAbility" data-roll-title="{{ability.name}}"><i class="fas fa-dice-d20"></i>{{/if}}&nbsp;{{ability.name}}:{{#if ability.hasRoll}}</a>{{/if}}
               </div>
               <div class="item-detail ability-rank text-nowrap">
                 <input class="number ability-input" value="{{ability.rank}}" data-role-name="{{role}}" data-ability-name="{{role.data.data.mainRoleAbility}}" data-subskill-name="{{ability.name}}" type="number">

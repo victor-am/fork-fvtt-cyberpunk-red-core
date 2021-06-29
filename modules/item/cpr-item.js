@@ -420,7 +420,7 @@ export default class CPRItem extends Item {
         roleStat = actor.getStat(statName);
       }
       if (subRoleAbility.skill !== "--") {
-        skillName = subRoleAbility.skill;
+        skillName = subRoleAbility.skill.name;
         const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
         if (skillObject !== undefined) {
           roleSkill = skillObject.data.data.level + skillObject.data.data.skillmod;
