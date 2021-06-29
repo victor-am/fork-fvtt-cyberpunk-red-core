@@ -188,12 +188,14 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   }
 
   async _selectRoles() {
-    let formData = { actor: this.actor.getData().roleInfo, roles: CPR.roleList };
+    let formData = {
+      roles: this.actor.data.filteredItems.role,
+    };
     formData = await SelectRolePrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;
     }
-    await this.actor.setRoles(formData);
+    this.actor.update({ "data.roleInfo.activeRole": formData.activeRole });
   }
 
   async _setLifepath() {

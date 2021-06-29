@@ -273,14 +273,6 @@ export default class CPRActor extends Actor {
     return this.items.find((i) => i.data._id === itemId);
   }
 
-  setRoles(formData) {
-    const { activeRole } = formData;
-    let roleList = formData.selectedRoles;
-    roleList.push(activeRole);
-    roleList = [...new Set(roleList)];
-    return this.update({ "data.roleInfo.roles": roleList, "data.roleInfo.activeRole": activeRole });
-  }
-
   setLifepath(formData) {
     return this.update(formData);
   }

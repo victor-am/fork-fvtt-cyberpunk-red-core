@@ -8,32 +8,24 @@
       <div class="item flexrow setting-value">
        <span class="text-bold text-nowrap text-center text-space-around">{{localize "CPR.activerole"}}</span>
       </div>
-      <div class="item flexrow setting-value">
-        <span class="text-bold text-nowrap text-center text-space-around">{{localize "CPR.roleexperience"}}</span>
-      </div>
     </li>
-    {{#each roles as |cprRole roleName|}}
+    {{#each roles as |role|}}
     <li class="item flexrow">
       <div class="item flexrow setting-name text-nowrap">
-        {{localize cprRole}}
+        {{role.data.name}}
       </div>
       <div class="item flexrow setting-value text-nowrap text-space-around">
-        {{#if (listContains ../actor.roles roleName)}}
-        <span class="text-bold text-nowrap text-center text-space-around"><input type="radio" name="activeRole" value="{{roleName}}" checked></span>
+        {{log actor}}
+        {{#if (compare actor.data.data.roleInfo.activeRole "===" role.data.name)}}
+        <span class="text-bold text-nowrap text-center text-space-around"><input type="radio" name="activeRole" value="{{role.data.name}}" checked></span>
         {{else}}
-        <span class="text-bold text-nowrap text-center text-space-around"><input type="radio" name="activeRole" value="{{roleName}}"></span>
-        {{/if}}
-      </div>
-      <div class="item flexrow setting-value text-nowrap text-space-around">
-        {{#if (listContains ../actor.roles roleName)}}
-        <span class="text-bold text-nowrap text-center text-space-around"><input type="checkbox" name="selectedRoles" value="{{roleName}}" checked></span>
-        {{else}}
-        <span class="text-bold text-nowrap text-center text-space-around"><input type="checkbox" name="selectedRoles" value="{{roleName}}"></span>
+        <span class="text-bold text-nowrap text-center text-space-around"><input type="radio" name="activeRole" value="{{role.data.name}}"></span>
         {{/if}}
       </div>
     </li>
     {{/each}}
   </ol>
+  <br>
   <div>{{localize "CPR.multiclassrequirement"}}</div>
 </form>
 {{trace "CPR-SELECT-ROLES.HBS"}}
