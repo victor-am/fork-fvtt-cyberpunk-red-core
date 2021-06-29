@@ -1,6 +1,6 @@
 # Version 0.77.1 | Date: 2021-06-29
 **Hot Fix**
-- Corrected localization issue of text on chat cards when rolling Net Attacks
+- Corrected localization issue of text on chat cards when rolling Net Damage
 - Added Zap as a rollable interface ability as it was missing from the list (Zap damage will be handled in a future release)
   
 # Version 0.77.0 | Date: 2021-06-25
