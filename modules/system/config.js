@@ -365,6 +365,7 @@ CPR.interfaceAbilities = {
   pathfinder: "CPR.pathfinder",
   slide: "CPR.slide",
   virus: "CPR.virus",
+  zap: "CPR.zap",
 };
 
 export default CPR;
