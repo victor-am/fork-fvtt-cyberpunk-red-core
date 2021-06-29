@@ -346,7 +346,8 @@
       "program",
       "skill",
       "vehicle",
-      "weapon"
+      "weapon",
+      "upgrade"
     ],
     "templates": {
       "common": {
@@ -580,6 +581,15 @@
       "seats": 0,
       "speedCombat": 0,
       "speedNarrative": ""
+    },
+    "upgrade": {
+      "templates": [
+        "common",
+        "physicalItem",
+        "installable"
+      ],
+      "type": "weapon",
+      "modifiers": []
     }
   }
 }

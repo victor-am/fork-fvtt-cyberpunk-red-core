@@ -715,6 +715,7 @@
     "ITEM.TypeNetarch": "Net Architecture",
     "ITEM.TypeProgram": "Program",
     "ITEM.TypeSkill": "Skill",
+    "ITEM.TypeUpgrade": "Upgrade",
     "ITEM.TypeVehicle": "Vehicle",
     "ITEM.TypeWeapon": "Weapon"
 }

@@ -111,6 +111,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-skill.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-vehicle.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/header/cpr-weapon.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/header/cpr-upgrade.hbs",
     // Item Sheet - Description Partials
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-ammo.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-armor.hbs",
@@ -124,6 +125,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-skill.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-vehicle.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/description/cpr-weapon.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/description/cpr-upgrade.hbs",
     // Item Sheet - Settings Partials
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-ammo.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-armor.hbs",
@@ -137,6 +139,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-skill.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-vehicle.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-weapon.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-upgrade.hbs",
     // Item Sheet - Settings Common Partials
     "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs",

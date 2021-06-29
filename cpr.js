@@ -56,6 +56,7 @@ Hooks.once("init", async () => {
       "vehicle",
       "program",
       "netarch",
+      "upgrade",
     ],
     makeDefault: true,
   });

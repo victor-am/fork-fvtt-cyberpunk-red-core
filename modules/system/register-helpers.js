@@ -408,6 +408,17 @@ export default function registerHandlebarsHelpers() {
     return installedCyberwareList.length;
   });
 
+  Handlebars.registerHelper("entityTypes", (entityType) => {
+    LOGGER.trace("Calling entityTypes Helper");
+    return typeof game.system.entityTypes[entityType] === "object" ? game.system.entityTypes[entityType] : {};
+  });
+
+  Handlebars.registerHelper("isUpgradable", (itemType) => {
+    LOGGER.trace("Calling isUpgradeable Helper");
+    const itemEntities = game.system.template.Item;
+    return itemEntities[itemType].templates.includes("upgradable");
+  });
+
   Handlebars.registerHelper("isDebug", () => {
     LOGGER.trace("Calling isDebug Helper");
     return game.settings.get("cyberpunk-red-core", "debugElements");
