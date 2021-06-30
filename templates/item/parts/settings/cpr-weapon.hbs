@@ -9,6 +9,11 @@
                 {{!-- Physical Item Settings--}}
                 {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
 
+                {{!-- Upgrade Settings --}}
+                {{#if (isUpgradable this.item.type)}}
+                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-upgradable-item.hbs" this}}
+                {{/if}}
+
                 {{!-- Weapon Item Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">

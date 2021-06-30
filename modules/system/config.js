@@ -209,6 +209,7 @@ CPR.inventoryCategories = {
   vehicle: "CPR.vehicle",
   cyberdeck: "CPR.cyberdeck",
   program: "CPR.programs",
+  itemUpgrade: "CPR.itemupgrade",
 };
 
 CPR.objectTypes = {
@@ -216,8 +217,10 @@ CPR.objectTypes = {
   armor: "CPR.armor",
   clothing: "CPR.clothing",
   criticalInjury: "CPR.criticalinjury",
+  cyberdeck: "CPR.cyberdeck",
   cyberware: "CPR.cyberware",
   gear: "CPR.gear",
+  itemUpgrade: "CPR.itemupgrade",
   netarch: "CPR.netarch",
   program: "CPR.program",
   skill: "CPR.skill",
@@ -366,6 +369,32 @@ CPR.interfaceAbilities = {
   slide: "CPR.slide",
   virus: "CPR.virus",
   zap: "CPR.zap",
+};
+
+CPR.upgradableDataPoints = {
+  weapon: {
+    damage: 0,
+    rof: 0,
+    attackmod: 0,
+    secondaryWeapon: {
+      weaponType: "",
+      weaponSkill: "",
+      fireModes: {
+        autoFire: 0,
+        suppressiveFire: false,
+      },
+      damage: "1d6",
+      rof: 1,
+      attackmod: 0,
+    },
+  },
+  ammo: {
+    damage: 0,
+    attackmod: 0,
+  },
+  cyberdeck: {
+    slots: 0,
+  },
 };
 
 export default CPR;

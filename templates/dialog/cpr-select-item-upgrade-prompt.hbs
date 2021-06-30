@@ -1,0 +1,32 @@
+{{trace "CPR-SELECT-ITEM-UPGRADE.HBS"}}
+<form>
+  {{localize "CPR.selectitemupgrades"}} "{{item.name}}", Choomba!
+  <ol class="items-list">
+    <li class="item flexrow">
+      <div class="item flexrow setting-name">
+        <span class="text-bold text-nowrap">{{localize "CPR.itemupgrades"}}</span>
+      </div>
+      <div class="item flexrow setting-value">
+        <span class="text-bold text-nowrap text-align-last-end text-space-around">{{localize "CPR.select"}}</span>
+      </div>
+    </li>
+
+    {{#each this.availableUpgrades as |upgrade|}}
+    <li class="item flexrow">
+      <div class="item flexrow setting-name text-nowrap">
+        {{upgrade.data.name}} ({{localize (findConfigValue "objectTypes" upgrade.data.data.type)}})
+      </div>
+      <div class="item flexrow setting-value text-nowrap text-space-around">
+        {{log upgrade}}
+        {{#if upgrade.data.data.isInstalled}}
+        <span class="text-bold text-nowrap text-align-last-end text-space-around"><input type="checkbox" name="selectedUpgrade" value="{{upgrade.data._id}}" checked></span>
+        {{else}}
+        <span class="text-bold text-nowrap text-align-last-end text-space-around"><input type="checkbox" name="selectedUpgrade" value="{{upgrade.data._id}}"></span>
+        {{/if}}
+      </div>
+    </li>
+    {{/each}}
+
+  </ol>
+</form>
+{{trace "CPR-SELECT-ITEM-UPGRADE.HBS"}}

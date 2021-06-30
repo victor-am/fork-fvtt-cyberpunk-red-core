@@ -1087,4 +1087,48 @@ export default class CPRItem extends Item {
     cprRoll.addMod(rollModifiers);
     return cprRoll;
   }
+
+  /** itemUpgrade Code */
+  uninstallUpgrades(upgrades) {
+    let installedUpgrades = this.data.data.upgrades;
+    const updateList = [];
+    upgrades.forEach((u) => {
+      installedUpgrades = installedUpgrades.filter((iUpgrade) => iUpgrade._id !== u.id);
+      updateList.push({ _id: u.id, "data.isInstalled": false });
+    });
+    const upgradeStaus = (installedUpgrades.length > 0);
+    updateList.push({ _id: this.id, "data.isUpgraded": upgradeStaus, "data.upgrades": installedUpgrades });
+    return this.actor.updateEmbeddedDocuments("Item", updateList);
+  }
+
+  installUpgrades(upgrades) {
+    if (typeof this.data.data.isUpgraded === "boolean") {
+      const installedUpgrades = this.data.data.upgrades;
+      const updateList = [];
+      upgrades.forEach((u) => {
+        const alreadyInstalled = installedUpgrades.filter((iUpgrade) => iUpgrade._id === u.data._id);
+        if (alreadyInstalled.length === 0) {
+          updateList.push({ _id: u.id, "data.isInstalled": true });
+          const upgradeData = u.data;
+          installedUpgrades.push(upgradeData);
+        }
+      });
+      updateList.push({ _id: this.id, "data.isUpgraded": true, "data.upgrades": upgrades });
+      return this.actor.updateEmbeddedDocuments("Item", updateList);
+    }
+  }
+
+  hasUpgradeFor(dataPoint) {
+    let result = false;
+    if (this.actor && typeof this.isUpgraded === "boolean" && this.isUpgraded) {
+      const upgrades = this.upgrades;
+      this.upgrades.forEach((itemId) => {
+        const upgradeItem = this.actor.items.find((i) => i.data._id === itemId && i.type === "itemUpgrade");
+        if (typeof upgradeItem.modifiers[dataPoint] !== "undefined") {
+          result = true;
+        }
+      });
+    }
+    return result;
+  }
 }

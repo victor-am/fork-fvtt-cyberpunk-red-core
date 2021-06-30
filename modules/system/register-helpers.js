@@ -78,6 +78,9 @@ export default function registerHandlebarsHelpers() {
     return "";
   });
 
+  // eslint-disable-next-line valid-typeof
+  Handlebars.registerHelper("isType", (object, type) => typeof object === type);
+
   Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i.id === itemId));
 
   Handlebars.registerHelper("isDefined", (object) => {
@@ -353,10 +356,10 @@ export default function registerHandlebarsHelpers() {
     return title.includes(substr);
   });
 
-  Handlebars.registerHelper("arrayConcat", (array1, array2) => {
-    LOGGER.trace("Calling arrayConcat Helper");
-    const array = array1.concat(array2);
-    return array;
+  Handlebars.registerHelper("objConcat", (obj1, obj2) => {
+    LOGGER.trace("Calling objConcat Helper");
+    const obj = obj1.concat(obj2);
+    return obj;
   });
 
   Handlebars.registerHelper("getMookSkills", (array) => {

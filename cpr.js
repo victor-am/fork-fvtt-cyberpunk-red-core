@@ -44,19 +44,19 @@ Hooks.once("init", async () => {
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("cyberpunk-red-core", CPRItemSheet, {
     types: [
+      "ammo",
+      "armor",
+      "clothing",
+      "criticalInjury",
       "cyberdeck",
       "cyberware",
-      "clothing",
-      "weapon",
-      "armor",
-      "ammo",
       "gear",
-      "skill",
-      "criticalInjury",
-      "vehicle",
-      "program",
+      "itemUpgrade",
       "netarch",
-      "upgrade",
+      "program",
+      "skill",
+      "vehicle",
+      "weapon",
     ],
     makeDefault: true,
   });
@@ -89,7 +89,7 @@ Hooks.once("ready", () => {
   if (!game.user.isGM) return;
   // This defines the version of the Data Model for this release.  We should
   // only update this when the Data Model Changes.
-  const DATA_MODEL_VERSION = "0.77.3";
+  const DATA_MODEL_VERSION = "0.78.0";
   // Get the version of the data model being used for the loaded world. At
   // the end of a migration, this is updated with the current version of the
   // CPR system.

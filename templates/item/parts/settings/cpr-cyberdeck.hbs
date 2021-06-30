@@ -9,7 +9,14 @@
                 {{!-- Physical Item Settings--}}
                 {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
 
+                {{!-- Upgrade Settings --}}
+                {{#if (isUpgradable this.item.type)}}
+                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-upgradable-item.hbs" this}}
+                {{/if}}
+
                 {{!-- Cyberdeck Item Settings--}}
+
+                {{!-- Cyberdeck Quality Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.cyberdeck"}} {{localize "CPR.quality"}}
@@ -24,6 +31,8 @@
                         </select>
                     </div>
                 </li>
+
+                {{!-- Cyberdeck Program Slots Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.hardwareprogramslots"}}
@@ -32,6 +41,8 @@
                         <input name="data.slots" class="" type="number" value="{{data.data.slots}}">
                     </div>
                 </li>
+
+                {{!-- Cyberdeck Installed Programs Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap text-bold">
                         <a class="select-installed-programs" data-item-prop="select-installed-programs">{{localize

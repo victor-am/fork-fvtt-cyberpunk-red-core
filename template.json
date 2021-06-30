@@ -342,12 +342,12 @@
       "cyberdeck",
       "cyberware",
       "gear",
+      "itemUpgrade",
       "netarch",
       "program",
       "skill",
       "vehicle",
-      "weapon",
-      "upgrade"
+      "weapon"
     ],
     "templates": {
       "common": {
@@ -582,14 +582,15 @@
       "speedCombat": 0,
       "speedNarrative": ""
     },
-    "upgrade": {
+    "itemUpgrade": {
       "templates": [
         "common",
         "physicalItem",
         "installable"
       ],
+      "size": 1,
       "type": "weapon",
-      "modifiers": []
+      "modifiers": {}
     }
   }
 }

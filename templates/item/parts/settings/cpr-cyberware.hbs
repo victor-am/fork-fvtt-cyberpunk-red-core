@@ -9,9 +9,14 @@
                 {{!-- Physical Item Settings--}}
                 {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
 
-                {{!-- Armor Item Settings--}}
+                {{!-- Upgrade Settings --}}
+                {{#if (isUpgradable this.item.type)}}
+                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-upgradable-item.hbs" this}}
+                {{/if}}
 
-                {{!-- Armor Equipped Setting --}}
+                {{!-- Cyberware Item Settings--}}
+
+                {{!-- Cyberware Type Setting --}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.type"}}
@@ -31,7 +36,8 @@
 
                     </div>
                 </li>
-                {{!-- Armor Penalty Settings--}}
+                
+                {{!-- Cyberware Installation Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.install"}}
@@ -50,7 +56,8 @@
                         {{/if}}
                     </div>
                 </li>
-                {{!--Head Armor Settings--}}
+
+                {{!--Cyberware Humanity Loss Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize "CPR.static"}} {{localize "CPR.humanityloss"}}

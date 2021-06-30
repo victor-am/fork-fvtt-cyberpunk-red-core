@@ -6,6 +6,7 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
 import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
 import NetarchLevelPrompt from "../../dialog/cpr-netarch-level-prompt.js";
 import CyberdeckSelectProgramsPrompt from "../../dialog/cpr-select-install-programs-prompt.js";
+import SelectItemUpgradePrompt from "../../dialog/cpr-select-item-upgrade-prompt.js";
 import BoosterAddModifierPrompt from "../../dialog/cpr-booster-add-modifier-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
@@ -102,6 +103,8 @@ export default class CPRItemSheet extends ItemSheet {
     html.find(".program-add-booster-modifier").click((event) => this._addBoosterModifier(event));
 
     html.find(".program-del-booster-modifier").click((event) => this._delBoosterModifier(event));
+
+    html.find(".select-item-upgrades").click((event) => this._selectItemUpgrades(event));
 
     html.find(".netarch-generate-auto").click((event) => {
       if (game.user.isGM) {
@@ -522,5 +525,52 @@ export default class CPRItemSheet extends ItemSheet {
     const updateList = [{ _id: cyberdeck.data._id, data: cyberdeck.data.data }];
     updateList.push({ _id: program.data._id, "data.isInstalled": false });
     await actor.updateEmbeddedDocuments("Item", updateList);
+  }
+
+  async _selectItemUpgrades(event) {
+    const { item } = this;
+
+    // We only support upgraded items thatr are owned by an actor
+    // Get the actor that owns this item (if owned)
+
+    const actor = (item.isOwned) ? item.actor : null;
+    if (!actor || (actor.type !== "character" && actor.type !== "mook")) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.owneditemonlyerror"));
+      return;
+    }
+
+    const installedUpgrades = item.data.data.upgrades;
+    const ownedUpgrades = actor.data.filteredItems.itemUpgrade;
+    const availableUpgrades = ownedUpgrades.filter((u) => u.data.data.type === item.type && u.data.data.isInstalled === false);
+    let uninstallList = [];
+    installedUpgrades.forEach((u) => {
+      const upgradeId = u._id;
+      const upgradeItem = actor._getOwnedItem(upgradeId);
+      availableUpgrades.push(upgradeItem);
+      uninstallList.push(upgradeItem);
+    });
+    let formData = {
+      item,
+      availableUpgrades,
+    };
+    formData = await SelectItemUpgradePrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
+
+    const installList = [];
+    formData.selectedUpgradeIds.forEach((id) => {
+      const upgradeItem = actor._getOwnedItem(id);
+      installList.push(upgradeItem);
+      uninstallList = uninstallList.filter((u) => u.id !== id);
+    });
+
+    if (uninstallList.length > 0) {
+      await item.uninstallUpgrades(uninstallList);
+    }
+
+    if (installList.length > 0) {
+      await item.installUpgrades(installList);
+    }
   }
 }

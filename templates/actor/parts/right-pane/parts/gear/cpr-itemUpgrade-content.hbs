@@ -1,0 +1,16 @@
+{{trace "CPR-ITEM-UPGRADE-INV-CONTENT.HBS"}}
+{{#unless item.data.data.isInstalled}}
+<li class="item flexrow{{#if item.data.data.favorite}} favorite{{else}}{{#if (listContains sheet.options.collapsedSections "gearTab-gear")}} hide{{/if}}{{/if}}" data-item-id="{{item.data._id}}"
+    data-item-category="{{item.type}}" draggable="true">
+    <div class="item-name gear-name text-nowrap">
+        <a class="name item-edit" title="{{item.name}} x{{item.data.data.amount}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{item.name}}</a>
+    </div>
+    <div class="item-detail gear-data text-nowrap">
+        {{localize (findConfigValue "objectTypes" item.data.data.type)}} | {{localize "CPR.price"}}: {{item.data.data.price.market}}
+    </div>
+    <div class="item-detail gear-actions text-nowrap">
+        {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}
+    </div>
+</li>
+{{/unless}}
+{{trace "END CPR-ITEM-UPGRADE-INV-CONTENT.HBS"}}

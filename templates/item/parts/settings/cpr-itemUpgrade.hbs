@@ -1,0 +1,63 @@
+<form>
+    <div class="item-settings-tab">
+        <div class="item-settings-section">
+            <ol class="items-list">
+
+                {{!--Item Name Settings--}}
+                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs" this}}
+
+                {{!-- Physical Item Settings--}}
+                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
+
+                {{!-- Upgrade Installed Setting --}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.type"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
+                        <select name="data.type" data-dtype="{{data.data.type}}">
+                            {{#select data.data.type}}
+                            {{#each (entityTypes "Item") as |itemType|}}
+                            {{#if (isUpgradable itemType)}}
+                            <option value="{{itemType}}">{{localize (findConfigValue "objectTypes" itemType)}}</option>
+                            {{/if}}
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                        {{else}}
+                        <span class="text-flex-end">{{localize (findConfigValue "objectTypes" data.data.type)}}</span>
+                        {{/if}}
+                    </div>
+                </li>
+
+                {{!-- Size of the upgrade --}}
+
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.size"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.size" class="" type="number" value="{{data.data.size}}">
+                    </div>
+                </li>
+                <hr>
+                {{localize "CPR.upgradeoverview"}}
+                <hr>
+                {{#each (findConfigValue "upgradableDataPoints" data.data.type) as |dataPoint dp|}}
+                {{#unless (isType dataPoint "object")}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize (objConcat "CPR." dp)}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.modifiers.{{dp}}" class="" type="number"
+                            value="{{getProp ../data.data.modifiers dp}}">
+                    </div>
+                </li>
+                {{/unless}}
+                {{/each}}
+            </ol>
+        </div>
+    </div>
+</form>
