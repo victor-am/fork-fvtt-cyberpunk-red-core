@@ -75,7 +75,7 @@
                         </select>
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        {{#if this.editable}}
+                        {{#if ../this.editable}}
                         <input name="data.modifiers.{{dp}}.value" class="" type="number"
                             value="{{getProp (getProp ../data.data.modifiers dp) "value"}}">
                         {{else}}

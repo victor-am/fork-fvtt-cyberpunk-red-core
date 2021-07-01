@@ -502,7 +502,13 @@ export default class CPRItem extends Item {
         cprRoll.rollCardExtraArgs.ammoType = ammoType;
       }
     }
-    cprRoll.addMod(this.getAllUpgradesFor("damage"));
+    const upgradeType = this.getUpgradeTypeFor("damage");
+    const upgradeValue = this.getAllUpgradesFor("damage");
+    if (upgradeType === "override") {
+      cprRoll.formula = "0d6";
+    }
+    cprRoll.addMod(upgradeValue);
+
     return cprRoll;
   }
 

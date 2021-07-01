@@ -575,7 +575,7 @@ export default class CPRItemSheet extends ItemSheet {
       await item.installUpgrades(installList);
     }
 
-    if (item.type === "weapon" && item.availableSlots() < 0 ) {
+    if (item.type === "weapon" && item.availableSlots() < 0) {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.toomanyattachments"));
     }
   }
