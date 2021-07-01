@@ -91,6 +91,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
    * @returns {bull}
    */
   async _changeMookName() {
+    LOGGER.trace("_changeMookName | CPRMookActorSheet | Called.");
     const formData = await MookNamePrompt.RenderPrompt(this.actor.data.name).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;

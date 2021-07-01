@@ -61,6 +61,8 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
    * @param {*} html - the DOM object
    */
   activateListeners(html) {
+    LOGGER.trace("activateListeners | CPRContainerSheet | Called.");
+
     // Selection of trade partner
     html.find(".trade-with-dropdown").change((event) => this._setTradePartner(event));
     // Create item in inventory
@@ -283,6 +285,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
    * @param {Object} event - an object capturing event details
    */
   async _onDrop(event) {
+    LOGGER.trace("_onDrop | CPRContainerSheet | Called.");
     const playersCanCreate = getProperty(this.actor.data, "flags.cyberpunk-red-core.players-create");
     if (game.user.isGM || playersCanCreate) {
       super._onDrop(event);

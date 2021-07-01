@@ -35,6 +35,7 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
    * @param {Object} html - the DOM object
    */
   activateListeners(html) {
+    LOGGER.trace("activateListeners | CPRBlackIceActorSheet | Called.");
     html.find(".rollable").click((event) => this._onRoll(event));
     html.find(".configure-from-program").click((event) => this._configureFromProgram(event));
     super.activateListeners(html);
@@ -91,6 +92,7 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
    * @returns {null}
    */
   async _configureFromProgram() {
+    LOGGER.trace("_configureFromProgram | CPRBlackIceActorSheet | Called.");
     const biPrograms = game.items.filter((i) => i.type === "program" && i.data.data.class === "blackice");
     const linkedProgramId = (this.actor.isToken) ? this.actor.token.getFlag("cyberpunk-red-core", "programId") : null;
     if (linkedProgramId === null) {
