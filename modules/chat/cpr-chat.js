@@ -110,7 +110,7 @@ export default class CPRChat {
       formula = `${formula}${formulaModifiers}`;
     }
     if (formula) {
-      const cprRoll = new CPRRoll(game.i18n.localize("CPR.roll"), formula);
+      const cprRoll = new CPRRoll(game.i18n.localize("CPR.rolls.roll"), formula);
       if (cprRoll.die !== "d6" && cprRoll.die !== "d10") {
         cprRoll.calculateCritical = false;
         cprRoll.die = "generic";

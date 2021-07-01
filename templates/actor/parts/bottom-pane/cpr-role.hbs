@@ -7,10 +7,10 @@
                 <li class="items-header flexrow collapsible">
                     <span class="item-name role-name bg-black text-nowrap expand-button text-padding-left"
                         id="roleTab-{{role}}">{{localize
-                        (findConfigValue "roleList" role)}} {{localize "CPR.abilities"}}&nbsp;<i
+                        (findConfigValue "roleList" role)}} {{localize "CPR.characterSheet.tabs.role.abilities"}}&nbsp;<i
                             class="fas fa-plus bg-black collapse-icon hide"></i><i
                             class="fas fa-minus bg-black expand-icon"></i></span>
-                    <span class="item-detail role-rank bg-black text-nowrap text-right">{{localize "CPR.rank"}}</span>
+                    <span class="item-detail role-rank bg-black text-nowrap text-right">{{localize "CPR.characterSheet.tabs.role.rank"}}</span>
                 </li>
                 <ol class="items-list">
                     {{#each (getProp ../this.data.data.roleInfo.roleskills role) as |roleValue roleAbility|}}

@@ -1023,11 +1023,11 @@ export default class CPRItem extends Item {
         const { interfaceAbility } = extraData;
         switch (interfaceAbility) {
           case "speed": {
-            rollTitle = SystemUtils.Localize("CPR.speed");
+            rollTitle = SystemUtils.Localize("CPR.global.generic.speed");
             break;
           }
           case "defense": {
-            rollTitle = SystemUtils.Localize("CPR.defense");
+            rollTitle = SystemUtils.Localize("CPR.global.generic.defense");
             break;
           }
           default: {

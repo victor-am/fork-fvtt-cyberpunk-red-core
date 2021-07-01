@@ -304,7 +304,7 @@ export default class CPRActor extends Actor {
   }
 
   processDeathSave(cprRoll) {
-    const success = SystemUtils.Localize("CPR.success");
+    const success = SystemUtils.Localize("CPR.rolls.success");
     const failed = SystemUtils.Localize("CPR.failed");
     let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? success : failed;
     if (cprRoll.initialRoll === 10) {

@@ -29,7 +29,7 @@
                 {{!-- Program Slots--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.slots"}}
+                        {{localize "CPR.global.generic.slots"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if this.editable}}
@@ -43,7 +43,7 @@
                 {{!-- Program Class--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.class"}}
+                        {{localize "CPR.global.generic.class"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.class" data-dtype="{{data.data.class}}">
@@ -64,7 +64,7 @@
                 {{#if (compare data.data.class "===" "blackice")}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.global.programClass.blackice"}} {{localize "CPR.type"}}
+                        {{localize "CPR.global.programClass.blackice"}} {{localize "CPR.global.generic.type"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.blackIceType" data-dtype="{{data.data.blackIceType}}">
@@ -94,7 +94,7 @@
                 </li>
                 <li class="item flexrow text-bold">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.name"}}
+                        {{localize "CPR.global.generic.name"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{localize "CPR.modifier"}}
@@ -107,11 +107,11 @@
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{#if (compare boosterType "===" "speed")}}
-                        {{localize "CPR.speed"}}
+                        {{localize "CPR.global.generic.speed"}}
                         {{else if (compare boosterType "===" "attack")}}
-                        {{localize "CPR.attack"}}
+                        {{localize "CPR.rolls.attack"}}
                         {{else if (compare boosterType "===" "defense")}}
-                        {{localize "CPR.defense"}}
+                        {{localize "CPR.global.generic.defense"}}
                         {{else}}
                         {{localize (findConfigValue "interfaceAbilities" boosterType)}}
                         {{/if}}
@@ -137,7 +137,7 @@
                     <li class="item flexrow">
                         <div class="item flexrow setting-name text-nowrap">
                             {{#if (compare data.data.class "===" "antipersonnelattacker")}}
-                            {{localize "CPR.damage"}}
+                            {{localize "CPR.global.generic.damage"}}
                             {{else}}
                             {{localize "CPR.damageto"}} {{#if (compare data.data.class "===" "blackice")}}{{localize "CPR.global.role.netrunner.name"}}{{else}}{{localize "CPR.nonblackice"}}{{/if}}
                             {{/if}}

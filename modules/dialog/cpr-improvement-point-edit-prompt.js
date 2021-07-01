@@ -17,7 +17,7 @@ export default class ImprovementPointEditPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.improvementpointsedit"),
+          title: SystemUtils.Localize("CPR.characterSheet.leftPane.improvementPointsEdit"),
           content: html,
           buttons: {
             cancel: {

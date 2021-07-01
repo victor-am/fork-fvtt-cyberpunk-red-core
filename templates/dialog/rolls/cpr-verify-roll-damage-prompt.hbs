@@ -1,7 +1,7 @@
 {{trace "VERIFY-ROLL-DAMAGE-PROMPT.HBS"}}
 <form>
     <div>
-        {{localize "CPR.tellthemtosayhello"}}! {{localize "CPR.roll"}} {{localize "CPR.damage"}} {{localize "CPR.with"}} "{{rollTitle}}", Choomba!
+        {{localize "CPR.rolls.tellThemToSayHello"}}! {{localize "CPR.rolls.roll"}} {{localize "CPR.global.generic.damage"}} {{localize "CPR.global.generic.with"}} "{{rollTitle}}", Choomba!
     </div>
     <ol class="items-list">
         {{#if (compare (listContains "assaultRifle,smg,heavySmg" weaponType) "||" isAutofire)}}
@@ -15,14 +15,14 @@
         </li>
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.multiplier"}}
+                {{localize "CPR.global.generic.multiplier"}}
                 {{#if (compare autofireMultiplierMax ">" 0)}}
                     (1-{{autofireMultiplierMax}}):
                   {{else}}
                     {{#if (listContains "assaultRifle,smg,heavySmg" weaponType)}}
                       (1-{{#if (compare weaponType "===" "assaultRifle")}}4{{else}}3{{/if}}):
                     {{else}}
-                      ({{localize "CPR.noautfiremaxconfig"}})
+                      ({{localize "CPR.rolls.noAutfireMaxConfig"}})
                     {{/if}}
                 {{/if}}
             </div>
@@ -34,7 +34,7 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.aimedshot"}}:
+                {{localize "CPR.rolls.aimedShot"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
 
@@ -44,7 +44,7 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.aimfor"}}:
+                {{localize "CPR.rolls.aimFor"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <select name="location">
@@ -59,7 +59,7 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.mods"}}:
+                {{localize "CPR.rolls.mods"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="mods" class="" type="text" data-dtype="String" value="{{mods}}">

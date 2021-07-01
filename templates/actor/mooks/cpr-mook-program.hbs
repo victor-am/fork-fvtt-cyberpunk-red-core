@@ -8,7 +8,7 @@
   <!-- Program -->
   {{#each actor.data.filteredItems.program as |item i|}}
   {{#if (listContains actor.data.filteredItems.programsInstalled item.id)}}
-    <a class="name item-view" tabindex="0" title="{{localize "CPR.installed"}}: {{localize "CPR.clicktoviewitemreadonly"}}", {{localize "CPR.ctrlclicktosendtochat"}} data-item-id="{{item.id}}">
+    <a class="name item-view" tabindex="0" title="{{localize "CPR.global.sheets.installed"}}: {{localize "CPR.clicktoviewitemreadonly"}}", {{localize "CPR.ctrlclicktosendtochat"}} data-item-id="{{item.id}}">
       <span class="text-italics">{{item.name}}</span>{{#unless @last}},{{/unless}}
     </a>
     {{else}}

@@ -31,7 +31,7 @@ export default class CyberwareInstallPrompt {
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: SystemUtils.Localize("CPR.install"),
+              label: SystemUtils.Localize("CPR.global.generic.install"),
               callback: (html) => _onConfirm(html), // TODO fix no-shadow
             },
           },

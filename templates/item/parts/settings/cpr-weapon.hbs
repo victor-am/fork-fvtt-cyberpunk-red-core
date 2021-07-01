@@ -49,7 +49,7 @@
                 {{!-- Weapon Type Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.global.itemTypes.weapon"}} {{localize "CPR.type"}}
+                        {{localize "CPR.global.itemTypes.weapon"}} {{localize "CPR.global.generic.type"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.weaponType" data-dtype="{{data.data.weaponType}}">
@@ -133,7 +133,7 @@
                 {{!- Weapon Damage Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.damage"}}
+                        {{localize "CPR.global.generic.damage"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if (compare (compare data.data.weaponType "===" "unarmed") "&&" data.data.unarmedAutomaticCalculation)}}
@@ -180,7 +180,7 @@
                   {{!- Ranged Weapon - Alternate Fire Modes Settings--}}
                   <li class="item flexrow">
                       <div class="item flexrow setting-name text-nowrap">
-                          {{localize "CPR.global.skills.autofire"}} {{localize "CPR.maximum"}} {{localize "CPR.multiplier"}}
+                          {{localize "CPR.global.skills.autofire"}} {{localize "CPR.maximum"}} {{localize "CPR.global.generic.multiplier"}}
                       </div>
                       <div class="item flexrow setting-value text-nowrap item-end">
                           <input name="data.fireModes.autoFire" class="" type="number" value="{{data.data.fireModes.autoFire}}">

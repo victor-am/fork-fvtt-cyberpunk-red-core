@@ -13,7 +13,7 @@
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <select name="humanityLoss">
-                    <option selected value="{{item.data.humanityLoss.roll}}">{{localize "CPR.roll"}}: {{item.data.humanityLoss.roll}}
+                    <option selected value="{{item.data.humanityLoss.roll}}">{{localize "CPR.rolls.roll"}}: {{item.data.humanityLoss.roll}}
                     </option>
                     <option value="{{item.data.humanityLoss.static}}">{{localize "CPR.static"}}: {{item.data.humanityLoss.static}}</option>
                     <option value="None">{{localize "CPR.none"}}</option>
@@ -28,7 +28,7 @@
             {{else}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.foundational"}} {{localize "CPR.global.itemTypes.cyberware"}}:
+                        {{localize "CPR.global.generic.foundational"}} {{localize "CPR.global.itemTypes.cyberware"}}:
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="foundationalId">

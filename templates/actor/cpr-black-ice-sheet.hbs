@@ -15,12 +15,12 @@
         <div class="flexrow bice-label-corner-left bg-red"></div>
       </div>
       <div class="bice-head flexrow text-center block-label">
-        <div class="width-long">{{localize "CPR.name"}}</div>
-        <div class="width-long">{{localize "CPR.class"}}</div>
+        <div class="width-long">{{localize "CPR.global.generic.name"}}</div>
+        <div class="width-long">{{localize "CPR.global.generic.class"}}</div>
         {{#each (findConfigObj "blackIceStatList") as |stat s|}}
           <div>
             {{#unless (compare s "===" "rez")}}
-              <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}" title="{{localize "CPR.clicktorollthisstat"}}">
+              <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}" title="{{localize "CPR.global.sheets.clickToRollThisStat"}}">
             {{/unless}}
             {{localize stat}}
             {{#unless (compare s "===" "rez")}}
@@ -29,10 +29,10 @@
           </div>
         {{/each}}
         <div>
-          {{localize "CPR.cost"}}
+          {{localize "CPR.blackIceSheet.cost"}}
         </div>
         <div>
-          {{localize "CPR.actions"}}
+          {{localize "CPR.global.generic.actions"}}
         </div>
       </div>
       <div class="bice-val flexrow pad-thin">
@@ -68,11 +68,11 @@
         <div class="block-data text-large">
           {{#if actor.token.data.flags.cyberpunk-red-core.programId}}
           {{#if (compare data.data.class "!==" "other")}}
-            <a class="rollable" data-roll-type="damage"  data-program-id="{{actor.token.data.flags.cyberpunk-red-core.programId}}" data-netrunner-id="{{actor.token.data.flags.cyberpunk-red-core.netrunnerTokenId}}" data-scene-id="{{actor.token.data.flags.cyberpunk-red-core.sceneId}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.rolldamage"}}" ></i></a>
+            <a class="rollable" data-roll-type="damage"  data-program-id="{{actor.token.data.flags.cyberpunk-red-core.programId}}" data-netrunner-id="{{actor.token.data.flags.cyberpunk-red-core.netrunnerTokenId}}" data-scene-id="{{actor.token.data.flags.cyberpunk-red-core.sceneId}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.global.sheets.rollDamage"}}" ></i></a>
           {{/if}}
           {{/if}}
           {{#unless actor.token.data.flags.cyberpunk-red-core.netrunnerTokenId}}
-          <a class="configure-from-program"><i class="fas fa-wrench red-fg" title="{{localize "CPR.configurefromprogram"}}" ></i></a>
+          <a class="configure-from-program"><i class="fas fa-wrench red-fg" title="{{localize "CPR.blackIceSheet.configureFromProgram"}}" ></i></a>
           {{/unless}}
         </div>
 
@@ -84,11 +84,11 @@
       </div>
       <div class="bice-effects">
         <div class="flexrow bg-red pad-thin text-padding-left">
-          <span class="fg-white text-center text-vert-center">{{localize "CPR.effects"}}:</span>
+          <span class="fg-white text-center text-vert-center">{{localize "CPR.blackIceSheet.effects"}}:</span>
           <input class="bg-white fg-black width-longer" name="data.effect" type="text" value="{{data.data.effect}}"/>
         </div>
         <div class="flexrow bg-red pad-thin text-padding-left">
-          <span class="fg-white text-center text-vert-center">{{localize "CPR.notes"}}:</span>
+          <span class="fg-white text-center text-vert-center">{{localize "CPR.global.generic.notes"}}:</span>
           <input class="bg-white fg-black width-longer" name="data.notes" type="text" value="{{data.data.notes}}"/>
         </div>
       </div>
