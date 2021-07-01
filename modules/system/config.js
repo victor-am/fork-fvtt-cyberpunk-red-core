@@ -372,20 +372,39 @@ CPR.interfaceAbilities = {
 };
 
 CPR.upgradableDataPoints = {
+  upgradeConfig: {
+    configurableTypes: ["modifier", "override"],
+  },
   weapon: {
-    damage: 0,
-    rof: 0,
-    attackmod: 0,
+    damage: {
+      type: "modifier",
+      value: 0,
+    },
+    rof: {
+      type: "modifier",
+      value: 0,
+    },
+    attackmod: {
+      type: "modifier",
+      value: 0,
+    },
+    magazine: {
+      type: "override",
+      value: 0,
+    },
     secondaryWeapon: {
-      weaponType: "",
-      weaponSkill: "",
-      fireModes: {
-        autoFire: 0,
-        suppressiveFire: false,
+      type: "item",
+      value: {
+        weaponType: "",
+        weaponSkill: "",
+        fireModes: {
+          autoFire: 0,
+          suppressiveFire: false,
+        },
+        damage: "1d6",
+        rof: 1,
+        attackmod: 0,
       },
-      damage: "1d6",
-      rof: 1,
-      attackmod: 0,
     },
   },
   ammo: {

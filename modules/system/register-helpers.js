@@ -422,6 +422,41 @@ export default function registerHandlebarsHelpers() {
     return itemEntities[itemType].templates.includes("upgradable");
   });
 
+  Handlebars.registerHelper("showUpgrade", (obj, dataPoint) => {
+    LOGGER.trace("Calling showUpgrade Helper");
+    const itemEntities = game.system.template.Item;
+    const itemType = obj.type;
+    let upgradeText = "";
+    if (itemEntities[itemType].templates.includes("upgradable") && obj.data.data.isUpgraded) {
+      const upgradeValue = obj.getAllUpgradesFor(dataPoint);
+      if (upgradeValue !== 0 && upgradeValue !== "") {
+        const modType = obj.getUpgradeTypeFor(dataPoint);
+        const modSource = (itemType === "weapon") ? SystemUtils.Localize("CPR.attachments") : SystemUtils.Localize("CPR.upgrades");
+        upgradeText = `(${SystemUtils.Format("CPR.modifierchange", { modSource, modType, value: upgradeValue })})`;
+      }
+    }
+    return upgradeText;
+  });
+
+  Handlebars.registerHelper("applyUpgrade", (obj, baseValue, dataPoint) => {
+    LOGGER.trace("Calling showUpgrade Helper");
+    const itemEntities = game.system.template.Item;
+    const itemType = obj.type;
+    let upgradeResult = baseValue;
+    if (itemEntities[itemType].templates.includes("upgradable") && obj.data.data.isUpgraded) {
+      const upgradeValue = obj.getAllUpgradesFor(dataPoint);
+      const upgradeType = obj.getUpgradeTypeFor(dataPoint);
+      if (typeof upgradeValue === "number") {
+        if (upgradeType === "override") {
+          upgradeResult = upgradeValue;
+        } else {
+          upgradeResult += upgradeValue;
+        }
+      }
+    }
+    return upgradeResult;
+  });
+
   Handlebars.registerHelper("isDebug", () => {
     LOGGER.trace("Calling isDebug Helper");
     return game.settings.get("cyberpunk-red-core", "debugElements");

@@ -9,6 +9,16 @@
                 {{!-- Physical Item Settings--}}
                 {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
 
+                {{!-- Attachment Slots Settings--}}
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.attachmentslots"}} ({{localize "CPR.availableslots"}}: {{data.data.availableSlots}})
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        <input name="data.attachmentSlots" class="" type="number" value="{{data.data.attachmentSlots}}">
+                    </div>
+                </li>
+
                 {{!-- Upgrade Settings --}}
                 {{#if (isUpgradable this.item.type)}}
                 {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-upgradable-item.hbs" this}}
@@ -32,7 +42,7 @@
                 {{!-- ROF Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.rof"}}
+                        {{localize "CPR.rof"}} {{showUpgrade this.item "rof"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <input name="data.rof" class="" type="number" value="{{data.data.rof}}">
@@ -105,7 +115,7 @@
                 {{!-- Attack Mod Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.attackmod"}}
+                        {{localize "CPR.attackmod"}} {{showUpgrade this.item "attackmod"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <input name="data.attackmod" class="" type="number" value="{{data.data.attackmod}}">
@@ -138,7 +148,7 @@
                 {{!- Weapon Damage Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.damage"}}
+                        {{localize "CPR.damage"}} {{showUpgrade this.item "damage"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if (compare (compare data.data.weaponType "===" "unarmed") "&&" data.data.unarmedAutomaticCalculation)}}
@@ -206,7 +216,7 @@
                   {{!- Ranged Weapon - Magazine Size Settings--}}
                   <li class="item flexrow">
                       <div class="item flexrow setting-name text-nowrap">
-                          {{localize "CPR.magazine"}} {{localize "CPR.size"}}
+                          {{localize "CPR.magazine"}} {{localize "CPR.size"}} {{showUpgrade this.item "magazine"}}
                       </div>
                       <div class="item flexrow setting-value text-nowrap item-end">
                           <input name="data.magazine.max" class="" type="number" value="{{data.data.magazine.max}}">

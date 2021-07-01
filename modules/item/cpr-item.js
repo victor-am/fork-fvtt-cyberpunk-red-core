@@ -277,12 +277,14 @@ export default class CPRItem extends Item {
 
         // By the time we reach here, we know the weapon and ammo we are loading
         // Let's find out how much space is in the gun.
+        const upgradeValue = this.getAllUpgradesFor("magazine");
+        const upgradeType = this.getUpgradeTypeFor("magazine");
 
-        const magazineSpace = Number(this.data.data.magazine.max) - Number(this.data.data.magazine.value);
+        const magazineSpace = (upgradeType === "override") ? upgradeValue - magazineData.value : magazineData.max - magazineData.value + upgradeValue;
 
         if (magazineSpace > 0) {
           if (Number(ammo.data.data.amount) >= magazineSpace) {
-            magazineData.value = magazineData.max;
+            magazineData.value += magazineSpace;
             await ammo._ammoDecrement(magazineSpace);
           } else {
             magazineData.value = Number(this.data.data.magazine.value) + Number(ammo.data.data.amount);
@@ -500,6 +502,7 @@ export default class CPRItem extends Item {
         cprRoll.rollCardExtraArgs.ammoType = ammoType;
       }
     }
+    cprRoll.addMod(this.getAllUpgradesFor("damage"));
     return cprRoll;
   }
 
@@ -517,16 +520,18 @@ export default class CPRItem extends Item {
   }
 
   _getAttackMod() {
+    let returnValue = 0;
     switch (this.type) {
       case "weapon": {
         if (typeof this.data.data.attackmod !== "undefined") {
-          return this.data.data.attackmod;
+          returnValue = this.data.data.attackmod;
         }
         break;
       }
       default:
     }
-    return 0;
+    returnValue += this.getAllUpgradesFor("attackmod");
+    return returnValue;
   }
 
   _getSkillMod() {
@@ -599,16 +604,27 @@ export default class CPRItem extends Item {
    */
   availableSlots() {
     LOGGER.debug("availableSlots | CPRItem | Called.");
-    if (this.data.type !== "cyberdeck") {
-      return;
-    }
     const itemData = duplicate(this.data.data);
 
-    let unusedSlots = itemData.slots;
+    let unusedSlots = 0;
 
-    itemData.programs.installed.forEach((program) => {
-      unusedSlots -= program.data.slots;
-    });
+    switch (this.data.type) {
+      case "cyberdeck": {
+        unusedSlots = itemData.slots;
+        itemData.programs.installed.forEach((program) => {
+          unusedSlots -= program.data.slots;
+        });
+        break;
+      }
+      case "weapon": {
+        unusedSlots = itemData.attachmentSlots;
+        itemData.upgrades.forEach((mod) => {
+          unusedSlots -= mod.data.size;
+        });
+        break;
+      }
+      default:
+    }
 
     return unusedSlots;
   }
@@ -1109,26 +1125,70 @@ export default class CPRItem extends Item {
         const alreadyInstalled = installedUpgrades.filter((iUpgrade) => iUpgrade._id === u.data._id);
         if (alreadyInstalled.length === 0) {
           updateList.push({ _id: u.id, "data.isInstalled": true });
-          const upgradeData = u.data;
+          const modList = {};
+          const upgradeModifiers = u.data.data.modifiers;
+          Object.keys(upgradeModifiers).forEach((index) => {
+            const modifier = upgradeModifiers[index];
+            /*
+              Before we add this modifier to the list of upgrades for this item, we need to do several checks:
+              1. Ensure the modifier is defined as the key could have been added but the value never set
+              2. Ensure the modifier is valid for this item type. As this information is stored in an
+                 object, it's possible keys may exist that are not valid if one changes the itemUpgrade type.
+              3. The next couple checks ensure we are only adding actual modifications, null, 0 or empty strings don't modify
+                 anything, so we ignore those.
+            */
+            if (typeof modifier !== "undefined" && typeof CPR.upgradableDataPoints[this.type][index] !== "undefined" && modifier !== 0 && modifier !== null && modifier !== "") {
+              modList[index] = modifier;
+            }
+          });
+          const upgradeData = {
+            _id: u._id,
+            name: u.name,
+            data: {
+              modifiers: modList,
+              size: u.data.data.size,
+            },
+          };
           installedUpgrades.push(upgradeData);
         }
       });
-      updateList.push({ _id: this.id, "data.isUpgraded": true, "data.upgrades": upgrades });
+      updateList.push({ _id: this.id, "data.isUpgraded": true, "data.upgrades": installedUpgrades });
       return this.actor.updateEmbeddedDocuments("Item", updateList);
     }
   }
 
-  hasUpgradeFor(dataPoint) {
-    let result = false;
-    if (this.actor && typeof this.isUpgraded === "boolean" && this.isUpgraded) {
-      const upgrades = this.upgrades;
-      this.upgrades.forEach((itemId) => {
-        const upgradeItem = this.actor.items.find((i) => i.data._id === itemId && i.type === "itemUpgrade");
-        if (typeof upgradeItem.modifiers[dataPoint] !== "undefined") {
-          result = true;
+  getUpgradeTypeFor(dataPoint) {
+    let upgradeType = "modifier";
+    if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {
+      const installedUpgrades = this.data.data.upgrades;
+      installedUpgrades.forEach((upgrade) => {
+        const modType = upgrade.data.modifiers[dataPoint].type;
+        if (modType !== "modifier") {
+          upgradeType = modType;
         }
       });
+      return upgradeType;
     }
-    return result;
+  }
+
+  getAllUpgradesFor(dataPoint) {
+    let upgradeNumber = 0;
+    let baseOverride = 0;
+    if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {
+      const installedUpgrades = this.data.data.upgrades;
+      installedUpgrades.forEach((upgrade) => {
+        const modType = upgrade.data.modifiers[dataPoint].type;
+        const modValue = upgrade.data.modifiers[dataPoint].value;
+        if (typeof modValue === "number") {
+          if (modType === "override") {
+            baseOverride = (modValue > baseOverride) ? modValue : baseOverride;
+          } else {
+            upgradeNumber += modValue;
+          }
+        }
+      });
+      upgradeNumber = (baseOverride === 0) ? upgradeNumber : baseOverride;
+    }
+    return upgradeNumber;
   }
 }

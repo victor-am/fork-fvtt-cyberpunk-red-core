@@ -1,7 +1,6 @@
-{{log this}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        <a class="select-item-upgrades" data-item-prop="select-item-upgrades">{{localize "CPR.itemupgrades"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
+        <a class="select-item-upgrades" data-item-prop="select-item-upgrades">{{localize "CPR.itemupgrades"}}{{#if (compare data.type "===" "weapon")}} &#38; {{localize "CPR.attachments"}}{{/if}}<i class="text-smallest text-super fas fa-wrench"></i></a>
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
     </div>
@@ -9,10 +8,9 @@
 {{#if data.data.isUpgraded}}
 <hr>
 {{#each data.data.upgrades as |upgrade|}}
-{{log upgrade}}
-<li class="item flexrow">
-    <div class="item flexrow setting-name text-nowrap">
-        {{upgrade.name}}
+<li class="item flexrow" data-item-id="{{upgrade._id}}" draggable="false">
+    <div class="item-name flexrow setting-name text-nowrap">
+        <a class="name item-view">{{upgrade.name}}</a>
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{localize "CPR.itemupgradesize"}}: {{upgrade.data.size}}

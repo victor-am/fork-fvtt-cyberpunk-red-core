@@ -1,8 +1,9 @@
 {{trace "CPR-RELOAD-GLYPH.HBS"}}
 {{#if (compare data.data.magazine.ammoId "!==" "")}}
-    {{#if (compare data.data.magazine.value "<" data.data.magazine.max)}}
+    {{#if (compare data.data.magazine.value "<" (applyUpgrade this data.data.magazine.max "magazine"))}}
         <a class="item-action" data-item-id="{{id}}" data-action="reload-ammo"><i class="fas fa-redo-alt" title="{{localize "CPR.reload"}}"></i></a>
     {{/if}}
 {{/if}}
 <a class="item-action" data-item-id="{{id}}" data-action="select-ammo"><i class="fas fa-exchange-alt" title="{{localize "CPR.changeammo"}}"></i></a>
 {{trace "END CPR-RELOAD-GLYPH.HBS"}}
+ 

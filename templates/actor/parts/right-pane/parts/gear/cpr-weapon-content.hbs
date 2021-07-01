@@ -14,7 +14,7 @@
     {{#if item.data.data.magazine.ammoId}}
     |
     {{getProp (getOwnedItem actor item.data.data.magazine.ammoId) "name"}}
-    ({{item.data.data.magazine.value}}/{{item.data.data.magazine.max}})
+    ({{item.data.data.magazine.value}}/{{applyUpgrade item item.data.data.magazine.max "magazine"}})
     {{/if}}
     {{/if}}
   </div>

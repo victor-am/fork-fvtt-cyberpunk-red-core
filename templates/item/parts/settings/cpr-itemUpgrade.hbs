@@ -38,21 +38,49 @@
                         {{localize "CPR.size"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
+                        {{#if this.editable}}
                         <input name="data.size" class="" type="number" value="{{data.data.size}}">
+                        {{else}}
+                        <span class="text-flex-end">{{data.data.size}}</span>
+                        {{/if}}
                     </div>
                 </li>
                 <hr>
                 {{localize "CPR.upgradeoverview"}}
                 <hr>
+                <li class="item flexrow">
+                    <div class="item flexrow setting-name text-nowrap">
+                        {{localize "CPR.datapoint"}}
+                    </div>
+                    <div class="item flexrow setting-type text-nowrap">
+                        {{localize "CPR.modifiertype"}}
+                    </div>
+                    <div class="item flexrow setting-value text-nowrap item-end">
+                        {{localize "CPR.modifiervalue"}}
+                    </div>
+                </li>
                 {{#each (findConfigValue "upgradableDataPoints" data.data.type) as |dataPoint dp|}}
-                {{#unless (isType dataPoint "object")}}
+                {{#unless (isType dataPoint.value "object")}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
                         {{localize (objConcat "CPR." dp)}}
                     </div>
+                    <div class="item flexrow setting-type text-nowrap">
+                        <select name="data.modifiers.{{dp}}.type" data-dtype="{{getProp (getProp ../data.data.modifiers dp) "type"}}">
+                        {{#select (getProp (getProp ../data.data.modifiers dp) "type")}}
+                        {{#each (getProp (findConfigValue "upgradableDataPoints" "upgradeConfig") "configurableTypes") as |configType|}}
+                        <option value="{{configType}}">{{configType}}</option>
+                        {{/each}}
+                        {{/select}}
+                        </select>
+                    </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.modifiers.{{dp}}" class="" type="number"
-                            value="{{getProp ../data.data.modifiers dp}}">
+                        {{#if this.editable}}
+                        <input name="data.modifiers.{{dp}}.value" class="" type="number"
+                            value="{{getProp (getProp ../data.data.modifiers dp) "value"}}">
+                        {{else}}
+                        <span class="text-flex-end">{{getProp (getProp ../data.data.modifiers dp) "value"}}</span>
+                        {{/if}}
                     </div>
                 </li>
                 {{/unless}}

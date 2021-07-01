@@ -513,7 +513,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @param {Object} event - object capturing event data (what was clicked and where?)
    */
   _renderReadOnlyItemCard(event) {
-    LOGGER.trace("_itemUpdate | CPRActorSheet | Called.");
+    LOGGER.trace("_renderReadOnlyItemCard | CPRActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
     const item = this.actor.items.find((i) => i.data._id === itemId);
     item.sheet.render(true, { editable: false });

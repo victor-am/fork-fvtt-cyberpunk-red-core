@@ -70,7 +70,7 @@ export default class CPRItemSheet extends ItemSheet {
     } else {
       data.filteredItems.skill = await SystemUtils.GetCoreSkills();
     }
-    if (data.item.type === "cyberdeck") {
+    if (data.item.type === "cyberdeck" || data.item.type === "weapon") {
       data.data.data.availableSlots = this.object.availableSlots();
     }
     data.dvTableNames = DvUtils.GetDvTables();
@@ -105,6 +105,8 @@ export default class CPRItemSheet extends ItemSheet {
     html.find(".program-del-booster-modifier").click((event) => this._delBoosterModifier(event));
 
     html.find(".select-item-upgrades").click((event) => this._selectItemUpgrades(event));
+
+    html.find(".item-view").click((event) => this._renderReadOnlyItemCard(event));
 
     html.find(".netarch-generate-auto").click((event) => {
       if (game.user.isGM) {
@@ -572,5 +574,24 @@ export default class CPRItemSheet extends ItemSheet {
     if (installList.length > 0) {
       await item.installUpgrades(installList);
     }
+
+    if (item.type === "weapon" && item.availableSlots() < 0 ) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.toomanyattachments"));
+    }
+  }
+
+  /**
+   * Render an item sheet in read-only mode, which is used on installed cyberware. This is to
+   * prevent a user from editing data while it is installed, such as the foundation type.
+   *
+   * @private
+   * @callback
+   * @param {Object} event - object capturing event data (what was clicked and where?)
+   */
+  _renderReadOnlyItemCard(event) {
+    LOGGER.trace("_renderReadOnlyItemCard | CPRItemSheet | Called.");
+    const itemId = $(event.currentTarget).parents(".item").attr("data-item-id");
+    const item = this.actor.items.find((i) => i.data._id === itemId);
+    item.sheet.render(true, { editable: false });
   }
 }
