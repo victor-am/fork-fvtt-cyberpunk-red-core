@@ -415,14 +415,6 @@ export default class CPRActorSheet extends ActorSheet {
           await this._deleteOwnedItem(item);
           break;
         }
-        case "create": {
-          // TODO
-          // only character sheets call this so note it is actually in the child class
-          // also note no templates call this with data-action="create", so this case can
-          // probably be removed
-          await this._createInventoryItem($(event.currentTarget).attr("data-item-type"));
-          break;
-        }
         case "ablate-armor": {
           item.ablateArmor();
           break;
