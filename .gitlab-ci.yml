@@ -33,3 +33,9 @@ unit-test:
   script:
     - echo "Executing tests..."
     - npm test
+
+lang-test:
+  stage: test
+  script:
+    - echo "Checking language file for unused strings..."
+    - ./test-lang-file.sh

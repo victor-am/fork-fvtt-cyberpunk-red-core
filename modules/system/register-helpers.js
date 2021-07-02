@@ -330,6 +330,8 @@ export default function registerHandlebarsHelpers() {
     if (string === "Conceal/Reveal Object" || string === "Paint/Draw/Sculpt" || string === "Resist Torture/Drugs") {
       return cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
     } else if (string === "Language (Streetslang)") {
+      // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
+      // comment to fulfill the test case of the language file.
       return cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
     }
     return cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
