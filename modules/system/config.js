@@ -283,9 +283,9 @@ CPR.woundState = {
 
 // Sorted A-Z
 CPR.equipped = {
-  carried: "CPR.global.EquipState.carried",
-  equipped: "CPR.global.EquipState.equipped",
-  owned: "CPR.global.EquipState.owned",
+  carried: "CPR.global.equipState.carried",
+  equipped: "CPR.global.equipState.equipped",
+  owned: "CPR.global.equipState.owned",
 };
 
 CPR.itemPriceCategory = {
