@@ -28,17 +28,17 @@
               </div>
             </div>
             <div class="mook-wounded">
-              <span class="text-padding-left">{{localize "CPR.global.sheets.woundState"}}</span>
+              <span class="text-padding-left">{{localize "CPR.mookSheet.woundState"}}</span>
               <div class="bg-white text-center text-normal text-bold fg-black">
                 {{localize (findConfigValue "woundState" data.data.derivedStats.currentWoundState)}}
               </div>
             </div>
             <div class="mook-deathsave">
-              <span class="text-padding-right" title="{{localize "CPR.global.sheets.deathSaveRoll"}}">
-                <a class="rollable" data-roll-title="{{localize "CPR.global.generic.deathSave"}}" data-roll-type="deathsave">
-                  {{localize "CPR.global.generic.deathSave"}}</a>
+              <span class="text-padding-right" title="{{localize "CPR.mookSheet.deathSave.roll"}}">
+                <a class="rollable" data-roll-title="{{localize "CPR.mookSheet.deathSave.title"}}" data-roll-type="deathsave">
+                  {{localize "CPR.mookSheet.deathSave.title"}}</a>
               </span>
-              <div class="width-full bg-white text-center text-normal text-bold fg-black" title="{{localize "CPR.global.sheets.deathSaveReset"}}&#13{{localize "CPR.global.generic.deathPenalty" }}: {{data.data.derivedStats.deathSave.penalty}}&#13{{localize "CPR.global.sheets.criticalInjuries" }}&#13{{localize "CPR.global.sheets.penalty" }}: {{data.data.derivedStats.deathSave.basePenalty}}">
+              <div class="width-full bg-white text-center text-normal text-bold fg-black" title="{{localize "CPR.mookSheet.deathSave.reset"}}&#13{{localize "CPR.global.generic.deathPenalty" }}: {{data.data.derivedStats.deathSave.penalty}}&#13{{localize "CPR.mookSheet.deathSave.hover.criticalInjuryPenalty" }}: {{data.data.derivedStats.deathSave.basePenalty}}">
                 <a class="reset-value text-bold" data-value="deathsave">{{data.data.derivedStats.deathSave.value}}</a>
               </div>
             </div>

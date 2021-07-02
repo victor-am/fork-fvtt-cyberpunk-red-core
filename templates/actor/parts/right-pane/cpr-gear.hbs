@@ -6,7 +6,7 @@
             {{#each (findConfigObj "inventoryCategories") as |category c|}}
             <div class="collapsible">
                 <li class="items-header flexrow collapsible">
-                    <span class="item-name gear-name bg-black text-nowrap expand-button " id="gearTab-{{c}}" title="{{localize "CPR.global.sheets.toggleCategoryPinned"}}">
+                    <span class="item-name gear-name bg-black text-nowrap expand-button " id="gearTab-{{c}}" title="{{localize "CPR.actorSheets.common.actions.toggleCategoryPinned"}}">
                         {{localize category}}&nbsp;
                         {{#if (listContains ../this.options.collapsedSections (generatePartial "gearTab-VAR" c))}}
                             <i class="fas fa-plus bg-black collapse-icon"></i>
@@ -19,7 +19,7 @@
                     <span class="item-detail gear-data bg-black text-nowrap">{{localize "CPR.characterSheet.rightPane.data"}}</span>
                     <span class="item-detail gear-actions bg-black text-nowrap">
                         {{localize "CPR.global.generic.actions"}}&nbsp;
-                        {{#if (systemConfig "playersCreateInventory")}}<a class="item-create" title="{{localize "CPR.global.sheets.createNewItem"}}" data-item-type="{{c}}"><i class="fas fa-plus-circle text-padding-right"></i></a>{{/if}}
+                        {{#if (systemConfig "playersCreateInventory")}}<a class="item-create" title="{{localize "CPR.actorSheets.common.actions.createNewItem"}}" data-item-type="{{c}}"><i class="fas fa-plus-circle text-padding-right"></i></a>{{/if}}
                     </span>
                 </li>
                 <ol class="items-list">
@@ -38,7 +38,7 @@
         <div class="current-eurobucks flexrow">
           <div class="eurobucks-text">{{localize "CPR.characterSheet.eurobucks.eurobucks"}}:</div>
           <div class="eurobucks-value text-left">{{actor.data.data.wealth.value}}</div>
-          <a class="eurobucks-open-ledger" title="{{localize "CPR.global.generic.ledgerOpen"}}"><i class="fas fa-sticky-note"></i></a>
+          <a class="eurobucks-open-ledger" title="{{localize "CPR.ledger.ledgerOpen"}}"><i class="fas fa-sticky-note"></i></a>
         </div>
         <ol class="items-list">
           <div class="modify-eurobucks flexrow">

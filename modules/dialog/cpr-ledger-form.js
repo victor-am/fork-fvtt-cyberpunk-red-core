@@ -28,7 +28,7 @@ export default class CPRLedger extends FormApplication {
 
   setLedgerContent(name, contents) {
     LOGGER.trace("CPRLedger setLedgerContent | called.");
-    // Generates the localization strings for CPR.ledgerwealth and CPR.ledgerimprovementpoints
+    // Generates the localization strings for "CPR.ledger.wealth" and "CPR.ledger.improvementpoints"
     // and maybe others in the future. This comment has been added to allow for automated checks
     // of localization strings in the code.
     this.ledgername = "CPR.ledger.".concat(name.toLowerCase());

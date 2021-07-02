@@ -19,7 +19,7 @@
         {{#each (findConfigObj "demonStatList") as |stat s|}}
           <div>
             {{#unless (listContains "rez,netactions" s)}}
-              <a class="rollable" data-roll-title="{{s}}" title="{{localize "CPR.global.sheets.clickToRollThisStat"}}">
+              <a class="rollable" data-roll-title="{{s}}" title="{{localize "CPR.actorSheets.rolling.clickToRollThisStat"}}">
             {{/unless}}
             {{localize stat}}
             {{#unless (listContains "rez,netactions" s)}}

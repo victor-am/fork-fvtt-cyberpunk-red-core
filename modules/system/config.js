@@ -16,7 +16,7 @@ CPR.statList = {
 
 // Sorted A-Z
 CPR.roleList = {
-  exec: "CPR.global.role.exe.name",
+  exec: "CPR.global.role.exec.name",
   fixer: "CPR.global.role.fixer.name",
   lawman: "CPR.global.role.lawman.name",
   media: "CPR.global.role.media.name",

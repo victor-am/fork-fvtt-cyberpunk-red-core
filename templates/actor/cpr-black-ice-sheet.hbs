@@ -20,7 +20,7 @@
         {{#each (findConfigObj "blackIceStatList") as |stat s|}}
           <div>
             {{#unless (compare s "===" "rez")}}
-              <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}" title="{{localize "CPR.global.sheets.clickToRollThisStat"}}">
+              <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}" title="{{localize "CPR.actorSheets.rolling.clickToRollThisStat"}}">
             {{/unless}}
             {{localize stat}}
             {{#unless (compare s "===" "rez")}}
@@ -68,7 +68,7 @@
         <div class="block-data text-large">
           {{#if actor.token.data.flags.cyberpunk-red-core.programId}}
           {{#if (compare data.data.class "!==" "other")}}
-            <a class="rollable" data-roll-type="damage"  data-program-id="{{actor.token.data.flags.cyberpunk-red-core.programId}}" data-netrunner-id="{{actor.token.data.flags.cyberpunk-red-core.netrunnerTokenId}}" data-scene-id="{{actor.token.data.flags.cyberpunk-red-core.sceneId}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.global.sheets.rollDamage"}}" ></i></a>
+            <a class="rollable" data-roll-type="damage"  data-program-id="{{actor.token.data.flags.cyberpunk-red-core.programId}}" data-netrunner-id="{{actor.token.data.flags.cyberpunk-red-core.netrunnerTokenId}}" data-scene-id="{{actor.token.data.flags.cyberpunk-red-core.sceneId}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.common.actions.rollDamage"}}" ></i></a>
           {{/if}}
           {{/if}}
           {{#unless actor.token.data.flags.cyberpunk-red-core.netrunnerTokenId}}

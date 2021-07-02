@@ -261,7 +261,7 @@ export class CPRRoleRoll extends CPRRoll {
 }
 export class CPRDeathSaveRoll extends CPRRoll {
   constructor(penalty, basePenalty, bodyStat) {
-    super(SystemUtils.Localize("CPR.global.generic.deathSave"), "1d10");
+    super(SystemUtils.Localize("CPR.rolls.deathSave.title"), "1d10");
     LOGGER.trace(`CPRDeathSaveRoll | Constructor`);
     this.calculateCritical = false;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-deathsave-prompt.hbs";
