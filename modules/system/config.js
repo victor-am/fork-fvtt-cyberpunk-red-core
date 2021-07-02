@@ -366,6 +366,7 @@ CPR.interfaceAbilities = {
   pathfinder: "CPR.global.role.netrunner.interfaceAbility.pathfinder",
   slide: "CPR.global.role.netrunner.interfaceAbility.slide",
   virus: "CPR.global.role.netrunner.interfaceAbility.virus",
+  zap: "CPR.global.role.netrunner.interfaceAbility.zap",
 };
 
 export default CPR;

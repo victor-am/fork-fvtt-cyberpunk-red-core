@@ -403,7 +403,8 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     const itemString = "ITEM.Type";
     const itemTypeLocal = itemString.concat(itemTypeNice);
     const itemName = `${SystemUtils.Localize("CPR.actorSheets.common.actions.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
-    const itemData = { name: itemName, type: itemType };
+    const itemImage = SystemUtils.GetDefaultImage("Item", itemType);
+    const itemData = { img: itemImage, name: itemName, type: itemType };
     await this.actor.createEmbeddedDocuments("Item", [itemData]);
   }
 

@@ -3,9 +3,16 @@
 **New Features**
 
 **Changes**
+- Newly created actors and items will automatically have default icons configured.
 
 **Bug Fixes**
+- Fix #265, #266, #267: Gear tab now remembers scroll position.
 
+# Version 0.77.1 | Date: 2021-06-29
+**Hot Fix**
+- Corrected localization issue of text on chat cards when rolling Net Damage
+- Added Zap as a rollable interface ability as it was missing from the list (Zap damage will be handled in a future release)
+  
 # Version 0.77.0 | Date: 2021-06-25
 
 **Migration to foundry 0.8.X**

@@ -5,9 +5,9 @@
             <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
             {{#if (compare (compare rollCardExtraArgs.program.data.class "===" "antiprogramattacker") "&&" (compare rollCardExtraArgs.program.data.damage.blackIce "!==" "")) }}
               {{#if (compare formula "===" rollCardExtraArgs.program.data.damage.standard)}}
-                <div class="text-center text-small">{{localize "CPR.rolls.damageToNonBlackIce"}}</div>
+                <div class="text-center text-small">{{localize "CPR.itemSheet.program.damageTo"}} {{localize "CPR.itemSheet.program.nonBlackIce"}}</div>
               {{else}}
-              <div class="text-center text-small">{{localize "CPR.rolls.damageToBlackIce"}}</div>
+              <div class="text-center text-small">{{localize "CPR.itemSheet.program.damageTo"}} {{localize "CPR.global.programClass.blackice"}}</div>
               {{/if}}
             {{else}}
             <div class="text-center text-small">{{localize "CPR.global.generic.damage"}}</div>
