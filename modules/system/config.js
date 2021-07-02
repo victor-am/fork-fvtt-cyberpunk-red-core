@@ -228,29 +228,29 @@ CPR.objectTypes = {
 
 // Sorted A-Z
 CPR.clothingStyle = {
-  asiaPop: "CPR.global.clothingStyle.asiaPop",
-  bagLadyChic: "CPR.global.clothingStyle.bagLadyChic",
-  bohemian: "CPR.global.clothingStyle.bohemian",
-  businesswear: "CPR.global.clothingStyle.businessWear",
-  gangColors: "CPR.global.clothingStyle.gangColors",
-  genericChic: "CPR.global.clothingStyle.genericChic",
-  highFashion: "CPR.global.clothingStyle.highFashion",
-  leisurewear: "CPR.global.clothingStyle.leisureWear",
-  nomadLeathers: "CPR.global.clothingStyle.nomadLeathers",
-  urbanFlash: "CPR.global.clothingStyle.urbanFlash",
+  asiaPop: "CPR.global.clothing.style.asiaPop",
+  bagLadyChic: "CPR.global.clothing.style.bagLadyChic",
+  bohemian: "CPR.global.clothing.style.bohemian",
+  businesswear: "CPR.global.clothing.style.businessWear",
+  gangColors: "CPR.global.clothing.style.gangColors",
+  genericChic: "CPR.global.clothing.style.genericChic",
+  highFashion: "CPR.global.clothing.style.highFashion",
+  leisurewear: "CPR.global.clothing.style.leisureWear",
+  nomadLeathers: "CPR.global.clothing.style.nomadLeathers",
+  urbanFlash: "CPR.global.clothing.style.urbanFlash",
 };
 
 // Sorted A-Z
 CPR.clothingType = {
-  bottoms: "CPR.global.clothingType.bottoms",
-  contactLenses: "CPR.global.clothingType.contactLenses",
-  footwear: "CPR.global.clothingType.footWear",
-  glasses: "CPR.global.clothingType.glasses",
-  hats: "CPR.global.clothingType.hats",
-  jacket: "CPR.global.clothingType.jacket",
-  jewelry: "CPR.global.clothingType.jewelry",
-  mirrorshades: "CPR.global.clothingType.mirrorshades",
-  top: "CPR.global.clothingType.top",
+  bottoms: "CPR.global.clothing.type.bottoms",
+  contactLenses: "CPR.global.clothing.type.contactLenses",
+  footwear: "CPR.global.clothing.type.footWear",
+  glasses: "CPR.global.clothing.type.glasses",
+  hats: "CPR.global.clothing.type.hats",
+  jacket: "CPR.global.clothing.type.jacket",
+  jewelry: "CPR.global.clothing.type.jewelry",
+  mirrorshades: "CPR.global.clothing.type.mirrorshades",
+  top: "CPR.global.clothing.type.top",
 };
 
 //
