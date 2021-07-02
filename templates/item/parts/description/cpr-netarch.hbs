@@ -6,7 +6,7 @@
             <span class="summary-value">{{data.data.price.market}}</span>
         </div>
         <div class="item-summary-line">
-            <span class="text-bold summary-name">{{localize "CPR.market"}}:</span>
+            <span class="text-bold summary-name">{{localize "CPR.itemSheet.price.market"}}:</span>
             <span class="summary-value">{{localize (findConfigValue "itemPriceCategory" data.data.price.category)}}</span>
         </div>
     </div>
@@ -38,9 +38,9 @@
           <div class="netarch-content">
             {{#if (compare (compare floor.content "===" "CPR.global.programClass.blackice") "&&" (compare floor.blackice "!==" "--"))}}
               {{#if (compare (itemIdFromName (localize floor.blackice) "program") "!==" "DOES NOT EXIST")}}
-              <div class="text-bold"><a class="netarch-item-link" data-item-id="{{itemIdFromName (localize floor.blackice) "program"}}" title="{{localize "CPR.clicktoviewitem"}}">{{localize floor.blackice}}</a></div>
+              <div class="text-bold"><a class="netarch-item-link" data-item-id="{{itemIdFromName (localize floor.blackice) "program"}}" title="{{localize "CPR.itemSheet.netArchitecture.clickToViewItem"}}">{{localize floor.blackice}}</a></div>
               {{else}}
-                <div class="text-bold" title="{{localize "CPR.itemnotfound"}}">{{localize floor.blackice}}</div>
+                <div class="text-bold" title="{{localize "CPR.itemSheet.netArchitecture.itemNotFound"}}">{{localize floor.blackice}}</div>
               {{/if}}
               <div>{{floor.description}}</div>
             {{else}}

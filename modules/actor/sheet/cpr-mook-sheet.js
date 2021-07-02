@@ -58,7 +58,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
       skill.setSkillMod(formData.skillMod);
       this._updateOwnedItem(skill);
       // eslint-disable-next-line max-len
-      const msg = `${SystemUtils.Localize("CPR.updated")} ${formData.skillName} ${SystemUtils.Localize("CPR.to")} ${formData.skillLevel}`;
+      const msg = `${SystemUtils.Localize("CPR.mookSheet.skills.updated")} ${formData.skillName} ${SystemUtils.Localize("CPR.ledger.to")} ${formData.skillLevel}`;
       SystemUtils.DisplayMessage("notify", msg);
       again = formData.again;
     }
@@ -82,11 +82,11 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     const mookImageImg = $(event.currentTarget).parents(".mook-image").children(".mook-image-block");
     const mookImageToggle = $(event.currentTarget);
     let collapsedImage = null;
-    if (mookImageToggle.attr("data-text") === SystemUtils.Localize("CPR.imagecollapse")) {
-      mookImageToggle.attr("data-text", SystemUtils.Localize("CPR.imageexpand"));
+    if (mookImageToggle.attr("data-text") === SystemUtils.Localize("CPR.mookSheet.image.collapse")) {
+      mookImageToggle.attr("data-text", SystemUtils.Localize("CPR.mookSheet.image.expand"));
       collapsedImage = true;
     } else {
-      mookImageToggle.attr("data-text", SystemUtils.Localize("CPR.imagecollapse"));
+      mookImageToggle.attr("data-text", SystemUtils.Localize("CPR.mookSheet.image.collapse"));
       collapsedImage = false;
     }
     mookImageArea.toggleClass("mook-image-small-toggle");
@@ -112,11 +112,11 @@ export default class CPRMookActorSheet extends CPRActorSheet {
         }
         case "cyberware": {
           if (item.data.data.core === true) {
-            SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.cannotdeletecorecyberware"));
+            SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.cannotDeleteCoreCyberware"));
           } else {
             const foundationalId = $(event.currentTarget).attr("data-foundational-id");
-            const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
-            const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
+            const dialogTitle = SystemUtils.Localize("CPR.dialog.removeCyberware.title");
+            const dialogMessage = `${SystemUtils.Localize("CPR.dialog.removeCyberware.text")} ${item.name}?`;
             const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
             if (confirmRemove) {
               await this.actor.removeCyberware(itemId, foundationalId, true);

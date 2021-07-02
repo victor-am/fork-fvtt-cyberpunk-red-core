@@ -178,7 +178,7 @@ export class CPRHumanityLossRoll extends CPRRoll {
   constructor(name, humanityLoss) {
     super(name, humanityLoss);
     LOGGER.trace(`CPRHumanityLossRoll | Constructor`);
-    this.rollTitle = SystemUtils.Localize("CPR.humanityloss");
+    this.rollTitle = SystemUtils.Localize("CPR.dialog.installCyberware.humanityLoss");
     this.calculateCritical = false;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-humanity-loss-rollcard.hbs";
     this.cyberwareName = name;

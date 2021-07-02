@@ -143,7 +143,7 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace(`Calling hasOptionalSlots`);
     if (optionSlots > 0) {
       LOGGER.trace(`hasOptionalSlots is greater than 0`);
-      return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.optionalslots")}`);
+      return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.itemSheet.cyberware.optionalSlots")}`);
     } else {
       LOGGER.trace(`hasOptionalSlots is 0`);
     }
@@ -349,7 +349,7 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("isTokenSheet", (title) => {
     LOGGER.trace("Calling isTokenSheet Helper");
     LOGGER.debug(`title is ${title}`);
-    const substr = `[${SystemUtils.Localize("CPR.token")}]`;
+    const substr = `[${SystemUtils.Localize("CPR.global.generic.token")}]`;
     return title.includes(substr);
   });
 

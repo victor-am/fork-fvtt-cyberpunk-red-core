@@ -194,9 +194,9 @@ export default class CPRItemSheet extends ItemSheet {
     if (action === "delete") {
       const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
       if (setting) {
-        const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${SystemUtils.Localize("CPR.netArchitecture.floor.deleteConfirmation")}?`;
+        const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${SystemUtils.Localize("CPR.netArchitecture.floor.deleteConfirmation")}?`;
         const confirmDelete = await ConfirmPrompt.RenderPrompt(
-          SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,
+          SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"), promptMessage,
         );
         if (!confirmDelete) {
           return;
@@ -386,7 +386,7 @@ export default class CPRItemSheet extends ItemSheet {
     if (itemEntity !== null) {
       itemEntity.sheet.render(true);
     } else {
-      SystemUtils.DisplayMessage("error", SystemUtils.Format("CPR.itemdoesnotexisterror", { itemid: itemId }));
+      SystemUtils.DisplayMessage("error", SystemUtils.Format("CPR.messages.itemDoesNotExistError", { itemid: itemId }));
     }
   }
 
@@ -437,7 +437,7 @@ export default class CPRItemSheet extends ItemSheet {
     const actor = (cyberdeck.isOwned) ? cyberdeck.actor : null;
 
     if (!actor || (actor.type !== "character" && actor.type !== "mook")) {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.owneditemonlyerror"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.ownedItemOnlyError"));
       return;
     }
 
@@ -487,7 +487,7 @@ export default class CPRItemSheet extends ItemSheet {
     unselectedPrograms = unselectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
 
     if (storageRequired > cyberdeck.data.data.slots) {
-      SystemUtils.DisplayMessage("warn", "CPR.cyberdeckinsufficientstorage");
+      SystemUtils.DisplayMessage("warn", "CPR.messages.cyberdeckInsufficientStorage");
     }
 
     cyberdeck.uninstallPrograms(unselectedPrograms);
@@ -511,7 +511,7 @@ export default class CPRItemSheet extends ItemSheet {
     const actor = (cyberdeck.isOwned) ? cyberdeck.actor : null;
 
     if (!actor) {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.owneditemonlyerror"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.ownedItemOnlyError"));
       return;
     }
 

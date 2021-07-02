@@ -7,7 +7,7 @@
                 {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs" this}}
                 <li class="item flexrow">
                   <div class="item flexrow setting-name text-nowrap">
-                    {{localize "CPR.source"}}
+                    {{localize "CPR.itemSheet.common.source"}}
                   </div>
                   <div class="item flexrow setting-value text-nowrap item-end">
                     <input name="data.source" class="" type="text" value="{{data.data.source}}" placeholder="Example: pg. 1">
@@ -48,7 +48,7 @@
                 {{#if (compare data.data.quickFix.type "===" "paramedic")}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.global.criticalInjury.quickfix"}} {{localize "CPR.dv"}}
+                        {{localize "CPR.global.criticalInjury.quickfix"}} {{localize "CPR.itemSheet.criticalInjury.dv"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <input name="data.quickFix.dvParamedic" class="" type="number" value="{{data.data.quickFix.dvParamedic}}">
@@ -58,7 +58,7 @@
                 {{#if (compare data.data.quickFix.type "===" "firstAidParamedic")}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.global.criticalInjury.quickfix"}} {{localize "CPR.dv"}} ({{localize "CPR.global.skills.firstAid"}})
+                        {{localize "CPR.global.criticalInjury.quickfix"}} {{localize "CPR.itemSheet.criticalInjury.dv"}} ({{localize "CPR.global.skills.firstAid"}})
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <input name="data.quickFix.dvFirstAid" class="" type="number" value="{{data.data.quickFix.dvFirstAid}}">
@@ -66,7 +66,7 @@
                 </li>
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.global.criticalInjury.quickfix"}} {{localize "CPR.dv"}} ({{localize "CPR.global.skills.paramedic"}})
+                        {{localize "CPR.global.criticalInjury.quickfix"}} {{localize "CPR.itemSheet.criticalInjury.dv"}} ({{localize "CPR.global.skills.paramedic"}})
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <input name="data.quickFix.dvParamedic" class="" type="number" value="{{data.data.quickFix.dvParamedic}}">
@@ -76,7 +76,7 @@
                 {{!-- Critical Injury Treatment Type Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.treatment"}} {{localize "CPR.global.generic.type"}}
+                        {{localize "CPR.itemSheet.criticalInjury.treatment"}} {{localize "CPR.global.generic.type"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.treatment.type" data-dtype="{{data.data.treatment.type}}">
@@ -92,7 +92,7 @@
                 {{#if (compare data.data.treatment.type "===" "surgery")}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.treatment"}} {{localize "CPR.dv"}}
+                        {{localize "CPR.itemSheet.criticalInjury.treatment"}} {{localize "CPR.itemSheet.criticalInjury.dv"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <input name="data.treatment.dvSurgery" class="" type="number" value="{{data.data.treatment.dvSurgery}}">
@@ -102,7 +102,7 @@
                 {{#if (compare data.data.treatment.type "===" "paramedicSurgery")}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.treatment"}} {{localize "CPR.dv"}} ({{localize "CPR.global.skills.paramedic"}})
+                        {{localize "CPR.itemSheet.criticalInjury.treatment"}} {{localize "CPR.itemSheet.criticalInjury.dv"}} ({{localize "CPR.global.skills.paramedic"}})
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <input name="data.treatment.dvParamedic" class="" type="number" value="{{data.data.treatment.dvParamedic}}">
@@ -110,7 +110,7 @@
                 </li>
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.treatment"}} {{localize "CPR.dv"}} ({{localize "CPR.global.role.medtech.ability.surgery"}})
+                        {{localize "CPR.itemSheet.criticalInjury.treatment"}} {{localize "CPR.itemSheet.criticalInjury.dv"}} ({{localize "CPR.global.role.medtech.ability.surgery"}})
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <input name="data.treatment.dvSurgery" class="" type="number" value="{{data.data.treatment.dvSurgery}}">
@@ -120,7 +120,7 @@
                 {{!-- Critical Injury Base Death Save Increase Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.criticalinjurydeathsave"}}
+                        {{localize "CPR.itemSheet.criticalInjury.criticalInjuryDeathSave"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if data.data.deathSaveIncrease}}

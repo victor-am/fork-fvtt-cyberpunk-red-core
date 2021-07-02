@@ -3,20 +3,20 @@
     {{!-- Select HL --}}
 
     <div style="text-align:center;">
-        {{localize "CPR.cyberwarehumanityloss"}}<br><br>
+        {{localize "CPR.dialog.installCyberware.cyberwareHumanityLoss"}}<br><br>
     </div>
 
     <ol class="items-list">
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.humanityloss"}}:
+                {{localize "CPR.dialog.installCyberware.humanityLoss"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <select name="humanityLoss">
                     <option selected value="{{item.data.humanityLoss.roll}}">{{localize "CPR.rolls.roll"}}: {{item.data.humanityLoss.roll}}
                     </option>
-                    <option value="{{item.data.humanityLoss.static}}">{{localize "CPR.static"}}: {{item.data.humanityLoss.static}}</option>
-                    <option value="None">{{localize "CPR.none"}}</option>
+                    <option value="{{item.data.humanityLoss.static}}">{{localize "CPR.dialog.installCyberware.static"}}: {{item.data.humanityLoss.static}}</option>
+                    <option value="None">{{localize "CPR.dialog.installCyberware.none"}}</option>
                 </select>
             </div>
         </li>

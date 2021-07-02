@@ -20,7 +20,7 @@
           <li class="item flexrow">
             <div class="mook-weapon">
               <div class="item-name mook-weapon-name text-pad-right text-nowrap">
-                <a class="name item-edit deletable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}">
+                <a class="name item-edit deletable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
                   {{weapon.name}}
                 </a>
                 {{#if (compare weapon.data.data.quality "!==" "standard")}}
@@ -31,7 +31,7 @@
                   {{#if weapon.data.data.magazine.ammoId}}
                     ({{localize "CPR.global.itemTypes.ammo"}}: {{weapon.data.data.magazine.value}}/{{weapon.data.data.magazine.max}})
                   {{else}}
-                    ({{localize "CPR.unloaded"}})
+                    ({{localize "CPR.mookSheet.items.unloaded"}})
                   {{/if}}
                   {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
                   {{>"systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs"}}

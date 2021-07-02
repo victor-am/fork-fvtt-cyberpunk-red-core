@@ -677,7 +677,7 @@ export default class Migration {
     // in it's name will be prepended with a MIGRATE tag to let users know there's a new item type.
     if (gearName.includes("cyberdeck")) {
       const oldName = itemData.name;
-      updateData.name = `${game.i18n.localize("CPR.migratetag")} ${oldName}`;
+      updateData.name = `${game.i18n.localize("CPR.migration.tag")} ${oldName}`;
     }
 
     return updateData;

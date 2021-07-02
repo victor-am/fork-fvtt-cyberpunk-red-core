@@ -53,7 +53,7 @@
                 {{!--Head Armor Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.static"}} {{localize "CPR.humanityloss"}}
+                        {{localize "CPR.dialog.installCyberware.static"}} {{localize "CPR.dialog.installCyberware.humanityLoss"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if this.editable}}
@@ -67,7 +67,7 @@
 
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.rolled"}} {{localize "CPR.humanityloss"}}
+                        {{localize "CPR.itemSheet.cyberware.rolled"}} {{localize "CPR.dialog.installCyberware.humanityLoss"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if this.editable}}
@@ -81,7 +81,7 @@
                 {{#unless (listContains "fashionware,cyberwareInternal,cyberwareExternal" data.data.type)}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.requiresfoundational"}}
+                        {{localize "CPR.itemSheet.cyberware.requiresFoundational"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if this.editable}}
@@ -103,7 +103,7 @@
                 {{#if data.data.isFoundational}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.hasoptionslots"}}
+                        {{localize "CPR.itemSheet.cyberware.hasOptionSlots"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if this.editable}}
@@ -125,7 +125,7 @@
                 {{else}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.slotSize"}}
+                        {{localize "CPR.itemSheet.cyberware.slotSize"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if this.editable}}
@@ -139,7 +139,7 @@
                 {{#if data.data.hasOptionalSlots}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.optionalslots"}}
+                        {{localize "CPR.itemSheet.cyberware.optionalSlots"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if this.editable}}

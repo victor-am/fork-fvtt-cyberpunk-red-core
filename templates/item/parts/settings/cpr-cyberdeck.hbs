@@ -12,7 +12,7 @@
                 {{!-- Cyberdeck Item Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.global.itemTypes.cyberdeck"}} {{localize "CPR.quality"}}
+                        {{localize "CPR.global.itemTypes.cyberdeck"}} {{localize "CPR.itemSheet.quality"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.quality" data-dtype="{{data.data.quality}}">
@@ -26,7 +26,7 @@
                 </li>
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.hardwareprogramslots"}}
+                        {{localize "CPR.itemSheet.cyberdeck.hardwareProgramSlots"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <input name="data.slots" class="" type="number" value="{{data.data.slots}}">
@@ -35,10 +35,10 @@
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap text-bold">
                         <a class="select-installed-programs" data-item-prop="select-installed-programs">{{localize
-                            "CPR.configureinstalledprograms"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
+                            "CPR.itemSheet.cyberdeck.configureInstalledPrograms"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
                     </div>
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.availableslots"}}: {{data.data.availableSlots}}
+                        {{localize "CPR.itemSheet.cyberdeck.availableSlots"}}: {{data.data.availableSlots}}
                     </div>
                 </li>
                 <div class="installed-programs">
