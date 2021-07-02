@@ -1,0 +1,39 @@
+<form>
+    <div class="item-settings-tab">
+        <div class="item-settings-section">
+            <div class="tab item-settings-grid" data-group="primary" data-tab="item-settings">
+                <ol class="items-list">
+
+                    {{!--Item Name Settings--}}
+                    {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs" this}}
+
+                    {{!-- Physical Item Settings--}}
+                    {{#if (hasTemplate this.item.type "physicalItem")}}
+                    {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
+                    {{/if}}
+
+                    <li class="item flexrow">
+                        <div class="item flexrow setting-name text-nowrap">
+                            {{localize "CPR.source"}}
+                        </div>
+                        <div class="item flexrow setting-value text-nowrap item-end">
+                            {{#if this.editable}}
+                            <input name="data.source" class="" type="text" value="{{data.data.source}}"
+                                placeholder="Example: pg. 1">
+                            {{else}}
+                            <span>{{data.data.source}}</span>
+                            {{/if}}
+                        </div>
+                    </li>
+
+                    {{!-- Upgrade Settings --}}
+                    {{#if (hasTemplate this.item.type "upgradable")}}
+                        {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-upgradable-item.hbs" this}}
+                    {{/if}}
+
+                    {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-VAR.hbs" item.type) this}}
+                </ol>
+            </div>
+        </div>
+    </div>
+</form>

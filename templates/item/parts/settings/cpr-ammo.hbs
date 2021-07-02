@@ -1,61 +1,43 @@
-    <div class="item-settings-tab">
-        <div class="item-settings-section">
-            <ol class="items-list">
+    {{!-- Ammo Item Settings--}}
 
-                {{!--Item Name Settings--}}
-                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs" this}}
-
-                {{!-- Physical Item Settings--}}
-                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
-
-                {{!-- Upgrade Settings --}}
-                {{#if (isUpgradable this.item.type)}}
-                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-upgradable-item.hbs" this}}
-                {{/if}}
-
-                {{!-- Ammo Item Settings--}}
-
-                {{!-- Ammo Quantity --}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.amount"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.amount" class="" type="number" value="{{data.data.amount}}" placeholder="10">
-                    </div>
-                </li>
-                
-                {{!-- Ammo Variety Setting --}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.variety"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.variety" data-dtype="{{data.data.variety}}">
-                            {{#select data.data.variety}}
-                            {{#each (findConfigObj "ammoVariety") as |variety v|}}
-                            <option value="{{v}}">{{localize variety}}</option>
-                            {{/each}}
-                            {{/select}}
-                        </select>
-                    </div>
-                </li>
-
-                {{!-- Ammo Type Settings--}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.type"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                         <select name="data.type" data-dtype="{{data.data.type}}">
-                        {{#select data.data.type}}
-                        {{#each (findConfigObj "ammoType") as |type t|}}
-                        <option value="{{t}}">{{localize type}}</option>
-                        {{/each}}
-                        {{/select}}
-                        </select>
-                    </div>
-                </li>
-            </ol>
+    {{!-- Ammo Quantity --}}
+    <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+            {{localize "CPR.amount"}}
         </div>
-    </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+            <input name="data.amount" class="" type="number" value="{{data.data.amount}}" placeholder="10">
+        </div>
+    </li>
+
+    {{!-- Ammo Variety Setting --}}
+    <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+            {{localize "CPR.variety"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+            <select name="data.variety" data-dtype="{{data.data.variety}}">
+                {{#select data.data.variety}}
+                    {{#each (findConfigObj "ammoVariety") as |variety v|}}
+                        <option value="{{v}}">{{localize variety}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+    </li>
+
+    {{!-- Ammo Type Settings--}}
+    <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+            {{localize "CPR.type"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+            <select name="data.type" data-dtype="{{data.data.type}}">
+                {{#select data.data.type}}
+                    {{#each (findConfigObj "ammoType") as |type t|}}
+                        <option value="{{t}}">{{localize type}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+    </li>

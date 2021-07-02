@@ -142,13 +142,17 @@ export default function registerHandlebarsHelpers() {
     return "INVALID_LIST";
   });
 
-  Handlebars.registerHelper("hasOptionalSlots", (installedOptionSlots, optionSlots) => {
-    LOGGER.trace(`Calling hasOptionalSlots`);
-    if (optionSlots > 0) {
-      LOGGER.trace(`hasOptionalSlots is greater than 0`);
-      return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.optionalslots")}`);
-    } else {
-      LOGGER.trace(`hasOptionalSlots is 0`);
+  Handlebars.registerHelper("showOptionSlotStatus", (obj) => {
+    LOGGER.trace(`Calling showOptionSlotStatus`);
+    if (obj.type === "cyberware") {
+      const { optionSlots } = obj.data.data;
+      if (optionSlots > 0) {
+        LOGGER.trace(`hasOptionalSlots is greater than 0`);
+        const installedOptionSlots = optionSlots - obj.availableSlots();
+        return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.optionalslots")}`);
+      } else {
+        LOGGER.trace(`hasOptionalSlots is 0`);
+      }
     }
     return "";
   });
@@ -420,6 +424,12 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace("Calling isUpgradeable Helper");
     const itemEntities = game.system.template.Item;
     return itemEntities[itemType].templates.includes("upgradable");
+  });
+
+  Handlebars.registerHelper("hasTemplate", (itemType, templateName) => {
+    LOGGER.trace("Calling isUpgradeable Helper");
+    const itemEntities = game.system.template.Item;
+    return itemEntities[itemType].templates.includes(templateName);
   });
 
   Handlebars.registerHelper("showUpgrade", (obj, dataPoint) => {

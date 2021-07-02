@@ -3,7 +3,7 @@
 {{#unless foundation.data.data.core}}
 <li class="item flexrow" data-item-id="{{foundation.data._id}}" draggable="false">
     <div class="item-name cyberware-name text-nowrap">
-        <a class="name item-view">{{foundation.name}} {{hasOptionalSlots foundation.data.data.installedOptionSlots foundation.data.data.optionSlots}}</a>
+        <a class="name item-view">{{foundation.name}} {{showOptionSlotStatus foundation}}</a>
     </div>
     <div class="item-detail cyberware-data text-nowrap">
         {{localize (findConfigValue "cyberwareTypeList" foundation.data.data.type)}}

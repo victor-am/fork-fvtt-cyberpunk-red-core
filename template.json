@@ -586,8 +586,11 @@
       "templates": [
         "common",
         "physicalItem",
-        "installable"
+        "installable",
+        "weapon"
       ],
+      "handsReq": 0,
+      "equipped": "owned",
       "size": 1,
       "type": "weapon",
       "modifiers": {}

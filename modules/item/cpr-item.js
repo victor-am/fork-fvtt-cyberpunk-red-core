@@ -58,12 +58,30 @@ export default class CPRItem extends Item {
     const itemType = this.data.type;
     // const changedItems = [];
     switch (itemType) {
-      case "weapon":
+      case "itemUpgrade": {
+        this._itemUpgradeAction(actor, actionAttributes);
+        break;
+      }
+      case "weapon": {
         this._weaponAction(actor, actionAttributes);
         break;
-      case "ammo":
+      }
+      case "ammo": {
         this._ammoAction(actionAttributes);
         break;
+      }
+      default:
+    }
+  }
+
+  _itemUpgradeAction(actor, actionAttributes) {
+    switch (this.data.data.type) {
+      case "weapon": {
+        if (this.data.data.modifiers.secondaryWeapon.configured) {
+          return this._weaponAction(actor, actionAttributes);
+        }
+        break;
+      }
       default:
     }
   }
@@ -629,6 +647,13 @@ export default class CPRItem extends Item {
         });
         break;
       }
+      case "cyberware": {
+        unusedSlots = itemData.optionSlots - itemData.installedOptionSlots;
+        itemData.upgrades.forEach((mod) => {
+          unusedSlots -= mod.data.size;
+        });
+        break;
+      }
       default:
     }
 
@@ -1130,7 +1155,7 @@ export default class CPRItem extends Item {
       upgrades.forEach((u) => {
         const alreadyInstalled = installedUpgrades.filter((iUpgrade) => iUpgrade._id === u.data._id);
         if (alreadyInstalled.length === 0) {
-          updateList.push({ _id: u.id, "data.isInstalled": true });
+          updateList.push({ _id: u.id, "data.isInstalled": true, "data.install": this.id });
           const modList = {};
           const upgradeModifiers = u.data.data.modifiers;
           Object.keys(upgradeModifiers).forEach((index) => {

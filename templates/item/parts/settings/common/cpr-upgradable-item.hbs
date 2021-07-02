@@ -1,6 +1,21 @@
+{{#if (compare this.item.type "===" "weapon")}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        <a class="select-item-upgrades" data-item-prop="select-item-upgrades">{{localize "CPR.itemupgrades"}}{{#if (compare data.type "===" "weapon")}} &#38; {{localize "CPR.attachments"}}{{/if}}<i class="text-smallest text-super fas fa-wrench"></i></a>
+        {{localize "CPR.attachmentslots"}} ({{localize "CPR.availableslots"}}: {{data.data.availableSlots}})
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <input name="data.attachmentSlots" class="" type="number" value="{{data.data.attachmentSlots}}">
+    </div>
+</li>
+{{/if}}
+
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        <a class="select-item-upgrades" data-item-prop="select-item-upgrades">
+            {{localize "CPR.itemupgrades"}}
+            {{#if (compare data.type "===" "weapon")}} &#38; {{localize "CPR.attachments"}}{{/if}}
+            <i class="text-smallest text-super fas fa-wrench"></i>
+        </a>
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
     </div>

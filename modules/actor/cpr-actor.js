@@ -170,8 +170,8 @@ export default class CPRActor extends Actor {
     const newOptionalIds = foundationalCyberware.data.data.optionalIds.concat(item.data._id);
     const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots + item.data.data.slotSize;
     tmpItem.data.data.isInstalled = true;
-    const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
-    Rules.lawyer((newInstalledOptionSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
+    const allowedSlots = Number(foundationalCyberware.availableSlots());
+    Rules.lawyer((item.data.data.slotSize <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
     return this.updateEmbeddedDocuments("Item", [
       { _id: item.id, "data.isInstalled": true }, {
         _id: foundationalCyberware.id,

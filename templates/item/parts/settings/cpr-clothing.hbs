@@ -1,76 +1,56 @@
-<form>
-    <div class="item-settings-tab">
-        <div class="item-settings-section">
-            <ol class="items-list">
-
-                {{!--Item Name Settings--}}
-                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs" this}}
-
-                {{!-- Physical Item Settings--}}
-                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
-
-                {{!-- Upgrade Settings --}}
-                {{#if (isUpgradable this.item.type)}}
-                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-upgradable-item.hbs" this}}
-                {{/if}}
-                
-                {{!-- Clothing  Equipped Setting --}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.equipped"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.equipped" data-dtype="{{data.data.equipped}}">
-                            {{#select data.data.equipped}}
-                            {{#each (findConfigObj "equipped") as |vic v|}}
-                            <option value="{{v}}">{{localize vic}}</option>
-                            {{/each}}
-                            {{/select}}
-                        </select>
-                    </div>
-                </li>
-
-                {{!-- Clothing Amount Settings--}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.amount"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.amount" class="" type="number" value="{{data.data.amount}}">
-                    </div>
-                </li>
-
-                {{!-- Clothing Style Settings--}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.clothing"}} {{localize "CPR.style"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.style" data-dtype="{{data.data.style}}">
-                            {{#select data.data.style}}
-                            {{#each (findConfigObj "clothingStyle") as |style s| }}
-                            <option value="{{s}}">{{localize style}}</option>
-                            {{/each}}
-                            {{/select}}
-                        </select>
-                    </div>
-                </li>
-                {{!-- Clothing Type Settings--}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.clothing"}} {{localize "CPR.type"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        <select name="data.type" data-dtype="{{data.data.type}}">
-                            {{#select data.data.type}}
-                            {{#each (findConfigObj "clothingType") as |type t| }}
-                            <option value="{{t}}">{{localize type}}</option>
-                            {{/each}}
-                            {{/select}}
-                        </select>
-                    </div>
-                </li>
-            </ol>
-        </div>
+{{!-- Clothing Equipped Setting --}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.equipped"}}
     </div>
-</form>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <select name="data.equipped" data-dtype="{{data.data.equipped}}">
+            {{#select data.data.equipped}}
+                {{#each (findConfigObj "equipped") as |vic v|}}
+                    <option value="{{v}}">{{localize vic}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+
+{{!-- Clothing Amount Settings--}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.amount"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <input name="data.amount" class="" type="number" value="{{data.data.amount}}">
+    </div>
+</li>
+
+{{!-- Clothing Style Settings--}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.clothing"}} {{localize "CPR.style"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <select name="data.style" data-dtype="{{data.data.style}}">
+            {{#select data.data.style}}
+                {{#each (findConfigObj "clothingStyle") as |style s| }}
+                    <option value="{{s}}">{{localize style}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+{{!-- Clothing Type Settings--}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.clothing"}} {{localize "CPR.type"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <select name="data.type" data-dtype="{{data.data.type}}">
+            {{#select data.data.type}}
+                {{#each (findConfigObj "clothingType") as |type t| }}
+                    <option value="{{t}}">{{localize type}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>

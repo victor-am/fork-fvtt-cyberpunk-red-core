@@ -145,5 +145,6 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs",
     "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-upgradable-item.hbs",
+    "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-settings.hbs",
   ]);
 }

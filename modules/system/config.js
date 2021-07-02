@@ -394,22 +394,14 @@ CPR.upgradableDataPoints = {
     },
     secondaryWeapon: {
       type: "item",
-      value: {
-        weaponType: "",
-        weaponSkill: "",
-        fireModes: {
-          autoFire: 0,
-          suppressiveFire: false,
-        },
-        damage: "1d6",
-        rof: 1,
-        attackmod: 0,
-      },
+      configured: false,
     },
   },
-  ammo: {
-    damage: 0,
-    attackmod: 0,
+  cyberware: {
+    secondaryWeapon: {
+      type: "item",
+      configured: false,
+    },
   },
   cyberdeck: {
     slots: 0,
