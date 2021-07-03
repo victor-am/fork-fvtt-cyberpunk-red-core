@@ -692,6 +692,9 @@ export default class Migration {
       updateData["data.type"] = "cyberArm";
     }
 
+    if (typeof itemData.data.isWeapon !== "boolean") {
+      updateData["data.isWeapon"] = false;
+    }
     return updateData;
   }
 

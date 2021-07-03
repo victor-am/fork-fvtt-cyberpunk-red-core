@@ -58,6 +58,10 @@ export default class CPRItem extends Item {
     const itemType = this.data.type;
     // const changedItems = [];
     switch (itemType) {
+      case "cyberware": {
+        this._cyberwareAction(actor, actionAttributes);
+        break;
+      }
       case "itemUpgrade": {
         this._itemUpgradeAction(actor, actionAttributes);
         break;
@@ -81,6 +85,20 @@ export default class CPRItem extends Item {
           return this._weaponAction(actor, actionAttributes);
         }
         break;
+      }
+      default:
+    }
+  }
+
+  _cyberwareAction(actor, actionAttributes) {
+    const actionData = actionAttributes["data-action"].nodeValue;
+    switch (actionData) {
+      case "select-ammo":
+      case "unload":
+      case "load":
+      case "reload-ammo":
+      case "measure-dv": {
+        return this._weaponAction(actor, actionAttributes);
       }
       default:
     }
@@ -1208,13 +1226,15 @@ export default class CPRItem extends Item {
     if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {
       const installedUpgrades = this.data.data.upgrades;
       installedUpgrades.forEach((upgrade) => {
-        const modType = upgrade.data.modifiers[dataPoint].type;
-        const modValue = upgrade.data.modifiers[dataPoint].value;
-        if (typeof modValue === "number") {
-          if (modType === "override") {
-            baseOverride = (modValue > baseOverride) ? modValue : baseOverride;
-          } else {
-            upgradeNumber += modValue;
+        if (typeof upgrade.data.modifiers[dataPoint] !== "undefined") {
+          const modType = upgrade.data.modifiers[dataPoint].type;
+          const modValue = upgrade.data.modifiers[dataPoint].value;
+          if (typeof modValue === "number") {
+            if (modType === "override") {
+              baseOverride = (modValue > baseOverride) ? modValue : baseOverride;
+            } else {
+              upgradeNumber += modValue;
+            }
           }
         }
       });

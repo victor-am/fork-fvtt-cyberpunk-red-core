@@ -291,6 +291,23 @@ export default function registerHandlebarsHelpers() {
     return actor.data.data.stats[skillStat].value;
   });
 
+  Handlebars.registerHelper("hasCyberneticWeapons", (actor) => {
+    LOGGER.trace("Calling hasCyberneticWeapons Helper");
+    let returnValue = false;
+    const cyberware = actor.getInstalledCyberware();
+    cyberware.forEach((cw) => {
+      if (cw.data.data.isWeapon === "true") {
+        returnValue = true;
+      }
+      cw.data.data.upgrades.forEach((u) => {
+        console.log("CW Upgrade");
+        console.log(u);
+      });
+    });
+    console.log(actor);
+    return returnValue;
+  });
+
   Handlebars.registerHelper("ablated", (armor, slot) => {
     LOGGER.trace(`Calling ablated Helper | Arg1:${armor} Arg2:${slot}`);
     if (slot === "body") {

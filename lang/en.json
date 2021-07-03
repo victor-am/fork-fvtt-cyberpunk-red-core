@@ -721,6 +721,7 @@
     "CPR.issecondaryweapon": "Is secondary weapon",
     "CPR.true": "True",
     "CPR.false": "False",
+    "CPR.cyberwareweapons": "Cyberware Weapons",
     "CPR.attachment": "Attachment",
     "ITEM.TypeAmmo": "Ammo",
     "ITEM.TypeArmor": "Armor",

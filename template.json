@@ -456,6 +456,7 @@
         "installable"
       ],
       "type": "cyberArm",
+      "isWeapon": false,
       "isFoundational": true,
       "hasOptionalSlots": false,
       "optionSlots": 0,

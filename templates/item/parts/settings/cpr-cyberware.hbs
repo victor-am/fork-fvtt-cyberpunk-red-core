@@ -138,3 +138,23 @@
         </li>
     {{/if}}
 {{/unless}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.weapon"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if this.editable}}
+            <select name="data.isWeapon" data-dtype="{{data.data.isWeapon}}">
+                {{#select data.data.isWeapon}}
+                        <option value="false">{{localize "CPR.false"}}</option>
+                        <option value="true">{{localize "CPR.true"}}</option>
+                {{/select}}
+            </select>
+        {{else}}
+            <span class="text-flex-end">{{localize (objConcat "CPR." data.data.isWeapon)}}</span>
+        {{/if}}
+    </div>
+</li>
+{{#if (compare  data.data.isWeapon "===" "true")}}
+    {{> "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-weapon.hbs" this}}
+{{/if}}

@@ -1,6 +1,6 @@
 {{log this}}
 {{!-- Weapon Item Settings--}}
-{{#unless (compare item.type "===" "itemUpgrade")}}
+{{#unless (compare (compare item.type "===" "itemUpgrade") "||" (compare item.type "===" "cyberware"))}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.equipped"}}
@@ -26,7 +26,7 @@
     </div>
 </li>
 {{!-- Concealable Settings--}}
-{{#unless (compare item.type "===" "itemUpgrade")}}
+{{#unless (compare (compare item.type "===" "itemUpgrade") "||" (compare item.type "===" "cyberware"))}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.concealable"}}
@@ -101,7 +101,7 @@
     </div>
 </li>
 {{!-- Hands Required Settings--}}
-{{#unless (compare item.type "===" "itemUpgrade")}}
+{{#unless (compare (compare item.type "===" "itemUpgrade") "||" (compare item.type "===" "cyberware"))}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.handsrequired"}}
