@@ -1166,8 +1166,8 @@ export default class CPRItem extends Item {
       installedUpgrades = installedUpgrades.filter((iUpgrade) => iUpgrade._id !== u.id);
       updateList.push({ _id: u.id, "data.isInstalled": false });
     });
-    const upgradeStaus = (installedUpgrades.length > 0);
-    updateList.push({ _id: this.id, "data.isUpgraded": upgradeStaus, "data.upgrades": installedUpgrades });
+    const upgradeStatus = (installedUpgrades.length > 0);
+    updateList.push({ _id: this.id, "data.isUpgraded": upgradeStatus, "data.upgrades": installedUpgrades });
     return this.actor.updateEmbeddedDocuments("Item", updateList);
   }
 
