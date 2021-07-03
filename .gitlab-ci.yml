@@ -38,4 +38,13 @@ lang-test:
   stage: test
   script:
     - echo "Checking language file for unused strings..."
-    - ./test-lang-file.sh
+    - ./tests/test-lang-file.sh
+
+changelog-dev-test:
+  stage: test
+  script:
+    - echo "Checking if the CHANGELOG.md changed..."
+    - ./tests/test-changelog-dev-changed.sh
+  allow_failure: true
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev"'
