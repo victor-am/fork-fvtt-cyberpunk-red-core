@@ -543,7 +543,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     selectedPrograms = selectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
     unselectedPrograms = unselectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
 
-    if (storageRequired > (cyberdeck.availableSlots() + installedUsage)) {
+    if (storageRequired > (cyberdeck.data.data.slots - cyberdeck.availableSlots() + installedUsage)) {
       SystemUtils.DisplayMessage("warn", "CPR.cyberdeckinsufficientstorage");
     }
 
