@@ -707,6 +707,7 @@
     "CPR.sheets.containerSheet": "Container/Shop Sheet",
     "CPR.sheets.demonSheet": "Demon Sheet",
     "CPR.sheets.mookSheet": "Mook Sheet",
+    "CPR.unused.test.case": "This is just a test and will be removed with the next commit",
     "ITEM.TypeAmmo": "Ammo",
     "ITEM.TypeArmor": "Armor",
     "ITEM.TypeClothing": "Clothing",
