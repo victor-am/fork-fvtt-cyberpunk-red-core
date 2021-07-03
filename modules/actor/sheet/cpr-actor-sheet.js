@@ -622,6 +622,14 @@ export default class CPRActorSheet extends ActorSheet {
       });
       await this.actor.updateEmbeddedDocuments("Item", updateList);
     }
+
+    if (game.system.template.Item[item.type].templates.includes("upgradable")) {
+      const { upgrades } = item.data.data;
+      const updateList = [];
+      upgrades.forEach((u) => {
+        updateList.push({ _id: u.id, "data.isInstalled": false });
+      });
+    }
     await this.actor.deleteEmbeddedDocuments("Item", [item.id]);
   }
 
