@@ -4,15 +4,19 @@
 
 **Changes**
 - Newly created actors and items will automatically have default icons configured.
+- Restructured the language file for easier translations.
+- Added test cases for code quality: The english language file is checked for unused strings and the changelog is checked for changes with each merge request.
 
 **Bug Fixes**
+- Fixed #263: New containers now show infinite stock option, as they are initialized as a shop.
 - Fix #265, #266, #267: Gear tab now remembers scroll position.
+- Fixed, that number of options slots were not displayed in the item sheet description tab for foundational cyberware.
 
 # Version 0.77.1 | Date: 2021-06-29
 **Hot Fix**
 - Corrected localization issue of text on chat cards when rolling Net Damage
 - Added Zap as a rollable interface ability as it was missing from the list (Zap damage will be handled in a future release)
-  
+
 # Version 0.77.0 | Date: 2021-06-25
 
 **Migration to foundry 0.8.X**
