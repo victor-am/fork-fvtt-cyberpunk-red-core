@@ -57,15 +57,15 @@ CPR.roleAbilityList = {
 
 // Sorted A-Z
 CPR.skillCategories = {
-  awarenessSkills: "CPR.global.skills.categories.awarenessSkills",
-  bodySkills: "CPR.global.skills.categories.bodySkills",
-  controlSkills: "CPR.global.skills.categories.controlSkills",
-  educationSkills: "CPR.global.skills.categories.educationSkills",
-  fightingSkills: "CPR.global.skills.categories.fightingSkills",
-  performanceSkills: "CPR.global.skills.categories.performanceSkills",
-  rangedweaponSkills: "CPR.global.skills.categories.rangedWeaponSkills",
-  socialSkills: "CPR.global.skills.categories.socialSkills",
-  techniqueSkills: "CPR.global.skills.categories.techniqueSkills",
+  awarenessSkills: "CPR.global.skillCategories.awarenessSkills",
+  bodySkills: "CPR.global.skillCategories.bodySkills",
+  controlSkills: "CPR.global.skillCategories.controlSkills",
+  educationSkills: "CPR.global.skillCategories.educationSkills",
+  fightingSkills: "CPR.global.skillCategories.fightingSkills",
+  performanceSkills: "CPR.global.skillCategories.performanceSkills",
+  rangedweaponSkills: "CPR.global.skillCategories.rangedWeaponSkills",
+  socialSkills: "CPR.global.skillCategories.socialSkills",
+  techniqueSkills: "CPR.global.skillCategories.techniqueSkills",
 };
 
 // Sorted A-Z
