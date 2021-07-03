@@ -1,7 +1,20 @@
 # WIP Version 0.78.0 | Dev branch
 
 **New Features**
-
+- Introduction of the Item Object: Item Upgrade
+  - Initial implementation of the Item Upgrade Object enables:
+    - Upgrades to Weapons, Cyberdecks & Cyberware
+    - Weapons
+      - Adding weapon attachments to weapons to can modify settings for ROF, Attack Modifier, Magazine Size & Damage
+        - For each of these data points, you have the option to modify or override the value of them allowing for flexibility in upgrade attachments
+        - Core Rule Book Examples: Drum Magazine, Extended Magainze 
+      - Adding a secondary weapon as an attachment 
+        - -Core Rule Book Examples: Grenade Launcher Underbarrel, Shotgun Underbarrel, Bayonet
+  - - Cyberdecks
+      - - Item Upgrades occupy Option Slots, so it is now possible to use Item Upgrades to install & track Hardware Upgrades to the Cyberdeck
+- Cyberware Items which act as weapons can now be configured as such
+  - Core Rule Book Examples: Popup Weapons, Big Knucks, Wolvers, etc.
+  - 
 **Changes**
 - Newly created actors and items will automatically have default icons configured.
 

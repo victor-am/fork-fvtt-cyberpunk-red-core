@@ -656,6 +656,9 @@ export default class CPRItem extends Item {
         itemData.programs.installed.forEach((program) => {
           unusedSlots -= program.data.slots;
         });
+        itemData.upgrades.forEach((u) => {
+          unusedSlots -= u.data.size;
+        });
         break;
       }
       case "weapon": {
