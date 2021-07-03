@@ -404,7 +404,10 @@ CPR.upgradableDataPoints = {
     },
   },
   cyberdeck: {
-    slots: 0,
+    slots: {
+      type: "modifier",
+      value: 0,
+    },
   },
 };
 

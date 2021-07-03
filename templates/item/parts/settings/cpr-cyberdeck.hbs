@@ -19,7 +19,7 @@
 {{!-- Cyberdeck Program Slots Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.hardwareprogramslots"}}
+        {{localize "CPR.hardwareprogramslots"}} {{showUpgrade this.item "slots"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         <input name="data.slots" class="" type="number" value="{{data.data.slots}}">

@@ -1,6 +1,8 @@
 # WIP Version 0.78.0 | Dev branch
 
 **New Features**
+- Cyberware Items which act as weapons can now be configured as such
+  - Core Rule Book Examples: Popup Weapons, Big Knucks, Wolvers, etc
 - Introduction of the Item Object: Item Upgrade
   - Initial implementation of the Item Upgrade Object enables:
     - Upgrades to Weapons, Cyberdecks & Cyberware
@@ -9,11 +11,15 @@
         - For each of these data points, you have the option to modify or override the value of them allowing for flexibility in upgrade attachments
         - Core Rule Book Examples: Drum Magazine, Extended Magainze 
       - Adding a secondary weapon as an attachment 
-        - -Core Rule Book Examples: Grenade Launcher Underbarrel, Shotgun Underbarrel, Bayonet
-  - - Cyberdecks
-      - - Item Upgrades occupy Option Slots, so it is now possible to use Item Upgrades to install & track Hardware Upgrades to the Cyberdeck
-- Cyberware Items which act as weapons can now be configured as such
-  - Core Rule Book Examples: Popup Weapons, Big Knucks, Wolvers, etc.
+        - Core Rule Book Examples: Grenade Launcher Underbarrel, Shotgun Underbarrel, Bayonet
+    - Cyberdecks
+      - Item Upgrades occupy Option Slots, so it is now possible to use Item Upgrades to install & track Hardware Upgrades to the Cyberdeck
+        - Core Rule Book Examples: Backup Drive, DNA Lock, Range Upgrade, etc.
+      - Item Upgrades can be added to expand the amount of slots in the Cyberdeck. While there's no RAW for this, it has been added to support Homebrew.
+        - Example: USB Drive, External Drive, etc..
+    - Cyberware
+      - As some Cyberware is now Weapon Items, Item Upgrades can be used to add Attachment to these Weapon Types
+        - Example: Popup Assault Rifle w/ Underbarrel Grenade Launcher
   - 
 **Changes**
 - Newly created actors and items will automatically have default icons configured.

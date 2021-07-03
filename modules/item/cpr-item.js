@@ -652,7 +652,9 @@ export default class CPRItem extends Item {
 
     switch (this.data.type) {
       case "cyberdeck": {
-        unusedSlots = itemData.slots;
+        const upgradeValue = this.getAllUpgradesFor("slots");
+        const upgradeType = this.getUpgradeTypeFor("slots");
+        unusedSlots = (upgradeType === "override") ? upgradeValue : itemData.slots + upgradeValue;
         itemData.programs.installed.forEach((program) => {
           unusedSlots -= program.data.slots;
         });
@@ -1214,9 +1216,11 @@ export default class CPRItem extends Item {
     if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {
       const installedUpgrades = this.data.data.upgrades;
       installedUpgrades.forEach((upgrade) => {
-        const modType = upgrade.data.modifiers[dataPoint].type;
-        if (modType !== "modifier") {
-          upgradeType = modType;
+        if (typeof upgrade.data.modifiers[dataPoint] !== "undefined") {
+          const modType = upgrade.data.modifiers[dataPoint].type;
+          if (modType !== "modifier") {
+            upgradeType = modType;
+          }
         }
       });
       return upgradeType;
