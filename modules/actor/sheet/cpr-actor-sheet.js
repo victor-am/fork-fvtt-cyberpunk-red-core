@@ -627,8 +627,9 @@ export default class CPRActorSheet extends ActorSheet {
       const { upgrades } = item.data.data;
       const updateList = [];
       upgrades.forEach((u) => {
-        updateList.push({ _id: u.id, "data.isInstalled": false });
+        updateList.push({ _id: u._id, "data.isInstalled": false });
       });
+      await this.actor.updateEmbeddedDocuments("Item", updateList);
     }
     await this.actor.deleteEmbeddedDocuments("Item", [item.id]);
   }
