@@ -110,7 +110,7 @@ const actorHooks = () => {
 
   // when a new item is created (dragged) on a mook sheet, auto install or equip it
   Hooks.on("createItem", (itemData, options, userId) => {
-    LOGGER.trace("createOwnedItem | actorHooks | Called.");
+    LOGGER.trace("createItem | actorHooks | Called.");
     const actor = itemData.parent;
     if (actor !== null) {
       if (Object.values(actor.apps).some((app) => app instanceof CPRMookActorSheet) && userId === game.user.data._id) {
@@ -118,6 +118,18 @@ const actorHooks = () => {
         actor.handleMookDraggedItem(actor._getOwnedItem(itemData.id));
       }
     }
+  });
+
+  Hooks.on("preCreateItem", (item, itemData, options, userId) => {
+    LOGGER.trace("preCreateItem | actorHooks | Called.");
+    const actor = item.parent;
+    if (actor != null) {
+      if (Object.values(actor.apps).some((app) => app instanceof CPRCharacterActorSheet) && userId === game.user.data._id) {
+        LOGGER.debug("Attempting to stack items");
+        return actor.automaticallyStackItems(item);
+      }
+    }
+    return true;
   });
 };
 

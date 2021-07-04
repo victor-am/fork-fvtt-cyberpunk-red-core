@@ -19,6 +19,9 @@
 {{#if (compare type "===" "armor")}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-repair-glyph.hbs"}}
 {{/if}}
+{{#if (compare (listContains "ammo,gear,clothing" type) "&&" (compare data.data.amount ">" "1"))}}
+{{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-split-item.hbs"}}
+{{/if}}
 {{#if (listContains "weapon,armor,gear,clothing,cyberdeck" type)}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-equip-glyph.hbs"}}
 {{/if}}

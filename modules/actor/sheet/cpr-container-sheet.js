@@ -175,7 +175,9 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       }
       await tradePartnerActor.deltaLedgerProperty("wealth", -1 * price, reason);
     }
-    await tradePartnerActor.createEmbeddedDocuments("Item", [item.data]);
+    if (tradePartnerActor.automaticallyStackItems(item)) {
+      await tradePartnerActor.createEmbeddedDocuments("Item", [item.data]);
+    }
     if (!getProperty(this.actor.data, "flags.cyberpunk-red-core.infinite-stock")) {
       await this._deleteOwnedItem(item, true);
     }
