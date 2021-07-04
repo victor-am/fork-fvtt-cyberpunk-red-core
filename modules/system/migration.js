@@ -659,6 +659,10 @@ export default class Migration {
       updateData["data.sdp"] = itemData.data.spd;
       updateData["data.-=spd"] = null;
     }
+
+    if ((typeof itemData.data.seats) === "string") {
+      updateData["data.seats"] = Number(itemData.data.seats);
+    }
     return updateData;
   }
 
