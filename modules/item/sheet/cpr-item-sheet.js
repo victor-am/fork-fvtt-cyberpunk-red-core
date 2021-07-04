@@ -491,10 +491,19 @@ export default class CPRItemSheet extends ItemSheet {
     selectedPrograms = selectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
     unselectedPrograms = unselectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
 
+    // Because the dialog could contain programs that were already installed,
+    // we need to calculate the amount of slots available on the Cyberdeck for programs
+
+    // Start with getting the total number of slot available
     const upgradeValue = cyberdeck.getAllUpgradesFor("slots");
     const upgradeType = cyberdeck.getUpgradeTypeFor("slots");
 
-    const cyberdeckSlots = (upgradeType === "override") ? upgradeValue : cyberdeck.data.data.slots + upgradeValue;
+    let cyberdeckSlots = (upgradeType === "override") ? upgradeValue : cyberdeck.data.data.slots + upgradeValue;
+
+    // Adjust for installed upgrades/hardware
+    cyberdeck.data.data.upgrades.forEach((u) => {
+      cyberdeckSlots -= u.data.size;
+    });
 
     if (storageRequired > cyberdeckSlots) {
       SystemUtils.DisplayMessage("warn", "CPR.cyberdeckinsufficientstorage");
