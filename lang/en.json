@@ -208,6 +208,7 @@
     "CPR.dialog.splitItem.text": "You currently own {amount} of {itemName}.",
     "CPR.dialog.splitItem.title": "Split the item",
     "CPR.dialog.splitItem.warningAmount": "You cannot split {amountSplit} of {amountOld} from {itemName}.",
+    "CPR.dialog.splitItem.warningUpgrade": "You cannot split an upgraded Item currently. It will be implemented later on.",
     "CPR.difficult": "Difficult",
     "CPR.difficulty": "Difficulty",
     "CPR.dontaddcoreitems": "Do not try to add core items to your character, that is not supported, Choomba!",

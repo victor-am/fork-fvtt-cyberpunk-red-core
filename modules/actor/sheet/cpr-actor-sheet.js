@@ -1012,6 +1012,9 @@ export default class CPRActorSheet extends ActorSheet {
    * @returns {null}
    */
   async _splitItem(item) {
+    if (item.data.data.upgrades.length !== 0) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Format("CPR.dialog.splitItem.warningUpgrade"));
+    }
     const itemText = SystemUtils.Format("CPR.dialog.splitItem.text",
       { amount: item.data.data.amount, itemName: item.name });
     const formData = await SplitItemPrompt.RenderPrompt(itemText).catch((err) => LOGGER.debug(err));
