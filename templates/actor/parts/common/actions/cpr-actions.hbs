@@ -1,4 +1,6 @@
 {{trace "CPR-ACTIONS.HBS"}}
+{{log "CPR-ACTIONS"}}
+{{log this}}
 {{#if (compare type "===" "weapon")}}
 {{!-- LOAD/RELOAD ACTION --}}
 {{#if data.data.isRanged}}
@@ -30,5 +32,10 @@
     {{/if}}
 </a>
 {{!-- ITEM MANAGEMENT --}}
+{{#if (isUpgradable type)}}
+  {{#unless (isEmpty (filter (filter actor.data.filteredItems.itemUpgrade "data.data.type" type) "data.data.isInstalled" false))}}
+  {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
+  {{/unless}}
+{{/if}}
 <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.deleteitem"}}"></i></a>
 {{trace "END CPR-ACTIONS.HBS"}}

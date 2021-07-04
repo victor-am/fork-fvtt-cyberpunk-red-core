@@ -9,7 +9,7 @@
     <div class="item-header-section items-list flexcol">
       <li class="item flexrow">
         <div class="item-name text-large text-bold text-left text-padding-left">
-          {{item.name}}
+          {{item.name}}{{#if (isUpgradable item.type)}}{{#if item.data.data.isUpgraded}}<sup><i title="{{localize "CPR.upgraded"}}" class="fab fa-uniregistry"></sup></i>{{/if}}{{/if}}
         </div>
         <div class="item-detail text-right text-padding-right">
            {{#if (isDebug)}}({{item.id}}){{/if}}

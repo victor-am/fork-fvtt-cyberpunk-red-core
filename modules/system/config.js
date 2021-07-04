@@ -397,6 +397,20 @@ CPR.upgradableDataPoints = {
       configured: false,
     },
   },
+  vehicle: {
+    sdp: {
+      type: "modifier",
+      value: 0,
+    },
+    seats: {
+      type: "modifier",
+      value: 0,
+    },
+    speedCombat: {
+      type: "modifier",
+      value: 0,
+    },
+  },
   cyberware: {
     secondaryWeapon: {
       type: "item",

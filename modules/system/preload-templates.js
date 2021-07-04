@@ -76,6 +76,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-repair-glyph.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-uninstall-glyph.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs",
 
     // Debug
     "systems/cyberpunk-red-core/templates/actor/parts/debug/cpr-item-debug.hbs",

@@ -90,6 +90,20 @@ export default function registerHandlebarsHelpers() {
     return true;
   });
 
+  Handlebars.registerHelper("isEmpty", (object) => {
+    if (typeof object === "object") {
+      if (Object.keys(object).length === 0) {
+        return true;
+      }
+    }
+    if (typeof object === "array") {
+      if (object.length === 0) {
+        return true;
+      }
+    }
+    return false;
+  });
+
   Handlebars.registerHelper("isNumber", (value) => !Number.isNaN(value));
 
   // TODO - Refactor / Revist

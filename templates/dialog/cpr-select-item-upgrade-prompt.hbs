@@ -17,7 +17,6 @@
         {{upgrade.data.name}} ({{localize (findConfigValue "objectTypes" upgrade.data.data.type)}})
       </div>
       <div class="item flexrow setting-value text-nowrap text-space-around">
-        {{log upgrade}}
         {{#if upgrade.data.data.isInstalled}}
         <span class="text-bold text-nowrap text-align-last-end text-space-around"><input type="checkbox" name="selectedUpgrade" value="{{upgrade.data._id}}" checked></span>
         {{else}}
