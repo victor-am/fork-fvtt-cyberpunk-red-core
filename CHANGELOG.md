@@ -1,6 +1,7 @@
 # WIP Version 0.78.0 | Dev branch
 
 **New Features**
+- Some Items can now be automatically stacked, when dragged onto the character sheet or being purchased/taken from a container. This is enabled for the following Item types: Ammo, Gear, Clothing
 
 **Changes**
 - Newly created actors and items will automatically have default icons configured.
@@ -12,7 +13,7 @@
 **Hot Fix**
 - Corrected localization issue of text on chat cards when rolling Net Damage
 - Added Zap as a rollable interface ability as it was missing from the list (Zap damage will be handled in a future release)
-  
+
 # Version 0.77.0 | Date: 2021-06-25
 
 **Migration to foundry 0.8.X**
