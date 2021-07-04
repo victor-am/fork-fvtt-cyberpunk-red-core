@@ -92,12 +92,11 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("isEmpty", (object) => {
     if (typeof object === "object") {
-      if (Object.keys(object).length === 0) {
-        return true;
-      }
-    }
-    if (typeof object === "array") {
-      if (object.length === 0) {
+      if (Array.isArray(object)) {
+        if (object.length === 0) {
+          return true;
+        }
+      } else if (Object.keys(object).length === 0) {
         return true;
       }
     }
