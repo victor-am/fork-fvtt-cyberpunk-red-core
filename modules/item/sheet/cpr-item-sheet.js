@@ -449,12 +449,6 @@ export default class CPRItemSheet extends ItemSheet {
     // Get a list of programs that are installed on this cyberdeck
     const installedPrograms = cyberdeck.getInstalledPrograms();
 
-    let installedUsage = 0;
-
-    installedPrograms.forEach((program) => {
-      installedUsage += program.data.slots;
-    });
-
     // Prepare a list of programs for the prompt to select from
     let programList = [];
 
@@ -497,7 +491,12 @@ export default class CPRItemSheet extends ItemSheet {
     selectedPrograms = selectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
     unselectedPrograms = unselectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
 
-    if (storageRequired > (cyberdeck.data.data.slots - cyberdeck.availableSlots() + installedUsage)) {
+    const upgradeValue = cyberdeck.getAllUpgradesFor("slots");
+    const upgradeType = cyberdeck.getUpgradeTypeFor("slots");
+
+    const cyberdeckSlots = (upgradeType === "override") ? upgradeValue : cyberdeck.data.data.slots + upgradeValue;
+
+    if (storageRequired > cyberdeckSlots) {
       SystemUtils.DisplayMessage("warn", "CPR.cyberdeckinsufficientstorage");
     }
 

@@ -5,11 +5,11 @@
         <a class="name item-edit" title="{{item.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{item.name}}{{#if item.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}</a>
     </div>
     <div class="item-detail gear-data text-nowrap">
-    {{localize "CPR.seats"}}: {{item.data.data.seats}}
+    {{localize "CPR.seats"}}: {{applyUpgrade item item.data.data.seats "seats"}}
     |
-    {{localize "CPR.sdp"}}: {{item.data.data.sdp}}
+    {{localize "CPR.sdp"}}: {{applyUpgrade item item.data.data.sdp "sdp"}}
     |
-    {{localize "CPR.combatspeed"}}: {{item.data.data.speedCombat}}
+    {{localize "CPR.combatspeed"}}: {{applyUpgrade item item.data.data.speedCombat "speedCombat"}}
     </div>
     <div class="item-detail gear-actions text-nowrap">
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}

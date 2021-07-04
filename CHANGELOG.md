@@ -9,8 +9,8 @@
     - Weapons
       - Adding weapon attachments to weapons to can modify settings for ROF, Attack Modifier, Magazine Size & Damage
         - For each of these data points, you have the option to modify or override the value of them allowing for flexibility in upgrade attachments
-        - Core Rule Book Examples: Drum Magazine, Extended Magainze 
-      - Adding a secondary weapon as an attachment 
+        - Core Rule Book Examples: Drum Magazine, Extended Magainze
+      - Adding a secondary weapon as an attachment
         - Core Rule Book Examples: Grenade Launcher Underbarrel, Shotgun Underbarrel, Bayonet
     - Cyberdecks
       - Item Upgrades occupy Option Slots, so it is now possible to use Item Upgrades to install & track Hardware Upgrades to the Cyberdeck
@@ -20,7 +20,9 @@
     - Cyberware
       - As some Cyberware is now Weapon Items, Item Upgrades can be used to add Attachment to these Weapon Types
         - Example: Popup Assault Rifle w/ Underbarrel Grenade Launcher
-  - 
+- Inventory items which are upgraded will have a unique "U" identifier appended to their name
+- When actors own an Item Upgrade Object, any items they own which match the Item Upgrade Type will have an action item added to their line in the inventory allowing you to easily install the upgrade to that item.
+
 **Changes**
 - Newly created actors and items will automatically have default icons configured.
 
@@ -31,7 +33,7 @@
 **Hot Fix**
 - Corrected localization issue of text on chat cards when rolling Net Damage
 - Added Zap as a rollable interface ability as it was missing from the list (Zap damage will be handled in a future release)
-  
+
 # Version 0.77.0 | Date: 2021-06-25
 
 **Migration to foundry 0.8.X**

@@ -431,6 +431,10 @@ export default class CPRActorSheet extends ActorSheet {
           item.toggleFavorite();
           break;
         }
+        case "upgrade": {
+          await item.sheet._selectItemUpgrades(event);
+          break;
+        }
         default: {
           item.doAction(this.actor, event.currentTarget.attributes);
         }
