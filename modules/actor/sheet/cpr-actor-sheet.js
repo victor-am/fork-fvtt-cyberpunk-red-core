@@ -6,6 +6,7 @@ import CPRChat from "../../chat/cpr-chat.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import RollCriticalInjuryPrompt from "../../dialog/cpr-roll-critical-injury-prompt.js";
 import Rules from "../../utils/cpr-rules.js";
+import SplitItemPrompt from "../../dialog/cpr-split-item-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
@@ -429,6 +430,10 @@ export default class CPRActorSheet extends ActorSheet {
         }
         case "favorite": {
           item.toggleFavorite();
+          break;
+        }
+        case "split": {
+          this._splitItem(item);
           break;
         }
         default: {
@@ -997,5 +1002,41 @@ export default class CPRActorSheet extends ActorSheet {
     } else {
       super._onDrop(event);
     }
+  }
+
+  /**
+   * _splitItem splits an item into multiple items if possible.
+   * It also adjusts the price accordingly.
+   *
+   * @param {Object} item - an object containing the new item
+   * @returns {null}
+   */
+  async _splitItem(item) {
+    if (item.data.data.upgrades.length !== 0) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Format("CPR.dialog.splitItem.warningUpgrade"));
+    }
+    const itemText = SystemUtils.Format("CPR.dialog.splitItem.text",
+      { amount: item.data.data.amount, itemName: item.name });
+    const formData = await SplitItemPrompt.RenderPrompt(itemText).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
+    const oldAmount = parseInt(item.data.data.amount, 10);
+    const oldPrice = item.data.data.price.market;
+    if (formData.splitAmount <= 0 || formData.splitAmount >= oldAmount) {
+      const warningMessage = SystemUtils.Format("CPR.dialog.splitItem.warningAmount",
+        { amountSplit: formData.splitAmount, amountOld: oldAmount, itemName: item.name });
+      SystemUtils.DisplayMessage("warn", warningMessage);
+      return;
+    }
+    const newAmount = oldAmount - formData.splitAmount;
+    const newPrice = (oldPrice / oldAmount) * newAmount;
+    const newItemData = duplicate(item.data);
+    newItemData.data.amount = formData.splitAmount.toString();
+    newItemData.data.price.market = formData.splitAmount * (oldPrice / oldAmount);
+    delete newItemData._id;
+    await this.actor.updateEmbeddedDocuments("Item",
+      [{ _id: item.id, "data.amount": newAmount.toString(), "data.price.market": newPrice }]);
+    await this.actor.createEmbeddedDocuments("Item", [newItemData]);
   }
 }
