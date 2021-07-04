@@ -46,3 +46,6 @@ changelog-dev-test:
     - echo "Checking if the CHANGELOG.md changed..."
     - ./tests/test-changelog-dev-changed.sh
   allow_failure: true
+  except:
+    - master
+    - dev
