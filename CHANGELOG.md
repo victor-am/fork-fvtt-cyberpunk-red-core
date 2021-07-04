@@ -1,6 +1,7 @@
 # WIP Version 0.78.0 | Dev branch
 
 **New Features**
+- Added possibility to split items into separate stacks for ammo, gear and clothing.
 
 **Changes**
 - Newly created actors and items will automatically have default icons configured.
@@ -12,7 +13,7 @@
 **Hot Fix**
 - Corrected localization issue of text on chat cards when rolling Net Damage
 - Added Zap as a rollable interface ability as it was missing from the list (Zap damage will be handled in a future release)
-  
+
 # Version 0.77.0 | Date: 2021-06-25
 
 **Migration to foundry 0.8.X**
