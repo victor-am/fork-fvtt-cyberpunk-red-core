@@ -330,7 +330,7 @@ export default class CPRActor extends Actor {
     // See if we have any items which upgrade our stat, and if so, upgrade the stat base
     const equippableItemTypes = SystemUtils.GetTemplateItemTypes("equippable");
     const upgradableItemTypes = SystemUtils.GetTemplateItemTypes("upgradable");
-    const itemTypes = equippableItemTypes.filter(value => upgradableItemTypes.includes(value));
+    const itemTypes = equippableItemTypes.filter((value) => upgradableItemTypes.includes(value));
     let modType = "modifier";
 
     itemTypes.forEach((itemType) => {

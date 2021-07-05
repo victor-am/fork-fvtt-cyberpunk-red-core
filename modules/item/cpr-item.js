@@ -1181,7 +1181,12 @@ export default class CPRItem extends Item {
       const magazineSize = (upgradeType === "override") ? upgradeValue : magazineData.max + upgradeValue;
       const extraBullets = magazineData.value - magazineSize;
       if (extraBullets > 0) {
-        updateList.push({ _id: this.id, "data.isUpgraded": upgradeStatus, "data.upgrades": installedUpgrades, "data.magazine.value": magazineData.max });
+        updateList.push({
+          _id: this.id,
+          "data.isUpgraded": upgradeStatus,
+          "data.upgrades": installedUpgrades,
+          "data.magazine.value": magazineData.max,
+        });
         const ammo = this.actor.items.find((i) => i.data._id === magazineData.ammoId);
         const ammoStack = ammo.data.data.amount + extraBullets;
         updateList.push({ _id: ammo.id, "data.amount": ammoStack });
