@@ -13,6 +13,13 @@
         {{!-- INSTALL ACTION --}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-uninstall-glyph.hbs" foundation}}
         {{!-- ITEM MANAGEMENT --}}
+        {{#if data.data.isUpgraded}}
+          {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
+        {{else}}
+          {{#unless (isEmpty (filter (filter foundation.actor.data.filteredItems.itemUpgrade "data.data.type" "cyberware") "data.data.isInstalled" false))}}
+            {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
+          {{/unless}}
+        {{/if}}
         {{/unless}}
     </div>
 </li>
@@ -30,6 +37,13 @@
         {{!-- INSTALL ACTION --}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-uninstall-glyph.hbs" optional}}
         {{!-- ITEM MANAGEMENT --}}
+        {{#if data.data.isUpgraded}}
+          {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
+        {{else}}
+          {{#unless (isEmpty (filter (filter actor.data.filteredItems.itemUpgrade "data.data.type" "cyberware") "data.data.isInstalled" false))}}
+            {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
+          {{/unless}}
+        {{/if}}
         {{/unless}}
     </div>
 </li>

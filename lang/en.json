@@ -726,6 +726,7 @@
     "CPR.attachment": "Attachment",
     "CPR.upgrades": "Upgrades",
     "CPR.upgraded": "Upgraded",
+    "CPR.manageupgrades": "Manage Upgrades",
     "ITEM.TypeAmmo": "Ammo",
     "ITEM.TypeArmor": "Armor",
     "ITEM.TypeClothing": "Clothing",
