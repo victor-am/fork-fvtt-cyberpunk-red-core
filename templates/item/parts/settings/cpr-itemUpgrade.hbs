@@ -57,8 +57,10 @@
             <div class="item flexrow setting-type text-nowrap">
                 <select name="data.modifiers.{{dp}}.type" data-dtype="{{getProp (getProp ../data.data.modifiers dp) "type"}}">
                     {{#select (getProp (getProp ../data.data.modifiers dp) "type")}}
-                        {{#each (getProp (findConfigValue "upgradableDataPoints" "upgradeConfig") "configurableTypes") as |configType|}}
-                            <option value="{{configType}}">{{configType}}</option>
+                        {{#each (getProp (findConfigValue "upgradableDataPoints" "upgradeConfig") "configurableTypes") as |configType ct|}}
+                        {{#unless (compare (compare ../../this.item.data.data.type "===" "clothing") "&&" (compare ct "!==" "modifier"))}}
+                            <option value="{{ct}}">{{localize configType}}</option>
+                            {{/unless}}
                         {{/each}}
                     {{/select}}
                 </select>

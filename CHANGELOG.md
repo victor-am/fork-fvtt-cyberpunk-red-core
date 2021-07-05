@@ -21,7 +21,9 @@
       - As some Cyberware is now Weapon Items, Item Upgrades can be used to add Attachment to these Weapon Types
         - Example: Popup Assault Rifle w/ Underbarrel Grenade Launcher
     - Clothing
-      - Clothing can now have upgrades applied to them to affect COOL and the "Wardrobe & Style" Skill Rolls. Note: If the upgrade applies to COOL, it will affect ALL rolls of COOL.
+      - Clothing can now have upgrades applied to them to modify COOL and the "Wardrobe & Style" Skill Rolls.
+        - Overriding stats/skills is not supported, all values will be treated as a modifier.
+        - Note: If the upgrade applies to COOL, it will affect ALL rolls of COOL (COOL Skills too).
 - Inventory items which are upgraded will have a unique "U" identifier appended to their name
 - When actors own an Item Upgrade Object, any items they own which match the Item Upgrade Type will have an action item added to their line in the inventory allowing you to easily install the upgrade to that item.
 

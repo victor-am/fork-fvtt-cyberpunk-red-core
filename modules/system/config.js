@@ -373,7 +373,10 @@ CPR.interfaceAbilities = {
 
 CPR.upgradableDataPoints = {
   upgradeConfig: {
-    configurableTypes: ["modifier", "override"],
+    configurableTypes: {
+      modifier: "CPR.modifier",
+      override: "CPR.override",
+    },
   },
   weapon: {
     damage: {
