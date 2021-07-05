@@ -428,6 +428,8 @@ export default class CPRItem extends Item {
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
     cprRoll.addMod(actor.getWoundStateMods());
     cprRoll.addMod(this._getSkillMod());
+    cprRoll.addMod(actor.getUpgradeMods(statName));
+    cprRoll.addMod(actor.getUpgradeMods(skillName));
     return cprRoll;
   }
 

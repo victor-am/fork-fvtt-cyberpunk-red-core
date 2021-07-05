@@ -317,7 +317,6 @@ export default function registerHandlebarsHelpers() {
         console.log(u);
       });
     });
-    console.log(actor);
     return returnValue;
   });
 

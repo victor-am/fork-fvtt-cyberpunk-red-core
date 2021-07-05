@@ -52,7 +52,7 @@
     {{#if (listContains (getProp (findConfigValue "upgradableDataPoints" "upgradeConfig") "configurableTypes") dataPoint.type)}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize (objConcat "CPR." dp)}}
+                {{localize dataPoint.localization}}
             </div>
             <div class="item flexrow setting-type text-nowrap">
                 <select name="data.modifiers.{{dp}}.type" data-dtype="{{getProp (getProp ../data.data.modifiers dp) "type"}}">

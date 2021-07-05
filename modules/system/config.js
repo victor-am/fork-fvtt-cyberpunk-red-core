@@ -379,48 +379,70 @@ CPR.upgradableDataPoints = {
     damage: {
       type: "modifier",
       value: 0,
+      localization: "CPR.damage",
     },
     rof: {
       type: "modifier",
       value: 0,
+      localization: "CPR.rof",
     },
     attackmod: {
       type: "modifier",
       value: 0,
+      localization: "CPR.attackmod",
     },
     magazine: {
       type: "override",
       value: 0,
+      localization: "CPR.magazine",
     },
     secondaryWeapon: {
       type: "item",
       configured: false,
+      localization: "CPR.secondaryWeapon",
     },
   },
   vehicle: {
     sdp: {
       type: "modifier",
       value: 0,
+      localization: "CPR.vehicle",
     },
     seats: {
       type: "modifier",
       value: 0,
+      localization: "CPR.seats",
     },
     speedCombat: {
       type: "modifier",
       value: 0,
+      localization: "CPR.speedCombat",
     },
   },
   cyberware: {
     secondaryWeapon: {
       type: "item",
       configured: false,
+      localization: "CPR.cyberware",
     },
   },
   cyberdeck: {
     slots: {
       type: "modifier",
       value: 0,
+      localization: "CPR.cyberdeck",
+    },
+  },
+  clothing: {
+    "Wardrobe & Style": {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.wardrobeandstyle",
+    },
+    cool: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.cool",
     },
   },
 };

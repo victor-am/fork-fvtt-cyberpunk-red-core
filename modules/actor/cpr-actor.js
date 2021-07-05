@@ -325,6 +325,33 @@ export default class CPRActor extends Actor {
     return parseInt(this.data.data.stats[statName].value, 10);
   }
 
+  getUpgradeMods(baseName) {
+    let modValue = 0;
+    // See if we have any items which upgrade our stat, and if so, upgrade the stat base
+    const equippableItemTypes = SystemUtils.GetTemplateItemTypes("equippable");
+    const upgradableItemTypes = SystemUtils.GetTemplateItemTypes("upgradable");
+    const itemTypes = equippableItemTypes.filter(value => upgradableItemTypes.includes(value));
+    let modType = "modifier";
+
+    itemTypes.forEach((itemType) => {
+      const itemList = this.data.filteredItems[itemType].filter((i) => i.data.data.equipped === "equipped" && i.data.data.isUpgraded);
+      itemList.forEach((i) => {
+        const upgradeValue = i.getAllUpgradesFor(baseName);
+        const upgradeType = i.getUpgradeTypeFor(baseName);
+        if (modType === "override") {
+          if (upgradeType === "override" && upgradeValue > modValue) {
+            modValue = upgradeValue;
+          }
+        } else {
+          modValue = (upgradeType === "override") ? upgradeValue : modValue + upgradeValue;
+          modType = upgradeType;
+        }
+      });
+    });
+
+    return modValue;
+  }
+
   clearLedger(prop) {
     LOGGER.trace("CPRActor clearLedger | called.");
     if (this.isLedgerProperty(prop)) {
@@ -528,6 +555,7 @@ export default class CPRActor extends Actor {
     const cprRoll = new CPRRolls.CPRStatRoll(niceStatName, statValue);
     cprRoll.addMod(this.getArmorPenaltyMods(statName));
     cprRoll.addMod(this.getWoundStateMods());
+    cprRoll.addMod(this.getUpgradeMods(statName));
     return cprRoll;
   }
 
