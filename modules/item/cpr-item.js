@@ -1162,12 +1162,31 @@ export default class CPRItem extends Item {
   uninstallUpgrades(upgrades) {
     let installedUpgrades = this.data.data.upgrades;
     const updateList = [];
+    const dataPoints = [];
     upgrades.forEach((u) => {
       installedUpgrades = installedUpgrades.filter((iUpgrade) => iUpgrade._id !== u.id);
       updateList.push({ _id: u.id, "data.isInstalled": false });
     });
     const upgradeStatus = (installedUpgrades.length > 0);
+    // Need to set this so it can be used further in this function.
+    this.data.data.upgrades = installedUpgrades;
     updateList.push({ _id: this.id, "data.isUpgraded": upgradeStatus, "data.upgrades": installedUpgrades });
+
+    if (this.type === "weapon" && this.data.data.isRanged) {
+      const magazineData = this.data.data.magazine;
+      const upgradeValue = this.getAllUpgradesFor("magazine");
+      const upgradeType = this.getUpgradeTypeFor("magazine");
+      const magazineSize = (upgradeType === "override") ? upgradeValue : magazineData.max + upgradeValue;
+      const extraBullets = magazineData.value - magazineSize;
+      if (extraBullets > 0) {
+        updateList.push({ _id: this.id, "data.isUpgraded": upgradeStatus, "data.upgrades": installedUpgrades, "data.magazine.value": magazineData.max });
+        const ammo = this.actor.items.find((i) => i.data._id === magazineData.ammoId);
+        const ammoStack = ammo.data.data.amount + extraBullets;
+        updateList.push({ _id: ammo.id, "data.amount": ammoStack });
+      }
+    } else {
+      updateList.push({ _id: this.id, "data.isUpgraded": upgradeStatus, "data.upgrades": installedUpgrades });
+    }
     return this.actor.updateEmbeddedDocuments("Item", updateList);
   }
 
