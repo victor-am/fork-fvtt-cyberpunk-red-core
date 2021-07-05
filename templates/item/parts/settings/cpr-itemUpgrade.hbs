@@ -58,7 +58,7 @@
                 <select name="data.modifiers.{{dp}}.type" data-dtype="{{getProp (getProp ../data.data.modifiers dp) "type"}}">
                     {{#select (getProp (getProp ../data.data.modifiers dp) "type")}}
                         {{#each (getProp (findConfigValue "upgradableDataPoints" "upgradeConfig") "configurableTypes") as |configType ct|}}
-                        {{#unless (compare (compare ../../this.item.data.data.type "===" "clothing") "&&" (compare ct "!==" "modifier"))}}
+                        {{#unless (compare (listContains "clothing,gear" ../../this.item.data.data.type) "&&" (compare ct "!==" "modifier"))}}
                             <option value="{{ct}}">{{localize configType}}</option>
                             {{/unless}}
                         {{/each}}

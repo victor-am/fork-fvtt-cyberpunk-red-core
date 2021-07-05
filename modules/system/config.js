@@ -371,6 +371,8 @@ CPR.interfaceAbilities = {
   zap: "CPR.zap",
 };
 
+// The following item types have the upgradable template:
+//  *ammo, *armor, cyberware, cyberdeck, *gear, clothing, weapon, vehicle
 CPR.upgradableDataPoints = {
   upgradeConfig: {
     configurableTypes: {
@@ -446,6 +448,58 @@ CPR.upgradableDataPoints = {
       type: "modifier",
       value: 0,
       localization: "CPR.cool",
+    },
+  },
+  gear: {
+    int: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.int",
+    },
+    ref: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.ref",
+    },
+    dex: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.dex",
+    },
+    tech: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.tech",
+    },
+    cool: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.cool",
+    },
+    will: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.will",
+    },
+    luck: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.luck",
+    },
+    move: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.move",
+    },
+    body: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.body",
+    },
+    emp: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.emp",
     },
   },
 };
