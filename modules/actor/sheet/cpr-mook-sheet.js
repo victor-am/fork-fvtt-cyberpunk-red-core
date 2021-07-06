@@ -7,7 +7,8 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
 import MookNamePrompt from "../../dialog/cpr-mook-name-prompt.js";
 
 /**
- * Extend the basic CPRActorSheet.
+ * Extend the basic CPRActorSheet. A lot of code is common between mooks and characters.
+ *
  * @extends {CPRActorSheet}
  */
 export default class CPRMookActorSheet extends CPRActorSheet {
@@ -25,6 +26,13 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     });
   }
 
+  /**
+   * Activate listeners for the sheet. This has to call super at the end to get additional
+   * listners that are common between mooks and characters.
+   *
+   * @override
+   * @param {Object} html - the DOM object
+   */
   activateListeners(html) {
     LOGGER.trace("activateListeners | CPRMookActorSheet | Called.");
     super.activateListeners(html);
@@ -38,6 +46,15 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     html.find(".deletable").keydown((event) => this._handleDelKey(event));
   }
 
+  /**
+   * Called when the edit-skills glyph (top right of the skills section on the sheet) is clicked. This
+   * pops up the wizard for modifying mook skills quickly.
+   *
+   * @async
+   * @callback
+   * @private
+   * @returns {null}
+   */
   async _modMookSkill() {
     LOGGER.trace("_modMookSkill | CPRMookActorSheet | Called.");
     let again = true;
@@ -57,14 +74,24 @@ export default class CPRMookActorSheet extends CPRActorSheet {
       skill.setSkillLevel(formData.skillLevel);
       skill.setSkillMod(formData.skillMod);
       this._updateOwnedItem(skill);
-      // eslint-disable-next-line max-len
-      const msg = `${SystemUtils.Localize("CPR.mookSheet.skills.updated")} ${formData.skillName} ${SystemUtils.Localize("CPR.ledger.to")} ${formData.skillLevel}`;
+      const updated = SystemUtils.Localize("CPR.mookSheet.skills.updated");
+      const to = SystemUtils.Localize("CPR.ledger.to");
+      const msg = `${updated} ${formData.skillName} ${to} ${formData.skillLevel}`;
       SystemUtils.DisplayMessage("notify", msg);
       again = formData.again;
     }
   }
 
+  /**
+   * Called when a user clicks on the mook name in the sheet. Pops up a dialog to edit the name.
+   *
+   * @async
+   * @callback
+   * @private
+   * @returns {bull}
+   */
   async _changeMookName() {
+    LOGGER.trace("_changeMookName | CPRMookActorSheet | Called.");
     const formData = await MookNamePrompt.RenderPrompt(this.actor.data.name).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;
@@ -76,6 +103,13 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     }
   }
 
+  /**
+   * Show or hide the profile icon on the mook sheet when clicked.
+   *
+   * @callback
+   * @private
+   * @param {Object} event - event data such as a mouse click or key press
+   */
   _expandMookImage(event) {
     LOGGER.trace("_expandMookImage | CPRMookActorSheet | Called.");
     const mookImageArea = $(event.currentTarget).parents(".mook-image");
@@ -96,6 +130,17 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     this.actor.update(actorData);
   }
 
+  /**
+   * Called when a user presses a key, but only does things if it was DEL. This is used in conjunction
+   * with jQuery's focus() call, which is called on hover. That way, an html element is "selected" just
+   * by hovering the mouse over. Then when DEL is pressed, we have a thing that can be deleted from the sheet
+   * and the actor object underneath.
+   *
+   * @async
+   * @callback
+   * @private
+   * @param {Object} event - event data such as a mouse click or key press
+   */
   async _handleDelKey(event) {
     LOGGER.trace("_handleDelKey | CPRActorSheet | Called.");
     LOGGER.debug(event.keyCode);
