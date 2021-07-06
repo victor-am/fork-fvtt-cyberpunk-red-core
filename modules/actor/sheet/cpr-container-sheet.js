@@ -159,7 +159,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
   async _purchaseItem(item) {
     LOGGER.trace("_purchaseItem | CPRContainerSheet | Called.");
     if (this.tradePartnerId === undefined || this.tradePartnerId === "") {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.tradewithwarn"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeWithWarn"));
       return;
     }
 
@@ -167,16 +167,16 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     if (!getProperty(this.actor.data, "flags.cyberpunk-red-core.items-free")) {
       const price = item.data.data.price.market;
       if (tradePartnerActor.data.data.wealth.value < price) {
-        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.tradepricewarn"));
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradePriceWarn"));
         return;
       }
       const { amount } = item.data.data;
       const username = game.user.name;
       let reason = "";
       if (amount > 1) {
-        reason = `${SystemUtils.Format("CPR.tradelogmultiple", { amount, name: item.name, price })} - ${username}`;
+        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.multiple", { amount, name: item.name, price })} - ${username}`;
       } else {
-        reason = `${SystemUtils.Format("CPR.tradelogsingle", { name: item.name, price })} - ${username}`;
+        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.single", { name: item.name, price })} - ${username}`;
       }
       await tradePartnerActor.deltaLedgerProperty("wealth", -1 * price, reason);
     }
@@ -202,7 +202,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     const itemTypeNice = itemType.toLowerCase().capitalize();
     const itemString = "ITEM.Type";
     const itemTypeLocal = itemString.concat(itemTypeNice);
-    const itemName = `${SystemUtils.Localize("CPR.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
+    const itemName = `${SystemUtils.Localize("CPR.actorSheets.commonActions.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
     const itemImage = SystemUtils.GetDefaultImage("Item", itemType);
     const itemData = { img: itemImage, name: itemName, type: itemType };
     await this.actor.createEmbeddedDocuments("Item", [itemData]);
@@ -292,7 +292,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     if (game.user.isGM || playersCanCreate) {
       super._onDrop(event);
     } else {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.tradedraginwarn"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeDragInWarn"));
     }
   }
 }

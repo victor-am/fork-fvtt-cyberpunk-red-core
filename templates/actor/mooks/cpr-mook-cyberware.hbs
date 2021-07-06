@@ -1,7 +1,7 @@
 {{trace "CPR-MOOK-CYBERWARE.HBS"}}
 <div class="items-header bg-red fg-white flexrow">
   <span class="item-name section-name text-nowrap text-padding-left">
-    {{localize "CPR.cyberware"}}/{{localize "CPR.specialgear"}}
+    {{localize "CPR.global.itemTypes.cyberware"}}/{{localize "CPR.mookSheet.items.specialGear"}}
   </span>
 </div>
 <div class="bg-white fg-black text-padding-left">
@@ -13,23 +13,23 @@
           look at the length of optionals to know the truth about used slots. -->
       {{#if (compare optionals.length ">" 0)}}
         {{#if (compare foundation.data.name "===" "Internal (7 Option Slots)")}}
-          {{localize "CPR.internal"~}}
+          {{localize "CPR.mookSheet.items.internalCyberware"~}}
         {{/if}}
         {{#if (compare foundation.data.name "===" "External (7 Option Slots)")}}
-          {{localize "CPR.external"~}}
+          {{localize "CPR.mookSheet.items.externalCyberware"~}}
         {{/if}}
         {{#if (compare foundation.data.name "===" "Fashionware (7 Option Slots)")}}
-          {{localize "CPR.fashionware"~}}
+          {{localize "CPR.global.cyberwareType.fashionware"~}}
         {{/if}}
       {{/if}}
     {{else}}
-      <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{foundation.data._id}}">
+      <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{foundation.data._id}}">
         {{~foundation.name~}}{{~#unless (compare optionals.length ">" 0)~}}{{~#unless @last~}},{{~/unless~}}{{~/unless~}}
       </a>
     {{~/if}}
     {{~#if (compare optionals.length ">" 0)~}}&nbsp;({{/if~}}
     {{~#each optionals as |optional o|~}}
-      <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}">
+      <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}">
         {{~optional.name}}{{#unless @last}},&nbsp;{{/unless~}}
       </a>
     {{~/each}}
@@ -40,12 +40,12 @@
   <!-- Gear -->
   {{#each (sort (arrayConcat actor.data.filteredItems.ammo actor.data.filteredItems.gear) "name") as |item i|}}
     {{#if (compare item.type "===" "ammo")}}
-      <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item._id}}">
+      <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item._id}}">
         {{item.name}} (x{{item.data.data.amount}}){{#unless @last}},{{/unless}}
       </a>
     {{/if}}
     {{#if (compare (compare item.type "===" "gear") "||" (compare item.type "===" "cyberdeck"))}}
-      <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.clicktoviewitem"}}, {{localize "CPR.ctrlclicktosendtochat"}}, {{localize "CPR.pressdeletetodelete"}}" data-item-id="{{item._id}}">
+      <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item._id}}">
         {{item.name}}{{#unless @last}},{{/unless}}
       </a>
     {{/if}}

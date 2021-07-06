@@ -1,7 +1,7 @@
 {{trace "CPR-ROLL-CRITICAL-INJURY-PROMPT.HBS"}}
 <form>
   <div class="cpr-hud-icon roll-critical-injury-config">
-    <div>{{localize "CPR.criticalinjuryselect"}}</div>
+    <div>{{localize "CPR.dialog.rollCriticalInjury.criticalInjurySelect"}}</div>
     <div>
       {{#if this}}
       <select name="criticalInjuryTable">
@@ -9,7 +9,7 @@
         <option value="{{rollTableName}}">{{rollTableName}}</option>
         {{/each}}
       </select>
-      {{else}}{{localize "CPR.criticalinjurynonewarning"}}
+      {{else}}{{localize "CPR.dialog.rollCriticalInjury.criticalInjuryNoneWarning"}}
       {{/if}}
     </div>
   </div>

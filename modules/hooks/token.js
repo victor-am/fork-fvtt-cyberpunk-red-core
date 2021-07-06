@@ -16,14 +16,14 @@ const tokenHooks = () => {
       // We should revisit then.
       const newItem = updatedData.actorData.items[updatedData.actorData.items.length - 1];
       if (newItem.data.core) {
-        SystemUtils.DisplayMessage("warn", "CPR.dontaddcoreitems");
+        SystemUtils.DisplayMessage("warn", "CPR.messages.dontAddCoreItems");
         // If preUpdateToken returns false, no further hooks get called.
         return false;
       }
     }
 
     if ("actorData" in updatedData && "data" in updatedData.actorData && "roleInfo" in updatedData.actorData.data) {
-      Rules.lawyer(Rules.validRole(game.actors.get(token.actorId), updatedData.actorData), "CPR.invalidroledata");
+      Rules.lawyer(Rules.validRole(game.actors.get(token.actorId), updatedData.actorData), "CPR.messages.invalidRoleData");
     }
 
     if (updatedData.actorData && updatedData.actorData.data && updatedData.actorData.data.externalData) {
@@ -99,7 +99,7 @@ const tokenHooks = () => {
       LOGGER.debugObject(tokenActor);
       if (typeof tokenActor === "undefined") {
         // this happens if the scene is changed while the mook sheet is still displayed and dragged to
-        const warning = SystemUtils.Localize("CPR.notokenfound");
+        const warning = SystemUtils.Localize("CPR.messages.noTokenFound");
         SystemUtils.DisplayMessage("error", warning);
       } else if (Object.values(tokenActor.apps).some((app) => app instanceof CPRMookActorSheet) && userId === game.user.data._id) {
         if ("items" in updateData.actorData) {
