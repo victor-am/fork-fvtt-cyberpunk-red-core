@@ -45,6 +45,20 @@ export default class CPRItem extends Item {
     super.update(data, options);
   }
 
+  _onCreate(data, options, userId) {
+    const newData = data;
+    // If we acre creating an upgradable item from an existing upgradable item
+    // which has been upgraded, remove the upgrade from the new weapon as it
+    // may reference an itemUpgrade object which doesn't exist in the same
+    // location as the upgradable item
+    const upgradableItemTypes = SystemUtils.GetTemplateItemTypes("upgradable");
+    if (upgradableItemTypes.includes(data.type)) {
+      newData.data.isUpgraded = false;
+      newData.data.upgrades = [];
+    }
+    super._onCreate(newData, options, userId);
+  }
+
   // Generic item.doAction() method so any idem can be called to
   // perform an action.  This can be easily extended in the
   // switch statement and adding additional methods for each item.
