@@ -6,7 +6,7 @@
             <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
                 {{localize "CPR.characterSheet.tabs.fight.criticalInjuries"}}
                 <span class="item-detail gear-actions bg-black text-nowrap text-float-right text-padding-right"><a class="roll-critical-injury" title="{{localize "CPR.characterSheet.tabs.fight.criticalInjuryRoll"}}" data-item-type="criticalInjury"><i class="fas fa-dice text-padding-right"></i></a></span>
-                <span class="item-detail gear-actions bg-black text-nowrap text-float-right text-padding-right">{{#if (systemConfig "playersCreateInventory")}}<a class="item-create" title="{{localize "CPR.actorSheets.common.actions.createNewItem"}}" data-item-type="criticalInjury"><i class="fas fa-plus-circle text-padding-right"></i></a>{{/if}}</span>
+                <span class="item-detail gear-actions bg-black text-nowrap text-float-right text-padding-right">{{#if (systemConfig "playersCreateInventory")}}<a class="item-create" title="{{localize "CPR.actorSheets.commonActions.createNewItem"}}" data-item-type="criticalInjury"><i class="fas fa-plus-circle text-padding-right"></i></a>{{/if}}</span>
             </span>
         </li>
         <div class="critical-injury-content">
@@ -54,8 +54,8 @@
                             /{{armor.data.data.headLocation.sp}}
                             <a class="ablate" data-location="head"><i
                                     class="far fa-arrow-alt-circle-down" title="{{localize "CPR.characterSheet.tabs.fight.ablateArmor"}}"></i></a> {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorHead.id)}}<a class="armor-current" data-location="head" data-item-id="{{armor.id}}">
-                                    <i class="fas fa-star" title="{{localize "CPR.actorSheets.common.actions.resyncHeadArmor"}}"></i></a>{{else}}<a class="armor-current" data-location="head" data-item-id="{{armor.id}}"><i
-                                    class="far fa-star" title="{{localize "CPR.actorSheets.common.actions.makeHeadArmorActive"}}"></i></a>{{/if}}
+                                    <i class="fas fa-star" title="{{localize "CPR.actorSheets.commonActions.resyncHeadArmor"}}"></i></a>{{else}}<a class="armor-current" data-location="head" data-item-id="{{armor.id}}"><i
+                                    class="far fa-star" title="{{localize "CPR.actorSheets.commonActions.makeHeadArmorActive"}}"></i></a>{{/if}}
                         </div>
                     </li>
                     {{/if}}
@@ -73,8 +73,8 @@
                             /{{armor.data.data.bodyLocation.sp}}
                                                         <a class="ablate" data-location="body"><i
                                     class="far fa-arrow-alt-circle-down" title="{{localize "CPR.characterSheet.tabs.fight.ablateArmor"}}"></i></a> {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorBody.id)}}<a class="armor-current" data-location="body" data-item-id="{{armor.id}}">
-                                    <i class="fas fa-star" title="{{localize "CPR.actorSheets.common.actions.resyncBodyArmor"}}"></i></a>{{else}}<a class="armor-current" data-location="body" data-item-id="{{armor.id}}"><i
-                                    class="far fa-star" title="{{localize "CPR.actorSheets.common.actions.makeBodyArmorActive"}}"></i></a>{{/if}}
+                                    <i class="fas fa-star" title="{{localize "CPR.actorSheets.commonActions.resyncBodyArmor"}}"></i></a>{{else}}<a class="armor-current" data-location="body" data-item-id="{{armor.id}}"><i
+                                    class="far fa-star" title="{{localize "CPR.actorSheets.commonActions.makeBodyArmorActive"}}"></i></a>{{/if}}
 
                         </div>
                     </li>
@@ -93,8 +93,8 @@
                             /{{armor.data.data.shieldHitPoints.max}}
                                                         <a class="ablate" data-location="shield"><i
                                     class="far fa-arrow-alt-circle-down" title="{{localize "CPR.characterSheet.tabs.fight.damageShield"}}"></i></a> {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorShield.id)}}<a class="armor-current" data-location="shield" data-item-id="{{armor.id}}">
-                                    <i class="fas fa-star" title="{{localize "CPR.actorSheets.common.actions.resyncShield"}}"></i></a>{{else}}<a class="armor-current" data-location="shield" data-item-id="{{armor.id}}"><i
-                                    class="far fa-star" title="{{localize "CPR.actorSheets.common.actions.makeShieldActive"}}"></i></a>{{/if}}
+                                    <i class="fas fa-star" title="{{localize "CPR.actorSheets.commonActions.resyncShield"}}"></i></a>{{else}}<a class="armor-current" data-location="shield" data-item-id="{{armor.id}}"><i
+                                    class="far fa-star" title="{{localize "CPR.actorSheets.commonActions.makeShieldActive"}}"></i></a>{{/if}}
                         </div>
                     </li>
                     {{/if}}
@@ -186,7 +186,7 @@
                         </a>
                         {{#if (compare (fireflag ../actor "suppressive" weapon.id) "!==" "checked")}}
                         <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}} data-damage="{{weapon.data.data.damage}}">
-                            <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.common.actions.rollDamage"}}"></i>
+                            <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
                         </a>
                         {{/if}}
                     </div>
@@ -256,7 +256,7 @@
                                 </div>
                                 {{#if (compare program.data.damage.standard "!==" "")}}
                                 <div class="installed-program-damage">
-                                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="damage" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.common.actions.rollDamage"}}" ></i></a>
+                                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="damage" data-cyberdeck-id="{{../../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}" ></i></a>
                                 </div>
                                 {{/if}}
                             </div>
@@ -340,7 +340,7 @@
                     {{#if (compare ../actor.data.type "===" "mook")}}
                     &nbsp;
                     <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="atk" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-fist-raised red-fg" title="{{localize "CPR.characterSheet.tabs.fight.rollAnAttack"}}"></i></a>
-                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="damage" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.common.actions.rollDamage"}}" ></i></a>
+                    <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="damage" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}" ></i></a>
                     <a class="program-execution" data-roll-type="cyberdeckProgram" data-execution-type="def" data-cyberdeck-id="{{../cyberdeck.id}}" data-program-id="{{program._id}}"><i class="fas fa-shield-virus red-fg" title="{{localize "CPR.characterSheet.tabs.fight.rollDefense"}}" ></i></a>
                     {{/if}}
                   </div>

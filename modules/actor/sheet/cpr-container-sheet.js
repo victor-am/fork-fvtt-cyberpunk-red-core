@@ -197,7 +197,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     const itemTypeNice = itemType.toLowerCase().capitalize();
     const itemString = "ITEM.Type";
     const itemTypeLocal = itemString.concat(itemTypeNice);
-    const itemName = `${SystemUtils.Localize("CPR.actorSheets.common.actions.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
+    const itemName = `${SystemUtils.Localize("CPR.actorSheets.commonActions.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
     const itemImage = SystemUtils.GetDefaultImage("Item", itemType);
     const itemData = { img: itemImage, name: itemName, type: itemType };
     await this.actor.createEmbeddedDocuments("Item", [itemData]);
