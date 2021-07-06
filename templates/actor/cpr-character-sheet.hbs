@@ -29,7 +29,7 @@
             <a class="gear-tab tab-label text-bold tab-indent" data-tab="gear">{{localize "CPR.global.itemTypes.gear"}}</a>
           </div>
           <div class="tab-pink-underlay">
-            <a class="cyberware-tab tab-label text-bold tab-indent" data-tab="cyberware">{{localize "CPR.characterSheet.tabs.cyber.title"}}</a>
+            <a class="cyberware-tab tab-label text-bold tab-indent" data-tab="cyberware">{{localize "CPR.characterSheet.rightPane.cyber.title"}}</a>
           </div>
 
         </nav>
@@ -56,19 +56,19 @@
           {{!-- <a class="navtab center-text bold white-fg" data-tab="role">{{localize "CPR.global.role.role"}}</a> --}}
           <div class="tab-pink-underlay">
             <div class="tab-label text-bold tab-indent" data-tab="fight">
-              <a data-tab="fight">{{localize "CPR.characterSheet.tabs.fight.title"}}</a>
+              <a data-tab="fight">{{localize "CPR.characterSheet.bottomPane.fight.title"}}</a>
               {{#if (compare fightOptions "===" "both")}}
                 &nbsp;
                 {{#if (compare fightState "===" "Meatspace")}}
-                  (<span class="fg-yellow">{{localize "CPR.characterSheet.tabs.fight.meat"}}</span>|<a class="toggle-fight-state" data-state="Netspace">{{localize "CPR.characterSheet.tabs.fight.net"}}</a>)
+                  (<span class="fg-yellow">{{localize "CPR.characterSheet.bottomPane.fight.meat"}}</span>|<a class="toggle-fight-state" data-state="Netspace">{{localize "CPR.characterSheet.bottomPane.fight.net"}}</a>)
                 {{else}}
-                  (<a class="toggle-fight-state" data-state="Meatspace">{{localize "CPR.characterSheet.tabs.fight.meat"}}</a>|<span class="fg-yellow">{{localize "CPR.characterSheet.tabs.fight.net"}}</span>)
+                  (<a class="toggle-fight-state" data-state="Meatspace">{{localize "CPR.characterSheet.bottomPane.fight.meat"}}</a>|<span class="fg-yellow">{{localize "CPR.characterSheet.bottomPane.fight.net"}}</span>)
                 {{/if}}
               {{/if}}
             </div>
           </div>
           <div class="tab-pink-underlay">
-            <a class="tab-label text-bold tab-indent" data-tab="lifepath">{{localize "CPR.characterSheet.tabs.lifepath.title"}}</a>
+            <a class="tab-label text-bold tab-indent" data-tab="lifepath">{{localize "CPR.characterSheet.bottomPane.lifepath.title"}}</a>
           </div>
         </nav>
       </div>
