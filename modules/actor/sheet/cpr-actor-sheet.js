@@ -1014,10 +1014,14 @@ export default class CPRActorSheet extends ActorSheet {
           || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
           return;
         }
-        super._onDrop(event).then(actor.deleteEmbeddedDocuments("Item", [dragData.data._id]));
+        if (dragData.data.data.isUpgraded) {
+          SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.tradedragupgradewarn"));
+          return;
+        }
+        return super._onDrop(event).then(actor.deleteEmbeddedDocuments("Item", [dragData.data._id]));
       }
     } else {
-      super._onDrop(event);
+      return super._onDrop(event);
     }
   }
 

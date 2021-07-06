@@ -665,6 +665,7 @@
     "CPR.tradecontainertypestash": "Stash - Storage container",
     "CPR.tradedraginwarn": "You lack the permission to create items in this container.",
     "CPR.tradedragoutwarn": "It is not allowed to drag an item out of a container actor.",
+    "CPR.tradedragupgradewarn": "Trading upgraded items is not supported in the system at this time.",
     "CPR.tradefreeitems": "Are all Items free?",
     "CPR.tradegmsettings": "GM Settings",
     "CPR.tradeinfinitestock": "Infinite Stock?",
