@@ -2,9 +2,9 @@
 {{!-- Item purchase or take --}}
 <a class="item-action" data-action-type="purchase">
   {{#if actor.data.flags.cyberpunk-red-core.items-free}}
-  <i class="fas fa-hand-pointer" title="{{localize "CPR.containerSheet.takeItem"}}"></i>
+  <i class="fas fa-hand-pointer" title="{{localize "CPR.containerSheet.action.takeItem"}}"></i>
   {{else}}
-  <i class="fas fa-shopping-cart" title="{{localize "CPR.containerSheet.purchaseItem"}}"></i>
+  <i class="fas fa-shopping-cart" title="{{localize "CPR.containerSheet.action.purchaseItem"}}"></i>
   {{/if}}
 </a>
 {{!-- Item deletion --}}

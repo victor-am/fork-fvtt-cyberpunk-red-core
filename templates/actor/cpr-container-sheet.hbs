@@ -24,7 +24,7 @@
       <div class="settings-section">
         <div class="bg-white">
           <li class="item flexrow">
-            <div class="item-name text-nowrap trade-with-label">{{localize "CPR.containerSheet.tradeWith"}}:</div>
+            <div class="item-name text-nowrap trade-with-label">{{localize "CPR.containerSheet.action.tradeWith"}}:</div>
             <div class="item-end">
               <select class="trade-with-dropdown">
                 {{#select tradePartnerId}}
@@ -43,18 +43,18 @@
         <div class="bg-white">
           <li class="item flexrow">
             <div class="text-center text-bold text-normal">
-              {{localize "CPR.containerSheet.tradeGmSettings"}}
+              {{localize "CPR.containerSheet.settings.title"}}
             </div>
           </li>
           <li class="item flexrow">
-            <div class="item-name text-nowrap container-type-label">{{localize "CPR.containerSheet.tradeContainerType"}}:</div>
+            <div class="item-name text-nowrap container-type-label">{{localize "CPR.containerSheet.containerType.title"}}:</div>
             <div class="item-end">
               <select class="container-type-dropdown">
                 {{#select actor.data.flags.cyberpunk-red-core.container-type}}
-                  <option value="shop">{{localize "CPR.containerSheet.tradeContainerTypeShop"}}</option>
-                  <option value="loot">{{localize "CPR.containerSheet.tradeContainerTypeLoot"}}</option>
-                  <option value="stash">{{localize "CPR.containerSheet.tradeContainerTypeStash"}}</option>
-                  <option value="custom">{{localize "CPR.containerSheet.tradeContainerTypeCustom"}}</option>
+                  <option value="shop">{{localize "CPR.containerSheet.containerType.shop"}}</option>
+                  <option value="loot">{{localize "CPR.containerSheet.containerType.loot"}}</option>
+                  <option value="stash">{{localize "CPR.containerSheet.containerType.stash"}}</option>
+                  <option value="custom">{{localize "CPR.containerSheet.containerType.custom"}}</option>
                 {{/select}}
               </select>
             </div>
@@ -69,7 +69,7 @@
                     <i class="far fa-circle"></i>
                   {{/if}}
                 </a>
-                {{localize "CPR.containerSheet.tradeFreeItems"}}
+                {{localize "CPR.containerSheet.settings.freeItems"}}
               </div>
             </li>
           {{/if}}
@@ -83,14 +83,14 @@
                     <i class="far fa-circle"></i>
                   {{/if}}
                 </a>
-                {{localize "CPR.containerSheet.tradeInfiniteStock"}}
+                {{localize "CPR.containerSheet.settings.infiniteStock"}}
               </div>
             </li>
           {{/if}}
           {{#if (compare actor.data.flags.cyberpunk-red-core.container-type "===" "custom")}}
             <li class="item flexrow">
               <div class="item-name text-bold">
-                {{localize "CPR.containerSheet.tradePlayersCan"}}:
+                {{localize "CPR.containerSheet.settings.playersCan"}}:
               </div>
             </li>
           <li class="item flexrow">
@@ -102,7 +102,7 @@
                     <i class="far fa-circle"></i>
                   {{/if}}
                 </a>
-                {{localize "CPR.containerSheet.tradePlayersCreate"}}
+                {{localize "CPR.containerSheet.settings.playersCreate"}}
               </div>
             </li>
             <li class="item flexrow">
@@ -114,7 +114,7 @@
                     <i class="far fa-circle"></i>
                   {{/if}}
                 </a>
-                {{localize "CPR.containerSheet.tradePlayersDelete"}}
+                {{localize "CPR.containerSheet.settings.playersDelete"}}
               </div>
             </li>
             <li class="item flexrow">
@@ -126,7 +126,7 @@
                     <i class="far fa-circle"></i>
                   {{/if}}
                 </a>
-                {{localize "CPR.containerSheet.tradePlayersModify"}}
+                {{localize "CPR.containerSheet.settings.playersModify"}}
               </div>
             </li>
           {{/if}}
