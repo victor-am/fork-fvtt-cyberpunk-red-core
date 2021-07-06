@@ -1211,7 +1211,8 @@ export default class CPRItem extends Item {
       bodyLocation.ablation = (bodyLocation.ablation > bodyLocation.sp) ? bodyLocation.sp : bodyLocation.ablation;
       headLocation.ablation = (headLocation.ablation > headLocation.sp) ? headLocation.sp : headLocation.ablation;
       shieldHitPoints.value = (shieldHitPoints.value > shieldHitPoints.max) ? shieldHitPoints.max : shieldHitPoints.value;
-      updateList.push({ _id: this.id,
+      updateList.push({
+        _id: this.id,
         "data.isUpgraded": upgradeStatus,
         "data.upgrades": installedUpgrades,
         "data.bodyLocation": bodyLocation,
