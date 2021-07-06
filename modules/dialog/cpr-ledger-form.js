@@ -9,7 +9,7 @@ export default class CPRLedger extends FormApplication {
     return mergeObject(super.defaultOptions, {
       title: SystemUtils.Localize("CPR.ledgertitle"),
       template: "systems/cyberpunk-red-core/templates/dialog/cpr-ledger-form.hbs",
-      width: 500,
+      width: 600,
       height: 340,
     });
   }
