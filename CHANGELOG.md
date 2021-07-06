@@ -29,6 +29,8 @@
       - NOTE: Due to the way the shield mechanics work, you'll have to repair the shield after installing the item upgrade
 - Inventory items which are upgraded will have a unique "U" identifier appended to their name
 - When actors own an Item Upgrade Object, any items they own which match the Item Upgrade Type will have an action item added to their line in the inventory allowing you to easily install the upgrade to that item.
+- Added possibility to split items into separate stacks for ammo, gear and clothing.
+- Some Items can now be automatically stacked, when dragged onto the character sheet or being purchased/taken from a container. This is enabled for the following Item types: Ammo, Gear, Clothing
 
 **Changes**
 - Newly created actors and items will automatically have default icons configured.
