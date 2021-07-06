@@ -7,6 +7,7 @@
 
 **Bug Fixes**
 - Fix #265, #266, #267: Gear tab now remembers scroll position.
+- Fix #276: Items can be transferred from unlinked actors
 
 # Version 0.77.1 | Date: 2021-06-29
 **Hot Fix**
