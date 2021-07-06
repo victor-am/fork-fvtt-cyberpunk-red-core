@@ -353,8 +353,13 @@ export default class CPRActorSheet extends ActorSheet {
       case "head": {
         armorList.forEach((a) => {
           const armorData = a.data;
+          const upgradeValue = a.getAllUpgradesFor("headSp");
+          const upgradeType = a.getUpgradeTypeFor("headSp");
+          armorData.data.headLocation.sp = Number(armorData.data.headLocation.sp);
+          armorData.data.headLocation.ablation = Number(armorData.data.headLocation.ablation);
+          const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.headLocation.sp + upgradeValue;
           armorData.data.headLocation.ablation = Math.min(
-            (a.getData().headLocation.ablation + 1), a.getData().headLocation.sp,
+            (armorData.data.headLocation.ablation + 1), armorSp,
           );
           updateList.push({ _id: a.id, data: armorData.data });
         });
@@ -367,8 +372,13 @@ export default class CPRActorSheet extends ActorSheet {
       case "body": {
         armorList.forEach((a) => {
           const armorData = a.data;
+          armorData.data.bodyLocation.sp = Number(armorData.data.bodyLocation.sp);
+          armorData.data.bodyLocation.ablation = Number(armorData.data.bodyLocation.ablation);
+          const upgradeValue = a.getAllUpgradesFor("bodySp");
+          const upgradeType = a.getUpgradeTypeFor("bodySp");
+          const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.bodyLocation.sp + upgradeValue;
           armorData.data.bodyLocation.ablation = Math.min(
-            (a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp,
+            (armorData.data.bodyLocation.ablation + 1), armorSp,
           );
           updateList.push({ _id: a.id, data: armorData.data });
         });
@@ -381,6 +391,8 @@ export default class CPRActorSheet extends ActorSheet {
       case "shield": {
         armorList.forEach((a) => {
           const armorData = a.data;
+          armorData.data.shieldHitPoints.value = Number(armorData.data.shieldHitPoints.value);
+          armorData.data.shieldHitPoints.max = Number(armorData.data.shieldHitPoints.max);
           armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - 1), 0);
           updateList.push({ _id: a.id, data: armorData.data });
         });

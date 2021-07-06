@@ -150,13 +150,15 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   _repairArmor(event) {
     LOGGER.trace("ActorID _repairArmor | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
+    const upgradeValue = item.getAllUpgradesFor("shieldHp");
+    const upgradeType = item.getUpgradeTypeFor("shieldHp");
     const currentArmorBodyValue = item.data.data.bodyLocation.sp;
     const currentArmorHeadValue = item.data.data.headLocation.sp;
-    const currentArmorShieldValue = item.data.data.shieldHitPoints.max;
+    const currentArmorShieldValue = (upgradeType === "override") ? upgradeValue : item.data.data.shieldHitPoints.max + upgradeValue;
     // XXX: cannot use _getObjProp since we need to update 2 props
     this._updateOwnedItemProp(item, "data.headLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
-    this._updateOwnedItemProp(item, "data.shieldHitPoints.value", item.data.data.shieldHitPoints.max);
+    this._updateOwnedItemProp(item, "data.shieldHitPoints.value", currentArmorShieldValue);
     // Update actor external data when armor is repaired:
     if (CPRActorSheet._getItemId(event) === this.actor.data.data.externalData.currentArmorBody.id) {
       this.actor.update({

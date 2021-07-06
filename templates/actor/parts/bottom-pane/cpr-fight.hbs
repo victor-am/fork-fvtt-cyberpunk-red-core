@@ -47,15 +47,23 @@
                             {{#if (compare armor.data.data.headLocation.ablation ">" 0)}}
                                 <span class="fg-red">
                             {{/if}}
-                            {{math "subtract" armor.data.data.headLocation.sp armor.data.data.headLocation.ablation}}
+                            {{math "subtract" (applyUpgrade armor armor.data.data.headLocation.sp "headSp") armor.data.data.headLocation.ablation}}
                             {{#if (compare armor.data.data.headLocation.ablation ">" 0)}}
                                 </span>
                             {{/if}}
-                            /{{armor.data.data.headLocation.sp}}
-                            <a class="ablate" data-location="head"><i
-                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.ablatearmor"}}"></i></a> {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorHead.id)}}<a class="armor-current" data-location="head" data-item-id="{{armor.id}}">
-                                    <i class="fas fa-star" title="{{localize "CPR.resyncheadarmor"}}"></i></a>{{else}}<a class="armor-current" data-location="head" data-item-id="{{armor.id}}"><i
-                                    class="far fa-star" title="{{localize "CPR.makeheadarmoractive"}}"></i></a>{{/if}}
+                            /{{applyUpgrade armor armor.data.data.headLocation.sp "headSp"}}
+                            <a class="ablate" data-location="head">
+                                <i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.ablatearmor"}}"></i>
+                            </a> 
+                            {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorHead.id)}}
+                                <a class="armor-current" data-location="head" data-item-id="{{armor.id}}">
+                                    <i class="fas fa-star" title="{{localize "CPR.resyncheadarmor"}}"></i>
+                                </a>
+                            {{else}}
+                                <a class="armor-current" data-location="head" data-item-id="{{armor.id}}">
+                                    <i class="far fa-star" title="{{localize "CPR.makeheadarmoractive"}}"></i>
+                                </a>
+                            {{/if}}
                         </div>
                     </li>
                     {{/if}}
@@ -66,16 +74,23 @@
                             {{#if (compare armor.data.data.bodyLocation.ablation ">" 0)}}
                                 <span class="fg-red">
                             {{/if}}
-                                {{math "subtract" armor.data.data.bodyLocation.sp armor.data.data.bodyLocation.ablation}}
+                                {{math "subtract" (applyUpgrade armor armor.data.data.bodyLocation.sp "bodySp") armor.data.data.bodyLocation.ablation}}
                             {{#if (compare armor.data.data.bodyLocation.ablation ">" 0)}}
                                 </span>
                             {{/if}}
-                            /{{armor.data.data.bodyLocation.sp}}
-                                                        <a class="ablate" data-location="body"><i
-                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.ablatearmor"}}"></i></a> {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorBody.id)}}<a class="armor-current" data-location="body" data-item-id="{{armor.id}}">
-                                    <i class="fas fa-star" title="{{localize "CPR.resyncbodyarmor"}}"></i></a>{{else}}<a class="armor-current" data-location="body" data-item-id="{{armor.id}}"><i
-                                    class="far fa-star" title="{{localize "CPR.makebodyarmoractive"}}"></i></a>{{/if}}
-
+                            /{{applyUpgrade armor armor.data.data.bodyLocation.sp "bodySp"}}
+                            <a class="ablate" data-location="body">
+                                <i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.ablatearmor"}}"></i>
+                            </a> 
+                            {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorBody.id)}}
+                                <a class="armor-current" data-location="body" data-item-id="{{armor.id}}">
+                                    <i class="fas fa-star" title="{{localize "CPR.resyncbodyarmor"}}"></i>
+                                </a>
+                            {{else}}
+                                <a class="armor-current" data-location="body" data-item-id="{{armor.id}}">
+                                    <i class="far fa-star" title="{{localize "CPR.makebodyarmoractive"}}"></i>
+                                </a>
+                            {{/if}}
                         </div>
                     </li>
                     {{/if}}
@@ -90,11 +105,19 @@
                             {{#if (compare armor.data.data.shieldHitPoints.value "<" armor.data.data.shieldHitPoints.max)}}
                                 </span>
                             {{/if}}
-                            /{{armor.data.data.shieldHitPoints.max}}
-                                                        <a class="ablate" data-location="shield"><i
-                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.damageshield"}}"></i></a> {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorShield.id)}}<a class="armor-current" data-location="shield" data-item-id="{{armor.id}}">
-                                    <i class="fas fa-star" title="{{localize "CPR.resyncshield"}}"></i></a>{{else}}<a class="armor-current" data-location="shield" data-item-id="{{armor.id}}"><i
-                                    class="far fa-star" title="{{localize "CPR.makeshieldactive"}}"></i></a>{{/if}}
+                            /{{applyUpgrade armor armor.data.data.shieldHitPoints.max "shieldHp"}}
+                            <a class="ablate" data-location="shield">
+                                <i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.damageshield"}}"></i>
+                            </a> 
+                            {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorShield.id)}}
+                                <a class="armor-current" data-location="shield" data-item-id="{{armor.id}}">
+                                    <i class="fas fa-star" title="{{localize "CPR.resyncshield"}}"></i>
+                                </a>
+                            {{else}}
+                                <a class="armor-current" data-location="shield" data-item-id="{{armor.id}}">
+                                    <i class="far fa-star" title="{{localize "CPR.makeshieldactive"}}"></i>
+                                </a>
+                            {{/if}}
                         </div>
                     </li>
                     {{/if}}

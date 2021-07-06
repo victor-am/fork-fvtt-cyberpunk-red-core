@@ -1178,7 +1178,6 @@ export default class CPRItem extends Item {
   uninstallUpgrades(upgrades) {
     let installedUpgrades = this.data.data.upgrades;
     const updateList = [];
-    const dataPoints = [];
     upgrades.forEach((u) => {
       installedUpgrades = installedUpgrades.filter((iUpgrade) => iUpgrade._id !== u.id);
       updateList.push({ _id: u.id, "data.isInstalled": false });
@@ -1205,6 +1204,20 @@ export default class CPRItem extends Item {
         const ammoStack = ammo.data.data.amount + extraBullets;
         updateList.push({ _id: ammo.id, "data.amount": ammoStack });
       }
+    } else if (this.type === "armor") {
+      const { bodyLocation } = this.data.data;
+      const { headLocation } = this.data.data;
+      const { shieldHitPoints } = this.data.data;
+      bodyLocation.ablation = (bodyLocation.ablation > bodyLocation.sp) ? bodyLocation.sp : bodyLocation.ablation;
+      headLocation.ablation = (headLocation.ablation > headLocation.sp) ? headLocation.sp : headLocation.ablation;
+      shieldHitPoints.value = (shieldHitPoints.value > shieldHitPoints.max) ? shieldHitPoints.max : shieldHitPoints.value;
+      updateList.push({ _id: this.id,
+        "data.isUpgraded": upgradeStatus,
+        "data.upgrades": installedUpgrades,
+        "data.bodyLocation": bodyLocation,
+        "data.headLocation": headLocation,
+        "data.shieldHitPoints": shieldHitPoints,
+      });
     } else {
       updateList.push({ _id: this.id, "data.isUpgraded": upgradeStatus, "data.upgrades": installedUpgrades });
     }
@@ -1215,12 +1228,16 @@ export default class CPRItem extends Item {
     if (typeof this.data.data.isUpgraded === "boolean") {
       const installedUpgrades = this.data.data.upgrades;
       const updateList = [];
+      // Loop through the upgrades to install
       upgrades.forEach((u) => {
+        // See if the upgrade is already installed, if it is, skip it
         const alreadyInstalled = installedUpgrades.filter((iUpgrade) => iUpgrade._id === u.data._id);
         if (alreadyInstalled.length === 0) {
+          // Update the upgrade Item set the isInstalled Boolean and the install setting to this item
           updateList.push({ _id: u.id, "data.isInstalled": true, "data.install": this.id });
           const modList = {};
           const upgradeModifiers = u.data.data.modifiers;
+          // Loop through the modifiers this upgrade has on it
           Object.keys(upgradeModifiers).forEach((index) => {
             const modifier = upgradeModifiers[index];
             /*
@@ -1247,6 +1264,7 @@ export default class CPRItem extends Item {
         }
       });
       updateList.push({ _id: this.id, "data.isUpgraded": true, "data.upgrades": installedUpgrades });
+
       return this.actor.updateEmbeddedDocuments("Item", updateList);
     }
   }

@@ -491,7 +491,7 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace("Calling showUpgrade Helper");
     const itemEntities = game.system.template.Item;
     const itemType = obj.type;
-    let upgradeResult = baseValue;
+    let upgradeResult = Number(baseValue);
     if (itemEntities[itemType].templates.includes("upgradable") && obj.data.data.isUpgraded) {
       const upgradeValue = obj.getAllUpgradesFor(dataPoint);
       const upgradeType = obj.getUpgradeTypeFor(dataPoint);
