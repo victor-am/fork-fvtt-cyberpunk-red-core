@@ -646,7 +646,7 @@
     "CPR.netArchitecture.generation.auto": "Auto-generete Scene from data",
     "CPR.netArchitecture.generation.custom": "Customize Scene generation",
     "CPR.netArchitecture.generation.done": "The scene generation is done, you might have to leave to another scene and load this scene again if it does not display correctly.",
-    "CPR.netArchitecture.generation.floorFormattingError": "The name for the floor does not fir the desired format. Use a number followed directly by a small letter if desired, e.g. 4, 4a or 6c.",
+    "CPR.netArchitecture.generation.floorFormattingError": "The name for the floor does not fit the desired format. Use a number followed directly by a small letter if desired, e.g. 4, 4a or 6c.",
     "CPR.netArchitecture.generation.noFloorError": "The Items seems to not have any floors specified!",
     "CPR.netArchitecture.generation.noGMError": "Error: You do not have GM permissions. No Scene generation allowed!",
     "CPR.netArchitecture.generation.noSceneError": "The custom Scene does not exist!",
