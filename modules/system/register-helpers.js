@@ -322,10 +322,6 @@ export default function registerHandlebarsHelpers() {
       if (cw.data.data.isWeapon === "true") {
         returnValue = true;
       }
-      cw.data.data.upgrades.forEach((u) => {
-        console.log("CW Upgrade");
-        console.log(u);
-      });
     });
     return returnValue;
   });

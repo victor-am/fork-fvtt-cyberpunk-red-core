@@ -106,6 +106,8 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".select-item-upgrades").click((event) => this._selectItemUpgrades(event));
 
+    html.find(".remove-upgrade").click((event) => this._removeItemUpgrade(event));
+
     html.find(".item-view").click((event) => this._renderReadOnlyItemCard(event));
 
     html.find(".netarch-generate-auto").click((event) => {
@@ -592,6 +594,12 @@ export default class CPRItemSheet extends ItemSheet {
     if (item.type === "weapon" && item.availableSlots() < 0) {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.toomanyattachments"));
     }
+  }
+
+  async _removeItemUpgrade(event) {
+    const upgradeId = $(event.currentTarget).attr("data-item-id");
+    const upgrade = this.actor.items.find((i) => i.data._id === upgradeId);
+    await this.item.uninstallUpgrades([upgrade]);
   }
 
   /**

@@ -22,7 +22,11 @@
         {{localize "CPR.itemSheet.weapon.rof"}} {{showUpgrade this.item "rof"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        <input name="data.rof" class="" type="number" value="{{data.data.rof}}">
+        {{#if this.editable}}
+            <input name="data.rof" class="" type="number" value="{{data.data.rof}}">
+        {{else}}
+            <span class="text-flex-end">{{data.data.rof}}</span>
+        {{/if}}
     </div>
 </li>
 
@@ -101,7 +105,11 @@
         {{localize "CPR.itemSheet.weapon.attackMod"}} {{showUpgrade this.item "attackmod"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        <input name="data.attackmod" class="" type="number" value="{{data.data.attackmod}}">
+        {{#if this.editable}}
+            <input name="data.attackmod" class="" type="number" value="{{data.data.attackmod}}">
+        {{else}}
+            <span class="text-flex-end">{{data.data.attackmod}}</span>
+        {{/if}}
     </div>
 </li>
 
@@ -144,7 +152,11 @@
                 {{localize "CPR.itemSheet.weapon.unarmedAutomaticallyCalculated"}}
             </div>
         {{else}}
-            <input name="data.damage" class="" type="text" value="{{data.data.damage}}">
+            {{#if this.editable}}
+                <input name="data.damage" class="" type="text" value="{{data.data.damage}}">
+            {{else}}
+                <span class="text-flex-end">{{data.data.damage}}</span>
+            {{/if}}
         {{/if}}
     </div>
 </li>
@@ -155,10 +167,18 @@
         {{localize "CPR.itemSheet.weapon.rangedWeapon"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        {{#if data.data.isRanged}}
-            <a class="item-checkbox" data-target="data.isRanged"><i class="far fa-check-circle"></i></a>
+        {{#if this.editable}}
+            {{#if data.data.isRanged}}
+                <a class="item-checkbox" data-target="data.isRanged"><i class="far fa-check-circle"></i></a>
+            {{else}}
+                <a class="item-checkbox" data-target="data.isRanged"><i class="far fa-circle"></i></a>
+            {{/if}}
         {{else}}
-            <a class="item-checkbox" data-target="data.isRanged"><i class="far fa-circle"></i></a>
+            {{#if data.data.isRanged}}
+                <i class="far fa-check-circle"></i>
+            {{else}}
+                <i class="far fa-circle"></i>
+            {{/if}}
         {{/if}}
     </div>
 </li>
@@ -187,7 +207,11 @@
             {{localize "CPR.global.skills.autofire"}} {{localize "CPR.itemSheet.common.maximum"}} {{localize "CPR.global.generic.multiplier"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
-            <input name="data.fireModes.autoFire" class="" type="number" value="{{data.data.fireModes.autoFire}}">
+            {{#if this.editable}}
+                <input name="data.fireModes.autoFire" class="" type="number" value="{{data.data.fireModes.autoFire}}">
+            {{else}}
+                <span class="text-flex-end">{{data.data.fireModes.autoFire}}</span>
+            {{/if}}
         </div>
     </li>
     <li class="item flexrow">
@@ -196,9 +220,21 @@
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
             {{#if data.data.fireModes.suppressiveFire}}
-                <a class="item-checkbox" data-target="data.fireModes.suppressiveFire"><i class="far fa-check-circle"></i></a>
+                {{#if this.editable}}
+                    <a class="item-checkbox" data-target="data.fireModes.suppressiveFire">
+                {{/if}}
+                <i class="far fa-check-circle"></i>
+                {{#if this.editable}}
+                    </a>
+                {{/if}}
             {{else}}
-                <a class="item-checkbox" data-target="data.fireModes.suppressiveFire"><i class="far fa-circle"></i></a>
+                {{#if this.editable}}
+                    <a class="item-checkbox" data-target="data.fireModes.suppressiveFire">
+                {{/if}}
+                <i class="far fa-circle"></i>
+                {{#if this.editable}}
+                    </a>
+                {{/if}}
             {{/if}}
         </div>
     </li>
@@ -209,7 +245,11 @@
             {{localize "CPR.itemSheet.weapon.magazine"}} {{localize "CPR.itemSheet.weapon.size"}} {{showUpgrade this.item "magazine"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
-            <input name="data.magazine.max" class="" type="number" value="{{data.data.magazine.max}}">
+            {{#if this.editable}}
+                <input name="data.magazine.max" class="" type="number" value="{{data.data.magazine.max}}">
+            {{else}}
+                <span class="text-flex-end">{{data.data.magazine.max}}</span>
+            {{/if}}
         </div>
     </li>
     {{#if (compare data.data.magazine.ammoId "!==" "")}}
@@ -218,15 +258,23 @@
                 {{localize "CPR.itemSheet.weapon.loadedAmmoQuantity"}}
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
-                <input name="data.magazine.value" class="" type="number" value="{{data.data.magazine.value}}">
+                {{#if this.editable}}
+                    <input name="data.magazine.value" class="" type="number" value="{{data.data.magazine.value}}">
+                {{else}}
+                    <span class="text-flex-end">{{data.data.magazine.value}}</span>
+                {{/if}}
             </div>
         </li>
     {{/if}}
     <div class="item flexrow setting-name text-nowrap text-bold">
-        <a class="select-compatible-ammo" data-item-prop="select-compatible-ammo">
-            {{localize "CPR.itemSheet.weapon.configureCompatibleAmmo"}}
+        {{#if this.editable}}
+            <a class="select-compatible-ammo" data-item-prop="select-compatible-ammo">
+        {{/if}}
+        {{localize "CPR.itemSheet.weapon.configureCompatibleAmmo"}}
+        {{#if this.editable}}
             <i class="text-smallest text-super fas fa-wrench"></i>
-        </a>
+            </a>
+        {{/if}}
     </div>
     <div class="compatible-ammo">
         {{#each (findConfigObj "ammoVariety") as |ammoVariety a|}}

@@ -134,24 +134,24 @@
                 {{/if}}
             </div>
         </li>
-        <li class="item flexrow">
-            <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.itemSheet.common.isAWeapon"}}
-            </div>
-            <div class="item flexrow setting-value text-nowrap item-end">
-                {{#if this.editable}}
-                    <select name="data.isWeapon" data-dtype="{{data.data.isWeapon}}">
-                        {{#select data.data.isWeapon}}
-                            <option value="false">{{localize "CPR.global.generic.false"}}</option>
-                            <option value="true">{{localize "CPR.global.generic.true"}}</option>
-                        {{/select}}
-                    </select>
-                {{else}}
-                    <span class="text-flex-end">{{localize (objConcat "CPR.global.generic." data.data.isWeapon)}}</span>
-                {{/if}}
-            </div>
-        </li>
     {{/if}}
+    <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+            {{localize "CPR.itemSheet.common.isAWeapon"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+            {{#if this.editable}}
+                <select name="data.isWeapon" data-dtype="{{data.data.isWeapon}}">
+                    {{#select data.data.isWeapon}}
+                        <option value="false">{{localize "CPR.global.generic.false"}}</option>
+                        <option value="true">{{localize "CPR.global.generic.true"}}</option>
+                    {{/select}}
+                </select>
+            {{else}}
+                <span class="text-flex-end">{{localize (objConcat "CPR.global.generic." data.data.isWeapon)}}</span>
+            {{/if}}
+        </div>
+    </li>
 {{/unless}}
 {{#if (compare data.data.isWeapon "===" "true")}}
     {{> "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-weapon.hbs" this}}

@@ -440,6 +440,10 @@ export default class CPRActorSheet extends ActorSheet {
           await item.sheet._selectItemUpgrades(event);
           break;
         }
+        case "remove-upgrade": {
+          await item.sheet._removeItemUpgrade(event);
+          break;
+        }
         case "split": {
           this._splitItem(item);
           break;
