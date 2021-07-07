@@ -348,13 +348,16 @@ export default function registerHandlebarsHelpers() {
       const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
       const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
       if (o.name === "Conceal/Reveal Object" || o.name === "Paint/Draw/Sculpt" || o.name === "Resist Torture/Drugs") {
-        newElement.translatedName = SystemUtils.Localize(cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1));
+        const string = cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
+        newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       } else if (o.name === "Language (Streetslang)") {
         // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
         // comment to fulfill the test case of the language file.
-        newElement.translatedName = SystemUtils.Localize(cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1));
+        const string = cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
+        newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       } else {
-        newElement.translatedName = SystemUtils.Localize(cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1));
+        const string = cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
+        newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       }
       objectTranslated.push(newElement);
     });
