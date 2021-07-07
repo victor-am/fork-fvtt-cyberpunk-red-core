@@ -57,7 +57,7 @@ export default class CPRActor extends Actor {
           }
         });
         if (containsCoreItem) {
-          return Rules.lawyer(false, "CPR.dontaddcoreitems");
+          return Rules.lawyer(false, "CPR.messages.dontAddCoreItems");
         }
       }
     }
@@ -134,7 +134,7 @@ export default class CPRActor extends Actor {
     const compatibleFoundationalCyberware = this.getInstalledFoundationalCyberware(item.getData().type);
 
     if (compatibleFoundationalCyberware.length < 1 && !item.getData().isFoundational) {
-      Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
+      Rules.lawyer(false, "CPR.messages.warnNoFoundationalCyberwareOfCorrectType");
     } else if (item.getData().isFoundational) {
       const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data }).catch((err) => LOGGER.debug(err));
       if (formData === undefined) {
@@ -171,7 +171,7 @@ export default class CPRActor extends Actor {
     const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots + item.data.data.slotSize;
     tmpItem.data.data.isInstalled = true;
     const allowedSlots = Number(foundationalCyberware.getData().optionSlots);
-    Rules.lawyer((newInstalledOptionSlots <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
+    Rules.lawyer((newInstalledOptionSlots <= allowedSlots), "CPR.messages.tooManyOptionalCyberwareInstalled");
     return this.updateEmbeddedDocuments("Item", [
       { _id: item.id, "data.isInstalled": true }, {
         _id: foundationalCyberware.id,
@@ -186,8 +186,8 @@ export default class CPRActor extends Actor {
     const item = this._getOwnedItem(itemId);
     let confirmRemove;
     if (!skipConfirm) {
-      const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
-      const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
+      const dialogTitle = SystemUtils.Localize("CPR.dialog.removeCyberware.title");
+      const dialogMessage = `${SystemUtils.Localize("CPR.dialog.removeCyberware.text")} ${item.name}?`;
       confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
     } else {
       confirmRemove = true;
@@ -252,7 +252,7 @@ export default class CPRActor extends Actor {
     }
 
     if (value <= 0) {
-      Rules.lawyer(false, "CPR.youcyberpsycho");
+      Rules.lawyer(false, "CPR.messages.youCyberpsycho");
     }
 
     this.update({ "data.derivedStats.humanity.value": value });
@@ -304,8 +304,8 @@ export default class CPRActor extends Actor {
   }
 
   processDeathSave(cprRoll) {
-    const success = SystemUtils.Localize("CPR.success");
-    const failed = SystemUtils.Localize("CPR.failed");
+    const success = SystemUtils.Localize("CPR.rolls.success");
+    const failed = SystemUtils.Localize("CPR.rolls.failed");
     let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? success : failed;
     if (cprRoll.initialRoll === 10) {
       saveResult = failed;
@@ -417,7 +417,7 @@ export default class CPRActor extends Actor {
       led.setLedgerContent(prop, this.listRecords(prop));
       led.render(true);
     } else {
-      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.ledgererrorisnoledger"));
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.ledgerErrorIsNoLedger"));
     }
   }
 

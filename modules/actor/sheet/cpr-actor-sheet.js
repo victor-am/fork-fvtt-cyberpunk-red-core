@@ -416,14 +416,6 @@ export default class CPRActorSheet extends ActorSheet {
           await this._deleteOwnedItem(item);
           break;
         }
-        case "create": {
-          // TODO
-          // only character sheets call this so note it is actually in the child class
-          // also note no templates call this with data-action="create", so this case can
-          // probably be removed
-          await this._createInventoryItem($(event.currentTarget).attr("data-item-type"));
-          break;
-        }
         case "ablate-armor": {
           item.ablateArmor();
           break;
@@ -588,9 +580,9 @@ export default class CPRActorSheet extends ActorSheet {
     const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
     // Only show the delete confirmation if the setting is on, and internally we do not want to skip it.
     if (setting && !skipConfirm) {
-      const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${item.data.name}?`;
+      const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${item.data.name}?`;
       const confirmDelete = await ConfirmPrompt.RenderPrompt(
-        SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,
+        SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"), promptMessage,
       ).catch((err) => LOGGER.debug(err));
       if (confirmDelete === undefined) {
         return;
@@ -606,7 +598,7 @@ export default class CPRActorSheet extends ActorSheet {
         const weaponData = weapon.data.data;
         if (weaponData.isRanged) {
           if (weaponData.magazine.ammoId === item.id) {
-            const warningMessage = `${game.i18n.localize("CPR.ammodeletewarning")}: ${weapon.name}`;
+            const warningMessage = `${game.i18n.localize("CPR.messages.ammoDeleteWarning")}: ${weapon.name}`;
             SystemUtils.DisplayMessage("warn", warningMessage);
             ammoIsLoaded = true;
           }
@@ -727,7 +719,7 @@ export default class CPRActorSheet extends ActorSheet {
         (item.type === "criticalInjury") && (item.name === table.data.results._source[0].text)
       ));
       if (!crit) {
-        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
+        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.dialog.rollCriticalInjury.criticalInjuryNoneWarning")));
         return;
       }
       const critType = crit.data.data.location;
@@ -737,12 +729,12 @@ export default class CPRActorSheet extends ActorSheet {
         if (injury.data.data.location === critType) { numberCritInjurySameType += 1; }
       });
       if (table.data.results.contents.length <= numberCritInjurySameType) {
-        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
+        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.messages.criticalInjuryDuplicateAllWarning")));
         return;
       }
       // Techincally possible to reach even if a critical injury is still missing (chance: 6*10e-11 %), though unlikely.
       if (iteration > 1000) {
-        SystemUtils.DisplayMessage("error", (game.i18n.localize("CPR.criticalinjuryduplicateloopwarning")));
+        SystemUtils.DisplayMessage("error", (game.i18n.localize("CPR.messages.criticalInjuryDuplicateLoopWarning")));
         // Prevent endless loop in case of mixed (head and body) Critical Injury tables
         // or unreachable elements in the rolltable.
         return;
@@ -763,14 +755,14 @@ export default class CPRActorSheet extends ActorSheet {
               return;
             }
             if (setting === "warn") {
-              SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicatewarning")));
+              SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.messages.criticalInjuryDuplicateWarning")));
             }
           }
           const crit = game.items.find((item) => (
             (item.type === "criticalInjury") && (item.name === res.results[0].data.text)
           ));
           if (!crit) {
-            SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
+            SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.dialog.rollCriticalInjury.criticalInjuryNoneWarning")));
             return;
           }
           const itemData = duplicate(crit.data);
@@ -854,7 +846,7 @@ export default class CPRActorSheet extends ActorSheet {
       tempVal = -tempVal;
     }
     const ledgerProp = this.actor.deltaLedgerProperty("wealth", tempVal, reason);
-    Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenougheb");
+    Rules.lawyer(ledgerProp.value > 0, "CPR.messages.warningNotEnoughEb");
     return ledgerProp;
   }
 
@@ -923,7 +915,7 @@ export default class CPRActorSheet extends ActorSheet {
       tempVal = -tempVal;
     }
     const ledgerProp = this.actor.deltaLedgerProperty("improvementPoints", tempVal, reason);
-    Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenoughip");
+    Rules.lawyer(ledgerProp.value > 0, "CPR.messages.warningNotEnoughIp");
     return ledgerProp;
   }
 
@@ -988,7 +980,7 @@ export default class CPRActorSheet extends ActorSheet {
       // Transfer ownership from one player to another
       const actor = game.actors.find((a) => a.id === dragData.actorId);
       if (actor.type === "container" && !game.user.isGM) {
-        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.tradedragoutwarn"));
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeDragOutWarn"));
         return;
       }
       if (actor) {

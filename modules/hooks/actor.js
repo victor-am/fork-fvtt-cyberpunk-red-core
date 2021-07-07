@@ -24,7 +24,7 @@ const actorHooks = () => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
     const isCSheet = Object.values(actor.apps).some((app) => app instanceof CPRCharacterActorSheet);
     if (isCSheet && userId === game.user.data._id && actor.type === "character") {
-      Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.invalidroledata");
+      Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.messages.invalidRoleData");
     }
 
     if (updatedData.data && updatedData.data.externalData) {

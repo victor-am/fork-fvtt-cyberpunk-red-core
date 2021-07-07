@@ -12,7 +12,7 @@
                 {{!-- Clothing  Equipped Setting --}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.equipped"}}
+                        {{localize "CPR.global.equipState.equipped"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.equipped" data-dtype="{{data.data.equipped}}">
@@ -28,7 +28,7 @@
                 {{!-- Clothing Amount Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.amount"}}
+                        {{localize "CPR.global.generic.amount"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <input name="data.amount" class="" type="number" value="{{data.data.amount}}">
@@ -38,7 +38,7 @@
                 {{!-- Clothing Style Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.clothing"}} {{localize "CPR.style"}}
+                        {{localize "CPR.global.itemTypes.clothing"}} {{localize "CPR.itemSheet.clothing.style"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.style" data-dtype="{{data.data.style}}">
@@ -53,7 +53,7 @@
                 {{!-- Clothing Type Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.clothing"}} {{localize "CPR.type"}}
+                        {{localize "CPR.global.itemTypes.clothing"}} {{localize "CPR.global.generic.type"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.type" data-dtype="{{data.data.type}}">

@@ -110,7 +110,7 @@ export default class CPRChat {
       formula = `${formula}${formulaModifiers}`;
     }
     if (formula) {
-      const cprRoll = new CPRRoll(game.i18n.localize("CPR.roll"), formula);
+      const cprRoll = new CPRRoll(game.i18n.localize("CPR.rolls.roll"), formula);
       if (cprRoll.die !== "d6" && cprRoll.die !== "d10") {
         cprRoll.calculateCritical = false;
         cprRoll.die = "generic";
@@ -194,13 +194,13 @@ export default class CPRChat {
 
     // Inject tag to the left of the timestamp
     if (isBlind) {
-      indicatorElement.text(SystemUtils.Localize("CPR.blind"));
+      indicatorElement.text(SystemUtils.Localize("CPR.chat.blind"));
       timestampTag.before(indicatorElement);
     } else if (isSelf) {
-      indicatorElement.text(SystemUtils.Localize("CPR.self"));
+      indicatorElement.text(SystemUtils.Localize("CPR.chat.self"));
       timestampTag.before(indicatorElement);
     } else if (isWhisper) {
-      indicatorElement.text(SystemUtils.Localize("CPR.whisper"));
+      indicatorElement.text(SystemUtils.Localize("CPR.chat.whisper"));
       timestampTag.before(indicatorElement);
     }
   }
