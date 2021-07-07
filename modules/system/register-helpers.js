@@ -342,22 +342,26 @@ export default function registerHandlebarsHelpers() {
     const objectTranslated = [];
     object.forEach((o) => {
       const newElement = o;
-      const cprDot = "CPR.global.skills.";
-      const initialSplit = o.name.split(" ").join("");
-      const orCaseSplit = initialSplit.split("/").join("Or");
-      const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
-      const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
-      if (o.name === "Conceal/Reveal Object" || o.name === "Paint/Draw/Sculpt" || o.name === "Resist Torture/Drugs") {
-        const string = cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
-        newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      } else if (o.name === "Language (Streetslang)") {
-        // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
-        // comment to fulfill the test case of the language file.
-        const string = cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
-        newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      if (o.data.data.core) {
+        const cprDot = "CPR.global.skills.";
+        const initialSplit = o.name.split(" ").join("");
+        const orCaseSplit = initialSplit.split("/").join("Or");
+        const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
+        const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
+        if (o.name === "Conceal/Reveal Object" || o.name === "Paint/Draw/Sculpt" || o.name === "Resist Torture/Drugs") {
+          const string = cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
+          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        } else if (o.name === "Language (Streetslang)") {
+          // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
+          // comment to fulfill the test case of the language file.
+          const string = cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
+          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        } else {
+          const string = cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
+          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
       } else {
-        const string = cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
-        newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        newElement.translatedName = o.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       }
       objectTranslated.push(newElement);
     });
