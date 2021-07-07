@@ -3,6 +3,7 @@
 **New Features**
 - Cyberware Items which act as weapons can now be configured as such
   - Core Rule Book Examples: Popup Weapons, Big Knucks, Wolvers, etc
+  - These weapons will show in the Fight Tab as Cyberware Weapons under the standard weapons
 - Introduction of the Item Object: Item Upgrade
   - Initial implementation of the Item Upgrade Object enables:
     - Upgrades to Weapons, Cyberdecks, Cyberware, Clothing, & Armor
@@ -20,6 +21,7 @@
     - Cyberware
       - As some Cyberware is now Weapon Items, Item Upgrades can be used to add Attachment to these Weapon Types
         - Example: Popup Assault Rifle w/ Underbarrel Grenade Launcher
+        - Note: While it is possible to install an Item Upgrade Weapon Attachment on a non-weapon cyberware, it will NOT display on the Fight Tab as it is not associated with a Cyberware Weapon
     - Clothing
       - Clothing can now have upgrades applied to them to modify COOL and the "Wardrobe & Style" Skill Rolls.
         - Overriding stats/skills is not supported, all values will be treated as a modifier.

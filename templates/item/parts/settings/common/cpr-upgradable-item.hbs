@@ -1,7 +1,7 @@
 {{#if (compare this.item.type "===" "weapon")}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.attachmentslots"}} ({{localize "CPR.availableslots"}}: {{data.data.availableSlots}})
+        {{localize "CPR.itemSheet.weapon.attachmentSlots"}} ({{localize "CPR.itemSheet.common.availableSlots"}}: {{data.data.availableSlots}})
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         <input name="data.attachmentSlots" class="" type="number" value="{{data.data.attachmentSlots}}">
@@ -12,8 +12,8 @@
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         <a class="select-item-upgrades" data-item-prop="select-item-upgrades">
-            {{localize "CPR.itemupgrades"}}
-            {{#if (compare data.type "===" "weapon")}} &#38; {{localize "CPR.attachments"}}{{/if}}
+            {{localize "CPR.itemSheet.common.itemUpgrades"}}
+            {{#if (compare data.type "===" "weapon")}} &#38; {{localize "CPR.itemSheet.weapon.attachments"}}{{/if}}
             <i class="text-smallest text-super fas fa-wrench"></i>
         </a>
     </div>
@@ -28,7 +28,7 @@
         <a class="name item-view">{{upgrade.name}}</a>
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        {{localize "CPR.itemupgradesize"}}: {{upgrade.data.size}}
+        {{localize "CPR.itemSheet.common.itemUpgradeSize"}}: {{upgrade.data.size}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
       REMOVE UPGRADE ICON

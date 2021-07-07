@@ -1,7 +1,7 @@
 {{!-- Upgrade Installed Setting --}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.type"}}
+        {{localize "CPR.itemSheet.itemUpgrade.upgradeType"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
@@ -24,7 +24,7 @@
 
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.size"}}
+        {{localize "CPR.itemSheet.itemUpgrade.installationSize"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
@@ -35,17 +35,17 @@
     </div>
 </li>
 <hr>
-{{localize "CPR.upgradeoverview"}}
+{{localize "CPR.itemSheet.itemUpgrade.upgradeOverview"}}
 <hr>
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.datapoint"}}
+        {{localize "CPR.itemSheet.itemUpgrade.dataPoint"}}
     </div>
     <div class="item flexrow setting-type text-nowrap">
-        {{localize "CPR.modifiertype"}}
+        {{localize "CPR.itemSheet.itemUpgrade.modifierType"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        {{localize "CPR.modifiervalue"}}
+        {{localize "CPR.itemSheet.itemUpgrade.modifierValue"}}
     </div>
 </li>
 {{#each (findConfigValue "upgradableDataPoints" data.data.type) as |dataPoint dp|}}
@@ -78,14 +78,14 @@
 {{#if (compare (compare data.data.type "===" "weapon") "||" (compare data.data.type "===" "cyberware"))}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-            {{localize "CPR.issecondaryweapon"}}
+            {{localize "CPR.itemSheet.itemUpgrade.isSecondaryWeapon"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
             {{#if this.editable}}
                 <select name="data.modifiers.secondaryWeapon.configured" data-dtype="text">
                     {{#select data.data.modifiers.secondaryWeapon.configured}}
-                        <option value="false">{{localize "CPR.false"}}</option>
-                        <option value="true">{{localize "CPR.true"}}</option>
+                        <option value="false">{{localize "CPR.global.generic.false"}}</option>
+                        <option value="true">{{localize "CPR.global.generic.true"}}</option>
                     {{/select}}
                 </select>
             {{else}}

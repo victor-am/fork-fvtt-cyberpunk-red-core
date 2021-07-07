@@ -590,7 +590,7 @@ export default class CPRItemSheet extends ItemSheet {
     }
 
     if (item.type === "weapon" && item.availableSlots() < 0) {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.toomanyattachments"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.toomanyattachments"));
     }
   }
 

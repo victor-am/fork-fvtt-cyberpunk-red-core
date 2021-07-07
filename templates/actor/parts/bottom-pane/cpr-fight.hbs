@@ -107,7 +107,7 @@
                             {{/if}}
                             /{{applyUpgrade armor armor.data.data.shieldHitPoints.max "shieldHp"}}
                             <a class="ablate" data-location="shield">
-                                <i class="far fa-arrow-alt-circle-down" title="{{localize CPR.characterSheet.bottomPane.fight.damageShield"}}"></i>
+                                <i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.characterSheet.bottomPane.fight.damageShield"}}"></i>
                             </a> 
                             {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorShield.id)}}
                                 <a class="armor-current" data-location="shield" data-item-id="{{armor.id}}">
@@ -224,7 +224,7 @@
                                         </div>
                                         <div class="fight-weapon">
                                             <div class="item-name fight-weapon-name">
-                                                <a class="name item-view" title="{{weapon.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{../../this.name}} {{localize "CPR.attachment"}}: {{weapon.name}}</a>
+                                                <a class="name item-view" title="{{weapon.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{../../this.name}} {{localize "CPR.characterSheet.bottomPane.fight.attachment"}}: {{weapon.name}}</a>
                                                 {{#if (compare weapon.data.data.quality "!==" "standard")}}
                                                     ({{localize weapon.data.data.quality}})
                                                 {{/if}}
@@ -304,7 +304,7 @@
                 {{#if (hasCyberneticWeapons actor)}}
                     <li class="items-header flexrow">
                         <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
-                            {{localize "CPR.cyberwareweapons"}}
+                            {{localize "CPR.characterSheet.bottomPane.fight.cyberwareWeapons"}}
                         </span>
                     </li>
                 {{#each (sort (filter actor.data.filteredItems.cyberware "data.data.isInstalled" true) "name") as |weapon|}}
@@ -396,7 +396,7 @@
                                         </div>
                                         <div class="fight-weapon">
                                             <div class="item-name fight-weapon-name">
-                                                <a class="name item-view" title="{{weapon.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{../../this.name}} {{localize "CPR.attachment"}}: {{weapon.name}}</a>
+                                                <a class="name item-view" title="{{weapon.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{../../this.name}} {{localize "CPR.characterSheet.bottomPane.fight.attachment"}}: {{weapon.name}}</a>
                                                 {{#if (compare weapon.data.data.quality "!==" "standard")}}
                                                     ({{localize weapon.data.data.quality}})
                                                 {{/if}}

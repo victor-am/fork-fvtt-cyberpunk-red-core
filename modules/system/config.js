@@ -376,147 +376,147 @@ CPR.interfaceAbilities = {
 CPR.upgradableDataPoints = {
   upgradeConfig: {
     configurableTypes: {
-      modifier: "CPR.modifier",
-      override: "CPR.override",
+      modifier: "CPR.itemSheet.itemUpgrade.modifier",
+      override: "CPR.itemSheet.itemUpgrade.override",
     },
   },
   weapon: {
     damage: {
       type: "modifier",
       value: 0,
-      localization: "CPR.damage",
+      localization: "CPR.global.generic.damage",
     },
     rof: {
       type: "modifier",
       value: 0,
-      localization: "CPR.rof",
+      localization: "CPR.itemSheet.weapon.rof",
     },
     attackmod: {
       type: "modifier",
       value: 0,
-      localization: "CPR.attackmod",
+      localization: "CPR.itemSheet.weapon.attackMod",
     },
     magazine: {
       type: "override",
       value: 0,
-      localization: "CPR.magazine",
+      localization: "CPR.itemSheet.weapon.magazine",
     },
     secondaryWeapon: {
       type: "item",
       configured: false,
-      localization: "CPR.secondaryWeapon",
+      localization: "CPR.itemSheet.itemUpgrade.isSecondaryWeapon",
     },
   },
   vehicle: {
     sdp: {
       type: "modifier",
       value: 0,
-      localization: "CPR.vehicle",
+      localization: "CPR.itemSheet.vehicle.sdp",
     },
     seats: {
       type: "modifier",
       value: 0,
-      localization: "CPR.seats",
+      localization: "CPR.itemSheet.vehicle.seats",
     },
     speedCombat: {
       type: "modifier",
       value: 0,
-      localization: "CPR.speedCombat",
+      localization: "CPR.itemSheet.vehicle.combatSpeed",
     },
   },
   cyberware: {
     secondaryWeapon: {
       type: "item",
       configured: false,
-      localization: "CPR.cyberware",
+      localization: "CPR.itemSheet.itemUpgrade.isSecondaryWeapon",
     },
   },
   cyberdeck: {
     slots: {
       type: "modifier",
       value: 0,
-      localization: "CPR.cyberdeck",
+      localization: "CPR.global.generic.slots",
     },
   },
   clothing: {
     "Wardrobe & Style": {
       type: "modifier",
       value: 0,
-      localization: "CPR.wardrobeandstyle",
+      localization: "CPR.global.skills.wardrobeAndStyle",
     },
     cool: {
       type: "modifier",
       value: 0,
-      localization: "CPR.cool",
+      localization: "CPR.global.stats.cool",
     },
   },
   armor: {
     bodySp: {
       type: "modifier",
       value: 0,
-      localization: "CPR.bodysp",
+      localization: "CPR.itemSheet.armor.bodyArmorSp",
     },
     headSp: {
       type: "modifier",
       value: 0,
-      localization: "CPR.headsp",
+      localization: "CPR.itemSheet.armor.headArmorSp",
     },
     shieldHp: {
       type: "modifier",
       value: 0,
-      localization: "CPR.shieldhp",
+      localization: "CPR.itemSheet.itemUpgrade.shieldHp",
     },
   },
   gear: {
     int: {
       type: "modifier",
       value: 0,
-      localization: "CPR.int",
+      localization: "CPR.global.stats.int",
     },
     ref: {
       type: "modifier",
       value: 0,
-      localization: "CPR.ref",
+      localization: "CPR.global.stats.ref",
     },
     dex: {
       type: "modifier",
       value: 0,
-      localization: "CPR.dex",
+      localization: "CPR.global.stats.dex",
     },
     tech: {
       type: "modifier",
       value: 0,
-      localization: "CPR.tech",
+      localization: "CPR.global.stats.tech",
     },
     cool: {
       type: "modifier",
       value: 0,
-      localization: "CPR.cool",
+      localization: "CPR.global.stats.cool",
     },
     will: {
       type: "modifier",
       value: 0,
-      localization: "CPR.will",
+      localization: "CPR.global.stats.will",
     },
     luck: {
       type: "modifier",
       value: 0,
-      localization: "CPR.luck",
+      localization: "CPR.global.stats.luck",
     },
     move: {
       type: "modifier",
       value: 0,
-      localization: "CPR.move",
+      localization: "CPR.global.stats.move",
     },
     body: {
       type: "modifier",
       value: 0,
-      localization: "CPR.body",
+      localization: "CPR.global.stats.body",
     },
     emp: {
       type: "modifier",
       value: 0,
-      localization: "CPR.emp",
+      localization: "CPR.global.stats.emp",
     },
   },
 };
