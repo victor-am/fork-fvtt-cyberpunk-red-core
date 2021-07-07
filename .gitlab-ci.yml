@@ -38,13 +38,13 @@ lang-test:
   stage: test
   script:
     - echo "Checking language file for unused strings..."
-    - ./tests/test-lang-file.sh
+    - ./.gitlab/pipeline_tests/test-lang-file.sh
 
 changelog-dev-test:
   stage: test
   script:
     - echo "Checking if the CHANGELOG.md changed..."
-    - ./tests/test-changelog-dev-changed.sh
+    - ./.gitlab/pipeline_tests/test-changelog-dev-changed.sh
   allow_failure: true
   except:
     - master
@@ -54,12 +54,12 @@ code-test 1/2:
   stage: test
   script:
     - echo "Checking if there are proper trace statements in all hbs files..."
-    - ./tests/test-hbs-trace.sh
+    - ./.gitlab/pipeline_tests/test-hbs-trace.sh
   allow_failure: true
 
 code-test 2/2:
   stage: test
   script:
     - echo "Checking if our own localization and notification code is used..."
-    - ./tests/test-misc.sh
+    - ./.gitlab/pipeline_tests/test-misc.sh
   allow_failure: true
