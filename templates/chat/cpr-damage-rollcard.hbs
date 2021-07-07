@@ -3,8 +3,8 @@
     <div class="rollcard-top">
         <div class="cpr-block chat-rollTitle-stat">
             <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
-            <div class="text-center text-small">{{#if autofire}}{{localize "CPR.autofire"}} {{/if}}{{localize
-                "CPR.damage"}}</div>
+            <div class="text-center text-small">{{#if autofire}}{{localize "CPR.global.skills.autofire"}} {{/if}}{{localize
+                "CPR.global.generic.damage"}}</div>
         {{#if rollCardExtraArgs.ammoType}}
         <div class="text-center text-small">{{localize (findConfigValue "ammoType" rollCardExtraArgs.ammoType)}}</div>
         {{/if}}
@@ -43,19 +43,19 @@
                 </div>
                 <div class="d6-data-div">
                     {{#if isAutofire}}
-                    <div class="text-normal text-bold">{{localize "CPR.autofire"}}! (x{{autofireMultiplier}})</div>
+                    <div class="text-normal text-bold">{{localize "CPR.global.skills.autofire"}}! (x{{autofireMultiplier}})</div>
                     {{/if}}
                     {{#if isAimed}}
-                    <div class="text-normal text-bold">{{localize "CPR.location"}}: {{localize (findConfigValue
+                    <div class="text-normal text-bold">{{localize "CPR.rolls.location"}}: {{localize (findConfigValue
                         "aimedLocation" location)}}</div>
                     {{/if}}
                     {{#if criticalCard}}
-                    <div class="text-normal text-bold">{{localize "CPR.bonus"}} {{localize "CPR.damage"}}:
+                    <div class="text-normal text-bold">{{localize "CPR.rolls.bonus"}} {{localize "CPR.global.generic.damage"}}:
                         {{bonusDamage}}</div>
                     {{/if}}
                     <div class="d6-data-details hide">
                         {{#if (compare mods.length ">" 0)}}
-                        <div class="text-normal text-bold">{{localize "CPR.mods"}}: {{totalMods}}</div>
+                        <div class="text-normal text-bold">{{localize "CPR.rolls.mods"}}: {{totalMods}}</div>
                         {{/if}}
                     </div>
                 </div>

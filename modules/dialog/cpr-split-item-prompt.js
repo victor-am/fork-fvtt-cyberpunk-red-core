@@ -2,38 +2,38 @@
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
 
-export default class ModMookSkillPrompt {
-  static async RenderPrompt(skillList) {
+export default class SplitItemPrompt {
+  static async RenderPrompt(itemText) {
     return new Promise((resolve, reject) => {
-      renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-mod-mook-skill-prompt.hbs", skillList).then((html) => {
+      renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-split-item-prompt.hbs", itemText).then((html) => {
         const _onCancel = () => {
-          LOGGER.trace("_onCancel | Dialog ModMookSkillPrompt | called.");
+          LOGGER.trace("_onCancel | Dialog SplitItemPrompt | called.");
           reject(new Error("Promise rejected: Window Closed"));
         };
         // eslint-disable-next-line no-shadow
         const _onConfirm = (html) => {
-          LOGGER.trace("_onConfirm | Dialog ModMookSkillPrompt | called.");
+          LOGGER.trace("_onConfirm | Dialog SplitItemPrompt | called.");
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
           resolve(formData);
         };
         new Dialog({
-          title: "Add or Modify a Mook's Skill",
+          title: SystemUtils.Localize("CPR.dialog.splitItem.title"),
           content: html,
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
-              label: SystemUtils.Localize("CPR.dialog.common.cancel"),
+              label: SystemUtils.Localize("CPR.cancel"),
               callback: () => _onCancel(html),
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: SystemUtils.Localize("CPR.dialog.common.confirm"),
+              label: SystemUtils.Localize("CPR.confirm"),
               // eslint-disable-next-line no-shadow
               callback: (html) => _onConfirm(html),
             },
           },
           default: "confirm",
-          render: LOGGER.trace("confirm | Dialog ModMookSkillPrompt | called."),
+          render: LOGGER.trace("confirm | Dialog SplitItemPrompt | called."),
           close: () => {
             reject(new Error("Promise rejected: Window Closed"));
           },
