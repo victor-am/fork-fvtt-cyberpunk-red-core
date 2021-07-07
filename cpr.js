@@ -30,15 +30,15 @@ Hooks.once("init", async () => {
   // Register Actor Sheet Application Classes
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("cyberpunk-red-core", CPRCharacterActorSheet,
-    { label: SystemUtils.Localize("CPR.charactersheet"), types: ["character", "mook"], makeDefault: true });
+    { label: SystemUtils.Localize("CPR.sheets.characterSheet"), types: ["character", "mook"], makeDefault: true });
   Actors.registerSheet("cyberpunk-red-core", CPRBlackIceActorSheet,
-    { label: SystemUtils.Localize("CPR.blackicesheet"), types: ["blackIce"], makeDefault: true });
+    { label: SystemUtils.Localize("CPR.sheets.blackiceSheet"), types: ["blackIce"], makeDefault: true });
   Actors.registerSheet("cyberpunk-red-core", CPRContainerActorSheet,
-    { label: SystemUtils.Localize("CPR.containersheet"), types: ["container"], makeDefault: true });
+    { label: SystemUtils.Localize("CPR.sheets.containerSheet"), types: ["container"], makeDefault: true });
   Actors.registerSheet("cyberpunk-red-core", CPRDemonActorSheet,
-    { label: SystemUtils.Localize("CPR.demonsheet"), types: ["demon"], makeDefault: true });
+    { label: SystemUtils.Localize("CPR.sheets.demonSheet"), types: ["demon"], makeDefault: true });
   Actors.registerSheet("cyberpunk-red-core", CPRMookActorSheet,
-    { label: SystemUtils.Localize("CPR.mooksheet"), types: ["character", "mook"] });
+    { label: SystemUtils.Localize("CPR.sheets.mookSheet"), types: ["character", "mook"] });
 
   // Register Item Sheet Application Classes
   Items.unregisterSheet("core", ItemSheet);

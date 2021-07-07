@@ -57,7 +57,7 @@ export default class CPRActor extends Actor {
           }
         });
         if (containsCoreItem) {
-          return Rules.lawyer(false, "CPR.dontaddcoreitems");
+          return Rules.lawyer(false, "CPR.messages.dontAddCoreItems");
         }
       }
     }
@@ -134,7 +134,7 @@ export default class CPRActor extends Actor {
     const compatibleFoundationalCyberware = this.getInstalledFoundationalCyberware(item.getData().type);
 
     if (compatibleFoundationalCyberware.length < 1 && !item.getData().isFoundational) {
-      Rules.lawyer(false, "CPR.warnnofoundationalcyberwareofcorrecttype");
+      Rules.lawyer(false, "CPR.messages.warnNoFoundationalCyberwareOfCorrectType");
     } else if (item.getData().isFoundational) {
       const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data }).catch((err) => LOGGER.debug(err));
       if (formData === undefined) {
@@ -171,7 +171,7 @@ export default class CPRActor extends Actor {
     const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots + item.data.data.slotSize;
     tmpItem.data.data.isInstalled = true;
     const allowedSlots = Number(foundationalCyberware.availableSlots());
-    Rules.lawyer((item.data.data.slotSize <= allowedSlots), "CPR.toomanyoptionalcyberwareinstalled");
+    Rules.lawyer((item.data.data.slotSize <= allowedSlots), "CPR.messages.tooManyOptionalCyberwareInstalled");
     return this.updateEmbeddedDocuments("Item", [
       { _id: item.id, "data.isInstalled": true }, {
         _id: foundationalCyberware.id,
@@ -186,8 +186,8 @@ export default class CPRActor extends Actor {
     const item = this._getOwnedItem(itemId);
     let confirmRemove;
     if (!skipConfirm) {
-      const dialogTitle = SystemUtils.Localize("CPR.removecyberwaredialogtitle");
-      const dialogMessage = `${SystemUtils.Localize("CPR.removecyberwaredialogtext")} ${item.name}?`;
+      const dialogTitle = SystemUtils.Localize("CPR.dialog.removeCyberware.title");
+      const dialogMessage = `${SystemUtils.Localize("CPR.dialog.removeCyberware.text")} ${item.name}?`;
       confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
     } else {
       confirmRemove = true;
@@ -252,7 +252,7 @@ export default class CPRActor extends Actor {
     }
 
     if (value <= 0) {
-      Rules.lawyer(false, "CPR.youcyberpsycho");
+      Rules.lawyer(false, "CPR.messages.youCyberpsycho");
     }
 
     this.update({ "data.derivedStats.humanity.value": value });
@@ -304,8 +304,8 @@ export default class CPRActor extends Actor {
   }
 
   processDeathSave(cprRoll) {
-    const success = SystemUtils.Localize("CPR.success");
-    const failed = SystemUtils.Localize("CPR.failed");
+    const success = SystemUtils.Localize("CPR.rolls.success");
+    const failed = SystemUtils.Localize("CPR.rolls.failed");
     let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? success : failed;
     if (cprRoll.initialRoll === 10) {
       saveResult = failed;
@@ -377,9 +377,9 @@ export default class CPRActor extends Actor {
       setProperty(actorData, valProp, newValue);
       // update the ledger with the change
       const ledgerProp = `data.${prop}.transactions`;
-      const action = (value > 0) ? SystemUtils.Localize("CPR.increased") : SystemUtils.Localize("CPR.decreased");
+      const action = (value > 0) ? SystemUtils.Localize("CPR.ledger.increased") : SystemUtils.Localize("CPR.ledger.decreased");
       const ledger = getProperty(actorData, ledgerProp);
-      ledger.push([`${prop} ${action} ${SystemUtils.Localize("CPR.to")} ${newValue}`, reason]);
+      ledger.push([`${prop} ${action} ${SystemUtils.Localize("CPR.ledger.to")} ${newValue}`, reason]);
       setProperty(actorData, ledgerProp, ledger);
       // update the actor and return the modified property
       this.update(actorData);
@@ -396,7 +396,7 @@ export default class CPRActor extends Actor {
       const actorData = duplicate(this.data);
       setProperty(actorData, valProp, value);
       const ledger = getProperty(actorData, ledgerProp);
-      ledger.push([`${prop} ${SystemUtils.Localize("CPR.setto")} ${value}`, reason]);
+      ledger.push([`${prop} ${SystemUtils.Localize("CPR.ledger.setTo")} ${value}`, reason]);
       setProperty(actorData, ledgerProp, ledger);
       this.update(actorData);
       return getProperty(this.data.data, prop);
@@ -437,7 +437,7 @@ export default class CPRActor extends Actor {
       led.setLedgerContent(prop, this.listRecords(prop));
       led.render(true);
     } else {
-      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.ledgererrorisnoledger"));
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.ledgerErrorIsNoLedger"));
     }
   }
 

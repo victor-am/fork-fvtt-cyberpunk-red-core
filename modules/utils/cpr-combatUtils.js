@@ -10,13 +10,13 @@ export default class CPRCombatUtils {
     const combat = game.combats.viewed;
     if (!combat) {
       // no combat encounters are happening in this scene
-      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.nocombatselected"));
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.combatUtils.noCombatSelected"));
       return null;
     }
     const { combatants } = combat.data;
     if (combatants.length === 0) {
       // a combat encounter is viewed but devoid of combatants
-      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.nocombatantsfound"));
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.combatUtils.noCombatantsFound"));
       return null;
     }
     const initiatives = combatants.map((c) => c.initiative);
@@ -25,7 +25,7 @@ export default class CPRCombatUtils {
     LOGGER.debug(`definedInits: ${definedInits}`);
     if (definedInits.length === 0) {
       // a combat encounter is viewed but nobody has rolled initiative
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.nobodyrolledinitiative"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.combatUtils.nobodyRolledInitiative"));
       return null;
     }
     return Math.max(...definedInits);

@@ -1,7 +1,7 @@
 {{!-- Vehicle Item Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.tags"}}
+        {{localize "CPR.itemSheet.vehicle.tags"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         <input name="data.tags" class="" type="text" value="{{data.data.tags}}" placeholder="License Plate No.">
@@ -10,34 +10,34 @@
 
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.structuraldamagepoints"}} {{showUpgrade this.item "sdp"}}
+        {{localize "CPR.itemSheet.vehicle.structuralDamagePoints"}} {{showUpgrade this.item "sdp"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        <input name="data.sdp" class="" type="number" value="{{data.data.sdp}}" placeholder="50">
+        <input name="data.sdp" class="" type="text" value="{{data.data.sdp}}" placeholder="50">
     </div>
 </li>
 
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.seats"}} {{showUpgrade this.item "seats"}}
+        {{localize "CPR.itemSheet.vehicle.seats"}} {{showUpgrade this.item "seats"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        <input name="data.seats" class="" type="number" value="{{data.data.seats}}" placeholder="50">
+        <input name="data.seats" class="" type="text" value="{{data.data.seats}}" placeholder="50">
     </div>
 </li>
 
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.combatspeed"}} {{showUpgrade this.item "speedCombat"}}
+        {{localize "CPR.itemSheet.vehicle.combatSpeed"}} {{showUpgrade this.item "combatSpeed"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        <input name="data.speedCombat" class="" type="number" value="{{data.data.speedCombat}}" placeholder="50">
+        <input name="data.speedCombat" class="" type="text" value="{{data.data.speedCombat}}" placeholder="50">
     </div>
 </li>
 
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.speednarrative"}}
+        {{localize "CPR.itemSheet.vehicle.speedNarrative"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         <input name="data.speedNarrative" class="" type="text" value="{{data.data.speedNarrative}}" placeholder="50">

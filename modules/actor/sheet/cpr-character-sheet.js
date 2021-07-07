@@ -123,11 +123,11 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       }
       case "carried": {
         if (item.data.type === "weapon") {
-          Rules.lawyer(this.actor.canHoldWeapon(item), "CPR.warningtoomanyhands");
+          Rules.lawyer(this.actor.canHoldWeapon(item), "CPR.messages.warningTooManyHands");
         }
         if (item.data.type === "cyberdeck") {
           if (this.actor.hasItemTypeEquipped(item.data.type)) {
-            Rules.lawyer(false, "CPR.errortoomanycyberdecks");
+            Rules.lawyer(false, "CPR.messages.errorTooManyCyberdecks");
             this._updateOwnedItemProp(item, prop, "owned");
             break;
           }
@@ -291,7 +291,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       if (!Number.isNaN(parseInt(event.target.value, 10))) {
         item.setWeaponAmmo(event.target.value);
       } else {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.amountnotnumber"));
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.amountNotNumber"));
       }
     }
     this._updateOwnedItem(item);
@@ -305,7 +305,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       if (!Number.isNaN(parseInt(event.target.value, 10))) {
         item.setItemAmount(event.target.value);
       } else {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.amountnotnumber"));
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.amountNotNumber"));
       }
     }
     this._updateOwnedItem(item);
@@ -352,12 +352,12 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
           break;
         }
         default: {
-          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.improvementpointseditinvalidaction"));
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.improvementPointsEditInvalidAction"));
           break;
         }
       }
     } else {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.improvementpointseditwarn"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.improvementPointsEditWarn"));
     }
   }
 
@@ -381,12 +381,12 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
           break;
         }
         default: {
-          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.eurobucksmodifyinvalidaction"));
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.eurobucksModifyInvalidAction"));
           break;
         }
       }
     } else {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.eurobucksmodifywarn"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.eurobucksModifyWarn"));
     }
   }
 
@@ -404,7 +404,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     const itemTypeNice = itemType.toLowerCase().capitalize();
     const itemString = "ITEM.Type";
     const itemTypeLocal = itemString.concat(itemTypeNice);
-    const itemName = `${SystemUtils.Localize("CPR.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
+    const itemName = `${SystemUtils.Localize("CPR.actorSheets.commonActions.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
     const itemImage = SystemUtils.GetDefaultImage("Item", itemType);
     const itemData = { img: itemImage, name: itemName, type: itemType };
     await this.actor.createEmbeddedDocuments("Item", [itemData]);

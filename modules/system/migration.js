@@ -504,6 +504,10 @@ export default class Migration {
         updateData = this._migrateCyberware(itemData, updateData);
         break;
       }
+      case "netarch": {
+        this._migrateNetArchitecture(itemData, updateData);
+        break;
+      }
       default:
     }
     return updateData;
@@ -677,7 +681,7 @@ export default class Migration {
     // in it's name will be prepended with a MIGRATE tag to let users know there's a new item type.
     if (gearName.includes("cyberdeck")) {
       const oldName = itemData.name;
-      updateData.name = `${game.i18n.localize("CPR.migratetag")} ${oldName}`;
+      updateData.name = `${game.i18n.localize("CPR.migration.tag")} ${oldName}`;
     }
 
     return updateData;
@@ -709,6 +713,46 @@ export default class Migration {
   static _migrateSkill(itemData, updateData) {
     if ((typeof itemData.data.skillmod) !== "number") {
       updateData["data.skillmod"] = 0;
+    }
+
+    return updateData;
+  }
+
+  static _migrateNetArchitecture(itemData, updateData) {
+    if (itemData.data.floors.length !== 0) {
+      const newfloors = [];
+      itemData.data.floors.forEach((floor) => {
+        if (!floor.content.startsWith("CPR.netArchitecture.floor.options")) {
+          const splitString = floor.content.split(".");
+          const editedFloor = duplicate(floor);
+          switch (splitString[1]) {
+            case "password":
+            case "file":
+            case "controlnode": {
+              editedFloor.content = `CPR.netArchitecture.floor.options.${splitString[1]}`;
+              break;
+            }
+            case "demon":
+            case "balron":
+            case "efreet":
+            case "imp": {
+              editedFloor.content = `CPR.netArchitecture.floor.options.demon.${splitString[1]}`;
+              break;
+            }
+            case "blackice": {
+              editedFloor.content = "CPR.global.programClass.blackice";
+              break;
+            }
+            default: {
+              editedFloor.content = `CPR.netArchitecture.floor.options.blackIce.${splitString[1]}`;
+            }
+          }
+          newfloors.push(editedFloor);
+        } else {
+          newfloors.push(floor);
+        }
+      });
+      updateData["data.floors"] = newfloors;
     }
 
     return updateData;

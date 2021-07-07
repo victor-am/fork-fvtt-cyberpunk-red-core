@@ -162,7 +162,7 @@ export default function registerHandlebarsHelpers() {
       if (optionSlots > 0) {
         LOGGER.trace(`hasOptionalSlots is greater than 0`);
         const installedOptionSlots = optionSlots - obj.availableSlots();
-        return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.optionalslots")}`);
+        return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.itemSheet.cyberware.optionalSlots")}`);
       } else {
         LOGGER.trace(`hasOptionalSlots is 0`);
       }
@@ -368,17 +368,19 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("splitJoinCoreSkills", (string) => {
     LOGGER.trace("Calling splitJoinCoreSkills Helper");
-    const cprDot = "CPR.";
+    const cprDot = "CPR.global.skills.";
     const initialSplit = string.split(" ").join("");
-    const orCaseSplit = initialSplit.split("/").join("or");
+    const orCaseSplit = initialSplit.split("/").join("Or");
     const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
-    const andCaseSplit = initialSplit.split("/").join("and").split("&").join("and");
+    const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
     if (string === "Conceal/Reveal Object" || string === "Paint/Draw/Sculpt" || string === "Resist Torture/Drugs") {
-      return cprDot + orCaseSplit.toLowerCase();
+      return cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
     } else if (string === "Language (Streetslang)") {
-      return cprDot + parenCaseSplit.toLowerCase();
+      // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
+      // comment to fulfill the test case of the language file.
+      return cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
     }
-    return cprDot + andCaseSplit.toLowerCase();
+    return cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
   });
 
   Handlebars.registerHelper("itemIdFromName", (itemName, itemType) => {
@@ -395,7 +397,7 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("isTokenSheet", (title) => {
     LOGGER.trace("Calling isTokenSheet Helper");
     LOGGER.debug(`title is ${title}`);
-    const substr = `[${SystemUtils.Localize("CPR.token")}]`;
+    const substr = `[${SystemUtils.Localize("CPR.global.generic.token")}]`;
     return title.includes(substr);
   });
 
@@ -480,8 +482,8 @@ export default function registerHandlebarsHelpers() {
       const upgradeValue = obj.getAllUpgradesFor(dataPoint);
       if (upgradeValue !== 0 && upgradeValue !== "") {
         const modType = obj.getUpgradeTypeFor(dataPoint);
-        const modSource = (itemType === "weapon") ? SystemUtils.Localize("CPR.attachments") : SystemUtils.Localize("CPR.upgrades");
-        upgradeText = `(${SystemUtils.Format("CPR.modifierchange", { modSource, modType, value: upgradeValue })})`;
+        const modSource = (itemType === "weapon") ? SystemUtils.Localize("CPR.itemSheet.weapon.attachments") : SystemUtils.Localize("CPR.itemSheet.common.upgrades");
+        upgradeText = `(${SystemUtils.Format("CPR.itemSheet.common.modifierChange", { modSource, modType, value: upgradeValue })})`;
       }
     }
     return upgradeText;

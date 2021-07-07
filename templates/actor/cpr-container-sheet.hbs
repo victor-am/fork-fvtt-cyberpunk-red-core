@@ -24,7 +24,7 @@
       <div class="settings-section">
         <div class="bg-white">
           <li class="item flexrow">
-            <div class="item-name text-nowrap trade-with-label">{{localize "CPR.tradewith"}}:</div>
+            <div class="item-name text-nowrap trade-with-label">{{localize "CPR.containerSheet.action.tradeWith"}}:</div>
             <div class="item-end">
               <select class="trade-with-dropdown">
                 {{#select tradePartnerId}}
@@ -43,18 +43,18 @@
         <div class="bg-white">
           <li class="item flexrow">
             <div class="text-center text-bold text-normal">
-              {{localize "CPR.tradegmsettings"}}
+              {{localize "CPR.containerSheet.settings.title"}}
             </div>
           </li>
           <li class="item flexrow">
-            <div class="item-name text-nowrap container-type-label">{{localize "CPR.tradecontainertype"}}:</div>
+            <div class="item-name text-nowrap container-type-label">{{localize "CPR.containerSheet.containerType.title"}}:</div>
             <div class="item-end">
               <select class="container-type-dropdown">
                 {{#select actor.data.flags.cyberpunk-red-core.container-type}}
-                  <option value="shop">{{localize "CPR.tradecontainertypeshop"}}</option>
-                  <option value="loot">{{localize "CPR.tradecontainertypeloot"}}</option>
-                  <option value="stash">{{localize "CPR.tradecontainertypestash"}}</option>
-                  <option value="custom">{{localize "CPR.tradecontainertypecustom"}}</option>
+                  <option value="shop">{{localize "CPR.containerSheet.containerType.shop"}}</option>
+                  <option value="loot">{{localize "CPR.containerSheet.containerType.loot"}}</option>
+                  <option value="stash">{{localize "CPR.containerSheet.containerType.stash"}}</option>
+                  <option value="custom">{{localize "CPR.containerSheet.containerType.custom"}}</option>
                 {{/select}}
               </select>
             </div>
@@ -69,11 +69,11 @@
                     <i class="far fa-circle"></i>
                   {{/if}}
                 </a>
-                {{localize "CPR.tradefreeitems"}}
+                {{localize "CPR.containerSheet.settings.freeItems"}}
               </div>
             </li>
           {{/if}}
-          {{#if (compare (compare actor.data.flags.cyberpunk-red-core.container-type "===" "custom") "||" (compare actor.data.flags.cyberpunk-red-core.container-type "===" "shop"))}}
+          {{#if (compare (compare (compare actor.data.flags.cyberpunk-red-core.container-type "===" "custom") "||" (compare actor.data.flags.cyberpunk-red-core.container-type "===" "shop")) "||" (compare actor.data.flags.cyberpunk-red-core.container-type "===" undefined))}}
             <li class="item flexrow">
               <div class="item-name">
                 <a class="checkbox-toggle" data-flag-name="infinite-stock">
@@ -83,14 +83,14 @@
                     <i class="far fa-circle"></i>
                   {{/if}}
                 </a>
-                {{localize "CPR.tradeinfinitestock"}}
+                {{localize "CPR.containerSheet.settings.infiniteStock"}}
               </div>
             </li>
           {{/if}}
           {{#if (compare actor.data.flags.cyberpunk-red-core.container-type "===" "custom")}}
             <li class="item flexrow">
               <div class="item-name text-bold">
-                {{localize "CPR.tradeplayerscan"}}:
+                {{localize "CPR.containerSheet.settings.playersCan"}}:
               </div>
             </li>
           <li class="item flexrow">
@@ -102,7 +102,7 @@
                     <i class="far fa-circle"></i>
                   {{/if}}
                 </a>
-                {{localize "CPR.tradeplayerscreate"}}
+                {{localize "CPR.containerSheet.settings.playersCreate"}}
               </div>
             </li>
             <li class="item flexrow">
@@ -114,7 +114,7 @@
                     <i class="far fa-circle"></i>
                   {{/if}}
                 </a>
-                {{localize "CPR.tradeplayersdelete"}}
+                {{localize "CPR.containerSheet.settings.playersDelete"}}
               </div>
             </li>
             <li class="item flexrow">
@@ -126,7 +126,7 @@
                     <i class="far fa-circle"></i>
                   {{/if}}
                 </a>
-                {{localize "CPR.tradeplayersmodify"}}
+                {{localize "CPR.containerSheet.settings.playersModify"}}
               </div>
             </li>
           {{/if}}
@@ -146,7 +146,7 @@
           {{#each (findConfigObj "inventoryCategories") as |category c|}}
           <div class="collapsible">
             <li class="items-header flexrow collapsible">
-              <span class="item-name bg-black text-nowrap expand-button" id="gearTab-{{c}}" title="{{localize "CPR.togglecategorypinned"}}">
+              <span class="item-name bg-black text-nowrap expand-button" id="gearTab-{{c}}" title="{{localize "CPR.actorSheets.commonActions.toggleCategoryPinned"}}">
                 {{localize category}}&nbsp;
                 {{#if (listContains ../this.options.collapsedSections (generatePartial "gearTab-VAR" c))}}
                 <i class="fas fa-plus bg-black collapse-icon"></i>
@@ -157,15 +157,15 @@
                 {{/if}}
               </span>
               <span class="item-detail bg-black text-nowrap">
-                {{localize "CPR.amount"}}
+                {{localize "CPR.global.generic.amount"}}
               </span>
               <span class="item-name bg-black text-nowrap">
-                {{localize "CPR.price"}}
+                {{localize "CPR.global.generic.price"}}
               </span>
               <span class="item-end bg-black text-nowrap">
-                {{localize "CPR.actions"}}&nbsp;
+                {{localize "CPR.global.generic.actions"}}&nbsp;
                 {{#if (compare ../isGM "||" ../actor.data.flags.cyberpunk-red-core.players-create)}}
-                  <a class="item-create" title="{{localize "CPR.createnewitem"}}" data-item-type="{{c}}">
+                  <a class="item-create" title="{{localize "CPR.actorSheets.commonActions.createNewItem"}}" data-item-type="{{c}}">
                     <i class="fas fa-plus-circle text-padding-right"></i>
                   </a>
                 {{/if}}

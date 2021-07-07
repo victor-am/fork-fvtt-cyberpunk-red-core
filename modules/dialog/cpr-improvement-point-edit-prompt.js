@@ -17,17 +17,17 @@ export default class ImprovementPointEditPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.improvementpointsedit"),
+          title: SystemUtils.Localize("CPR.characterSheet.leftPane.improvementPointsEdit"),
           content: html,
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
-              label: SystemUtils.Localize("CPR.cancel"),
+              label: SystemUtils.Localize("CPR.dialog.common.cancel"),
               callback: () => _onCancel(html),
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: SystemUtils.Localize("CPR.confirm"),
+              label: SystemUtils.Localize("CPR.dialog.common.confirm"),
               // eslint-disable-next-line no-shadow
               callback: (html) => _onConfirm(html),
             },

@@ -1,28 +1,28 @@
-{{!-- Cyberware Item Settings--}}
+{{!-- Cyberware Item Setting --}}
 {{!-- Cyberware Type Setting --}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.type"}}
+        {{localize "CPR.global.generic.type"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-            <select name="data.type" data-dtype="{{data.data.type}}">
-                {{#select data.data.type}}
-                    {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
-                        <option value="{{t}}">{{localize type}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
+        <select name="data.type" data-dtype="{{data.data.type}}">
+            {{#select data.data.type}}
+                {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
+                    <option value="{{t}}">{{localize type}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
         {{else}}
             <span class="text-flex-end">{{localize (findConfigValue "cyberwareTypeList" data.data.type)}}</span>
         {{/if}}
+
     </div>
 </li>
-
-{{!-- Cyberware Installation Settings--}}
+{{!-- Armor Penalty Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.install"}}
+        {{localize "CPR.global.generic.install"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
@@ -38,11 +38,10 @@
         {{/if}}
     </div>
 </li>
-
-{{!--Cyberware Humanity Loss Settings--}}
+{{!--Head Armor Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.static"}} {{localize "CPR.humanityloss"}}
+        {{localize "CPR.dialog.installCyberware.static"}} {{localize "CPR.dialog.installCyberware.humanityLoss"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
@@ -55,7 +54,7 @@
 
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.rolled"}} {{localize "CPR.humanityloss"}}
+        {{localize "CPR.itemSheet.cyberware.rolled"}} {{localize "CPR.dialog.installCyberware.humanityLoss"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
@@ -69,7 +68,7 @@
 {{#unless (listContains "fashionware,cyberwareInternal,cyberwareExternal" data.data.type)}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-            {{localize "CPR.requiresfoundational"}}
+            {{localize "CPR.itemSheet.cyberware.requiresFoundational"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
             {{#if this.editable}}
@@ -90,7 +89,7 @@
     {{#if data.data.isFoundational}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.hasoptionslots"}}
+                {{localize "CPR.itemSheet.cyberware.hasOptionSlots"}}
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 {{#if this.editable}}
@@ -111,7 +110,7 @@
     {{else}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.slotSize"}}
+                {{localize "CPR.itemSheet.cyberware.slotSize"}}
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 {{#if this.editable}}
@@ -125,7 +124,7 @@
     {{#if data.data.hasOptionalSlots}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.optionalslots"}} {{#if (compare data.data.availableSlots "<" data.data.optionSlots)}}({{data.data.availableSlots}} {{localize "CPR.availableslots"}}){{/if}}
+                {{localize "CPR.itemSheet.cyberware.optionalSlots"}}
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 {{#if this.editable}}
@@ -135,25 +134,25 @@
                 {{/if}}
             </div>
         </li>
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.itemSheet.common.isAWeapon"}}
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                {{#if this.editable}}
+                    <select name="data.isWeapon" data-dtype="{{data.data.isWeapon}}">
+                        {{#select data.data.isWeapon}}
+                            <option value="false">{{localize "CPR.global.generic.false"}}</option>
+                            <option value="true">{{localize "CPR.global.generic.true"}}</option>
+                        {{/select}}
+                    </select>
+                {{else}}
+                    <span class="text-flex-end">{{localize (objConcat "CPR.global.generic." data.data.isWeapon)}}</span>
+                {{/if}}
+            </div>
+        </li>
     {{/if}}
 {{/unless}}
-<li class="item flexrow">
-    <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.weapon"}}
-    </div>
-    <div class="item flexrow setting-value text-nowrap item-end">
-        {{#if this.editable}}
-            <select name="data.isWeapon" data-dtype="{{data.data.isWeapon}}">
-                {{#select data.data.isWeapon}}
-                        <option value="false">{{localize "CPR.false"}}</option>
-                        <option value="true">{{localize "CPR.true"}}</option>
-                {{/select}}
-            </select>
-        {{else}}
-            <span class="text-flex-end">{{localize (objConcat "CPR." data.data.isWeapon)}}</span>
-        {{/if}}
-    </div>
-</li>
-{{#if (compare  data.data.isWeapon "===" "true")}}
+{{#if (compare data.data.isWeapon "===" "true")}}
     {{> "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-weapon.hbs" this}}
 {{/if}}

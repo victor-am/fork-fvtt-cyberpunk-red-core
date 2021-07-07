@@ -96,7 +96,7 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
     const biPrograms = game.items.filter((i) => i.type === "program" && i.data.data.class === "blackice");
     const linkedProgramId = (this.actor.isToken) ? this.actor.token.getFlag("cyberpunk-red-core", "programId") : null;
     if (linkedProgramId === null) {
-      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.linkbiwithouttoken"));
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.linkBlackIceWithoutToken"));
       return;
     }
     let formData = { biProgramList: biPrograms, linkedProgramId };

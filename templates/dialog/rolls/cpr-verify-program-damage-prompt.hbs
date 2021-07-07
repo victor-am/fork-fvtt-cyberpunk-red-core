@@ -1,25 +1,25 @@
 {{trace "VERIFY-PROGRAM-DAMAGE-PROMPT.HBS"}}
 <form>
     <div>
-        {{localize "CPR.roll"}} {{localize "CPR.damagefor"}} "{{rollCardExtraArgs.program.name}} ({{localize (findConfigValue "programClassList" rollCardExtraArgs.program.data.class)}})", Choomba!
+        {{localize "CPR.rolls.roll"}} {{localize "CPR.rolls.damageFor"}} "{{rollCardExtraArgs.program.name}} ({{localize (findConfigValue "programClassList" rollCardExtraArgs.program.data.class)}})", Choomba!
     </div>
     <ol class="items-list">
       {{#if (compare (compare rollCardExtraArgs.program.data.class "===" "antiprogramattacker") "&&" (compare rollCardExtraArgs.program.data.damage.blackIce "!==" "")) }}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.selecttarget"}}:
+                {{localize "CPR.rolls.selectTarget"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
               <select name="formula">
-                    <option selected value="{{rollCardExtraArgs.program.data.damage.standard}}">{{localize "CPR.damageto"}} {{localize "CPR.nonblackice"}} ({{rollCardExtraArgs.program.data.damage.standard}})</option>
-                    <option value="{{rollCardExtraArgs.program.data.damage.blackIce}}">{{localize "CPR.damageto"}} {{localize "CPR.blackice"}} ({{rollCardExtraArgs.program.data.damage.blackIce}})</option>
+                    <option selected value="{{rollCardExtraArgs.program.data.damage.standard}}">{{localize "CPR.itemSheet.program.damageTo"}} {{localize "CPR.itemSheet.program.nonBlackIce"}} ({{rollCardExtraArgs.program.data.damage.standard}})</option>
+                    <option value="{{rollCardExtraArgs.program.data.damage.blackIce}}">{{localize "CPR.itemSheet.program.damageTo"}} {{localize "CPR.global.programClass.blackice"}} ({{rollCardExtraArgs.program.data.damage.blackIce}})</option>
                 </select>
             </div>
         </li>
         {{/if}}
          <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.mods"}}:
+                {{localize "CPR.rolls.mods"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="mods" class="" type="text" data-dtype="String" value={{mods}}>

@@ -1,11 +1,11 @@
 {{trace "LOAD-WEAPON.HBS"}}
 <form>
-    {{localize "CPR.selectammotoloadinto"}} {{this.weapon.data.name}}:
+    {{localize "CPR.dialog.loadAmmo.selectAmmoToLoadInto"}} {{this.weapon.data.name}}:
     <div>
         <select name="selectedAmmo">
             {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
             {{#if (compare weapon.data.data.magazine.ammoId "!==" "")}}
-            <option value="">{{localize "CPR.unload"}} {{localize "CPR.weapon"}}</option>
+            <option value="">{{localize "CPR.dialog.loadAmmo.unload"}} {{localize "CPR.global.itemTypes.weapon"}}</option>
             {{/if}}
             {{#each this.ammoList as |ammo|}}
             <option value="{{ammo.data._id}}">{{ammo.data.name}} ({{localize (findConfigValue "ammoType"

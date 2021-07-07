@@ -6,14 +6,14 @@
   </div>
   <div class="item-detail gear-data text-nowrap">
         {{#if item.data.data.isHeadLocation}}
-        {{localize "CPR.head"}}: {{math "subtract" (applyUpgrade item item.data.data.headLocation.sp "headSp") item.data.data.headLocation.ablation}}/{{applyUpgrade item item.data.data.headLocation.sp "headSp"}} {{localize "CPR.sp"}}
+        {{localize "CPR.global.location.head"}}: {{math "subtract" (applyUpgrade item item.data.data.headLocation.sp "headSp") item.data.data.headLocation.ablation}}/{{applyUpgrade item item.data.data.headLocation.sp "headSp"}} {{localize "CPR.characterSheet.rightPange.armor.sp"}}
         {{#if item.data.data.isBodyLocation}}|{{/if}}
         {{/if}}
         {{#if item.data.data.isBodyLocation}}
-        {{localize "CPR.bodylocation"}}: {{math "subtract" (applyUpgrade item item.data.data.bodyLocation.sp "bodySp") item.data.data.bodyLocation.ablation}}/{{applyUpgrade item item.data.data.bodyLocation.sp "bodySp"}} {{localize "CPR.sp"}}
+        {{localize "CPR.global.location.body"}}: {{math "subtract" (applyUpgrade item item.data.data.bodyLocation.sp "bodySp") item.data.data.bodyLocation.ablation}}/{{applyUpgrade item item.data.data.bodyLocation.sp "bodySp"}} {{localize "CPR.characterSheet.rightPange.armor.sp"}}
         {{/if}}
         {{#if item.data.data.isShield}}
-        {{localize "CPR.shield"}}: {{item.data.data.shieldHitPoints.value}}/{{applyUpgrade item item.data.data.shieldHitPoints.max "shieldHp"}} {{localize "CPR.hitpoints"}}
+        {{localize "CPR.global.generic.shield"}}: {{item.data.data.shieldHitPoints.value}}/{{applyUpgrade item item.data.data.shieldHitPoints.max "shieldHp"}} {{localize "CPR.global.generic.hitpoints"}}
         {{/if}}
   </div>
   <div class="item-detail gear-actions text-nowrap">

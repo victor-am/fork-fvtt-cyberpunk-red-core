@@ -1,6 +1,6 @@
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.price"}}
+        {{localize "CPR.global.generic.price"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
@@ -13,7 +13,7 @@
 
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.pricecategory"}}
+        {{localize "CPR.itemSheet.common.priceCategory"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
@@ -29,3 +29,18 @@
         {{/if}}
     </div>
 </li>
+<<<<<<< HEAD
+=======
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.common.source"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if this.editable}}
+          <input name="data.source" class="" type="text" value="{{data.data.source}}" placeholder="Example: pg. 1">
+        {{else}}
+          <span>{{data.data.source}}</span>
+        {{/if}}
+    </div>
+</li>
+>>>>>>> origin/dev
