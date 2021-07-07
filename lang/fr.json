@@ -542,7 +542,7 @@
     "CPR.ledger.ledgerOpen": "Ouvrir le registre",
     "CPR.ledger.setTo": "configurer à",
     "CPR.ledger.title": "Registre",
-    "CPR.ledger.to": "à",
+    "CPR.mookSheet.skills.to": "à",
     "CPR.ledger.wealth": "Richesse / Eurodollars",
     "CPR.macro.invalidRollType": "Vous avez spécifié un jet de type invalide pour votre macro :",
     "CPR.macro.itemMissing": "Assurez vous d'avoir un acteur sélectionné qui a un objet nommé :",

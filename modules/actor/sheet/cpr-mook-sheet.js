@@ -75,7 +75,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
       skill.setSkillMod(formData.skillMod);
       this._updateOwnedItem(skill);
       const updated = SystemUtils.Localize("CPR.mookSheet.skills.updated");
-      const to = SystemUtils.Localize("CPR.ledger.to");
+      const to = SystemUtils.Localize("CPR.mookSheet.skills.to");
       const msg = `${updated} ${formData.skillName} ${to} ${formData.skillLevel}`;
       SystemUtils.DisplayMessage("notify", msg);
       again = formData.again;

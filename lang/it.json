@@ -536,7 +536,7 @@
     "CPR.ledger.ledgerOpen": "Apri Libro Mastro",
     "CPR.ledger.setTo": "Impostato a",
     "CPR.ledger.title": "Libro Mastro",
-    "CPR.ledger.to": "a",
+    "CPR.mookSheet.skills.to": "a",
     "CPR.ledger.wealth": "Ricchezza / Eurodollari",
     "CPR.macro.invalidRollType": "Hai specificato un tipo di tiro non valido per la tua macro:",
     "CPR.macro.itemMissing": "Assicurati di seleziona il token che possiede un oggetto con il nome:",
