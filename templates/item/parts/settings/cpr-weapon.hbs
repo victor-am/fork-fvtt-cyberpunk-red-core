@@ -12,7 +12,7 @@
                 {{!-- Weapon Item Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.equipped"}}
+                        {{localize "CPR.global.equipState.equipped"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.equipped" data-dtype="{{data.data.equipped}}">
@@ -27,7 +27,7 @@
                 {{!-- ROF Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.rof"}}
+                        {{localize "CPR.itemSheet.weapon.rof"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <input name="data.rof" class="" type="number" value="{{data.data.rof}}">
@@ -36,7 +36,7 @@
                 {{!-- Concealable Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.concealable"}}
+                        {{localize "CPR.itemSheet.weapon.concealable"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if data.data.concealable}}
@@ -49,7 +49,7 @@
                 {{!-- Weapon Type Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.weapon"}} {{localize "CPR.type"}}
+                        {{localize "CPR.global.itemTypes.weapon"}} {{localize "CPR.global.generic.type"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.weaponType" data-dtype="{{data.data.weaponType}}">
@@ -64,7 +64,7 @@
                 {{!-- Weapon Skill Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.weapon"}} {{localize "CPR.skill"}}
+                        {{localize "CPR.global.itemTypes.weapon"}} {{localize "CPR.global.itemTypes.skill"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.weaponSkill" data-dtype="{{data.data.weaponSkill}}">
@@ -85,7 +85,7 @@
                 {{!-- Item Quality Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.weapon"}} {{localize "CPR.quality"}}
+                        {{localize "CPR.global.itemTypes.weapon"}} {{localize "CPR.itemSheet.common.quality"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <select name="data.quality" data-dtype="{{data.data.quality}}">
@@ -100,7 +100,7 @@
                 {{!-- Attack Mod Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.attackmod"}}
+                        {{localize "CPR.itemSheet.weapon.attackMod"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <input name="data.attackmod" class="" type="number" value="{{data.data.attackmod}}">
@@ -109,7 +109,7 @@
                 {{!-- Hands Required Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.handsrequired"}}
+                        {{localize "CPR.itemSheet.weapon.handsRequired"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         <input name="data.handsReq" class="" type="number" value="{{data.data.handsReq}}">
@@ -119,7 +119,7 @@
                 {{!-- Automatic damage calculation Settings for unarmed--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.unarmedAutomaticallyCalculatedSetting"}}
+                        {{localize "CPR.itemSheet.weapon.unarmedAutomaticallyCalculatedSetting"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if data.data.unarmedAutomaticCalculation}}
@@ -133,11 +133,11 @@
                 {{!- Weapon Damage Settings--}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.damage"}}
+                        {{localize "CPR.global.generic.damage"}}
                     </div>
                     <div class="item flexrow setting-value text-nowrap item-end">
                         {{#if (compare (compare data.data.weaponType "===" "unarmed") "&&" data.data.unarmedAutomaticCalculation)}}
-                        <div class="item text-flex-end setting-value text-nowrap">{{localize "CPR.unarmedAutomaticallyCalculated"}}</div>
+                        <div class="item text-flex-end setting-value text-nowrap">{{localize "CPR.itemSheet.weapon.unarmedAutomaticallyCalculated"}}</div>
                         {{else}}
                         <input name="data.damage" class="" type="text" value="{{data.data.damage}}">
                         {{/if}}
@@ -146,7 +146,7 @@
                   {{!- Ranged Weapon Settings--}}
                   <li class="item flexrow">
                       <div class="item flexrow setting-name text-nowrap">
-                          {{localize "CPR.rangedweapon"}}
+                          {{localize "CPR.itemSheet.weapon.rangedWeapon"}}
                       </div>
                       <div class="item flexrow setting-value text-nowrap item-end">
                           {{#if data.data.isRanged}}
@@ -161,7 +161,7 @@
                   {{!- DV Table Setting --}}
                   <li class="item flexrow">
                       <div class="item flexrow setting-name text-nowrap">
-                          {{localize "CPR.dvtable"}}:
+                          {{localize "CPR.itemSheet.weapon.dvTable"}}:
                       </div>
                       <div class="item flexrow setting-value text-nowrap item-end">
                           <select name="data.dvTable" data-dtype="{{data.data.dvTable}}">
@@ -180,7 +180,7 @@
                   {{!- Ranged Weapon - Alternate Fire Modes Settings--}}
                   <li class="item flexrow">
                       <div class="item flexrow setting-name text-nowrap">
-                          {{localize "CPR.autofire"}} {{localize "CPR.maximum"}} {{localize "CPR.multiplier"}}
+                          {{localize "CPR.global.skills.autofire"}} {{localize "CPR.itemSheet.common.maximum"}} {{localize "CPR.global.generic.multiplier"}}
                       </div>
                       <div class="item flexrow setting-value text-nowrap item-end">
                           <input name="data.fireModes.autoFire" class="" type="number" value="{{data.data.fireModes.autoFire}}">
@@ -188,7 +188,7 @@
                   </li>
                   <li class="item flexrow">
                       <div class="item flexrow setting-name text-nowrap">
-                          {{localize "CPR.hassuppressivefire"}}
+                          {{localize "CPR.itemSheet.weapon.hasSuppressiveFire"}}
                       </div>
                       <div class="item flexrow setting-value text-nowrap item-end">
                           {{#if data.data.fireModes.suppressiveFire}}
@@ -201,7 +201,7 @@
                   {{!- Ranged Weapon - Magazine Size Settings--}}
                   <li class="item flexrow">
                       <div class="item flexrow setting-name text-nowrap">
-                          {{localize "CPR.magazine"}} {{localize "CPR.size"}}
+                          {{localize "CPR.itemSheet.weapon.magazine"}} {{localize "CPR.itemSheet.weapon.size"}}
                       </div>
                       <div class="item flexrow setting-value text-nowrap item-end">
                           <input name="data.magazine.max" class="" type="number" value="{{data.data.magazine.max}}">
@@ -210,7 +210,7 @@
                   {{#if (compare data.data.magazine.ammoId "!==" "")}}
                   <li class="item flexrow">
                       <div class="item flexrow setting-name text-nowrap">
-                          {{localize "CPR.loadedammoquantity"}}
+                          {{localize "CPR.itemSheet.weapon.loadedAmmoQuantity"}}
                       </div>
                       <div class="item flexrow setting-value text-nowrap item-end">
                           <input name="data.magazine.value" class="" type="number" value="{{data.data.magazine.value}}">
@@ -219,7 +219,7 @@
                   {{/if}}
                   <div class="item flexrow setting-name text-nowrap text-bold">
                       <a class="select-compatible-ammo" data-item-prop="select-compatible-ammo">{{localize
-                          "CPR.configurecompatibleammo"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
+                          "CPR.itemSheet.weapon.configureCompatibleAmmo"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
                   </div>
                   <div class="compatible-ammo">
                   {{#each (findConfigObj "ammoVariety") as |ammoVariety a|}}
@@ -230,7 +230,7 @@
                           {{#if ../this.isOwned}}
                           {{#if (isNumber (math "sum" (getProp (filter ../this.filteredItems.ammo "data.data.variety" a) "data.data.amount")))}}
                           <div class="text-right">
-                              &nbsp;&nbsp;({{localize "CPR.youown"}} {{math "sum" (getProp (filter ../this.filteredItems.ammo "data.data.variety" a) "data.data.amount")}} {{localize "CPR.rounds"}})
+                              &nbsp;&nbsp;({{localize "CPR.itemSheet.weapon.youOwn"}} {{math "sum" (getProp (filter ../this.filteredItems.ammo "data.data.variety" a) "data.data.amount")}} {{localize "CPR.itemSheet.weapon.rounds"}})
                           </div>
                           {{/if}}
                           {{/if}}

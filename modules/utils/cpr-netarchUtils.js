@@ -24,27 +24,27 @@ export default class CPRNetarchUtils {
     this.scene = null;
     this.tileData = null;
     this.floorDict = {
-      "CPR.password": "Password",
-      "CPR.file": "File",
-      "CPR.controlnode": "ControlNode",
-      "CPR.blackice": "BlackIce",
-      "CPR.asp": "Asp",
-      "CPR.giant": "Giant",
-      "CPR.hellhound": "Hellhound",
-      "CPR.kraken": "Kraken",
-      "CPR.liche": "Liche",
-      "CPR.raven": "Raven",
-      "CPR.scorpion": "Scorpion",
-      "CPR.skunk": "Skunk",
-      "CPR.wisp": "Wisp",
-      "CPR.dragon": "Dragon",
-      "CPR.killer": "Killer",
-      "CPR.sabertooth": "Sabertooth",
-      "CPR.demon": "Demon",
-      "CPR.balron": "Balron",
-      "CPR.efreet": "Efreet",
-      "CPR.imp": "Imp",
-      "CPR.root": "Root",
+      "CPR.netArchitecture.floor.options.password": "Password",
+      "CPR.netArchitecture.floor.options.file": "File",
+      "CPR.netArchitecture.floor.options.controlnode": "ControlNode",
+      "CPR.global.programClass.blackice": "BlackIce",
+      "CPR.netArchitecture.floor.options.blackIce.asp": "Asp",
+      "CPR.netArchitecture.floor.options.blackIce.giant": "Giant",
+      "CPR.netArchitecture.floor.options.blackIce.hellhound": "Hellhound",
+      "CPR.netArchitecture.floor.options.blackIce.kraken": "Kraken",
+      "CPR.netArchitecture.floor.options.blackIce.liche": "Liche",
+      "CPR.netArchitecture.floor.options.blackIce.raven": "Raven",
+      "CPR.netArchitecture.floor.options.blackIce.scorpion": "Scorpion",
+      "CPR.netArchitecture.floor.options.blackIce.skunk": "Skunk",
+      "CPR.netArchitecture.floor.options.blackIce.wisp": "Wisp",
+      "CPR.netArchitecture.floor.options.blackIce.dragon": "Dragon",
+      "CPR.netArchitecture.floor.options.blackIce.killer": "Killer",
+      "CPR.netArchitecture.floor.options.blackIce.sabertooth": "Sabertooth",
+      "CPR.netArchitecture.floor.options.demon.demon": "Demon",
+      "CPR.netArchitecture.floor.options.demon.balron": "Balron",
+      "CPR.netArchitecture.floor.options.demon.efreet": "Efreet",
+      "CPR.netArchitecture.floor.options.demon.imp": "Imp",
+      "CPR.netArchitecture.floor.options.root": "Root",
     };
   }
 
@@ -72,7 +72,7 @@ export default class CPRNetarchUtils {
 
     const floorData = duplicate(this.netarchItem.data.data.floors);
     if (floorData.length === 0) {
-      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratenofloorerror"));
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noFloorError"));
       return;
     }
     if (this.options.sceneName === null) {
@@ -92,7 +92,7 @@ export default class CPRNetarchUtils {
     } else {
       this.scene = game.scenes.find((f) => f.name === this.options.sceneName);
       if (this.scene === null) {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratenosceneerror"));
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noSceneError"));
         return;
       }
       await this._removeAllTiles();
@@ -106,7 +106,7 @@ export default class CPRNetarchUtils {
       const dv = this._checkDV(floor.dv);
       const content = this._checkFloorType(floor);
       if (level === null) {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratefloorformattingerror"));
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.floorFormattingError"));
         return;
       }
       levelList.push([level, branch]);
@@ -207,7 +207,7 @@ export default class CPRNetarchUtils {
     });
     await this._addTilesToScene(newTiles);
     await this.scene.view();
-    SystemUtils.DisplayMessage("notify", SystemUtils.Localize("CPR.netarchgeneratedone"));
+    SystemUtils.DisplayMessage("notify", SystemUtils.Localize("CPR.netArchitecture.generation.done"));
   }
 
   async _duplicateScene(newName) {
@@ -251,7 +251,7 @@ export default class CPRNetarchUtils {
   }
 
   _checkFloorType(floor) {
-    if (floor.content === "CPR.blackice" && floor.blackice !== "--") {
+    if (floor.content === "CPR.global.programClass.blackice" && floor.blackice !== "--") {
       return this.floorDict[floor.blackice];
     }
     return this.floorDict[floor.content];

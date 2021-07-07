@@ -4,7 +4,7 @@
     <div class="cpr-block chat-rollTitle-stat">
       <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
       <div class="rollcard-subtitle">
-        <div class="rollcard-subtitle-center text-small">{{localize "CPR.aimedshot"}}</div>
+        <div class="rollcard-subtitle-center text-small">{{localize "CPR.rolls.aimedShot"}}</div>
         <div class="rollcard-subtitle-right">
           <a class="clickable" data-action="rollDamage" data-actor-id="{{entityData.actor}}" data-damage-location="{{location}}"
             data-attack-type="aimed" data-token-id="{{entityData.token}}" data-item-id="{{entityData.item}}">
@@ -40,15 +40,15 @@
               data-visible-element="d10-data-details">{{resultTotal}}</span></a>
         </div>
         <div class="d10-data-div">
-          <div class="text-normal text-bold">{{localize "CPR.location"}}: {{localize (findConfigValue "aimedLocation"
+          <div class="text-normal text-bold">{{localize "CPR.rolls.location"}}: {{localize (findConfigValue "aimedLocation"
             location)}}</div>
           <div class="d10-data-details hide">
 
             <div class="text-normal text-bold">{{localize statName}} + {{statValue}}</div>
             <div class="text-normal text-bold">{{localize skillName}} + {{skillValue}}</div>
             {{#if mods}}
-            <span class="text-normal text-nowrap">{{localize "CPR.rollmods"}}: {{mods}}</span>
-            <div class="text-normal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}:
+            <span class="text-normal text-nowrap">{{localize "CPR.rolls.rollMods"}}: {{mods}}</span>
+            <div class="text-normal text-bold text-nowrap">{{localize "CPR.rolls.mods"}} {{localize "CPR.rolls.total"}}:
               {{totalMods}}</div>
             {{/if}}
           </div>

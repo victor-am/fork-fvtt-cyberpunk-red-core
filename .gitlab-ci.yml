@@ -34,6 +34,22 @@ unit-test:
     - echo "Executing tests..."
     - npm test
 
+lang-test:
+  stage: test
+  script:
+    - echo "Checking language file for unused strings..."
+    - ./tests/test-lang-file.sh
+
+changelog-dev-test:
+  stage: test
+  script:
+    - echo "Checking if the CHANGELOG.md changed..."
+    - ./tests/test-changelog-dev-changed.sh
+  allow_failure: true
+  except:
+    - master
+    - dev
+
 code-test 1/2:
   stage: test
   script:

@@ -21,17 +21,17 @@ export default class CyberwareInstallPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: game.i18n.localize("CPR.installcyberwaredialogtitle"),
+          title: game.i18n.localize("CPR.dialog.installCyberware.title"),
           content: html,
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
-              label: SystemUtils.Localize("CPR.cancel"),
+              label: SystemUtils.Localize("CPR.dialog.common.cancel"),
               callback: (html) => _onCancel(html), // TODO fix no-shadow
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: SystemUtils.Localize("CPR.install"),
+              label: SystemUtils.Localize("CPR.global.generic.install"),
               callback: (html) => _onConfirm(html), // TODO fix no-shadow
             },
           },

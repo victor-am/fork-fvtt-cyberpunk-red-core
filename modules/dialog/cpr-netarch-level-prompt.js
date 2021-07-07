@@ -18,7 +18,7 @@ export default class NetarchLevelPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.netarchfloorcreate"),
+          title: SystemUtils.Localize("CPR.dialog.netArchitectureNewFloor.title"),
           content: html,
           buttons: {
             cancel: {

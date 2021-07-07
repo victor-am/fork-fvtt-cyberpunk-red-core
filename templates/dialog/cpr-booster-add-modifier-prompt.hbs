@@ -5,7 +5,7 @@
       <li class="item flexrow">
         <div class="item flexrow">
           <select name="boosterType">
-            <option value="speed">{{localize "CPR.speed"}}</option>
+            <option value="speed">{{localize "CPR.global.generic.speed"}}</option>
             {{#each (findConfigObj "interfaceAbilities") as |intAbility ia|}}
               <option value="{{ia}}">{{localize intAbility}}</option>
             {{/each}}

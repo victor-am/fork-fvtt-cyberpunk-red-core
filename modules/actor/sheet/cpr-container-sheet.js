@@ -5,7 +5,9 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
 import CPRChat from "../../chat/cpr-chat.js";
 
 /**
- * Implement the sheet for containers and shop keepers.
+ * Implement the sheet for containers and shop keepers. This extends CPRActorSheet to make use
+ * of owned-item management methods like _getOwnedItem and _deleteOwnedItem.
+ *
  * @extends {CPRActorSheet}
  */
 export default class CPRContainerActorSheet extends CPRActorSheet {
@@ -59,6 +61,8 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
    * @param {*} html - the DOM object
    */
   activateListeners(html) {
+    LOGGER.trace("activateListeners | CPRContainerSheet | Called.");
+
     // Selection of trade partner
     html.find(".trade-with-dropdown").change((event) => this._setTradePartner(event));
     // Create item in inventory
@@ -155,7 +159,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
   async _purchaseItem(item) {
     LOGGER.trace("_purchaseItem | CPRContainerSheet | Called.");
     if (this.tradePartnerId === undefined || this.tradePartnerId === "") {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.tradewithwarn"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeWithWarn"));
       return;
     }
 
@@ -163,15 +167,16 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     if (!getProperty(this.actor.data, "flags.cyberpunk-red-core.items-free")) {
       const price = item.data.data.price.market;
       if (tradePartnerActor.data.data.wealth.value < price) {
-        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.tradepricewarn"));
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradePriceWarn"));
         return;
       }
       const { amount } = item.data.data;
+      const username = game.user.name;
       let reason = "";
       if (amount > 1) {
-        reason = `${SystemUtils.Format("CPR.tradelogmultiple", { amount, name: item.name, price })} - ${game.user.name}`;
+        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.multiple", { amount, name: item.name, price })} - ${username}`;
       } else {
-        reason = `${SystemUtils.Format("CPR.tradelogsingle", { name: item.name, price })} - ${game.user.name}`;
+        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.single", { name: item.name, price })} - ${username}`;
       }
       await tradePartnerActor.deltaLedgerProperty("wealth", -1 * price, reason);
     }
@@ -197,7 +202,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     const itemTypeNice = itemType.toLowerCase().capitalize();
     const itemString = "ITEM.Type";
     const itemTypeLocal = itemString.concat(itemTypeNice);
-    const itemName = `${SystemUtils.Localize("CPR.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
+    const itemName = `${SystemUtils.Localize("CPR.actorSheets.commonActions.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
     const itemImage = SystemUtils.GetDefaultImage("Item", itemType);
     const itemData = { img: itemImage, name: itemName, type: itemType };
     await this.actor.createEmbeddedDocuments("Item", [itemData]);
@@ -235,26 +240,33 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     await this.actor.setFlag("cyberpunk-red-core", "container-type", containerType);
     switch (containerType) {
       case "shop": {
-        await this.actor.unsetFlag("cyberpunk-red-core", "items-free");
-        await this.actor.unsetFlag("cyberpunk-red-core", "players-create");
-        await this.actor.unsetFlag("cyberpunk-red-core", "players-delete");
-        await this.actor.unsetFlag("cyberpunk-red-core", "players-modify");
+        // setting flags is an async operation; we wait for them all in parallel
+        await Promise.all([
+          this.actor.unsetFlag("cyberpunk-red-core", "items-free"),
+          this.actor.unsetFlag("cyberpunk-red-core", "players-create"),
+          this.actor.unsetFlag("cyberpunk-red-core", "players-delete"),
+          this.actor.unsetFlag("cyberpunk-red-core", "players-modify"),
+        ]);
         break;
       }
       case "loot": {
-        await this.actor.unsetFlag("cyberpunk-red-core", "infinite-stock");
-        await this.actor.setFlag("cyberpunk-red-core", "items-free", true);
-        await this.actor.unsetFlag("cyberpunk-red-core", "players-create");
-        await this.actor.unsetFlag("cyberpunk-red-core", "players-delete");
-        await this.actor.unsetFlag("cyberpunk-red-core", "players-modify");
+        await Promise.all([
+          this.actor.unsetFlag("cyberpunk-red-core", "infinite-stock"),
+          this.actor.setFlag("cyberpunk-red-core", "items-free", true),
+          this.actor.unsetFlag("cyberpunk-red-core", "players-create"),
+          this.actor.unsetFlag("cyberpunk-red-core", "players-delete"),
+          this.actor.unsetFlag("cyberpunk-red-core", "players-modify"),
+        ]);
         break;
       }
       case "stash": {
-        await this.actor.unsetFlag("cyberpunk-red-core", "infinite-stock");
-        await this.actor.setFlag("cyberpunk-red-core", "items-free", true);
-        await this.actor.setFlag("cyberpunk-red-core", "players-create", true);
-        await this.actor.setFlag("cyberpunk-red-core", "players-delete", true);
-        await this.actor.setFlag("cyberpunk-red-core", "players-modify", true);
+        await Promise.all([
+          this.actor.unsetFlag("cyberpunk-red-core", "infinite-stock"),
+          this.actor.setFlag("cyberpunk-red-core", "items-free", true),
+          this.actor.setFlag("cyberpunk-red-core", "players-create", true),
+          this.actor.setFlag("cyberpunk-red-core", "players-delete", true),
+          this.actor.setFlag("cyberpunk-red-core", "players-modify", true),
+        ]);
         break;
       }
       case "custom": {
@@ -266,12 +278,21 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     }
   }
 
+  /**
+   * _onDrop is provided by ActorSheet and extended here. When an Item is dragged to an ActorSheet a new
+   * copy is created. This extension ensures players are allowed to create items in the container-actor before doing so.
+   *
+   * @private
+   * @override
+   * @param {Object} event - an object capturing event details
+   */
   async _onDrop(event) {
+    LOGGER.trace("_onDrop | CPRContainerSheet | Called.");
     const playersCanCreate = getProperty(this.actor.data, "flags.cyberpunk-red-core.players-create");
     if (game.user.isGM || playersCanCreate) {
       super._onDrop(event);
     } else {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.tradedraginwarn"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeDragInWarn"));
     }
   }
 }

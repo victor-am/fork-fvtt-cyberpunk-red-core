@@ -3,8 +3,8 @@ import LOGGER from "../utils/cpr-logger.js";
 
 const registerSystemSettings = () => {
   game.settings.register("cyberpunk-red-core", "calculateDerivedStats", {
-    name: "CPR.settingderivedstatsname",
-    hint: "CPR.settingderivedstatshint",
+    name: "CPR.settings.derivedStats.name",
+    hint: "CPR.settings.derivedStats.hint",
     scope: "world",
     config: true,
     type: Boolean,
@@ -15,8 +15,8 @@ const registerSystemSettings = () => {
   });
 
   game.settings.register("cyberpunk-red-core", "playersCreateInventory", {
-    name: "CPR.settingplayerscreateinventoryname",
-    hint: "CPR.settingplayerscreateinventoryhint",
+    name: "CPR.settings.playersCreateInventory.name",
+    hint: "CPR.settings.playersCreateInventory.hint",
     scope: "world",
     config: true,
     type: Boolean,
@@ -27,8 +27,8 @@ const registerSystemSettings = () => {
   });
 
   game.settings.register("cyberpunk-red-core", "deleteItemConfirmation", {
-    name: "CPR.settingdeleteconfirmationname",
-    hint: "CPR.settingdeleteconfirmationhint",
+    name: "CPR.settings.deleteConfirmation.name",
+    hint: "CPR.settings.deleteConfirmation.hint",
     scope: "client",
     config: true,
     type: Boolean,
@@ -39,8 +39,8 @@ const registerSystemSettings = () => {
   });
 
   game.settings.register("cyberpunk-red-core", "enablePauseAnimation", {
-    name: "CPR.enablepauseanimation",
-    hint: "CPR.enablepauseanimationhint",
+    name: "CPR.settings.enablePauseAnimation.name",
+    hint: "CPR.settings.enablePauseAnimation.hint",
     scope: "client",
     config: true,
     type: Boolean,
@@ -51,8 +51,8 @@ const registerSystemSettings = () => {
   });
 
   game.settings.register("cyberpunk-red-core", "invertRollCtrlFunction", {
-    name: "CPR.settinginvertrollctrlfunctionname",
-    hint: "CPR.settinginvertrollctrlfunctionhint",
+    name: "CPR.settings.invertRollCtrlFunction.name",
+    hint: "CPR.settings.invertRollCtrlFunction.hint",
     scope: "client",
     config: true,
     type: Boolean,
@@ -63,15 +63,15 @@ const registerSystemSettings = () => {
   });
 
   game.settings.register("cyberpunk-red-core", "mookSheetSkillDisplay", {
-    name: "CPR.settingmooksheetskilldisplay",
-    hint: "CPR.settingmooksheetskilldisplayhint",
+    name: "CPR.settings.mookSheetSkillDisplay.name",
+    hint: "CPR.settings.mookSheetSkillDisplay.hint",
     scope: "client",
     config: true,
     type: String,
     choices: {
-      level: "CPR.settingmooksheetskilldisplaylevel",
-      base: "CPR.settingmooksheetskilldisplaybase",
-      total: "CPR.settingmooksheetskilldisplaytotal",
+      level: "CPR.settings.mookSheetSkillDisplay.level",
+      base: "CPR.settings.mookSheetSkillDisplay.base",
+      total: "CPR.settings.mookSheetSkillDisplay.total",
     },
     default: "base",
     onChange: (value) => {
@@ -80,15 +80,15 @@ const registerSystemSettings = () => {
   });
 
   game.settings.register("cyberpunk-red-core", "preventDuplicateCriticalInjuries", {
-    name: "CPR.settingpreventduplicatecriticalinjuriesname",
-    hint: "CPR.settingpreventduplicatecriticalinjurieshint",
+    name: "CPR.settings.preventDuplicateCriticalInjuries.name",
+    hint: "CPR.settings.preventDuplicateCriticalInjuries.hint",
     scope: "world",
     config: true,
     type: String,
     choices: {
-      off: "CPR.settingspreventduplicatecriticalinjuriesoff",
-      warn: "CPR.settingspreventduplicatecriticalinjurieswarn",
-      reroll: "CPR.settingspreventduplicatecriticalinjuriesreroll",
+      off: "CPR.settings.preventDuplicateCriticalInjuries.off",
+      warn: "CPR.settings.preventDuplicateCriticalInjuries.warn",
+      reroll: "CPR.settings.preventDuplicateCriticalInjuries.reroll",
     },
     default: "off",
     onChange: (value) => {
@@ -97,8 +97,8 @@ const registerSystemSettings = () => {
   });
 
   game.settings.register("cyberpunk-red-core", "automaticallyResizeSheets", {
-    name: "CPR.settingautomaticallyResizeSheetsname",
-    hint: "CPR.settingautomaticallyResizeSheetshint",
+    name: "CPR.settings.automaticallyResizeSheets.name",
+    hint: "CPR.settings.automaticallyResizeSheets.hint",
     scope: "client",
     config: true,
     type: Boolean,
@@ -118,8 +118,8 @@ const registerSystemSettings = () => {
 
   // Saves the last time a migration to a data model took place
   game.settings.register("cyberpunk-red-core", "dataModelVersion", {
-    name: "CPR.systemdatamodelversion",
-    hint: "CPR.systemdatamodelversionhint",
+    name: "CPR.settings.systemDataModelVersion.name",
+    hint: "CPR.settings.systemDataModelVersion.hint",
     scope: "world",
     config: false,
     type: String,
@@ -130,8 +130,8 @@ const registerSystemSettings = () => {
   });
 
   game.settings.register("cyberpunk-red-core", "debugLogs", {
-    name: "CPR.debuglogs",
-    hint: "CPR.debuglogshint",
+    name: "CPR.settings.debugLogs.name",
+    hint: "CPR.settings.debugLogs.hint",
     scope: "client",
     config: true,
     type: Boolean,
@@ -142,8 +142,8 @@ const registerSystemSettings = () => {
   });
 
   game.settings.register("cyberpunk-red-core", "debugElements", {
-    name: "CPR.debugelements",
-    hint: "CPR.debugelementshint",
+    name: "CPR.settings.debugElements.name",
+    hint: "CPR.settings.debugElements.hint",
     scope: "client",
     config: true,
     type: Boolean,
@@ -154,8 +154,8 @@ const registerSystemSettings = () => {
   });
 
   game.settings.register("cyberpunk-red-core", "traceLogs", {
-    name: "CPR.tracelogs",
-    hint: "CPR.tracelogshint",
+    name: "CPR.settings.traceLogs.name",
+    hint: "CPR.settings.traceLogs.hint",
     scope: "client",
     config: true,
     type: Boolean,
