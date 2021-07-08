@@ -169,7 +169,14 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeWithWarn"));
       return;
     }
-    const transferredItem = new CPRItem(duplicate(item));
+    const transferredItemData = duplicate(item.data);
+    let cost = 0;
+    if (item.type === "ammo" && item.data.data.variety !== "grenade" && item.data.data.variety !== "rocket") {
+      // Ammunition, which is neither grenades nor rockets, are prices are for 10 of them (pg. 344)
+      cost = item.data.data.price.market / 10;
+    } else {
+      cost = item.data.data.price.market;
+    }
     if (!all) {
       const itemText = SystemUtils.Format("CPR.dialog.purchasePart.text", { itemName: item.name });
       const formData = await PurchasePartPrompt.RenderPrompt(itemText).catch((err) => LOGGER.debug(err));
@@ -181,36 +188,38 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
         SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.dialog.purchasePart.wrongAmountWarning"));
         return;
       }
-      transferredItem.data.data.amount = newAmount;
-      transferredItem.data.data.price.market = (item.data.data.price.market / item.data.data.amount) * newAmount;
+      transferredItemData.data.amount = newAmount;
+      cost *= newAmount;
+    } else {
+      cost *= item.data.data.amount;
     }
     const tradePartnerActor = game.actors.get(this.tradePartnerId);
     if (!getProperty(this.actor.data, "flags.cyberpunk-red-core.items-free")) {
-      const price = transferredItem.data.data.price.market;
-      if (tradePartnerActor.data.data.wealth.value < price) {
+      if (tradePartnerActor.data.data.wealth.value < cost) {
         SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradePriceWarn"));
         return;
       }
-      const { amount } = transferredItem.data.data;
+      const { amount } = transferredItemData.data;
       const username = game.user.name;
       let reason = "";
       if (amount > 1) {
-        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.multiple", { amount, name: item.name, price })} - ${username}`;
+        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.multiple",
+          { amount, name: item.name, price: cost })} - ${username}`;
       } else {
-        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.single", { name: item.name, price })} - ${username}`;
+        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.single",
+          { name: item.name, price: cost })} - ${username}`;
       }
-      await tradePartnerActor.deltaLedgerProperty("wealth", -1 * price, reason);
+      await tradePartnerActor.deltaLedgerProperty("wealth", -1 * cost, reason);
     }
-    if (tradePartnerActor.automaticallyStackItems(transferredItem)) {
-      await tradePartnerActor.createEmbeddedDocuments("Item", [transferredItem.data]);
+    if (tradePartnerActor.automaticallyStackItems(new CPRItem(transferredItemData))) {
+      await tradePartnerActor.createEmbeddedDocuments("Item", [transferredItemData]);
     }
     if (!getProperty(this.actor.data, "flags.cyberpunk-red-core.infinite-stock")) {
       if (all) {
         await this._deleteOwnedItem(item, true);
       } else {
-        const keepAmount = item.data.data.amount - transferredItem.data.data.amount;
-        const keepPrice = item.data.data.price.market - transferredItem.data.data.price.market;
-        await this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.amount": keepAmount, "data.price.market": keepPrice }]);
+        const keepAmount = item.data.data.amount - transferredItemData.data.amount;
+        await this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.amount": keepAmount }]);
       }
     }
   }
