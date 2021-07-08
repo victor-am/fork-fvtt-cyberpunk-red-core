@@ -117,6 +117,8 @@
     "CPR.containerSheet.settings.title": "GM Settings",
     "CPR.containerSheet.tradeLog.multiple": "Purchased {amount} {name} for {price} eb.",
     "CPR.containerSheet.tradeLog.single": "Purchased {name} for {price} eb.",
+    "CPR.containerSheet.items.priceListingSingleAll": "Single: {price} eb ({category}) | All: {priceAll} eb",
+    "CPR.containerSheet.items.priceListingSingle": "Single: {price} eb ({category})",
     "CPR.dialog.common.cancel": "Cancel",
     "CPR.dialog.common.confirm": "Confirm",
     "CPR.dialog.common.select": "Select",
