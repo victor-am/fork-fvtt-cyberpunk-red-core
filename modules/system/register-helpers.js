@@ -123,6 +123,16 @@ export default function registerHandlebarsHelpers() {
     return filteredList;
   });
 
+  Handlebars.registerHelper("calculateStackValue", (objectName, objectType, quantity, unitPrice) => {
+    let totalPrice = quantity * unitPrice;
+    if (objectType === "ammo") {
+      if (!(objectName.toLowerCase().includes('Rocket'.toLowerCase()) || objectName.toLowerCase().includes('Grenade'.toLowerCase()))) {
+        totalPrice = (quantity / 10) * unitPrice;
+      }
+    }
+    return totalPrice;
+  });
+
   Handlebars.registerHelper("findConfigValue", (obj, key) => {
     LOGGER.trace(`Calling findConfigValue Helper | Arg1:${obj} Arg2:${key}`);
     if (obj in CPR) {
