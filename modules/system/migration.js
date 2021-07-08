@@ -709,16 +709,46 @@ export default class Migration {
   static _migrateVehicle(itemData, updateData) {
     if ((typeof itemData.data.sdp) === "undefined") {
       updateData["data.sdp"] = 0;
+    } else if ((typeof itemData.data.sdp) !== "number") {
+      let newSdp = Number(itemData.data.sdp);
+      if (typeof newSdp !== "number") {
+        newSdp = 0;
+      }
+      updateData["data.sdp"] = newSdp;
     }
 
     if ((typeof itemData.data.spd) !== "undefined") {
-      updateData["data.sdp"] = itemData.data.spd;
+      let newSdp = Number(itemData.data.spd);
+      if (typeof newSdp !== "number") {
+        newSdp = 0;
+      }
+      updateData["data.sdp"] = newSdp;
       updateData["data.-=spd"] = null;
     }
 
-    if ((typeof itemData.data.seats) === "string") {
-      updateData["data.seats"] = Number(itemData.data.seats);
+    if ((typeof itemData.data.seats) !== "number") {
+      let newSeats = Number(itemData.data.seats);
+      if (typeof newSeats !== "number") {
+        newSeats = 0;
+      }
+      updateData["data.seats"] = newSeats;
     }
+
+    if (typeof itemData.data.speedCombat !== "number") {
+      const currentSetting = itemData.data.speedCombat;
+      let newSpeedCombat = 0;
+      if (typeof currentSetting === "string") {
+        const stringParts = currentSetting.split(" ");
+        if (stringParts.length > 0) {
+          const oldSpeed = Number(stringParts[0]);
+          if (typeof oldSpeed === "number") {
+            newSpeedCombat = oldSpeed;
+          }
+        }
+      }
+      updateData["data.speedCombat"] = newSpeedCombat;
+    }
+
     return updateData;
   }
 
