@@ -147,8 +147,8 @@
                                     {{#if (compare weapon.data.data.quality "!==" "standard")}}
                                     ({{localize weapon.data.data.quality}})
                                     {{/if}}
-                                    {{#if (compare weapon.data.data.attackmod ">" "0")}}(+{{weapon.data.data.attackmod}}){{/if}}
-                                    {{#if (compare weapon.data.data.attackmod "<" "0")}}({{weapon.data.data.attackmod}}){{/if}}
+                                    {{#if (compare (applyUpgrade weapon weapon.data.data.attackmod "attackmod") ">" "0")}}(+{{applyUpgrade weapon weapon.data.data.attackmod "attackmod"}}){{/if}}
+                                    {{#if (compare (applyUpgrade weapon weapon.data.data.attackmod "attackmod") "<" "0")}}({{applyUpgrade weapon weapon.data.data.attackmod "attackmod"}}){{/if}}
                                     {{#if weapon.data.data.magazine.ammoId}}
                                         <br>
                                         ({{localize "CPR.global.itemTypes.ammo"}}:<input name = "data.magazine.value" class = "number weapon-input" style = "width:30px;text-align:right;" type = "text" data-item-prop = "data.magazine.value" value = "{{weapon.data.data.magazine.value}}">/{{applyUpgrade weapon weapon.data.data.magazine.max "magazine"}})

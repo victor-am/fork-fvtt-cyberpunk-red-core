@@ -1290,14 +1290,14 @@ export default class CPRItem extends Item {
 
   getAllUpgradesFor(dataPoint) {
     let upgradeNumber = 0;
-    let baseOverride = 0;
+    let baseOverride = -100000;
     if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {
       const installedUpgrades = this.data.data.upgrades;
       installedUpgrades.forEach((upgrade) => {
         if (typeof upgrade.data.modifiers[dataPoint] !== "undefined") {
           const modType = upgrade.data.modifiers[dataPoint].type;
           const modValue = upgrade.data.modifiers[dataPoint].value;
-          if (typeof modValue === "number") {
+          if (typeof modValue === "number" && modValue !== 0) {
             if (modType === "override") {
               baseOverride = (modValue > baseOverride) ? modValue : baseOverride;
             } else {
@@ -1306,7 +1306,7 @@ export default class CPRItem extends Item {
           }
         }
       });
-      upgradeNumber = (baseOverride === 0) ? upgradeNumber : baseOverride;
+      upgradeNumber = (baseOverride === 0 || baseOverride === -100000) ? upgradeNumber : baseOverride;
     }
     return upgradeNumber;
   }
