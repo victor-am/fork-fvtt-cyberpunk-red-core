@@ -508,6 +508,10 @@ export default class Migration {
         this._migrateNetArchitecture(itemData, updateData);
         break;
       }
+      case "armor": {
+        this._migrateArmor(itemData, updateData);
+        break;
+      }
       default:
     }
     return updateData;
@@ -528,6 +532,54 @@ export default class Migration {
     if ((typeof itemData.data.unarmedAutomaticCalculation) === "undefined") {
       updateData["data.unarmedAutomaticCalculation"] = true;
     }
+    return updateData;
+  }
+
+  static _migrateArmor(itemData, updateData) {
+    if ((typeof itemData.data.headLocation.sp) !== "number") {
+      let newValue = 0;
+      if ((typeof itemData.data.headLocation.sp) !== "undefined") {
+        const spValue = Number(itemData.data.headLocation.sp);
+        if (typeof spValue === "number") {
+          newValue = spValue;
+        }
+      }
+      updateData["data.headLocation.sp"] = newValue;
+    }
+
+    if ((typeof itemData.data.bodyLocation.sp) !== "number") {
+      let newValue = 0;
+      if ((typeof itemData.data.bodyLocation.sp) !== "undefined") {
+        const spValue = Number(itemData.data.bodyLocation.sp);
+        if (typeof spValue === "number") {
+          newValue = spValue;
+        }
+      }
+      updateData["data.bodyLocation.sp"] = newValue;
+    }
+
+    if ((typeof itemData.data.shieldHitPoints.max) !== "number") {
+      let newValue = 0;
+      if ((typeof itemData.data.shieldHitPoints.max) !== "undefined") {
+        const hpValue = Number(itemData.data.shieldHitPoints.max);
+        if (typeof hpValue === "number") {
+          newValue = hpValue;
+        }
+      }
+      updateData["data.shieldHitPoints.max"] = newValue;
+    }
+
+    if ((typeof itemData.data.shieldHitPoints.value) !== "number") {
+      let newValue = 0;
+      if ((typeof itemData.data.shieldHitPoints.value) !== "undefined") {
+        const hpValue = Number(itemData.data.shieldHitPoints.value);
+        if (typeof hpValue === "number") {
+          newValue = hpValue;
+        }
+      }
+      updateData["data.shieldHitPoints.value"] = newValue;
+    }
+
     return updateData;
   }
 
