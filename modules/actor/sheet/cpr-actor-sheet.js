@@ -1029,6 +1029,6 @@ export default class CPRActorSheet extends ActorSheet {
     delete newItemData._id;
     await this.actor.updateEmbeddedDocuments("Item",
       [{ _id: item.id, "data.amount": newAmount.toString(), "data.price.market": newPrice }]);
-    await this.actor.createEmbeddedDocuments("Item", [newItemData]);
+    await this.actor.createEmbeddedDocuments("Item", [newItemData], { CPRsplitStack: true });
   }
 }

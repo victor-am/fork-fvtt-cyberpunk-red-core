@@ -9,6 +9,7 @@
 - Newly created actors and items will automatically have default icons configured.
 - Restructured the language file for easier translations.
 - Added test cases for code quality: The english language file is checked for unused strings and the changelog is checked for changes with each merge request.
+- Skills are now also sorted alphabetically on the character sheet if translated into languages other than English.
 
 **Bug Fixes**
 - Fixed #263: New containers now show infinite stock option, as they are initialized as a shop.

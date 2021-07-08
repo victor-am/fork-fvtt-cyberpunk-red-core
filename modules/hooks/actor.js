@@ -125,7 +125,7 @@ const actorHooks = () => {
     LOGGER.trace("preCreateItem | actorHooks | Called.");
     const actor = item.parent;
     if (actor != null) {
-      if (Object.values(actor.apps).some((app) => app instanceof CPRCharacterActorSheet || app instanceof CPRContainerActorSheet) && userId === game.user.data._id) {
+      if (Object.values(actor.apps).some((app) => app instanceof CPRCharacterActorSheet || app instanceof CPRContainerActorSheet) && userId === game.user.data._id && !options.CPRsplitStack) {
         LOGGER.debug("Attempting to stack items");
         return actor.automaticallyStackItems(item);
       }
