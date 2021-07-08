@@ -9,7 +9,10 @@
                 {{#select data.data.type}}
                     {{#each (entityTypes "Item") as |itemType|}}
                         {{#if (hasTemplate itemType "upgradable")}}
-                            <option value="{{itemType}}">{{localize (findConfigValue "objectTypes" itemType)}}</option>
+                            {{!-- Exclude ammo for the moment --}}
+                            {{#if (compare itemType "!==" "ammo")}}
+                                <option value="{{itemType}}">{{localize (findConfigValue "objectTypes" itemType)}}</option>
+                            {{/if}}
                         {{/if}}
                     {{/each}}
                 {{/select}}
@@ -37,6 +40,8 @@
 <hr>
 {{localize "CPR.itemSheet.itemUpgrade.upgradeOverview"}}
 <hr>
+{{!-- Cyberware has no upgradable data points, but could have a weapon attachment --}}
+
 {{#if (compare data.data.type "!==" "cyberware")}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
@@ -49,7 +54,6 @@
             {{localize "CPR.itemSheet.itemUpgrade.modifierValue"}}
         </div>
     </li>
-    {{!-- Cyberware has no upgradable data points, but could have a weapon attachment --}}
 
     {{#each (findConfigValue "upgradableDataPoints" data.data.type) as |dataPoint dp|}}
         {{#if (listContains (getProp (findConfigValue "upgradableDataPoints" "upgradeConfig") "configurableTypes") dataPoint.type)}}

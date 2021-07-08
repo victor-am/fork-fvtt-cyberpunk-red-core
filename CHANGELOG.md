@@ -6,7 +6,7 @@
   - These weapons will show in the Fight Tab as Cyberware Weapons under the standard weapons
 - Introduction of the Item Object: Item Upgrade
   - Initial implementation of the Item Upgrade Object enables:
-    - Upgrades to Weapons, Cyberdecks, Cyberware, Clothing, & Armor
+    - Upgrades to Weapons, Cyberdecks, Cyberware, Clothing, Armor and Gear
     - Weapons
       - Adding weapon attachments to weapons to can modify settings for ROF, Attack Modifier, Magazine Size & Damage
         - For each of these data points, you have the option to modify or override the value of them allowing for flexibility in upgrade attachments
@@ -29,6 +29,9 @@
     - Armor
       - Armor can now have upgrades applied to modify their SP on the head and/or body as well as to increase the HP on shields
       - NOTE: Due to the way the shield mechanics work, you'll have to repair the shield after installing the item upgrade
+    - Gear
+      - Gear can now have upgrades applied to them that will allow equipping of the Gear to affect rolls of a base stat.
+        - This will allow capability to create Gear items, such as certain drugs (Black Lace, Boost and Synthcoke) and add an Item Upgrade to affect the core stat. Ideally this will be covered with Active Effects, when we get to implementing that, but this is one way to do it for now.
 - Inventory items which are upgraded will have a unique "U" identifier appended to their name
 - When actors own an Item Upgrade Object, any items they own which match the Item Upgrade Type will have an action item added to their line in the inventory allowing you to easily install the upgrade to that item.
 - Added possibility to split items into separate stacks for ammo, gear and clothing.
