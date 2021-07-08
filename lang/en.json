@@ -280,6 +280,7 @@
     "CPR.global.generic.defense": "Defense",
     "CPR.global.generic.description": "Description",
     "CPR.global.generic.foundational": "Foundational",
+    "CPR.global.generic.helparticle": "Help Article",
     "CPR.global.generic.hitpoints": "Hit Points",
     "CPR.global.generic.install": "Install",
     "CPR.global.generic.multiplier": "Multiplier",
