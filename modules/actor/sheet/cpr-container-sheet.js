@@ -1,8 +1,10 @@
-/* global mergeObject $ game getProperty */
+/* global mergeObject $ game getProperty duplicate */
 import CPRActorSheet from "./cpr-actor-sheet.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import CPRChat from "../../chat/cpr-chat.js";
+import CPRItem from "../../item/cpr-item.js";
+import PurchasePartPrompt from "../../dialog/cpr-purchase-part-prompt.js";
 
 /**
  * Implement the sheet for containers and shop keepers. This extends CPRActorSheet to make use
@@ -96,7 +98,11 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
           break;
         }
         case "purchase": {
-          await this._purchaseItem(item);
+          await this._purchaseItem(item, true);
+          break;
+        }
+        case "purchaseFraction": {
+          this._purchaseItem(item, false);
           break;
         }
         default: {
@@ -155,36 +161,66 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
    *
    * @private
    * @param {Item} item - object to be purchased
+   * @param {boolean} all - Toggle to purchase all of the items in the stack or just a part of them
    */
-  async _purchaseItem(item) {
+  async _purchaseItem(item, all) {
     LOGGER.trace("_purchaseItem | CPRContainerSheet | Called.");
     if (this.tradePartnerId === undefined || this.tradePartnerId === "") {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeWithWarn"));
       return;
     }
-
+    const transferredItemData = duplicate(item.data);
+    let cost = 0;
+    if (item.type === "ammo" && item.data.data.variety !== "grenade" && item.data.data.variety !== "rocket") {
+      // Ammunition, which is neither grenades nor rockets, are prices are for 10 of them (pg. 344)
+      cost = item.data.data.price.market / 10;
+    } else {
+      cost = item.data.data.price.market;
+    }
+    if (!all) {
+      const itemText = SystemUtils.Format("CPR.dialog.purchasePart.text", { itemName: item.name });
+      const formData = await PurchasePartPrompt.RenderPrompt(itemText).catch((err) => LOGGER.debug(err));
+      if (formData === undefined) {
+        return;
+      }
+      const newAmount = parseInt(formData.purchaseAmount, 10);
+      if (newAmount < 1 || newAmount >= parseInt(item.data.data.amount, 10)) {
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.dialog.purchasePart.wrongAmountWarning"));
+        return;
+      }
+      transferredItemData.data.amount = newAmount;
+      cost *= newAmount;
+    } else {
+      cost *= item.data.data.amount;
+    }
     const tradePartnerActor = game.actors.get(this.tradePartnerId);
     if (!getProperty(this.actor.data, "flags.cyberpunk-red-core.items-free")) {
-      const price = item.data.data.price.market;
-      if (tradePartnerActor.data.data.wealth.value < price) {
+      if (tradePartnerActor.data.data.wealth.value < cost) {
         SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradePriceWarn"));
         return;
       }
-      const { amount } = item.data.data;
+      const { amount } = transferredItemData.data;
       const username = game.user.name;
       let reason = "";
       if (amount > 1) {
-        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.multiple", { amount, name: item.name, price })} - ${username}`;
+        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.multiple",
+          { amount, name: item.name, price: cost })} - ${username}`;
       } else {
-        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.single", { name: item.name, price })} - ${username}`;
+        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.single",
+          { name: item.name, price: cost })} - ${username}`;
       }
-      await tradePartnerActor.deltaLedgerProperty("wealth", -1 * price, reason);
+      await tradePartnerActor.deltaLedgerProperty("wealth", -1 * cost, reason);
     }
-    if (tradePartnerActor.automaticallyStackItems(item)) {
-      await tradePartnerActor.createEmbeddedDocuments("Item", [item.data]);
+    if (tradePartnerActor.automaticallyStackItems(new CPRItem(transferredItemData))) {
+      await tradePartnerActor.createEmbeddedDocuments("Item", [transferredItemData]);
     }
     if (!getProperty(this.actor.data, "flags.cyberpunk-red-core.infinite-stock")) {
-      await this._deleteOwnedItem(item, true);
+      if (all) {
+        await this._deleteOwnedItem(item, true);
+      } else {
+        const keepAmount = item.data.data.amount - transferredItemData.data.amount;
+        await this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.amount": keepAmount }]);
+      }
     }
   }
 

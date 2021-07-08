@@ -3,6 +3,7 @@
 **New Features**
 - Added possibility to split items into separate stacks for ammo, gear and clothing.
 - Some Items can now be automatically stacked, when dragged onto the character sheet or being purchased/taken from a container. This is enabled for the following Item types: Ammo, Gear, Clothing
+- Added feature to purchase/take only a part of the items offered in a container actor.
 
 **Changes**
 - Newly created actors and items will automatically have default icons configured.

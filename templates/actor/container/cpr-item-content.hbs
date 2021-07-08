@@ -7,7 +7,19 @@
     {{item.data.data.amount}}
   </div>
   <div class="item-name gear-data text-nowrap">
-    {{item.data.data.price.market}} eb | {{localize (getProp (findConfigObj "itemPriceCategory") item.data.data.price.category)}}
+    {{#if (compare item.data.data.amount ">" "1")}}
+      {{#if (compare (compare item.type "===" "ammo") "&&" (compare (compare item.data.data.variety "!==" "grenade") "&&" (compare item.data.data.variety "!==" "rocket")))}}
+        {{localize "CPR.containerSheet.items.priceListingSingleAll" price=(math "product" item.data.data.price.market "0.1") category=(localize (getProp (findConfigObj "itemPriceCategory") item.data.data.price.category)) priceAll=(math "product" item.data.data.price.market item.data.data.amount "0.1")}}
+      {{else}}
+        {{localize "CPR.containerSheet.items.priceListingSingleAll" price=item.data.data.price.market category=(localize (getProp (findConfigObj "itemPriceCategory") item.data.data.price.category)) priceAll=(math "product" item.data.data.price.market item.data.data.amount)}}
+      {{/if}}
+    {{else}}
+      {{#if (compare (compare item.type "===" "ammo") "&&" (compare (compare item.data.data.variety "!==" "grenade") "&&" (compare item.data.data.variety "!==" "rocket")))}}
+        {{localize "CPR.containerSheet.items.priceListingSingle" price=(math "product" item.data.data.price.market "0.1") category=(localize (getProp (findConfigObj "itemPriceCategory") item.data.data.price.category))}}
+      {{else}}
+        {{localize "CPR.containerSheet.items.priceListingSingle" price=item.data.data.price.market category=(localize (getProp (findConfigObj "itemPriceCategory") item.data.data.price.category))}}
+      {{/if}}
+    {{/if}}
   </div>
   <div class="item-end text-nowrap">
     {{> "systems/cyberpunk-red-core/templates/actor/container/cpr-container-actions.hbs" (mergeForPartialArg "item,actor,isGM" item actor isGM)}}
