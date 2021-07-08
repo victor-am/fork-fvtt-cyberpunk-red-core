@@ -143,7 +143,7 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace(`Calling hasOptionalSlots`);
     if (optionSlots > 0) {
       LOGGER.trace(`hasOptionalSlots is greater than 0`);
-      return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.optionalslots")}`);
+      return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.itemSheet.cyberware.optionalSlots")}`);
     } else {
       LOGGER.trace(`hasOptionalSlots is 0`);
     }
@@ -272,6 +272,9 @@ export default function registerHandlebarsHelpers() {
         const subtrahend = mathArgs.reduce((a, b) => a + b, 0);
         return minutend - subtrahend;
       }
+      case "product": {
+        return mathArgs.reduce((a, b) => a * b, 1);
+      }
       default:
         LOGGER.error(`!ERR: Not a Math function: ${mathFunction}`);
         return "null";
@@ -322,17 +325,60 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("splitJoinCoreSkills", (string) => {
     LOGGER.trace("Calling splitJoinCoreSkills Helper");
-    const cprDot = "CPR.";
+    const cprDot = "CPR.global.skills.";
     const initialSplit = string.split(" ").join("");
-    const orCaseSplit = initialSplit.split("/").join("or");
+    const orCaseSplit = initialSplit.split("/").join("Or");
     const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
-    const andCaseSplit = initialSplit.split("/").join("and").split("&").join("and");
+    const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
     if (string === "Conceal/Reveal Object" || string === "Paint/Draw/Sculpt" || string === "Resist Torture/Drugs") {
-      return cprDot + orCaseSplit.toLowerCase();
+      return cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
     } else if (string === "Language (Streetslang)") {
-      return cprDot + parenCaseSplit.toLowerCase();
+      // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
+      // comment to fulfill the test case of the language file.
+      return cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
     }
-    return cprDot + andCaseSplit.toLowerCase();
+    return cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
+  });
+
+  Handlebars.registerHelper("sortCoreSkills", (object) => {
+    LOGGER.trace(`Calling sortCoreSkills Helper`);
+    const objectTranslated = [];
+    object.forEach((o) => {
+      const newElement = o;
+      if (o.data.data.core) {
+        const cprDot = "CPR.global.skills.";
+        const initialSplit = o.name.split(" ").join("");
+        const orCaseSplit = initialSplit.split("/").join("Or");
+        const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
+        const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
+        if (o.name === "Conceal/Reveal Object" || o.name === "Paint/Draw/Sculpt" || o.name === "Resist Torture/Drugs") {
+          const string = cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
+          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        } else if (o.name === "Language (Streetslang)") {
+          // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
+          // comment to fulfill the test case of the language file.
+          const string = cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
+          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        } else {
+          const string = cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
+          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+      } else {
+        newElement.translatedName = o.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      }
+      objectTranslated.push(newElement);
+    });
+
+    objectTranslated.sort((a, b) => {
+      let comparator = 0;
+      if (a.translatedName > b.translatedName) {
+        comparator = 1;
+      } else if (b.translatedName > a.translatedName) {
+        comparator = -1;
+      }
+      return comparator;
+    });
+    return objectTranslated;
   });
 
   Handlebars.registerHelper("itemIdFromName", (itemName, itemType) => {
@@ -349,7 +395,7 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("isTokenSheet", (title) => {
     LOGGER.trace("Calling isTokenSheet Helper");
     LOGGER.debug(`title is ${title}`);
-    const substr = `[${SystemUtils.Localize("CPR.token")}]`;
+    const substr = `[${SystemUtils.Localize("CPR.global.generic.token")}]`;
     return title.includes(substr);
   });
 

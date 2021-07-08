@@ -13,7 +13,7 @@ export default class CPRMacro {
 
     const displayName = actor === null ? "ERROR" : actor.name;
     if (!item) {
-      ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macroitemmissing")} ${itemName}`);
+      ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macro.itemMissing")} ${itemName}`);
       return;
     }
 
@@ -32,7 +32,7 @@ export default class CPRMacro {
     }
 
     if (!validRollTypes.includes(rollType)) {
-      ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macroinvalidrolltype")} ${rollType}`);
+      ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macro.invalidRollType")} ${rollType}`);
       return;
     }
 

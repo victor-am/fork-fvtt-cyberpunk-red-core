@@ -15,7 +15,7 @@ function factory(entities, baseClass) {
       const constructor = entities[data.type];
       if (!constructor) {
         // emit error
-        const error = `${SystemUtils.Localize("CPR.unsupportedentityerror")}: ${data.type}`;
+        const error = `${SystemUtils.Localize("CPR.messages.unsupportedEntityError")}: ${data.type}`;
         SystemUtils.DisplayMessage("error", error);
         throw new Error(error);
       }
@@ -29,7 +29,7 @@ function factory(entities, baseClass) {
           return (data, options) => {
             const constructor = entities[data.type];
             if (!constructor) {
-              const error = `${SystemUtils.Localize("CPR.unsupportedentityerror")}: ${data.type}`;
+              const error = `${SystemUtils.Localize("CPR.messages.unsupportedEntityError")}: ${data.type}`;
               SystemUtils.DisplayMessage("error", error);
               throw new Error(error);
             }

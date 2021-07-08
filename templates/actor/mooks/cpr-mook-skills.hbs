@@ -1,7 +1,7 @@
 {{trace "CPR-MOOK-SKILLS.HBS"}}
 <div class="bg-red fg-white flexrow">
   <span class="text-nowrap text-padding-left">
-    {{localize "CPR.skills"}}
+    {{localize "CPR.mookSheet.skills.title"}}
   </span>
   <span class="text-right">
     <a class="mod-mook-skill">
@@ -13,7 +13,7 @@
   {{#each (sort (getMookSkills actor.data.filteredItems.skill) "name") as |skill s|}}
     {{#if (compare skill.data.data.level ">" 0)}}
       <span class="item deletable" data-item-id="{{skill.id}}" tabindex="0">
-        <a class="rollable"  data-roll-type="skill" data-roll-title="{{skill.name}}" title="{{localize "CPR.clicktorollthisskill"}}, {{localize "CPR.pressdeletetoreset"}}">
+        <a class="rollable"  data-roll-type="skill" data-roll-title="{{skill.name}}" title="{{localize "CPR.mookSheet.skills.clickToRollThisSkill"}}, {{localize "CPR.mookSheet.skills.pressDeleteToReset"}}">
           {{#if skill.data.data.core}}{{localize (splitJoinCoreSkills skill.name)}}{{else}}{{skill.name}}{{/if}}
             {{#if (compare (systemConfig "mookSheetSkillDisplay") "===" "level")}}
               (+{{skill.data.data.level}}){{#unless @last}},{{/unless}}
@@ -26,7 +26,7 @@
             {{/if}}
         </a>
         {{#if (compare skill.data.data.core "===" false)}}
-          <a class="item-edit skill-custom" title="{{localize "CPR.editcustomskill"}}"><i class="fas fa-edit"></i></a>
+          <a class="item-edit skill-custom" title="{{localize "CPR.actorSheets.commonActions.editCustomSkill"}}"><i class="fas fa-edit"></i></a>
         {{/if}}
       </span>
     {{/if}}

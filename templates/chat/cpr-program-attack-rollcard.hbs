@@ -4,7 +4,7 @@
     <div class="cpr-block chat-rollTitle-stat">
       <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
       <div class="rollcard-subtitle">
-        <div class="rollcard-subtitle-center text-small">{{localize "CPR.attack"}}</div>
+        <div class="rollcard-subtitle-center text-small">{{localize "CPR.rolls.attack"}}</div>
         <div class="rollcard-subtitle-right">
         </div>
         <div class="rollcard-subtitle-2-center text-small">{{#if (compare rollCardExtraArgs.program.data.class "===" "blackice")}}{{localize (findConfigValue "blackIceType" rollCardExtraArgs.program.data.blackIceType)}} {{/if}}{{localize (findConfigValue "programClassList" rollCardExtraArgs.program.data.class)}}</div>
@@ -38,8 +38,8 @@
             <div class="text-normal text-bold">{{localize statName}} + {{statValue}}</div>
             <div class="text-normal text-bold">{{localize skillName}} + {{skillValue}}</div>
             {{#if mods}}
-            <span class="text-normal text-nowrap">{{localize "CPR.rollmods"}}: {{mods}}</span>
-            <div class="text-normal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}:
+            <span class="text-normal text-nowrap">{{localize "CPR.rolls.rollMods"}}: {{mods}}</span>
+            <div class="text-normal text-bold text-nowrap">{{localize "CPR.rolls.mods"}} {{localize "CPR.rolls.total"}}:
               {{totalMods}}</div>
             {{/if}}
           </div>

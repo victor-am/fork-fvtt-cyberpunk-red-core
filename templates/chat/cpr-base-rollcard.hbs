@@ -10,7 +10,7 @@
       <div class="{{die}}-rollcard-data">
         <div class="{{die}}-dice-div">
           {{!-- die image for initialRoll --}}
-          
+
           {{#each faces as |dieFace|}}
           {{#if (compare (compare ../die "===" "d6") "||" (compare ../die "===" "d10"))}}
             <img class="{{diceSizeImageClass ../formula}}" src="systems/cyberpunk-red-core/icons/dice/black/{{../die}}_{{dieFace}}.svg">
@@ -26,8 +26,8 @@
         <div class="{{die}}-data-div">
           <div class="{{die}}-data-details hide">
             {{#if mods}}
-            <span class="text-normal text-nowrap">{{localize "CPR.rollmods"}}: {{mods}}</span>
-            <div class="text-normal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}:
+            <span class="text-normal text-nowrap">{{localize "CPR.rolls.rollMods"}}: {{mods}}</span>
+            <div class="text-normal text-bold text-nowrap">{{localize "CPR.rolls.mods"}} {{localize "CPR.rolls.total"}}:
               {{totalMods}}</div>
             {{/if}}
           </div>
