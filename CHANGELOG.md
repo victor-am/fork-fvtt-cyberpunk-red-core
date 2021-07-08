@@ -9,6 +9,8 @@
 - Restructured the language file for easier translations.
 - Added test cases for code quality: The english language file is checked for unused strings and the changelog is checked for changes with each merge request.
 - Skills are now also sorted alphabetically on the character sheet if translated into languages other than English.
+- The price of an item is interpreted as the price of a single unit of an item. This has been now clarified with a text upon hovering over the word "Price" in the item setting page.
+  - The single unit of an item is 1, whith an exception for some of the ammunitions, where it is 10. Please have a look at the rule book page 344 for that.
 
 **Bug Fixes**
 - Fixed #263: New containers now show infinite stock option, as they are initialized as a shop.
