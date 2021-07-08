@@ -37,44 +37,48 @@
 <hr>
 {{localize "CPR.itemSheet.itemUpgrade.upgradeOverview"}}
 <hr>
-<li class="item flexrow">
-    <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.itemSheet.itemUpgrade.dataPoint"}}
-    </div>
-    <div class="item flexrow setting-type text-nowrap">
-        {{localize "CPR.itemSheet.itemUpgrade.modifierType"}}
-    </div>
-    <div class="item flexrow setting-value text-nowrap item-end">
-        {{localize "CPR.itemSheet.itemUpgrade.modifierValue"}}
-    </div>
-</li>
-{{#each (findConfigValue "upgradableDataPoints" data.data.type) as |dataPoint dp|}}
-    {{#if (listContains (getProp (findConfigValue "upgradableDataPoints" "upgradeConfig") "configurableTypes") dataPoint.type)}}
-        <li class="item flexrow">
-            <div class="item flexrow setting-name text-nowrap">
-                {{localize dataPoint.localization}}
-            </div>
-            <div class="item flexrow setting-type text-nowrap">
-                <select name="data.modifiers.{{dp}}.type" data-dtype="{{getProp (getProp ../data.data.modifiers dp) "type"}}">
-                    {{#select (getProp (getProp ../data.data.modifiers dp) "type")}}
-                        {{#each (getProp (findConfigValue "upgradableDataPoints" "upgradeConfig") "configurableTypes") as |configType ct|}}
-                        {{#unless (compare (listContains "clothing,gear" ../../this.item.data.data.type) "&&" (compare ct "!==" "modifier"))}}
-                            <option value="{{ct}}">{{localize configType}}</option>
-                            {{/unless}}
-                        {{/each}}
-                    {{/select}}
-                </select>
-            </div>
-            <div class="item flexrow setting-value text-nowrap item-end">
-                {{#if ../this.editable}}
-                    <input name="data.modifiers.{{dp}}.value" class="" type="number" value="{{getProp (getProp ../data.data.modifiers dp) "value"}}">
-                {{else}}
-                    <span class="text-flex-end">{{getProp (getProp ../data.data.modifiers dp) "value"}}</span>
-                {{/if}}
-            </div>
-        </li>
-    {{/if}}
-{{/each}}
+{{#if (compare data.data.type "!==" "cyberware")}}
+    <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+            {{localize "CPR.itemSheet.itemUpgrade.dataPoint"}}
+        </div>
+        <div class="item flexrow setting-type text-nowrap">
+            {{localize "CPR.itemSheet.itemUpgrade.modifierType"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+            {{localize "CPR.itemSheet.itemUpgrade.modifierValue"}}
+        </div>
+    </li>
+    {{!-- Cyberware has no upgradable data points, but could have a weapon attachment --}}
+
+    {{#each (findConfigValue "upgradableDataPoints" data.data.type) as |dataPoint dp|}}
+        {{#if (listContains (getProp (findConfigValue "upgradableDataPoints" "upgradeConfig") "configurableTypes") dataPoint.type)}}
+            <li class="item flexrow">
+                <div class="item flexrow setting-name text-nowrap">
+                    {{localize dataPoint.localization}}
+                </div>
+                <div class="item flexrow setting-type text-nowrap">
+                    <select name="data.modifiers.{{dp}}.type" data-dtype="{{getProp (getProp ../data.data.modifiers dp) "type"}}">
+                        {{#select (getProp (getProp ../data.data.modifiers dp) "type")}}
+                            {{#each (getProp (findConfigValue "upgradableDataPoints" "upgradeConfig") "configurableTypes") as |configType ct|}}
+                            {{#unless (compare (listContains "clothing,gear" ../../this.item.data.data.type) "&&" (compare ct "!==" "modifier"))}}
+                                <option value="{{ct}}">{{localize configType}}</option>
+                                {{/unless}}
+                            {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <div class="item flexrow setting-value text-nowrap item-end">
+                    {{#if ../this.editable}}
+                        <input name="data.modifiers.{{dp}}.value" class="" type="number" value="{{getProp (getProp ../data.data.modifiers dp) "value"}}">
+                    {{else}}
+                        <span class="text-flex-end">{{getProp (getProp ../data.data.modifiers dp) "value"}}</span>
+                    {{/if}}
+                </div>
+            </li>
+        {{/if}}
+    {{/each}}
+{{/if}}
 {{#if (compare (compare data.data.type "===" "weapon") "||" (compare data.data.type "===" "cyberware"))}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
