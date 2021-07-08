@@ -19,7 +19,7 @@
         <span class="item-detail skill-favorite bg-black text-nowrap toggle-favorite-visibility" id="skillTab-{{category}}-showFavorites" title="{{localize "CPR.characterSheet.rightPane.skills.toggleCategoryAll"}}"><i class="far fa-eye show-favorites"></i><i class="far fa-eye-slash hide-favorites hide"></i></span>
     </li>
     <ol class="items-list">
-        {{#each (sort (filter actor.data.filteredItems.skill "data.data.category" category) "name") as |skill s|}}
+        {{#each (sortCoreSkills (filter actor.data.filteredItems.skill "data.data.category" category) ) as |skill s|}}
         <li class="item skill-name flexrow{{#if skill.data.data.favorite}} favorite{{else}}{{#if (listContains ../sheet.options.collapsedSections (generatePartial "skillTab-VAR" ../category))}} hide{{/if}}{{/if}}" data-item-id="{{skill.data._id}}"
             data-skill-category="{{skill.data.data.category}}" draggable="true">
             <div class="item-name text-nowrap">
