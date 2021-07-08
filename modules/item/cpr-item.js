@@ -474,7 +474,7 @@ export default class CPRItem extends Item {
       statName = "dex";
     }
 
-    const niceStatName = SystemUtils.Localize(`CPR.${statName}`);
+    const niceStatName = SystemUtils.Localize(`CPR.global.stats.${statName}`);
     const statValue = actor.getStat(statName);
 
     switch (type) {
@@ -588,7 +588,9 @@ export default class CPRItem extends Item {
       }
       default:
     }
-    returnValue += this.getAllUpgradesFor("attackmod");
+    const upgradeValue = this.getAllUpgradesFor("attackmod");
+    const upgradeType = this.getUpgradeTypeFor("attackmod");
+    returnValue = (upgradeType === "override") ? upgradeValue : returnValue + upgradeValue;
     return returnValue;
   }
 

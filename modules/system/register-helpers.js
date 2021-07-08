@@ -490,12 +490,19 @@ export default function registerHandlebarsHelpers() {
     const itemEntities = game.system.template.Item;
     const itemType = obj.type;
     let upgradeResult = Number(baseValue);
+    if (Number.isNaN(upgradeResult)) {
+      upgradeResult = baseValue;
+    }
     if (itemEntities[itemType].templates.includes("upgradable") && obj.data.data.isUpgraded) {
       const upgradeValue = obj.getAllUpgradesFor(dataPoint);
       const upgradeType = obj.getUpgradeTypeFor(dataPoint);
-      if (typeof upgradeValue === "number") {
+      if (upgradeValue !== "" && upgradeValue !== 0) {
         if (upgradeType === "override") {
           upgradeResult = upgradeValue;
+        } else if (typeof upgradeResult !== "number" || typeof upgradeValue !== "number") {
+          if (upgradeValue !== 0 && upgradeValue !== "") {
+            upgradeResult = `${upgradeResult} + ${upgradeValue}`;
+          }
         } else {
           upgradeResult += upgradeValue;
         }
