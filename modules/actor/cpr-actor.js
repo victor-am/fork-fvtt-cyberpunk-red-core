@@ -732,8 +732,7 @@ export default class CPRActor extends Actor {
       const match = this.items.find((i) => i.type === newItem.type && i.name === newItem.name && i.data.data.upgrades.length === 0);
       if (match) {
         const newAmount = parseInt(match.data.data.amount, 10) + parseInt(newItem.data.data.amount, 10);
-        const newPrice = match.data.data.price.market + newItem.data.data.price.market;
-        this.updateEmbeddedDocuments("Item", [{ _id: match.id, "data.amount": newAmount.toString(), "data.price.market": newPrice }]);
+        this.updateEmbeddedDocuments("Item", [{ _id: match.id, "data.amount": newAmount }]);
         return false;
       }
     }
