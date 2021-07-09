@@ -1,6 +1,8 @@
+{{trace "CPR-ITEM-DEBUG.HBS"}}
 {{!-- Show owned items at bottom of sheet for easy debugging --}}
 <div  class="tab-block">
 {{#each this.items as |item|}}
 {{item.id}} | [{{item.name}}] - {{item.type}} - {{item.data.stat}} - {{item.data.level}} - {{item.data.category}}
 {{/each}}
 </div>
+{{trace "END CPR-ITEM-DEBUG.HBS"}}

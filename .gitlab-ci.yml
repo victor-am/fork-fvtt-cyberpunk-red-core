@@ -55,11 +55,9 @@ code-test 1/2:
   script:
     - echo "Checking if there are proper trace statements in all hbs files..."
     - ./.gitlab/pipeline_tests/test-hbs-trace.sh
-  allow_failure: true
 
 code-test 2/2:
   stage: test
   script:
     - echo "Checking if our own localization and notification code is used..."
     - ./.gitlab/pipeline_tests/test-misc.sh
-  allow_failure: true
