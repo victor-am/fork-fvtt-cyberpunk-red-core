@@ -11,7 +11,7 @@
         </span>
     </div>
     <div class="item-detail gear-data text-nowrap">
-        {{localize "CPR.global.generic.price"}}: {{item.data.data.price.market}}
+        {{localize "CPR.global.generic.unitPrice"}}: {{item.data.data.price.market}} | {{localize "CPR.global.generic.stackPrice"}}: {{calculateStackValue item}}
     </div>
     <div class="item-detail gear-actions text-nowrap">
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}
