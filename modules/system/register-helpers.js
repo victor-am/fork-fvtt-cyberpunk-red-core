@@ -123,11 +123,15 @@ export default function registerHandlebarsHelpers() {
     return filteredList;
   });
 
-  Handlebars.registerHelper("calculateStackValue", (objectName, objectType, quantity, unitPrice) => {
-    let totalPrice = quantity * unitPrice;
-    if (objectType === "ammo") {
-      if (!(objectName.toLowerCase().includes('Rocket'.toLowerCase()) || objectName.toLowerCase().includes('Grenade'.toLowerCase()))) {
-        totalPrice = (quantity / 10) * unitPrice;
+  Handlebars.registerHelper("calculateStackValue", (item) => {
+    const { type } = item;
+    const price = item.data.data.price.market;
+    const { amount } = item.data.data;
+    let totalPrice = amount * price;
+    if (type === "ammo") {
+      const { variety } = item.data.data;
+      if (!(variety === "grenade" || variety === "rocket")) {
+        totalPrice = (amount / 10) * price;
       }
     }
     return totalPrice;
