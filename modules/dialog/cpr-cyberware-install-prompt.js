@@ -21,7 +21,7 @@ export default class CyberwareInstallPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: game.i18n.localize("CPR.dialog.installCyberware.title"),
+          title: SystemUtils.Localize("CPR.dialog.installCyberware.title"),
           content: html,
           buttons: {
             cancel: {
