@@ -6,7 +6,7 @@
       {{!-- Role Item Settings--}}
       <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-          Main Ability Name
+          {{localize "CPR.MainAbilityName"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
           <input name="data.mainRoleAbility" class="" data-dtype="{{data.data.mainRoleAbility}}" value="{{data.data.mainRoleAbility}}" type="text">
@@ -14,7 +14,7 @@
       </li>
       <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-          {{localize "CPR.rank"}}
+          {{localize "CPR.Rank"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
           <input name="data.rank" class="" data-dtype="{{data.data.rank}}" value="{{data.data.rank}}" type="number">
@@ -44,18 +44,63 @@
           <a class="item-checkbox" data-target="data.addRoleAbilityRank"><i class="far fa-circle"></i></a>
           {{/if}}
         </div>
+      </li>
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.Stat"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          <select name="data.stat" data-dtype="{{data.data.stat}}">
+            {{#select data.data.stat}}
+              <optgroup label = "{{localize "CPR.specialOptions"}}">
+                {{#each (findConfigObj "roleSpecialOptions") as |option o|}}
+                {{#if (compare o "!==" "varying")}}
+                  <option value="{{o}}">{{localize option}}</option>
+                {{/if}}
+                {{/each}}
+              </optgroup>
+              <optgroup label = "{{localize "CPR.statList"}}">
+                {{#each (findConfigObj "statList") as |stat s|}}
+                  <option value="{{s}}">{{localize stat}}</option>
+                {{/each}}
+              </optgroup>
+            {{/select}}
+          </select>
+        </div>
+      </li>
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.Skill"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          <select name="data.skill" data-dtype="{{data.data.skill}}">
+            {{#select data.data.skill}}
+              <optgroup label = "{{localize "CPR.specialOptions"}}">
+                {{#each (findConfigObj "roleSpecialOptions") as |option o|}}
+                  <option value="{{o}}">{{localize option}}</option>
+                {{/each}}
+              </optgroup>
+              <optgroup label = "{{localize "CPR.skillList"}}">
+                {{#each (sort (getProp this.filteredItems 'skill') "name") as |skill| }}
+                  <option value="{{skill.data.name}}">{{localize skill.data.name}}</option>
+                {{/each}}
+              </optgroup>
+            {{/select}}
+          </select>
+        </div>
+      </li>
       {{/if}}
     </ol>
   </div>
 </div>
 <div class="item-netarch-section">
   <li class="items-header flexrow">
-    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">Name &nbsp;</span>
-    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">Rank &nbsp;</span>
-    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">Stat &nbsp;</span>
-    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">Skill &nbsp;</span>
-    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">Mult. &nbsp;</span>
-    <span class="item-name netarch-content fg-white bg-black text-nowrap text-padding-left">Description</span>
+    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.Name"}} &nbsp;</span>
+    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.Rank"}} &nbsp;</span>
+    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.Stat"}} &nbsp;</span>
+    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.Skill"}} &nbsp;</span>
+    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.Mult"}} &nbsp;</span>
+    <span class="item-name netarch-content fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.Description"}}</span>
     <span class="item-name netarch-actions fg-white bg-black text-nowrap text-padding-left">
       <a class="role-ability-action" data-action-type="create" data-action-target="-1"><i class="fas fa-plus-circle text-padding-right" title="New Role Ability"></i></a>
     </span>
@@ -72,7 +117,7 @@
               {{localize (findConfigValue "statList" ability.stat)}}
             </div>
             <div class="netarch-dv">
-              {{#if ability.skill.data.core}}{{localize (splitJoinCoreSkills ability.skill.name)}}{{else}}{{ability.skill.name}}{{/if}}{{#if (compare ability.skill "===" "--")}}{{ability.skill}}{{/if}}
+              {{#if ability.skill.data.core}}{{localize (splitJoinCoreSkills ability.skill.name)}}{{else}}{{ability.skill.name}}{{/if}}{{#if (compare ability.skill.name "===" "--")}}{{ability.skill}}{{/if}}
             </div>
             <div class="netarch-dv">
               {{ability.multiplier}}
@@ -81,8 +126,8 @@
               <div>{{ability.description}}</div>
             </div>
             <div class="netarch-actions">
-              <a class="role-ability-action" data-action-type="edit" data-action-target="{{ability.index}}"><i class="fas fa-edit fg-black" title=Edit Role Ability></i></a>
-              <a class="role-ability-action" data-action-type="delete" data-action-target="{{ability.index}}"><i class="fas fa-trash-alt fg-red" title=Delete Role Ability></i></a>
+              <a class="role-ability-action" data-action-type="edit" data-action-target="{{ability.index}}"><i class="fas fa-edit fg-black" title={{localize "CPR.EditRoleAbility"}}></i></a>
+              <a class="role-ability-action" data-action-type="delete" data-action-target="{{ability.index}}"><i class="fas fa-trash-alt fg-red" title={{localize "CPR.DeleteRoleAbility"}}></i></a>
             </div>
           </li>
         {{/each}}

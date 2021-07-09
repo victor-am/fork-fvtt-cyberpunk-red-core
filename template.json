@@ -561,6 +561,8 @@
       "mainRoleAbility": "",
       "hasRoll": true,
       "addRoleAbilityRank": true,
+      "stat": "int",
+      "skill": "--",
       "abilities": []
     },
     "criticalInjury": {

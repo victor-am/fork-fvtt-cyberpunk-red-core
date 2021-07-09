@@ -72,6 +72,7 @@ export default class CPRItem extends Item {
     LOGGER.trace("confirmRoll | CPRItem | Called.");
     const itemType = this.data.type;
     const localCprRoll = cprRoll;
+    const actorData = this.actor.data;
     if (itemType === "weapon") {
       if (localCprRoll instanceof CPRRolls.CPRAttackRoll) {
         if (this.data.data.isRanged) {
@@ -85,6 +86,29 @@ export default class CPRItem extends Item {
       if (localCprRoll instanceof CPRRolls.CPRDamageRoll) {
         if (localCprRoll.isAutofire) {
           localCprRoll.setAutofire();
+        }
+      }
+    }
+    if (itemType === "role") {
+      const subRoleAbility = this.data.data.abilities.find((a) => a.name === localCprRoll.rollName);
+      let subRoleSkill;
+      let isSubRoleAbility = false;
+      let isVarying = false;
+      if (typeof subRoleAbility !== "undefined") {
+        isSubRoleAbility = true;
+        subRoleSkill = subRoleAbility.skill;
+      }
+      if (!isSubRoleAbility && this.data.data.skill === "varying") {
+        isVarying = true;
+      } else if (isSubRoleAbility && subRoleSkill === "varying") {
+        isVarying = true;
+      }
+      if (isVarying) {
+        const roleSkill = actorData.filteredItems.skill.find((s) => s.data.name === localCprRoll.skillName)
+        localCprRoll.roleSkill = roleSkill.data.data.level + roleSkill.data.data.skillmod;
+        if (localCprRoll.statName === "--") {
+          localCprRoll.statName = roleSkill.data.data.stat;
+          localCprRoll.roleStat = this.actor.getStat(localCprRoll.statName);
         }
       }
     }
@@ -398,16 +422,36 @@ export default class CPRItem extends Item {
 
   _createRoleRoll(actor, rollInfo) {
     const itemData = this.data.data;
-    let rollName = this.data.data.mainRoleAbility;
+    let rollName = itemData.mainRoleAbility;
     let statName = "--";
     let skillName = "--";
+    let skillList;
     let roleValue = 0;
     let roleStat = 0;
     let roleSkill = 0;
     if (rollInfo.rollSubType === "mainRoleAbility") {
       if (itemData.addRoleAbilityRank) {
-        rollName = itemData.mainRoleAbility;
         roleValue = itemData.rank;
+      }
+      if (itemData.stat !== "--") {
+        statName = itemData.stat;
+        roleStat = actor.getStat(statName);
+      }
+      if (itemData.skill !== "--" && itemData.skill !== "varying") {
+        skillName = itemData.skill;
+        const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
+        if (skillObject !== undefined) {
+          roleSkill = skillObject.data.data.level + skillObject.data.data.skillmod;
+        } else {
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
+        }
+      } else if (itemData.skill === "varying") {
+        skillName = "varying";
+        if (itemData.stat !== "--") {
+          skillList = actor.data.filteredItems.skill.filter((s) => s.data.data.stat === itemData.stat);
+        } else {
+          skillList = actor.data.filteredItems.skill;
+        }
       }
     }
 
@@ -419,7 +463,7 @@ export default class CPRItem extends Item {
         statName = subRoleAbility.stat;
         roleStat = actor.getStat(statName);
       }
-      if (subRoleAbility.skill !== "--") {
+      if (subRoleAbility.skill !== "--" && subRoleAbility.skill !== "varying") {
         skillName = subRoleAbility.skill.name;
         const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
         if (skillObject !== undefined) {
@@ -427,9 +471,16 @@ export default class CPRItem extends Item {
         } else {
           SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
         }
+      } else if (subRoleAbility.skill === "varying") {
+        skillName = "varying";
+        if (subRoleAbility.stat !== "--") {
+          skillList = actor.data.filteredItems.skill.filter((s) => s.data.data.stat === subRoleAbility.stat);
+        } else {
+          skillList = actor.data.filteredItems.skill;
+        }
       }
     }
-    const cprRoll = new CPRRolls.CPRRoleRoll(rollName, statName, skillName, roleValue, roleStat, roleSkill);
+    const cprRoll = new CPRRolls.CPRRoleRoll(rollName, statName, skillName, roleValue, roleStat, roleSkill, skillList);
     cprRoll.addMod(actor.getWoundStateMods());
     return cprRoll;
   }

@@ -3,7 +3,7 @@
   <ol class="items-list">
     <li class="item flexrow">
       <div class="item flexrow setting-name">
-        <span class="text-bold text-nowrap">Role Ability Name</span>
+        <span class="text-bold text-nowrap">{{localize "CPR.RoleAbilityName"}}</span>
       </div>
       <div class="item flexrow setting-value text-nowrap item-end">
         <input class="text-right" name="name" type="text" value="{{name}}" />
@@ -11,7 +11,7 @@
     </li>
     <li class="item flexrow">
       <div class="item flexrow setting-name">
-        <span class="text-bold text-nowrap">Role Ability Rank</span>
+        <span class="text-bold text-nowrap">{{localize "CPR.RoleAbilityRank"}}</span>
       </div>
       <div class="item flexrow setting-value text-nowrap item-end">
         <input class="text-right" name="rank" type="number" value={{rank}} />
@@ -19,12 +19,12 @@
     </li>
     <li class="item flexrow">
       <div class="item flexrow setting-name">
-        <span class="text-bold text-nowrap">Multiplier</span>
+        <span class="text-bold text-nowrap">{{localize "CPR.multiplier"}}</span>
       </div>
       <div class="item flexrow setting-value">
         <select name="multiplier">
           {{#select multiplier}}
-            <option value = "--">--</option>
+            <option value = "--">{{localize CPR.na}}</option>
             {{#each multiplierOptions}}
               <option value="{{.}}">{{.}}</option>
             {{/each}}
@@ -34,40 +34,51 @@
     </li>
     <li class="item flexrow">
       <div class="item flexrow setting-name">
-        <span class="text-bold text-nowrap">Stat</span>
+        <span class="text-bold text-nowrap">{{localize "CPR.Stat"}}</span>
       </div>
       <div class="item flexrow setting-value">
         <select name="stat">
           {{#select stat}}
-            <option value = "--">--</option>
+          <optgroup label = "{{localize "CPR.specialOptions"}}">
+            {{#each (findConfigObj "roleSpecialOptions") as |option o|}}
+            {{#if (compare o "!==" "varying")}}
+              <option value="{{o}}">{{localize option}}</option>
+            {{/if}}
+            {{/each}}
+          </optgroup>
+          <optgroup label = "{{localize "CPR.statList"}}">
             {{#each (findConfigObj "statList") as |stat s|}}
               <option value="{{s}}">{{localize stat}}</option>
             {{/each}}
+          </optgroup>
           {{/select}}
         </select>
       </div>
     </li>
     <li class="item flexrow">
       <div class="item flexrow setting-name">
-        <span class="text-bold text-nowrap">Skill</span>
+        <span class="text-bold text-nowrap">{{localize "CPR.Skill"}}</span>
       </div>
       <div class="item flexrow setting-value">
         <select name="skill">
           {{#select skill}}
-          <option value = "--">--</option>
-{{!--             {{#each (findConfigObj "skillList") as |skill s|}}
-              <option value="{{skill}}">{{localize skill}}</option>
-            {{/each}} --}}
-            {{#each skillOptions as |option o|}}
+          <optgroup label = "{{localize "CPR.specialOptions"}}">
+            {{#each (findConfigObj "roleSpecialOptions") as |option o|}}
+              <option value="{{o}}">{{localize option}}</option>
+            {{/each}}
+          </optgroup>
+          <optgroup label = "{{localize "CPR.skillList"}}">
+            {{#each (sort skillOptions "name") as |option o|}}
               <option value="{{option.data.name}}">{{option.data.name}}</option>
             {{/each}}
+          </optgroup>
           {{/select}}
         </select>
       </div>
     </li>
     <li class="item flexrow">
       <div class="item flexrow setting-name">
-        <span class="text-bold text-nowrap">Has Roll?</span>
+        <span class="text-bold text-nowrap">{{localize "CPR.hasroll"}}</span>
       </div>
       <div class="item flexrow setting-value text-nowrap item-end">
         {{#if hasRoll}}

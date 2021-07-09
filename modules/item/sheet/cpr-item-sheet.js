@@ -67,6 +67,10 @@ export default class CPRItemSheet extends ItemSheet {
     data.filteredItems = {};
     if (data.isOwned) {
       data.filteredItems = this.object.actor.itemTypes;
+    } else if (data.item.type === "role") {
+      const coreSkills = await SystemUtils.GetCoreSkills();
+      const worldSkills = game.items.filter((i) => i.type === "skill");
+      data.filteredItems.skill = coreSkills.concat(worldSkills);
     } else {
       data.filteredItems.skill = await SystemUtils.GetCoreSkills();
     }
@@ -535,7 +539,8 @@ export default class CPRItemSheet extends ItemSheet {
     const pack = game.packs.get("cyberpunk-red-core.skills");
     const coreSkills = await pack.getDocuments();
     const customSkills = game.items.filter((i) => i.type === "skill");
-    const allSkills = coreSkills.concat(customSkills).sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+    const allSkills = this.object.isOwned ? this.actor.data.filteredItems.skill
+      : coreSkills.concat(customSkills).sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
     if (action === "create") {
       let formData = {
         name: "",
@@ -554,7 +559,9 @@ export default class CPRItemSheet extends ItemSheet {
       if (formData === undefined) {
         return;
       }
-      const skillObject = formData.skill !== "--" ? allSkills.find((a) => a.data.name === formData.skill) : "--";
+      const skillObject = (formData.skill !== "--") && (formData.skill !== "varying") ? allSkills.find((a) => a.data.name === formData.skill)
+        : (formData.skill === "varying") ? "varying"
+        : "--";
       if (hasProperty(itemData, "data.abilities")) {
         const prop = getProperty(itemData, "data.abilities");
         let maxIndex = -1;
@@ -569,7 +576,6 @@ export default class CPRItemSheet extends ItemSheet {
           description: formData.description,
           hasRoll: formData.hasRoll,
         });
-        console.log(formData.skill);
         setProperty(itemData, "data.abilities", prop);
         this.item.update(itemData);
         this._automaticResize(); // Resize the sheet as length of settings list might have changed
@@ -617,7 +623,7 @@ export default class CPRItemSheet extends ItemSheet {
         const prop = getProperty(itemData, "data.abilities");
         let editElement = null;
         prop.forEach((ability) => { if (ability.index === target) { editElement = ability; } });
-        const editElementSkill = editElement.skill !== "--" ? editElement.skill.name : editElement.skill;
+        const editElementSkill = (editElement.skill !== "--") && (editElement.skill !== "varying") ? editElement.skill.name : editElement.skill;
         let formData = {
           name: editElement.name,
           rank: editElement.rank,
@@ -625,7 +631,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: editElement.multiplier,
           stat: editElement.stat,
           skillOptions: allSkills,
-          skill: editElement.skill.name,
+          skill: editElementSkill,
           description: editElement.description,
           hasRoll: editElement.hasRoll,
           returnType: "array",
@@ -634,7 +640,9 @@ export default class CPRItemSheet extends ItemSheet {
         if (formData === undefined) {
           return;
         }
-        const skillObject = formData.skill !== "--" ? allSkills.find((a) => a.data.name === formData.skill) : "--";
+      const skillObject = (formData.skill !== "--") && (formData.skill !== "varying") ? allSkills.find((a) => a.data.name === formData.skill)
+        : (formData.skill === "varying") ? "varying"
+        : "--";
         prop.splice(prop.indexOf(editElement), 1);
         prop.push({
           index: editElement.index,

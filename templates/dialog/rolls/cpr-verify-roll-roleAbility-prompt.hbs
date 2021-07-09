@@ -26,6 +26,22 @@
         {{/if}}
 
         {{#if (compare skillName "!==" "--")}}
+        {{#if (compare skillName "===" "varying")}}
+        <li class="item flexrow">
+          <div class="item flexrow setting-name text-nowrap">
+            {{localize "CPR.chooseSkill"}}
+          </div>
+          <div class="item flexrow setting-value text-nowrap item-end">
+            <select name = "skillName">
+              {{#select skillName}}
+                {{#each (sort skillList "name") as |skill|}}
+                  <option value = "{{skill.data.name}}">{{skill.data.name}}</option>
+                {{/each}}
+              {{/select}}
+            </select>
+          </div>
+        </li>
+        {{else}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.skill"}} - {{skillName}}
@@ -37,6 +53,7 @@
                 <input name="roleSkill" class="" type="number" data-dtype="Number" value={{roleSkill}}>
             </div>
         </li>
+        {{/if}}
         {{/if}}
 
         <li class="item flexrow">

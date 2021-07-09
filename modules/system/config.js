@@ -367,4 +367,9 @@ CPR.interfaceAbilities = {
   virus: "CPR.virus",
 };
 
+CPR.roleSpecialOptions = {
+  "--": "CPR.na",
+  varying: "CPR.varying",
+}
+
 export default CPR;
