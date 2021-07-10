@@ -413,7 +413,15 @@ export default class CPRItem extends Item {
     const statValue = actor.getStat(statName);
     const skillName = this.name;
     const skillLevel = itemData.level;
-    const cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel);
+    let roleName;
+    let roleValue;
+    actor.data.filteredItems.role.forEach((r) => {
+      if (r.data.data.bonuses.some((b) => b.name = skillName)) {
+        roleName = r.data.data.mainRoleAbility;
+        roleValue = r.data.data.rank;
+      }
+    });
+    const cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel, roleName, roleValue);
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
     cprRoll.addMod(actor.getWoundStateMods());
     cprRoll.addMod(this._getSkillMod());

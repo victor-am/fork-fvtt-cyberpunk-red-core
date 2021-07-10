@@ -159,18 +159,20 @@ export class CPRStatRoll extends CPRRoll {
 }
 
 export class CPRSkillRoll extends CPRStatRoll {
-  constructor(statName, statValue, skillName, skillValue) {
+  constructor(statName, statValue, skillName, skillValue, roleName, roleValue) {
     super(skillName, statValue);
     LOGGER.trace(`CPRSkillRoll | Constructor`);
     this.statName = statName;
     this.skillValue = skillValue;
     this.skillName = skillName;
+    this.roleName = roleName;
+    this.roleValue = roleValue;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-skill-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-skill-rollcard.hbs";
   }
 
   _computeBase() {
-    return this.initialRoll + this.totalMods() + this.statValue + this.skillValue;
+    return this.initialRoll + this.totalMods() + this.statValue + this.skillValue + this.roleValue;
   }
 }
 
