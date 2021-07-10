@@ -6,6 +6,7 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
 import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
 import NetarchLevelPrompt from "../../dialog/cpr-netarch-level-prompt.js";
 import RoleAbilityPrompt from "../../dialog/cpr-role-ability-prompt.js";
+import SelectRoleBonuses from "../../dialog/cpr-select-role-bonuses-prompt.js"
 import CyberdeckSelectProgramsPrompt from "../../dialog/cpr-select-install-programs-prompt.js";
 import BoosterAddModifierPrompt from "../../dialog/cpr-booster-add-modifier-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
@@ -102,6 +103,8 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".role-ability-action").click((event) => this._roleAbilityAction(event));
 
+    html.find(".select-role-bonuses").click((event) => this._selectRoleBonuses(event));
+
     html.find(".select-installed-programs").click((event) => this._cyberdeckSelectInstalledPrograms(event));
 
     html.find(".program-uninstall").click((event) => this._cyberdeckProgramUninstall(event));
@@ -176,6 +179,31 @@ export default class CPRItemSheet extends ItemSheet {
     }
     if (formData.selectedAmmo) {
       await this.item.setCompatibleAmmo(formData.selectedAmmo);
+      this._automaticResize(); // Resize the sheet as length of ammo list might have changed
+    }
+  }
+
+  async _selectRoleBonuses(event) {
+    const itemData = this.item.data.data;
+    const pack = game.packs.get("cyberpunk-red-core.skills");
+    const coreSkills = await pack.getDocuments();
+    const customSkills = game.items.filter((i) => i.type === "skill");
+    const allSkills = this.object.isOwned ? this.actor.data.filteredItems.skill
+      : coreSkills.concat(customSkills).sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+    const allSkillsData = [];
+    allSkills.forEach((a) => allSkillsData.push(a.data));
+    console.log(allSkillsData);
+    let formData = { skillList: allSkillsData, id: this.item.data._id, name: this.item.data.name, data: itemData };
+    formData = await SelectRoleBonuses.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
+    if (formData.selectedSkills) {
+      const skillObjects = [];
+      formData.selectedSkills.forEach((s) => {
+        skillObjects.push(allSkills.find((a) => a.data.name === s));
+      });
+      this.item.update({ "data.bonuses": skillObjects });
       this._automaticResize(); // Resize the sheet as length of ammo list might have changed
     }
   }

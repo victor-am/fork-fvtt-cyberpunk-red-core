@@ -1,0 +1,30 @@
+{{trace "CPR-SELECT-ROLE-BONUSES.HBS"}}
+<form>
+  {{localize "CPR.selectRoleBonusesChoomba"}}
+  <ol class="items-list">
+    <li class="item flexrow">
+      <div class="item flexrow setting-name">
+        <span class="text-bold text-nowrap">{{localize "CPR.Skill"}}</span>
+      </div>
+      <div class="item flexrow setting-value">
+        <span class="text-bold text-nowrap text-center text-space-around">{{localize "CPR.Select"}}</span>
+      </div>
+    </li>
+
+    {{#each (sort skillList "name") as |skill s|}}
+    <li class="item flexrow">
+      <div class="item flexrow setting-name text-nowrap">
+        {{#if skill.data.core}}{{localize skill.name}}{{else}}{{skill.name}}{{/if}}
+      </div>
+      <div class="item flexrow setting-value text-nowrap text-space-around">
+        {{#if (objectListContains ../data.bonuses "name" skill.name)}}
+        <span class="text-bold text-nowrap text-center text-space-around"><input type="checkbox" name="selectedSkills" value="{{skill.name}}" checked></span>
+        {{else}}
+        <span class="text-bold text-nowrap text-center text-space-around"><input type="checkbox" name="selectedSkills" value="{{skill.name}}"></span>
+        {{/if}}
+      </div>
+    </li>
+    {{/each}}
+  </ol>
+</form>
+{{trace "END CPR-SELECT-ROLE-BONUSES.HBS"}}

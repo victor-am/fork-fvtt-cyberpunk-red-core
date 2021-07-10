@@ -17,6 +17,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/dialog/cpr-mod-mook-skill-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-mook-name-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-role-ability-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-select-role-bonuses-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-roll-critical-injury-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-select-compatible-ammo-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-cyberdeck-prompt.hbs",

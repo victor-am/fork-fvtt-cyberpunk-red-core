@@ -177,6 +177,14 @@ export default function registerHandlebarsHelpers() {
     return false;
   });
 
+  Handlebars.registerHelper("objectListContains", (objectList, data, val) => {
+    LOGGER.trace("Calling objectListContains Helper");
+    let array = objectList;
+    if (array) {
+      return array.some((o) => o[data] === val);
+    }
+  });
+
   // TODO - Rename?
   Handlebars.registerHelper("generatePartial", (arg1, arg2) => {
     LOGGER.trace(`Calling generatePartial Helper | Arg1:${arg1} Arg2:${arg2}`);

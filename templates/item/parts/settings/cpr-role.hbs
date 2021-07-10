@@ -90,6 +90,19 @@
         </div>
       </li>
       {{/if}}
+      <div class="item flexrow setting-name text-nowrap text-bold">
+          <a class="select-role-bonuses" data-item-prop="select-compatible-ammo">{{localize
+            "CPR.SelectBonusToSkills"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
+      </div>
+      <div class="compatible-ammo">
+        {{#each (sort data.data.bonuses "data.stat") as |bonus|}}
+          <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap text-padding-left">
+                &nbsp;{{#if bonus.data.core}}{{localize bonus.name}}{{else}}{{bonus.name}}{{/if}} ({{localize (findConfigValue "statList" bonus.data.stat)}})
+            </div>
+          </li>
+        {{/each}}
+      </div>
     </ol>
   </div>
 </div>

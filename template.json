@@ -563,6 +563,7 @@
       "addRoleAbilityRank": true,
       "stat": "int",
       "skill": "--",
+      "bonuses": [],
       "abilities": []
     },
     "criticalInjury": {
