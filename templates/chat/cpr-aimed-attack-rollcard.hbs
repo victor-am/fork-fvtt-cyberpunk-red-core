@@ -46,6 +46,9 @@
 
             <div class="text-normal text-bold">{{localize statName}} + {{statValue}}</div>
             <div class="text-normal text-bold">{{localize skillName}} + {{skillValue}}</div>
+            {{#if roleValue}}
+              <div class="text-normal text-bold">{{localize roleName}} + {{roleValue}}</div>
+            {{/if}}
             {{#if mods}}
             <span class="text-normal text-nowrap">{{localize "CPR.rollmods"}}: {{mods}}</span>
             <div class="text-normal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}:

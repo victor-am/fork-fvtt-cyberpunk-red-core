@@ -414,9 +414,9 @@ export default class CPRItem extends Item {
     const skillName = this.name;
     const skillLevel = itemData.level;
     let roleName;
-    let roleValue;
+    let roleValue = 0;
     actor.data.filteredItems.role.forEach((r) => {
-      if (r.data.data.bonuses.some((b) => b.name = skillName)) {
+      if (r.data.data.bonuses.some((b) => b.name === skillName)) {
         roleName = r.data.data.mainRoleAbility;
         roleValue = r.data.data.rank;
       }
@@ -522,22 +522,30 @@ export default class CPRItem extends Item {
 
     const niceStatName = SystemUtils.Localize(`CPR.${statName}`);
     const statValue = actor.getStat(statName);
+    let roleName;
+    let roleValue = 0;
+    actor.data.filteredItems.role.forEach((r) => {
+      if (r.data.data.bonuses.some((b) => b.name === skillName)) {
+        roleName = r.data.data.mainRoleAbility;
+        roleValue = r.data.data.rank;
+      }
+    });
 
     switch (type) {
       case CPRRolls.rollTypes.AIMED: {
-        cprRoll = new CPRRolls.CPRAimedAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
+        cprRoll = new CPRRolls.CPRAimedAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType);
         break;
       }
       case CPRRolls.rollTypes.AUTOFIRE: {
-        cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
+        cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType);
         break;
       }
       case CPRRolls.rollTypes.SUPPRESSIVE: {
-        cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
+        cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType);
         break;
       }
       default:
-        cprRoll = new CPRRolls.CPRAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, weaponType);
+        cprRoll = new CPRRolls.CPRAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType);
     }
 
     // apply known mods

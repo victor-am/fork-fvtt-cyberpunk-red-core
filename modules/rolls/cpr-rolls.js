@@ -192,8 +192,8 @@ export class CPRHumanityLossRoll extends CPRRoll {
 // classes for Ranged and Melee attacks (and hardcoding the stats used), but when considering
 // aimed shots, this got into multiple inheritance. Decided not to cross that line. Maybe mix-ins?
 export class CPRAttackRoll extends CPRSkillRoll {
-  constructor(attackName, statName, statValue, skillName, skillValue, weaponType) {
-    super(statName, statValue, skillName, skillValue);
+  constructor(attackName, statName, statValue, skillName, skillValue, roleName, roleValue, weaponType) {
+    super(statName, statValue, skillName, skillValue, roleName, roleValue);
     LOGGER.trace(`CPRAttackRoll | Constructor`);
     this.rollTitle = `${attackName}`;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-attack-rollcard.hbs";
@@ -209,8 +209,8 @@ export class CPRAttackRoll extends CPRSkillRoll {
 
 // this deliberately does not set the location until after the verify dialog box
 export class CPRAimedAttackRoll extends CPRAttackRoll {
-  constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
-    super(weaponName, statName, statValue, skillName, skillValue, weaponType);
+  constructor(weaponName, statName, statValue, skillName, skillValue, roleName, roleValue, weaponType) {
+    super(weaponName, statName, statValue, skillName, skillValue, roleName, roleValue, weaponType);
     LOGGER.trace(`CPRAimedAttackRoll | Constructor`);
     this.rollTitle = `${weaponName}`;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-aimed-attack-prompt.hbs";
@@ -221,8 +221,8 @@ export class CPRAimedAttackRoll extends CPRAttackRoll {
 }
 
 export class CPRAutofireRoll extends CPRAttackRoll {
-  constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
-    super(weaponName, statName, statValue, skillName, skillValue, weaponType);
+  constructor(weaponName, statName, statValue, skillName, skillValue, roleName, roleValue, weaponType) {
+    super(weaponName, statName, statValue, skillName, skillValue, roleName, roleValue, weaponType);
     LOGGER.trace(`CPRAutofireRoll | Constructor`);
     this.rollTitle = `${weaponName}`;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-autofire-rollcard.hbs";
@@ -230,8 +230,8 @@ export class CPRAutofireRoll extends CPRAttackRoll {
 }
 
 export class CPRSuppressiveFireRoll extends CPRAttackRoll {
-  constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
-    super(weaponName, statName, statValue, skillName, skillValue, weaponType);
+  constructor(weaponName, statName, statValue, skillName, skillValue, roleName, roleValue, weaponType) {
+    super(weaponName, statName, statValue, skillName, skillValue, roleName, roleValue, weaponType);
     LOGGER.trace(`CPRSuppressiveFireRoll | Constructor`);
     this.rollTitle = `${weaponName}`;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-suppressive-fire-rollcard.hbs";
