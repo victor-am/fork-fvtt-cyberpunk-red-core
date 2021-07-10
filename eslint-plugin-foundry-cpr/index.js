@@ -14,10 +14,16 @@ module.exports.rules = {
           context.report(node, "After a method definition a LOGGER.trace call is needed.");
         } else if (
           node.value.body.body[0].expression
-          && node.value.body.body[0].expression.type === "CallExpression"
-          && node.value.body.body[0].expression.callee
-          && node.value.body.body[0].expression.callee.type === "MemberExpression"
-          && node.value.body.body[0].expression.callee.object
+          && node.value.body.body[0].expression.type !== "CallExpression"
+        ) {
+          context.report(node, "After a method definition a LOGGER.trace call is needed.");
+        } else if (
+          node.value.body.body[0].expression.callee
+          && node.value.body.body[0].expression.callee.type !== "MemberExpression"
+        ) {
+          context.report(node, "After a method definition a LOGGER.trace call is needed.");
+        } else if (
+          node.value.body.body[0].expression.callee.object
           && node.value.body.body[0].expression.callee.object.name !== "LOGGER"
         ) {
           context.report(node, "After a method definition a LOGGER.trace call is needed.");
