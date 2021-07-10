@@ -117,7 +117,14 @@
               {{localize (findConfigValue "statList" ability.stat)}}
             </div>
             <div class="netarch-dv">
-              {{#if ability.skill.data.core}}{{localize (splitJoinCoreSkills ability.skill.name)}}{{else}}{{ability.skill.name}}{{/if}}{{#if (compare ability.skill.name "===" "--")}}{{ability.skill}}{{/if}}
+              {{#if ability.skill.data.core}}
+              {{localize (splitJoinCoreSkills ability.skill.name)}}
+              {{else}}
+              {{ability.skill.name}}
+              {{/if}}
+              {{#if (compare (compare ability.skill "===" "--") "||" (compare ability.skill "===" "varying"))}}
+              {{localize (findConfigValue "roleSpecialOptions" ability.skill)}}
+              {{/if}}
             </div>
             <div class="netarch-dv">
               {{ability.multiplier}}
