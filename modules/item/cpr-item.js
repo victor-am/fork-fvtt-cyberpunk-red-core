@@ -415,17 +415,24 @@ export default class CPRItem extends Item {
     const skillLevel = itemData.level;
     let roleName;
     let roleValue = 0;
-    actor.data.filteredItems.role.forEach((r) => {
-      if (r.data.data.bonuses.some((b) => b.name === skillName)) {
-        roleName = r.data.data.mainRoleAbility;
-        roleValue = Math.floor(r.data.data.rank / r.data.data.bonusRatio);
+    actor.data.filteredItems.role.forEach((r, index1) => {
+      const roleBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.bonuses.some((b) => b.name === skillName))
+      if (roleBonuses.length > 0 && index1 === 0) {
+        roleBonuses.forEach((b, index2) => {
+          if (roleName) {
+            roleName += `, ${b.name}`;
+          } else if (index2 === 0) {
+            roleName = b.name
+          }
+          roleValue += Math.floor(b.data.data.rank / b.data.data.bonusRatio);
+        });
       }
       const subroleBonuses = r.data.data.abilities.filter((a) => a.bonuses.some((b) => b.name === skillName));
       if (subroleBonuses.length > 0) {
-        subroleBonuses.forEach((b,index) => {
+        subroleBonuses.forEach((b, index3) => {
           if (roleName) {
             roleName += `, ${b.name}`;
-          } else if (index === 0) {
+          } else if (index3 === 0) {
             roleName = b.name;
           }
           roleValue += Math.floor(b.rank / b.bonusRatio);
@@ -535,17 +542,24 @@ export default class CPRItem extends Item {
     const statValue = actor.getStat(statName);
     let roleName;
     let roleValue = 0;
-    actor.data.filteredItems.role.forEach((r) => {
-      if (r.data.data.bonuses.some((b) => b.name === skillName)) {
-        roleName = r.data.data.mainRoleAbility;
-        roleValue = Math.floor(r.data.data.rank / r.data.data.bonusRatio);
+    actor.data.filteredItems.role.forEach((r, index1) => {
+      const roleBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.bonuses.some((b) => b.name === skillName))
+      if (roleBonuses.length > 0 && index1 === 0) {
+        roleBonuses.forEach((b, index2) => {
+          if (roleName) {
+            roleName += `, ${b.name}`;
+          } else if (index2 === 0) {
+            roleName = b.name
+          }
+          roleValue += Math.floor(b.data.data.rank / b.data.data.bonusRatio);
+        });
       }
       const subroleBonuses = r.data.data.abilities.filter((a) => a.bonuses.some((b) => b.name === skillName));
       if (subroleBonuses.length > 0) {
-        subroleBonuses.forEach((b,index) => {
+        subroleBonuses.forEach((b,index3) => {
           if (roleName) {
             roleName += `, ${b.name}`;
-          } else if (index === 0) {
+          } else if (index3 === 0) {
             roleName = b.name;
           }
           roleValue += Math.floor(b.rank / b.bonusRatio);
