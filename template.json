@@ -564,6 +564,7 @@
       "stat": "int",
       "skill": "--",
       "bonuses": [],
+      "bonusRatio": 1,
       "abilities": []
     },
     "criticalInjury": {

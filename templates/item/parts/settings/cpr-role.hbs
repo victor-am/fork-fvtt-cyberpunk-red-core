@@ -90,8 +90,9 @@
         </div>
       </li>
       {{/if}}
-      <div class="item flexrow setting-name text-nowrap text-bold">
-          <a class="select-role-bonuses">{{localize "CPR.SelectBonusToSkills"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
+      <div class="item flexrow setting-name text-nowrap">
+          <a class="select-role-bonuses text-bold">{{localize "CPR.SelectBonusToSkills"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
+          {{#if (compare data.data.bonusRatio "!==" 1)}}{{localize "CPR.BonusRatio"}} - 1:{{data.data.bonusRatio}}{{/if}}
       </div>
       <div class="compatible-ammo">
         {{#each (sort data.data.bonuses "data.stat") as |bonus|}}

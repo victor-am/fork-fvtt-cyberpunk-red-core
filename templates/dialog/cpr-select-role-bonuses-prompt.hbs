@@ -4,6 +4,15 @@
   <ol class="items-list">
     <li class="item flexrow">
       <div class="item flexrow setting-name">
+        <span class="text-bold text-nowrap">{{localize "CPR.BonusRatio"}}</span>
+      </div>
+      <div class="item flexrow setting-value">
+        1:<input class="text-right" name="bonusRatio" type="number" value={{#if (compare roleType "===" "mainRole")}}{{data.bonusRatio}}{{else}}{{subRole.bonusRatio}}{{/if}} />
+      </div>
+    </li>
+
+    <li class="item flexrow">
+      <div class="item flexrow setting-name">
         <span class="text-bold text-nowrap">{{localize "CPR.Skill"}}</span>
       </div>
       <div class="item flexrow setting-value">

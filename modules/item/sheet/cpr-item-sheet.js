@@ -206,7 +206,8 @@ export default class CPRItemSheet extends ItemSheet {
       formData.selectedSkills.forEach((s) => {
         skillObjects.push(allSkills.find((a) => a.data.name === s));
       });
-      this.item.update({ "data.bonuses": skillObjects });
+      const bonusRatio = formData.bonusRatio;
+      this.item.update({ "data.bonuses": skillObjects, "data.bonusRatio": bonusRatio });
       this._automaticResize(); // Resize the sheet as length of ammo list might have changed
     }
   }
@@ -214,7 +215,6 @@ export default class CPRItemSheet extends ItemSheet {
   async _selectSubroleBonuses(event) {
     LOGGER.trace("ItemSheet | _selectSubroleBonuses | Called.");
     const subRoleName = $(event.currentTarget).attr("data-item-name");
-    console.log(subRoleName);
     const itemData = duplicate(this.item.data);
     const roleType = "subRole"
     const subRole = itemData.data.abilities.find((a) => a.name === subRoleName);
@@ -236,6 +236,7 @@ export default class CPRItemSheet extends ItemSheet {
         skillObjects.push(allSkills.find((a) => a.data.name === s));
       });
       setProperty(subRole, "bonuses", skillObjects);
+      setProperty(subRole, "bonusRatio", formData.bonusRatio);
       this.item.update(itemData);
       if (this.actor) {
         await this.actor.updateEmbeddedDocuments("Item", [itemData]);
@@ -637,6 +638,7 @@ export default class CPRItemSheet extends ItemSheet {
           stat: formData.stat,
           skill: skillObject,
           bonuses: [],
+          bonusRatio: 1,
           description: formData.description,
           hasRoll: formData.hasRoll,
         });
@@ -651,6 +653,8 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
+          bonuses: [],
+          bonusRatio: 1,
           description: formData.description,
           hasRoll: formData.hasRoll,
         }];
@@ -716,6 +720,7 @@ export default class CPRItemSheet extends ItemSheet {
           stat: formData.stat,
           skill: skillObject,
           bonuses: editElement.bonuses,
+          bonusRatio: editElement.bonusRatio,
           description: formData.description,
           hasRoll: formData.hasRoll,
         });
