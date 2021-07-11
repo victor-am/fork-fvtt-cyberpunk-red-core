@@ -541,6 +541,18 @@ export default class CPRItem extends Item {
         roleName = r.data.data.mainRoleAbility;
         roleValue = r.data.data.rank;
       }
+      const subroleBonuses = r.data.data.abilities.filter((a) => a.bonuses.some((b) => b.name === skillName));
+      if (subroleBonuses.length > 0) {
+        subroleBonuses.forEach((b,index) => {
+          console.log(index);
+          if (roleName) {
+            roleName += `, ${b.name}`;
+          } else if (index === 0) {
+            roleName = b.name;
+          }
+          roleValue += b.rank;
+        });
+      }
     });
 
     switch (type) {
