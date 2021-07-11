@@ -14,7 +14,7 @@
           <ol class="items-list">
             <li class="item flexrow" draggable="true" data-item-id="{{role.data._id}}">
               <div class="item-name role-name flexrow  text-nowrap">
-                {{#if role.data.data.hasRoll}}<a class="rollable ability-name text-bold" data-roll-type="roleAbility" data-roll-subtype = "mainRoleAbility" data-roll-title="{{role.data.data.mainRoleAbility}}">{{/if}}{{role.data.data.mainRoleAbility}}:{{#if role.data.data.hasRoll}}</a>{{/if}}
+                {{#if role.data.data.hasRoll}}<a class="rollable ability-name text-bold" data-roll-type="roleAbility" data-roll-subtype = "mainRoleAbility" data-roll-title="{{role.data.data.mainRoleAbility}}">&diams;{{/if}}<span class = "text-bold">{{role.data.data.mainRoleAbility}}:</span>{{#if role.data.data.hasRoll}}</a>{{/if}}
               </div>
               <div class="item-detail ability-rank text-nowrap">
                 <input class="number ability-input" value="{{role.data.data.rank}}" data-role-name="{{role.data.name}}" data-ability-name="{{role.data.data.mainRoleAbility}}" type="number">
@@ -23,7 +23,7 @@
             {{#each (reverse (sort role.data.data.abilities "hasRoll")) as |ability|}}
             <li class="item flexrow" draggable="true" data-item-id="{{role.data._id}}">
               <div class="item-name role-name flexrow  text-nowrap">
-                {{#if ability.hasRoll}}<a class="rollable ability-name subskill" data-roll-type="roleAbility" data-roll-subtype = "subRoleAbility" data-roll-title="{{ability.name}}"><i class="fas fa-dice-d20"></i>{{/if}}&nbsp;{{ability.name}}:{{#if ability.hasRoll}}</a>{{/if}}
+                {{#if ability.hasRoll}}<a class="rollable ability-name subskill" data-roll-type="roleAbility" data-roll-subtype = "subRoleAbility" data-roll-title="{{ability.name}}">&nbsp;&diams;{{/if}}{{#unless ability.hasRoll}}&nbsp;{{/unless}}{{ability.name}}:{{#if ability.hasRoll}}</a>{{/if}}
               </div>
               <div class="item-detail ability-rank text-nowrap">
                 <input class="number ability-input" value="{{ability.rank}}" data-role-name="{{role}}" data-ability-name="{{role.data.data.mainRoleAbility}}" data-subskill-name="{{ability.name}}" type="number">
