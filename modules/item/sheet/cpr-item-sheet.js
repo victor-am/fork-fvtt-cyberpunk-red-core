@@ -105,6 +105,8 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".select-role-bonuses").click((event) => this._selectRoleBonuses(event));
 
+    html.find(".select-subrole-bonuses").click((event) => this._selectSubroleBonuses(event));
+
     html.find(".select-installed-programs").click((event) => this._cyberdeckSelectInstalledPrograms(event));
 
     html.find(".program-uninstall").click((event) => this._cyberdeckProgramUninstall(event));
@@ -183,8 +185,10 @@ export default class CPRItemSheet extends ItemSheet {
     }
   }
 
-  async _selectRoleBonuses(event) {
+  async _selectRoleBonuses() {
+    LOGGER.trace("ItemSheet | _selectRoleBonuses | Called.");
     const itemData = this.item.data.data;
+    const roleType = "mainRole"
     const pack = game.packs.get("cyberpunk-red-core.skills");
     const coreSkills = await pack.getDocuments();
     const customSkills = game.items.filter((i) => i.type === "skill");
@@ -192,8 +196,7 @@ export default class CPRItemSheet extends ItemSheet {
       : coreSkills.concat(customSkills).sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
     const allSkillsData = [];
     allSkills.forEach((a) => allSkillsData.push(a.data));
-    console.log(allSkillsData);
-    let formData = { skillList: allSkillsData, id: this.item.data._id, name: this.item.data.name, data: itemData };
+    let formData = { skillList: allSkillsData, roleType: roleType, data: itemData };
     formData = await SelectRoleBonuses.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;
@@ -205,6 +208,38 @@ export default class CPRItemSheet extends ItemSheet {
       });
       this.item.update({ "data.bonuses": skillObjects });
       this._automaticResize(); // Resize the sheet as length of ammo list might have changed
+    }
+  }
+
+  async _selectSubroleBonuses(event) {
+    LOGGER.trace("ItemSheet | _selectSubroleBonuses | Called.");
+    const subRoleName = $(event.currentTarget).attr("data-item-name");
+    console.log(subRoleName);
+    const itemData = duplicate(this.item.data);
+    const roleType = "subRole"
+    const subRole = itemData.data.abilities.find((a) => a.name === subRoleName);
+    const pack = game.packs.get("cyberpunk-red-core.skills");
+    const coreSkills = await pack.getDocuments();
+    const customSkills = game.items.filter((i) => i.type === "skill");
+    const allSkills = this.object.isOwned ? this.actor.data.filteredItems.skill
+      : coreSkills.concat(customSkills).sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+    const allSkillsData = [];
+    allSkills.forEach((a) => allSkillsData.push(a.data));
+    let formData = { skillList: allSkillsData, roleType: roleType, subRole: subRole, data: itemData.data };
+    formData = await SelectRoleBonuses.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
+    if (formData.selectedSkills) {
+      const skillObjects = [];
+      formData.selectedSkills.forEach((s) => {
+        skillObjects.push(allSkills.find((a) => a.data.name === s));
+      });
+      setProperty(subRole, "bonuses", skillObjects);
+      this.item.update(itemData);
+      if (this.actor) {
+        await this.actor.updateEmbeddedDocuments("Item", [itemData]);
+      }
     }
   }
 
@@ -601,6 +636,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
+          bonuses: [],
           description: formData.description,
           hasRoll: formData.hasRoll,
         });
@@ -679,6 +715,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
+          bonuses: editElement.bonuses,
           description: formData.description,
           hasRoll: formData.hasRoll,
         });
