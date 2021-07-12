@@ -5,7 +5,7 @@ import { enablePauseAnimation } from "../system/pause-animation.js";
 
 const uiHooks = () => {
   Hooks.on("renderPause", () => {
-    LOGGER.trace("\"pauseGame | uiHooks | Called.\"");
+    LOGGER.trace("renderPause | uiHooks | Called.");
     enablePauseAnimation();
   });
 };

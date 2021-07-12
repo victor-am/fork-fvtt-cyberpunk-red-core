@@ -9,7 +9,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 
 const actorHooks = () => {
   Hooks.on("preCreateActor", (doc, createData, options, userId) => {
-    LOGGER.trace("\"preCreateActor | actorHooks | Called.\"");
+    LOGGER.trace("preCreateActor | actorHooks | Called.");
     if (!createData.token) {
       // TODO - Token Setup Goes Here
     }
