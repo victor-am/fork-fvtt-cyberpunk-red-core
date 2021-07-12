@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-/* global renderTemplate, FormDataExtended, Dialog game */
+/* global renderTemplate, FormDataExtended, Dialog */
 // TODO - Revist this method of dialog creation.
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
