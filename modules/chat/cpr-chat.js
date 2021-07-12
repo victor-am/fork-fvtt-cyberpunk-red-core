@@ -1,4 +1,4 @@
-/* global game, CONFIG, ChatMessage, renderTemplate $ ui */
+/* global game, CONFIG, ChatMessage, renderTemplate $ */
 import LOGGER from "../utils/cpr-logger.js";
 import { CPRRoll } from "../rolls/cpr-rolls.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
@@ -54,8 +54,10 @@ export default class CPRChat {
    * @param {} cprRoll - from cpr-roll.js, a custom roll object that includes the results
    * @returns - a created chat message
    */
-  static RenderRollCard(cprRoll) {
+  static RenderRollCard(incomingRoll) {
     LOGGER.trace("RenderRollCard | Chat | Called.");
+
+    const cprRoll = incomingRoll;
 
     cprRoll.criticalCard = cprRoll.wasCritical();
     return renderTemplate(cprRoll.rollCard, cprRoll).then((html) => {
