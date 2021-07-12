@@ -71,12 +71,12 @@ CPR.skillCategories = {
 // Sorted A-Z
 CPR.skillList = {
   athletics: "CPR.global.skills.athletics",
-  basicTech: "CPR.global.skills.basictech",
+  basicTech: "CPR.global.skills.basicTech",
   brawling: "CPR.global.skills.brawling",
   bribery: "CPR.global.skills.bribery",
   concentration: "CPR.global.skills.concentration",
   conversation: "CPR.global.skills.conversation",
-  cyberTech: "CPR.global.skills.cyberTech",
+  cyberTech: "CPR.global.skills.cybertech",
   education: "CPR.global.skills.education",
   evasion: "CPR.global.skills.evasion",
   firstAid: "CPR.global.skills.firstAid",
@@ -134,7 +134,7 @@ CPR.skillList = {
   tactics: "CPR.global.skills.tactics",
   trading: "CPR.global.skills.trading",
   wardrobeAndStyle: "CPR.global.skills.wardrobeAndStyle",
-  weaponsTech: "CPR.global.skills.weaponsTech",
+  weaponsTech: "CPR.global.skills.weaponstech",
   wildernessSurvival: "CPR.global.skills.wildernessSurvival",
 };
 

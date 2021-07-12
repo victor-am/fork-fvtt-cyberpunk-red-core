@@ -553,7 +553,7 @@ export default class CPRItemSheet extends ItemSheet {
 
     const actor = (item.isOwned) ? item.actor : null;
     if (!actor || (actor.type !== "character" && actor.type !== "mook")) {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.owneditemonlyerror"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.ownedItemOnlyError"));
       return;
     }
 

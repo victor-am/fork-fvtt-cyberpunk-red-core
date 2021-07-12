@@ -1,3 +1,4 @@
+{{trace "CPR-WEAPON.HBS"}}
 {{!-- Weapon Item Settings--}}
 {{#unless (compare (compare item.type "===" "itemUpgrade") "||" (compare item.type "===" "cyberware"))}}
     <li class="item flexrow">
@@ -295,3 +296,4 @@
         {{/each}}
     </div>
 {{/if}}
+{{trace "END CPR-WEAPON.HBS"}}

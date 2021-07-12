@@ -288,7 +288,7 @@ export default class CPRItem extends Item {
         };
 
         if (validAmmo.length === 0) {
-          SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.messages.noValidAmmo")));
+          SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.noValidAmmo")));
           return;
         }
 
@@ -316,12 +316,12 @@ export default class CPRItem extends Item {
         const ammo = this.actor.items.find((i) => i.data._id === selectedAmmoId);
 
         if (ammo === null) {
-          SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.messages.ammoMissingFromGear")));
+          SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.ammoMissingFromGear")));
           return;
         }
 
         if (ammo.getData().amount === 0) {
-          SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.messages.reloadOutOfAmmo")));
+          SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.reloadOutOfAmmo")));
           return;
         }
 

@@ -2,6 +2,7 @@
 /* eslint-disable no-undef */
 /* global game, ui */
 import CPRChat from "../chat/cpr-chat.js";
+import SystemUtils from "./cpr-systemUtils.js";
 
 export default class CPRMacro {
   static async rollItemMacro(itemName, extraData = { skipPrompt: false, rollType: "attack" }) {
@@ -13,7 +14,7 @@ export default class CPRMacro {
 
     const displayName = actor === null ? "ERROR" : actor.name;
     if (!item) {
-      ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macro.itemMissing")} ${itemName}`);
+      SystemUtils.DisplayMessage("warn", `[${displayName}] ${SystemUtils.Localize("CPR.macro.itemMissing")} ${itemName}`);
       return;
     }
 
@@ -32,7 +33,7 @@ export default class CPRMacro {
     }
 
     if (!validRollTypes.includes(rollType)) {
-      ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macro.invalidRollType")} ${rollType}`);
+      SystemUtils.DisplayMessage("warn", `[${displayName}] ${SystemUtils.Localize("CPR.macro.invalidRollType")} ${rollType}`);
       return;
     }
 
