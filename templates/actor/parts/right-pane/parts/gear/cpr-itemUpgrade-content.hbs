@@ -1,4 +1,4 @@
-{{trace "CPR-ITEM-UPGRADE-INV-CONTENT.HBS"}}
+{{trace "CPR-ITEMUPGRADE-CONTENT.HBS"}}
 {{#unless item.data.data.isInstalled}}
 <li class="item flexrow{{#if item.data.data.favorite}} favorite{{else}}{{#if (listContains sheet.options.collapsedSections "gearTab-gear")}} hide{{/if}}{{/if}}" data-item-id="{{item.data._id}}"
     data-item-category="{{item.type}}" draggable="true">
@@ -13,4 +13,4 @@
     </div>
 </li>
 {{/unless}}
-{{trace "END CPR-ITEM-UPGRADE-INV-CONTENT.HBS"}}
+{{trace "END CPR-ITEMUPGRADE-CONTENT.HBS"}}
