@@ -598,7 +598,7 @@ export default class CPRActorSheet extends ActorSheet {
         const weaponData = weapon.data.data;
         if (weaponData.isRanged) {
           if (weaponData.magazine.ammoId === item.id) {
-            const warningMessage = `${game.i18n.localize("CPR.messages.ammoDeleteWarning")}: ${weapon.name}`;
+            const warningMessage = `${SystemUtils.Localize("CPR.messages.ammoDeleteWarning")}: ${weapon.name}`;
             SystemUtils.DisplayMessage("warn", warningMessage);
             ammoIsLoaded = true;
           }
@@ -719,7 +719,7 @@ export default class CPRActorSheet extends ActorSheet {
         (item.type === "criticalInjury") && (item.name === table.data.results._source[0].text)
       ));
       if (!crit) {
-        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.dialog.rollCriticalInjury.criticalInjuryNoneWarning")));
+        SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.dialog.rollCriticalInjury.criticalInjuryNoneWarning")));
         return;
       }
       const critType = crit.data.data.location;
@@ -729,12 +729,12 @@ export default class CPRActorSheet extends ActorSheet {
         if (injury.data.data.location === critType) { numberCritInjurySameType += 1; }
       });
       if (table.data.results.contents.length <= numberCritInjurySameType) {
-        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.messages.criticalInjuryDuplicateAllWarning")));
+        SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.criticalInjuryDuplicateAllWarning")));
         return;
       }
       // Techincally possible to reach even if a critical injury is still missing (chance: 6*10e-11 %), though unlikely.
       if (iteration > 1000) {
-        SystemUtils.DisplayMessage("error", (game.i18n.localize("CPR.messages.criticalInjuryDuplicateLoopWarning")));
+        SystemUtils.DisplayMessage("error", (SystemUtils.Localize("CPR.messages.criticalInjuryDuplicateLoopWarning")));
         // Prevent endless loop in case of mixed (head and body) Critical Injury tables
         // or unreachable elements in the rolltable.
         return;
@@ -755,14 +755,14 @@ export default class CPRActorSheet extends ActorSheet {
               return;
             }
             if (setting === "warn") {
-              SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.messages.criticalInjuryDuplicateWarning")));
+              SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.criticalInjuryDuplicateWarning")));
             }
           }
           const crit = game.items.find((item) => (
             (item.type === "criticalInjury") && (item.name === res.results[0].data.text)
           ));
           if (!crit) {
-            SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.dialog.rollCriticalInjury.criticalInjuryNoneWarning")));
+            SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.dialog.rollCriticalInjury.criticalInjuryNoneWarning")));
             return;
           }
           const itemData = duplicate(crit.data);
