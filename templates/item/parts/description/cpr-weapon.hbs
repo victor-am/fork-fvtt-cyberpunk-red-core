@@ -11,16 +11,16 @@
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.weapon.rof"}}:</span>
-            <span class="summary-value">{{data.data.rof}}</span>
+            <span class="summary-value">{{applyUpgrade item data.data.rof "rof"}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.global.generic.damage"}}:</span>
-            <span class="summary-value">{{data.data.damage}}</span>
+            <span class="summary-value">{{applyUpgrade item data.data.damage "damage"}}</span>
         </div>
         {{#if data.data.isRanged}}
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.weapon.magSize"}}:</span>
-            <span class="summary-value">{{data.data.magazine.max}}</span>
+            <span class="summary-value">{{applyUpgrade item data.data.magazine.max "magazine"}}</span>
         </div>
         {{/if}}
     </div>

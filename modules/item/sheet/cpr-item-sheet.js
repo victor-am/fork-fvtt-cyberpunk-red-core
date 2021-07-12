@@ -6,6 +6,7 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
 import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
 import NetarchLevelPrompt from "../../dialog/cpr-netarch-level-prompt.js";
 import CyberdeckSelectProgramsPrompt from "../../dialog/cpr-select-install-programs-prompt.js";
+import SelectItemUpgradePrompt from "../../dialog/cpr-select-item-upgrade-prompt.js";
 import BoosterAddModifierPrompt from "../../dialog/cpr-booster-add-modifier-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
@@ -69,7 +70,7 @@ export default class CPRItemSheet extends ItemSheet {
     } else {
       data.filteredItems.skill = await SystemUtils.GetCoreSkills();
     }
-    if (data.item.type === "cyberdeck") {
+    if (data.item.type === "cyberdeck" || data.item.type === "weapon" || data.item.type === "cyberware") {
       data.data.data.availableSlots = this.object.availableSlots();
     }
     data.dvTableNames = DvUtils.GetDvTables();
@@ -102,6 +103,12 @@ export default class CPRItemSheet extends ItemSheet {
     html.find(".program-add-booster-modifier").click((event) => this._addBoosterModifier(event));
 
     html.find(".program-del-booster-modifier").click((event) => this._delBoosterModifier(event));
+
+    html.find(".select-item-upgrades").click((event) => this._selectItemUpgrades(event));
+
+    html.find(".remove-upgrade").click((event) => this._removeItemUpgrade(event));
+
+    html.find(".item-view").click((event) => this._renderReadOnlyItemCard(event));
 
     html.find(".netarch-generate-auto").click((event) => {
       if (game.user.isGM) {
@@ -486,7 +493,21 @@ export default class CPRItemSheet extends ItemSheet {
     selectedPrograms = selectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
     unselectedPrograms = unselectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
 
-    if (storageRequired > cyberdeck.data.data.slots) {
+    // Because the dialog could contain programs that were already installed,
+    // we need to calculate the amount of slots available on the Cyberdeck for programs
+
+    // Start with getting the total number of slot available
+    const upgradeValue = cyberdeck.getAllUpgradesFor("slots");
+    const upgradeType = cyberdeck.getUpgradeTypeFor("slots");
+
+    let cyberdeckSlots = (upgradeType === "override") ? upgradeValue : cyberdeck.data.data.slots + upgradeValue;
+
+    // Adjust for installed upgrades/hardware
+    cyberdeck.data.data.upgrades.forEach((u) => {
+      cyberdeckSlots -= u.data.size;
+    });
+
+    if (storageRequired > cyberdeckSlots) {
       SystemUtils.DisplayMessage("warn", "CPR.messages.cyberdeckInsufficientStorage");
     }
 
@@ -522,5 +543,77 @@ export default class CPRItemSheet extends ItemSheet {
     const updateList = [{ _id: cyberdeck.data._id, data: cyberdeck.data.data }];
     updateList.push({ _id: program.data._id, "data.isInstalled": false });
     await actor.updateEmbeddedDocuments("Item", updateList);
+  }
+
+  async _selectItemUpgrades(event) {
+    const { item } = this;
+
+    // We only support upgraded items thatr are owned by an actor
+    // Get the actor that owns this item (if owned)
+
+    const actor = (item.isOwned) ? item.actor : null;
+    if (!actor || (actor.type !== "character" && actor.type !== "mook")) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.ownedItemOnlyError"));
+      return;
+    }
+
+    const installedUpgrades = item.data.data.upgrades;
+    const ownedUpgrades = actor.data.filteredItems.itemUpgrade;
+    const availableUpgrades = ownedUpgrades.filter((u) => u.data.data.type === item.type && u.data.data.isInstalled === false);
+    let uninstallList = [];
+    installedUpgrades.forEach((u) => {
+      const upgradeId = u._id;
+      const upgradeItem = actor._getOwnedItem(upgradeId);
+      availableUpgrades.push(upgradeItem);
+      uninstallList.push(upgradeItem);
+    });
+    let formData = {
+      item,
+      availableUpgrades,
+    };
+    formData = await SelectItemUpgradePrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
+
+    const installList = [];
+    formData.selectedUpgradeIds.forEach((id) => {
+      const upgradeItem = actor._getOwnedItem(id);
+      installList.push(upgradeItem);
+      uninstallList = uninstallList.filter((u) => u.id !== id);
+    });
+
+    if (uninstallList.length > 0) {
+      await item.uninstallUpgrades(uninstallList);
+    }
+
+    if (installList.length > 0) {
+      await item.installUpgrades(installList);
+    }
+
+    if (item.type === "weapon" && item.availableSlots() < 0) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.toomanyattachments"));
+    }
+  }
+
+  async _removeItemUpgrade(event) {
+    const upgradeId = $(event.currentTarget).attr("data-item-id");
+    const upgrade = this.actor.items.find((i) => i.data._id === upgradeId);
+    await this.item.uninstallUpgrades([upgrade]);
+  }
+
+  /**
+   * Render an item sheet in read-only mode, which is used on installed cyberware. This is to
+   * prevent a user from editing data while it is installed, such as the foundation type.
+   *
+   * @private
+   * @callback
+   * @param {Object} event - object capturing event data (what was clicked and where?)
+   */
+  _renderReadOnlyItemCard(event) {
+    LOGGER.trace("_renderReadOnlyItemCard | CPRItemSheet | Called.");
+    const itemId = $(event.currentTarget).parents(".item").attr("data-item-id");
+    const item = this.actor.items.find((i) => i.data._id === itemId);
+    item.sheet.render(true, { editable: false });
   }
 }

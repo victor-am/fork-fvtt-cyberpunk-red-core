@@ -1,6 +1,39 @@
 # WIP Version 0.78.0 | Dev branch
 
 **New Features**
+- Cyberware Items which act as weapons can now be configured as such
+  - Core Rule Book Examples: Popup Weapons, Big Knucks, Wolvers, etc
+  - These weapons will show in the Fight Tab as Cyberware Weapons under the standard weapons
+- Introduction of the Item Object: Item Upgrade
+  - Initial implementation of the Item Upgrade Object enables:
+    - Upgrades to Weapons, Cyberdecks, Cyberware, Clothing, Armor and Gear
+    - Weapons
+      - Adding weapon attachments to weapons to can modify settings for ROF, Attack Modifier, Magazine Size & Damage
+        - For each of these data points, you have the option to modify or override the value of them allowing for flexibility in upgrade attachments
+        - Core Rule Book Examples: Drum Magazine, Extended Magainze
+      - Adding a secondary weapon as an attachment
+        - Core Rule Book Examples: Grenade Launcher Underbarrel, Shotgun Underbarrel, Bayonet
+    - Cyberdecks
+      - Item Upgrades occupy Option Slots, so it is now possible to use Item Upgrades to install & track Hardware Upgrades to the Cyberdeck
+        - Core Rule Book Examples: Backup Drive, DNA Lock, Range Upgrade, etc.
+      - Item Upgrades can be added to expand the amount of slots in the Cyberdeck. While there's no RAW for this, it has been added to support Homebrew.
+        - Example: USB Drive, External Drive, etc..
+    - Cyberware
+      - As some Cyberware is now Weapon Items, Item Upgrades can be used to add Attachment to these Weapon Types
+        - Example: Popup Assault Rifle w/ Underbarrel Grenade Launcher
+        - Note: While it is possible to install an Item Upgrade Weapon Attachment on a non-weapon cyberware, it will NOT display on the Fight Tab as it is not associated with a Cyberware Weapon
+    - Clothing
+      - Clothing can now have upgrades applied to them to modify COOL and the "Wardrobe & Style" Skill Rolls.
+        - Overriding stats/skills is not supported, all values will be treated as a modifier.
+        - Note: If the upgrade applies to COOL, it will affect ALL rolls of COOL (COOL Skills too).
+    - Armor
+      - Armor can now have upgrades applied to modify their SP on the head and/or body as well as to increase the HP on shields
+      - NOTE: Due to the way the shield mechanics work, you'll have to repair the shield after installing the item upgrade
+    - Gear
+      - Gear can now have upgrades applied to them that will allow equipping of the Gear to affect rolls of a base stat.
+        - This will allow capability to create Gear items, such as certain drugs (Black Lace, Boost and Synthcoke) and add an Item Upgrade to affect the core stat. Ideally this will be covered with Active Effects, when we get to implementing that, but this is one way to do it for now.
+- Inventory items which are upgraded will have a unique "U" identifier appended to their name
+- When actors own an Item Upgrade Object, any items they own which match the Item Upgrade Type will have an action item added to their line in the inventory allowing you to easily install the upgrade to that item.
 - Added possibility to split items into separate stacks for ammo, gear and clothing.
 - Some Items can now be automatically stacked, when dragged onto the character sheet or being purchased/taken from a container. This is enabled for the following Item types: Ammo, Gear, Clothing
 - Added feature to purchase/take only a part of the items offered in a container actor.

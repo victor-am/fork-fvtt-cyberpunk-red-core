@@ -209,6 +209,7 @@ CPR.inventoryCategories = {
   vehicle: "CPR.global.itemTypes.vehicle",
   cyberdeck: "CPR.global.itemTypes.cyberdeck",
   program: "CPR.global.itemTypes.program",
+  itemUpgrade: "CPR.global.itemTypes.itemUpgrade",
 };
 
 CPR.objectTypes = {
@@ -219,6 +220,7 @@ CPR.objectTypes = {
   cyberdeck: "CPR.global.itemTypes.cyberdeck",
   cyberware: "CPR.global.itemTypes.cyberware",
   gear: "CPR.global.itemTypes.gear",
+  itemUpgrade: "CPR.global.itemTypes.itemUpgrade",
   netarch: "CPR.global.itemTypes.netArchitecture",
   program: "CPR.global.itemTypes.program",
   skill: "CPR.global.itemTypes.skill",
@@ -367,6 +369,156 @@ CPR.interfaceAbilities = {
   slide: "CPR.global.role.netrunner.interfaceAbility.slide",
   virus: "CPR.global.role.netrunner.interfaceAbility.virus",
   zap: "CPR.global.role.netrunner.interfaceAbility.zap",
+};
+
+// The following item types have the upgradable template:
+//  *ammo, armor, cyberware, cyberdeck, *gear, clothing, weapon, vehicle
+CPR.upgradableDataPoints = {
+  upgradeConfig: {
+    configurableTypes: {
+      modifier: "CPR.itemSheet.itemUpgrade.modifier",
+      override: "CPR.itemSheet.itemUpgrade.override",
+    },
+  },
+  weapon: {
+    damage: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.generic.damage",
+    },
+    rof: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.itemSheet.weapon.rof",
+    },
+    attackmod: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.itemSheet.weapon.attackMod",
+    },
+    magazine: {
+      type: "override",
+      value: 0,
+      localization: "CPR.itemSheet.weapon.magazine",
+    },
+    secondaryWeapon: {
+      type: "item",
+      configured: false,
+      localization: "CPR.itemSheet.itemUpgrade.isSecondaryWeapon",
+    },
+  },
+  vehicle: {
+    sdp: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.itemSheet.vehicle.sdp",
+    },
+    seats: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.itemSheet.vehicle.seats",
+    },
+    speedCombat: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.itemSheet.vehicle.combatSpeed",
+    },
+  },
+  cyberware: {
+    secondaryWeapon: {
+      type: "item",
+      configured: false,
+      localization: "CPR.itemSheet.itemUpgrade.isSecondaryWeapon",
+    },
+  },
+  cyberdeck: {
+    slots: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.generic.slots",
+    },
+  },
+  clothing: {
+    "Wardrobe & Style": {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.skills.wardrobeAndStyle",
+    },
+    cool: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.stats.cool",
+    },
+  },
+  armor: {
+    bodySp: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.itemSheet.armor.bodyArmorSp",
+    },
+    headSp: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.itemSheet.armor.headArmorSp",
+    },
+    shieldHp: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.itemSheet.itemUpgrade.shieldHp",
+    },
+  },
+  gear: {
+    int: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.stats.int",
+    },
+    ref: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.stats.ref",
+    },
+    dex: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.stats.dex",
+    },
+    tech: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.stats.tech",
+    },
+    cool: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.stats.cool",
+    },
+    will: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.stats.will",
+    },
+    luck: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.stats.luck",
+    },
+    move: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.stats.move",
+    },
+    body: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.stats.body",
+    },
+    emp: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.stats.emp",
+    },
+  },
 };
 
 export default CPR;

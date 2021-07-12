@@ -14,7 +14,7 @@
             <ol class="items-list critical-injury-list">
               {{#each (sort actor.data.filteredItems.criticalInjury "name") as |criticalInjury| }}
               <li class="flex-space-between item flexrow" data-item-id="{{criticalInjury.id}}" data-item-category="{{criticalInjury.type}}" draggable="true">
-                <div><a class="name item-edit text-nowrap {{#if criticalInjury.data.data.deathSaveIncrease}}text-bold{{/if}}" title="{{criticalInjury.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{criticalInjury.name}} {{#if (compare criticalInjury.data.data.location "===" "body")}}<i class="fas fa-user-injured text-padding-left"></i>{{/if}}{{#if (compare criticalInjury.data.data.location "===" "head")}}<i class="fas fa-tired text-padding-left"></i>{{/if}}</a></div>
+                <div><a class="name item-edit text-nowrap {{#if criticalInjury.data.data.deathSaveIncrease}}text-bold{{/if}}" title="{{criticalInjury.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{criticalInjury.name}} {{#if (compare criticalInjury.data.data.location "===" "body")}}<i class="fas fa-user-injured text-padding-left"></i>{{/if}}{{#if (compare criticalInjury.data.data.location "===" "head")}}<i class="fas fa-tired text-padding-left"></i>{{/if}}</a></div>
                 <div class="item-detail gear-actions text-nowrap">
                   <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red text-float-right text-padding-right" title="Delete Item"></i></a>
                 </div>
@@ -47,15 +47,23 @@
                             {{#if (compare armor.data.data.headLocation.ablation ">" 0)}}
                                 <span class="fg-red">
                             {{/if}}
-                            {{math "subtract" armor.data.data.headLocation.sp armor.data.data.headLocation.ablation}}
+                            {{math "subtract" (applyUpgrade armor armor.data.data.headLocation.sp "headSp") armor.data.data.headLocation.ablation}}
                             {{#if (compare armor.data.data.headLocation.ablation ">" 0)}}
                                 </span>
                             {{/if}}
-                            /{{armor.data.data.headLocation.sp}}
-                            <a class="ablate" data-location="head"><i
-                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.characterSheet.bottomPane.fight.ablateArmor"}}"></i></a> {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorHead.id)}}<a class="armor-current" data-location="head" data-item-id="{{armor.id}}">
-                                    <i class="fas fa-star" title="{{localize "CPR.actorSheets.commonActions.resyncHeadArmor"}}"></i></a>{{else}}<a class="armor-current" data-location="head" data-item-id="{{armor.id}}"><i
-                                    class="far fa-star" title="{{localize "CPR.actorSheets.commonActions.makeHeadArmorActive"}}"></i></a>{{/if}}
+                            /{{applyUpgrade armor armor.data.data.headLocation.sp "headSp"}}
+                            <a class="ablate" data-location="head">
+                                <i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.characterSheet.bottomPane.fight.ablateArmor"}}"></i>
+                            </a> 
+                            {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorHead.id)}}
+                                <a class="armor-current" data-location="head" data-item-id="{{armor.id}}">
+                                    <i class="fas fa-star" title="{{localize "CPR.actorSheets.commonActions.resyncHeadArmor"}}"></i>
+                                </a>
+                            {{else}}
+                                <a class="armor-current" data-location="head" data-item-id="{{armor.id}}">
+                                    <i class="far fa-star" title="{{localize "CPR.actorSheets.commonActions.makeHeadArmorActive"}}"></i>
+                                </a>
+                            {{/if}}
                         </div>
                     </li>
                     {{/if}}
@@ -66,16 +74,23 @@
                             {{#if (compare armor.data.data.bodyLocation.ablation ">" 0)}}
                                 <span class="fg-red">
                             {{/if}}
-                                {{math "subtract" armor.data.data.bodyLocation.sp armor.data.data.bodyLocation.ablation}}
+                                {{math "subtract" (applyUpgrade armor armor.data.data.bodyLocation.sp "bodySp") armor.data.data.bodyLocation.ablation}}
                             {{#if (compare armor.data.data.bodyLocation.ablation ">" 0)}}
                                 </span>
                             {{/if}}
-                            /{{armor.data.data.bodyLocation.sp}}
-                                                        <a class="ablate" data-location="body"><i
-                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.characterSheet.bottomPane.fight.ablateArmor"}}"></i></a> {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorBody.id)}}<a class="armor-current" data-location="body" data-item-id="{{armor.id}}">
-                                    <i class="fas fa-star" title="{{localize "CPR.actorSheets.commonActions.resyncBodyArmor"}}"></i></a>{{else}}<a class="armor-current" data-location="body" data-item-id="{{armor.id}}"><i
-                                    class="far fa-star" title="{{localize "CPR.actorSheets.commonActions.makeBodyArmorActive"}}"></i></a>{{/if}}
-
+                            /{{applyUpgrade armor armor.data.data.bodyLocation.sp "bodySp"}}
+                            <a class="ablate" data-location="body">
+                                <i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.characterSheet.bottomPane.fight.ablateArmor"}}"></i>
+                            </a> 
+                            {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorBody.id)}}
+                                <a class="armor-current" data-location="body" data-item-id="{{armor.id}}">
+                                    <i class="fas fa-star" title="{{localize "CPR.resyncbodyarmor"}}"></i>
+                                </a>
+                            {{else}}
+                                <a class="armor-current" data-location="body" data-item-id="{{armor.id}}">
+                                    <i class="far fa-star" title="{{localize "CPR.makebodyarmoractive"}}"></i>
+                                </a>
+                            {{/if}}
                         </div>
                     </li>
                     {{/if}}
@@ -90,11 +105,19 @@
                             {{#if (compare armor.data.data.shieldHitPoints.value "<" armor.data.data.shieldHitPoints.max)}}
                                 </span>
                             {{/if}}
-                            /{{armor.data.data.shieldHitPoints.max}}
-                                                        <a class="ablate" data-location="shield"><i
-                                    class="far fa-arrow-alt-circle-down" title="{{localize "CPR.characterSheet.bottomPane.fight.damageShield"}}"></i></a> {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorShield.id)}}<a class="armor-current" data-location="shield" data-item-id="{{armor.id}}">
-                                    <i class="fas fa-star" title="{{localize "CPR.actorSheets.commonActions.resyncShield"}}"></i></a>{{else}}<a class="armor-current" data-location="shield" data-item-id="{{armor.id}}"><i
-                                    class="far fa-star" title="{{localize "CPR.actorSheets.commonActions.makeShieldActive"}}"></i></a>{{/if}}
+                            /{{applyUpgrade armor armor.data.data.shieldHitPoints.max "shieldHp"}}
+                            <a class="ablate" data-location="shield">
+                                <i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.characterSheet.bottomPane.fight.damageShield"}}"></i>
+                            </a> 
+                            {{#if (compare armor.id "===" ../actor.data.data.externalData.currentArmorShield.id)}}
+                                <a class="armor-current" data-location="shield" data-item-id="{{armor.id}}">
+                                    <i class="fas fa-star" title="{{localize "CPR.actorSheets.commonActions.resyncShield"}}"></i>
+                                </a>
+                            {{else}}
+                                <a class="armor-current" data-location="shield" data-item-id="{{armor.id}}">
+                                    <i class="far fa-star" title="{{localize "CPR.actorSheets.commonActions.makeShieldActive"}}"></i>
+                                </a>
+                            {{/if}}
                         </div>
                     </li>
                     {{/if}}
@@ -113,86 +136,344 @@
         <div class="weapon-content">
             <ol class="items-list weapons-grid">
                 {{#each (sort actor.data.filteredItems.weapon "name") as |weapon|}}
-                {{#if (compare weapon.data.data.equipped "===" "equipped")}}
-                <li class="weapon-grid item flexrow" data-item-id="{{weapon.id}}">
-                    <div class="fight-weapon-icon">
-                        <img class="fight-weapon-icon-img" src="{{img}}"/>
-                    </div>
-                    <div class="fight-weapon">
-                        <div class="item-name fight-weapon-name">
-                            <a class="name item-edit" title="{{weapon.name}}&#13Click to view the item&#13Ctrl-Click to send to chat">{{weapon.name}}</a>
-                            {{#if (compare weapon.data.data.quality "!==" "standard")}}
-                            ({{localize weapon.data.data.quality}})
-                            {{/if}}
-                            {{#if (compare weapon.data.data.attackmod ">" "0")}}(+{{weapon.data.data.attackmod}}){{/if}}
-                            {{#if (compare weapon.data.data.attackmod "<" "0")}}({{weapon.data.data.attackmod}}){{/if}}
-                            {{#if weapon.data.data.magazine.ammoId}}
-                                <br>
-                                ({{localize "CPR.global.itemTypes.ammo"}}:<input name = "data.magazine.value" class = "number weapon-input" style = "width:30px;text-align:right;" type = "text" data-item-prop = "data.magazine.value" value = "{{weapon.data.data.magazine.value}}">/{{weapon.data.data.magazine.max}})
-                            {{/if}}
-                        </div>
-                        <div class="fight-weapon-actions text-nowrap">
-                            {{#if weapon.data.data.isRanged}}
-                            {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
-                            {{>"systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs"}}
-                            {{/if}}
-                        </div>
-                    </div>
-                    <div class="fight-weapon-firetype">
-                        <div class="fight-weapon-aim">
-                            {{localize "CPR.actorSheets.fireModes.aim"}}
-                        </div>
-                        <div class="fight-weapon-aim-box">
-                            <a class="fire-checkbox" data-fire-mode="aimed" data-item-id="{{weapon.id}}">
-                                {{#if (fireMode ../actor "aimed" weapon.id)}}
-                                    <i class="far fa-check-circle"></i>
-                                {{else}}
-                                    <i class="far fa-circle"></i>
+                    {{#if (compare weapon.data.data.equipped "===" "equipped")}}
+                        <li class="weapon-grid item flexrow" data-item-id="{{weapon.id}}">
+                            <div class="fight-weapon-icon">
+                                <img class="fight-weapon-icon-img" src="{{img}}"/>
+                            </div>
+                            <div class="fight-weapon">
+                                <div class="item-name fight-weapon-name">
+                                    <a class="name item-edit" title="{{weapon.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{weapon.name}}</a>
+                                    {{#if (compare weapon.data.data.quality "!==" "standard")}}
+                                    ({{localize weapon.data.data.quality}})
+                                    {{/if}}
+                                    {{#if (compare (applyUpgrade weapon weapon.data.data.attackmod "attackmod") ">" "0")}}(+{{applyUpgrade weapon weapon.data.data.attackmod "attackmod"}}){{/if}}
+                                    {{#if (compare (applyUpgrade weapon weapon.data.data.attackmod "attackmod") "<" "0")}}({{applyUpgrade weapon weapon.data.data.attackmod "attackmod"}}){{/if}}
+                                    {{#if weapon.data.data.magazine.ammoId}}
+                                        <br>
+                                        ({{localize "CPR.global.itemTypes.ammo"}}:<input name = "data.magazine.value" class = "number weapon-input" style = "width:30px;text-align:right;" type = "text" data-item-prop = "data.magazine.value" value = "{{weapon.data.data.magazine.value}}">/{{applyUpgrade weapon weapon.data.data.magazine.max "magazine"}})
+                                    {{/if}}
+                                </div>
+                                <div class="fight-weapon-actions text-nowrap">
+                                    {{#if weapon.data.data.isRanged}}
+                                    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
+                                    {{>"systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs"}}
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class="fight-weapon-firetype">
+                                <div class="fight-weapon-aim">
+                                    {{localize "CPR.actorSheets.fireModes.aim"}}
+                                </div>
+                                <div class="fight-weapon-aim-box">
+                                    <a class="fire-checkbox" data-fire-mode="aimed" data-item-id="{{weapon.id}}">
+                                        {{#if (fireMode ../actor "aimed" weapon.id)}}
+                                            <i class="far fa-check-circle"></i>
+                                        {{else}}
+                                            <i class="far fa-circle"></i>
+                                        {{/if}}
+                                    </a>
+                                </div>
+                                {{#if weapon.data.data.isRanged}}
+                                    {{#if (compare (listContains "assaultRifle,smg,heavySmg" weapon.data.data.weaponType) "||" weapon.data.data.fireModes.suppressiveFire)}}
+                                    <div class="fight-weapon-auto">
+                                        {{localize "CPR.actorSheets.fireModes.autoFire"}}
+                                    </div>
+                                    <div class="fight-weapon-suppress">
+                                        {{localize "CPR.actorSheets.fireModes.suppressiveFireShort"}}
+                                    </div>
+                                    <div class="fight-weapon-auto-box">
+                                        <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon.id}}">
+                                            {{#if (fireMode ../actor "autofire" weapon.id)}}
+                                                <i class="far fa-check-circle"></i>
+                                            {{else}}
+                                                <i class="far fa-circle"></i>
+                                            {{/if}}
+                                        </a>
+                                    </div>
+                                    <div class="fight-weapon-suppress-box">
+                                        <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon.id}}">
+                                            {{#if (fireMode ../actor "suppressive" weapon.id)}}
+                                                <i class="far fa-check-circle"></i>
+                                            {{else}}
+                                                <i class="far fa-circle"></i>
+                                            {{/if}}
+                                        </a>
+                                    </div>
+                                    {{/if}}
                                 {{/if}}
-                            </a>
-                        </div>
-                        {{#if weapon.data.data.isRanged}}
-                            {{#if (compare (listContains "assaultRifle,smg,heavySmg" weapon.data.data.weaponType) "||" weapon.data.data.fireModes.suppressiveFire)}}
-                            <div class="fight-weapon-auto">
-                                {{localize "CPR.actorSheets.fireModes.autoFire"}}
                             </div>
-                            <div class="fight-weapon-suppress">
-                                {{localize "CPR.actorSheets.fireModes.suppressiveFireShort"}}
-                            </div>
-                            <div class="fight-weapon-auto-box">
-                                <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon.id}}">
-                                    {{#if (fireMode ../actor "autofire" weapon.id)}}
-                                        <i class="far fa-check-circle"></i>
-                                    {{else}}
-                                        <i class="far fa-circle"></i>
-                                    {{/if}}
+                            <div class="item-detail text-largest fight-weapon-attack text-nowrap">
+                                <a class="rollable" data-roll-type="attack" data-item-id={{weapon.id}}>
+                                    <i class="fas fa-fist-raised red-fg" title="{{localize "CPR.characterSheet.bottomPane.fight.rollAnAttack"}}"></i>
                                 </a>
-                            </div>
-                            <div class="fight-weapon-suppress-box">
-                                <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon.id}}">
-                                    {{#if (fireMode ../actor "suppressive" weapon.id)}}
-                                        <i class="far fa-check-circle"></i>
-                                    {{else}}
-                                        <i class="far fa-circle"></i>
-                                    {{/if}}
+                                {{#if (compare (fireflag ../actor "suppressive" weapon.id) "!==" "checked")}}
+                                <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}} data-damage="{{weapon.data.data.damage}}">
+                                    <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
                                 </a>
+                                {{/if}}
                             </div>
-                            {{/if}}
+                        </li>
+                        {{#if weapon.data.data.isUpgraded}}
+                            {{#each weapon.data.data.upgrades as |upgrade|}}
+                                {{#if (compare upgrade.data.modifiers.secondaryWeapon.configured "===" "true")}}
+                                    {{#each (filter ../actor.data.filteredItems.itemUpgrade "data._id" upgrade._id) as |weapon|}}
+                                    <li class="weapon-grid item flexrow" data-item-id="{{weapon.id}}">
+                                        <div class="fight-weapon-icon">
+                                            <img class="fight-weapon-icon-img" src="{{img}}"/>
+                                        </div>
+                                        <div class="fight-weapon">
+                                            <div class="item-name fight-weapon-name">
+                                                <a class="name item-view" title="{{weapon.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{../../this.name}} {{localize "CPR.characterSheet.bottomPane.fight.attachment"}}: {{weapon.name}}</a>
+                                                {{#if (compare weapon.data.data.quality "!==" "standard")}}
+                                                    ({{localize weapon.data.data.quality}})
+                                                {{/if}}
+                                                {{#if (compare weapon.data.data.attackmod ">" "0")}}(+{{weapon.data.data.attackmod}}){{/if}}
+                                                {{#if (compare weapon.data.data.attackmod "<" "0")}}({{weapon.data.data.attackmod}}){{/if}}
+                                                {{#if weapon.data.data.magazine.ammoId}}
+                                                    <br>
+                                                    ({{localize "CPR.global.itemTypes.ammo"}}:<input name = "data.magazine.value" class = "number weapon-input" style = "width:30px;text-align:right;" type = "text" data-item-prop = "data.magazine.value" value = "{{weapon.data.data.magazine.value}}">/{{applyUpgrade weapon weapon.data.data.magazine.max "magazine"}})
+                                                {{/if}}
+                                            </div>
+                                            <div class="fight-weapon-actions text-nowrap">
+                                                {{#if weapon.data.data.isRanged}}
+                                                    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
+                                                    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs"}}
+                                                {{/if}}
+                                            </div>
+                                        </div>
+                                        <div class="fight-weapon-firetype">
+                                            <div class="fight-weapon-aim">
+                                                {{localize "CPR.actorSheets.fireModes.aim"}}
+                                            </div>
+                                            <div class="fight-weapon-aim-box">
+                                                <a class="fire-checkbox" data-fire-mode="aimed" data-item-id="{{weapon.id}}">
+                                                    {{#if (fireMode ../actor "aimed" weapon.id)}}
+                                                        <i class="far fa-check-circle"></i>
+                                                    {{else}}
+                                                        <i class="far fa-circle"></i>
+                                                    {{/if}}
+                                                </a>
+                                            </div>
+                                            {{#if weapon.data.data.isRanged}}
+                                                {{#if (compare (listContains "assaultRifle,smg,heavySmg" weapon.data.data.weaponType) "||" weapon.data.data.fireModes.suppressiveFire)}}
+                                                <div class="fight-weapon-auto">
+                                                    {{localize "CPR.actorSheets.fireModes.autoFire"}}
+                                                </div>
+                                                <div class="fight-weapon-suppress">
+                                                    {{localize "CPR.actorSheets.fireModes.suppressiveFireShort"}}
+                                                </div>
+                                                <div class="fight-weapon-auto-box">
+                                                    <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon.id}}">
+                                                        {{#if (fireMode ../actor "autofire" weapon.id)}}
+                                                            <i class="far fa-check-circle"></i>
+                                                        {{else}}
+                                                            <i class="far fa-circle"></i>
+                                                        {{/if}}
+                                                    </a>
+                                                </div>
+                                                <div class="fight-weapon-suppress-box">
+                                                    <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon.id}}">
+                                                        {{#if (fireMode ../actor "suppressive" weapon.id)}}
+                                                            <i class="far fa-check-circle"></i>
+                                                        {{else}}
+                                                            <i class="far fa-circle"></i>
+                                                        {{/if}}
+                                                    </a>
+                                                </div>
+                                                {{/if}}
+                                            {{/if}}
+                                        </div>
+                                        <div class="item-detail text-largest fight-weapon-attack text-nowrap">
+                                            <a class="rollable" data-roll-type="attack" data-item-id={{weapon.id}}>
+                                                <i class="fas fa-fist-raised red-fg" title="{{localize "CPR.characterSheet.bottomPane.fight.rollAnAttack"}}"></i>
+                                            </a>
+                                            {{#if (compare (fireflag ../actor "suppressive" weapon.id) "!==" "checked")}}
+                                            <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}} data-damage="{{weapon.data.data.damage}}">
+                                                <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
+                                            </a>
+                                            {{/if}}
+                                        </div>
+                                    </li>
+                                    {{/each}}
+                                {{/if}}
+                            {{/each}}
                         {{/if}}
-                    </div>
-                    <div class="item-detail text-largest fight-weapon-attack text-nowrap">
-                        <a class="rollable" data-roll-type="attack" data-item-id={{weapon.id}}>
-                            <i class="fas fa-fist-raised red-fg" title="{{localize "CPR.characterSheet.bottomPane.fight.rollAnAttack"}}"></i>
-                        </a>
-                        {{#if (compare (fireflag ../actor "suppressive" weapon.id) "!==" "checked")}}
-                        <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}} data-damage="{{weapon.data.data.damage}}">
-                            <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
-                        </a>
+                    {{/if}}
+                {{/each}}
+                {{#if (hasCyberneticWeapons actor)}}
+                    <li class="items-header flexrow">
+                        <span class="item-name section-name fg-white bg-black text-nowrap text-padding-left">
+                            {{localize "CPR.characterSheet.bottomPane.fight.cyberwareWeapons"}}
+                        </span>
+                    </li>
+                {{#each (sort (filter actor.data.filteredItems.cyberware "data.data.isInstalled" true) "name") as |weapon|}}
+                {{#if (compare data.data.isWeapon "===" "true")}}
+                        <li class="weapon-grid item flexrow" data-item-id="{{weapon.id}}">
+                            <div class="fight-weapon-icon">
+                                <img class="fight-weapon-icon-img" src="{{img}}"/>
+                            </div>
+                            <div class="fight-weapon">
+                                <div class="item-name fight-weapon-name">
+                                    <a class="name item-edit" title="{{weapon.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{weapon.name}}</a>
+                                    {{#if (compare weapon.data.data.quality "!==" "standard")}}
+                                    ({{localize weapon.data.data.quality}})
+                                    {{/if}}
+                                    {{#if (compare weapon.data.data.attackmod ">" "0")}}(+{{weapon.data.data.attackmod}}){{/if}}
+                                    {{#if (compare weapon.data.data.attackmod "<" "0")}}({{weapon.data.data.attackmod}}){{/if}}
+                                    {{#if weapon.data.data.magazine.ammoId}}
+                                        <br>
+                                        ({{localize "CPR.global.itemTypes.ammo"}}:<input name = "data.magazine.value" class = "number weapon-input" style = "width:30px;text-align:right;" type = "text" data-item-prop = "data.magazine.value" value = "{{weapon.data.data.magazine.value}}">/{{applyUpgrade weapon weapon.data.data.magazine.max "magazine"}})
+                                    {{/if}}
+                                </div>
+                                <div class="fight-weapon-actions text-nowrap">
+                                    {{#if weapon.data.data.isRanged}}
+                                    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
+                                    {{>"systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs"}}
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class="fight-weapon-firetype">
+                                <div class="fight-weapon-aim">
+                                    {{localize "CPR.actorSheets.fireModes.aim"}}
+                                </div>
+                                <div class="fight-weapon-aim-box">
+                                    <a class="fire-checkbox" data-fire-mode="aimed" data-item-id="{{weapon.id}}">
+                                        {{#if (fireMode ../actor "aimed" weapon.id)}}
+                                            <i class="far fa-check-circle"></i>
+                                        {{else}}
+                                            <i class="far fa-circle"></i>
+                                        {{/if}}
+                                    </a>
+                                </div>
+                                {{#if weapon.data.data.isRanged}}
+                                    {{#if (compare (listContains "assaultRifle,smg,heavySmg" weapon.data.data.weaponType) "||" weapon.data.data.fireModes.suppressiveFire)}}
+                                    <div class="fight-weapon-auto">
+                                        {{localize "CPR.actorSheets.fireModes.autoFire"}}
+                                    </div>
+                                    <div class="fight-weapon-suppress">
+                                        {{localize "CPR.actorSheets.fireModes.suppressiveFireShort"}}
+                                    </div>
+                                    <div class="fight-weapon-auto-box">
+                                        <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon.id}}">
+                                            {{#if (fireMode ../actor "autofire" weapon.id)}}
+                                                <i class="far fa-check-circle"></i>
+                                            {{else}}
+                                                <i class="far fa-circle"></i>
+                                            {{/if}}
+                                        </a>
+                                    </div>
+                                    <div class="fight-weapon-suppress-box">
+                                        <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon.id}}">
+                                            {{#if (fireMode ../actor "suppressive" weapon.id)}}
+                                                <i class="far fa-check-circle"></i>
+                                            {{else}}
+                                                <i class="far fa-circle"></i>
+                                            {{/if}}
+                                        </a>
+                                    </div>
+                                    {{/if}}
+                                {{/if}}
+                            </div>
+                            <div class="item-detail text-largest fight-weapon-attack text-nowrap">
+                                <a class="rollable" data-roll-type="attack" data-item-id={{weapon.id}}>
+                                    <i class="fas fa-fist-raised red-fg" title="{{localize "CPR.characterSheet.bottomPane.fight.rollAnAttack"}}"></i>
+                                </a>
+                                {{#if (compare (fireflag ../actor "suppressive" weapon.id) "!==" "checked")}}
+                                <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}} data-damage="{{weapon.data.data.damage}}">
+                                    <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
+                                </a>
+                                {{/if}}
+                            </div>
+                        </li>
+                                            {{#if weapon.data.data.isUpgraded}}
+                            {{#each weapon.data.data.upgrades as |upgrade|}}
+                                {{#if (compare upgrade.data.modifiers.secondaryWeapon.configured "===" "true")}}
+                                    {{#each (filter ../actor.data.filteredItems.itemUpgrade "data._id" upgrade._id) as |weapon|}}
+                                    <li class="weapon-grid item flexrow" data-item-id="{{weapon.id}}">
+                                        <div class="fight-weapon-icon">
+                                            <img class="fight-weapon-icon-img" src="{{img}}"/>
+                                        </div>
+                                        <div class="fight-weapon">
+                                            <div class="item-name fight-weapon-name">
+                                                <a class="name item-view" title="{{weapon.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{../../this.name}} {{localize "CPR.characterSheet.bottomPane.fight.attachment"}}: {{weapon.name}}</a>
+                                                {{#if (compare weapon.data.data.quality "!==" "standard")}}
+                                                    ({{localize weapon.data.data.quality}})
+                                                {{/if}}
+                                                {{#if (compare weapon.data.data.attackmod ">" "0")}}(+{{weapon.data.data.attackmod}}){{/if}}
+                                                {{#if (compare weapon.data.data.attackmod "<" "0")}}({{weapon.data.data.attackmod}}){{/if}}
+                                                {{#if weapon.data.data.magazine.ammoId}}
+                                                    <br>
+                                                    ({{localize "CPR.global.itemTypes.ammo"}}:<input name = "data.magazine.value" class = "number weapon-input" style = "width:30px;text-align:right;" type = "text" data-item-prop = "data.magazine.value" value = "{{weapon.data.data.magazine.value}}">/{{weapon.data.data.magazine.max}})
+                                                {{/if}}
+                                            </div>
+                                            <div class="fight-weapon-actions text-nowrap">
+                                                {{#if weapon.data.data.isRanged}}
+                                                    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
+                                                    {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs"}}
+                                                {{/if}}
+                                            </div>
+                                        </div>
+                                        <div class="fight-weapon-firetype">
+                                            <div class="fight-weapon-aim">
+                                                {{localize "CPR.actorSheets.fireModes.aim"}}
+                                            </div>
+                                            <div class="fight-weapon-aim-box">
+                                                <a class="fire-checkbox" data-fire-mode="aimed" data-item-id="{{weapon.id}}">
+                                                    {{#if (fireMode ../actor "aimed" weapon.id)}}
+                                                        <i class="far fa-check-circle"></i>
+                                                    {{else}}
+                                                        <i class="far fa-circle"></i>
+                                                    {{/if}}
+                                                </a>
+                                            </div>
+                                            {{#if weapon.data.data.isRanged}}
+                                                {{#if (compare (listContains "assaultRifle,smg,heavySmg" weapon.data.data.weaponType) "||" weapon.data.data.fireModes.suppressiveFire)}}
+                                                <div class="fight-weapon-auto">
+                                                    {{localize "CPR.actorSheets.fireModes.autoFire"}}
+                                                </div>
+                                                <div class="fight-weapon-suppress">
+                                                    {{localize "CPR.actorSheets.fireModes.suppressiveFireShort"}}
+                                                </div>
+                                                <div class="fight-weapon-auto-box">
+                                                    <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon.id}}">
+                                                        {{#if (fireMode ../actor "autofire" weapon.id)}}
+                                                            <i class="far fa-check-circle"></i>
+                                                        {{else}}
+                                                            <i class="far fa-circle"></i>
+                                                        {{/if}}
+                                                    </a>
+                                                </div>
+                                                <div class="fight-weapon-suppress-box">
+                                                    <a class="fire-checkbox" data-fire-mode="suppressive" data-item-id="{{weapon.id}}">
+                                                        {{#if (fireMode ../actor "suppressive" weapon.id)}}
+                                                            <i class="far fa-check-circle"></i>
+                                                        {{else}}
+                                                            <i class="far fa-circle"></i>
+                                                        {{/if}}
+                                                    </a>
+                                                </div>
+                                                {{/if}}
+                                            {{/if}}
+                                        </div>
+                                        <div class="item-detail text-largest fight-weapon-attack text-nowrap">
+                                            <a class="rollable" data-roll-type="attack" data-item-id={{weapon.id}}>
+                                                <i class="fas fa-fist-raised red-fg" title="{{localize "CPR.characterSheet.bottomPane.fight.rollAnAttack"}}"></i>
+                                            </a>
+                                            {{#if (compare (fireflag ../actor "suppressive" weapon.id) "!==" "checked")}}
+                                            <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}} data-damage="{{weapon.data.data.damage}}">
+                                                <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
+                                            </a>
+                                            {{/if}}
+                                        </div>
+                                    </li>
+                                    {{/each}}
+                                {{/if}}
+                            {{/each}}
                         {{/if}}
-                    </div>
-                </li>
                 {{/if}}
                 {{/each}}
+                {{/if}}
             </ol>
         </div>
     </div>

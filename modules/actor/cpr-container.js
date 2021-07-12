@@ -32,7 +32,11 @@ export default class CPRContainerActor extends Actor {
     if (stackableItemTypes.includes(newItem.type)) {
       const match = this.items.find((i) => i.type === newItem.type && i.name === newItem.name && i.data.data.upgrades.length === 0);
       if (match) {
-        const newAmount = parseInt(match.data.data.amount, 10) + parseInt(newItem.data.data.amount, 10);
+        let oldAmount = parseInt(match.data.data.amount, 10);
+        let addedAmount = parseInt(newItem.data.data.amount, 10);
+        if (Number.isNaN(oldAmount)) { oldAmount = 1; }
+        if (Number.isNaN(addedAmount)) { addedAmount = 1; }
+        const newAmount = oldAmount + addedAmount;
         this.updateEmbeddedDocuments("Item", [{ _id: match.id, "data.amount": newAmount.toString() }]);
         return false;
       }
