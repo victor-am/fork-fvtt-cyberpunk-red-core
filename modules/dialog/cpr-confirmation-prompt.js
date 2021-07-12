@@ -13,7 +13,7 @@ export default class ConfirmationPrompt {
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog ConfirmationPrompt | called.");
-          resolve(false);
+          reject(new Error("Promise rejected: Window Closed"));
         };
         const _onConfirm = () => {
           LOGGER.trace("_onConfirm | Dialog ConfirmationPrompt | called.");
