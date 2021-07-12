@@ -2,7 +2,6 @@
 /* eslint-disable max-classes-per-file */
 /* global Roll */
 import LOGGER from "../utils/cpr-logger.js";
-import CPR from "../system/config.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import VerifyRoll from "../dialog/cpr-verify-roll-prompt.js";
