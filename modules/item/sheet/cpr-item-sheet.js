@@ -240,10 +240,15 @@ export default class CPRItemSheet extends ItemSheet {
     }
     if (formData.selectedSkills) {
       const skillObjects = [];
+      const universalBonusesList = [];
       formData.selectedSkills.forEach((s) => {
         skillObjects.push(allSkills.find((a) => a.data.name === s));
       });
+      formData.selectedUniversalBonuses.forEach((b) => {
+        universalBonusesList.push(b);
+      });
       setProperty(subRole, "bonuses", skillObjects);
+      setProperty(subRole, "universalBonuses", universalBonusesList);
       setProperty(subRole, "bonusRatio", formData.bonusRatio);
       this.item.update(itemData);
       if (this.actor) {
@@ -646,6 +651,7 @@ export default class CPRItemSheet extends ItemSheet {
           stat: formData.stat,
           skill: skillObject,
           bonuses: [],
+          universalBonuses: [],
           bonusRatio: 1,
           description: formData.description,
           hasRoll: formData.hasRoll,
@@ -662,6 +668,7 @@ export default class CPRItemSheet extends ItemSheet {
           stat: formData.stat,
           skill: skillObject,
           bonuses: [],
+          universalBonuses: [],
           bonusRatio: 1,
           description: formData.description,
           hasRoll: formData.hasRoll,
@@ -728,6 +735,7 @@ export default class CPRItemSheet extends ItemSheet {
           stat: formData.stat,
           skill: skillObject,
           bonuses: editElement.bonuses,
+          universalBonuses: editElement.universalBonuses,
           bonusRatio: editElement.bonusRatio,
           description: formData.description,
           hasRoll: formData.hasRoll,

@@ -420,9 +420,9 @@ export default class CPRItem extends Item {
       if (roleBonuses.length > 0 && index1 === 0) {
         roleBonuses.forEach((b, index2) => {
           if (roleName) {
-            roleName += `, ${b.name}`;
+            roleName += `, ${b.data.data.mainRoleAbility}`;
           } else if (index2 === 0) {
-            roleName = b.name
+            roleName = b.data.data.mainRoleAbility;
           }
           roleValue += Math.floor(b.data.data.rank / b.data.data.bonusRatio);
         });
@@ -547,9 +547,9 @@ export default class CPRItem extends Item {
       if (roleBonuses.length > 0 && index1 === 0) {
         roleBonuses.forEach((b, index2) => {
           if (roleName) {
-            roleName += `, ${b.name}`;
+            roleName += `, ${b.data.data.mainRoleAbility}`;
           } else if (index2 === 0) {
-            roleName = b.name
+            roleName = b.data.data.mainRoleAbility;
           }
           roleValue += Math.floor(b.data.data.rank / b.data.data.bonusRatio);
         });
@@ -623,6 +623,10 @@ export default class CPRItem extends Item {
     this.actor.data.filteredItems.role.forEach((r) => {
       if (r.data.data.universalBonuses.includes("damage")) {
         universalBonusDamage += Math.floor(r.data.data.rank / r.data.data.bonusRatio);
+      }
+      const subroleUniversalBonuses = r.data.data.abilities.filter((a) => a.universalBonuses.includes("damage"));
+      if (subroleUniversalBonuses.length > 0) {
+        subroleUniversalBonuses.forEach((b) => universalBonusDamage += Math.floor(b.rank / b.bonusRatio));
       }
     });
     const cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, universalBonusDamage, weaponType);

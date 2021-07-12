@@ -35,7 +35,7 @@
       </div>
       {{else}}
       <div class="item flexrow setting-value text-nowrap text-space-around">
-        {{#if (objectListContains ../subRole.universalBonuses "name" u)}}
+        {{#if (listContains ../subRole.universalBonuses u)}}
         <span class="text-bold text-nowrap text-center text-space-around"><input type="checkbox" name="universalBonuses" value="{{u}}" checked></span>
         {{else}}
         <span class="text-bold text-nowrap text-center text-space-around"><input type="checkbox" name="universalBonuses" value="{{u}}"></span>
