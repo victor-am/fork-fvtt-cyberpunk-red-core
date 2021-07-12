@@ -36,13 +36,14 @@ export default class CPRItem extends Item {
   }
 
   update(data, options = {}) {
-    if (data['data.type'] === "cyberwareInternal" || data['data.type'] === "cyberwareExternal" || data['data.type'] === "fashionware") {
-      data['data.isFoundational'] = false;
+    const cprData = data;
+    if (data["data.type"] === "cyberwareInternal" || data["data.type"] === "cyberwareExternal" || data["data.type"] === "fashionware") {
+      cprData["data.isFoundational"] = false;
     }
     if (this.data.type === "weapon") {
-      data['data.dvTable'] = data['data.dvTable'] === null ? "" : data['data.dvTable'];
+      cprData["data.dvTable"] = data["data.dvTable"] === null ? "" : data["data.dvTable"];
     }
-    super.update(data, options);
+    super.update(cprData, options);
   }
 
   _onCreate(data, options, userId) {
@@ -265,8 +266,9 @@ export default class CPRItem extends Item {
     }
   }
 
-  // TODO - Refactor
-  async _weaponLoad(selectedAmmoId) {
+  // The only time an ammo ID is passed to this is when it is being reloaded
+  async _weaponLoad(reloadAmmoId) {
+    let selectedAmmoId = reloadAmmoId;
     LOGGER.debug("_weaponLoad | CPRItem | Called.");
     const loadUpdate = [];
     if (this.actor) {
@@ -805,6 +807,8 @@ export default class CPRItem extends Item {
     programState.data.isRezzed = (rezzedPrograms.length > 0);
     installed[installIndex] = programState;
     this.data.data.programs.installed = installed;
+    // Passed by reference
+    // eslint-disable-next-line no-param-reassign
     program.data.isRezzed = (rezzedPrograms.length > 0);
     return (rezzedPrograms.length > 0);
   }
@@ -933,6 +937,8 @@ export default class CPRItem extends Item {
         const cprFlags = (typeof programData.flags["cyberpunk-red-core"] !== "undefined") ? programData.flags["cyberpunk-red-core"] : {};
         cprFlags.biTokenId = biToken.id;
         cprFlags.sceneId = scene.id;
+        // Passed by reference
+        // eslint-disable-next-line no-param-reassign
         programData.flags["cyberpunk-red-core"] = cprFlags;
       }
     } catch (error) {
