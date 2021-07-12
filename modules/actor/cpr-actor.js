@@ -350,9 +350,16 @@ export default class CPRActor extends Actor {
       setProperty(actorData, valProp, newValue);
       // update the ledger with the change
       const ledgerProp = `data.${prop}.transactions`;
-      const action = (value > 0) ? SystemUtils.Localize("CPR.ledger.increased") : SystemUtils.Localize("CPR.ledger.decreased");
       const ledger = getProperty(actorData, ledgerProp);
-      ledger.push([`${prop} ${action} ${SystemUtils.Localize("CPR.ledger.to")} ${newValue}`, reason]);
+      if (value > 0) {
+        ledger.push([
+          SystemUtils.Format("CPR.ledger.increaseSentence", { property: prop, amount: value, total: newValue }),
+          reason]);
+      } else {
+        ledger.push([
+          SystemUtils.Format("CPR.ledger.decreaseSentence", { property: prop, amount: (-1 * value), total: newValue }),
+          reason]);
+      }
       setProperty(actorData, ledgerProp, ledger);
       // update the actor and return the modified property
       this.update(actorData);
@@ -369,7 +376,7 @@ export default class CPRActor extends Actor {
       const actorData = duplicate(this.data);
       setProperty(actorData, valProp, value);
       const ledger = getProperty(actorData, ledgerProp);
-      ledger.push([`${prop} ${SystemUtils.Localize("CPR.ledger.setTo")} ${value}`, reason]);
+      ledger.push([SystemUtils.Format("CPR.ledger.setSentence", { property: prop, total: value }), reason]);
       setProperty(actorData, ledgerProp, ledger);
       this.update(actorData);
       return getProperty(this.data.data, prop);
@@ -393,11 +400,11 @@ export default class CPRActor extends Actor {
     LOGGER.trace("CPRActor _checkProperty | called.");
     const ledgerData = getProperty(this.data.data, prop);
     if (!hasProperty(ledgerData, "value")) {
-      SystemUtils.DisplayMessage("error", `Bug: Ledger property '${prop}' missing 'value'`);
+      SystemUtils.DisplayMessage("error", SystemUtils.Format("CPR.ledger.errorMessage.missingValue", { prop }));
       return false;
     }
     if (!hasProperty(ledgerData, "transactions")) {
-      SystemUtils.DisplayMessage("error", `Bug: Ledger property '${prop}' missing 'transactions'`);
+      SystemUtils.DisplayMessage("error", SystemUtils.Format("CPR.ledger.errorMessage.missingTransactions", { prop }));
       return false;
     }
     return true;
@@ -732,8 +739,7 @@ export default class CPRActor extends Actor {
       const match = this.items.find((i) => i.type === newItem.type && i.name === newItem.name && i.data.data.upgrades.length === 0);
       if (match) {
         const newAmount = parseInt(match.data.data.amount, 10) + parseInt(newItem.data.data.amount, 10);
-        const newPrice = match.data.data.price.market + newItem.data.data.price.market;
-        this.updateEmbeddedDocuments("Item", [{ _id: match.id, "data.amount": newAmount.toString(), "data.price.market": newPrice }]);
+        this.updateEmbeddedDocuments("Item", [{ _id: match.id, "data.amount": newAmount }]);
         return false;
       }
     }

@@ -123,6 +123,20 @@ export default function registerHandlebarsHelpers() {
     return filteredList;
   });
 
+  Handlebars.registerHelper("calculateStackValue", (item) => {
+    const { type } = item;
+    const price = item.data.data.price.market;
+    const { amount } = item.data.data;
+    let totalPrice = amount * price;
+    if (type === "ammo") {
+      const { variety } = item.data.data;
+      if (!(variety === "grenade" || variety === "rocket")) {
+        totalPrice = (amount / 10) * price;
+      }
+    }
+    return totalPrice;
+  });
+
   Handlebars.registerHelper("findConfigValue", (obj, key) => {
     LOGGER.trace(`Calling findConfigValue Helper | Arg1:${obj} Arg2:${key}`);
     if (obj in CPR) {
@@ -272,6 +286,9 @@ export default function registerHandlebarsHelpers() {
         const subtrahend = mathArgs.reduce((a, b) => a + b, 0);
         return minutend - subtrahend;
       }
+      case "product": {
+        return mathArgs.reduce((a, b) => a * b, 1);
+      }
       default:
         LOGGER.error(`!ERR: Not a Math function: ${mathFunction}`);
         return "null";
@@ -335,6 +352,47 @@ export default function registerHandlebarsHelpers() {
       return cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
     }
     return cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
+  });
+
+  Handlebars.registerHelper("sortCoreSkills", (object) => {
+    LOGGER.trace(`Calling sortCoreSkills Helper`);
+    const objectTranslated = [];
+    object.forEach((o) => {
+      const newElement = o;
+      if (o.data.data.core) {
+        const cprDot = "CPR.global.skills.";
+        const initialSplit = o.name.split(" ").join("");
+        const orCaseSplit = initialSplit.split("/").join("Or");
+        const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
+        const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
+        if (o.name === "Conceal/Reveal Object" || o.name === "Paint/Draw/Sculpt" || o.name === "Resist Torture/Drugs") {
+          const string = cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
+          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        } else if (o.name === "Language (Streetslang)") {
+          // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
+          // comment to fulfill the test case of the language file.
+          const string = cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
+          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        } else {
+          const string = cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
+          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+      } else {
+        newElement.translatedName = o.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      }
+      objectTranslated.push(newElement);
+    });
+
+    objectTranslated.sort((a, b) => {
+      let comparator = 0;
+      if (a.translatedName > b.translatedName) {
+        comparator = 1;
+      } else if (b.translatedName > a.translatedName) {
+        comparator = -1;
+      }
+      return comparator;
+    });
+    return objectTranslated;
   });
 
   Handlebars.registerHelper("itemIdFromName", (itemName, itemType) => {

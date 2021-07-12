@@ -1,4 +1,4 @@
-{{trace "VERIFY-ROLL-ROLEABILITY-PROMPT.HBS"}}
+{{trace "CPR-VERIFY-ROLL-ROLEABILITY-PROMPT.HBS"}}
 <form>
     <div>
         {{localize "CPR.rolls.rollingFor"}} {{#if (compare roleName "===" "operator")}}"{{localize "CPR.rolls.haggle"}}"{{else}}"{{localize (findConfigValue "roleAbilityList" roleName)}}"{{/if}}, Choomba!
@@ -59,4 +59,4 @@
         </li>
 
 </form>
-{{trace "END VERIFY-ROLL-ROLEABILITY-PROMPT.HBS"}}
+{{trace "END CPR-VERIFY-ROLL-ROLEABILITY-PROMPT.HBS"}}

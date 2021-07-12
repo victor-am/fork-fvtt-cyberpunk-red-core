@@ -1,4 +1,4 @@
-{{trace "CPR-AMMO-INV-CONTENT.HBS"}}
+{{trace "CPR-AMMO-CONTENT.HBS"}}
 <li class="item flexrow{{#if item.data.data.favorite}} favorite{{else}}{{#if (listContains sheet.options.collapsedSections "gearTab-ammo")}} hide{{/if}}{{/if}}" data-item-id="{{item.data._id}}"
   data-item-category="{{item.type}}" draggable="true">
   <div class="item-name gear-name text-nowrap">
@@ -12,9 +12,11 @@
         {{localize (findConfigValue "ammoVariety" item.data.data.variety)}}
         |
         {{localize (findConfigValue "ammoType" item.data.data.type)}}
+        |
+        {{localize "CPR.global.generic.unitPrice"}}: {{item.data.data.price.market}} |  {{localize "CPR.global.generic.stackPrice"}}: {{calculateStackValue item}}
   </div>
   <div class="item-detail gear-actions text-nowrap">
     {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}
   </div>
 </li>
-{{trace "END CPR-AMMO-INV-CONTENT.HBS"}}
+{{trace "END CPR-AMMO-CONTENT.HBS"}}

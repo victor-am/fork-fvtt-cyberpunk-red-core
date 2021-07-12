@@ -1,5 +1,12 @@
+{{trace "CPR-PHYSICAL-ITEM.HBS"}}
 <li class="item flexrow">
-    <div class="item flexrow setting-name text-nowrap">
+    <div class="item flexrow setting-name text-nowrap" title="
+      {{#if (compare data.type "===" "ammo")}}
+        {{localize "CPR.itemSheet.ammo.priceHoverExplanation"}}
+      {{else}}
+        {{localize "CPR.itemSheet.common.priceHoverExplanation"}}
+      {{/if}}
+      ">
         {{localize "CPR.global.generic.price"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
@@ -41,3 +48,4 @@
         {{/if}}
     </div>
 </li>
+{{trace "END CPR-PHYSICAL-ITEM.HBS"}}
