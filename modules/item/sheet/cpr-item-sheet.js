@@ -92,25 +92,25 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".item-multi-option").click((event) => this._itemMultiOption(event));
 
-    html.find(".select-compatible-ammo").click((event) => this._selectCompatibleAmmo(event));
+    html.find(".select-compatible-ammo").click(() => this._selectCompatibleAmmo());
 
     html.find(".netarch-level-action").click((event) => this._netarchLevelAction(event));
 
-    html.find(".select-installed-programs").click((event) => this._cyberdeckSelectInstalledPrograms(event));
+    html.find(".select-installed-programs").click(() => this._cyberdeckSelectInstalledPrograms());
 
     html.find(".program-uninstall").click((event) => this._cyberdeckProgramUninstall(event));
 
-    html.find(".program-add-booster-modifier").click((event) => this._addBoosterModifier(event));
+    html.find(".program-add-booster-modifier").click(() => this._addBoosterModifier());
 
     html.find(".program-del-booster-modifier").click((event) => this._delBoosterModifier(event));
 
-    html.find(".select-item-upgrades").click((event) => this._selectItemUpgrades(event));
+    html.find(".select-item-upgrades").click(() => this._selectItemUpgrades());
 
     html.find(".remove-upgrade").click((event) => this._removeItemUpgrade(event));
 
     html.find(".item-view").click((event) => this._renderReadOnlyItemCard(event));
 
-    html.find(".netarch-generate-auto").click((event) => {
+    html.find(".netarch-generate-auto").click(() => {
       if (game.user.isGM) {
         const netarchGenerator = new CPRNetarchUtils(this.item);
         netarchGenerator._generateNetarchScene();
@@ -119,7 +119,7 @@ export default class CPRItemSheet extends ItemSheet {
       }
     });
 
-    html.find(".netarch-generate-custom").click((event) => {
+    html.find(".netarch-generate-custom").click(() => {
       if (game.user.isGM) {
         const netarchGenerator = new CPRNetarchUtils(this.item);
         netarchGenerator._customize();
@@ -131,7 +131,7 @@ export default class CPRItemSheet extends ItemSheet {
     html.find(".netarch-item-link").click((event) => this._openItemFromId(event));
 
     // Sheet resizing
-    html.find(".tab-label").click((event) => this._automaticResize());
+    html.find(".tab-label").click(() => this._automaticResize());
   }
 
   /*
@@ -167,7 +167,7 @@ export default class CPRItemSheet extends ItemSheet {
     }
   }
 
-  async _selectCompatibleAmmo(event) {
+  async _selectCompatibleAmmo() {
     const itemData = this.item.getData();
     let formData = { id: this.item.data._id, name: this.item.data.name, data: itemData };
     formData = await SelectCompatibleAmmo.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
@@ -399,7 +399,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   // Program Code
 
-  async _addBoosterModifier(event) {
+  async _addBoosterModifier() {
     const boosterTypes = Object.keys(CPR.interfaceAbilities);
     let formData = {
       boosterTypes,
@@ -432,7 +432,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   // Cyberdeck Code
 
-  async _cyberdeckSelectInstalledPrograms(event) {
+  async _cyberdeckSelectInstalledPrograms() {
     LOGGER.debug("_cyberdeckSelectInstalledPrograms | CPRItem | Called.");
     const cyberdeck = this.item;
     if (cyberdeck.data.type !== "cyberdeck") {
@@ -545,7 +545,7 @@ export default class CPRItemSheet extends ItemSheet {
     await actor.updateEmbeddedDocuments("Item", updateList);
   }
 
-  async _selectItemUpgrades(event) {
+  async _selectItemUpgrades() {
     const { item } = this;
 
     // We only support upgraded items thatr are owned by an actor
