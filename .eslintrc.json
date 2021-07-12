@@ -30,8 +30,8 @@
         "max-len": [
             "warn",
             {
-                "code": 120,
-                "comments": 120
+                "code": 170,
+                "comments": 170
             }
         ],
         "no-param-reassign": [
