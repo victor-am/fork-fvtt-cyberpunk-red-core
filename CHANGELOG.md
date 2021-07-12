@@ -3,17 +3,22 @@
 **New Features**
 - Added possibility to split items into separate stacks for ammo, gear and clothing.
 - Some Items can now be automatically stacked, when dragged onto the character sheet or being purchased/taken from a container. This is enabled for the following Item types: Ammo, Gear, Clothing
+- Added feature to purchase/take only a part of the items offered in a container actor.
 
 **Changes**
 - Newly created actors and items will automatically have default icons configured.
 - Restructured the language file for easier translations.
 - Added test cases for code quality: The english language file is checked for unused strings and the changelog is checked for changes with each merge request.
+- Skills are now also sorted alphabetically on the character sheet if translated into languages other than English.
+- The price of an item is interpreted as the price of a single unit of an item. This has been now clarified with a text upon hovering over the word "Price" in the item setting page.
+  - The single unit of an item is 1, whith an exception for some of the ammunitions, where it is 10. Please have a look at the rule book page 344 for that.
 
 **Bug Fixes**
 - Fixed #263: New containers now show infinite stock option, as they are initialized as a shop.
 - Fix #265, #266, #267: Gear tab now remembers scroll position.
 - Fix #276: Items can be transferred from unlinked actors
 - Fixed, that number of options slots were not displayed in the item sheet description tab for foundational cyberware.
+- Fixed #262: Missing Expansive, Rubber and Smart Ammo for Very Heavy Pistols has been added to the compendium. "Basic Grenade" and "Basic Rocket" are now just "Grenade" and "Rocket" respectively. 
 
 # Version 0.77.1 | Date: 2021-06-29
 **Hot Fix**

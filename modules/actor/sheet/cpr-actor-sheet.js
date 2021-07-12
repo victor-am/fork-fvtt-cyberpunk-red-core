@@ -1016,7 +1016,6 @@ export default class CPRActorSheet extends ActorSheet {
       return;
     }
     const oldAmount = parseInt(item.data.data.amount, 10);
-    const oldPrice = item.data.data.price.market;
     if (formData.splitAmount <= 0 || formData.splitAmount >= oldAmount) {
       const warningMessage = SystemUtils.Format("CPR.dialog.splitItem.warningAmount",
         { amountSplit: formData.splitAmount, amountOld: oldAmount, itemName: item.name });
@@ -1024,13 +1023,10 @@ export default class CPRActorSheet extends ActorSheet {
       return;
     }
     const newAmount = oldAmount - formData.splitAmount;
-    const newPrice = (oldPrice / oldAmount) * newAmount;
     const newItemData = duplicate(item.data);
-    newItemData.data.amount = formData.splitAmount.toString();
-    newItemData.data.price.market = formData.splitAmount * (oldPrice / oldAmount);
+    newItemData.data.amount = formData.splitAmount;
     delete newItemData._id;
-    await this.actor.updateEmbeddedDocuments("Item",
-      [{ _id: item.id, "data.amount": newAmount.toString(), "data.price.market": newPrice }]);
-    await this.actor.createEmbeddedDocuments("Item", [newItemData]);
+    await this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.amount": newAmount }]);
+    await this.actor.createEmbeddedDocuments("Item", [newItemData], { CPRsplitStack: true });
   }
 }

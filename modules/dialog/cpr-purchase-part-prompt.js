@@ -2,22 +2,22 @@
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
 
-export default class SplitItemPrompt {
+export default class PurchasePartPrompt {
   static async RenderPrompt(itemText) {
     return new Promise((resolve, reject) => {
-      renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-split-item-prompt.hbs", itemText).then((html) => {
+      renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-purchase-part-prompt.hbs", itemText).then((html) => {
         const _onCancel = () => {
-          LOGGER.trace("_onCancel | Dialog SplitItemPrompt | called.");
+          LOGGER.trace("_onCancel | Dialog PurchasePartPrompt | called.");
           reject(new Error("Promise rejected: Window Closed"));
         };
         // eslint-disable-next-line no-shadow
         const _onConfirm = (html) => {
-          LOGGER.trace("_onConfirm | Dialog SplitItemPrompt | called.");
+          LOGGER.trace("_onConfirm | Dialog PurchasePartPrompt | called.");
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.dialog.splitItem.title"),
+          title: SystemUtils.Localize("CPR.dialog.purchasePart.title"),
           content: html,
           buttons: {
             cancel: {
@@ -33,7 +33,7 @@ export default class SplitItemPrompt {
             },
           },
           default: "confirm",
-          render: LOGGER.trace("confirm | Dialog SplitItemPrompt | called."),
+          render: LOGGER.trace("confirm | Dialog PurchasePartPrompt | called."),
           close: () => {
             reject(new Error("Promise rejected: Window Closed"));
           },
