@@ -29,7 +29,8 @@ export default class CPRItemSheet extends ItemSheet {
   }
 
   async _render(force = false, options = {}) {
-    LOGGER.trace("ItemSheet | _render | Called.");
+    LOGGER.trace("_render | CPRItemSheet | Called.");
+
     await super._render(force, options);
     if (!Object.keys(options).some((k) => ((k === "action") && (options[k] === "update")))) {
       // In case of updating a value on an item sheet the resizing should not happen.
@@ -41,13 +42,14 @@ export default class CPRItemSheet extends ItemSheet {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   get template() {
-    LOGGER.trace(`template | CPRItemSheet | Called with type [${this.item.type}].`);
+    LOGGER.trace("template | CPRItemSheet | Called.");
     return `systems/cyberpunk-red-core/templates/item/cpr-item-sheet.hbs`;
   }
 
   get classes() {
-    LOGGER.trace(`classes | CPRItemSheet | Called with type [${this.item.type}].`);
+    LOGGER.trace("classes | CPRItemSheet | Called.");
     return super.defaultOptions.classes.concat(["sheet", "item", `${this.item.type}`]);
   }
 
@@ -57,6 +59,7 @@ export default class CPRItemSheet extends ItemSheet {
   */
   /** @override */
   async getData() {
+    LOGGER.trace("getData | CPRItemSheet | Called.");
     const data = super.getData();
     // data.isGM = game.user.isGM;
     data.isGM = game.user.isGM;
@@ -80,6 +83,7 @@ export default class CPRItemSheet extends ItemSheet {
   /* -------------------------------------------- */
   /** @override */
   activateListeners(html) {
+    LOGGER.trace("activateListeners | CPRItemSheet | Called.");
     super.activateListeners(html);
     if (!this.options.editable) return;
 
@@ -138,7 +142,7 @@ export default class CPRItemSheet extends ItemSheet {
   INTERNAL METHODS BELOW HERE
 */
   _itemCheckboxToggle(event) {
-    LOGGER.trace("CPRItemID _itemCheckboxToggle Called | CPRItemSheet | Called.");
+    LOGGER.trace("_itemCheckboxToggle | CPRItemSheet | Called.");
     const itemData = duplicate(this.item.data);
     const target = $(event.currentTarget).attr("data-target");
     if (hasProperty(itemData, target)) {
@@ -149,7 +153,7 @@ export default class CPRItemSheet extends ItemSheet {
   }
 
   async _itemMultiOption(event) {
-    LOGGER.trace("CPRItemID _itemMultiOption Called | CPRItemSheet | Called.");
+    LOGGER.trace("_itemMultiOption | CPRItemSheet | Called.");
     const itemData = duplicate(this.item.data);
     // the target the option wants to be put into
     const target = $(event.currentTarget).parents(".item-multi-select").attr("data-target");
@@ -168,6 +172,7 @@ export default class CPRItemSheet extends ItemSheet {
   }
 
   async _selectCompatibleAmmo() {
+    LOGGER.trace("_selectCompatibleAmmo | CPRItemSheet | Called.");
     const itemData = this.item.getData();
     let formData = { id: this.item.data._id, name: this.item.data.name, data: itemData };
     formData = await SelectCompatibleAmmo.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
@@ -181,7 +186,7 @@ export default class CPRItemSheet extends ItemSheet {
   }
 
   _automaticResize() {
-    LOGGER.trace("ItemSheet | _automaticResize | Called.");
+    LOGGER.trace("_automaticResize | CPRItemSheet | Called.");
     const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
     if (setting && this.rendered && !this._minimized) {
       // It seems that the size of the content does not change immediately upon updating the content
@@ -193,7 +198,7 @@ export default class CPRItemSheet extends ItemSheet {
   }
 
   async _netarchLevelAction(event) {
-    LOGGER.trace("ItemSheet | _netarchLevelAction | Called.");
+    LOGGER.trace("_netarchLevelAction | CPRItemSheet | Called.");
     const target = Number($(event.currentTarget).attr("data-action-target"));
     const action = $(event.currentTarget).attr("data-action-type");
     const itemData = duplicate(this.item.data);
@@ -387,7 +392,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   // eslint-disable-next-line class-methods-use-this
   _openItemFromId(event) {
-    LOGGER.trace("ItemSheet | _netarchLevelAction | Called.");
+    LOGGER.trace("_openItemFromId | CPRItemSheet | Called.");
     const itemId = $(event.currentTarget).attr("data-item-id");
     const itemEntity = game.items.get(itemId);
     if (itemEntity !== null) {
@@ -400,6 +405,7 @@ export default class CPRItemSheet extends ItemSheet {
   // Program Code
 
   async _addBoosterModifier() {
+    LOGGER.trace("_addBoosterModifier | CPRItemSheet | Called.");
     const boosterTypes = Object.keys(CPR.interfaceAbilities);
     let formData = {
       boosterTypes,
@@ -419,6 +425,7 @@ export default class CPRItemSheet extends ItemSheet {
   }
 
   async _delBoosterModifier(event) {
+    LOGGER.trace("_delBoosterModifier | CPRItemSheet | Called.");
     const boosterType = $(event.currentTarget).attr("data-booster-type");
     delete this.item.data.data.modifiers[boosterType];
     if (this.actor) {
@@ -433,7 +440,7 @@ export default class CPRItemSheet extends ItemSheet {
   // Cyberdeck Code
 
   async _cyberdeckSelectInstalledPrograms() {
-    LOGGER.debug("_cyberdeckSelectInstalledPrograms | CPRItem | Called.");
+    LOGGER.trace("_cyberdeckSelectInstalledPrograms | CPRItemSheet | Called.");
     const cyberdeck = this.item;
     if (cyberdeck.data.type !== "cyberdeck") {
       return;
@@ -522,8 +529,9 @@ export default class CPRItemSheet extends ItemSheet {
   }
 
   async _cyberdeckProgramUninstall(event) {
+    LOGGER.trace("_cyberdeckProgramUninstall | CPRItemSheet | Called.");
     const programId = $(event.currentTarget).attr("data-item-id");
-    LOGGER.debug("_cyberdeckProgramUninstall | CPRItem | Called.");
+
     const cyberdeck = this.item;
     if (cyberdeck.data.type !== "cyberdeck") {
       return;
@@ -546,6 +554,7 @@ export default class CPRItemSheet extends ItemSheet {
   }
 
   async _selectItemUpgrades() {
+    LOGGER.trace("_selectItemUpgrades | CPRItemSheet | Called.");
     const { item } = this;
 
     // We only support upgraded items thatr are owned by an actor
@@ -597,6 +606,7 @@ export default class CPRItemSheet extends ItemSheet {
   }
 
   async _removeItemUpgrade(event) {
+    LOGGER.trace("_removeItemUpgrade | CPRItemSheet | Called.");
     const upgradeId = $(event.currentTarget).attr("data-item-id");
     const upgrade = this.actor.items.find((i) => i.data._id === upgradeId);
     await this.item.uninstallUpgrades([upgrade]);
