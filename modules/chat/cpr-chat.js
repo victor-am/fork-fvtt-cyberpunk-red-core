@@ -110,7 +110,7 @@ export default class CPRChat {
       formula = `${formula}${formulaModifiers}`;
     }
     if (formula) {
-      const cprRoll = new CPRRoll(game.i18n.localize("CPR.rolls.roll"), formula);
+      const cprRoll = new CPRRoll(SystemUtils.Localize("CPR.rolls.roll"), formula);
       if (cprRoll.die !== "d6" && cprRoll.die !== "d10") {
         cprRoll.calculateCritical = false;
         cprRoll.die = "generic";
@@ -143,7 +143,7 @@ export default class CPRChat {
           const item = actor ? actor.items.find((i) => i.id === itemId) : null;
           const displayName = actor === null ? "ERROR" : actor.name;
           if (!item) {
-            ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.actormissingitem")} ${itemId}`);
+            SystemUtils.DisplayMessage("warn", `[${displayName}] ${SystemUtils.Localize("CPR.actormissingitem")} ${itemId}`);
             return;
           }
           let cprRoll = item.createRoll(rollType, actor, { damageType: attackType });
