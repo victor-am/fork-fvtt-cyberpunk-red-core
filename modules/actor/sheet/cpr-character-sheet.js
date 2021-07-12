@@ -178,13 +178,15 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   _repairArmor(event) {
     LOGGER.trace("_repairArmor | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
+    const upgradeValue = item.getAllUpgradesFor("shieldHp");
+    const upgradeType = item.getUpgradeTypeFor("shieldHp");
     const currentArmorBodyValue = item.data.data.bodyLocation.sp;
     const currentArmorHeadValue = item.data.data.headLocation.sp;
-    const currentArmorShieldValue = item.data.data.shieldHitPoints.max;
+    const currentArmorShieldValue = (upgradeType === "override") ? upgradeValue : item.data.data.shieldHitPoints.max + upgradeValue;
     // XXX: cannot use _getObjProp since we need to update 2 props
     this._updateOwnedItemProp(item, "data.headLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
-    this._updateOwnedItemProp(item, "data.shieldHitPoints.value", item.data.data.shieldHitPoints.max);
+    this._updateOwnedItemProp(item, "data.shieldHitPoints.value", currentArmorShieldValue);
     // Update actor external data when armor is repaired:
     if (CPRActorSheet._getItemId(event) === this.actor.data.data.externalData.currentArmorBody.id) {
       this.actor.update({
@@ -617,64 +619,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     const cyberdeckId = $(event.currentTarget).attr("data-item-id");
     const cyberdeck = this._getOwnedItem(cyberdeckId);
 
-    const { actor } = this;
-
-    // Get a list of programs that are installed on this cyberdeck
-    const installedPrograms = cyberdeck.getInstalledPrograms();
-
-    // Prepare a list of programs for the prompt to select from
-    let programList = [];
-
-    // Start with the list of all programs owned by the actor
-    programList = actor.data.filteredItems.program;
-
-    // Remove all programs that are installed somewhere other than this deck
-    actor.data.filteredItems.programsInstalled.forEach((programId) => {
-      const onDeck = installedPrograms.filter((p) => p._id === programId);
-      if (onDeck.length === 0) {
-        programList = programList.filter((p) => p.id !== programId);
-      }
-    });
-
-    programList = programList.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
-
-    let formData = {
-      cyberdeck,
-      programList,
-      returnType: "array",
-    };
-
-    formData = await CyberdeckSelectProgramsPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
-    if (formData === undefined) {
-      return;
-    }
-
-    let selectedPrograms = [];
-    let unselectedPrograms = programList;
-    let storageRequired = 0;
-
-    formData.selectedPrograms.forEach((pId) => {
-      const program = (programList.filter((p) => p.data._id === pId))[0];
-      storageRequired += program.data.data.slots;
-      selectedPrograms.push(program);
-      unselectedPrograms = unselectedPrograms.filter((p) => p.data._id !== program.data._id);
-    });
-
-    selectedPrograms = selectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
-    unselectedPrograms = unselectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
-
-    if (storageRequired > cyberdeck.data.data.slots) {
-      SystemUtils.DisplayMessage("warn", "CPR.messages.cyberdeckInsufficientStorage");
-    }
-
-    cyberdeck.uninstallPrograms(unselectedPrograms);
-    cyberdeck.installPrograms(selectedPrograms);
-
-    const updateList = [{ _id: cyberdeck.id, data: cyberdeck.data.data }];
-    programList.forEach((program) => {
-      updateList.push({ _id: program.id, data: program.data.data });
-    });
-    await actor.updateEmbeddedDocuments("Item", updateList);
+    return cyberdeck.sheet._cyberdeckSelectInstalledPrograms(event);
   }
 
   /**
@@ -691,19 +636,6 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
     const cyberdeck = this._getOwnedItem(cyberdeckId);
 
-    if (cyberdeck.data.type !== "cyberdeck") {
-      return;
-    }
-
-    const { actor } = this;
-    if (!actor) {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.ownedItemOnlyError"));
-      return;
-    }
-
-    cyberdeck.uninstallPrograms([program]);
-    const updateList = [{ _id: cyberdeck.data._id, data: cyberdeck.data.data }];
-    updateList.push({ _id: program.data._id, "data.isInstalled": false });
-    await actor.updateEmbeddedDocuments("Item", updateList);
+    return cyberdeck.sheet._cyberdeckProgramUninstall(event);
   }
 }
