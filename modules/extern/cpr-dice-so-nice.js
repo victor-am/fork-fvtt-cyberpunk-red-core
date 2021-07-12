@@ -1,5 +1,11 @@
 /* global game */
-/* eslint no-fallthrough: ["warn"] */
+
+/**
+ * We use custom chat cards for dice rolls, so we have to override the dice card behaviors
+ * provided by DiceSoNice.
+ *
+ * See https://gitlab.com/riccisi/foundryvtt-dice-so-nice/-/wikis/API/Roll
+ */
 export default class DiceSoNice {
   static async ShowDiceSoNice(roll, rollModeOverride) {
     if (game.modules.get("dice-so-nice") && game.modules.get("dice-so-nice").active) {
