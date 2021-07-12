@@ -5,6 +5,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class LoadAmmoPrompt {
   static async RenderPrompt(data) {
+    LOGGER.trace("RenderPrompt | LoadAmmoPrompt | called.");
     const template = "systems/cyberpunk-red-core/templates/dialog/cpr-load-ammo-prompt.hbs";
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {

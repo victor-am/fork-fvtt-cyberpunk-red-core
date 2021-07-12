@@ -8,6 +8,7 @@ export default class ConfirmationPrompt {
   // Based on type of action, setup data to display based on given input.
   // Call to RenderPrompt should take one object as input, based on input type, prepare template and titles...
   static async RenderPrompt(title, data) {
+    LOGGER.trace("RenderPrompt | ConfirmationPrompt | called.");
     const template = "systems/cyberpunk-red-core/templates/dialog/cpr-confirmation-prompt.hbs";
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {

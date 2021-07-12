@@ -4,6 +4,7 @@ import LOGGER from "../utils/cpr-logger.js";
 
 export default class SplitItemPrompt {
   static async RenderPrompt(itemText) {
+    LOGGER.trace("RenderPrompt | SplitItemPrompt | called.");
     return new Promise((resolve, reject) => {
       renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-split-item-prompt.hbs", itemText).then((html) => {
         const _onCancel = () => {

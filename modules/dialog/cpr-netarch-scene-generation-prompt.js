@@ -5,6 +5,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class NetarchSceneGenerationPrompt {
   static async RenderPrompt(data) {
+    LOGGER.trace("RenderPrompt | NetarchSceneGenerationPrompt | called.");
     const template = "systems/cyberpunk-red-core/templates/dialog/cpr-netarch-scene-generation-prompt.hbs";
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {

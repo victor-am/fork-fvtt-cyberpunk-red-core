@@ -7,6 +7,7 @@ import LOGGER from "../utils/cpr-logger.js";
 export default class CyberwareInstallPrompt {
   // TODO - Revist name of function.
   static async RenderPrompt(data) {
+    LOGGER.trace("RenderPrompt | CyberwareInstallPrompt | called.");
     // setup
     return new Promise((resolve, reject) => {
       const template = "systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs";
