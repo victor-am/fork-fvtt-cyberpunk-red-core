@@ -82,9 +82,13 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     // Listeners for editable fields under go here. Fields might not be editable because
     // the user viewing the sheet might not have permission to. They may not be the owner.
 
+    // update a skill level
     html.find(".skill-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
-    html.find(".weapon-input").click((event) => event.target.select()).change((event) => this._updateWeaponAmmo(event));
+
+    // update the ammount of an item in the gear tab
     html.find(".amount-input").click((event) => event.target.select()).change((event) => this._updateAmount(event));
+
+    // update a role ability
     html.find(".ability-input").click((event) => event.target.select()).change(
       (event) => this._updateRoleAbility(event),
     );
@@ -101,6 +105,9 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     html.find(".item-create").click((event) => this._createInventoryItem(event));
 
     // Fight tab listeners
+
+    // update the amount of loaded ammo in the Fight tab
+    html.find(".weapon-input").click((event) => event.target.select()).change((event) => this._updateWeaponAmmo(event));
 
     // Switch between meat and net fight states
     html.find(".toggle-fight-state").click((event) => this._toggleFightState(event));
