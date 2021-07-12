@@ -1,4 +1,4 @@
-{{trace "CPR-PROGRAM-INV-CONTENT.HBS"}}
+{{trace "CPR-PROGRAM-CONTENT.HBS"}}
 {{#unless (listContains actor.data.filteredItems.programsInstalled item.id)}}
 <li class="item flexrow{{#if item.data.data.favorite}} favorite{{else}}{{#if (listContains sheet.options.collapsedSections "gearTab-gear")}} hide{{/if}}{{/if}}" data-item-id="{{item.data._id}}"
     data-item-category="{{item.type}}" draggable="true">
@@ -13,4 +13,4 @@
     </div>
 </li>
 {{/unless}}
-{{trace "END CPR-PROGRAM-INV-CONTENT.HBS"}}
+{{trace "END CPR-PROGRAM-CONTENT.HBS"}}

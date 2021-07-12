@@ -1,4 +1,4 @@
-{{trace "CPR-CYBERDECK-INV-CONTENT.HBS"}}
+{{trace "CPR-CYBERDECK-CONTENT.HBS"}}
 <li class="item flexrow{{#if item.data.favorite}} favorite{{else}}{{#if (listContains sheet.options.collapsedSections "gearTab-gear")}} hide{{/if}}{{/if}}" data-item-id="{{item.data._id}}"
     data-item-category="{{item.type}}" draggable="true">
     <div class="item-name gear-name text-nowrap">
@@ -11,4 +11,4 @@
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}
     </div>
 </li>
-{{trace "END CPR-CYBERDECK-INV-CONTENT.HBS"}}
+{{trace "END CPR-CYBERDECK-CONTENT.HBS"}}
