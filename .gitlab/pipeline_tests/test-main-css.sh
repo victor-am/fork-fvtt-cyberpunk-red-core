@@ -38,5 +38,4 @@ then
   fi
 fi
 
-
-#rm -rf ${WORK_DIR}
+rm -rf ${WORK_DIR}
