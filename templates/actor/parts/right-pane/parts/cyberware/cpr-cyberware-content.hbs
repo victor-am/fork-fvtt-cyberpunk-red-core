@@ -3,7 +3,7 @@
 {{#unless foundation.data.data.core}}
 <li class="item flexrow" data-item-id="{{foundation.data._id}}" draggable="false">
     <div class="item-name cyberware-name text-nowrap">
-        <a class="name item-view">{{foundation.name}} {{hasOptionalSlots foundation.data.data.installedOptionSlots foundation.data.data.optionSlots}}</a>
+        <a class="name item-view">{{foundation.name}} {{showOptionSlotStatus foundation}}{{#if foundation.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}</a>
     </div>
     <div class="item-detail cyberware-data text-nowrap">
         {{localize (findConfigValue "cyberwareTypeList" foundation.data.data.type)}}
@@ -13,6 +13,13 @@
         {{!-- INSTALL ACTION --}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-uninstall-glyph.hbs" foundation}}
         {{!-- ITEM MANAGEMENT --}}
+        {{#if data.data.isUpgraded}}
+          {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
+        {{else}}
+          {{#unless (isEmpty (filter (filter foundation.actor.data.filteredItems.itemUpgrade "data.data.type" "cyberware") "data.data.isInstalled" false))}}
+            {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
+          {{/unless}}
+        {{/if}}
         {{/unless}}
     </div>
 </li>
@@ -20,7 +27,7 @@
 {{#each optionals as |optional o|}}
 <li class="item flexrow" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}" draggable="false">
     <div class="item-name cyberware-name flexrow text-nowrap">
-        <a class="name item-view"><span class="name">&nbsp;{{optional.name}}</span></a>
+        <a class="name item-view"><span class="name">&nbsp;{{optional.name}}</span>{{#if optional.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}</a>
     </div>
     <div class="item-detail cyberware-data text-nowrap">
         {{localize (findConfigValue "cyberwareTypeList" optional.data.data.type)}}
@@ -30,6 +37,13 @@
         {{!-- INSTALL ACTION --}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-uninstall-glyph.hbs" optional}}
         {{!-- ITEM MANAGEMENT --}}
+        {{#if data.data.isUpgraded}}
+          {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
+        {{else}}
+          {{#unless (isEmpty (filter (filter actor.data.filteredItems.itemUpgrade "data.data.type" "cyberware") "data.data.isInstalled" false))}}
+            {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
+          {{/unless}}
+        {{/if}}
         {{/unless}}
     </div>
 </li>

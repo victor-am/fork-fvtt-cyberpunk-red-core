@@ -354,8 +354,13 @@ export default class CPRActorSheet extends ActorSheet {
       case "head": {
         armorList.forEach((a) => {
           const armorData = a.data;
+          const upgradeValue = a.getAllUpgradesFor("headSp");
+          const upgradeType = a.getUpgradeTypeFor("headSp");
+          armorData.data.headLocation.sp = Number(armorData.data.headLocation.sp);
+          armorData.data.headLocation.ablation = Number(armorData.data.headLocation.ablation);
+          const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.headLocation.sp + upgradeValue;
           armorData.data.headLocation.ablation = Math.min(
-            (a.getData().headLocation.ablation + 1), a.getData().headLocation.sp,
+            (armorData.data.headLocation.ablation + 1), armorSp,
           );
           updateList.push({ _id: a.id, data: armorData.data });
         });
@@ -368,8 +373,13 @@ export default class CPRActorSheet extends ActorSheet {
       case "body": {
         armorList.forEach((a) => {
           const armorData = a.data;
+          armorData.data.bodyLocation.sp = Number(armorData.data.bodyLocation.sp);
+          armorData.data.bodyLocation.ablation = Number(armorData.data.bodyLocation.ablation);
+          const upgradeValue = a.getAllUpgradesFor("bodySp");
+          const upgradeType = a.getUpgradeTypeFor("bodySp");
+          const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.bodyLocation.sp + upgradeValue;
           armorData.data.bodyLocation.ablation = Math.min(
-            (a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp,
+            (armorData.data.bodyLocation.ablation + 1), armorSp,
           );
           updateList.push({ _id: a.id, data: armorData.data });
         });
@@ -382,6 +392,8 @@ export default class CPRActorSheet extends ActorSheet {
       case "shield": {
         armorList.forEach((a) => {
           const armorData = a.data;
+          armorData.data.shieldHitPoints.value = Number(armorData.data.shieldHitPoints.value);
+          armorData.data.shieldHitPoints.max = Number(armorData.data.shieldHitPoints.max);
           armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - 1), 0);
           updateList.push({ _id: a.id, data: armorData.data });
         });
@@ -422,6 +434,14 @@ export default class CPRActorSheet extends ActorSheet {
         }
         case "favorite": {
           item.toggleFavorite();
+          break;
+        }
+        case "upgrade": {
+          await item.sheet._selectItemUpgrades(event);
+          break;
+        }
+        case "remove-upgrade": {
+          await item.sheet._removeItemUpgrade(event);
           break;
         }
         case "split": {
@@ -510,7 +530,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @param {Object} event - object capturing event data (what was clicked and where?)
    */
   _renderReadOnlyItemCard(event) {
-    LOGGER.trace("_itemUpdate | CPRActorSheet | Called.");
+    LOGGER.trace("_renderReadOnlyItemCard | CPRActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
     const item = this.actor.items.find((i) => i.data._id === itemId);
     item.sheet.render(true, { editable: false });
@@ -616,6 +636,15 @@ export default class CPRActorSheet extends ActorSheet {
       const updateList = [];
       programs.forEach((p) => {
         updateList.push({ _id: p._id, "data.isInstalled": false });
+      });
+      await this.actor.updateEmbeddedDocuments("Item", updateList);
+    }
+
+    if (game.system.template.Item[item.type].templates.includes("upgradable")) {
+      const { upgrades } = item.data.data;
+      const updateList = [];
+      upgrades.forEach((u) => {
+        updateList.push({ _id: u._id, "data.isInstalled": false });
       });
       await this.actor.updateEmbeddedDocuments("Item", updateList);
     }
@@ -991,10 +1020,14 @@ export default class CPRActorSheet extends ActorSheet {
           || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
           return;
         }
-        super._onDrop(event).then(actor.deleteEmbeddedDocuments("Item", [dragData.data._id]));
+        if (dragData.data.data.isUpgraded) {
+          SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradedragupgradewarn"));
+          return;
+        }
+        await super._onDrop(event).then(actor.deleteEmbeddedDocuments("Item", [dragData.data._id]));
       }
     } else {
-      super._onDrop(event);
+      await super._onDrop(event);
     }
   }
 

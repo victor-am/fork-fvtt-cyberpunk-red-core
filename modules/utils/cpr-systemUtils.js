@@ -184,4 +184,16 @@ export default class CPRSystemUtils {
     // If the folder does not exist, we create it.
     return (folderList.length === 1) ? folderList[0] : Folder.create({ name, type });
   }
+
+  static GetTemplateItemTypes(templateName) {
+    const itemTypes = [];
+    const itemEntityTypes = game.system.template.Item.types;
+    itemEntityTypes.forEach((entityType) => {
+      const entity = game.system.template.Item[entityType];
+      if (entity.templates.includes(templateName)) {
+        itemTypes.push(entityType);
+      }
+    });
+    return itemTypes;
+  }
 }

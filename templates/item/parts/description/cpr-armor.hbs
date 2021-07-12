@@ -12,7 +12,7 @@
         {{#if data.data.isHeadLocation}}
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.armor.headSp"}}:</span>
-            <span class="summary-value">{{data.data.headLocation.sp}}</span>
+            <span class="summary-value">{{applyUpgrade this.item data.data.headLocation.sp "headSp"}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">&nbsp;{{localize "CPR.itemSheet.armor.ablation"}}:</span>
@@ -22,11 +22,21 @@
         {{#if data.data.isBodyLocation}}
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.armor.bodySp"}}:</span>
-            <span class="summary-value">{{data.data.bodyLocation.sp}}</span>
+            <span class="summary-value">{{applyUpgrade this.item data.data.bodyLocation.sp "bodySp"}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">&nbsp;{{localize "CPR.itemSheet.armor.ablation"}}:</span>
             <span class="summary-value">{{data.data.bodyLocation.ablation}}</span>
+        </div>
+        {{/if}}
+        {{#if data.data.isShield}}
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.itemSheet.common.maximumShort"}} {{localize "CPR.global.generic.hitpointsShort"}}:</span>
+            <span class="summary-value">{{applyUpgrade this.item data.data.shieldHitPoints.max "shieldHp"}}</span>
+        </div>
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{localize "CPR.itemSheet.armor.currentHitpointsShort"}}:</span>
+            <span class="summary-value">{{data.data.shieldHitPoints.value}}</span>
         </div>
         {{/if}}
     </div>

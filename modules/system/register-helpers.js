@@ -78,6 +78,9 @@ export default function registerHandlebarsHelpers() {
     return "";
   });
 
+  // eslint-disable-next-line valid-typeof
+  Handlebars.registerHelper("isType", (object, type) => typeof object === type);
+
   Handlebars.registerHelper("getOwnedItem", (actor, itemId) => actor.items.find((i) => i.id === itemId));
 
   Handlebars.registerHelper("isDefined", (object) => {
@@ -85,6 +88,19 @@ export default function registerHandlebarsHelpers() {
       return false;
     }
     return true;
+  });
+
+  Handlebars.registerHelper("isEmpty", (object) => {
+    if (typeof object === "object") {
+      if (Array.isArray(object)) {
+        if (object.length === 0) {
+          return true;
+        }
+      } else if (Object.keys(object).length === 0) {
+        return true;
+      }
+    }
+    return false;
   });
 
   Handlebars.registerHelper("isNumber", (value) => !Number.isNaN(value));
@@ -153,13 +169,17 @@ export default function registerHandlebarsHelpers() {
     return "INVALID_LIST";
   });
 
-  Handlebars.registerHelper("hasOptionalSlots", (installedOptionSlots, optionSlots) => {
-    LOGGER.trace(`Calling hasOptionalSlots`);
-    if (optionSlots > 0) {
-      LOGGER.trace(`hasOptionalSlots is greater than 0`);
-      return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.itemSheet.cyberware.optionalSlots")}`);
-    } else {
-      LOGGER.trace(`hasOptionalSlots is 0`);
+  Handlebars.registerHelper("showOptionSlotStatus", (obj) => {
+    LOGGER.trace(`Calling showOptionSlotStatus`);
+    if (obj.type === "cyberware") {
+      const { optionSlots } = obj.data.data;
+      if (optionSlots > 0) {
+        LOGGER.trace(`hasOptionalSlots is greater than 0`);
+        const installedOptionSlots = optionSlots - obj.availableSlots();
+        return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.itemSheet.cyberware.optionalSlots")}`);
+      } else {
+        LOGGER.trace(`hasOptionalSlots is 0`);
+      }
     }
     return "";
   });
@@ -183,8 +203,18 @@ export default function registerHandlebarsHelpers() {
     // LOGGER.trace(`Calling contains Helper | Arg1:${arg1} Arg2:${arg2}`);
     let array = list;
     if (array) {
-      if (typeof array === "string") {
-        array = array.split(",");
+      switch (typeof array) {
+        case "string": {
+          array = array.split(",");
+          break;
+        }
+        case "object": {
+          if (!Array.isArray(array)) {
+            array = Object.keys(array);
+          }
+          break;
+        }
+        default:
       }
       return array.includes(val);
     }
@@ -301,6 +331,18 @@ export default function registerHandlebarsHelpers() {
     return actor.data.data.stats[skillStat].value;
   });
 
+  Handlebars.registerHelper("hasCyberneticWeapons", (actor) => {
+    LOGGER.trace("Calling hasCyberneticWeapons Helper");
+    let returnValue = false;
+    const cyberware = actor.getInstalledCyberware();
+    cyberware.forEach((cw) => {
+      if (cw.data.data.isWeapon === "true") {
+        returnValue = true;
+      }
+    });
+    return returnValue;
+  });
+
   Handlebars.registerHelper("ablated", (armor, slot) => {
     LOGGER.trace(`Calling ablated Helper | Arg1:${armor} Arg2:${slot}`);
     if (slot === "body") {
@@ -413,10 +455,10 @@ export default function registerHandlebarsHelpers() {
     return title.includes(substr);
   });
 
-  Handlebars.registerHelper("arrayConcat", (array1, array2) => {
-    LOGGER.trace("Calling arrayConcat Helper");
-    const array = array1.concat(array2);
-    return array;
+  Handlebars.registerHelper("objConcat", (obj1, obj2) => {
+    LOGGER.trace("Calling objConcat Helper");
+    const obj = obj1.concat(obj2);
+    return obj;
   });
 
   Handlebars.registerHelper("getMookSkills", (array) => {
@@ -466,6 +508,65 @@ export default function registerHandlebarsHelpers() {
       }
     });
     return installedCyberwareList.length;
+  });
+
+  Handlebars.registerHelper("entityTypes", (entityType) => {
+    LOGGER.trace("Calling entityTypes Helper");
+    return typeof game.system.entityTypes[entityType] === "object" ? game.system.entityTypes[entityType] : {};
+  });
+
+  Handlebars.registerHelper("isUpgradable", (itemType) => {
+    LOGGER.trace("Calling isUpgradeable Helper");
+    const itemEntities = game.system.template.Item;
+    return itemEntities[itemType].templates.includes("upgradable");
+  });
+
+  Handlebars.registerHelper("hasTemplate", (itemType, templateName) => {
+    LOGGER.trace("Calling isUpgradeable Helper");
+    const itemEntities = game.system.template.Item;
+    return itemEntities[itemType].templates.includes(templateName);
+  });
+
+  Handlebars.registerHelper("showUpgrade", (obj, dataPoint) => {
+    LOGGER.trace("Calling showUpgrade Helper");
+    const itemEntities = game.system.template.Item;
+    const itemType = obj.type;
+    let upgradeText = "";
+    if (itemEntities[itemType].templates.includes("upgradable") && obj.data.data.isUpgraded) {
+      const upgradeValue = obj.getAllUpgradesFor(dataPoint);
+      if (upgradeValue !== 0 && upgradeValue !== "") {
+        const modType = obj.getUpgradeTypeFor(dataPoint);
+        const modSource = (itemType === "weapon") ? SystemUtils.Localize("CPR.itemSheet.weapon.attachments") : SystemUtils.Localize("CPR.itemSheet.common.upgrades");
+        upgradeText = `(${SystemUtils.Format("CPR.itemSheet.common.modifierChange", { modSource, modType, value: upgradeValue })})`;
+      }
+    }
+    return upgradeText;
+  });
+
+  Handlebars.registerHelper("applyUpgrade", (obj, baseValue, dataPoint) => {
+    LOGGER.trace("Calling showUpgrade Helper");
+    const itemEntities = game.system.template.Item;
+    const itemType = obj.type;
+    let upgradeResult = Number(baseValue);
+    if (Number.isNaN(upgradeResult)) {
+      upgradeResult = baseValue;
+    }
+    if (itemEntities[itemType].templates.includes("upgradable") && obj.data.data.isUpgraded) {
+      const upgradeValue = obj.getAllUpgradesFor(dataPoint);
+      const upgradeType = obj.getUpgradeTypeFor(dataPoint);
+      if (upgradeValue !== "" && upgradeValue !== 0) {
+        if (upgradeType === "override") {
+          upgradeResult = upgradeValue;
+        } else if (typeof upgradeResult !== "number" || typeof upgradeValue !== "number") {
+          if (upgradeValue !== 0 && upgradeValue !== "") {
+            upgradeResult = `${upgradeResult} + ${upgradeValue}`;
+          }
+        } else {
+          upgradeResult += upgradeValue;
+        }
+      }
+    }
+    return upgradeResult;
   });
 
   Handlebars.registerHelper("isDebug", () => {
