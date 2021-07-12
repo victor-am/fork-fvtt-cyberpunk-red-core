@@ -53,6 +53,9 @@
                     <div class="text-normal text-bold">{{localize "CPR.bonus"}} {{localize "CPR.damage"}}:
                         {{bonusDamage}}</div>
                     {{/if}}
+                    {{#if universalBonusDamage}}
+                    <div class="text-normal text-bold">{{localize "CPR.UniversalBonus"}}: +{{universalBonusDamage}}
+                    {{/if}}
                     <div class="d6-data-details hide">
                         {{#if (compare mods.length ">" 0)}}
                         <div class="text-normal text-bold">{{localize "CPR.mods"}}: {{totalMods}}</div>

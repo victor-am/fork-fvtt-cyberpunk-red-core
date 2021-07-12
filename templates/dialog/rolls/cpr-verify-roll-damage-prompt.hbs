@@ -15,7 +15,7 @@
         </li>
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.multiplier"}} 
+                {{localize "CPR.multiplier"}}
                 {{#if (compare autofireMultiplierMax ">" 0)}}
                     (1-{{autofireMultiplierMax}}):
                   {{else}}
@@ -31,13 +31,13 @@
                 max="{{#if (compare weaponType "===" "assaultRifle")}}4{{else}}3{{/if}}" min="1">
         </div>
         {{/if}}
-        
+
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.aimedshot"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
-                
+
                 <input name="isAimed" class="" type="checkbox" data-dtype="Checkbox"{{#if isAimed}} checked{{/if}}>
             </div>
         </li>
@@ -55,7 +55,16 @@
                 </select>
             </div>
         </li>
-        
+        {{#if universalBonusDamage}}
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.UniversalBonus"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <input name="universalBonusDamage" class="" type="number" data-dtype="Number" value={{universalBonusDamage}}>
+            </div>
+        </li>
+        {{/if}}
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">

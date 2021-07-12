@@ -15,14 +15,22 @@ export default class SelectRoleBonuses {
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog SelectRoleBonusesPrompt | called.");
           const skillList = html.find("[name=\"selectedSkills\"");
+          const universalBonusList = html.find("[name=\"universalBonuses\"");
           const selectedSkills = [];
+          const selectedUniversalBonuses = [];
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
           Object.keys(skillList).forEach((skill) => {
             if (skillList[skill].checked) {
               selectedSkills.push(skillList[skill].value);
             }
           });
+          Object.keys(universalBonusList).forEach((bonus) => {
+            if (universalBonusList[bonus].checked) {
+              selectedUniversalBonuses.push(universalBonusList[bonus].value);
+            }
+          });
           formData.selectedSkills = selectedSkills;
+          formData.selectedUniversalBonuses = selectedUniversalBonuses;
           resolve(formData);
         };
         new Dialog({

@@ -286,7 +286,7 @@ export class CPRDeathSaveRoll extends CPRRoll {
 }
 
 export class CPRDamageRoll extends CPRRoll {
-  constructor(rollTitle, formula, weaponType) {
+  constructor(rollTitle, formula, universalBonusDamage, weaponType) {
     // we assume always d6s
     // again, check if this makes sense or if it should accept formulas too
     super(rollTitle, formula);
@@ -295,6 +295,7 @@ export class CPRDamageRoll extends CPRRoll {
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-damage-rollcard.hbs";
     // criticals just add 5 damage, they do not need more dice rolled
     this.calculateCritical = false;
+    this.universalBonusDamage = universalBonusDamage;
     this.bonusDamage = 5;
     // are we aiming at something?
     this.isAimed = false;
@@ -313,7 +314,7 @@ export class CPRDamageRoll extends CPRRoll {
   _computeBase() {
     this.autofireMultiplier = Math.min(this.autofireMultiplier, this.autofireMultiplierMax);
     const damageMultiplier = (this.isAutofire) ? this.autofireMultiplier : 1;
-    return (this.initialRoll + this.totalMods()) * damageMultiplier;
+    return ((this.initialRoll + this.totalMods()) * damageMultiplier) + this.universalBonusDamage;
   }
 
   // eslint-disable-next-line class-methods-use-this

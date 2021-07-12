@@ -370,6 +370,10 @@ CPR.interfaceAbilities = {
 CPR.roleSpecialOptions = {
   "--": "CPR.na",
   varying: "CPR.varying",
-}
+};
+
+CPR.universalBonuses = {
+  damage: "CPR.damage",
+};
 
 export default CPR;

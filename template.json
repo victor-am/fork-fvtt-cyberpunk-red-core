@@ -70,6 +70,10 @@
           }
         },
 
+        "universalBonuses": {
+          "damage": 0
+        },
+
         "derivedStats": {
           "hp": {
             "value": 40,
@@ -564,6 +568,7 @@
       "stat": "int",
       "skill": "--",
       "bonuses": [],
+      "universalBonuses": [],
       "bonusRatio": 1,
       "abilities": []
     },

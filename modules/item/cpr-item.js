@@ -601,6 +601,7 @@ export default class CPRItem extends Item {
     const rollName = this.data.name;
     const { weaponType } = this.data.data;
     let { damage } = this.data.data;
+    let universalBonusDamage = this.actor.data.data.universalBonuses.damage;
     if (weaponType === "unarmed" && this.data.data.unarmedAutomaticCalculation) {
       // calculate damage based on BODY stat
       const actorBodyStat = this.actor.data.data.stats.body.value;
@@ -619,7 +620,12 @@ export default class CPRItem extends Item {
         damage = "4d6";
       }
     }
-    const cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType);
+    this.actor.data.filteredItems.role.forEach((r) => {
+      if (r.data.data.universalBonuses.includes("damage")) {
+        universalBonusDamage += Math.floor(r.data.data.rank / r.data.data.bonusRatio);
+      }
+    });
+    const cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, universalBonusDamage, weaponType);
 
     if (this.data.data.fireModes.autoFire === 0 && ((this.data.data.weaponType === "smg" || this.data.data.weaponType === "heavySmg" || this.data.data.weaponType === "assaultRifle"))) {
       this.data.data.fireModes.autoFire = this.data.data.weaponType === "assaultRifle" ? 4 : 3;

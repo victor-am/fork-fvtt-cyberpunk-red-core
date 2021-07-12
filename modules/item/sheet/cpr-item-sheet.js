@@ -203,11 +203,19 @@ export default class CPRItemSheet extends ItemSheet {
     }
     if (formData.selectedSkills) {
       const skillObjects = [];
+      const universalBonusesList = [];
       formData.selectedSkills.forEach((s) => {
         skillObjects.push(allSkills.find((a) => a.data.name === s));
       });
+      formData.selectedUniversalBonuses.forEach((b) => {
+        universalBonusesList.push(b);
+      });
       const bonusRatio = formData.bonusRatio;
-      this.item.update({ "data.bonuses": skillObjects, "data.bonusRatio": bonusRatio });
+      this.item.update({
+        "data.bonuses": skillObjects,
+        "data.universalBonuses": universalBonusesList,
+        "data.bonusRatio": bonusRatio
+      });
       this._automaticResize(); // Resize the sheet as length of ammo list might have changed
     }
   }
