@@ -30,6 +30,7 @@ export default class CPRMookActor extends CPRActor {
   }
 
   setMookName(formData) {
+    LOGGER.trace("setMookName | CPRMookActor | called.");
     return this.update(formData);
   }
 
