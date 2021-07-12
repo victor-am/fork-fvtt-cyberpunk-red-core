@@ -77,13 +77,15 @@ export default class CPRNetarchUtils {
     }
     if (this.options.sceneName === null) {
       if (this.animated) {
-        if (game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`) === null || game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`) === undefined) {
+        if (game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`) === null
+        || game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`) === undefined) {
           await this._duplicateScene(`${this.netarchItem.data.name} (animated)`);
         } else {
           this.scene = game.scenes.find((f) => f.name === `${this.netarchItem.data.name} (animated)`);
           await this._removeAllTiles();
         }
-      } else if (game.scenes.find((f) => f.name === this.netarchItem.data.name) === null || game.scenes.find((f) => f.name === this.netarchItem.data.name) === undefined) {
+      } else if (game.scenes.find((f) => f.name === this.netarchItem.data.name) === null
+                 || game.scenes.find((f) => f.name === this.netarchItem.data.name) === undefined) {
         await this._duplicateScene(`${this.netarchItem.data.name}`);
       } else {
         this.scene = game.scenes.find((f) => f.name === this.netarchItem.data.name);
@@ -130,11 +132,18 @@ export default class CPRNetarchUtils {
       }
       newTiles.push(newLevel);
       const newArrow = duplicate(this.tileData.arrow);
-      newArrow.x = this.options.gridSize * (this.options.cornerOffsetX - this.options.connectorWidth + (this.options.levelWidth + this.options.connectorWidth) * (level - 1));
+      newArrow.x = this.options.gridSize
+                   * (this.options.cornerOffsetX - this.options.connectorWidth
+                   + (this.options.levelWidth + this.options.connectorWidth)
+                   * (level - 1));
       if (branch === null) {
         newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2);
       } else {
-        newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2 + (this.options.levelHeight + this.options.connectorHeight) * (branch.charCodeAt(0) - 97));
+        newArrow.y = this.options.gridSize
+                     * (this.options.cornerOffsetY
+                     + (this.options.levelHeight - this.options.connectorHeight) / 2
+                     + (this.options.levelHeight + this.options.connectorHeight)
+                     * (branch.charCodeAt(0) - 97));
       }
       newTiles.push(newArrow);
     });
@@ -150,8 +159,21 @@ export default class CPRNetarchUtils {
           if (this.options.connectorHeight >= this.options.connectorWidth) {
             newArrow.rotation = 90;
             while (deltaHeight >= this.options.connectorWidth) {
-              newArrow.x = this.options.gridSize * (this.options.cornerOffsetX + (this.options.levelWidth + this.options.connectorWidth) * (level[0] - 2) + (this.options.levelWidth - this.options.connectorWidth) / 2);
-              newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2 + (this.options.levelHeight + this.options.connectorHeight) * (level[1].charCodeAt(0) - 97) - deltaHeight + (this.options.connectorWidth - this.options.connectorHeight) / 2);
+              newArrow.x = this.options.gridSize
+                           * (this.options.cornerOffsetX
+                           + (this.options.levelWidth + this.options.connectorWidth)
+                           * (level[0] - 2)
+                           + (this.options.levelWidth - this.options.connectorWidth)
+                           / 2);
+              newArrow.y = this.options.gridSize
+                           * (this.options.cornerOffsetY
+                           + (this.options.levelHeight - this.options.connectorHeight)
+                           / 2
+                           + (this.options.levelHeight + this.options.connectorHeight)
+                           * (level[1].charCodeAt(0) - 97)
+                           - deltaHeight
+                           + (this.options.connectorWidth - this.options.connectorHeight)
+                           / 2);
               if (deltaHeight < 2 * this.options.connectorWidth) {
                 newArrow.x -= (newArrow.width / 2) * (deltaHeight / this.options.connectorWidth - 1);
                 newArrow.y += (newArrow.width / 2) * (deltaHeight / this.options.connectorWidth - 1);
@@ -164,8 +186,20 @@ export default class CPRNetarchUtils {
             newArrow.rotation = 0;
             newArrow.width = this.tileData.arrow.width;
             while (deltaWidth >= this.options.connectorWidth) {
-              newArrow.x = this.options.gridSize * (this.options.cornerOffsetX + (this.options.levelWidth + this.options.connectorWidth) * (level[0] - 2) + (this.options.levelWidth - this.options.connectorHeight) / 2 + deltaWidth - this.options.connectorWidth);
-              newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2 + (this.options.levelHeight + this.options.connectorHeight) * (level[1].charCodeAt(0) - 97));
+              newArrow.x = this.options.gridSize
+                           * (this.options.cornerOffsetX
+                           + (this.options.levelWidth + this.options.connectorWidth)
+                           * (level[0] - 2)
+                           + (this.options.levelWidth - this.options.connectorHeight)
+                           / 2
+                           + deltaWidth
+                           - this.options.connectorWidth);
+              newArrow.y = this.options.gridSize
+                           * (this.options.cornerOffsetY
+                           + (this.options.levelHeight - this.options.connectorHeight)
+                           / 2
+                           + (this.options.levelHeight + this.options.connectorHeight)
+                           * (level[1].charCodeAt(0) - 97));
               if (deltaWidth < 2 * this.options.connectorWidth) {
                 newArrow.x -= newArrow.width * (deltaWidth / this.options.connectorWidth - 1);
                 newArrow.width *= deltaWidth / this.options.connectorWidth;
@@ -177,8 +211,21 @@ export default class CPRNetarchUtils {
           } else {
             newArrow.rotation = 90;
             while (deltaHeight >= this.options.connectorWidth) {
-              newArrow.x = this.options.gridSize * (this.options.cornerOffsetX + (this.options.levelWidth + this.options.connectorWidth) * (level[0] - 2) + (this.options.levelWidth - this.options.connectorWidth) / 2);
-              newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2 + (this.options.levelHeight + this.options.connectorHeight) * (level[1].charCodeAt(0) - 97) - deltaHeight + (this.options.connectorWidth - this.options.connectorHeight) / 2);
+              newArrow.x = this.options.gridSize
+                           * (this.options.cornerOffsetX
+                           + (this.options.levelWidth + this.options.connectorWidth)
+                           * (level[0] - 2)
+                           + (this.options.levelWidth - this.options.connectorWidth)
+                           / 2);
+              newArrow.y = this.options.gridSize
+                           * (this.options.cornerOffsetY
+                           + (this.options.levelHeight - this.options.connectorHeight)
+                           / 2
+                           + (this.options.levelHeight + this.options.connectorHeight)
+                           * (level[1].charCodeAt(0) - 97)
+                           - deltaHeight
+                           + (this.options.connectorWidth - this.options.connectorHeight)
+                           / 2);
               if (deltaHeight < 2 * this.options.connectorWidth) {
                 newArrow.x -= (newArrow.width / 2) * (deltaHeight / this.options.connectorWidth - 1);
                 newArrow.y += (newArrow.width / 2) * (deltaHeight / this.options.connectorWidth - 1);
@@ -191,8 +238,20 @@ export default class CPRNetarchUtils {
             newArrow.rotation = 0;
             newArrow.width = this.tileData.arrow.width;
             while (deltaWidth >= this.options.connectorWidth) {
-              newArrow.x = this.options.gridSize * (this.options.cornerOffsetX + (this.options.levelWidth + this.options.connectorWidth) * (level[0] - 2) + (this.options.levelWidth - this.options.connectorHeight) / 2 + deltaWidth - this.options.connectorWidth);
-              newArrow.y = this.options.gridSize * (this.options.cornerOffsetY + (this.options.levelHeight - this.options.connectorHeight) / 2 + (this.options.levelHeight + this.options.connectorHeight) * (level[1].charCodeAt(0) - 97));
+              newArrow.x = this.options.gridSize
+                           * (this.options.cornerOffsetX
+                           + (this.options.levelWidth + this.options.connectorWidth)
+                           * (level[0] - 2)
+                           + (this.options.levelWidth - this.options.connectorHeight)
+                           / 2
+                           + deltaWidth
+                           - this.options.connectorWidth);
+              newArrow.y = this.options.gridSize
+                           * (this.options.cornerOffsetY
+                           + (this.options.levelHeight - this.options.connectorHeight)
+                           / 2
+                           + (this.options.levelHeight + this.options.connectorHeight)
+                           * (level[1].charCodeAt(0) - 97));
               if (deltaWidth < 2 * this.options.connectorWidth) {
                 newArrow.x -= newArrow.width * (deltaWidth / this.options.connectorWidth - 1);
                 newArrow.width *= deltaWidth / this.options.connectorWidth;
