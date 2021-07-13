@@ -5,7 +5,7 @@ import LOGGER from "./cpr-logger.js";
 
 export default class CPRSystemUtils {
   static async GetCoreSkills() {
-    LOGGER.trace("CPRSystemUtils GetCoreSkills | CPRSystemUtils | called.");
+    LOGGER.trace("GetCoreSkills | CPRSystemUtils | Called.");
     // grab basic skills from compendium
     const pack = game.packs.get("cyberpunk-red-core.skills");
     // put into basickSills array
@@ -14,7 +14,7 @@ export default class CPRSystemUtils {
   }
 
   static async GetCoreCyberware() {
-    LOGGER.trace("CPRSystemUtils GetCoreCyberware | CPRSystemUtils | called.");
+    LOGGER.trace("GetCoreCyberware | CPRSystemUtils | Called.");
     // grab basic cyberware from compendium
     const pack = game.packs.get("cyberpunk-red-core.cyberware");
     // put into basicCyberware array
@@ -23,6 +23,7 @@ export default class CPRSystemUtils {
   }
 
   static async DisplayMessage(msgType, msg) {
+    LOGGER.trace("DisplayMessage | CPRSystemUtils | Called.");
     const localizedMessage = game.i18n.localize(msg);
     switch (msgType) {
       case "warn":
@@ -39,14 +40,17 @@ export default class CPRSystemUtils {
   }
 
   static Localize(string) {
+    LOGGER.trace("Localize | CPRSystemUtils | Called.");
     return game.i18n.localize(string);
   }
 
   static Format(string, object) {
+    LOGGER.trace("Format | CPRSystemUtils | Called.");
     return game.i18n.format(string, object);
   }
 
   static SetUserSetting(type, name, value, extraSettings) {
+    LOGGER.trace("SetUserSetting | CPRSystemUtils | Called.");
     const userSettings = game.settings.get("cyberpunk-red-core", "userSettings") ? game.settings.get("cyberpunk-red-core", "userSettings") : {};
     switch (type) {
       case "sheetConfig": {
@@ -78,6 +82,7 @@ export default class CPRSystemUtils {
   }
 
   static GetUserSetting(type, name, extraSettings) {
+    LOGGER.trace("GetUserSetting | CPRSystemUtils | Called.");
     const userSettings = game.settings.get("cyberpunk-red-core", "userSettings") ? game.settings.get("cyberpunk-red-core", "userSettings") : {};
     let requestedValue;
     switch (type) {
@@ -97,6 +102,7 @@ export default class CPRSystemUtils {
   }
 
   static GetDefaultImage(foundryObject, objectType) {
+    LOGGER.trace("GetDefaultImage | CPRSystemUtils | Called.");
     let imageLink = "";
     if (foundryObject === "Item") {
       switch (objectType) {
@@ -180,12 +186,14 @@ export default class CPRSystemUtils {
   }
 
   static async GetFolder(type, name) {
+    LOGGER.trace("GetFolder | CPRSystemUtils | Called.");
     const folderList = game.folders.filter((folder) => folder.name === name && folder.type === type);
     // If the folder does not exist, we create it.
     return (folderList.length === 1) ? folderList[0] : Folder.create({ name, type });
   }
 
   static GetTemplateItemTypes(templateName) {
+    LOGGER.trace("GetTemplateItemTypes | CPRSystemUtils | Called.");
     const itemTypes = [];
     const itemEntityTypes = game.system.template.Item.types;
     itemEntityTypes.forEach((entityType) => {

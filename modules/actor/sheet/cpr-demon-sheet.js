@@ -27,6 +27,7 @@ export default class CPRDemonActorSheet extends ActorSheet {
    * @param {Object} html - the DOM object
    */
   activateListeners(html) {
+    LOGGER.trace("activateListeners | CPRDemonActorSheet | Called.");
     html.find(".rollable").click((event) => this._onRoll(event));
     super.activateListeners(html);
   }

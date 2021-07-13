@@ -1,4 +1,4 @@
-/* global game, CONFIG, ChatMessage, renderTemplate $ ui */
+/* global game, CONFIG, ChatMessage, renderTemplate $ */
 import LOGGER from "../utils/cpr-logger.js";
 import { CPRRoll } from "../rolls/cpr-rolls.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
@@ -19,6 +19,7 @@ export default class CPRChat {
    * @returns {*} - object encapsulating chat message data
    */
   static ChatDataSetup(content, modeOverride, isRoll = false, forceWhisper) {
+    LOGGER.trace("ChatDataSetup | CPRChat | Called.");
     const chatData = {
       user: game.user.id,
       rollMode: modeOverride || game.settings.get("core", "rollMode"),
@@ -54,8 +55,10 @@ export default class CPRChat {
    * @param {} cprRoll - from cpr-roll.js, a custom roll object that includes the results
    * @returns - a created chat message
    */
-  static RenderRollCard(cprRoll) {
-    LOGGER.trace("RenderRollCard | Chat | Called.");
+  static RenderRollCard(incomingRoll) {
+    LOGGER.trace("RenderRollCard | CPRChat | Called.");
+
+    const cprRoll = incomingRoll;
 
     cprRoll.criticalCard = cprRoll.wasCritical();
     return renderTemplate(cprRoll.rollCard, cprRoll).then((html) => {
@@ -97,7 +100,7 @@ export default class CPRChat {
    * @returns - the rendered template that will be displayed
    */
   static RenderItemCard(item) {
-    LOGGER.trace("RenderItemCard | Chat | Called.");
+    LOGGER.trace("RenderItemCard | CPRChat | Called.");
     const trimmedItem = item;
     const itemTemplate = "systems/cyberpunk-red-core/templates/item/cpr-item-roll-card.hbs";
 
@@ -142,7 +145,7 @@ export default class CPRChat {
    * @param {*} data - a string of whatever the user typed in with /red
    */
   static async HandleCPRCommand(data) {
-    LOGGER.trace("HandleCPRCommand | Chat | Called.");
+    LOGGER.trace("HandleCPRCommand | CPRChat | Called.");
     // First, let's see if we can figure out what was passed to /red
     // Right now, we will assume it is a roll
     const modifiers = /[+-][0-9][0-9]*/;
@@ -177,7 +180,7 @@ export default class CPRChat {
    * @param {*} html - html DOM
    */
   static async chatListeners(html) {
-    LOGGER.trace("chatListeners | Chat | Called.");
+    LOGGER.trace("chatListeners | CPRChat | Called.");
     html.on("click", ".clickable", async (event) => {
       const clickAction = $(event.currentTarget).attr("data-action");
 
@@ -251,6 +254,7 @@ export default class CPRChat {
    * @param {*} messageData - an object with a bunch of chat message data (see ChatDataSetup above)
    */
   static addMessageTags(html, messageData) {
+    LOGGER.trace("addMessageTags | CPRChat | Called.");
     const timestampTag = html.find(".message-timestamp");
     const whisperTargets = messageData.message.whisper;
     const isBlind = messageData.message.blind || false;

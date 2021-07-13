@@ -1,4 +1,5 @@
 /* global game */
+import LOGGER from "../utils/cpr-logger.js";
 
 /**
  * We use custom chat cards for dice rolls, so we have to override the dice card behaviors
@@ -8,6 +9,7 @@
  */
 export default class DiceSoNice {
   static async ShowDiceSoNice(roll, rollModeOverride) {
+    LOGGER.trace("ShowDiceSoNice | DiceSoNice | called.");
     if (game.modules.get("dice-so-nice") && game.modules.get("dice-so-nice").active) {
       let whisper = null;
       let blind = false;

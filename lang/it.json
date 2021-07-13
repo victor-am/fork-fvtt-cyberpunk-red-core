@@ -557,7 +557,6 @@
     "CPR.messages.invalidRoleData": "Controlla il grado delle tue abilità di ruolo, non sembrano a posto, Choomba!",
     "CPR.messages.itemDoesNotExistError": "Errore: L'oggetto con ID {itemid} non esiste.",
     "CPR.messages.ledgerErrorIsNoLedger": "Errore: Questa proprietà non è un libro mastro!",
-    "CPR.messages.noTokenFound": "Non è possibile aggiornare la scheda del token quando si trova su una diversa scena!",
     "CPR.messages.noValidAmmo": "Hey non hai munizioni per quell'arma, Choomba!",
     "CPR.messages.ownedItemOnlyError": "Errore: Funzionalità disponibile solo per gli oggetti posseduti da un Token",
     "CPR.messages.reloadOutOfAmmo": "Spiacente Choomba, non puoi farlo, hai finito le munizioni!",

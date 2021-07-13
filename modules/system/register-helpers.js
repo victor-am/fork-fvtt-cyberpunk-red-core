@@ -107,6 +107,7 @@ export default function registerHandlebarsHelpers() {
 
   // TODO - Refactor / Revist
   Handlebars.registerHelper("mergeForPartialArg", (...args) => {
+    LOGGER.trace("mergeForPartialArg | handlebarsHelper | Called.");
     const partialArgs = [...args];
     const partialKeys = partialArgs[0].replace(/\s/g, "").split(",");
     partialArgs.shift();
@@ -120,6 +121,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("filter", (objList, key, value) => {
+    LOGGER.trace("filter | handlebarsHelper | Called.");
     const filteredList = objList.filter((obj) => {
       let objProp = obj;
       const propDepth = key.split(".");
@@ -140,6 +142,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("calculateStackValue", (item) => {
+    LOGGER.trace("calculateStackValue | handlebarsHelper | Called.");
     const { type } = item;
     const price = item.data.data.price.market;
     const { amount } = item.data.data;
@@ -154,7 +157,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("findConfigValue", (obj, key) => {
-    LOGGER.trace(`Calling findConfigValue Helper | Arg1:${obj} Arg2:${key}`);
+    LOGGER.trace("findConfigValue | handlebarsHelper | Called.");
     if (obj in CPR) {
       return CPR[obj][key];
     }
@@ -162,7 +165,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("findConfigObj", (obj) => {
-    LOGGER.trace(`Calling findConfigObj Helper | Arg1:${obj}`);
+    LOGGER.trace("findConfigObj | handlebarsHelper | Called.");
     if (obj in CPR) {
       return CPR[obj];
     }
@@ -170,7 +173,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("showOptionSlotStatus", (obj) => {
-    LOGGER.trace(`Calling showOptionSlotStatus`);
+    LOGGER.trace("showOptionSlotStatus | handlebarsHelper | Called.");
     if (obj.type === "cyberware") {
       const { optionSlots } = obj.data.data;
       if (optionSlots > 0) {
@@ -185,7 +188,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("findObj", (objList, propertyName, propertyValue) => {
-    LOGGER.trace(`Calling findObj Helper | Arg1:${objList}`);
+    LOGGER.trace("findObj | handlebarsHelper | Called.");
     if (typeof objList === "object") {
       const searchResult = objList.filter((o) => o[propertyName] === propertyValue);
       if (searchResult.length === 1) {
@@ -200,7 +203,7 @@ export default function registerHandlebarsHelpers() {
 
   // TODO - Refactor / Revist
   Handlebars.registerHelper("listContains", (list, val) => {
-    // LOGGER.trace(`Calling contains Helper | Arg1:${arg1} Arg2:${arg2}`);
+    LOGGER.trace("listContains | handlebarsHelper | Called.");
     let array = list;
     if (array) {
       switch (typeof array) {
@@ -223,12 +226,12 @@ export default function registerHandlebarsHelpers() {
 
   // TODO - Rename?
   Handlebars.registerHelper("generatePartial", (arg1, arg2) => {
-    LOGGER.trace(`Calling generatePartial Helper | Arg1:${arg1} Arg2:${arg2}`);
+    LOGGER.trace("generatePartial | handlebarsHelper | Called.");
     return arg1.replace("VAR", arg2);
   });
 
   Handlebars.registerHelper("diceSizeImageClass", (formula) => {
-    LOGGER.trace(`Calling sizeDice Helper | formula:${formula}`);
+    LOGGER.trace("diceSizeImageClass | handlebarsHelper | Called.");
     let diceSize = "";
     let className = "d10";
     const formulaParts = formula.split("d");
@@ -270,7 +273,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("sort", (object, property) => {
-    LOGGER.trace(`Calling sort Helper | Sorting by ${property}`);
+    LOGGER.trace("sort | handlebarsHelper | Called.");
     object.sort((a, b) => {
       let comparator = 0;
       if (a[property] > b[property]) {
@@ -284,13 +287,13 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("reverse", (object) => {
-    LOGGER.trace(`Calling reverse Helper | Reversing array object`);
+    LOGGER.trace("reverse | handlebarsHelper | Called.");
     object.reverse();
     return object;
   });
 
   Handlebars.registerHelper("math", (...args) => {
-    LOGGER.trace(`Calling math Helper | Arg1:${args}`);
+    LOGGER.trace("math | handlebarsHelper | Called.");
     let mathArgs = [...args];
     let mathFunction = mathArgs[0];
     mathArgs.shift();
@@ -326,13 +329,13 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("getSkillStat", (skill, actor) => {
-    LOGGER.trace("Calling getSkillStat Helper");
+    LOGGER.trace("getSkillStat | handlebarsHelper | Called.");
     const skillStat = skill.data.data.stat;
     return actor.data.data.stats[skillStat].value;
   });
 
   Handlebars.registerHelper("hasCyberneticWeapons", (actor) => {
-    LOGGER.trace("Calling hasCyberneticWeapons Helper");
+    LOGGER.trace("hasCyberneticWeapons | handlebarsHelper | Called.");
     let returnValue = false;
     const cyberware = actor.getInstalledCyberware();
     cyberware.forEach((cw) => {
@@ -344,7 +347,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("ablated", (armor, slot) => {
-    LOGGER.trace(`Calling ablated Helper | Arg1:${armor} Arg2:${slot}`);
+    LOGGER.trace("ablated | handlebarsHelper | Called.");
     if (slot === "body") {
       return armor.bodyLocation.sp - armor.bodyLocation.ablation;
     } else if (slot === "head") {
@@ -355,7 +358,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("fireMode", (actor, firemode, weaponID) => {
-    LOGGER.trace("Calling fireMode Helper");
+    LOGGER.trace("fireMode | handlebarsHelper | Called.");
     LOGGER.debug(`firemode is ${firemode}`);
     LOGGER.debug(`weaponID is ${weaponID}`);
     const flag = getProperty(actor, `data.flags.cyberpunk-red-core.firetype-${weaponID}`);
@@ -369,7 +372,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("fireflag", (actor, firetype, weaponID) => {
-    LOGGER.trace("Calling fireflag Helper");
+    LOGGER.trace("fireflag | handlebarsHelper | Called.");
     const flag = getProperty(actor, `data.flags.cyberpunk-red-core.firetype-${weaponID}`);
     if (flag === firetype) {
       return "checked";
@@ -380,7 +383,7 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("systemConfig", (settingName) => game.settings.get("cyberpunk-red-core", settingName));
 
   Handlebars.registerHelper("splitJoinCoreSkills", (string) => {
-    LOGGER.trace("Calling splitJoinCoreSkills Helper");
+    LOGGER.trace("splitJoinCoreSkills | handlebarsHelper | Called.");
     const cprDot = "CPR.global.skills.";
     const initialSplit = string.split(" ").join("");
     const orCaseSplit = initialSplit.split("/").join("Or");
@@ -397,7 +400,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("sortCoreSkills", (object) => {
-    LOGGER.trace(`Calling sortCoreSkills Helper`);
+    LOGGER.trace("sortCoreSkills | handlebarsHelper | Called.");
     const objectTranslated = [];
     object.forEach((o) => {
       const newElement = o;
@@ -438,7 +441,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("itemIdFromName", (itemName, itemType) => {
-    LOGGER.trace("Calling itemIdFromName Helper");
+    LOGGER.trace("itemIdFromName | handlebarsHelper | Called.");
     const item = game.items.find((i) => i.data.name === itemName && i.type === itemType);
     if (item !== undefined) {
       return item.data._id;
@@ -449,20 +452,20 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("toArray", (string, delimiter) => string.split(delimiter));
 
   Handlebars.registerHelper("isTokenSheet", (title) => {
-    LOGGER.trace("Calling isTokenSheet Helper");
+    LOGGER.trace("isTokenSheet | handlebarsHelper | Called.");
     LOGGER.debug(`title is ${title}`);
     const substr = `[${SystemUtils.Localize("CPR.global.generic.token")}]`;
     return title.includes(substr);
   });
 
   Handlebars.registerHelper("objConcat", (obj1, obj2) => {
-    LOGGER.trace("Calling objConcat Helper");
+    LOGGER.trace("objConcat | handlebarsHelper | Called.");
     const obj = obj1.concat(obj2);
     return obj;
   });
 
   Handlebars.registerHelper("getMookSkills", (array) => {
-    LOGGER.trace("Calling getMookSkills Helper");
+    LOGGER.trace("getMookSkills | handlebarsHelper | Called.");
     const skillList = [];
     array.forEach((skill) => {
       if (skill.data.data.level > 0 || skill.data.data.skillmod > 0) {
@@ -473,7 +476,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("getMookCyberware", (installedCyberware) => {
-    LOGGER.trace("Calling getMookCyberware Helper");
+    LOGGER.trace("getMookCyberware | handlebarsHelper | Called.");
     const installedCyberwareList = [];
     Object.entries(installedCyberware).forEach(([k, v]) => {
       if (installedCyberware[k].length > 0) {
@@ -492,7 +495,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("getMookCyberwareLength", (installedCyberware) => {
-    LOGGER.trace("Calling getMookCyberwareLength Helper");
+    LOGGER.trace("getMookCyberwareLength | handlebarsHelper | Called.");
     const installedCyberwareList = [];
     Object.entries(installedCyberware).forEach(([k, v]) => {
       if (installedCyberware[k].length > 0) {
@@ -511,24 +514,24 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("entityTypes", (entityType) => {
-    LOGGER.trace("Calling entityTypes Helper");
+    LOGGER.trace("entityTypes | handlebarsHelper | Called.");
     return typeof game.system.entityTypes[entityType] === "object" ? game.system.entityTypes[entityType] : {};
   });
 
   Handlebars.registerHelper("isUpgradable", (itemType) => {
-    LOGGER.trace("Calling isUpgradeable Helper");
+    LOGGER.trace("isUpgradable | handlebarsHelper | Called.");
     const itemEntities = game.system.template.Item;
     return itemEntities[itemType].templates.includes("upgradable");
   });
 
   Handlebars.registerHelper("hasTemplate", (itemType, templateName) => {
-    LOGGER.trace("Calling isUpgradeable Helper");
+    LOGGER.trace("hasTemplate | handlebarsHelper | Called.");
     const itemEntities = game.system.template.Item;
     return itemEntities[itemType].templates.includes(templateName);
   });
 
   Handlebars.registerHelper("showUpgrade", (obj, dataPoint) => {
-    LOGGER.trace("Calling showUpgrade Helper");
+    LOGGER.trace("showUpgrade | handlebarsHelper | Called.");
     const itemEntities = game.system.template.Item;
     const itemType = obj.type;
     let upgradeText = "";
@@ -544,7 +547,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("applyUpgrade", (obj, baseValue, dataPoint) => {
-    LOGGER.trace("Calling showUpgrade Helper");
+    LOGGER.trace("applyUpgrade | handlebarsHelper | Called.");
     const itemEntities = game.system.template.Item;
     const itemType = obj.type;
     let upgradeResult = Number(baseValue);
@@ -570,7 +573,7 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("isDebug", () => {
-    LOGGER.trace("Calling isDebug Helper");
+    LOGGER.trace("isDebug | handlebarsHelper | Called.");
     return game.settings.get("cyberpunk-red-core", "debugElements");
   });
 

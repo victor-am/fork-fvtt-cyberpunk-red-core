@@ -5,6 +5,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class SelectCompatibleAmmo {
   static async RenderPrompt(data) {
+    LOGGER.trace("RenderPrompt | SelectCompatibleAmmo | called.");
     const template = "systems/cyberpunk-red-core/templates/dialog/cpr-select-compatible-ammo-prompt.hbs";
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {

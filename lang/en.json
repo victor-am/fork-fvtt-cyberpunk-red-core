@@ -616,7 +616,6 @@
     "CPR.messages.itemDoesNotExistError": "Error: The item with the id {itemid} does not exist.",
     "CPR.messages.ledgerErrorIsNoLedger": "Error: This property is no ledger!",
     "CPR.messages.linkBlackIceWithoutToken": "Only tokens can be linked to a Black ICE Program. Place this Actor into your scene and configure the Token to use the Black ICE program of your choice.",
-    "CPR.messages.noTokenFound": "Cannot update token sheet when it is on another scene!",
     "CPR.messages.noValidAmmo": "You have no ammo for that weapon, Choomba!",
     "CPR.messages.ownedItemOnlyError": "Error: Feature only enabled for items owned by a Character or Mook",
     "CPR.messages.reloadOutOfAmmo": "Sorry, Choomba, you can't do that, you're out of ammo!",

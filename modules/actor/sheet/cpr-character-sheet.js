@@ -5,7 +5,6 @@ import LOGGER from "../../utils/cpr-logger.js";
 import Rules from "../../utils/cpr-rules.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
-import CyberdeckSelectProgramsPrompt from "../../dialog/cpr-select-install-programs-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import ImprovementPointEditPrompt from "../../dialog/cpr-improvement-point-edit-prompt.js";
 
@@ -631,8 +630,6 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   async _cyberdeckProgramUninstall(event) {
     LOGGER.trace("_cyberdeckProgramUninstall | CPRCharacterActorSheet | Called.");
-    const programId = $(event.currentTarget).attr("data-item-id");
-    const program = this._getOwnedItem(programId);
     const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
     const cyberdeck = this._getOwnedItem(cyberdeckId);
 

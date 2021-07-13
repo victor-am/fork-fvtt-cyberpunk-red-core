@@ -45,7 +45,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @returns - sheet options merged with default options in ActorSheet
    */
   static get defaultOptions() {
-    LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
+    LOGGER.trace("defaultOptions | CPRActorSheet | Called.");
     const defaultWidth = 800;
     const defaultHeight = 590;
     return mergeObject(super.defaultOptions, {
@@ -468,7 +468,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @param {} event - object capturing event data (what was clicked and where?)
    */
   _makeArmorCurrent(event) {
-    LOGGER.trace("ActorID _makeArmorCurrent | CPRActorSheet | Called.");
+    LOGGER.trace("_makeArmorCurrent | CPRActorSheet | Called.");
     const location = $(event.currentTarget).attr("data-location");
     const id = $(event.currentTarget).attr("data-item-id");
     this.actor.makeThisArmorCurrent(location, id);
@@ -563,6 +563,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @returns the Item object matching the given Id
    */
   _getOwnedItem(itemId) {
+    LOGGER.trace("_getOwnedItem | CPRActorSheet | Called.");
     return this.actor.items.find((i) => i.data._id === itemId);
   }
 
@@ -581,6 +582,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @returns {String} - the property string
    */
   static _getObjProp(event) {
+    LOGGER.trace("_getObjProp | CPRActorSheet | Called.");
     return $(event.currentTarget).attr("data-item-prop");
   }
 
@@ -819,7 +821,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @private
    */
   _automaticResize() {
-    LOGGER.trace("ActorSheet | _automaticResize | Called.");
+    LOGGER.trace("_automaticResize | CPRActorSheet | Called.");
     const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
     if (setting && this.rendered && !this._minimized) {
       // It seems that the size of the content does not change immediately upon updating the content
@@ -1037,6 +1039,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @returns {null}
    */
   async _splitItem(item) {
+    LOGGER.trace("_splitItem | CPRActorSheet | called.");
     if (item.data.data.upgrades.length !== 0) {
       SystemUtils.DisplayMessage("warn", SystemUtils.Format("CPR.dialog.splitItem.warningUpgrade"));
     }

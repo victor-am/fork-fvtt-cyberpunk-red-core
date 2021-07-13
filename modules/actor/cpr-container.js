@@ -6,7 +6,7 @@ import LOGGER from "../utils/cpr-logger.js";
  */
 export default class CPRContainerActor extends Actor {
   prepareData() {
-    LOGGER.trace("prepareData | CPRActor | Called.");
+    LOGGER.trace("prepareData | CPRContainerActor | Called.");
     super.prepareData();
     if (this.compendium === null || this.compendium === undefined) {
       // It looks like prepareData() is called for any actors/npc's that exist in
@@ -28,6 +28,7 @@ export default class CPRContainerActor extends Actor {
    *                    - false if it has been stacked on an existing item
    */
   automaticallyStackItems(newItem) {
+    LOGGER.trace("automaticallyStackItems | CPRContainerActor | Called.");
     const stackableItemTypes = ["ammo", "gear", "clothing"];
     if (stackableItemTypes.includes(newItem.type)) {
       const match = this.items.find((i) => i.type === newItem.type && i.name === newItem.name && i.data.data.upgrades.length === 0);

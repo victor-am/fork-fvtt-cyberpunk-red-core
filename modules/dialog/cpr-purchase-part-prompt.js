@@ -4,6 +4,7 @@ import LOGGER from "../utils/cpr-logger.js";
 
 export default class PurchasePartPrompt {
   static async RenderPrompt(itemText) {
+    LOGGER.trace("RenderPrompt | PurchasePartPrompt | called.");
     return new Promise((resolve, reject) => {
       renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-purchase-part-prompt.hbs", itemText).then((html) => {
         const _onCancel = () => {

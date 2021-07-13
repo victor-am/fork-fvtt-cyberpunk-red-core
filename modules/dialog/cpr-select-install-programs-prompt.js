@@ -5,6 +5,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class InstallProgramsPrompt {
   static async RenderPrompt(data) {
+    LOGGER.trace("RenderPrompt | InstallProgramsPrompt | called.");
     const template = "systems/cyberpunk-red-core/templates/dialog/cpr-select-install-programs-prompt.hbs";
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {

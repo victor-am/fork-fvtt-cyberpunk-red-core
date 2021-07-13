@@ -3,12 +3,14 @@ import SystemUtils from "./cpr-systemUtils.js";
 
 export default class Rules {
   static lawyer(rule = false, msg) {
+    LOGGER.trace("lawyer | Rules | called.");
     if (!rule) {
       SystemUtils.DisplayMessage("warn", msg);
     }
   }
 
   static validRole(actor, data) {
+    LOGGER.trace("validRole | Rules | called.");
     let roleValid = true;
     const roleData = actor.data.data.roleInfo;
     if (typeof data !== "undefined") {

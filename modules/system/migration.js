@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-undef */
@@ -425,12 +427,13 @@ export default class Migration {
     });
 
     // Remove any installed items from the core content since the actorData has those items
+    let coreContent = content;
     installedCyberware.forEach((c) => {
-      content = content.filter((cw) => cw.name !== c.name);
+      coreContent = coreContent.filter((cw) => cw.name !== c.name);
     });
 
     // Anything left in content is missing
-    return content;
+    return coreContent;
   }
 
   static _migrateCriticalInjuries(actorData) {
