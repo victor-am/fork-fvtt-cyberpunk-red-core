@@ -39,10 +39,12 @@ export default class CPRSystemUtils {
     }
   }
 
+  // eslint-disable-next-line foundry-cpr/logger-after-function-definition
   static Localize(string) {
     return game.i18n.localize(string);
   }
 
+  // eslint-disable-next-line foundry-cpr/logger-after-function-definition
   static Format(string, object) {
     return game.i18n.format(string, object);
   }

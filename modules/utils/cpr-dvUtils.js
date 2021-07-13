@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
-import LOGGER from "../utils/cpr-logger.js";
+import LOGGER from "./cpr-logger.js";
+
 export default class DvUtils {
   static GetDvTables() {
     LOGGER.trace("GetDvTables | DvUtils | called.");
