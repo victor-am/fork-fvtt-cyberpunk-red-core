@@ -50,7 +50,7 @@
 - Fixed #263: New containers now show infinite stock option, as they are initialized as a shop.
 - Fix #265, #266, #267: Gear tab now remembers scroll position.
 - Fixed, that number of options slots were not displayed in the item sheet description tab for foundational cyberware.
-- Fixed #262: Missing Expansive, Rubber and Smart Ammo for Very Heavy Pistols has been added to the compendium. "Basic Grenade" and "Basic Rocket" are now just "Grenade" and "Rocket" respectively. 
+- Fixed #262: Missing Expansive, Rubber and Smart Ammo for Very Heavy Pistols has been added to the compendium. Basic Grenade and Basic Rocket have been removed and should not exist according to allowed ammo type rules.
 
 # Version 0.77.1 | Date: 2021-06-29
 **Hot Fix**
