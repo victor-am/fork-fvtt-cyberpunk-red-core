@@ -40,12 +40,10 @@ export default class CPRSystemUtils {
   }
 
   static Localize(string) {
-    LOGGER.trace("Localize | CPRSystemUtils | Called.");
     return game.i18n.localize(string);
   }
 
   static Format(string, object) {
-    LOGGER.trace("Format | CPRSystemUtils | Called.");
     return game.i18n.format(string, object);
   }
 
