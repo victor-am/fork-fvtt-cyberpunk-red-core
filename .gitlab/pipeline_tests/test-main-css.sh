@@ -22,6 +22,8 @@ do
     fi
   else
     # Download unsuccessful, therefore this is a new .less file so there is a change
+    # TODO: This is a risky assumption; a download could fail for unrelated reasons.
+    #       We should investigate other options in the pipeline.
     LESS_CHANGED=1
   fi
 done
