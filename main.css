@@ -756,7 +756,7 @@ button,
 .container-sheet .right-pane {
   grid-area: pane-right;
   display: flex;
-  height: 450px;
+  min-height: 450px;
   width: 100%;
   border-color: #b90202ff;
   border-style: solid;

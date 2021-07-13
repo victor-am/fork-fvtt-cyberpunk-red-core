@@ -17,7 +17,6 @@
     // | settings, money | content   |
     // +-----------------------------+
     grid-template-columns: 210px auto;
-
     grid-template-areas: "pane-left pane-right";
 
     // Pane for main and stats
@@ -90,7 +89,7 @@
         grid-area: pane-right;
 
         display  : flex;
-        height   : 450px;
+        min-height   : 450px;
         width    : 100%;
 
         border-color: @wyrm-red;
