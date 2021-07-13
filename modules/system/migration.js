@@ -1,3 +1,4 @@
+/* eslint-disable foundry-cpr/logger-after-function-definition */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
 /* eslint-disable max-len */
