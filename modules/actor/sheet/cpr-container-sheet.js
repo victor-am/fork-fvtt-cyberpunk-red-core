@@ -94,6 +94,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
   /**
    * We extend CPRContainerSheet._onRezize to enable automatic fitting of the content to the window size.
    *
+   * @override
    * @private
    * @param {event} event - object capruting evene t data
    */
@@ -104,7 +105,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
   }
 
   /**
-   * Automatically resize the content sucht that it fills the window.
+   * Automatically resize the content such that it fills the window.
    *
    * @private
    */
