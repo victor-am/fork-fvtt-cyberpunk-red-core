@@ -7,6 +7,7 @@ import SystemUtils from "./cpr-systemUtils.js";
 
 export default class CPRNetarchUtils {
   constructor(item) {
+    LOGGER.trace("constructor | CPRNetarchUtils | called.");
     this.netarchItem = item;
     this.options = {
       filePath: "systems/cyberpunk-red-core/tiles/netarch/PNG/",
@@ -49,6 +50,7 @@ export default class CPRNetarchUtils {
   }
 
   async _generateNetarchScene() {
+    LOGGER.trace("_generateNetarchScene | CPRNetarchUtils | called.");
     this.tileData = {
       arrow: {
         img: `${this.options.filePath}Arrow.${this.options.fileExtension}`,
@@ -270,7 +272,7 @@ export default class CPRNetarchUtils {
   }
 
   async _duplicateScene(newName) {
-    LOGGER.trace("_duplicateScene | CPRINetarchUtils | Called.");
+    LOGGER.trace("_duplicateScene | CPRNetarchUtils | Called.");
     let scene = null;
     if (this.animated) {
       scene = await game.packs.get("cyberpunk-red-core.scenes").getDocument("kmVVudIkBTEODmcq");
@@ -285,7 +287,7 @@ export default class CPRNetarchUtils {
   }
 
   async _addTilesToScene(tileData) {
-    LOGGER.trace("_addTilesToScene | CPRINetarchUtils | Called.");
+    LOGGER.trace("_addTilesToScene | CPRNetarchUtils | Called.");
     if (this.scene === null) {
       LOGGER.log("Error no scene defined!");
       return;
@@ -295,13 +297,14 @@ export default class CPRNetarchUtils {
   }
 
   async _removeAllTiles() {
-    LOGGER.trace("_removeAllTiles | CPRINetarchUtils | Called.");
+    LOGGER.trace("_removeAllTiles | CPRNetarchUtils | Called.");
     const tileIds = [];
     this.scene.tiles.forEach((t) => { tileIds.push(t.id); });
     await this.scene.deleteEmbeddedDocuments("Tile", tileIds);
   }
 
   _checkDV(dv) {
+    LOGGER.trace("_checkDV | CPRNetarchUtils | called.");
     const reg = new RegExp("^[0-9]+$");
     if (reg.test(dv)) {
       return Number(dv);
@@ -310,6 +313,7 @@ export default class CPRNetarchUtils {
   }
 
   _checkFloorType(floor) {
+    LOGGER.trace("_checkFloorType | CPRNetarchUtils | called.");
     if (floor.content === "CPR.global.programClass.blackice" && floor.blackice !== "--") {
       return this.floorDict[floor.blackice];
     }
@@ -317,6 +321,7 @@ export default class CPRNetarchUtils {
   }
 
   async _customize() {
+    LOGGER.trace("_customize | CPRNetarchUtils | called.");
     let formData = {
       animated: false,
       cusomTiles: false,
