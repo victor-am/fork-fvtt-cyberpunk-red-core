@@ -564,7 +564,6 @@
     "CPR.messages.itemDoesNotExistError": "Erreur: L'objet avec l'id {itemid} n'existe pas.",
     "CPR.messages.ledgerErrorIsNoLedger": "Erreur : Cette propriété n'est pas un registre !",
     "CPR.messages.linkBlackIceWithoutToken": "Seul les tokens peuvent être lié à un programme GLACE Noir. Placez cet Acteur dans votre scène et configurez le Token pour utiliser le programme GLACE Noir de votre choix.",
-    "CPR.messages.noTokenFound": "Impossible de mettre à jour la feuille de token quand il est dans une autre scène !",
     "CPR.messages.noValidAmmo": "Tu n'as pas de munitions pour cette arme, Choomba !",
     "CPR.messages.ownedItemOnlyError": "Erreur: Cette fonctionnalité est uniquement activé pour les objets possédés par un Personnage ou Sbire",
     "CPR.messages.reloadOutOfAmmo": "Désolé, Choomba, tu ne peux pas faire ça tu n'as plus de munitions !",
