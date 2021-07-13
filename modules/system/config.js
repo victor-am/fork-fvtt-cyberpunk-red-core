@@ -373,6 +373,7 @@ CPR.roleSpecialOptions = {
 };
 
 CPR.universalBonuses = {
+  attack: "CPR.attack",
   damage: "CPR.damage",
 };
 

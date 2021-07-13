@@ -71,6 +71,7 @@
         },
 
         "universalBonuses": {
+          "attack": 0,
           "damage": 0
         },
 

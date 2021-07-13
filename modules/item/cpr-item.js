@@ -566,22 +566,32 @@ export default class CPRItem extends Item {
         });
       }
     });
+    let universalBonusAttack = actor.data.data.universalBonuses.attack;
+    this.actor.data.filteredItems.role.forEach((r) => {
+      if (r.data.data.universalBonuses.includes("attack")) {
+        universalBonusAttack += Math.floor(r.data.data.rank / r.data.data.bonusRatio);
+      }
+      const subroleUniversalBonuses = r.data.data.abilities.filter((a) => a.universalBonuses.includes("attack"));
+      if (subroleUniversalBonuses.length > 0) {
+        subroleUniversalBonuses.forEach((b) => universalBonusAttack += Math.floor(b.rank / b.bonusRatio));
+      }
+    });
 
     switch (type) {
       case CPRRolls.rollTypes.AIMED: {
-        cprRoll = new CPRRolls.CPRAimedAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType);
+        cprRoll = new CPRRolls.CPRAimedAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
         break;
       }
       case CPRRolls.rollTypes.AUTOFIRE: {
-        cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType);
+        cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
         break;
       }
       case CPRRolls.rollTypes.SUPPRESSIVE: {
-        cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType);
+        cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
         break;
       }
       default:
-        cprRoll = new CPRRolls.CPRAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType);
+        cprRoll = new CPRRolls.CPRAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
     }
 
     // apply known mods

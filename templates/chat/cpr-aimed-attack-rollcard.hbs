@@ -49,6 +49,9 @@
             {{#if roleValue}}
               <div class="text-normal text-bold">{{localize roleName}} + {{roleValue}}</div>
             {{/if}}
+            {{#if universalBonusAttack}}
+              <div class="text-normal text-bold">{{localize "CPR.UniversalBonus"}}: + {{universalBonusAttack}}
+            {{/if}}
             {{#if mods}}
             <span class="text-normal text-nowrap">{{localize "CPR.rollmods"}}: {{mods}}</span>
             <div class="text-normal text-bold text-nowrap">{{localize "CPR.mods"}} {{localize "CPR.total"}}:
