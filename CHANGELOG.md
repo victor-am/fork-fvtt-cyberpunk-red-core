@@ -50,6 +50,7 @@
 **Bug Fixes**
 - Fixed #263: New containers now show infinite stock option, as they are initialized as a shop.
 - Fix #265, #266, #267: Gear tab now remembers scroll position.
+- Fix #276: Items can be transferred from unlinked actors
 - Fixed, that number of options slots were not displayed in the item sheet description tab for foundational cyberware.
 - Fixed #262: Missing Expansive, Rubber and Smart Ammo for Very Heavy Pistols has been added to the compendium. Basic Grenade and Basic Rocket have been removed and should not exist according to allowed ammo type rules.
 

@@ -985,9 +985,11 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("_onDragItemStart | CPRActorSheet | called.");
     const itemId = event.currentTarget.getAttribute("data-item-id");
     const item = this.actor.getEmbeddedDocument("Item", itemId);
+    const tokenId = (this.token === null) ? null : this.token.id;
     event.dataTransfer.setData("text/plain", JSON.stringify({
       type: "Item",
       actorId: this.actor.id,
+      tokenId,
       data: item,
       root: event.currentTarget.getAttribute("root"),
     }));
@@ -1009,7 +1011,7 @@ export default class CPRActorSheet extends ActorSheet {
     const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
     if (dragData.actorId !== undefined) {
       // Transfer ownership from one player to another
-      const actor = game.actors.find((a) => a.id === dragData.actorId);
+      const actor = (Object.keys(game.actors.tokens).includes(dragData.tokenId)) ? game.actors.tokens[dragData.tokenId] : game.actors.find((a) => a.id === dragData.actorId);
       if (actor.type === "container" && !game.user.isGM) {
         SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeDragOutWarn"));
         return;
