@@ -15,35 +15,29 @@ export default class SelectRolesPrompt {
         };
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog SelectRolesPrompt | called.");
-          const roleList = html.find("[name=\"activeRole\"");
-          const netRoleList = html.find("[name=\"activeNetRole\"");
-          let activeRole = "";
-          let activeNetRole = "";
+          const roleList = html.find("[name=\"selectedRoles\"");
+          const selectedRoles = [];
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
           Object.keys(roleList).forEach((role) => {
             if (roleList[role].checked) {
-              activeRole = roleList[role].value;
-            }
-            if (netRoleList[role].checked) {
-              activeNetRole = netRoleList[role].value;
+              selectedRoles.push(roleList[role].value);
             }
           });
-          formData.activeRole = activeRole;
-          formData.activeNetRole = activeNetRole;
+          formData.selectedRoles = selectedRoles;
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.selectroleprompttitle"),
+          title: SystemUtils.Localize("CPR.dialog.selectRoles.title"),
           content: html,
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
-              label: SystemUtils.Localize("CPR.cancel"),
+              label: SystemUtils.Localize("CPR.dialog.common.cancel"),
               callback: (html) => _onCancel(html), // TODO fix no-shadow
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: SystemUtils.Localize("CPR.confirm"),
+              label: SystemUtils.Localize("CPR.dialog.common.confirm"),
               callback: (html) => _onConfirm(html), // TODO fix no-shadow
             },
           },

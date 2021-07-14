@@ -8,9 +8,9 @@ export default class CPRLedger extends FormApplication {
   static get defaultOptions() {
     LOGGER.trace("defaultOptions | CPRLedger | called.");
     return mergeObject(super.defaultOptions, {
-      title: SystemUtils.Localize("CPR.ledgertitle"),
+      title: SystemUtils.Localize("CPR.ledger.title"),
       template: "systems/cyberpunk-red-core/templates/dialog/cpr-ledger-form.hbs",
-      width: 500,
+      width: 600,
       height: 340,
     });
   }
@@ -34,7 +34,7 @@ export default class CPRLedger extends FormApplication {
     // Generates the localization strings for "CPR.ledger.wealth" and "CPR.ledger.improvementpoints"
     // and maybe others in the future. This comment has been added to allow for automated checks
     // of localization strings in the code.
-    this.ledgername = "CPR.ledger".concat(name.toLowerCase());
+    this.ledgername = "CPR.ledger.".concat(name.toLowerCase());
     this.contents = duplicate(contents);
     this._makeLedgerReadable(name);
   }
