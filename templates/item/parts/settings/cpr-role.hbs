@@ -95,6 +95,13 @@
           {{#if (compare data.data.bonusRatio "!==" 1)}}{{localize "CPR.BonusRatio"}} - 1:{{data.data.bonusRatio}}{{/if}}
       </div>
       <div class="compatible-ammo">
+        {{#each data.data.universalBonuses as |bonus|}}
+          <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap text-padding-left">
+                &nbsp;{{localize (findConfigValue "universalBonuses" bonus)}}
+            </div>
+          </li>
+        {{/each}}
         {{#each (sort data.data.bonuses "data.stat") as |bonus|}}
           <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap text-padding-left">

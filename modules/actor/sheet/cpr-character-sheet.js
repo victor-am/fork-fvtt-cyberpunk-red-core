@@ -195,7 +195,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     if (formData === undefined) {
       return;
     }
-    this.actor.update({ "data.roleInfo.activeRole": formData.activeRole });
+    this.actor.update({ "data.roleInfo.activeRole": formData.activeRole, "data.roleInfo.activeNetRole": formData.activeNetRole });
   }
 
   async _setLifepath() {

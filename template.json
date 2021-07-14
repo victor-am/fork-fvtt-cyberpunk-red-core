@@ -163,7 +163,8 @@
           "wildernesssurvival": 0
         },
         "roleInfo": {
-          "activeRole": "solo",
+          "activeNetRole": "",
+          "activeRole": "",
           "roles": [
             "solo"
           ],
