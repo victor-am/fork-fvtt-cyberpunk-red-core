@@ -44,7 +44,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @returns - sheet options merged with default options in ActorSheet
    */
   static get defaultOptions() {
-    LOGGER.trace("ActorID defaultOptions | CPRActorSheet | Called.");
+    LOGGER.trace("defaultOptions | CPRActorSheet | Called.");
     const defaultWidth = 800;
     const defaultHeight = 590;
     return mergeObject(super.defaultOptions, {
@@ -359,8 +359,13 @@ export default class CPRActorSheet extends ActorSheet {
       case "head": {
         armorList.forEach((a) => {
           const armorData = a.data;
+          const upgradeValue = a.getAllUpgradesFor("headSp");
+          const upgradeType = a.getUpgradeTypeFor("headSp");
+          armorData.data.headLocation.sp = Number(armorData.data.headLocation.sp);
+          armorData.data.headLocation.ablation = Number(armorData.data.headLocation.ablation);
+          const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.headLocation.sp + upgradeValue;
           armorData.data.headLocation.ablation = Math.min(
-            (a.getData().headLocation.ablation + 1), a.getData().headLocation.sp,
+            (armorData.data.headLocation.ablation + 1), armorSp,
           );
           updateList.push({ _id: a.id, data: armorData.data });
         });
@@ -373,8 +378,13 @@ export default class CPRActorSheet extends ActorSheet {
       case "body": {
         armorList.forEach((a) => {
           const armorData = a.data;
+          armorData.data.bodyLocation.sp = Number(armorData.data.bodyLocation.sp);
+          armorData.data.bodyLocation.ablation = Number(armorData.data.bodyLocation.ablation);
+          const upgradeValue = a.getAllUpgradesFor("bodySp");
+          const upgradeType = a.getUpgradeTypeFor("bodySp");
+          const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.bodyLocation.sp + upgradeValue;
           armorData.data.bodyLocation.ablation = Math.min(
-            (a.getData().bodyLocation.ablation + 1), a.getData().bodyLocation.sp,
+            (armorData.data.bodyLocation.ablation + 1), armorSp,
           );
           updateList.push({ _id: a.id, data: armorData.data });
         });
@@ -387,6 +397,8 @@ export default class CPRActorSheet extends ActorSheet {
       case "shield": {
         armorList.forEach((a) => {
           const armorData = a.data;
+          armorData.data.shieldHitPoints.value = Number(armorData.data.shieldHitPoints.value);
+          armorData.data.shieldHitPoints.max = Number(armorData.data.shieldHitPoints.max);
           armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - 1), 0);
           updateList.push({ _id: a.id, data: armorData.data });
         });
@@ -437,6 +449,18 @@ export default class CPRActorSheet extends ActorSheet {
           item.toggleFavorite();
           break;
         }
+        case "upgrade": {
+          await item.sheet._selectItemUpgrades(event);
+          break;
+        }
+        case "remove-upgrade": {
+          await item.sheet._removeItemUpgrade(event);
+          break;
+        }
+        case "split": {
+          this._splitItem(item);
+          break;
+        }
         default: {
           item.doAction(this.actor, event.currentTarget.attributes);
         }
@@ -457,7 +481,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @param {} event - object capturing event data (what was clicked and where?)
    */
   _makeArmorCurrent(event) {
-    LOGGER.trace("ActorID _makeArmorCurrent | CPRActorSheet | Called.");
+    LOGGER.trace("_makeArmorCurrent | CPRActorSheet | Called.");
     const location = $(event.currentTarget).attr("data-location");
     const id = $(event.currentTarget).attr("data-item-id");
     this.actor.makeThisArmorCurrent(location, id);
@@ -519,7 +543,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @param {Object} event - object capturing event data (what was clicked and where?)
    */
   _renderReadOnlyItemCard(event) {
-    LOGGER.trace("_itemUpdate | CPRActorSheet | Called.");
+    LOGGER.trace("_renderReadOnlyItemCard | CPRActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
     const item = this.actor.items.find((i) => i.data._id === itemId);
     item.sheet.render(true, { editable: false });
@@ -552,6 +576,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @returns the Item object matching the given Id
    */
   _getOwnedItem(itemId) {
+    LOGGER.trace("_getOwnedItem | CPRActorSheet | Called.");
     return this.actor.items.find((i) => i.data._id === itemId);
   }
 
@@ -570,6 +595,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @returns {String} - the property string
    */
   static _getObjProp(event) {
+    LOGGER.trace("_getObjProp | CPRActorSheet | Called.");
     return $(event.currentTarget).attr("data-item-prop");
   }
 
@@ -607,7 +633,7 @@ export default class CPRActorSheet extends ActorSheet {
         const weaponData = weapon.data.data;
         if (weaponData.isRanged) {
           if (weaponData.magazine.ammoId === item.id) {
-            const warningMessage = `${game.i18n.localize("CPR.ammodeletewarning")}: ${weapon.name}`;
+            const warningMessage = `${SystemUtils.Localize("CPR.messages.ammoDeleteWarning")}: ${weapon.name}`;
             SystemUtils.DisplayMessage("warn", warningMessage);
             ammoIsLoaded = true;
           }
@@ -625,6 +651,15 @@ export default class CPRActorSheet extends ActorSheet {
       const updateList = [];
       programs.forEach((p) => {
         updateList.push({ _id: p._id, "data.isInstalled": false });
+      });
+      await this.actor.updateEmbeddedDocuments("Item", updateList);
+    }
+
+    if (game.system.template.Item[item.type].templates.includes("upgradable")) {
+      const { upgrades } = item.data.data;
+      const updateList = [];
+      upgrades.forEach((u) => {
+        updateList.push({ _id: u._id, "data.isInstalled": false });
       });
       await this.actor.updateEmbeddedDocuments("Item", updateList);
     }
@@ -728,7 +763,7 @@ export default class CPRActorSheet extends ActorSheet {
         (item.type === "criticalInjury") && (item.name === table.data.results._source[0].text)
       ));
       if (!crit) {
-        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
+        SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.dialog.rollCriticalInjury.criticalInjuryNoneWarning")));
         return;
       }
       const critType = crit.data.data.location;
@@ -738,12 +773,12 @@ export default class CPRActorSheet extends ActorSheet {
         if (injury.data.data.location === critType) { numberCritInjurySameType += 1; }
       });
       if (table.data.results.contents.length <= numberCritInjurySameType) {
-        SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicateallwarning")));
+        SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.criticalInjuryDuplicateAllWarning")));
         return;
       }
       // Techincally possible to reach even if a critical injury is still missing (chance: 6*10e-11 %), though unlikely.
       if (iteration > 1000) {
-        SystemUtils.DisplayMessage("error", (game.i18n.localize("CPR.criticalinjuryduplicateloopwarning")));
+        SystemUtils.DisplayMessage("error", (SystemUtils.Localize("CPR.messages.criticalInjuryDuplicateLoopWarning")));
         // Prevent endless loop in case of mixed (head and body) Critical Injury tables
         // or unreachable elements in the rolltable.
         return;
@@ -764,14 +799,14 @@ export default class CPRActorSheet extends ActorSheet {
               return;
             }
             if (setting === "warn") {
-              SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjuryduplicatewarning")));
+              SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.criticalInjuryDuplicateWarning")));
             }
           }
           const crit = game.items.find((item) => (
             (item.type === "criticalInjury") && (item.name === res.results[0].data.text)
           ));
           if (!crit) {
-            SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.criticalinjurynonewarning")));
+            SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.dialog.rollCriticalInjury.criticalInjuryNoneWarning")));
             return;
           }
           const itemData = duplicate(crit.data);
@@ -799,7 +834,7 @@ export default class CPRActorSheet extends ActorSheet {
    * @private
    */
   _automaticResize() {
-    LOGGER.trace("ActorSheet | _automaticResize | Called.");
+    LOGGER.trace("_automaticResize | CPRActorSheet | Called.");
     const setting = game.settings.get("cyberpunk-red-core", "automaticallyResizeSheets");
     if (setting && this.rendered && !this._minimized) {
       // It seems that the size of the content does not change immediately upon updating the content
@@ -963,9 +998,11 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("_onDragItemStart | CPRActorSheet | called.");
     const itemId = event.currentTarget.getAttribute("data-item-id");
     const item = this.actor.getEmbeddedDocument("Item", itemId);
+    const tokenId = (this.token === null) ? null : this.token.id;
     event.dataTransfer.setData("text/plain", JSON.stringify({
       type: "Item",
       actorId: this.actor.id,
+      tokenId,
       data: item,
       root: event.currentTarget.getAttribute("root"),
     }));
@@ -987,7 +1024,7 @@ export default class CPRActorSheet extends ActorSheet {
     const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
     if (dragData.actorId !== undefined) {
       // Transfer ownership from one player to another
-      const actor = game.actors.find((a) => a.id === dragData.actorId);
+      const actor = (Object.keys(game.actors.tokens).includes(dragData.tokenId)) ? game.actors.tokens[dragData.tokenId] : game.actors.find((a) => a.id === dragData.actorId);
       if (actor.type === "container" && !game.user.isGM) {
         SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.tradedragoutwarn"));
         return;
@@ -998,10 +1035,47 @@ export default class CPRActorSheet extends ActorSheet {
           || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
           return;
         }
-        super._onDrop(event).then(actor.deleteEmbeddedDocuments("Item", [dragData.data._id]));
+        if (dragData.data.data.isUpgraded) {
+          SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradedragupgradewarn"));
+          return;
+        }
+        await super._onDrop(event).then(actor.deleteEmbeddedDocuments("Item", [dragData.data._id]));
       }
     } else {
-      super._onDrop(event);
+      await super._onDrop(event);
     }
+  }
+
+  /**
+   * _splitItem splits an item into multiple items if possible.
+   * It also adjusts the price accordingly.
+   *
+   * @param {Object} item - an object containing the new item
+   * @returns {null}
+   */
+  async _splitItem(item) {
+    LOGGER.trace("_splitItem | CPRActorSheet | called.");
+    if (item.data.data.upgrades.length !== 0) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Format("CPR.dialog.splitItem.warningUpgrade"));
+    }
+    const itemText = SystemUtils.Format("CPR.dialog.splitItem.text",
+      { amount: item.data.data.amount, itemName: item.name });
+    const formData = await SplitItemPrompt.RenderPrompt(itemText).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
+    const oldAmount = parseInt(item.data.data.amount, 10);
+    if (formData.splitAmount <= 0 || formData.splitAmount >= oldAmount) {
+      const warningMessage = SystemUtils.Format("CPR.dialog.splitItem.warningAmount",
+        { amountSplit: formData.splitAmount, amountOld: oldAmount, itemName: item.name });
+      SystemUtils.DisplayMessage("warn", warningMessage);
+      return;
+    }
+    const newAmount = oldAmount - formData.splitAmount;
+    const newItemData = duplicate(item.data);
+    newItemData.data.amount = formData.splitAmount;
+    delete newItemData._id;
+    await this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.amount": newAmount }]);
+    await this.actor.createEmbeddedDocuments("Item", [newItemData], { CPRsplitStack: true });
   }
 }

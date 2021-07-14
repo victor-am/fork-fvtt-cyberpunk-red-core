@@ -1,26 +1,10 @@
-<form>
-    <div class="item-settings-tab">
-        <div class="item-settings-section">
-            <ol class="items-list">
+{{!-- Gear Item Settings--}}
 
-                {{!--Item Name Settings--}}
-                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs" this}}
-
-                {{!-- Physical Item Settings--}}
-                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
-
-                {{!-- Gear Item Settings--}}
-
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.amount"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        <input name="data.amount" class="" type="number" value="{{data.data.amount}}" placeholder="10">
-                    </div>
-                </li>
-
-            </ol>
-        </div>
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.global.generic.amount"}}
     </div>
-</form>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <input name="data.amount" class="" type="number" value="{{data.data.amount}}" placeholder="10">
+    </div>
+</li>

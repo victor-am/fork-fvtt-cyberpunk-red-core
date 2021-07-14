@@ -10,8 +10,8 @@ const tokenHudHooks = () => {
     // Configure DV Ruler
     const dvHudTemplate = "systems/cyberpunk-red-core/templates/hud/dv.hbs";
     const dvDisplay = await renderTemplate(dvHudTemplate, token.flags);
-    html.find('div.left').append(dvDisplay);
-    html.find(".dv-table-selector").click((event) => {
+    html.find("div.left").append(dvDisplay);
+    html.find(".dv-table-selector").click(() => {
       HudInterface.SetDvTable(token);
       hud.clear();
     });

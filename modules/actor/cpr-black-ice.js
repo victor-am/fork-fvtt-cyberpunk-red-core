@@ -45,6 +45,7 @@ export default class CPRBlackIceActor extends Actor {
   }
 
   createDamageRoll(programId, netrunnerTokenId, sceneId) {
+    LOGGER.trace("createDamageRoll | CPRBlackIceActor | called.");
     let program;
     if (netrunnerTokenId) {
       const sceneList = (sceneId) ? game.scenes.filter((s) => s.id === sceneId) : game.scenes;
@@ -95,6 +96,7 @@ export default class CPRBlackIceActor extends Actor {
    *                          the string. If this is not set it will default to whatever exists on the Actor.
    */
   programmaticallyUpdate(type, per, spd, atk, def, rezValue, rezMax = null, effect = null) {
+    LOGGER.trace("programmaticallyUpdate | CPRBlackIceActor | called.");
     const actorData = duplicate(this.data);
     setProperty(actorData, "data.class", type);
     setProperty(actorData, "data.stats.per", per);

@@ -5,6 +5,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class SelectRolesPrompt {
   static async RenderPrompt(data) {
+    LOGGER.trace("RenderPrompt | SelectRolesPrompt | called.");
     const template = "systems/cyberpunk-red-core/templates/dialog/cpr-select-roles-prompt.hbs";
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {

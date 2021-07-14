@@ -36,13 +36,28 @@ export default class CPRItem extends Item {
   }
 
   update(data, options = {}) {
-    if (data['data.type'] === "cyberwareInternal" || data['data.type'] === "cyberwareExternal" || data['data.type'] === "fashionware") {
-      data['data.isFoundational'] = false;
+    const cprData = data;
+    if (data["data.type"] === "cyberwareInternal" || data["data.type"] === "cyberwareExternal" || data["data.type"] === "fashionware") {
+      cprData["data.isFoundational"] = false;
     }
     if (this.data.type === "weapon") {
-      data['data.dvTable'] = data['data.dvTable'] === null ? "" : data['data.dvTable'];
+      cprData["data.dvTable"] = data["data.dvTable"] === null ? "" : data["data.dvTable"];
     }
-    super.update(data, options);
+    super.update(cprData, options);
+  }
+
+  _onCreate(data, options, userId) {
+    const newData = data;
+    // If we acre creating an upgradable item from an existing upgradable item
+    // which has been upgraded, remove the upgrade from the new weapon as it
+    // may reference an itemUpgrade object which doesn't exist in the same
+    // location as the upgradable item
+    const upgradableItemTypes = SystemUtils.GetTemplateItemTypes("upgradable");
+    if (upgradableItemTypes.includes(data.type)) {
+      newData.data.isUpgraded = false;
+      newData.data.upgrades = [];
+    }
+    super._onCreate(newData, options, userId);
   }
 
   // Generic item.doAction() method so any idem can be called to
@@ -58,12 +73,48 @@ export default class CPRItem extends Item {
     const itemType = this.data.type;
     // const changedItems = [];
     switch (itemType) {
-      case "weapon":
+      case "cyberware": {
+        this._cyberwareAction(actor, actionAttributes);
+        break;
+      }
+      case "itemUpgrade": {
+        this._itemUpgradeAction(actor, actionAttributes);
+        break;
+      }
+      case "weapon": {
         this._weaponAction(actor, actionAttributes);
         break;
-      case "ammo":
+      }
+      case "ammo": {
         this._ammoAction(actionAttributes);
         break;
+      }
+      default:
+    }
+  }
+
+  _itemUpgradeAction(actor, actionAttributes) {
+    switch (this.data.data.type) {
+      case "weapon": {
+        if (this.data.data.modifiers.secondaryWeapon.configured) {
+          return this._weaponAction(actor, actionAttributes);
+        }
+        break;
+      }
+      default:
+    }
+  }
+
+  _cyberwareAction(actor, actionAttributes) {
+    const actionData = actionAttributes["data-action"].nodeValue;
+    switch (actionData) {
+      case "select-ammo":
+      case "unload":
+      case "load":
+      case "reload-ammo":
+      case "measure-dv": {
+        return this._weaponAction(actor, actionAttributes);
+      }
       default:
     }
   }
@@ -239,8 +290,9 @@ export default class CPRItem extends Item {
     }
   }
 
-  // TODO - Refactor
-  async _weaponLoad(selectedAmmoId) {
+  // The only time an ammo ID is passed to this is when it is being reloaded
+  async _weaponLoad(reloadAmmoId) {
+    let selectedAmmoId = reloadAmmoId;
     LOGGER.debug("_weaponLoad | CPRItem | Called.");
     const loadUpdate = [];
     if (this.actor) {
@@ -262,7 +314,7 @@ export default class CPRItem extends Item {
         };
 
         if (validAmmo.length === 0) {
-          SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.novalidammo")));
+          SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.noValidAmmo")));
           return;
         }
 
@@ -290,23 +342,25 @@ export default class CPRItem extends Item {
         const ammo = this.actor.items.find((i) => i.data._id === selectedAmmoId);
 
         if (ammo === null) {
-          SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.ammomissingfromgear")));
+          SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.ammoMissingFromGear")));
           return;
         }
 
         if (ammo.getData().amount === 0) {
-          SystemUtils.DisplayMessage("warn", (game.i18n.localize("CPR.reloadoutofammo")));
+          SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.reloadOutOfAmmo")));
           return;
         }
 
         // By the time we reach here, we know the weapon and ammo we are loading
         // Let's find out how much space is in the gun.
+        const upgradeValue = this.getAllUpgradesFor("magazine");
+        const upgradeType = this.getUpgradeTypeFor("magazine");
 
-        const magazineSpace = Number(this.data.data.magazine.max) - Number(this.data.data.magazine.value);
+        const magazineSpace = (upgradeType === "override") ? upgradeValue - magazineData.value : magazineData.max - magazineData.value + upgradeValue;
 
         if (magazineSpace > 0) {
           if (Number(ammo.data.data.amount) >= magazineSpace) {
-            magazineData.value = magazineData.max;
+            magazineData.value += magazineSpace;
             await ammo._ammoDecrement(magazineSpace);
           } else {
             magazineData.value = Number(this.data.data.magazine.value) + Number(ammo.data.data.amount);
@@ -443,6 +497,8 @@ export default class CPRItem extends Item {
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
     cprRoll.addMod(actor.getWoundStateMods());
     cprRoll.addMod(this._getSkillMod());
+    cprRoll.addMod(actor.getUpgradeMods(statName));
+    cprRoll.addMod(actor.getUpgradeMods(skillName));
     return cprRoll;
   }
 
@@ -538,7 +594,7 @@ export default class CPRItem extends Item {
       statName = "dex";
     }
 
-    const niceStatName = SystemUtils.Localize(`CPR.${statName}`);
+    const niceStatName = SystemUtils.Localize(`CPR.global.stats.${statName}`);
     const statValue = actor.getStat(statName);
     let roleName;
     let roleValue = 0;
@@ -664,6 +720,13 @@ export default class CPRItem extends Item {
         cprRoll.rollCardExtraArgs.ammoType = ammoType;
       }
     }
+    const upgradeType = this.getUpgradeTypeFor("damage");
+    const upgradeValue = this.getAllUpgradesFor("damage");
+    if (upgradeType === "override") {
+      cprRoll.formula = "0d6";
+    }
+    cprRoll.addMod(upgradeValue);
+
     return cprRoll;
   }
 
@@ -681,16 +744,20 @@ export default class CPRItem extends Item {
   }
 
   _getAttackMod() {
+    let returnValue = 0;
     switch (this.type) {
       case "weapon": {
         if (typeof this.data.data.attackmod !== "undefined") {
-          return this.data.data.attackmod;
+          returnValue = this.data.data.attackmod;
         }
         break;
       }
       default:
     }
-    return 0;
+    const upgradeValue = this.getAllUpgradesFor("attackmod");
+    const upgradeType = this.getUpgradeTypeFor("attackmod");
+    returnValue = (upgradeType === "override") ? upgradeValue : returnValue + upgradeValue;
+    return returnValue;
   }
 
   _getSkillMod() {
@@ -763,16 +830,39 @@ export default class CPRItem extends Item {
    */
   availableSlots() {
     LOGGER.debug("availableSlots | CPRItem | Called.");
-    if (this.data.type !== "cyberdeck") {
-      return;
-    }
     const itemData = duplicate(this.data.data);
 
-    let unusedSlots = itemData.slots;
+    let unusedSlots = 0;
 
-    itemData.programs.installed.forEach((program) => {
-      unusedSlots -= program.data.slots;
-    });
+    switch (this.data.type) {
+      case "cyberdeck": {
+        const upgradeValue = this.getAllUpgradesFor("slots");
+        const upgradeType = this.getUpgradeTypeFor("slots");
+        unusedSlots = (upgradeType === "override") ? upgradeValue : itemData.slots + upgradeValue;
+        itemData.programs.installed.forEach((program) => {
+          unusedSlots -= program.data.slots;
+        });
+        itemData.upgrades.forEach((u) => {
+          unusedSlots -= u.data.size;
+        });
+        break;
+      }
+      case "weapon": {
+        unusedSlots = itemData.attachmentSlots;
+        itemData.upgrades.forEach((mod) => {
+          unusedSlots -= mod.data.size;
+        });
+        break;
+      }
+      case "cyberware": {
+        unusedSlots = itemData.optionSlots - itemData.installedOptionSlots;
+        itemData.upgrades.forEach((mod) => {
+          unusedSlots -= mod.data.size;
+        });
+        break;
+      }
+      default:
+    }
 
     return unusedSlots;
   }
@@ -881,6 +971,8 @@ export default class CPRItem extends Item {
     programState.data.isRezzed = (rezzedPrograms.length > 0);
     installed[installIndex] = programState;
     this.data.data.programs.installed = installed;
+    // Passed by reference
+    // eslint-disable-next-line no-param-reassign
     program.data.isRezzed = (rezzedPrograms.length > 0);
     return (rezzedPrograms.length > 0);
   }
@@ -1009,6 +1101,8 @@ export default class CPRItem extends Item {
         const cprFlags = (typeof programData.flags["cyberpunk-red-core"] !== "undefined") ? programData.flags["cyberpunk-red-core"] : {};
         cprFlags.biTokenId = biToken.id;
         cprFlags.sceneId = scene.id;
+        // Passed by reference
+        // eslint-disable-next-line no-param-reassign
         programData.flags["cyberpunk-red-core"] = cprFlags;
       }
     } catch (error) {
@@ -1250,5 +1344,140 @@ export default class CPRItem extends Item {
     }
     cprRoll.addMod(rollModifiers);
     return cprRoll;
+  }
+
+  /** itemUpgrade Code */
+  uninstallUpgrades(upgrades) {
+    let installedUpgrades = this.data.data.upgrades;
+    const updateList = [];
+    upgrades.forEach((u) => {
+      installedUpgrades = installedUpgrades.filter((iUpgrade) => iUpgrade._id !== u.id);
+      updateList.push({ _id: u.id, "data.isInstalled": false });
+    });
+    const upgradeStatus = (installedUpgrades.length > 0);
+    // Need to set this so it can be used further in this function.
+    this.data.data.upgrades = installedUpgrades;
+    updateList.push({ _id: this.id, "data.isUpgraded": upgradeStatus, "data.upgrades": installedUpgrades });
+
+    if (this.type === "weapon" && this.data.data.isRanged) {
+      const magazineData = this.data.data.magazine;
+      const upgradeValue = this.getAllUpgradesFor("magazine");
+      const upgradeType = this.getUpgradeTypeFor("magazine");
+      const magazineSize = (upgradeType === "override") ? upgradeValue : magazineData.max + upgradeValue;
+      const extraBullets = magazineData.value - magazineSize;
+      if (extraBullets > 0) {
+        updateList.push({
+          _id: this.id,
+          "data.isUpgraded": upgradeStatus,
+          "data.upgrades": installedUpgrades,
+          "data.magazine.value": magazineData.max,
+        });
+        const ammo = this.actor.items.find((i) => i.data._id === magazineData.ammoId);
+        const ammoStack = ammo.data.data.amount + extraBullets;
+        updateList.push({ _id: ammo.id, "data.amount": ammoStack });
+      }
+    } else if (this.type === "armor") {
+      const { bodyLocation } = this.data.data;
+      const { headLocation } = this.data.data;
+      const { shieldHitPoints } = this.data.data;
+      bodyLocation.ablation = (bodyLocation.ablation > bodyLocation.sp) ? bodyLocation.sp : bodyLocation.ablation;
+      headLocation.ablation = (headLocation.ablation > headLocation.sp) ? headLocation.sp : headLocation.ablation;
+      shieldHitPoints.value = (shieldHitPoints.value > shieldHitPoints.max) ? shieldHitPoints.max : shieldHitPoints.value;
+      updateList.push({
+        _id: this.id,
+        "data.isUpgraded": upgradeStatus,
+        "data.upgrades": installedUpgrades,
+        "data.bodyLocation": bodyLocation,
+        "data.headLocation": headLocation,
+        "data.shieldHitPoints": shieldHitPoints,
+      });
+    } else {
+      updateList.push({ _id: this.id, "data.isUpgraded": upgradeStatus, "data.upgrades": installedUpgrades });
+    }
+    return this.actor.updateEmbeddedDocuments("Item", updateList);
+  }
+
+  installUpgrades(upgrades) {
+    if (typeof this.data.data.isUpgraded === "boolean") {
+      const installedUpgrades = this.data.data.upgrades;
+      const updateList = [];
+      // Loop through the upgrades to install
+      upgrades.forEach((u) => {
+        // See if the upgrade is already installed, if it is, skip it
+        const alreadyInstalled = installedUpgrades.filter((iUpgrade) => iUpgrade._id === u.data._id);
+        if (alreadyInstalled.length === 0) {
+          // Update the upgrade Item set the isInstalled Boolean and the install setting to this item
+          updateList.push({ _id: u.id, "data.isInstalled": true, "data.install": this.id });
+          const modList = {};
+          const upgradeModifiers = u.data.data.modifiers;
+          // Loop through the modifiers this upgrade has on it
+          Object.keys(upgradeModifiers).forEach((index) => {
+            const modifier = upgradeModifiers[index];
+            /*
+              Before we add this modifier to the list of upgrades for this item, we need to do several checks:
+              1. Ensure the modifier is defined as the key could have been added but the value never set
+              2. Ensure the modifier is valid for this item type. As this information is stored in an
+                 object, it's possible keys may exist that are not valid if one changes the itemUpgrade type.
+              3. The next couple checks ensure we are only adding actual modifications, null, 0 or empty strings don't modify
+                 anything, so we ignore those.
+            */
+            if (typeof modifier !== "undefined" && typeof CPR.upgradableDataPoints[this.type][index] !== "undefined" && modifier !== 0 && modifier !== null && modifier !== "") {
+              modList[index] = modifier;
+            }
+          });
+          const upgradeData = {
+            _id: u._id,
+            name: u.name,
+            data: {
+              modifiers: modList,
+              size: u.data.data.size,
+            },
+          };
+          installedUpgrades.push(upgradeData);
+        }
+      });
+      updateList.push({ _id: this.id, "data.isUpgraded": true, "data.upgrades": installedUpgrades });
+
+      return this.actor.updateEmbeddedDocuments("Item", updateList);
+    }
+  }
+
+  getUpgradeTypeFor(dataPoint) {
+    let upgradeType = "modifier";
+    if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {
+      const installedUpgrades = this.data.data.upgrades;
+      installedUpgrades.forEach((upgrade) => {
+        if (typeof upgrade.data.modifiers[dataPoint] !== "undefined") {
+          const modType = upgrade.data.modifiers[dataPoint].type;
+          if (modType !== "modifier") {
+            upgradeType = modType;
+          }
+        }
+      });
+      return upgradeType;
+    }
+  }
+
+  getAllUpgradesFor(dataPoint) {
+    let upgradeNumber = 0;
+    let baseOverride = -100000;
+    if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {
+      const installedUpgrades = this.data.data.upgrades;
+      installedUpgrades.forEach((upgrade) => {
+        if (typeof upgrade.data.modifiers[dataPoint] !== "undefined") {
+          const modType = upgrade.data.modifiers[dataPoint].type;
+          const modValue = upgrade.data.modifiers[dataPoint].value;
+          if (typeof modValue === "number" && modValue !== 0) {
+            if (modType === "override") {
+              baseOverride = (modValue > baseOverride) ? modValue : baseOverride;
+            } else {
+              upgradeNumber += modValue;
+            }
+          }
+        }
+      });
+      upgradeNumber = (baseOverride === 0 || baseOverride === -100000) ? upgradeNumber : baseOverride;
+    }
+    return upgradeNumber;
   }
 }

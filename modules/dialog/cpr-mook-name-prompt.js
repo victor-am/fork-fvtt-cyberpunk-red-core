@@ -4,6 +4,7 @@ import LOGGER from "../utils/cpr-logger.js";
 
 export default class MookNamePrompt {
   static async RenderPrompt(mookName) {
+    LOGGER.trace("RenderPrompt | MookNamePrompt | called.");
     return new Promise((resolve, reject) => {
       renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-mook-name-prompt.hbs", mookName).then((html) => {
         const _onCancel = () => {

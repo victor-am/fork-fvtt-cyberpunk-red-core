@@ -348,6 +348,7 @@
       "cyberdeck",
       "cyberware",
       "gear",
+      "itemUpgrade",
       "netarch",
       "program",
       "role",
@@ -462,6 +463,7 @@
         "installable"
       ],
       "type": "cyberArm",
+      "isWeapon": false,
       "isFoundational": true,
       "hasOptionalSlots": false,
       "optionSlots": 0,
@@ -602,6 +604,19 @@
       "seats": 0,
       "speedCombat": 0,
       "speedNarrative": ""
+    },
+    "itemUpgrade": {
+      "templates": [
+        "common",
+        "physicalItem",
+        "installable",
+        "weapon"
+      ],
+      "handsReq": 0,
+      "equipped": "owned",
+      "size": 1,
+      "type": "weapon",
+      "modifiers": {}
     }
   }
 }

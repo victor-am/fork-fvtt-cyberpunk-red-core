@@ -1,6 +1,9 @@
 /* eslint-disable no-undef */
+import LOGGER from "./cpr-logger.js";
+
 export default class DvUtils {
   static GetDvTables() {
+    LOGGER.trace("GetDvTables | DvUtils | called.");
     const dvPattern = new RegExp("^DV ");
     const tableNames = [];
     const tableList = game.tables.filter((t) => t.data.name.match(dvPattern));
@@ -9,6 +12,7 @@ export default class DvUtils {
   }
 
   static GetDv(tableName, distance) {
+    LOGGER.trace("GetDv | DvUtils | called.");
     const dvTables = this.GetDvTables();
     let DV = null;
     if (dvTables.includes(tableName)) {

@@ -4,6 +4,7 @@ import LOGGER from "../utils/cpr-logger.js";
 
 export default class ImprovementPointEditPrompt {
   static async RenderPrompt() {
+    LOGGER.trace("RenderPrompt | ImprovementPointEditPrompt | called.");
     return new Promise((resolve, reject) => {
       renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-improvement-point-edit-prompt.hbs").then((html) => {
         const _onCancel = () => {

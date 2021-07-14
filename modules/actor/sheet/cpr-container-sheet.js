@@ -72,6 +72,44 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
   }
 
   /**
+   * We extend CPRContainerSheet._render to enable automatic fitting of the content to the window size.
+   *
+   * @override
+   * @private
+   * @param {Boolean} force - for this to be rendered. We don't use this, but the parent class does.
+   * @param {Object} options - rendering options that are passed up the chain to the parent
+   */
+  async _render(force = false, options = {}) {
+    LOGGER.trace("_render | CPRContainerSheet | Called.");
+    await super._render(force, options);
+    this._automaticContentResize();
+  }
+
+  /**
+   * We extend CPRContainerSheet._onRezize to enable automatic fitting of the content to the window size.
+   *
+   * @override
+   * @private
+   * @param {event} event - object capruting evene t data
+   */
+  _onResize(event) {
+    LOGGER.trace("_onResize | CPRContainerSheet | Called.");
+    this._automaticContentResize();
+    super._onResize(event);
+  }
+
+  /**
+   * Automatically resize the content such that it fills the window.
+   *
+   * @private
+   */
+  _automaticContentResize() {
+    LOGGER.trace("_automaticContentResize | CPRContainerSheet | Called.");
+    const newHeight = this.position.height - 46;
+    this.form.children[0].children[1].setAttribute("style", `height:${newHeight}px`);
+  }
+
+  /**
    * Override the _itemAction() of the CPRActorSheet to add "purchase" action
    * and remove non needed other action types.
    *

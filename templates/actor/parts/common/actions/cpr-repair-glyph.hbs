@@ -13,7 +13,7 @@
     {{/if}}
 {{/if}}
 {{#if data.data.isShield}}
-    {{#if (compare data.data.shieldHitPoints.value "<" data.data.shieldHitPoints.max)}}
+    {{#if (compare data.data.shieldHitPoints.value "<" (applyUpgrade this data.data.shieldHitPoints.max "shieldHp"))}}
         <a class="repair" data-item-id="{{data._id}}">
         <i class="fas fa-tools" title={{localize "CPR.repair"}}></i>
         </a>

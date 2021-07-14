@@ -5,6 +5,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class BoosterAddModifierPrompt {
   static async RenderPrompt(data) {
+    LOGGER.trace("RenderPrompt | BoosterAddModifierPrompt | called.");
     const template = "systems/cyberpunk-red-core/templates/dialog/cpr-booster-add-modifier-prompt.hbs";
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {

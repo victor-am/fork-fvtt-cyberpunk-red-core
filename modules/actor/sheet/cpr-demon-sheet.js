@@ -19,6 +19,7 @@ export default class CPRDemonActorSheet extends ActorSheet {
 
   /** @override */
   activateListeners(html) {
+    LOGGER.trace("activateListeners | CPRDemonActorSheet | Called.");
     html.find(".rollable").click((event) => this._onRoll(event));
     super.activateListeners(html);
   }

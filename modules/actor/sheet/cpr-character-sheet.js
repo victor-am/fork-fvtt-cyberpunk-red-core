@@ -5,7 +5,6 @@ import LOGGER from "../../utils/cpr-logger.js";
 import Rules from "../../utils/cpr-rules.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
-import CyberdeckSelectProgramsPrompt from "../../dialog/cpr-select-install-programs-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import ImprovementPointEditPrompt from "../../dialog/cpr-improvement-point-edit-prompt.js";
 
@@ -18,6 +17,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * We extend the constructor to initialize data structures used for tracking parts of the sheet
    * being collapsed or opened, such as skill categories. These structures are later loaded from
    * User Settings if they exist.
+   *
    * @constructor
    * @param {*} actor - the actor object associated with this sheet
    * @param {*} options - entity options passed up the chain
@@ -32,6 +32,11 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   }
 
   /**
+   * Set default options for character sheets, which include making sure vertical scrollbars do not
+   * get reset when re-rendering.
+   * See https://foundryvtt.com/api/Application.html for the complete list of options available.
+   *
+   * @static
    * @override
    */
   static get defaultOptions() {
@@ -50,6 +55,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @param {*} html - the DOM object
    */
   activateListeners(html) {
+    LOGGER.trace("activateListeners | CPRCharacterActorSheet | Called.");
     // Cycle equipment status
     html.find(".equip").click((event) => this._cycleEquipState(event));
 
@@ -71,24 +77,26 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     // toggle the expand/collapse buttons for skill and item categories
     html.find(".expand-button").click((event) => this._expandButton(event));
 
-    // hide skills by category on clicking header
-    // for beginners: the unusual signature is because _hideSkill is a static method
-    // eslint-disable-next-line no-shadow
-    html.find(".skills .header").click((event, html) => CPRCharacterActorSheet._hideSkill(event, html));
-
     if (!this.options.editable) return;
     // Listeners for editable fields under go here. Fields might not be editable because
     // the user viewing the sheet might not have permission to. They may not be the owner.
 
+    // update a skill level
     html.find(".skill-input").click((event) => event.target.select()).change((event) => this._updateSkill(event));
-    html.find(".weapon-input").click((event) => event.target.select()).change((event) => this._updateWeaponAmmo(event));
+
+    // update the ammount of an item in the gear tab
     html.find(".amount-input").click((event) => event.target.select()).change((event) => this._updateAmount(event));
+
+    // update a role ability
     html.find(".ability-input").click((event) => event.target.select()).change(
       (event) => this._updateRoleAbility(event),
     );
 
+    // IP related listeners
     html.find(".improvement-points-edit-button").click(() => this._updateIp());
     html.find(".improvement-points-open-ledger").click(() => this.actor.showLedger("improvementPoints"));
+
+    // Listeners for eurobucks (in gear tab)
     html.find(".eurobucks-input-button").click((event) => this._updateEurobucks(event));
     html.find(".eurobucks-open-ledger").click(() => this.actor.showLedger("wealth"));
 
@@ -96,6 +104,9 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     html.find(".item-create").click((event) => this._createInventoryItem(event));
 
     // Fight tab listeners
+
+    // update the amount of loaded ammo in the Fight tab
+    html.find(".weapon-input").click((event) => event.target.select()).change((event) => this._updateWeaponAmmo(event));
 
     // Switch between meat and net fight states
     html.find(".toggle-fight-state").click((event) => this._toggleFightState(event));
@@ -112,8 +123,16 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     super.activateListeners(html);
   }
 
+  /**
+   * Called when an equipment glyph on the gear tab is clicked. This cycles the equip attribute from
+   * from owned to carried to equipped and back to owned.
+   *
+   * @callback
+   * @private
+   * @param {} event - object with details of the event
+   */
   _cycleEquipState(event) {
-    LOGGER.trace("ActorID _cycleEquipState | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("_cycleEquipState | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const prop = CPRActorSheet._getObjProp(event);
     switch (item.data.data.equipped) {
@@ -147,16 +166,26 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     this._automaticResize();
   }
 
+  /**
+   * Called when a user clicks the repair armor glyph in the gear tab. It only shows
+   * up when the armor has been ablated at least once.
+   *
+   * @callback
+   * @private
+   * @param {*} event - object with details of the event
+   */
   _repairArmor(event) {
-    LOGGER.trace("ActorID _repairArmor | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("_repairArmor | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
+    const upgradeValue = item.getAllUpgradesFor("shieldHp");
+    const upgradeType = item.getUpgradeTypeFor("shieldHp");
     const currentArmorBodyValue = item.data.data.bodyLocation.sp;
     const currentArmorHeadValue = item.data.data.headLocation.sp;
-    const currentArmorShieldValue = item.data.data.shieldHitPoints.max;
+    const currentArmorShieldValue = (upgradeType === "override") ? upgradeValue : item.data.data.shieldHitPoints.max + upgradeValue;
     // XXX: cannot use _getObjProp since we need to update 2 props
     this._updateOwnedItemProp(item, "data.headLocation.ablation", 0);
     this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
-    this._updateOwnedItemProp(item, "data.shieldHitPoints.value", item.data.data.shieldHitPoints.max);
+    this._updateOwnedItemProp(item, "data.shieldHitPoints.value", currentArmorShieldValue);
     // Update actor external data when armor is repaired:
     if (CPRActorSheet._getItemId(event) === this.actor.data.data.externalData.currentArmorBody.id) {
       this.actor.update({
@@ -175,8 +204,17 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     }
   }
 
+  /**
+   * This callback functions like a toggle switch. Both install and remove glyphs call it, and it
+   * flips the field to indicate cyberware is installed or not.
+   *
+   * @async
+   * @callback
+   * @private
+   * @param {*} event - object with details of the event
+   */
   async _installRemoveCyberwareAction(event) {
-    LOGGER.trace("ActorID _installCyberware | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("_installCyberware | CPRCharacterActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
     const item = this._getOwnedItem(itemId);
     if (item.getData().isInstalled) {
@@ -187,6 +225,14 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     }
   }
 
+  /**
+   * Pops up the role selection dialog box and persists the form data (answers) to the actor.
+   *
+   * @async
+   * @callback
+   * @private
+   * @returns {null}
+   */
   async _selectRoles() {
     let formData = {
       roles: this.actor.data.filteredItems.role,
@@ -198,7 +244,15 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     this.actor.update({ "data.roleInfo.activeRole": formData.activeRole, "data.roleInfo.activeNetRole": formData.activeNetRole });
   }
 
+  /**
+   * Pops up the dialog box to set life path details, and persists the answers to the actor.
+   *
+   * @callback
+   * @private
+   * @returns {null}
+   */
   async _setLifepath() {
+    LOGGER.trace("_setLifepath | CPRCharacterActorSheet | Called.");
     const formData = await SetLifepathPrompt.RenderPrompt(this.actor.data).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;
@@ -206,7 +260,16 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     await this.actor.setLifepath(formData);
   }
 
+  /**
+   * This is called when the eye glyph is clicked on the skill tab.
+   * TODO: the name is misleading because it hides favorites regardless.
+   *
+   * @callback
+   * @private
+   * @param {*} event - object with details of the event
+   */
   _favoriteVisibility(event) {
+    LOGGER.trace("_favoriteVisibility | CPRCharacterActorSheet | Called.");
     const collapsibleElement = $(event.currentTarget).parents(".collapsible");
     const skillCategory = event.currentTarget.id.replace("-showFavorites", "");
     const categoryTarget = $(collapsibleElement.find(`#${skillCategory}`));
@@ -236,7 +299,16 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     }
   }
 
+  /**
+   * This is the + or - glyph on the skil and gear tab that hides whole categories of items.
+   * It does not hide favorited items.
+   *
+   * @callback
+   * @private
+   * @param {*} event - object with details of the event
+   */
   _expandButton(event) {
+    LOGGER.trace("_expandButton | CPRCharacterActorSheet | Called.");
     const collapsibleElement = $(event.currentTarget).parents(".collapsible");
     $(collapsibleElement).find(".collapse-icon").toggleClass("hide");
     $(collapsibleElement).find(".expand-icon").toggleClass("hide");
@@ -258,20 +330,16 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     }
   }
 
-  static _hideSkill(event, html) {
-    const header = $(event.currentTarget);
-    const category = header.attr("data-skill-category-name");
-    // eslint-disable-next-line no-restricted-syntax
-    for (const i of html.find(".row.skill")) {
-      if (i.attributes[2].nodeValue === category) {
-        // eslint-disable-next-line no-unused-expressions
-        i.classList.contains("hide") ? i.classList.remove("hide") : i.classList.add("hide");
-      }
-    }
-  }
-
+  /**
+   * Called when a skill level input field changes. Persists the change to the skill "item"
+   * associated with the actor.
+   *
+   * @callback
+   * @private
+   * @param {*} event - object with details of the event
+   */
   _updateSkill(event) {
-    LOGGER.trace("ActorID _updateSkill | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("_updateSkill | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "data.level") {
@@ -283,8 +351,15 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     this._updateOwnedItem(item);
   }
 
+  /**
+   * Called when the amount of loaded ammunition in a weapon in the Fight tab is changed
+   *
+   * @callback
+   * @private
+   * @param {*} event - object with details of the event
+   */
   _updateWeaponAmmo(event) {
-    LOGGER.trace("ActorID _updateCurrentWeaponAmmo | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("_updateCurrentWeaponAmmo | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "data.magazine.value") {
@@ -297,8 +372,15 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     this._updateOwnedItem(item);
   }
 
+  /**
+   * Called when the (in-line) ammount of an item in the gear tab changes
+   *
+   * @callback
+   * @private
+   * @param {*} event - object with details of the event
+   */
   _updateAmount(event) {
-    LOGGER.trace("ActorID _updateAmount | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("_updateAmount | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "item.data.amount") {
@@ -311,6 +393,14 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     this._updateOwnedItem(item);
   }
 
+  /**
+   * Called when a role ability is changed in the role tab. Role abilities are not objects unlike skills,
+   * so this perists those changes to the actor and adjusts sub skills.
+   *
+   * @callback
+   * @private
+   * @param {*} event - object with details of the event
+   */
   _updateRoleAbility(event) {
     LOGGER.trace("ActorID _updateRoleAbility | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
@@ -336,8 +426,16 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     }
   }
 
+  /**
+   * Called when the IP editing glyph is clicked. Pops up a dialog to get details about the change
+   * and a reason, and then saves those similar to eurobucks.
+   *
+   * @callback
+   * @private
+   * @returns {null}
+   */
   async _updateIp() {
-    LOGGER.trace("ActorID _updateIp | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("_updateIp | CPRCharacterActorSheet | Called.");
     const formData = await ImprovementPointEditPrompt.RenderPrompt().catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       // Prompt was closed
@@ -367,8 +465,16 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     }
   }
 
+  /**
+   * Called when any of the 3 glyphs to change eurobucks is clicked. This saves the change and a reason
+   * if provided to the actor in the for of a "ledger."
+   *
+   * @callback
+   * @private
+   * @param {*} event - object with details of the event
+   */
   _updateEurobucks(event) {
-    LOGGER.trace("ActorID _updateEurobucks | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("_updateEurobucks | CPRCharacterActorSheet | Called.");
     const { value } = event.currentTarget.parentElement.parentElement.children[1];
     const reason = event.currentTarget.parentElement.parentElement.nextElementSibling.lastElementChild.value;
     const action = $(event.currentTarget).attr("data-action");
@@ -405,12 +511,14 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @param {Object} event - object capturing event data (what was clicked and where?)
    */
   async _createInventoryItem(event) {
-    LOGGER.trace("_createInventoryItem | CPRActorSheet | Called.");
+    LOGGER.trace("_createInventoryItem | CPRCharacterActorSheet | Called.");
     const itemType = $(event.currentTarget).attr("data-item-type");
     const itemTypeNice = itemType.toLowerCase().capitalize();
     const itemString = "ITEM.Type";
     const itemTypeLocal = itemString.concat(itemTypeNice);
-    const itemName = `${SystemUtils.Localize("CPR.new")} ${SystemUtils.Localize(itemTypeLocal)}`;
+    const newWord = SystemUtils.Localize("CPR.actorSheets.commonActions.new");
+    const newType = SystemUtils.Localize(itemTypeLocal);
+    const itemName = `${newWord} ${newType}`;
     const itemImage = SystemUtils.GetDefaultImage("Item", itemType);
     const itemData = { img: itemImage, name: itemName, type: itemType };
     await this.actor.createEmbeddedDocuments("Item", [itemData]);
@@ -429,12 +537,21 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @param {Object} event - object capturing event data (what was clicked and where?)
    */
   _toggleFightState(event) {
-    LOGGER.trace("_toggleFightState | CPRActorSheet | Called.");
+    LOGGER.trace("_toggleFightState | CPRCharacterSheet | Called.");
     const fightState = $(event.currentTarget).attr("data-state");
     this.actor.setFlag("cyberpunk-red-core", "fightState", fightState);
   }
 
+  /**
+   * A dispatcher method to do things based on what is clicked in the "net" view of
+   * the Fight tab. Mostly this is around rez-management of programs.
+   *
+   * @async
+   * @callback
+   * @private
+   */
   async _cyberdeckProgramExecution(event) {
+    LOGGER.trace("_cyberdeckProgramExecution | CPRCharacterActorSheet | Called.");
     const executionType = $(event.currentTarget).attr("data-execution-type");
     const programId = $(event.currentTarget).attr("data-program-id");
     const program = this._getOwnedItem(programId);
@@ -493,94 +610,36 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     }
   }
 
+  /**
+   * Pop up a dialog box to select what programs in the character's inventory are installed
+   * in an equipped cyberdeck. This information is saved to the cyberdeck Item.
+   *
+   * @async
+   * @callback
+   * @private
+   * @param {*} event - object capturing event data (what was clicked and where?)
+   * @returns {null}
+   */
   async _cyberdeckProgramInstall(event) {
-    LOGGER.debug("_cyberdeckProgramInstall | CPRItem | Called.");
+    LOGGER.trace("_cyberdeckProgramInstall | CPRCharacterActorSheet | Called.");
     const cyberdeckId = $(event.currentTarget).attr("data-item-id");
     const cyberdeck = this._getOwnedItem(cyberdeckId);
 
-    const { actor } = this;
-
-    // Get a list of programs that are installed on this cyberdeck
-    const installedPrograms = cyberdeck.getInstalledPrograms();
-
-    // Prepare a list of programs for the prompt to select from
-    let programList = [];
-
-    // Start with the list of all programs owned by the actor
-    programList = actor.data.filteredItems.program;
-
-    // Remove all programs that are installed somewhere other than this deck
-    actor.data.filteredItems.programsInstalled.forEach((programId) => {
-      const onDeck = installedPrograms.filter((p) => p._id === programId);
-      if (onDeck.length === 0) {
-        programList = programList.filter((p) => p.id !== programId);
-      }
-    });
-
-    programList = programList.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
-
-    let formData = {
-      cyberdeck,
-      programList,
-      returnType: "array",
-    };
-
-    formData = await CyberdeckSelectProgramsPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
-    if (formData === undefined) {
-      return;
-    }
-
-    let selectedPrograms = [];
-    let unselectedPrograms = programList;
-
-    let storageRequired = 0;
-
-    formData.selectedPrograms.forEach((pId) => {
-      const program = (programList.filter((p) => p.data._id === pId))[0];
-      storageRequired += program.data.data.slots;
-      selectedPrograms.push(program);
-      unselectedPrograms = unselectedPrograms.filter((p) => p.data._id !== program.data._id);
-    });
-
-    selectedPrograms = selectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
-    unselectedPrograms = unselectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
-
-    if (storageRequired > cyberdeck.data.data.slots) {
-      SystemUtils.DisplayMessage("warn", "CPR.cyberdeckinsufficientstorage");
-    }
-
-    cyberdeck.uninstallPrograms(unselectedPrograms);
-    cyberdeck.installPrograms(selectedPrograms);
-
-    const updateList = [{ _id: cyberdeck.id, data: cyberdeck.data.data }];
-    programList.forEach((program) => {
-      updateList.push({ _id: program.id, data: program.data.data });
-    });
-    await actor.updateEmbeddedDocuments("Item", updateList);
+    return cyberdeck.sheet._cyberdeckSelectInstalledPrograms(event);
   }
 
+  /**
+   * Called when the erase program glyph is clicked (the red folder). Removes the program from
+   * the equipped cyberdeck.
+   *
+   * @param {*} event - object capturing event data (what was clicked and where?)
+   * @returns {null}
+   */
   async _cyberdeckProgramUninstall(event) {
-    LOGGER.debug("_cyberdeckProgramUninstall | CPRItem | Called.");
-    const programId = $(event.currentTarget).attr("data-item-id");
-    const program = this._getOwnedItem(programId);
+    LOGGER.trace("_cyberdeckProgramUninstall | CPRCharacterActorSheet | Called.");
     const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
     const cyberdeck = this._getOwnedItem(cyberdeckId);
 
-    if (cyberdeck.data.type !== "cyberdeck") {
-      return;
-    }
-
-    const { actor } = this;
-
-    if (!actor) {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.owneditemonlyerror"));
-      return;
-    }
-
-    cyberdeck.uninstallPrograms([program]);
-
-    const updateList = [{ _id: cyberdeck.data._id, data: cyberdeck.data.data }];
-    updateList.push({ _id: program.data._id, "data.isInstalled": false });
-    await actor.updateEmbeddedDocuments("Item", updateList);
+    return cyberdeck.sheet._cyberdeckProgramUninstall(event);
   }
 }

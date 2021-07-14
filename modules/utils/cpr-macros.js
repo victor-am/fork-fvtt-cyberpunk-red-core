@@ -1,11 +1,14 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-undef */
-/* global game, ui */
+/* global game */
 import CPRChat from "../chat/cpr-chat.js";
+import SystemUtils from "./cpr-systemUtils.js";
 
 export default class CPRMacro {
-  static async rollItemMacro(itemName, extraData = { skipPrompt: false, rollType: "attack" }) {
+  static async rollItemMacro(itemName, extraRollArgs = { skipPrompt: false, rollType: "attack" }) {
+    LOGGER.trace("rollItemMacro | CPRMacro | called.");
     const speaker = ChatMessage.getSpeaker();
+    const extraData = extraRollArgs;
     let actor;
     if (speaker.token) actor = game.actors.tokens[speaker.token];
     if (!actor) actor = game.actors.get(speaker.actor);
@@ -13,7 +16,7 @@ export default class CPRMacro {
 
     const displayName = actor === null ? "ERROR" : actor.name;
     if (!item) {
-      ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macroitemmissing")} ${itemName}`);
+      SystemUtils.DisplayMessage("warn", `[${displayName}] ${SystemUtils.Localize("CPR.macro.itemMissing")} ${itemName}`);
       return;
     }
 
@@ -32,7 +35,7 @@ export default class CPRMacro {
     }
 
     if (!validRollTypes.includes(rollType)) {
-      ui.notifications.warn(`[${displayName}] ${game.i18n.localize("CPR.macroinvalidrolltype")} ${rollType}`);
+      SystemUtils.DisplayMessage("warn", `[${displayName}] ${SystemUtils.Localize("CPR.macro.invalidRollType")} ${rollType}`);
       return;
     }
 

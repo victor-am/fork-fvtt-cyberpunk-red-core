@@ -1,3 +1,4 @@
+{{trace "CPR-PHYSICAL-ITEM.HBS"}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.price"}}
@@ -29,15 +30,4 @@
         {{/if}}
     </div>
 </li>
-<li class="item flexrow">
-    <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.source"}}
-    </div>
-    <div class="item flexrow setting-value text-nowrap item-end">
-        {{#if this.editable}}
-          <input name="data.source" class="" type="text" value="{{data.data.source}}" placeholder="Example: pg. 1">
-        {{else}}
-          <span>{{data.data.source}}</span>
-        {{/if}}
-    </div>
-</li>
+{{trace "END CPR-PHYSICAL-ITEM.HBS"}}

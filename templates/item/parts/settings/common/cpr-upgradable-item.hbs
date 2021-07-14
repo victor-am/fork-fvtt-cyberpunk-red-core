@@ -1,0 +1,53 @@
+{{trace "CPR-UPGRADABLE-ITEM.HBS"}}
+{{#if (compare this.item.type "===" "weapon")}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.weapon.attachmentSlots"}} ({{localize "CPR.itemSheet.common.availableSlots"}}: {{data.data.availableSlots}})
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <input name="data.attachmentSlots" class="" type="number" value="{{data.data.attachmentSlots}}">
+    </div>
+</li>
+{{/if}}
+
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{#if this.editable}}
+            <a class="select-item-upgrades" data-item-prop="select-item-upgrades">
+        {{/if}}
+        {{localize "CPR.itemSheet.common.itemUpgrades"}}
+        {{#if (compare data.type "===" "weapon")}} &#38; {{localize "CPR.itemSheet.weapon.attachments"}}{{/if}}
+        {{#if this.editable}}
+            <i class="text-smallest text-super fas fa-wrench"></i>
+            </a>
+        {{/if}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+    </div>
+</li>
+{{#if data.data.isUpgraded}}
+<hr>
+{{#each data.data.upgrades as |upgrade|}}
+<li class="item flexrow" data-item-id="{{upgrade._id}}" draggable="false">
+    <div class="item-name flexrow setting-name text-nowrap">
+        {{#if this.editable}}
+            <a class="name item-view">{{upgrade.name}}</a>
+        {{else}}
+            <span class="text-flex-end">{{upgrade.name}}</span>
+        {{/if}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{localize "CPR.itemSheet.common.itemUpgradeSize"}}: {{upgrade.data.size}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if ../this.editable}}
+            <a class="remove-upgrade" data-item-id="{{upgrade._id}}">
+                <i class="fab fa-superpowers fg-red" title="{{localize "CPR.actorSheets.commonActions.removeUpgrade"}}"></i>
+            </a>
+        {{/if}}
+    </div>
+</li>
+{{/each}}
+<hr>
+{{/if}}
+{{trace "END CPR-UPGRADABLE-ITEM.HBS"}}

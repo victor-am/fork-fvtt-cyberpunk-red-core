@@ -1,4 +1,5 @@
-/* global Hooks game canvas */
+/* eslint-disable no-unused-vars */
+/* global Hooks */
 import LOGGER from "../utils/cpr-logger.js";
 import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";

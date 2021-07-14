@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-env jquery */
-/* global game, loadTemplates */
+/* global game */
 import LOGGER from "../utils/cpr-logger.js";
 
 export function enablePauseAnimation() {

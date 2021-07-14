@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-/* global renderTemplate, FormDataExtended, Dialog game */
+/* global renderTemplate, FormDataExtended, Dialog */
 // TODO - Revist this method of dialog creation.
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
@@ -7,6 +7,7 @@ import LOGGER from "../utils/cpr-logger.js";
 export default class CyberwareInstallPrompt {
   // TODO - Revist name of function.
   static async RenderPrompt(data) {
+    LOGGER.trace("RenderPrompt | CyberwareInstallPrompt | called.");
     // setup
     return new Promise((resolve, reject) => {
       const template = "systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs";
@@ -21,7 +22,7 @@ export default class CyberwareInstallPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: game.i18n.localize("CPR.installcyberwaredialogtitle"),
+          title: SystemUtils.Localize("CPR.dialog.installCyberware.title"),
           content: html,
           buttons: {
             cancel: {
