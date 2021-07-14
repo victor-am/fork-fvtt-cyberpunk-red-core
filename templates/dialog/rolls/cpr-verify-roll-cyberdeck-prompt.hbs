@@ -1,13 +1,13 @@
 {{trace "CPR-VERIFY-ROLL-CYBERDECK-PROMPT.HBS"}}
 <form>
     <div>
-        {{localize "CPR.rollingfor"}} "{{localize (findConfigValue "roleAbilityList" roleName)}}", Choomba!
+        {{localize "CPR.rolls.rollingFor"}} "{{localize (findConfigValue "roleAbilityList" roleName)}}", Choomba!
     </div>
 
     <ol class="items-list">
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.abilityrank"}}:
+                {{localize "CPR.rolls.abilityRank"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="roleValue" class="" type="number" data-dtype="Number" value={{roleValue}}>
@@ -16,7 +16,7 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.mods"}}/{{localize "CPR.rezzedboosters"}}:
+                {{localize "CPR.rolls.mods"}}/{{localize "CPR.rolls.rezzedBoosters"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="mods" class="" type="text" data-dtype="String" value={{mods}}>
@@ -26,7 +26,7 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.shouldrollcriticals"}}:
+                {{localize "CPR.rolls.shouldRollCriticals"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="calculateCritical" class="" type="checkbox" data-dtype="Checkbox" checked>

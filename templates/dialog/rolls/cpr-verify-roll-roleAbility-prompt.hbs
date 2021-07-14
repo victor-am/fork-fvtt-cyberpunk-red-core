@@ -1,23 +1,37 @@
 {{trace "CPR-VERIFY-ROLL-ROLEABILITY-PROMPT.HBS"}}
 <form>
     <div>
-        {{localize "CPR.rollingfor"}} {{rollName}}, Choomba!
+        {{localize "CPR.rolls.rollingFor"}} {{#if (compare roleName "===" "operator")}}"{{localize "CPR.rolls.haggle"}}"{{else}}"{{localize (findConfigValue "roleAbilityList" roleName)}}"{{/if}}, Choomba!
     </div>
 
     <ol class="items-list">
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.abilityrank"}}:
+                {{localize "CPR.rolls.abilityRank"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="roleValue" class="" type="number" data-dtype="Number" value={{roleValue}}>
             </div>
         </li>
 
+        {{#if roleOther}}
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.global.blackIce.type.other"}} -
+                {{#if (compare roleName "===" "operator")}} {{localize "CPR.global.skills.trading"}}:{{/if}}
+                {{#if (compare roleName "===" "medtechPharma")}} {{localize "CPR.rolls.medicalTechCryoOperation"}}:{{/if}}
+                {{#if (compare roleName "===" "medtechCryo")}} {{localize "CPR.rolls.medicalTechPharmaceuticals"}}:{{/if}}
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <input name="roleOther" class="" type="number" data-dtype="Number" value={{roleOther}}>
+            </div>
+        </li>
+        {{/if}}
+
         {{#if roleStat}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.abilitystat"}} ({{localize (findConfigValue "statList" statName)}}):
+                {{localize "CPR.rolls.abilityStat"}} ({{localize (findConfigValue "statList" statName)}}):
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="roleStat" class="" type="number" data-dtype="Number" value={{roleStat}}>
@@ -25,40 +39,9 @@
         </li>
         {{/if}}
 
-        {{#if (compare skillName "!==" "--")}}
-        {{#if (compare skillName "===" "varying")}}
-        <li class="item flexrow">
-          <div class="item flexrow setting-name text-nowrap">
-            {{localize "CPR.chooseSkill"}}
-          </div>
-          <div class="item flexrow setting-value text-nowrap item-end">
-            <select name = "skillName">
-              {{#select skillName}}
-                {{#each (sort skillList "name") as |skill|}}
-                  <option value = "{{skill.data.name}}">{{skill.data.name}}</option>
-                {{/each}}
-              {{/select}}
-            </select>
-          </div>
-        </li>
-        {{else}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.skill"}} - {{skillName}}
-                {{#if (compare roleName "===" "operator")}} {{localize "CPR.trading"}}:{{/if}}
-                {{#if (compare roleName "===" "medtechPharma")}} {{localize "CPR.medicaltechcryooperation"}}:{{/if}}
-                {{#if (compare roleName "===" "medtechCryo")}} {{localize "CPR.medicaltechpharmaceuticals"}}:{{/if}}
-            </div>
-            <div class="item flexrow setting-value text-nowrap item-end">
-                <input name="roleSkill" class="" type="number" data-dtype="Number" value={{roleSkill}}>
-            </div>
-        </li>
-        {{/if}}
-        {{/if}}
-
-        <li class="item flexrow">
-            <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.mods"}}:
+                {{localize "CPR.rolls.mods"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="mods" class="" type="text" data-dtype="String" value={{mods}}>
@@ -68,7 +51,7 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.shouldrollcriticals"}}:
+                {{localize "CPR.rolls.shouldRollCriticals"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="calculateCritical" class="" type="checkbox" data-dtype="Checkbox" checked>
