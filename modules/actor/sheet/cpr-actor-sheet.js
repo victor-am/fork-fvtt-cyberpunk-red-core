@@ -7,6 +7,7 @@ import LOGGER from "../../utils/cpr-logger.js";
 import RollCriticalInjuryPrompt from "../../dialog/cpr-roll-critical-injury-prompt.js";
 import Rules from "../../utils/cpr-rules.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
+import SplitItemPrompt from "../../dialog/cpr-split-item-prompt.js";
 
 /**
  * Extend the basic ActorSheet, which comes from Foundry. Not all sheets used in
