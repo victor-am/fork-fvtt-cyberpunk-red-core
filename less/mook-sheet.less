@@ -169,3 +169,38 @@
         flex-wrap: wrap;
     }
 }
+
+.mook-sheet-limited {
+    font-family: "Audimat Mono";
+    background-color: @chrome-white;
+    display: grid;
+    grid-template-areas:
+        "mook-name-limited mook-image-limited mook-details-limited";
+
+    .mook-name-limited {
+        grid-area: mook-name-limited;
+    }
+
+    .mook-image-limited {
+        grid-area: mook-image-limited;
+        width: 168px;
+        height: 151px;
+    }
+
+    .mook-details-limited {
+        display: grid;
+        gap: 5px;
+        grid-area: mook-details;
+        grid-template-areas:
+            "mook-crit-limited"
+            "mook-notes-limited";
+    }
+
+    .mook-crit-limited {
+        grid-area: mook-crit-limited;
+    }
+
+    .mook-notes-limited {
+        grid-area: mook-notes-limited;
+    }
+}

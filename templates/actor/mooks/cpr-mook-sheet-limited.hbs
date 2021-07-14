@@ -1,24 +1,22 @@
 {{trace "CPR-MOOK-SHEET-LIMITED.HBS"}}
 <form>
-  <div class="mook-sheet">
-    <div class="mook-name side-banner">
+  <div class="mook-sheet-limited">
+    <div class="mook-name-limited side-banner">
       <div class="bg-red fg-white text-largest">
         {{actor.name}}
       </div>
     </div>
-    <div class="mook-details">
+    <div class="mook-details-limited">
       <div class="mook-image bg-red">
         <img class="mook-image-block-img" src="{{actor.img}}" title="{{actor.name}}"/>
       </div>
-      <div class="mook-crit pad-thin fg-white bg-red">
+      <div class="mook-crit-limited pad-thin fg-white bg-red">
         {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-criticalInjury.hbs"}}
       </div>
-      <div class="mook-notes pad-thin fg-white bg-red">
+      <div class="mook-notes-limited pad-thin fg-white bg-red">
         <div>
           <span class="text-padding-left">{{localize "CPR.global.generic.notes"}}</span>
-        </div>
-        <div class="mook-edit-section fg-black text-padding-left">
-          {{editor content=data.data.information.notes target="data.information.notes" button=true owner=owner editable=editable}}
+          {{data.data.information.notes}}
         </div>
       </div>
     </div>
