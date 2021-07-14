@@ -18,12 +18,28 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     const defaultWidth = 750;
     const defaultHeight = 500;
     return mergeObject(super.defaultOptions, {
-      template: "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-sheet.hbs",
       defaultWidth,
       defaultHeight,
       width: defaultWidth,
       height: defaultHeight,
     });
+  }
+
+  /**
+   * Mooks have a separate template when a user only has a "limited" permission level for it.
+   * This is how details are obscured from those players, we simply do not render them.
+   * Yes, they can still find this information in game.actors and the Foundry development
+   * community does not really view this as a problem.
+   * https://discord.com/channels/170995199584108546/596076404618166434/864673619098730506
+   * 
+   * @property
+   * @returns {String} - path to a handlebars template
+   */
+  get template() {
+    if (!game.user.isGM && this.actor.limited) {
+      return "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-sheet-limited.hbs";
+    }
+    return "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-sheet.hbs";
   }
 
   /**
