@@ -5,6 +5,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class RoleAbilityPrompt {
   static async RenderPrompt(data) {
+    LOGGER.trace("RenderPrompt | RoleAbilityPrompt | called.");
     const template = "systems/cyberpunk-red-core/templates/dialog/cpr-role-ability-prompt.hbs";
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {
@@ -18,17 +19,17 @@ export default class RoleAbilityPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: "Create/Edit New Role Ability",
+          title: SystemUtils.Localize("CPR.dialog.createEditRoleAbility.title"),
           content: html,
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
-              label: "Cancel",
+              label: SystemUtils.Localize("CPR.dialog.common.cancel"),
               callback: (html) => _onCancel(html), // TODO fix no-shadow
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: "Confirm",
+              label: SystemUtils.Localize("CPR.dialog.common.confirm"),
               callback: (html) => _onConfirm(html), // TODO fix no-shadow
             },
           },

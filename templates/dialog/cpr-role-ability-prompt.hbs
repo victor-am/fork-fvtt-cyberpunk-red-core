@@ -3,7 +3,7 @@
   <ol class="items-list">
     <li class="item flexrow">
       <div class="item flexrow setting-name">
-        <span class="text-bold text-nowrap">{{localize "CPR.RoleAbilityName"}}</span>
+        <span class="text-bold text-nowrap">{{localize "CPR.dialog.createEditRoleAbility.roleAbilityName"}}</span>
       </div>
       <div class="item flexrow setting-value text-nowrap item-end">
         <input class="text-right" name="name" type="text" value="{{name}}" />
@@ -11,7 +11,7 @@
     </li>
     <li class="item flexrow">
       <div class="item flexrow setting-name">
-        <span class="text-bold text-nowrap">{{localize "CPR.RoleAbilityRank"}}</span>
+        <span class="text-bold text-nowrap">{{localize "CPR.dialog.createEditRoleAbility.roleAbilityRank"}}</span>
       </div>
       <div class="item flexrow setting-value text-nowrap item-end">
         <input class="text-right" name="rank" type="number" value={{rank}} />
@@ -19,7 +19,7 @@
     </li>
     <li class="item flexrow">
       <div class="item flexrow setting-name">
-        <span class="text-bold text-nowrap">{{localize "CPR.multiplier"}}</span>
+        <span class="text-bold text-nowrap">{{localize "CPR.dialog.createEditRoleAbility.multiplier"}}</span>
       </div>
       <div class="item flexrow setting-value">
         <select name="multiplier">
@@ -34,19 +34,19 @@
     </li>
     <li class="item flexrow">
       <div class="item flexrow setting-name">
-        <span class="text-bold text-nowrap">{{localize "CPR.Stat"}}</span>
+        <span class="text-bold text-nowrap">{{localize "CPR.global.generic.stat"}}</span>
       </div>
       <div class="item flexrow setting-value">
         <select name="stat">
           {{#select stat}}
-          <optgroup label = "{{localize "CPR.specialOptions"}}">
+          <optgroup label = "{{localize "CPR.dialog.createEditRoleAbility.specialOptions"}}">
             {{#each (findConfigObj "roleSpecialOptions") as |option o|}}
             {{#if (compare o "!==" "varying")}}
               <option value="{{o}}">{{localize option}}</option>
             {{/if}}
             {{/each}}
           </optgroup>
-          <optgroup label = "{{localize "CPR.statList"}}">
+          <optgroup label = "{{localize "CPR.dialog.createEditRoleAbility.statList"}}">
             {{#each (findConfigObj "statList") as |stat s|}}
               <option value="{{s}}">{{localize stat}}</option>
             {{/each}}
@@ -57,17 +57,17 @@
     </li>
     <li class="item flexrow">
       <div class="item flexrow setting-name">
-        <span class="text-bold text-nowrap">{{localize "CPR.Skill"}}</span>
+        <span class="text-bold text-nowrap">{{localize "CPR.dialog.createEditRoleAbility.skill"}}</span>
       </div>
       <div class="item flexrow setting-value">
         <select name="skill">
           {{#select skill}}
-          <optgroup label = "{{localize "CPR.specialOptions"}}">
+          <optgroup label = "{{localize "CPR.dialog.createEditRoleAbility.specialOptions"}}">
             {{#each (findConfigObj "roleSpecialOptions") as |option o|}}
               <option value="{{o}}">{{localize option}}</option>
             {{/each}}
           </optgroup>
-          <optgroup label = "{{localize "CPR.skillList"}}">
+          <optgroup label = "{{localize "CPR.dialog.createEditRoleAbility.skillList"}}">
             {{#each (sort skillOptions "name") as |option o|}}
               <option value="{{option.data.name}}">{{option.data.name}}</option>
             {{/each}}
@@ -78,7 +78,7 @@
     </li>
     <li class="item flexrow">
       <div class="item flexrow setting-name">
-        <span class="text-bold text-nowrap">{{localize "CPR.hasroll"}}</span>
+        <span class="text-bold text-nowrap">{{localize "CPR.dialog.createEditRoleAbility.hasRoll"}}</span>
       </div>
       <div class="item flexrow setting-value text-nowrap item-end">
         {{#if hasRoll}}
@@ -90,7 +90,7 @@
     </li>
   </ol>
   <div class="">
-    <div class="text-bold">{{localize "CPR.description"}}</div>
+    <div class="text-bold">{{localize "CPR.global.generic.description"}}</div>
     <textarea class="" name="description">{{description}}</textarea>
   </div>
 </form>
