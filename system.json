@@ -121,6 +121,14 @@
       "path": "packs/scenes.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Elflines Online Macros",
+      "entity": "Macro",
+      "name": "elflines-online",
+      "path": "packs/elflines-online.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
     }
   ],
   "languages": [

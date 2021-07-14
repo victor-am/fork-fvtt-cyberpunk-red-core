@@ -397,6 +397,11 @@ export default function registerHandlebarsHelpers() {
       return cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
     }
     return cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
+    // This helper also translates the skills for the Elflines Online characters, created with by the macro in the compendium.
+    // In order for the test case to work these skills have to appear in the code. They are not used anywhere else, thus added
+    // here as a comment: "CPR.global.skills.athleticsAndContortionist", "CPR.global.skills.basicTechAndWeaponstech",
+    // "CPR.global.skills.compositionAndEducation", "CPR.global.skills.enduranceAndResistTortureAndDrugs", "CPR.global.skills.evasionAndDance",
+    // "CPR.global.skills.firstAidAndParamedicAndSurgery", "CPR.global.skills.persuasionAndTrading", "CPR.global.skills.pickLockAndPickPocket"
   });
 
   Handlebars.registerHelper("sortCoreSkills", (object) => {
