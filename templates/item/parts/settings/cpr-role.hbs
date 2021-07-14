@@ -1,12 +1,8 @@
-<div class="item-settings-tab">
-  <div class="item-settings-section">
-    <ol class="items-list">
       {{!--Item Name Settings--}}
-      {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs" this}}
       {{!-- Role Item Settings--}}
       <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-          {{localize "CPR.MainAbilityName"}}
+          {{localize "CPR.itemSheet.role.mainAbilityName"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
           <input name="data.mainRoleAbility" class="" data-dtype="{{data.data.mainRoleAbility}}" value="{{data.data.mainRoleAbility}}" type="text">
@@ -14,7 +10,7 @@
       </li>
       <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-          {{localize "CPR.Rank"}}
+          {{localize "CPR.itemSheet.role.abilityRank"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
           <input name="data.rank" class="" data-dtype="{{data.data.rank}}" value="{{data.data.rank}}" type="number">
@@ -22,7 +18,7 @@
       </li>
       <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-          {{localize "CPR.hasroll?"}}
+          {{localize "CPR.itemSheet.role.hasRoll"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
           {{#if data.data.hasRoll}}
@@ -35,7 +31,7 @@
       {{#if data.data.hasRoll}}
       <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-          {{localize "CPR.addroleabilityrank?"}}
+          {{localize "CPR.itemSheet.role.addRoleAbilityRankQuestion"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
           {{#if data.data.addRoleAbilityRank}}
@@ -47,19 +43,19 @@
       </li>
       <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-          {{localize "CPR.Stat"}}
+          {{localize "CPR.global.generic.stat"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
           <select name="data.stat" data-dtype="{{data.data.stat}}">
             {{#select data.data.stat}}
-              <optgroup label = "{{localize "CPR.specialOptions"}}">
+              <optgroup label = "{{localize "CPR.itemSheet.role.specialOptions"}}">
                 {{#each (findConfigObj "roleSpecialOptions") as |option o|}}
                 {{#if (compare o "!==" "varying")}}
                   <option value="{{o}}">{{localize option}}</option>
                 {{/if}}
                 {{/each}}
               </optgroup>
-              <optgroup label = "{{localize "CPR.statList"}}">
+              <optgroup label = "{{localize "CPR.itemSheet.role.statList"}}">
                 {{#each (findConfigObj "statList") as |stat s|}}
                   <option value="{{s}}">{{localize stat}}</option>
                 {{/each}}
@@ -70,17 +66,17 @@
       </li>
       <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-          {{localize "CPR.Skill"}}
+          {{localize "CPR.itemSheet.role.skill"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
           <select name="data.skill" data-dtype="{{data.data.skill}}">
             {{#select data.data.skill}}
-              <optgroup label = "{{localize "CPR.specialOptions"}}">
+              <optgroup label = "{{localize "CPR.itemSheet.role.specialOptions"}}">
                 {{#each (findConfigObj "roleSpecialOptions") as |option o|}}
                   <option value="{{o}}">{{localize option}}</option>
                 {{/each}}
               </optgroup>
-              <optgroup label = "{{localize "CPR.skillList"}}">
+              <optgroup label = "{{localize "CPR.itemSheet.role.skillList"}}">
                 {{#each (sort (getProp this.filteredItems 'skill') "name") as |skill| }}
                   <option value="{{skill.data.name}}">{{localize skill.data.name}}</option>
                 {{/each}}
@@ -91,8 +87,8 @@
       </li>
       {{/if}}
       <div class="item flexrow setting-name text-nowrap">
-          <a class="select-role-bonuses text-bold">{{localize "CPR.SelectBonusToSkills"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
-          {{#if (compare data.data.bonusRatio "!==" 1)}}{{localize "CPR.BonusRatio"}} - 1:{{data.data.bonusRatio}}{{/if}}
+          <a class="select-role-bonuses text-bold">{{localize "CPR.itemSheet.role.selectBonusToSkills"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
+          {{#if (compare data.data.bonusRatio "!==" 1)}}{{localize "CPR.itemSheet.role.bonusRatio"}} - 1:{{data.data.bonusRatio}}{{/if}}
       </div>
       <div class="compatible-ammo">
         {{#each data.data.universalBonuses as |bonus|}}
@@ -110,18 +106,15 @@
           </li>
         {{/each}}
       </div>
-    </ol>
-  </div>
-</div>
 <div class="item-netarch-section">
   <li class="items-header flexrow">
-    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.Name"}} &nbsp;</span>
-    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.Rank"}} &nbsp;</span>
-    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.Stat"}} &nbsp;</span>
-    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.Skill"}} &nbsp;</span>
-    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.Mult"}} &nbsp;</span>
-    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.Bonuses"}} &nbsp;</span>
-    <span class="item-name netarch-content fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.Description"}}</span>
+    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.global.generic.name"}} &nbsp;</span>
+    <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.itemSheet.role.rank"}} &nbsp;</span>
+    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.global.generic.stat"}} &nbsp;</span>
+    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.itemSheet.role.skill"}} &nbsp;</span>
+    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.itemSheet.role.multiplierShort"}} &nbsp;</span>
+    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.itemSheet.role.bonuses"}} &nbsp;</span>
+    <span class="item-name netarch-content fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.global.generic.description"}}</span>
     <span class="item-name netarch-actions fg-white bg-black text-nowrap text-padding-left">
       <a class="role-ability-action" data-action-type="create" data-action-target="-1"><i class="fas fa-plus-circle text-padding-right" title="New Role Ability"></i></a>
     </span>
@@ -166,6 +159,4 @@
             </div>
           </li>
         {{/each}}
-      </ol>
-    </div>
-</div>
+
