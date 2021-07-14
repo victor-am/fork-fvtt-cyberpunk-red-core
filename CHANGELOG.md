@@ -39,8 +39,8 @@
 - Added feature to purchase/take only a part of the items offered in a container actor.
 - Elflines Online
   - A compendium has been added with 2 macros
-    - `Create an Elflines Online Character`: This macro will create a blank Elfline Online Character with skills as defined from the Elflines Online Skill List in the Elfline Online compendium released by TSR.
-    - `Create Elflines Online Armory`: This macro will create a folder of items as defined from the Elflines Online Armory in the Elfline Online compendium released by TSR.
+    - `Create an Elflines Online Character`: This macro will create a blank Elfline Online Character with skills as defined from the Elflines Online Skill List in the Elfline Online compendium released by RTG.
+    - `Create Elflines Online Armory`: This macro will create a folder of items as defined from the Elflines Online Armory in the Elfline Online compendium released by RTG.
 
 **Changes**
 - Newly created actors and items will automatically have default icons configured.
