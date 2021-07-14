@@ -5,7 +5,7 @@
         <a class="name item-edit" title="{{item.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{item.name}}{{#if item.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}</a>
     </div>
     <div class="item-detail gear-data text-nowrap">
-        {{localize "CPR.slots"}}: {{item.data.data.slots}} | {{localize "CPR.price"}}: {{item.data.data.price.market}}
+        {{localize "CPR.global.generic.slots"}}: {{item.data.data.slots}} | {{localize "CPR.global.generic.price"}}: {{item.data.data.price.market}}
     </div>
     <div class="item-detail gear-actions text-nowrap">
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}

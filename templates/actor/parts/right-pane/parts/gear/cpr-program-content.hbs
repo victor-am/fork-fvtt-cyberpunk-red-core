@@ -6,7 +6,7 @@
         <a class="name item-edit" title="{{item.name}} x{{item.data.data.amount}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{item.name}}</a>
     </div>
     <div class="item-detail gear-data text-nowrap">
-        {{#if item.data.data.class}}{{localize (findConfigValue "programClassList" item.data.data.class)}} | {{/if}}{{localize "CPR.price"}}: {{item.data.data.price.market}}
+        {{#if item.data.data.class}}{{localize (findConfigValue "programClassList" item.data.data.class)}} | {{/if}}{{localize "CPR.global.generic.price"}}: {{item.data.data.price.market}}
     </div>
     <div class="item-detail gear-actions text-nowrap">
         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-actions.hbs" item}}
