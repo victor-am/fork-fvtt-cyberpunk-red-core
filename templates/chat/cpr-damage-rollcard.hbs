@@ -54,9 +54,12 @@
                         {{bonusDamage}}</div>
                     {{/if}}
                     <div class="d6-data-details hide">
-                        {{#if (compare mods.length ">" 0)}}
+                      {{#if universalBonusDamage}}
+                        <div class="text-normal text-bold">{{localize "CPR.UniversalBonus"}}: +{{universalBonusDamage}}
+                      {{/if}}
+                      {{#if (compare mods.length ">" 0)}}
                         <div class="text-normal text-bold">{{localize "CPR.rolls.mods"}}: {{totalMods}}</div>
-                        {{/if}}
+                      {{/if}}
                     </div>
                 </div>
             </div>

@@ -15,15 +15,21 @@ export default class SelectRolesPrompt {
         };
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog SelectRolesPrompt | called.");
-          const roleList = html.find("[name=\"selectedRoles\"");
-          const selectedRoles = [];
+          const roleList = html.find("[name=\"activeRole\"");
+          const netRoleList = html.find("[name=\"activeNetRole\"");
+          let activeRole = "";
+          let activeNetRole = "";
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
           Object.keys(roleList).forEach((role) => {
             if (roleList[role].checked) {
-              selectedRoles.push(roleList[role].value);
+              activeRole = roleList[role].value;
+            }
+            if (netRoleList[role].checked) {
+              activeNetRole = netRoleList[role].value;
             }
           });
-          formData.selectedRoles = selectedRoles;
+          formData.activeRole = activeRole;
+          formData.activeNetRole = activeNetRole;
           resolve(formData);
         };
         new Dialog({

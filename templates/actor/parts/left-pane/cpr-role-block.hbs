@@ -5,9 +5,8 @@
         class="text-smallest text-super fas fa-wrench"></i></a>
   </div>
   <div class="block-data">
-  {{log actor}}
     {{#if (objectListContains actor.data.filteredItems.role "name" data.data.roleInfo.activeRole)}}
-     {{data.data.roleInfo.activeRole}}
+      {{data.data.roleInfo.activeRole}}
     {{/if}}
   </div>
 </div>

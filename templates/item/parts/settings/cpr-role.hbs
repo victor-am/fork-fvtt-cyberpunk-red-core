@@ -129,7 +129,7 @@
             </div>
             <div class="netarch-dv">
               {{#if (compare ability.stat "===" "--")}}
-              {{localize "CPR.na"}}
+              {{localize "CPR.global.generic.na"}}
               {{else}}
               {{localize (findConfigValue "statList" ability.stat)}}
               {{/if}}
