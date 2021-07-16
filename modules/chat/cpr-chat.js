@@ -1,4 +1,4 @@
-/* global game, CONFIG, ChatMessage, renderTemplate $ */
+/* global game, CONFIG, ChatMessage, renderTemplate, canvas, $ */
 import LOGGER from "../utils/cpr-logger.js";
 import { CPRRoll } from "../rolls/cpr-rolls.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
@@ -233,6 +233,89 @@ export default class CPRChat {
             : game.actors.find((a) => a.id === actorId);
           const item = actor.items.find((i) => i.data._id === itemId);
           item.sheet.render(true, { editable: false });
+          break;
+        }
+        case "applyDamage": {
+          const totalDamage = parseInt($(event.currentTarget).attr("data-total-damage"), 10);
+          const bonusDamage = parseInt($(event.currentTarget).attr("data-bonus-damage"), 10);
+          const location = $(event.currentTarget).attr("data-damage-location");
+          const tokens = canvas.tokens.controlled;
+          if (tokens.length === 0) {
+            SystemUtils.DisplayMessage("warn", "CPR.chat.damageApplication.noTokenSelected");
+            break;
+          }
+          tokens.forEach((t) => {
+            const { actor } = t;
+            let armorValue = 0;
+            let armors;
+            if (location === "head") {
+              armors = actor.getEquippedArmors("head");
+            } else {
+              armors = actor.getEquippedArmors("body");
+            }
+            armors.forEach((a) => {
+              let newValue;
+              if (location === "head") {
+                newValue = a.data.data.headLocation.sp - a.data.data.headLocation.ablation;
+              } else {
+                newValue = a.data.data.bodyLocation.sp - a.data.data.bodyLocation.ablation;
+              }
+              if (newValue > armorValue) {
+                armorValue = newValue;
+              }
+            });
+            if (totalDamage > armorValue) {
+              // takes damage
+              let takenDamage = totalDamage - armorValue;
+              if (location === "head") {
+                takenDamage *= 2;
+              }
+              takenDamage += bonusDamage;
+              const currentHp = actor.data.data.derivedStats.hp.value;
+              actor.update({ "data.derivedStats.hp.value": currentHp - takenDamage });
+              // ablates armor
+              if (armors.length !== 0) {
+                const updateList = [];
+                armors.forEach((a) => {
+                  if (location === "head") {
+                    const armorData = a.data;
+                    const upgradeValue = a.getAllUpgradesFor("headSp");
+                    const upgradeType = a.getUpgradeTypeFor("headSp");
+                    armorData.data.headLocation.sp = Number(armorData.data.headLocation.sp);
+                    armorData.data.headLocation.ablation = Number(armorData.data.headLocation.ablation);
+                    const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.headLocation.sp + upgradeValue;
+                    armorData.data.headLocation.ablation = Math.min(
+                      (armorData.data.headLocation.ablation + 1), armorSp,
+                    );
+                    updateList.push({ _id: a.id, data: armorData.data });
+                  } else {
+                    const armorData = a.data;
+                    armorData.data.bodyLocation.sp = Number(armorData.data.bodyLocation.sp);
+                    armorData.data.bodyLocation.ablation = Number(armorData.data.bodyLocation.ablation);
+                    const upgradeValue = a.getAllUpgradesFor("bodySp");
+                    const upgradeType = a.getUpgradeTypeFor("bodySp");
+                    const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.bodyLocation.sp + upgradeValue;
+                    armorData.data.bodyLocation.ablation = Math.min(
+                      (armorData.data.bodyLocation.ablation + 1), armorSp,
+                    );
+                    updateList.push({ _id: a.id, data: armorData.data });
+                  }
+                });
+                actor.updateEmbeddedDocuments("Item", updateList);
+                if (location === "head") {
+                  // Update actor external data as head armor is ablated:
+                  const currentArmorValue = Math.max((actor.data.data.externalData.currentArmorHead.value - 1), 0);
+                  actor.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
+                } else {
+                  const currentArmorValue = Math.max((actor.data.data.externalData.currentArmorBody.value - 1), 0);
+                  actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
+                }
+              }
+            } else if (bonusDamage > 0) {
+              const currentHp = actor.data.data.derivedStats.hp.value;
+              actor.update({ "data.derivedStats.hp.value": currentHp - bonusDamage });
+            }
+          });
           break;
         }
         default: {

@@ -3,11 +3,20 @@
     <div class="rollcard-top">
         <div class="cpr-block chat-rollTitle-stat">
             <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
-            <div class="text-center text-small">{{#if autofire}}{{localize "CPR.global.skills.autofire"}} {{/if}}{{localize
-                "CPR.global.generic.damage"}}</div>
-        {{#if rollCardExtraArgs.ammoType}}
-        <div class="text-center text-small">{{localize (findConfigValue "ammoType" rollCardExtraArgs.ammoType)}}</div>
-        {{/if}}
+            <div class="rollcard-subtitle">
+                <div class="rollcard-subtitle-center text-small">{{#if autofire}}{{localize "CPR.global.skills.autofire"}} {{/if}}{{localize "CPR.global.generic.damage"}}</div>
+                <div class="rollcard-subtitle-right">
+                    <a class="clickable"
+                       data-action="applyDamage"
+                       data-total-damage="{{resultTotal}}" data-bonus-damage="{{#if criticalCard}}{{bonusDamage}}{{else}}0{{/if}}"
+                       data-damage-location="{{#if isAimed}}{{location}}{{else}}none{{/if}}">
+                        <i class="fas fa-bolt" title="{{localize "CPR.chat.damageApplication.applyDamage"}}"></i>
+                    </a>
+                </div>
+                {{#if rollCardExtraArgs.ammoType}}
+                <div class="rollcard-subtitle-2-center text-small">{{localize (findConfigValue "ammoType" rollCardExtraArgs.ammoType)}}</div>
+                {{/if}}
+            </div>
         </div>
     </div>
     <div class="rollcard-bottom">

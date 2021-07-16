@@ -101,6 +101,8 @@
     "CPR.chat.blind": "Blind",
     "CPR.chat.self": "Self",
     "CPR.chat.whisper": "Whisper",
+    "CPR.chat.damageApplication.applyDamage": "Apply Damage",
+    "CPR.chat.damageApplication.noTokenSelected": "Error: No Token selected!",
     "CPR.combatUtils.noCombatSelected": "No combat encounter selected!",
     "CPR.combatUtils.noCombatantsFound": "No combatants found in current combat encounter!",
     "CPR.combatUtils.nobodyRolledInitiative": "No previously rolled initiatives, setting Black-ICE to 30",
