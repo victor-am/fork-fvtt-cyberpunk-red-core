@@ -1,13 +1,13 @@
 {{trace "CPR-VERIFY-ROLL-CYBERDECK-PROMPT.HBS"}}
 <form>
     <div>
-        {{localize "CPR.rolls.rollingFor"}} "{{rollName}}", Choomba!
+        {{localize "CPR.rolls.rollingFor"}} "{{rollTitle}}", Choomba!
     </div>
 
     <ol class="items-list">
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.rolls.abilityRank"}}:
+                {{localize "CPR.rolls.abilityRank"}} ({{rollName}}):
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="roleValue" class="" type="number" data-dtype="Number" value={{roleValue}}>
