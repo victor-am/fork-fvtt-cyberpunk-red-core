@@ -1,4 +1,4 @@
-/* global game, CONFIG, ChatMessage, renderTemplate, canvas, $ */
+/* global game, CONFIG, ChatMessage, renderTemplate, canvas, $, duplicate, setProperty */
 import LOGGER from "../utils/cpr-logger.js";
 import { CPRRoll } from "../rolls/cpr-rolls.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
@@ -302,14 +302,7 @@ export default class CPRChat {
                   }
                 });
                 actor.updateEmbeddedDocuments("Item", updateList);
-                if (location === "head") {
-                  // Update actor external data as head armor is ablated:
-                  const currentArmorValue = Math.max((actor.data.data.externalData.currentArmorHead.value - 1), 0);
-                  actor.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
-                } else {
-                  const currentArmorValue = Math.max((actor.data.data.externalData.currentArmorBody.value - 1), 0);
-                  actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
-                }
+                // missing: update external armor data...
               }
             } else if (bonusDamage > 0) {
               const currentHp = actor.data.data.derivedStats.hp.value;
