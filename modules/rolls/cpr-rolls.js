@@ -303,7 +303,7 @@ export class CPRDeathSaveRoll extends CPRRoll {
 }
 
 export class CPRDamageRoll extends CPRRoll {
-  constructor(rollTitle, formula, universalBonusDamage, weaponType) {
+  constructor(rollTitle, formula, weaponType, universalBonusDamage) {
     LOGGER.trace("constructor | CPRDamageRoll | Called.");
     // we assume always d6s
     // again, check if this makes sense or if it should accept formulas too
@@ -332,7 +332,11 @@ export class CPRDamageRoll extends CPRRoll {
     LOGGER.trace("_computeBase | CPRDamageRoll | Called.");
     this.autofireMultiplier = Math.min(this.autofireMultiplier, this.autofireMultiplierMax);
     const damageMultiplier = (this.isAutofire) ? this.autofireMultiplier : 1;
-    return ((this.initialRoll + this.totalMods()) * damageMultiplier) + this.universalBonusDamage;
+    if (this.universalBonusDamage) {
+      return ((this.initialRoll + this.totalMods()) * damageMultiplier) + this.universalBonusDamage;
+    } else {
+      return ((this.initialRoll + this.totalMods()) * damageMultiplier);
+    }
   }
 
   // eslint-disable-next-line class-methods-use-this

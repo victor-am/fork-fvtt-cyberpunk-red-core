@@ -249,8 +249,12 @@ export default class CPRActorSheet extends ActorSheet {
         const interfaceAbility = $(event.currentTarget).attr("data-interface-ability");
         const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
         const cyberdeck = this._getOwnedItem(cyberdeckId);
-        // cprRoll = cyberdeck.createRoll(rollType, this.actor, { interfaceAbility });
-        cprRoll = cyberdeck.createRoll(rollType, this.actor, { interfaceAbility, cyberdeck });
+        const netRoleItem = this.actor.data.filteredItems.role.find((r) => r.data.name === this.actor.data.data.roleInfo.activeNetRole);
+        if (!netRoleItem) {
+          const error = SystemUtils.Localize("CPR.NoNetrunningRoleConfigured")
+          return SystemUtils.DisplayMessage("error", error);
+        }
+        cprRoll = cyberdeck.createRoll(rollType, this.actor, { interfaceAbility, cyberdeck, netRoleItem });
         break;
       }
       case CPRRolls.rollTypes.CYBERDECKPROGRAM: {
@@ -258,12 +262,16 @@ export default class CPRActorSheet extends ActorSheet {
         const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
         const executionType = $(event.currentTarget).attr("data-execution-type");
         const cyberdeck = this._getOwnedItem(cyberdeckId);
-        const interfaceValue = this.actor._getRoleValue("interface");
+        const netRoleItem = this.actor.data.filteredItems.role.find((r) => r.data.name === this.actor.data.data.roleInfo.activeNetRole);
+        if (!netRoleItem) {
+          const error = SystemUtils.Localize("CPR.NoNetrunningRoleConfigured")
+          return SystemUtils.DisplayMessage("error", error);
+        }
         const extraData = {
           cyberdeckId,
           programId,
           executionType,
-          interfaceValue,
+          netRoleItem,
         };
         cprRoll = cyberdeck.createRoll(rollType, this.actor, extraData);
         break;
