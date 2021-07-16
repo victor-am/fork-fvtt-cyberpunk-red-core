@@ -249,7 +249,8 @@ export default class CPRActorSheet extends ActorSheet {
         const interfaceAbility = $(event.currentTarget).attr("data-interface-ability");
         const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
         const cyberdeck = this._getOwnedItem(cyberdeckId);
-        cprRoll = cyberdeck.createRoll(rollType, this.actor, { interfaceAbility });
+        // cprRoll = cyberdeck.createRoll(rollType, this.actor, { interfaceAbility });
+        cprRoll = cyberdeck.createRoll(rollType, this.actor, { interfaceAbility, cyberdeck });
         break;
       }
       case CPRRolls.rollTypes.CYBERDECKPROGRAM: {

@@ -438,8 +438,9 @@ export default class CPRItem extends Item {
       case CPRRolls.rollTypes.SKILL: {
         return this._createSkillRoll(actor);
       }
+      case CPRRolls.rollTypes.INTERFACEABILITY:
       case CPRRolls.rollTypes.ROLEABILITY: {
-        return this._createRoleRoll(actor, extraData);
+        return this._createRoleRoll(type, actor, extraData);
       }
       case CPRRolls.rollTypes.SUPPRESSIVE:
       case CPRRolls.rollTypes.AUTOFIRE:
@@ -451,7 +452,7 @@ export default class CPRItem extends Item {
         const damageType = extraData.damageType ? extraData.damageType : type;
         return this._createDamageRoll(damageType);
       }
-      case CPRRolls.rollTypes.INTERFACEABILITY:
+      // case CPRRolls.rollTypes.INTERFACEABILITY:
       case CPRRolls.rollTypes.CYBERDECKPROGRAM: {
         return this._createCyberdeckRoll(type, actor, extraData);
       }
@@ -502,69 +503,108 @@ export default class CPRItem extends Item {
     return cprRoll;
   }
 
-  _createRoleRoll(actor, rollInfo) {
+  _createRoleRoll(rollType, actor, rollInfo) {
     const itemData = this.data.data;
     let rollName = itemData.mainRoleAbility;
+    let rollTitle;
     let statName = "--";
     let skillName = "--";
     let skillList;
     let roleValue = 0;
     let roleStat = 0;
     let roleSkill = 0;
-    if (rollInfo.rollSubType === "mainRoleAbility") {
-      if (itemData.addRoleAbilityRank) {
-        roleValue = itemData.rank;
-      }
-      if (itemData.stat !== "--") {
-        statName = itemData.stat;
-        roleStat = actor.getStat(statName);
-      }
-      if (itemData.skill !== "--" && itemData.skill !== "varying") {
-        skillName = itemData.skill;
-        const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
-        if (skillObject !== undefined) {
-          roleSkill = skillObject.data.data.level + skillObject.data.data.skillmod;
-        } else {
-          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
+    let boosterModifiers;
+    switch (rollType) {
+      case CPRRolls.rollTypes.INTERFACEABILITY: {
+        const netRoleItem = actor.data.filteredItems.role.find((r) => r.data.name === actor.data.data.roleInfo.activeNetRole);
+        if (!netRoleItem) {
+          const error = SystemUtils.Localize("CPR.NoNetrunningRoleConfigured")
+          return SystemUtils.DisplayMessage("error", error);
         }
-      } else if (itemData.skill === "varying") {
-        skillName = "varying";
-        if (itemData.stat !== "--") {
-          skillList = actor.data.filteredItems.skill.filter((s) => s.data.data.stat === itemData.stat);
-        } else {
-          skillList = actor.data.filteredItems.skill;
+        rollName = netRoleItem.data.data.mainRoleAbility;
+        roleValue = netRoleItem.data.data.rank;
+        const { interfaceAbility } = rollInfo;
+        const { cyberdeck } = rollInfo;
+        switch (interfaceAbility) {
+          case "speed": {
+            rollTitle = SystemUtils.Localize("CPR.speed");
+            break;
+          }
+          case "defense": {
+            rollTitle = SystemUtils.Localize("CPR.defense");
+            break;
+          }
+          default: {
+            rollTitle = SystemUtils.Localize(CPR.interfaceAbilities[interfaceAbility]);
+          }
         }
-      }
-    }
 
-    if (rollInfo.rollSubType === "subRoleAbility") {
-      const subRoleAbility = itemData.abilities.find((a) => a.name === rollInfo.subRoleName);
-      rollName = subRoleAbility.name;
-      roleValue = subRoleAbility.rank;
-      if (subRoleAbility.stat !== "--") {
-        statName = subRoleAbility.stat;
-        roleStat = actor.getStat(statName);
+        boosterModifiers = cyberdeck.getBoosters(interfaceAbility);
+        break;
       }
-      if (subRoleAbility.skill !== "--" && subRoleAbility.skill !== "varying") {
-        skillName = subRoleAbility.skill.name;
-        const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
-        if (skillObject !== undefined) {
-          roleSkill = skillObject.data.data.level + skillObject.data.data.skillmod;
-        } else {
-          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
+      case CPRRolls.rollTypes.ROLEABILITY: {
+      if (rollInfo.rollSubType === "mainRoleAbility") {
+        if (itemData.addRoleAbilityRank) {
+          roleValue = itemData.rank;
         }
-      } else if (subRoleAbility.skill === "varying") {
-        skillName = "varying";
-        if (subRoleAbility.stat !== "--") {
-          skillList = actor.data.filteredItems.skill.filter((s) => s.data.data.stat === subRoleAbility.stat);
-        } else {
-          skillList = actor.data.filteredItems.skill;
+        if (itemData.stat !== "--") {
+          statName = itemData.stat;
+          roleStat = actor.getStat(statName);
+        }
+        if (itemData.skill !== "--" && itemData.skill !== "varying") {
+          skillName = itemData.skill;
+          const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
+          if (skillObject !== undefined) {
+            roleSkill = skillObject.data.data.level + skillObject.data.data.skillmod;
+          } else {
+            SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
+          }
+        } else if (itemData.skill === "varying") {
+          skillName = "varying";
+          if (itemData.stat !== "--") {
+            skillList = actor.data.filteredItems.skill.filter((s) => s.data.data.stat === itemData.stat);
+          } else {
+            skillList = actor.data.filteredItems.skill;
+          }
         }
       }
-    }
-    const cprRoll = new CPRRolls.CPRRoleRoll(rollName, statName, skillName, roleValue, roleStat, roleSkill, skillList);
-    cprRoll.addMod(actor.getWoundStateMods());
-    return cprRoll;
+
+        if (rollInfo.rollSubType === "subRoleAbility") {
+          const subRoleAbility = itemData.abilities.find((a) => a.name === rollInfo.subRoleName);
+          rollName = subRoleAbility.name;
+          roleValue = subRoleAbility.rank;
+          if (subRoleAbility.stat !== "--") {
+            statName = subRoleAbility.stat;
+            roleStat = actor.getStat(statName);
+          }
+          if (subRoleAbility.skill !== "--" && subRoleAbility.skill !== "varying") {
+            skillName = subRoleAbility.skill.name;
+            const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
+            if (skillObject !== undefined) {
+              roleSkill = skillObject.data.data.level + skillObject.data.data.skillmod;
+            } else {
+              SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
+            }
+          } else if (subRoleAbility.skill === "varying") {
+            skillName = "varying";
+            if (subRoleAbility.stat !== "--") {
+              skillList = actor.data.filteredItems.skill.filter((s) => s.data.data.stat === subRoleAbility.stat);
+            } else {
+              skillList = actor.data.filteredItems.skill;
+            }
+          }
+        }
+        break;
+      }
+      default:
+      }
+      const cprRoll = new CPRRolls.CPRRoleRoll(rollName, statName, skillName, roleValue, roleStat, roleSkill, skillList);
+      if (rollType === "interfaceAbility") {
+        cprRoll.setNetCombat(rollTitle);
+        cprRoll.addMod(boosterModifiers);
+      }
+      cprRoll.addMod(actor.getWoundStateMods());
+      return cprRoll;
   }
 
   _createAttackRoll(type, actor) {
@@ -1275,9 +1315,10 @@ export default class CPRItem extends Item {
     LOGGER.debug("_createCyberdeckRoll | CPRItem | Called.");
     let rollTitle = "";
     let rollModifiers = 0;
+    const netRoleItem = actor.data.filteredItems.role.find((r) => r.data.name === actor.data.data.roleInfo.activeNetRole);
     let cprRoll;
     switch (rollType) {
-      case CPRRolls.rollTypes.INTERFACEABILITY: {
+/*       case CPRRolls.rollTypes.INTERFACEABILITY: {
         const { interfaceAbility } = extraData;
         switch (interfaceAbility) {
           case "speed": {
@@ -1297,7 +1338,7 @@ export default class CPRItem extends Item {
         cprRoll = actor.createRoll("roleAbility", "interface");
         cprRoll.setNetCombat(rollTitle);
         break;
-      }
+      } */
       case CPRRolls.rollTypes.CYBERDECKPROGRAM: {
         const { programId } = extraData;
         const programList = this.getInstalledPrograms().filter((iProgram) => iProgram._id === programId);
