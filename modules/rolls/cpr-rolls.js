@@ -183,9 +183,8 @@ export class CPRSkillRoll extends CPRStatRoll {
     LOGGER.trace("_computeBase | CPRSkillRoll | Called.");
     if (this.universalBonusAttack) {
       return this.initialRoll + this.totalMods() + this.statValue + this.skillValue + this.roleValue + this.universalBonusAttack;
-    } else {
-      return this.initialRoll + this.totalMods() + this.statValue + this.skillValue + this.roleValue;
     }
+    return this.initialRoll + this.totalMods() + this.statValue + this.skillValue + this.roleValue;
   }
 }
 
@@ -334,9 +333,8 @@ export class CPRDamageRoll extends CPRRoll {
     const damageMultiplier = (this.isAutofire) ? this.autofireMultiplier : 1;
     if (this.universalBonusDamage) {
       return ((this.initialRoll + this.totalMods()) * damageMultiplier) + this.universalBonusDamage;
-    } else {
-      return ((this.initialRoll + this.totalMods()) * damageMultiplier);
     }
+    return ((this.initialRoll + this.totalMods()) * damageMultiplier);
   }
 
   // eslint-disable-next-line class-methods-use-this

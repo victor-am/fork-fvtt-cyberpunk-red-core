@@ -6,7 +6,7 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
 import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
 import NetarchLevelPrompt from "../../dialog/cpr-netarch-level-prompt.js";
 import RoleAbilityPrompt from "../../dialog/cpr-role-ability-prompt.js";
-import SelectRoleBonuses from "../../dialog/cpr-select-role-bonuses-prompt.js"
+import SelectRoleBonuses from "../../dialog/cpr-select-role-bonuses-prompt.js";
 import CyberdeckSelectProgramsPrompt from "../../dialog/cpr-select-install-programs-prompt.js";
 import SelectItemUpgradePrompt from "../../dialog/cpr-select-item-upgrade-prompt.js";
 import BoosterAddModifierPrompt from "../../dialog/cpr-booster-add-modifier-prompt.js";
@@ -200,7 +200,7 @@ export default class CPRItemSheet extends ItemSheet {
   async _selectRoleBonuses() {
     LOGGER.trace("ItemSheet | _selectRoleBonuses | Called.");
     const itemData = this.item.data.data;
-    const roleType = "mainRole"
+    const roleType = "mainRole";
     const pack = game.packs.get("cyberpunk-red-core.skills");
     const coreSkills = await pack.getDocuments();
     const customSkills = game.items.filter((i) => i.type === "skill");
@@ -208,7 +208,7 @@ export default class CPRItemSheet extends ItemSheet {
       : coreSkills.concat(customSkills).sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
     const allSkillsData = [];
     allSkills.forEach((a) => allSkillsData.push(a.data));
-    let formData = { skillList: allSkillsData, roleType: roleType, data: itemData };
+    let formData = { skillList: allSkillsData, roleType, data: itemData };
     formData = await SelectRoleBonuses.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;
@@ -222,11 +222,11 @@ export default class CPRItemSheet extends ItemSheet {
       formData.selectedUniversalBonuses.forEach((b) => {
         universalBonusesList.push(b);
       });
-      const bonusRatio = formData.bonusRatio;
+      const { bonusRatio } = formData;
       this.item.update({
         "data.bonuses": skillObjects,
         "data.universalBonuses": universalBonusesList,
-        "data.bonusRatio": bonusRatio
+        "data.bonusRatio": bonusRatio,
       });
       this._automaticResize(); // Resize the sheet as length of ammo list might have changed
     }
@@ -236,7 +236,7 @@ export default class CPRItemSheet extends ItemSheet {
     LOGGER.trace("ItemSheet | _selectSubroleBonuses | Called.");
     const subRoleName = $(event.currentTarget).attr("data-item-name");
     const itemData = duplicate(this.item.data);
-    const roleType = "subRole"
+    const roleType = "subRole";
     const subRole = itemData.data.abilities.find((a) => a.name === subRoleName);
     const pack = game.packs.get("cyberpunk-red-core.skills");
     const coreSkills = await pack.getDocuments();
@@ -245,7 +245,9 @@ export default class CPRItemSheet extends ItemSheet {
       : coreSkills.concat(customSkills).sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
     const allSkillsData = [];
     allSkills.forEach((a) => allSkillsData.push(a.data));
-    let formData = { skillList: allSkillsData, roleType: roleType, subRole: subRole, data: itemData.data };
+    let formData = {
+      skillList: allSkillsData, roleType, subRole, data: itemData.data,
+    };
     formData = await SelectRoleBonuses.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;
@@ -665,9 +667,10 @@ export default class CPRItemSheet extends ItemSheet {
       if (formData === undefined) {
         return;
       }
+      // eslint-disable-next-line no-nested-ternary
       const skillObject = (formData.skill !== "--") && (formData.skill !== "varying") ? allSkills.find((a) => a.data.name === formData.skill)
         : (formData.skill === "varying") ? "varying"
-        : "--";
+          : "--";
       if (hasProperty(itemData, "data.abilities")) {
         const prop = getProperty(itemData, "data.abilities");
         let maxIndex = -1;
@@ -752,9 +755,10 @@ export default class CPRItemSheet extends ItemSheet {
         if (formData === undefined) {
           return;
         }
-      const skillObject = (formData.skill !== "--") && (formData.skill !== "varying") ? allSkills.find((a) => a.data.name === formData.skill)
-        : (formData.skill === "varying") ? "varying"
-        : "--";
+        // eslint-disable-next-line no-nested-ternary
+        const skillObject = (formData.skill !== "--") && (formData.skill !== "varying") ? allSkills.find((a) => a.data.name === formData.skill)
+          : (formData.skill === "varying") ? "varying"
+            : "--";
         prop.splice(prop.indexOf(editElement), 1);
         prop.push({
           index: editElement.index,
@@ -775,6 +779,7 @@ export default class CPRItemSheet extends ItemSheet {
       }
     }
   }
+
   async _selectItemUpgrades() {
     LOGGER.trace("_selectItemUpgrades | CPRItemSheet | Called.");
     const { item } = this;

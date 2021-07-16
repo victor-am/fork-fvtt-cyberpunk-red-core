@@ -36,6 +36,7 @@ export default class CPRItem extends Item {
   }
 
   update(data, options = {}) {
+    LOGGER.trace("update | CPRItem | Called.");
     const cprData = data;
     if (data["data.type"] === "cyberwareInternal" || data["data.type"] === "cyberwareExternal" || data["data.type"] === "fashionware") {
       cprData["data.isFoundational"] = false;
@@ -47,6 +48,7 @@ export default class CPRItem extends Item {
   }
 
   _onCreate(data, options, userId) {
+    LOGGER.trace("_onCreate | CPRItem | Called.");
     const newData = data;
     // If we acre creating an upgradable item from an existing upgradable item
     // which has been upgraded, remove the upgrade from the new weapon as it
@@ -94,6 +96,7 @@ export default class CPRItem extends Item {
   }
 
   _itemUpgradeAction(actor, actionAttributes) {
+    LOGGER.trace("_itemUpgradeAction | CPRItem | Called.");
     switch (this.data.data.type) {
       case "weapon": {
         if (this.data.data.modifiers.secondaryWeapon.configured) {
@@ -106,6 +109,7 @@ export default class CPRItem extends Item {
   }
 
   _cyberwareAction(actor, actionAttributes) {
+    LOGGER.trace("_cyberwareAction | CPRItem | Called.");
     const actionData = actionAttributes["data-action"].nodeValue;
     switch (actionData) {
       case "select-ammo":
@@ -155,7 +159,7 @@ export default class CPRItem extends Item {
         isVarying = true;
       }
       if (isVarying) {
-        const roleSkill = actorData.filteredItems.skill.find((s) => s.data.name === localCprRoll.skillName)
+        const roleSkill = actorData.filteredItems.skill.find((s) => s.data.name === localCprRoll.skillName);
         localCprRoll.roleSkill = roleSkill.data.data.level + roleSkill.data.data.skillmod;
         if (localCprRoll.statName === "--") {
           localCprRoll.statName = roleSkill.data.data.stat;
@@ -204,6 +208,7 @@ export default class CPRItem extends Item {
   }
 
   async setCompatibleAmmo(ammoList) {
+    LOGGER.trace("setCompatibleAmmo | CPRItem | Called.");
     this.data.data.ammoVariety = ammoList;
     if (this.actor) {
       this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
@@ -292,6 +297,7 @@ export default class CPRItem extends Item {
 
   // The only time an ammo ID is passed to this is when it is being reloaded
   async _weaponLoad(reloadAmmoId) {
+    LOGGER.trace("_weaponLoad | CPRItem | Called.");
     let selectedAmmoId = reloadAmmoId;
     LOGGER.debug("_weaponLoad | CPRItem | Called.");
     const loadUpdate = [];
@@ -383,7 +389,7 @@ export default class CPRItem extends Item {
   }
 
   hasAmmo(cprRoll) {
-    LOGGER.trace("checkAmmo | CPRItem | Called.");
+    LOGGER.trace("hasAmmo | CPRItem | Called.");
     return (this.data.data.magazine.value - CPRItem.bulletConsumption(cprRoll)) >= 0;
   }
 
@@ -418,7 +424,7 @@ export default class CPRItem extends Item {
   }
 
   _getLoadedAmmoType() {
-    LOGGER.trace("_getAmmoType | CPRItem | Called.");
+    LOGGER.trace("_getLoadedAmmoType | CPRItem | Called.");
     if (this.actor) {
       const ammo = this.actor.items.find((i) => i.data._id === this.data.data.magazine.ammoId);
       if (ammo) {
@@ -429,6 +435,7 @@ export default class CPRItem extends Item {
   }
 
   toggleFavorite() {
+    LOGGER.trace("toggleFavorite | CPRItem | Called.");
     this.update({ "data.favorite": !this.data.data.favorite });
   }
 
@@ -471,7 +478,7 @@ export default class CPRItem extends Item {
     let roleName;
     let roleValue = 0;
     actor.data.filteredItems.role.forEach((r, index1) => {
-      const roleBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.bonuses.some((b) => b.name === skillName))
+      const roleBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.bonuses.some((b) => b.name === skillName));
       if (roleBonuses.length > 0 && index1 === 0) {
         roleBonuses.forEach((b, index2) => {
           if (roleName) {
@@ -504,6 +511,7 @@ export default class CPRItem extends Item {
   }
 
   _createRoleRoll(rollType, actor, rollInfo) {
+    LOGGER.trace("_createRoleRoll | CPRItem | Called.");
     const itemData = this.data.data;
     let rollName = itemData.mainRoleAbility;
     let rollTitle;
@@ -538,31 +546,31 @@ export default class CPRItem extends Item {
         break;
       }
       case CPRRolls.rollTypes.ROLEABILITY: {
-      if (rollInfo.rollSubType === "mainRoleAbility") {
-        if (itemData.addRoleAbilityRank) {
-          roleValue = itemData.rank;
-        }
-        if (itemData.stat !== "--") {
-          statName = itemData.stat;
-          roleStat = actor.getStat(statName);
-        }
-        if (itemData.skill !== "--" && itemData.skill !== "varying") {
-          skillName = itemData.skill;
-          const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
-          if (skillObject !== undefined) {
-            roleSkill = skillObject.data.data.level + skillObject.data.data.skillmod;
-          } else {
-            SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
+        if (rollInfo.rollSubType === "mainRoleAbility") {
+          if (itemData.addRoleAbilityRank) {
+            roleValue = itemData.rank;
           }
-        } else if (itemData.skill === "varying") {
-          skillName = "varying";
           if (itemData.stat !== "--") {
-            skillList = actor.data.filteredItems.skill.filter((s) => s.data.data.stat === itemData.stat);
-          } else {
-            skillList = actor.data.filteredItems.skill;
+            statName = itemData.stat;
+            roleStat = actor.getStat(statName);
+          }
+          if (itemData.skill !== "--" && itemData.skill !== "varying") {
+            skillName = itemData.skill;
+            const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
+            if (skillObject !== undefined) {
+              roleSkill = skillObject.data.data.level + skillObject.data.data.skillmod;
+            } else {
+              SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
+            }
+          } else if (itemData.skill === "varying") {
+            skillName = "varying";
+            if (itemData.stat !== "--") {
+              skillList = actor.data.filteredItems.skill.filter((s) => s.data.data.stat === itemData.stat);
+            } else {
+              skillList = actor.data.filteredItems.skill;
+            }
           }
         }
-      }
 
         if (rollInfo.rollSubType === "subRoleAbility") {
           const subRoleAbility = itemData.abilities.find((a) => a.name === rollInfo.subRoleName);
@@ -592,14 +600,14 @@ export default class CPRItem extends Item {
         break;
       }
       default:
-      }
-      const cprRoll = new CPRRolls.CPRRoleRoll(rollName, statName, skillName, roleValue, roleStat, roleSkill, skillList);
-      if (rollType === "interfaceAbility") {
-        cprRoll.setNetCombat(rollTitle);
-        cprRoll.addMod(boosterModifiers);
-      }
-      cprRoll.addMod(actor.getWoundStateMods());
-      return cprRoll;
+    }
+    const cprRoll = new CPRRolls.CPRRoleRoll(rollName, statName, skillName, roleValue, roleStat, roleSkill, skillList);
+    if (rollType === "interfaceAbility") {
+      cprRoll.setNetCombat(rollTitle);
+      cprRoll.addMod(boosterModifiers);
+    }
+    cprRoll.addMod(actor.getWoundStateMods());
+    return cprRoll;
   }
 
   _createAttackRoll(type, actor) {
@@ -634,7 +642,7 @@ export default class CPRItem extends Item {
     let roleName;
     let roleValue = 0;
     actor.data.filteredItems.role.forEach((r, index1) => {
-      const roleBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.bonuses.some((b) => b.name === skillName))
+      const roleBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.bonuses.some((b) => b.name === skillName));
       if (roleBonuses.length > 0 && index1 === 0) {
         roleBonuses.forEach((b, index2) => {
           if (roleName) {
@@ -647,7 +655,7 @@ export default class CPRItem extends Item {
       }
       const subroleBonuses = r.data.data.abilities.filter((a) => a.bonuses.some((b) => b.name === skillName));
       if (subroleBonuses.length > 0) {
-        subroleBonuses.forEach((b,index3) => {
+        subroleBonuses.forEach((b, index3) => {
           if (roleName) {
             roleName += `, ${b.name}`;
           } else if (index3 === 0) {
@@ -664,7 +672,9 @@ export default class CPRItem extends Item {
       }
       const subroleUniversalBonuses = r.data.data.abilities.filter((a) => a.universalBonuses.includes("attack"));
       if (subroleUniversalBonuses.length > 0) {
-        subroleUniversalBonuses.forEach((b) => universalBonusAttack += Math.floor(b.rank / b.bonusRatio));
+        subroleUniversalBonuses.forEach((b) => {
+          universalBonusAttack += Math.floor(b.rank / b.bonusRatio);
+        });
       }
     });
 
@@ -699,6 +709,7 @@ export default class CPRItem extends Item {
   }
 
   _createDamageRoll(type) {
+    LOGGER.trace("_createDamageRoll | CPRItem | Called.");
     const rollName = this.data.name;
     const { weaponType } = this.data.data;
     let { damage } = this.data.data;
@@ -727,7 +738,9 @@ export default class CPRItem extends Item {
       }
       const subroleUniversalBonuses = r.data.data.abilities.filter((a) => a.universalBonuses.includes("damage"));
       if (subroleUniversalBonuses.length > 0) {
-        subroleUniversalBonuses.forEach((b) => universalBonusDamage += Math.floor(b.rank / b.bonusRatio));
+        subroleUniversalBonuses.forEach((b) => {
+          universalBonusDamage += Math.floor(b.rank / b.bonusRatio);
+        });
       }
     });
     const cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType, universalBonusDamage);
@@ -766,6 +779,7 @@ export default class CPRItem extends Item {
   }
 
   _getMods() {
+    LOGGER.trace("_getMods | CPRItem | Called.");
     switch (this.type) {
       case "weapon": {
         if (this.data.data.quality === "excellent") {
@@ -779,6 +793,7 @@ export default class CPRItem extends Item {
   }
 
   _getAttackMod() {
+    LOGGER.trace("_getAttackMod | CPRItem | Called.");
     let returnValue = 0;
     switch (this.type) {
       case "weapon": {
@@ -796,6 +811,7 @@ export default class CPRItem extends Item {
   }
 
   _getSkillMod() {
+    LOGGER.trace("_getSkillMod | CPRItem | Called.");
     switch (this.type) {
       case "skill": {
         return this.data.data.skillmod;
@@ -830,7 +846,7 @@ export default class CPRItem extends Item {
    * @public
    */
   unsetInstalled() {
-    LOGGER.debug("setInstalled | CPRItem | Called.");
+    LOGGER.debug("unsetInstalled | CPRItem | Called.");
     if (this.data.type !== "program") {
       return;
     }
@@ -843,7 +859,7 @@ export default class CPRItem extends Item {
    * @public
    */
   getInstalled() {
-    LOGGER.debug("setInstalled | CPRItem | Called.");
+    LOGGER.debug("getInstalled | CPRItem | Called.");
     if (this.data.type !== "program") {
       return;
     }
@@ -935,7 +951,7 @@ export default class CPRItem extends Item {
    * @param {Array} programs      - Array of CPRItem programs
    */
   installPrograms(programs) {
-    LOGGER.debug("installProgram | CPRItem | Called.");
+    LOGGER.debug("installPrograms | CPRItem | Called.");
     const { installed } = this.data.data.programs;
     programs.forEach((p) => {
       const onDeck = installed.filter((iProgram) => iProgram._id === p.data._id);
@@ -1245,7 +1261,7 @@ export default class CPRItem extends Item {
   }
 
   updateRezzedProgram(programId, updatedData) {
-    LOGGER.debug("updateRezProgram | CPRItem | Called.");
+    LOGGER.debug("updateRezzedProgram | CPRItem | Called.");
     const { rezzed } = this.data.data.programs;
     const rezzedIndex = rezzed.findIndex((p) => p._id === programId);
     const programState = rezzed[rezzedIndex];
@@ -1308,9 +1324,7 @@ export default class CPRItem extends Item {
 
   _createCyberdeckRoll(rollType, actor, extraData = {}) {
     LOGGER.debug("_createCyberdeckRoll | CPRItem | Called.");
-    let rollTitle = "";
     let rollModifiers = 0;
-    const netRoleItem = actor.data.filteredItems.role.find((r) => r.data.name === actor.data.data.roleInfo.activeNetRole);
     let cprRoll;
     const { programId } = extraData;
     const programList = this.getInstalledPrograms().filter((iProgram) => iProgram._id === programId);
@@ -1327,8 +1341,8 @@ export default class CPRItem extends Item {
       LOGGER.error(`_createCyberdeckRoll | CPRItem | Unable to locate program ${programId}.`);
       return CPRRolls.CPRRoll("Unknown Program", "1d10");
     }
-    let skillName = "";
-    let skillValue = 0;
+    const skillName = "";
+    const skillValue = 0;
     const roleName = (program.data.class === "blackice") ? "Black ICE" : extraData.netRoleItem.data.data.mainRoleAbility;
     const roleValue = (program.data.class === "blackice") ? 0 : extraData.netRoleItem.data.data.rank;
     const atkValue = (program === null) ? 0 : program.data.atk;
@@ -1369,6 +1383,7 @@ export default class CPRItem extends Item {
 
   /** itemUpgrade Code */
   uninstallUpgrades(upgrades) {
+    LOGGER.trace("uninstallUpgrades | CPRItem | Called.");
     let installedUpgrades = this.data.data.upgrades;
     const updateList = [];
     upgrades.forEach((u) => {
@@ -1419,6 +1434,7 @@ export default class CPRItem extends Item {
   }
 
   installUpgrades(upgrades) {
+    LOGGER.trace("installUpgrades | CPRItem | Called.");
     if (typeof this.data.data.isUpgraded === "boolean") {
       const installedUpgrades = this.data.data.upgrades;
       const updateList = [];
@@ -1464,6 +1480,7 @@ export default class CPRItem extends Item {
   }
 
   getUpgradeTypeFor(dataPoint) {
+    LOGGER.trace("getUpgradeTypeFor | CPRItem | Called.");
     let upgradeType = "modifier";
     if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {
       const installedUpgrades = this.data.data.upgrades;
@@ -1480,6 +1497,7 @@ export default class CPRItem extends Item {
   }
 
   getAllUpgradesFor(dataPoint) {
+    LOGGER.trace("getAllUpgradesFor | CPRItem | Called.");
     let upgradeNumber = 0;
     let baseOverride = -100000;
     if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {

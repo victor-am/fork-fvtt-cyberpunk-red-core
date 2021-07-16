@@ -373,13 +373,13 @@ CPR.interfaceAbilities = {
 
 CPR.roleSpecialOptions = {
   "--": "CPR.global.generic.na",
-  "varying": "CPR.global.generic.varying",
-}
+  varying: "CPR.global.generic.varying",
+};
 
 CPR.universalBonuses = {
   attack: "CPR.universalBonuses.attack",
   damage: "CPR.universalBonuses.damage",
-}
+};
 
 // The following item types have the upgradable template:
 //  *ammo, armor, cyberware, cyberdeck, *gear, clothing, weapon, vehicle

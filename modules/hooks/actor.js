@@ -4,6 +4,7 @@ import LOGGER from "../utils/cpr-logger.js";
 import Rules from "../utils/cpr-rules.js";
 import CPRCharacterActorSheet from "../actor/sheet/cpr-character-sheet.js";
 import CPRMookActorSheet from "../actor/sheet/cpr-mook-sheet.js";
+import CPRContainerActorSheet from "../actor/sheet/cpr-container-sheet.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 const actorHooks = () => {

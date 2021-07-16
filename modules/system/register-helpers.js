@@ -226,10 +226,11 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("objectListContains", (objectList, data, val) => {
     LOGGER.trace("Calling objectListContains Helper");
-    let array = objectList;
+    const array = objectList;
     if (array) {
       return array.some((o) => o[data] === val);
     }
+    return false;
   });
 
   // TODO - Rename?

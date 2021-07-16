@@ -251,8 +251,9 @@ export default class CPRActorSheet extends ActorSheet {
         const cyberdeck = this._getOwnedItem(cyberdeckId);
         const netRoleItem = this.actor.data.filteredItems.role.find((r) => r.data.name === this.actor.data.data.roleInfo.activeNetRole);
         if (!netRoleItem) {
-          const error = SystemUtils.Localize("CPR.NoNetrunningRoleConfigured")
-          return SystemUtils.DisplayMessage("error", error);
+          const error = SystemUtils.Localize("CPR.NoNetrunningRoleConfigured");
+          SystemUtils.DisplayMessage("error", error);
+          return;
         }
         cprRoll = cyberdeck.createRoll(rollType, this.actor, { interfaceAbility, cyberdeck, netRoleItem });
         break;
@@ -264,8 +265,9 @@ export default class CPRActorSheet extends ActorSheet {
         const cyberdeck = this._getOwnedItem(cyberdeckId);
         const netRoleItem = this.actor.data.filteredItems.role.find((r) => r.data.name === this.actor.data.data.roleInfo.activeNetRole);
         if (!netRoleItem) {
-          const error = SystemUtils.Localize("CPR.NoNetrunningRoleConfigured")
-          return SystemUtils.DisplayMessage("error", error);
+          const error = SystemUtils.Localize("CPR.NoNetrunningRoleConfigured");
+          SystemUtils.DisplayMessage("error", error);
+          return;
         }
         const extraData = {
           cyberdeckId,
