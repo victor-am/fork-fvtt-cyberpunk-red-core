@@ -1,13 +1,13 @@
-{{trace "VERIFY-ROLL-ROLEABILITY-PROMPT.HBS"}}
+{{trace "CPR-VERIFY-ROLL-ROLEABILITY-PROMPT.HBS"}}
 <form>
     <div>
-        {{localize "CPR.rollingfor"}} {{rollName}}, Choomba!
+        {{localize "CPR.rolls.rollingFor"}} {{rollName}}, Choomba!
     </div>
 
     <ol class="items-list">
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.abilityrank"}}:
+                {{localize "CPR.rolls.abilityRank"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="roleValue" class="" type="number" data-dtype="Number" value={{roleValue}}>
@@ -17,7 +17,7 @@
         {{#if roleStat}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.abilitystat"}} ({{localize (findConfigValue "statList" statName)}}):
+                {{localize "CPR.rolls.abilityStat"}} ({{localize (findConfigValue "statList" statName)}}):
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="roleStat" class="" type="number" data-dtype="Number" value={{roleStat}}>
@@ -44,7 +44,7 @@
         {{else}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.skill"}} - {{skillName}}
+                {{localize "CPR.global.generic.skill"}} - {{skillName}}
 {{!--                 {{#if (compare roleName "===" "operator")}} {{localize "CPR.trading"}}:{{/if}}
                 {{#if (compare roleName "===" "medtechPharma")}} {{localize "CPR.medicaltechcryooperation"}}:{{/if}}
                 {{#if (compare roleName "===" "medtechCryo")}} {{localize "CPR.medicaltechpharmaceuticals"}}:{{/if}} --}}
@@ -58,7 +58,7 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.mods"}}:
+                {{localize "CPR.rolls.mods"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="mods" class="" type="text" data-dtype="String" value={{mods}}>
@@ -68,7 +68,7 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.shouldrollcriticals"}}:
+                {{localize "CPR.rolls.shouldRollCriticals"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="calculateCritical" class="" type="checkbox" data-dtype="Checkbox" checked>
