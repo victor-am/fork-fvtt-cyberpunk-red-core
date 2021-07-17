@@ -33,12 +33,12 @@
           <div class="d10-data-details hide">
             <div class="text-normal text-nowrap">{{localize "CPR.rolls.abilityRank"}}: {{roleValue}}</div>
 
-            {{#if roleStat}}
-            <div class="text-normal text-nowrap">{{localize "CPR.rolls.abilityStat"}} ({{localize (findConfigValue "statList" statName)}}): {{roleStat}}</div>
+            {{#if statValue}}
+            <div class="text-normal text-nowrap">{{localize "CPR.rolls.abilityStat"}} ({{localize (findConfigValue "statList" statName)}}): {{statValue}}</div>
             {{/if}}
 
-            {{#if roleSkill}}
-            <div class="text-normal text-nowrap">{{localize "CPR.rolls.abilitySkill"}} ({{skillName}}): {{roleSkill}}</div>
+            {{#if skillValue}}
+            <div class="text-normal text-nowrap">{{localize "CPR.rolls.abilitySkill"}} ({{skillName}}): {{skillValue}}</div>
             {{/if}}
 
             {{#if mods}}

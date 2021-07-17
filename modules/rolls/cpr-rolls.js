@@ -170,8 +170,8 @@ export class CPRSkillRoll extends CPRStatRoll {
     LOGGER.trace("constructor | CPRSkillRoll | Called.");
     super(skillName, statValue);
     this.statName = statName;
-    this.skillValue = skillValue;
     this.skillName = skillName;
+    this.skillValue = skillValue;
     this.roleName = roleName;
     this.roleValue = roleValue;
     this.universalBonusAttack = universalBonusAttack;
@@ -252,23 +252,23 @@ export class CPRSuppressiveFireRoll extends CPRAttackRoll {
 }
 
 export class CPRRoleRoll extends CPRRoll {
-  constructor(rollName, statName, skillName, roleValue, roleStat, roleSkill, skillList) {
+  constructor(roleName, roleValue, skillName, skillValue, statName, statValue, skillList) {
     LOGGER.trace("constructor | CPRRoleRoll | Called.");
-    super(rollName, "1d10");
+    super(roleName, "1d10");
     this.skillList = skillList;
-    this.rollName = rollName;
-    this.statName = statName;
-    this.skillName = skillName;
+    this.roleName = roleName;
     this.roleValue = roleValue;
-    this.roleStat = roleStat;
-    this.roleSkill = roleSkill;
+    this.skillName = skillName;
+    this.skillValue = skillValue;
+    this.statName = statName;
+    this.statValue = statValue;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-roleAbility-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-role-rollcard.hbs";
   }
 
   _computeBase() {
     LOGGER.trace("_computeBase | CPRRoleRoll | Called.");
-    return this.initialRoll + this.totalMods() + this.roleValue + this.roleStat + this.roleSkill;
+    return this.initialRoll + this.totalMods() + this.roleValue + this.skillValue + this.statValue;
   }
 
   setNetCombat(rollTitle) {

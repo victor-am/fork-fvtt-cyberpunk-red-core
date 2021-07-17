@@ -1,7 +1,7 @@
 {{trace "CPR-VERIFY-ROLL-ROLEABILITY-PROMPT.HBS"}}
 <form>
     <div>
-        {{localize "CPR.rolls.rollingFor"}} {{rollName}}, Choomba!
+        {{localize "CPR.rolls.rollingFor"}} {{roleName}}, Choomba!
     </div>
 
     <ol class="items-list">
@@ -14,13 +14,13 @@
             </div>
         </li>
 
-        {{#if roleStat}}
+        {{#if statValue}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.rolls.abilityStat"}} ({{localize (findConfigValue "statList" statName)}}):
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
-                <input name="roleStat" class="" type="number" data-dtype="Number" value={{roleStat}}>
+                <input name="statValue" class="" type="number" data-dtype="Number" value={{statValue}}>
             </div>
         </li>
         {{/if}}
@@ -50,7 +50,7 @@
                 {{#if (compare roleName "===" "medtechCryo")}} {{localize "CPR.medicaltechpharmaceuticals"}}:{{/if}} --}}
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
-                <input name="roleSkill" class="" type="number" data-dtype="Number" value={{roleSkill}}>
+                <input name="skillValue" class="" type="number" data-dtype="Number" value={{skillValue}}>
             </div>
         </li>
         {{/if}}
