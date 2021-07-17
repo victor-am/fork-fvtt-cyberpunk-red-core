@@ -99,7 +99,7 @@
             </div>
           </li>
         {{/each}}
-        {{#each (sort data.data.bonuses "data.stat") as |bonus|}}
+        {{#each (sort data.data.skillBonuses "data.stat") as |bonus|}}
           <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap text-padding-left">
                 &nbsp;{{#if bonus.data.core}}{{localize bonus.name}}{{else}}{{bonus.name}}{{/if}} ({{localize (findConfigValue "statList" bonus.data.stat)}})

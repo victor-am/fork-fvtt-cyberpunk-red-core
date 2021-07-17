@@ -214,17 +214,17 @@ export default class CPRItemSheet extends ItemSheet {
       return;
     }
     if (formData.selectedSkills) {
-      const skillObjects = [];
+      const skillBonusObjects = [];
       const universalBonusesList = [];
       formData.selectedSkills.forEach((s) => {
-        skillObjects.push(allSkills.find((a) => a.data.name === s));
+        skillBonusObjects.push(allSkills.find((a) => a.data.name === s));
       });
       formData.selectedUniversalBonuses.forEach((b) => {
         universalBonusesList.push(b);
       });
       const { bonusRatio } = formData;
       this.item.update({
-        "data.bonuses": skillObjects,
+        "data.skillBonuses": skillBonusObjects,
         "data.universalBonuses": universalBonusesList,
         "data.bonusRatio": bonusRatio,
       });
@@ -253,15 +253,15 @@ export default class CPRItemSheet extends ItemSheet {
       return;
     }
     if (formData.selectedSkills) {
-      const skillObjects = [];
+      const skillBonusObjects = [];
       const universalBonusesList = [];
       formData.selectedSkills.forEach((s) => {
-        skillObjects.push(allSkills.find((a) => a.data.name === s));
+        skillBonusObjects.push(allSkills.find((a) => a.data.name === s));
       });
       formData.selectedUniversalBonuses.forEach((b) => {
         universalBonusesList.push(b);
       });
-      setProperty(subRole, "bonuses", skillObjects);
+      setProperty(subRole, "skillBonuses", skillBonusObjects);
       setProperty(subRole, "universalBonuses", universalBonusesList);
       setProperty(subRole, "bonusRatio", formData.bonusRatio);
       this.item.update(itemData);
@@ -682,7 +682,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
-          bonuses: [],
+          skillBonuses: [],
           universalBonuses: [],
           bonusRatio: 1,
           description: formData.description,
@@ -699,7 +699,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
-          bonuses: [],
+          skillBonuses: [],
           universalBonuses: [],
           bonusRatio: 1,
           description: formData.description,
@@ -767,7 +767,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
-          bonuses: editElement.bonuses,
+          skillBonuses: editElement.skillBonuses,
           universalBonuses: editElement.universalBonuses,
           bonusRatio: editElement.bonusRatio,
           description: formData.description,

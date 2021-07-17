@@ -478,9 +478,9 @@ export default class CPRItem extends Item {
     let roleName;
     let roleValue = 0;
     actor.data.filteredItems.role.forEach((r, index1) => {
-      const roleBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.bonuses.some((b) => b.name === skillName));
-      if (roleBonuses.length > 0 && index1 === 0) {
-        roleBonuses.forEach((b, index2) => {
+      const roleSkillBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.skillBonuses.some((b) => b.name === skillName));
+      if (roleSkillBonuses.length > 0 && index1 === 0) {
+        roleSkillBonuses.forEach((b, index2) => {
           if (roleName) {
             roleName += `, ${b.data.data.mainRoleAbility}`;
           } else if (index2 === 0) {
@@ -489,9 +489,9 @@ export default class CPRItem extends Item {
           roleValue += Math.floor(b.data.data.rank / b.data.data.bonusRatio);
         });
       }
-      const subroleBonuses = r.data.data.abilities.filter((a) => a.bonuses.some((b) => b.name === skillName));
-      if (subroleBonuses.length > 0) {
-        subroleBonuses.forEach((b, index3) => {
+      const subroleSkillBonuses = r.data.data.abilities.filter((a) => a.skillBonuses.some((b) => b.name === skillName));
+      if (subroleSkillBonuses.length > 0) {
+        subroleSkillBonuses.forEach((b, index3) => {
           if (roleName) {
             roleName += `, ${b.name}`;
           } else if (index3 === 0) {
@@ -642,9 +642,9 @@ export default class CPRItem extends Item {
     let roleName;
     let roleValue = 0;
     actor.data.filteredItems.role.forEach((r, index1) => {
-      const roleBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.bonuses.some((b) => b.name === skillName));
-      if (roleBonuses.length > 0 && index1 === 0) {
-        roleBonuses.forEach((b, index2) => {
+      const roleSkillBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.skillBonuses.some((b) => b.name === skillName));
+      if (roleSkillBonuses.length > 0 && index1 === 0) {
+        roleSkillBonuses.forEach((b, index2) => {
           if (roleName) {
             roleName += `, ${b.data.data.mainRoleAbility}`;
           } else if (index2 === 0) {
@@ -653,9 +653,9 @@ export default class CPRItem extends Item {
           roleValue += Math.floor(b.data.data.rank / b.data.data.bonusRatio);
         });
       }
-      const subroleBonuses = r.data.data.abilities.filter((a) => a.bonuses.some((b) => b.name === skillName));
-      if (subroleBonuses.length > 0) {
-        subroleBonuses.forEach((b, index3) => {
+      const subroleSkillBonuses = r.data.data.abilities.filter((a) => a.skillBonuses.some((b) => b.name === skillName));
+      if (subroleSkillBonuses.length > 0) {
+        subroleSkillBonuses.forEach((b, index3) => {
           if (roleName) {
             roleName += `, ${b.name}`;
           } else if (index3 === 0) {
