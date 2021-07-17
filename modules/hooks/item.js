@@ -16,7 +16,7 @@ const itemHooks = () => {
         }
       });
       if (subRolesValue > roleRank) {
-        Rules.lawyer(false, "CPR.invalidroledata");
+        Rules.lawyer(false, "CPR.messages.invalidRoleData");
       }
     }
   });

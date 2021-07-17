@@ -52,6 +52,7 @@
 - The container sheet inventory will now stretch with the window length vertically
 
 **Bug Fixes**
+- Fixed #263: New containers now show infinite stock option, as they are initialized as a shop.
 - Fix #265, #266, #267: Gear tab now remembers scroll position.
 - Fix #276: Items can be transferred from unlinked actors
 - Fixed, that number of options slots were not displayed in the item sheet description tab for foundational cyberware.

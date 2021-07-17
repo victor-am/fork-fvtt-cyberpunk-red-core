@@ -23,6 +23,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @param {*} options - entity options passed up the chain
    */
   constructor(actor, options) {
+    LOGGER.trace("constructor | CPRCharacterActorSheet | Called.");
     super(actor, options);
     this.options.collapsedSections = [];
     const collapsedSections = SystemUtils.GetUserSetting("sheetConfig", "sheetCollapsedSections", this.id);
@@ -142,11 +143,11 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       }
       case "carried": {
         if (item.data.type === "weapon") {
-          Rules.lawyer(this.actor.canHoldWeapon(item), "CPR.warningtoomanyhands");
+          Rules.lawyer(this.actor.canHoldWeapon(item), "CPR.messages.warningTooManyHands");
         }
         if (item.data.type === "cyberdeck") {
           if (this.actor.hasItemTypeEquipped(item.data.type)) {
-            Rules.lawyer(false, "CPR.errortoomanycyberdecks");
+            Rules.lawyer(false, "CPR.messages.errorTooManyCyberdecks");
             this._updateOwnedItemProp(item, prop, "owned");
             break;
           }
@@ -214,7 +215,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @param {*} event - object with details of the event
    */
   async _installRemoveCyberwareAction(event) {
-    LOGGER.trace("_installCyberware | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("_installRemoveCyberwareAction | CPRCharacterActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
     const item = this._getOwnedItem(itemId);
     if (item.getData().isInstalled) {
@@ -234,6 +235,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @returns {null}
    */
   async _selectRoles() {
+    LOGGER.trace("_selectRoles | CPRCharacterActorSheet | Called.");
     let formData = {
       roles: this.actor.data.filteredItems.role,
     };
@@ -359,7 +361,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @param {*} event - object with details of the event
    */
   _updateWeaponAmmo(event) {
-    LOGGER.trace("_updateCurrentWeaponAmmo | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("_updateWeaponAmmo | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "data.magazine.value") {
@@ -387,7 +389,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       if (!Number.isNaN(parseInt(event.target.value, 10))) {
         item.setItemAmount(event.target.value);
       } else {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.amountnotnumber"));
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.amountNotNumber"));
       }
     }
     this._updateOwnedItem(item);
@@ -422,7 +424,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
         item.update(itemData);
       }
     } else {
-      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.amountnotnumber"));
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.amountNotNumber"));
     }
   }
 
@@ -456,12 +458,12 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
           break;
         }
         default: {
-          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.improvementpointseditinvalidaction"));
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.improvementPointsEditInvalidAction"));
           break;
         }
       }
     } else {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.improvementpointseditwarn"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.improvementPointsEditWarn"));
     }
   }
 
@@ -493,12 +495,12 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
           break;
         }
         default: {
-          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.eurobucksmodifyinvalidaction"));
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.eurobucksModifyInvalidAction"));
           break;
         }
       }
     } else {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.eurobucksmodifywarn"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.eurobucksModifyWarn"));
     }
   }
 

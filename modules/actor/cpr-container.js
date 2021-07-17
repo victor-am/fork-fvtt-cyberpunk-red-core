@@ -1,4 +1,4 @@
-/* globals Actor game */
+/* globals Actor */
 import LOGGER from "../utils/cpr-logger.js";
 
 /**

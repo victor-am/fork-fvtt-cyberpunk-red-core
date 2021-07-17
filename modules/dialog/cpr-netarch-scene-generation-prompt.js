@@ -24,12 +24,12 @@ export default class NetarchSceneGenerationPrompt {
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
-              label: SystemUtils.Localize("CPR.dialog.common.cancel"),
+              label: "Cancel",
               callback: (html) => _onCancel(html), // TODO fix no-shadow
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: SystemUtils.Localize("CPR.dialog.common.confirm"),
+              label: "Confirm",
               callback: (html) => _onConfirm(html), // TODO fix no-shadow
             },
           },

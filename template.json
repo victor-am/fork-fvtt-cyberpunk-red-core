@@ -569,7 +569,7 @@
       "mainRoleAbility": "",
       "hasRoll": true,
       "addRoleAbilityRank": true,
-      "stat": "int",
+      "stat": "--",
       "skill": "--",
       "bonuses": [],
       "universalBonuses": [],

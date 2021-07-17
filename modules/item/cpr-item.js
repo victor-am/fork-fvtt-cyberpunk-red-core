@@ -530,11 +530,11 @@ export default class CPRItem extends Item {
         const { cyberdeck } = rollInfo;
         switch (interfaceAbility) {
           case "speed": {
-            rollTitle = SystemUtils.Localize("CPR.speed");
+            rollTitle = SystemUtils.Localize("CPR.global.generic.speed");
             break;
           }
           case "defense": {
-            rollTitle = SystemUtils.Localize("CPR.defense");
+            rollTitle = SystemUtils.Localize("CPR.global.generic.defense");
             break;
           }
           default: {
@@ -621,7 +621,7 @@ export default class CPRItem extends Item {
       skillItem = actor.items.find((i) => i.name === "Autofire");
       if (!this.data.data.fireModes.suppressiveFire) {
         if (this.data.data.weaponType !== "smg" && this.data.data.weaponType !== "heavySmg" && this.data.data.weaponType !== "assaultRifle") {
-          Rules.lawyer(false, "CPR.weapondoesntsupportaltmode");
+          Rules.lawyer(false, "CPR.messages.weaponDoesntSupportAltMode");
         }
       }
     }
@@ -703,7 +703,7 @@ export default class CPRItem extends Item {
     cprRoll.addMod(skillMod);
 
     if (cprRoll instanceof CPRRolls.CPRAttackRoll && weaponData.isRanged) {
-      Rules.lawyer(this.hasAmmo(cprRoll), "CPR.weaponattackoutofbullets");
+      Rules.lawyer(this.hasAmmo(cprRoll), "CPR.messages.weaponAttackOutOfBullets");
     }
     return cprRoll;
   }
@@ -1085,7 +1085,7 @@ export default class CPRItem extends Item {
         [netrunnerToken] = tokenList;
       } else {
         LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed because we were unable to find a Token associated with World Actor "${this.actor.name}".`);
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.rezbiwithouttoken"));
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.rezBlackIceWithoutToken"));
         return;
       }
     }

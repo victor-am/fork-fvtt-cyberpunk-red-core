@@ -131,7 +131,7 @@ export default class CPRItemSheet extends ItemSheet {
         const netarchGenerator = new CPRNetarchUtils(this.item);
         netarchGenerator._generateNetarchScene();
       } else {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratenogmerror"));
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noGMError"));
       }
     });
 
@@ -140,7 +140,7 @@ export default class CPRItemSheet extends ItemSheet {
         const netarchGenerator = new CPRNetarchUtils(this.item);
         netarchGenerator._customize();
       } else {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netarchgeneratenogmerror"));
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noGMError"));
       }
     });
 
@@ -292,9 +292,9 @@ export default class CPRItemSheet extends ItemSheet {
     if (action === "delete") {
       const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
       if (setting) {
-        const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${SystemUtils.Localize("CPR.netarchfloordeleteconfirmation")} ${SystemUtils.Localize("CPR.netarch")}?`;
+        const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${SystemUtils.Localize("CPR.netArchitecture.floor.deleteConfirmation")}?`;
         const confirmDelete = await ConfirmPrompt.RenderPrompt(
-          SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,
+          SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"), promptMessage,
         );
         if (!confirmDelete) {
           return;
@@ -352,30 +352,30 @@ export default class CPRItemSheet extends ItemSheet {
         branchlabels: ["a", "b", "c", "d", "e", "f", "g", "h"],
         dvoptions: ["N/A", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
         contentoptions: {
-          "CPR.password": SystemUtils.Localize("CPR.password"),
-          "CPR.file": SystemUtils.Localize("CPR.file"),
-          "CPR.controlnode": SystemUtils.Localize("CPR.controlnode"),
-          "CPR.blackice": SystemUtils.Localize("CPR.blackice"),
+          "CPR.netArchitecture.floor.options.password": SystemUtils.Localize("CPR.netArchitecture.floor.options.password"),
+          "CPR.netArchitecture.floor.options.file": SystemUtils.Localize("CPR.netArchitecture.floor.options.file"),
+          "CPR.netArchitecture.floor.options.controlnode": SystemUtils.Localize("CPR.netArchitecture.floor.options.controlnode"),
+          "CPR.global.programClass.blackice": SystemUtils.Localize("CPR.global.programClass.blackice"),
         },
         blackiceoptions: {
           "--": "--",
-          "CPR.asp": SystemUtils.Localize("CPR.asp"),
-          "CPR.giant": SystemUtils.Localize("CPR.giant"),
-          "CPR.hellhound": SystemUtils.Localize("CPR.hellhound"),
-          "CPR.kraken": SystemUtils.Localize("CPR.kraken"),
-          "CPR.liche": SystemUtils.Localize("CPR.liche"),
-          "CPR.raven": SystemUtils.Localize("CPR.raven"),
-          "CPR.scorpion": SystemUtils.Localize("CPR.scorpion"),
-          "CPR.skunk": SystemUtils.Localize("CPR.skunk"),
-          "CPR.wisp": SystemUtils.Localize("CPR.wisp"),
-          "CPR.dragon": SystemUtils.Localize("CPR.dragon"),
-          "CPR.killer": SystemUtils.Localize("CPR.killer"),
-          "CPR.sabertooth": SystemUtils.Localize("CPR.sabertooth"),
+          "CPR.netArchitecture.floor.options.blackIce.asp": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.asp"),
+          "CPR.netArchitecture.floor.options.blackIce.giant": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.giant"),
+          "CPR.netArchitecture.floor.options.blackIce.hellhound": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.hellhound"),
+          "CPR.netArchitecture.floor.options.blackIce.kraken": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.kraken"),
+          "CPR.netArchitecture.floor.options.blackIce.liche": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.liche"),
+          "CPR.netArchitecture.floor.options.blackIce.raven": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.raven"),
+          "CPR.netArchitecture.floor.options.blackIce.scorpion": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.scorpion"),
+          "CPR.netArchitecture.floor.options.blackIce.skunk": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.skunk"),
+          "CPR.netArchitecture.floor.options.blackIce.wisp": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.wisp"),
+          "CPR.netArchitecture.floor.options.blackIce.dragon": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.dragon"),
+          "CPR.netArchitecture.floor.options.blackIce.killer": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.killer"),
+          "CPR.netArchitecture.floor.options.blackIce.sabertooth": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.sabertooth"),
         },
         floor: "1",
         branch: "a",
         dv: "N/A",
-        content: SystemUtils.Localize("CPR.password"),
+        content: SystemUtils.Localize("CPR.netArchitecture.floor.options.password"),
         blackice: "--",
         description: "",
         returnType: "string",
@@ -427,25 +427,25 @@ export default class CPRItemSheet extends ItemSheet {
           branchlabels: ["a", "b", "c", "d", "e", "f", "g", "h"],
           dvoptions: ["N/A", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
           contentoptions: {
-            "CPR.password": SystemUtils.Localize("CPR.password"),
-            "CPR.file": SystemUtils.Localize("CPR.file"),
-            "CPR.controlnode": SystemUtils.Localize("CPR.controlnode"),
-            "CPR.blackice": SystemUtils.Localize("CPR.blackice"),
+            "CPR.netArchitecture.floor.options.password": SystemUtils.Localize("CPR.netArchitecture.floor.options.password"),
+            "CPR.netArchitecture.floor.options.file": SystemUtils.Localize("CPR.netArchitecture.floor.options.file"),
+            "CPR.netArchitecture.floor.options.controlnode": SystemUtils.Localize("CPR.netArchitecture.floor.options.controlnode"),
+            "CPR.global.programClass.blackice": SystemUtils.Localize("CPR.global.programClass.blackice"),
           },
           blackiceoptions: {
             "--": "--",
-            "CPR.asp": SystemUtils.Localize("CPR.asp"),
-            "CPR.giant": SystemUtils.Localize("CPR.giant"),
-            "CPR.hellhound": SystemUtils.Localize("CPR.hellhound"),
-            "CPR.kraken": SystemUtils.Localize("CPR.kraken"),
-            "CPR.liche": SystemUtils.Localize("CPR.liche"),
-            "CPR.raven": SystemUtils.Localize("CPR.raven"),
-            "CPR.scorpion": SystemUtils.Localize("CPR.scorpion"),
-            "CPR.skunk": SystemUtils.Localize("CPR.skunk"),
-            "CPR.wisp": SystemUtils.Localize("CPR.wisp"),
-            "CPR.dragon": SystemUtils.Localize("CPR.dragon"),
-            "CPR.killer": SystemUtils.Localize("CPR.killer"),
-            "CPR.sabertooth": SystemUtils.Localize("CPR.sabertooth"),
+            "CPR.netArchitecture.floor.options.blackIce.asp": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.asp"),
+            "CPR.netArchitecture.floor.options.blackIce.giant": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.giant"),
+            "CPR.netArchitecture.floor.options.blackIce.hellhound": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.hellhound"),
+            "CPR.netArchitecture.floor.options.blackIce.kraken": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.kraken"),
+            "CPR.netArchitecture.floor.options.blackIce.liche": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.liche"),
+            "CPR.netArchitecture.floor.options.blackIce.raven": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.raven"),
+            "CPR.netArchitecture.floor.options.blackIce.scorpion": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.scorpion"),
+            "CPR.netArchitecture.floor.options.blackIce.skunk": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.skunk"),
+            "CPR.netArchitecture.floor.options.blackIce.wisp": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.wisp"),
+            "CPR.netArchitecture.floor.options.blackIce.dragon": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.dragon"),
+            "CPR.netArchitecture.floor.options.blackIce.killer": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.killer"),
+            "CPR.netArchitecture.floor.options.blackIce.sabertooth": SystemUtils.Localize("CPR.netArchitecture.floor.options.blackIce.sabertooth"),
           },
           floor: editElement.floor,
           branch: editElement.branch,
@@ -484,7 +484,7 @@ export default class CPRItemSheet extends ItemSheet {
     if (itemEntity !== null) {
       itemEntity.sheet.render(true);
     } else {
-      SystemUtils.DisplayMessage("error", SystemUtils.Format("CPR.itemdoesnotexisterror", { itemid: itemId }));
+      SystemUtils.DisplayMessage("error", SystemUtils.Format("CPR.messages.itemDoesNotExistError", { itemid: itemId }));
     }
   }
 
@@ -537,7 +537,7 @@ export default class CPRItemSheet extends ItemSheet {
     const actor = (cyberdeck.isOwned) ? cyberdeck.actor : null;
 
     if (!actor || (actor.type !== "character" && actor.type !== "mook")) {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.owneditemonlyerror"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.ownedItemOnlyError"));
       return;
     }
 
@@ -626,7 +626,7 @@ export default class CPRItemSheet extends ItemSheet {
     const actor = (cyberdeck.isOwned) ? cyberdeck.actor : null;
 
     if (!actor) {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.owneditemonlyerror"));
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.ownedItemOnlyError"));
       return;
     }
 

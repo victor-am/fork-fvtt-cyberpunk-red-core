@@ -328,6 +328,9 @@ export default function registerHandlebarsHelpers() {
         const subtrahend = mathArgs.reduce((a, b) => a + b, 0);
         return minutend - subtrahend;
       }
+      case "product": {
+        return mathArgs.reduce((a, b) => a * b, 1);
+      }
       default:
         LOGGER.error(`!ERR: Not a Math function: ${mathFunction}`);
         return "null";
@@ -465,7 +468,7 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("isTokenSheet", (title) => {
     LOGGER.trace("isTokenSheet | handlebarsHelper | Called.");
     LOGGER.debug(`title is ${title}`);
-    const substr = `[${SystemUtils.Localize("CPR.token")}]`;
+    const substr = `[${SystemUtils.Localize("CPR.global.generic.token")}]`;
     return title.includes(substr);
   });
 

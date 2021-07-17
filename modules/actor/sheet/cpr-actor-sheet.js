@@ -6,8 +6,8 @@ import CPRChat from "../../chat/cpr-chat.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import RollCriticalInjuryPrompt from "../../dialog/cpr-roll-critical-injury-prompt.js";
 import Rules from "../../utils/cpr-rules.js";
-import SystemUtils from "../../utils/cpr-systemUtils.js";
 import SplitItemPrompt from "../../dialog/cpr-split-item-prompt.js";
+import SystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
  * Extend the basic ActorSheet, which comes from Foundry. Not all sheets used in
@@ -445,14 +445,6 @@ export default class CPRActorSheet extends ActorSheet {
           await this._deleteOwnedItem(item);
           break;
         }
-        case "create": {
-          // TODO
-          // only character sheets call this so note it is actually in the child class
-          // also note no templates call this with data-action="create", so this case can
-          // probably be removed
-          await this._createInventoryItem($(event.currentTarget).attr("data-item-type"));
-          break;
-        }
         case "ablate-armor": {
           item.ablateArmor();
           break;
@@ -627,9 +619,9 @@ export default class CPRActorSheet extends ActorSheet {
     const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
     // Only show the delete confirmation if the setting is on, and internally we do not want to skip it.
     if (setting && !skipConfirm) {
-      const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${item.data.name}?`;
+      const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${item.data.name}?`;
       const confirmDelete = await ConfirmPrompt.RenderPrompt(
-        SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,
+        SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"), promptMessage,
       ).catch((err) => LOGGER.debug(err));
       if (confirmDelete === undefined) {
         return;
@@ -902,7 +894,7 @@ export default class CPRActorSheet extends ActorSheet {
       tempVal = -tempVal;
     }
     const ledgerProp = this.actor.deltaLedgerProperty("wealth", tempVal, reason);
-    Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenougheb");
+    Rules.lawyer(ledgerProp.value > 0, "CPR.messages.warningNotEnoughEb");
     return ledgerProp;
   }
 
@@ -971,7 +963,7 @@ export default class CPRActorSheet extends ActorSheet {
       tempVal = -tempVal;
     }
     const ledgerProp = this.actor.deltaLedgerProperty("improvementPoints", tempVal, reason);
-    Rules.lawyer(ledgerProp.value > 0, "CPR.warningnotenoughip");
+    Rules.lawyer(ledgerProp.value > 0, "CPR.messages.warningNotEnoughIp");
     return ledgerProp;
   }
 
@@ -1038,7 +1030,7 @@ export default class CPRActorSheet extends ActorSheet {
       // Transfer ownership from one player to another
       const actor = (Object.keys(game.actors.tokens).includes(dragData.tokenId)) ? game.actors.tokens[dragData.tokenId] : game.actors.find((a) => a.id === dragData.actorId);
       if (actor.type === "container" && !game.user.isGM) {
-        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.tradedragoutwarn"));
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeDragOutWarn"));
         return;
       }
       if (actor) {
