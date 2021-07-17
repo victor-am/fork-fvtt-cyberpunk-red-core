@@ -34,11 +34,11 @@
             <div class="text-normal text-nowrap">{{localize "CPR.rolls.abilityRank"}}: {{roleValue}}</div>
 
             {{#if statValue}}
-            <div class="text-normal text-nowrap">{{localize "CPR.rolls.abilityStat"}} ({{localize (findConfigValue "statList" statName)}}): {{statValue}}</div>
+            <div class="text-normal text-nowrap">{{localize (findConfigValue "statList" statName)}}: {{statValue}}</div>
             {{/if}}
 
             {{#if skillValue}}
-            <div class="text-normal text-nowrap">{{localize "CPR.rolls.abilitySkill"}} ({{skillName}}): {{skillValue}}</div>
+            <div class="text-normal">{{skillName}}: {{skillValue}}</div>
             {{/if}}
 
             {{#if mods}}

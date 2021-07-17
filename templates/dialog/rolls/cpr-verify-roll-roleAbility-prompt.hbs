@@ -17,7 +17,7 @@
         {{#if statValue}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.rolls.abilityStat"}} ({{localize (findConfigValue "statList" statName)}}):
+              {{localize "CPR.global.generic.stat"}} - {{localize (findConfigValue "statList" statName)}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="statValue" class="" type="number" data-dtype="Number" value={{statValue}}>
@@ -29,7 +29,7 @@
         {{#if (compare skillName "===" "varying")}}
         <li class="item flexrow">
           <div class="item flexrow setting-name text-nowrap">
-            {{localize "CPR.chooseSkill"}}
+            {{localize "CPR.itemSheet.role.chooseSkill"}}
           </div>
           <div class="item flexrow setting-value text-nowrap item-end">
             <select name = "skillName">

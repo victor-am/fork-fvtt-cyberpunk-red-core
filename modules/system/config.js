@@ -272,7 +272,7 @@ CPR.cyberwareInstallList = {
   mall: "CPR.global.cyberwareInstall.mall",
   clinic: "CPR.global.cyberwareInstall.clinic",
   hospital: "CPR.global.cyberwareInstall.hospital",
-  notApplicable: "CPR.global.generic.notapplicable",
+  notApplicable: "CPR.global.generic.notApplicable",
 };
 
 CPR.woundState = {
@@ -315,7 +315,7 @@ CPR.criticalInjuryLocation = {
 CPR.criticalInjuryQuickFix = {
   firstAidParamedic: "CPR.global.criticalInjury.firstAidOrParamedic",
   paramedic: "CPR.global.skills.paramedic",
-  notApplicable: "CPR.global.generic.notapplicable",
+  notApplicable: "CPR.global.generic.notApplicable",
 };
 
 CPR.criticalInjuryTreatment = {
@@ -372,7 +372,7 @@ CPR.interfaceAbilities = {
 };
 
 CPR.roleSpecialOptions = {
-  "--": "CPR.global.generic.na",
+  "--": "CPR.global.generic.notApplicable",
   varying: "CPR.global.generic.varying",
 };
 

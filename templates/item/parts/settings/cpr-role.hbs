@@ -88,7 +88,7 @@
       </li>
       {{/if}}
       <div class="item flexrow setting-name text-nowrap">
-          <a class="select-role-bonuses text-bold">{{localize "CPR.itemSheet.role.selectBonusToSkills"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
+          <a class="select-role-bonuses text-bold">{{localize "CPR.itemSheet.role.configureRollBonuses"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
           {{#if (compare data.data.bonusRatio "!==" 1)}}{{localize "CPR.itemSheet.role.bonusRatio"}} - 1:{{data.data.bonusRatio}}{{/if}}
       </div>
       <div class="compatible-ammo">
@@ -113,7 +113,6 @@
     <span class="item-name netarch-level fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.itemSheet.role.rank"}} &nbsp;</span>
     <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.global.generic.stat"}} &nbsp;</span>
     <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.itemSheet.role.skill"}} &nbsp;</span>
-    <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.itemSheet.role.multiplierShort"}} &nbsp;</span>
     <span class="item-name netarch-dv fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.itemSheet.role.bonuses"}} &nbsp;</span>
     <span class="item-name netarch-content fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.global.generic.description"}}</span>
     <span class="item-name netarch-actions fg-white bg-black text-nowrap text-padding-left">
@@ -126,11 +125,11 @@
           <li class="item-netarch-grid item flexrow">
             <div class="netarch-level">{{ability.name}}</div>
             <div class="netarch-dv">
-              {{ability.rank}}
+              {{ability.rank}} {{#if (compare (compare ability.multiplier "!==" "1") "&&" (compare ability.multiplier "!==" "--"))}}(x{{ability.multiplier}}){{/if}}
             </div>
             <div class="netarch-dv">
               {{#if (compare ability.stat "===" "--")}}
-              {{localize "CPR.global.generic.na"}}
+              {{localize "CPR.global.generic.notApplicable"}}
               {{else}}
               {{localize (findConfigValue "statList" ability.stat)}}
               {{/if}}
@@ -146,17 +145,14 @@
               {{/if}}
             </div>
             <div class="netarch-dv">
-              {{ability.multiplier}}
-            </div>
-            <div class="netarch-dv">
-              <a class="select-subrole-bonuses" data-item-name="{{ability.name}}" title="{{localize "CPR.ConfigureSubroleBonuses"}}"><i class="fas fa-wrench"></i></a>
+              <a class="select-subrole-bonuses" data-item-name="{{ability.name}}" title="{{localize "CPR.itemSheet.role.configureRollBonuses"}}"><i class="fas fa-wrench"></i></a>
             </div>
             <div class="netarch-content">
               <div>{{ability.description}}</div>
             </div>
             <div class="netarch-actions">
-              <a class="role-ability-action" data-action-type="edit" data-action-target="{{ability.index}}"><i class="fas fa-edit fg-black" title={{localize "CPR.EditRoleAbility"}}></i></a>
-              <a class="role-ability-action" data-action-type="delete" data-action-target="{{ability.index}}"><i class="fas fa-trash-alt fg-red" title={{localize "CPR.DeleteRoleAbility"}}></i></a>
+              <a class="role-ability-action" data-action-type="edit" data-action-target="{{ability.index}}"><i class="fas fa-edit fg-black" title={{localize "CPR.itemSheet.role.editRoleAbility"}}></i></a>
+              <a class="role-ability-action" data-action-type="delete" data-action-target="{{ability.index}}"><i class="fas fa-trash-alt fg-red" title={{localize "CPR.itemSheet.role.deleteRoleAbility"}}></i></a>
             </div>
           </li>
         {{/each}}

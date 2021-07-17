@@ -10,7 +10,7 @@
         1:<input class="text-right" name="bonusRatio" type="number" value={{#if (compare roleType "===" "mainRole")}}{{data.bonusRatio}}{{else}}{{subRole.bonusRatio}}{{/if}} />
       </div>
     </li>
-
+    <hr>
     <li class="item flexrow">
       <div class="item flexrow setting-name">
         <span class="text-bold text-nowrap">{{localize "CPR.dialog.selectRoleBonuses.universalBonuses"}}</span>
@@ -43,7 +43,7 @@
       {{/if}}
     </li>
     {{/each}}
-
+    <hr>
     <li class="item flexrow">
       <div class="item flexrow setting-name">
         <span class="text-bold text-nowrap">{{localize "CPR.dialog.selectRoleBonuses.skill"}}</span>
