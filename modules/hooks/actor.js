@@ -149,9 +149,16 @@ const actorHooks = () => {
    */
   Hooks.on("createItem", (itemData, options, userId) => {
     LOGGER.trace("createItem | actorHooks | Called.");
-    // when a new item is created (dragged) on a mook sheet, auto install or equip it
     const actor = itemData.parent;
     if (actor !== null) {
+      if (itemData.type === "role") {
+        const hasActiveRole = actor.data.filteredItems.role.some((r) => r.data.name === actor.data.data.roleInfo.activeRole);
+        if (!hasActiveRole) {
+          actor.update({ "data.roleInfo.activeRole": itemData.data.name });
+        }
+      }
+
+      // when a new item is created (dragged) on a mook sheet, auto install or equip it
       if (Object.values(actor.apps).some((app) => app instanceof CPRMookActorSheet) && userId === game.user.data._id) {
         LOGGER.debug("handling a dragged item to the mook sheet");
         actor.handleMookDraggedItem(actor._getOwnedItem(itemData.id));
