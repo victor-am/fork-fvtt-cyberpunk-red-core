@@ -41,6 +41,11 @@
   - A compendium has been added with 2 macros
     - `Create an Elflines Online Character`: This macro will create a blank Elfline Online Character with skills as defined from the Elflines Online Skill List in the Elfline Online compendium released by RTG.
     - `Create Elflines Online Armory`: This macro will create a folder of items as defined from the Elflines Online Armory in the Elfline Online compendium released by RTG.
+- Roles are now items which allows for creation of custom roles and better handling of their functionality.
+  - Can configure role abilities to roll with different skills for different situations like the Tech's Upgrade Expertise ability.
+  - Can configure flat bonuses to attack, damage, and skill rolls for situations like the Solo's Precision Attack or the Nomad's Moto.
+  - Compendium of all the core Roles is included for ease of getting started.
+  - BREAKING: Netrunners must select which role should be utilized for netrunning from the "Configure Active Role" dialog on the main part of the character sheet.
 
 **Changes**
 - Newly created actors and items will automatically have default icons configured.

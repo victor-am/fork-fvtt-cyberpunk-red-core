@@ -416,7 +416,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
           if (updateSubskill.length === 1) {
             updateSubskill[0].rank = value;
           } else {
-            SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.multipleAbilitiesWithTheSameName"));
+            SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.multipleAbilitiesWithTheSameName"));
           }
         } else {
           itemData.data.rank = value;

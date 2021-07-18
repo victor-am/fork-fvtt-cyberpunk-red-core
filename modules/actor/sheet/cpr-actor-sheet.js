@@ -251,7 +251,7 @@ export default class CPRActorSheet extends ActorSheet {
         const cyberdeck = this._getOwnedItem(cyberdeckId);
         const netRoleItem = this.actor.data.filteredItems.role.find((r) => r.data.name === this.actor.data.data.roleInfo.activeNetRole);
         if (!netRoleItem) {
-          const error = SystemUtils.Localize("CPR.NoNetrunningRoleConfigured");
+          const error = SystemUtils.Localize("CPR.messages.noNetrunningRoleConfigured");
           SystemUtils.DisplayMessage("error", error);
           return;
         }
@@ -265,7 +265,7 @@ export default class CPRActorSheet extends ActorSheet {
         const cyberdeck = this._getOwnedItem(cyberdeckId);
         const netRoleItem = this.actor.data.filteredItems.role.find((r) => r.data.name === this.actor.data.data.roleInfo.activeNetRole);
         if (!netRoleItem) {
-          const error = SystemUtils.Localize("CPR.NoNetrunningRoleConfigured");
+          const error = SystemUtils.Localize("CPR.messages.noNetrunningRoleConfigured");
           SystemUtils.DisplayMessage("error", error);
           return;
         }
