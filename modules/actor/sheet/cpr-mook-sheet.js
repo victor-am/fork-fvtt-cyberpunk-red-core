@@ -1,4 +1,4 @@
-/* global mergeObject, $, duplicate */
+/* global game mergeObject, $, duplicate */
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import CPRActorSheet from "./cpr-actor-sheet.js";
 import ModMookSkillPrompt from "../../dialog/cpr-mod-mook-skill-prompt.js";
@@ -31,11 +31,12 @@ export default class CPRMookActorSheet extends CPRActorSheet {
    * Yes, they can still find this information in game.actors and the Foundry development
    * community does not really view this as a problem.
    * https://discord.com/channels/170995199584108546/596076404618166434/864673619098730506
-   * 
+   *
    * @property
    * @returns {String} - path to a handlebars template
    */
   get template() {
+    LOGGER.trace("get template | CPRMookActorSheet | Called.");
     if (!game.user.isGM && this.actor.limited) {
       return "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-sheet-limited.hbs";
     }
