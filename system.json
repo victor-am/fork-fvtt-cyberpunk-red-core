@@ -107,6 +107,14 @@
       "package": "cyberpunk-red-core"
     },
     {
+      "label": "Roles",
+      "entity": "Item",
+      "name": "roles-items",
+      "path": "packs/roles.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
       "label": "Vehicles",
       "entity": "Item",
       "name": "vehicles-items",
