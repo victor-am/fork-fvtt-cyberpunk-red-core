@@ -1444,27 +1444,32 @@ button,
   font-family: "Audimat Mono";
   background-color: #eaeaeaff;
   display: grid;
-  grid-template-areas: "mook-name-limited mook-image-limited mook-details-limited";
+  grid-template-columns: 168px 32px;
+  grid-template-areas: "mook-image-limited mook-name-limited mook-notes-limited";
+}
+.mook-sheet-limited .mook-image-limited {
+  grid-area: mook-image-limited;
+  object-fit: contain;
+  border: 0;
+  width: 168px;
+  height: 151px;
+  gap: 5px;
 }
 .mook-sheet-limited .mook-name-limited {
   grid-area: mook-name-limited;
 }
-.mook-sheet-limited .mook-image-limited {
-  grid-area: mook-image-limited;
-  width: 168px;
-  height: 151px;
-}
-.mook-sheet-limited .mook-details-limited {
-  display: grid;
-  gap: 5px;
-  grid-area: mook-details;
-  grid-template-areas: "mook-crit-limited" "mook-notes-limited";
-}
-.mook-sheet-limited .mook-crit-limited {
-  grid-area: mook-crit-limited;
-}
 .mook-sheet-limited .mook-notes-limited {
   grid-area: mook-notes-limited;
+  gap: 5px;
+}
+.mook-sheet-limited .mook-edit-section-limited {
+  min-height: 80px;
+  min-width: 135px;
+  height: unset;
+  display: flex;
+  flex: 1 0 auto;
+  background-color: #eaeaeaff;
+  flex-wrap: wrap;
 }
 .items-list {
   list-style: none;
