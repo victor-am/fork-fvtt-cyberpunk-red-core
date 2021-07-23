@@ -46,6 +46,7 @@
   - Can configure flat bonuses to attack, damage, and skill rolls for situations like the Solo's Precision Attack or the Nomad's Moto.
   - Compendium of all the core Roles is included for ease of getting started.
   - BREAKING: Netrunners must select which role should be utilized for netrunning from the "Configure Active Role" dialog on the main part of the character sheet.
+- Added Martial Arts weapon type, as it is slightly different from the Unarmed weapon type with the scaling for the damage in the case of a BODY of 4 or under while having a cyberarm (rule book pages 176 and 178)
 
 **Changes**
 - Newly created actors and items will automatically have default icons configured.

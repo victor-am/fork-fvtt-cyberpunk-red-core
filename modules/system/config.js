@@ -156,6 +156,7 @@ CPR.weaponTypeList = {
   heavyPistol: "CPR.global.weaponType.heavyPistol",
   heavySmg: "CPR.global.weaponType.heavySmg",
   lightMelee: "CPR.global.weaponType.lightMeleeWeapon",
+  martialArts: "CPR.global.weaponType.martialArts",
   medMelee: "CPR.global.weaponType.mediumMeleeWeapon",
   medPistol: "CPR.global.weaponType.mediumPistol",
   rocketLauncher: "CPR.global.weaponType.rocketLauncher",
