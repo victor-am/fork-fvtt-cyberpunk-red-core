@@ -172,19 +172,24 @@
 
 .mook-sheet-limited {
     font-family: "Audimat Mono";
-    background-color: @chrome-white;
     display: grid;
-    grid-template-columns: 168px 32px;
+    grid-template-columns: 161px 32px 1fr;
     grid-template-areas:
         "mook-image-limited mook-name-limited mook-notes-limited";
 
     .mook-image-limited {
         grid-area: mook-image-limited;
-        object-fit: contain;
-        border: 0;
-        width: 168px;
+        clip-path: polygon(30px 0, 100% 0, 100% 100%, 0 100%, 0 30px);
+        width: 151px;
         height: 151px;
-        gap: 5px;
+        margin: 5px;
+
+        .mook-image-block-img {
+          width: 151px;
+          height: 151px;
+          object-fit: contain;
+          border: 0;
+        }
     }
 
     .mook-name-limited {
@@ -193,11 +198,10 @@
 
     .mook-notes-limited {
         grid-area: mook-notes-limited;
-        gap: 5px;
     }
 
     .mook-edit-section-limited {
-        min-height: 80px;
+        min-height: 135px;
         min-width: 135px;
         height: unset;
         display: flex;
