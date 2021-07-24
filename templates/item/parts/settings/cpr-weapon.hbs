@@ -126,11 +126,15 @@
     </li>
 {{/unless}}
 
-{{#if (compare data.data.weaponType "===" "unarmed")}}
+{{#if (compare (compare data.data.weaponType "===" "unarmed") "||" (compare data.data.weaponType "===" "martialArts"))}}
     {{!-- Automatic damage calculation Settings for unarmed--}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-            {{localize "CPR.itemSheet.weapon.unarmedAutomaticallyCalculatedSetting"}}
+            {{#if (compare data.data.weaponType "===" "unarmed")}}
+                {{localize "CPR.itemSheet.weapon.unarmedAutomaticallyCalculatedSetting"}}
+            {{else}}
+                {{localize "CPR.itemSheet.weapon.martialArtsAutomaticallyCalculatedSetting"}}
+            {{/if}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
             {{#if data.data.unarmedAutomaticCalculation}}
@@ -148,7 +152,7 @@
         {{localize "CPR.global.generic.damage"}} {{showUpgrade this.item "damage"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        {{#if (compare (compare data.data.weaponType "===" "unarmed") "&&" data.data.unarmedAutomaticCalculation)}}
+        {{#if (compare (compare (compare data.data.weaponType "===" "unarmed") "||" (compare data.data.weaponType "===" "martialArts")) "&&" data.data.unarmedAutomaticCalculation)}}
             <div class="item text-flex-end setting-value text-nowrap">
                 {{localize "CPR.itemSheet.weapon.unarmedAutomaticallyCalculated"}}
             </div>
