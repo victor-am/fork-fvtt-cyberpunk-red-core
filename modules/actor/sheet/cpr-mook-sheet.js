@@ -44,6 +44,24 @@ export default class CPRMookActorSheet extends CPRActorSheet {
   }
 
   /**
+   * We extend CPRActorSheet._render to handle the different height/width of the limited vs. full template.
+   * Automatic resizing is not called here, since the parent does that already.
+   *
+   * @override
+   * @private
+   * @param {Boolean} force - for this to be rendered. We don't use this, but the parent class does.
+   * @param {Object} options - rendering options that are passed up the chain to the parent
+   */
+  async _render(force = false, options = {}) {
+    LOGGER.trace("_render | CPRMookActorSheet | Called.");
+    if (!game.user.isGM && this.actor.limited) {
+      await super._render(force, mergeObject(options, { width: 670, height: 210 }));
+    } else {
+      await super._render(force, options);
+    }
+  }
+
+  /**
    * Activate listeners for the sheet. This has to call super at the end to get additional
    * listners that are common between mooks and characters.
    *
