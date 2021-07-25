@@ -5,9 +5,21 @@ import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
+ * Black-ICE actors directly extend Actor from Foundry. They have very little in common with
+ * Characters or Mooks.
+ *
  * @extends {Actor}
  */
 export default class CPRBlackIceActor extends Actor {
+  /**
+   * The only special thing we do when creating a new Black-ICE actor is set the "REZ" stat to
+   * be the one to show for a bar on a token. Typically this is a lot like HP.
+   *
+   * @static
+   * @async
+   * @param {*} data - a complex object with set up details and data for the actor
+   * @param {*} options - unused here, but passed up to the parent class where it is needed
+   */
   static async create(data, options) {
     LOGGER.trace("create | CPRBlackIceActor | called.");
     const createData = data;
@@ -20,7 +32,13 @@ export default class CPRBlackIceActor extends Actor {
     super.create(createData, options);
   }
 
-  // Black-ICE rolls are always "stat" rolls
+  /**
+   * Black-ICE really only uses 2 types of rolls: stat and damage. A trimmed down version
+   * of the roll code in cpr-actor.js is implemented here.
+   *
+   * @param {String} statName - name of the stat being rolled (DEF, ATK, etc)
+   * @returns {CPRStatRoll}
+   */
   createStatRoll(statName) {
     LOGGER.trace("createStatRoll | CPRBlackIceActor | called.");
     const niceStatName = SystemUtils.Localize(CPR.blackIceStatList[statName]);
@@ -44,6 +62,14 @@ export default class CPRBlackIceActor extends Actor {
     return cprRoll;
   }
 
+  /**
+   * See createStatRoll
+   *
+   * @param {String} programId - Id for the program item doing the damage
+   * @param {String} netrunnerTokenId - The token Id of the netrunner that supposedly owns the program item
+   * @param {String} sceneId - the scene Id, used to find the token
+   * @returns {CPRDamageRoll}
+   */
   createDamageRoll(programId, netrunnerTokenId, sceneId) {
     LOGGER.trace("createDamageRoll | CPRBlackIceActor | called.");
     let program;

@@ -9,6 +9,10 @@ import MookNamePrompt from "../../dialog/cpr-mook-name-prompt.js";
 /**
  * Extend the basic CPRActorSheet. A lot of code is common between mooks and characters.
  *
+ * The point of a mook sheet is to provide a more "at-a-glance" view of a disposable NPC.
+ * If the GM or players need a more indepth view of an actor's skills, inventories, and
+ * cyberware, they should use the character sheet instead.
+ *
  * @extends {CPRActorSheet}
  */
 export default class CPRMookActorSheet extends CPRActorSheet {

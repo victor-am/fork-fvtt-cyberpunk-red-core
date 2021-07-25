@@ -4,10 +4,23 @@ import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
+ * Character actors are generally represented by players, but for especially detailed NPCs,
+ * they are appropriate too. Characters are the most complex actors in the system.
+ *
  * @extends {Actor}
  */
 export default class CPRCharacterActor extends CPRActor {
-  /** @override */
+  /**
+   * create() is called when creating the actor, but it's not the same as a constructor. In the
+   * code here, we pre-populate characters with skills, core cyberware, and other baked-in items.
+   * We also pre-configure a few token options to reduce repetitive clicking, such as setting HP
+   * as a resource bar.
+   *
+   * @async
+   * @static
+   * @param {*} data - a complex structure with details and data to stuff into the actor object
+   * @param {*} options - not used here, but required by the parent class
+   */
   static async create(data, options) {
     LOGGER.trace("create | CPRCharacterActor | called.");
     const createData = data;
@@ -32,6 +45,11 @@ export default class CPRCharacterActor extends CPRActor {
     super.create(createData, options);
   }
 
+  /**
+   * Automatically calculate "derived" stats based on changes to other stats. This includes max HP,
+   * Humanity, Empathy, and Death Saves. None of the automation happens if a player disabled it in
+   * their client settings.
+   */
   _calculateDerivedStats() {
     // Calculate MAX HP
     LOGGER.trace("_calculateDerivedStats | CPRCharacterActor | Called.");
@@ -93,7 +111,7 @@ export default class CPRCharacterActor extends CPRActor {
     // derivedStats.deathSave.basePenalty, however, it causes a chicken/egg situation
     // since it loads the data up before it migrates, triggering this code to run which
     // errors out and ultimately messing the migration up. Yay. We should be able to
-    // remove this code after a release or two
+    // remove this code after a release or two.
     if ((typeof derivedStats.deathSave) === "number") {
       const oldPenalty = derivedStats.deathSave;
       derivedStats.deathSave = {
