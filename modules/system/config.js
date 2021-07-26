@@ -224,6 +224,7 @@ CPR.objectTypes = {
   itemUpgrade: "CPR.global.itemTypes.itemUpgrade",
   netarch: "CPR.global.itemTypes.netArchitecture",
   program: "CPR.global.itemTypes.program",
+  role: "CPR.global.itemTypes.role",
   skill: "CPR.global.itemTypes.skill",
   vehicle: "CPR.global.itemTypes.vehicle",
   weapon: "CPR.global.itemTypes.weapon",

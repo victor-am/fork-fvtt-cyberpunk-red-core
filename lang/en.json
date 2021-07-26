@@ -340,6 +340,7 @@
     "CPR.global.itemTypes.itemUpgrade": "Item Upgrade",
     "CPR.global.itemTypes.netArchitecture": "NET Architecture",
     "CPR.global.itemTypes.program": "Program",
+    "CPR.global.itemTypes.role": "Role",
     "CPR.global.itemTypes.skill": "Skill",
     "CPR.global.itemTypes.vehicle": "Vehicle",
     "CPR.global.itemTypes.weapon": "Weapon",
