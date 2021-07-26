@@ -3,7 +3,6 @@ import * as actorSheetHooks from "../hooks/actor-sheet.js";
 import * as chatHooks from "../hooks/chat.js";
 import * as itemHooks from "../hooks/item.js";
 import * as tokenHudHooks from "../hooks/tokenhud.js";
-import * as combatHooks from "../hooks/combat.js";
 import * as uiHooks from "../hooks/ui.js";
 import * as hotbarHooks from "../hooks/hotbar.js";
 
@@ -13,7 +12,6 @@ export default function registerHooks() {
   chatHooks.default();
   itemHooks.default();
   tokenHudHooks.default();
-  combatHooks.default();
   uiHooks.default();
   hotbarHooks.default();
 }
