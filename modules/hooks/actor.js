@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* global Hooks game */
 import LOGGER from "../utils/cpr-logger.js";
 import Rules from "../utils/cpr-rules.js";
@@ -7,28 +6,24 @@ import CPRContainerActorSheet from "../actor/sheet/cpr-container-sheet.js";
 import CPRMookActorSheet from "../actor/sheet/cpr-mook-sheet.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
+/**
+ * Hooks have a set of args that are passed to them from Foundry. Even if we do not use them here,
+ * we document them all for clarity's sake and to make future development/debugging easier.
+ */
 const actorHooks = () => {
   /**
-   * preCreateActor Hook is provided by Foundry and triggered here. When an Actor is created, this hook is called just
-   * prior to creation.
-   *
-   * Hooks have a set of args that are passed to them from Foundry so in order to ensure that nothing is lost as part
-   * of that call, all args are defined as part of the hook definition.
+   * The preCreateActor Hook is provided by Foundry and triggered here. When an Actor is created, this hook is called just
+   * prior to creation. In here, we inject a default portrait (icon) for the actor.
    *
    * @public
    * @memberof hookEvents
    * @param {Document} doc          The pending Actor document which is requested for creation
    * @param {object} createData     The initial data object provided to the document creation request
-   * @param {object} options        Additional options which modify the creation request
-   * @param {string} userId         The ID of the requesting user, always game.user.id
-   * @return {boolean|void}         Explicitly return false to prevent creation of this Document
+   * @param {object} (unused)       Additional options which modify the creation request
+   * @param {string} (unused)       The ID of the requesting user, always game.user.id
    */
-  Hooks.on("preCreateActor", (doc, createData, options, userId) => {
+  Hooks.on("preCreateActor", (doc, createData) => {
     LOGGER.trace("preCreateActor | actorHooks | Called.");
-    if (!createData.token) {
-      // TODO - Token Setup Goes Here
-    }
-
     if ((typeof createData.img === "undefined")) {
       const actorImage = SystemUtils.GetDefaultImage("Actor", createData.type);
       doc.data.update({ img: actorImage });
@@ -36,21 +31,22 @@ const actorHooks = () => {
   });
 
   /**
-   * preUpdateActor Hook is provided by Foundry and triggered here. When an Actor is updated, this hook is called just
-   * prior to update.
+   * The preUpdateActor Hook is provided by Foundry and triggered here. When an Actor is updated, this hook is called just
+   * prior to update. This hook has 3 purposes.
    *
-   * Hooks have a set of args that are passed to them from Foundry so in order to ensure that nothing is lost as part
-   * of that call, all args are defined as part of the hook definition.
+   * 1. Check the role stats and issue a warning if points are not allocated per rules
+   * 2. If the corresponding token for the actor is displaying a resource bar for armor SP, update it to use newly equipped
+   *    armor items when the equipment changes.
+   * 3. If the actor being updated is Black-ICE, reflect those changes on the owned items too.
    *
    * @public
    * @memberof hookEvents
    * @param {CPRCharacterActor} actor     The pending document which is requested for creation
    * @param {object} updatedData          The changed data object provided to the document creation request
-   * @param {object} options              Additional options which modify the creation request
+   * @param {object} (unused)             Additional options which modify the creation request
    * @param {string} userId               The ID of the requesting user, always game.user.id
-   * @return {boolean|void}               Explicitly return false to prevent creation of this Document
    */
-  Hooks.on("preUpdateActor", (actor, updatedData, options, userId) => {
+  Hooks.on("preUpdateActor", (actor, updatedData, _, userId) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
     const isCSheet = Object.values(actor.apps).some((app) => app instanceof CPRCharacterActorSheet);
     if (isCSheet && userId === game.user.data._id && actor.type === "character") {
@@ -141,19 +137,17 @@ const actorHooks = () => {
   });
 
   /**
-   * createItem Hook is provided by Foundry and triggered here. When an Item is created, this hook is called during
-   * creation.
-   *
-   * Hooks have a set of args that are passed to them from Foundry so in order to ensure that nothing is lost as part
-   * of that call, all args are defined as part of the hook definition.
+   * The createItem Hook is provided by Foundry and triggered here. When an Item is created, this hook is called during
+   * creation. This hook handles items dragged on the mook sheet to automatically equip or install them.
+   * TODO: this should be in the item.js hook code
    *
    * @public
    * @memberof hookEvents
    * @param {CPRItem} itemData            The pending document which is requested for creation
-   * @param {object} options              Additional options which modify the creation request
+   * @param {object} (unused)             Additional options which modify the creation request
    * @param {string} userId               The ID of the requesting user, always game.user.id
    */
-  Hooks.on("createItem", (itemData, options, userId) => {
+  Hooks.on("createItem", (itemData, _, userId) => {
     LOGGER.trace("createItem | actorHooks | Called.");
     // when a new item is created (dragged) on a mook sheet, auto install or equip it
     const actor = itemData.parent;
@@ -166,21 +160,20 @@ const actorHooks = () => {
   });
 
   /**
-   * preCreateItem Hook is provided by Foundry and triggered here. When an Item is created, this hook is called just
-   * prior to creation.
-   *
-   * Hooks have a set of args that are passed to them from Foundry so in order to ensure that nothing is lost as part
-   * of that call, all args are defined as part of the hook definition.
+   * The preCreateItem Hook is provided by Foundry and triggered here. When an Item is created, this hook is called just
+   * prior to creation. This code handles the case where an item is being created but it should "stack" on top of an
+   * existing item instead.
+   * TODO: this should be in the item.js hook code
    *
    * @public
    * @memberof hookEvents
    * @param {CPRItem} item          The pending document which is requested for creation
-   * @param {object} itemData       The initial data object provided to the document creation request
+   * @param {object} (unused)       The initial data object provided to the document creation request
    * @param {object} options        Additional options which modify the creation request
    * @param {string} userId         The ID of the requesting user, always game.user.id
    * @return {boolean|void}         Explicitly return false to prevent creation of this Document
    */
-  Hooks.on("preCreateItem", (item, itemData, options, userId) => {
+  Hooks.on("preCreateItem", (item, _, options, userId) => {
     LOGGER.trace("preCreateItem | actorHooks | Called.");
     const actor = item.parent;
     if (actor != null) {
