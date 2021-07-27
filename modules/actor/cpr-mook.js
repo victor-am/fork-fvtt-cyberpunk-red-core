@@ -13,8 +13,8 @@ export default class CPRMookActor extends CPRActor {
    * Like characters, we extend the create() method to set HP as the default resource bar, set some other
    * token defaults, and pre-populate the actor with skills, cyberware, and other "items."
    *
-   * @param {*} data - data used in creating a basic mook
-   * @param {*} options - not used here but passed up to the parent class
+   * @param {Object} data - data used in creating a basic mook
+   * @param {Object} options - not used here but passed up to the parent class
    */
   static async create(data, options) {
     LOGGER.trace("create | CPRMookActor | called.");
@@ -41,8 +41,8 @@ export default class CPRMookActor extends CPRActor {
   /**
    * Set the mook's name, called from the sheet.
    *
-   * @param {*} formData - an object representing what was typed in the mook-name dialog
-   * @returns {*}
+   * @param {Object} formData - an object representing what was typed in the mook-name dialog
+   * @returns {Object}
    */
   setMookName(formData) {
     LOGGER.trace("setMookName | CPRMookActor | called.");

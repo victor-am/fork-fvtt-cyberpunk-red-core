@@ -16,8 +16,8 @@ export default class CPRDemonActor extends Actor {
    *
    * @static
    * @async
-   * @param {*} data - a complex structure of data used in creating the actor
-   * @param {*} options - unused here but passed up to the parent
+   * @param {Object} data - a complex structure of data used in creating the actor
+   * @param {Object} options - unused here but passed up to the parent
    */
   static async create(data, options) {
     LOGGER.trace("create | CPRDemonActor | called.");

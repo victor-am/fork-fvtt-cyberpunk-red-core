@@ -18,8 +18,8 @@ export default class CPRCharacterActor extends CPRActor {
    *
    * @async
    * @static
-   * @param {*} data - a complex structure with details and data to stuff into the actor object
-   * @param {*} options - not used here, but required by the parent class
+   * @param {Object} data - a complex structure with details and data to stuff into the actor object
+   * @param {Object} options - not used here, but required by the parent class
    */
   static async create(data, options) {
     LOGGER.trace("create | CPRCharacterActor | called.");

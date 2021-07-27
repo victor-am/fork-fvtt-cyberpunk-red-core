@@ -69,8 +69,10 @@ export default class CPRActor extends Actor {
             containsCoreItem = true;
           }
         });
-        Rules.lawyer(!containsCoreItem, "CPR.messages.dontAddCoreItems");
-        return null;
+        if (containsCoreItem) {
+          Rules.lawyer(false, "CPR.messages.dontAddCoreItems");
+          return null;
+        }
       }
     }
     // Standard embedded entity creation
@@ -625,7 +627,7 @@ export default class CPRActor extends Actor {
   /**
    * Pop up a dialog box with ledger records for a given property.
    *
-   * @param {*} prop - name of the property that has a ledger
+   * @param {String} prop - name of the property that has a ledger
    */
   showLedger(prop) {
     LOGGER.trace("showLedger | CPRActor | Called.");
@@ -699,7 +701,7 @@ export default class CPRActor extends Actor {
    * Return an array of all equipped armors given a location. Yes, it is possible and within the rules
    * to wear multiple armors, even thought it might not be a good idea.
    *
-   * @param {*} location - head, body, or shield
+   * @param {String} location - head, body, or shield
    * @returns {Array}
    */
   getEquippedArmors(location) {

@@ -17,8 +17,8 @@ export default class CPRBlackIceActor extends Actor {
    *
    * @static
    * @async
-   * @param {*} data - a complex object with set up details and data for the actor
-   * @param {*} options - unused here, but passed up to the parent class where it is needed
+   * @param {Object} data - a complex object with set up details and data for the actor
+   * @param {Object} options - unused here, but passed up to the parent class where it is needed
    */
   static async create(data, options) {
     LOGGER.trace("create | CPRBlackIceActor | called.");
