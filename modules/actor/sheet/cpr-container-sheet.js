@@ -311,45 +311,8 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
   async _setContainerType(event) {
     LOGGER.trace("_setContainerType | CPRContainerSheet | Called.");
     const containerType = $(event.currentTarget).val();
-    await this.actor.setFlag("cyberpunk-red-core", "container-type", containerType);
-    switch (containerType) {
-      case "shop": {
-        // setting flags is an async operation; we wait for them all in parallel
-        await Promise.all([
-          this.actor.unsetFlag("cyberpunk-red-core", "items-free"),
-          this.actor.unsetFlag("cyberpunk-red-core", "players-create"),
-          this.actor.unsetFlag("cyberpunk-red-core", "players-delete"),
-          this.actor.unsetFlag("cyberpunk-red-core", "players-modify"),
-        ]);
-        break;
-      }
-      case "loot": {
-        await Promise.all([
-          this.actor.unsetFlag("cyberpunk-red-core", "infinite-stock"),
-          this.actor.setFlag("cyberpunk-red-core", "items-free", true),
-          this.actor.unsetFlag("cyberpunk-red-core", "players-create"),
-          this.actor.unsetFlag("cyberpunk-red-core", "players-delete"),
-          this.actor.unsetFlag("cyberpunk-red-core", "players-modify"),
-        ]);
-        break;
-      }
-      case "stash": {
-        await Promise.all([
-          this.actor.unsetFlag("cyberpunk-red-core", "infinite-stock"),
-          this.actor.setFlag("cyberpunk-red-core", "items-free", true),
-          this.actor.setFlag("cyberpunk-red-core", "players-create", true),
-          this.actor.setFlag("cyberpunk-red-core", "players-delete", true),
-          this.actor.setFlag("cyberpunk-red-core", "players-modify", true),
-        ]);
-        break;
-      }
-      case "custom": {
-        break;
-      }
-      default: {
-        break;
-      }
-    }
+    const actor = this.token === null ? this.actor : this.token.actor;
+    return actor.setContainerType(containerType);
   }
 
   /**
