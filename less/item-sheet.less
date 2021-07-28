@@ -214,53 +214,6 @@
   padding-top: 5px;
 }
 
-.item-role-grid {
-    display: grid;
-    grid-template-columns: 90px 60px 40px 90px 60px 1fr 40px;
-    grid-template-areas: "role-name role-rank role-stat role-skill role-bonuses item-role-content role-actions";
-    gap: 4px 4px;
-}
-
-.role-name {
-    grid-area: role-name;
-    flex: 0 0 90px;
-    text-align: center;
-}
-
-.role-rank {
-  grid-area: role-rank;
-  flex: 0 0 60px;
-  text-align: center;
-}
-
-.role-stat {
-  grid-area: role-stat;
-  flex: 0 0 40px;
-  text-align: center;
-}
-
-.role-skill {
-  grid-area: role-skill;
-  flex: 0 0 90px;
-  text-align: center;
-}
-
-.role-bonuses {
-  grid-area: role-bonuses;
-  flex: 0 0 60px;
-  text-align: center;
-}
-
-.item-role-content {
-  grid-area: item-role-content;
-}
-
-.role-actions {
-  grid-area: role-actions;
-  flex: 0 0 40px;
-  text-align: end;
-}
-
 .role-list-content {
   li:nth-child(even) {
       background-color: @meat-space-pink;
@@ -269,4 +222,6 @@
   li:nth-child(odd) {
       background-color: @chrome-white;
   }
+
+
 }

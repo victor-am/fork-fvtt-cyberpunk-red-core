@@ -107,34 +107,34 @@
           </li>
         {{/each}}
       </div>
-<div class="item-role-section">
+<div class="item-role-section item-role-grid">
   <li class="items-header flexrow">
-    <span class="item-name role-name fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.global.generic.name"}} &nbsp;</span>
-    <span class="item-name role-rank fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.itemSheet.role.rank"}} &nbsp;</span>
-    <span class="item-name role-stat fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.global.generic.stat"}} &nbsp;</span>
-    <span class="item-name role-skill fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.itemSheet.role.skill"}} &nbsp;</span>
-    <span class="item-name role-bonuses fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.itemSheet.role.bonuses"}} &nbsp;</span>
-    <span class="item-name item-role-content fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.global.generic.description"}}</span>
-    <span class="item-name role-actions fg-white bg-black text-nowrap text-padding-right">
+    <span class="item-name role-name fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.global.generic.name"}}</span>
+    <span class="item-detail role-rank fg-white bg-black text-nowrap">{{localize "CPR.itemSheet.role.rank"}}</span>
+    <span class="item-detail role-stat fg-white bg-black text-nowrap">{{localize "CPR.global.generic.stat"}}</span>
+    <span class="item-detail role-skill fg-white bg-black text-nowrap">{{localize "CPR.itemSheet.role.skill"}}</span>
+    <span class="item-detail role-bonuses fg-white bg-black text-nowrap">{{localize "CPR.itemSheet.role.bonuses"}}</span>
+    <span class="item-detail item-role-content fg-white bg-black text-nowrap">{{localize "CPR.global.generic.description"}}</span>
+    <span class="item-detail role-actions fg-white bg-black text-nowrap">
       <a class="role-ability-action" data-action-type="create" data-action-target="-1"><i class="fas fa-plus-circle text-padding-right" title="New Role Ability"></i></a>
     </span>
   </li>
     <div class="role-list-content">
       <ol class="items-list">
         {{#each (sort data.data.abilities "name") as |ability|}}
-          <li class="item-role-grid item flexrow">
-            <div class="role-name">{{ability.name}}</div>
-            <div class="role-rank">
+          <li class="item role-name flexrow">
+            <div class="item-name text-nowrap">{{ability.name}}</div>
+            <div class="item-detail role-rank text-nowrap">
               {{ability.rank}} {{#if (compare (compare ability.multiplier "!==" "1") "&&" (compare ability.multiplier "!==" "--"))}}(x{{ability.multiplier}}){{/if}}
             </div>
-            <div class="role-stat">
+            <div class="item-detail role-stat text-nowrap">
               {{#if (compare ability.stat "===" "--")}}
               {{localize "CPR.global.generic.notApplicable"}}
               {{else}}
               {{localize (findConfigValue "statList" ability.stat)}}
               {{/if}}
             </div>
-            <div class="role-skill">
+            <div class="item-detail role-skill text-nowrap">
               {{#if ability.skill.data.core}}
               {{localize (splitJoinCoreSkills ability.skill.name)}}
               {{else}}
@@ -144,13 +144,13 @@
               {{localize (findConfigValue "roleSpecialOptions" ability.skill)}}
               {{/if}}
             </div>
-            <div class="role-bonuses">
+            <div class="item-detail role-bonuses text-nowrap">
               <a class="select-subrole-bonuses" data-item-name="{{ability.name}}" title="{{localize "CPR.itemSheet.role.configureRollBonuses"}}"><i class="fas fa-wrench"></i></a>
             </div>
-            <div class="item-role-content">
+            <div class="item-detail item-role-content text-nowrap">
               <div>{{ability.description}}</div>
             </div>
-            <div class="role-actions">
+            <div class="item-detail role-actions text-nowrap">
               <a class="role-ability-action" data-action-type="edit" data-action-target="{{ability.index}}"><i class="fas fa-edit fg-black" title={{localize "CPR.itemSheet.role.editRoleAbility"}}></i></a>
               <a class="role-ability-action" data-action-type="delete" data-action-target="{{ability.index}}"><i class="fas fa-trash-alt fg-red" title={{localize "CPR.itemSheet.role.deleteRoleAbility"}}></i></a>
             </div>
