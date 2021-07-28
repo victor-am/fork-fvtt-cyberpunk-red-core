@@ -54,7 +54,7 @@ export default class CPRContainerActor extends Actor {
    * @param {} event - object capturing event data (what was clicked and where?)
    */
   async setContainerType(containerType) {
-    LOGGER.trace("_setContainerType | CPRContainerSheet | Called.");
+    LOGGER.trace("setContainerType | CPRContainerActor | Called.");
     await this.setFlag("cyberpunk-red-core", "container-type", containerType);
     switch (containerType) {
       case "shop": {
@@ -97,5 +97,14 @@ export default class CPRContainerActor extends Actor {
         break;
       }
     }
+  }
+
+  async toggleFlag(flagName) {
+    LOGGER.trace("setContainerType | CPRContainerActor | Called.");
+    const flag = this.getFlag("cyberpunk-red-core", flagName);
+    if (flag === undefined || flag === false) {
+      return this.setFlag("cyberpunk-red-core", flagName, true);
+    }
+    return this.unsetFlag("cyberpunk-red-core", flagName);
   }
 }

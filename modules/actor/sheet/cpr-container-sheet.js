@@ -292,13 +292,8 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
   _checkboxToggle(event) {
     LOGGER.trace("_checkboxToggle | CPRContainerSheet | Called.");
     const flagName = $(event.currentTarget).attr("data-flag-name");
-    const flag = getProperty(this.actor.data, `flags.cyberpunk-red-core.${flagName}`);
-    if (flag === undefined || flag === false) {
-      // if the flag was already set to firemode, that means we unchecked a box
-      this.actor.setFlag("cyberpunk-red-core", flagName, true);
-    } else {
-      this.actor.unsetFlag("cyberpunk-red-core", flagName);
-    }
+    const actor = this.token === null ? this.actor : this.token.actor;
+    actor.toggleFlag(flagName);
   }
 
   /**
