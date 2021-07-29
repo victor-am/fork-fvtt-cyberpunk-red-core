@@ -160,7 +160,7 @@ export default class CPRChat {
     }
     if (formula) {
       let cprRoll;
-      if (formula.endsWith("d6")) {
+      if (formula.includes("d6")) {
         cprRoll = new CPRDamageRoll(SystemUtils.Localize("CPR.rolls.roll"), formula);
       } else {
         cprRoll = new CPRRoll(SystemUtils.Localize("CPR.rolls.roll"), formula);
