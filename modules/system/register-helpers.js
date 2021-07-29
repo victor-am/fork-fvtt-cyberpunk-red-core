@@ -105,6 +105,8 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("isNumber", (value) => !Number.isNaN(value));
 
+  Handlebars.registerHelper("isLimitedPerm", (document) => !game.user.isGM && document.limited);
+
   // TODO - Refactor / Revist
   Handlebars.registerHelper("mergeForPartialArg", (...args) => {
     LOGGER.trace("mergeForPartialArg | handlebarsHelper | Called.");

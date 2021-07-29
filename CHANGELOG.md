@@ -42,6 +42,7 @@
     - `Create an Elflines Online Character`: This macro will create a blank Elfline Online Character with skills as defined from the Elflines Online Skill List in the Elfline Online compendium released by RTG.
     - `Create Elflines Online Armory`: This macro will create a folder of items as defined from the Elflines Online Armory in the Elfline Online compendium released by RTG.
 - Added Martial Arts weapon type, as it is slightly different from the Unarmed weapon type with the scaling for the damage in the case of a BODY of 4 or under while having a cyberarm (rule book pages 176 and 178)
+- Introduced a limited view of the mook sheet when a player only has limited permission on the mook
 
 **Changes**
 - Newly created actors and items will automatically have default icons configured.
@@ -58,6 +59,7 @@
 - Fix #276: Items can be transferred from unlinked actors
 - Fixed, that number of options slots were not displayed in the item sheet description tab for foundational cyberware.
 - Fixed #262: Missing Expansive, Rubber and Smart Ammo for Very Heavy Pistols has been added to the compendium. Basic Grenade and Basic Rocket have been removed and should not exist according to allowed ammo type rules.
+- Fixed an issue with Firefox browsers throwing an error when using our default SVG images.  The SVG tag we were using defined the height/width using a style property, however, Firefox perfers individual height and width properties.
 
 # Version 0.77.1 | Date: 2021-06-29
 **Hot Fix**
