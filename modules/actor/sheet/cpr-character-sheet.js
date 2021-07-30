@@ -23,6 +23,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @param {*} options - entity options passed up the chain
    */
   constructor(actor, options) {
+    LOGGER.trace("constructor | CPRCharacterActorSheet | Called.");
     super(actor, options);
     this.options.collapsedSections = [];
     const collapsedSections = SystemUtils.GetUserSetting("sheetConfig", "sheetCollapsedSections", this.id);
@@ -214,7 +215,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @param {*} event - object with details of the event
    */
   async _installRemoveCyberwareAction(event) {
-    LOGGER.trace("_installCyberware | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("_installRemoveCyberwareAction | CPRCharacterActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
     const item = this._getOwnedItem(itemId);
     if (item.getData().isInstalled) {
@@ -358,7 +359,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @param {*} event - object with details of the event
    */
   _updateWeaponAmmo(event) {
-    LOGGER.trace("_updateCurrentWeaponAmmo | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("_updateWeaponAmmo | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const updateType = $(event.currentTarget).attr("data-item-prop");
     if (updateType === "data.magazine.value") {
