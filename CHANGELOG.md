@@ -52,6 +52,7 @@
 - The price of an item is interpreted as the price of a single unit of an item. This has been now clarified with a text upon hovering over the word "Price" in the item setting page.
   - The single unit of an item is 1, whith an exception for some of the ammunitions, where it is 10. Please have a look at the rule book page 344 for that.
 - The container sheet inventory will now stretch with the window length vertically
+- Many, many little tweaks and improvements to the French translation
 
 **Bug Fixes**
 - Fixed #263: New containers now show infinite stock option, as they are initialized as a shop.
