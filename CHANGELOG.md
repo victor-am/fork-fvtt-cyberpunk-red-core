@@ -60,6 +60,7 @@
 - Fix #276: Items can be transferred from unlinked actors
 - Fixed, that number of options slots were not displayed in the item sheet description tab for foundational cyberware.
 - Fixed #262: Missing Expansive, Rubber and Smart Ammo for Very Heavy Pistols has been added to the compendium. Basic Grenade and Basic Rocket have been removed and should not exist according to allowed ammo type rules.
+- Fixed #287: Typing "/red Xd6" would produce "criticals" whenever the initial result was 6. This has been fixed to behave like a normal damage roll.
 - Fixed #285: Character sheet, Roll Tab, Abilities' names are truncated unless you have Medtech on the list.
 - Fixed #260: Players can move container actors - added another configurable option to allow players to move containers. The defaults are: Stash:yes, Loot:no, Shop:no, Custom:configurable
 - Fixed #261: Container actor tokens are not persisting their configuration when the token is unlinked - moved persisting of flags to the actor instead of doing it from the sheet.

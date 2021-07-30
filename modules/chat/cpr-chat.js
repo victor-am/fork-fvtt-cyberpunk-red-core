@@ -1,6 +1,6 @@
 /* global game, CONFIG, ChatMessage, renderTemplate $ */
 import LOGGER from "../utils/cpr-logger.js";
-import { CPRRoll } from "../rolls/cpr-rolls.js";
+import { CPRRoll, CPRDamageRoll } from "../rolls/cpr-rolls.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
@@ -152,15 +152,19 @@ export default class CPRChat {
     const dice = /[0-9][0-9]*d[0-9][0-9]*/;
     let formula = "1d10";
     if (data.match(dice)) {
-      // eslint-disable-next-line prefer-destructuring
-      formula = data.match(dice)[0];
+      [formula] = data.match(dice);
     }
     if (data.match(modifiers)) {
       const formulaModifiers = data.replace(formula, "");
       formula = `${formula}${formulaModifiers}`;
     }
     if (formula) {
-      const cprRoll = new CPRRoll(SystemUtils.Localize("CPR.rolls.roll"), formula);
+      let cprRoll;
+      if (formula.includes("d6")) {
+        cprRoll = new CPRDamageRoll(SystemUtils.Localize("CPR.rolls.roll"), formula);
+      } else {
+        cprRoll = new CPRRoll(SystemUtils.Localize("CPR.rolls.roll"), formula);
+      }
       if (cprRoll.die !== "d6" && cprRoll.die !== "d10") {
         cprRoll.calculateCritical = false;
         cprRoll.die = "generic";
