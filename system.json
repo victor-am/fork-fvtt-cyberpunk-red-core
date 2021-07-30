@@ -115,6 +115,14 @@
       "package": "cyberpunk-red-core"
     },
     {
+      "label": "Clothing",
+      "entity": "Item",
+      "name": "clothing-items",
+      "path": "packs/clothing.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
       "label": "Scenes",
       "entity": "Scene",
       "name": "scenes",

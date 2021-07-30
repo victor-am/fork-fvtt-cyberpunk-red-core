@@ -43,6 +43,7 @@
     - `Create Elflines Online Armory`: This macro will create a folder of items as defined from the Elflines Online Armory in the Elfline Online compendium released by RTG.
 - Added Martial Arts weapon type, as it is slightly different from the Unarmed weapon type with the scaling for the damage in the case of a BODY of 4 or under while having a cyberarm (rule book pages 176 and 178)
 - Introduced a limited view of the mook sheet when a player only has limited permission on the mook
+- A compendium for clothing has been added (thanks @aarong123!)
 
 **Changes**
 - Newly created actors and items will automatically have default icons configured.
