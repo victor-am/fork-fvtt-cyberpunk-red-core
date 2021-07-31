@@ -115,10 +115,26 @@
       "package": "cyberpunk-red-core"
     },
     {
+      "label": "Clothing",
+      "entity": "Item",
+      "name": "clothing-items",
+      "path": "packs/clothing.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
       "label": "Scenes",
       "entity": "Scene",
       "name": "scenes",
       "path": "packs/scenes.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Elflines Online Macros",
+      "entity": "Macro",
+      "name": "elflines-online",
+      "path": "packs/elflines-online.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     }

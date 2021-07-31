@@ -1,87 +1,84 @@
-<div class="item-settings-tab">
-    <div class="item-settings-section">
-        <ol class="items-list">
-
-            {{!--Item Name Settings--}}
-            {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs" this}}
-
-            {{!-- Program Item Settings--}}
-            <li class="item flexrow">
-                <div class="item flexrow setting-name text-nowrap">
-                    {{localize "CPR.itemSheet.skills.category"}}
-                </div>
-                <div class="item flexrow setting-value text-nowrap item-end">
-                    <select name="data.category" data-dtype="{{data.data.category}}">
-                        {{#select data.data.category}}
-                        {{#each (findConfigObj "skillCategories") as |category c|}}
-                        <option value="{{c}}">{{localize category}}</option>
-                        {{/each}}
-                        {{/select}}
-                    </select>
-                </div>
-            </li>
-
-
-            <li class="item flexrow">
-                <div class="item flexrow setting-name text-nowrap">
-                    {{localize "CPR.itemSheet.skills.difficulty"}}
-                </div>
-                <div class="item flexrow setting-value text-nowrap item-end">
-                    <select name="data.difficulty" data-dtype="{{data.data.difficulty}}">
-                        {{#select data.data.difficulty}}
-                        {{#each (findConfigObj "skillDifficulties") as |difficulty d|}}
-                        <option value="{{d}}">{{localize difficulty}}</option>
-                        {{/each}}
-                        {{/select}}
-                    </select>
-                </div>
-            </li>
-
-            <li class="item flexrow">
-                <div class="item flexrow setting-name text-nowrap">
-                    {{localize "CPR.itemSheet.skills.basic"}}
-                </div>
-                <div class="item flexrow setting-value text-nowrap item-end">
-                    {{#if data.data.basic}}
-                    <a class="item-checkbox" data-target="data.basic"><i class="far fa-check-circle"></i></a>
-                    {{else}}
-                    <a class="item-checkbox" data-target="data.basic"><i class="far fa-circle"></i></a>
-                    {{/if}}
-                </div>
-            </li>
-
-            <li class="item flexrow">
-                <div class="item flexrow setting-name text-nowrap">
-                    {{localize "CPR.itemSheet.skill.level"}}
-                </div>
-                <div class="item flexrow setting-value text-nowrap item-end">
-                    <input name="data.level" class="" data-dtype="{{data.data.level}}" value="{{data.data.level}}" type="number">
-                </div>
-            </li>
-
-            <li class="item flexrow">
-                <div class="item flexrow setting-name text-nowrap">
-                    {{localize "CPR.rolls.mods"}}
-                </div>
-                <div class="item flexrow setting-value text-nowrap item-end">
-                    <input name="data.skillmod" class="" data-dtype="{{data.data.skillmod}}" value="{{data.data.skillmod}}" type="number">
-                </div>
-            </li>
-
-            <li class="item flexrow">
-                <div class="item flexrow setting-name text-nowrap">
-                    {{localize "CPR.global.generic.stat"}}
-                </div>
-                <div class="item flexrow setting-value text-nowrap item-end">
-                    <select name="data.stat" data-dtype="{{data.data.stat}}">
-                        {{#select data.data.stat}}
-                        {{#each (findConfigObj "statList") as |stat s|}}
-                        <option value="{{s}}">{{localize stat}}</option>
-                        {{/each}}
-                        {{/select}}
-                    </select>
-                </div>
-            </li>
-        </ol>
+{{trace "CPR-SKILL.HBS"}}
+{{!-- Skill Item Settings--}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.skills.category"}}
     </div>
-</div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <select name="data.category" data-dtype="{{data.data.category}}">
+            {{#select data.data.category}}
+            {{#each (findConfigObj "skillCategories") as |category c|}}
+            <option value="{{c}}">{{localize category}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+
+{{!-- Skill Difficulty Settings--}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.skills.difficulty"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <select name="data.difficulty" data-dtype="{{data.data.difficulty}}">
+            {{#select data.data.difficulty}}
+                {{#each (findConfigObj "skillDifficulties") as |difficulty d|}}
+                    <option value="{{d}}">{{localize difficulty}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+
+{{!-- Skill Basic Settings--}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.skills.basic"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if data.data.basic}}
+        <a class="item-checkbox" data-target="data.basic"><i class="far fa-check-circle"></i></a>
+        {{else}}
+        <a class="item-checkbox" data-target="data.basic"><i class="far fa-circle"></i></a>
+        {{/if}}
+    </div>
+</li>
+
+{{!-- Skill Level Settings--}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.skill.level"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <input name="data.level" class="" data-dtype="{{data.data.level}}" value="{{data.data.level}}" type="number">
+    </div>
+</li>
+
+{{!-- Skill Mods Settings--}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.rolls.mods"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <input name="data.skillmod" class="" data-dtype="{{data.data.skillmod}}" value="{{data.data.skillmod}}"
+            type="number">
+    </div>
+</li>
+
+{{!-- Skill Stat Settings--}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.global.generic.stat"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <select name="data.stat" data-dtype="{{data.data.stat}}">
+            {{#select data.data.stat}}
+                {{#each (findConfigObj "statList") as |stat s|}}
+                    <option value="{{s}}">{{localize stat}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+{{trace "END CPR-SKILL.HBS"}}

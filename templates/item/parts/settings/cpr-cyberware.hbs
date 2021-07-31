@@ -1,157 +1,160 @@
-<form>
-    <div class="item-settings-tab">
-        <div class="item-settings-section">
-            <ol class="items-list">
-
-                {{!--Item Name Settings--}}
-                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs" this}}
-
-                {{!-- Physical Item Settings--}}
-                {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
-
-                {{!-- Armor Item Settings--}}
-
-                {{!-- Armor Equipped Setting --}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.global.generic.type"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        {{#if this.editable}}
-                        <select name="data.type" data-dtype="{{data.data.type}}">
-                            {{#select data.data.type}}
-                            {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
-                            <option value="{{t}}">{{localize type}}</option>
-                            {{/each}}
-                            {{/select}}
-                        </select>
-                        {{else}}
-                            <span class="text-flex-end">{{localize (findConfigValue "cyberwareTypeList" data.data.type)}}</span>
-                        {{/if}}
-
-                    </div>
-                </li>
-                {{!-- Armor Penalty Settings--}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.global.generic.install"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        {{#if this.editable}}
-                        <select name="data.install" data-dtype="{{data.data.install}}">
-                            {{#select data.data.install}}
-                            {{#each (findConfigObj "cyberwareInstallList") as |install i|}}
-                            <option value="{{i}}">{{localize install}}</option>
-                            {{/each}}
-                            {{/select}}
-                        </select>
-                        {{else}}
-                        <span class="text-flex-end">{{localize (findConfigValue "cyberwareInstallList" data.data.install)}}</span>
-                        {{/if}}
-                    </div>
-                </li>
-                {{!--Head Armor Settings--}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.dialog.installCyberware.static"}} {{localize "CPR.dialog.installCyberware.humanityLoss"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        {{#if this.editable}}
-                        <input name="data.humanityLoss.static" class="" type="text"
-                            value="{{data.data.humanityLoss.static}}">
-                        {{else}}
-                        <span class="text-flex-end">{{data.data.humanityLoss.static}}</span>
-                        {{/if}}
-                    </div>
-                </li>
-
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.itemSheet.cyberware.rolled"}} {{localize "CPR.dialog.installCyberware.humanityLoss"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        {{#if this.editable}}
-                        <input name="data.humanityLoss.roll" class="" type="text" value="{{data.data.humanityLoss.roll}}">
-                        {{else}}
-                        <span class="text-flex-end">{{data.data.humanityLoss.roll}}</span>
-                        {{/if}}
-                    </div>
-                </li>
-
-                {{#unless (listContains "fashionware,cyberwareInternal,cyberwareExternal" data.data.type)}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.itemSheet.cyberware.requiresFoundational"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        {{#if this.editable}}
-                            {{#if data.data.isFoundational}}
-                            <a class="item-checkbox" data-target="data.isFoundational"><i class="far fa-circle"></i></a>
-                            {{else}}
-                            <a class="item-checkbox" data-target="data.isFoundational"><i
-                                    class="far fa-check-circle"></i></a>
-                            {{/if}}
-                        {{else}}
-                            {{#if data.data.isFoundational}}
-                            <i class="far fa-circle"></i>
-                            {{else}}
-                            <i class="far fa-check-circle"></i>
-                            {{/if}}
-                        {{/if}}
-                    </div>
-                </li>
-                {{#if data.data.isFoundational}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.itemSheet.cyberware.hasOptionSlots"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        {{#if this.editable}}
-                            {{#if data.data.hasOptionalSlots}}
-                            <a class="item-checkbox" data-target="data.hasOptionalSlots"><i
-                                    class="far fa-check-circle"></i></a>
-                            {{else}}
-                            <a class="item-checkbox" data-target="data.hasOptionalSlots"><i class="far fa-circle"></i></a>
-                            {{/if}}
-                        {{else}}
-                            {{#if data.data.hasOptionalSlots}}
-                            <i class="far fa-check-circle"></i>
-                            {{else}}
-                            <i class="far fa-circle"></i>
-                            {{/if}}
-                        {{/if}}
-                    </div>
-                </li>
-                {{else}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.itemSheet.cyberware.slotSize"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        {{#if this.editable}}
-                        <input name="data.slotSize" class="" type="number" value="{{data.data.slotSize}}">
-                        {{else}}
-                        <span class="text-flex-end">{{data.data.slotSize}}</span>
-                        {{/if}}
-                    </div>
-                </li>
-                {{/if}}
-                {{#if data.data.hasOptionalSlots}}
-                <li class="item flexrow">
-                    <div class="item flexrow setting-name text-nowrap">
-                        {{localize "CPR.itemSheet.cyberware.optionalSlots"}}
-                    </div>
-                    <div class="item flexrow setting-value text-nowrap item-end">
-                        {{#if this.editable}}
-                        <input name="data.optionSlots" class="" type="text" value="{{data.data.optionSlots}}">
-                        {{else}}
-                        <span class="text-flex-end">{{data.data.optionSlots}}</span>
-                        {{/if}}
-                    </div>
-                </li>
-                {{/if}}
-                {{/unless}}
-            </ol>
-        </div>
+{{trace "CPR-CYBERWARE.HBS"}}
+{{!-- Cyberware Item Setting --}}
+{{!-- Cyberware Type Setting --}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.global.generic.type"}}
     </div>
-</form>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if this.editable}}
+        <select name="data.type" data-dtype="{{data.data.type}}">
+            {{#select data.data.type}}
+                {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
+                    <option value="{{t}}">{{localize type}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+        {{else}}
+            <span class="text-flex-end">{{localize (findConfigValue "cyberwareTypeList" data.data.type)}}</span>
+        {{/if}}
+
+    </div>
+</li>
+{{!-- Armor Penalty Settings--}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.global.generic.install"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if this.editable}}
+            <select name="data.install" data-dtype="{{data.data.install}}">
+                {{#select data.data.install}}
+                    {{#each (findConfigObj "cyberwareInstallList") as |install i|}}
+                        <option value="{{i}}">{{localize install}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        {{else}}
+            <span class="text-flex-end">{{localize (findConfigValue "cyberwareInstallList" data.data.install)}}</span>
+        {{/if}}
+    </div>
+</li>
+{{!--Head Armor Settings--}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.dialog.installCyberware.static"}} {{localize "CPR.dialog.installCyberware.humanityLoss"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if this.editable}}
+            <input name="data.humanityLoss.static" class="" type="text" value="{{data.data.humanityLoss.static}}">
+        {{else}}
+            <span class="text-flex-end">{{data.data.humanityLoss.static}}</span>
+        {{/if}}
+    </div>
+</li>
+
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.cyberware.rolled"}} {{localize "CPR.dialog.installCyberware.humanityLoss"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if this.editable}}
+            <input name="data.humanityLoss.roll" class="" type="text" value="{{data.data.humanityLoss.roll}}">
+        {{else}}
+            <span class="text-flex-end">{{data.data.humanityLoss.roll}}</span>
+        {{/if}}
+    </div>
+</li>
+
+{{#unless (listContains "fashionware,cyberwareInternal,cyberwareExternal" data.data.type)}}
+    <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+            {{localize "CPR.itemSheet.cyberware.requiresFoundational"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+            {{#if this.editable}}
+                {{#if data.data.isFoundational}}
+                    <a class="item-checkbox" data-target="data.isFoundational"><i class="far fa-circle"></i></a>
+                {{else}}
+                    <a class="item-checkbox" data-target="data.isFoundational"><i class="far fa-check-circle"></i></a>
+                {{/if}}
+            {{else}}
+                {{#if data.data.isFoundational}}
+                    <i class="far fa-circle"></i>
+                {{else}}
+                    <i class="far fa-check-circle"></i>
+                {{/if}}
+            {{/if}}
+        </div>
+    </li>
+    {{#if data.data.isFoundational}}
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.itemSheet.cyberware.hasOptionSlots"}}
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                {{#if this.editable}}
+                    {{#if data.data.hasOptionalSlots}}
+                        <a class="item-checkbox" data-target="data.hasOptionalSlots"><i class="far fa-check-circle"></i></a>
+                    {{else}}
+                        <a class="item-checkbox" data-target="data.hasOptionalSlots"><i class="far fa-circle"></i></a>
+                    {{/if}}
+                {{else}}
+                    {{#if data.data.hasOptionalSlots}}
+                        <i class="far fa-check-circle"></i>
+                    {{else}}
+                        <i class="far fa-circle"></i>
+                    {{/if}}
+                {{/if}}
+            </div>
+        </li>
+    {{else}}
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.itemSheet.cyberware.slotSize"}}
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                {{#if this.editable}}
+                    <input name="data.slotSize" class="" type="number" value="{{data.data.slotSize}}">
+                {{else}}
+                    <span class="text-flex-end">{{data.data.slotSize}}</span>
+                {{/if}}
+            </div>
+        </li>
+    {{/if}}
+    {{#if data.data.hasOptionalSlots}}
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.itemSheet.cyberware.optionalSlots"}}
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                {{#if this.editable}}
+                    <input name="data.optionSlots" class="" type="text" value="{{data.data.optionSlots}}">
+                {{else}}
+                    <span class="text-flex-end">{{data.data.optionSlots}}</span>
+                {{/if}}
+            </div>
+        </li>
+    {{/if}}
+    <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+            {{localize "CPR.itemSheet.common.isAWeapon"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+            {{#if this.editable}}
+                <select name="data.isWeapon" data-dtype="{{data.data.isWeapon}}">
+                    {{#select data.data.isWeapon}}
+                        <option value="false">{{localize "CPR.global.generic.false"}}</option>
+                        <option value="true">{{localize "CPR.global.generic.true"}}</option>
+                    {{/select}}
+                </select>
+            {{else}}
+                <span class="text-flex-end">{{localize (objConcat "CPR.global.generic." data.data.isWeapon)}}</span>
+            {{/if}}
+        </div>
+    </li>
+{{/unless}}
+{{#if (compare data.data.isWeapon "===" "true")}}
+    {{> "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-weapon.hbs" this}}
+{{/if}}
+{{trace "END CPR-CYBERWARE.HBS"}}

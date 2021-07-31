@@ -9,7 +9,7 @@
     <div class="item-header-section items-list flexcol">
       <li class="item flexrow">
         <div class="item-name text-large text-bold text-left text-padding-left">
-          {{item.name}}
+          {{item.name}}{{#if (isUpgradable item.type)}}{{#if item.data.data.isUpgraded}}<sup><i title="{{localize "CPR.upgraded"}}" class="fab fa-uniregistry"></sup></i>{{/if}}{{/if}}
         </div>
         <div class="item-detail text-right text-padding-right">
            {{#if (isDebug)}}({{item.id}}){{/if}}
@@ -37,10 +37,10 @@
         {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/description/cpr-VAR.hbs" item.type) this}}
       </div>
       <div class="tab item-settings-grid" data-group="primary" data-tab="item-settings">
-        {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-VAR.hbs" item.type) this}}
+        {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-settings.hbs" this}}
       </div>
     </div>
 
   </div>
 </form>
-{{trace "CPR-ITEM-SHEET.HBS"}}
+{{trace "END CPR-ITEM-SHEET.HBS"}}

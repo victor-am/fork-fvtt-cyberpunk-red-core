@@ -1,3 +1,6 @@
+/* eslint-disable foundry-cpr/logger-after-function-definition */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-undef */
@@ -425,12 +428,13 @@ export default class Migration {
     });
 
     // Remove any installed items from the core content since the actorData has those items
+    let coreContent = content;
     installedCyberware.forEach((c) => {
-      content = content.filter((cw) => cw.name !== c.name);
+      coreContent = coreContent.filter((cw) => cw.name !== c.name);
     });
 
     // Anything left in content is missing
-    return content;
+    return coreContent;
   }
 
   static _migrateCriticalInjuries(actorData) {
@@ -508,6 +512,10 @@ export default class Migration {
         this._migrateNetArchitecture(itemData, updateData);
         break;
       }
+      case "armor": {
+        this._migrateArmor(itemData, updateData);
+        break;
+      }
       default:
     }
     return updateData;
@@ -528,6 +536,54 @@ export default class Migration {
     if ((typeof itemData.data.unarmedAutomaticCalculation) === "undefined") {
       updateData["data.unarmedAutomaticCalculation"] = true;
     }
+    return updateData;
+  }
+
+  static _migrateArmor(itemData, updateData) {
+    if ((typeof itemData.data.headLocation.sp) !== "number") {
+      let newValue = 0;
+      if ((typeof itemData.data.headLocation.sp) !== "undefined") {
+        const spValue = Number(itemData.data.headLocation.sp);
+        if (typeof spValue === "number") {
+          newValue = spValue;
+        }
+      }
+      updateData["data.headLocation.sp"] = newValue;
+    }
+
+    if ((typeof itemData.data.bodyLocation.sp) !== "number") {
+      let newValue = 0;
+      if ((typeof itemData.data.bodyLocation.sp) !== "undefined") {
+        const spValue = Number(itemData.data.bodyLocation.sp);
+        if (typeof spValue === "number") {
+          newValue = spValue;
+        }
+      }
+      updateData["data.bodyLocation.sp"] = newValue;
+    }
+
+    if ((typeof itemData.data.shieldHitPoints.max) !== "number") {
+      let newValue = 0;
+      if ((typeof itemData.data.shieldHitPoints.max) !== "undefined") {
+        const hpValue = Number(itemData.data.shieldHitPoints.max);
+        if (typeof hpValue === "number") {
+          newValue = hpValue;
+        }
+      }
+      updateData["data.shieldHitPoints.max"] = newValue;
+    }
+
+    if ((typeof itemData.data.shieldHitPoints.value) !== "number") {
+      let newValue = 0;
+      if ((typeof itemData.data.shieldHitPoints.value) !== "undefined") {
+        const hpValue = Number(itemData.data.shieldHitPoints.value);
+        if (typeof hpValue === "number") {
+          newValue = hpValue;
+        }
+      }
+      updateData["data.shieldHitPoints.value"] = newValue;
+    }
+
     return updateData;
   }
 
@@ -657,12 +713,46 @@ export default class Migration {
   static _migrateVehicle(itemData, updateData) {
     if ((typeof itemData.data.sdp) === "undefined") {
       updateData["data.sdp"] = 0;
+    } else if ((typeof itemData.data.sdp) !== "number") {
+      let newSdp = Number(itemData.data.sdp);
+      if (typeof newSdp !== "number") {
+        newSdp = 0;
+      }
+      updateData["data.sdp"] = newSdp;
     }
 
     if ((typeof itemData.data.spd) !== "undefined") {
-      updateData["data.sdp"] = itemData.data.spd;
+      let newSdp = Number(itemData.data.spd);
+      if (typeof newSdp !== "number") {
+        newSdp = 0;
+      }
+      updateData["data.sdp"] = newSdp;
       updateData["data.-=spd"] = null;
     }
+
+    if ((typeof itemData.data.seats) !== "number") {
+      let newSeats = Number(itemData.data.seats);
+      if (typeof newSeats !== "number") {
+        newSeats = 0;
+      }
+      updateData["data.seats"] = newSeats;
+    }
+
+    if (typeof itemData.data.speedCombat !== "number") {
+      const currentSetting = itemData.data.speedCombat;
+      let newSpeedCombat = 0;
+      if (typeof currentSetting === "string") {
+        const stringParts = currentSetting.split(" ");
+        if (stringParts.length > 0) {
+          const oldSpeed = Number(stringParts[0]);
+          if (typeof oldSpeed === "number") {
+            newSpeedCombat = oldSpeed;
+          }
+        }
+      }
+      updateData["data.speedCombat"] = newSpeedCombat;
+    }
+
     return updateData;
   }
 
@@ -696,6 +786,9 @@ export default class Migration {
       updateData["data.type"] = "cyberArm";
     }
 
+    if (typeof itemData.data.isWeapon !== "boolean") {
+      updateData["data.isWeapon"] = false;
+    }
     return updateData;
   }
 

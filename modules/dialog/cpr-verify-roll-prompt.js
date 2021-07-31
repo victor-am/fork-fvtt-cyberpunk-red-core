@@ -5,6 +5,7 @@ import LOGGER from "../utils/cpr-logger.js";
 
 export default class VerifyRollPrompt {
   static async RenderPrompt(cprRoll) {
+    LOGGER.trace("RenderPrompt | VerifyRollPrompt | called.");
     return new Promise((resolve, reject) => {
       renderTemplate(cprRoll.rollPrompt, cprRoll).then((html) => {
         const _onCancel = () => {

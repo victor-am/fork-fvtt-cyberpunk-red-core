@@ -78,6 +78,44 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
   }
 
   /**
+   * We extend CPRContainerSheet._render to enable automatic fitting of the content to the window size.
+   *
+   * @override
+   * @private
+   * @param {Boolean} force - for this to be rendered. We don't use this, but the parent class does.
+   * @param {Object} options - rendering options that are passed up the chain to the parent
+   */
+  async _render(force = false, options = {}) {
+    LOGGER.trace("_render | CPRContainerSheet | Called.");
+    await super._render(force, options);
+    this._automaticContentResize();
+  }
+
+  /**
+   * We extend CPRContainerSheet._onRezize to enable automatic fitting of the content to the window size.
+   *
+   * @override
+   * @private
+   * @param {event} event - object capruting evene t data
+   */
+  _onResize(event) {
+    LOGGER.trace("_onResize | CPRContainerSheet | Called.");
+    this._automaticContentResize();
+    super._onResize(event);
+  }
+
+  /**
+   * Automatically resize the content such that it fills the window.
+   *
+   * @private
+   */
+  _automaticContentResize() {
+    LOGGER.trace("_automaticContentResize | CPRContainerSheet | Called.");
+    const newHeight = this.position.height - 46;
+    this.form.children[0].children[1].setAttribute("style", `height:${newHeight}px`);
+  }
+
+  /**
    * Override the _itemAction() of the CPRActorSheet to add "purchase" action
    * and remove non needed other action types.
    *
@@ -254,13 +292,8 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
   _checkboxToggle(event) {
     LOGGER.trace("_checkboxToggle | CPRContainerSheet | Called.");
     const flagName = $(event.currentTarget).attr("data-flag-name");
-    const flag = getProperty(this.actor.data, `flags.cyberpunk-red-core.${flagName}`);
-    if (flag === undefined || flag === false) {
-      // if the flag was already set to firemode, that means we unchecked a box
-      this.actor.setFlag("cyberpunk-red-core", flagName, true);
-    } else {
-      this.actor.unsetFlag("cyberpunk-red-core", flagName);
-    }
+    const actor = this.token === null ? this.actor : this.token.actor;
+    actor.toggleFlag(flagName);
   }
 
   /**
@@ -273,45 +306,8 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
   async _setContainerType(event) {
     LOGGER.trace("_setContainerType | CPRContainerSheet | Called.");
     const containerType = $(event.currentTarget).val();
-    await this.actor.setFlag("cyberpunk-red-core", "container-type", containerType);
-    switch (containerType) {
-      case "shop": {
-        // setting flags is an async operation; we wait for them all in parallel
-        await Promise.all([
-          this.actor.unsetFlag("cyberpunk-red-core", "items-free"),
-          this.actor.unsetFlag("cyberpunk-red-core", "players-create"),
-          this.actor.unsetFlag("cyberpunk-red-core", "players-delete"),
-          this.actor.unsetFlag("cyberpunk-red-core", "players-modify"),
-        ]);
-        break;
-      }
-      case "loot": {
-        await Promise.all([
-          this.actor.unsetFlag("cyberpunk-red-core", "infinite-stock"),
-          this.actor.setFlag("cyberpunk-red-core", "items-free", true),
-          this.actor.unsetFlag("cyberpunk-red-core", "players-create"),
-          this.actor.unsetFlag("cyberpunk-red-core", "players-delete"),
-          this.actor.unsetFlag("cyberpunk-red-core", "players-modify"),
-        ]);
-        break;
-      }
-      case "stash": {
-        await Promise.all([
-          this.actor.unsetFlag("cyberpunk-red-core", "infinite-stock"),
-          this.actor.setFlag("cyberpunk-red-core", "items-free", true),
-          this.actor.setFlag("cyberpunk-red-core", "players-create", true),
-          this.actor.setFlag("cyberpunk-red-core", "players-delete", true),
-          this.actor.setFlag("cyberpunk-red-core", "players-modify", true),
-        ]);
-        break;
-      }
-      case "custom": {
-        break;
-      }
-      default: {
-        break;
-      }
-    }
+    const actor = this.token === null ? this.actor : this.token.actor;
+    return actor.setContainerType(containerType);
   }
 
   /**
