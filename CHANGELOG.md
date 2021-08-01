@@ -34,6 +34,7 @@
         - This will allow capability to create Gear items, such as certain drugs (Black Lace, Boost and Synthcoke) and add an Item Upgrade to affect the core stat. Ideally this will be covered with Active Effects, when we get to implementing that, but this is one way to do it for now.
 - Inventory items which are upgraded will have a unique "U" identifier appended to their name
 - When actors own an Item Upgrade Object, any items they own which match the Item Upgrade Type will have an action item added to their line in the inventory allowing you to easily install the upgrade to that item.
+- An "Item Upgrade" compendium has now been provided with examples of Cyberdeck and Weapon Upgrades.
 - Added possibility to split items into separate stacks for ammo, gear and clothing.
 - Some Items can now be automatically stacked, when dragged onto the character sheet or being purchased/taken from a container. This is enabled for the following Item types: Ammo, Gear, Clothing
 - Added feature to purchase/take only a part of the items offered in a container actor.
