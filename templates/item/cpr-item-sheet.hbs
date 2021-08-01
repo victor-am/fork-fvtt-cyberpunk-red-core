@@ -13,7 +13,7 @@
         </div>
         <div class="item-detail text-right text-padding-right">
            {{#if (isDebug)}}({{item.id}}){{/if}}
-          {{localize (findConfigValue "objectTypes" item.type)}}{{#if (compare data.data.source "!==" "")}} | {{data.data.source}}{{/if}}
+          {{localize (findConfigValue "objectTypes" item.type)}} <a class="fas fa-question-circle help-article" href="https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/wikis/help-articles/{{item.type}}" title="{{localize "CPR.global.generic.helparticle"}}"></a>{{#if (compare data.data.source "!==" "")}} | {{data.data.source}}{{/if}}
         </div>
         {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/header/cpr-VAR.hbs" item.type) this}}
       </li>

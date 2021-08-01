@@ -289,6 +289,7 @@
     "CPR.global.generic.description": "Description",
     "CPR.global.generic.false": "False",
     "CPR.global.generic.foundational": "Foundational",
+    "CPR.global.generic.helparticle": "Help Article",
     "CPR.global.generic.hitpoints": "Hit Points",
     "CPR.global.generic.hitpointsShort": "HP",
     "CPR.global.generic.install": "Install",
