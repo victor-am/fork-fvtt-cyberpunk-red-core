@@ -109,7 +109,7 @@ export default class Migration {
     const updateData = {};
 
     // Remove flags from container actors, they should be configured on token actors
-    if (actorData.type === "container" && dataSource === "actor") {
+    if (actorData.type === "container" && dataSource === "actor" && !actorData.token.actorLink) {
       updateData["flags.cyberpunk-red-core.-=infinite-stock"] = null;
       updateData["flags.cyberpunk-red-core.-=items-free"] = null;
       updateData["flags.cyberpunk-red-core.-=players-create"] = null;
