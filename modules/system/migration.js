@@ -54,7 +54,8 @@ export default class Migration {
         if (a.type === "character" || a.type === "mook") {
           await this.createActorItems(a);
         }
-        const updateData = this.migrateActorData(a.data);
+
+        const updateData = this.migrateActorData(a.data, "actor");
         if (!foundry.utils.isObjectEmpty(updateData)) {
           this._migrationLog(`Migrating Actor entity ${a.name}`);
           await a.update(updateData, { enforceTypes: false });
@@ -104,8 +105,21 @@ export default class Migration {
   }
 
   // @param {object} actorData    The actor data object to update
-  static migrateActorData(actorData) {
+  static migrateActorData(actorData, dataSource) {
     const updateData = {};
+
+    // Remove flags from container actors, they should be configured on token actors
+    if (actorData.type === "container" && dataSource === "actor") {
+      updateData["flags.cyberpunk-red-core.-=infinite-stock"] = null;
+      updateData["flags.cyberpunk-red-core.-=items-free"] = null;
+      updateData["flags.cyberpunk-red-core.-=players-create"] = null;
+      updateData["flags.cyberpunk-red-core.-=players-delete"] = null;
+      updateData["flags.cyberpunk-red-core.-=players-modify"] = null;
+      updateData["flags.cyberpunk-red-core.-=shop"] = null;
+      updateData["flags.cyberpunk-red-core.-=stash"] = null;
+      updateData["flags.cyberpunk-red-core.-=loot"] = null;
+      updateData["flags.cyberpunk-red-core.-=custom"] = null;
+    }
 
     // Migrate Owned Items
     if (actorData.items) {
@@ -861,7 +875,7 @@ export default class Migration {
       try {
         switch (entity) {
           case "Actor": {
-            updateData = this.migrateActorData(doc.data);
+            updateData = this.migrateActorData(doc.data, "compendium");
             break;
           }
           case "Item": {
@@ -911,7 +925,7 @@ export default class Migration {
         const actorData = duplicate(token.actor.data);
         actorData.type = token.actor?.type;
 
-        const updateData = this.migrateActorData(actorData);
+        const updateData = this.migrateActorData(actorData, "token");
         ["items", "effects"].forEach((embeddedName) => {
           if (!updateData[embeddedName]?.length) return;
           const embeddedUpdates = new Map(updateData[embeddedName].map((u) => [u._id, u]));
