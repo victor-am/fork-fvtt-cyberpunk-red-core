@@ -66,7 +66,7 @@
 - Fixed #287: Typing "/red Xd6" would produce "criticals" whenever the initial result was 6. This has been fixed to behave like a normal damage roll.
 - Fixed #285: Character sheet, Roll Tab, Abilities' names are truncated unless you have Medtech on the list.
 - Fixed #260: Players can move container actors - added another configurable option to allow players to move containers. The defaults are: Stash:yes, Loot:no, Shop:no, Custom:configurable
-- Fixed #261: Container actor tokens are not persisting their configuration when the token is unlinked - moved persisting of flags to the actor instead of doing it from the sheet.
+- Fixed #261: Container actor tokens are not persisting their configuration when the token is unlinked - Foundry appears to share flag settings between actor & tokens so to solve this issue, the container settings were moved to persisting flags to the token actor. Configuring non-token actors has been disabled. Existing containers may need to be re-configured on the token post-migration.
 - Fixed an issue with Firefox browsers throwing an error when using our default SVG images.  The SVG tag we were using defined the height/width using a style property, however, Firefox perfers individual height and width properties.
 
 # Version 0.77.1 | Date: 2021-06-29
