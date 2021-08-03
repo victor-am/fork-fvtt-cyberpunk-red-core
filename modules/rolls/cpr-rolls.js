@@ -1,6 +1,5 @@
-/* eslint-disable no-undef */
 /* eslint-disable max-classes-per-file */
-/* global Roll */
+/* global Roll game mergeObject */
 import LOGGER from "../utils/cpr-logger.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
@@ -9,7 +8,7 @@ import VerifyRoll from "../dialog/cpr-verify-roll-prompt.js";
 export class CPRRoll {
   // Generic roll handler for CPR
   constructor(rollTitle, formula) {
-    LOGGER.trace(`CPRRoll | Constructor`);
+    LOGGER.trace("constructor | CPRRoll | Called.");
     // (private) the resulting Roll() object from Foundry
     this._roll = null;
     // (private) a stack of mods to apply to the roll
@@ -388,7 +387,6 @@ export class CPRTableRoll extends CPRRoll {
     (tableRoll.terms[0].results).forEach((die) => {
       this.faces.push(die.result);
     });
-    // eslint-disable-next-line prefer-destructuring
     this.resultTotal = tableRoll.result;
     this._roll = tableRoll;
   }

@@ -1,15 +1,29 @@
-/* eslint-disable no-undef */
+/* global Hooks game Macro */
 import LOGGER from "../utils/cpr-logger.js";
 
+/**
+ * Hooks have a set of args that are passed to them from Foundry. Even if we do not use them here,
+ * we document them all for clarity's sake and to make future development/debugging easier.
+ */
 const hotbarHooks = () => {
-  Hooks.on("hotbarDrop", async (bar, data, slot) => {
+  /**
+   * The hotbarDrop Hook is provided by Foundry and triggered here. When something is dropped on the hotbar, this
+   * fires. In our code, we use that translate a dragged thing into a usable macro. Examples:
+   *
+   * Create a macro when dropping an entity on the hotbar
+   * Item      - open roll dialog for item
+   * Actor     - open actor sheet
+   * Journal   - open journal sheet
+   *
+   * @public
+   * @memberof hookEvents
+   * @param {Hotbar} (unused)    - the instance of the Hotbar object provided by Foundry
+   * @param {Object} data        - a trimmed object representing what dragged
+   * @param {Number} slot        - The slot # that was dragged to
+   * @return {Null}
+   */
+  Hooks.on("hotbarDrop", async (_, data, slot) => {
     LOGGER.trace("hotbarDrop | hotbarHooks | Called.");
-    /**
-             * Create a macro when dropping an entity on the hotbar
-             * Item      - open roll dialog for item
-             * Actor     - open actor sheet
-             * Journal   - open journal sheet
-             */
     if (data.type === "Item") {
       if (data.data === undefined || data.data._id === undefined) {
         return;

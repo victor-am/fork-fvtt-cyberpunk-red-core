@@ -979,6 +979,16 @@ button,
 .role-list-content li:nth-child(odd) {
   background-color: #eaeaeaff;
 }
+.help-article,
+.help-article:link,
+.help-article:hover,
+.help-article:visited,
+.help-article:focus,
+.help-article:active {
+  text-decoration: none;
+  color: inherit;
+  cursor: auto;
+}
 .text-smallest {
   font-size: 0.5rem;
 }
@@ -1439,6 +1449,40 @@ button,
 }
 .mook-sheet .mook-edit-section {
   min-height: 80px;
+  min-width: 135px;
+  height: unset;
+  display: flex;
+  flex: 1 0 auto;
+  background-color: #eaeaeaff;
+  flex-wrap: wrap;
+}
+.mook-sheet-limited {
+  font-family: "Audimat Mono";
+  display: grid;
+  grid-template-columns: 161px 32px 1fr;
+  grid-template-areas: "mook-image-limited mook-name-limited mook-notes-limited";
+}
+.mook-sheet-limited .mook-image-limited {
+  grid-area: mook-image-limited;
+  clip-path: polygon(30px 0, 100% 0, 100% 100%, 0 100%, 0 30px);
+  width: 151px;
+  height: 151px;
+  margin: 5px;
+}
+.mook-sheet-limited .mook-image-limited .mook-image-block-img {
+  width: 151px;
+  height: 151px;
+  object-fit: contain;
+  border: 0;
+}
+.mook-sheet-limited .mook-name-limited {
+  grid-area: mook-name-limited;
+}
+.mook-sheet-limited .mook-notes-limited {
+  grid-area: mook-notes-limited;
+}
+.mook-sheet-limited .mook-edit-section-limited {
+  min-height: 135px;
   min-width: 135px;
   height: unset;
   display: flex;
