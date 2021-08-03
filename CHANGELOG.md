@@ -1,4 +1,13 @@
-# WIP Version 0.78.0 | Dev branch
+# WIP Version 0.79.0 | Dev branch
+
+**New Features**
+
+**Changes**
+
+**Bug Fixes**
+
+
+# Version 0.78.0 | Date: 2021-08-03
 
 **New Features**
 - Cyberware Items which act as weapons can now be configured as such
