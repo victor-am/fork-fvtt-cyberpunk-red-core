@@ -9,11 +9,11 @@
     <div class="item-header-section items-list flexcol">
       <li class="item flexrow">
         <div class="item-name text-large text-bold text-left text-padding-left">
-          {{item.name}}
+          {{item.name}}{{#if (isUpgradable item.type)}}{{#if item.data.data.isUpgraded}}<sup><i title="{{localize "CPR.upgraded"}}" class="fab fa-uniregistry"></sup></i>{{/if}}{{/if}}
         </div>
         <div class="item-detail text-right text-padding-right">
            {{#if (isDebug)}}({{item.id}}){{/if}}
-          {{localize (findConfigValue "objectTypes" item.type)}}{{#if (compare data.data.source "!==" "")}} | {{data.data.source}}{{/if}}
+          {{localize (findConfigValue "objectTypes" item.type)}} <a class="fas fa-question-circle help-article" href="https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/wikis/help-articles/{{item.type}}" title="{{localize "CPR.global.generic.helparticle"}}"></a>{{#if (compare data.data.source "!==" "")}} | {{data.data.source}}{{/if}}
         </div>
         {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/header/cpr-VAR.hbs" item.type) this}}
       </li>
@@ -25,10 +25,10 @@
     <div class="item-bottom-tabs-section">
       <nav class="navtabs-item cpr-tabs nav" data-group="primary">
         <div class="tab-pink-underlay">
-          <a class="tab-label text-small tab-indent" data-tab="item-description">{{localize "CPR.description"}}</a>
+          <a class="tab-label text-small tab-indent" data-tab="item-description">{{localize "CPR.global.generic.description"}}</a>
         </div>
         <div class="tab-pink-underlay">
-          <a class="tab-label text-small tab-indent" data-tab="item-settings">{{localize "CPR.settings"}}</a>
+          <a class="tab-label text-small tab-indent" data-tab="item-settings">{{localize "CPR.settings.title"}}</a>
         </div>
       </nav>
     </div>
@@ -37,10 +37,10 @@
         {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/description/cpr-VAR.hbs" item.type) this}}
       </div>
       <div class="tab item-settings-grid" data-group="primary" data-tab="item-settings">
-        {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-VAR.hbs" item.type) this}}
+        {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-settings.hbs" this}}
       </div>
     </div>
 
   </div>
 </form>
-{{trace "CPR-ITEM-SHEET.HBS"}}
+{{trace "END CPR-ITEM-SHEET.HBS"}}

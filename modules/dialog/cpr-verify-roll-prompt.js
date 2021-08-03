@@ -5,6 +5,7 @@ import LOGGER from "../utils/cpr-logger.js";
 
 export default class VerifyRollPrompt {
   static async RenderPrompt(cprRoll) {
+    LOGGER.trace("RenderPrompt | VerifyRollPrompt | called.");
     return new Promise((resolve, reject) => {
       renderTemplate(cprRoll.rollPrompt, cprRoll).then((html) => {
         const _onCancel = () => {
@@ -44,12 +45,12 @@ export default class VerifyRollPrompt {
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
-              label: SystemUtils.Localize("CPR.cancel"),
+              label: SystemUtils.Localize("CPR.dialog.common.cancel"),
               callback: () => _onCancel(html),
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: SystemUtils.Localize("CPR.confirm"),
+              label: SystemUtils.Localize("CPR.dialog.common.confirm"),
               // eslint-disable-next-line no-shadow
               callback: (html) => _onConfirm(html),
             },

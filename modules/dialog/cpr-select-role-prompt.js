@@ -5,6 +5,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class SelectRolesPrompt {
   static async RenderPrompt(data) {
+    LOGGER.trace("RenderPrompt | SelectRolesPrompt | called.");
     const template = "systems/cyberpunk-red-core/templates/dialog/cpr-select-roles-prompt.hbs";
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {
@@ -26,17 +27,17 @@ export default class SelectRolesPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.selectroleprompttitle"),
+          title: SystemUtils.Localize("CPR.dialog.selectRoles.title"),
           content: html,
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
-              label: SystemUtils.Localize("CPR.cancel"),
+              label: SystemUtils.Localize("CPR.dialog.common.cancel"),
               callback: (html) => _onCancel(html), // TODO fix no-shadow
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: SystemUtils.Localize("CPR.confirm"),
+              label: SystemUtils.Localize("CPR.dialog.common.confirm"),
               callback: (html) => _onConfirm(html), // TODO fix no-shadow
             },
           },

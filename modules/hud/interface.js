@@ -5,6 +5,7 @@ import LOGGER from "../utils/cpr-logger.js";
 
 export default class HudInterface {
   static async SetDvTable(tokenData) {
+    LOGGER.trace("SetDvTable | HudInterface | Called.");
     const dvTables = DvUtils.GetDvTables();
     const formData = await HudPrompt.RenderPrompt("dv", dvTables).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {

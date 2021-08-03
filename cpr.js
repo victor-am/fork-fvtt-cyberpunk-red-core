@@ -30,32 +30,33 @@ Hooks.once("init", async () => {
   // Register Actor Sheet Application Classes
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("cyberpunk-red-core", CPRCharacterActorSheet,
-    { label: SystemUtils.Localize("CPR.charactersheet"), types: ["character", "mook"], makeDefault: true });
+    { label: SystemUtils.Localize("CPR.sheets.characterSheet"), types: ["character", "mook"], makeDefault: true });
   Actors.registerSheet("cyberpunk-red-core", CPRBlackIceActorSheet,
-    { label: SystemUtils.Localize("CPR.blackicesheet"), types: ["blackIce"], makeDefault: true });
+    { label: SystemUtils.Localize("CPR.sheets.blackiceSheet"), types: ["blackIce"], makeDefault: true });
   Actors.registerSheet("cyberpunk-red-core", CPRContainerActorSheet,
-    { label: SystemUtils.Localize("CPR.containersheet"), types: ["container"], makeDefault: true });
+    { label: SystemUtils.Localize("CPR.sheets.containerSheet"), types: ["container"], makeDefault: true });
   Actors.registerSheet("cyberpunk-red-core", CPRDemonActorSheet,
-    { label: SystemUtils.Localize("CPR.demonsheet"), types: ["demon"], makeDefault: true });
+    { label: SystemUtils.Localize("CPR.sheets.demonSheet"), types: ["demon"], makeDefault: true });
   Actors.registerSheet("cyberpunk-red-core", CPRMookActorSheet,
-    { label: SystemUtils.Localize("CPR.mooksheet"), types: ["character", "mook"] });
+    { label: SystemUtils.Localize("CPR.sheets.mookSheet"), types: ["character", "mook"] });
 
   // Register Item Sheet Application Classes
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("cyberpunk-red-core", CPRItemSheet, {
     types: [
+      "ammo",
+      "armor",
+      "clothing",
+      "criticalInjury",
       "cyberdeck",
       "cyberware",
-      "clothing",
-      "weapon",
-      "armor",
-      "ammo",
       "gear",
-      "skill",
-      "criticalInjury",
-      "vehicle",
-      "program",
+      "itemUpgrade",
       "netarch",
+      "program",
+      "skill",
+      "vehicle",
+      "weapon",
     ],
     makeDefault: true,
   });
@@ -88,7 +89,7 @@ Hooks.once("ready", () => {
   if (!game.user.isGM) return;
   // This defines the version of the Data Model for this release.  We should
   // only update this when the Data Model Changes.
-  const DATA_MODEL_VERSION = "0.77.3";
+  const DATA_MODEL_VERSION = "0.78.0";
   // Get the version of the data model being used for the loaded world. At
   // the end of a migration, this is updated with the current version of the
   // CPR system.

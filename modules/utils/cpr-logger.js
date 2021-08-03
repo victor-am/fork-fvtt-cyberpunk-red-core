@@ -1,3 +1,4 @@
+/* eslint-disable foundry-cpr/logger-after-function-definition */
 /* eslint no-console:0 */
 /* global game */
 export default class LOGGER {

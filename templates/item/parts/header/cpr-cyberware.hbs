@@ -1,9 +1,10 @@
+{{trace "CPR-CYBERWARE.HBS"}}
 <li class="text-padding-left">{{localize (findConfigValue "cyberwareTypeList" data.data.type)}}</li>
 <li class="text-padding-left">
 {{#if data.data.isFoundational}}
-{{localize "CPR.foundational"}} {{localize "CPR.cyberware"}}
+{{localize "CPR.global.generic.foundational"}} {{localize "CPR.global.itemTypes.cyberware"}}
 {{else}}
-{{localize "CPR.foundational"}} {{localize "CPR.cyberware"}} {{localize "CPR.option"}}
+{{localize "CPR.global.generic.foundational"}} {{localize "CPR.global.itemTypes.cyberware"}} {{localize "CPR.itemSheet.cyberware.option"}}
 {{/if}}
 </li>
-
+{{trace "END CPR-CYBERWARE.HBS"}}

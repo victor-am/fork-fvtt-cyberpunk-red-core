@@ -5,6 +5,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class NetarchLevelPrompt {
   static async RenderPrompt(data) {
+    LOGGER.trace("RenderPrompt | NetarchLevelPrompt | called.");
     const template = "systems/cyberpunk-red-core/templates/dialog/cpr-netarch-level-prompt.hbs";
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {
@@ -18,7 +19,7 @@ export default class NetarchLevelPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.netarchfloorcreate"),
+          title: SystemUtils.Localize("CPR.dialog.netArchitectureNewFloor.title"),
           content: html,
           buttons: {
             cancel: {

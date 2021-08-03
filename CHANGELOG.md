@@ -1,8 +1,79 @@
+# WIP Version 0.78.0 | Dev branch
+
+**New Features**
+- Cyberware Items which act as weapons can now be configured as such
+  - Core Rule Book Examples: Popup Weapons, Big Knucks, Wolvers, etc
+  - These weapons will show in the Fight Tab as Cyberware Weapons under the standard weapons
+- Introduction of the Item Object: Item Upgrade
+  - Initial implementation of the Item Upgrade Object enables:
+    - Upgrades to Weapons, Cyberdecks, Cyberware, Clothing, Armor and Gear
+    - Weapons
+      - Adding weapon attachments to weapons to can modify settings for ROF, Attack Modifier, Magazine Size & Damage
+        - For each of these data points, you have the option to modify or override the value of them allowing for flexibility in upgrade attachments
+        - Core Rule Book Examples: Drum Magazine, Extended Magainze
+      - Adding a secondary weapon as an attachment
+        - Core Rule Book Examples: Grenade Launcher Underbarrel, Shotgun Underbarrel, Bayonet
+    - Cyberdecks
+      - Item Upgrades occupy Option Slots, so it is now possible to use Item Upgrades to install & track Hardware Upgrades to the Cyberdeck
+        - Core Rule Book Examples: Backup Drive, DNA Lock, Range Upgrade, etc.
+      - Item Upgrades can be added to expand the amount of slots in the Cyberdeck. While there's no RAW for this, it has been added to support Homebrew.
+        - Example: USB Drive, External Drive, etc..
+    - Cyberware
+      - As some Cyberware is now Weapon Items, Item Upgrades can be used to add Attachment to these Weapon Types
+        - Example: Popup Assault Rifle w/ Underbarrel Grenade Launcher
+        - Note: While it is possible to install an Item Upgrade Weapon Attachment on a non-weapon cyberware, it will NOT display on the Fight Tab as it is not associated with a Cyberware Weapon
+    - Clothing
+      - Clothing can now have upgrades applied to them to modify COOL and the "Wardrobe & Style" Skill Rolls.
+        - Overriding stats/skills is not supported, all values will be treated as a modifier.
+        - Note: If the upgrade applies to COOL, it will affect ALL rolls of COOL (COOL Skills too).
+    - Armor
+      - Armor can now have upgrades applied to modify their SP on the head and/or body as well as to increase the HP on shields
+      - NOTE: Due to the way the shield mechanics work, you'll have to repair the shield after installing the item upgrade
+    - Gear
+      - Gear can now have upgrades applied to them that will allow equipping of the Gear to affect rolls of a base stat.
+        - This will allow capability to create Gear items, such as certain drugs (Black Lace, Boost and Synthcoke) and add an Item Upgrade to affect the core stat. Ideally this will be covered with Active Effects, when we get to implementing that, but this is one way to do it for now.
+- Inventory items which are upgraded will have a unique "U" identifier appended to their name
+- When actors own an Item Upgrade Object, any items they own which match the Item Upgrade Type will have an action item added to their line in the inventory allowing you to easily install the upgrade to that item.
+- An "Item Upgrade" compendium has now been provided with examples of Cyberdeck and Weapon Upgrades.
+- Added possibility to split items into separate stacks for ammo, gear and clothing.
+- Some Items can now be automatically stacked, when dragged onto the character sheet or being purchased/taken from a container. This is enabled for the following Item types: Ammo, Gear, Clothing
+- Added feature to purchase/take only a part of the items offered in a container actor.
+- Elflines Online
+  - A compendium has been added with 2 macros
+    - `Create an Elflines Online Character`: This macro will create a blank Elfline Online Character with skills as defined from the Elflines Online Skill List in the Elfline Online compendium released by RTG.
+    - `Create Elflines Online Armory`: This macro will create a folder of items as defined from the Elflines Online Armory in the Elfline Online compendium released by RTG.
+- Added Martial Arts weapon type, as it is slightly different from the Unarmed weapon type with the scaling for the damage in the case of a BODY of 4 or under while having a cyberarm (rule book pages 176 and 178)
+- Introduced a limited view of the mook sheet when a player only has limited permission on the mook
+- A compendium for clothing has been added (thanks @aarong123!)
+- Help article buttons (?) are now available on items when viewing them in the top-right corner. This will redirect you to the associated item help page on our wiki.
+
+**Changes**
+- Newly created actors and items will automatically have default icons configured.
+- Restructured the language file for easier translations.
+- Added test cases for code quality: The english language file is checked for unused strings and the changelog is checked for changes with each merge request.
+- Skills are now also sorted alphabetically on the character sheet if translated into languages other than English.
+- The price of an item is interpreted as the price of a single unit of an item. This has been now clarified with a text upon hovering over the word "Price" in the item setting page.
+  - The single unit of an item is 1, whith an exception for some of the ammunitions, where it is 10. Please have a look at the rule book page 344 for that.
+- The container sheet inventory will now stretch with the window length vertically
+- Many, many little tweaks and improvements to the French translation (thank you @h.gelis and @thevincekun)
+
+**Bug Fixes**
+- Fixed #263: New containers now show infinite stock option, as they are initialized as a shop.
+- Fix #265, #266, #267: Gear tab now remembers scroll position.
+- Fix #276: Items can be transferred from unlinked actors
+- Fixed, that number of options slots were not displayed in the item sheet description tab for foundational cyberware.
+- Fixed #262: Missing Expansive, Rubber and Smart Ammo for Very Heavy Pistols has been added to the compendium. Basic Grenade and Basic Rocket have been removed and should not exist according to allowed ammo type rules.
+- Fixed #287: Typing "/red Xd6" would produce "criticals" whenever the initial result was 6. This has been fixed to behave like a normal damage roll.
+- Fixed #285: Character sheet, Roll Tab, Abilities' names are truncated unless you have Medtech on the list.
+- Fixed #260: Players can move container actors - added another configurable option to allow players to move containers. The defaults are: Stash:yes, Loot:no, Shop:no, Custom:configurable
+- Fixed #261: Container actor tokens are not persisting their configuration when the token is unlinked - Foundry appears to share flag settings between actor & tokens so to solve this issue, the container settings were moved to persisting flags to the token actor. Configuring non-token actors has been disabled. Existing containers may need to be re-configured on the token post-migration.
+- Fixed an issue with Firefox browsers throwing an error when using our default SVG images.  The SVG tag we were using defined the height/width using a style property, however, Firefox perfers individual height and width properties.
+
 # Version 0.77.1 | Date: 2021-06-29
 **Hot Fix**
 - Corrected localization issue of text on chat cards when rolling Net Damage
 - Added Zap as a rollable interface ability as it was missing from the list (Zap damage will be handled in a future release)
-  
+
 # Version 0.77.0 | Date: 2021-06-25
 
 **Migration to foundry 0.8.X**

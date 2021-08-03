@@ -5,6 +5,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default class SetLifepathPrompt {
   static async RenderPrompt(data) {
+    LOGGER.trace("RenderPrompt | SetLifepathPrompt | called.");
     const template = "systems/cyberpunk-red-core/templates/dialog/cpr-set-lifepath-prompt.hbs";
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {
@@ -18,17 +19,17 @@ export default class SetLifepathPrompt {
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.setlifepathtitle"),
+          title: SystemUtils.Localize("CPR.dialog.setLifepath.title"),
           content: html,
           buttons: {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
-              label: SystemUtils.Localize("CPR.cancel"),
+              label: SystemUtils.Localize("CPR.dialog.common.cancel"),
               callback: (html) => _onCancel(html), // TODO fix no-shadow
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
-              label: SystemUtils.Localize("CPR.confirm"),
+              label: SystemUtils.Localize("CPR.dialog.common.confirm"),
               callback: (html) => _onConfirm(html), // TODO fix no-shadow
             },
           },

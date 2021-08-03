@@ -1,12 +1,12 @@
-{{trace "VERIFY-ROLL-DEATHSAVE-PROMPT.HBS"}}
+{{trace "CPR-VERIFY-ROLL-DEATHSAVE-PROMPT.HBS"}}
 <form>
     <div>
-        {{localize "CPR.rollingfor"}} "{{rollTitle}}", Choomba!
+        {{localize "CPR.rolls.rollingFor"}} "{{rollTitle}}", Choomba!
     </div>
     <ol class="items-list">
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.deathpenalty"}}:
+                {{localize "CPR.global.generic.deathPenalty"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="penalty" class="" type="number" data-dtype="Number" value={{penalty}}>
@@ -15,7 +15,7 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.base"}} {{localize "CPR.deathpenalty"}}:
+                {{localize "CPR.characterSheet.rightPanke.skills.base"}} {{localize "CPR.global.generic.deathPenalty"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="basePenalty" class="" type="number" data-dtype="Number" value={{basePenalty}}>
@@ -23,4 +23,4 @@
         </li>
     </ol>
 </form>
-{{trace "END VERIFY-ROLL-STAT-PROMPT.HBS"}}
+{{trace "END CPR-VERIFY-ROLL-DEATHSAVE-PROMPT.HBS"}}

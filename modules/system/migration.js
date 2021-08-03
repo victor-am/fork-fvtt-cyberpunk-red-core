@@ -1,3 +1,6 @@
+/* eslint-disable foundry-cpr/logger-after-function-definition */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-undef */
@@ -51,7 +54,8 @@ export default class Migration {
         if (a.type === "character" || a.type === "mook") {
           await this.createActorItems(a);
         }
-        const updateData = this.migrateActorData(a.data);
+
+        const updateData = this.migrateActorData(a.data, "actor");
         if (!foundry.utils.isObjectEmpty(updateData)) {
           this._migrationLog(`Migrating Actor entity ${a.name}`);
           await a.update(updateData, { enforceTypes: false });
@@ -101,8 +105,21 @@ export default class Migration {
   }
 
   // @param {object} actorData    The actor data object to update
-  static migrateActorData(actorData) {
+  static migrateActorData(actorData, dataSource) {
     const updateData = {};
+
+    // Remove flags from container actors, they should be configured on token actors
+    if (actorData.type === "container" && dataSource === "actor" && !actorData.token.actorLink) {
+      updateData["flags.cyberpunk-red-core.-=infinite-stock"] = null;
+      updateData["flags.cyberpunk-red-core.-=items-free"] = null;
+      updateData["flags.cyberpunk-red-core.-=players-create"] = null;
+      updateData["flags.cyberpunk-red-core.-=players-delete"] = null;
+      updateData["flags.cyberpunk-red-core.-=players-modify"] = null;
+      updateData["flags.cyberpunk-red-core.-=shop"] = null;
+      updateData["flags.cyberpunk-red-core.-=stash"] = null;
+      updateData["flags.cyberpunk-red-core.-=loot"] = null;
+      updateData["flags.cyberpunk-red-core.-=custom"] = null;
+    }
 
     // Migrate Owned Items
     if (actorData.items) {
@@ -425,12 +442,13 @@ export default class Migration {
     });
 
     // Remove any installed items from the core content since the actorData has those items
+    let coreContent = content;
     installedCyberware.forEach((c) => {
-      content = content.filter((cw) => cw.name !== c.name);
+      coreContent = coreContent.filter((cw) => cw.name !== c.name);
     });
 
     // Anything left in content is missing
-    return content;
+    return coreContent;
   }
 
   static _migrateCriticalInjuries(actorData) {
@@ -504,6 +522,14 @@ export default class Migration {
         updateData = this._migrateCyberware(itemData, updateData);
         break;
       }
+      case "netarch": {
+        this._migrateNetArchitecture(itemData, updateData);
+        break;
+      }
+      case "armor": {
+        this._migrateArmor(itemData, updateData);
+        break;
+      }
       default:
     }
     return updateData;
@@ -524,6 +550,54 @@ export default class Migration {
     if ((typeof itemData.data.unarmedAutomaticCalculation) === "undefined") {
       updateData["data.unarmedAutomaticCalculation"] = true;
     }
+    return updateData;
+  }
+
+  static _migrateArmor(itemData, updateData) {
+    if ((typeof itemData.data.headLocation.sp) !== "number") {
+      let newValue = 0;
+      if ((typeof itemData.data.headLocation.sp) !== "undefined") {
+        const spValue = Number(itemData.data.headLocation.sp);
+        if (typeof spValue === "number") {
+          newValue = spValue;
+        }
+      }
+      updateData["data.headLocation.sp"] = newValue;
+    }
+
+    if ((typeof itemData.data.bodyLocation.sp) !== "number") {
+      let newValue = 0;
+      if ((typeof itemData.data.bodyLocation.sp) !== "undefined") {
+        const spValue = Number(itemData.data.bodyLocation.sp);
+        if (typeof spValue === "number") {
+          newValue = spValue;
+        }
+      }
+      updateData["data.bodyLocation.sp"] = newValue;
+    }
+
+    if ((typeof itemData.data.shieldHitPoints.max) !== "number") {
+      let newValue = 0;
+      if ((typeof itemData.data.shieldHitPoints.max) !== "undefined") {
+        const hpValue = Number(itemData.data.shieldHitPoints.max);
+        if (typeof hpValue === "number") {
+          newValue = hpValue;
+        }
+      }
+      updateData["data.shieldHitPoints.max"] = newValue;
+    }
+
+    if ((typeof itemData.data.shieldHitPoints.value) !== "number") {
+      let newValue = 0;
+      if ((typeof itemData.data.shieldHitPoints.value) !== "undefined") {
+        const hpValue = Number(itemData.data.shieldHitPoints.value);
+        if (typeof hpValue === "number") {
+          newValue = hpValue;
+        }
+      }
+      updateData["data.shieldHitPoints.value"] = newValue;
+    }
+
     return updateData;
   }
 
@@ -653,12 +727,46 @@ export default class Migration {
   static _migrateVehicle(itemData, updateData) {
     if ((typeof itemData.data.sdp) === "undefined") {
       updateData["data.sdp"] = 0;
+    } else if ((typeof itemData.data.sdp) !== "number") {
+      let newSdp = Number(itemData.data.sdp);
+      if (typeof newSdp !== "number") {
+        newSdp = 0;
+      }
+      updateData["data.sdp"] = newSdp;
     }
 
     if ((typeof itemData.data.spd) !== "undefined") {
-      updateData["data.sdp"] = itemData.data.spd;
+      let newSdp = Number(itemData.data.spd);
+      if (typeof newSdp !== "number") {
+        newSdp = 0;
+      }
+      updateData["data.sdp"] = newSdp;
       updateData["data.-=spd"] = null;
     }
+
+    if ((typeof itemData.data.seats) !== "number") {
+      let newSeats = Number(itemData.data.seats);
+      if (typeof newSeats !== "number") {
+        newSeats = 0;
+      }
+      updateData["data.seats"] = newSeats;
+    }
+
+    if (typeof itemData.data.speedCombat !== "number") {
+      const currentSetting = itemData.data.speedCombat;
+      let newSpeedCombat = 0;
+      if (typeof currentSetting === "string") {
+        const stringParts = currentSetting.split(" ");
+        if (stringParts.length > 0) {
+          const oldSpeed = Number(stringParts[0]);
+          if (typeof oldSpeed === "number") {
+            newSpeedCombat = oldSpeed;
+          }
+        }
+      }
+      updateData["data.speedCombat"] = newSpeedCombat;
+    }
+
     return updateData;
   }
 
@@ -673,7 +781,7 @@ export default class Migration {
     // in it's name will be prepended with a MIGRATE tag to let users know there's a new item type.
     if (gearName.includes("cyberdeck")) {
       const oldName = itemData.name;
-      updateData.name = `${game.i18n.localize("CPR.migratetag")} ${oldName}`;
+      updateData.name = `${game.i18n.localize("CPR.migration.tag")} ${oldName}`;
     }
 
     return updateData;
@@ -692,6 +800,9 @@ export default class Migration {
       updateData["data.type"] = "cyberArm";
     }
 
+    if (typeof itemData.data.isWeapon !== "boolean") {
+      updateData["data.isWeapon"] = false;
+    }
     return updateData;
   }
 
@@ -702,6 +813,46 @@ export default class Migration {
   static _migrateSkill(itemData, updateData) {
     if ((typeof itemData.data.skillmod) !== "number") {
       updateData["data.skillmod"] = 0;
+    }
+
+    return updateData;
+  }
+
+  static _migrateNetArchitecture(itemData, updateData) {
+    if (itemData.data.floors.length !== 0) {
+      const newfloors = [];
+      itemData.data.floors.forEach((floor) => {
+        if (!floor.content.startsWith("CPR.netArchitecture.floor.options")) {
+          const splitString = floor.content.split(".");
+          const editedFloor = duplicate(floor);
+          switch (splitString[1]) {
+            case "password":
+            case "file":
+            case "controlnode": {
+              editedFloor.content = `CPR.netArchitecture.floor.options.${splitString[1]}`;
+              break;
+            }
+            case "demon":
+            case "balron":
+            case "efreet":
+            case "imp": {
+              editedFloor.content = `CPR.netArchitecture.floor.options.demon.${splitString[1]}`;
+              break;
+            }
+            case "blackice": {
+              editedFloor.content = "CPR.global.programClass.blackice";
+              break;
+            }
+            default: {
+              editedFloor.content = `CPR.netArchitecture.floor.options.blackIce.${splitString[1]}`;
+            }
+          }
+          newfloors.push(editedFloor);
+        } else {
+          newfloors.push(floor);
+        }
+      });
+      updateData["data.floors"] = newfloors;
     }
 
     return updateData;
@@ -724,7 +875,7 @@ export default class Migration {
       try {
         switch (entity) {
           case "Actor": {
-            updateData = this.migrateActorData(doc.data);
+            updateData = this.migrateActorData(doc.data, "compendium");
             break;
           }
           case "Item": {
@@ -774,7 +925,7 @@ export default class Migration {
         const actorData = duplicate(token.actor.data);
         actorData.type = token.actor?.type;
 
-        const updateData = this.migrateActorData(actorData);
+        const updateData = this.migrateActorData(actorData, "token");
         ["items", "effects"].forEach((embeddedName) => {
           if (!updateData[embeddedName]?.length) return;
           const embeddedUpdates = new Map(updateData[embeddedName].map((u) => [u._id, u]));

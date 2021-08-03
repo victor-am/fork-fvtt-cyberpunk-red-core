@@ -1,13 +1,13 @@
-{{trace "VERIFY-ROLL-AIMED-ATTACK-PROMPT.HBS"}}
+{{trace "CPR-VERIFY-ROLL-AIMED-ATTACK-PROMPT.HBS"}}
 <form>
     <div>
-        {{localize "CPR.rollingfor"}} {{localize "CPR.aimedshot"}} {{localize "CPR.with"}} "{{rollTitle}}", Choomba!
+        {{localize "CPR.rolls.rollingFor"}} {{localize "CPR.rolls.aimedShot"}} {{localize "CPR.global.generic.with"}} "{{rollTitle}}", Choomba!
     </div>
 
     <ol class="items-list">
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.stat"}} {{localize "CPR.value"}} ({{localize statName}}):
+                {{localize "CPR.global.generic.stat"}} {{localize "CPR.global.generic.value"}} ({{localize statName}}):
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="statValue" class="" type="number" data-dtype="Number" value={{statValue}}>
@@ -16,7 +16,7 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.skill"}} {{localize "CPR.value"}} ({{localize skillName}}):
+                {{localize "CPR.global.itemTypes.skill"}} {{localize "CPR.global.generic.value"}} ({{localize skillName}}):
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="skillValue" class="" type="number" data-dtype="Number" value={{skillValue}}>
@@ -25,7 +25,7 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.mods"}}:
+                {{localize "CPR.rolls.mods"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="mods" class="" type="text" data-dtype="String" value="{{mods}}">
@@ -34,7 +34,7 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.shouldrollcriticals"}}:
+                {{localize "CPR.rolls.shouldRollCriticals"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="calculateCritical" class="" type="checkbox" data-dtype="Checkbox" checked>
@@ -43,7 +43,7 @@
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.aimfor"}}:
+                {{localize "CPR.rolls.aimFor"}}:
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <select name="location">
@@ -56,4 +56,4 @@
 
     </ol>
 </form>
-{{trace "END VERIFY-ROLL-AIMED-ATTACK-PROMPT.HBS"}}
+{{trace "END CPR-VERIFY-ROLL-AIMED-ATTACK-PROMPT.HBS"}}
