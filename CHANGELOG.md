@@ -1,3 +1,7 @@
+# Version 0.78.1 | Date: 2021-08-04
+
+**Hot Fix**
+- Fixes issue #289: There was a naming conflict on Handlebar helpers between `CPR` and the module `Better Roll Tables`.  This hotfix prefixes our helper with `cpr` to avoid this conflict.  A more permanent solution will be implemented for all helpers next release.
 # Version 0.78.0 | Date: 2021-08-03
 
 **New Features**

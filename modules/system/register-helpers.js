@@ -90,7 +90,7 @@ export default function registerHandlebarsHelpers() {
     return true;
   });
 
-  Handlebars.registerHelper("isEmpty", (object) => {
+  Handlebars.registerHelper("cprIsEmpty", (object) => {
     if (typeof object === "object") {
       if (Array.isArray(object)) {
         if (object.length === 0) {
