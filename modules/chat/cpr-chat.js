@@ -1,3 +1,4 @@
+/* eslint-disable import/named */
 /* global game, CONFIG, ChatMessage, renderTemplate $ */
 import LOGGER from "../utils/cpr-logger.js";
 import { CPRRoll, CPRDamageRoll } from "../rolls/cpr-rolls.js";

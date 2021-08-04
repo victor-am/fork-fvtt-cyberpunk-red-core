@@ -1,6 +1,8 @@
-/* global Combat CONFIG game */
+/* eslint-disable no-await-in-loop */
+/* global Combat CONFIG game foundry */
 import LOGGER from "../utils/cpr-logger.js";
 import CombatUtils from "../utils/cpr-combatUtils.js";
+import CPRChat from "../chat/cpr-chat.js";
 
 /**
  * A custom class so we can override initiative behaviors for Black-ICE and Demons.
@@ -36,5 +38,46 @@ export default class CPRCombat extends Combat {
       return String(combatant.initiative);
     }
     return CONFIG.Combat.initiative.formula || game.system.data.initiative;
+  }
+
+  /**
+   * Roll initiative for one or multiple Combatants within the Combat entity
+   * @param {string|string[]} ids     A Combatant id or Array of ids for which to roll
+   * @param {object} [options={}]     Additional options which modify how initiative rolls are created or presented.
+   * @param {string|null} [options.formula]         A non-default initiative formula to roll. Otherwise the system default is used.
+   * @param {boolean} [options.updateTurn=true]     Update the Combat turn after adding new initiative scores to keep the turn on the same Combatant.
+   * @param {object} [options.messageOptions={}]    Additional options with which to customize created Chat Messages
+   * @return {Promise<Combat>}        A promise which resolves to the updated Combat entity once updates are complete.
+   */
+  async rollInitiative(ids, { formula = null, updateTurn = true, messageOptions = {} } = {}) {
+    LOGGER.trace("rollInitiative | CPRCombat | Called.");
+    // Structure input data
+    const combatantIds = typeof ids === "string" ? [ids] : ids;
+    const currentId = this.combatant.id;
+
+    // Iterate over Combatants, performing an initiative roll for each
+    const updates = [];
+    for (const [i, id] of combatantIds.entries()) {
+      // Get Combatant data (non-strictly)
+      const combatant = this.combatants.get(id);
+      if (!combatant?.isOwner) return;
+
+      // Produce an initiative roll for the Combatant
+      const cprRoll = (await combatant.getInitiativeRoll("1d10"));
+      updates.push({ _id: id, initiative: cprRoll.resultTotal });
+
+      cprRoll.entityData = { actor: combatant.actor?.id, token: combatant.token?.id };
+
+      CPRChat.RenderRollCard(cprRoll);
+    }
+    if (!updates.length) return;
+
+    // Update multiple combatants
+    await this.updateEmbeddedDocuments("Combatant", updates);
+
+    // Ensure the turn order remains with the same combatant
+    if (updateTurn) {
+      await this.update({ turn: this.turns.findIndex((t) => t.id === currentId) });
+    }
   }
 }

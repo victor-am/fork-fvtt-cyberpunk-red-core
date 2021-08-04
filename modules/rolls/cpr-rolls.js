@@ -142,6 +142,21 @@ export class CPRRoll {
   }
 }
 
+export class CPRInitiative extends CPRRoll {
+  constructor(formula, reflex) {
+    LOGGER.trace("constructor | CPRStatRoll | Called.");
+    super(SystemUtils.Localize("CPR.rolls.initiative"), formula);
+    this.statName = SystemUtils.Localize("CPR.global.stats.ref");
+    this.statValue = reflex;
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-initiative-rollcard.hbs";
+  }
+
+  _computeBase() {
+    LOGGER.trace("_computeBase | CPRStatRoll | Called.");
+    return this.initialRoll + this.totalMods() + this.statValue;
+  }
+}
+
 export class CPRStatRoll extends CPRRoll {
   constructor(name, value) {
     LOGGER.trace("constructor | CPRStatRoll | Called.");
