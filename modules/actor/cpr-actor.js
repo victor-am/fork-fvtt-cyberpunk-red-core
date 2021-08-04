@@ -1,6 +1,5 @@
 /* globals Actor, game, getProperty, setProperty, hasProperty, duplicate */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
-import CPRChat from "../chat/cpr-chat.js";
 import CPRLedger from "../dialog/cpr-ledger-form.js";
 import CPR from "../system/config.js";
 import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
@@ -324,41 +323,6 @@ export default class CPRActor extends Actor {
   }
 
   /**
-   * Called when cyberware is installed, this method decreases Humanity on an actor, rolling
-   * for the value if need be.
-   *
-   * @param {CPRItem} item - the Cyberware item being installed (provided just to name the roll)
-   * @param {String} amount - how much to decrease humanity by. Will roll dice if it is a formula.
-   * @returns {null}
-   */
-  async loseHumanityValue(item, amount) {
-    LOGGER.trace("loseHumanityValue | CPRActor | Called.");
-    if (amount.humanityLoss === "None") {
-      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was None.");
-      return;
-    }
-    const { humanity } = this.data.data.derivedStats;
-    let value = Number.isInteger(humanity.value) ? humanity.value : humanity.max;
-    if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
-      const humRoll = new CPRRolls.CPRHumanityLossRoll(item.data.name, amount.humanityLoss);
-      await humRoll.roll();
-      value -= humRoll.resultTotal;
-      humRoll.entityData = { actor: this.id };
-      CPRChat.RenderRollCard(humRoll);
-      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was rolled.");
-    } else {
-      value -= parseInt(amount.humanityLoss, 10);
-      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was static.");
-    }
-
-    if (value <= 0) {
-      Rules.lawyer(false, "CPR.messages.youCyberpsycho");
-    }
-
-    this.update({ "data.derivedStats.humanity.value": value });
-  }
-
-  /**
    * Return the Item object given an Id
    *
    * @private
@@ -384,17 +348,6 @@ export default class CPRActor extends Actor {
     roleList.push(activeRole);
     roleList = [...new Set(roleList)];
     return this.update({ "data.roleInfo.roles": roleList, "data.roleInfo.activeRole": activeRole });
-  }
-
-  /**
-   * Persist life path information to the actor model
-   *
-   * @param {Object} formData  - an object of answers provided by the user in a form
-   * @returns {Object}
-   */
-  setLifepath(formData) {
-    LOGGER.trace("setLifepath | CPRActor | Called.");
-    return this.update(formData);
   }
 
   /**
@@ -966,33 +919,6 @@ export default class CPRActor extends Actor {
       return false;
     }
     return true;
-  }
-
-  /**
-   * Called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
-   * It handles the automatic equipping of gear and installation of cyberware.
-   *
-   * @param {CPRItem} item - the item that was dragged
-   */
-  handleMookDraggedItem(item) {
-    LOGGER.trace("handleMookDraggedItem | CPRActor | Called.");
-    LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
-    LOGGER.debugObject(item);
-    switch (item.data.type) {
-      case "clothing":
-      case "weapon":
-      case "gear":
-      case "armor": {
-        // chose change done for 0.8.x, and not the fix from dev, as it seems to work without it.
-        this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.equipped": "equipped" }]);
-        break;
-      }
-      case "cyberware": {
-        this.addCyberware(item.id);
-        break;
-      }
-      default:
-    }
   }
 
   /**

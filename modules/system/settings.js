@@ -1,6 +1,9 @@
 /* global game */
 import LOGGER from "../utils/cpr-logger.js";
 
+/**
+ * This file defines user settings for the system module.
+ */
 const registerSystemSettings = () => {
   game.settings.register("cyberpunk-red-core", "calculateDerivedStats", {
     name: "CPR.settings.derivedStats.name",
