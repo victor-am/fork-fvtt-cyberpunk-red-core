@@ -250,10 +250,23 @@ export default class CPRChat {
             SystemUtils.DisplayMessage("warn", "CPR.chat.damageApplication.noTokenSelected");
             break;
           }
+          const allowedTypes = [
+            "character",
+            "mook",
+          ];
+          const failedActors = [];
           tokens.forEach((t) => {
             const { actor } = t;
-            actor._applyDamage(totalDamage, bonusDamage, location, ablation, ingoreHalfArmor);
+            if (allowedTypes.includes(actor.type)) {
+              actor._applyDamage(totalDamage, bonusDamage, location, ablation, ingoreHalfArmor);
+            } else {
+              failedActors.push(actor.name);
+            }
           });
+          if (failedActors.length !== 0) {
+            const message = SystemUtils.Format("CPR.chat.damageApplication.actorNotSupported", { types: allowedTypes.join(" "), names: failedActors.join(" ") });
+            SystemUtils.DisplayMessage("warn", message);
+          }
           break;
         }
         default: {

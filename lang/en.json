@@ -101,6 +101,7 @@
     "CPR.chat.blind": "Blind",
     "CPR.chat.self": "Self",
     "CPR.chat.whisper": "Whisper",
+    "CPR.chat.damageApplication.actorNotSupported": "Error: Only the following actor types support automatic damage application right now: {types}<br>For the following actors the damge was not applied: {names}.",
     "CPR.chat.damageApplication.applyDamage": "Apply Damage",
     "CPR.chat.damageApplication.noTokenSelected": "Error: No Token selected!",
     "CPR.combatUtils.noCombatSelected": "No combat encounter selected!",
