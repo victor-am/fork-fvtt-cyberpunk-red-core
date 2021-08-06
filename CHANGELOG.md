@@ -1,4 +1,16 @@
-# WIP Version 0.78.0 | Dev branch
+# WIP Version 0.79.0 | Dev branch
+
+**New Features**
+
+**Changes**
+
+**Bug Fixes**
+
+# Version 0.78.1 | Date: 2021-08-04
+
+**Hot Fix**
+- Fixes issue #289: There was a naming conflict on Handlebar helpers between `CPR` and the module `Better Roll Tables`.  This hotfix prefixes our helper with `cpr` to avoid this conflict.  A more permanent solution will be implemented for all helpers next release.
+# Version 0.78.0 | Date: 2021-08-03
 
 **New Features**
 - Cyberware Items which act as weapons can now be configured as such
@@ -34,6 +46,7 @@
         - This will allow capability to create Gear items, such as certain drugs (Black Lace, Boost and Synthcoke) and add an Item Upgrade to affect the core stat. Ideally this will be covered with Active Effects, when we get to implementing that, but this is one way to do it for now.
 - Inventory items which are upgraded will have a unique "U" identifier appended to their name
 - When actors own an Item Upgrade Object, any items they own which match the Item Upgrade Type will have an action item added to their line in the inventory allowing you to easily install the upgrade to that item.
+- An "Item Upgrade" compendium has now been provided with examples of Cyberdeck and Weapon Upgrades.
 - Added possibility to split items into separate stacks for ammo, gear and clothing.
 - Some Items can now be automatically stacked, when dragged onto the character sheet or being purchased/taken from a container. This is enabled for the following Item types: Ammo, Gear, Clothing
 - Added feature to purchase/take only a part of the items offered in a container actor.
@@ -41,6 +54,10 @@
   - A compendium has been added with 2 macros
     - `Create an Elflines Online Character`: This macro will create a blank Elfline Online Character with skills as defined from the Elflines Online Skill List in the Elfline Online compendium released by RTG.
     - `Create Elflines Online Armory`: This macro will create a folder of items as defined from the Elflines Online Armory in the Elfline Online compendium released by RTG.
+- Added Martial Arts weapon type, as it is slightly different from the Unarmed weapon type with the scaling for the damage in the case of a BODY of 4 or under while having a cyberarm (rule book pages 176 and 178)
+- Introduced a limited view of the mook sheet when a player only has limited permission on the mook
+- A compendium for clothing has been added (thanks @aarong123!)
+- Help article buttons (?) are now available on items when viewing them in the top-right corner. This will redirect you to the associated item help page on our wiki.
 
 **Changes**
 - Newly created actors and items will automatically have default icons configured.
@@ -50,6 +67,7 @@
 - The price of an item is interpreted as the price of a single unit of an item. This has been now clarified with a text upon hovering over the word "Price" in the item setting page.
   - The single unit of an item is 1, whith an exception for some of the ammunitions, where it is 10. Please have a look at the rule book page 344 for that.
 - The container sheet inventory will now stretch with the window length vertically
+- Many, many little tweaks and improvements to the French translation (thank you @h.gelis and @thevincekun)
 
 **Bug Fixes**
 - Fixed #263: New containers now show infinite stock option, as they are initialized as a shop.
@@ -57,6 +75,11 @@
 - Fix #276: Items can be transferred from unlinked actors
 - Fixed, that number of options slots were not displayed in the item sheet description tab for foundational cyberware.
 - Fixed #262: Missing Expansive, Rubber and Smart Ammo for Very Heavy Pistols has been added to the compendium. Basic Grenade and Basic Rocket have been removed and should not exist according to allowed ammo type rules.
+- Fixed #287: Typing "/red Xd6" would produce "criticals" whenever the initial result was 6. This has been fixed to behave like a normal damage roll.
+- Fixed #285: Character sheet, Roll Tab, Abilities' names are truncated unless you have Medtech on the list.
+- Fixed #260: Players can move container actors - added another configurable option to allow players to move containers. The defaults are: Stash:yes, Loot:no, Shop:no, Custom:configurable
+- Fixed #261: Container actor tokens are not persisting their configuration when the token is unlinked - Foundry appears to share flag settings between actor & tokens so to solve this issue, the container settings were moved to persisting flags to the token actor. Configuring non-token actors has been disabled. Existing containers may need to be re-configured on the token post-migration.
+- Fixed an issue with Firefox browsers throwing an error when using our default SVG images.  The SVG tag we were using defined the height/width using a style property, however, Firefox perfers individual height and width properties.
 
 # Version 0.77.1 | Date: 2021-06-29
 **Hot Fix**

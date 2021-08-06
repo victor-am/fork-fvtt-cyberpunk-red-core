@@ -18,6 +18,7 @@ export default class CPRItem extends Item {
   /* -------------------------------------------- */
   /** @override */
   prepareData() {
+    // eslint-disable-next-line foundry-cpr/logger-after-function-definition
     LOGGER.trace(`prepareData | CPRItem | Called for type: ${this.type}.`);
     super.prepareData();
   }
@@ -36,6 +37,7 @@ export default class CPRItem extends Item {
   }
 
   update(data, options = {}) {
+    LOGGER.trace("update | CPRItem | Called.");
     const cprData = data;
     if (data["data.type"] === "cyberwareInternal" || data["data.type"] === "cyberwareExternal" || data["data.type"] === "fashionware") {
       cprData["data.isFoundational"] = false;
@@ -47,6 +49,7 @@ export default class CPRItem extends Item {
   }
 
   _onCreate(data, options, userId) {
+    LOGGER.trace("_onCreate | CPRItem | Called.");
     const newData = data;
     // If we acre creating an upgradable item from an existing upgradable item
     // which has been upgraded, remove the upgrade from the new weapon as it
@@ -69,7 +72,7 @@ export default class CPRItem extends Item {
   // Any calls to functions not related to rolls, triggered from actions.
   // actorSheet UX gets actived -> actorSheet.eventFunction(event) ->
   doAction(actor, actionAttributes) {
-    LOGGER.debug("doAction | CPRItem | Called.");
+    LOGGER.trace("doAction | CPRItem | Called.");
     const itemType = this.data.type;
     // const changedItems = [];
     switch (itemType) {
@@ -94,6 +97,7 @@ export default class CPRItem extends Item {
   }
 
   _itemUpgradeAction(actor, actionAttributes) {
+    LOGGER.trace("_itemUpgradeAction | CPRItem | Called.");
     switch (this.data.data.type) {
       case "weapon": {
         if (this.data.data.modifiers.secondaryWeapon.configured) {
@@ -106,6 +110,7 @@ export default class CPRItem extends Item {
   }
 
   _cyberwareAction(actor, actionAttributes) {
+    LOGGER.trace("_cyberwareAction | CPRItem | Called.");
     const actionData = actionAttributes["data-action"].nodeValue;
     switch (actionData) {
       case "select-ammo":
@@ -145,7 +150,7 @@ export default class CPRItem extends Item {
   // ammo Item Methods
   // TODO - REFACTOR, do not do this...
   _ammoAction(actionAttributes) {
-    LOGGER.debug("_ammoAction | CPRItem | Called.");
+    LOGGER.trace("_ammoAction | CPRItem | Called.");
     const actionData = actionAttributes["data-action"].nodeValue;
     const ammoAmount = actionAttributes["data-amount"].nodeValue;
     switch (actionData) {
@@ -166,20 +171,21 @@ export default class CPRItem extends Item {
 
   // SKILL FUNCTIONS
   setSkillLevel(value) {
-    LOGGER.debug("setSkillLevel | CPRItem | Called.");
+    LOGGER.trace("setSkillLevel | CPRItem | Called.");
     if (this.type === "skill") {
       this.getData().level = Math.clamped(-99, value, 99);
     }
   }
 
   setSkillMod(value) {
-    LOGGER.debug("setSkillMod | CPRItem | Called.");
+    LOGGER.trace("setSkillMod | CPRItem | Called.");
     if (this.type === "skill") {
       this.getData().skillmod = Math.clamped(-99, value, 99);
     }
   }
 
   async setCompatibleAmmo(ammoList) {
+    LOGGER.trace("setCompatibleAmmo | CPRItem | Called.");
     this.data.data.ammoVariety = ammoList;
     if (this.actor) {
       this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
@@ -189,7 +195,7 @@ export default class CPRItem extends Item {
 
   // AMMO FUNCTIONS
   async _ammoDecrement(changeAmount) {
-    LOGGER.debug("_ammoDecrement | CPRItem | Called.");
+    LOGGER.trace("_ammoDecrement | CPRItem | Called.");
     const currentValue = this.data.data.amount;
     const newValue = Math.max(0, Number(currentValue) - Number(changeAmount));
     this.data.data.amount = newValue;
@@ -199,7 +205,7 @@ export default class CPRItem extends Item {
   }
 
   async _ammoIncrement(changeAmount) {
-    LOGGER.debug("_ammoIncrement | CPRItem | Called.");
+    LOGGER.trace("_ammoIncrement | CPRItem | Called.");
     const currentValue = this.data.data.amount;
     const newValue = Number(currentValue) + Number(changeAmount);
     this.data.data.amount = newValue;
@@ -211,7 +217,7 @@ export default class CPRItem extends Item {
   // Weapon Item Methods
   // TODO - Refactor
   async _weaponAction(actor, actionAttributes) {
-    LOGGER.debug("_weaponAction | CPRItem | Called.");
+    LOGGER.trace("_weaponAction | CPRItem | Called.");
     const actionData = actionAttributes["data-action"].nodeValue;
     switch (actionData) {
       case "select-ammo":
@@ -237,7 +243,7 @@ export default class CPRItem extends Item {
   }
 
   async _measureDv(actor, dvTable) {
-    LOGGER.debug("_measureDv | CPRItem | Called.");
+    LOGGER.trace("_measureDv | CPRItem | Called.");
     if (actor.sheet.token !== null) {
       actor.sheet.token.update({ "flags.cprDvTable": dvTable });
     }
@@ -245,7 +251,7 @@ export default class CPRItem extends Item {
 
   // TODO - Refactor
   async _weaponUnload() {
-    LOGGER.debug("_weaponUnload | CPRItem | Called.");
+    LOGGER.trace("_weaponUnload | CPRItem | Called.");
     if (this.actor) {
       // recover the ammo to the right object
       const { ammoId } = this.data.data.magazine;
@@ -268,8 +274,8 @@ export default class CPRItem extends Item {
 
   // The only time an ammo ID is passed to this is when it is being reloaded
   async _weaponLoad(reloadAmmoId) {
+    LOGGER.trace("_weaponLoad | CPRItem | Called.");
     let selectedAmmoId = reloadAmmoId;
-    LOGGER.debug("_weaponLoad | CPRItem | Called.");
     const loadUpdate = [];
     if (this.actor) {
       if (!selectedAmmoId) {
@@ -359,12 +365,12 @@ export default class CPRItem extends Item {
   }
 
   hasAmmo(cprRoll) {
-    LOGGER.trace("checkAmmo | CPRItem | Called.");
+    LOGGER.trace("hasAmmo | CPRItem | Called.");
     return (this.data.data.magazine.value - CPRItem.bulletConsumption(cprRoll)) >= 0;
   }
 
   setWeaponAmmo(value) {
-    LOGGER.debug("setWeaponAmmo | CPRItem | Called.");
+    LOGGER.trace("setWeaponAmmo | CPRItem | Called.");
     const maxAmmo = this.getData().magazine.max;
     if (this.type === "weapon") {
       if (value.charAt(0) === "+" || value.charAt(0) === "-") {
@@ -376,7 +382,7 @@ export default class CPRItem extends Item {
   }
 
   setItemAmount(value) {
-    LOGGER.debug("setItemAmount | CPRItem | Called.");
+    LOGGER.trace("setItemAmount | CPRItem | Called.");
     if (value.charAt(0) === "+" || value.charAt(0) === "-") {
       this.getData().amount = this.getData().amount + parseInt(value, 10);
     } else {
@@ -394,7 +400,7 @@ export default class CPRItem extends Item {
   }
 
   _getLoadedAmmoType() {
-    LOGGER.trace("_getAmmoType | CPRItem | Called.");
+    LOGGER.trace("_getLoadedAmmoType | CPRItem | Called.");
     if (this.actor) {
       const ammo = this.actor.items.find((i) => i.data._id === this.data.data.magazine.ammoId);
       if (ammo) {
@@ -405,6 +411,7 @@ export default class CPRItem extends Item {
   }
 
   toggleFavorite() {
+    LOGGER.trace("toggleFavorite | CPRItem | Called.");
     this.update({ "data.favorite": !this.data.data.favorite });
   }
 
@@ -510,15 +517,16 @@ export default class CPRItem extends Item {
   }
 
   _createDamageRoll(type) {
+    LOGGER.trace("_createDamageRoll | CPRItem | Called.");
     const rollName = this.data.name;
     const { weaponType } = this.data.data;
     let { damage } = this.data.data;
-    if (weaponType === "unarmed" && this.data.data.unarmedAutomaticCalculation) {
+    if ((weaponType === "unarmed" || weaponType === "martialArts") && this.data.data.unarmedAutomaticCalculation) {
       // calculate damage based on BODY stat
       const actorBodyStat = this.actor.data.data.stats.body.value;
       if (actorBodyStat <= 4) {
-        if (this.actor.data.filteredItems.cyberware.some((c) => ((c.data.data.type === "cyberArm") && (c.data.data.isInstalled === true) && (c.data.data.isFoundational === true)))) {
-          // If the user has an installed Cyberarm, which is a foundational
+        if (weaponType === "unarmed" && this.actor.data.filteredItems.cyberware.some((c) => ((c.data.data.type === "cyberArm") && (c.data.data.isInstalled === true) && (c.data.data.isFoundational === true)))) {
+          // If the user has an installed Cyberarm, which is a foundational. This is only for unarmed damage, not martial arts damage.
           damage = "2d6";
         } else {
           damage = "1d6";
@@ -567,6 +575,7 @@ export default class CPRItem extends Item {
   }
 
   _getMods() {
+    LOGGER.trace("_getMods | CPRItem | Called.");
     switch (this.type) {
       case "weapon": {
         if (this.data.data.quality === "excellent") {
@@ -580,6 +589,7 @@ export default class CPRItem extends Item {
   }
 
   _getAttackMod() {
+    LOGGER.trace("_getAttackMod | CPRItem | Called.");
     let returnValue = 0;
     switch (this.type) {
       case "weapon": {
@@ -597,6 +607,7 @@ export default class CPRItem extends Item {
   }
 
   _getSkillMod() {
+    LOGGER.trace("_getSkillMod | CPRItem | Called.");
     switch (this.type) {
       case "skill": {
         return this.data.data.skillmod;
@@ -618,7 +629,7 @@ export default class CPRItem extends Item {
    * @public
    */
   setInstalled() {
-    LOGGER.debug("setInstalled | CPRItem | Called.");
+    LOGGER.trace("setInstalled | CPRItem | Called.");
     if (this.data.type !== "program") {
       return;
     }
@@ -631,7 +642,7 @@ export default class CPRItem extends Item {
    * @public
    */
   unsetInstalled() {
-    LOGGER.debug("setInstalled | CPRItem | Called.");
+    LOGGER.trace("unsetInstalled | CPRItem | Called.");
     if (this.data.type !== "program") {
       return;
     }
@@ -644,7 +655,7 @@ export default class CPRItem extends Item {
    * @public
    */
   getInstalled() {
-    LOGGER.debug("setInstalled | CPRItem | Called.");
+    LOGGER.trace("getInstalled | CPRItem | Called.");
     if (this.data.type !== "program") {
       return;
     }
@@ -665,7 +676,7 @@ export default class CPRItem extends Item {
    * @public
    */
   availableSlots() {
-    LOGGER.debug("availableSlots | CPRItem | Called.");
+    LOGGER.trace("availableSlots | CPRItem | Called.");
     const itemData = duplicate(this.data.data);
 
     let unusedSlots = 0;
@@ -712,7 +723,7 @@ export default class CPRItem extends Item {
    * @public
    */
   getInstalledPrograms() {
-    LOGGER.debug("getInstalledPrograms | CPRItem | Called.");
+    LOGGER.trace("getInstalledPrograms | CPRItem | Called.");
     return this.data.data.programs.installed;
   }
 
@@ -725,7 +736,7 @@ export default class CPRItem extends Item {
    * @public
    */
   getRezzedPrograms() {
-    LOGGER.debug("getRezzedPrograms | CPRItem | Called.");
+    LOGGER.trace("getRezzedPrograms | CPRItem | Called.");
     return this.data.data.programs.rezzed;
   }
 
@@ -736,7 +747,7 @@ export default class CPRItem extends Item {
    * @param {Array} programs      - Array of CPRItem programs
    */
   installPrograms(programs) {
-    LOGGER.debug("installProgram | CPRItem | Called.");
+    LOGGER.trace("installPrograms | CPRItem | Called.");
     const { installed } = this.data.data.programs;
     programs.forEach((p) => {
       const onDeck = installed.filter((iProgram) => iProgram._id === p.data._id);
@@ -757,7 +768,7 @@ export default class CPRItem extends Item {
    * @param {Array} programs      - Array of CPRItem programs
    */
   uninstallPrograms(programs) {
-    LOGGER.debug("uninstallPrograms | CPRItem | Called.");
+    LOGGER.trace("uninstallPrograms | CPRItem | Called.");
     let { rezzed } = this.data.data.programs;
     let { installed } = this.data.data.programs;
     const tokenList = [];
@@ -799,7 +810,7 @@ export default class CPRItem extends Item {
    * @param {CPRItem} program      - CPRItem of the program to check
    */
   isRezzed(program) {
-    LOGGER.debug("isRezzed | CPRItem | Called.");
+    LOGGER.trace("isRezzed | CPRItem | Called.");
     const rezzedPrograms = this.data.data.programs.rezzed.filter((p) => p._id === program.id);
     const { installed } = this.data.data.programs;
     const installIndex = installed.findIndex((p) => p._id === program.data._id);
@@ -821,7 +832,7 @@ export default class CPRItem extends Item {
    * @param {CPRItem} program      - CPRItem of the program to REZ
    */
   async rezProgram(program, callingToken) {
-    LOGGER.debug("rezProgram | CPRItem | Called.");
+    LOGGER.trace("rezProgram | CPRItem | Called.");
     const programData = duplicate(program.data);
     const { installed } = this.data.data.programs;
     const installIndex = installed.findIndex((p) => p._id === programData._id);
@@ -854,7 +865,7 @@ export default class CPRItem extends Item {
    * @param {CPRItem} program      - CPRItem of the program create the Token for
    */
   async _rezBlackIceToken(programData, callingToken) {
-    LOGGER.debug("_rezBlackIceToken | CPRItem | Called.");
+    LOGGER.trace("_rezBlackIceToken | CPRItem | Called.");
     let netrunnerToken = callingToken;
     let scene;
     const blackIceName = programData.name;
@@ -953,7 +964,7 @@ export default class CPRItem extends Item {
    * @param {CPRItem} program      - CPRItem of the program de-rez
    */
   async derezProgram(program) {
-    LOGGER.debug("derezProgram | CPRItem | Called.");
+    LOGGER.trace("derezProgram | CPRItem | Called.");
     const { installed } = this.data.data.programs;
     const installIndex = installed.findIndex((p) => p._id === program.id);
     const programState = installed[installIndex];
@@ -976,7 +987,7 @@ export default class CPRItem extends Item {
    * @param {CPRItem} program      - CPRItem of the program to remove the token for
    */
   async _derezBlackIceToken(programData) {
-    LOGGER.debug("_derezBlackIceToken | CPRItem | Called.");
+    LOGGER.trace("_derezBlackIceToken | CPRItem | Called.");
     if (typeof programData.flags["cyberpunk-red-core"] !== "undefined") {
       const cprFlags = programData.flags["cyberpunk-red-core"];
       const { biTokenId } = cprFlags;
@@ -1009,7 +1020,7 @@ export default class CPRItem extends Item {
    * @param {CPRItem} program      - CPRItem of the program to reset
    */
   resetRezProgram(program) {
-    LOGGER.debug("resetRezProgram | CPRItem | Called.");
+    LOGGER.trace("resetRezProgram | CPRItem | Called.");
     const { rezzed } = this.data.data.programs;
     const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
     const { installed } = this.data.data.programs;
@@ -1025,7 +1036,7 @@ export default class CPRItem extends Item {
    * @param {Number} reduceAmount - Amount to reduce REZ by. Defaults to 1.
    */
   reduceRezProgram(program, reduceAmount = 1) {
-    LOGGER.debug("reduceRezProgram | CPRItem | Called.");
+    LOGGER.trace("reduceRezProgram | CPRItem | Called.");
     const { rezzed } = this.data.data.programs;
     const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
     const programState = rezzed[rezzedIndex];
@@ -1046,7 +1057,7 @@ export default class CPRItem extends Item {
   }
 
   updateRezzedProgram(programId, updatedData) {
-    LOGGER.debug("updateRezProgram | CPRItem | Called.");
+    LOGGER.trace("updateRezzedProgram | CPRItem | Called.");
     const { rezzed } = this.data.data.programs;
     const rezzedIndex = rezzed.findIndex((p) => p._id === programId);
     const programState = rezzed[rezzedIndex];
@@ -1076,7 +1087,7 @@ export default class CPRItem extends Item {
    * @param {String} boosterType - string defining the type of boosters to return.
    */
   getBoosters(boosterType) {
-    LOGGER.debug("getBoosters | CPRItem | Called.");
+    LOGGER.trace("getBoosters | CPRItem | Called.");
     const { rezzed } = this.data.data.programs;
     let modifierTotal = 0;
     switch (boosterType) {
@@ -1108,7 +1119,7 @@ export default class CPRItem extends Item {
   }
 
   _createCyberdeckRoll(rollType, actor, extraData = {}) {
-    LOGGER.debug("_createCyberdeckRoll | CPRItem | Called.");
+    LOGGER.trace("_createCyberdeckRoll | CPRItem | Called.");
     let rollTitle = "";
     let rollModifiers = 0;
     let cprRoll;
@@ -1184,6 +1195,7 @@ export default class CPRItem extends Item {
 
   /** itemUpgrade Code */
   uninstallUpgrades(upgrades) {
+    LOGGER.trace("uninstallUpgrades | CPRItem | Called.");
     let installedUpgrades = this.data.data.upgrades;
     const updateList = [];
     upgrades.forEach((u) => {
@@ -1234,6 +1246,7 @@ export default class CPRItem extends Item {
   }
 
   installUpgrades(upgrades) {
+    LOGGER.trace("installUpgrades | CPRItem | Called.");
     if (typeof this.data.data.isUpgraded === "boolean") {
       const installedUpgrades = this.data.data.upgrades;
       const updateList = [];
@@ -1279,6 +1292,7 @@ export default class CPRItem extends Item {
   }
 
   getUpgradeTypeFor(dataPoint) {
+    LOGGER.trace("getUpgradeTypeFor | CPRItem | Called.");
     let upgradeType = "modifier";
     if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {
       const installedUpgrades = this.data.data.upgrades;
@@ -1295,6 +1309,7 @@ export default class CPRItem extends Item {
   }
 
   getAllUpgradesFor(dataPoint) {
+    LOGGER.trace("getAllUpgradesFor | CPRItem | Called.");
     let upgradeNumber = 0;
     let baseOverride = -100000;
     if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {

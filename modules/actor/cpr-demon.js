@@ -5,9 +5,20 @@ import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
+ * Demons are very simple stand-alone actors right now.
+ *
  * @extends {Actor}
  */
 export default class CPRDemonActor extends Actor {
+  /**
+   * create() is called when the actor is... being created. All we do in here
+   * is set "rez" to a resource bar.
+   *
+   * @static
+   * @async
+   * @param {Object} data - a complex structure of data used in creating the actor
+   * @param {Object} options - unused here but passed up to the parent
+   */
   static async create(data, options) {
     LOGGER.trace("create | CPRDemonActor | called.");
     const createData = data;
@@ -20,6 +31,12 @@ export default class CPRDemonActor extends Actor {
     super.create(createData, options);
   }
 
+  /**
+   * Very simple code to roll a stat
+   *
+   * @param {String} statName - the name of the stat being rolled
+   * @returns {CPRStatRoll}
+   */
   createStatRoll(statName) {
     LOGGER.trace("createStatRoll | CPRDemonActor | called.");
     const niceStatName = SystemUtils.Localize(CPR.demonStatList[statName]);

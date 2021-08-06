@@ -1,5 +1,5 @@
 {
-  "version": "0.78.0",
+  "version": "0.79.0",
   "name": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
@@ -115,6 +115,22 @@
       "package": "cyberpunk-red-core"
     },
     {
+      "label": "Clothing",
+      "entity": "Item",
+      "name": "clothing-items",
+      "path": "packs/clothing.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Item Upgrades",
+      "entity": "Item",
+      "name": "item-upgrades",
+      "path": "packs/item-upgrades.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
       "label": "Scenes",
       "entity": "Scene",
       "name": "scenes",
@@ -156,6 +172,6 @@
   "background" : "Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
   "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/system.json",
-  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.78.0/fvtt-cyberpunk-red-core-v0.78.0.zip",
-  "license": "Copyright 2020, The Project Red Team"
+  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.79.0/fvtt-cyberpunk-red-core-v0.79.0.zip",
+  "license": "Copyright 2021, The Project Red Team"
 }

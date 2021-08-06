@@ -10,10 +10,18 @@ import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
+ * CPRActor contains common code between mooks and characters (NPCs and players).
+ * It extends Actor which comes from Foundry.
+ *
  * @extends {Actor}
  */
 export default class CPRActor extends Actor {
-  /** @override */
+  /**
+   * Called when an actor is passed to the client, we override this to calculate
+   * derived stats and massage some of the data for convenience later.
+   *
+   * @override
+   */
   prepareData() {
     LOGGER.trace("prepareData | CPRActor | Called.");
     super.prepareData();
@@ -31,18 +39,23 @@ export default class CPRActor extends Actor {
     }
   }
 
-  /** @override */
-  getRollData() {
-    LOGGER.trace("getRollData | CPRActor | Called.");
-    const data = super.getRollData();
-    return data;
-  }
-
+  /**
+   * Does mostly nothing. We should probably get rid of this.
+   * @return {Object} - a huge structured object representing actor data.
+   */
   getData() {
     LOGGER.trace("getData | CPRActor | Called.");
     return this.data.data;
   }
 
+  /**
+   * The only reason we extend this code right now is to handle an edge case for migrations.
+   *
+   * @param {String} embeddedName - document name, usually a category like Item
+   * @param {Object} data - Array of documents to consider
+   * @param {Object} context - an object tracking the context in which the method is being called
+   * @returns {null}
+   */
   async createEmbeddedDocuments(embeddedName, data, context) {
     LOGGER.trace("createEmbeddedDocuments | CPRActor | called.");
     // If migration is calling this, we definitely want to
@@ -57,7 +70,8 @@ export default class CPRActor extends Actor {
           }
         });
         if (containsCoreItem) {
-          return Rules.lawyer(false, "CPR.messages.dontAddCoreItems");
+          Rules.lawyer(false, "CPR.messages.dontAddCoreItems");
+          return null;
         }
       }
     }
@@ -65,21 +79,35 @@ export default class CPRActor extends Actor {
     return super.createEmbeddedDocuments(embeddedName, data, context);
   }
 
+  /**
+   * Characters and Mooks have ways to calculate derived stats, and they extend
+   * this method to do so.
+   *
+   * @abstract
+   */
   // eslint-disable-next-line class-methods-use-this
   _calculateDerivedStats() {
     LOGGER.trace("_calculateDerivedStats | CPRActor | Called.");
     throw new Error("This is an abstract method");
   }
 
-  // GET AND SET WOUND STATE
+  /**
+   * Returns the current wound state of the actor
+   *
+   * @returns {String}
+   */
   getWoundState() {
     LOGGER.trace("getWoundState | CPRActor | Obtaining Wound State.");
     return this.data.data.derivedStats.currentWoundState;
   }
 
+  /**
+   * Sets the wound state of the actor based on the current hit point value
+   *
+   * @private
+   */
   _setWoundState() {
-    LOGGER.trace("setWoundState | CPRActor | Setting Wound State.");
-
+    LOGGER.trace("_setWoundState | CPRActor | Setting Wound State.");
     const { derivedStats } = this.data.data;
     let newState = "invalidState";
     if (derivedStats.hp.value < 1) {
@@ -94,9 +122,13 @@ export default class CPRActor extends Actor {
     this.data.data.derivedStats.currentWoundState = newState;
   }
 
+  /**
+   * Looks up the wound state and returns the penalties (-2, -4) that should be applied to rolls
+   *
+   * @returns {Number}
+   */
   getWoundStateMods() {
     LOGGER.trace("getWoundStateMods | CPRActor | Obtaining Wound State Mods.");
-
     let woundStateMod = 0;
     if (this.getWoundState() === "seriouslyWounded") {
       woundStateMod = -2;
@@ -107,31 +139,48 @@ export default class CPRActor extends Actor {
     return woundStateMod;
   }
 
+  /**
+   * Returns an array of installed cyberware items
+   *
+   * @returns {Array} - installed Cyberware Items
+   */
   getInstalledCyberware() {
     LOGGER.trace("getInstalledCyberware | CPRActor | Called.");
     return this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled);
   }
 
   /**
+   * Return an Array of cyberware matching the provided type and is installed.
    *
    * @param {string} type uses the type of a cyberware item to return a list of
    *                      compatiable foundational cyberware installed.
+   * @return {Array} - Foundational Cyberware matching the type and is installed
    */
   getInstalledFoundationalCyberware(type) {
     LOGGER.trace("getInstalledFoundationalCyberware | CPRActor | Called.");
-    // TODO - Assert type is actually a fucking cyberware type... -__-
     if (type) {
-      return this.data.filteredItems.cyberware.filter(
-        (item) => item.getData().isInstalled
-          && item.getData().isFoundational
-          && item.getData().type === type,
-      );
+      if (type in CPR.cyberwareTypeList) {
+        return this.data.filteredItems.cyberware.filter(
+          (item) => item.getData().isInstalled
+            && item.getData().isFoundational
+            && item.getData().type === type,
+        );
+      }
+      SystemUtils.DisplayMessage("error", "Invalid cyberware type!");
     }
     return this.data.filteredItems.cyberware.filter(
       (item) => item.getData().isInstalled && item.getData().isFoundational,
     );
   }
 
+  /**
+   * Top-level method to add (install) cyberware owned by an actor.
+   * This will handle making sure it is going into the right foundational cyberware, if applicable.
+   *
+   * @async
+   * @param {String} itemId - the ItemId of the cyberware to be added
+   * @returns {null}
+   */
   async addCyberware(itemId) {
     LOGGER.trace("addCyberware | CPRActor | Called.");
     const item = this._getOwnedItem(itemId);
@@ -157,6 +206,14 @@ export default class CPRActor extends Actor {
     }
   }
 
+  /**
+   * Add (install) foundational cyberware, which includes losing Humanity.
+   *
+   * @private
+   * @param {CPRItem} item - the Cyberware item to install
+   * @param {Object} formData - an object representing answers from the installation dialog box
+   * @returns {Object}
+   */
   _addFoundationalCyberware(item, formData) {
     LOGGER.trace("_addFoundationalCyberware | CPRActor | Called.");
     this.loseHumanityValue(item, formData);
@@ -164,11 +221,18 @@ export default class CPRActor extends Actor {
     return this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.isInstalled": true }]);
   }
 
+  /**
+   * Add (install) optional cyberware, including the loss of Humanity
+   *
+   * @private
+   * @param {CPRItem} item - the Cyberware item to install
+   * @param {Object} formData - an object representing answers from the installation dialog box
+   * @returns {Object}
+   */
   async _addOptionalCyberware(item, formData) {
     LOGGER.trace("_addOptionalCyberware | CPRActor | Called.");
     const tmpItem = item;
     this.loseHumanityValue(item, formData);
-    // eslint-disable-next-line max-len
     LOGGER.trace(`_addOptionalCyberware | CPRActor | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
     const newOptionalIds = foundationalCyberware.data.data.optionalIds.concat(item.data._id);
@@ -185,6 +249,15 @@ export default class CPRActor extends Actor {
     ]);
   }
 
+  /**
+   * Remove (uninstall) Cyberware from an actor. Like addCyberware, this is the top-level entry method.
+   *
+   * @async
+   * @param {String} itemId - the Cyberware item ID to uninstall
+   * @param {String} foundationalId - the foundational Cyberware Id to uninstall from
+   * @param {Boolean} skipConfirm - a boolean to indicate whether the confirmation dialog should be displayed
+   * @returns {Object}
+   */
   async removeCyberware(itemId, foundationalId, skipConfirm = false) {
     LOGGER.trace("removeCyberware | CPRActor | Called.");
     const item = this._getOwnedItem(itemId);
@@ -207,6 +280,14 @@ export default class CPRActor extends Actor {
     return this.updateEmbeddedDocuments("Item", []);
   }
 
+  /**
+   * Remove (uninstall) optional cyberware
+   *
+   * @private
+   * @param {CPRItem} item - optional cyberware item to uninstall
+   * @param {String} foundationalId - The foundational cybeware Id to uninstall the cybeware from
+   * @returns {Object}
+   */
   _removeOptionalCyberware(item, foundationalId) {
     LOGGER.trace("_removeOptionalCyberware | CPRActor | Called.");
     const foundationalCyberware = this._getOwnedItem(foundationalId);
@@ -221,6 +302,13 @@ export default class CPRActor extends Actor {
     }]);
   }
 
+  /**
+   * Remove (uninstall) foundational cyberware
+   *
+   * @private
+   * @param {CPRItem} item - foundational cyberware item to uninstall
+   * @returns {Object}
+   */
   _removeFoundationalCyberware(item) {
     LOGGER.trace("_removeFoundationalCyberware | CPRActor | Called.");
     const updateList = [];
@@ -235,6 +323,14 @@ export default class CPRActor extends Actor {
     return PromiseRejectionEvent();
   }
 
+  /**
+   * Called when cyberware is installed, this method decreases Humanity on an actor, rolling
+   * for the value if need be.
+   *
+   * @param {CPRItem} item - the Cyberware item being installed (provided just to name the roll)
+   * @param {String} amount - how much to decrease humanity by. Will roll dice if it is a formula.
+   * @returns {null}
+   */
   async loseHumanityValue(item, amount) {
     LOGGER.trace("loseHumanityValue | CPRActor | Called.");
     if (amount.humanityLoss === "None") {
@@ -262,23 +358,25 @@ export default class CPRActor extends Actor {
     this.update({ "data.derivedStats.humanity.value": value });
   }
 
-  gainHumanityValue(amount) {
-    LOGGER.trace("gainHumanityValue | CPRActor | Called.");
-    const { humanity } = this.data.data;
-    let { value } = humanity;
-    const { max } = humanity;
-    value += parseInt(amount.humanityLoss, 10);
-    if (value > max) {
-      value = max;
-    }
-    this.update({ "data.derivedStats.humanity.value": value });
-  }
-
+  /**
+   * Return the Item object given an Id
+   *
+   * @private
+   * @param {String} itemId - Id of the item to get
+   * @returns {CPRItem}
+   */
   _getOwnedItem(itemId) {
     LOGGER.trace("_getOwnedItem | CPRActor | Called.");
     return this.items.find((i) => i.data._id === itemId);
   }
 
+  /**
+   * Called when the user accepts the dialog box defining roles and which one is "active." The data
+   * is persisted to the actor object here.
+   *
+   * @param {Object} formData - an object of answers provided by the user in a form
+   * @returns {Object}
+   */
   setRoles(formData) {
     LOGGER.trace("setRoles | CPRActor | Called.");
     const { activeRole } = formData;
@@ -288,11 +386,23 @@ export default class CPRActor extends Actor {
     return this.update({ "data.roleInfo.roles": roleList, "data.roleInfo.activeRole": activeRole });
   }
 
+  /**
+   * Persist life path information to the actor model
+   *
+   * @param {Object} formData  - an object of answers provided by the user in a form
+   * @returns {Object}
+   */
   setLifepath(formData) {
     LOGGER.trace("setLifepath | CPRActor | Called.");
     return this.update(formData);
   }
 
+  /**
+   * Return the skill level (number) for a given skill on the actor.
+   *
+   * @param {String} skillName - the skill name (e.g. from CPR.skillList) to look up
+   * @returns {Number} - skill level or 0 if not found
+   */
   getSkillLevel(skillName) {
     LOGGER.trace("getSkillLevel | CPRActor | Called.");
     const skillList = (this.data.filteredItems.skill).filter((s) => s.name === skillName);
@@ -303,6 +413,12 @@ export default class CPRActor extends Actor {
     return 0;
   }
 
+  /**
+   * Return the skill mod (number) for a given skill on the actor.
+   *
+   * @param {String} skillName - the skill name (e.g. from CPR.skillList) to look up
+   * @returns {Number} - skill mod or 0 if not found
+   */
   getSkillMod(skillName) {
     LOGGER.trace("getSkillMod | CPRActor | Called.");
     const skillList = (this.data.filteredItems.skill).filter((s) => s.name === skillName);
@@ -313,6 +429,13 @@ export default class CPRActor extends Actor {
     return 0;
   }
 
+  /**
+   * After a death save is rolled, process the results: assess pass/fail, and persist data to the actor
+   * model. Remember when a save is passed, the next one gets harder.
+   *
+   * @param {CPRRoll} cprRoll - the rolled death save object
+   * @returns {String}
+   */
   processDeathSave(cprRoll) {
     LOGGER.trace("processDeathSave | CPRActor | Called.");
     const success = SystemUtils.Localize("CPR.rolls.success");
@@ -328,16 +451,32 @@ export default class CPRActor extends Actor {
     return saveResult;
   }
 
+  /**
+   * Whenever a death save passes, the penalty increases by 1. Once a character is stable,
+   * the penalty should be reset to 0, which is what this method does.
+   */
   resetDeathPenalty() {
     LOGGER.trace("resetDeathPenalty | CPRActor | Called.");
     this.update({ "data.derivedStats.deathSave.penalty": 0 });
   }
 
+  /**
+   * Given a stat name, return the value of it off the actor
+   *
+   * @param {String} statName - name (from CPR.statList) of the stat to retrieve
+   * @returns {Number}
+   */
   getStat(statName) {
     LOGGER.trace("getStat | CPRActor | Called.");
     return parseInt(this.data.data.stats[statName].value, 10);
   }
 
+  /**
+   * Get all mods provided by equippable and upgradeable items for a specific thing
+   *
+   * @param {String} baseName - name of the thing (e.g. stat) getting mods
+   * @returns {Number}
+   */
   getUpgradeMods(baseName) {
     LOGGER.trace("getUpgradeMods | CPRActor | Called.");
     let modValue = 0;
@@ -366,6 +505,13 @@ export default class CPRActor extends Actor {
     return modValue;
   }
 
+  /**
+   * Given a property name on the actor model, wipe out all records in the corresponding ledger
+   * for it. Effectively this sets it back to [].
+   *
+   * @param {String} prop - name of the property that has a ledger
+   * @returns {Array} - empty or null if the property was not found
+   */
   clearLedger(prop) {
     LOGGER.trace("clearLedger | CPRActor | Called.");
     if (this.isLedgerProperty(prop)) {
@@ -380,6 +526,15 @@ export default class CPRActor extends Actor {
     return null;
   }
 
+  /**
+   * Change the value of a property and store a record of the change in the corresponding
+   * ledger.
+   *
+   * @param {String} prop - name of the property that has a ledger
+   * @param {Number} value - how much to increase or decrease the value by
+   * @param {String} reason - a user-provided reason for the change
+   * @returns {Number} (or null if not found)
+   */
   deltaLedgerProperty(prop, value, reason) {
     LOGGER.trace("deltaLedgerProperty | CPRActor | Called.");
     if (this.isLedgerProperty(prop)) {
@@ -409,6 +564,15 @@ export default class CPRActor extends Actor {
     return null;
   }
 
+  /**
+   * Set the value of a property and store a record of the change in the corresponding
+   * ledger. This is different from applying a delta, here we just set the value.
+   *
+   * @param {String} prop - name of the property that has a ledger
+   * @param {Number} value - what to set the value to
+   * @param {String} reason - a user-provided reason for the change
+   * @returns {Number} (or null if not found)
+   */
   setLedgerProperty(prop, value, reason) {
     LOGGER.trace("setLedgerProperty | CPRActor | Called.");
     if (this.isLedgerProperty(prop)) {
@@ -425,6 +589,12 @@ export default class CPRActor extends Actor {
     return null;
   }
 
+  /**
+   * Get all records from the associated ledger of a property.
+   *
+   * @param {String} prop - name of the property that has a ledger
+   * @returns {Array} - Each element is a tuple: [value, reason], or null if not found
+   */
   listRecords(prop) {
     LOGGER.trace("listRecords | CPRActor | Called.");
     if (this.isLedgerProperty(prop)) {
@@ -433,11 +603,14 @@ export default class CPRActor extends Actor {
     return null;
   }
 
+  /**
+   * Return whether a property in actor data is a ledgerProperty. This means it has
+   * two (sub-)properties, "value", and "transactions".
+   *
+   * @param {String} prop - name of the property that has a ledger
+   * @returns {Boolean}
+   */
   isLedgerProperty(prop) {
-    /**
-     * Return whether a property in actor data is a ledgerProperty. This means it has
-     * two (sub-)properties, "value", and "transactions".
-     */
     LOGGER.trace("isLedgerProperty | CPRActor | Called.");
     const ledgerData = getProperty(this.data.data, prop);
     if (!hasProperty(ledgerData, "value")) {
@@ -451,6 +624,11 @@ export default class CPRActor extends Actor {
     return true;
   }
 
+  /**
+   * Pop up a dialog box with ledger records for a given property.
+   *
+   * @param {String} prop - name of the property that has a ledger
+   */
   showLedger(prop) {
     LOGGER.trace("showLedger | CPRActor | Called.");
     if (this.isLedgerProperty(prop)) {
@@ -462,6 +640,12 @@ export default class CPRActor extends Actor {
     }
   }
 
+  /**
+   * Given a stat, look up any armor penalties applied to it and return that number.
+   *
+   * @param {String} stat - name of a stat we are interested in seeing the mods on
+   * @returns {Number}
+   */
   getArmorPenaltyMods(stat) {
     LOGGER.trace("getArmorPenaltyMods | CPRActor | Called.");
     const penaltyStats = ["ref", "dex", "move"];
@@ -478,6 +662,14 @@ export default class CPRActor extends Actor {
     return Math.min(...penaltyMods);
   }
 
+  /**
+   * Get the actors current armor value (or stat penalty) given a location.
+   *
+   * @private
+   * @param {String} valueType - indicate whether to get the SP or stat penalty instead
+   * @param {string} location - armor location to consider (head or body)
+   * @returns {Number}
+   */
   _getArmorValue(valueType, location) {
     LOGGER.trace("_getArmorValue | CPRActor | Called.");
 
@@ -505,6 +697,13 @@ export default class CPRActor extends Actor {
     return 0;
   }
 
+  /**
+   * Return an array of all equipped armors given a location. Yes, it is possible and within the rules
+   * to wear multiple armors, even thought it might not be a good idea.
+   *
+   * @param {String} location - head, body, or shield
+   * @returns {Array}
+   */
   getEquippedArmors(location) {
     LOGGER.trace("getEquippedArmors | CPRActor | Called.");
     const armors = this.data.filteredItems.armor;
@@ -522,8 +721,12 @@ export default class CPRActor extends Actor {
     throw new Error(`Bad location given: ${location}`);
   }
 
-  // Update actor data with data from the chosen armor so that it can be dislpayed in a resource bar.
-  // eslint-disable-next-line consistent-return
+  /**
+   * Update actor data with data from the given armor so that it can be dislpayed in a resource bar.
+   *
+   * @param {String} location - head, body, or shield
+   * @param {String} id - Id of armor item we want to make "current" and available as a resource bar
+   */
   makeThisArmorCurrent(location, id) {
     LOGGER.trace("makeThisArmorCurrent | CPRActor | Called.");
     const currentArmor = this._getOwnedItem(id);
@@ -554,8 +757,16 @@ export default class CPRActor extends Actor {
         "data.externalData.currentArmorShield.id": id,
       });
     }
+    return null;
   }
 
+  /**
+   * Create the appropriate roll object given a type. The type comes from link attributes in handlebars templates.
+   *
+   * @param {String} type - the type of roll to create
+   * @param {String} name - a name for the roll, which is displayed in the roll card
+   * @returns {CPRRoll}
+   */
   createRoll(type, name) {
     LOGGER.trace("createRoll | CPRActor | Called.");
     switch (type) {
@@ -573,6 +784,13 @@ export default class CPRActor extends Actor {
     return undefined;
   }
 
+  /**
+   * Create a stat roll and return the object representing it
+   *
+   * @private
+   * @param {string} statName - name of the stat to generate a roll for
+   * @returns {CPRStatRoll}
+   */
   _createStatRoll(statName) {
     LOGGER.trace("_createStatRoll | CPRActor | Called.");
     const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
@@ -584,6 +802,13 @@ export default class CPRActor extends Actor {
     return cprRoll;
   }
 
+  /**
+   * Create a "role" roll and return the object representing it
+   *
+   * @private
+   * @param {string} roleName - name of the role to generate a roll for
+   * @returns {CPRRoleRoll}
+   */
   _createRoleRoll(roleName) {
     LOGGER.trace("_createRoleRoll | CPRActor | Called.");
     const niceRoleName = SystemUtils.Localize(CPR.roleAbilityList[roleName]);
@@ -617,6 +842,13 @@ export default class CPRActor extends Actor {
     return cprRoll;
   }
 
+  /**
+   * Return the value of a role ability given its name
+   *
+   * @private
+   * @param {String} roleName - name of the role we are interested in getting the value of
+   * @returns {Number} or null if not found
+   */
   _getRoleValue(roleName) {
     LOGGER.trace("_getRoleValue | CPRActor | Called.");
     const { roleskills: roles } = this.data.data.roleInfo;
@@ -636,6 +868,12 @@ export default class CPRActor extends Actor {
     return null;
   }
 
+  /**
+   * Create a death save roll and return the object representing it
+   *
+   * @private
+   * @returns {CPRDeathSaveRoll}
+   */
   _createDeathSaveRoll() {
     LOGGER.trace("_createDeathSaveRoll | CPRActor | Called.");
     const deathSavePenalty = this.data.data.derivedStats.deathSave.penalty;
@@ -675,11 +913,25 @@ export default class CPRActor extends Actor {
     return equipped;
   }
 
+  /**
+   * Return the number of hands the actor has. For now this assumes 2, but in the future
+   * it will need to consider some cyberware options that provide more hands.
+   *
+   * @static
+   * @private
+   * @returns {Number}
+   */
   static _getHands() {
     LOGGER.trace("_getHands | CPRActor | Called.");
     return 2;
   }
 
+  /**
+   * Return the number of free hands an actor has, based on what is currently equipped (wielded)
+   *
+   * @private
+   * @returns {Number}
+   */
   _getFreeHands() {
     LOGGER.trace("_getFreeHands | CPRActor | Called.");
     const weapons = this._getEquippedWeapons();
@@ -688,6 +940,12 @@ export default class CPRActor extends Actor {
     return freeHands;
   }
 
+  /**
+   * Return an array of weapons that are currently equipped
+   *
+   * @private
+   * @returns {Array} of CPRItems
+   */
   _getEquippedWeapons() {
     LOGGER.trace("_getEquippedWeapons | CPRActor | Called.");
     const weapons = this.data.filteredItems.weapon;
@@ -710,9 +968,13 @@ export default class CPRActor extends Actor {
     return true;
   }
 
+  /**
+   * Called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
+   * It handles the automatic equipping of gear and installation of cyberware.
+   *
+   * @param {CPRItem} item - the item that was dragged
+   */
   handleMookDraggedItem(item) {
-    // called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
-    // handles the automatic equipping of gear and installation of cyberware
     LOGGER.trace("handleMookDraggedItem | CPRActor | Called.");
     LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
     LOGGER.debugObject(item);
@@ -733,7 +995,11 @@ export default class CPRActor extends Actor {
     }
   }
 
-  // Netrunning
+  /**
+   * Return the first equipped cyberdeck found.
+   *
+   * @returns {CPRItem} or null if none are found/equipped
+   */
   getEquippedCyberdeck() {
     LOGGER.trace("getEquippedCyberdeck | CPRActor | Called.");
     const cyberdecks = this.data.filteredItems.cyberdeck;
@@ -749,6 +1015,8 @@ export default class CPRActor extends Actor {
    * This method was created to facilitate homebrew critical injuries with a macro.
    * It is not used anywhere else, and likely belongs in its own file to be exposed in
    * a sanctioned API. (_rollCriticalInjury() largely replaces this functionality.)
+   *
+   * @returns {Object}
    */
   addCriticalInjury(location, name, effect, quickFixType, quickFixDV, treatmentType, treatmentDV, deathSaveIncrease = false) {
     LOGGER.trace("addCriticalInjury | CPRActor | Called.");

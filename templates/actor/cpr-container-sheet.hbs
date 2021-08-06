@@ -129,6 +129,18 @@
                 {{localize "CPR.containerSheet.settings.playersModify"}}
               </div>
             </li>
+            <li class="item flexrow">
+              <div class="item-name">
+                <a class="checkbox-toggle" data-flag-name="players-move">
+                  {{#if actor.data.flags.cyberpunk-red-core.players-move}}
+                    <i class="far fa-check-circle"></i>
+                  {{else}}
+                    <i class="far fa-circle"></i>
+                  {{/if}}
+                </a>
+                {{localize "CPR.containerSheet.settings.playersMove"}}
+              </div>
+            </li>
           {{/if}}
         </div>
       </div>

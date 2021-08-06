@@ -90,7 +90,7 @@ export default function registerHandlebarsHelpers() {
     return true;
   });
 
-  Handlebars.registerHelper("isEmpty", (object) => {
+  Handlebars.registerHelper("cprIsEmpty", (object) => {
     if (typeof object === "object") {
       if (Array.isArray(object)) {
         if (object.length === 0) {
@@ -104,6 +104,8 @@ export default function registerHandlebarsHelpers() {
   });
 
   Handlebars.registerHelper("isNumber", (value) => !Number.isNaN(value));
+
+  Handlebars.registerHelper("isLimitedPerm", (document) => !game.user.isGM && document.limited);
 
   // TODO - Refactor / Revist
   Handlebars.registerHelper("mergeForPartialArg", (...args) => {
