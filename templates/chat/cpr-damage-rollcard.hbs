@@ -9,7 +9,9 @@
                     <a class="clickable"
                        data-action="applyDamage"
                        data-total-damage="{{resultTotal}}" data-bonus-damage="{{#if criticalCard}}{{bonusDamage}}{{else}}0{{/if}}"
-                       data-damage-location="{{#if isAimed}}{{location}}{{else}}body{{/if}}">
+                       data-damage-location="{{#if isAimed}}{{location}}{{else}}body{{/if}}"
+                       data-ablation="{{#if (compare rollCardExtraArgs.ammoType "===" "armorPiercing")}}2{{else}}1{{/if}}"
+                       data-ignore-half-armor="{{#if rollCardExtraArgs.ignoreHalfArmor}}true{{else}}false{{/if}}">
                         <i class="fas fa-bolt" title="{{localize "CPR.chat.damageApplication.applyDamage"}}"></i>
                     </a>
                 </div>

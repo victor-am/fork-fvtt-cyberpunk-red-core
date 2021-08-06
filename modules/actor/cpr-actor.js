@@ -1080,8 +1080,9 @@ export default class CPRActor extends Actor {
    * @param {int} bonusDamage - value of the bonus damage
    * @param {string} location - location of the damage
    * @param {int} ablation - value of the ablation
+   * @param {boolean} ingoreHalfArmor - if half of the armor should be ignored
    */
-  async _applyDamage(damage, bonusDamage, location, ablation) {
+  async _applyDamage(damage, bonusDamage, location, ablation, ingoreHalfArmor) {
     LOGGER.trace("_applyDamage | CPRActor | Called.");
     const armors = this.getEquippedArmors(location);
     // Determine the highest value of all the equipped armors in the specific location
@@ -1097,6 +1098,9 @@ export default class CPRActor extends Actor {
         armorValue = newValue;
       }
     });
+    if (ingoreHalfArmor) {
+      armorValue = Math.ceil(armorValue / 2);
+    }
     // Apply the bonusDamage, which penetrates the armor
     if (bonusDamage !== 0) {
       const currentHp = this.data.data.derivedStats.hp.value;

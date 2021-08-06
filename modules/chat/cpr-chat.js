@@ -242,7 +242,9 @@ export default class CPRChat {
         case "applyDamage": {
           const totalDamage = parseInt($(event.currentTarget).attr("data-total-damage"), 10);
           const bonusDamage = parseInt($(event.currentTarget).attr("data-bonus-damage"), 10);
-          const location = $(event.currentTarget).attr("data-damage-location");
+          const location = (($(event.currentTarget).attr("data-damage-location") === "head") ? "head" : "body");
+          const ablation = $(event.currentTarget).attr("data-ablation");
+          const ingoreHalfArmor = (/true/i).test($(event.currentTarget).attr("data-ignore-half-armor"));
           const tokens = canvas.tokens.controlled;
           if (tokens.length === 0) {
             SystemUtils.DisplayMessage("warn", "CPR.chat.damageApplication.noTokenSelected");
@@ -250,8 +252,7 @@ export default class CPRChat {
           }
           tokens.forEach((t) => {
             const { actor } = t;
-            // Fixed ablation of 1 for now...
-            actor._applyDamage(totalDamage, bonusDamage, location, 1);
+            actor._applyDamage(totalDamage, bonusDamage, location, ablation, ingoreHalfArmor);
           });
           break;
         }
