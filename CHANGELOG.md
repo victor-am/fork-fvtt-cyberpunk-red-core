@@ -4,7 +4,7 @@
 - Added support for automatic damage application on Characters and Mooks.
   - The damage chat card of weapon attacks now has an additional button to apply the damage to the selected tokens.
   - Double damage for the head location and half SP for melee and martial arts attacks are respected.
-  - Bonus damage from citical injuries is always applied, as it penetrates the armor.
+  - Bonus damage from critical injuries is always applied, as it penetrates the armor.
   - Damage to Black ICE or done by programs is currently not supported.
 
 **Changes**

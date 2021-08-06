@@ -1107,7 +1107,7 @@ export default class CPRActor extends Actor {
       await this.update({ "data.derivedStats.hp.value": currentHp - bonusDamage });
     }
     if (damage < armorValue) {
-      // Damage did not penetrate armor and there is no bonus damage.
+      // Damage did not penetrate armor.
       return;
     }
     // Take the regular damage.
