@@ -250,68 +250,8 @@ export default class CPRChat {
           }
           tokens.forEach((t) => {
             const { actor } = t;
-            let armorValue = 0;
-            let armors;
-            if (location === "head") {
-              armors = actor.getEquippedArmors("head");
-            } else {
-              armors = actor.getEquippedArmors("body");
-            }
-            armors.forEach((a) => {
-              let newValue;
-              if (location === "head") {
-                newValue = a.data.data.headLocation.sp - a.data.data.headLocation.ablation;
-              } else {
-                newValue = a.data.data.bodyLocation.sp - a.data.data.bodyLocation.ablation;
-              }
-              if (newValue > armorValue) {
-                armorValue = newValue;
-              }
-            });
-            if (totalDamage > armorValue) {
-              // takes damage
-              let takenDamage = totalDamage - armorValue;
-              if (location === "head") {
-                takenDamage *= 2;
-              }
-              takenDamage += bonusDamage;
-              const currentHp = actor.data.data.derivedStats.hp.value;
-              actor.update({ "data.derivedStats.hp.value": currentHp - takenDamage });
-              // ablates armor
-              if (armors.length !== 0) {
-                const updateList = [];
-                armors.forEach((a) => {
-                  if (location === "head") {
-                    const armorData = a.data;
-                    const upgradeValue = a.getAllUpgradesFor("headSp");
-                    const upgradeType = a.getUpgradeTypeFor("headSp");
-                    armorData.data.headLocation.sp = Number(armorData.data.headLocation.sp);
-                    armorData.data.headLocation.ablation = Number(armorData.data.headLocation.ablation);
-                    const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.headLocation.sp + upgradeValue;
-                    armorData.data.headLocation.ablation = Math.min(
-                      (armorData.data.headLocation.ablation + 1), armorSp,
-                    );
-                    updateList.push({ _id: a.id, data: armorData.data });
-                  } else {
-                    const armorData = a.data;
-                    armorData.data.bodyLocation.sp = Number(armorData.data.bodyLocation.sp);
-                    armorData.data.bodyLocation.ablation = Number(armorData.data.bodyLocation.ablation);
-                    const upgradeValue = a.getAllUpgradesFor("bodySp");
-                    const upgradeType = a.getUpgradeTypeFor("bodySp");
-                    const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.bodyLocation.sp + upgradeValue;
-                    armorData.data.bodyLocation.ablation = Math.min(
-                      (armorData.data.bodyLocation.ablation + 1), armorSp,
-                    );
-                    updateList.push({ _id: a.id, data: armorData.data });
-                  }
-                });
-                actor.updateEmbeddedDocuments("Item", updateList);
-                // missing: update external armor data...
-              }
-            } else if (bonusDamage > 0) {
-              const currentHp = actor.data.data.derivedStats.hp.value;
-              actor.update({ "data.derivedStats.hp.value": currentHp - bonusDamage });
-            }
+            // Fixed ablation of 1 for now...
+            actor._applyDamage(totalDamage, bonusDamage, location, 1);
           });
           break;
         }
