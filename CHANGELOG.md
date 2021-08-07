@@ -5,6 +5,7 @@
 **Changes**
 
 **Bug Fixes**
+- Fixed #292: Attempting to delete installed cyberware is prevented now, as it can leave the actor in a broken state.
 
 # Version 0.78.1 | Date: 2021-08-04
 
