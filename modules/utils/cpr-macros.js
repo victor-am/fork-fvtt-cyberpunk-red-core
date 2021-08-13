@@ -3,6 +3,7 @@
 /* global game */
 import CPRChat from "../chat/cpr-chat.js";
 import SystemUtils from "./cpr-systemUtils.js";
+import LOGGER from "./cpr-logger.js";
 
 export default class CPRMacro {
   static async rollItemMacro(itemName, extraRollArgs = { skipPrompt: false, rollType: "attack" }) {
