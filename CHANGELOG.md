@@ -1,3 +1,11 @@
+# WIP Version 0.79.0 | Dev branch
+
+**New Features**
+
+**Changes**
+
+**Bug Fixes**
+
 # Version 0.78.2 | Date: 2021-08-12
 
 **Hot Fix**
