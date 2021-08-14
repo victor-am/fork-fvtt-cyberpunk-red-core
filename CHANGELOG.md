@@ -5,7 +5,9 @@
   - The damage chat card of weapon attacks now has an additional button to apply the damage to the selected tokens.
   - Double damage for the head location and half SP for melee and martial arts attacks are respected.
   - Bonus damage from critical injuries is always applied, as it penetrates the armor.
-  - Damage to Black ICE or done by programs is currently not supported.
+  - Damage delt by programs is direcly applied to the HP. No rezzed defender program (e.g. Armor) is considered. If you have any damage reduction while netrunning please apply the damage yourself.
+  - Any damage will be applied to a Demon or Black ICE, even if it is meat space damage. It is not checked, that the damage came from a program.
+  - For each token, where the damage was applied a chat card with the HP reduction and armor ablation will be shown. In case the armor prevented all damage it will also be told.
 
 **Changes**
 

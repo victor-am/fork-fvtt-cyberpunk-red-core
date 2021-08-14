@@ -136,6 +136,31 @@ export default class CPRChat {
     });
   }
 
+  static RenderDamageApplicationCard(damageData) {
+    LOGGER.trace("RenderDamageApplicationCard | CPRChat | Called.");
+    const damageApplicationTemplate = "systems/cyberpunk-red-core/templates/chat/cpr-damage-application-card.hbs";
+
+    return renderTemplate(damageApplicationTemplate, damageData).then((html) => {
+      const chatOptions = this.ChatDataSetup(html);
+
+      if (damageData.entityData !== undefined && damageData.entityData !== null) {
+        let actor;
+        const actorId = damageData.entityData.actor;
+        const tokenId = damageData.entityData.token;
+        if (tokenId) {
+          actor = (Object.keys(game.actors.tokens).includes(tokenId))
+            ? game.actors.tokens[tokenId]
+            : game.actors.find((a) => a.id === actorId);
+        } else {
+          [actor] = game.actors.filter((a) => a.id === actorId);
+        }
+        const alias = actor.name;
+        chatOptions.speaker = { actor, alias };
+      }
+      return ChatMessage.create(chatOptions, false);
+    });
+  }
+
   /**
    * Process a /red command typed into chat. This rolls dice based on arguments
    * passed in, among other things.
@@ -242,7 +267,10 @@ export default class CPRChat {
         case "applyDamage": {
           const totalDamage = parseInt($(event.currentTarget).attr("data-total-damage"), 10);
           const bonusDamage = parseInt($(event.currentTarget).attr("data-bonus-damage"), 10);
-          const location = (($(event.currentTarget).attr("data-damage-location") === "head") ? "head" : "body");
+          let location = $(event.currentTarget).attr("data-damage-location");
+          if (location !== "head" && location !== "brain") {
+            location = "body";
+          }
           const ablation = $(event.currentTarget).attr("data-ablation");
           const ingoreHalfArmor = (/true/i).test($(event.currentTarget).attr("data-ignore-half-armor"));
           const tokens = canvas.tokens.controlled;
@@ -253,6 +281,8 @@ export default class CPRChat {
           const allowedTypes = [
             "character",
             "mook",
+            "demon",
+            "blackIce",
           ];
           const failedActors = [];
           tokens.forEach((t) => {

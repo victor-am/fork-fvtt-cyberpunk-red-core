@@ -1084,6 +1084,14 @@ export default class CPRActor extends Actor {
    */
   async _applyDamage(damage, bonusDamage, location, ablation, ingoreHalfArmor) {
     LOGGER.trace("_applyDamage | CPRActor | Called.");
+    let totalDamageDealt = 0;
+    if (location === "brain") {
+      // This is damage done in a netrun, which completely ignores armor
+      const currentHp = this.data.data.derivedStats.hp.value;
+      await this.update({ "data.derivedStats.hp.value": currentHp - damage - bonusDamage });
+      CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: damage + bonusDamage, brainDamage: true });
+      return;
+    }
     const armors = this.getEquippedArmors(location);
     // Determine the highest value of all the equipped armors in the specific location
     let armorValue = 0;
@@ -1105,9 +1113,11 @@ export default class CPRActor extends Actor {
     if (bonusDamage !== 0) {
       const currentHp = this.data.data.derivedStats.hp.value;
       await this.update({ "data.derivedStats.hp.value": currentHp - bonusDamage });
+      totalDamageDealt += bonusDamage;
     }
-    if (damage < armorValue) {
-      // Damage did not penetrate armor.
+    if (damage <= armorValue) {
+      // Damage did not penetrate armor, thus only the bonus damage is applied.
+      CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: totalDamageDealt, ablation: 0 });
       return;
     }
     // Take the regular damage.
@@ -1118,8 +1128,11 @@ export default class CPRActor extends Actor {
     }
     const currentHp = this.data.data.derivedStats.hp.value;
     await this.update({ "data.derivedStats.hp.value": currentHp - takenDamage });
+    totalDamageDealt += takenDamage;
     // Ablate the armor correctly.
     await this._ablateArmor(location, ablation);
+
+    CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: totalDamageDealt, ablation });
   }
 
   /**
