@@ -8,6 +8,7 @@
   - Damage delt by programs is direcly applied to the HP. No rezzed defender program (e.g. Armor) is considered. If you have any damage reduction while netrunning please apply the damage yourself.
   - Any damage will be applied to a Demon or Black ICE, even if it is meat space damage. It is not checked, that the damage came from a program.
   - For each token, where the damage was applied a chat card with the HP reduction and armor ablation will be shown. In case the armor prevented all damage it will also be told.
+  - The damage application does not consider any Solo role abilities, as the damage reduction of it is only applicable once per round.
 
 **Changes**
 

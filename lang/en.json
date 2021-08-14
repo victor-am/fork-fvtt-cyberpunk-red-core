@@ -100,7 +100,7 @@
     "CPR.characterSheet.rightPanke.skills.base": "Base",
     "CPR.chat.blind": "Blind",
     "CPR.chat.damageApplication.actorNotSupported": "Error: Only the following actor types support automatic damage application right now: {types}<br>For the following actors the damge was not applied: {names}.",
-    "CPR.chat.damageApplication.applyDamage": "Apply Damage",
+    "CPR.chat.damageApplication.applyDamage": "Apply damage to selected Token",
     "CPR.chat.damageApplication.armorAblation": "Armor ablation:",
     "CPR.chat.damageApplication.damageDealtTo": "Damage dealt to",
     "CPR.chat.damageApplication.damageDidNotPenetrate": "The damage did not penetrate the armor.",
