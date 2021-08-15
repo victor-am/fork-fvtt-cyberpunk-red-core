@@ -641,6 +641,12 @@ export default class CPRActorSheet extends ActorSheet {
       });
       await this.actor.updateEmbeddedDocuments("Item", updateList);
     }
+    if (item.type === "cyberware") {
+      if (item.data.data.isInstalled) {
+        SystemUtils.DisplayMessage("warn", "CPR.messages.cyberwareDeleteWarning");
+        return;
+      }
+    }
 
     if (game.system.template.Item[item.type].templates.includes("upgradable")) {
       const { upgrades } = item.data.data;
