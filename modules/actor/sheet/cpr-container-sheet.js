@@ -111,8 +111,10 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
    */
   _automaticContentResize() {
     LOGGER.trace("_automaticContentResize | CPRContainerSheet | Called.");
-    const newHeight = this.position.height - 46;
-    this.form.children[0].children[1].setAttribute("style", `height:${newHeight}px`);
+    if (this.form !== null) {
+      const newHeight = this.position.height - 46;
+      this.form.children[0].children[1].setAttribute("style", `height:${newHeight}px`);
+    }
   }
 
   /**
@@ -289,11 +291,15 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
    * @callback
    * @param {Object} event - object capturing event data (what was clicked and where?)
    */
-  _checkboxToggle(event) {
+  async _checkboxToggle(event) {
     LOGGER.trace("_checkboxToggle | CPRContainerSheet | Called.");
     const flagName = $(event.currentTarget).attr("data-flag-name");
     const actor = this.token === null ? this.actor : this.token.actor;
-    actor.toggleFlag(flagName);
+    if (this.token === null) {
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.containerSettingsOnToken"));
+    } else {
+      actor.toggleFlag(flagName);
+    }
   }
 
   /**
@@ -307,7 +313,11 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     LOGGER.trace("_setContainerType | CPRContainerSheet | Called.");
     const containerType = $(event.currentTarget).val();
     const actor = this.token === null ? this.actor : this.token.actor;
-    return actor.setContainerType(containerType);
+    if (this.token === null) {
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.containerSettingsOnToken"));
+    } else {
+      await actor.setContainerType(containerType);
+    }
   }
 
   /**

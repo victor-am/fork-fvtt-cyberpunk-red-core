@@ -90,7 +90,7 @@ export default function registerHandlebarsHelpers() {
     return true;
   });
 
-  Handlebars.registerHelper("isEmpty", (object) => {
+  Handlebars.registerHelper("cprIsEmpty", (object) => {
     if (typeof object === "object") {
       if (Array.isArray(object)) {
         if (object.length === 0) {
@@ -124,6 +124,11 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("filter", (objList, key, value) => {
     LOGGER.trace("filter | handlebarsHelper | Called.");
+    if (objList === undefined) {
+      const warnText = "Improper use of the filter helper. This should not occur. Always provide an object list and not an undefined value. The following arguments were passed:";
+      LOGGER.warn(`${warnText} objList = ${objList}, key = ${key}, value = ${value}`);
+      return [];
+    }
     const filteredList = objList.filter((obj) => {
       let objProp = obj;
       const propDepth = key.split(".");

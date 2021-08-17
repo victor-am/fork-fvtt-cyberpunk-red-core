@@ -768,6 +768,16 @@ export default class CPRItem extends Item {
         cprRoll.rollCardExtraArgs.ammoType = ammoType;
       }
     }
+    const halfArmorAttacks = [
+      "lightMelee",
+      "medMelee",
+      "heavyMelee",
+      "vHeavyMelee",
+      "martialArts",
+    ];
+    if (halfArmorAttacks.includes(weaponType)) {
+      cprRoll.rollCardExtraArgs.ignoreHalfArmor = true;
+    }
     const upgradeType = this.getUpgradeTypeFor("damage");
     const upgradeValue = this.getAllUpgradesFor("damage");
     if (upgradeType === "override") {

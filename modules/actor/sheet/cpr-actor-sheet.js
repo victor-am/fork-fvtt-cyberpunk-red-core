@@ -364,64 +364,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _ablateArmor(event) {
     LOGGER.trace("_ablateArmor | CPRActorSheet | Called.");
     const location = $(event.currentTarget).attr("data-location");
-    const armorList = this.actor.getEquippedArmors(location);
-    const updateList = [];
-    let currentArmorValue;
-    switch (location) {
-      case "head": {
-        armorList.forEach((a) => {
-          const armorData = a.data;
-          const upgradeValue = a.getAllUpgradesFor("headSp");
-          const upgradeType = a.getUpgradeTypeFor("headSp");
-          armorData.data.headLocation.sp = Number(armorData.data.headLocation.sp);
-          armorData.data.headLocation.ablation = Number(armorData.data.headLocation.ablation);
-          const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.headLocation.sp + upgradeValue;
-          armorData.data.headLocation.ablation = Math.min(
-            (armorData.data.headLocation.ablation + 1), armorSp,
-          );
-          updateList.push({ _id: a.id, data: armorData.data });
-        });
-        await this.actor.updateEmbeddedDocuments("Item", updateList);
-        // Update actor external data as head armor is ablated:
-        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorHead.value - 1), 0);
-        await this.actor.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
-        break;
-      }
-      case "body": {
-        armorList.forEach((a) => {
-          const armorData = a.data;
-          armorData.data.bodyLocation.sp = Number(armorData.data.bodyLocation.sp);
-          armorData.data.bodyLocation.ablation = Number(armorData.data.bodyLocation.ablation);
-          const upgradeValue = a.getAllUpgradesFor("bodySp");
-          const upgradeType = a.getUpgradeTypeFor("bodySp");
-          const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.bodyLocation.sp + upgradeValue;
-          armorData.data.bodyLocation.ablation = Math.min(
-            (armorData.data.bodyLocation.ablation + 1), armorSp,
-          );
-          updateList.push({ _id: a.id, data: armorData.data });
-        });
-        await this.actor.updateEmbeddedDocuments("Item", updateList);
-        // Update actor external data as body armor is ablated:
-        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorBody.value - 1), 0);
-        await this.actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
-        break;
-      }
-      case "shield": {
-        armorList.forEach((a) => {
-          const armorData = a.data;
-          armorData.data.shieldHitPoints.value = Number(armorData.data.shieldHitPoints.value);
-          armorData.data.shieldHitPoints.max = Number(armorData.data.shieldHitPoints.max);
-          armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - 1), 0);
-          updateList.push({ _id: a.id, data: armorData.data });
-        });
-        await this.actor.updateEmbeddedDocuments("Item", updateList);
-        // Update actor external data as shield is damaged:
-        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorShield.value - 1), 0);
-        await this.actor.update({ "data.externalData.currentArmorShield.value": currentArmorValue });
-        break;
-      }
-      default:
-    }
+    this.actor._ablateArmor(location, 1);
   }
 
   /**
@@ -657,6 +600,12 @@ export default class CPRActorSheet extends ActorSheet {
         updateList.push({ _id: p._id, "data.isInstalled": false });
       });
       await this.actor.updateEmbeddedDocuments("Item", updateList);
+    }
+    if (item.type === "cyberware") {
+      if (item.data.data.isInstalled) {
+        SystemUtils.DisplayMessage("warn", "CPR.messages.cyberwareDeleteWarning");
+        return;
+      }
     }
 
     if (game.system.template.Item[item.type].templates.includes("upgradable")) {

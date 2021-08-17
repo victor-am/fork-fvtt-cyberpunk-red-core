@@ -3,16 +3,27 @@
     <div class="rollcard-top">
         <div class="cpr-block chat-rollTitle-stat">
             <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
-            {{#if (compare (compare rollCardExtraArgs.program.data.class "===" "antiprogramattacker") "&&" (compare rollCardExtraArgs.program.data.damage.blackIce "!==" "")) }}
-              {{#if (compare formula "===" rollCardExtraArgs.program.data.damage.standard)}}
-                <div class="text-center text-small">{{localize "CPR.itemSheet.program.damageTo"}} {{localize "CPR.itemSheet.program.nonBlackIce"}}</div>
+            <div class="rollcard-subtitle">
+              {{#if (compare (compare rollCardExtraArgs.program.data.class "===" "antiprogramattacker") "&&" (compare rollCardExtraArgs.program.data.damage.blackIce "!==" "")) }}
+                {{#if (compare formula "===" rollCardExtraArgs.program.data.damage.standard)}}
+                  <div class="rollcard-subtitle-center text-small">{{localize "CPR.itemSheet.program.damageTo"}} {{localize "CPR.itemSheet.program.nonBlackIce"}}</div>
+                {{else}}
+                <div class="rollcard-subtitle-center text-small">{{localize "CPR.itemSheet.program.damageTo"}} {{localize "CPR.global.programClass.blackice"}}</div>
+                {{/if}}
               {{else}}
-              <div class="text-center text-small">{{localize "CPR.itemSheet.program.damageTo"}} {{localize "CPR.global.programClass.blackice"}}</div>
+              <div class="rollcard-subtitle-center text-small">{{localize "CPR.global.generic.damage"}}</div>
               {{/if}}
-            {{else}}
-            <div class="text-center text-small">{{localize "CPR.global.generic.damage"}}</div>
-            {{/if}}
-
+              <div class="rollcard-subtitle-right">
+                <a class="clickable"
+                    data-action="applyDamage"
+                    data-total-damage="{{resultTotal}}" data-bonus-damage="{{#if criticalCard}}{{bonusDamage}}{{else}}0{{/if}}"
+                    data-damage-location="brain"
+                    data-ablation="0"
+                    data-ignore-half-armor="false">
+                    <i class="fas fa-bolt" title="{{localize "CPR.chat.damageApplication.applyDamage"}}"></i>
+                </a>
+              </div>
+            </div>
         </div>
     </div>
     <div class="rollcard-bottom">
