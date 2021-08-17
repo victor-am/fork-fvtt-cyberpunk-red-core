@@ -89,6 +89,7 @@
     "CPR.characterSheet.bottomPane.lifepath.valuedPerson": "À qui tenez-vous le plus ?",
     "CPR.characterSheet.bottomPane.lifepath.valuedPossession": "À quoi tenez-vous le plus ?",
     "CPR.characterSheet.bottomPane.role.abilities": "Capacités",
+    "CPR.characterSheet.bottomPane.role.noRolesWarning": "Aucun rôle défini, faites d'abord glisser un élément de rôle sur la feuille",
     "CPR.characterSheet.bottomPane.role.rank": "Rang",
     "CPR.chat.blind": "Aveuglé",
     "CPR.chat.self": "Soi-même",

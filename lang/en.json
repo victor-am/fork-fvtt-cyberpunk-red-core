@@ -70,6 +70,7 @@
     "CPR.characterSheet.bottomPane.lifepath.valuedPerson": "Most Valued Person",
     "CPR.characterSheet.bottomPane.lifepath.valuedPossession": "Most Valued Possession",
     "CPR.characterSheet.bottomPane.role.abilities": "Abilities",
+    "CPR.characterSheet.bottomPane.role.noRolesWarning": "No roles defined, drag a role item to the sheet first.",
     "CPR.characterSheet.bottomPane.role.rank": "Rank",
     "CPR.characterSheet.leftPane.deathSave.hoverCriticalInjuryPenalty": "Critical Injury Penalty",
     "CPR.characterSheet.leftPane.deathSave.reset": "Click to reset Death Save Penalty",
