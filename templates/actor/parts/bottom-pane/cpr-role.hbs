@@ -9,8 +9,10 @@
         <ol class="items-list role-list">
           <div class="collapsible">
             <li class="item items-header flexrow" data-item-id="{{role.data._id}}">
-              <span class="item-name role-name bg-black text-nowrap text-padding-left"
-                id="roleTab-{{role}}"><a class = "item-edit">{{role.data.name}} {{localize "CPR.characterSheet.bottomPane.role.abilities"}}&nbsp;</a></span>
+              <span class="item-name role-name bg-black text-nowrap text-padding-left" id="roleTab-{{role}}">
+                <a class = "item-edit">{{role.data.name}} {{localize "CPR.characterSheet.bottomPane.role.abilities"}}&nbsp;</a>
+                <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.deleteitem"}}"></i></a>
+              </span>
               <span class="item-detail role-rank bg-black text-nowrap text-right">{{localize "CPR.characterSheet.bottomPane.role.rank"}}</span>
             </li>
             <ol class="items-list">

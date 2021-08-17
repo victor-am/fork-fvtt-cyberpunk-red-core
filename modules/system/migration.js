@@ -311,6 +311,13 @@ export default class Migration {
         updateData["data.roleInfo.activeRole"] = configuredRole;
       }
 
+      // New data point needed for Roles as items implementation (0.78.1)
+      if ((typeof actorData.data.roleInfo.activeNetRole) === "undefined") {
+        const interfaceVal = actorData.data.roleInfo.roleskills.netrunner.interface;
+        const netRole = interfaceVal > 0 ? "Netrunner" : "";
+        updateData["data.roleInfo.activeNetRole"] = netRole;
+      }
+
       if ((typeof actorData.data.criticalInjuries) === "undefined") {
         updateData["data.criticalInjuries"] = [];
       }
@@ -369,6 +376,15 @@ export default class Migration {
           },
         };
       }
+
+      // Adds universal bonuses to actorData (for current implementation of roles
+      // providing bonuses to attacks and damage, and future implementation of active effects).
+      if ((typeof actorData.data.universalBonuses) === "undefined") {
+        updateData["data.universalBonuses"] = {
+          attack: 0,
+          damage: 0,
+        };
+      }
     }
 
     return updateData;
@@ -389,6 +405,46 @@ export default class Migration {
           newItems = migratedInjuries;
         }
       }
+    }
+
+    // Migrate role abilities to items and assign correct values.
+    const { roleskills } = actorData.data.roleInfo;
+    if ((typeof roleskills) !== "undefined") {
+      const pack = game.packs.get("cyberpunk-red-core.roles-items");
+      const content = await pack.getDocuments();
+      Object.entries(roleskills).forEach(([k1, v1]) => {
+        let newRole;
+        Object.entries(v1).forEach(([k2, v2]) => {
+          if (k2 !== "subSkills") {
+            if (v2 > 0) {
+              newRole = duplicate(content.find((c) => c.data.name.toLowerCase() === k1).data);
+              newRole.data.rank = v2;
+            }
+          }
+          if (k2 === "subSkills" && newRole) {
+            Object.entries(v2).forEach(([k3, v3]) => {
+              const niceSubRoleName = game.i18n.localize(`CPR.global.role.${k1}.ability.${k3}`);
+              newRole.data.abilities.find((a) => a.name === niceSubRoleName).rank = v3;
+            });
+          }
+        });
+        if (newRole) {
+          switch (k1) {
+            case "medtech": {
+              const medtechCryo = newRole.data.abilities.find((a) => a.name === "Medical Tech (Cryosystem Operation)").rank;
+              const medtechPharma = newRole.data.abilities.find((a) => a.name === "Medical Tech (Pharmaceuticals)").rank;
+              newRole.data.abilities.find((a) => a.name === "Medical Tech").rank = medtechCryo + medtechPharma;
+              break;
+            }
+            case "fixer": {
+              newRole.data.abilities.find((a) => a.name === "Haggle").rank = newRole.data.rank;
+              break;
+            }
+            default:
+          }
+          newItems.push(newRole);
+        }
+      });
     }
 
     // This was added as part of 0.72.  We had one report of
