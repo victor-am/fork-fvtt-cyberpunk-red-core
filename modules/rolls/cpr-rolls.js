@@ -9,8 +9,10 @@ export class CPRRoll {
   // Generic roll handler for CPR
   constructor(rollTitle, formula) {
     LOGGER.trace("constructor | CPRRoll | Called.");
-    // (private) the resulting Roll() object from Foundry
+    // (private) the resulting Roll() object from Foundry for intial roll
     this._roll = null;
+    // (private) the resulting Roll() object from Foundry for critical roll
+    this._critRoll = null;
     // (private) a stack of mods to apply to the roll
     this.mods = [];
     // a name for the roll, used in the UI
@@ -74,16 +76,23 @@ export class CPRRoll {
     LOGGER.trace("roll | CPRRoll | Called.");
     // calculate the initial roll
     this._roll = await new Roll(this.formula).evaluate({ async: true });
-    await DiceSoNice.ShowDiceSoNice(this._roll);
+
+    // eslint-disable-next-line no-use-before-define
+    if (!(this instanceof CPRInitiative)) {
+      await DiceSoNice.ShowDiceSoNice(this._roll);
+    }
     this.initialRoll = this._roll.total;
     this.resultTotal = this.initialRoll + this.totalMods();
     this.faces = this._roll.terms[0].results.map((r) => r.result);
 
     // check and consider criticals (min or max # on die)
     if (this.wasCritical() && this.calculateCritical) {
-      const critroll = await new Roll(this.formula).evaluate({ async: true });
-      await DiceSoNice.ShowDiceSoNice(critroll);
-      this.criticalRoll = critroll.total;
+      this._critRoll = await new Roll(this.formula).evaluate({ async: true });
+      // eslint-disable-next-line no-use-before-define
+      if (!(this instanceof CPRInitiative)) {
+        await DiceSoNice.ShowDiceSoNice(this._critRoll);
+      }
+      this.criticalRoll = this._critRoll.total;
     }
     this._computeResult();
   }

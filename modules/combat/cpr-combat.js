@@ -3,6 +3,7 @@
 import LOGGER from "../utils/cpr-logger.js";
 import CombatUtils from "../utils/cpr-combatUtils.js";
 import CPRChat from "../chat/cpr-chat.js";
+import DiceSoNice from "../extern/cpr-dice-so-nice.js";
 
 /**
  * A custom class so we can override initiative behaviors for Black-ICE and Demons.
@@ -57,6 +58,7 @@ export default class CPRCombat extends Combat {
 
     // Iterate over Combatants, performing an initiative roll for each
     const updates = [];
+    const rolls = [];
     for (const [i, id] of combatantIds.entries()) {
       // Get Combatant data (non-strictly)
       const combatant = this.combatants.get(id);
@@ -67,9 +69,23 @@ export default class CPRCombat extends Combat {
       updates.push({ _id: id, initiative: cprRoll.resultTotal });
 
       cprRoll.entityData = { actor: combatant.actor?.id, token: combatant.token?.id };
-
-      CPRChat.RenderRollCard(cprRoll);
+      rolls.push(cprRoll);
     }
+
+    const dsnPromises = [];
+    rolls.forEach((d) => {
+      dsnPromises.push(DiceSoNice.ShowDiceSoNice(d._roll));
+      if (d.wasCritical()) {
+        dsnPromises.push(DiceSoNice.ShowDiceSoNice(d._critRoll));
+      }
+    });
+
+    await Promise.all(dsnPromises);
+
+    rolls.forEach((d) => {
+      CPRChat.RenderRollCard(d);
+    });
+
     if (!updates.length) return;
 
     // Update multiple combatants
