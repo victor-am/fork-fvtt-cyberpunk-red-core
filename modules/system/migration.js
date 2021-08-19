@@ -390,6 +390,14 @@ export default class Migration {
     return updateData;
   }
 
+  static async migrateTokenActor(actor) {
+    if (actor.type === "character" || actor.type === "mook") {
+      await this.createActorItems(actor);
+    }
+
+    return this.migrateActorData(actor.data, "token");
+  }
+
   // Segmented out the creation of items for the Actors as they are not just
   // manipulating the Actor Data, they are creating new Item entities in the
   // world and adding them to the actors.
@@ -981,7 +989,7 @@ export default class Migration {
         const actorData = duplicate(token.actor.data);
         actorData.type = token.actor?.type;
 
-        const updateData = this.migrateActorData(actorData, "token");
+        const updateData = this.migrateTokenActor(token.actor);
         ["items", "effects"].forEach((embeddedName) => {
           if (!updateData[embeddedName]?.length) return;
           const embeddedUpdates = new Map(updateData[embeddedName].map((u) => [u._id, u]));
