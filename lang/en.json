@@ -750,6 +750,8 @@
     "CPR.rolls.total": "Total",
     "CPR.settings.automaticallyResizeSheets.hint": "Automatically resize actor and item sheets depending on the content.",
     "CPR.settings.automaticallyResizeSheets.name": "Automatically resize sheets",
+    "CPR.settings.criticalInitiative.hint": "When enabled, a critical inititive roll (good or bad) will roll and apply another die to the initiative roll",
+    "CPR.settings.criticalInitiative.name": "Initiative rolls Criticals",
     "CPR.settings.debugElements.hint": "Show debugging elements in the UI, such as internal itemIDs",
     "CPR.settings.debugElements.name": "Debug Elements in UI",
     "CPR.settings.debugLogs.hint": "Enable debugging logs, filling them with useful info for system developers and testers.",

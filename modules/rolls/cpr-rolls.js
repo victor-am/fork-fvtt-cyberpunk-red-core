@@ -74,11 +74,16 @@ export class CPRRoll {
 
   async roll() {
     LOGGER.trace("roll | CPRRoll | Called.");
+    const criticalInitiative = game.settings.get("cyberpunk-red-core", "criticalInitiative");
     // calculate the initial roll
     this._roll = await new Roll(this.formula).evaluate({ async: true });
 
     // eslint-disable-next-line no-use-before-define
-    if (!(this instanceof CPRInitiative)) {
+    if (this instanceof CPRInitiative) {
+      if (!criticalInitiative) {
+        this.calculateCritical = false;
+      }
+    } else {
       await DiceSoNice.ShowDiceSoNice(this._roll);
     }
     this.initialRoll = this._roll.total;
@@ -116,7 +121,7 @@ export class CPRRoll {
   wasCritical() {
     LOGGER.trace("wasCritical | CPRRoll | Called.");
     // return true or false indicating if a roll was critical
-    return this.wasCritFail() || this.wasCritSuccess();
+    return this.calculateCritical ? this.wasCritFail() || this.wasCritSuccess() : false;
   }
 
   wasCritFail() {

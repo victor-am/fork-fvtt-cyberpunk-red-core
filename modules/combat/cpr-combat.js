@@ -66,16 +66,18 @@ export default class CPRCombat extends Combat {
 
       // Produce an initiative roll for the Combatant
       const cprRoll = (await combatant.getInitiativeRoll("1d10"));
+
       updates.push({ _id: id, initiative: cprRoll.resultTotal });
 
       cprRoll.entityData = { actor: combatant.actor?.id, token: combatant.token?.id };
       rolls.push(cprRoll);
     }
 
+    const rollCriticals = game.settings.get("cyberpunk-red-core", "criticalInitiative");
     const dsnPromises = [];
     rolls.forEach((d) => {
       dsnPromises.push(DiceSoNice.ShowDiceSoNice(d._roll));
-      if (d.wasCritical()) {
+      if (rollCriticals && d.wasCritical()) {
         dsnPromises.push(DiceSoNice.ShowDiceSoNice(d._critRoll));
       }
     });
