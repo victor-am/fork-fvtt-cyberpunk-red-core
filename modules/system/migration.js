@@ -320,6 +320,41 @@ export default class Migration {
         }
       }
 
+      // make the first letter of activeRole uppercase to match
+      switch (actorData.data.roleInfo.activeRole) {
+        case "exec":
+          updateData["data.roleInfo.activeRole"] = "Exec";
+          break;
+        case "fixer":
+          updateData["data.roleInfo.activeRole"] = "Fixer";
+          break;
+        case "lawman":
+          updateData["data.roleInfo.activeRole"] = "Lawman";
+          break;
+        case "media":
+          updateData["data.roleInfo.activeRole"] = "Media";
+          break;
+        case "medtech":
+          updateData["data.roleInfo.activeRole"] = "Medtech";
+          break;
+        case "netrunner":
+          updateData["data.roleInfo.activeRole"] = "Netrunner";
+          break;
+        case "nomad":
+          updateData["data.roleInfo.activeRole"] = "Nomad";
+          break;
+        case "rockerboy":
+          updateData["data.roleInfo.activeRole"] = "Rockerboy";
+          break;
+        case "solo":
+          updateData["data.roleInfo.activeRole"] = "Solo";
+          break;
+        case "tech":
+          updateData["data.roleInfo.activeRole"] = "Tech";
+          break;
+        default:
+      }
+
       if ((typeof actorData.data.criticalInjuries) === "undefined") {
         updateData["data.criticalInjuries"] = [];
       }
@@ -455,10 +490,6 @@ export default class Migration {
           newItems.push(newRole);
         }
       });
-      // make the first letter of activeRole uppercase to match
-      const { activeRole } = actorData.data.roleInfo;
-      const titleCaseActiveRole = activeRole.charAt(0).toUpperCase() + activeRole.slice(1);
-      actorData.update({ "data.roleInfo.activeRole": titleCaseActiveRole });
     }
 
     // This was added as part of 0.72.  We had one report of
