@@ -5,8 +5,10 @@
         class="text-smallest text-super fas fa-wrench"></i></a>
   </div>
   <div class="block-data">
-    {{#if (objectListContains actor.data.filteredItems.role "name" data.data.roleInfo.activeRole)}}
+    {{#if data.data.roleInfo.activeRole}}
       {{data.data.roleInfo.activeRole}}
+    {{else}}
+      --
     {{/if}}
   </div>
 </div>

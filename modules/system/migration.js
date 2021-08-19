@@ -311,11 +311,13 @@ export default class Migration {
         updateData["data.roleInfo.activeRole"] = configuredRole;
       }
 
-      // New data point needed for Roles as items implementation (0.78.1)
-      if ((typeof actorData.data.roleInfo.activeNetRole) === "undefined") {
+      // New data point needed for Roles as items implementation (0.79.1)
+      if (actorData.data.roleInfo.activeNetRole === "") {
         const interfaceVal = actorData.data.roleInfo.roleskills.netrunner.interface;
         const netRole = interfaceVal > 0 ? "Netrunner" : "";
-        updateData["data.roleInfo.activeNetRole"] = netRole;
+        if (actorData.data.roleInfo.roles.includes("netrunner")) {
+          updateData["data.roleInfo.activeNetRole"] = "Netrunner";
+        }
       }
 
       if ((typeof actorData.data.criticalInjuries) === "undefined") {
@@ -453,6 +455,10 @@ export default class Migration {
           newItems.push(newRole);
         }
       });
+      // make the first letter of activeRole uppercase to match
+      const { activeRole } = actorData.data.roleInfo;
+      const titleCaseActiveRole = activeRole.charAt(0).toUpperCase() + activeRole.slice(1);
+      actorData.update({ "data.roleInfo.activeRole": titleCaseActiveRole });
     }
 
     // This was added as part of 0.72.  We had one report of
