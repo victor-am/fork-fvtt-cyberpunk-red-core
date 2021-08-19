@@ -82,8 +82,11 @@ const itemHooks = () => {
             .sort((a, b) => (a.data.name > b.data.name ? 1 : -1))
             .find((r) => r.data.name !== actor.data.data.roleInfo.activeRole);
           actor.update({ "data.roleInfo.activeRole": newActiveRole.data.name });
+          const warning = `${SystemUtils.Localize("CPR.messages.warnDeleteActiveRole")} ${newActiveRole.data.name}`;
+          SystemUtils.DisplayMessage("warn", warning);
         } else {
           actor.update({ "data.roleInfo.activeRole": "" });
+          SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.characterSheet.bottomPane.role.noRolesWarning"));
         }
       }
     }

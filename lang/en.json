@@ -688,6 +688,7 @@
     "CPR.messages.tradeWithWarn": "Please select a character, that should perform the trade first.",
     "CPR.messages.tradedragupgradewarn": "Trading upgraded items is not supported in the system at this time.",
     "CPR.messages.unsupportedEntityError": "Unsupported Entity type for create()",
+    "CPR.messages.warnDeleteActiveRole": "You deleted your active role. Active role now set to the following:",
     "CPR.messages.warnNoFoundationalCyberwareOfCorrectType": "Optional cyberware requires prior installation of Foundational Cyberware. No Foundational Cyberware found for this type.",
     "CPR.messages.warningNotEnoughEb": "You lost more Eurobucks than you have!",
     "CPR.messages.warningNotEnoughIp": "You lost more IP than you have!",
