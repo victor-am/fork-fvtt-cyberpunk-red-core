@@ -604,6 +604,7 @@
     "CPR.itemSheet.role.bonuses": "Bonuses",
     "CPR.itemSheet.role.chooseSkill": "Choose Skill",
     "CPR.itemSheet.role.configureRollBonuses": "Configure Bonuses to Rolls",
+    "CPR.itemSheet.role.deleteConfirmation": "the role ability",
     "CPR.itemSheet.role.deleteRoleAbility": "Delete Role Ability",
     "CPR.itemSheet.role.editRoleAbility": "Edit Role Ability",
     "CPR.itemSheet.role.hasRoll": "Has Roll?",
