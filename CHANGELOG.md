@@ -12,6 +12,8 @@
   - Implemented Critical Initiative per RTG release of FAQ 1.3 (FR Issue #288).
     - NOTE: This feature is ENABLED by default as it follows RAW, however may be disabled via the System Settings.
   - Implemented CPR Roll Cards for Initiative.
+  - Implemented proper initiative rules for Net Combat.
+    - If a character or mook has a cyberdeck equipped when rolling initiative, you will be prompted whether you are rolling for Meat or Net combat as the calculation used depends on this.
 
 **Changes**
 
