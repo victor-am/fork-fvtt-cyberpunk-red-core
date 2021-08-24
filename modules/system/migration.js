@@ -313,8 +313,6 @@ export default class Migration {
 
       // New data point needed for Roles as items implementation (0.79.1)
       if (actorData.data.roleInfo.activeNetRole === "") {
-        const interfaceVal = actorData.data.roleInfo.roleskills.netrunner.interface;
-        const netRole = interfaceVal > 0 ? "Netrunner" : "";
         if (actorData.data.roleInfo.roles.includes("netrunner")) {
           updateData["data.roleInfo.activeNetRole"] = "Netrunner";
         }
