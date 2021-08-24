@@ -640,6 +640,7 @@
     "CPR.messages.improvementPointsEditWarn": "Please enter a number into the 'Modify by' field.",
     "CPR.messages.insufficientPermissions": "You lack the permissions to perform this action.",
     "CPR.messages.invalidRoleData": "Check your role rank abilities, they don't look right, Choomba!",
+    "CPR.messages.invalidCombatantType": "Invalid combatant actor type",
     "CPR.messages.itemDoesNotExistError": "Error: The item with the id {itemid} does not exist.",
     "CPR.messages.ledgerErrorIsNoLedger": "Error: This property is no ledger!",
     "CPR.messages.linkBlackIceWithoutToken": "Only tokens can be linked to a Black ICE Program. Place this Actor into your scene and configure the Token to use the Black ICE program of your choice.",

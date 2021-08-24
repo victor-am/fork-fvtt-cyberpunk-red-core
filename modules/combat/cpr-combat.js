@@ -108,6 +108,10 @@ export default class CPRCombat extends Combat {
 
         cprRoll.entityData = { actor: combatant.actor?.id, token: combatant.token?.id };
         rolls.push(cprRoll);
+      } else {
+        const warningMessage = `${SystemUtils.Localize("CPR.messages.invalidCombatantType")}: ${actor.name} (${actor.type})`;
+        SystemUtils.DisplayMessage("warn", warningMessage);
+
       }
     }
 
