@@ -12,6 +12,13 @@ import * as CPRRolls from "../rolls/cpr-rolls.js";
  * @extends Combatant
  */
 export default class CPRCombatant extends Combatant {
+  /**
+ * Create an initiative roll for this combatant
+ *
+ * @param {String} formula - Roll formula to use for initiative
+ * @param {String} initiativeType - Expecting either "meat" or "net"
+ * @returns {Roll}
+ */
   async getInitiativeRoll(formula, initiativeType) {
     LOGGER.trace("getInitiativeRoll | CPRCombatant | Called.");
     let cprInitiative;
@@ -33,8 +40,13 @@ export default class CPRCombatant extends Combatant {
       case "demon":
       case "blackIce": {
         cprInitiative = new CPRRolls.CPRInitiative("net", "program", formula, actor.getStat("spd"));
+        break;
       }
       default:
+        // The only way we get here is if someone tries to roll initiative for something that
+        // should not have an initiative roll (container?), so we will just roll whatever formula is passed with
+        // no base value
+        cprInitiative = new CPRRolls.CPRInitiative("meat", actor.type, formula, 0);
         break;
     }
     await cprInitiative.roll();
