@@ -4,6 +4,8 @@ import LOGGER from "../utils/cpr-logger.js";
 import CombatUtils from "../utils/cpr-combatUtils.js";
 import CPRChat from "../chat/cpr-chat.js";
 import DiceSoNice from "../extern/cpr-dice-so-nice.js";
+import SelectInitiativeType from "../dialog/cpr-initiative-type-prompt.js";
+import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
  * A custom class so we can override initiative behaviors for Black-ICE and Demons.
@@ -59,18 +61,54 @@ export default class CPRCombat extends Combat {
     // Iterate over Combatants, performing an initiative roll for each
     const updates = [];
     const rolls = [];
+    let initiativeType;
     for (const [i, id] of combatantIds.entries()) {
       // Get Combatant data (non-strictly)
       const combatant = this.combatants.get(id);
       if (!combatant?.isOwner) return;
 
-      // Produce an initiative roll for the Combatant
-      const cprRoll = (await combatant.getInitiativeRoll("1d10"));
+      // See what type of initiative for characters & mooks if they have an equipped cyberdeck
+      const { actor } = combatant.token;
+      switch (actor.type) {
+        case "character":
+        case "mook": {
+          if (actor.hasItemTypeEquipped("cyberdeck")) {
+            if (typeof initiativeType === "undefined") {
+              // Check if this is a meat initiative roll or net initiative roll
+              let formData = { title: SystemUtils.Format("CPR.dialog.initiativeType.initiativeType"), initiativeType: "meat" };
+              formData = await SelectInitiativeType.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+              if (formData === undefined) {
+                return;
+              }
+              initiativeType = formData.initiativeType;
+            }
+          } else {
+            initiativeType = "meat";
+          }
+          break;
+        }
+        case "blackIce":
+        case "demon": {
+          initiativeType = "net";
+          break;
+        }
+        case "container": {
+          initiativeType = "none";
+          break;
+        }
+        default:
+          initiativeType = "meat";
+      }
 
-      updates.push({ _id: id, initiative: cprRoll.resultTotal });
+      if (initiativeType !== "none") {
+        // Produce an initiative roll for the Combatant
+        const cprRoll = (await combatant.getInitiativeRoll("1d10", initiativeType));
 
-      cprRoll.entityData = { actor: combatant.actor?.id, token: combatant.token?.id };
-      rolls.push(cprRoll);
+        updates.push({ _id: id, initiative: cprRoll.resultTotal });
+
+        cprRoll.entityData = { actor: combatant.actor?.id, token: combatant.token?.id };
+        rolls.push(cprRoll);
+      }
     }
 
     const rollCriticals = game.settings.get("cyberpunk-red-core", "criticalInitiative");

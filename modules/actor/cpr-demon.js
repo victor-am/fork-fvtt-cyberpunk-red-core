@@ -57,4 +57,16 @@ export default class CPRDemonActor extends Actor {
     await this.update({ "data.stats.rez.value": currentRez - damage - bonusDamage });
     CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: damage + bonusDamage, rezReduction: true });
   }
+
+  /**
+   * Given a stat name, return the value of it off the actor
+   *
+   * @param {String} statName - name (from CPR.statList) of the stat to retrieve
+   * @returns {Number}
+  */
+  getStat(statName) {
+    LOGGER.trace("getStat | CPRDemonActor | Called.");
+    const statValue = (statName === "rez") ? this.data.data.stats[statName].value : this.data.data.stats[statName];
+    return parseInt(statValue, 10);
+  }
 }

@@ -157,11 +157,20 @@ export class CPRRoll {
 }
 
 export class CPRInitiative extends CPRRoll {
-  constructor(formula, reflex) {
+  constructor(initiativeType, combatant, formula, base, mod = 0) {
     LOGGER.trace("constructor | CPRStatRoll | Called.");
     super(SystemUtils.Localize("CPR.rolls.initiative"), formula);
-    this.statName = SystemUtils.Localize("CPR.global.stats.ref");
-    this.statValue = reflex;
+    if (initiativeType === "meat") {
+      this.statName = SystemUtils.Localize("CPR.global.stats.ref");
+    } else if (combatant === "program") {
+      this.statName = SystemUtils.Localize("CPR.global.generic.speed");
+    } else {
+      this.statName = SystemUtils.Localize("CPR.global.role.netrunner.ability.interface");
+    }
+    this.statValue = base;
+    if (mod > 0) {
+      this.addMod(mod);
+    }
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-initiative-rollcard.hbs";
   }
 
