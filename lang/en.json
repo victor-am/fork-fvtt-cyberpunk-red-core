@@ -609,6 +609,8 @@
     "CPR.itemSheet.role.editRoleAbility": "Edit Role Ability",
     "CPR.itemSheet.role.hasRoll": "Has Roll?",
     "CPR.itemSheet.role.mainAbilityName": "Main Ability Name",
+    "CPR.itemSheet.role.multiplier": "Mult.",
+    "CPR.itemSheet.role.newRoleAbility": "New Role Ability",
     "CPR.itemSheet.role.rank": "Rank",
     "CPR.itemSheet.role.skill": "Skill",
     "CPR.itemSheet.role.skillList": "Skill List",
