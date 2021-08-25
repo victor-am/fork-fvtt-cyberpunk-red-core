@@ -323,7 +323,7 @@ export default class CPRChat {
     if (location !== "head" && location !== "brain") {
       location = "body";
     }
-    const ablation = $(event.currentTarget).attr("data-ablation");
+    const ablation = parseInt($(event.currentTarget).attr("data-ablation"), 10);
     const ingoreHalfArmor = (/true/i).test($(event.currentTarget).attr("data-ignore-half-armor"));
     const tokens = canvas.tokens.controlled;
     if (tokens.length === 0) {
