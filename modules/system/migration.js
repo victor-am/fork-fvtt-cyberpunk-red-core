@@ -459,7 +459,7 @@ export default class Migration {
         let newRole;
         Object.entries(v1).forEach(([k2, v2]) => {
           if (k2 !== "subSkills") {
-            if (v2 > 0) {
+            if (actorData.data.roleInfo.roles.includes(k1)) {
               newRole = duplicate(content.find((c) => c.data.name.toLowerCase() === k1).data);
               newRole.data.rank = v2;
             }
