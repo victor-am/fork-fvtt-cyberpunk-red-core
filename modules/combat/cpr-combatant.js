@@ -37,9 +37,12 @@ export default class CPRCombatant extends Combatant {
         }
         break;
       }
-      case "demon":
+      case "demon": {
+        cprInitiative = new CPRRolls.CPRInitiative("net", actor.type, formula, actor.getStat("interface"));
+        break;
+      }
       case "blackIce": {
-        cprInitiative = new CPRRolls.CPRInitiative("net", "program", formula, actor.getStat("spd"));
+        cprInitiative = new CPRRolls.CPRInitiative("net", actor.type, formula, actor.getStat("spd"));
         break;
       }
       default:

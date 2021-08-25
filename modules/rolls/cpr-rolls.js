@@ -162,8 +162,10 @@ export class CPRInitiative extends CPRRoll {
     super(SystemUtils.Localize("CPR.rolls.initiative"), formula);
     if (initiativeType === "meat") {
       this.statName = SystemUtils.Localize("CPR.global.stats.ref");
-    } else if (combatant === "program") {
+    } else if (combatant === "blackIce") {
       this.statName = SystemUtils.Localize("CPR.global.generic.speed");
+    } else if (combatant === "demon") {
+      this.statName = SystemUtils.Localize("CPR.global.role.netrunner.ability.interface");
     } else {
       this.statName = SystemUtils.Localize("CPR.global.role.netrunner.ability.interface");
     }

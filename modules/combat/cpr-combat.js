@@ -111,7 +111,6 @@ export default class CPRCombat extends Combat {
       } else {
         const warningMessage = `${SystemUtils.Localize("CPR.messages.invalidCombatantType")}: ${actor.name} (${actor.type})`;
         SystemUtils.DisplayMessage("warn", warningMessage);
-
       }
     }
 
