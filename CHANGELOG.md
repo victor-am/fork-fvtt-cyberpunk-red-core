@@ -3,12 +3,14 @@
 **New Features**
 - Added support for automatic damage application on Characters and Mooks.
   - The damage chat card of weapon attacks now has an additional button to apply the damage to the selected tokens.
+  - A prompt showing the tokens, which will be damaged is shown. It can be skipped by holding the ctrl key while clicking.
   - Double damage for the head location and half SP for melee and martial arts attacks are respected.
   - Bonus damage from critical injuries is always applied, as it penetrates the armor.
   - Damage dealt by programs is directly applied to the HP. No rezzed defender program (e.g. Armor) is considered. If you have any damage reduction while netrunning please apply the damage yourself.
   - Any damage will be applied to a Demon or Black ICE, even if it is meat space damage. It is not checked, that the damage came from a program.
   - For each token, where the damage was applied a chat card with the HP reduction and armor ablation will be shown. In case the armor prevented all damage it will also be told.
   - The damage application does not consider any Solo role abilities, as the damage reduction of it is only applicable once per round.
+- Added filter capability for Skills & Gear.  This is a client side option which can be enabled/disabled in the System Settings.
 
 **Changes**
 - Feature Request #296: Exotic Weapons from the Core Rulebook are now present in the Weapons Compendium. The Battleglove has been placed into Cyberware Compendium, and Battery Pack has been placed into the Ammo Compendium.

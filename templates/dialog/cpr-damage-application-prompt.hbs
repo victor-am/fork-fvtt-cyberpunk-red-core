@@ -1,0 +1,12 @@
+{{trace "CPR-DAMAGE-APPLICATION-PROMPT.HBS"}}
+<div class="">
+  <div>{{localize "CPR.chat.damageApplication.prompt.allowedTypes"}}</div>
+  {{#each allowedActors as |actor|}}
+    <li>{{actor.name}}</li>
+  {{/each}}
+  <div>{{localize "CPR.chat.damageApplication.prompt.forbiddenTypes"}}</div>
+  {{#each forbiddenActors as |actor|}}
+    <li>{{actor.name}}</li>
+  {{/each}}
+</div>
+{{trace "END CPR-DAMAGE-APPLICATION-PROMPT.HBS"}}

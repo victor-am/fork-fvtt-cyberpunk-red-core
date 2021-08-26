@@ -2,6 +2,7 @@
 import LOGGER from "../utils/cpr-logger.js";
 import { CPRRoll, CPRDamageRoll } from "../rolls/cpr-rolls.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
+import DamageApplicationPrompt from "../dialog/cpr-damage-application-prompt.js";
 
 /**
  * For the sake of aesthetics, we have a class for Chat cards. It wraps around
@@ -265,38 +266,7 @@ export default class CPRChat {
           break;
         }
         case "applyDamage": {
-          const totalDamage = parseInt($(event.currentTarget).attr("data-total-damage"), 10);
-          const bonusDamage = parseInt($(event.currentTarget).attr("data-bonus-damage"), 10);
-          let location = $(event.currentTarget).attr("data-damage-location");
-          if (location !== "head" && location !== "brain") {
-            location = "body";
-          }
-          const ablation = $(event.currentTarget).attr("data-ablation");
-          const ingoreHalfArmor = (/true/i).test($(event.currentTarget).attr("data-ignore-half-armor"));
-          const tokens = canvas.tokens.controlled;
-          if (tokens.length === 0) {
-            SystemUtils.DisplayMessage("warn", "CPR.chat.damageApplication.noTokenSelected");
-            break;
-          }
-          const allowedTypes = [
-            "character",
-            "mook",
-            "demon",
-            "blackIce",
-          ];
-          const failedActors = [];
-          tokens.forEach((t) => {
-            const { actor } = t;
-            if (allowedTypes.includes(actor.type)) {
-              actor._applyDamage(totalDamage, bonusDamage, location, ablation, ingoreHalfArmor);
-            } else {
-              failedActors.push(actor.name);
-            }
-          });
-          if (failedActors.length !== 0) {
-            const message = SystemUtils.Format("CPR.chat.damageApplication.actorNotSupported", { types: allowedTypes.join(" "), names: failedActors.join(" ") });
-            SystemUtils.DisplayMessage("warn", message);
-          }
+          this.damageApplication(event);
           break;
         }
         default: {
@@ -338,5 +308,54 @@ export default class CPRChat {
       indicatorElement.text(SystemUtils.Localize("CPR.chat.whisper"));
       timestampTag.before(indicatorElement);
     }
+  }
+
+  /**
+   * Handle the damage application from the chat message. It is called from the chatListeners.
+   *
+   * @param {*} event - event data from the chat message
+   */
+  static async damageApplication(event) {
+    LOGGER.trace("damageApplication | CPRChat | Called.");
+    const totalDamage = parseInt($(event.currentTarget).attr("data-total-damage"), 10);
+    const bonusDamage = parseInt($(event.currentTarget).attr("data-bonus-damage"), 10);
+    let location = $(event.currentTarget).attr("data-damage-location");
+    if (location !== "head" && location !== "brain") {
+      location = "body";
+    }
+    const ablation = parseInt($(event.currentTarget).attr("data-ablation"), 10);
+    const ingoreHalfArmor = (/true/i).test($(event.currentTarget).attr("data-ignore-half-armor"));
+    const tokens = canvas.tokens.controlled;
+    if (tokens.length === 0) {
+      SystemUtils.DisplayMessage("warn", "CPR.chat.damageApplication.noTokenSelected");
+      return;
+    }
+    const allowedTypes = [
+      "character",
+      "mook",
+      "demon",
+      "blackIce",
+    ];
+    const allowedActors = [];
+    const forbiddenActors = [];
+    tokens.forEach((t) => {
+      const { actor } = t;
+      if (allowedTypes.includes(actor.type)) {
+        allowedActors.push(actor);
+      } else {
+        forbiddenActors.push(actor);
+      }
+    });
+    if (!event.ctrlKey) {
+      const title = SystemUtils.Localize("CPR.chat.damageApplication.prompt.title");
+      const data = { allowedActors, forbiddenActors };
+      const confirmation = await DamageApplicationPrompt.RenderPrompt(title, data);
+      if (!confirmation) {
+        return;
+      }
+    }
+    allowedActors.forEach((a) => {
+      a._applyDamage(totalDamage, bonusDamage, location, ablation, ingoreHalfArmor);
+    });
   }
 }
