@@ -154,6 +154,12 @@ export default class CPRActorSheet extends ActorSheet {
     // Reset Death Penalty
     html.find(".reset-value").click((event) => this._resetDeathSave(event));
 
+    // Filter contents of skills or gear
+    html.find(".filter-contents").change((event) => this._applyContentFilter(event));
+
+    // Reset content filter
+    html.find(".reset-content-filter").click(() => this._clearContentFilter());
+
     // Show edit and delete buttons
     html.find(".row.item").hover(
       (event) => {
@@ -1015,5 +1021,34 @@ export default class CPRActorSheet extends ActorSheet {
     delete newItemData._id;
     await this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.amount": newAmount }]);
     await this.actor.createEmbeddedDocuments("Item", [newItemData], { CPRsplitStack: true });
+  }
+
+  /**
+   * _applyContentFilter is used to filter data content on the actor sheet
+   * to make locating things, such as skills or gear easier
+   *
+   * @private
+   * @param {Object} event - an object capturing event details
+   */
+  async _applyContentFilter(event) {
+    LOGGER.trace("_applyContentFilter | CPRActorSheet | called.");
+    const filterValue = event.currentTarget.value;
+    this.options.cprContentFilter = filterValue;
+    this._render();
+  }
+
+  /**
+   * _clearContentFilter is used to clear the filter used on the sheet
+   * This is called when the tabs change if a filter is set.
+   *
+   * @private
+   * @param {Object} event - an object capturing event details
+   */
+  async _clearContentFilter() {
+    LOGGER.trace("_clearContentFilter | CPRActorSheet | called.");
+    if (typeof this.options.cprContentFilter !== "undefined" && this.options.cprContentFilter !== "") {
+      this.options.cprContentFilter = "";
+      this._render();
+    }
   }
 }
