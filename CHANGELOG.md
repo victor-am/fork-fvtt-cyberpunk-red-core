@@ -15,6 +15,7 @@
 
 **Bug Fixes**
 - Fixed #292: Attempting to delete installed cyberware is prevented now, as it can leave the actor in a broken state.
+- Fixed #294: Cybersnake and Vampyres cyberware items from the compendium now display their weapon stats in the fight tab.
 
 # Version 0.78.2 | Date: 2021-08-12
 
