@@ -3,6 +3,7 @@
 **New Features**
 - Added support for automatic damage application on Characters and Mooks.
   - The damage chat card of weapon attacks now has an additional button to apply the damage to the selected tokens.
+  - A prompt showing the tokens, which will be damaged is shown. It can be skipped by holding the ctrl key while clicking.
   - Double damage for the head location and half SP for melee and martial arts attacks are respected.
   - Bonus damage from critical injuries is always applied, as it penetrates the armor.
   - Damage dealt by programs is directly applied to the HP. No rezzed defender program (e.g. Armor) is considered. If you have any damage reduction while netrunning please apply the damage yourself.
