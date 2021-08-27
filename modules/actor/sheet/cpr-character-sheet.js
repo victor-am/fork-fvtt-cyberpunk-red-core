@@ -57,6 +57,9 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   activateListeners(html) {
     LOGGER.trace("activateListeners | CPRCharacterActorSheet | Called.");
+
+    html.find(".navtabs-right").click(() => this._clearContentFilter());
+
     // Cycle equipment status
     html.find(".equip").click((event) => this._cycleEquipState(event));
 

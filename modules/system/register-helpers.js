@@ -593,6 +593,15 @@ export default function registerHandlebarsHelpers() {
     return upgradeResult;
   });
 
+  Handlebars.registerHelper("cprSheetContentFilter", (filterValue, applyToText) => {
+    LOGGER.trace("cprFilter | handlebarsHelper | Called.");
+    if (typeof filterValue === "undefined" || filterValue === "" || !game.settings.get("cyberpunk-red-core", "enableSheetContentFilter")) {
+      return true;
+    }
+
+    return applyToText.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1;
+  });
+
   Handlebars.registerHelper("isDebug", () => {
     LOGGER.trace("isDebug | handlebarsHelper | Called.");
     return game.settings.get("cyberpunk-red-core", "debugElements");

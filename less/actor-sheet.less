@@ -78,7 +78,8 @@
         grid-template-rows   : auto auto;
         grid-template-areas  :
             "tabs-right"
-            "content-right";
+            "content-right"
+            "sheet-filter";
         //max-height: 425px;
 
         .right-tabs-section {
@@ -99,6 +100,14 @@
             border-style: solid;
             border-width: 5px;
             overflow-y  : scroll;
+        }
+
+        .sheet-filter-section {
+          grid-area: sheet-filter;
+          display: flex;
+          width: 100%;
+          align-items: center;
+          border-width: 5px;
         }
     }
 
