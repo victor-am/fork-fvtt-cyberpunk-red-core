@@ -342,14 +342,6 @@ export default class CPRActor extends Actor {
    * @param {Object} formData - an object of answers provided by the user in a form
    * @returns {Object}
    */
-  setRoles(formData) {
-    LOGGER.trace("setRoles | CPRActor | Called.");
-    const { activeRole } = formData;
-    let roleList = formData.selectedRoles;
-    roleList.push(activeRole);
-    roleList = [...new Set(roleList)];
-    return this.update({ "data.roleInfo.roles": roleList, "data.roleInfo.activeRole": activeRole });
-  }
 
   /**
    * Return the skill level (number) for a given skill on the actor.

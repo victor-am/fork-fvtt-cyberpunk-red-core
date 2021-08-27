@@ -658,7 +658,6 @@ export default class CPRItemSheet extends ItemSheet {
         stat: "--",
         skillOptions: allSkills,
         skill: "--",
-        description: "",
         hasRoll: false,
         returnType: "array",
       };
@@ -685,7 +684,6 @@ export default class CPRItemSheet extends ItemSheet {
           skillBonuses: [],
           universalBonuses: [],
           bonusRatio: 1,
-          description: formData.description,
           hasRoll: formData.hasRoll,
         });
         setProperty(itemData, "data.abilities", prop);
@@ -702,7 +700,6 @@ export default class CPRItemSheet extends ItemSheet {
           skillBonuses: [],
           universalBonuses: [],
           bonusRatio: 1,
-          description: formData.description,
           hasRoll: formData.hasRoll,
         }];
         setProperty(itemData, "data.abilities", prop);
@@ -714,9 +711,9 @@ export default class CPRItemSheet extends ItemSheet {
     if (action === "delete") {
       const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
       if (setting) {
-        const promptMessage = `${SystemUtils.Localize("CPR.deleteconfirmation")} ${SystemUtils.Localize("CPR.netarchfloordeleteconfirmation")} ${SystemUtils.Localize("CPR.netarch")}?`;
+        const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${SystemUtils.Localize("CPR.itemSheet.role.deleteConfirmation")}?`;
         const confirmDelete = await ConfirmPrompt.RenderPrompt(
-          SystemUtils.Localize("CPR.deletedialogtitle"), promptMessage,
+          SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"), promptMessage,
         );
         if (!confirmDelete) {
           return;
@@ -747,7 +744,6 @@ export default class CPRItemSheet extends ItemSheet {
           stat: editElement.stat,
           skillOptions: allSkills,
           skill: editElementSkill,
-          description: editElement.description,
           hasRoll: editElement.hasRoll,
           returnType: "array",
         };
@@ -770,7 +766,6 @@ export default class CPRItemSheet extends ItemSheet {
           skillBonuses: editElement.skillBonuses,
           universalBonuses: editElement.universalBonuses,
           bonusRatio: editElement.bonusRatio,
-          description: formData.description,
           hasRoll: formData.hasRoll,
         });
         setProperty(itemData, "data.abilities", prop);

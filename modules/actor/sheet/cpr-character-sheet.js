@@ -238,6 +238,10 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   async _selectRoles() {
     LOGGER.trace("_selectRoles | CPRCharacterActorSheet | Called.");
+    if (this.actor.data.filteredItems.role.length === 0) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.characterSheet.bottomPane.role.noRolesWarning"));
+      return;
+    }
     let formData = {
       roles: this.actor.data.filteredItems.role,
     };

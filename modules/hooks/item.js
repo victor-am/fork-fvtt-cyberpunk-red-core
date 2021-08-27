@@ -60,6 +60,37 @@ const itemHooks = () => {
       doc.data.update({ img: itemImage });
     }
   });
+
+  /**
+   * The deleteItem Hook is provided by Foundry and triggered here. When an Item is deleted, this hook is called during
+   * deletion.
+   *
+   * @public
+   * @memberof hookEvents
+   * @param {CPRItem} itemData            The pending document which is requested for creation
+   * @param {object} (unused)             Additional options which modify the creation request
+   * @param {string} (unused)               The ID of the requesting user, always game.user.id
+   */
+
+  Hooks.on("deleteItem", (itemData) => {
+    LOGGER.trace("deleteItem | itemHooks | Called.");
+    const actor = itemData.parent;
+    if (actor !== null) {
+      if (itemData.type === "role" && actor.data.data.roleInfo.activeRole === itemData.name) {
+        if (actor.data.filteredItems.role.length >= 1) {
+          const newActiveRole = actor.data.filteredItems.role
+            .sort((a, b) => (a.data.name > b.data.name ? 1 : -1))
+            .find((r) => r.data.name !== actor.data.data.roleInfo.activeRole);
+          actor.update({ "data.roleInfo.activeRole": newActiveRole.data.name });
+          const warning = `${SystemUtils.Localize("CPR.messages.warnDeleteActiveRole")} ${newActiveRole.data.name}`;
+          SystemUtils.DisplayMessage("warn", warning);
+        } else {
+          actor.update({ "data.roleInfo.activeRole": "" });
+          SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.characterSheet.bottomPane.role.noRolesWarning"));
+        }
+      }
+    }
+  });
 };
 
 export default itemHooks;
