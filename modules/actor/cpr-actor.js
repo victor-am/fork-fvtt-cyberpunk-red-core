@@ -1,4 +1,5 @@
 /* globals Actor, game, getProperty, setProperty, hasProperty, duplicate */
+import CPRChat from "../chat/cpr-chat.js";
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRLedger from "../dialog/cpr-ledger-form.js";
 import CPR from "../system/config.js";

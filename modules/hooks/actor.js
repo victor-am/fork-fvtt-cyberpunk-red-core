@@ -1,6 +1,5 @@
 /* global Hooks game */
 import LOGGER from "../utils/cpr-logger.js";
-import Rules from "../utils/cpr-rules.js";
 import CPRCharacterActorSheet from "../actor/sheet/cpr-character-sheet.js";
 import CPRContainerActorSheet from "../actor/sheet/cpr-container-sheet.js";
 import CPRMookActorSheet from "../actor/sheet/cpr-mook-sheet.js";
@@ -44,13 +43,13 @@ const actorHooks = () => {
    * @param {CPRCharacterActor} actor     The pending document which is requested for creation
    * @param {object} updatedData          The changed data object provided to the document creation request
    * @param {object} (unused)             Additional options which modify the creation request
-   * @param {string} userId               The ID of the requesting user, always game.user.id
+   * @param {string} (unused)               The ID of the requesting user, always game.user.id
    */
-  Hooks.on("preUpdateActor", (actor, updatedData, _, userId) => {
+  Hooks.on("preUpdateActor", (actor, updatedData) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
     if (updatedData.data && updatedData.data.externalData) {
-      Object.entries(updatedData.data.externalData).forEach(
-        ([itemType, itemData]) => {
+      Object.keys(updatedData.data.externalData).forEach(
+        (itemType) => {
           if (!updatedData.data.externalData[itemType].id) {
             const itemId = actor.data.data.externalData[itemType].id;
             const item = actor._getOwnedItem(itemId);
