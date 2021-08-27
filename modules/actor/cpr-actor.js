@@ -997,4 +997,135 @@ export default class CPRActor extends Actor {
     // If not stackable, then return true to continue adding the item.
     return true;
   }
+
+  /**
+   * Apply damage to the actor, respecting any equipped armor and damage modifiers
+   * due to the location. In addition ablate the armor in the correct location.
+   *
+   * @param {int} damage - value of the damage taken
+   * @param {int} bonusDamage - value of the bonus damage
+   * @param {string} location - location of the damage
+   * @param {int} ablation - value of the ablation
+   * @param {boolean} ingoreHalfArmor - if half of the armor should be ignored
+   */
+  async _applyDamage(damage, bonusDamage, location, ablation, ingoreHalfArmor) {
+    LOGGER.trace("_applyDamage | CPRActor | Called.");
+    let totalDamageDealt = 0;
+    if (location === "brain") {
+      // This is damage done in a netrun, which completely ignores armor
+      const currentHp = this.data.data.derivedStats.hp.value;
+      await this.update({ "data.derivedStats.hp.value": currentHp - damage - bonusDamage });
+      CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: damage + bonusDamage, brainDamage: true });
+      return;
+    }
+    const armors = this.getEquippedArmors(location);
+    // Determine the highest value of all the equipped armors in the specific location
+    let armorValue = 0;
+    armors.forEach((a) => {
+      let newValue;
+      if (location === "head") {
+        newValue = a.data.data.headLocation.sp - a.data.data.headLocation.ablation;
+      } else {
+        newValue = a.data.data.bodyLocation.sp - a.data.data.bodyLocation.ablation;
+      }
+      if (newValue > armorValue) {
+        armorValue = newValue;
+      }
+    });
+    if (ingoreHalfArmor) {
+      armorValue = Math.ceil(armorValue / 2);
+    }
+    // Apply the bonusDamage, which penetrates the armor
+    if (bonusDamage !== 0) {
+      const currentHp = this.data.data.derivedStats.hp.value;
+      await this.update({ "data.derivedStats.hp.value": currentHp - bonusDamage });
+      totalDamageDealt += bonusDamage;
+    }
+    if (damage <= armorValue) {
+      // Damage did not penetrate armor, thus only the bonus damage is applied.
+      CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: totalDamageDealt, ablation: 0 });
+      return;
+    }
+    // Take the regular damage.
+    let takenDamage = damage - armorValue;
+    if (location === "head") {
+      // Damage taken against the head is doubled.
+      takenDamage *= 2;
+    }
+    const currentHp = this.data.data.derivedStats.hp.value;
+    await this.update({ "data.derivedStats.hp.value": currentHp - takenDamage });
+    totalDamageDealt += takenDamage;
+    // Ablate the armor correctly.
+    await this._ablateArmor(location, ablation);
+
+    CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: totalDamageDealt, ablation });
+  }
+
+  /**
+   * Ablate the equipped armor at the specified location by the given value.
+   *
+   * @param {string} location - locaiton of the ablation
+   * @param {int} ablation - value of the ablation
+   */
+  async _ablateArmor(location, ablation) {
+    LOGGER.trace("_ablateArmor | CPRActor | Called.");
+    const armorList = this.getEquippedArmors(location);
+    const updateList = [];
+    let currentArmorValue;
+    switch (location) {
+      case "head": {
+        armorList.forEach((a) => {
+          const armorData = a.data;
+          const upgradeValue = a.getAllUpgradesFor("headSp");
+          const upgradeType = a.getUpgradeTypeFor("headSp");
+          armorData.data.headLocation.sp = Number(armorData.data.headLocation.sp);
+          armorData.data.headLocation.ablation = Number(armorData.data.headLocation.ablation);
+          const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.headLocation.sp + upgradeValue;
+          armorData.data.headLocation.ablation = Math.min(
+            (armorData.data.headLocation.ablation + ablation), armorSp,
+          );
+          updateList.push({ _id: a.id, data: armorData.data });
+        });
+        await this.updateEmbeddedDocuments("Item", updateList);
+        // Update actor external data as head armor is ablated:
+        currentArmorValue = Math.max((this.data.data.externalData.currentArmorHead.value - ablation), 0);
+        await this.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
+        break;
+      }
+      case "body": {
+        armorList.forEach((a) => {
+          const armorData = a.data;
+          armorData.data.bodyLocation.sp = Number(armorData.data.bodyLocation.sp);
+          armorData.data.bodyLocation.ablation = Number(armorData.data.bodyLocation.ablation);
+          const upgradeValue = a.getAllUpgradesFor("bodySp");
+          const upgradeType = a.getUpgradeTypeFor("bodySp");
+          const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.bodyLocation.sp + upgradeValue;
+          armorData.data.bodyLocation.ablation = Math.min(
+            (armorData.data.bodyLocation.ablation + ablation), armorSp,
+          );
+          updateList.push({ _id: a.id, data: armorData.data });
+        });
+        await this.updateEmbeddedDocuments("Item", updateList);
+        // Update actor external data as body armor is ablated:
+        currentArmorValue = Math.max((this.data.data.externalData.currentArmorBody.value - ablation), 0);
+        await this.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
+        break;
+      }
+      case "shield": {
+        armorList.forEach((a) => {
+          const armorData = a.data;
+          armorData.data.shieldHitPoints.value = Number(armorData.data.shieldHitPoints.value);
+          armorData.data.shieldHitPoints.max = Number(armorData.data.shieldHitPoints.max);
+          armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - ablation), 0);
+          updateList.push({ _id: a.id, data: armorData.data });
+        });
+        await this.updateEmbeddedDocuments("Item", updateList);
+        // Update actor external data as shield is damaged:
+        currentArmorValue = Math.max((this.data.data.externalData.currentArmorShield.value - ablation), 0);
+        await this.update({ "data.externalData.currentArmorShield.value": currentArmorValue });
+        break;
+      }
+      default:
+    }
+  }
 }

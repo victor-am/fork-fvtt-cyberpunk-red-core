@@ -7,9 +7,11 @@ export default function preloadHandlebarsTemplates() {
     // Chat Partials
     "systems/cyberpunk-red-core/templates/chat/cpr-base-rollcard.hbs",
     "systems/cyberpunk-red-core/templates/chat/cpr-damage-rollcard.hbs",
+    "systems/cyberpunk-red-core/templates/chat/cpr-damage-application-card.hbs",
 
     // Dialog Partials
     "systems/cyberpunk-red-core/templates/dialog/cpr-confirmation-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-damage-application-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-improvement-point-edit-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-ledger-form.hbs",

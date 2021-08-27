@@ -154,6 +154,12 @@ export default class CPRActorSheet extends ActorSheet {
     // Reset Death Penalty
     html.find(".reset-value").click((event) => this._resetDeathSave(event));
 
+    // Filter contents of skills or gear
+    html.find(".filter-contents").change((event) => this._applyContentFilter(event));
+
+    // Reset content filter
+    html.find(".reset-content-filter").click(() => this._clearContentFilter());
+
     // Show edit and delete buttons
     html.find(".row.item").hover(
       (event) => {
@@ -364,64 +370,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _ablateArmor(event) {
     LOGGER.trace("_ablateArmor | CPRActorSheet | Called.");
     const location = $(event.currentTarget).attr("data-location");
-    const armorList = this.actor.getEquippedArmors(location);
-    const updateList = [];
-    let currentArmorValue;
-    switch (location) {
-      case "head": {
-        armorList.forEach((a) => {
-          const armorData = a.data;
-          const upgradeValue = a.getAllUpgradesFor("headSp");
-          const upgradeType = a.getUpgradeTypeFor("headSp");
-          armorData.data.headLocation.sp = Number(armorData.data.headLocation.sp);
-          armorData.data.headLocation.ablation = Number(armorData.data.headLocation.ablation);
-          const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.headLocation.sp + upgradeValue;
-          armorData.data.headLocation.ablation = Math.min(
-            (armorData.data.headLocation.ablation + 1), armorSp,
-          );
-          updateList.push({ _id: a.id, data: armorData.data });
-        });
-        await this.actor.updateEmbeddedDocuments("Item", updateList);
-        // Update actor external data as head armor is ablated:
-        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorHead.value - 1), 0);
-        await this.actor.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
-        break;
-      }
-      case "body": {
-        armorList.forEach((a) => {
-          const armorData = a.data;
-          armorData.data.bodyLocation.sp = Number(armorData.data.bodyLocation.sp);
-          armorData.data.bodyLocation.ablation = Number(armorData.data.bodyLocation.ablation);
-          const upgradeValue = a.getAllUpgradesFor("bodySp");
-          const upgradeType = a.getUpgradeTypeFor("bodySp");
-          const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.bodyLocation.sp + upgradeValue;
-          armorData.data.bodyLocation.ablation = Math.min(
-            (armorData.data.bodyLocation.ablation + 1), armorSp,
-          );
-          updateList.push({ _id: a.id, data: armorData.data });
-        });
-        await this.actor.updateEmbeddedDocuments("Item", updateList);
-        // Update actor external data as body armor is ablated:
-        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorBody.value - 1), 0);
-        await this.actor.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
-        break;
-      }
-      case "shield": {
-        armorList.forEach((a) => {
-          const armorData = a.data;
-          armorData.data.shieldHitPoints.value = Number(armorData.data.shieldHitPoints.value);
-          armorData.data.shieldHitPoints.max = Number(armorData.data.shieldHitPoints.max);
-          armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - 1), 0);
-          updateList.push({ _id: a.id, data: armorData.data });
-        });
-        await this.actor.updateEmbeddedDocuments("Item", updateList);
-        // Update actor external data as shield is damaged:
-        currentArmorValue = Math.max((this.actor.data.data.externalData.currentArmorShield.value - 1), 0);
-        await this.actor.update({ "data.externalData.currentArmorShield.value": currentArmorValue });
-        break;
-      }
-      default:
-    }
+    this.actor._ablateArmor(location, 1);
   }
 
   /**
@@ -657,6 +606,12 @@ export default class CPRActorSheet extends ActorSheet {
         updateList.push({ _id: p._id, "data.isInstalled": false });
       });
       await this.actor.updateEmbeddedDocuments("Item", updateList);
+    }
+    if (item.type === "cyberware") {
+      if (item.data.data.isInstalled) {
+        SystemUtils.DisplayMessage("warn", "CPR.messages.cyberwareDeleteWarning");
+        return;
+      }
     }
 
     if (game.system.template.Item[item.type].templates.includes("upgradable")) {
@@ -1087,5 +1042,34 @@ export default class CPRActorSheet extends ActorSheet {
     delete newItemData._id;
     await this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.amount": newAmount }]);
     await this.actor.createEmbeddedDocuments("Item", [newItemData], { CPRsplitStack: true });
+  }
+
+  /**
+   * _applyContentFilter is used to filter data content on the actor sheet
+   * to make locating things, such as skills or gear easier
+   *
+   * @private
+   * @param {Object} event - an object capturing event details
+   */
+  async _applyContentFilter(event) {
+    LOGGER.trace("_applyContentFilter | CPRActorSheet | called.");
+    const filterValue = event.currentTarget.value;
+    this.options.cprContentFilter = filterValue;
+    this._render();
+  }
+
+  /**
+   * _clearContentFilter is used to clear the filter used on the sheet
+   * This is called when the tabs change if a filter is set.
+   *
+   * @private
+   * @param {Object} event - an object capturing event details
+   */
+  async _clearContentFilter() {
+    LOGGER.trace("_clearContentFilter | CPRActorSheet | called.");
+    if (typeof this.options.cprContentFilter !== "undefined" && this.options.cprContentFilter !== "") {
+      this.options.cprContentFilter = "";
+      this._render();
+    }
   }
 }
