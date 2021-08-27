@@ -48,12 +48,6 @@ const actorHooks = () => {
    */
   Hooks.on("preUpdateActor", (actor, updatedData, _, userId) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
-    const isCSheet = Object.values(actor.apps).some((app) => app instanceof CPRCharacterActorSheet);
-    if (isCSheet && userId === game.user.data._id && actor.type === "character") {
-      Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.messages.invalidRoleData");
-    }
-
-    // Updates the armor item when external data for armor is updated from the tokenHUD
     if (updatedData.data && updatedData.data.externalData) {
       Object.entries(updatedData.data.externalData).forEach(
         ([itemType, itemData]) => {
@@ -149,9 +143,13 @@ const actorHooks = () => {
    */
   Hooks.on("createItem", (itemData, _, userId) => {
     LOGGER.trace("createItem | actorHooks | Called.");
-    // when a new item is created (dragged) on a mook sheet, auto install or equip it
     const actor = itemData.parent;
     if (actor !== null) {
+      if (itemData.type === "role" && actor.data.data.roleInfo.activeRole === "") {
+        actor.update({ "data.roleInfo.activeRole": itemData.data.name });
+      }
+
+      // when a new item is created (dragged) on a mook sheet, auto install or equip it
       if (Object.values(actor.apps).some((app) => app instanceof CPRMookActorSheet) && userId === game.user.data._id) {
         LOGGER.debug("handling a dragged item to the mook sheet");
         actor.handleMookDraggedItem(actor._getOwnedItem(itemData.id));

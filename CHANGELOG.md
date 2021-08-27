@@ -1,4 +1,4 @@
-# WIP Version 0.79.0 | Dev branch
+# WIP Version 0.79.1 | Dev branch
 
 **New Features**
 - Added support for automatic damage application on Characters and Mooks.
@@ -10,6 +10,11 @@
   - Any damage will be applied to a Demon or Black ICE, even if it is meat space damage. It is not checked, that the damage came from a program.
   - For each token, where the damage was applied a chat card with the HP reduction and armor ablation will be shown. In case the armor prevented all damage it will also be told.
   - The damage application does not consider any Solo role abilities, as the damage reduction of it is only applicable once per round.
+- Roles are now items which allows for creation of custom roles and better handling of their functionality.
+  - Can configure role abilities to roll with different skills for different situations like the Tech's Upgrade Expertise ability.
+  - Can configure flat bonuses to attack, damage, and skill rolls for situations like the Solo's Precision Attack or the Nomad's Moto.
+  - Compendium of all the core Roles is included for ease of getting started.
+  - BREAKING: Netrunners must select which role should be utilized for netrunning from the "Configure Active Role" dialog on the main part (left) of the character sheet, otherwise you will not be able to utilize the cyberdeck tab of the character sheet. This will be selected for you on migration if you had the Netrunner role selected on a character previously, but will need to be configured on new characters.
 - Added filter capability for Skills & Gear.  This is a client side option which can be enabled/disabled in the System Settings.
 
 **Changes**

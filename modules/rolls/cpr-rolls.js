@@ -165,19 +165,25 @@ export class CPRStatRoll extends CPRRoll {
 }
 
 export class CPRSkillRoll extends CPRStatRoll {
-  constructor(statName, statValue, skillName, skillValue) {
+  constructor(statName, statValue, skillName, skillValue, roleName, roleValue, universalBonusAttack) {
     LOGGER.trace("constructor | CPRSkillRoll | Called.");
     super(skillName, statValue);
     this.statName = statName;
-    this.skillValue = skillValue;
     this.skillName = skillName;
+    this.skillValue = skillValue;
+    this.roleName = roleName;
+    this.roleValue = roleValue;
+    this.universalBonusAttack = universalBonusAttack;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-skill-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-skill-rollcard.hbs";
   }
 
   _computeBase() {
     LOGGER.trace("_computeBase | CPRSkillRoll | Called.");
-    return this.initialRoll + this.totalMods() + this.statValue + this.skillValue;
+    if (this.universalBonusAttack) {
+      return this.initialRoll + this.totalMods() + this.statValue + this.skillValue + this.roleValue + this.universalBonusAttack;
+    }
+    return this.initialRoll + this.totalMods() + this.statValue + this.skillValue + this.roleValue;
   }
 }
 
@@ -197,9 +203,9 @@ export class CPRHumanityLossRoll extends CPRRoll {
 // classes for Ranged and Melee attacks (and hardcoding the stats used), but when considering
 // aimed shots, this got into multiple inheritance. Decided not to cross that line. Maybe mix-ins?
 export class CPRAttackRoll extends CPRSkillRoll {
-  constructor(attackName, statName, statValue, skillName, skillValue, weaponType) {
+  constructor(attackName, statName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack) {
     LOGGER.trace("constructor | CPRAttackRoll | Called.");
-    super(statName, statValue, skillName, skillValue);
+    super(statName, statValue, skillName, skillValue, roleName, roleValue, universalBonusAttack);
     this.rollTitle = `${attackName}`;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-attack-rollcard.hbs";
     this.weaponType = weaponType;
@@ -215,9 +221,9 @@ export class CPRAttackRoll extends CPRSkillRoll {
 
 // this deliberately does not set the location until after the verify dialog box
 export class CPRAimedAttackRoll extends CPRAttackRoll {
-  constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
+  constructor(weaponName, statName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack) {
     LOGGER.trace("constructor | CPRAimedAttackRoll | Called.");
-    super(weaponName, statName, statValue, skillName, skillValue, weaponType);
+    super(weaponName, statName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
     this.rollTitle = `${weaponName}`;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-aimed-attack-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-aimed-attack-rollcard.hbs";
@@ -227,39 +233,41 @@ export class CPRAimedAttackRoll extends CPRAttackRoll {
 }
 
 export class CPRAutofireRoll extends CPRAttackRoll {
-  constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
+  constructor(weaponName, statName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack) {
     LOGGER.trace("constructor | CPRAutofireRoll | Called.");
-    super(weaponName, statName, statValue, skillName, skillValue, weaponType);
+    super(weaponName, statName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
     this.rollTitle = `${weaponName}`;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-autofire-rollcard.hbs";
   }
 }
 
 export class CPRSuppressiveFireRoll extends CPRAttackRoll {
-  constructor(weaponName, statName, statValue, skillName, skillValue, weaponType) {
+  constructor(weaponName, statName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack) {
     LOGGER.trace("constructor | CPRSuppressiveFireRoll | Called.");
-    super(weaponName, statName, statValue, skillName, skillValue, weaponType);
+    super(weaponName, statName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
     this.rollTitle = `${weaponName}`;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-suppressive-fire-rollcard.hbs";
   }
 }
 
 export class CPRRoleRoll extends CPRRoll {
-  constructor(roleName, niceRoleName, statName, roleValue, roleStat, roleOther) {
+  constructor(roleName, roleValue, skillName, skillValue, statName, statValue, skillList) {
     LOGGER.trace("constructor | CPRRoleRoll | Called.");
-    super(niceRoleName, "1d10");
+    super(roleName, "1d10");
+    this.skillList = skillList;
     this.roleName = roleName;
-    this.statName = statName;
     this.roleValue = roleValue;
-    this.roleStat = roleStat;
-    this.roleOther = roleOther;
+    this.skillName = skillName;
+    this.skillValue = skillValue;
+    this.statName = statName;
+    this.statValue = statValue;
     this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-roleAbility-prompt.hbs";
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-role-rollcard.hbs";
   }
 
   _computeBase() {
     LOGGER.trace("_computeBase | CPRRoleRoll | Called.");
-    return this.initialRoll + this.totalMods() + this.roleValue + this.roleStat + this.roleOther;
+    return this.initialRoll + this.totalMods() + this.roleValue + this.skillValue + this.statValue;
   }
 
   setNetCombat(rollTitle) {
@@ -293,7 +301,7 @@ export class CPRDeathSaveRoll extends CPRRoll {
 }
 
 export class CPRDamageRoll extends CPRRoll {
-  constructor(rollTitle, formula, weaponType) {
+  constructor(rollTitle, formula, weaponType, universalBonusDamage) {
     LOGGER.trace("constructor | CPRDamageRoll | Called.");
     // we assume always d6s
     // again, check if this makes sense or if it should accept formulas too
@@ -302,6 +310,7 @@ export class CPRDamageRoll extends CPRRoll {
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-damage-rollcard.hbs";
     // criticals just add 5 damage, they do not need more dice rolled
     this.calculateCritical = false;
+    this.universalBonusDamage = universalBonusDamage;
     this.bonusDamage = 5;
     // are we aiming at something?
     this.isAimed = false;
@@ -321,7 +330,10 @@ export class CPRDamageRoll extends CPRRoll {
     LOGGER.trace("_computeBase | CPRDamageRoll | Called.");
     this.autofireMultiplier = Math.min(this.autofireMultiplier, this.autofireMultiplierMax);
     const damageMultiplier = (this.isAutofire) ? this.autofireMultiplier : 1;
-    return (this.initialRoll + this.totalMods()) * damageMultiplier;
+    if (this.universalBonusDamage) {
+      return ((this.initialRoll + this.totalMods()) * damageMultiplier) + this.universalBonusDamage;
+    }
+    return ((this.initialRoll + this.totalMods()) * damageMultiplier);
   }
 
   // eslint-disable-next-line class-methods-use-this

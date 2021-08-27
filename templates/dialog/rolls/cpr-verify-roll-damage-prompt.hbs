@@ -56,6 +56,17 @@
             </div>
         </li>
 
+        {{#if universalBonusDamage}}
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.universalBonuses.damage"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <input name="universalBonusDamage" class="" type="number" data-dtype="Number" value={{universalBonusDamage}}>
+            </div>
+        </li>
+        {{/if}}
+
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">

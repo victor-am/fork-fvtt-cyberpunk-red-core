@@ -1,39 +1,25 @@
 /* eslint-disable no-shadow */
-/* global renderTemplate FormDataExtended Dialog */
+/* global Dialog renderTemplate FormDataExtended */
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
-export default class SelectRolesPrompt {
+export default class RoleAbilityPrompt {
   static async RenderPrompt(data) {
-    LOGGER.trace("RenderPrompt | SelectRolesPrompt | called.");
-    const template = "systems/cyberpunk-red-core/templates/dialog/cpr-select-roles-prompt.hbs";
+    LOGGER.trace("RenderPrompt | RoleAbilityPrompt | called.");
+    const template = "systems/cyberpunk-red-core/templates/dialog/cpr-role-ability-prompt.hbs";
     return new Promise((resolve, reject) => {
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
-          LOGGER.trace("_onCancel | Dialog SelectRolesPrompt | called.");
+          LOGGER.trace("_onCancel | Dialog RoleAbilityPrompt | called.");
           reject(new Error("Promise rejected: Window Closed"));
         };
         const _onConfirm = (html) => {
-          LOGGER.trace("_onConfirm | Dialog SelectRolesPrompt | called.");
-          const roleList = html.find("[name=\"activeRole\"");
-          const netRoleList = html.find("[name=\"activeNetRole\"");
-          let activeRole = "";
-          let activeNetRole = "";
+          LOGGER.trace("_onConfirm | Dialog RoleAbilityPrompt | called.");
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
-          Object.keys(roleList).forEach((role) => {
-            if (roleList[role].checked) {
-              activeRole = roleList[role].value;
-            }
-            if (netRoleList[role].checked) {
-              activeNetRole = netRoleList[role].value;
-            }
-          });
-          formData.activeRole = activeRole;
-          formData.activeNetRole = activeNetRole;
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.dialog.selectRoles.title"),
+          title: SystemUtils.Localize("CPR.dialog.createEditRoleAbility.title"),
           content: html,
           buttons: {
             cancel: {
@@ -48,7 +34,7 @@ export default class SelectRolesPrompt {
             },
           },
           default: "confirm",
-          render: LOGGER.trace("confirm | Dialog SelectRolesPrompt | called."),
+          render: LOGGER.trace("confirm | Dialog RoleAbilityPrompt | called."),
           close: () => {
             reject(new Error("Promise rejected: Window Closed"));
           },

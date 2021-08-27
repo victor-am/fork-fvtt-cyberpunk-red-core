@@ -231,6 +231,15 @@ export default function registerHandlebarsHelpers() {
     return false;
   });
 
+  Handlebars.registerHelper("objectListContains", (objectList, data, val) => {
+    LOGGER.trace("Calling objectListContains Helper");
+    const array = objectList;
+    if (array) {
+      return array.some((o) => o[data] === val);
+    }
+    return false;
+  });
+
   // TODO - Rename?
   Handlebars.registerHelper("generatePartial", (arg1, arg2) => {
     LOGGER.trace("generatePartial | handlebarsHelper | Called.");

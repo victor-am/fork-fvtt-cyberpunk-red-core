@@ -216,16 +216,22 @@ export default class CPRActorSheet extends ActorSheet {
     let item = null;
     switch (rollType) {
       case CPRRolls.rollTypes.DEATHSAVE:
-      case CPRRolls.rollTypes.ROLEABILITY:
       case CPRRolls.rollTypes.STAT: {
         const rollName = $(event.currentTarget).attr("data-roll-title");
         cprRoll = this.actor.createRoll(rollType, rollName);
         break;
       }
+      case CPRRolls.rollTypes.ROLEABILITY:
       case CPRRolls.rollTypes.SKILL: {
         const itemId = CPRActorSheet._getItemId(event);
+        const rollSubType = $(event.currentTarget).attr("data-roll-subtype");
+        const subRoleName = $(event.currentTarget).attr("data-roll-title");
+        const rollInfo = {
+          rollSubType,
+          subRoleName,
+        };
         item = this._getOwnedItem(itemId);
-        cprRoll = item.createRoll(rollType, this.actor);
+        cprRoll = item.createRoll(rollType, this.actor, rollInfo);
         break;
       }
       case CPRRolls.rollTypes.DAMAGE: {
@@ -249,7 +255,13 @@ export default class CPRActorSheet extends ActorSheet {
         const interfaceAbility = $(event.currentTarget).attr("data-interface-ability");
         const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
         const cyberdeck = this._getOwnedItem(cyberdeckId);
-        cprRoll = cyberdeck.createRoll(rollType, this.actor, { interfaceAbility });
+        const netRoleItem = this.actor.data.filteredItems.role.find((r) => r.data.name === this.actor.data.data.roleInfo.activeNetRole);
+        if (!netRoleItem) {
+          const error = SystemUtils.Localize("CPR.messages.noNetrunningRoleConfigured");
+          SystemUtils.DisplayMessage("error", error);
+          return;
+        }
+        cprRoll = cyberdeck.createRoll(rollType, this.actor, { interfaceAbility, cyberdeck, netRoleItem });
         break;
       }
       case CPRRolls.rollTypes.CYBERDECKPROGRAM: {
@@ -257,12 +269,17 @@ export default class CPRActorSheet extends ActorSheet {
         const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
         const executionType = $(event.currentTarget).attr("data-execution-type");
         const cyberdeck = this._getOwnedItem(cyberdeckId);
-        const interfaceValue = this.actor._getRoleValue("interface");
+        const netRoleItem = this.actor.data.filteredItems.role.find((r) => r.data.name === this.actor.data.data.roleInfo.activeNetRole);
+        if (!netRoleItem) {
+          const error = SystemUtils.Localize("CPR.messages.noNetrunningRoleConfigured");
+          SystemUtils.DisplayMessage("error", error);
+          return;
+        }
         const extraData = {
           cyberdeckId,
           programId,
           executionType,
-          interfaceValue,
+          netRoleItem,
         };
         cprRoll = cyberdeck.createRoll(rollType, this.actor, extraData);
         break;

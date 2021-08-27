@@ -70,6 +70,11 @@
           }
         },
 
+        "universalBonuses": {
+          "attack": 0,
+          "damage": 0
+        },
+
         "derivedStats": {
           "hp": {
             "value": 40,
@@ -158,7 +163,8 @@
           "wildernesssurvival": 0
         },
         "roleInfo": {
-          "activeRole": "solo",
+          "activeNetRole": "",
+          "activeRole": "",
           "roles": [
             "solo"
           ],
@@ -345,6 +351,7 @@
       "itemUpgrade",
       "netarch",
       "program",
+      "role",
       "skill",
       "vehicle",
       "weapon"
@@ -553,6 +560,21 @@
       "core": false,
       "basic": false,
       "skillmod": 0
+    },
+    "role": {
+      "templates": [
+        "common"
+      ],
+      "rank": 0,
+      "mainRoleAbility": "",
+      "hasRoll": true,
+      "addRoleAbilityRank": true,
+      "stat": "--",
+      "skill": "--",
+      "skillBonuses": [],
+      "universalBonuses": [],
+      "bonusRatio": 1,
+      "abilities": []
     },
     "criticalInjury": {
       "templates": [

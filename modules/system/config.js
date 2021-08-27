@@ -43,8 +43,8 @@ CPR.roleAbilityList = {
   inventionExpertise: "CPR.global.role.tech.ability.inventionExpertise",
   maker: "CPR.global.role.tech.ability.maker",
   medicine: "CPR.global.role.medtech.ability.medicine",
-  medtechCryo: "CPR.global.role.medtech.ability.medicalTechCryo",
-  medtechPharma: "CPR.global.role.medtech.ability.medicalTechPharma",
+  medtechCryo: "CPR.global.role.medtech.ability.medtechCryo",
+  medtechPharma: "CPR.global.role.medtech.ability.medtechPharma",
   moto: "CPR.global.role.nomad.ability.moto",
   operator: "CPR.global.role.fixer.ability.operator",
   precisionAttack: "CPR.global.role.solo.ability.precisionAttack",
@@ -224,6 +224,7 @@ CPR.objectTypes = {
   itemUpgrade: "CPR.global.itemTypes.itemUpgrade",
   netarch: "CPR.global.itemTypes.netArchitecture",
   program: "CPR.global.itemTypes.program",
+  role: "CPR.global.itemTypes.role",
   skill: "CPR.global.itemTypes.skill",
   vehicle: "CPR.global.itemTypes.vehicle",
   weapon: "CPR.global.itemTypes.weapon",
@@ -273,7 +274,7 @@ CPR.cyberwareInstallList = {
   mall: "CPR.global.cyberwareInstall.mall",
   clinic: "CPR.global.cyberwareInstall.clinic",
   hospital: "CPR.global.cyberwareInstall.hospital",
-  notApplicable: "CPR.global.generic.notapplicable",
+  notApplicable: "CPR.global.generic.notApplicable",
 };
 
 CPR.woundState = {
@@ -316,7 +317,7 @@ CPR.criticalInjuryLocation = {
 CPR.criticalInjuryQuickFix = {
   firstAidParamedic: "CPR.global.criticalInjury.firstAidOrParamedic",
   paramedic: "CPR.global.skills.paramedic",
-  notApplicable: "CPR.global.generic.notapplicable",
+  notApplicable: "CPR.global.generic.notApplicable",
 };
 
 CPR.criticalInjuryTreatment = {
@@ -370,6 +371,16 @@ CPR.interfaceAbilities = {
   slide: "CPR.global.role.netrunner.interfaceAbility.slide",
   virus: "CPR.global.role.netrunner.interfaceAbility.virus",
   zap: "CPR.global.role.netrunner.interfaceAbility.zap",
+};
+
+CPR.roleSpecialOptions = {
+  "--": "CPR.global.generic.notApplicable",
+  varying: "CPR.global.generic.varying",
+};
+
+CPR.universalBonuses = {
+  attack: "CPR.universalBonuses.attack",
+  damage: "CPR.universalBonuses.damage",
 };
 
 // The following item types have the upgradable template:

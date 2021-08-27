@@ -142,6 +142,10 @@ export default class CPRSystemUtils {
           imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Program.svg";
           break;
         }
+        case "role": {
+          imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Role.svg";
+          break;
+        }
         case "skill": {
           imageLink = "systems/cyberpunk-red-core/icons/compendium/default/Default_Skill.svg";
           break;

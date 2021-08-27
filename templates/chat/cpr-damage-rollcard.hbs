@@ -61,13 +61,16 @@
                         "aimedLocation" location)}}</div>
                     {{/if}}
                     {{#if criticalCard}}
-                    <div class="text-normal text-bold">{{localize "CPR.rolls.bonus"}} {{localize "CPR.global.generic.damage"}}:
+                    <div class="text-normal text-bold">{{localize "CPR.rolls.criticalDamage"}}:
                         {{bonusDamage}}</div>
                     {{/if}}
                     <div class="d6-data-details hide">
-                        {{#if (compare mods.length ">" 0)}}
+                      {{#if universalBonusDamage}}
+                        <div class="text-normal text-bold">{{localize "CPR.universalBonuses.damage"}}: +{{universalBonusDamage}}
+                      {{/if}}
+                      {{#if (compare mods.length ">" 0)}}
                         <div class="text-normal text-bold">{{localize "CPR.rolls.mods"}}: {{totalMods}}</div>
-                        {{/if}}
+                      {{/if}}
                     </div>
                 </div>
             </div>

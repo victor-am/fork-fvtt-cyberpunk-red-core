@@ -5,6 +5,8 @@ import CPR from "../../system/config.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
 import NetarchLevelPrompt from "../../dialog/cpr-netarch-level-prompt.js";
+import RoleAbilityPrompt from "../../dialog/cpr-role-ability-prompt.js";
+import SelectRoleBonuses from "../../dialog/cpr-select-role-bonuses-prompt.js";
 import CyberdeckSelectProgramsPrompt from "../../dialog/cpr-select-install-programs-prompt.js";
 import SelectItemUpgradePrompt from "../../dialog/cpr-select-item-upgrade-prompt.js";
 import BoosterAddModifierPrompt from "../../dialog/cpr-booster-add-modifier-prompt.js";
@@ -70,6 +72,10 @@ export default class CPRItemSheet extends ItemSheet {
     data.filteredItems = {};
     if (data.isOwned) {
       data.filteredItems = this.object.actor.itemTypes;
+    } else if (data.item.type === "role") {
+      const coreSkills = await SystemUtils.GetCoreSkills();
+      const worldSkills = game.items.filter((i) => i.type === "skill");
+      data.filteredItems.skill = coreSkills.concat(worldSkills);
     } else {
       data.filteredItems.skill = await SystemUtils.GetCoreSkills();
     }
@@ -99,6 +105,12 @@ export default class CPRItemSheet extends ItemSheet {
     html.find(".select-compatible-ammo").click(() => this._selectCompatibleAmmo());
 
     html.find(".netarch-level-action").click((event) => this._netarchLevelAction(event));
+
+    html.find(".role-ability-action").click((event) => this._roleAbilityAction(event));
+
+    html.find(".select-role-bonuses").click((event) => this._selectRoleBonuses(event));
+
+    html.find(".select-subrole-bonuses").click((event) => this._selectSubroleBonuses(event));
 
     html.find(".select-installed-programs").click(() => this._cyberdeckSelectInstalledPrograms());
 
@@ -182,6 +194,80 @@ export default class CPRItemSheet extends ItemSheet {
     if (formData.selectedAmmo) {
       await this.item.setCompatibleAmmo(formData.selectedAmmo);
       this._automaticResize(); // Resize the sheet as length of ammo list might have changed
+    }
+  }
+
+  async _selectRoleBonuses() {
+    LOGGER.trace("ItemSheet | _selectRoleBonuses | Called.");
+    const itemData = this.item.data.data;
+    const roleType = "mainRole";
+    const pack = game.packs.get("cyberpunk-red-core.skills");
+    const coreSkills = await pack.getDocuments();
+    const customSkills = game.items.filter((i) => i.type === "skill");
+    const allSkills = this.object.isOwned ? this.actor.data.filteredItems.skill
+      : coreSkills.concat(customSkills).sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+    const allSkillsData = [];
+    allSkills.forEach((a) => allSkillsData.push(a.data));
+    let formData = { skillList: allSkillsData, roleType, data: itemData };
+    formData = await SelectRoleBonuses.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
+    if (formData.selectedSkills) {
+      const skillBonusObjects = [];
+      const universalBonusesList = [];
+      formData.selectedSkills.forEach((s) => {
+        skillBonusObjects.push(allSkills.find((a) => a.data.name === s));
+      });
+      formData.selectedUniversalBonuses.forEach((b) => {
+        universalBonusesList.push(b);
+      });
+      const { bonusRatio } = formData;
+      this.item.update({
+        "data.skillBonuses": skillBonusObjects,
+        "data.universalBonuses": universalBonusesList,
+        "data.bonusRatio": bonusRatio,
+      });
+      this._automaticResize(); // Resize the sheet as length of ammo list might have changed
+    }
+  }
+
+  async _selectSubroleBonuses(event) {
+    LOGGER.trace("ItemSheet | _selectSubroleBonuses | Called.");
+    const subRoleName = $(event.currentTarget).attr("data-item-name");
+    const itemData = duplicate(this.item.data);
+    const roleType = "subRole";
+    const subRole = itemData.data.abilities.find((a) => a.name === subRoleName);
+    const pack = game.packs.get("cyberpunk-red-core.skills");
+    const coreSkills = await pack.getDocuments();
+    const customSkills = game.items.filter((i) => i.type === "skill");
+    const allSkills = this.object.isOwned ? this.actor.data.filteredItems.skill
+      : coreSkills.concat(customSkills).sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+    const allSkillsData = [];
+    allSkills.forEach((a) => allSkillsData.push(a.data));
+    let formData = {
+      skillList: allSkillsData, roleType, subRole, data: itemData.data,
+    };
+    formData = await SelectRoleBonuses.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
+    if (formData.selectedSkills) {
+      const skillBonusObjects = [];
+      const universalBonusesList = [];
+      formData.selectedSkills.forEach((s) => {
+        skillBonusObjects.push(allSkills.find((a) => a.data.name === s));
+      });
+      formData.selectedUniversalBonuses.forEach((b) => {
+        universalBonusesList.push(b);
+      });
+      setProperty(subRole, "skillBonuses", skillBonusObjects);
+      setProperty(subRole, "universalBonuses", universalBonusesList);
+      setProperty(subRole, "bonusRatio", formData.bonusRatio);
+      this.item.update(itemData);
+      if (this.actor) {
+        await this.actor.updateEmbeddedDocuments("Item", [itemData]);
+      }
     }
   }
 
@@ -551,6 +637,142 @@ export default class CPRItemSheet extends ItemSheet {
     const updateList = [{ _id: cyberdeck.data._id, data: cyberdeck.data.data }];
     updateList.push({ _id: program.data._id, "data.isInstalled": false });
     await actor.updateEmbeddedDocuments("Item", updateList);
+  }
+
+  async _roleAbilityAction(event) {
+    LOGGER.trace("ItemSheet | _roleAbilityAction | Called.");
+    const target = Number($(event.currentTarget).attr("data-action-target"));
+    const action = $(event.currentTarget).attr("data-action-type");
+    const itemData = duplicate(this.item.data);
+    const pack = game.packs.get("cyberpunk-red-core.skills");
+    const coreSkills = await pack.getDocuments();
+    const customSkills = game.items.filter((i) => i.type === "skill");
+    const allSkills = this.object.isOwned ? this.actor.data.filteredItems.skill
+      : coreSkills.concat(customSkills).sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+    if (action === "create") {
+      let formData = {
+        name: "",
+        rank: 0,
+        multiplierOptions: [0.25, 0.5, 1, 2],
+        multiplier: 1,
+        stat: "--",
+        skillOptions: allSkills,
+        skill: "--",
+        hasRoll: false,
+        returnType: "array",
+      };
+
+      formData = await RoleAbilityPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+      if (formData === undefined) {
+        return;
+      }
+      // eslint-disable-next-line no-nested-ternary
+      const skillObject = (formData.skill !== "--") && (formData.skill !== "varying") ? allSkills.find((a) => a.data.name === formData.skill)
+        : (formData.skill === "varying") ? "varying"
+          : "--";
+      if (hasProperty(itemData, "data.abilities")) {
+        const prop = getProperty(itemData, "data.abilities");
+        let maxIndex = -1;
+        prop.forEach((ability) => { if (ability.index > maxIndex) { maxIndex = ability.index; } });
+        prop.push({
+          index: maxIndex + 1,
+          name: formData.name,
+          rank: formData.rank,
+          multiplier: formData.multiplier,
+          stat: formData.stat,
+          skill: skillObject,
+          skillBonuses: [],
+          universalBonuses: [],
+          bonusRatio: 1,
+          hasRoll: formData.hasRoll,
+        });
+        setProperty(itemData, "data.abilities", prop);
+        this.item.update(itemData);
+        this._automaticResize(); // Resize the sheet as length of settings list might have changed
+      } else {
+        const prop = [{
+          index: 0,
+          name: formData.name,
+          rank: formData.rank,
+          multiplier: formData.multiplier,
+          stat: formData.stat,
+          skill: skillObject,
+          skillBonuses: [],
+          universalBonuses: [],
+          bonusRatio: 1,
+          hasRoll: formData.hasRoll,
+        }];
+        setProperty(itemData, "data.abilities", prop);
+        this.item.update(itemData);
+        this._automaticResize(); // Resize the sheet as length of settings list might have changed
+      }
+    }
+
+    if (action === "delete") {
+      const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
+      if (setting) {
+        const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${SystemUtils.Localize("CPR.itemSheet.role.deleteConfirmation")}?`;
+        const confirmDelete = await ConfirmPrompt.RenderPrompt(
+          SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"), promptMessage,
+        );
+        if (!confirmDelete) {
+          return;
+        }
+      }
+      if (hasProperty(itemData, "data.abilities")) {
+        const prop = getProperty(itemData, "data.abilities");
+        let deleteElement = null;
+        prop.forEach((ability) => { if (ability.index === target) { deleteElement = ability; } });
+        prop.splice(prop.indexOf(deleteElement), 1);
+        setProperty(itemData, "data.abilities", prop);
+        this.item.update(itemData);
+        this._automaticResize(); // Resize the sheet as length of settings list might have changed
+      }
+    }
+
+    if (action === "edit") {
+      if (hasProperty(itemData, "data.abilities")) {
+        const prop = getProperty(itemData, "data.abilities");
+        let editElement = null;
+        prop.forEach((ability) => { if (ability.index === target) { editElement = ability; } });
+        const editElementSkill = (editElement.skill !== "--") && (editElement.skill !== "varying") ? editElement.skill.name : editElement.skill;
+        let formData = {
+          name: editElement.name,
+          rank: editElement.rank,
+          multiplierOptions: [0.25, 0.5, 1, 2],
+          multiplier: editElement.multiplier,
+          stat: editElement.stat,
+          skillOptions: allSkills,
+          skill: editElementSkill,
+          hasRoll: editElement.hasRoll,
+          returnType: "array",
+        };
+        formData = await RoleAbilityPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
+        if (formData === undefined) {
+          return;
+        }
+        // eslint-disable-next-line no-nested-ternary
+        const skillObject = (formData.skill !== "--") && (formData.skill !== "varying") ? allSkills.find((a) => a.data.name === formData.skill)
+          : (formData.skill === "varying") ? "varying"
+            : "--";
+        prop.splice(prop.indexOf(editElement), 1);
+        prop.push({
+          index: editElement.index,
+          name: formData.name,
+          rank: formData.rank,
+          multiplier: formData.multiplier,
+          stat: formData.stat,
+          skill: skillObject,
+          skillBonuses: editElement.skillBonuses,
+          universalBonuses: editElement.universalBonuses,
+          bonusRatio: editElement.bonusRatio,
+          hasRoll: formData.hasRoll,
+        });
+        setProperty(itemData, "data.abilities", prop);
+        this.item.update(itemData);
+        this._automaticResize(); // Resize the sheet as length of settings list might have changed
+      }
+    }
   }
 
   async _selectItemUpgrades() {
