@@ -13,6 +13,7 @@
 - Added filter capability for Skills & Gear.  This is a client side option which can be enabled/disabled in the System Settings.
 
 **Changes**
+- Feature Request #296: Exotic Weapons from the Core Rulebook are now present in the Weapons Compendium. The Battleglove has been placed into Cyberware Compendium, and Battery Pack has been placed into the Ammo Compendium.
 
 **Bug Fixes**
 - Fixed #292: Attempting to delete installed cyberware is prevented now, as it can leave the actor in a broken state.
