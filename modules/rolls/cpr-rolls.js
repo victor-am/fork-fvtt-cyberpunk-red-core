@@ -74,7 +74,7 @@ export class CPRRoll {
       });
     }
     [this.die] = formula.match(die);
-    return this.die;
+    return formula.match(dice)[0];
   }
 
   /**
@@ -306,7 +306,9 @@ export class CPRHumanityLossRoll extends CPRRoll {
    */
   constructor(name, humanityLoss) {
     LOGGER.trace("constructor | CPRHumanityLossRoll | Called.");
+    LOGGER.debug(`humanityLoss is ${humanityLoss}`);
     super(name, humanityLoss);
+    LOGGER.debug(`formula is ${this.formula}`);
     this.rollTitle = SystemUtils.Localize("CPR.dialog.installCyberware.humanityLoss");
     this.calculateCritical = false;
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-humanity-loss-rollcard.hbs";

@@ -336,6 +336,62 @@ export default class CPRActor extends Actor {
   }
 
   /**
+   * Called when cyberware is installed, this method decreases Humanity on an actor, rolling
+   * for the value if need be.
+   *
+   * To Do: this should be in cpr-character only since Humanity is overlooked for NPCs, however
+   * because users can switch between mook and character sheets independent of actor type, we
+   * have to keep this here for now. (i.e. they can create a mook but switch to the character sheet)
+   *
+   * @param {CPRItem} item - the Cyberware item being installed (provided just to name the roll)
+   * @param {Object} amount - contains a humanityLoss attribute we use to reduce humanity.
+   *                          Will roll dice if it is a formula.
+   * @returns {null}
+   */
+  async loseHumanityValue(item, amount) {
+    LOGGER.trace("loseHumanityValue | CPRActor | Called.");
+    if (amount.humanityLoss === "None") {
+      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was None.");
+      return;
+    }
+    const { humanity } = this.data.data.derivedStats;
+    let value = Number.isInteger(humanity.value) ? humanity.value : humanity.max;
+    LOGGER.debugObject(amount);
+    if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
+      const humRoll = new CPRRolls.CPRHumanityLossRoll(item.data.name, amount.humanityLoss);
+      await humRoll.roll();
+      value -= humRoll.resultTotal;
+      humRoll.entityData = { actor: this.id };
+      CPRChat.RenderRollCard(humRoll);
+      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was rolled.");
+    } else {
+      value -= parseInt(amount.humanityLoss, 10);
+      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was static.");
+    }
+
+    if (value <= 0) {
+      Rules.lawyer(false, "CPR.messages.youCyberpsycho");
+    }
+
+    this.update({ "data.derivedStats.humanity.value": value });
+  }
+
+  /**
+   * Persist life path information to the actor model
+   *
+   * To Do: this should be in cpr-character only since Humanity is overlooked for NPCs, however
+   * because users can switch between mook and character sheets independent of actor type, we
+   * have to keep this here for now. (i.e. they can create a mook but switch to the character sheet)
+   *
+   * @param {Object} formData  - an object of answers provided by the user in a form
+   * @returns {Object}
+   */
+  setLifepath(formData) {
+    LOGGER.trace("setLifepath | CPRActor | Called.");
+    return this.update(formData);
+  }
+
+  /**
    * Called when the user accepts the dialog box defining roles and which one is "active." The data
    * is persisted to the actor object here.
    *
