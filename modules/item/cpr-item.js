@@ -1,8 +1,4 @@
-/* eslint-disable no-undef */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable max-len */
-/* eslint-disable consistent-return */
-/* global Item game */
+/* global Item */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPR from "../system/config.js";
 import LOGGER from "../utils/cpr-logger.js";
@@ -10,32 +6,29 @@ import LoadAmmoPrompt from "../dialog/cpr-load-ammo-prompt.js";
 import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
+// Item mixins
+import Consumeable from "./mixins/cpr-consumeable.js";
+import Effects from "./mixins/cpr-effects.js";
+import Loadable from "./mixins/cpr-loadable.js";
+import Physical from "./mixins/cpr-physical.js";
+// import Spawner from "./mixins/cpr-spawner.js";
+// import Upgradeable from "./mixins/cpr-upgradeable.js";
+import Virtual from "./mixins/cpr-virtual.js";
+
 /**
- * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
- * @extends {Actor}
+ * We extend the base Item object (document) provided by Foundry. All items in the system derive from it.
+ * By itself, it is mostly useless and too generic to be used practically in game.
+ *
+ * @extends {Item}
  */
 export default class CPRItem extends Item {
-  /* -------------------------------------------- */
-  /** @override */
-  prepareData() {
-    // eslint-disable-next-line foundry-cpr/logger-after-function-definition
-    LOGGER.trace(`prepareData | CPRItem | Called for type: ${this.type}.`);
-    super.prepareData();
-  }
-
-  /* -------------------------------------------- */
-  /** @override */
-  getRollData() {
-    LOGGER.trace("getRollData | CPRItem | Called.");
-    const data = super.getRollData();
-    return data;
-  }
-
-  getData() {
-    LOGGER.trace("getData | CPRItem | Called.");
-    return this.data.data;
-  }
-
+  /**
+   * TODO: figure out what to do with this, hopefully not needed
+   * TODO: this should figure out owned vs. not owned items too
+   * @override
+   * @param {Item} data - details/changes for the Item itself
+   * @param {Object} options options (from Foundry) to the Item update process
+   */
   update(data, options = {}) {
     LOGGER.trace("update | CPRItem | Called.");
     const cprData = data;
@@ -48,10 +41,16 @@ export default class CPRItem extends Item {
     super.update(cprData, options);
   }
 
+  /**
+   * TODO: probably not needed after the new code
+   * @param {Item} data - the primitive data for the Item being created
+   * @param {Object} options - options (from Foundry) to the Item creation process
+   * @param {String} userId - user ID that is creating the Item
+   */
   _onCreate(data, options, userId) {
     LOGGER.trace("_onCreate | CPRItem | Called.");
     const newData = data;
-    // If we acre creating an upgradable item from an existing upgradable item
+    // If we are creating an upgradable item from an existing upgradable item
     // which has been upgraded, remove the upgrade from the new weapon as it
     // may reference an itemUpgrade object which doesn't exist in the same
     // location as the upgradable item
@@ -63,6 +62,71 @@ export default class CPRItem extends Item {
     super._onCreate(newData, options, userId);
   }
 
+  /**
+   * Load in a mixin to extend functionality of this item.
+   *
+   * @public
+   * @param {String} name - the desired mixin to ... mix in
+   * @returns {Boolean} - true if loaded successfully, false otherwise
+   */
+  loadMixin(name) {
+    LOGGER.trace("loadMixin | CPRItem | Called.");
+    switch (name) {
+      case "loadable": {
+        Loadable.call(CPRItem.prototype);
+        break;
+      }
+      case "virtual": {
+        Virtual.call(CPRItem.prototype);
+        break;
+      }
+      case "physical": {
+        Physical.call(CPRItem.prototype);
+        break;
+      }
+      case "upgradeable": {
+        // Upgradeable.call(CPRItem.prototype);
+        break;
+      }
+      case "effects": {
+        Effects.call(CPRItem.prototype);
+        break;
+      }
+      case "spawner": {
+        // Spawner.call(CPRItem.prototype);
+        break;
+      }
+      case "consumable": {
+        Consumeable.call(CPRItem.prototype);
+        break;
+      }
+      default:
+        LOGGER.warning(`Tried to load an unknown mixin, ${name}`);
+        return false;
+    }
+    LOGGER.debugObject(this);
+    const { mixins } = this.data.data;
+    if (!mixins.includes(name)) {
+      mixins.push(name);
+      if (this.actor) {
+        this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: mixins }]);
+      }
+      this.update({ "data.mixins": mixins });
+    }
+    return true;
+  }
+
+  static unloadMixin(name) {
+    LOGGER.trace("_unloadMixin | CPRItem | Called.");
+    // TODO: how to implement this?
+  }
+
+  listMixins() {
+    LOGGER.trace("_listMixins | CPRItem | Called.");
+    return this.mixins;
+  }
+
+  /*
   // Generic item.doAction() method so any idem can be called to
   // perform an action.  This can be easily extended in the
   // switch statement and adding additional methods for each item.
@@ -107,6 +171,7 @@ export default class CPRItem extends Item {
       }
       default:
     }
+    return null;
   }
 
   _cyberwareAction(actor, actionAttributes) {
@@ -122,7 +187,9 @@ export default class CPRItem extends Item {
       }
       default:
     }
+    return null;
   }
+  */
 
   confirmRoll(cprRoll) {
     LOGGER.trace("confirmRoll | CPRItem | Called.");
@@ -172,7 +239,6 @@ export default class CPRItem extends Item {
   }
 
   // ammo Item Methods
-  // TODO - REFACTOR, do not do this...
   _ammoAction(actionAttributes) {
     LOGGER.trace("_ammoAction | CPRItem | Called.");
     const actionData = actionAttributes["data-action"].nodeValue;
@@ -197,14 +263,14 @@ export default class CPRItem extends Item {
   setSkillLevel(value) {
     LOGGER.trace("setSkillLevel | CPRItem | Called.");
     if (this.type === "skill") {
-      this.getData().level = Math.clamped(-99, value, 99);
+      this.getRollData().level = Math.clamped(-99, value, 99);
     }
   }
 
   setSkillMod(value) {
     LOGGER.trace("setSkillMod | CPRItem | Called.");
     if (this.type === "skill") {
-      this.getData().skillmod = Math.clamped(-99, value, 99);
+      this.getRollData().skillmod = Math.clamped(-99, value, 99);
     }
   }
 
@@ -226,6 +292,7 @@ export default class CPRItem extends Item {
     if (this.actor) {
       return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
+    return null;
   }
 
   async _ammoIncrement(changeAmount) {
@@ -236,10 +303,10 @@ export default class CPRItem extends Item {
     if (this.actor) {
       return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
+    return null;
   }
 
   // Weapon Item Methods
-  // TODO - Refactor
   async _weaponAction(actor, actionAttributes) {
     LOGGER.trace("_weaponAction | CPRItem | Called.");
     const actionData = actionAttributes["data-action"].nodeValue;
@@ -266,14 +333,13 @@ export default class CPRItem extends Item {
     }
   }
 
-  async _measureDv(actor, dvTable) {
+  static async _measureDv(actor, dvTable) {
     LOGGER.trace("_measureDv | CPRItem | Called.");
     if (actor.sheet.token !== null) {
       actor.sheet.token.update({ "flags.cprDvTable": dvTable });
     }
   }
 
-  // TODO - Refactor
   async _weaponUnload() {
     LOGGER.trace("_weaponUnload | CPRItem | Called.");
     if (this.actor) {
@@ -294,6 +360,7 @@ export default class CPRItem extends Item {
       this.data.data.magazine.ammoId = "";
       return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
     }
+    return null;
   }
 
   // The only time an ammo ID is passed to this is when it is being reloaded
@@ -307,7 +374,7 @@ export default class CPRItem extends Item {
         const validAmmo = [];
         Object.keys(ownedAmmo).forEach((index) => {
           const ammo = ownedAmmo[index];
-          if (this.getData().ammoVariety.includes(ammo.getData().variety)) {
+          if (this.getRollData().ammoVariety.includes(ammo.getRollData().variety)) {
             validAmmo.push(ammo);
           }
         });
@@ -352,7 +419,7 @@ export default class CPRItem extends Item {
           return;
         }
 
-        if (ammo.getData().amount === 0) {
+        if (ammo.getRollData().amount === 0) {
           SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.reloadOutOfAmmo")));
           return;
         }
@@ -395,12 +462,12 @@ export default class CPRItem extends Item {
 
   setWeaponAmmo(value) {
     LOGGER.trace("setWeaponAmmo | CPRItem | Called.");
-    const maxAmmo = this.getData().magazine.max;
+    const maxAmmo = this.getRollData().magazine.max;
     if (this.type === "weapon") {
       if (value.charAt(0) === "+" || value.charAt(0) === "-") {
-        this.getData().magazine.value = Math.clamped(0, this.getData().magazine.value + parseInt(value, 10), maxAmmo);
+        this.getRollData().magazine.value = Math.clamped(0, this.getRollData().magazine.value + parseInt(value, 10), maxAmmo);
       } else {
-        this.getData().magazine.value = Math.clamped(0, value, maxAmmo);
+        this.getRollData().magazine.value = Math.clamped(0, value, maxAmmo);
       }
     }
   }
@@ -408,9 +475,9 @@ export default class CPRItem extends Item {
   setItemAmount(value) {
     LOGGER.trace("setItemAmount | CPRItem | Called.");
     if (value.charAt(0) === "+" || value.charAt(0) === "-") {
-      this.getData().amount = this.getData().amount + parseInt(value, 10);
+      this.getRollData().amount = this.getRollData().amount + parseInt(value, 10);
     } else {
-      this.getData().amount = parseInt(value, 10);
+      this.getRollData().amount = parseInt(value, 10);
     }
   }
 
@@ -465,6 +532,7 @@ export default class CPRItem extends Item {
       }
       default:
     }
+    return null;
   }
 
   _createSkillRoll(actor) {
@@ -718,7 +786,8 @@ export default class CPRItem extends Item {
       // calculate damage based on BODY stat
       const actorBodyStat = this.actor.data.data.stats.body.value;
       if (actorBodyStat <= 4) {
-        if (weaponType === "unarmed" && this.actor.data.filteredItems.cyberware.some((c) => ((c.data.data.type === "cyberArm") && (c.data.data.isInstalled === true) && (c.data.data.isFoundational === true)))) {
+        if (weaponType === "unarmed" && this.actor.data.filteredItems.cyberware.some((c) => (
+          (c.data.data.type === "cyberArm") && (c.data.data.isInstalled === true) && (c.data.data.isFoundational === true)))) {
           // If the user has an installed Cyberarm, which is a foundational. This is only for unarmed damage, not martial arts damage.
           damage = "2d6";
         } else {
@@ -745,7 +814,8 @@ export default class CPRItem extends Item {
     });
     const cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType, universalBonusDamage);
 
-    if (this.data.data.fireModes.autoFire === 0 && ((this.data.data.weaponType === "smg" || this.data.data.weaponType === "heavySmg" || this.data.data.weaponType === "assaultRifle"))) {
+    if (this.data.data.fireModes.autoFire === 0 && (
+      (this.data.data.weaponType === "smg" || this.data.data.weaponType === "heavySmg" || this.data.data.weaponType === "assaultRifle"))) {
       this.data.data.fireModes.autoFire = this.data.data.weaponType === "assaultRifle" ? 4 : 3;
     }
 
@@ -829,705 +899,5 @@ export default class CPRItem extends Item {
       default:
     }
     return 0;
-  }
-
-  /**
-   * Program Code
-   *
-   * The methods below apply to the CPRItem.type = "program"
-  */
-
-  /**
-   * Sets a program to uninstalled.
-   *
-   * @public
-   */
-  setInstalled() {
-    LOGGER.trace("setInstalled | CPRItem | Called.");
-    if (this.data.type !== "program") {
-      return;
-    }
-    this.data.data.isInstalled = true;
-  }
-
-  /**
-   * Sets a program to uninstalled.
-   *
-   * @public
-   */
-  unsetInstalled() {
-    LOGGER.trace("unsetInstalled | CPRItem | Called.");
-    if (this.data.type !== "program") {
-      return;
-    }
-    this.data.data.isInstalled = false;
-  }
-
-  /**
-   * Returns a boolean if the program is installed.
-   *
-   * @public
-   */
-  getInstalled() {
-    LOGGER.trace("getInstalled | CPRItem | Called.");
-    if (this.data.type !== "program") {
-      return;
-    }
-    return this.data.data.isInstalled;
-  }
-
-  /**
-   * Cyberdeck Code
-   *
-   * The methods below apply to the CPRItem.type = "cyberdeck"
-  */
-
-  /**
-   * Dynamically calculates the number of free slots on the Cyberdeck
-   * by starting with the number of slots this cyberdeck has and substacting
-   * the slot size of each of the installed programs.
-   *
-   * @public
-   */
-  availableSlots() {
-    LOGGER.trace("availableSlots | CPRItem | Called.");
-    const itemData = duplicate(this.data.data);
-
-    let unusedSlots = 0;
-
-    switch (this.data.type) {
-      case "cyberdeck": {
-        const upgradeValue = this.getAllUpgradesFor("slots");
-        const upgradeType = this.getUpgradeTypeFor("slots");
-        unusedSlots = (upgradeType === "override") ? upgradeValue : itemData.slots + upgradeValue;
-        itemData.programs.installed.forEach((program) => {
-          unusedSlots -= program.data.slots;
-        });
-        itemData.upgrades.forEach((u) => {
-          unusedSlots -= u.data.size;
-        });
-        break;
-      }
-      case "weapon": {
-        unusedSlots = itemData.attachmentSlots;
-        itemData.upgrades.forEach((mod) => {
-          unusedSlots -= mod.data.size;
-        });
-        break;
-      }
-      case "cyberware": {
-        unusedSlots = itemData.optionSlots - itemData.installedOptionSlots;
-        itemData.upgrades.forEach((mod) => {
-          unusedSlots -= mod.data.size;
-        });
-        break;
-      }
-      default:
-    }
-
-    return unusedSlots;
-  }
-
-  /**
-   * Returns a list of installed programs.  This is a list of ItemData as the
-   * Item itself is not stored because Items can't own Items. As such, if you
-   * are looking for a specific program, each Array entry has a entry._id of
-   * the Object it represents.
-   *
-   * @public
-   */
-  getInstalledPrograms() {
-    LOGGER.trace("getInstalledPrograms | CPRItem | Called.");
-    return this.data.data.programs.installed;
-  }
-
-  /**
-   * Returns a list of rezzed programs.  This is a list of ItemData as the
-   * Item itself is not stored because Items can't own Items. As such, if you
-   * are looking for a specific program, each Array entry has a entry._id of
-   * the Object it represents.
-   *
-   * @public
-   */
-  getRezzedPrograms() {
-    LOGGER.trace("getRezzedPrograms | CPRItem | Called.");
-    return this.data.data.programs.rezzed;
-  }
-
-  /**
-   * Install programs from the Cyberdeck
-   *
-   * @public
-   * @param {Array} programs      - Array of CPRItem programs
-   */
-  installPrograms(programs) {
-    LOGGER.trace("installPrograms | CPRItem | Called.");
-    const { installed } = this.data.data.programs;
-    programs.forEach((p) => {
-      const onDeck = installed.filter((iProgram) => iProgram._id === p.data._id);
-      if (onDeck.length === 0) {
-        const programInstallation = p.data;
-        programInstallation.data.isRezzed = false;
-        installed.push(programInstallation);
-        p.setInstalled();
-      }
-    });
-    this.data.data.programs.installed = installed;
-  }
-
-  /**
-   * Uninstall programs from the Cyberdeck
-   *
-   * @public
-   * @param {Array} programs      - Array of CPRItem programs
-   */
-  uninstallPrograms(programs) {
-    LOGGER.trace("uninstallPrograms | CPRItem | Called.");
-    let { rezzed } = this.data.data.programs;
-    let { installed } = this.data.data.programs;
-    const tokenList = [];
-    let sceneId;
-    programs.forEach(async (program) => {
-      if (program.data.data.class === "blackice" && this.isRezzed(program)) {
-        const rezzedIndex = this.data.data.programs.rezzed.findIndex((p) => p._id === program.id);
-        const programData = this.data.data.programs.rezzed[rezzedIndex];
-        const cprFlags = programData.flags["cyberpunk-red-core"];
-        if (cprFlags.biTokenId) {
-          tokenList.push(cprFlags.biTokenId);
-        }
-        if (cprFlags.sceneId) {
-          sceneId = cprFlags.sceneId;
-        }
-      }
-      installed = installed.filter((p) => p._id !== program.id);
-      rezzed = rezzed.filter((p) => p._id !== program.id);
-      if ((typeof program.unsetInstalled === "function")) {
-        program.unsetInstalled();
-      }
-    });
-    this.data.data.programs.installed = installed;
-    this.data.data.programs.rezzed = rezzed;
-
-    if (tokenList.length > 0 && sceneId) {
-      const sceneList = game.scenes.filter((s) => s.id === sceneId);
-      if (sceneList.length === 1) {
-        const [scene] = sceneList;
-        return scene.deleteEmbeddedDocuments("Token", tokenList);
-      }
-    }
-  }
-
-  /**
-   * Return true/false if the program is Rezzed
-   *
-   * @public
-   * @param {CPRItem} program      - CPRItem of the program to check
-   */
-  isRezzed(program) {
-    LOGGER.trace("isRezzed | CPRItem | Called.");
-    const rezzedPrograms = this.data.data.programs.rezzed.filter((p) => p._id === program.id);
-    const { installed } = this.data.data.programs;
-    const installIndex = installed.findIndex((p) => p._id === program.data._id);
-    const programState = installed[installIndex];
-    programState.data.isRezzed = (rezzedPrograms.length > 0);
-    installed[installIndex] = programState;
-    this.data.data.programs.installed = installed;
-    // Passed by reference
-    // eslint-disable-next-line no-param-reassign
-    program.data.isRezzed = (rezzedPrograms.length > 0);
-    return (rezzedPrograms.length > 0);
-  }
-
-  /**
-   * Rez a program by setting the isRezzed boolean on the program to true
-   * and push the program onto the rezzed array of the Cyberdeck
-   *
-   * @public
-   * @param {CPRItem} program      - CPRItem of the program to REZ
-   */
-  async rezProgram(program, callingToken) {
-    LOGGER.trace("rezProgram | CPRItem | Called.");
-    const programData = duplicate(program.data);
-    const { installed } = this.data.data.programs;
-    const installIndex = installed.findIndex((p) => p._id === programData._id);
-    const programState = installed[installIndex];
-    // This instance ID is being added pro-actively because the rulebook
-    // is a bit fuzzy on the bottom of Page 201 with regards to rezzing the
-    // same program multiple times.  The rulebook says:
-    // "You can run multiple copies of the same Program on your Cyberdeck"
-    // however when I asked on the Discord, I was told you can not do this,
-    // you have to install a program twice on the Cyberdeck if you want to
-    // rez it twice.  So the code here supports what was told to me in Discord.
-    // If it ever comes back that a single install of a program can be run
-    // multiple times, we will already have a an instance ID to differentiate
-    // the different rezzes.
-    const rezzedInstance = randomID();
-    program.setFlag("cyberpunk-red-core", "rezInstanceId", rezzedInstance);
-    programState.data.isRezzed = true;
-    installed[installIndex] = programState;
-    if (programData.data.class === "blackice") {
-      await this._rezBlackIceToken(programData, callingToken);
-    }
-    this.data.data.programs.installed = installed;
-    this.data.data.programs.rezzed.push(programData);
-  }
-
-  /**
-   * Create a Black ICE Token on the active scene as it was just rezzed
-   *
-   * @private
-   * @param {CPRItem} program      - CPRItem of the program create the Token for
-   */
-  async _rezBlackIceToken(programData, callingToken) {
-    LOGGER.trace("_rezBlackIceToken | CPRItem | Called.");
-    let netrunnerToken = callingToken;
-    let scene;
-    const blackIceName = programData.name;
-
-    if (!netrunnerToken && this.actor.isToken) {
-      netrunnerToken = this.actor.token;
-    }
-
-    if (!netrunnerToken) {
-      // Search for a token associated with this Actor ID.
-      const tokenList = game.scenes.map((tokenDoc) => tokenDoc.tokens.filter((t) => t.id === this.actor.id)).filter((s) => s.length > 0);
-      if (tokenList.length === 1) {
-        [netrunnerToken] = tokenList;
-      } else {
-        LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed because we were unable to find a Token associated with World Actor "${this.actor.name}".`);
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.rezBlackIceWithoutToken"));
-        return;
-      }
-    }
-
-    if (netrunnerToken.isEmbedded && netrunnerToken.parent instanceof Scene) {
-      scene = netrunnerToken.parent;
-    } else {
-      LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed because the token does not appear to be part of a scene.`);
-      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.rezbiwithoutscene"));
-      return;
-    }
-
-    // First, let's see if an Actor exists that is a blackIce Actor with the same name, if so, we will use that
-    // to model the token Actor Data.
-    const blackIceActors = game.actors.filter((bi) => bi.type === "blackIce" && bi.name === blackIceName);
-    let blackIce;
-    if (blackIceActors.length === 0) {
-      try {
-        // We didn't find a blackIce Actor with a matching name so we need to create one dynamically.
-        // We will keep all auto-generated Actors in a Folder called CPR Autogenerated to ensure the Actors
-        // list of the user stays clean.
-        const dynamicFolderName = "CPR Autogenerated";
-        const dynamicFolder = await SystemUtils.GetFolder("Actor", dynamicFolderName);
-        // Create a new Black ICE Actor
-        blackIce = await Actor.create({
-          name: blackIceName,
-          type: "blackIce",
-          folder: dynamicFolder,
-          img: "systems/cyberpunk-red-core/icons/netrunning/Black_Ice.png",
-        });
-        // Configure the Actor based on the Black ICE Program Stats.
-        blackIce.programmaticallyUpdate(programData.data.blackIceType, programData.data.per, programData.data.spd, programData.data.atk, programData.data.def, programData.data.rez, programData.data.rez, programData.data.description.value);
-      } catch (error) {
-        LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Actor failed. Error: ${error}`);
-        return;
-      }
-    } else {
-      // We found a matching Actor so we will use that to model our Token Data
-      [blackIce] = blackIceActors;
-    }
-
-    const tokenFlags = {
-      netrunnerTokenId: netrunnerToken.id,
-      sourceCyberdeckId: this.id,
-      programId: programData._id,
-      sceneId: scene.id,
-    };
-    const tokenData = [{
-      name: blackIce.name,
-      actorId: blackIce.data._id,
-      actorData: blackIce.data,
-      actorLink: false,
-      img: blackIce.img,
-      x: netrunnerToken.data.x + 75,
-      y: netrunnerToken.data.y,
-      flags: { "cyberpunk-red-core": tokenFlags },
-    }];
-    try {
-      const biTokenList = await scene.createEmbeddedDocuments("Token", tokenData);
-      const biToken = (biTokenList.length > 0) ? biTokenList[0] : null;
-      if (biToken !== null) {
-        // Update the Token Actor based on the Black ICE Program Stats, leaving any effect description in place.
-        biToken.actor.programmaticallyUpdate(programData.data.blackIceType, programData.data.per, programData.data.spd, programData.data.atk, programData.data.def, programData.data.rez, programData.data.rez);
-        const cprFlags = (typeof programData.flags["cyberpunk-red-core"] !== "undefined") ? programData.flags["cyberpunk-red-core"] : {};
-        cprFlags.biTokenId = biToken.id;
-        cprFlags.sceneId = scene.id;
-        // Passed by reference
-        // eslint-disable-next-line no-param-reassign
-        programData.flags["cyberpunk-red-core"] = cprFlags;
-      }
-    } catch (error) {
-      LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed. Error: ${error}`);
-    }
-  }
-
-  /**
-   * Remove a program from the rezzed list on the Cyberdeck
-   *
-   * @public
-   * @param {CPRItem} program      - CPRItem of the program de-rez
-   */
-  async derezProgram(program) {
-    LOGGER.trace("derezProgram | CPRItem | Called.");
-    const { installed } = this.data.data.programs;
-    const installIndex = installed.findIndex((p) => p._id === program.id);
-    const programState = installed[installIndex];
-    const { rezzed } = this.data.data.programs;
-    const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
-    const programData = rezzed[rezzedIndex];
-    programState.data.isRezzed = false;
-    installed[installIndex] = programState;
-    if (program.data.data.class === "blackice") {
-      await this._derezBlackIceToken(programData);
-    }
-    const newRezzed = this.data.data.programs.rezzed.filter((p) => p._id !== program.id);
-    this.data.data.programs.rezzed = newRezzed;
-  }
-
-  /**
-   * Remove a Black ICE Token from the game as it is de-rezzed
-   *
-   * @private
-   * @param {CPRItem} program      - CPRItem of the program to remove the token for
-   */
-  async _derezBlackIceToken(programData) {
-    LOGGER.trace("_derezBlackIceToken | CPRItem | Called.");
-    if (typeof programData.flags["cyberpunk-red-core"] !== "undefined") {
-      const cprFlags = programData.flags["cyberpunk-red-core"];
-      const { biTokenId } = cprFlags;
-      const { sceneId } = cprFlags;
-      if (typeof biTokenId !== "undefined" && typeof sceneId !== "undefined") {
-        const sceneList = game.scenes.filter((s) => s.id === sceneId);
-        if (sceneList.length === 1) {
-          const [scene] = sceneList;
-          const tokenList = scene.tokens.filter((t) => t.id === biTokenId);
-          if (tokenList.length === 1) {
-            await scene.deleteEmbeddedDocuments("Token", [biTokenId]);
-          } else {
-            LOGGER.warn(`_derezBlackIceToken | CPRItem | Unable to find biTokenId (${biTokenId}) in scene ${scene.name} (${scene.id}). May have been already deleted.`);
-          }
-        } else {
-          LOGGER.error(`_derezBlackIceToken | CPRItem | Unable to locate sceneId ${scene.id}`);
-        }
-      } else {
-        LOGGER.error(`_derezBlackIceToken | CPRItem | Unable to retrieve biTokenId and sceneId from programData: ${programData.name} (${programData._id})`);
-      }
-    } else {
-      LOGGER.error(`_derezBlackIceToken | CPRItem | No flags found in programData.`);
-    }
-  }
-
-  /**
-   * Reset a rezzed program numbers to be that of the installed version of the program
-   *
-   * @public
-   * @param {CPRItem} program      - CPRItem of the program to reset
-   */
-  resetRezProgram(program) {
-    LOGGER.trace("resetRezProgram | CPRItem | Called.");
-    const { rezzed } = this.data.data.programs;
-    const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
-    const { installed } = this.data.data.programs;
-    const installedIndex = installed.findIndex((p) => p._id === program.id);
-    this.data.data.programs.rezzed[rezzedIndex] = this.data.data.programs.installed[installedIndex];
-  }
-
-  /**
-   * Reduce the rezzed value of a rezzed program.
-   *
-   * @public
-   * @param {CPRItem} program     - The program to reduce the REZ of
-   * @param {Number} reduceAmount - Amount to reduce REZ by. Defaults to 1.
-   */
-  reduceRezProgram(program, reduceAmount = 1) {
-    LOGGER.trace("reduceRezProgram | CPRItem | Called.");
-    const { rezzed } = this.data.data.programs;
-    const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
-    const programState = rezzed[rezzedIndex];
-    const newRez = Math.max(programState.data.rez - reduceAmount, 0);
-    programState.data.rez = newRez;
-    this.data.data.programs.rezzed[rezzedIndex] = programState;
-    if (programState.data.class === "blackice" && typeof programState.flags["cyberpunk-red-core"] !== "undefined") {
-      const cprFlags = programState.flags["cyberpunk-red-core"];
-      if (typeof cprFlags.biTokenId !== "undefined") {
-        const { biTokenId } = cprFlags;
-        const tokenList = canvas.scene.tokens.map((tokenDoc) => tokenDoc.actor.token).filter((token) => token).filter((t) => t.id === biTokenId);
-        if (tokenList.length === 1) {
-          const [biToken] = tokenList;
-          biToken.actor.programmaticallyUpdate(programState.data.blackIceType, programState.data.per, programState.data.spd, programState.data.atk, programState.data.def, programState.data.rez);
-        }
-      }
-    }
-  }
-
-  updateRezzedProgram(programId, updatedData) {
-    LOGGER.trace("updateRezzedProgram | CPRItem | Called.");
-    const { rezzed } = this.data.data.programs;
-    const rezzedIndex = rezzed.findIndex((p) => p._id === programId);
-    const programState = rezzed[rezzedIndex];
-    const dataPoints = Object.keys(updatedData);
-    dataPoints.forEach((attribute) => {
-      switch (attribute) {
-        case "per":
-        case "spd":
-        case "atk":
-        case "def": {
-          programState.data[attribute] = updatedData[attribute];
-          break;
-        }
-        case "rez": {
-          programState.data.rez = updatedData.rez.value;
-          break;
-        }
-        default:
-      }
-    });
-  }
-
-  /**
-   * Get total modifiers for a specified boosterType from the programs rezzed on the Cyberdeck.
-   *
-   * @public
-   * @param {String} boosterType - string defining the type of boosters to return.
-   */
-  getBoosters(boosterType) {
-    LOGGER.trace("getBoosters | CPRItem | Called.");
-    const { rezzed } = this.data.data.programs;
-    let modifierTotal = 0;
-    switch (boosterType) {
-      case "attack": {
-        rezzed.forEach((program) => {
-          if (typeof program.data.atk === "number" && program.data.class !== "blackice") {
-            modifierTotal += program.data.atk;
-          }
-        });
-        break;
-      }
-      case "defense": {
-        rezzed.forEach((program) => {
-          if (typeof program.data.def === "number" && program.data.class !== "blackice") {
-            modifierTotal += program.data.def;
-          }
-        });
-        break;
-      }
-      default: {
-        rezzed.forEach((program) => {
-          if (program.data.modifiers[boosterType] && program.data.class !== "blackice") {
-            modifierTotal += program.data.modifiers[boosterType];
-          }
-        });
-      }
-    }
-    return modifierTotal;
-  }
-
-  _createCyberdeckRoll(rollType, actor, extraData = {}) {
-    LOGGER.trace("_createCyberdeckRoll | CPRItem | Called.");
-    const rollTitle = "";
-    let rollModifiers = 0;
-    let cprRoll;
-    const { programId } = extraData;
-    const programList = this.getInstalledPrograms().filter((iProgram) => iProgram._id === programId);
-    let program = (programList.length > 0) ? programList[0] : null;
-    let damageFormula = (program === null) ? "1d6" : program.data.damage.standard;
-    if (program.data.class === "blackice") {
-      const rezzedList = this.getRezzedPrograms().filter((rProgram) => rProgram._id === programId);
-      program = (rezzedList.length > 0) ? rezzedList[0] : null;
-      if (program.data.blackIceType === "antiprogram") {
-        damageFormula = program.data.damage.blackIce;
-      }
-    }
-    if (program === null) {
-      LOGGER.error(`_createCyberdeckRoll | CPRItem | Unable to locate program ${programId}.`);
-      return CPRRolls.CPRRoll("Unknown Program", "1d10");
-    }
-    const skillName = "";
-    const skillValue = 0;
-    const roleName = (program.data.class === "blackice") ? "Black ICE" : extraData.netRoleItem.data.data.mainRoleAbility;
-    const roleValue = (program.data.class === "blackice") ? 0 : extraData.netRoleItem.data.data.rank;
-    const atkValue = (program === null) ? 0 : program.data.atk;
-    const pgmName = (program === null) ? "Program" : program.name;
-    const { executionType } = extraData;
-    rollModifiers = (program.data.class === "blackice") ? 0 : this.getBoosters(executionType);
-    switch (executionType) {
-      case "atk":
-      case "def": {
-        const niceName = executionType.toUpperCase();
-        cprRoll = (program.data.class === "blackice") ? new CPRRolls.CPRStatRoll(niceName, program.data[executionType]) : new CPRRolls.CPRAttackRoll(
-          pgmName,
-          niceName,
-          atkValue,
-          skillName,
-          skillValue,
-          roleName,
-          roleValue,
-          "program",
-        );
-        cprRoll.rollCardExtraArgs.program = program;
-        break;
-      }
-      case "damage": {
-        cprRoll = new CPRRolls.CPRDamageRoll(program.name, damageFormula, "program");
-        cprRoll.rollCardExtraArgs.pgmClass = program.data.class;
-        cprRoll.rollCardExtraArgs.pgmDamage = program.data.damage;
-        cprRoll.rollCardExtraArgs.program = program;
-        break;
-      }
-      default:
-    }
-    cprRoll.setNetCombat(pgmName);
-    cprRoll.addMod(rollModifiers);
-    cprRoll.addMod(actor.getWoundStateMods());
-    return cprRoll;
-  }
-
-  /** itemUpgrade Code */
-  uninstallUpgrades(upgrades) {
-    LOGGER.trace("uninstallUpgrades | CPRItem | Called.");
-    let installedUpgrades = this.data.data.upgrades;
-    const updateList = [];
-    upgrades.forEach((u) => {
-      installedUpgrades = installedUpgrades.filter((iUpgrade) => iUpgrade._id !== u.id);
-      updateList.push({ _id: u.id, "data.isInstalled": false });
-    });
-    const upgradeStatus = (installedUpgrades.length > 0);
-    // Need to set this so it can be used further in this function.
-    this.data.data.upgrades = installedUpgrades;
-    updateList.push({ _id: this.id, "data.isUpgraded": upgradeStatus, "data.upgrades": installedUpgrades });
-
-    if (this.type === "weapon" && this.data.data.isRanged) {
-      const magazineData = this.data.data.magazine;
-      const upgradeValue = this.getAllUpgradesFor("magazine");
-      const upgradeType = this.getUpgradeTypeFor("magazine");
-      const magazineSize = (upgradeType === "override") ? upgradeValue : magazineData.max + upgradeValue;
-      const extraBullets = magazineData.value - magazineSize;
-      if (extraBullets > 0) {
-        updateList.push({
-          _id: this.id,
-          "data.isUpgraded": upgradeStatus,
-          "data.upgrades": installedUpgrades,
-          "data.magazine.value": magazineData.max,
-        });
-        const ammo = this.actor.items.find((i) => i.data._id === magazineData.ammoId);
-        const ammoStack = ammo.data.data.amount + extraBullets;
-        updateList.push({ _id: ammo.id, "data.amount": ammoStack });
-      }
-    } else if (this.type === "armor") {
-      const { bodyLocation } = this.data.data;
-      const { headLocation } = this.data.data;
-      const { shieldHitPoints } = this.data.data;
-      bodyLocation.ablation = (bodyLocation.ablation > bodyLocation.sp) ? bodyLocation.sp : bodyLocation.ablation;
-      headLocation.ablation = (headLocation.ablation > headLocation.sp) ? headLocation.sp : headLocation.ablation;
-      shieldHitPoints.value = (shieldHitPoints.value > shieldHitPoints.max) ? shieldHitPoints.max : shieldHitPoints.value;
-      updateList.push({
-        _id: this.id,
-        "data.isUpgraded": upgradeStatus,
-        "data.upgrades": installedUpgrades,
-        "data.bodyLocation": bodyLocation,
-        "data.headLocation": headLocation,
-        "data.shieldHitPoints": shieldHitPoints,
-      });
-    } else {
-      updateList.push({ _id: this.id, "data.isUpgraded": upgradeStatus, "data.upgrades": installedUpgrades });
-    }
-    return this.actor.updateEmbeddedDocuments("Item", updateList);
-  }
-
-  installUpgrades(upgrades) {
-    LOGGER.trace("installUpgrades | CPRItem | Called.");
-    if (typeof this.data.data.isUpgraded === "boolean") {
-      const installedUpgrades = this.data.data.upgrades;
-      const updateList = [];
-      // Loop through the upgrades to install
-      upgrades.forEach((u) => {
-        // See if the upgrade is already installed, if it is, skip it
-        const alreadyInstalled = installedUpgrades.filter((iUpgrade) => iUpgrade._id === u.data._id);
-        if (alreadyInstalled.length === 0) {
-          // Update the upgrade Item set the isInstalled Boolean and the install setting to this item
-          updateList.push({ _id: u.id, "data.isInstalled": true, "data.install": this.id });
-          const modList = {};
-          const upgradeModifiers = u.data.data.modifiers;
-          // Loop through the modifiers this upgrade has on it
-          Object.keys(upgradeModifiers).forEach((index) => {
-            const modifier = upgradeModifiers[index];
-            /*
-              Before we add this modifier to the list of upgrades for this item, we need to do several checks:
-              1. Ensure the modifier is defined as the key could have been added but the value never set
-              2. Ensure the modifier is valid for this item type. As this information is stored in an
-                 object, it's possible keys may exist that are not valid if one changes the itemUpgrade type.
-              3. The next couple checks ensure we are only adding actual modifications, null, 0 or empty strings don't modify
-                 anything, so we ignore those.
-            */
-            if (typeof modifier !== "undefined" && typeof CPR.upgradableDataPoints[this.type][index] !== "undefined" && modifier !== 0 && modifier !== null && modifier !== "") {
-              modList[index] = modifier;
-            }
-          });
-          const upgradeData = {
-            _id: u._id,
-            name: u.name,
-            data: {
-              modifiers: modList,
-              size: u.data.data.size,
-            },
-          };
-          installedUpgrades.push(upgradeData);
-        }
-      });
-      updateList.push({ _id: this.id, "data.isUpgraded": true, "data.upgrades": installedUpgrades });
-
-      return this.actor.updateEmbeddedDocuments("Item", updateList);
-    }
-  }
-
-  getUpgradeTypeFor(dataPoint) {
-    LOGGER.trace("getUpgradeTypeFor | CPRItem | Called.");
-    let upgradeType = "modifier";
-    if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {
-      const installedUpgrades = this.data.data.upgrades;
-      installedUpgrades.forEach((upgrade) => {
-        if (typeof upgrade.data.modifiers[dataPoint] !== "undefined") {
-          const modType = upgrade.data.modifiers[dataPoint].type;
-          if (modType !== "modifier") {
-            upgradeType = modType;
-          }
-        }
-      });
-      return upgradeType;
-    }
-  }
-
-  getAllUpgradesFor(dataPoint) {
-    LOGGER.trace("getAllUpgradesFor | CPRItem | Called.");
-    let upgradeNumber = 0;
-    let baseOverride = -100000;
-    if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {
-      const installedUpgrades = this.data.data.upgrades;
-      installedUpgrades.forEach((upgrade) => {
-        if (typeof upgrade.data.modifiers[dataPoint] !== "undefined") {
-          const modType = upgrade.data.modifiers[dataPoint].type;
-          const modValue = upgrade.data.modifiers[dataPoint].value;
-          if (typeof modValue === "number" && modValue !== 0) {
-            if (modType === "override") {
-              baseOverride = (modValue > baseOverride) ? modValue : baseOverride;
-            } else {
-              upgradeNumber += modValue;
-            }
-          }
-        }
-      });
-      upgradeNumber = (baseOverride === 0 || baseOverride === -100000) ? upgradeNumber : baseOverride;
-    }
-    return upgradeNumber;
   }
 }

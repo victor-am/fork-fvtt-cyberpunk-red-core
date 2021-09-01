@@ -1,11 +1,29 @@
-/* global Actor */
-import CPRBlackIceActor from "./cpr-black-ice.js";
-import CPRCharacterActor from "./cpr-character.js";
-import CPRContainerActor from "./cpr-container.js";
-import CPRDemonActor from "./cpr-demon.js";
-import CPRMookActor from "./cpr-mook.js";
-import LOGGER from "../utils/cpr-logger.js";
-import SystemUtils from "../utils/cpr-systemUtils.js";
+/* global Actor Item */
+// Actors
+import CPRBlackIceActor from "./actor/cpr-black-ice.js";
+import CPRCharacterActor from "./actor/cpr-character.js";
+import CPRContainerActor from "./actor/cpr-container.js";
+import CPRDemonActor from "./actor/cpr-demon.js";
+import CPRMookActor from "./actor/cpr-mook.js";
+
+// Items
+import CPRAmmoItem from "./item/types/cpr-ammo.js";
+import CPRArmorItem from "./item/types/cpr-armor.js";
+import CPRClothingItem from "./item/types/cpr-clothing.js";
+import CPRCyberdeckItem from "./item/types/cpr-cyberdeck.js";
+import CPRCyberwareItem from "./item/types/cpr-cyberware.js";
+import CPRGearItem from "./item/types/cpr-gear.js";
+import CPRInjuryItem from "./item/types/cpr-injury.js";
+import CPRNetArchItem from "./item/types/cpr-netarch.js";
+import CPRProgramItem from "./item/types/cpr-program.js";
+import CPRRoleItem from "./item/types/cpr-role.js";
+import CPRSkillItem from "./item/types/cpr-skill.js";
+import CPRUpgradeItem from "./item/types/cpr-upgrade.js";
+import CPRVehicleItem from "./item/types/cpr-vehicle.js";
+import CPRWeaponItem from "./item/types/cpr-weapon.js";
+
+// Utilities
+import LOGGER from "./utils/cpr-logger.js";
 
 /**
  * This code is heavily borrowed from the Burning Wheel system module. The jist
@@ -28,12 +46,7 @@ function factory(entities, baseClass) {
       LOGGER.trace("object construct | factory | actor-factor.js");
       const [data, options] = args;
       const constructor = entities[data.type];
-      if (!constructor) {
-        // emit error
-        const error = `${SystemUtils.Localize("CPR.messages.unsupportedEntityError")}: ${data.type}`;
-        SystemUtils.DisplayMessage("error", error);
-        throw new Error(error);
-      }
+      if (!constructor) throw new Error(`Unsupported Entity type for create(): ${data.type}`);
       return new constructor(data, options);
     },
     get: (target, prop) => {
@@ -43,11 +56,7 @@ function factory(entities, baseClass) {
           // Calling the class' create() static function
           return (data, options) => {
             const constructor = entities[data.type];
-            if (!constructor) {
-              const error = `${SystemUtils.Localize("CPR.messages.unsupportedEntityError")}: ${data.type}`;
-              SystemUtils.DisplayMessage("error", error);
-              throw new Error(error);
-            }
+            if (!constructor) throw new Error(`Unsupported Entity type for create(): ${data.type}`);
             return constructor.create(data, options);
           };
         case Symbol.hasInstance:
@@ -73,11 +82,21 @@ actorTypes.character = CPRCharacterActor;
 actorTypes.container = CPRContainerActor;
 actorTypes.demon = CPRDemonActor;
 actorTypes.mook = CPRMookActor;
-const actorConstructor = factory(actorTypes, Actor);
-export default actorConstructor;
+export const actorConstructor = factory(actorTypes, Actor);
 
-// If we wanted to split items into separate objects we can:
-// const itemTypes = {};
-// itemTypes["cyberware"] = CPRCyberwareItem;
-// itemTypes["gear"] = CPRGearItem;
-// export const itemConstructor = factory(itemTypes, Item);
+const itemTypes = {};
+itemTypes.ammo = CPRAmmoItem;
+itemTypes.armor = CPRArmorItem;
+itemTypes.clothing = CPRClothingItem;
+itemTypes.cyberdeck = CPRCyberdeckItem;
+itemTypes.cyberware = CPRCyberwareItem;
+itemTypes.gear = CPRGearItem;
+itemTypes.injury = CPRInjuryItem;
+itemTypes.netarch = CPRNetArchItem;
+itemTypes.program = CPRProgramItem;
+itemTypes.role = CPRRoleItem;
+itemTypes.skill = CPRSkillItem;
+itemTypes.upgrade = CPRUpgradeItem;
+itemTypes.vehicle = CPRVehicleItem;
+itemTypes.weapon = CPRWeaponItem;
+export const itemConstructor = factory(itemTypes, Item);

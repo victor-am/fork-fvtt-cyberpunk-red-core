@@ -221,7 +221,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     LOGGER.trace("_installRemoveCyberwareAction | CPRCharacterActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
     const item = this._getOwnedItem(itemId);
-    if (item.getData().isInstalled) {
+    if (item.data.data.isInstalled) {
       const foundationalId = $(event.currentTarget).parents(".item").attr("data-foundational-id");
       this.actor.removeCyberware(itemId, foundationalId);
     } else {

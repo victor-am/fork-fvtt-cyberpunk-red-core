@@ -564,7 +564,6 @@
     "CPR.messages.tooManyOptionalCyberwareInstalled": "Hai troppo Cyberware opzionale istallato, Choomba! Vuoi diventare un Borg??",
     "CPR.messages.tradePriceWarn": "You do not have enough Eurobucks. Do some Jobs, Choomba!",
     "CPR.messages.tradeWithWarn": "Please select a character, that should perform the trade first.",
-    "CPR.messages.unsupportedEntityError": "Unsupported Entity type for create()",
     "CPR.messages.warnNoFoundationalCyberwareOfCorrectType": "L' Opzione Cyberware richiede un Componente Base per essere istallato. Non è stato trovato nessun Componente Base di questo tipo.",
     "CPR.messages.warningNotEnoughEb": "Hai perso più Eurodollari di quelli che hai!",
     "CPR.messages.warningNotEnoughIp": "Hai perso più PM di quelli che hai!",

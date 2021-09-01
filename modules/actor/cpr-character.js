@@ -74,9 +74,9 @@ export default class CPRCharacterActor extends CPRActor {
       // Max Humanity
       let cyberwarePenalty = 0;
       this.getInstalledCyberware().forEach((cyberware) => {
-        if (cyberware.getData().type === "borgware") {
+        if (cyberware.data.data.type === "borgware") {
           cyberwarePenalty += 4;
-        } else if (parseInt(cyberware.getData().humanityLoss.static, 10) > 0) {
+        } else if (parseInt(cyberware.data.data.humanityLoss.static, 10) > 0) {
           cyberwarePenalty += 2;
         }
       });

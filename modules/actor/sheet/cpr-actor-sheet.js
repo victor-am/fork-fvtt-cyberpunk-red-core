@@ -110,13 +110,13 @@ export default class CPRActorSheet extends ActorSheet {
     const sortedInstalledCyberware = {};
     for (const [type] of Object.entries(CPR.cyberwareTypeList)) {
       sortedInstalledCyberware[type] = installedFoundationalCyberware.filter(
-        (cyberware) => cyberware.getData().type === type,
+        (cyberware) => cyberware.data.data.type === type,
       );
       sortedInstalledCyberware[type] = sortedInstalledCyberware[type].map(
         (cyberware) => ({ foundation: cyberware, optionals: [] }),
       );
       sortedInstalledCyberware[type].forEach((entry) => {
-        entry.foundation.getData().optionalIds.forEach((id) => entry.optionals.push(this._getOwnedItem(id)));
+        entry.foundation.data.data.optionalIds.forEach((id) => entry.optionals.push(this._getOwnedItem(id)));
       });
     }
     return sortedInstalledCyberware;

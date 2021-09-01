@@ -15,6 +15,7 @@
            {{#if (isDebug)}}({{item.id}}){{/if}}
           {{localize (findConfigValue "objectTypes" item.type)}} <a class="fas fa-question-circle help-article" href="https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/wikis/help-articles/{{item.type}}" title="{{localize "CPR.global.generic.helparticle"}}"></a>{{#if (compare data.data.source "!==" "")}} | {{data.data.source}}{{/if}}
         </div>
+        {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/header/cpr-VAR.hbs" item.type) this}}
       </li>
       <li></li>
       <li></li>
@@ -33,10 +34,10 @@
     </div>
     <div class="item-bottom-content-section">
       <div class="tab item-description-grid" data-group="primary" data-tab="item-description">
-        {{> "systems/cyberpunk-red-core/templates/item/cpr-item-description.hbs" this}}
+        {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/description/cpr-VAR.hbs" item.type) this}}
       </div>
       <div class="tab item-settings-grid" data-group="primary" data-tab="item-settings">
-        {{> "systems/cyberpunk-red-core/templates/item/cpr-item-settings.hbs" this}}
+        {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-settings.hbs" this}}
       </div>
     </div>
 

@@ -1,13 +1,12 @@
 /* global Actors ActorSheet CONFIG Hooks Items ItemSheet game isNewerVersion */
 // Object imports
-import actorConstructor from "./modules/actor/actor-factory.js";
+import { actorConstructor, itemConstructor } from "./modules/entity-factory.js";
 import CPRBlackIceActorSheet from "./modules/actor/sheet/cpr-black-ice-sheet.js";
 import CPRCharacterActorSheet from "./modules/actor/sheet/cpr-character-sheet.js";
 import CPRContainerActorSheet from "./modules/actor/sheet/cpr-container-sheet.js";
 import CPRDemonActorSheet from "./modules/actor/sheet/cpr-demon-sheet.js";
 import CPRMookActorSheet from "./modules/actor/sheet/cpr-mook-sheet.js";
 import CPRCombat from "./modules/combat/cpr-combat.js";
-import CPRItem from "./modules/item/cpr-item.js";
 
 import CPRItemSheet from "./modules/item/sheet/cpr-item-sheet.js";
 import LOGGER from "./modules/utils/cpr-logger.js";
@@ -77,7 +76,7 @@ Hooks.once("init", async () => {
   // Assign the actor class to the CONFIG
   CONFIG.Actor.documentClass = actorConstructor;
   CONFIG.Combat.documentClass = CPRCombat;
-  CONFIG.Item.documentClass = CPRItem;
+  CONFIG.Item.documentClass = itemConstructor;
 
   preloadHandlebarsTemplates();
   registerHandlebarsHelpers();

@@ -365,18 +365,19 @@
           "unidentified": ""
         },
         "source": "",
-        "favorite": false
+        "favorite": false,
+        "mixins": []
       },
       "physicalItem": {
         "price": {
           "market": 0,
           "category": ""
         },
-        "quality": "standard",
-        "amount": 1
-      },
-      "equippable": {
-        "equipped": "owned"
+        "equipped": "owned",
+        "concealable": {
+          "concealable": false,
+          "isConcealed": false
+        }
       },
       "upgradable": {
         "isUpgraded": false,
@@ -409,10 +410,6 @@
           "value": 0,
           "max": 0
         }
-      },
-      "concealable": {
-        "concealable": false,
-        "isConcealed": false
       },
       "installable": {
         "install": "mall",
@@ -492,9 +489,7 @@
     "gear": {
       "templates": [
         "common",
-        "physicalItem",
-        "equippable",
-        "upgradable"
+        "physicalItem"
       ]
     },
     "clothing": {

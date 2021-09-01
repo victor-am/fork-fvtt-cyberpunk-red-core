@@ -1,0 +1,17 @@
+{{trace "CPR-ITEM-DESCRIPTION.HBS"}}
+<div class="item-description-tab">
+    <div class="item-summary-section">
+        {{!-- Display at-a-glance stats in the description tab by activated mixin --}}
+        {{#each item.data.data.mixins as |mixin|}}
+            {{> (generatePartial "systems/cyberpunk-red-core/templates/item/description/cpr-VAR.hbs" mixin) ../this}}
+            <hr>
+        {{/each}}
+    </div>
+    {{!-- Display stats by item type --}}
+    {{> (generatePartial "systems/cyberpunk-red-core/templates/item/description/cpr-VAR.hbs" item.type) this}}
+    <div class="item-description-section">
+        {{editor content=data.data.description.value target="data.description.value" button=true owner=owner
+        editable=editable}}
+    </div>
+</div>
+{{trace "END CPR-ITEM-DESCRIPTION.HBS"}}

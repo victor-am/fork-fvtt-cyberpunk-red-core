@@ -83,6 +83,8 @@ export default class CPRItemSheet extends ItemSheet {
       data.data.data.availableSlots = this.object.availableSlots();
     }
     data.dvTableNames = DvUtils.GetDvTables();
+    LOGGER.debug("getting data");
+    LOGGER.debugObject(data);
     return data;
   }
 
@@ -185,7 +187,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _selectCompatibleAmmo() {
     LOGGER.trace("_selectCompatibleAmmo | CPRItemSheet | Called.");
-    const itemData = this.item.getData();
+    const itemData = this.item.data.data;
     let formData = { id: this.item.data._id, name: this.item.data.name, data: itemData };
     formData = await SelectCompatibleAmmo.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {

@@ -1,0 +1,38 @@
+{{trace "CPR-ITEM-SETTINGS.HBS"}}
+<form>
+    <div class="item-settings-tab">
+        <div class="item-settings-section">
+            <div class="tab item-settings-grid" data-group="primary" data-tab="item-settings">
+                <ol class="items-list">
+                    {{!-- Item Name --}}
+                    {{> "systems/cyberpunk-red-core/templates/item/cpr-item-name.hbs" this}}
+
+                    {{!-- Settings from mixins --}}
+                    {{#each item.data.data.mixins as |mixin|}}
+                        {{> (generatePartial "systems/cyberpunk-red-core/templates/item/settings/cpr-VAR.hbs" mixin) ../this}}
+                        <hr>
+                    {{/each}}
+
+                    {{!-- Settings specific to the item type --}}
+                    {{> (generatePartial "systems/cyberpunk-red-core/templates/item/settings/cpr-VAR.hbs" item.type) this}}
+
+                    {{!-- Finally, settings common to all items --}}
+                    <li class="item flexrow">
+                        <div class="item flexrow setting-name text-nowrap">
+                            {{localize "CPR.itemSheet.common.source"}}
+                        </div>
+                        <div class="item flexrow setting-value text-nowrap item-end">
+                            {{#if this.editable}}
+                                <input name="data.source" class="" type="text" value="{{data.data.source}}"
+                                    placeholder="Example: pg. 1">
+                            {{else}}
+                                <span>{{data.data.source}}</span>
+                            {{/if}}
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</form>
+{{trace "END CPR-ITEM-SETTINGS.HBS"}}

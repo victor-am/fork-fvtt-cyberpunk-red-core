@@ -146,7 +146,7 @@ export default class CPRActor extends Actor {
    */
   getInstalledCyberware() {
     LOGGER.trace("getInstalledCyberware | CPRActor | Called.");
-    return this.data.filteredItems.cyberware.filter((item) => item.getData().isInstalled);
+    return this.data.filteredItems.cyberware.filter((item) => item.data.data.isInstalled);
   }
 
   /**
@@ -161,15 +161,15 @@ export default class CPRActor extends Actor {
     if (type) {
       if (type in CPR.cyberwareTypeList) {
         return this.data.filteredItems.cyberware.filter(
-          (item) => item.getData().isInstalled
-            && item.getData().isFoundational
-            && item.getData().type === type,
+          (item) => item.data.data.isInstalled
+            && item.data.data.isFoundational
+            && item.data.data.type === type,
         );
       }
       SystemUtils.DisplayMessage("error", "Invalid cyberware type!");
     }
     return this.data.filteredItems.cyberware.filter(
-      (item) => item.getData().isInstalled && item.getData().isFoundational,
+      (item) => item.data.data.isInstalled && item.data.data.isFoundational,
     );
   }
 
@@ -184,11 +184,11 @@ export default class CPRActor extends Actor {
   async addCyberware(itemId) {
     LOGGER.trace("addCyberware | CPRActor | Called.");
     const item = this._getOwnedItem(itemId);
-    const compatibleFoundationalCyberware = this.getInstalledFoundationalCyberware(item.getData().type);
+    const compatibleFoundationalCyberware = this.getInstalledFoundationalCyberware(item.data.data.type);
 
-    if (compatibleFoundationalCyberware.length < 1 && !item.getData().isFoundational) {
+    if (compatibleFoundationalCyberware.length < 1 && !item.data.data.isFoundational) {
       Rules.lawyer(false, "CPR.messages.warnNoFoundationalCyberwareOfCorrectType");
-    } else if (item.getData().isFoundational) {
+    } else if (item.data.data.isFoundational) {
       const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data }).catch((err) => LOGGER.debug(err));
       if (formData === undefined) {
         return;
@@ -270,7 +270,7 @@ export default class CPRActor extends Actor {
       confirmRemove = true;
     }
     if (confirmRemove) {
-      if (item.getData().isFoundational) {
+      if (item.data.data.isFoundational) {
         await this._removeFoundationalCyberware(item);
       } else {
         await this._removeOptionalCyberware(item, foundationalId);
@@ -312,8 +312,8 @@ export default class CPRActor extends Actor {
   _removeFoundationalCyberware(item) {
     LOGGER.trace("_removeFoundationalCyberware | CPRActor | Called.");
     const updateList = [];
-    if (item.getData().optionalIds) {
-      item.getData().optionalIds.forEach(async (optionalId) => {
+    if (item.data.data.optionalIds) {
+      item.data.data.optionalIds.forEach(async (optionalId) => {
         const optional = this._getOwnedItem(optionalId);
         updateList.push({ _id: optional.id, "data.isInstalled": false });
       });
@@ -699,16 +699,16 @@ export default class CPRActor extends Actor {
   getEquippedArmors(location) {
     LOGGER.trace("getEquippedArmors | CPRActor | Called.");
     const armors = this.data.filteredItems.armor;
-    const equipped = armors.filter((item) => item.getData().equipped === "equipped");
+    const equipped = armors.filter((item) => item.data.data.equipped === "equipped");
 
     if (location === "body") {
-      return equipped.filter((item) => item.getData().isBodyLocation);
+      return equipped.filter((item) => item.data.data.isBodyLocation);
     }
     if (location === "head") {
-      return equipped.filter((item) => item.getData().isHeadLocation);
+      return equipped.filter((item) => item.data.data.isHeadLocation);
     }
     if (location === "shield") {
-      return equipped.filter((item) => item.getData().isShield);
+      return equipped.filter((item) => item.data.data.isShield);
     }
     throw new Error(`Bad location given: ${location}`);
   }
@@ -995,7 +995,7 @@ export default class CPRActor extends Actor {
   getEquippedCyberdeck() {
     LOGGER.trace("getEquippedCyberdeck | CPRActor | Called.");
     const cyberdecks = this.data.filteredItems.cyberdeck;
-    const equipped = cyberdecks.filter((item) => item.getData().equipped === "equipped");
+    const equipped = cyberdecks.filter((item) => item.data.data.equipped === "equipped");
     if (equipped) {
       return equipped[0];
     }

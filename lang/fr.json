@@ -575,7 +575,6 @@
     "CPR.messages.tradeDragOutWarn": "Il n'est pas permis de glisser/déposer un objet en dehors du conteneur.",
     "CPR.messages.tradePriceWarn": "Tu n'as pas assez d'Eurodollars. Fait quelques Jobs, Choomba !",
     "CPR.messages.tradeWithWarn": "Sélectionnez un personnage qui doit faire l'échange en premier.",
-    "CPR.messages.unsupportedEntityError": "Type d'entité non supporté pour create()",
     "CPR.messages.warnNoFoundationalCyberwareOfCorrectType": "Le cybermatériel optionel a besoin d'une Pièce Mère installée. Aucune Pièce Mère trouvée pour ce type.",
     "CPR.messages.warningNotEnoughEb": "Tu as perdu plus d'Eurodollars que tu n'en as !",
     "CPR.messages.warningNotEnoughIp": "Tu as perdu plus de Points d'améliorations que tu n'en as !",

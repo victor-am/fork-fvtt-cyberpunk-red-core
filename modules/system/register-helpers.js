@@ -150,6 +150,7 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("calculateStackValue", (item) => {
     LOGGER.trace("calculateStackValue | handlebarsHelper | Called.");
+    LOGGER.debugObject(item);
     const { type } = item;
     const price = item.data.data.price.market;
     const { amount } = item.data.data;
@@ -240,7 +241,6 @@ export default function registerHandlebarsHelpers() {
     return false;
   });
 
-  // TODO - Rename?
   Handlebars.registerHelper("generatePartial", (arg1, arg2) => {
     LOGGER.trace("generatePartial | handlebarsHelper | Called.");
     return arg1.replace("VAR", arg2);
@@ -600,6 +600,11 @@ export default function registerHandlebarsHelpers() {
     }
 
     return applyToText.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1;
+  });
+
+  Handlebars.registerHelper("yesno", (bool) => {
+    if (bool) return SystemUtils.Localize("CPR.global.generic.yes");
+    return SystemUtils.Localize("CPR.global.generic.no");
   });
 
   Handlebars.registerHelper("isDebug", () => {
