@@ -137,6 +137,13 @@ export default class CPRChat {
     });
   }
 
+  /**
+   * When damage is applied to an actor using the glyph on a damage card, we render another
+   * chat card indicating the damage dealth and armor ablation.
+   *
+   * @param {Object} damageData - details about the damage dealt
+   * @returns ChatMessage
+   */
   static RenderDamageApplicationCard(damageData) {
     LOGGER.trace("RenderDamageApplicationCard | CPRChat | Called.");
     const damageApplicationTemplate = "systems/cyberpunk-red-core/templates/chat/cpr-damage-application-card.hbs";
