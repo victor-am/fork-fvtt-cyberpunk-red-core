@@ -1,5 +1,4 @@
-/* global game mergeObject $ getProperty setProperty hasProperty duplicate */
-import CPR from "../../system/config.js";
+/* global game mergeObject $ hasProperty duplicate */
 import CPRActorSheet from "./cpr-actor-sheet.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import Rules from "../../utils/cpr-rules.js";

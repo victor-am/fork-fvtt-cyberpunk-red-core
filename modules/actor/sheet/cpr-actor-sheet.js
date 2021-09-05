@@ -806,7 +806,11 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  /* Ledger methods */
+  /**
+   * Ledger methods
+   * For the most part ledgers are character-specific - they provide records of change to HP, EB, and IP.
+   * Mooks use this for HP too, and that's the only reason these remain here.
+   */
 
   /**
    * Set the EB on the actor to a specific value, with a reason.

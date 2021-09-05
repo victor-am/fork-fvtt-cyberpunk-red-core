@@ -1,3 +1,7 @@
+/**
+ * config.js functions like a header file providing a bunch of constants used all over the code base.
+ * In many ways they are like enums.
+ */
 const CPR = {};
 
 // Sorted as shown on char sheet (with resources pushed to bottom)
@@ -138,8 +142,6 @@ CPR.skillList = {
   wildernessSurvival: "CPR.global.skills.wildernessSurvival",
 };
 
-// TODO - Does 'role' need to be listed here?
-// TODO - Discuss how this will be used to count IP.
 // Unsorted
 CPR.skillDifficulties = {
   typical: "CPR.global.skills.difficulty.typical",

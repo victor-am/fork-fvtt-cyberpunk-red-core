@@ -91,4 +91,31 @@ export default class CPRMookActor extends CPRActor {
     derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
     this.data.data.derivedStats = derivedStats;
   }
+
+  /**
+   * Called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
+   * It handles the automatic equipping of gear and installation of cyberware.
+   *
+   * @param {CPRItem} item - the item that was dragged
+   */
+  handleMookDraggedItem(item) {
+    LOGGER.trace("handleMookDraggedItem | CPRActor | Called.");
+    LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
+    LOGGER.debugObject(item);
+    switch (item.data.type) {
+      case "clothing":
+      case "weapon":
+      case "gear":
+      case "armor": {
+        // chose change done for 0.8.x, and not the fix from dev, as it seems to work without it.
+        this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.equipped": "equipped" }]);
+        break;
+      }
+      case "cyberware": {
+        this.addCyberware(item.id);
+        break;
+      }
+      default:
+    }
+  }
 }
