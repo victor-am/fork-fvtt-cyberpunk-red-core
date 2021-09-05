@@ -19,6 +19,7 @@
 
 **Changes**
 - Feature Request #296: Exotic Weapons from the Core Rulebook are now present in the Weapons Compendium. The Battleglove has been placed into Cyberware Compendium, and Battery Pack has been placed into the Ammo Compendium.
+- Feature Request #319: Item Upgrades are now accessible on a Mook sheet. This includes support for Underbarrel weapons which will display as a usable weapon.
 
 **Bug Fixes**
 - Fixed #292: Attempting to delete installed cyberware is prevented now, as it can leave the actor in a broken state.
