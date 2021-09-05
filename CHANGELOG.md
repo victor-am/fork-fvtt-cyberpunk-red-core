@@ -1,8 +1,9 @@
-# WIP Version 0.79.0 | Dev branch
+# WIP Version 0.79.1 | Dev branch
 
 **New Features**
 - Added support for automatic damage application on Characters and Mooks.
   - The damage chat card of weapon attacks now has an additional button to apply the damage to the selected tokens.
+  - A prompt showing the tokens, which will be damaged is shown. It can be skipped by holding the ctrl key while clicking.
   - Double damage for the head location and half SP for melee and martial arts attacks are respected.
   - Bonus damage from critical injuries is always applied, as it penetrates the armor.
   - Damage dealt by programs is directly applied to the HP. No rezzed defender program (e.g. Armor) is considered. If you have any damage reduction while netrunning please apply the damage yourself.
@@ -14,11 +15,22 @@
   - Implemented CPR Roll Cards for Initiative.
   - Implemented proper initiative rules for Net Combat.
     - If a character or mook has a cyberdeck equipped when rolling initiative, you will be prompted whether you are rolling for Meat or Net combat as the calculation used depends on this.
+- Roles are now items which allows for creation of custom roles and better handling of their functionality.
+  - Can configure role abilities to roll with different skills for different situations like the Tech's Upgrade Expertise ability.
+  - Can configure flat bonuses to attack, damage, and skill rolls for situations like the Solo's Precision Attack or the Nomad's Moto.
+  - Compendium of all the core Roles is included for ease of getting started.
+  - BREAKING: Netrunners must select which role should be utilized for netrunning from the "Configure Active Role" dialog on the main part (left) of the character sheet, otherwise you will not be able to utilize the cyberdeck tab of the character sheet. This will be selected for you on migration if you had the Netrunner role selected on a character previously, but will need to be configured on new characters.
+- Added filter capability for Skills & Gear.  This is a client side option which can be enabled/disabled in the System Settings.
 
 **Changes**
+- Feature Request #296: Exotic Weapons from the Core Rulebook are now present in the Weapons Compendium. The Battleglove has been placed into Cyberware Compendium, and Battery Pack has been placed into the Ammo Compendium.
+- Feature Request #319: Item Upgrades are now accessible on a Mook sheet. This includes support for Underbarrel weapons which will display as a usable weapon.
 
 **Bug Fixes**
 - Fixed #292: Attempting to delete installed cyberware is prevented now, as it can leave the actor in a broken state.
+- Fixed #294: Cybersnake and Vampyres cyberware items from the compendium now display their weapon stats in the fight tab.
+- Fixed #318: Underbarrel attachment item upgrades in the compendium now pre-select the appropriate ammo types.
+- Fixed #320: The missing Scorpion.png file is now available in the system icons/netrunning folder. Thanks again to Verasunrise and Hyriu33 for the artwork. 
 
 # Version 0.78.2 | Date: 2021-08-12
 

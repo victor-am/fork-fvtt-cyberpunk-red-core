@@ -1,11 +1,15 @@
 {{trace "CPR-ROLE-BLOCK.HBS"}}
 <div class="role-block main-block">
   <div class="block-label" >
-    <a class="select-roles" title="{{localize "CPR.characterSheet.leftPane.editRoles"}}" data-item-prop="select-roles">{{localize "CPR.characterSheet.leftPane.roles"}}<i
+    <a class="select-roles" title="{{localize "CPR.characterSheet.leftPane.editActiveRole"}}" data-item-prop="select-roles">{{localize "CPR.characterSheet.leftPane.roles"}}<i
         class="text-smallest text-super fas fa-wrench"></i></a>
   </div>
   <div class="block-data">
-     {{localize (findConfigValue "roleList" data.data.roleInfo.activeRole)}}
+    {{#if data.data.roleInfo.activeRole}}
+      {{data.data.roleInfo.activeRole}}
+    {{else}}
+      --
+    {{/if}}
   </div>
 </div>
 {{trace "END CPR-ROLE-BLOCK.HBS"}}

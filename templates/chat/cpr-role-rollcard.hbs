@@ -3,11 +3,7 @@
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-stat">
       <div class="text-center text-padding-top text-normal">
-        {{#if (compare roleName "===" "operator")}}
-          {{localize "CPR.rolls.haggle"}}
-        {{else}}
-          {{localize (findConfigValue "roleAbilityList" roleName)}}{{#if (compare (localize (findConfigValue "roleAbilityList" roleName)) "!==" rollTitle)}}: {{rollTitle}}{{/if}}
-        {{/if}}
+        {{rollTitle}}
       </div>
       <div class="text-center text-small">{{localize "CPR.rolls.roleAbility"}}</div>
     </div>
@@ -37,12 +33,12 @@
           <div class="d10-data-details hide">
             <div class="text-normal text-nowrap">{{localize "CPR.rolls.abilityRank"}}: {{roleValue}}</div>
 
-            {{#if roleStat}}
-            <div class="text-normal text-nowrap">{{localize "CPR.rolls.abilityStat"}} ({{localize (findConfigValue "statList" statName)}}): {{roleStat}}</div>
+            {{#if statValue}}
+            <div class="text-normal text-nowrap">{{localize (findConfigValue "statList" statName)}}: {{statValue}}</div>
             {{/if}}
 
-            {{#if roleOther}}
-            <div class="text-normal text-nowrap">{{localize "CPR.global.blackIce.type.other"}}: {{roleOther}}</div>
+            {{#if skillValue}}
+            <div class="text-normal">{{skillName}}: {{skillValue}}</div>
             {{/if}}
 
             {{#if mods}}

@@ -1,5 +1,5 @@
 {
-  "version": "0.79.0",
+  "version": "0.79.1",
   "name": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
@@ -103,6 +103,14 @@
       "entity": "Item",
       "name": "programs-items",
       "path": "packs/programs.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Roles",
+      "entity": "Item",
+      "name": "roles-items",
+      "path": "packs/roles.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
     },

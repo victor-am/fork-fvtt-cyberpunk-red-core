@@ -9,31 +9,32 @@
        <span class="text-bold text-nowrap text-center text-space-around">{{localize "CPR.dialog.selectRoles.activeRole"}}</span>
       </div>
       <div class="item flexrow setting-value">
-        <span class="text-bold text-nowrap text-center text-space-around">{{localize "CPR.dialog.selectRoles.roleExperience"}}</span>
+        <span class="text-bold text-nowrap text-center text-space-around">{{localize "CPR.dialog.selectRoles.activeNetRole"}}</span>
       </div>
     </li>
-    {{#each roles as |cprRole roleName|}}
+    {{#each roles as |role|}}
     <li class="item flexrow">
       <div class="item flexrow setting-name text-nowrap">
-        {{localize cprRole}}
+        {{role.data.name}}
       </div>
       <div class="item flexrow setting-value text-nowrap text-space-around">
-        {{#if (listContains ../actor.roles roleName)}}
-        <span class="text-bold text-nowrap text-center text-space-around"><input type="radio" name="activeRole" value="{{roleName}}" checked></span>
+        {{#if (compare actor.data.data.roleInfo.activeRole "===" role.data.name)}}
+        <span class="text-bold text-nowrap text-center text-space-around"><input type="radio" name="activeRole" value="{{role.data.name}}" checked></span>
         {{else}}
-        <span class="text-bold text-nowrap text-center text-space-around"><input type="radio" name="activeRole" value="{{roleName}}"></span>
+        <span class="text-bold text-nowrap text-center text-space-around"><input type="radio" name="activeRole" value="{{role.data.name}}"></span>
         {{/if}}
       </div>
       <div class="item flexrow setting-value text-nowrap text-space-around">
-        {{#if (listContains ../actor.roles roleName)}}
-        <span class="text-bold text-nowrap text-center text-space-around"><input type="checkbox" name="selectedRoles" value="{{roleName}}" checked></span>
+        {{#if (compare actor.data.data.roleInfo.activeNetRole "===" role.data.name)}}
+        <span class="text-bold text-nowrap text-center text-space-around"><input type="radio" name="activeNetRole" value="{{role.data.name}}" checked></span>
         {{else}}
-        <span class="text-bold text-nowrap text-center text-space-around"><input type="checkbox" name="selectedRoles" value="{{roleName}}"></span>
+        <span class="text-bold text-nowrap text-center text-space-around"><input type="radio" name="activeNetRole" value="{{role.data.name}}"></span>
         {{/if}}
       </div>
     </li>
     {{/each}}
   </ol>
+  <br>
   <div>{{localize "CPR.dialog.selectRoles.multiClassRequirement"}}</div>
 </form>
 {{trace "END CPR-SELECT-ROLES-PROMPT.HBS"}}

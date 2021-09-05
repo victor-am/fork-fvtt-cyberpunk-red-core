@@ -5,7 +5,7 @@
       <div class="text-center text-padding-top text-normal">
           {{rollTitle}}
       </div>
-      <div class="text-center text-small">{{localize "CPR.rolls.interfaceAbility"}}</div>
+      <div class="text-center text-small">{{roleName}} {{localize "CPR.rolls.roleAbility"}}</div>
     </div>
   </div>
   <div class="rollcard-bottom">
@@ -33,12 +33,12 @@
           <div class="d10-data-details hide">
             <div class="text-normal text-nowrap">{{localize "CPR.rolls.abilityRank"}}: {{roleValue}}</div>
 
-            {{#if roleStat}}
-            <div class="text-normal text-nowrap">{{localize "CPR.rolls.abilityStat"}} ({{localize (findConfigValue "statList" statName)}}): {{roleStat}}</div>
+            {{#if statValue}}
+            <div class="text-normal text-nowrap">{{localize (findConfigValue "statList" statName)}}: {{statValue}}</div>
             {{/if}}
 
-            {{#if roleOther}}
-            <div class="text-normal text-nowrap">{{localize "CPR.global.blackIce.type.other"}}: {{roleOther}}</div>
+            {{#if skillValue}}
+            <div class="text-normal text-nowrap">{{skillName}}: {{skillValue}}</div>
             {{/if}}
 
             {{#if mods}}

@@ -1,5 +1,4 @@
-/* global game mergeObject $ getProperty setProperty hasProperty duplicate */
-import CPR from "../../system/config.js";
+/* global game mergeObject $ hasProperty duplicate */
 import CPRActorSheet from "./cpr-actor-sheet.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import Rules from "../../utils/cpr-rules.js";
@@ -57,6 +56,9 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   activateListeners(html) {
     LOGGER.trace("activateListeners | CPRCharacterActorSheet | Called.");
+
+    html.find(".navtabs-right").click(() => this._clearContentFilter());
+
     // Cycle equipment status
     html.find(".equip").click((event) => this._cycleEquipState(event));
 
@@ -236,12 +238,18 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   async _selectRoles() {
     LOGGER.trace("_selectRoles | CPRCharacterActorSheet | Called.");
-    let formData = { actor: this.actor.getData().roleInfo, roles: CPR.roleList };
+    if (this.actor.data.filteredItems.role.length === 0) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.characterSheet.bottomPane.role.noRolesWarning"));
+      return;
+    }
+    let formData = {
+      roles: this.actor.data.filteredItems.role,
+    };
     formData = await SelectRolePrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;
     }
-    await this.actor.setRoles(formData);
+    this.actor.update({ "data.roleInfo.activeRole": formData.activeRole, "data.roleInfo.activeNetRole": formData.activeNetRole });
   }
 
   /**
@@ -366,7 +374,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       if (!Number.isNaN(parseInt(event.target.value, 10))) {
         item.setWeaponAmmo(event.target.value);
       } else {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.amountNotNumber"));
+        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.amountnotnumber"));
       }
     }
     this._updateOwnedItem(item);
@@ -402,21 +410,27 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @param {*} event - object with details of the event
    */
   _updateRoleAbility(event) {
-    LOGGER.trace("_updateRoleAbility | CPRCharacterActorSheet | Called.");
-    const role = $(event.currentTarget).attr("data-role-name");
-    const ability = $(event.currentTarget).attr("data-ability-name");
+    LOGGER.trace("ActorID _updateRoleAbility | CPRCharacterActorSheet | Called.");
+    const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
+    const itemData = duplicate(item.data);
     const subskill = $(event.currentTarget).attr("data-subskill-name");
     const value = parseInt(event.target.value, 10);
-    const actorData = duplicate(this.actor.data);
-    if (hasProperty(actorData, "data.roleInfo")) {
-      const prop = getProperty(actorData, "data.roleInfo");
-      if (subskill) {
-        prop.roleskills[role].subSkills[subskill] = value;
-      } else {
-        prop.roleskills[role][ability] = value;
+    if (!Number.isNaN(value)) {
+      if (hasProperty(itemData, "data.rank")) {
+        if (subskill) {
+          const updateSubskill = itemData.data.abilities.filter((a) => a.name === subskill);
+          if (updateSubskill.length === 1) {
+            updateSubskill[0].rank = value;
+          } else {
+            SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.multipleAbilitiesWithTheSameName"));
+          }
+        } else {
+          itemData.data.rank = value;
+        }
+        item.update(itemData);
       }
-      setProperty(actorData, "data.roleInfo", prop);
-      this.actor.update(actorData);
+    } else {
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.amountNotNumber"));
     }
   }
 

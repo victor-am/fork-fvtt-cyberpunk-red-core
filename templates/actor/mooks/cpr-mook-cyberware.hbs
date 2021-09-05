@@ -50,5 +50,13 @@
       </a>
     {{/if}}
   {{/each}}
+  <!-- Display Item Upgrades in the Cyberware/Special Gear section -->
+  {{#each (sort (objConcat actor.data.filteredItems.itemUpgrade) "name") as |item i|}}
+    {{#if (compare item.type "===" "itemUpgrade")}}
+      <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
+        {{item.name}}{{#unless @last}},{{/unless}}
+      </a>
+    {{/if}}
+  {{/each}}
 </div>
 {{trace "END CPR-MOOK-CYBERWARE.HBS"}}

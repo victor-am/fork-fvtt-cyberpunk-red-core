@@ -1,6 +1,9 @@
 /* globals game */
 import CPRActor from "./cpr-actor.js";
+import CPRChat from "../chat/cpr-chat.js";
+import * as CPRRolls from "../rolls/cpr-rolls.js";
 import LOGGER from "../utils/cpr-logger.js";
+import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**

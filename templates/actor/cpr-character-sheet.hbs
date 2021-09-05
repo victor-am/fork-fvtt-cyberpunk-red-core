@@ -34,6 +34,13 @@
 
         </nav>
       </div>
+      {{#if (systemConfig "enableSheetContentFilter")}}
+      <div class="sheet-filter-section">
+          <a><i class="fas fa-trash-alt fg-red reset-content-filter" title="{{localize "CPR.actorSheets.clearFilter"}}"></i></a>
+          &nbsp;
+          <input class="filter-contents" value="{{options.cprContentFilter}}" type="string" placeholder="Enter filter text here...">
+      </div>
+      {{/if}}
       <div class="right-content-section">
         <div class="tab skills-tab" data-group="primary" data-tab="skills">
           {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/cpr-skills.hbs"}}

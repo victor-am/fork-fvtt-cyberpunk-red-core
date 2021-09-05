@@ -1,6 +1,6 @@
 /* globals Actor, game, getProperty, setProperty, hasProperty, duplicate */
-import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRChat from "../chat/cpr-chat.js";
+import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRLedger from "../dialog/cpr-ledger-form.js";
 import CPR from "../system/config.js";
 import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
@@ -324,11 +324,28 @@ export default class CPRActor extends Actor {
   }
 
   /**
+   * Return the Item object given an Id
+   *
+   * @private
+   * @param {String} itemId - Id of the item to get
+   * @returns {CPRItem}
+   */
+  _getOwnedItem(itemId) {
+    LOGGER.trace("_getOwnedItem | CPRActor | Called.");
+    return this.items.find((i) => i.data._id === itemId);
+  }
+
+  /**
    * Called when cyberware is installed, this method decreases Humanity on an actor, rolling
    * for the value if need be.
    *
+   * To Do: this should be in cpr-character only since Humanity is overlooked for NPCs, however
+   * because users can switch between mook and character sheets independent of actor type, we
+   * have to keep this here for now. (i.e. they can create a mook but switch to the character sheet)
+   *
    * @param {CPRItem} item - the Cyberware item being installed (provided just to name the roll)
-   * @param {String} amount - how much to decrease humanity by. Will roll dice if it is a formula.
+   * @param {Object} amount - contains a humanityLoss attribute we use to reduce humanity.
+   *                          Will roll dice if it is a formula.
    * @returns {null}
    */
   async loseHumanityValue(item, amount) {
@@ -339,6 +356,7 @@ export default class CPRActor extends Actor {
     }
     const { humanity } = this.data.data.derivedStats;
     let value = Number.isInteger(humanity.value) ? humanity.value : humanity.max;
+    LOGGER.debugObject(amount);
     if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
       const humRoll = new CPRRolls.CPRHumanityLossRoll(item.data.name, amount.humanityLoss);
       await humRoll.roll();
@@ -359,15 +377,18 @@ export default class CPRActor extends Actor {
   }
 
   /**
-   * Return the Item object given an Id
+   * Persist life path information to the actor model
    *
-   * @private
-   * @param {String} itemId - Id of the item to get
-   * @returns {CPRItem}
+   * To Do: this should be in cpr-character only since Humanity is overlooked for NPCs, however
+   * because users can switch between mook and character sheets independent of actor type, we
+   * have to keep this here for now. (i.e. they can create a mook but switch to the character sheet)
+   *
+   * @param {Object} formData  - an object of answers provided by the user in a form
+   * @returns {Object}
    */
-  _getOwnedItem(itemId) {
-    LOGGER.trace("_getOwnedItem | CPRActor | Called.");
-    return this.items.find((i) => i.data._id === itemId);
+  setLifepath(formData) {
+    LOGGER.trace("setLifepath | CPRActor | Called.");
+    return this.update(formData);
   }
 
   /**
@@ -377,25 +398,6 @@ export default class CPRActor extends Actor {
    * @param {Object} formData - an object of answers provided by the user in a form
    * @returns {Object}
    */
-  setRoles(formData) {
-    LOGGER.trace("setRoles | CPRActor | Called.");
-    const { activeRole } = formData;
-    let roleList = formData.selectedRoles;
-    roleList.push(activeRole);
-    roleList = [...new Set(roleList)];
-    return this.update({ "data.roleInfo.roles": roleList, "data.roleInfo.activeRole": activeRole });
-  }
-
-  /**
-   * Persist life path information to the actor model
-   *
-   * @param {Object} formData  - an object of answers provided by the user in a form
-   * @returns {Object}
-   */
-  setLifepath(formData) {
-    LOGGER.trace("setLifepath | CPRActor | Called.");
-    return this.update(formData);
-  }
 
   /**
    * Return the skill level (number) for a given skill on the actor.
@@ -966,33 +968,6 @@ export default class CPRActor extends Actor {
       return false;
     }
     return true;
-  }
-
-  /**
-   * Called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
-   * It handles the automatic equipping of gear and installation of cyberware.
-   *
-   * @param {CPRItem} item - the item that was dragged
-   */
-  handleMookDraggedItem(item) {
-    LOGGER.trace("handleMookDraggedItem | CPRActor | Called.");
-    LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
-    LOGGER.debugObject(item);
-    switch (item.data.type) {
-      case "clothing":
-      case "weapon":
-      case "gear":
-      case "armor": {
-        // chose change done for 0.8.x, and not the fix from dev, as it seems to work without it.
-        this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.equipped": "equipped" }]);
-        break;
-      }
-      case "cyberware": {
-        this.addCyberware(item.id);
-        break;
-      }
-      default:
-    }
   }
 
   /**

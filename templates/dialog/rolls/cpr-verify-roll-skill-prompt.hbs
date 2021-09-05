@@ -23,6 +23,30 @@
             </div>
         </li>
 
+        {{#if roleValue}}
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.global.generic.role"}} {{localize "CPR.global.generic.value"}} ({{localize roleName}})
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <input name="roleValue" class="" type="number" data-dtype="Number" value={{roleValue}}>
+            </div>
+        </li>
+        {{/if}}
+
+
+        {{#if universalBonusAttack}}
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.universalBonuses.attack"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <input name="universalBonusAttack" class="" type="number" data-dtype="Number" value={{universalBonusAttack}}>
+            </div>
+        </li>
+        {{/if}}
+
+
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.rolls.mods"}}:
