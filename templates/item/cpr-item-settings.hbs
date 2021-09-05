@@ -8,7 +8,7 @@
                     {{> "systems/cyberpunk-red-core/templates/item/cpr-item-name.hbs" this}}
 
                     {{!-- Settings from mixins --}}
-                    {{#each item.data.data.mixins as |mixin|}}
+                    {{#each (getTemplates item.type) as |mixin|}}
                         {{> (generatePartial "systems/cyberpunk-red-core/templates/item/settings/cpr-VAR.hbs" mixin) ../this}}
                         <hr>
                     {{/each}}

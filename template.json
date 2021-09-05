@@ -365,10 +365,9 @@
           "unidentified": ""
         },
         "source": "",
-        "favorite": false,
-        "mixins": []
+        "favorite": false
       },
-      "physicalItem": {
+      "physical": {
         "price": {
           "market": 0,
           "category": ""
@@ -419,7 +418,7 @@
     "ammo": {
       "templates": [
         "common",
-        "physicalItem",
+        "physical",
         "upgradable"
       ],
       "variety": "",
@@ -428,7 +427,7 @@
     "armor": {
       "templates": [
         "common",
-        "physicalItem",
+        "physical",
         "upgradable",
         "equippable"
       ],
@@ -452,7 +451,7 @@
     "cyberware": {
       "templates": [
         "common",
-        "physicalItem",
+        "physical",
         "upgradable",
         "concealable",
         "weapon",
@@ -476,7 +475,7 @@
     "cyberdeck": {
       "templates": [
         "common",
-        "physicalItem",
+        "physical",
         "upgradable",
         "equippable"
       ],
@@ -489,13 +488,13 @@
     "gear": {
       "templates": [
         "common",
-        "physicalItem"
+        "physical"
       ]
     },
     "clothing": {
       "templates": [
         "common",
-        "physicalItem",
+        "physical",
         "upgradable",
         "equippable"
       ],
@@ -505,14 +504,14 @@
     "netarch": {
       "templates": [
         "common",
-        "physicalItem"
+        "physical"
       ],
       "floors": []
     },
     "program": {
       "templates": [
         "common",
-        "physicalItem",
+        "physical",
         "installable"
       ],
       "slots": 1,
@@ -535,7 +534,7 @@
     "weapon": {
       "templates": [
         "common",
-        "physicalItem",
+        "physical",
         "upgradable",
         "equippable",
         "concealable",
@@ -592,7 +591,7 @@
     "vehicle": {
       "templates": [
         "common",
-        "physicalItem",
+        "physical",
         "upgradable"
       ],
       "sdp": 0,
@@ -603,7 +602,7 @@
     "itemUpgrade": {
       "templates": [
         "common",
-        "physicalItem",
+        "physical",
         "installable",
         "weapon"
       ],

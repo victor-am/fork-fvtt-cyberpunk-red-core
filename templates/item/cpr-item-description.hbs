@@ -2,7 +2,7 @@
 <div class="item-description-tab">
     <div class="item-summary-section">
         {{!-- Display at-a-glance stats in the description tab by activated mixin --}}
-        {{#each item.data.data.mixins as |mixin|}}
+        {{#each (getTemplates item.type) as |mixin|}}
             {{> (generatePartial "systems/cyberpunk-red-core/templates/item/description/cpr-VAR.hbs" mixin) ../this}}
             <hr>
         {{/each}}

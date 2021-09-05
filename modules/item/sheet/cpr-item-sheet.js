@@ -30,6 +30,14 @@ export default class CPRItemSheet extends ItemSheet {
     });
   }
 
+  /**
+   * @override
+   */
+  prepareBaseData() {
+    LOGGER.trace("prepareBaseData | CPRItemSheet | Called.");
+    this.item.loadMixins();
+  }
+
   async _render(force = false, options = {}) {
     LOGGER.trace("_render | CPRItemSheet | Called.");
 
@@ -42,6 +50,8 @@ export default class CPRItemSheet extends ItemSheet {
       // are called with options = { action: "update" }.
       this._automaticResize();
     }
+    // When Foundry sends an Item to a client, it does not have the mixins loaded in. We load them here
+    // because I could not find a better option.
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -96,10 +106,9 @@ export default class CPRItemSheet extends ItemSheet {
     if (!this.options.editable) return;
 
     // Select all text when grabbing text input.
-    $("input[type=text]").focusin(function () {
-      $(this).select();
-    });
+    $("input[type=text]").focusin(() => $(this).select());
 
+    // generic listeners
     html.find(".item-checkbox").click((event) => this._itemCheckboxToggle(event));
 
     html.find(".item-multi-option").click((event) => this._itemMultiOption(event));
@@ -154,14 +163,19 @@ export default class CPRItemSheet extends ItemSheet {
 
   /*
   INTERNAL METHODS BELOW HERE
-*/
+  */
+
   _itemCheckboxToggle(event) {
     LOGGER.trace("_itemCheckboxToggle | CPRItemSheet | Called.");
     const itemData = duplicate(this.item.data);
     const target = $(event.currentTarget).attr("data-target");
-    if (hasProperty(itemData, target)) {
-      setProperty(itemData, target, !getProperty(itemData, target));
+    const value = !getProperty(itemData, target);
+    if (target === "data.concealable.concealable") {
+      this.item.setConcealable(value);
+    } else if (hasProperty(itemData, target)) {
+      setProperty(itemData, target, value);
       this.item.update(itemData);
+      LOGGER.log(`Item ${this.item.id} ${target} set to ${value}`);
       this._automaticResize(); // Resize the sheet as length of settings list might have changed
     }
   }

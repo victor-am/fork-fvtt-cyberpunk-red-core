@@ -1,0 +1,26 @@
+{{trace "CPR-EFFECTS.HBS"}}
+<li class="item effect flexrow" data-effect-id="{{effect.id}}">
+    <div class="item-name effect-name flexrow">
+        <img class="item-image" src="{{effect.data.icon}}" />
+        <h4>{{effect.data.label}}</h4>
+    </div>
+    <div class="effect-source">{{effect.sourceName}}</div>
+    <div class="effect-duration">{{effect.duration.label}}</div>
+    <div class="item-controls effect-controls flexrow">
+        <a class="effect-control" data-action="toggle" title="{{localize "CPR.itemSheet.effects.toggleEffect"}}">
+            <i class="far {{#if effect.data.disabled}}fa-check{{else}}fa-check-circle{{/if}}"></i>
+        </a>
+        <a class="effect-control" data-action="edit" title="{{localize "CPR.itemSheet.effects.editEffect"}}">
+            <i class="fas fa-edit"></i>
+        </a>
+        <a class="effect-control" data-action="delete" title="{{localize "CPR.itemSheet.effects.deleteEffect"}}">
+            <i class="fas fa-trash"></i>
+        </a>
+    </div>
+    <div class="item-controls effect-controls flexrow">
+        <a class="effect-control" data-action="create" title="{{localize 'CPR.itemSheet.effects.addEffect'}}">
+            <i class="fas fa-plus"></i> {{localize "DND5E.Add"}}
+        </a>
+    </div>
+</li>
+{{trace "END CPR-EFFECTS.HBS"}}

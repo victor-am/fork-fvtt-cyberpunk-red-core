@@ -1,8 +1,7 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-else-return */
-/* global Handlebars, getProperty */
+/* global game Handlebars getProperty */
 import LOGGER from "../utils/cpr-logger.js";
 import CPR from "./config.js";
+import CPRItem from "../item/cpr-item.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default function registerHandlebarsHelpers() {
@@ -107,7 +106,6 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("isLimitedPerm", (document) => !game.user.isGM && document.limited);
 
-  // TODO - Refactor / Revist
   Handlebars.registerHelper("mergeForPartialArg", (...args) => {
     LOGGER.trace("mergeForPartialArg | handlebarsHelper | Called.");
     const partialArgs = [...args];
@@ -188,9 +186,8 @@ export default function registerHandlebarsHelpers() {
         LOGGER.trace(`hasOptionalSlots is greater than 0`);
         const installedOptionSlots = optionSlots - obj.availableSlots();
         return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.itemSheet.cyberware.optionalSlots")}`);
-      } else {
-        LOGGER.trace(`hasOptionalSlots is 0`);
       }
+      LOGGER.trace(`hasOptionalSlots is 0`);
     }
     return "";
   });
@@ -209,7 +206,6 @@ export default function registerHandlebarsHelpers() {
     return {};
   });
 
-  // TODO - Refactor / Revist
   Handlebars.registerHelper("listContains", (list, val) => {
     LOGGER.trace("listContains | handlebarsHelper | Called.");
     let array = list;
@@ -366,7 +362,8 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace("ablated | handlebarsHelper | Called.");
     if (slot === "body") {
       return armor.bodyLocation.sp - armor.bodyLocation.ablation;
-    } else if (slot === "head") {
+    }
+    if (slot === "head") {
       return armor.headLocation.sp - armor.headLocation.ablation;
     }
     LOGGER.error(`Received a bad slot: ${slot}`);
@@ -407,7 +404,8 @@ export default function registerHandlebarsHelpers() {
     const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
     if (string === "Conceal/Reveal Object" || string === "Paint/Draw/Sculpt" || string === "Resist Torture/Drugs") {
       return cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
-    } else if (string === "Language (Streetslang)") {
+    }
+    if (string === "Language (Streetslang)") {
       // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
       // comment to fulfill the test case of the language file.
       return cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
@@ -549,6 +547,11 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace("hasTemplate | handlebarsHelper | Called.");
     const itemEntities = game.system.template.Item;
     return itemEntities[itemType].templates.includes(templateName);
+  });
+
+  Handlebars.registerHelper("getTemplates", (itemType) => {
+    LOGGER.trace("getTemplates | handlebarsHelper | Called.");
+    return CPRItem.getDataModelTemplates(itemType);
   });
 
   Handlebars.registerHelper("showUpgrade", (obj, dataPoint) => {

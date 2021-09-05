@@ -1,4 +1,4 @@
-{{trace "CPR-PHYSICAL-ITEM.HBS"}}
+{{trace "CPR-PHYSICAL.HBS"}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap" title="
       {{#if (compare data.type "===" "ammo")}}
@@ -43,17 +43,9 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-            {{#if data.data.concealable.concealable}}
-                <a class="item-checkbox" data-target="data.concealable.concealable"><i class="far fa-check-circle"></i></a>
-            {{else}}
-                <a class="item-checkbox" data-target="data.concealable.concealable"><i class="far fa-circle"></i></a>
-            {{/if}}
+            <a class="item-checkbox" data-target="data.concealable.concealable"><i class="far fa{{#if data.data.concealable.concealable}}-check{{/if}}-circle"></i></a>
         {{else}}
-            {{#if data.data.concealable.concealable}}
-                <span><i class="far fa-check-circle"></i></span>
-            {{else}}
-                <span><i class="far fa-circle"></i></span>
-            {{/if}}
+            <span><i class="far fa{{#if data.data.concealable.concealable}}-check{{/if}}-circle"></i></span>
         {{/if}}
     </div>
 </li>
@@ -67,17 +59,9 @@
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 {{#if this.editable}}
-                    {{#if data.data.concealable.isConcealed}}
-                        <a class="item-checkbox" data-target="data.concealable.isConcealed"><i class="far fa-check-circle"></i></a>
-                    {{else}}
-                        <a class="item-checkbox" data-target="data.concealable.isConcealed"><i class="far fa-circle"></i></a>
-                    {{/if}}
+                    <a class="item-checkbox" data-target="data.concealable.isConcealed"><i class="far fa{{#if data.data.concealable.isConcealed}}-check{{/if}}-circle"></i></a>
                 {{else}}
-                    {{#if data.data.concealable.isConcealed}}
-                        <span><i class="far fa-check-circle"></i></span>
-                    {{else}}
-                        <span><i class="far fa-circle"></i></span>
-                    {{/if}}
+                    <span><i class="far fa{{#if data.data.concealable.isConcealed}}-check{{/if}}-circle"></i></span>
                 {{/if}}
             </div>
         </li>
@@ -102,4 +86,4 @@
         </div>
     </li>
 {{/if}}
-{{trace "END CPR-PHYSICAL-ITEM.HBS"}}
+{{trace "END CPR-PHYSICAL.HBS"}}

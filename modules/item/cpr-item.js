@@ -1,4 +1,4 @@
-/* global Item */
+/* global Item game */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPR from "../system/config.js";
 import LOGGER from "../utils/cpr-logger.js";
@@ -63,67 +63,60 @@ export default class CPRItem extends Item {
   }
 
   /**
-   * Load in a mixin to extend functionality of this item.
+   * Return an array of data model templates associated with this Item's type. "common" is intentionally
+   * omitted because nothing should operate on it. The logic for common Item functionality should be in
+   * this very file.
+   *
+   * @returns {Array} - array of template names which just happens to match mixins available
+   */
+  static getDataModelTemplates(itemType) {
+    LOGGER.trace("getDataModelTemplates | CPRItem | Called.");
+    return game.system.template.Item[itemType].templates.filter((t) => t !== "common");
+  }
+
+  /**
+   * Load all mixins configured in the Item metadata
    *
    * @public
-   * @param {String} name - the desired mixin to ... mix in
-   * @returns {Boolean} - true if loaded successfully, false otherwise
    */
-  loadMixin(name) {
-    LOGGER.trace("loadMixin | CPRItem | Called.");
-    switch (name) {
-      case "loadable": {
-        Loadable.call(CPRItem.prototype);
-        break;
+  loadMixins() {
+    LOGGER.trace("loadMixins | CPRItem | Called.");
+    const mixins = CPRItem.getDataModelTemplates(this.type);
+    for (let m = 0; m < mixins.length; m += 1) {
+      switch (mixins[m]) {
+        case "loadable": {
+          Loadable.call(CPRItem.prototype);
+          break;
+        }
+        case "virtual": {
+          Virtual.call(CPRItem.prototype);
+          break;
+        }
+        case "physical": {
+          Physical.call(CPRItem.prototype);
+          break;
+        }
+        case "upgradeable": {
+          // Upgradeable.call(CPRItem.prototype);
+          break;
+        }
+        case "effects": {
+          Effects.call(CPRItem.prototype);
+          break;
+        }
+        case "spawner": {
+          // Spawner.call(CPRItem.prototype);
+          break;
+        }
+        case "consumable": {
+          Consumeable.call(CPRItem.prototype);
+          break;
+        }
+        default:
+          LOGGER.warn(`Tried to load an unknown mixin, ${mixins[m]}`);
       }
-      case "virtual": {
-        Virtual.call(CPRItem.prototype);
-        break;
-      }
-      case "physical": {
-        Physical.call(CPRItem.prototype);
-        break;
-      }
-      case "upgradeable": {
-        // Upgradeable.call(CPRItem.prototype);
-        break;
-      }
-      case "effects": {
-        Effects.call(CPRItem.prototype);
-        break;
-      }
-      case "spawner": {
-        // Spawner.call(CPRItem.prototype);
-        break;
-      }
-      case "consumable": {
-        Consumeable.call(CPRItem.prototype);
-        break;
-      }
-      default:
-        LOGGER.warning(`Tried to load an unknown mixin, ${name}`);
-        return false;
+      LOGGER.debug(`Added mixin ${mixins[m]} to ${this.id}`);
     }
-    LOGGER.debugObject(this);
-    const { mixins } = this.data.data;
-    if (!mixins.includes(name)) {
-      mixins.push(name);
-      if (this.actor) {
-        this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: mixins }]);
-      }
-      this.update({ "data.mixins": mixins });
-    }
-    return true;
-  }
-
-  static unloadMixin(name) {
-    LOGGER.trace("_unloadMixin | CPRItem | Called.");
-    // TODO: how to implement this?
-  }
-
-  listMixins() {
-    LOGGER.trace("_listMixins | CPRItem | Called.");
-    return this.mixins;
   }
 
   /*
