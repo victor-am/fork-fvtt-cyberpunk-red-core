@@ -157,19 +157,149 @@
   ],
   "languages": [
     {
+      "lang": "af",
+      "name": "Afrikaans",
+      "path": "lang/af-ZA.json"
+    },
+    {
+      "lang": "ar",
+      "name": "Arabic",
+      "path": "lang/ar-SA.json"
+    },
+    {
+      "lang": "ca",
+      "name": "Catalan",
+      "path": "lang/ca-ES.json"
+    },
+    {
+      "lang": "cs",
+      "name": "Czech",
+      "path": "lang/cs-CZ.json"
+    },
+    {
+      "lang": "da",
+      "name": "Danish",
+      "path": "lang/da-DK.json"
+    },
+    {
+      "lang": "de",
+      "name": "German",
+      "path": "lang/de-DE.json"
+    },
+    {
+      "lang": "el",
+      "name": "Greek",
+      "path": "lang/el-GR.json"
+    },
+    {
       "lang": "en",
       "name": "English",
-      "path": "lang/en.json"
+      "path": "lang/en-US.json"
+    },
+    {
+      "lang": "fi",
+      "name": "Finnish",
+      "path": "lang/fi-FI.json"
     },
     {
       "lang": "fr",
       "name": "French",
-      "path": "lang/fr.json"
+      "path": "lang/fr-FR.json"
+    },
+    {
+      "lang": "he",
+      "name": "Hebrew",
+      "path": "lang/he-IL.json"
+    },
+    {
+      "lang": "hu",
+      "name": "Hungarian",
+      "path": "lang/hu-HU.json"
     },
     {
       "lang": "it",
       "name": "Italian",
-      "path": "lang/it.json"
+      "path": "lang/it-IT.json"
+    },
+    {
+      "lang": "ja",
+      "name": "Japanese",
+      "path": "lang/ja-JP.json"
+    },
+    {
+      "lang": "ko",
+      "name": "Korean",
+      "path": "lang/ko-KR.json"
+    },
+    {
+      "lang": "nl",
+      "name": "Dutch",
+      "path": "lang/nl-NL.json"
+    },
+    {
+      "lang": "no",
+      "name": "Norwegian",
+      "path": "lang/no-NO.json"
+    },
+    {
+      "lang": "pl",
+      "name": "Polish",
+      "path": "lang/pl-PL.json"
+    },
+    {
+      "lang": "pt-BR",
+      "name": "Brazilian Portuguese",
+      "path": "lang/pt-BR.json"
+    },
+    {
+      "lang": "pt",
+      "name": "Portuguese",
+      "path": "lang/pt-PT.json"
+    },
+    {
+      "lang": "ro",
+      "name": "Romanian",
+      "path": "lang/ro-RO.json"
+    },
+    {
+      "lang": "ru",
+      "name": "Russian",
+      "path": "lang/ru-RU.json"
+    },
+    {
+      "lang": "sp",
+      "name": "Serbian (Cyrillic)",
+      "path": "lang/sp-SP.json"
+    },
+    {
+      "lang": "sv",
+      "name": "Swedish",
+      "path": "lang/sv-SE.json"
+    },
+    {
+      "lang": "tr",
+      "name": "Turkish",
+      "path": "lang/tr-TR.json"
+    },
+    {
+      "lang": "uk",
+      "name": "Ukrainian",
+      "path": "lang/uk-UA.json"
+    },
+    {
+      "lang": "vi",
+      "name": "Vietnamese",
+      "path": "lang/vi-VN.json"
+    },
+    {
+      "lang": "zh-CN",
+      "name": "Chinese Simplified",
+      "path": "lang/zh-CN.json"
+    },
+    {
+      "lang": "zh-TW",
+      "name": "Chinese Traditional",
+      "path": "lang/zh-TW.json"
     }
   ],
   "initiative": "1d10 + @stats.ref.value",
