@@ -129,7 +129,8 @@ export default class CPRItem extends Item {
     const itemType = this.data.type;
     const localCprRoll = cprRoll;
     const actorData = this.actor.data;
-    if (itemType === "weapon") {
+    const itemEntities = game.system.template.Item;
+    if (itemEntities[itemType].templates.includes("weapon")) {
       if (localCprRoll instanceof CPRRolls.CPRAttackRoll) {
         if (this.data.data.isRanged) {
           this.fireRangedWeapon(localCprRoll);
