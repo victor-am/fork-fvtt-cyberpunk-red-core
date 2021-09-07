@@ -830,7 +830,13 @@ export default class CPRActor extends Actor {
     });
   }
 
-  // Determine if this actor has a specific item type equipped
+  /**
+   * Return whether the actor has a specific Item Type equipped.
+   *
+   * @public
+   * @param {string} itemType - type of item we are looking for
+   * @returns {Boolean}
+   */
   hasItemTypeEquipped(itemType) {
     LOGGER.trace("hasItemTypeEquipped | CPRActor | Called.");
     let equipped = false;
@@ -844,6 +850,17 @@ export default class CPRActor extends Actor {
       });
     }
     return equipped;
+  }
+
+  /**
+   * Return the all of the roles this actor currently has
+   *
+   * @public
+   * @returns {Object} - array of roles
+   */
+  getRoles() {
+    LOGGER.trace("getRoles | CPRActor | Called.");
+    return this.data.filteredItems.role;
   }
 
   /**

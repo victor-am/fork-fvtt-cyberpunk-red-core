@@ -28,6 +28,16 @@ export default class CPRCombatant extends Combatant {
       case "mook": {
         if (initiativeType === "meat") {
           cprInitiative = new CPRRolls.CPRInitiative(initiativeType, actor.type, formula, actor.getStat("ref"));
+          const roleList = actor.getRoles();
+
+          roleList.forEach((role) => {
+            const relevantAbilities = role.data.data.abilities.filter((a) => a.name === "Initiative Reaction");
+            if (relevantAbilities.length > 0) {
+              relevantAbilities.forEach((ability) => {
+                cprInitiative.addMod(ability.rank);
+              });
+            }
+          });
         } else {
           const cyberdeck = (actor.data.filteredItems.cyberdeck.filter((c) => c.data.data.equipped === "equipped"))[0];
           const netSpeed = cyberdeck.getBoosters("speed");
