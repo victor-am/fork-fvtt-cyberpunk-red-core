@@ -75,6 +75,7 @@ export class CPRRoll {
         }
       });
     }
+
     [this.die] = formula.match(die);
     return formula.match(dice)[0];
   }
@@ -121,7 +122,13 @@ export class CPRRoll {
     }
     this.initialRoll = this._roll.total;
     this.resultTotal = this.initialRoll + this.totalMods();
-    this.faces = this._roll.terms[0].results.map((r) => r.result);
+
+    // Handle scenario where the "roll" was a static value
+    if (this._roll.terms[0].formula !== String(this._roll.terms[0].total)) {
+      this.faces = this._roll.terms[0].results.map((r) => r.result);
+    } else {
+      this.faces = [];
+    }
 
     // check and consider criticals (min or max # on die)
     if (this.wasCritical() && this.calculateCritical) {
@@ -233,7 +240,14 @@ export class CPRRoll {
 export class CPRInitiative extends CPRRoll {
   constructor(initiativeType, combatant, formula, base, mod = 0) {
     LOGGER.trace("constructor | CPRStatRoll | Called.");
-    super(SystemUtils.Localize("CPR.rolls.initiative"), formula);
+    const die = /d[0-9][0-9]*/;
+    if (formula.match(die)) {
+      super(SystemUtils.Localize("CPR.rolls.initiative"), formula);
+    } else {
+      // Handle static initiative for Black ICE & Demons
+      super(SystemUtils.Localize("CPR.rolls.initiative"), "1d10");
+      this.formula = formula;
+    }
     if (initiativeType === "meat") {
       this.statName = SystemUtils.Localize("CPR.global.stats.ref");
     } else if (combatant === "blackIce") {

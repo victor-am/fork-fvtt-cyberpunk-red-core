@@ -40,7 +40,7 @@ export default class CPRCombat extends Combat {
       }
       return String(combatant.initiative);
     }
-    return CONFIG.Combat.initiative.formula || game.system.data.initiative;
+    return "1d10";
   }
 
   /**
@@ -102,7 +102,7 @@ export default class CPRCombat extends Combat {
 
       if (initiativeType !== "none") {
         // Produce an initiative roll for the Combatant
-        const cprRoll = (await combatant.getInitiativeRoll("1d10", initiativeType));
+        const cprRoll = (await combatant.getInitiativeRoll(this._getInitiativeFormula(combatant), initiativeType));
 
         updates.push({ _id: id, initiative: cprRoll.resultTotal });
 
