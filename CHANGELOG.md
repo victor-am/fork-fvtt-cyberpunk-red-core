@@ -32,6 +32,7 @@
 - Fixed #318: Underbarrel attachment item upgrades in the compendium now pre-select the appropriate ammo types.
 - Fixed #320: The missing Scorpion.png file is now available in the system icons/netrunning folder. Thanks again to Verasunrise and Hyriu33 for the artwork. 
 - Fixed #322: Cyberware ranged weapons were not having their ammunition auto-decrement.
+- Fixed #323: Cyberware weapons now show as weapons in the Mook Sheet.
 
 # Version 0.78.2 | Date: 2021-08-12
 
