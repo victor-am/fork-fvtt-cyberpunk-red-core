@@ -775,9 +775,6 @@ export default class CPRActor extends Actor {
       case CPRRolls.rollTypes.STAT: {
         return this._createStatRoll(name);
       }
-      case CPRRolls.rollTypes.ROLEABILITY: {
-        return this._createRoleRoll(name);
-      }
       case CPRRolls.rollTypes.DEATHSAVE: {
         return this._createDeathSaveRoll();
       }
@@ -802,72 +799,6 @@ export default class CPRActor extends Actor {
     cprRoll.addMod(this.getWoundStateMods());
     cprRoll.addMod(this.getUpgradeMods(statName));
     return cprRoll;
-  }
-
-  /**
-   * Create a "role" roll and return the object representing it
-   *
-   * @private
-   * @param {string} roleName - name of the role to generate a roll for
-   * @returns {CPRRoleRoll}
-   */
-  _createRoleRoll(roleName) {
-    LOGGER.trace("_createRoleRoll | CPRActor | Called.");
-    const niceRoleName = SystemUtils.Localize(CPR.roleAbilityList[roleName]);
-    const roleValue = this._getRoleValue(roleName);
-    let statName = "tech";
-    let roleStat = 0;
-    let roleOther = 0;
-    if (roleName === "surgery") {
-      roleStat = this.getStat(statName);
-      const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
-      cprRoll.addMod(this.getWoundStateMods());
-      return cprRoll;
-    }
-    if (roleName === "medtechCryo" || roleName === "medtechPharma") {
-      roleStat = this.getStat(statName);
-      roleOther = this._getRoleValue("medtechPharma");
-      const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
-      cprRoll.addMod(this.getWoundStateMods());
-      return cprRoll;
-    }
-    if (roleName === "operator") {
-      statName = "cool";
-      roleStat = this.getStat(statName);
-      roleOther = this.getSkillLevel("Trading") + this.getSkillMod("Trading");
-      const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
-      cprRoll.addMod(this.getWoundStateMods());
-      return cprRoll;
-    }
-    const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
-    cprRoll.addMod(this.getWoundStateMods());
-    return cprRoll;
-  }
-
-  /**
-   * Return the value of a role ability given its name
-   *
-   * @private
-   * @param {String} roleName - name of the role we are interested in getting the value of
-   * @returns {Number} or null if not found
-   */
-  _getRoleValue(roleName) {
-    LOGGER.trace("_getRoleValue | CPRActor | Called.");
-    const { roleskills: roles } = this.data.data.roleInfo;
-    const abilities = Object.values(roles);
-    for (const ability of abilities) {
-      const keys = Object.keys(ability);
-      for (const key of keys) {
-        if (key === roleName) return ability[key];
-        if (key === "subSkills") {
-          const subSkills = Object.keys(ability[key]);
-          for (const subSkill of subSkills) {
-            if (subSkill === roleName) return ability.subSkills[subSkill];
-          }
-        }
-      }
-    }
-    return null;
   }
 
   /**
@@ -899,7 +830,13 @@ export default class CPRActor extends Actor {
     });
   }
 
-  // Determine if this actor has a specific item type equipped
+  /**
+   * Return whether the actor has a specific Item Type equipped.
+   *
+   * @public
+   * @param {string} itemType - type of item we are looking for
+   * @returns {Boolean}
+   */
   hasItemTypeEquipped(itemType) {
     LOGGER.trace("hasItemTypeEquipped | CPRActor | Called.");
     let equipped = false;
@@ -913,6 +850,17 @@ export default class CPRActor extends Actor {
       });
     }
     return equipped;
+  }
+
+  /**
+   * Return the all of the roles this actor currently has
+   *
+   * @public
+   * @returns {Object} - array of roles
+   */
+  getRoles() {
+    LOGGER.trace("getRoles | CPRActor | Called.");
+    return this.data.filteredItems.role;
   }
 
   /**
