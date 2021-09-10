@@ -13,6 +13,7 @@
   - Implemented Critical Initiative per RTG release of FAQ 1.3 (FR Issue #288).
     - NOTE: This feature is ENABLED by default as it follows RAW, however may be disabled via the System Settings.
   - Implemented CPR Roll Cards for Initiative.
+    - Solo Role Ability `Initiative Reaction` is taken into account when rolling Initiative.
   - Implemented proper initiative rules for Net Combat.
     - If a character or mook has a cyberdeck equipped when rolling initiative, you will be prompted whether you are rolling for Meat or Net combat as the calculation used depends on this.
 - Roles are now items which allows for creation of custom roles and better handling of their functionality.
@@ -32,6 +33,7 @@
 - Fixed #318: Underbarrel attachment item upgrades in the compendium now pre-select the appropriate ammo types.
 - Fixed #320: The missing Scorpion.png file is now available in the system icons/netrunning folder. Thanks again to Verasunrise and Hyriu33 for the artwork. 
 - Fixed #322: Cyberware ranged weapons were not having their ammunition auto-decrement.
+- Fixes #317: Before adding a Role Item during migration, added a check to see if one exists already.  Also added code to the data model migration to remove the `roleskills` data point which should result in zeroing all of the role skills on that actor.  This datapoint can be removed next release.
 
 # Version 0.78.2 | Date: 2021-08-12
 
