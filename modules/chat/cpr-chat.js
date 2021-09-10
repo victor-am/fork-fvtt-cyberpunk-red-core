@@ -1,6 +1,6 @@
 /* global game, CONFIG, ChatMessage, renderTemplate, canvas, $ */
 import LOGGER from "../utils/cpr-logger.js";
-import { CPRRoll, CPRDamageRoll } from "../rolls/cpr-rolls.js";
+import { CPRRoll, CPRDamageRoll, CPRInitiative } from "../rolls/cpr-rolls.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import DamageApplicationPrompt from "../dialog/cpr-damage-application-prompt.js";
 
@@ -62,6 +62,10 @@ export default class CPRChat {
     const cprRoll = incomingRoll;
 
     cprRoll.criticalCard = cprRoll.wasCritical();
+    if (cprRoll instanceof CPRInitiative && !cprRoll.calculateCritical) {
+      cprRoll.criticalCard = false;
+    }
+
     return renderTemplate(cprRoll.rollCard, cprRoll).then((html) => {
       const chatOptions = this.ChatDataSetup(html);
 
