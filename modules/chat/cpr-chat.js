@@ -355,7 +355,8 @@ export default class CPRChat {
     });
     if (!event.ctrlKey) {
       const title = SystemUtils.Localize("CPR.chat.damageApplication.prompt.title");
-      const data = { allowedActors, forbiddenActors };
+      const allowedTypesMessage = `${SystemUtils.Format("CPR.chat.damageApplication.prompt.allowedTypes", { location })}`;
+      const data = { allowedTypesMessage, allowedActors, forbiddenActors };
       const confirmation = await DamageApplicationPrompt.RenderPrompt(title, data);
       if (!confirmation) {
         return;

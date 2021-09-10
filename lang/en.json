@@ -108,7 +108,7 @@
     "CPR.chat.damageApplication.defenderProgramsNotApplied": "Damage reduction due to any rezzed defender programs not considered.",
     "CPR.chat.damageApplication.healthReducedBy": "HP reduced by:",
     "CPR.chat.damageApplication.noTokenSelected": "Error: No Token selected!",
-    "CPR.chat.damageApplication.prompt.allowedTypes": "The damage will be applied to the following tokens:",
+    "CPR.chat.damageApplication.prompt.allowedTypes": "The {location} damage will be applied to the following tokens:",
     "CPR.chat.damageApplication.prompt.forbiddenTypes": "The following tokens do not support automatic damage application:",
     "CPR.chat.damageApplication.prompt.title": "Confirm the damage application",
     "CPR.chat.damageApplication.rezReducedBy": "REZ reduced by:",
