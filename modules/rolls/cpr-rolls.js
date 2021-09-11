@@ -108,18 +108,14 @@ export class CPRRoll {
    */
   async roll() {
     LOGGER.trace("roll | CPRRoll | Called.");
-    const criticalInitiative = game.settings.get("cyberpunk-red-core", "criticalInitiative");
     // calculate the initial roll
     this._roll = await new Roll(this.formula).evaluate({ async: true });
 
     // eslint-disable-next-line no-use-before-define
-    if (this instanceof CPRInitiative) {
-      if (!criticalInitiative) {
-        this.calculateCritical = false;
-      }
-    } else {
+    if (!(this instanceof CPRInitiative)) {
       await DiceSoNice.ShowDiceSoNice(this._roll);
     }
+
     this.initialRoll = this._roll.total;
     this.resultTotal = this.initialRoll + this.totalMods();
 
@@ -179,7 +175,7 @@ export class CPRRoll {
   wasCritical() {
     LOGGER.trace("wasCritical | CPRRoll | Called.");
     // return true or false indicating if a roll was critical
-    return this.calculateCritical ? this.wasCritFail() || this.wasCritSuccess() : false;
+    return this.wasCritFail() || this.wasCritSuccess();
   }
 
   /**
@@ -262,6 +258,7 @@ export class CPRInitiative extends CPRRoll {
       this.addMod(mod);
     }
     this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-initiative-rollcard.hbs";
+    this.calculateCritical = game.settings.get("cyberpunk-red-core", "criticalInitiative");
   }
 
   _computeBase() {

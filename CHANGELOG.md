@@ -35,6 +35,7 @@
 - Fixed #322: Cyberware ranged weapons were not having their ammunition auto-decrement.
 - Fixed #323: Cyberware weapons now show as weapons in the Mook Sheet.
 - Fixes #317: Before adding a Role Item during migration, added a check to see if one exists already.  Also added code to the data model migration to remove the `roleskills` data point which should result in zeroing all of the role skills on that actor.  This datapoint can be removed next release.
+- Fixes #324: This bug was introduced with the new initiative code so it never made it to master.  Critical damage should work again.
 
 # Version 0.78.2 | Date: 2021-08-12
 
