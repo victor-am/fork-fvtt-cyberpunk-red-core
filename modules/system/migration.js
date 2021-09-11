@@ -311,6 +311,48 @@ export default class Migration {
         updateData["data.roleInfo.activeRole"] = configuredRole;
       }
 
+      // New data point needed for Roles as items implementation (0.79.1)
+      if (actorData.data.roleInfo.activeNetRole === "") {
+        if (actorData.data.roleInfo.roles.includes("netrunner")) {
+          updateData["data.roleInfo.activeNetRole"] = "Netrunner";
+        }
+      }
+
+      // make the first letter of activeRole uppercase to match
+      switch (actorData.data.roleInfo.activeRole) {
+        case "exec":
+          updateData["data.roleInfo.activeRole"] = "Exec";
+          break;
+        case "fixer":
+          updateData["data.roleInfo.activeRole"] = "Fixer";
+          break;
+        case "lawman":
+          updateData["data.roleInfo.activeRole"] = "Lawman";
+          break;
+        case "media":
+          updateData["data.roleInfo.activeRole"] = "Media";
+          break;
+        case "medtech":
+          updateData["data.roleInfo.activeRole"] = "Medtech";
+          break;
+        case "netrunner":
+          updateData["data.roleInfo.activeRole"] = "Netrunner";
+          break;
+        case "nomad":
+          updateData["data.roleInfo.activeRole"] = "Nomad";
+          break;
+        case "rockerboy":
+          updateData["data.roleInfo.activeRole"] = "Rockerboy";
+          break;
+        case "solo":
+          updateData["data.roleInfo.activeRole"] = "Solo";
+          break;
+        case "tech":
+          updateData["data.roleInfo.activeRole"] = "Tech";
+          break;
+        default:
+      }
+
       if ((typeof actorData.data.criticalInjuries) === "undefined") {
         updateData["data.criticalInjuries"] = [];
       }
@@ -369,9 +411,30 @@ export default class Migration {
           },
         };
       }
+
+      // Adds universal bonuses to actorData (for current implementation of roles
+      // providing bonuses to attacks and damage, and future implementation of active effects).
+      if ((typeof actorData.data.universalBonuses) === "undefined") {
+        updateData["data.universalBonuses"] = {
+          attack: 0,
+          damage: 0,
+        };
+      }
+
+      if ((typeof actorData.data.roleInfo.roleskills) !== "undefined") {
+        updateData["data.roleInfo.-=roleskills"] = null;
+      }
     }
 
     return updateData;
+  }
+
+  static async migrateTokenActor(actor) {
+    if (actor.type === "character" || actor.type === "mook") {
+      await this.createActorItems(actor);
+    }
+
+    return this.migrateActorData(actor.data, "token");
   }
 
   // Segmented out the creation of items for the Actors as they are not just
@@ -389,6 +452,49 @@ export default class Migration {
           newItems = migratedInjuries;
         }
       }
+    }
+
+    // Migrate role abilities to items and assign correct values.
+    const { roleskills } = actorData.data.roleInfo;
+    if ((typeof roleskills) !== "undefined") {
+      const pack = game.packs.get("cyberpunk-red-core.roles-items");
+      const content = await pack.getDocuments();
+      Object.entries(roleskills).forEach(([role, roleSkills]) => {
+        let newRole;
+        Object.entries(roleSkills).forEach(([skillName, skillValue]) => {
+          if (skillName !== "subSkills") {
+            if (actorData.data.roleInfo.roles.includes(role)) {
+              const hasRoleObject = actorData.filteredItems.role.find((r) => r.data.name.toLowerCase() === role);
+              if (typeof hasRoleObject === "undefined") {
+                newRole = duplicate(content.find((c) => c.data.name.toLowerCase() === role).data);
+                newRole.data.rank = skillValue;
+              }
+            }
+          }
+          if (skillName === "subSkills" && newRole) {
+            Object.entries(skillValue).forEach(([subSkillName, subSkillValue]) => {
+              const niceSubRoleName = game.i18n.localize(`CPR.global.role.${role}.ability.${subSkillName}`);
+              newRole.data.abilities.find((a) => a.name === niceSubRoleName).rank = subSkillValue;
+            });
+          }
+        });
+        if (newRole) {
+          switch (role) {
+            case "medtech": {
+              const medtechCryo = newRole.data.abilities.find((a) => a.name === "Medical Tech (Cryosystem Operation)").rank;
+              const medtechPharma = newRole.data.abilities.find((a) => a.name === "Medical Tech (Pharmaceuticals)").rank;
+              newRole.data.abilities.find((a) => a.name === "Medical Tech").rank = medtechCryo + medtechPharma;
+              break;
+            }
+            case "fixer": {
+              newRole.data.abilities.find((a) => a.name === "Haggle").rank = newRole.data.rank;
+              break;
+            }
+            default:
+          }
+          newItems.push(newRole);
+        }
+      });
     }
 
     // This was added as part of 0.72.  We had one report of
@@ -925,7 +1031,7 @@ export default class Migration {
         const actorData = duplicate(token.actor.data);
         actorData.type = token.actor?.type;
 
-        const updateData = this.migrateActorData(actorData, "token");
+        const updateData = this.migrateTokenActor(token.actor);
         ["items", "effects"].forEach((embeddedName) => {
           if (!updateData[embeddedName]?.length) return;
           const embeddedUpdates = new Map(updateData[embeddedName].map((u) => [u._id, u]));

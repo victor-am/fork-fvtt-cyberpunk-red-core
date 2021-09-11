@@ -7,6 +7,7 @@ import CPRContainerActorSheet from "./modules/actor/sheet/cpr-container-sheet.js
 import CPRDemonActorSheet from "./modules/actor/sheet/cpr-demon-sheet.js";
 import CPRMookActorSheet from "./modules/actor/sheet/cpr-mook-sheet.js";
 import CPRCombat from "./modules/combat/cpr-combat.js";
+import CPRCombatant from "./modules/combat/cpr-combatant.js";
 import CPRItem from "./modules/item/cpr-item.js";
 
 import CPRItemSheet from "./modules/item/sheet/cpr-item-sheet.js";
@@ -54,6 +55,7 @@ Hooks.once("init", async () => {
       "itemUpgrade",
       "netarch",
       "program",
+      "role",
       "skill",
       "vehicle",
       "weapon",
@@ -76,6 +78,7 @@ Hooks.once("init", async () => {
   // Assign the actor class to the CONFIG
   CONFIG.Actor.documentClass = actorConstructor;
   CONFIG.Combat.documentClass = CPRCombat;
+  CONFIG.Combatant.documentClass = CPRCombatant;
   CONFIG.Item.documentClass = CPRItem;
 
   preloadHandlebarsTemplates();
@@ -89,7 +92,7 @@ Hooks.once("ready", () => {
   if (!game.user.isGM) return;
   // This defines the version of the Data Model for this release.  We should
   // only update this when the Data Model Changes.
-  const DATA_MODEL_VERSION = "0.78.0";
+  const DATA_MODEL_VERSION = "0.79.1";
   // Get the version of the data model being used for the loaded world. At
   // the end of a migration, this is updated with the current version of the
   // CPR system.

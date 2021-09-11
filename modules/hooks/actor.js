@@ -1,6 +1,5 @@
 /* global Hooks game */
 import LOGGER from "../utils/cpr-logger.js";
-import Rules from "../utils/cpr-rules.js";
 import CPRCharacterActorSheet from "../actor/sheet/cpr-character-sheet.js";
 import CPRContainerActorSheet from "../actor/sheet/cpr-container-sheet.js";
 import CPRMookActorSheet from "../actor/sheet/cpr-mook-sheet.js";
@@ -44,19 +43,13 @@ const actorHooks = () => {
    * @param {CPRCharacterActor} actor     The pending document which is requested for creation
    * @param {object} updatedData          The changed data object provided to the document creation request
    * @param {object} (unused)             Additional options which modify the creation request
-   * @param {string} userId               The ID of the requesting user, always game.user.id
+   * @param {string} (unused)               The ID of the requesting user, always game.user.id
    */
-  Hooks.on("preUpdateActor", (actor, updatedData, _, userId) => {
+  Hooks.on("preUpdateActor", (actor, updatedData) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
-    const isCSheet = Object.values(actor.apps).some((app) => app instanceof CPRCharacterActorSheet);
-    if (isCSheet && userId === game.user.data._id && actor.type === "character") {
-      Rules.lawyer(Rules.validRole(actor, updatedData), "CPR.messages.invalidRoleData");
-    }
-
-    // Updates the armor item when external data for armor is updated from the tokenHUD
     if (updatedData.data && updatedData.data.externalData) {
-      Object.entries(updatedData.data.externalData).forEach(
-        ([itemType, itemData]) => {
+      Object.keys(updatedData.data.externalData).forEach(
+        (itemType) => {
           if (!updatedData.data.externalData[itemType].id) {
             const itemId = actor.data.data.externalData[itemType].id;
             const item = actor._getOwnedItem(itemId);
@@ -149,9 +142,13 @@ const actorHooks = () => {
    */
   Hooks.on("createItem", (itemData, _, userId) => {
     LOGGER.trace("createItem | actorHooks | Called.");
-    // when a new item is created (dragged) on a mook sheet, auto install or equip it
     const actor = itemData.parent;
     if (actor !== null) {
+      if (itemData.type === "role" && actor.data.data.roleInfo.activeRole === "") {
+        actor.update({ "data.roleInfo.activeRole": itemData.data.name });
+      }
+
+      // when a new item is created (dragged) on a mook sheet, auto install or equip it
       if (Object.values(actor.apps).some((app) => app instanceof CPRMookActorSheet) && userId === game.user.data._id) {
         LOGGER.debug("handling a dragged item to the mook sheet");
         actor.handleMookDraggedItem(actor._getOwnedItem(itemData.id));

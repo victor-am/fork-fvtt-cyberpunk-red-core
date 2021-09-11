@@ -1,6 +1,4 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-else-return */
-/* global Handlebars, getProperty */
+/* global Handlebars game getProperty */
 import LOGGER from "../utils/cpr-logger.js";
 import CPR from "./config.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
@@ -124,6 +122,11 @@ export default function registerHandlebarsHelpers() {
 
   Handlebars.registerHelper("filter", (objList, key, value) => {
     LOGGER.trace("filter | handlebarsHelper | Called.");
+    if (objList === undefined) {
+      const warnText = "Improper use of the filter helper. This should not occur. Always provide an object list and not an undefined value. The following arguments were passed:";
+      LOGGER.warn(`${warnText} objList = ${objList}, key = ${key}, value = ${value}`);
+      return [];
+    }
     const filteredList = objList.filter((obj) => {
       let objProp = obj;
       const propDepth = key.split(".");
@@ -182,9 +185,8 @@ export default function registerHandlebarsHelpers() {
         LOGGER.trace(`hasOptionalSlots is greater than 0`);
         const installedOptionSlots = optionSlots - obj.availableSlots();
         return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.itemSheet.cyberware.optionalSlots")}`);
-      } else {
-        LOGGER.trace(`hasOptionalSlots is 0`);
       }
+      LOGGER.trace(`hasOptionalSlots is 0`);
     }
     return "";
   });
@@ -226,7 +228,15 @@ export default function registerHandlebarsHelpers() {
     return false;
   });
 
-  // TODO - Rename?
+  Handlebars.registerHelper("objectListContains", (objectList, data, val) => {
+    LOGGER.trace("Calling objectListContains Helper");
+    const array = objectList;
+    if (array) {
+      return array.some((o) => o[data] === val);
+    }
+    return false;
+  });
+
   Handlebars.registerHelper("generatePartial", (arg1, arg2) => {
     LOGGER.trace("generatePartial | handlebarsHelper | Called.");
     return arg1.replace("VAR", arg2);
@@ -352,7 +362,8 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace("ablated | handlebarsHelper | Called.");
     if (slot === "body") {
       return armor.bodyLocation.sp - armor.bodyLocation.ablation;
-    } else if (slot === "head") {
+    }
+    if (slot === "head") {
       return armor.headLocation.sp - armor.headLocation.ablation;
     }
     LOGGER.error(`Received a bad slot: ${slot}`);
@@ -393,7 +404,8 @@ export default function registerHandlebarsHelpers() {
     const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
     if (string === "Conceal/Reveal Object" || string === "Paint/Draw/Sculpt" || string === "Resist Torture/Drugs") {
       return cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
-    } else if (string === "Language (Streetslang)") {
+    }
+    if (string === "Language (Streetslang)") {
       // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
       // comment to fulfill the test case of the language file.
       return cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
@@ -577,6 +589,15 @@ export default function registerHandlebarsHelpers() {
       }
     }
     return upgradeResult;
+  });
+
+  Handlebars.registerHelper("cprSheetContentFilter", (filterValue, applyToText) => {
+    LOGGER.trace("cprFilter | handlebarsHelper | Called.");
+    if (typeof filterValue === "undefined" || filterValue === "" || !game.settings.get("cyberpunk-red-core", "enableSheetContentFilter")) {
+      return true;
+    }
+
+    return applyToText.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1;
   });
 
   Handlebars.registerHelper("isDebug", () => {

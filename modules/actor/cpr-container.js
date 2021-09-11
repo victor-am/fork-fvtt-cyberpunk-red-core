@@ -102,8 +102,15 @@ export default class CPRContainerActor extends Actor {
     }
   }
 
+  /**
+   * A utility method that toggles a flag back and forth. If defined, it is
+   * set to true, but when it should be "false" we just remove it.
+   *
+   * @param {*} flagName - a name for the flag to set/unset
+   * @returns {Document} representing the flag
+   */
   async toggleFlag(flagName) {
-    LOGGER.trace("setContainerType | CPRContainerActor | Called.");
+    LOGGER.trace("toggleFlag | CPRContainerActor | Called.");
     const flag = this.getFlag("cyberpunk-red-core", flagName);
     if (flag === undefined || flag === false) {
       return this.setFlag("cyberpunk-red-core", flagName, true);

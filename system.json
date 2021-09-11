@@ -1,10 +1,10 @@
 {
-  "version": "0.78.2",
+  "version": "0.79.0",
   "name": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
-  "minimumCoreVersion": "0.8.6",
-  "compatibleCoreVersion": "0.8.8",
+  "minimumCoreVersion": "0.8.8",
+  "compatibleCoreVersion": "0.8.9",
   "templateVersion": 2,
   "author": "The Project Red Team",
   "esmodules": ["cpr.js"],
@@ -107,6 +107,14 @@
       "package": "cyberpunk-red-core"
     },
     {
+      "label": "Roles",
+      "entity": "Item",
+      "name": "roles-items",
+      "path": "packs/roles.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
       "label": "Vehicles",
       "entity": "Item",
       "name": "vehicles-items",
@@ -172,6 +180,6 @@
   "background" : "Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
   "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/system.json",
-  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.78.2/fvtt-cyberpunk-red-core-v0.78.2.zip",
-  "license": "Copyright 2020, The Project Red Team"
+  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.79.0/fvtt-cyberpunk-red-core-v0.79.0.zip",
+  "license": "Copyright 2021, The Project Red Team"
 }

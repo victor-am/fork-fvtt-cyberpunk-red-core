@@ -1,7 +1,8 @@
-/* global game, CONFIG, ChatMessage, renderTemplate $ */
+/* global game, CONFIG, ChatMessage, renderTemplate, canvas, $ */
 import LOGGER from "../utils/cpr-logger.js";
-import { CPRRoll, CPRDamageRoll } from "../rolls/cpr-rolls.js";
+import { CPRRoll, CPRDamageRoll, CPRInitiative } from "../rolls/cpr-rolls.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
+import DamageApplicationPrompt from "../dialog/cpr-damage-application-prompt.js";
 
 /**
  * For the sake of aesthetics, we have a class for Chat cards. It wraps around
@@ -61,6 +62,10 @@ export default class CPRChat {
     const cprRoll = incomingRoll;
 
     cprRoll.criticalCard = cprRoll.wasCritical();
+    if (cprRoll instanceof CPRInitiative && !cprRoll.calculateCritical) {
+      cprRoll.criticalCard = false;
+    }
+
     return renderTemplate(cprRoll.rollCard, cprRoll).then((html) => {
       const chatOptions = this.ChatDataSetup(html);
 
@@ -130,6 +135,38 @@ export default class CPRChat {
             alias = token.data.name;
           }
         }
+        chatOptions.speaker = { actor, alias };
+      }
+      return ChatMessage.create(chatOptions, false);
+    });
+  }
+
+  /**
+   * When damage is applied to an actor using the glyph on a damage card, we render another
+   * chat card indicating the damage dealth and armor ablation.
+   *
+   * @param {Object} damageData - details about the damage dealt
+   * @returns ChatMessage
+   */
+  static RenderDamageApplicationCard(damageData) {
+    LOGGER.trace("RenderDamageApplicationCard | CPRChat | Called.");
+    const damageApplicationTemplate = "systems/cyberpunk-red-core/templates/chat/cpr-damage-application-card.hbs";
+
+    return renderTemplate(damageApplicationTemplate, damageData).then((html) => {
+      const chatOptions = this.ChatDataSetup(html);
+
+      if (damageData.entityData !== undefined && damageData.entityData !== null) {
+        let actor;
+        const actorId = damageData.entityData.actor;
+        const tokenId = damageData.entityData.token;
+        if (tokenId) {
+          actor = (Object.keys(game.actors.tokens).includes(tokenId))
+            ? game.actors.tokens[tokenId]
+            : game.actors.find((a) => a.id === actorId);
+        } else {
+          [actor] = game.actors.filter((a) => a.id === actorId);
+        }
+        const alias = actor.name;
         chatOptions.speaker = { actor, alias };
       }
       return ChatMessage.create(chatOptions, false);
@@ -239,6 +276,10 @@ export default class CPRChat {
           item.sheet.render(true, { editable: false });
           break;
         }
+        case "applyDamage": {
+          this.damageApplication(event);
+          break;
+        }
         default: {
           LOGGER.warn(`No action defined for ${clickAction}`);
         }
@@ -278,5 +319,55 @@ export default class CPRChat {
       indicatorElement.text(SystemUtils.Localize("CPR.chat.whisper"));
       timestampTag.before(indicatorElement);
     }
+  }
+
+  /**
+   * Handle the damage application from the chat message. It is called from the chatListeners.
+   *
+   * @param {*} event - event data from the chat message
+   */
+  static async damageApplication(event) {
+    LOGGER.trace("damageApplication | CPRChat | Called.");
+    const totalDamage = parseInt($(event.currentTarget).attr("data-total-damage"), 10);
+    const bonusDamage = parseInt($(event.currentTarget).attr("data-bonus-damage"), 10);
+    let location = $(event.currentTarget).attr("data-damage-location");
+    if (location !== "head" && location !== "brain") {
+      location = "body";
+    }
+    const ablation = parseInt($(event.currentTarget).attr("data-ablation"), 10);
+    const ingoreHalfArmor = (/true/i).test($(event.currentTarget).attr("data-ignore-half-armor"));
+    const tokens = canvas.tokens.controlled;
+    if (tokens.length === 0) {
+      SystemUtils.DisplayMessage("warn", "CPR.chat.damageApplication.noTokenSelected");
+      return;
+    }
+    const allowedTypes = [
+      "character",
+      "mook",
+      "demon",
+      "blackIce",
+    ];
+    const allowedActors = [];
+    const forbiddenActors = [];
+    tokens.forEach((t) => {
+      const { actor } = t;
+      if (allowedTypes.includes(actor.type)) {
+        allowedActors.push(actor);
+      } else {
+        forbiddenActors.push(actor);
+      }
+    });
+    if (!event.ctrlKey) {
+      const title = SystemUtils.Localize("CPR.chat.damageApplication.prompt.title");
+      const allowedTypesMessage = `${SystemUtils.Format("CPR.chat.damageApplication.prompt.allowedTypes", { location })}`;
+      const data = { allowedTypesMessage, allowedActors, forbiddenActors };
+      const confirmation = await DamageApplicationPrompt.RenderPrompt(title, data);
+      if (!confirmation) {
+        return;
+      }
+    }
+    allowedActors.forEach((a) => {
+      a._applyDamage(totalDamage, bonusDamage, location, ablation, ingoreHalfArmor);
+    });
   }
 }

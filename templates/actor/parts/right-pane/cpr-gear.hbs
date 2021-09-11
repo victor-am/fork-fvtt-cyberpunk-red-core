@@ -24,9 +24,11 @@
                 </li>
                 <ol class="items-list">
                     {{#each (sort (getProp ../actor.data.filteredItems c) "name") as |item i|}}
+                    {{#if (cprSheetContentFilter ../../this.options.cprContentFilter item.name)}}
                     {{!-- Partial handles Name and Data columns --}}
                     {{> (generatePartial "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-VAR-content.hbs" c) (mergeForPartialArg "item,actor,sheet" this ../../this.actor ../../this)}}
                     {{!- Item actions column --}}
+                    {{/if}}
                     {{/each}}
                 </ol>
             </div>

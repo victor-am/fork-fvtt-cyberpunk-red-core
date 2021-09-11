@@ -1,6 +1,7 @@
 /* globals Actor, duplicate, setProperty, game */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPR from "../system/config.js";
+import CPRChat from "../chat/cpr-chat.js";
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
@@ -140,5 +141,30 @@ export default class CPRBlackIceActor extends Actor {
       setProperty(actorData, "data.effect", effectText);
     }
     this.update(actorData);
+  }
+
+  /**
+   * Apply damage to the rez of the Black ICE.
+   * @param {int} damage - direct damage dealt
+   * @param {int} bonusDamage - bonus damage dealt
+   */
+  async _applyDamage(damage, bonusDamage) {
+    LOGGER.trace("_applyDamage | CPRBlackIceActor | Called.");
+    // As a Black ICE does not have any armor the damage will be simply subtracted from the REZ.
+    const currentRez = this.data.data.stats.rez.value;
+    await this.update({ "data.stats.rez.value": currentRez - damage - bonusDamage });
+    CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: damage + bonusDamage, rezReduction: true });
+  }
+
+  /**
+   * Given a stat name, return the value of it off the actor
+   *
+   * @param {String} statName - name (from CPR.statList) of the stat to retrieve
+   * @returns {Number}
+  */
+  getStat(statName) {
+    LOGGER.trace("getStat | CPRBlackIceActor | Called.");
+    const statValue = (statName === "rez") ? this.data.data.stats[statName].value : this.data.data.stats[statName];
+    return parseInt(statValue, 10);
   }
 }
