@@ -3,7 +3,7 @@ import DvUtils from "../utils/cpr-dvUtils.js";
 
 export default function overrideRulerFunctions() {
   const originalLabel = Ruler.prototype._getSegmentLabel;
-  Ruler.prototype._getSegmentLabel = (segmentDistance, totalDistance, isTotal) => {
+  Ruler.prototype._getSegmentLabel = function _getSegmentLabel(segmentDistance, totalDistance, isTotal) {
     const distance = segmentDistance;
     let returnLabel = originalLabel.call(segmentDistance, totalDistance, isTotal);
     if (this.user.isSelf) {
