@@ -1,4 +1,7 @@
-# Version 0.79.1 | Date: 2021-09-11
+# Version 0.80.0 | Date: WIP
+
+
+# Version 0.79.0 | Date: 2021-09-11
 
 **New Features**
 - Added support for automatic damage application on Characters and Mooks.
