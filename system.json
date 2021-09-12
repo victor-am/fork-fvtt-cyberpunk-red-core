@@ -181,5 +181,5 @@
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
   "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/system.json",
   "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.80.0/fvtt-cyberpunk-red-core-v0.80.0.zip",
-  "license": "Copyright 2021, The Project Red Team"
+  "license": "GPL v3"
 }
