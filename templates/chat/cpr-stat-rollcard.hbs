@@ -1,4 +1,4 @@
-{{trace "CPR-STAT-ROLLCARD.HBS"}}
+{{cprTrace "CPR-STAT-ROLLCARD.HBS"}}
 <div class="rollcard">
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-stat">
@@ -18,7 +18,7 @@
           <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{initialRoll}}_fail.svg">
           <i class="fas fa-minus"></i>
           {{/if}}
-          <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{math "abs" criticalRoll}}.svg">
+          <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{cprMath "abs" criticalRoll}}.svg">
           {{else}}
           <img class="d10" src="systems/cyberpunk-red-core/icons/dice/black/d10_{{initialRoll}}.svg">
           {{/if}}
@@ -39,4 +39,4 @@
     </div>
   </div>
 </div>
-{{trace "END CPR-STAT-ROLLCARD.HBS"}}
+{{cprTrace "END CPR-STAT-ROLLCARD.HBS"}}

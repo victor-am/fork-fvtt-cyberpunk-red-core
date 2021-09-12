@@ -1,4 +1,4 @@
-{{trace "CPR-DAMAGE-ROLLCARD.HBS"}}
+{{cprTrace "CPR-DAMAGE-ROLLCARD.HBS"}}
 <div class="rollcard">
     <div class="rollcard-top">
         <div class="cpr-block chat-rollTitle-stat">
@@ -10,13 +10,13 @@
                        data-action="applyDamage"
                        data-total-damage="{{resultTotal}}" data-bonus-damage="{{#if criticalCard}}{{bonusDamage}}{{else}}0{{/if}}"
                        data-damage-location="{{#if isAimed}}{{location}}{{else}}body{{/if}}"
-                       data-ablation="{{#if (compare rollCardExtraArgs.ammoType "===" "armorPiercing")}}2{{else}}1{{/if}}"
+                       data-ablation="{{#if (cprCompare rollCardExtraArgs.ammoType "===" "armorPiercing")}}2{{else}}1{{/if}}"
                        data-ignore-half-armor="{{#if rollCardExtraArgs.ignoreHalfArmor}}true{{else}}false{{/if}}">
                         <i class="fas fa-bolt" title="{{localize "CPR.chat.damageApplication.applyDamage"}}"></i>
                     </a>
                 </div>
                 {{#if rollCardExtraArgs.ammoType}}
-                <div class="rollcard-subtitle-2-center text-small">{{localize (findConfigValue "ammoType" rollCardExtraArgs.ammoType)}}</div>
+                <div class="rollcard-subtitle-2-center text-small">{{localize (cprFindConfigValue "ammoType" rollCardExtraArgs.ammoType)}}</div>
                 {{/if}}
             </div>
         </div>
@@ -28,27 +28,27 @@
                     {{!-- die image for initialRoll --}}
 
                     {{#each faces as |dieFace|}}
-                    {{#if (compare dieFace "===" 6)}}
+                    {{#if (cprCompare dieFace "===" 6)}}
                     {{#if ../criticalCard}}
-                    <img class="{{diceSizeImageClass ../formula}}"
+                    <img class="{{cprDiceSizeImageClass ../formula}}"
                         src="systems/cyberpunk-red-core/icons/dice/red/d6_{{dieFace}}_preem.svg">
                     {{else}}
-                    <img class="{{diceSizeImageClass ../formula}}"
+                    <img class="{{cprDiceSizeImageClass ../formula}}"
                         src="systems/cyberpunk-red-core/icons/dice/black/d6_{{dieFace}}.svg">
                     {{/if}}
                     {{else}}
-                    <img class="{{diceSizeImageClass ../formula}}"
+                    <img class="{{cprDiceSizeImageClass ../formula}}"
                         src="systems/cyberpunk-red-core/icons/dice/black/d6_{{dieFace}}.svg">
                     {{/if}}
                     {{/each}}
 
                 </div>
                 <div class="d6-number-div">
-                    {{#if (compare mods.length ">" 0)}}
+                    {{#if (cprCompare mods.length ">" 0)}}
                     <a>
                     {{/if}}
                     <span class="clickable{{#if criticalCard}} fg-red text-bold{{/if}}" data-action="toggleVisibility" data-visible-element="d6-data-details">{{resultTotal}}</span>
-                    {{#if (compare mods.length ">" 0)}}
+                    {{#if (cprCompare mods.length ">" 0)}}
                     </a>
                     {{/if}}
                 </div>
@@ -57,7 +57,7 @@
                     <div class="text-normal text-bold">{{localize "CPR.global.skills.autofire"}}! (x{{autofireMultiplier}})</div>
                     {{/if}}
                     {{#if isAimed}}
-                    <div class="text-normal text-bold">{{localize "CPR.rolls.location"}}: {{localize (findConfigValue
+                    <div class="text-normal text-bold">{{localize "CPR.rolls.location"}}: {{localize (cprFindConfigValue
                         "aimedLocation" location)}}</div>
                     {{/if}}
                     {{#if criticalCard}}
@@ -68,7 +68,7 @@
                       {{#if universalBonusDamage}}
                         <div class="text-normal text-bold">{{localize "CPR.universalBonuses.damage"}}: +{{universalBonusDamage}}
                       {{/if}}
-                      {{#if (compare mods.length ">" 0)}}
+                      {{#if (cprCompare mods.length ">" 0)}}
                         <div class="text-normal text-bold">{{localize "CPR.rolls.mods"}}: {{totalMods}}</div>
                       {{/if}}
                     </div>
@@ -77,4 +77,4 @@
         </div>
     </div>
 </div>
-{{trace "END CPR-DAMAGE-ROLLCARD.HBS"}}
+{{cprTrace "END CPR-DAMAGE-ROLLCARD.HBS"}}

@@ -1,4 +1,4 @@
-{{trace "CPR-LEDGER-FORM.HBS"}}
+{{cprTrace "CPR-LEDGER-FORM.HBS"}}
 <form>
   <div class="text-normal">{{localize "CPR.dialog.ledgerForm.type"}}: {{localize ledgername}}</div>
   <li class="ledger-grid items-header flexrow">
@@ -9,10 +9,10 @@
   <div class="ledger-content-scroll">
     <div class="ledger-list">
       <ol class="items-list">
-      {{#each (reverse contents) as |content c|}}
+      {{#each (cprReverse contents) as |content c|}}
         <li class="ledger-grid item flexrow">
           <div class="ledger-number">
-            {{math "subtract" ../contents.length @index}}
+            {{cprMath "subtract" ../contents.length @index}}
           </div>
           <div class="ledger-transaction">
             {{content.[0]}}
@@ -26,4 +26,4 @@
     </div>
   </div>
 </form>
-{{trace "END CPR-LEDGER-FORM.HBS"}}
+{{cprTrace "END CPR-LEDGER-FORM.HBS"}}

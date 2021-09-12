@@ -1,4 +1,4 @@
-{{trace "CPR-SELECT-INSTALL-PROGRAMS-PROMPT.HBS"}}
+{{cprTrace "CPR-SELECT-INSTALL-PROGRAMS-PROMPT.HBS"}}
 <form>
   {{localize "CPR.dialog.selectInstallPrograms.selectInstalledPrograms"}} "{{cyberdeck.name}}", Choomba!
   <ol class="items-list">
@@ -14,7 +14,7 @@
     {{#each this.programList as |program|}}
     <li class="item flexrow">
       <div class="item flexrow setting-name text-nowrap">
-        {{program.data.name}} ({{localize (findConfigValue "programClassList" program.data.data.class)}})
+        {{program.data.name}} ({{localize (cprFindConfigValue "programClassList" program.data.data.class)}})
       </div>
       <div class="item flexrow setting-value text-nowrap text-space-around">
         {{#if program.data.data.isInstalled}}
@@ -28,4 +28,4 @@
 
   </ol>
 </form>
-{{trace "END CPR-SELECT-INSTALL-PROGRAMS-PROMPT.HBS"}}
+{{cprTrace "END CPR-SELECT-INSTALL-PROGRAMS-PROMPT.HBS"}}

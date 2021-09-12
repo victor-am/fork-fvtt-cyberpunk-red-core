@@ -1,4 +1,4 @@
-{{trace "CPR-SKILL.HBS"}}
+{{cprTrace "CPR-SKILL.HBS"}}
 {{!-- Skill Item Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
@@ -7,7 +7,7 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="data.category" data-dtype="{{data.data.category}}">
             {{#select data.data.category}}
-            {{#each (findConfigObj "skillCategories") as |category c|}}
+            {{#each (cprFindConfigObj "skillCategories") as |category c|}}
             <option value="{{c}}">{{localize category}}</option>
             {{/each}}
             {{/select}}
@@ -23,7 +23,7 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="data.difficulty" data-dtype="{{data.data.difficulty}}">
             {{#select data.data.difficulty}}
-                {{#each (findConfigObj "skillDifficulties") as |difficulty d|}}
+                {{#each (cprFindConfigObj "skillDifficulties") as |difficulty d|}}
                     <option value="{{d}}">{{localize difficulty}}</option>
                 {{/each}}
             {{/select}}
@@ -74,11 +74,11 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="data.stat" data-dtype="{{data.data.stat}}">
             {{#select data.data.stat}}
-                {{#each (findConfigObj "statList") as |stat s|}}
+                {{#each (cprFindConfigObj "statList") as |stat s|}}
                     <option value="{{s}}">{{localize stat}}</option>
                 {{/each}}
             {{/select}}
         </select>
     </div>
 </li>
-{{trace "END CPR-SKILL.HBS"}}
+{{cprTrace "END CPR-SKILL.HBS"}}

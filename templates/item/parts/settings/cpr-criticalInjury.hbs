@@ -1,4 +1,4 @@
-{{trace "CPR-CRITICALINJURY.HBS"}}
+{{cprTrace "CPR-CRITICALINJURY.HBS"}}
 {{!-- Critical Injury Item Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
@@ -17,7 +17,7 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="data.location" data-dtype="{{data.data.location}}">
             {{#select data.data.location}}
-                {{#each (findConfigObj "criticalInjuryLocation") as |location l|}}
+                {{#each (cprFindConfigObj "criticalInjuryLocation") as |location l|}}
                     <option value="{{l}}">{{localize location}}</option>
                 {{/each}}
             {{/select}}
@@ -33,7 +33,7 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="data.quickFix.type" data-dtype="{{data.data.quickFix.type}}">
             {{#select data.data.quickFix.type}}
-                {{#each (findConfigObj "criticalInjuryQuickFix") as |quickfix q|}}
+                {{#each (cprFindConfigObj "criticalInjuryQuickFix") as |quickfix q|}}
                     <option value="{{q}}">{{localize quickfix}}</option>
                 {{/each}}
             {{/select}}
@@ -42,7 +42,7 @@
 </li>
 
 {{!-- Critical Injury Quick Fix DV Settings--}}
-{{#if (compare data.data.quickFix.type "===" "paramedic")}}
+{{#if (cprCompare data.data.quickFix.type "===" "paramedic")}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
             {{localize "CPR.global.criticalInjury.quickfix"}} {{localize "CPR.itemSheet.criticalInjury.dv"}}
@@ -52,7 +52,7 @@
         </div>
     </li>
 {{/if}}
-{{#if (compare data.data.quickFix.type "===" "firstAidParamedic")}}
+{{#if (cprCompare data.data.quickFix.type "===" "firstAidParamedic")}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
             {{localize "CPR.global.criticalInjury.quickfix"}} {{localize "CPR.itemSheet.criticalInjury.dv"}}
@@ -81,7 +81,7 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="data.treatment.type" data-dtype="{{data.data.treatment.type}}">
             {{#select data.data.treatment.type}}
-                {{#each (findConfigObj "criticalInjuryTreatment") as |treatment t|}}
+                {{#each (cprFindConfigObj "criticalInjuryTreatment") as |treatment t|}}
                     <option value="{{t}}">{{localize treatment}}</option>
                 {{/each}}
             {{/select}}
@@ -90,7 +90,7 @@
 </li>
 
 {{!-- Critical Injury Treatment DV Settings--}}
-{{#if (compare data.data.treatment.type "===" "surgery")}}
+{{#if (cprCompare data.data.treatment.type "===" "surgery")}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
             {{localize "CPR.itemSheet.criticalInjury.treatment"}} {{localize "CPR.itemSheet.criticalInjury.dv"}}
@@ -100,7 +100,7 @@
         </div>
     </li>
 {{/if}}
-{{#if (compare data.data.treatment.type "===" "paramedicSurgery")}}
+{{#if (cprCompare data.data.treatment.type "===" "paramedicSurgery")}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
             {{localize "CPR.itemSheet.criticalInjury.treatment"}} {{localize "CPR.itemSheet.criticalInjury.dv"}} ({{localize "CPR.global.skills.paramedic"}})
@@ -131,4 +131,4 @@
         {{/if}}
     </div>
 </li>
-{{trace "END CPR-CRITICALINJURY.HBS"}}
+{{cprTrace "END CPR-CRITICALINJURY.HBS"}}

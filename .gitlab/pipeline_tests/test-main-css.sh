@@ -13,7 +13,7 @@ do
   curl -s -f https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/raw/dev/less/${FILE} --output ${WORK_DIR}/less/${FILE}
   if [[ $? -eq 0 ]]
   then
-    # Download was successful, compare files
+    # Download was successful, cprCompare files
     diff -w ${WORK_DIR}/less/${FILE} ./less/${FILE} >/dev/null
     # If files are different, return code will not be 0
     if [[ $? -ne 0 ]]

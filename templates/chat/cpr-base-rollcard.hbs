@@ -1,4 +1,4 @@
-{{trace "CPR-BASE-ROLLCARD.HBS"}}
+{{cprTrace "CPR-BASE-ROLLCARD.HBS"}}
 <div class="rollcard">
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-stat">
@@ -12,8 +12,8 @@
           {{!-- die image for initialRoll --}}
 
           {{#each faces as |dieFace|}}
-          {{#if (compare (compare ../die "===" "d6") "||" (compare ../die "===" "d10"))}}
-            <img class="{{diceSizeImageClass ../formula}}" src="systems/cyberpunk-red-core/icons/dice/black/{{../die}}_{{dieFace}}.svg">
+          {{#if (cprCompare (cprCompare ../die "===" "d6") "||" (cprCompare ../die "===" "d10"))}}
+            <img class="{{cprDiceSizeImageClass ../formula}}" src="systems/cyberpunk-red-core/icons/dice/black/{{../die}}_{{dieFace}}.svg">
             {{else}}
             <span class="text-large">{{dieFace}}&nbsp;</span>
             {{/if}}
@@ -36,4 +36,4 @@
     </div>
   </div>
 </div>
-{{trace "END CPR-BASE-ROLLCARD.HBS"}}
+{{cprTrace "END CPR-BASE-ROLLCARD.HBS"}}

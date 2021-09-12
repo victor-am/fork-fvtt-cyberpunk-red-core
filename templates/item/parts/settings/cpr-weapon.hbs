@@ -1,6 +1,6 @@
-{{trace "CPR-WEAPON.HBS"}}
+{{cprTrace "CPR-WEAPON.HBS"}}
 {{!-- Weapon Item Settings--}}
-{{#unless (compare (compare item.type "===" "itemUpgrade") "||" (compare item.type "===" "cyberware"))}}
+{{#unless (cprCompare (cprCompare item.type "===" "itemUpgrade") "||" (cprCompare item.type "===" "cyberware"))}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
             {{localize "CPR.global.equipState.equipped"}}
@@ -8,7 +8,7 @@
         <div class="item flexrow setting-value text-nowrap item-end">
             <select name="data.equipped" data-dtype="{{data.data.equipped}}">
                 {{#select data.data.equipped}}
-                    {{#each (findConfigObj "equipped") as |equip e|}}
+                    {{#each (cprFindConfigObj "equipped") as |equip e|}}
                         <option value="{{e}}">{{localize equip}}</option>
                     {{/each}}
                 {{/select}}
@@ -20,7 +20,7 @@
 {{!-- ROF Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.itemSheet.weapon.rof"}} {{showUpgrade this.item "rof"}}
+        {{localize "CPR.itemSheet.weapon.rof"}} {{cprShowUpgrade this.item "rof"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
@@ -32,7 +32,7 @@
 </li>
 
 {{!-- Concealable Settings--}}
-{{#unless (compare (compare item.type "===" "itemUpgrade") "||" (compare item.type "===" "cyberware"))}}
+{{#unless (cprCompare (cprCompare item.type "===" "itemUpgrade") "||" (cprCompare item.type "===" "cyberware"))}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
             {{localize "CPR.itemSheet.weapon.concealable"}}
@@ -55,7 +55,7 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="data.weaponType" data-dtype="{{data.data.weaponType}}">
             {{#select data.data.weaponType}}
-                {{#each (findConfigObj "weaponTypeList") as |type t|}}
+                {{#each (cprFindConfigObj "weaponTypeList") as |type t|}}
                     <option value="{{t}}">{{localize type}}</option>
                 {{/each}}
             {{/select}}
@@ -71,11 +71,11 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="data.weaponSkill" data-dtype="{{data.data.weaponSkill}}">
             {{#select data.data.weaponSkill}}
-                {{#each (sort (getProp this.filteredItems 'skill') "name") as |skillOption| }}
-                    {{#if (listContains "Athletics" skillOption.data.name)}}
+                {{#each (cprSort (cprGetProp this.cprFilteredItems 'skill') "name") as |skillOption| }}
+                    {{#if (cprListContains "Athletics" skillOption.data.name)}}
                         <option value="{{skillOption.data.name}}">{{skillOption.data.name}}</option>
                     {{/if}}
-                    {{#if (listContains "rangedweaponSkills,fightingSkills" skillOption.data.data.category)}}
+                    {{#if (cprListContains "rangedweaponSkills,fightingSkills" skillOption.data.data.category)}}
                         <option value="{{skillOption.data.name}}">{{skillOption.data.name}}</option>
                     {{/if}}
                 {{/each}}
@@ -92,7 +92,7 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="data.quality" data-dtype="{{data.data.quality}}">
             {{#select data.data.quality}}
-                {{#each (findConfigObj "itemQuality") as |quality q| }}
+                {{#each (cprFindConfigObj "itemQuality") as |quality q| }}
                     <option value="{{q}}">{{localize quality}}</option>
                 {{/each}}
             {{/select}}
@@ -103,7 +103,7 @@
 {{!-- Attack Mod Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.itemSheet.weapon.attackMod"}} {{showUpgrade this.item "attackmod"}}
+        {{localize "CPR.itemSheet.weapon.attackMod"}} {{cprShowUpgrade this.item "attackmod"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
@@ -115,7 +115,7 @@
 </li>
 
 {{!-- Hands Required Settings--}}
-{{#unless (compare (compare item.type "===" "itemUpgrade") "||" (compare item.type "===" "cyberware"))}}
+{{#unless (cprCompare (cprCompare item.type "===" "itemUpgrade") "||" (cprCompare item.type "===" "cyberware"))}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
             {{localize "CPR.itemSheet.weapon.handsRequired"}}
@@ -126,11 +126,11 @@
     </li>
 {{/unless}}
 
-{{#if (compare (compare data.data.weaponType "===" "unarmed") "||" (compare data.data.weaponType "===" "martialArts"))}}
+{{#if (cprCompare (cprCompare data.data.weaponType "===" "unarmed") "||" (cprCompare data.data.weaponType "===" "martialArts"))}}
     {{!-- Automatic damage calculation Settings for unarmed--}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-            {{#if (compare data.data.weaponType "===" "unarmed")}}
+            {{#if (cprCompare data.data.weaponType "===" "unarmed")}}
                 {{localize "CPR.itemSheet.weapon.unarmedAutomaticallyCalculatedSetting"}}
             {{else}}
                 {{localize "CPR.itemSheet.weapon.martialArtsAutomaticallyCalculatedSetting"}}
@@ -149,10 +149,10 @@
 {{!- Weapon Damage Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.global.generic.damage"}} {{showUpgrade this.item "damage"}}
+        {{localize "CPR.global.generic.damage"}} {{cprShowUpgrade this.item "damage"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        {{#if (compare (compare (compare data.data.weaponType "===" "unarmed") "||" (compare data.data.weaponType "===" "martialArts")) "&&" data.data.unarmedAutomaticCalculation)}}
+        {{#if (cprCompare (cprCompare (cprCompare data.data.weaponType "===" "unarmed") "||" (cprCompare data.data.weaponType "===" "martialArts")) "&&" data.data.unarmedAutomaticCalculation)}}
             <div class="item text-flex-end setting-value text-nowrap">
                 {{localize "CPR.itemSheet.weapon.unarmedAutomaticallyCalculated"}}
             </div>
@@ -213,9 +213,9 @@
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
             {{#if this.editable}}
-                <input name="data.fireModes.autoFire" class="" type="number" value="{{data.data.fireModes.autoFire}}">
+                <input name="data.cprFireModes.autoFire" class="" type="number" value="{{data.data.cprFireModes.autoFire}}">
             {{else}}
-                <span class="text-flex-end">{{data.data.fireModes.autoFire}}</span>
+                <span class="text-flex-end">{{data.data.cprFireModes.autoFire}}</span>
             {{/if}}
         </div>
     </li>
@@ -224,9 +224,9 @@
             {{localize "CPR.itemSheet.weapon.hasSuppressiveFire"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
-            {{#if data.data.fireModes.suppressiveFire}}
+            {{#if data.data.cprFireModes.suppressiveFire}}
                 {{#if this.editable}}
-                    <a class="item-checkbox" data-target="data.fireModes.suppressiveFire">
+                    <a class="item-checkbox" data-target="data.cprFireModes.suppressiveFire">
                 {{/if}}
                 <i class="far fa-check-circle"></i>
                 {{#if this.editable}}
@@ -234,7 +234,7 @@
                 {{/if}}
             {{else}}
                 {{#if this.editable}}
-                    <a class="item-checkbox" data-target="data.fireModes.suppressiveFire">
+                    <a class="item-checkbox" data-target="data.cprFireModes.suppressiveFire">
                 {{/if}}
                 <i class="far fa-circle"></i>
                 {{#if this.editable}}
@@ -247,7 +247,7 @@
     {{!- Ranged Weapon - Magazine Size Settings--}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-            {{localize "CPR.itemSheet.weapon.magazine"}} {{localize "CPR.itemSheet.weapon.size"}} {{showUpgrade this.item "magazine"}}
+            {{localize "CPR.itemSheet.weapon.magazine"}} {{localize "CPR.itemSheet.weapon.size"}} {{cprShowUpgrade this.item "magazine"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
             {{#if this.editable}}
@@ -257,7 +257,7 @@
             {{/if}}
         </div>
     </li>
-    {{#if (compare data.data.magazine.ammoId "!==" "")}}
+    {{#if (cprCompare data.data.magazine.ammoId "!==" "")}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.itemSheet.weapon.loadedAmmoQuantity"}}
@@ -282,15 +282,15 @@
         {{/if}}
     </div>
     <div class="compatible-ammo">
-        {{#each (findConfigObj "ammoVariety") as |ammoVariety a|}}
-            {{#if (listContains (getProp ../this.data.data "ammoVariety") a)}}
+        {{#each (cprFindConfigObj "ammoVariety") as |ammoVariety a|}}
+            {{#if (cprListContains (cprGetProp ../this.data.data "ammoVariety") a)}}
                 <li class="item flexrow">
                     <div class="item flexrow setting-name text-nowrap text-padding-left">
                         &nbsp;{{localize ammoVariety}}
                         {{#if ../this.isOwned}}
-                            {{#if (isNumber (math "sum" (getProp (filter ../this.filteredItems.ammo "data.data.variety" a) "data.data.amount")))}}
+                            {{#if (cprIsNumber (cprMath "sum" (cprGetProp (cprFilter ../this.cprFilteredItems.ammo "data.data.variety" a) "data.data.amount")))}}
                                 <div class="text-right">
-                                    &nbsp;&nbsp;({{localize "CPR.itemSheet.weapon.youOwn"}} {{math "sum" (getProp (filter ../this.filteredItems.ammo "data.data.variety" a) "data.data.amount")}} {{localize "CPR.itemSheet.weapon.rounds"}})
+                                    &nbsp;&nbsp;({{localize "CPR.itemSheet.weapon.youOwn"}} {{cprMath "sum" (cprGetProp (cprFilter ../this.cprFilteredItems.ammo "data.data.variety" a) "data.data.amount")}} {{localize "CPR.itemSheet.weapon.rounds"}})
                                 </div>
                             {{/if}}
                         {{/if}}
@@ -300,4 +300,4 @@
         {{/each}}
     </div>
 {{/if}}
-{{trace "END CPR-WEAPON.HBS"}}
+{{cprTrace "END CPR-WEAPON.HBS"}}

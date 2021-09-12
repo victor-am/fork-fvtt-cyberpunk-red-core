@@ -1,4 +1,4 @@
-{{trace "CPR-CRITICAL-INJURY-ROLLCARD.HBS"}}
+{{cprTrace "CPR-CRITICAL-INJURY-ROLLCARD.HBS"}}
 <div class="rollcard">
     <div class="rollcard-top">
         <div class="cpr-block chat-rollTitle-stat">
@@ -12,7 +12,7 @@
                 <div class="d6-dice-div">
                     {{!-- die image for initialRoll --}}
                     {{#each faces as |dieFace|}}
-                    <img class="{{diceSizeImageClass ../formula}}" src="systems/cyberpunk-red-core/icons/dice/black/d6_{{dieFace}}.svg">
+                    <img class="{{cprDiceSizeImageClass ../formula}}" src="systems/cyberpunk-red-core/icons/dice/black/d6_{{dieFace}}.svg">
                     {{/each}}
                 </div>
                 <div class="d6-number-div">
@@ -25,4 +25,4 @@
         </div>
     </div>
 </div>
-{{trace "END CPR-CRITICAL-INJURY-ROLLCARD.HBS"}}
+{{cprTrace "END CPR-CRITICAL-INJURY-ROLLCARD.HBS"}}

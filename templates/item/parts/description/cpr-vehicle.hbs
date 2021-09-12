@@ -1,4 +1,4 @@
-{{trace "CPR-VEHICLE.HBS"}}
+{{cprTrace "CPR-VEHICLE.HBS"}}
 <div class="item-description-tab">
     <div class="item-summary-section">
         <div class="item-summary-line">
@@ -7,19 +7,19 @@
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.price.market"}}:</span>
-            <span class="summary-value">{{localize (findConfigValue "itemPriceCategory" data.data.price.category)}}</span>
+            <span class="summary-value">{{localize (cprFindConfigValue "itemPriceCategory" data.data.price.category)}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.vehicle.seats"}}:</span>
-            <span class="summary-value">{{applyUpgrade item data.data.seats "seats"}}</span>
+            <span class="summary-value">{{cprApplyUpgrade item data.data.seats "seats"}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.vehicle.sdp"}}:</span>
-            <span class="summary-value">{{applyUpgrade item data.data.sdp "sdp"}}</span>
+            <span class="summary-value">{{cprApplyUpgrade item data.data.sdp "sdp"}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.vehicle.combatSpeed"}}:</span>
-            <span class="summary-value">{{applyUpgrade item data.data.speedCombat "speedCombat"}}</span>
+            <span class="summary-value">{{cprApplyUpgrade item data.data.speedCombat "speedCombat"}}</span>
         </div>
     </div>
     <div class="item-description-section">
@@ -27,4 +27,4 @@
         editable=editable}}
     </div>
 </div>
-{{trace "END CPR-VEHICLE.HBS"}}
+{{cprTrace "END CPR-VEHICLE.HBS"}}

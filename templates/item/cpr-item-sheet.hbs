@@ -1,4 +1,4 @@
-{{trace "CPR-ITEM-SHEET.HBS"}}
+{{cprTrace "CPR-ITEM-SHEET.HBS"}}
 <form class="item-sheet">
   <div class="item-top-pane">
     <div class="item-image-section">
@@ -9,13 +9,13 @@
     <div class="item-header-section items-list flexcol">
       <li class="item flexrow">
         <div class="item-name text-large text-bold text-left text-padding-left">
-          {{item.name}}{{#if (isUpgradable item.type)}}{{#if item.data.data.isUpgraded}}<sup><i title="{{localize "CPR.upgraded"}}" class="fab fa-uniregistry"></sup></i>{{/if}}{{/if}}
+          {{item.name}}{{#if (cprIsUpgradable item.type)}}{{#if item.data.data.isUpgraded}}<sup><i title="{{localize "CPR.upgraded"}}" class="fab fa-uniregistry"></sup></i>{{/if}}{{/if}}
         </div>
         <div class="item-detail text-right text-padding-right">
-           {{#if (isDebug)}}({{item.id}}){{/if}}
-          {{localize (findConfigValue "objectTypes" item.type)}} <a class="fas fa-question-circle help-article" href="https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/wikis/help-articles/{{item.type}}" title="{{localize "CPR.global.generic.helparticle"}}"></a>{{#if (compare data.data.source "!==" "")}} | {{data.data.source}}{{/if}}
+           {{#if (cprIsDebug)}}({{item.id}}){{/if}}
+          {{localize (cprFindConfigValue "objectTypes" item.type)}} <a class="fas fa-question-circle help-article" href="https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/wikis/help-articles/{{item.type}}" title="{{localize "CPR.global.generic.helparticle"}}"></a>{{#if (cprCompare data.data.source "!==" "")}} | {{data.data.source}}{{/if}}
         </div>
-        {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/header/cpr-VAR.hbs" item.type) this}}
+        {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/parts/header/cpr-VAR.hbs" item.type) this}}
       </li>
       <li></li>
       <li></li>
@@ -34,7 +34,7 @@
     </div>
     <div class="item-bottom-content-section">
       <div class="tab item-description-grid" data-group="primary" data-tab="item-description">
-        {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/description/cpr-VAR.hbs" item.type) this}}
+        {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/parts/description/cpr-VAR.hbs" item.type) this}}
       </div>
       <div class="tab item-settings-grid" data-group="primary" data-tab="item-settings">
         {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-settings.hbs" this}}
@@ -43,4 +43,4 @@
 
   </div>
 </form>
-{{trace "END CPR-ITEM-SHEET.HBS"}}
+{{cprTrace "END CPR-ITEM-SHEET.HBS"}}
