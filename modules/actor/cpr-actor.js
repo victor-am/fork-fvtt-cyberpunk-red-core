@@ -1003,9 +1003,10 @@ export default class CPRActor extends Actor {
    * @param {int} bonusDamage - value of the bonus damage
    * @param {string} location - location of the damage
    * @param {int} ablation - value of the ablation
-   * @param {boolean} ingoreHalfArmor - if half of the armor should be ignored
+   * @param {boolean} ignoreHalfArmor - if half of the armor should be ignored
+   * @param {boolean} damageLethal - if this damage can cause HP <= 0
    */
-  async _applyDamage(damage, bonusDamage, location, ablation, ingoreHalfArmor) {
+  async _applyDamage(damage, bonusDamage, location, ablation, ignoreHalfArmor, damageLethal) {
     LOGGER.trace("_applyDamage | CPRActor | Called.");
     let totalDamageDealt = 0;
     if (location === "brain") {
@@ -1029,7 +1030,7 @@ export default class CPRActor extends Actor {
         armorValue = newValue;
       }
     });
-    if (ingoreHalfArmor) {
+    if (ignoreHalfArmor) {
       armorValue = Math.ceil(armorValue / 2);
     }
     // Apply the bonusDamage, which penetrates the armor
@@ -1050,6 +1051,9 @@ export default class CPRActor extends Actor {
       takenDamage *= 2;
     }
     const currentHp = this.data.data.derivedStats.hp.value;
+    if (!damageLethal) {
+      takenDamage = currentHp - 1;
+    }
     await this.update({ "data.derivedStats.hp.value": currentHp - takenDamage });
     totalDamageDealt += takenDamage;
     // Ablate the armor correctly.

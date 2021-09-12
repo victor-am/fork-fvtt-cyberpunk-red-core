@@ -1,4 +1,13 @@
-# Version 0.80.0 | Date: WIP
+# Version DEV | Date: WIP
+**New Features**
+
+**Changes**
+- Actor damage application function has a new boolen argument to specify if the damage is lethal or not.  Non-lethal damage will not reduce an actor below 1 hit point.
+
+**Bug Fixes**
+- Rubber ammunition no longer ablates armor and will not reduce an actor to below 1 hit points per RAW.
+- 
+# Version 0.79.1 | Date: 2021-09-11
 - Fixed #325 - DV ruler broken. Restored by naming the function.
 
 # Version 0.79.0 | Date: 2021-09-11
