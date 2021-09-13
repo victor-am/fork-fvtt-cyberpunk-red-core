@@ -1,4 +1,12 @@
-# Version 0.80.0 | Date: WIP
+# Version DEV | Date: WIP
+**New Features**
+
+**Changes**
+
+**Bug Fixes**
+- Fixes #286: The item data was not being passed when dragging from a Mook sheet causing the drag/drop to fail. This has been resolved.
+- 
+# Version 0.79.1 | Date: 2021-09-11
 - Fixed #325 - DV ruler broken. Restored by naming the function.
 
 # Version 0.79.0 | Date: 2021-09-11
