@@ -1,4 +1,13 @@
-# Version 0.80.0 | Date: WIP
+# Version DEV | Date: WIP
+**New Features**
+
+**Changes**
+
+**Bug Fixes**
+- Fixed #298 - DV ruler will attempt to automatically use the Autofire DV Table if an Autofire DV Table exists.
+  - NOTE: If your wielded weapon does not have a DV Table associated with the weapon item settings (example Assault Rifle), there is no way to know what the "proper DV" table is for this weapon, therefore if your Token already has a DV Table set on it of a weapon that also has an Autofire mode (example SMG), when you enable the Autofire radio button on the Assault Rifle, it will change to the SMG Autofire DV Table.  Best practice: Set DV Tables on the weapons themselves.
+- 
+# Version 0.79.1 | Date: WIP
 - Fixed #325 - DV ruler broken. Restored by naming the function.
 
 # Version 0.79.0 | Date: 2021-09-11
