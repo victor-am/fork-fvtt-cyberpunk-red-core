@@ -34,7 +34,7 @@ export default class UpdateScreen extends Application {
     const releaseInstructions = (response.status === 200) ? await response.text() : "";
 
     const data = {
-      updateBanner: SystemUtils.Format("CPR.system.update.welcomeToSystem", {system: game.system.data.title}),
+      updateBanner: SystemUtils.Format("CPR.system.update.welcomeToSystem", { system: game.system.data.title }),
       releaseVersion: game.system.data.version,
       changelogInformation: SystemUtils.Format("CPR.system.update.changelogInformation"),
       featureVideoTitle: SystemUtils.Format("CPR.system.update.videoInformationTitle"),
