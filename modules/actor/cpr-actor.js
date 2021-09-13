@@ -1051,7 +1051,7 @@ export default class CPRActor extends Actor {
       takenDamage *= 2;
     }
     const currentHp = this.data.data.derivedStats.hp.value;
-    if (!damageLethal) {
+    if (takenDamage >= currentHp && !damageLethal) {
       takenDamage = currentHp - 1;
     }
     await this.update({ "data.derivedStats.hp.value": currentHp - takenDamage });
