@@ -6,14 +6,15 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 export default class UpdateScreen extends Application {
   static get defaultOptions() {
     LOGGER.trace("defaultOptions | UpdateScreen | Called.");
-    const { title } = game.system.data;
+    const systemTitle = game.system.data.title;
     const { version } = game.system.data;
+    const title = SystemUtils.Format("CPR.system.update.popupTitle", { systemTitle, version });
     return mergeObject(super.defaultOptions, {
       template: `systems/cyberpunk-red-core/templates/dialog/cpr-update-announcement.hbs`,
       resizable: true,
       width: 450,
       height: 636,
-      title: `${title} - Version ${version} Upgrade`,
+      title,
     });
   }
 
