@@ -292,6 +292,7 @@ export default function registerHandlebarsHelpers() {
    */
   Handlebars.registerHelper("cprSort", (arr, property) => {
     LOGGER.trace("sort | handlebarsHelper | Called.");
+    LOGGER.debug(typeof arr);
     arr.sort((a, b) => {
       let comparator = 0;
       if (a[property] > b[property]) {

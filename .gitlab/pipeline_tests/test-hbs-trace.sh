@@ -27,8 +27,8 @@ do
       # Extract the name of the file and convert it to allcaps
       base=$(basename $file | tr a-z A-Z)
       # Create the expected trace statements
-      first="{{trace \"${base}\"}}"
-      last="{{trace \"END ${base}\"}}"
+      first="{{cprTrace \"${base}\"}}"
+      last="{{cprTrace \"END ${base}\"}}"
       # Look for the starting trace messages in the file
       if [ $(grep "${first}" $file | wc -l) != 1 ]
       then
@@ -47,7 +47,7 @@ done
 if [ $i -gt 0 ]
 then
     echo "There are" $i "missing/incorrect trace statements in the hbs files, as listed above."
-    echo "A trace statement is required if a handelbar helper is called, which we wrote ourselves."
+    echo "A trace statement is required if a handlebar helper is called, which we wrote ourselves."
     echo "Please add or correct the trace statements."
     exit 1
 fi
