@@ -69,6 +69,22 @@ export default function registerHandlebarsHelpers() {
   });
 
   /**
+   * Check if the passed object is "empty", meaning has no elements or properties
+   */
+  Handlebars.registerHelper("cprIsEmpty", (object) => {
+    if (typeof object === "object") {
+      if (Array.isArray(object)) {
+        if (object.length === 0) {
+          return true;
+        }
+      } else if (Object.keys(object).length === 0) {
+        return true;
+      }
+    }
+    return false;
+  });
+
+  /**
    * Return true if a literal is a number
    */
   Handlebars.registerHelper("cprIsNumber", (value) => !Number.isNaN(value));
@@ -379,6 +395,18 @@ export default function registerHandlebarsHelpers() {
   });
 
   /**
+   * Get the fire type selected for an owned weapon. This is stored as a flag on an actor.
+   */
+  Handlebars.registerHelper("cprFireFlag", (actor, firetype, weaponID) => {
+    LOGGER.trace("cprFireFlag | handlebarsHelper | Called.");
+    const flag = getProperty(actor, `data.flags.cyberpunk-red-core.firetype-${weaponID}`);
+    if (flag === firetype) {
+      return "checked";
+    }
+    return "";
+  });
+
+  /**
    * Return a system setting value given the name
    */
   Handlebars.registerHelper("cprSystemConfig", (settingName) => game.settings.get("cyberpunk-red-core", settingName));
@@ -410,6 +438,51 @@ export default function registerHandlebarsHelpers() {
     // here as a comment: "CPR.global.skills.athleticsAndContortionist", "CPR.global.skills.basicTechAndWeaponstech",
     // "CPR.global.skills.compositionAndEducation", "CPR.global.skills.enduranceAndResistTortureAndDrugs", "CPR.global.skills.evasionAndDance",
     // "CPR.global.skills.firstAidAndParamedicAndSurgery", "CPR.global.skills.persuasionAndTrading", "CPR.global.skills.pickLockAndPickPocket"
+  });
+
+  /**
+   * Sort core skills, returning a new array. This goes a step further and considers unicode normalization form for
+   * specific characters like slashes and parantheses.
+   */
+  Handlebars.registerHelper("cprSortCoreSkills", (object) => {
+    LOGGER.trace("cprSortCoreSkills | handlebarsHelper | Called.");
+    const objectTranslated = [];
+    object.forEach((o) => {
+      const newElement = o;
+      if (o.data.data.core) {
+        const cprDot = "CPR.global.skills.";
+        const initialSplit = o.name.split(" ").join("");
+        const orCaseSplit = initialSplit.split("/").join("Or");
+        const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
+        const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
+        if (o.name === "Conceal/Reveal Object" || o.name === "Paint/Draw/Sculpt" || o.name === "Resist Torture/Drugs") {
+          const string = cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
+          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        } else if (o.name === "Language (Streetslang)") {
+          // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
+          // comment to fulfill the test case of the language file.
+          const string = cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
+          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        } else {
+          const string = cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
+          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+      } else {
+        newElement.translatedName = o.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      }
+      objectTranslated.push(newElement);
+    });
+
+    objectTranslated.sort((a, b) => {
+      let comparator = 0;
+      if (a.translatedName > b.translatedName) {
+        comparator = 1;
+      } else if (b.translatedName > a.translatedName) {
+        comparator = -1;
+      }
+      return comparator;
+    });
+    return objectTranslated;
   });
 
   /**
@@ -458,7 +531,7 @@ export default function registerHandlebarsHelpers() {
    * used in the mook sheet.
    */
   Handlebars.registerHelper("cprGetMookCyberware", (installedCyberware) => {
-    LOGGER.trace("getMookCyberware | handlebarsHelper | Called.");
+    LOGGER.trace("cprGetMookCyberware | handlebarsHelper | Called.");
     const installedCyberwareList = [];
     Object.entries(installedCyberware).forEach(([k, v]) => {
       if (installedCyberware[k].length > 0) {
@@ -474,6 +547,28 @@ export default function registerHandlebarsHelpers() {
       }
     });
     return installedCyberwareList;
+  });
+
+  /**
+   * Return how many installed cyberware items an actor has
+   */
+  Handlebars.registerHelper("cprGetMookCyberwareLength", (installedCyberware) => {
+    LOGGER.trace("getMookCyberwareLength | handlebarsHelper | Called.");
+    const installedCyberwareList = [];
+    Object.entries(installedCyberware).forEach(([k, v]) => {
+      if (installedCyberware[k].length > 0) {
+        if (k !== "cyberwareInternal" && k !== "cyberwareExternal" && k !== "fashionware") {
+          v.forEach((a) => {
+            installedCyberwareList.push(a);
+          });
+        } else if (installedCyberware[k][0].optionals.length > 0) {
+          v.forEach((a) => {
+            installedCyberwareList.push(a);
+          });
+        }
+      }
+    });
+    return installedCyberwareList.length;
   });
 
   /**
@@ -550,6 +645,17 @@ export default function registerHandlebarsHelpers() {
       }
     }
     return upgradeResult;
+  });
+
+  /**
+   * Return true if a bit of text matches a filter value. If the filter is not set, everything matches.
+   */
+  Handlebars.registerHelper("cprSheetContentFilter", (filterValue, applyToText) => {
+    LOGGER.trace("cprFilter | handlebarsHelper | Called.");
+    if (typeof filterValue === "undefined" || filterValue === "" || !game.settings.get("cyberpunk-red-core", "enableSheetContentFilter")) {
+      return true;
+    }
+    return applyToText.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1;
   });
 
   /**

@@ -85,7 +85,7 @@
                 <a class="rollable" data-roll-type="attack" data-item-id={{weapon.id}}>
                   <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
                 </a>
-                {{#if (cprCompare (fireflag ../actor "suppressive" weapon.id) "!==" "checked")}}
+                {{#if (cprCompare (cprFireFlag ../actor "suppressive" weapon.id) "!==" "checked")}}
                   <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}}
                     data-damage="{{weapon.data.data.damage}}">
                     <i class="fas fa-tint red-fg" title="Roll Damage"></i>
@@ -156,7 +156,7 @@
                           <a class="rollable" data-roll-type="attack" data-item-id={{weapon.id}}>
                             <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
                           </a>
-                          {{#if (cprCompare (fireflag ../actor "suppressive" weapon.id) "!==" "checked")}}
+                          {{#if (cprCompare (cprFireFlag ../actor "suppressive" weapon.id) "!==" "checked")}}
                             <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}}
                               data-damage="{{weapon.data.data.damage}}">
                               <i class="fas fa-tint red-fg" title="Roll Damage"></i>
@@ -240,7 +240,7 @@
                 <a class="rollable" data-roll-type="attack" data-item-id={{weapon.id}}>
                   <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
                 </a>
-                {{#if (cprCompare (fireflag ../actor "suppressive" weapon.id) "!==" "checked")}}
+                {{#if (cprCompare (cprFireFlag ../actor "suppressive" weapon.id) "!==" "checked")}}
                   <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}}
                     data-damage="{{weapon.data.data.damage}}">
                     <i class="fas fa-tint red-fg" title="Roll Damage"></i>
@@ -311,7 +311,7 @@
                           <a class="rollable" data-roll-type="attack" data-item-id={{weapon.id}}>
                             <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
                           </a>
-                          {{#if (cprCompare (fireflag ../actor "suppressive" weapon.id) "!==" "checked")}}
+                          {{#if (cprCompare (cprFireFlag ../actor "suppressive" weapon.id) "!==" "checked")}}
                             <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}}
                               data-damage="{{weapon.data.data.damage}}">
                               <i class="fas fa-tint red-fg" title="Roll Damage"></i>
