@@ -10,6 +10,7 @@ export default function registerHandlebarsHelpers() {
    * Run a comparison given a stringified operator and 2 operands. Returns true or false.
    */
   Handlebars.registerHelper("cprCompare", (v1, operator, v2) => {
+    LOGGER.trace("cprCompare | handlebarsHelper | Called.");
     switch (operator) {
       case "==":
         return v1 == v2; // eslint-disable-line eqeqeq
@@ -38,6 +39,7 @@ export default function registerHandlebarsHelpers() {
    * Get the value of a property on a given object
    */
   Handlebars.registerHelper("cprGetProp", (object, property) => {
+    LOGGER.trace("cprGetProp | handlebarsHelper | Called.");
     if (typeof object !== "undefined") {
       if (typeof object.length === "undefined") {
         return getProperty(object, property);
@@ -62,6 +64,7 @@ export default function registerHandlebarsHelpers() {
    * Return true if an object is defined or not
    */
   Handlebars.registerHelper("cprIsDefined", (object) => {
+    LOGGER.trace("cprIsDefined | handlebarsHelper | Called.");
     if (typeof object === "undefined") {
       return false;
     }
@@ -72,6 +75,7 @@ export default function registerHandlebarsHelpers() {
    * Check if the passed object is "empty", meaning has no elements or properties
    */
   Handlebars.registerHelper("cprIsEmpty", (object) => {
+    LOGGER.trace("cprIsEmpty | handlebarsHelper | Called.");
     if (typeof object === "object") {
       if (Array.isArray(object)) {
         if (object.length === 0) {
@@ -94,7 +98,7 @@ export default function registerHandlebarsHelpers() {
    * in order to the remaining arguments passed to this helper.
    */
   Handlebars.registerHelper("cprMergeForPartialArg", (...args) => {
-    LOGGER.trace("mergeForPartialArg | handlebarsHelper | Called.");
+    LOGGER.trace("cprMergeForPartialArg | handlebarsHelper | Called.");
     const partialArgs = [...args];
     const partialKeys = partialArgs[0].replace(/\s/g, "").split(",");
     partialArgs.shift();
@@ -111,7 +115,7 @@ export default function registerHandlebarsHelpers() {
    * Given a list of objects, return the subset that a property with the desired value
    */
   Handlebars.registerHelper("cprFilter", (objList, key, value) => {
-    LOGGER.trace("filter | handlebarsHelper | Called.");
+    LOGGER.trace("cprFilter | handlebarsHelper | Called.");
     if (objList === undefined) {
       const warnText = "Improper use of the filter helper. This should not occur. Always provide an object list and not an undefined value.";
       LOGGER.warn(`${warnText} The following arguments were passed: objList = ${objList}, key = ${key}, value = ${value}`);
@@ -141,7 +145,7 @@ export default function registerHandlebarsHelpers() {
    * a few exceptions.
    */
   Handlebars.registerHelper("cprCalculateStackValue", (item) => {
-    LOGGER.trace("calculateStackValue | handlebarsHelper | Called.");
+    LOGGER.trace("cprCalculateStackValue | handlebarsHelper | Called.");
     const { type } = item;
     const price = item.data.data.price.market;
     const { amount } = item.data.data;
@@ -159,7 +163,7 @@ export default function registerHandlebarsHelpers() {
    * Get a config mapping from config.js by name and key
    */
   Handlebars.registerHelper("cprFindConfigValue", (obj, key) => {
-    LOGGER.trace("findConfigValue | handlebarsHelper | Called.");
+    LOGGER.trace("cprFindConfigValue | handlebarsHelper | Called.");
     if (obj in CPR) {
       return CPR[obj][key];
     }
@@ -170,7 +174,7 @@ export default function registerHandlebarsHelpers() {
    * Get a config mapping from config.js by name
    */
   Handlebars.registerHelper("cprFindConfigObj", (obj) => {
-    LOGGER.trace("findConfigObj | handlebarsHelper | Called.");
+    LOGGER.trace("cprFindConfigObj | handlebarsHelper | Called.");
     if (obj in CPR) {
       return CPR[obj];
     }
@@ -181,7 +185,7 @@ export default function registerHandlebarsHelpers() {
    * Show option slots on a cyberware item
    */
   Handlebars.registerHelper("cprShowOptionSlotStatus", (obj) => {
-    LOGGER.trace("showOptionSlotStatus | handlebarsHelper | Called.");
+    LOGGER.trace("cprShowOptionSlotStatus | handlebarsHelper | Called.");
     if (obj.type === "cyberware") {
       const { optionSlots } = obj.data.data;
       if (optionSlots > 0) {
@@ -199,7 +203,7 @@ export default function registerHandlebarsHelpers() {
    * any of them match a given value.
    */
   Handlebars.registerHelper("cprListContains", (list, val) => {
-    LOGGER.trace("listContains | handlebarsHelper | Called.");
+    LOGGER.trace("cprListContains | handlebarsHelper | Called.");
     let array = list;
     if (array) {
       switch (typeof array) {
@@ -224,7 +228,7 @@ export default function registerHandlebarsHelpers() {
    * Returns true if an array contains a desired element
    */
   Handlebars.registerHelper("cprObjectListContains", (objectList, data, val) => {
-    LOGGER.trace("Calling objectListContains Helper");
+    LOGGER.trace("cprObjectListContains | handlebarsHelper | Called.");
     const array = objectList;
     if (array) {
       return array.some((o) => o[data] === val);
@@ -237,7 +241,7 @@ export default function registerHandlebarsHelpers() {
    * produce file names for partial templates.
    */
   Handlebars.registerHelper("cprGeneratePartial", (arg1, arg2) => {
-    LOGGER.trace("generatePartial | handlebarsHelper | Called.");
+    LOGGER.trace("cprGeneratePartial | handlebarsHelper | Called.");
     return arg1.replace("VAR", arg2);
   });
 
@@ -246,7 +250,7 @@ export default function registerHandlebarsHelpers() {
    * and how many need to be displayed in a chat card.
    */
   Handlebars.registerHelper("cprDiceSizeImageClass", (formula) => {
-    LOGGER.trace("diceSizeImageClass | handlebarsHelper | Called.");
+    LOGGER.trace("cprDiceSizeImageClass | handlebarsHelper | Called.");
     let diceSize = "";
     let className = "d10";
     const formulaParts = formula.split("d");
@@ -291,7 +295,7 @@ export default function registerHandlebarsHelpers() {
    * Sort an array of objects by the values in a specific property
    */
   Handlebars.registerHelper("cprSort", (arr, property) => {
-    LOGGER.trace("sort | handlebarsHelper | Called.");
+    LOGGER.trace("cprSort | handlebarsHelper | Called.");
     LOGGER.debug(typeof arr);
     arr.sort((a, b) => {
       let comparator = 0;
@@ -309,7 +313,7 @@ export default function registerHandlebarsHelpers() {
    * Return an array in reverse order
    */
   Handlebars.registerHelper("cprReverse", (arr) => {
-    LOGGER.trace("reverse | handlebarsHelper | Called.");
+    LOGGER.trace("cprReverse | handlebarsHelper | Called.");
     arr.reverse();
     return arr;
   });
@@ -319,7 +323,7 @@ export default function registerHandlebarsHelpers() {
    * operator and an array of operands
    */
   Handlebars.registerHelper("cprMath", (...args) => {
-    LOGGER.trace("math | handlebarsHelper | Called.");
+    LOGGER.trace("cprMath | handlebarsHelper | Called.");
     let mathArgs = [...args];
     let mathFunction = mathArgs[0];
     mathArgs.shift();
@@ -357,7 +361,7 @@ export default function registerHandlebarsHelpers() {
    * Given a skill (item), return the stat associated with it, which is a property buried therein
    */
   Handlebars.registerHelper("cprGetSkillStat", (skill, actor) => {
-    LOGGER.trace("getSkillStat | handlebarsHelper | Called.");
+    LOGGER.trace("cprGetSkillStat | handlebarsHelper | Called.");
     const skillStat = skill.data.data.stat;
     return actor.data.data.stats[skillStat].value;
   });
@@ -366,7 +370,7 @@ export default function registerHandlebarsHelpers() {
    * Return true if any installed cyberware is a weapon
    */
   Handlebars.registerHelper("cprHasCyberneticWeapons", (actor) => {
-    LOGGER.trace("hasCyberneticWeapons | handlebarsHelper | Called.");
+    LOGGER.trace("cprHasCyberneticWeapons | handlebarsHelper | Called.");
     let returnValue = false;
     const cyberware = actor.getInstalledCyberware();
     cyberware.forEach((cw) => {
@@ -382,16 +386,11 @@ export default function registerHandlebarsHelpers() {
    * Used to figure out if a weapon was just used with an alternative fire mode set.
    */
   Handlebars.registerHelper("cprFireMode", (actor, firemode, weaponID) => {
-    LOGGER.trace("fireMode | handlebarsHelper | Called.");
-    LOGGER.debug(`firemode is ${firemode}`);
-    LOGGER.debug(`weaponID is ${weaponID}`);
+    LOGGER.trace("cprFireMode | handlebarsHelper | Called.");
     const flag = getProperty(actor, `data.flags.cyberpunk-red-core.firetype-${weaponID}`);
-    LOGGER.debugObject(flag);
     if (flag === firemode) {
-      LOGGER.debug("returning true");
       return true;
     }
-    LOGGER.debug("returning false");
     return false;
   });
 
@@ -419,7 +418,7 @@ export default function registerHandlebarsHelpers() {
    * Example: Resist Torture/Drugs -> Resist Torture Or Drugs
    */
   Handlebars.registerHelper("cprSplitJoinCoreSkills", (string) => {
-    LOGGER.trace("splitJoinCoreSkills | handlebarsHelper | Called.");
+    LOGGER.trace("cprSplitJoinCoreSkills | handlebarsHelper | Called.");
     const cprDot = "CPR.global.skills.";
     const initialSplit = string.split(" ").join("");
     const orCaseSplit = initialSplit.split("/").join("Or");
@@ -490,7 +489,7 @@ export default function registerHandlebarsHelpers() {
    * Get an Item ID from the catalog by name and type. Does not consider owned items.
    */
   Handlebars.registerHelper("cprItemIdFromName", (itemName, itemType) => {
-    LOGGER.trace("itemIdFromName | handlebarsHelper | Called.");
+    LOGGER.trace("cprItemIdFromName | handlebarsHelper | Called.");
     const item = game.items.find((i) => i.data.name === itemName && i.type === itemType);
     if (item !== undefined) {
       return item.data._id;
@@ -507,7 +506,7 @@ export default function registerHandlebarsHelpers() {
    * Concatenate 1 object to another with the concat method.
    */
   Handlebars.registerHelper("cprObjConcat", (obj1, obj2) => {
-    LOGGER.trace("objConcat | handlebarsHelper | Called.");
+    LOGGER.trace("cprObjConcat | handlebarsHelper | Called.");
     const obj = obj1.concat(obj2);
     return obj;
   });
@@ -517,7 +516,7 @@ export default function registerHandlebarsHelpers() {
    * specialized skills a mook may have.
    */
   Handlebars.registerHelper("cprGetMookSkills", (array) => {
-    LOGGER.trace("getMookSkills | handlebarsHelper | Called.");
+    LOGGER.trace("cprGetMookSkills | handlebarsHelper | Called.");
     const skillList = [];
     array.forEach((skill) => {
       if (skill.data.data.level > 0 || skill.data.data.skillmod > 0) {
@@ -554,7 +553,7 @@ export default function registerHandlebarsHelpers() {
    * Return how many installed cyberware items an actor has
    */
   Handlebars.registerHelper("cprGetMookCyberwareLength", (installedCyberware) => {
-    LOGGER.trace("getMookCyberwareLength | handlebarsHelper | Called.");
+    LOGGER.trace("cprGetMookCyberwareLength | handlebarsHelper | Called.");
     const installedCyberwareList = [];
     Object.entries(installedCyberware).forEach(([k, v]) => {
       if (installedCyberware[k].length > 0) {
@@ -576,7 +575,7 @@ export default function registerHandlebarsHelpers() {
    * Get details about an entity type that the game system is aware of
    */
   Handlebars.registerHelper("cprEntityTypes", (entityType) => {
-    LOGGER.trace("entityTypes | handlebarsHelper | Called.");
+    LOGGER.trace("cprEntityTypes | handlebarsHelper | Called.");
     return typeof game.system.entityTypes[entityType] === "object" ? game.system.entityTypes[entityType] : {};
   });
 
@@ -584,7 +583,7 @@ export default function registerHandlebarsHelpers() {
    * Returns true if an item type can be upgraded. This means it has the upgradable property in the data model.
    */
   Handlebars.registerHelper("cprIsUpgradable", (itemType) => {
-    LOGGER.trace("isUpgradable | handlebarsHelper | Called.");
+    LOGGER.trace("cprIsUpgradable | handlebarsHelper | Called.");
     const itemEntities = game.system.template.Item;
     return itemEntities[itemType].templates.includes("upgradable");
   });
@@ -594,7 +593,7 @@ export default function registerHandlebarsHelpers() {
    * To Do: isUpgradeable should use this instead
    */
   Handlebars.registerHelper("cprHasTemplate", (itemType, templateName) => {
-    LOGGER.trace("hasTemplate | handlebarsHelper | Called.");
+    LOGGER.trace("cprHasTemplate | handlebarsHelper | Called.");
     const itemEntities = game.system.template.Item;
     return itemEntities[itemType].templates.includes(templateName);
   });
@@ -603,7 +602,7 @@ export default function registerHandlebarsHelpers() {
    * Return the stat-changing details as text if an object has an upgrade
    */
   Handlebars.registerHelper("cprShowUpgrade", (obj, dataPoint) => {
-    LOGGER.trace("showUpgrade | handlebarsHelper | Called.");
+    LOGGER.trace("cprShowUpgrade | handlebarsHelper | Called.");
     const itemEntities = game.system.template.Item;
     const itemType = obj.type;
     let upgradeText = "";
@@ -623,7 +622,7 @@ export default function registerHandlebarsHelpers() {
    * result.
    */
   Handlebars.registerHelper("cprApplyUpgrade", (obj, baseValue, dataPoint) => {
-    LOGGER.trace("applyUpgrade | handlebarsHelper | Called.");
+    LOGGER.trace("cprApplyUpgrade | handlebarsHelper | Called.");
     const itemEntities = game.system.template.Item;
     const itemType = obj.type;
     let upgradeResult = Number(baseValue);
@@ -663,7 +662,7 @@ export default function registerHandlebarsHelpers() {
    * Return true/false depending on whether debugElements setting in the game is enabled
    */
   Handlebars.registerHelper("cprIsDebug", () => {
-    LOGGER.trace("isDebug | handlebarsHelper | Called.");
+    LOGGER.trace("cprIsDebug | handlebarsHelper | Called.");
     return game.settings.get("cyberpunk-red-core", "debugElements");
   });
 
