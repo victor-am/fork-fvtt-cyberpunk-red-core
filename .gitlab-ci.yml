@@ -67,3 +67,9 @@ code-test 2/2:
   script:
     - echo "Checking if our own localization and notification code is used..."
     - ./.gitlab/pipeline_tests/test-misc.sh
+
+helper-test:
+  stage: test
+  script:
+  - echo "Checking use of handlebars helpers..."
+  - ./.gitlab/pipeline_tests/test-handlebars-helpers.sh
