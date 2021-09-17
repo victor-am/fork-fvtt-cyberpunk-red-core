@@ -71,7 +71,7 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="data.weaponSkill" data-dtype="{{data.data.weaponSkill}}">
             {{#select data.data.weaponSkill}}
-                {{#each (cprSort (cprGetProp this.cprFilteredItems 'skill') "name") as |skillOption| }}
+                {{#each (cprSort (cprGetProp this.filteredItems 'skill') "name") as |skillOption| }}
                     {{#if (cprListContains "Athletics" skillOption.data.name)}}
                         <option value="{{skillOption.data.name}}">{{skillOption.data.name}}</option>
                     {{/if}}
@@ -213,9 +213,9 @@
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
             {{#if this.editable}}
-                <input name="data.cprFireModes.autoFire" class="" type="number" value="{{data.data.cprFireModes.autoFire}}">
+                <input name="data.fireModes.autoFire" class="" type="number" value="{{data.data.fireModes.autoFire}}">
             {{else}}
-                <span class="text-flex-end">{{data.data.cprFireModes.autoFire}}</span>
+                <span class="text-flex-end">{{data.data.fireModes.autoFire}}</span>
             {{/if}}
         </div>
     </li>
@@ -224,9 +224,9 @@
             {{localize "CPR.itemSheet.weapon.hasSuppressiveFire"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
-            {{#if data.data.cprFireModes.suppressiveFire}}
+            {{#if data.data.fireModes.suppressiveFire}}
                 {{#if this.editable}}
-                    <a class="item-checkbox" data-target="data.cprFireModes.suppressiveFire">
+                    <a class="item-checkbox" data-target="data.fireModes.suppressiveFire">
                 {{/if}}
                 <i class="far fa-check-circle"></i>
                 {{#if this.editable}}
@@ -234,7 +234,7 @@
                 {{/if}}
             {{else}}
                 {{#if this.editable}}
-                    <a class="item-checkbox" data-target="data.cprFireModes.suppressiveFire">
+                    <a class="item-checkbox" data-target="data.fireModes.suppressiveFire">
                 {{/if}}
                 <i class="far fa-circle"></i>
                 {{#if this.editable}}
@@ -288,9 +288,9 @@
                     <div class="item flexrow setting-name text-nowrap text-padding-left">
                         &nbsp;{{localize ammoVariety}}
                         {{#if ../this.isOwned}}
-                            {{#if (cprIsNumber (cprMath "sum" (cprGetProp (cprFilter ../this.cprFilteredItems.ammo "data.data.variety" a) "data.data.amount")))}}
+                            {{#if (cprIsNumber (cprMath "sum" (cprGetProp (cprFilter ../this.filteredItems.ammo "data.data.variety" a) "data.data.amount")))}}
                                 <div class="text-right">
-                                    &nbsp;&nbsp;({{localize "CPR.itemSheet.weapon.youOwn"}} {{cprMath "sum" (cprGetProp (cprFilter ../this.cprFilteredItems.ammo "data.data.variety" a) "data.data.amount")}} {{localize "CPR.itemSheet.weapon.rounds"}})
+                                    &nbsp;&nbsp;({{localize "CPR.itemSheet.weapon.youOwn"}} {{cprMath "sum" (cprGetProp (cprFilter ../this.filteredItems.ammo "data.data.variety" a) "data.data.amount")}} {{localize "CPR.itemSheet.weapon.rounds"}})
                                 </div>
                             {{/if}}
                         {{/if}}

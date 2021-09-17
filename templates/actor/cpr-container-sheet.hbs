@@ -184,7 +184,7 @@
               </span>
             </li>
             <ol class="items-list">
-              {{#each (cprSort (cprGetProp ../actor.data.cprFilteredItems c) "name")}}
+              {{#each (cprSort (cprGetProp ../actor.data.filteredItems c) "name")}}
               {{!-- Row for individual item --}}
               {{> "systems/cyberpunk-red-core/templates/actor/container/cpr-item-content.hbs" (cprMergeForPartialArg "item,actor,isGM" this ../../actor ../../isGM)}}
               {{/each}}

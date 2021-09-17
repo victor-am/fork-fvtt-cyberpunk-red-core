@@ -1,10 +1,10 @@
 {{cprTrace "CPR-ROLE.HBS"}}
 <div class="role-tab">
   <div class="role-section">
-    {{#if (cprCompare actor.data.cprFilteredItems.role.length "===" 0)}}
+    {{#if (cprCompare actor.data.filteredItems.role.length "===" 0)}}
       {{localize "CPR.characterSheet.bottomPane.role.noRolesWarning"}}
     {{else}}
-      {{#each (cprSort actor.data.cprFilteredItems.role "name") as |role|}}
+      {{#each (cprSort actor.data.filteredItems.role "name") as |role|}}
       <div class="role-item">
         <ol class="items-list role-list">
           <div class="collapsible">

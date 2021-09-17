@@ -9,8 +9,13 @@ i=0
 for helper in $helpers ; do
     grep -rq $helper ./templates/*
     if [ $? != 0 ] ; then
-        echo "Handlebars helper not used: $helper"
-        let "i+=1"
+        if [ $helper == "cprDebug" ] || [ $helper == "cprIsDebug" ] ; then
+            # it is ok if cprDebug and cprIsDebug are not used anywhere
+            echo "$helper is unused, but that is allowed"
+        else
+            echo "Handlebars helper not used: $helper"
+            let "i+=1"
+        fi
     elif [ $helper =~ ^cpr.* ] ; then
         echo "Handlers helpers must start with cpr. $helper does not!"
         let "i+=1"
