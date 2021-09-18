@@ -2,6 +2,9 @@
 **New Features**
 
 **Changes**
+
+**Bug Fixes**
+- Fixes #286: The item data was not being passed when dragging from a Mook sheet causing the drag/drop to fail. This has been resolved.
 - Actor damage application function has a new boolen argument to specify if the damage is lethal or not.  Non-lethal damage will not reduce an actor below 1 hit point.
 
 **Bug Fixes**
