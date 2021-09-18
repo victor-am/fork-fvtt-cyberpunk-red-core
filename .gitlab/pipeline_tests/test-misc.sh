@@ -2,9 +2,9 @@
 succeed=1
 
 # Test if our localization code is used (exception for the migration and pause animation).
-grep -rn --exclude=cpr-systemUtils.js --exclude=migration.js --exclude=pause-animation.js "game.i18n" ./modules/*
+grep -rn --exclude=cpr-systemUtils.js --exclude=migration.js --exclude=pause-animation.js --exclude=update-popup.js "game.i18n" ./modules/*
 # $(echo "$result" | wc -l) cannot count no appearances, thus grep has to be called again.
-count=$(grep -rn --exclude=cpr-systemUtils.js --exclude=migration.js --exclude=pause-animation.js "game.i18n" ./modules/* | wc -l)
+count=$(grep -rn --exclude=cpr-systemUtils.js --exclude=migration.js --exclude=pause-animation.js --exclude=update-popup.js "game.i18n" ./modules/* | wc -l)
 if [ $count != 0 ]
 then
     echo "There are" $count "cases, where game.i18n was used instead of our own localization."
