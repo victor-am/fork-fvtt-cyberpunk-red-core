@@ -330,12 +330,13 @@ export default class CPRChat {
     LOGGER.trace("damageApplication | CPRChat | Called.");
     const totalDamage = parseInt($(event.currentTarget).attr("data-total-damage"), 10);
     const bonusDamage = parseInt($(event.currentTarget).attr("data-bonus-damage"), 10);
+    const damageLethal = (/true/i).test($(event.currentTarget).attr("data-damage-lethal"));
     let location = $(event.currentTarget).attr("data-damage-location");
     if (location !== "head" && location !== "brain") {
       location = "body";
     }
     const ablation = parseInt($(event.currentTarget).attr("data-ablation"), 10);
-    const ingoreHalfArmor = (/true/i).test($(event.currentTarget).attr("data-ignore-half-armor"));
+    const ignoreHalfArmor = (/true/i).test($(event.currentTarget).attr("data-ignore-half-armor"));
     const tokens = canvas.tokens.controlled;
     if (tokens.length === 0) {
       SystemUtils.DisplayMessage("warn", "CPR.chat.damageApplication.noTokenSelected");
@@ -367,7 +368,7 @@ export default class CPRChat {
       }
     }
     allowedActors.forEach((a) => {
-      a._applyDamage(totalDamage, bonusDamage, location, ablation, ingoreHalfArmor);
+      a._applyDamage(totalDamage, bonusDamage, location, ablation, ignoreHalfArmor, damageLethal);
     });
   }
 }
