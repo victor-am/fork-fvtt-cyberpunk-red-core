@@ -2,6 +2,10 @@
 **New Features**
 
 **Changes**
+- Actor damage application function has a new boolen argument to specify if the damage is lethal or not.  Non-lethal damage will not reduce an actor below 1 hit point.
+
+**Bug Fixes**
+- Rubber ammunition no longer ablates armor and will not reduce an actor to below 1 hit points per RAW.
 - When a release update is applied, a pop up window will now display with relevant information:
   - At a minimum, there will be a link to the CHANGELOG for the release
   - If there is a corresponding video which demonstrates new feature functions, it will also be linked off of the popup
