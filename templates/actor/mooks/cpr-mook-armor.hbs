@@ -10,7 +10,7 @@
       {{#each (cprSort actor.data.filteredItems.armor "name") as |armor| }}
         {{#if (cprCompare armor.data.data.equipped "===" "equipped")}}
           <li class="item armor-piece">
-            <li class="flex-space-between item flexrow">
+            <li class="flex-space-between item flexrow" data-item-id="{{armor.id}}">
               <div class="item-name armor-name text-nowrap">
                 <a class="name deletable item-edit" tabindex="0" data-item-id="{{armor.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">{{armor.name}}</a>
               </div>
