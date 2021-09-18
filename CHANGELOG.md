@@ -1,4 +1,18 @@
-# Version 0.80.0 | Date: WIP
+# Version DEV | Date: WIP
+**New Features**
+
+**Changes**
+- When a release update is applied, a pop up window will now display with relevant information:
+  - At a minimum, there will be a link to the CHANGELOG for the release
+  - If there is a corresponding video which demonstrates new feature functions, it will also be linked off of the popup
+    - DEV NOTE: To add this, simply configure the flag for the Video URL `system.json` and it will be automatically displayed
+  - If there are specific configuration instructions for a release (example: import the DV Tables Rolltable, or import Critical Injuries), they will also be provided in this pop-up.
+    - DEV NOTE: To add this, simply create a new text file with the instructions in `lang/release-notes` with the name `v${version}-${lang}` and it will be automatically displayed
+
+**Bug Fixes**
+
+- 
+# Version 0.79.1 | Date: 2021-09-11
 - Fixed #325 - DV ruler broken. Restored by naming the function.
 
 # Version 0.79.0 | Date: 2021-09-11
