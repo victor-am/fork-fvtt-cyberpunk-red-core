@@ -16,6 +16,8 @@ import CPRMacro from "./modules/utils/cpr-macros.js";
 import SystemUtils from "./modules/utils/cpr-systemUtils.js";
 import Migration from "./modules/system/migration.js";
 
+import UpdateScreen from "./modules/system/update-popup.js";
+
 // Function imports
 import registerHooks from "./modules/system/hooks.js";
 import preloadHandlebarsTemplates from "./modules/system/preload-templates.js";
@@ -104,6 +106,7 @@ Hooks.once("ready", () => {
     const needsMigration = dataModelVersion && isNewerVersion(DATA_MODEL_VERSION, dataModelVersion);
     if (!needsMigration) return;
     Migration.migrateWorld(dataModelVersion, DATA_MODEL_VERSION);
+    UpdateScreen.RenderPopup();
   }
 });
 
