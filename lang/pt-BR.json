@@ -1,8 +1,8 @@
 {
     "ACTOR.TypeBlackice": "Black ICE",
-    "ACTOR.TypeCharacter": "Character",
-    "ACTOR.TypeContainer": "Container",
-    "ACTOR.TypeDemon": "Demon",
+    "ACTOR.TypeCharacter": "Personagem",
+    "ACTOR.TypeContainer": "Contêiner",
+    "ACTOR.TypeDemon": "Demônio",
     "ACTOR.TypeMook": "Mook (NPC)",
     "CPR.actorSheets.clearFilter": "Clear filter",
     "CPR.actorSheets.commonActions.changeAmmo": "Change Ammo",
