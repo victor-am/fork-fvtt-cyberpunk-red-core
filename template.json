@@ -604,7 +604,8 @@
         "common",
         "physical",
         "installable",
-        "weapon"
+        "weapon",
+        "uses"
       ],
       "handsReq": 0,
       "equipped": "owned",

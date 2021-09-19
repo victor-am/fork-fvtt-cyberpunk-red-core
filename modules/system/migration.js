@@ -420,6 +420,10 @@ export default class Migration {
           damage: 0,
         };
       }
+
+      if ((typeof actorData.data.roleInfo.roleskills) !== "undefined") {
+        updateData["data.roleInfo.-=roleskills"] = null;
+      }
     }
 
     return updateData;
@@ -455,24 +459,27 @@ export default class Migration {
     if ((typeof roleskills) !== "undefined") {
       const pack = game.packs.get("cyberpunk-red-core.roles-items");
       const content = await pack.getDocuments();
-      Object.entries(roleskills).forEach(([k1, v1]) => {
+      Object.entries(roleskills).forEach(([role, roleSkills]) => {
         let newRole;
-        Object.entries(v1).forEach(([k2, v2]) => {
-          if (k2 !== "subSkills") {
-            if (actorData.data.roleInfo.roles.includes(k1)) {
-              newRole = duplicate(content.find((c) => c.data.name.toLowerCase() === k1).data);
-              newRole.data.rank = v2;
+        Object.entries(roleSkills).forEach(([skillName, skillValue]) => {
+          if (skillName !== "subSkills") {
+            if (actorData.data.roleInfo.roles.includes(role)) {
+              const hasRoleObject = actorData.filteredItems.role.find((r) => r.data.name.toLowerCase() === role);
+              if (typeof hasRoleObject === "undefined") {
+                newRole = duplicate(content.find((c) => c.data.name.toLowerCase() === role).data);
+                newRole.data.rank = skillValue;
+              }
             }
           }
-          if (k2 === "subSkills" && newRole) {
-            Object.entries(v2).forEach(([k3, v3]) => {
-              const niceSubRoleName = game.i18n.localize(`CPR.global.role.${k1}.ability.${k3}`);
-              newRole.data.abilities.find((a) => a.name === niceSubRoleName).rank = v3;
+          if (skillName === "subSkills" && newRole) {
+            Object.entries(skillValue).forEach(([subSkillName, subSkillValue]) => {
+              const niceSubRoleName = game.i18n.localize(`CPR.global.role.${role}.ability.${subSkillName}`);
+              newRole.data.abilities.find((a) => a.name === niceSubRoleName).rank = subSkillValue;
             });
           }
         });
         if (newRole) {
-          switch (k1) {
+          switch (role) {
             case "medtech": {
               const medtechCryo = newRole.data.abilities.find((a) => a.name === "Medical Tech (Cryosystem Operation)").rank;
               const medtechPharma = newRole.data.abilities.find((a) => a.name === "Medical Tech (Pharmaceuticals)").rank;

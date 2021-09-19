@@ -1,6 +1,6 @@
 /* globals Actor, game, getProperty, setProperty, hasProperty, duplicate */
-import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRChat from "../chat/cpr-chat.js";
+import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRLedger from "../dialog/cpr-ledger-form.js";
 import CPR from "../system/config.js";
 import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
@@ -324,11 +324,28 @@ export default class CPRActor extends Actor {
   }
 
   /**
+   * Return the Item object given an Id
+   *
+   * @private
+   * @param {String} itemId - Id of the item to get
+   * @returns {CPRItem}
+   */
+  _getOwnedItem(itemId) {
+    LOGGER.trace("_getOwnedItem | CPRActor | Called.");
+    return this.items.find((i) => i.data._id === itemId);
+  }
+
+  /**
    * Called when cyberware is installed, this method decreases Humanity on an actor, rolling
    * for the value if need be.
    *
+   * To Do: this should be in cpr-character only since Humanity is overlooked for NPCs, however
+   * because users can switch between mook and character sheets independent of actor type, we
+   * have to keep this here for now. (i.e. they can create a mook but switch to the character sheet)
+   *
    * @param {CPRItem} item - the Cyberware item being installed (provided just to name the roll)
-   * @param {String} amount - how much to decrease humanity by. Will roll dice if it is a formula.
+   * @param {Object} amount - contains a humanityLoss attribute we use to reduce humanity.
+   *                          Will roll dice if it is a formula.
    * @returns {null}
    */
   async loseHumanityValue(item, amount) {
@@ -339,6 +356,7 @@ export default class CPRActor extends Actor {
     }
     const { humanity } = this.data.data.derivedStats;
     let value = Number.isInteger(humanity.value) ? humanity.value : humanity.max;
+    LOGGER.debugObject(amount);
     if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
       const humRoll = new CPRRolls.CPRHumanityLossRoll(item.data.name, amount.humanityLoss);
       await humRoll.roll();
@@ -359,15 +377,18 @@ export default class CPRActor extends Actor {
   }
 
   /**
-   * Return the Item object given an Id
+   * Persist life path information to the actor model
    *
-   * @private
-   * @param {String} itemId - Id of the item to get
-   * @returns {CPRItem}
+   * To Do: this should be in cpr-character only since Humanity is overlooked for NPCs, however
+   * because users can switch between mook and character sheets independent of actor type, we
+   * have to keep this here for now. (i.e. they can create a mook but switch to the character sheet)
+   *
+   * @param {Object} formData  - an object of answers provided by the user in a form
+   * @returns {Object}
    */
-  _getOwnedItem(itemId) {
-    LOGGER.trace("_getOwnedItem | CPRActor | Called.");
-    return this.items.find((i) => i.data._id === itemId);
+  setLifepath(formData) {
+    LOGGER.trace("setLifepath | CPRActor | Called.");
+    return this.update(formData);
   }
 
   /**
@@ -377,17 +398,6 @@ export default class CPRActor extends Actor {
    * @param {Object} formData - an object of answers provided by the user in a form
    * @returns {Object}
    */
-
-  /**
-   * Persist life path information to the actor model
-   *
-   * @param {Object} formData  - an object of answers provided by the user in a form
-   * @returns {Object}
-   */
-  setLifepath(formData) {
-    LOGGER.trace("setLifepath | CPRActor | Called.");
-    return this.update(formData);
-  }
 
   /**
    * Return the skill level (number) for a given skill on the actor.
@@ -765,9 +775,6 @@ export default class CPRActor extends Actor {
       case CPRRolls.rollTypes.STAT: {
         return this._createStatRoll(name);
       }
-      case CPRRolls.rollTypes.ROLEABILITY: {
-        return this._createRoleRoll(name);
-      }
       case CPRRolls.rollTypes.DEATHSAVE: {
         return this._createDeathSaveRoll();
       }
@@ -792,72 +799,6 @@ export default class CPRActor extends Actor {
     cprRoll.addMod(this.getWoundStateMods());
     cprRoll.addMod(this.getUpgradeMods(statName));
     return cprRoll;
-  }
-
-  /**
-   * Create a "role" roll and return the object representing it
-   *
-   * @private
-   * @param {string} roleName - name of the role to generate a roll for
-   * @returns {CPRRoleRoll}
-   */
-  _createRoleRoll(roleName) {
-    LOGGER.trace("_createRoleRoll | CPRActor | Called.");
-    const niceRoleName = SystemUtils.Localize(CPR.roleAbilityList[roleName]);
-    const roleValue = this._getRoleValue(roleName);
-    let statName = "tech";
-    let roleStat = 0;
-    let roleOther = 0;
-    if (roleName === "surgery") {
-      roleStat = this.getStat(statName);
-      const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
-      cprRoll.addMod(this.getWoundStateMods());
-      return cprRoll;
-    }
-    if (roleName === "medtechCryo" || roleName === "medtechPharma") {
-      roleStat = this.getStat(statName);
-      roleOther = this._getRoleValue("medtechPharma");
-      const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
-      cprRoll.addMod(this.getWoundStateMods());
-      return cprRoll;
-    }
-    if (roleName === "operator") {
-      statName = "cool";
-      roleStat = this.getStat(statName);
-      roleOther = this.getSkillLevel("Trading") + this.getSkillMod("Trading");
-      const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
-      cprRoll.addMod(this.getWoundStateMods());
-      return cprRoll;
-    }
-    const cprRoll = new CPRRolls.CPRRoleRoll(roleName, niceRoleName, statName, roleValue, roleStat, roleOther);
-    cprRoll.addMod(this.getWoundStateMods());
-    return cprRoll;
-  }
-
-  /**
-   * Return the value of a role ability given its name
-   *
-   * @private
-   * @param {String} roleName - name of the role we are interested in getting the value of
-   * @returns {Number} or null if not found
-   */
-  _getRoleValue(roleName) {
-    LOGGER.trace("_getRoleValue | CPRActor | Called.");
-    const { roleskills: roles } = this.data.data.roleInfo;
-    const abilities = Object.values(roles);
-    for (const ability of abilities) {
-      const keys = Object.keys(ability);
-      for (const key of keys) {
-        if (key === roleName) return ability[key];
-        if (key === "subSkills") {
-          const subSkills = Object.keys(ability[key]);
-          for (const subSkill of subSkills) {
-            if (subSkill === roleName) return ability.subSkills[subSkill];
-          }
-        }
-      }
-    }
-    return null;
   }
 
   /**
@@ -889,7 +830,13 @@ export default class CPRActor extends Actor {
     });
   }
 
-  // Determine if this actor has a specific item type equipped
+  /**
+   * Return whether the actor has a specific Item Type equipped.
+   *
+   * @public
+   * @param {string} itemType - type of item we are looking for
+   * @returns {Boolean}
+   */
   hasItemTypeEquipped(itemType) {
     LOGGER.trace("hasItemTypeEquipped | CPRActor | Called.");
     let equipped = false;
@@ -903,6 +850,17 @@ export default class CPRActor extends Actor {
       });
     }
     return equipped;
+  }
+
+  /**
+   * Return the all of the roles this actor currently has
+   *
+   * @public
+   * @returns {Object} - array of roles
+   */
+  getRoles() {
+    LOGGER.trace("getRoles | CPRActor | Called.");
+    return this.data.filteredItems.role;
   }
 
   /**
@@ -958,33 +916,6 @@ export default class CPRActor extends Actor {
       return false;
     }
     return true;
-  }
-
-  /**
-   * Called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
-   * It handles the automatic equipping of gear and installation of cyberware.
-   *
-   * @param {CPRItem} item - the item that was dragged
-   */
-  handleMookDraggedItem(item) {
-    LOGGER.trace("handleMookDraggedItem | CPRActor | Called.");
-    LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
-    LOGGER.debugObject(item);
-    switch (item.data.type) {
-      case "clothing":
-      case "weapon":
-      case "gear":
-      case "armor": {
-        // chose change done for 0.8.x, and not the fix from dev, as it seems to work without it.
-        this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.equipped": "equipped" }]);
-        break;
-      }
-      case "cyberware": {
-        this.addCyberware(item.id);
-        break;
-      }
-      default:
-    }
   }
 
   /**
@@ -1072,9 +1003,10 @@ export default class CPRActor extends Actor {
    * @param {int} bonusDamage - value of the bonus damage
    * @param {string} location - location of the damage
    * @param {int} ablation - value of the ablation
-   * @param {boolean} ingoreHalfArmor - if half of the armor should be ignored
+   * @param {boolean} ignoreHalfArmor - if half of the armor should be ignored
+   * @param {boolean} damageLethal - if this damage can cause HP <= 0
    */
-  async _applyDamage(damage, bonusDamage, location, ablation, ingoreHalfArmor) {
+  async _applyDamage(damage, bonusDamage, location, ablation, ignoreHalfArmor, damageLethal) {
     LOGGER.trace("_applyDamage | CPRActor | Called.");
     let totalDamageDealt = 0;
     if (location === "brain") {
@@ -1098,7 +1030,7 @@ export default class CPRActor extends Actor {
         armorValue = newValue;
       }
     });
-    if (ingoreHalfArmor) {
+    if (ignoreHalfArmor) {
       armorValue = Math.ceil(armorValue / 2);
     }
     // Apply the bonusDamage, which penetrates the armor
@@ -1119,6 +1051,9 @@ export default class CPRActor extends Actor {
       takenDamage *= 2;
     }
     const currentHp = this.data.data.derivedStats.hp.value;
+    if (takenDamage >= currentHp && !damageLethal) {
+      takenDamage = currentHp - 1;
+    }
     await this.update({ "data.derivedStats.hp.value": currentHp - takenDamage });
     totalDamageDealt += takenDamage;
     // Ablate the armor correctly.

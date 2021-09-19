@@ -1,6 +1,9 @@
 /* global game */
 import LOGGER from "../utils/cpr-logger.js";
 
+/**
+ * This file defines user settings for the system module.
+ */
 const registerSystemSettings = () => {
   game.settings.register("cyberpunk-red-core", "calculateDerivedStats", {
     name: "CPR.settings.derivedStats.name",
@@ -117,6 +120,18 @@ const registerSystemSettings = () => {
     default: false,
     onChange: (value) => {
       LOGGER.log(`Changed automaticallyResizeSheets to ${value}`);
+    },
+  });
+
+  game.settings.register("cyberpunk-red-core", "criticalInitiative", {
+    name: "CPR.settings.criticalInitiative.name",
+    hint: "CPR.settings.criticalInitiative.hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      LOGGER.log(`Changed criticalInitiative to ${value}`);
     },
   });
 

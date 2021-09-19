@@ -8,6 +8,7 @@ import RollCriticalInjuryPrompt from "../../dialog/cpr-roll-critical-injury-prom
 import Rules from "../../utils/cpr-rules.js";
 import SplitItemPrompt from "../../dialog/cpr-split-item-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
+import DvUtils from "../../utils/cpr-dvUtils.js";
 
 /**
  * Extend the basic ActorSheet, which comes from Foundry. Not all sheets used in
@@ -641,12 +642,27 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.debug(`firemode is ${firemode}`);
     LOGGER.debug(`weaponID is ${weaponID}`);
     LOGGER.debug(`flag is ${flag}`);
+    let newDvTable;
+    if (this.token !== null && firemode === "autofire") {
+      const weaponDvTable = (this._getOwnedItem(weaponID)).data.data.dvTable;
+      const currentDvTable = (weaponDvTable === "") ? getProperty(this.token.data, "flags.cprDvTable") : weaponDvTable;
+      if (typeof currentDvTable !== "undefined") {
+        const dvTable = currentDvTable.replace(" (Autofire)", "");
+        const afTable = (DvUtils.GetDvTables()).filter((name) => name.includes(dvTable) && name.includes("Autofire"));
+        if (afTable.length > 0) {
+          newDvTable = (flag === firemode) ? dvTable : afTable[0];
+        } else {
+          newDvTable = currentDvTable;
+        }
+      }
+    }
     if (flag === firemode) {
       // if the flag was already set to firemode, that means we unchecked a box
       this.actor.unsetFlag("cyberpunk-red-core", `firetype-${weaponID}`);
     } else {
       this.actor.setFlag("cyberpunk-red-core", `firetype-${weaponID}`, firemode);
     }
+    this.token.update({ "flags.cprDvTable": newDvTable });
   }
 
   /**
@@ -806,7 +822,11 @@ export default class CPRActorSheet extends ActorSheet {
     }
   }
 
-  /* Ledger methods */
+  /**
+   * Ledger methods
+   * For the most part ledgers are character-specific - they provide records of change to HP, EB, and IP.
+   * Mooks use this for HP too, and that's the only reason these remain here.
+   */
 
   /**
    * Set the EB on the actor to a specific value, with a reason.

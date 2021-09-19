@@ -1,6 +1,6 @@
 /* global Hooks */
 import LOGGER from "../utils/cpr-logger.js";
-import { enablePauseAnimation } from "../system/pause-animation.js";
+import enablePauseAnimation from "../system/pause-animation.js";
 
 /**
  * Hooks have a set of args that are passed to them from Foundry. Even if we do not use them here,

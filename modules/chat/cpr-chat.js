@@ -1,6 +1,6 @@
 /* global game, CONFIG, ChatMessage, renderTemplate, canvas, $ */
 import LOGGER from "../utils/cpr-logger.js";
-import { CPRRoll, CPRDamageRoll } from "../rolls/cpr-rolls.js";
+import { CPRRoll, CPRDamageRoll, CPRInitiative } from "../rolls/cpr-rolls.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import DamageApplicationPrompt from "../dialog/cpr-damage-application-prompt.js";
 
@@ -62,6 +62,10 @@ export default class CPRChat {
     const cprRoll = incomingRoll;
 
     cprRoll.criticalCard = cprRoll.wasCritical();
+    if (cprRoll instanceof CPRInitiative && !cprRoll.calculateCritical) {
+      cprRoll.criticalCard = false;
+    }
+
     return renderTemplate(cprRoll.rollCard, cprRoll).then((html) => {
       const chatOptions = this.ChatDataSetup(html);
 
@@ -137,6 +141,13 @@ export default class CPRChat {
     });
   }
 
+  /**
+   * When damage is applied to an actor using the glyph on a damage card, we render another
+   * chat card indicating the damage dealth and armor ablation.
+   *
+   * @param {Object} damageData - details about the damage dealt
+   * @returns ChatMessage
+   */
   static RenderDamageApplicationCard(damageData) {
     LOGGER.trace("RenderDamageApplicationCard | CPRChat | Called.");
     const damageApplicationTemplate = "systems/cyberpunk-red-core/templates/chat/cpr-damage-application-card.hbs";
@@ -319,12 +330,13 @@ export default class CPRChat {
     LOGGER.trace("damageApplication | CPRChat | Called.");
     const totalDamage = parseInt($(event.currentTarget).attr("data-total-damage"), 10);
     const bonusDamage = parseInt($(event.currentTarget).attr("data-bonus-damage"), 10);
+    const damageLethal = (/true/i).test($(event.currentTarget).attr("data-damage-lethal"));
     let location = $(event.currentTarget).attr("data-damage-location");
     if (location !== "head" && location !== "brain") {
       location = "body";
     }
     const ablation = parseInt($(event.currentTarget).attr("data-ablation"), 10);
-    const ingoreHalfArmor = (/true/i).test($(event.currentTarget).attr("data-ignore-half-armor"));
+    const ignoreHalfArmor = (/true/i).test($(event.currentTarget).attr("data-ignore-half-armor"));
     const tokens = canvas.tokens.controlled;
     if (tokens.length === 0) {
       SystemUtils.DisplayMessage("warn", "CPR.chat.damageApplication.noTokenSelected");
@@ -348,14 +360,15 @@ export default class CPRChat {
     });
     if (!event.ctrlKey) {
       const title = SystemUtils.Localize("CPR.chat.damageApplication.prompt.title");
-      const data = { allowedActors, forbiddenActors };
+      const allowedTypesMessage = `${SystemUtils.Format("CPR.chat.damageApplication.prompt.allowedTypes", { location })}`;
+      const data = { allowedTypesMessage, allowedActors, forbiddenActors };
       const confirmation = await DamageApplicationPrompt.RenderPrompt(title, data);
       if (!confirmation) {
         return;
       }
     }
     allowedActors.forEach((a) => {
-      a._applyDamage(totalDamage, bonusDamage, location, ablation, ingoreHalfArmor);
+      a._applyDamage(totalDamage, bonusDamage, location, ablation, ignoreHalfArmor, damageLethal);
     });
   }
 }

@@ -1,4 +1,4 @@
-/* global game Handlebars getProperty */
+/* global Handlebars game getProperty */
 import LOGGER from "../utils/cpr-logger.js";
 import CPR from "./config.js";
 import CPRItem from "../item/cpr-item.js";
