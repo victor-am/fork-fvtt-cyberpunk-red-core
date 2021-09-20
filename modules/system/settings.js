@@ -123,6 +123,18 @@ const registerSystemSettings = () => {
     },
   });
 
+  game.settings.register("cyberpunk-red-core", "criticalInitiative", {
+    name: "CPR.settings.criticalInitiative.name",
+    hint: "CPR.settings.criticalInitiative.hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      LOGGER.log(`Changed criticalInitiative to ${value}`);
+    },
+  });
+
   game.settings.register("cyberpunk-red-core", "userSettings", {
     name: "User Settings",
     scope: "client",

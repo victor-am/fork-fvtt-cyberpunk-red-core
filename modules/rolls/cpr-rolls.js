@@ -20,8 +20,10 @@ export class CPRRoll {
    */
   constructor(rollTitle, formula) {
     LOGGER.trace("constructor | CPRRoll | Called.");
-    // (private) the resulting Roll() object from Foundry
+    // (private) the resulting Roll() object from Foundry for intial roll
     this._roll = null;
+    // (private) the resulting Roll() object from Foundry for critical roll
+    this._critRoll = null;
     // (private) a stack of mods to apply to the roll
     this.mods = [];
     // a name for the roll, used in the UI
@@ -73,6 +75,7 @@ export class CPRRoll {
         }
       });
     }
+
     [this.die] = formula.match(die);
     return formula.match(dice)[0];
   }
@@ -107,16 +110,30 @@ export class CPRRoll {
     LOGGER.trace("roll | CPRRoll | Called.");
     // calculate the initial roll
     this._roll = await new Roll(this.formula).evaluate({ async: true });
-    await DiceSoNice.ShowDiceSoNice(this._roll);
+
+    // eslint-disable-next-line no-use-before-define
+    if (!(this instanceof CPRInitiative)) {
+      await DiceSoNice.ShowDiceSoNice(this._roll);
+    }
+
     this.initialRoll = this._roll.total;
     this.resultTotal = this.initialRoll + this.totalMods();
-    this.faces = this._roll.terms[0].results.map((r) => r.result);
+
+    // Handle scenario where the "roll" was a static value
+    if (this._roll.terms[0].formula !== String(this._roll.terms[0].total)) {
+      this.faces = this._roll.terms[0].results.map((r) => r.result);
+    } else {
+      this.faces = [];
+    }
 
     // check and consider criticals (min or max # on die)
     if (this.wasCritical() && this.calculateCritical) {
-      const critroll = await new Roll(this.formula).evaluate({ async: true });
-      await DiceSoNice.ShowDiceSoNice(critroll);
-      this.criticalRoll = critroll.total;
+      this._critRoll = await new Roll(this.formula).evaluate({ async: true });
+      // eslint-disable-next-line no-use-before-define
+      if (!(this instanceof CPRInitiative)) {
+        await DiceSoNice.ShowDiceSoNice(this._critRoll);
+      }
+      this.criticalRoll = this._critRoll.total;
     }
     this._computeResult();
   }
@@ -209,6 +226,44 @@ export class CPRRoll {
       mergeObject(this, formData, { overwrite: true });
     }
     return true;
+  }
+}
+
+/**
+ * Initiative rolls are basically stat rolls specifically with REF and some additional
+ * modifiers.
+ */
+export class CPRInitiative extends CPRRoll {
+  constructor(initiativeType, combatant, formula, base, mod = 0) {
+    LOGGER.trace("constructor | CPRStatRoll | Called.");
+    const die = /d[0-9][0-9]*/;
+    if (formula.match(die)) {
+      super(SystemUtils.Localize("CPR.rolls.initiative"), formula);
+    } else {
+      // Handle static initiative for Black ICE & Demons
+      super(SystemUtils.Localize("CPR.rolls.initiative"), "1d10");
+      this.formula = formula;
+    }
+    if (initiativeType === "meat") {
+      this.statName = SystemUtils.Localize("CPR.global.stats.ref");
+    } else if (combatant === "blackIce") {
+      this.statName = SystemUtils.Localize("CPR.global.generic.speed");
+    } else if (combatant === "demon") {
+      this.statName = SystemUtils.Localize("CPR.global.role.netrunner.ability.interface");
+    } else {
+      this.statName = SystemUtils.Localize("CPR.global.role.netrunner.ability.interface");
+    }
+    this.statValue = base;
+    if (mod > 0) {
+      this.addMod(mod);
+    }
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-initiative-rollcard.hbs";
+    this.calculateCritical = game.settings.get("cyberpunk-red-core", "criticalInitiative");
+  }
+
+  _computeBase() {
+    LOGGER.trace("_computeBase | CPRStatRoll | Called.");
+    return this.initialRoll + this.totalMods() + this.statValue;
   }
 }
 

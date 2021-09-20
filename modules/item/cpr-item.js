@@ -9,6 +9,7 @@ import LOGGER from "../utils/cpr-logger.js";
 import LoadAmmoPrompt from "../dialog/cpr-load-ammo-prompt.js";
 import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
+import DvUtils from "../utils/cpr-dvUtils.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
@@ -129,7 +130,8 @@ export default class CPRItem extends Item {
     const itemType = this.data.type;
     const localCprRoll = cprRoll;
     const actorData = this.actor.data;
-    if (itemType === "weapon") {
+    const itemEntities = game.system.template.Item;
+    if (itemEntities[itemType].templates.includes("weapon")) {
       if (localCprRoll instanceof CPRRolls.CPRAttackRoll) {
         if (this.data.data.isRanged) {
           this.fireRangedWeapon(localCprRoll);
@@ -268,8 +270,16 @@ export default class CPRItem extends Item {
 
   async _measureDv(actor, dvTable) {
     LOGGER.trace("_measureDv | CPRItem | Called.");
+    let newDvTable = dvTable;
     if (actor.sheet.token !== null) {
-      actor.sheet.token.update({ "flags.cprDvTable": dvTable });
+      const flag = getProperty(actor.data, `flags.cyberpunk-red-core.firetype-${this.data._id}`);
+      if (flag === "autofire") {
+        const afTable = (DvUtils.GetDvTables()).filter((name) => name.includes(dvTable) && name.includes("Autofire"));
+        if (afTable.length > 0) {
+          [newDvTable] = afTable;
+        }
+      }
+      actor.sheet.token.update({ "flags.cprDvTable": newDvTable });
     }
   }
 

@@ -13,14 +13,14 @@
     "lint": "npx eslint modules"
   },
   "devDependencies": {
-    "eslint": "^7.27.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-foundry-cpr": "file:.gitlab/pipeline_tests/eslint-plugin-foundry-cpr",
     "eslint-plugin-import": "^2.22.1",
     "fs-extra": "^9.0.1",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.3.0",
-    "gulp-less": "^4.0.1",
-    "eslint-plugin-foundry-cpr": "file:.gitlab/pipeline_tests/eslint-plugin-foundry-cpr"
+    "gulp-less": "^4.0.1"
   },
   "engines": {
     "node": ">=15.0",

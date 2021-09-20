@@ -4,6 +4,9 @@ import LOGGER from "../utils/cpr-logger.js";
 export default function preloadHandlebarsTemplates() {
   LOGGER.log("Calling Preload Handlebars");
   return loadTemplates([
+    // System Partials
+    "systems/cyberpunk-red-core/templates/system/cpr-update-announcement.hbs",
+
     // Chat Partials
     "systems/cyberpunk-red-core/templates/chat/cpr-base-rollcard.hbs",
     "systems/cyberpunk-red-core/templates/chat/cpr-damage-rollcard.hbs",
