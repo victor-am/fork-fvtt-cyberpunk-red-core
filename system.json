@@ -160,17 +160,17 @@
     {
       "lang": "en",
       "name": "English",
-      "path": "lang/en-US.json"
+      "path": "lang/en.json"
     },
     {
       "lang": "fr",
       "name": "French",
-      "path": "lang/fr-FR.json"
+      "path": "lang/fr.json"
     },
     {
       "lang": "it",
       "name": "Italian",
-      "path": "lang/it-IT.json"
+      "path": "lang/it.json"
     },
     {
       "lang": "pt-BR",

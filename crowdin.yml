@@ -4,15 +4,24 @@
 "pull_request_labels": ["crowdin", "localization"]
 "commit_message": "[ci skip]"
 "preserve_hierarchy": true
-files: [
+files:
+  [
     {
-      "source": "/lang/_strings.json",
-      "translation": "/lang/%locale%.json",
+      "source": "/lang/en.json",
+      "translation": "/lang/%osx_locale%.json",
       "type": "json",
+      "translation_replace": { "_": "-" },
     },
     {
-      "source": "/babele/_strings/*.json",
-      "translation": "/babele/%locale%/%file_name%.json",
+      "source": "/babele/en/*.json",
+      "translation": "/babele/%osx_locale%/%file_name%.json",
       "type": "json",
+      "translation_replace": { "_": "-" },
+    },
+    {
+      "source": "/lang/release-notes/*.en",
+      "translation": "/lang/release-notes/%file_name%.%osx_locale%",
+      "type": "json",
+      "translation_replace": { "_": "-" },
     },
   ]
