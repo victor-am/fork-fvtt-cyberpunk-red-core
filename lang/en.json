@@ -168,6 +168,7 @@
     "CPR.dialog.installCyberware.none": "None",
     "CPR.dialog.installCyberware.static": "Static",
     "CPR.dialog.installCyberware.title": "Install Cyberware",
+    "CPR.dialog.ledgerForm.delete": "Delete Line",
     "CPR.dialog.ledgerForm.number": "Num",
     "CPR.dialog.ledgerForm.reason": "Reason",
     "CPR.dialog.ledgerForm.transaction": "Transaction",

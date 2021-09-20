@@ -5,6 +5,7 @@
     <span class="item-name ledger-number fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.dialog.ledgerForm.number"}}</span>
     <span class="item-name ledger-transaction fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.dialog.ledgerForm.transaction"}}</span>
     <span class="item-name ledger-reason fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.dialog.ledgerForm.reason"}}</span>
+    {{#if isGM}}<span class="item-name ledger-delete-title fg-white bg-black text-nowrap text-padding-left"></span>{{/if}}
   </li>
   <div class="ledger-content-scroll">
     <div class="ledger-list">
@@ -20,6 +21,11 @@
           <div class="ledger-reason">
             {{content.[1]}}
           </div>
+          {{#if ../isGM}}
+            <div class="ledger-delete">
+              <a class="delete-ledger-line" data-line="{{math "subtract" ../contents.length @index 1}}"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.dialog.ledgerForm.delete"}}"></i></a>
+            </div>
+          {{/if}}
         </li>
       {{/each}}
       </ol>
