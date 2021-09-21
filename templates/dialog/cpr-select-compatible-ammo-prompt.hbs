@@ -1,4 +1,4 @@
-{{trace "CPR-SELECT-COMPATIBLE-AMMO-PROMPT.HBS"}}
+{{cprTrace "CPR-SELECT-COMPATIBLE-AMMO-PROMPT.HBS"}}
 <form>
   {{localize "CPR.dialog.selectCompatibleAmmo.selectCompatibleAmmo"}} "{{name}}", Choomba!
   <ol class="items-list">
@@ -13,13 +13,13 @@
 
 
 
-    {{#each (findConfigObj "ammoVariety") as |ammoVariety a|}}
+    {{#each (cprFindConfigObj "ammoVariety") as |ammoVariety a|}}
     <li class="item flexrow">
       <div class="item flexrow setting-name text-nowrap">
         {{localize ammoVariety}}
       </div>
       <div class="item flexrow setting-value text-nowrap text-space-around">
-        {{#if (listContains ../data.ammoVariety a)}}
+        {{#if (cprListContains ../data.ammoVariety a)}}
         <span class="text-bold text-nowrap text-center text-space-around"><input type="checkbox" name="selectedAmmo" value="{{a}}" checked></span>
         {{else}}
         <span class="text-bold text-nowrap text-center text-space-around"><input type="checkbox" name="selectedAmmo" value="{{a}}"></span>
@@ -29,4 +29,4 @@
     {{/each}}
   </ol>
 </form>
-{{trace "END CPR-SELECT-COMPATIBLE-AMMO-PROMPT.HBS"}}
+{{cprTrace "END CPR-SELECT-COMPATIBLE-AMMO-PROMPT.HBS"}}

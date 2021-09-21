@@ -1,10 +1,10 @@
-{{trace "CPR-VERIFY-PROGRAM-DAMAGE-PROMPT.HBS"}}
+{{cprTrace "CPR-VERIFY-PROGRAM-DAMAGE-PROMPT.HBS"}}
 <form>
     <div>
-        {{localize "CPR.rolls.roll"}} {{localize "CPR.rolls.damageFor"}} "{{rollCardExtraArgs.program.name}} ({{localize (findConfigValue "programClassList" rollCardExtraArgs.program.data.class)}})", Choomba!
+        {{localize "CPR.rolls.roll"}} {{localize "CPR.rolls.damageFor"}} "{{rollCardExtraArgs.program.name}} ({{localize (cprFindConfigValue "programClassList" rollCardExtraArgs.program.data.class)}})", Choomba!
     </div>
     <ol class="items-list">
-      {{#if (compare (compare rollCardExtraArgs.program.data.class "===" "antiprogramattacker") "&&" (compare rollCardExtraArgs.program.data.damage.blackIce "!==" "")) }}
+      {{#if (cprCompare (cprCompare rollCardExtraArgs.program.data.class "===" "antiprogramattacker") "&&" (cprCompare rollCardExtraArgs.program.data.damage.blackIce "!==" "")) }}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.rolls.selectTarget"}}:
@@ -27,4 +27,4 @@
         </li>
     </ol>
 </form>
-{{trace "END CPR-VERIFY-PROGRAM-DAMAGE-PROMPT.HBS"}}
+{{cprTrace "END CPR-VERIFY-PROGRAM-DAMAGE-PROMPT.HBS"}}

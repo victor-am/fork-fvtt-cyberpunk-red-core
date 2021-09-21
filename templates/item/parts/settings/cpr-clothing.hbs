@@ -1,4 +1,4 @@
-{{trace "CPR-CLOTHING.HBS"}}
+{{cprTrace "CPR-CLOTHING.HBS"}}
 {{!-- Clothing Equipped Setting --}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
@@ -7,7 +7,7 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="data.equipped" data-dtype="{{data.data.equipped}}">
             {{#select data.data.equipped}}
-                {{#each (findConfigObj "equipped") as |vic v|}}
+                {{#each (cprFindConfigObj "equipped") as |vic v|}}
                     <option value="{{v}}">{{localize vic}}</option>
                 {{/each}}
             {{/select}}
@@ -33,7 +33,7 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="data.style" data-dtype="{{data.data.style}}">
             {{#select data.data.style}}
-                {{#each (findConfigObj "clothingStyle") as |style s| }}
+                {{#each (cprFindConfigObj "clothingStyle") as |style s| }}
                     <option value="{{s}}">{{localize style}}</option>
                 {{/each}}
             {{/select}}
@@ -49,11 +49,11 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="data.type" data-dtype="{{data.data.type}}">
             {{#select data.data.type}}
-                {{#each (findConfigObj "clothingType") as |type t| }}
+                {{#each (cprFindConfigObj "clothingType") as |type t| }}
                     <option value="{{t}}">{{localize type}}</option>
                 {{/each}}
             {{/select}}
         </select>
     </div>
 </li>
-{{trace "END CPR-CLOTHING.HBS"}}
+{{cprTrace "END CPR-CLOTHING.HBS"}}

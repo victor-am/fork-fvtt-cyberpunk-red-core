@@ -1,4 +1,4 @@
-{{trace "CPR-PROGRAM.HBS"}}
+{{cprTrace "CPR-PROGRAM.HBS"}}
 <div class="item-description-tab">
     <div class="item-summary-section">
         <div class="item-summary-line">
@@ -7,7 +7,7 @@
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.price.market"}}:</span>
-            <span class="summary-value">{{localize (findConfigValue "itemPriceCategory" data.data.price.category)}}</span>
+            <span class="summary-value">{{localize (cprFindConfigValue "itemPriceCategory" data.data.price.category)}}</span>
         </div>
     </div>
     <div class="item-description-section">
@@ -15,4 +15,4 @@
         editable=editable}}
     </div>
 </div>
-{{trace "END CPR-PROGRAM.HBS"}}
+{{cprTrace "END CPR-PROGRAM.HBS"}}
