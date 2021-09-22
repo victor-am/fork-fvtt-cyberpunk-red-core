@@ -1576,13 +1576,22 @@ button,
 .gear-tab .gear-actions {
   text-align: end;
 }
-.role-tab-content .role-name,
-.role-tab-content .ability-name {
-  flex: 0 0 75%;
+.role-tab {
+  width: 100%;
 }
-.role-tab-content .role-rank,
-.role-tab-content .ability-rank {
-  text-align: right;
+.role-tab .role-tab-content {
+  width: 50%;
+}
+.role-tab .role-tab-content .role-item .role-name,
+.role-tab .role-tab-content .role-item .ability-name {
+  flex: 1 1 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.role-tab .role-tab-content .role-item .role-rank,
+.role-tab .role-tab-content .role-item .ability-rank {
+  flex: 0 0 90px;
+  text-align: center;
   padding-right: 5px;
 }
 .fight-tab .armor-content {

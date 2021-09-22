@@ -6,7 +6,8 @@
 **Bug Fixes**
 - Fixed #298 - DV ruler will attempt to automatically use the Autofire DV Table if an Autofire DV Table exists.
   - NOTE: If your wielded weapon does not have a DV Table associated with the weapon item settings (example Assault Rifle), there is no way to know what the "proper DV" table is for this weapon, therefore if your Token already has a DV Table set on it of a weapon that also has an Autofire mode (example SMG), when you enable the Autofire radio button on the Assault Rifle, it will change to the SMG Autofire DV Table.  Best practice: Set DV Tables on the weapons themselves.
-- 
+- Fixed #328 - Deletion Icon for some Roles was hidden, due to a short name of the role abilities compared to the role name.
+
 # Version 0.79.1 | Date: WIP
 - Fixes #286: The item data was not being passed when dragging from a Mook sheet causing the drag/drop to fail. This has been resolved.
 - Actor damage application function has a new boolen argument to specify if the damage is lethal or not.  Non-lethal damage will not reduce an actor below 1 hit point.
@@ -22,7 +23,7 @@
 
 **Bug Fixes**
 
-- 
+-
 # Version 0.79.1 | Date: 2021-09-11
 - Fixed #325 - DV ruler broken. Restored by naming the function.
 
@@ -59,7 +60,7 @@
 - Fixed #292: Attempting to delete installed cyberware is prevented now, as it can leave the actor in a broken state.
 - Fixed #294: Cybersnake and Vampyres cyberware items from the compendium now display their weapon stats in the fight tab.
 - Fixed #318: Underbarrel attachment item upgrades in the compendium now pre-select the appropriate ammo types.
-- Fixed #320: The missing Scorpion.png file is now available in the system icons/netrunning folder. Thanks again to Verasunrise and Hyriu33 for the artwork. 
+- Fixed #320: The missing Scorpion.png file is now available in the system icons/netrunning folder. Thanks again to Verasunrise and Hyriu33 for the artwork.
 - Fixed #322: Cyberware ranged weapons were not having their ammunition auto-decrement.
 - Fixed #323: Cyberware weapons now show as weapons in the Mook Sheet.
 - Fixes #317: Before adding a Role Item during migration, added a check to see if one exists already.  Also added code to the data model migration to remove the `roleskills` data point which should result in zeroing all of the role skills on that actor.  This datapoint can be removed next release.
