@@ -1,17 +1,17 @@
-{{trace "CPR-PROGRAM-STAT-ROLLCARD.HBS"}}
+{{cprTrace "CPR-PROGRAM-STAT-ROLLCARD.HBS"}}
 <div class="rollcard">
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-stat">
       <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
       <div class="rollcard-subtitle">
         <div class="rollcard-subtitle-center text-small">
-        {{#if (compare rollTitle "!==" statName)}}
+        {{#if (cprCompare rollTitle "!==" statName)}}
         {{statName}}
         {{/if}}
         </div>
         <div class="rollcard-subtitle-right">
         </div>
-        <div class="rollcard-subtitle-2-center text-small">{{#if (compare rollCardExtraArgs.program.data.class "===" "blackice")}}{{localize (findConfigValue "blackIceType" rollCardExtraArgs.program.data.blackIceType)}} {{/if}}{{localize (findConfigValue "programClassList" rollCardExtraArgs.program.data.class)}}</div>
+        <div class="rollcard-subtitle-2-center text-small">{{#if (cprCompare rollCardExtraArgs.program.data.class "===" "blackice")}}{{localize (cprFindConfigValue "blackIceType" rollCardExtraArgs.program.data.blackIceType)}} {{/if}}{{localize (cprFindConfigValue "programClassList" rollCardExtraArgs.program.data.class)}}</div>
       </div>
     </div>
   </div>
@@ -28,7 +28,7 @@
           <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{initialRoll}}_fail.svg">
           <i class="fas fa-minus"></i>
           {{/if}}
-          <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{math "abs" criticalRoll}}.svg">
+          <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{cprMath "abs" criticalRoll}}.svg">
           {{else}}
           <img class="d10" src="systems/cyberpunk-red-core/icons/dice/black/d10_{{initialRoll}}.svg">
           {{/if}}
@@ -51,4 +51,4 @@
     </div>
   </div>
 </div>
-{{trace "END CPR-PROGRAM-STAT-ROLLCARD.HBS"}}
+{{cprTrace "END CPR-PROGRAM-STAT-ROLLCARD.HBS"}}

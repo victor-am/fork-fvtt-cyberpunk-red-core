@@ -1,4 +1,4 @@
-{{trace "CPR-SELECT-ROLES-PROMPT.HBS"}}
+{{cprTrace "CPR-SELECT-ROLES-PROMPT.HBS"}}
 <form>
   <ol class="items-list">
     <li class="item flexrow">
@@ -18,14 +18,14 @@
         {{role.data.name}}
       </div>
       <div class="item flexrow setting-value text-nowrap text-space-around">
-        {{#if (compare actor.data.data.roleInfo.activeRole "===" role.data.name)}}
+        {{#if (cprCompare actor.data.data.roleInfo.activeRole "===" role.data.name)}}
         <span class="text-bold text-nowrap text-center text-space-around"><input type="radio" name="activeRole" value="{{role.data.name}}" checked></span>
         {{else}}
         <span class="text-bold text-nowrap text-center text-space-around"><input type="radio" name="activeRole" value="{{role.data.name}}"></span>
         {{/if}}
       </div>
       <div class="item flexrow setting-value text-nowrap text-space-around">
-        {{#if (compare actor.data.data.roleInfo.activeNetRole "===" role.data.name)}}
+        {{#if (cprCompare actor.data.data.roleInfo.activeNetRole "===" role.data.name)}}
         <span class="text-bold text-nowrap text-center text-space-around"><input type="radio" name="activeNetRole" value="{{role.data.name}}" checked></span>
         {{else}}
         <span class="text-bold text-nowrap text-center text-space-around"><input type="radio" name="activeNetRole" value="{{role.data.name}}"></span>
@@ -37,4 +37,4 @@
   <br>
   <div>{{localize "CPR.dialog.selectRoles.multiClassRequirement"}}</div>
 </form>
-{{trace "END CPR-SELECT-ROLES-PROMPT.HBS"}}
+{{cprTrace "END CPR-SELECT-ROLES-PROMPT.HBS"}}

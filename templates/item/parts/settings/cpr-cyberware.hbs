@@ -1,4 +1,4 @@
-{{trace "CPR-CYBERWARE.HBS"}}
+{{cprTrace "CPR-CYBERWARE.HBS"}}
 {{!-- Cyberware Item Setting --}}
 {{!-- Cyberware Type Setting --}}
 <li class="item flexrow">
@@ -9,13 +9,13 @@
         {{#if this.editable}}
         <select name="data.type" data-dtype="{{data.data.type}}">
             {{#select data.data.type}}
-                {{#each (findConfigObj "cyberwareTypeList") as |type t|}}
+                {{#each (cprFindConfigObj "cyberwareTypeList") as |type t|}}
                     <option value="{{t}}">{{localize type}}</option>
                 {{/each}}
             {{/select}}
         </select>
         {{else}}
-            <span class="text-flex-end">{{localize (findConfigValue "cyberwareTypeList" data.data.type)}}</span>
+            <span class="text-flex-end">{{localize (cprFindConfigValue "cyberwareTypeList" data.data.type)}}</span>
         {{/if}}
 
     </div>
@@ -29,13 +29,13 @@
         {{#if this.editable}}
             <select name="data.install" data-dtype="{{data.data.install}}">
                 {{#select data.data.install}}
-                    {{#each (findConfigObj "cyberwareInstallList") as |install i|}}
+                    {{#each (cprFindConfigObj "cyberwareInstallList") as |install i|}}
                         <option value="{{i}}">{{localize install}}</option>
                     {{/each}}
                 {{/select}}
             </select>
         {{else}}
-            <span class="text-flex-end">{{localize (findConfigValue "cyberwareInstallList" data.data.install)}}</span>
+            <span class="text-flex-end">{{localize (cprFindConfigValue "cyberwareInstallList" data.data.install)}}</span>
         {{/if}}
     </div>
 </li>
@@ -66,7 +66,7 @@
     </div>
 </li>
 
-{{#unless (listContains "fashionware,cyberwareInternal,cyberwareExternal" data.data.type)}}
+{{#unless (cprListContains "fashionware,cyberwareInternal,cyberwareExternal" data.data.type)}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
             {{localize "CPR.itemSheet.cyberware.requiresFoundational"}}
@@ -149,12 +149,12 @@
                     {{/select}}
                 </select>
             {{else}}
-                <span class="text-flex-end">{{localize (objConcat "CPR.global.generic." data.data.isWeapon)}}</span>
+                <span class="text-flex-end">{{localize (cprObjConcat "CPR.global.generic." data.data.isWeapon)}}</span>
             {{/if}}
         </div>
     </li>
 {{/unless}}
-{{#if (compare data.data.isWeapon "===" "true")}}
+{{#if (cprCompare data.data.isWeapon "===" "true")}}
     {{> "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-weapon.hbs" this}}
 {{/if}}
-{{trace "END CPR-CYBERWARE.HBS"}}
+{{cprTrace "END CPR-CYBERWARE.HBS"}}

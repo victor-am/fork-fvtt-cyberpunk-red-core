@@ -1,11 +1,11 @@
-{{trace "CPR-REPAIR-GLYPH.HBS"}}
-{{#if (compare data.data.isBodyLocation "||" data.data.isHeadLocation)}}
-    {{#if (compare data.data.bodyLocation.ablation ">" 0)}}
+{{cprTrace "CPR-REPAIR-GLYPH.HBS"}}
+{{#if (cprCompare data.data.isBodyLocation "||" data.data.isHeadLocation)}}
+    {{#if (cprCompare data.data.bodyLocation.ablation ">" 0)}}
         <a class="repair" data-item-id="{{data._id}}">
             <i class="fas fa-tools" title={{localize "CPR.actorSheets.commonActions.repair"}}></i>
         </a>
     {{else}}
-        {{#if (compare data.data.headLocation.ablation ">" 0)}}
+        {{#if (cprCompare data.data.headLocation.ablation ">" 0)}}
             <a class="repair" data-item-id="{{data._id}}">
                 <i class="fas fa-tools" title={{localize "CPR.actorSheets.commonActions.repair"}}></i>
             </a>
@@ -13,10 +13,10 @@
     {{/if}}
 {{/if}}
 {{#if data.data.isShield}}
-    {{#if (compare data.data.shieldHitPoints.value "<" (applyUpgrade this data.data.shieldHitPoints.max "shieldHp"))}}
+    {{#if (cprCompare data.data.shieldHitPoints.value "<" (cprApplyUpgrade this data.data.shieldHitPoints.max "shieldHp"))}}
         <a class="repair" data-item-id="{{data._id}}">
         <i class="fas fa-tools" title={{localize "CPR.actorSheets.commonActions.repair"}}></i>
         </a>
     {{/if}}
 {{/if}}
-{{trace "END CPR-REPAIR-GLYPH.HBS"}}
+{{cprTrace "END CPR-REPAIR-GLYPH.HBS"}}

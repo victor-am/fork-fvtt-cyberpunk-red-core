@@ -1,4 +1,4 @@
-{{trace "CPR-ROLE-ABILITY-PROMPT.HBS"}}
+{{cprTrace "CPR-ROLE-ABILITY-PROMPT.HBS"}}
 <form>
   <ol class="items-list">
     <li class="item flexrow">
@@ -40,14 +40,14 @@
         <select name="stat">
           {{#select stat}}
           <optgroup label = "{{localize "CPR.dialog.createEditRoleAbility.specialOptions"}}">
-            {{#each (findConfigObj "roleSpecialOptions") as |option o|}}
-            {{#if (compare o "!==" "varying")}}
+            {{#each (cprFindConfigObj "roleSpecialOptions") as |option o|}}
+            {{#if (cprCompare o "!==" "varying")}}
               <option value="{{o}}">{{localize option}}</option>
             {{/if}}
             {{/each}}
           </optgroup>
           <optgroup label = "{{localize "CPR.dialog.createEditRoleAbility.statList"}}">
-            {{#each (findConfigObj "statList") as |stat s|}}
+            {{#each (cprFindConfigObj "statList") as |stat s|}}
               <option value="{{s}}">{{localize stat}}</option>
             {{/each}}
           </optgroup>
@@ -63,12 +63,12 @@
         <select name="skill">
           {{#select skill}}
           <optgroup label = "{{localize "CPR.dialog.createEditRoleAbility.specialOptions"}}">
-            {{#each (findConfigObj "roleSpecialOptions") as |option o|}}
+            {{#each (cprFindConfigObj "roleSpecialOptions") as |option o|}}
               <option value="{{o}}">{{localize option}}</option>
             {{/each}}
           </optgroup>
           <optgroup label = "{{localize "CPR.dialog.createEditRoleAbility.skillList"}}">
-            {{#each (sort skillOptions "name") as |option o|}}
+            {{#each (cprSort skillOptions "name") as |option o|}}
               <option value="{{option.data.name}}">{{option.data.name}}</option>
             {{/each}}
           </optgroup>
@@ -90,4 +90,4 @@
     </li>
   </ol>
 </form>
-{{trace "END CPR-ROLE-ABILITY-PROMPT.HBS"}}
+{{cprTrace "END CPR-ROLE-ABILITY-PROMPT.HBS"}}

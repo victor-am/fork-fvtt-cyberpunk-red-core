@@ -1,10 +1,10 @@
-{{trace "CPR-VERIFY-ROLL-DAMAGE-PROMPT.HBS"}}
+{{cprTrace "CPR-VERIFY-ROLL-DAMAGE-PROMPT.HBS"}}
 <form>
     <div>
         {{localize "CPR.rolls.tellThemToSayHello"}}! {{localize "CPR.rolls.roll"}} {{localize "CPR.global.generic.damage"}} {{localize "CPR.global.generic.with"}} "{{rollTitle}}", Choomba!
     </div>
     <ol class="items-list">
-        {{#if (compare (listContains "assaultRifle,smg,heavySmg" weaponType) "||" isAutofire)}}
+        {{#if (cprCompare (cprListContains "assaultRifle,smg,heavySmg" weaponType) "||" isAutofire)}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.global.skills.autofire"}}?
@@ -16,11 +16,11 @@
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.global.generic.multiplier"}}
-                {{#if (compare autofireMultiplierMax ">" 0)}}
+                {{#if (cprCompare autofireMultiplierMax ">" 0)}}
                     (1-{{autofireMultiplierMax}}):
                   {{else}}
-                    {{#if (listContains "assaultRifle,smg,heavySmg" weaponType)}}
-                      (1-{{#if (compare weaponType "===" "assaultRifle")}}4{{else}}3{{/if}}):
+                    {{#if (cprListContains "assaultRifle,smg,heavySmg" weaponType)}}
+                      (1-{{#if (cprCompare weaponType "===" "assaultRifle")}}4{{else}}3{{/if}}):
                     {{else}}
                       ({{localize "CPR.rolls.noAutfireMaxConfig"}})
                     {{/if}}
@@ -28,7 +28,7 @@
             </div>
         <div class="item flexrow setting-value text-nowrap item-end">
             <input type="number" class="number" name="autofireMultiplier" data-dtype="Number" value=1
-                max="{{#if (compare weaponType "===" "assaultRifle")}}4{{else}}3{{/if}}" min="1">
+                max="{{#if (cprCompare weaponType "===" "assaultRifle")}}4{{else}}3{{/if}}" min="1">
         </div>
         {{/if}}
 
@@ -49,8 +49,8 @@
             <div class="item flexrow setting-value text-nowrap item-end">
                 <select name="location">
                     {{!-- ONLY DISPLAY CYBERWARE OF SAME TYPE AS OPTIONAL --}}
-                    {{#each (findConfigObj "aimedLocation") as |loc l|}}
-                    <option value="{{l}}" {{#if  (compare ../location "===" l)}}selected{{/if}}>{{localize loc}}</option>
+                    {{#each (cprFindConfigObj "aimedLocation") as |loc l|}}
+                    <option value="{{l}}" {{#if  (cprCompare ../location "===" l)}}selected{{/if}}>{{localize loc}}</option>
                     {{/each}}
                 </select>
             </div>
@@ -78,4 +78,4 @@
         </li>
     </ol>
 </form>
-{{trace "END CPR-VERIFY-ROLL-DAMAGE-PROMPT.HBS"}}
+{{cprTrace "END CPR-VERIFY-ROLL-DAMAGE-PROMPT.HBS"}}

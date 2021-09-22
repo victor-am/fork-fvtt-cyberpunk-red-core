@@ -1,4 +1,4 @@
-{{trace "CPR-ARMOR.HBS"}}
+{{cprTrace "CPR-ARMOR.HBS"}}
 <div class="item-description-tab">
     <div class="item-summary-section">
         <div class="item-summary-line">
@@ -7,12 +7,12 @@
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.price.market"}}:</span>
-            <span class="summary-value">{{localize (findConfigValue "itemPriceCategory" data.data.price.category)}}</span>
+            <span class="summary-value">{{localize (cprFindConfigValue "itemPriceCategory" data.data.price.category)}}</span>
         </div>
         {{#if data.data.isHeadLocation}}
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.armor.headSp"}}:</span>
-            <span class="summary-value">{{applyUpgrade this.item data.data.headLocation.sp "headSp"}}</span>
+            <span class="summary-value">{{cprApplyUpgrade this.item data.data.headLocation.sp "headSp"}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">&nbsp;{{localize "CPR.itemSheet.armor.ablation"}}:</span>
@@ -22,7 +22,7 @@
         {{#if data.data.isBodyLocation}}
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.armor.bodySp"}}:</span>
-            <span class="summary-value">{{applyUpgrade this.item data.data.bodyLocation.sp "bodySp"}}</span>
+            <span class="summary-value">{{cprApplyUpgrade this.item data.data.bodyLocation.sp "bodySp"}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">&nbsp;{{localize "CPR.itemSheet.armor.ablation"}}:</span>
@@ -32,7 +32,7 @@
         {{#if data.data.isShield}}
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.common.maximumShort"}} {{localize "CPR.global.generic.hitpointsShort"}}:</span>
-            <span class="summary-value">{{applyUpgrade this.item data.data.shieldHitPoints.max "shieldHp"}}</span>
+            <span class="summary-value">{{cprApplyUpgrade this.item data.data.shieldHitPoints.max "shieldHp"}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.armor.currentHitpointsShort"}}:</span>
@@ -45,4 +45,4 @@
         editable=editable}}
     </div>
 </div>
-{{trace "END CPR-ARMOR.HBS"}}
+{{cprTrace "END CPR-ARMOR.HBS"}}

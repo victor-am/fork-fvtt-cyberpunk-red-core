@@ -1,11 +1,11 @@
-{{trace "CPR-PROGRAM-DAMAGE-ROLLCARD.HBS"}}
+{{cprTrace "CPR-PROGRAM-DAMAGE-ROLLCARD.HBS"}}
 <div class="rollcard">
     <div class="rollcard-top">
         <div class="cpr-block chat-rollTitle-stat">
             <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
             <div class="rollcard-subtitle">
-              {{#if (compare (compare rollCardExtraArgs.program.data.class "===" "antiprogramattacker") "&&" (compare rollCardExtraArgs.program.data.damage.blackIce "!==" "")) }}
-                {{#if (compare formula "===" rollCardExtraArgs.program.data.damage.standard)}}
+              {{#if (cprCompare (cprCompare rollCardExtraArgs.program.data.class "===" "antiprogramattacker") "&&" (cprCompare rollCardExtraArgs.program.data.damage.blackIce "!==" "")) }}
+                {{#if (cprCompare formula "===" rollCardExtraArgs.program.data.damage.standard)}}
                   <div class="rollcard-subtitle-center text-small">{{localize "CPR.itemSheet.program.damageTo"}} {{localize "CPR.itemSheet.program.nonBlackIce"}}</div>
                 {{else}}
                 <div class="rollcard-subtitle-center text-small">{{localize "CPR.itemSheet.program.damageTo"}} {{localize "CPR.global.programClass.blackice"}}</div>
@@ -33,27 +33,27 @@
                     {{!-- die image for initialRoll --}}
 
                     {{#each faces as |dieFace|}}
-                    {{#if (compare dieFace "===" 6)}}
+                    {{#if (cprCompare dieFace "===" 6)}}
                     {{#if ../criticalCard}}
-                    <img class="{{diceSizeImageClass ../formula}}"
+                    <img class="{{cprDiceSizeImageClass ../formula}}"
                         src="systems/cyberpunk-red-core/icons/dice/red/d6_{{dieFace}}_preem.svg">
                     {{else}}
-                    <img class="{{diceSizeImageClass ../formula}}"
+                    <img class="{{cprDiceSizeImageClass ../formula}}"
                         src="systems/cyberpunk-red-core/icons/dice/black/d6_{{dieFace}}.svg">
                     {{/if}}
                     {{else}}
-                    <img class="{{diceSizeImageClass ../formula}}"
+                    <img class="{{cprDiceSizeImageClass ../formula}}"
                         src="systems/cyberpunk-red-core/icons/dice/black/d6_{{dieFace}}.svg">
                     {{/if}}
                     {{/each}}
 
                 </div>
                 <div class="d6-number-div">
-                    {{#if (compare mods.length ">" 0)}}
+                    {{#if (cprCompare mods.length ">" 0)}}
                     <a>
                     {{/if}}
                     <span class="clickable{{#if criticalCard}} fg-red text-bold{{/if}}" data-action="toggleVisibility" data-visible-element="d6-data-details">{{resultTotal}}</span>
-                    {{#if (compare mods.length ">" 0)}}
+                    {{#if (cprCompare mods.length ">" 0)}}
                     </a>
                     {{/if}}
                 </div>
@@ -62,7 +62,7 @@
                     <div class="text-normal text-bold">{{localize "CPR.global.skills.autofire"}}! (x{{autofireMultiplier}})</div>
                     {{/if}}
                     {{#if isAimed}}
-                    <div class="text-normal text-bold">{{localize "CPR.rolls.location"}}: {{localize (findConfigValue
+                    <div class="text-normal text-bold">{{localize "CPR.rolls.location"}}: {{localize (cprFindConfigValue
                         "aimedLocation" location)}}</div>
                     {{/if}}
                     {{#if criticalCard}}
@@ -70,7 +70,7 @@
                         {{bonusDamage}}</div>
                     {{/if}}
                     <div class="d6-data-details hide">
-                        {{#if (compare mods.length ">" 0)}}
+                        {{#if (cprCompare mods.length ">" 0)}}
                         <div class="text-normal text-bold">{{localize "CPR.rolls.mods"}}: {{totalMods}}</div>
                         {{/if}}
                     </div>
@@ -79,4 +79,4 @@
         </div>
     </div>
 </div>
-{{trace "END CPR-PROGRAM-DAMAGE-ROLLCARD.HBS"}}
+{{cprTrace "END CPR-PROGRAM-DAMAGE-ROLLCARD.HBS"}}
