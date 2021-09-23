@@ -7,6 +7,7 @@
 - Fixed #298 - DV ruler will attempt to automatically use the Autofire DV Table if an Autofire DV Table exists.
   - NOTE: If your wielded weapon does not have a DV Table associated with the weapon item settings (example Assault Rifle), there is no way to know what the "proper DV" table is for this weapon, therefore if your Token already has a DV Table set on it of a weapon that also has an Autofire mode (example SMG), when you enable the Autofire radio button on the Assault Rifle, it will change to the SMG Autofire DV Table.  Best practice: Set DV Tables on the weapons themselves.
 - Fixed #328 - Deletion Icon for some Roles was hidden, due to a short name of the role abilities compared to the role name.
+- Fixed #254 - Deleting an unlinked token that has a sheet open will now close that sheet as it is rendered useless.
 
 # Version 0.79.1 | Date: WIP
 - Fixes #286: The item data was not being passed when dragging from a Mook sheet causing the drag/drop to fail. This has been resolved.
