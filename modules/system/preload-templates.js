@@ -4,9 +4,6 @@ import LOGGER from "../utils/cpr-logger.js";
 export default function preloadHandlebarsTemplates() {
   LOGGER.log("Calling Preload Handlebars");
   return loadTemplates([
-    // System Partials
-    "systems/cyberpunk-red-core/templates/system/cpr-update-announcement.hbs",
-
     // Chat Partials
     "systems/cyberpunk-red-core/templates/chat/cpr-base-rollcard.hbs",
     "systems/cyberpunk-red-core/templates/chat/cpr-damage-rollcard.hbs",
@@ -26,6 +23,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/dialog/cpr-select-compatible-ammo-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-select-role-bonuses-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-split-item-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-update-announcement.hbs",
     "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-cyberdeck-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-damage-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-deathsave-prompt.hbs",
