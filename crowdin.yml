@@ -11,6 +11,7 @@ files:
       "translation": "/lang/%osx_locale%.json",
       "type": "json",
       "translation_replace": { "_": "-" },
+      "excluded_target_languages": ["en"],
     },
     {
       "source": "/babele/en/*.json",
