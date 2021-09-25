@@ -1,6 +1,7 @@
 # Version DEV | Date: WIP
 **New Features**
 - Added functionality to delete single ledger lines for the GM. Players are not able to do so.
+  - It is possible to not only delete the line in the ledger, but also change the value up or down upon deletion.
 
 **Changes**
 

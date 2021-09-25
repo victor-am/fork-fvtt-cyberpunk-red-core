@@ -1,4 +1,5 @@
-/* globals FormApplication mergeObject duplicate game $ setProperty */
+/* globals FormApplication mergeObject duplicate game $ setProperty getProperty */
+import LedgerDeletionPrompt from "./cpr-ledger-deletion-prompt.js";
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 /**
@@ -99,10 +100,32 @@ export default class CPRLedger extends FormApplication {
     LOGGER.trace("_deleteLedgerLine | CPRLedger | called.");
     const lineId = $(event.currentTarget).attr("data-line");
     this.contents = duplicate(this.actor.listRecords(this.name));
+    let numbers = this.contents[lineId][0].match(/\d+/g);
+    if (numbers === null) {
+      numbers = ["NaN"];
+    }
+    const promptContent = {
+      transaction: this.contents[lineId][0],
+      reason: this.contents[lineId][1],
+      value: numbers[0],
+    };
+    // Check if value should also be changed.
+    const confirmDelete = await LedgerDeletionPrompt.RenderPrompt(
+      SystemUtils.Localize("CPR.dialog.ledgerDeletion.title"), promptContent,
+    ).catch((err) => LOGGER.debug(err));
+    if (confirmDelete === undefined) {
+      return;
+    }
     this.contents.splice(lineId, 1);
-    const dataPointName = `data.${this.name}.transactions`;
+    const dataPointTransactions = `data.${this.name}.transactions`;
     const actorData = duplicate(this.actor.data);
-    setProperty(actorData, dataPointName, this.contents);
+    setProperty(actorData, dataPointTransactions, this.contents);
+    // Change the value if desired.
+    if (confirmDelete.action && numbers[0] !== "NaN") {
+      const dataPointValue = `data.${this.name}.value`;
+      const value = getProperty(actorData, dataPointValue);
+      setProperty(actorData, dataPointValue, value + (confirmDelete.sign * numbers[0]));
+    }
     await this.actor.update(actorData);
     this._makeLedgerReadable(this.name);
     this.render();
