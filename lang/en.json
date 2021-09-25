@@ -143,7 +143,6 @@
     "CPR.dialog.common.confirm": "Confirm",
     "CPR.dialog.common.no": "No",
     "CPR.dialog.common.select": "Select",
-    "CPR.dialog.common.yes": "Yes",
     "CPR.dialog.configureBlackIceActorFromProgram.title": "Link Black ICE Actor to Black ICE Program",
     "CPR.dialog.configureBlackIceActorFromProgram.unlinkBlackIceFromProgram": "Unlink Black ICE Actor from any Black ICE Program",
     "CPR.dialog.createEditRoleAbility.hasRoll": "Has roll",
