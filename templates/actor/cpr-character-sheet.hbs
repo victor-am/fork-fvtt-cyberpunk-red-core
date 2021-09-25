@@ -1,5 +1,5 @@
 {{!-- New Layout --}}
-{{trace "CPR-CHARACTER-SHEET.HBS"}}
+{{cprTrace "CPR-CHARACTER-SHEET.HBS"}}
 <form>
   <div class="actor-sheet character">
 
@@ -34,11 +34,11 @@
 
         </nav>
       </div>
-      {{#if (systemConfig "enableSheetContentFilter")}}
-      <div class="sheet-filter-section">
-          <a><i class="fas fa-trash-alt fg-red reset-content-filter" title="{{localize "CPR.actorSheets.clearFilter"}}"></i></a>
+      {{#if (cprSystemConfig "enableSheetContentFilter")}}
+      <div class="sheet-cprFilter-section">
+          <a><i class="fas fa-trash-alt fg-red reset-content-cprFilter" title="{{localize "CPR.actorSheets.clearFilter"}}"></i></a>
           &nbsp;
-          <input class="filter-contents" value="{{options.cprContentFilter}}" type="string" placeholder="Enter filter text here...">
+          <input class="cprFilter-contents" value="{{options.cprContentFilter}}" type="string" placeholder="Enter cprFilter text here...">
       </div>
       {{/if}}
       <div class="right-content-section">
@@ -64,9 +64,9 @@
           <div class="tab-pink-underlay">
             <div class="tab-label text-bold tab-indent" data-tab="fight">
               <a data-tab="fight">{{localize "CPR.characterSheet.bottomPane.fight.title"}}</a>
-              {{#if (compare fightOptions "===" "both")}}
+              {{#if (cprCompare fightOptions "===" "both")}}
                 &nbsp;
-                {{#if (compare fightState "===" "Meatspace")}}
+                {{#if (cprCompare fightState "===" "Meatspace")}}
                   (<span class="fg-yellow">{{localize "CPR.characterSheet.bottomPane.fight.meat"}}</span>|<a class="toggle-fight-state" data-state="Netspace">{{localize "CPR.characterSheet.bottomPane.fight.net"}}</a>)
                 {{else}}
                   (<a class="toggle-fight-state" data-state="Meatspace">{{localize "CPR.characterSheet.bottomPane.fight.meat"}}</a>|<span class="fg-yellow">{{localize "CPR.characterSheet.bottomPane.fight.net"}}</span>)
@@ -91,4 +91,4 @@
         </div>
       </div>
 </form>
-{{trace "END CPR-CHARACTER-SHEET.HBS"}}
+{{cprTrace "END CPR-CHARACTER-SHEET.HBS"}}

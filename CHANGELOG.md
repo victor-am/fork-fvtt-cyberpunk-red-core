@@ -7,25 +7,28 @@
 **Bug Fixes**
 - Fixed #298 - DV ruler will attempt to automatically use the Autofire DV Table if an Autofire DV Table exists.
   - NOTE: If your wielded weapon does not have a DV Table associated with the weapon item settings (example Assault Rifle), there is no way to know what the "proper DV" table is for this weapon, therefore if your Token already has a DV Table set on it of a weapon that also has an Autofire mode (example SMG), when you enable the Autofire radio button on the Assault Rifle, it will change to the SMG Autofire DV Table.  Best practice: Set DV Tables on the weapons themselves.
--
-# Version 0.79.1 | Date: WIP
-- Fixes #286: The item data was not being passed when dragging from a Mook sheet causing the drag/drop to fail. This has been resolved.
-- Actor damage application function has a new boolen argument to specify if the damage is lethal or not.  Non-lethal damage will not reduce an actor below 1 hit point.
 
-**Bug Fixes**
-- Rubber ammunition no longer ablates armor and will not reduce an actor to below 1 hit points per RAW.
 - When a release update is applied, a pop up window will now display with relevant information:
   - At a minimum, there will be a link to the CHANGELOG for the release
   - If there is a corresponding video which demonstrates new feature functions, it will also be linked off of the popup
     - DEV NOTE: To add this, simply configure the flag for the Video URL `system.json` and it will be automatically displayed
   - If there are specific configuration instructions for a release (example: import the DV Tables Rolltable, or import Critical Injuries), they will also be provided in this pop-up.
     - DEV NOTE: To add this, simply create a new text file with the instructions in `lang/release-notes` with the name `v${version}-${lang}` and it will be automatically displayed
+- Actor damage application function has a new boolen argument to specify if the damage is lethal or not.  Non-lethal damage will not reduce an actor below 1 hit point.
+- Rubber ammunition no longer ablates armor and will not reduce an actor to below 1 hit points per RAW.
+- Fixed #286 - The item data was not being passed when dragging from a Mook sheet causing the drag/drop to fail. This has been resolved.
+- Fixed #298 - DV ruler will attempt to automatically use the Autofire DV Table if an Autofire DV Table exists.
+  - NOTE: If your wielded weapon does not have a DV Table associated with the weapon item settings (example Assault Rifle), there is no way to know what the "proper DV" table is for this weapon, therefore if your Token already has a DV Table set on it of a weapon that also has an Autofire mode (example SMG), when you enable the Autofire radio button on the Assault Rifle, it will change to the SMG Autofire DV Table.  Best practice: Set DV Tables on the weapons themselves.
+- Fixed #328 - Deletion Icon for some Roles was hidden, due to a short name of the role abilities compared to the role name.
+- Fixed #254 - Deleting an unlinked token that has a sheet open will now close that sheet as it is rendered useless.
+- Fixed #329 - Containers are not randomly forgetting their settings anymore.
+- Fixed comments in the default macro that gets created when you drag a weapon to the hotbar to correctly provide the settings for a ranged weapon attack.
 
-**Bug Fixes**
 
--
 # Version 0.79.1 | Date: 2021-09-11
+**Hot Fix**
 - Fixed #325 - DV ruler broken. Restored by naming the function.
+
 
 # Version 0.79.0 | Date: 2021-09-11
 

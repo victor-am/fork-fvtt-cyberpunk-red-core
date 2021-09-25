@@ -1,14 +1,14 @@
-{{trace "CPR-STAT-BLOCK.HBS"}}
+{{cprTrace "CPR-STAT-BLOCK.HBS"}}
 {{!-- Partials to create stat-units from template --}}
 {{#each data.data.stats as |stat s|}}
 <div class="stat-block">
   <div class="block-label">
     <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}">
-      {{localize (findConfigValue "statList" s)}}
+      {{localize (cprFindConfigValue "statList" s)}}
     </a>
   </div>
   <div class="block-data">
-    {{#unless (isDefined this.max)}}
+    {{#unless (cprIsDefined this.max)}}
     <input class="" name="data.stats.{{s}}.value" type="number" value="{{this.value}}" />
     {{else}}
     <div class="min-of-max-container">
@@ -20,4 +20,4 @@
   </div>
 </div>
 {{/each}}
-{{trace "END CPR-STAT-BLOCK.HBS"}}
+{{cprTrace "END CPR-STAT-BLOCK.HBS"}}

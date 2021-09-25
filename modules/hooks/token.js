@@ -1,4 +1,4 @@
-/* global Hooks game */
+/* global Hooks game ui */
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
@@ -33,6 +33,32 @@ const tokenHooks = () => {
       }
     }
     return true;
+  });
+
+  /**
+   * The deleteToken Hook is provided by Foundry and triggered here. When a token is deleted, this hook is called
+   * just before. This hook is for unlinked  tokens being deleted.  If you have a sheet open for an unlinked token
+   * and you delete the token, the data in the sheet is essentially orphaned as it lost the source of the data.
+   * This causes foundry to throw an error.
+   *
+   * @public
+   * @memberof hookEvents
+   * @param {TokenDocument} tokenDocument  The token object being deleted
+   * @param {object} (unused)              Additional options passed by Foundry which modify the delete request
+   * @param {string} (unused)              The ID of the requesting user, always game.user.id
+   */
+  Hooks.on("deleteToken", (tokenDocument) => {
+    LOGGER.trace("deleteToken | tokenHooks | Called.");
+    if (!tokenDocument.isLinked) {
+      const tokenId = tokenDocument.id;
+      const actorId = tokenDocument.actor.id;
+      const currentWindows = Object.values(ui.windows);
+      currentWindows.forEach((window) => {
+        if (window.id === `actor-${actorId}-${tokenId}`) {
+          window.close();
+        }
+      });
+    }
   });
 };
 

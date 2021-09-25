@@ -1,4 +1,4 @@
-{{trace "CPR-MOOK-SHEET.HBS"}}
+{{cprTrace "CPR-MOOK-SHEET.HBS"}}
 <form>
   <div class="mook-sheet">
     <div class="mook-name side-banner">
@@ -9,7 +9,7 @@
 
     <div class="mook-details">
       <div class="mook-img-and-stats">
-        <div class="mook-image bg-red {{#if (compare (compare actor.data.flags.collapsedImage "===" undefined) "||" (compare actor.data.flags.collapsedImage "===" true))}}mook-image-small-toggle{{/if}}">
+        <div class="mook-image bg-red {{#if (cprCompare (cprCompare actor.data.flags.collapsedImage "===" undefined) "||" (cprCompare actor.data.flags.collapsedImage "===" true))}}mook-image-small-toggle{{/if}}">
           {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-image.hbs"}}
         </div>
         <div class="mook-stats-and-derived">
@@ -30,7 +30,7 @@
             <div class="mook-wounded">
               <span class="text-padding-left">{{localize "CPR.mookSheet.woundState"}}</span>
               <div class="bg-white text-center text-normal text-bold fg-black">
-                {{localize (findConfigValue "woundState" data.data.derivedStats.currentWoundState)}}
+                {{localize (cprFindConfigValue "woundState" data.data.derivedStats.currentWoundState)}}
               </div>
             </div>
             <div class="mook-deathsave">
@@ -78,4 +78,4 @@
     </div>
   </div>
 </form>
-{{trace "END CPR-MOOK-SHEET.HBS"}}
+{{cprTrace "END CPR-MOOK-SHEET.HBS"}}

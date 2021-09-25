@@ -1,9 +1,9 @@
-{{trace "CPR-RELOAD-GLYPH.HBS"}}
-{{#if (compare data.data.magazine.ammoId "!==" "")}}
-    {{#if (compare data.data.magazine.value "<" (applyUpgrade this data.data.magazine.max "magazine"))}}
+{{cprTrace "CPR-RELOAD-GLYPH.HBS"}}
+{{#if (cprCompare data.data.magazine.ammoId "!==" "")}}
+    {{#if (cprCompare data.data.magazine.value "<" (cprApplyUpgrade this data.data.magazine.max "magazine"))}}
         <a class="item-action" data-item-id="{{id}}" data-action="reload-ammo"><i class="fas fa-redo-alt" title="{{localize "CPR.actorSheets.commonActions.reload"}}"></i></a>
     {{/if}}
 {{/if}}
 <a class="item-action" data-item-id="{{id}}" data-action="select-ammo"><i class="fas fa-exchange-alt" title="{{localize "CPR.actorSheets.commonActions.changeAmmo"}}"></i></a>
-{{trace "END CPR-RELOAD-GLYPH.HBS"}}
+{{cprTrace "END CPR-RELOAD-GLYPH.HBS"}}
  

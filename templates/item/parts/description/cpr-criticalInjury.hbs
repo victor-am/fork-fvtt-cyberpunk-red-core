@@ -1,9 +1,9 @@
-{{trace "CPR-CRITICALINJURY.HBS"}}
+{{cprTrace "CPR-CRITICALINJURY.HBS"}}
 <div class="item-description-tab">
     <div class="item-summary-section">
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.rolls.location"}}:</span>
-            <span class="summary-value">{{localize (findConfigValue "criticalInjuryLocation" data.data.location)}}</span>
+            <span class="summary-value">{{localize (cprFindConfigValue "criticalInjuryLocation" data.data.location)}}</span>
         </div>
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.criticalInjury.deathSaveIncrease"}}:</span>
@@ -15,4 +15,4 @@
         editable=editable}}
     </div>
 </div>
-{{trace "END CPR-CRITICALINJURY.HBS"}}
+{{cprTrace "END CPR-CRITICALINJURY.HBS"}}
