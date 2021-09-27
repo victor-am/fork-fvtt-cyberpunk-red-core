@@ -19,6 +19,7 @@
 - Fixed #254 - Deleting an unlinked token that has a sheet open will now close that sheet as it is rendered useless.
 - Fixed #329 - Containers are not randomly forgetting their settings anymore.
 - Fixed comments in the default macro that gets created when you drag a weapon to the hotbar to correctly provide the settings for a ranged weapon attack.
+- Fixed #331 - The actor role tab now uses the proper localisation string for deleting the role item. 
 
 
 # Version 0.79.1 | Date: 2021-09-11
