@@ -1167,7 +1167,7 @@ button,
 }
 .ledger-grid {
   display: grid;
-  grid-template-areas: "ledger-number ledger-transaction ledger-reason";
+  grid-template-areas: "ledger-number ledger-transaction ledger-reason ledger-delete";
 }
 .ledger-grid .ledger-number {
   grid-area: ledger-number;
@@ -1181,6 +1181,16 @@ button,
 .ledger-grid .ledger-reason {
   grid-area: ledger-reason;
   flex: 2;
+}
+.ledger-grid .ledger-delete {
+  grid-area: ledger-delete;
+  flex: 0 0 20px;
+  text-align: center;
+}
+.ledger-grid .ledger-delete-title {
+  grid-area: ledger-delete;
+  flex: 0 0 26px;
+  text-align: center;
 }
 .ledger-list li:nth-child(even) {
   background-color: #ffc3b6ff;
