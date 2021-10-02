@@ -61,36 +61,29 @@ export default class CPRContainerActor extends Actor {
     await this.setFlag("cyberpunk-red-core", "container-type", containerType);
     switch (containerType) {
       case "shop": {
-        // setting flags is an async operation; we wait for them all in parallel
-        await Promise.all([
-          this.unsetFlag("cyberpunk-red-core", "items-free"),
-          this.unsetFlag("cyberpunk-red-core", "players-create"),
-          this.unsetFlag("cyberpunk-red-core", "players-delete"),
-          this.unsetFlag("cyberpunk-red-core", "players-modify"),
-          this.unsetFlag("cyberpunk-red-core", "players-move"),
-        ]);
+        await this.unsetFlag("cyberpunk-red-core", "items-free");
+        await this.unsetFlag("cyberpunk-red-core", "players-create");
+        await this.unsetFlag("cyberpunk-red-core", "players-delete");
+        await this.unsetFlag("cyberpunk-red-core", "players-modify");
+        await this.unsetFlag("cyberpunk-red-core", "players-move");
         break;
       }
       case "loot": {
-        await Promise.all([
-          this.unsetFlag("cyberpunk-red-core", "infinite-stock"),
-          this.setFlag("cyberpunk-red-core", "items-free", true),
-          this.unsetFlag("cyberpunk-red-core", "players-create"),
-          this.unsetFlag("cyberpunk-red-core", "players-delete"),
-          this.unsetFlag("cyberpunk-red-core", "players-modify"),
-          this.unsetFlag("cyberpunk-red-core", "players-move"),
-        ]);
+        await this.unsetFlag("cyberpunk-red-core", "infinite-stock");
+        await this.setFlag("cyberpunk-red-core", "items-free", true);
+        await this.unsetFlag("cyberpunk-red-core", "players-create");
+        await this.unsetFlag("cyberpunk-red-core", "players-delete");
+        await this.unsetFlag("cyberpunk-red-core", "players-modify");
+        await this.unsetFlag("cyberpunk-red-core", "players-move");
         break;
       }
       case "stash": {
-        await Promise.all([
-          this.unsetFlag("cyberpunk-red-core", "infinite-stock"),
-          this.setFlag("cyberpunk-red-core", "items-free", true),
-          this.setFlag("cyberpunk-red-core", "players-create", true),
-          this.setFlag("cyberpunk-red-core", "players-delete", true),
-          this.setFlag("cyberpunk-red-core", "players-modify", true),
-          this.setFlag("cyberpunk-red-core", "players-move", true),
-        ]);
+        await this.unsetFlag("cyberpunk-red-core", "infinite-stock");
+        await this.setFlag("cyberpunk-red-core", "items-free", true);
+        await this.setFlag("cyberpunk-red-core", "players-create", true);
+        await this.setFlag("cyberpunk-red-core", "players-delete", true);
+        await this.setFlag("cyberpunk-red-core", "players-modify", true);
+        await this.setFlag("cyberpunk-red-core", "players-move", true);
         break;
       }
       case "custom": {

@@ -635,6 +635,7 @@ export default class CPRActor extends Actor {
     LOGGER.trace("showLedger | CPRActor | Called.");
     if (this.isLedgerProperty(prop)) {
       const led = new CPRLedger();
+      led.setActor(this);
       led.setLedgerContent(prop, this.listRecords(prop));
       led.render(true);
     } else {

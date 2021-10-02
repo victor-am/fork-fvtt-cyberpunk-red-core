@@ -1,18 +1,18 @@
-{{trace "CPR-SKILLS.HBS"}}
+{{cprTrace "CPR-SKILLS.HBS"}}
 <div class="skills-tab">
     <ol class="left-pane-skills items-list">
-        {{#each (findConfigObj "skillCategories") as |category c|}}
-        {{#if (compare c "<" "f")}}
-            {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/skills/cpr-skills-category.hbs"  (mergeForPartialArg "category,actor,sheet" c ../this.actor ../this)}}
+        {{#each (cprFindConfigObj "skillCategories") as |category c|}}
+        {{#if (cprCompare c "<" "f")}}
+            {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/skills/cpr-skills-category.hbs"  (cprMergeForPartialArg "category,actor,sheet" c ../this.actor ../this)}}
         {{/if}}
         {{/each}}
     </ol>
     <ol class="right-pane-skills items-list">
-        {{#each (findConfigObj "skillCategories") as |category c|}}
-        {{#if  (compare c ">=" "f")}}
-            {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/skills/cpr-skills-category.hbs"  (mergeForPartialArg "category,actor,sheet" c ../this.actor ../this)}}
+        {{#each (cprFindConfigObj "skillCategories") as |category c|}}
+        {{#if  (cprCompare c ">=" "f")}}
+            {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/skills/cpr-skills-category.hbs"  (cprMergeForPartialArg "category,actor,sheet" c ../this.actor ../this)}}
         {{/if}}
         {{/each}}
     </ol>
 </div>
-{{trace "END CPR-SKILLS.HBS"}}
+{{cprTrace "END CPR-SKILLS.HBS"}}

@@ -1167,7 +1167,7 @@ button,
 }
 .ledger-grid {
   display: grid;
-  grid-template-areas: "ledger-number ledger-transaction ledger-reason";
+  grid-template-areas: "ledger-number ledger-transaction ledger-reason ledger-delete";
 }
 .ledger-grid .ledger-number {
   grid-area: ledger-number;
@@ -1181,6 +1181,16 @@ button,
 .ledger-grid .ledger-reason {
   grid-area: ledger-reason;
   flex: 2;
+}
+.ledger-grid .ledger-delete {
+  grid-area: ledger-delete;
+  flex: 0 0 20px;
+  text-align: center;
+}
+.ledger-grid .ledger-delete-title {
+  grid-area: ledger-delete;
+  flex: 0 0 26px;
+  text-align: center;
 }
 .ledger-list li:nth-child(even) {
   background-color: #ffc3b6ff;
@@ -1576,13 +1586,22 @@ button,
 .gear-tab .gear-actions {
   text-align: end;
 }
-.role-tab-content .role-name,
-.role-tab-content .ability-name {
-  flex: 0 0 75%;
+.role-tab {
+  width: 100%;
 }
-.role-tab-content .role-rank,
-.role-tab-content .ability-rank {
-  text-align: right;
+.role-tab .role-tab-content {
+  width: 50%;
+}
+.role-tab .role-tab-content .role-item .role-name,
+.role-tab .role-tab-content .role-item .ability-name {
+  flex: 1 1 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.role-tab .role-tab-content .role-item .role-rank,
+.role-tab .role-tab-content .role-item .ability-rank {
+  flex: 0 0 90px;
+  text-align: center;
   padding-right: 5px;
 }
 .fight-tab .armor-content {

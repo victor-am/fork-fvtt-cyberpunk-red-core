@@ -1,4 +1,4 @@
-### Description (Add text to title: [FEATURE REQUEST]):
+### Description:
 
 ### Proposed Feature:
 

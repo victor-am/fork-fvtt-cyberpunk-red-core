@@ -1,5 +1,5 @@
-{{trace "CPR-UPGRADABLE-ITEM.HBS"}}
-{{#if (compare this.item.type "===" "weapon")}}
+{{cprTrace "CPR-UPGRADABLE-ITEM.HBS"}}
+{{#if (cprCompare this.item.type "===" "weapon")}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.itemSheet.weapon.attachmentSlots"}} ({{localize "CPR.itemSheet.common.availableSlots"}}: {{data.data.availableSlots}})
@@ -16,7 +16,7 @@
             <a class="select-item-upgrades" data-item-prop="select-item-upgrades">
         {{/if}}
         {{localize "CPR.itemSheet.common.itemUpgrades"}}
-        {{#if (compare data.type "===" "weapon")}} &#38; {{localize "CPR.itemSheet.weapon.attachments"}}{{/if}}
+        {{#if (cprCompare data.type "===" "weapon")}} &#38; {{localize "CPR.itemSheet.weapon.attachments"}}{{/if}}
         {{#if this.editable}}
             <i class="text-smallest text-super fas fa-wrench"></i>
             </a>
@@ -50,4 +50,4 @@
 {{/each}}
 <hr>
 {{/if}}
-{{trace "END CPR-UPGRADABLE-ITEM.HBS"}}
+{{cprTrace "END CPR-UPGRADABLE-ITEM.HBS"}}

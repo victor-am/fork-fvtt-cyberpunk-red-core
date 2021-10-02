@@ -1,4 +1,4 @@
-{{trace "CPR-ROLE.HBS"}}
+{{cprTrace "CPR-ROLE.HBS"}}
       {{!--Item Name Settings--}}
       {{!-- Role Item Settings--}}
       <li class="item flexrow">
@@ -50,14 +50,14 @@
           <select name="data.stat" data-dtype="{{data.data.stat}}">
             {{#select data.data.stat}}
               <optgroup label = "{{localize "CPR.itemSheet.role.specialOptions"}}">
-                {{#each (findConfigObj "roleSpecialOptions") as |option o|}}
-                {{#if (compare o "!==" "varying")}}
+                {{#each (cprFindConfigObj "roleSpecialOptions") as |option o|}}
+                {{#if (cprCompare o "!==" "varying")}}
                   <option value="{{o}}">{{localize option}}</option>
                 {{/if}}
                 {{/each}}
               </optgroup>
               <optgroup label = "{{localize "CPR.itemSheet.role.statList"}}">
-                {{#each (findConfigObj "statList") as |stat s|}}
+                {{#each (cprFindConfigObj "statList") as |stat s|}}
                   <option value="{{s}}">{{localize stat}}</option>
                 {{/each}}
               </optgroup>
@@ -73,12 +73,12 @@
           <select name="data.skill" data-dtype="{{data.data.skill}}">
             {{#select data.data.skill}}
               <optgroup label = "{{localize "CPR.itemSheet.role.specialOptions"}}">
-                {{#each (findConfigObj "roleSpecialOptions") as |option o|}}
+                {{#each (cprFindConfigObj "roleSpecialOptions") as |option o|}}
                   <option value="{{o}}">{{localize option}}</option>
                 {{/each}}
               </optgroup>
               <optgroup label = "{{localize "CPR.itemSheet.role.skillList"}}">
-                {{#each (sort (getProp this.filteredItems 'skill') "name") as |skill| }}
+                {{#each (cprSort (cprGetProp this.filteredItems 'skill') "name") as |skill| }}
                   <option value="{{skill.data.name}}">{{localize skill.data.name}}</option>
                 {{/each}}
               </optgroup>
@@ -89,20 +89,20 @@
       {{/if}}
       <div class="item flexrow setting-name text-nowrap">
           <a class="select-role-bonuses text-bold">{{localize "CPR.itemSheet.role.configureRollBonuses"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
-          {{#if (compare data.data.bonusRatio "!==" 1)}}{{localize "CPR.itemSheet.role.bonusRatio"}} - 1:{{data.data.bonusRatio}}{{/if}}
+          {{#if (cprCompare data.data.bonusRatio "!==" 1)}}{{localize "CPR.itemSheet.role.bonusRatio"}} - 1:{{data.data.bonusRatio}}{{/if}}
       </div>
       <div class="compatible-ammo">
         {{#each data.data.universalBonuses as |bonus|}}
           <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap text-padding-left">
-                &nbsp;{{localize (findConfigValue "universalBonuses" bonus)}}
+                &nbsp;{{localize (cprFindConfigValue "universalBonuses" bonus)}}
             </div>
           </li>
         {{/each}}
-        {{#each (sort data.data.skillBonuses "data.stat") as |bonus|}}
+        {{#each (cprSort data.data.skillBonuses "data.stat") as |bonus|}}
           <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap text-padding-left">
-                &nbsp;{{#if bonus.data.core}}{{localize bonus.name}}{{else}}{{bonus.name}}{{/if}} ({{localize (findConfigValue "statList" bonus.data.stat)}})
+                &nbsp;{{#if bonus.data.core}}{{localize bonus.name}}{{else}}{{bonus.name}}{{/if}} ({{localize (cprFindConfigValue "statList" bonus.data.stat)}})
             </div>
           </li>
         {{/each}}
@@ -121,30 +121,30 @@
   </li>
     <div class="role-list-content">
       <ol class="items-list">
-        {{#each (sort data.data.abilities "name") as |ability|}}
+        {{#each (cprSort data.data.abilities "name") as |ability|}}
           <li class="item role-name flexrow">
             <div class="item-name text-nowrap">{{ability.name}}</div>
             <div class="item-detail role-rank text-nowrap">
               {{ability.rank}}
             </div>
             <div class="item-detail role-multiplier text-nowrap">
-              {{#if (compare ability.multiplier "!==" "--")}}x{{/if}}{{ability.multiplier}}
+              {{#if (cprCompare ability.multiplier "!==" "--")}}x{{/if}}{{ability.multiplier}}
             </div>
             <div class="item-detail role-stat text-nowrap">
-              {{#if (compare ability.stat "===" "--")}}
+              {{#if (cprCompare ability.stat "===" "--")}}
               {{localize "CPR.global.generic.notApplicable"}}
               {{else}}
-              {{localize (findConfigValue "statList" ability.stat)}}
+              {{localize (cprFindConfigValue "statList" ability.stat)}}
               {{/if}}
             </div>
             <div class="item-detail role-skill text-nowrap">
               {{#if ability.skill.data.core}}
-              {{localize (splitJoinCoreSkills ability.skill.name)}}
+              {{localize (cprSplitJoinCoreSkills ability.skill.name)}}
               {{else}}
               {{ability.skill.name}}
               {{/if}}
-              {{#if (compare (compare ability.skill "===" "--") "||" (compare ability.skill "===" "varying"))}}
-              {{localize (findConfigValue "roleSpecialOptions" ability.skill)}}
+              {{#if (cprCompare (cprCompare ability.skill "===" "--") "||" (cprCompare ability.skill "===" "varying"))}}
+              {{localize (cprFindConfigValue "roleSpecialOptions" ability.skill)}}
               {{/if}}
             </div>
             <div class="item-detail role-bonuses text-nowrap">
@@ -156,5 +156,5 @@
             </div>
           </li>
         {{/each}}
-{{trace "END CPR-ROLE.HBS"}}
+{{cprTrace "END CPR-ROLE.HBS"}}
 

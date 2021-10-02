@@ -1,4 +1,4 @@
-{{trace "CPR-ITEM-ROLL-CARD.HBS"}}
+{{cprTrace "CPR-ITEM-ROLL-CARD.HBS"}}
 <div class="item-card-grid-container">
   <div class="item-card-icon">
     <img class="item-card-icon-img" src="{{img}}"/>
@@ -8,11 +8,11 @@
       {{trimName}}
     </div>
     <div class="item-card-type text-left text-padding-left">
-      {{localize (findConfigValue "objectTypes" type)}}
+      {{localize (cprFindConfigValue "objectTypes" type)}}
     </div>
   </div>
   <div class="item-card-description text-small text-left text-padding-left">
     {{{trimDesc}}}
   </div>
 </div>
-{{trace "END CPR-ITEM-ROLL-CARD.HBS"}}
+{{cprTrace "END CPR-ITEM-ROLL-CARD.HBS"}}

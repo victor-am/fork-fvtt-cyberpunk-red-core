@@ -1,4 +1,4 @@
-{{trace "CPR-VERIFY-ROLL-AIMED-ATTACK-PROMPT.HBS"}}
+{{cprTrace "CPR-VERIFY-ROLL-AIMED-ATTACK-PROMPT.HBS"}}
 <form>
     <div>
         {{localize "CPR.rolls.rollingFor"}} {{localize "CPR.rolls.aimedShot"}} {{localize "CPR.global.generic.with"}} "{{rollTitle}}", Choomba!
@@ -70,7 +70,7 @@
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <select name="location">
-                    {{#each (findConfigObj "aimedLocation") as |location l|}}
+                    {{#each (cprFindConfigObj "aimedLocation") as |location l|}}
                     <option value="{{l}}">{{localize location}}</option>
                     {{/each}}
                 </select>
@@ -79,4 +79,4 @@
 
     </ol>
 </form>
-{{trace "END CPR-VERIFY-ROLL-AIMED-ATTACK-PROMPT.HBS"}}
+{{cprTrace "END CPR-VERIFY-ROLL-AIMED-ATTACK-PROMPT.HBS"}}

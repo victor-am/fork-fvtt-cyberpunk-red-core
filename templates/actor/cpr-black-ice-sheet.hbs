@@ -1,6 +1,6 @@
-{{trace "CPR-BLACK-ICE-SHEET.HBS"}}
+{{cprTrace "CPR-BLACK-ICE-SHEET.HBS"}}
 <form>
-  {{#if (isDebug)}}
+  {{#if (cprIsDebug)}}
     actor ID: {{actor.id}}
   {{/if}}
   <div class="bice-sheet">
@@ -8,7 +8,7 @@
       <div class="bice-top flexrow bg-white">
         <div class="flexrow width-long bice-label-corner-right bg-red"></div>
         <div class="flexrow width-long bice-label-corner-both bg-red"></div>
-        {{#each (findConfigObj "blackIceStatList")}}
+        {{#each (cprFindConfigObj "blackIceStatList")}}
           <div class="flexrow bice-label-corner-both bg-red"></div>
         {{/each}}
         <div class="flexrow bice-label-corner-both bg-red"></div>
@@ -17,13 +17,13 @@
       <div class="bice-head flexrow text-center block-label">
         <div class="width-long">{{localize "CPR.global.generic.name"}}</div>
         <div class="width-long">{{localize "CPR.global.generic.class"}}</div>
-        {{#each (findConfigObj "blackIceStatList") as |stat s|}}
+        {{#each (cprFindConfigObj "blackIceStatList") as |stat s|}}
           <div>
-            {{#unless (compare s "===" "rez")}}
+            {{#unless (cprCompare s "===" "rez")}}
               <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}" title="{{localize "CPR.actorSheets.rolling.clickToRollThisStat"}}">
             {{/unless}}
             {{localize stat}}
-            {{#unless (compare s "===" "rez")}}
+            {{#unless (cprCompare s "===" "rez")}}
               </a>
             {{/unless}}
           </div>
@@ -42,14 +42,14 @@
         <div class="width-long width-full">
           <select name="data.class">
             {{#select data.data.class}}
-              {{#each (findConfigObj "blackIceType") as |class c|}}
+              {{#each (cprFindConfigObj "blackIceType") as |class c|}}
                 <option value="{{c}}">{{localize class}}</option>
               {{/each}}
             {{/select}}
           </select>
         </div>
         {{#each data.data.stats as |stat s|}}
-          {{#if (compare s "===" "rez")}}
+          {{#if (cprCompare s "===" "rez")}}
             <div class="min-of-max-container">
               <input class="text-center" name="data.stats.rez.value" type="number" value="{{this.value}}" />
               <div class="of bg-red fg-white text-normal text-bold">of</div>
@@ -67,7 +67,7 @@
 
         <div class="block-data text-large">
           {{#if actor.token.data.flags.cyberpunk-red-core.programId}}
-          {{#if (compare data.data.class "!==" "other")}}
+          {{#if (cprCompare data.data.class "!==" "other")}}
             <a class="rollable" data-roll-type="damage"  data-program-id="{{actor.token.data.flags.cyberpunk-red-core.programId}}" data-netrunner-id="{{actor.token.data.flags.cyberpunk-red-core.netrunnerTokenId}}" data-scene-id="{{actor.token.data.flags.cyberpunk-red-core.sceneId}}"><i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}" ></i></a>
           {{/if}}
           {{/if}}
@@ -95,4 +95,4 @@
     </div>
   </div>
 </form>
-{{trace "END CPR-BLACK-ICE-SHEET.HBS"}}
+{{cprTrace "END CPR-BLACK-ICE-SHEET.HBS"}}
