@@ -1,5 +1,6 @@
 /* global Actors ActorSheet CONFIG Hooks Items ItemSheet game isNewerVersion */
 // Object imports
+import CPRActiveEffect from "./modules/cpr-active-effect.js";
 import { actorConstructor, itemConstructor } from "./modules/entity-factory.js";
 import CPRBlackIceActorSheet from "./modules/actor/sheet/cpr-black-ice-sheet.js";
 import CPRCharacterActorSheet from "./modules/actor/sheet/cpr-character-sheet.js";
@@ -77,6 +78,7 @@ Hooks.once("init", async () => {
   };
 
   // Assign the actor class to the CONFIG
+  CONFIG.ActiveEffect.documentClass = CPRActiveEffect;
   CONFIG.Actor.documentClass = actorConstructor;
   CONFIG.Combat.documentClass = CPRCombat;
   CONFIG.Item.documentClass = itemConstructor;

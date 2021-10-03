@@ -413,6 +413,9 @@
       "installable": {
         "install": "mall",
         "isInstalled": false
+      },
+      "effects": {
+        "revealed": []
       }
     },
     "ammo": {
@@ -488,6 +491,7 @@
     "gear": {
       "templates": [
         "common",
+        "effects",
         "physical"
       ]
     },

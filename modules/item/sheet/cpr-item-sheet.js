@@ -30,14 +30,6 @@ export default class CPRItemSheet extends ItemSheet {
     });
   }
 
-  /**
-   * @override
-   */
-  prepareBaseData() {
-    LOGGER.trace("prepareBaseData | CPRItemSheet | Called.");
-    this.item.loadMixins();
-  }
-
   async _render(force = false, options = {}) {
     LOGGER.trace("_render | CPRItemSheet | Called.");
 
@@ -50,8 +42,6 @@ export default class CPRItemSheet extends ItemSheet {
       // are called with options = { action: "update" }.
       this._automaticResize();
     }
-    // When Foundry sends an Item to a client, it does not have the mixins loaded in. We load them here
-    // because I could not find a better option.
   }
 
   // eslint-disable-next-line class-methods-use-this

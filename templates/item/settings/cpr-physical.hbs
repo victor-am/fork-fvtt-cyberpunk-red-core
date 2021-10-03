@@ -1,7 +1,7 @@
-{{trace "CPR-PHYSICAL.HBS"}}
+{{cprTrace "CPR-PHYSICAL.HBS"}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap" title="
-      {{#if (compare data.type "===" "ammo")}}
+      {{#if (cprCompare data.type "===" "ammo")}}
         {{localize "CPR.itemSheet.physical.priceHoverExplanationAmmo"}}
       {{else}}
         {{localize "CPR.itemSheet.physical.priceHoverExplanation"}}
@@ -26,13 +26,13 @@
         {{#if this.editable}}
         <select name="data.price.category" data-dtype="{{data.data.price.category}}">
             {{#select data.data.price.category}}
-                {{#each (findConfigObj "itemPriceCategory") as |category c|}}
+                {{#each (cprFindConfigObj "itemPriceCategory") as |category c|}}
                     <option value="{{c}}">{{localize category}}</option>
                 {{/each}}
             {{/select}}
         </select>
         {{else}}
-            <span class="text-flex-end">{{localize (findConfigValue "itemPriceCategory" data.data.price.category)}}</span>
+            <span class="text-flex-end">{{localize (cprFindConfigValue "itemPriceCategory" data.data.price.category)}}</span>
         {{/if}}
     </div>
 </li>
@@ -75,15 +75,15 @@
             {{#if this.editable}}
             <select name="data.equipped" data-dtype="{{data.data.equipped}}">
                 {{#select data.data.equipped}}
-                    {{#each (findConfigObj "equipped") as |equipped e|}}
+                    {{#each (cprFindConfigObj "equipped") as |equipped e|}}
                         <option value="{{e}}">{{localize equipped}}</option>
                     {{/each}}
                 {{/select}}
             </select>
             {{else}}
-                <span class="text-flex-end">{{localize (findConfigValue "equipped" data.data.equipped)}}</span>
+                <span class="text-flex-end">{{localize (cprFindConfigValue "equipped" data.data.equipped)}}</span>
             {{/if}}
         </div>
     </li>
 {{/if}}
-{{trace "END CPR-PHYSICAL.HBS"}}
+{{cprTrace "END CPR-PHYSICAL.HBS"}}

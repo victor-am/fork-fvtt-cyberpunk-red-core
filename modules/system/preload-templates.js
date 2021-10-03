@@ -113,8 +113,10 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/cpr-item-name.hbs",
 
     // Item Sheet - Settings Partials
+    "systems/cyberpunk-red-core/templates/item/description/cpr-effects.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-physical.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/cpr-effects.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-physical.hbs",
 

@@ -1,4 +1,4 @@
-/* global Item game */
+/* global Item game getProperty */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPR from "../system/config.js";
 import LOGGER from "../utils/cpr-logger.js";
@@ -118,6 +118,19 @@ export default class CPRItem extends Item {
       }
       LOGGER.debug(`Added mixin ${mixins[m]} to ${this.id}`);
     }
+  }
+
+  /**
+   * Whenever an item is created or updated this method is called by Foundry. We use it
+   * to add in the "mixins" enabled for this item type.
+   * This seems excessive (once on item creation seems enough) but this is what DND5E does.
+   *
+   * @override
+   */
+  prepareDerivedData() {
+    LOGGER.trace("prepareDerivedData | CPRItem | Called.");
+    super.prepareDerivedData();
+    this.loadMixins();
   }
 
   /*

@@ -1,4 +1,4 @@
-{{trace "CPR-ITEM-SETTINGS.HBS"}}
+{{cprTrace "CPR-ITEM-SETTINGS.HBS"}}
 <form>
     <div class="item-settings-tab">
         <div class="item-settings-section">
@@ -8,13 +8,13 @@
                     {{> "systems/cyberpunk-red-core/templates/item/cpr-item-name.hbs" this}}
 
                     {{!-- Settings from mixins --}}
-                    {{#each (getTemplates item.type) as |mixin|}}
-                        {{> (generatePartial "systems/cyberpunk-red-core/templates/item/settings/cpr-VAR.hbs" mixin) ../this}}
+                    {{#each (cprGetTemplates item.type) as |mixin|}}
+                        {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/settings/cpr-VAR.hbs" mixin) ../this}}
                         <hr>
                     {{/each}}
 
                     {{!-- Settings specific to the item type --}}
-                    {{> (generatePartial "systems/cyberpunk-red-core/templates/item/settings/cpr-VAR.hbs" item.type) this}}
+                    {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/settings/cpr-VAR.hbs" item.type) this}}
 
                     {{!-- Finally, settings common to all items --}}
                     <li class="item flexrow">
@@ -35,4 +35,4 @@
         </div>
     </div>
 </form>
-{{trace "END CPR-ITEM-SETTINGS.HBS"}}
+{{cprTrace "END CPR-ITEM-SETTINGS.HBS"}}
