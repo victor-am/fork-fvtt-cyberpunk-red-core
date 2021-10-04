@@ -3,7 +3,7 @@
     "ACTOR.TypeCharacter": "Character",
     "ACTOR.TypeContainer": "Container",
     "ACTOR.TypeDemon": "Demon",
-    "ACTOR.TypeMook": "Mook (NPC)",
+    "ACTOR.TypeMook": "NPC",
     "CPR.actorSheets.clearFilter": "Clear filter",
     "CPR.actorSheets.commonActions.changeAmmo": "Change Ammo",
     "CPR.actorSheets.commonActions.createNewItem": "Create new item on actor",
