@@ -715,6 +715,7 @@
     "CPR.mookSheet.criticalInjuryRoll": "Roll on Critical Injury Table",
     "CPR.mookSheet.damageShield": "Damage Shield",
     "CPR.mookSheet.deathSave.hoverCriticalInjuryPenalty": "Critical Injury Penalty",
+    "CPR.mookSheet.deathSave.increase": "Click to increase the Death Save Penalty",
     "CPR.mookSheet.deathSave.reset": "Click to reset Death Save Penalty",
     "CPR.mookSheet.deathSave.roll": "Click to roll your Death Save.",
     "CPR.mookSheet.deathSave.title": "Death Save",
