@@ -677,6 +677,24 @@ export default function registerHandlebarsHelpers() {
   });
 
   /**
+   * For readability's sake, translate the "mode" of an active effect mod into an intuitive mathematical operator.
+   * For unknown modes, just return a question mark, which shouldn't happen.
+   */
+  Handlebars.registerHelper("cprEffectModMode", (mode) => {
+    LOGGER.trace("cprEffectModMode | handlebarsHelper | Called.");
+    switch (mode) {
+      case 1:
+        return "*";
+      case 2:
+        return "+";
+      case 3:
+        return "=";
+      default:
+        return "?";
+    }
+  });
+
+  /**
    * Return true/false depending on whether debugElements setting in the game is enabled
    */
   Handlebars.registerHelper("cprIsDebug", () => {

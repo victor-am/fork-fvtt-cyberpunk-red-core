@@ -1,19 +1,18 @@
 {{cprTrace "CPR-EFFECTS.HBS"}}
-{{log item}}
 {{#each item.data.effects}}
     {{!-- "effects" is a Map, so "this" is now an Active Effects object within the #each loop! --}}
-    {{log @key}}
-    {{log this}}
     {{#unless this.data.disabled}}
         <div class="item-summary-line">
-            <span class="text-bold summary-name">
-                {{this.data.label}} {{#if (cprIsDebug)}}({{this.data._id}}){{/if}}
-            </span>
+            <span class="text-bold summary-name">{{this.data.label}}</span>
+            <span class="summary-value">{{#if (cprIsDebug)}}({{this.data._id}}){{/if}}</span>
         </div>
-        {{!-- {{#each effect.changes as change}}
+        {{#each this.data.changes}}
+            {{!-- "this" is now an individual mod for the AE object --}}
             <div class="item-summary-line">
-                <span class="text-bold summary-name">{{change.mod}}:</span>
-                <span class="summary-value">{{change.val}}</span>
+                <span class="summary-value">&nbsp;&nbsp;{{this.key}}:</span>
+                <span class="summary-value">
+                    {{cprEffectModMode this.mode}}{{this.value}}
+                </span>
             </div>
         {{/each}} --}}
     {{/unless}}
