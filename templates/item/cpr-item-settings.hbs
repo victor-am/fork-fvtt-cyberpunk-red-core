@@ -6,17 +6,8 @@
                 <ol class="items-list">
                     {{!-- Item Name --}}
                     {{> "systems/cyberpunk-red-core/templates/item/cpr-item-name.hbs" this}}
-
-                    {{!-- Settings from mixins --}}
-                    {{#each (cprGetTemplates item.type) as |mixin|}}
-                        {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/settings/cpr-VAR.hbs" mixin) ../this}}
-                        <hr>
-                    {{/each}}
-
-                    {{!-- Settings specific to the item type --}}
-                    {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/settings/cpr-VAR.hbs" item.type) this}}
-
-                    {{!-- Finally, settings common to all items --}}
+                    
+                    {{!-- Settings common to all items --}}
                     <li class="item flexrow">
                         <div class="item flexrow setting-name text-nowrap">
                             {{localize "CPR.itemSheet.common.source"}}
@@ -30,6 +21,16 @@
                             {{/if}}
                         </div>
                     </li>
+                    <hr>
+
+                    {{!-- Settings from mixins --}}
+                    {{#each (cprGetTemplates item.type) as |mixin|}}
+                        {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/settings/cpr-VAR.hbs" mixin) ../this}}
+                        <hr>
+                    {{/each}}
+
+                    {{!-- Settings specific to the item type --}}
+                    {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/settings/cpr-VAR.hbs" item.type) this}}
                 </ol>
             </div>
         </div>

@@ -3,30 +3,12 @@
     {{!-- "effects" is a Map, so "this" is now an Active Effects object within the #each loop! --}}
     <li class="item effect flexrow" data-effect-id="{{this.data._id}}">
         <div class="item-name effect-name flexrow">
-            <img class="item-image" src="{{this.data.icon}}" />
+            <img class="item-effect-image" src="{{this.data.icon}}" />
             <h4>{{this.data.label}}</h4>
-        </div>
-        <div class="effect-source">{{this.sourceName}}</div>
-        <div class="effect-duration">{{effect.duration.label}}</div>
-        <div class="effect-mods">
-            {{#each this.data.changes}}
-                {{!-- "this" is now an individual mod for the AE object --}}
-                {{#select this.key}}
-                    {{#each ((getSupportedModKeys item) as |key name|)}}
-                        <option value="{{key}}">{{name}}</option>
-                    {{/select}}
-                {{/select}}
-                {{#select this.mode}}
-                    <option value=2>+</option>
-                    <option value=5>=</option>
-                    <option value=1>*</option>
-                {{/select}}
-                <input name="this.value" class="" type="number" value="{{this.value}}">
-            {{/each}}
         </div>
         <div class="item-controls effect-controls flexrow">
             <a class="effect-control" data-action="toggle" title="{{localize "CPR.itemSheet.effects.toggleEffectDesc"}}">
-                <i class="far {{#if this.data.disabled}}fa-check{{else}}fa-check-circle{{/if}}"></i>
+                <i class="far {{#if this.data.disabled}}fa-circle{{else}}fa-check-circle{{/if}}"></i>
             </a>
             <a class="effect-control" data-action="edit" title="{{localize "CPR.itemSheet.effects.editEffectDesc"}}">
                 <i class="fas fa-edit"></i>
@@ -35,11 +17,12 @@
                 <i class="fas fa-trash"></i>
             </a>
         </div>
-        <div class="item-controls effect-controls flexrow">
-            <a class="effect-control" data-action="create" title="{{localize 'CPR.itemSheet.effects.createEffectDesc'}}">
-                <i class="fas fa-plus"></i> {{localize "CPR.itemSheet.effects.createEffect"}}
-            </a>
-        </div>
     </li>
 {{/each}}
+<br>
+<div class="item-controls effect-controls flexrow">
+    <a class="effect-control" data-action="create" title="{{localize 'CPR.itemSheet.effects.createEffectDesc'}}">
+        <i class="fas fa-plus"></i> {{localize "CPR.itemSheet.effects.createEffect"}}
+    </a>
+</div>
 {{cprTrace "END CPR-EFFECTS.HBS"}}

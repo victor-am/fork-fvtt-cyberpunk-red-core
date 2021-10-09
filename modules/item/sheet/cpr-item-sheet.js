@@ -147,6 +147,9 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".netarch-item-link").click((event) => this._openItemFromId(event));
 
+    // Active Effects listener
+    html.find(".effect-control").click((event) => this.item.manageEffects(event));
+
     // Sheet resizing
     html.find(".tab-label").click(() => this._automaticResize());
   }

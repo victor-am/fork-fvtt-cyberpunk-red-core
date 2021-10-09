@@ -1,6 +1,5 @@
-/* global $ */
-
 import LOGGER from "../../utils/cpr-logger.js";
+import EventUtils from "../../utils/cpr-eventUtils.js";
 import CPRSystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
@@ -36,25 +35,21 @@ const Effects = function Effects() {
   this.manageEffects = function manageEffects(event) {
     LOGGER.trace("manageEffects | Effects | Called.");
     event.preventDefault();
-    const action = $(event.currentTarget).attr("data-effect-action");
-    LOGGER.debug(`managing effects: ${action}`);
-    switch (event.action) {
+    const action = EventUtils.GetEventDatum(event, "data-action");
+    switch (action) {
       case "create":
         return this.createEffect();
       case "edit": {
-        const effectId = $(event.currentTarget).attr("data-effect-id");
-        const effect = this.items.find((i) => i.data._id === effectId);
-        return this.editEffect(effect);
+        const effectId = EventUtils.GetEventDatum(event, "data-effect-id");
+        return this.editEffect(effectId);
       }
       case "delete": {
-        const effectId = $(event.currentTarget).attr("data-effect-id");
-        const effect = this.items.find((i) => i.data._id === effectId);
-        return this.deleteEffect(effect);
+        const effectId = EventUtils.GetEventDatum(event, "data-effect-id");
+        return this.deleteEffect(effectId);
       }
       case "toggle": {
-        const effectId = $(event.currentTarget).attr("data-effect-id");
-        const effect = this.items.find((i) => i.data._id === effectId);
-        return this.toggleEffect(effect);
+        const effectId = EventUtils.GetEventDatum(event, "data-effect-id");
+        return this.toggleEffect(effectId);
       }
       default:
         LOGGER.error(`Unknown effects action: ${action}`);
