@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   style="height: 512px; width: 512px;"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="insulated_wiring.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs12">
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter893"
+       x="-0.1615193"
+       y="-0.19234468"
+       width="1.3145376"
+       height="1.374566">
+      <feFlood
+         flood-opacity="1"
+         flood-color="rgb(58,63,94)"
+         result="flood"
+         id="feFlood883" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="out"
+         result="composite1"
+         id="feComposite885" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="30"
+         result="blur"
+         id="feGaussianBlur887" />
+      <feOffset
+         dx="-4"
+         dy="-4"
+         result="offset"
+         id="feOffset889" />
+      <feComposite
+         in="offset"
+         in2="SourceGraphic"
+         operator="atop"
+         result="composite2"
+         id="feComposite891" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter937"
+       x="-0.052472013"
+       y="-0.062486109"
+       width="1.104944"
+       height="1.1249722">
+      <feFlood
+         flood-opacity="1"
+         flood-color="rgb(58,63,94)"
+         result="flood"
+         id="feFlood927" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="out"
+         result="composite1"
+         id="feComposite929" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="10.2874"
+         result="blur"
+         id="feGaussianBlur931" />
+      <feOffset
+         dx="0"
+         dy="0"
+         result="offset"
+         id="feOffset933" />
+      <feComposite
+         in="offset"
+         in2="SourceGraphic"
+         operator="atop"
+         result="composite2"
+         id="feComposite935" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="namedview10"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.7050781"
+     inkscape:cx="256"
+     inkscape:cy="256"
+     inkscape:window-width="1716"
+     inkscape:window-height="1414"
+     inkscape:window-x="3160"
+     inkscape:window-y="587"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg8" />
+  <path
+     d="M0 0h512v512H0z"
+     fill="#b90202"
+     fill-opacity="1"
+     id="path2"
+     style="fill:#1b1f21;fill-opacity:1" />
+  <g
+     class=""
+     style="fill:#e64539;fill-opacity:1;filter:url(#filter937)"
+     transform="translate(0,0)"
+     id="g6">
+    <path
+       d="M104.53 75.188l.064 11.75C105.387 196.84 154.647 306.933 252 401l6.5 6.28L265 401c96.765-93.853 146.975-204.032 147.844-314.063l.094-11.718-11.47 2.53c-80.262 17.713-205.254 17.923-285.468 0l-11.47-2.563zm33.907 32.468l11.438 2.563c60.965 13.62 156.674 13.463 217.688 0l11.468-2.532-.092 11.718c-.67 84.917-39.46 169.857-113.907 242.063l-6.467 6.28-6.5-6.28C177.16 289.095 139.113 204.213 138.5 119.405l-.063-11.75zm221.407 22.97c-60.417 11.242-141.785 11.386-202.25.03 3.59 73.105 36.766 146.23 100.937 210.844 63.845-64.506 97.625-137.755 101.314-210.875zm-340.22 136.5L123 433.468l17.906-51.314 96.188 88.156L133.72 303.97l-17.907 51.31-96.188-88.155zm470.532 0l-96.22 88.155-17.873-51.31L272.656 470.31l96.188-88.156 17.906 51.313 103.406-166.345z"
+       fill="#ffffff"
+       fill-opacity="1"
+       stroke="#ffffff"
+       stroke-opacity="1"
+       stroke-width="0"
+       id="path4"
+       style="fill:#e64539;fill-opacity:1" />
+  </g>
+</svg>

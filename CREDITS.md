@@ -151,6 +151,11 @@
 - `icons/compendium/gear/vial_poison.svg` remixed from [Vial](https://game-icons.net/1x1/sbed/vial.html) and [Poison Bottle](https://game-icons.net/1x1/lorc/poison-bottle.html)
 - `icons/compendium/gear/video_camera.svg` from [Video Camera](https://www.svgrepo.com/svg/31680/video-camera)
 - `icons/compendium/image/tech_tool/png.svg` remixed from [Swiss army Knife](https://game-icons.net/1x1/delapouite/swiss-army-knife.html) and [Device Focus Point](https://www.svgrepo.com/svg/107163/device-focus-point)
+- `icons/compendium/item_upgrades/dna_lock.svg` remixed from [Combination Lock](https://game-icons.net/1x1/skoll/combination-lock.html) and [DNA 2](https://game-icons.net/1x1/lorc/dna2.html)
+- `icons/compendium/item_upgrades/hardened_circuitry.svg` remixed from [CPU](https://game-icons.net/1x1/delapouite/cpu.html) and [Shield](https://game-icons.net/1x1/sbed/shield.html)
+- `icons/compendium/item_upgrades/infrared_nightvision_scope.svg.svg` from [Orbit](https://www.svgrepo.com/svg/285298/orbit)
+- `icons/compendium/item_upgrades/range_upgrade.svg` remixed from [WiFi](https://www.svgrepo.com/svg/10334/wifi)
+- `icons/compendium/item_upgrades/sniping_scope.svg` remixed from [Target Sniper](https://www.svgrepo.com/svg/182279/target-sniper)
 
 ### ART CREDITS
 - Pause overlay image: [Olena Panasovska](https://thenounproject.com/term/cyberpunk/1797860/) (CCBY)
