@@ -14,12 +14,33 @@
 - `icons/compendium/clothing/generic_jewlery.svg` from [Gem Pendant](https://game-icons.net/1x1/lorc/gem-pendant.html)
 - `icons/compendium/clothing/generic_mirrorshades.svg` from [Glasses Vision](https://www.svgrepo.com/svg/201581/glasses-vision)
 - `icons/compendium/clothing/generic_top.svg` from [Shirt](https://www.svgrepo.com/svg/22216/shirt)
+- `icons/compendium/critical_injirues/head_broken_jaw.svg` remixed from [Jawbone](https://game-icons.net/1x1/lorc/jawbone.html)
+- `icons/compendium/critical_injuries/body_broken_arm.svg` remixed from [Arm](https://game-icons.net/1x1/delapouite/arm.html)
+- `icons/compendium/critical_injuries/body_broken_leg.svg` remixed from [Knee Bandage](https://game-icons.net/1x1/delapouite/knee-bandage.html)
+- `icons/compendium/critical_injuries/body_broken_ribs.svg` remixed from [Ribcage](https://game-icons.net/1x1/lorc/ribcage.html)
+- `icons/compendium/critical_injuries/body_collapsed_lung.svg` remixed from [Lungs](https://game-icons.net/1x1/delapouite/lungs.html)
+- `icons/compendium/critical_injuries/body_crushed_fingers.svg` remixed from [Hand Filled Shape](https://www.svgrepo.com/svg/172910/hand-filled-shape)
+- `icons/compendium/critical_injuries/body_dismembered_hand.svg` remixed from [Standing Human](https://www.svgrepo.com/svg/76394/standing-human-body-silhouette)
+- `icons/compendium/critical_injuries/body_dismembered_leg.svg` remixed from [Standing Human](https://www.svgrepo.com/svg/76394/standing-human-body-silhouette)
+- `icons/compendium/critical_injuries/body_spinal_injury.svg` remixed from [Spine Bone](https://www.svgrepo.com/svg/70061/spine-bone)
+- `icons/compendium/critical_injuries/dismembered_arm.svg` remixed from [Standing Human](https://www.svgrepo.com/svg/76394/standing-human-body-silhouette)
+- `icons/compendium/critical_injuries/head_brain_injury.svg` remixed from [Brain](https://www.svgrepo.com/svg/115982/brain)
+- `icons/compendium/critical_injuries/head_concussion.svg` remixed from [Brain](https://www.svgrepo.com/svg/204189/brain)
+- `icons/compendium/critical_injuries/head_cracked_skull.svg` remixed from [Skull Crack](https://game-icons.net/1x1/lorc/skull-crack.html)
+- `icons/compendium/critical_injuries/head_crushed_windpipe.svg` remixed from [Standing Human](https://www.svgrepo.com/svg/76394/standing-human-body-silhouette)
+- `icons/compendium/critical_injuries/head_damaged_ear.svg` remixed from [Ear](https://www.svgrepo.com/svg/204196/ear)
+- `icons/compendium/critical_injuries/head_damaged_eye.svg` remixed from [Eye](https://www.svgrepo.com/svg/66782/eye)
+- `icons/compendium/critical_injuries/head_foreign_object.svg` remixed from [Standing Human](https://www.svgrepo.com/svg/76394/standing-human-body-silhouette)
+- `icons/compendium/critical_injuries/head_lost_ear.svg` remixed from [Ear](https://www.svgrepo.com/svg/204196/ear)
+- `icons/compendium/critical_injuries/head_lost_eye.svg` remixed from [Eye](https://www.svgrepo.com/svg/66782/eye)
+- `icons/compendium/critical_injury/head_whiplash.svg` remixed from [Head](https://www.svgrepo.com/svg/6979/head)
 
 ### ART CREDITS
 - Pause overlay image: [Olena Panasovska](https://thenounproject.com/term/cyberpunk/1797860/) (CCBY)
 - Netarchitecture tiles, Dystopian City Streets, Dystopian City Junction scenes and and background picture created by [SolutionMaps](https://www.patreon.com/solutionmaps).
 - Netrunning icons provided by Verasunrise and Hyriu33.
 - Program/Black ICE icon usage inspired by [Verfasst von Tim](https://charzinski.wordpress.com/2021/01/10/cyberpunk-red-netrunner-cards/).
+- Status & Critical Injury icons inspired by by [evr-](https://old.reddit.com/r/cyberpunkred/comments/lpicdf/roll20_custom_status_icons_for_cyberpunk_red/).
 
 ### CODE CREDITS
 - Some of our chat message code was inspired from the [Chat Message Accessibility Indicators module](https://github.com/schultzcole/FVTT-Chat-Message-Accessibility-Indicators)
