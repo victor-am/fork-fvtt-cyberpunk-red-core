@@ -156,6 +156,16 @@
 - `icons/compendium/item_upgrades/infrared_nightvision_scope.svg.svg` from [Orbit](https://www.svgrepo.com/svg/285298/orbit)
 - `icons/compendium/item_upgrades/range_upgrade.svg` remixed from [WiFi](https://www.svgrepo.com/svg/10334/wifi)
 - `icons/compendium/item_upgrades/sniping_scope.svg` remixed from [Target Sniper](https://www.svgrepo.com/svg/182279/target-sniper)
+- `icons/compendium/status/broken_weapon.svg` remixed from [Glock](https://game-icons.net/1x1/skoll/glock.html)
+- `icons/compendium/status/drugged.svg` remixed from [Pill](https://www.svgrepo.com/svg/141371/pill)
+- `icons/compendium/status/grappled.svg` from [Grab](https://game-icons.net/1x1/lorc/grab.html)
+- `icons/compendium/status/hidden.svg` from [Ninja Head](https://game-icons.net/1x1/darkzaitzev/ninja-head.html)
+- `icons/compendium/status/in_cover.svg` remixed from [Shield](https://www.svgrepo.com/svg/54670/shield)
+- `icons/compendium/status/netrunning.svg` from [Virtual Reality Headset Virtual Reality Augmented Reality Ar](https://www.svgrepo.com/svg/308146/virtual-reality-headset-virtual-reality-augmented-reality-ar)
+- `icons/compendium/status/on_fire.svg` from [Fire Silhouette](https://game-icons.net/1x1/lorc/fire-silhouette.html)
+- `icons/compendium/status/prone.svg` remixed from [Up Arrow](https://www.svgrepo.com/svg/73039/up-arrow)
+- `icons/compendium/status/readied_action.svg` from [Backward Time](https://game-icons.net/1x1/delapouite/backward-time.html)
+- `icons/compendium/status/unconcious.svg` from [Knockout](https://game-icons.net/1x1/skoll/knockout.html)
 
 ### ART CREDITS
 - Pause overlay image: [Olena Panasovska](https://thenounproject.com/term/cyberpunk/1797860/) (CCBY)
