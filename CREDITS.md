@@ -166,6 +166,7 @@
 - `icons/compendium/status/prone.svg` remixed from [Up Arrow](https://www.svgrepo.com/svg/73039/up-arrow)
 - `icons/compendium/status/readied_action.svg` from [Backward Time](https://game-icons.net/1x1/delapouite/backward-time.html)
 - `icons/compendium/status/unconcious.svg` from [Knockout](https://game-icons.net/1x1/skoll/knockout.html)
+- `icons/compendium/weapons/martial_arts/.svg` remixed from [Karate Master](https://www.svgrepo.com/svg/120059/karate-master)
 
 ### ART CREDITS
 - Pause overlay image: [Olena Panasovska](https://thenounproject.com/term/cyberpunk/1797860/) (CCBY)
