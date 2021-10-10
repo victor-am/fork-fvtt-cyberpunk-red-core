@@ -378,6 +378,9 @@
           "isConcealed": false
         }
       },
+      "stackable": {
+        "amount": 1
+      },
       "upgradable": {
         "isUpgraded": false,
         "upgrades": []
@@ -492,15 +495,16 @@
       "templates": [
         "common",
         "effects",
-        "physical"
+        "physical",
+        "stackable"
       ]
     },
     "clothing": {
       "templates": [
         "common",
+        "effects",
         "physical",
-        "upgradable",
-        "equippable"
+        "stackable"
       ],
       "type": "",
       "style": ""

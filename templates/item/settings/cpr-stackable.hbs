@@ -1,0 +1,14 @@
+{{cprTrace "CPR-STACKABLE.HBS"}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap" title="{{localize "CPR.global.generic.amount"}}">
+        {{localize "CPR.global.generic.amount"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if this.editable}}
+            <input name="data.amount" class="" type="number" value="{{data.data.amount}}">
+        {{else}}
+            <span class="text-flex-end">{{data.data.amount}}</span>
+        {{/if}}
+    </div>
+</li>
+{{cprTrace "END CPR-STACKABLE.HBS"}}

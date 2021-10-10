@@ -116,9 +116,10 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/description/cpr-effects.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-physical.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/cpr-stackable.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-effects.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-physical.hbs",
-
+    "systems/cyberpunk-red-core/templates/item/settings/cpr-stackable.hbs",
   ]);
 }

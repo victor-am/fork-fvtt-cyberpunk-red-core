@@ -1,4 +1,6 @@
 {{cprTrace "CPR-EFFECTS.HBS"}}
+<span class="text-large">{{localize "CPR.itemSheet.effects.effects"}}</span>
+<br>
 {{#each item.data.effects}}
     {{!-- "effects" is a Map, so "this" is now an Active Effects object within the #each loop! --}}
     <li class="item effect flexrow" data-effect-id="{{this.data._id}}">

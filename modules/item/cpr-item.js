@@ -12,6 +12,7 @@ import Consumeable from "./mixins/cpr-consumeable.js";
 import Effects from "./mixins/cpr-effects.js";
 import Loadable from "./mixins/cpr-loadable.js";
 import Physical from "./mixins/cpr-physical.js";
+import Stackable from "./mixins/cpr-stackable.js";
 // import Spawner from "./mixins/cpr-spawner.js";
 // import Upgradeable from "./mixins/cpr-upgradeable.js";
 import Virtual from "./mixins/cpr-virtual.js";
@@ -111,6 +112,10 @@ export default class CPRItem extends Item {
         }
         case "consumable": {
           Consumeable.call(CPRItem.prototype);
+          break;
+        }
+        case "stackable": {
+          Stackable.call(CPRItem.prototype);
           break;
         }
         default:
@@ -485,15 +490,6 @@ export default class CPRItem extends Item {
       } else {
         this.getRollData().magazine.value = Math.clamped(0, value, maxAmmo);
       }
-    }
-  }
-
-  setItemAmount(value) {
-    LOGGER.trace("setItemAmount | CPRItem | Called.");
-    if (value.charAt(0) === "+" || value.charAt(0) === "-") {
-      this.getRollData().amount = this.getRollData().amount + parseInt(value, 10);
-    } else {
-      this.getRollData().amount = parseInt(value, 10);
     }
   }
 
