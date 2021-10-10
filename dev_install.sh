@@ -5,9 +5,7 @@
 # the same installation of Foundry.
 
 echo "Switching to dev mode for this installation."
-echo "Warning - system.json added to .gitignore."
+echo "Warning - Do not check in system.json"
 
 sed -i.bak "s/Cyberpunk RED - CORE/Cyberpunk RED - DEV/" system.json
 sed -i.bak "s/\"cyberpunk-red-core\"/\"fvtt-cyberpunk-red-core\"/" system.json
-echo "system.json" >>.gitignore
-echo ".gitignore" >>.gitignore
