@@ -153,7 +153,10 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".item-view").click((event) => this._renderReadOnlyItemCard(event));
 
     // Reset Death Penalty
-    html.find(".reset-value").click((event) => this._resetDeathSave(event));
+    html.find(".reset-deathsave-value").click(() => this._resetDeathSave());
+
+    // Increase Death Penalty
+    html.find(".increase-deathsave-value").click(() => this._increaseDeathSave());
 
     // Filter contents of skills or gear
     html.find(".filter-contents").change((event) => this._applyContentFilter(event));
@@ -340,24 +343,25 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   /**
-   * Callback for reseting an actor's death save
-   * TODO: the data-value attribute is only used for this method, it is safe to remove it from the templates
-   *       and remove the switch statement herein.
+   * Callback for increasing an actor's death save
    *
    * @callback
    * @private
-   * @param {Object} event - object with details of the event
    */
-  _resetDeathSave(event) {
+  _increaseDeathSave() {
+    LOGGER.trace("_increaseDeathSave | CPRActorSheet | Called.");
+    this.actor.increaseDeathPenalty();
+  }
+
+  /**
+   * Callback for reseting an actor's death save
+   *
+   * @callback
+   * @private
+   */
+  _resetDeathSave() {
     LOGGER.trace("_resetDeathSave | CPRActorSheet | Called.");
-    const actorValue = $(event.currentTarget).attr("data-value");
-    switch (actorValue) {
-      case CPRRolls.rollTypes.DEATHSAVE: {
-        this.actor.resetDeathPenalty();
-        break;
-      }
-      default:
-    }
+    this.actor.resetDeathPenalty();
   }
 
   /**
