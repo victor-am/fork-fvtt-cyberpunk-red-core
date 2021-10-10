@@ -76,3 +76,29 @@ We are using less files, and gulp to manage our project CSS.
 > run: `npm i` within the project directory to install gulp, gulp-cli and gulp-less locally as dev dependencies.
 
 > run: `npx gulp` to run the gulp command, this will also run watch, which will watch the project for changes.
+
+### Icon Art Style
+
+Icons should be SVG is possible. Actor Icons should be WEBP or PNG.
+
+All icons should follow the same colorscheme:
+
+* Background: 1b1f21ff
+* Foreground: e64539ff
+* Shadow: 3s3f5eff
+
+To recreate the effect on the icons you can use the following in Inkscape:
+
+0. Set background to: 1B1F21FF
+0. Ensure the foreground is a single object
+  0. Select all paths
+  0. Path > Union
+0. Set the foreground object path (and stroke if used) to: E64539FF
+0. Select the forground object
+0. Filters > Dropshadow:
+  * Radius: `Variable`
+    * Adjust till it doesn't look terrible, low 0-10 for images with small narrow parts, higher for more solid images
+  * Horizontal: -4.0
+  * Vertical: -4.0
+  * Type: Inner
+  * Colour: 3A3F5EFF

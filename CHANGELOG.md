@@ -3,6 +3,7 @@
 - Added functionality to delete single ledger lines for the GM. Players are not able to do so.
   - It is possible to not only delete the line in the ledger, but also change the value up or down upon deletion.
 - Added functionality to manually increase the Death Save Penalty of a character. This is useful in case a character gets hit, while Mortally Wounded.
+- Many new icons added to items in the compendiums! See CREDITS.md for attribution and thanks!
 
 **Changes**
 - When a release update is applied, a pop up window will now display with relevant information:
@@ -22,8 +23,8 @@
 - Fixed #254 - Deleting an unlinked token that has a sheet open will now close that sheet as it is rendered useless.
 - Fixed #329 - Containers are not randomly forgetting their settings anymore.
 - Fixed comments in the default macro that gets created when you drag a weapon to the hotbar to correctly provide the settings for a ranged weapon attack.
-- Fixed #331 - The actor role tab now uses the proper localisation string for deleting the role item.
-
+- Fixed #331 - The actor role tab now uses the proper localisation string for deleting the role item. 
+- Fixed #337 - Added missing Bohemian Jacket. Correct name of Asia Pop Mirrorshades and Mr. Studd.
 
 # Version 0.79.1 | Date: 2021-09-11
 **Hot Fix**
