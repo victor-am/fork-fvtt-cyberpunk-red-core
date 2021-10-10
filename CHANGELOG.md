@@ -2,6 +2,7 @@
 **New Features**
 - Added functionality to delete single ledger lines for the GM. Players are not able to do so.
   - It is possible to not only delete the line in the ledger, but also change the value up or down upon deletion.
+- Many new icons added to items in the compendiums! See CREDITS.md for attribution and thanks!
 
 **Changes**
 - When a release update is applied, a pop up window will now display with relevant information:
