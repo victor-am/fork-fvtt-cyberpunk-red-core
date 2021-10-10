@@ -4,6 +4,7 @@
 ### ICON CREDITS
 - Icons, Art, Design, and Styling: [Flintwyrm](https://twitter.com/Flintwyrm)
 - Default icons for compendia provided by Lorc, Delapouite, Skoll, sbed, and John Colburn (from https://game-icons.net) under the CC-BY license (https://creativecommons.org/licenses/by/3.0/)
+- Ammo Icons by [Mirradin](https://old.reddit.com/user/Mirrandin)
 - `icons/compendium/blackice/kraken.{svg,webp}` from [Mode Standard Kraken](https://www.svgrepo.com/svg/355417/mode-standard-kraken)
 - `icons/compendium/clothing/generic_bottoms.svg` from [Trousers Pants](https://www.svgrepo.com/svg/275007/trousers-pants)
 - `icons/compendium/clothing/generic_contact-lenses.svg` from [Contact Lens](https://www.svgrepo.com/svg/160924/contact-lens)
