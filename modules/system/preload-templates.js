@@ -121,5 +121,8 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/settings/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-physical.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-stackable.hbs",
+
+    // Active Effects Sheet
+    "systems/cyberpunk-red-core/templates/effects/cpr-active-effect-sheet.hbs",
   ]);
 }

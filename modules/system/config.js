@@ -385,6 +385,20 @@ CPR.universalBonuses = {
   damage: "CPR.universalBonuses.damage",
 };
 
+CPR.effectModifierKeys = {
+  "data.stats.luck.max": "CPR.global.stats.luck",
+  "data.stats.dex.value": "CPR.global.stats.dex",
+  "data.data.skills.perception": "CPR.global.skills.perception",
+  "data.data.derivedStats.hp": "CPR.global.generic.hitpoints",
+  "data.data.universalBonuses.attack": "CPR.itemSheet.weapon.attackMod",
+};
+
+CPR.effectModifierModes = {
+  1: "CPR.effectSheet.modifiers.multiply",
+  2: "CPR.effectSheet.modifiers.addsubtract",
+  5: "CPR.effectSheet.modifiers.override",
+};
+
 // The following item types have the upgradable template:
 //  *ammo, armor, cyberware, cyberdeck, *gear, clothing, weapon, vehicle
 CPR.upgradableDataPoints = {

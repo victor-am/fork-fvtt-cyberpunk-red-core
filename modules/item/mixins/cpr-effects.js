@@ -7,26 +7,6 @@ import CPRSystemUtils from "../../utils/cpr-systemUtils.js";
  */
 const Effects = function Effects() {
   /**
-   * This method strives to provide what is needed for a good user experience when associating effects with
-   * the stats they change. The intent is to present a bunch of readable names, and map them to internal
-   * data structures.
-   *
-   * TODO: make this more dynamic
-   * TODO: still very incomplete
-   *
-   * @returns {Object} - a big dictionary of data paths to user-readable names. Used in Item Sheet UIs.
-   */
-  this.getSupportedStats = function getSupportedStats() {
-    return {
-      "stats.luck": CPRSystemUtils.Localize("CPR.global.stats.luck"),
-      "stats.dex.value": CPRSystemUtils.Localize("CPR.global.stats.dex"),
-      "skills.perception": CPRSystemUtils.Localize("CPR.global.skills.perception"),
-      "derivedStats.hp": CPRSystemUtils.Localize("CPR.global.generic.hitpoints"),
-      "universalBonuses.attack": CPRSystemUtils.Localize("CPR.itemSheet.weapon.attackMod"),
-    };
-  };
-
-  /**
    * A dispatcher for calling methods that affect active effects.
    *
    * @param {Object} event - object representing what was clicked, dragged, etc

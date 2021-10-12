@@ -46,7 +46,6 @@ const Physical = function Physical() {
    */
   this.setConcealable = function setConcealable(val) {
     LOGGER.trace("setConcealable | Physical | Called.");
-    LOGGER.debugObject(this);
     const itemData = duplicate(this.data);
     let target = "data.concealable.concealable";
     setProperty(itemData, target, val);
@@ -57,7 +56,6 @@ const Physical = function Physical() {
       setProperty(itemData, target, val);
       LOGGER.log(`${itemData._id} ${target} set to ${val}`);
     }
-    LOGGER.debugObject(itemData);
     this.update(itemData);
   };
 };

@@ -83,8 +83,6 @@ export default class CPRItemSheet extends ItemSheet {
       data.data.data.availableSlots = this.object.availableSlots();
     }
     data.dvTableNames = DvUtils.GetDvTables();
-    LOGGER.debug("getting data");
-    LOGGER.debugObject(data);
     return data;
   }
 
