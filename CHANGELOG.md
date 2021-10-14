@@ -24,7 +24,8 @@
 - Fixed #329 - Containers are not randomly forgetting their settings anymore.
 - Fixed comments in the default macro that gets created when you drag a weapon to the hotbar to correctly provide the settings for a ranged weapon attack.
 - Fixed #331 - The actor role tab now uses the proper localisation string for deleting the role item. 
-- Fixed #337 - Added missing Bohemian Jacket. Correct name of Asia Pop Mirrorshades and Mr. Studd.
+- Fixed #337 - Added missing Bohemian Jacket. Corrected name of Asia Pop Mirrorshades and Mr. Studd.
+- Fixed #339 - Added missing Tracer Button.
 
 # Version 0.79.1 | Date: 2021-09-11
 **Hot Fix**
