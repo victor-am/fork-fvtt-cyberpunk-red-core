@@ -222,7 +222,7 @@
 			"description": "<p>Access to nervous system. </p>"
 		},
 		"Olfactory Boost": {
-			"name": "Olfactory Boost",
+			"name": "Olfato Aguçado",
 			"description": "<p>Chipware. Allows scent tracking</p>"
 		},
 		"Pain Editor": {
@@ -362,7 +362,7 @@
 			"description": "<p>A metallic coating for your leg. Provides +2 to Wardrobe and Style. </p>"
 		},
 		"Tactile Boost": {
-			"name": "Tactile Boost",
+			"name": "Impulso Tático",
 			"description": "<p>Chipware. Can detect motion up to 20m/yd away through surfaces.</p>"
 		},
 		"Talon Foot": {
