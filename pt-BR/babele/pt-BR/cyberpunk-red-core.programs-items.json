@@ -18,8 +18,8 @@
 			"description": "<p>+2 to Cloak Checks while Rezzed.</p>"
 		},
 		"Flak": {
-			"name": "Flak",
-			"description": "<p>Non-Black ICE attacks against you are reduced to 0 while Rezzed. Only 1 copy may be Rezzed at a time. Each copy has 1 use per Netrun.</p>"
+			"name": "Armadura",
+			"description": "<p>Os ataques de não Black ICE contra você são reduzidos a 0 enquanto Carregado. Apenas 1 cópia pode ser Carregada de cada vez. Cada cópia tem 1 uso por Netrun.</p>"
 		},
 		"Hellbolt": {
 			"name": "Hellbolt",
