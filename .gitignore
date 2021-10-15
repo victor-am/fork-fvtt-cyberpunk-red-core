@@ -5,6 +5,9 @@ node_modules
 *.pdf
 *.bak
 
+# MacOS clutter
+.DS_Store
+
 !.vscode/extensions.json
 
 # Local config
