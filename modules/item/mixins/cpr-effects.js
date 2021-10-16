@@ -128,13 +128,16 @@ const Effects = function Effects() {
     LOGGER.trace("setModOnEffect | Effects | Called.");
     const effect = this.getEffect(eid);
     LOGGER.debug(`Setting name on ${eid} to ${name}`);
+    if (this.isEmbedded) {
+      return this.actor.updateEmbeddedDocuments("ActiveEffect", [{ _id: this.id, data: this.data.data }]);
+    }
     return effect.update({ label: name });
   };
 
   /**
    * Add a modifier to the given active effect on this item. Valid mods are objects like this:
    * {
-   *    key: "abilities.dex.mod"
+   *    key: "data.stats.dex.value"
    *    mode: 2
    *    priority: 10   <-- implies an order to applying effects; not used in this system
    *    value: "20"

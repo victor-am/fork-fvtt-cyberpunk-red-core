@@ -580,10 +580,10 @@
     },
     "criticalInjury": {
       "templates": [
-        "common"
+        "common",
+        "effects"
       ],
       "location": "body",
-      "effects": "",
       "quickFix": {
         "type": "firstAidParamedic",
         "dvFirstAid": 0,
