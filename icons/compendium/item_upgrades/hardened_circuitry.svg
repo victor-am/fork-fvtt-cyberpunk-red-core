@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   style="height: 512px; width: 512px;"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="hardened_circuitry.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs12">
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter871"
+       x="-0.16239316"
+       y="-0.16239316"
+       width="1.3162393"
+       height="1.3162393">
+      <feFlood
+         flood-opacity="1"
+         flood-color="rgb(58,63,94)"
+         result="flood"
+         id="feFlood861" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="out"
+         result="composite1"
+         id="feComposite863" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="30"
+         result="blur"
+         id="feGaussianBlur865" />
+      <feOffset
+         dx="-4"
+         dy="-4"
+         result="offset"
+         id="feOffset867" />
+      <feComposite
+         in="offset"
+         in2="SourceGraphic"
+         operator="atop"
+         result="composite2"
+         id="feComposite869" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="namedview10"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.7050781"
+     inkscape:cx="251.30814"
+     inkscape:cy="218.46507"
+     inkscape:window-width="1716"
+     inkscape:window-height="1414"
+     inkscape:window-x="3160"
+     inkscape:window-y="587"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg8" />
+  <path
+     d="M0 0h512v512H0z"
+     fill="#b90202"
+     fill-opacity="1"
+     id="path2"
+     style="fill:#1b1f21;fill-opacity:1" />
+  <g
+     class=""
+     style="fill:#e64539;fill-opacity:1;filter:url(#filter871)"
+     transform="translate(0,0)"
+     id="g6">
+    <path
+       id="path4"
+       d="M 151 22 L 151 54 L 169 54 L 169 22 L 151 22 z M 199 22 L 199 54 L 217 54 L 217 22 L 199 22 z M 247 22 L 247 54 L 265 54 L 265 22 L 247 22 z M 295 22 L 295 54 L 313 54 L 313 22 L 295 22 z M 343 22 L 343 54 L 361 54 L 361 22 L 343 22 z M 131.69922 73 L 73 131.69922 L 73 380.30078 L 131.69922 439 L 380.30078 439 L 439 380.30078 L 439 131.69922 L 380.30078 73 L 131.69922 73 z M 256 123.32422 C 273.59731 136.59171 326.38936 163.12695 361.58398 163.12695 L 361.58398 216.19727 C 361.58398 269.26723 308.79194 348.87331 256 388.67578 C 203.20806 348.87331 150.41602 269.26723 150.41602 216.19727 L 150.41602 163.12695 C 185.61064 163.12695 238.40269 136.59171 256 123.32422 z M 22 151 L 22 169 L 54 169 L 54 151 L 22 151 z M 458 151 L 458 169 L 490 169 L 490 151 L 458 151 z M 22 199 L 22 217 L 54 217 L 54 199 L 22 199 z M 458 199 L 458 217 L 490 217 L 490 199 L 458 199 z M 22 247 L 22 265 L 54 265 L 54 247 L 22 247 z M 458 247 L 458 265 L 490 265 L 490 247 L 458 247 z M 22 295 L 22 313 L 54 313 L 54 295 L 22 295 z M 458 295 L 458 313 L 490 313 L 490 295 L 458 295 z M 22 343 L 22 361 L 54 361 L 54 343 L 22 343 z M 458 343 L 458 361 L 490 361 L 490 343 L 458 343 z M 151 458 L 151 490 L 169 490 L 169 458 L 151 458 z M 199 458 L 199 490 L 217 490 L 217 458 L 199 458 z M 247 458 L 247 490 L 265 490 L 265 458 L 247 458 z M 295 458 L 295 490 L 313 490 L 313 458 L 295 458 z M 343 458 L 343 490 L 361 490 L 361 458 L 343 458 z "
+       style="fill:#e64539;fill-opacity:1" />
+  </g>
+  <g
+     id="g934"
+     transform="matrix(0.70389252,0,0,0.55281214,75.803515,114.48009)"
+     style="fill:#000000">
+    <g
+       class=""
+       id="g923"
+       style="fill:#000000" />
+  </g>
+</svg>

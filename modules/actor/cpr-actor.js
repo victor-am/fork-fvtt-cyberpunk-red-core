@@ -454,6 +454,16 @@ export default class CPRActor extends Actor {
   }
 
   /**
+   * Method to manually increase the death save penalty by 1.
+   * Can be used in case a character gets hit by an attack while mortally wounded.
+   */
+  increaseDeathPenalty() {
+    LOGGER.trace("increaseDeathPenalty | CPRActor | Called.");
+    const deathPenalty = this.data.data.derivedStats.deathSave.penalty + 1;
+    this.update({ "data.derivedStats.deathSave.penalty": deathPenalty });
+  }
+
+  /**
    * Whenever a death save passes, the penalty increases by 1. Once a character is stable,
    * the penalty should be reset to 0, which is what this method does.
    */
