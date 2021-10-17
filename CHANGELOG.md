@@ -26,6 +26,7 @@
 - Fixed #331 - The actor role tab now uses the proper localisation string for deleting the role item. 
 - Fixed #337 - Added missing Bohemian Jacket. Corrected name of Asia Pop Mirrorshades and Mr. Studd.
 - Fixed #339 - Added missing Tracer Button.
+- Fixed #335 - The Media Role Ability now uses the associated rank as a modifier. 
 
 # Version 0.79.1 | Date: 2021-09-11
 **Hot Fix**
