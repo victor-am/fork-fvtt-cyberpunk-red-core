@@ -24,14 +24,14 @@
       "lang": "en",
       "name": "English",
       "path": "lang/en.json"
-    }          
+    }
   ],
   "initiative": "1d10 + @stats.ref.value",
   "gridDistance": 1,
   "gridUnits": "m",
   "primaryTokenAttribute": "derivedStats.hp",
   "secondaryTokenAttribute": null,
-  "background" : "Header.jpg",
+  "background" : "images/Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
   "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/dev/system-dev.json",
   "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/dev/fvtt-cyberpunk-red-core-master.zip",
