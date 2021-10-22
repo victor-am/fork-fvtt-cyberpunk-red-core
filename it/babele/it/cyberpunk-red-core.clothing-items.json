@@ -29,13 +29,13 @@
 			"name": "Asia Pop Jewelry",
 			"description": ""
 		},
+		"Asia Pop Mirrorshades": {
+			"name": "Asia Pop Mirrorshades",
+			"description": null
+		},
 		"Asia Pop Top": {
 			"name": "Asia Pop Top",
 			"description": ""
-		},
-		"Asian Pop Mirrorshades": {
-			"name": "Asian Pop Mirrorshades",
-			"description": null
 		},
 		"Bag Lady Chic Bottoms": {
 			"name": "Bag Lady Chic Bottoms",
@@ -91,6 +91,10 @@
 		},
 		"Bohemian Hat": {
 			"name": "Bohemian Hat",
+			"description": ""
+		},
+		"Bohemian Jacket": {
+			"name": "Bohemian Jacket",
 			"description": ""
 		},
 		"Bohemian Jewelry": {
