@@ -221,6 +221,10 @@
 			"name": "Tent and Camping Equipment",
 			"description": "<p>For one person.</p>"
 		},
+		"Tracer Button": {
+			"name": "Tracer Button",
+			"description": "<p>Can be tracked from up to a mile away with a homing tracer.</p>"
+		},
 		"Vial of Biotoxin": {
 			"name": "Vial of Biotoxin",
 			"description": "<p>3d6 damage unless Resist Torture/Drugs. Armor does not apply.</p>"
