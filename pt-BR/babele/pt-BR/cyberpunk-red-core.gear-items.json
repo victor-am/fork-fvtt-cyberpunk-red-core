@@ -127,11 +127,11 @@
 		},
 		"Linear Frame β (Beta)": {
 			"name": "Linear Frame β (Beta)",
-			"description": "<p>Exoskeleton. Requires 2 Interface Plugs. Increases BODY to 14 while plugged in. No changes to your HP or Deathsave. </p>"
+			"description": "<p>Exoesqueleto. Requer 2 plugs de interface. Aumenta o BODY para 14. Não altera o seu PV ou Salva de Morte.</p>"
 		},
 		"Linear Frame ∑ (Sigma)": {
 			"name": "Linear Frame ∑ (Sigma)",
-			"description": "<p>Exoskeleton. Requires 1 Interface Plug. Increases BODY to 12 while plugged in. No changes to your HP or Deathsave. </p>"
+			"description": "<p>Exoesqueleto. Requer 1 plug de interface. Aumenta o BODY para 12. Não altera o seu PV ou Salva de Morte.</p>"
 		},
 		"Lock Picking Set": {
 			"name": "Lock Picking Set",
