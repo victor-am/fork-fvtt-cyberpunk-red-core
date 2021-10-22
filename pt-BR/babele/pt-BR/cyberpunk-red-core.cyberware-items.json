@@ -139,11 +139,11 @@
 		},
 		"Implanted Linear Frame β (Beta)": {
 			"name": "Implanted Linear Frame β (Beta)",
-			"description": "<p>Aumenta seu atributo BODY para 14 (ajustando seu HP, Limite de Ferimentos e Salva de Morte)</p>"
+			"description": "<p>Aumenta seu atributo BODY para 14 (ajustando seu PV, Limite de Ferimentos e Salva de Morte)</p>"
 		},
 		"Implanted Linear Frame ∑ (Sigma)": {
 			"name": "Implanted Linear Frame ∑ (Sigma)",
-			"description": "<p>Aumenta seu atributo BODY para 12 (ajustando seu HP, Limite de Ferimentos e Salva de Morte)</p>"
+			"description": "<p>Aumenta seu atributo BODY para 12 (ajustando seu PV, Limite de Ferimentos e Salva de Morte)</p>"
 		},
 		"Independent Air Supply": {
 			"name": "Independent Air Supply",
