@@ -21,6 +21,10 @@
 			"name": "AudioVox",
 			"description": "<p>Autotune synthesizer. Provides +2 to Acting and Play Instrument checks. </p>"
 		},
+		"Battleglove": {
+			"name": "Battleglove",
+			"description": "<p>An exotic heavy gauntlet, that covers your hand and forearm. Provides three option slots. Refer to the full item description on pg. 347.&nbsp;</p>"
+		},
 		"Big Knucks": {
 			"name": "Big Knucks",
 			"description": "<p>Armored knuckles which function as a Melee Weapon. </p>"
@@ -205,8 +209,8 @@
 			"name": "Midnight Lady Sexual Implant",
 			"description": "<p>Machine washable.</p>"
 		},
-		"Mr Studd Sexual Implant": {
-			"name": "Mr Studd Sexual Implant",
+		"Mr. Studd Sexual Implant": {
+			"name": "Mr. Studd Sexual Implant",
 			"description": "<p>Ready when you are.</p>"
 		},
 		"MultiOptic Mount": {
