@@ -61,6 +61,10 @@
 			"name": "Basic Very Heavy Pistol",
 			"description": "<p>Basic ammo, nothing special.</p>"
 		},
+		"Battery Pack": {
+			"name": "Battery Pack",
+			"description": "<p>A rechargable (1 hour) battery pack, commonly used with Exotic weapons. Contains 8 shots and can be recharged.&nbsp;</p>"
+		},
 		"Biotoxin Arrow": {
 			"name": "Biotoxin Arrow",
 			"description": "<p>No immediate damage. If hit DV15 Resist Torture/Drugs Check. On a fail 3d6 damage to HP. No Ablation. </p>"
