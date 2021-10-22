@@ -61,6 +61,10 @@
 			"name": "Munição de Pistola Muito Pesada",
 			"description": "<p>Munição básica, nada de especial.</p>"
 		},
+		"Battery Pack": {
+			"name": "Battery Pack",
+			"description": "<p>A rechargable (1 hour) battery pack, commonly used with Exotic weapons. Contains 8 shots and can be recharged.&nbsp;</p>"
+		},
 		"Biotoxin Arrow": {
 			"name": "Flecha de Biotoxina",
 			"description": "<p>Sem danos imediatos. Faça um teste de Resistência à Tortura/Drogas de VD15, se falhar toma 3d6 de dano direto. Sem ablação.</p>"
