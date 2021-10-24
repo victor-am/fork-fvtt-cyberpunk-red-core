@@ -409,6 +409,14 @@ CPR.effectModifierModes = {
   5: "CPR.effectSheet.modifiers.override",
 };
 
+CPR.effectUses = {
+  always: "CPR.effectSheet.uses.always",
+  carried: "CPR.effectSheet.uses.carried",
+  consumed: "CPR.effectSheet.uses.consumed",
+  equipped: "CPR.effectSheet.uses.equipped",
+  toggled: "CPR.effectSheet.uses.toggled",
+};
+
 // The following item types have the upgradable template:
 //  *ammo, armor, cyberware, cyberdeck, *gear, clothing, weapon, vehicle
 CPR.upgradableDataPoints = {

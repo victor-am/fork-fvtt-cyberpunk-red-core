@@ -1,30 +1,40 @@
 {{cprTrace "CPR-EFFECTS.HBS"}}
 <span class="text-large">{{localize "CPR.itemSheet.effects.effects"}}</span>
 <br>
-{{#each item.data.effects}}
-    {{!-- "effects" is a Map, so "this" is now an Active Effects object within the #each loop! --}}
-    <li class="item effect flexrow" data-effect-id="{{this.data._id}}">
-        <div class="item-name effect-name flexrow">
-            <img class="item-effect-image" src="{{this.data.icon}}" />
-            <h4>{{this.data.label}}</h4>
-        </div>
-        <div class="item-controls effect-controls flexrow">
-            <a class="effect-control" data-action="toggle" title="{{localize "CPR.itemSheet.effects.toggleEffectDesc"}}">
-                <i class="far {{#if this.data.disabled}}fa-circle{{else}}fa-check-circle{{/if}}"></i>
-            </a>
-            <a class="effect-control" data-action="edit" title="{{localize "CPR.itemSheet.effects.editEffectDesc"}}">
-                <i class="fas fa-edit"></i>
-            </a>
-            <a class="effect-control" data-action="delete" title="{{localize "CPR.itemSheet.effects.deleteEffectDesc"}}">
-                <i class="fas fa-trash"></i>
-            </a>
-        </div>
+<div class="effects-list">
+    <li class="effects-header flexrow">
+        <span class="effect-image"></span>
+        <span class="effect-name">Name</span>
+        <span class="effect-usage">Use</span>
+        <span class="effect-actions text-padding-right">Actions</span>
     </li>
-{{/each}}
-<br>
-<div class="item-controls effect-controls flexrow">
-    <a class="effect-control" data-action="create" title="{{localize 'CPR.itemSheet.effects.createEffectDesc'}}">
-        <i class="fas fa-plus"></i> {{localize "CPR.itemSheet.effects.createEffect"}}
-    </a>
+
+    {{#each item.data.effects}}
+        {{!-- "effects" is a Map, so "this" is now an Active Effects object within the #each loop! --}}
+        <div class="effects-list flexrow">
+            <span class="effect-image"><img src="{{this.data.icon}}" /></span>
+            <span class="effect-name text-padding-left">{{this.data.label}}</span>
+            <span class="effect-usage">{{localize (cprFindConfigValue "effectUses" this.data.flags.cyberpunk-red-core.usage)}}</span>
+            <span class="effect-actions text-padding-right effect-controls">
+                {{#if (cprCompare this.data.flags.cyberpunk-red-core.usage "===" "toggled")}}
+                    <a class="effect-control" data-action="toggle" data-effect-id="{{this.data._id}}" title="{{localize "CPR.itemSheet.effects.toggleEffectDesc"}}">
+                        <i class="far {{#if this.data.disabled}}fa-circle{{else}}fa-check-circle{{/if}}"></i>
+                    </a>
+                {{/if}}
+                <a class="effect-control" data-action="edit" data-effect-id="{{this.data._id}}" title="{{localize "CPR.itemSheet.effects.editEffectDesc"}}">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a class="effect-control" data-action="delete" data-effect-id="{{this.data._id}}" title="{{localize "CPR.itemSheet.effects.deleteEffectDesc"}}">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </span>
+        </div>
+    {{/each}}
+    <br>
+    <div class="item-controls effect-controls">
+        <a class="effect-control" data-action="create" title="{{localize 'CPR.itemSheet.effects.createEffectDesc'}}">
+            <i class="fas fa-plus"></i> {{localize "CPR.itemSheet.effects.createEffect"}}
+        </a>
+    </div>
 </div>
 {{cprTrace "END CPR-EFFECTS.HBS"}}

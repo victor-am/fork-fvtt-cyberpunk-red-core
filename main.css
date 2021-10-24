@@ -942,11 +942,6 @@ button,
   height: 62px;
   object-fit: contain;
 }
-.item-effect-image {
-  width: 48px;
-  height: 48px;
-  object-fit: contain;
-}
 .item-netarch-section {
   background-color: #b90202ff;
   padding-top: 5px;
@@ -1559,6 +1554,47 @@ button,
 }
 .items-list .item-end {
   text-align: end;
+}
+.effects-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  background-color: #eaeaeaff;
+}
+.effects-list .effects-header {
+  padding: 0;
+  align-items: center;
+  background-color: #2d2f2fff;
+  color: #eaeaeaff;
+}
+.effects-list .effect-image {
+  flex: 0 0 30px;
+  border: none;
+  margin-right: 5px;
+  width: 64px;
+}
+.effects-list .effect-name {
+  flex: 0 0 50%;
+  margin: 0;
+  overflow: hidden;
+  text-align: left;
+  align-self: center;
+  text-overflow: ellipsis;
+}
+.effects-list .effect-usage {
+  flex: 0 0 25%;
+  text-align: center;
+  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  align-self: center;
+  text-overflow: ellipsis;
+}
+.effects-list .effect-actions {
+  text-align: end;
+  align-self: center;
 }
 .skills-tab li:nth-child(even) {
   background-color: #ffc3b6ff;

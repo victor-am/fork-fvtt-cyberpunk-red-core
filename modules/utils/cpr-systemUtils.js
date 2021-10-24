@@ -1,9 +1,16 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-undef */
-/* global game, ui */
+/* global game ui Folder */
 import LOGGER from "./cpr-logger.js";
 
+/**
+ * CPR-C utilities that are meant to have broad application across the whole system module.
+ */
 export default class CPRSystemUtils {
+  /**
+   * Return an array of "core" skills that are defined in the rules, and all characters
+   * start with them defined.
+   *
+   * @returns {Documents}
+   */
   static async GetCoreSkills() {
     LOGGER.trace("GetCoreSkills | CPRSystemUtils | Called.");
     // grab basic skills from compendium
@@ -13,6 +20,12 @@ export default class CPRSystemUtils {
     return content;
   }
 
+  /**
+   * Return an array of "core" cyberware that is installed in all characters. These objects
+   * are how cyberware with no corresponding foundation to install it in. (chipware for example)
+   *
+   * @returns {Documents}
+   */
   static async GetCoreCyberware() {
     LOGGER.trace("GetCoreCyberware | CPRSystemUtils | Called.");
     // grab basic cyberware from compendium
@@ -22,9 +35,15 @@ export default class CPRSystemUtils {
     return content;
   }
 
+  /**
+   * Display user-visible message. (blue, yellow, or red background)
+   *
+   * @param {String} msgType - type of message to display, which controls the color fo the dialog
+   * @param {String} msg - the message to print (untranslated)
+   */
   static async DisplayMessage(msgType, msg) {
     LOGGER.trace("DisplayMessage | CPRSystemUtils | Called.");
-    const localizedMessage = game.i18n.localize(msg);
+    const localizedMessage = CPRSystemUtils.Localize(msg);
     switch (msgType) {
       case "warn":
         ui.notifications.warn(localizedMessage);
@@ -49,6 +68,17 @@ export default class CPRSystemUtils {
     return game.i18n.format(string, object);
   }
 
+  /**
+   * For settings like favorite items or skills, and opening or closing categories, we save the user's
+   * preferences in a hidden system setting.
+   *
+   * To Do: Flags may be a better implementation.
+   *
+   * @param {String} type - indicate whether this is a sheetConfig setting or something else
+   * @param {String} name - name for the setting
+   * @param {*} value - the value for the setting to save
+   * @param {*} extraSettings - a prefix for the name of the setting (sheetConfig only)
+   */
   static SetUserSetting(type, name, value, extraSettings) {
     LOGGER.trace("SetUserSetting | CPRSystemUtils | Called.");
     const userSettings = game.settings.get("cyberpunk-red-core", "userSettings") ? game.settings.get("cyberpunk-red-core", "userSettings") : {};
@@ -81,6 +111,14 @@ export default class CPRSystemUtils {
     game.settings.set("cyberpunk-red-core", "userSettings", userSettings);
   }
 
+  /**
+   * Get a hidden user setting. (see SetUserSetting above)
+   *
+   * @param {String} type - indicate whether this is a sheetConfig setting or something else
+   * @param {String} name - name for the setting
+   * @param {*} extraSettings - a prefix for the name of the setting (sheetConfig only)
+   * @returns - the request hidden setting value
+   */
   static GetUserSetting(type, name, extraSettings) {
     LOGGER.trace("GetUserSetting | CPRSystemUtils | Called.");
     const userSettings = game.settings.get("cyberpunk-red-core", "userSettings") ? game.settings.get("cyberpunk-red-core", "userSettings") : {};
@@ -101,6 +139,14 @@ export default class CPRSystemUtils {
     return requestedValue;
   }
 
+  /**
+   * When a new object (document) is created in our module, we want to provide a cool looking
+   * default icon. This method retrieves paths to icons based on the object type.
+   *
+   * @param {String} foundryObject - the object (document) type (Actor, Item, etc)
+   * @param {*} objectType - the subtype of object to get an icon for (e.g. ammo or armor for an Item)
+   * @returns {String} - path to an icon to use
+   */
   static GetDefaultImage(foundryObject, objectType) {
     LOGGER.trace("GetDefaultImage | CPRSystemUtils | Called.");
     let imageLink = "";
@@ -189,6 +235,14 @@ export default class CPRSystemUtils {
     return imageLink;
   }
 
+  /**
+   * Some actions users can take in this system will produce a bunch of documents are entities, and
+   * we group them up in a dynamically created folder. This is where that magic happens.
+   *
+   * @param {String} type - the entity type the folder should group together
+   * @param {String} name - a name for the folder
+   * @returns {Folder} - the referenced folder or a newly created one
+   */
   static async GetFolder(type, name) {
     LOGGER.trace("GetFolder | CPRSystemUtils | Called.");
     const folderList = game.folders.filter((folder) => folder.name === name && folder.type === type);
@@ -196,6 +250,12 @@ export default class CPRSystemUtils {
     return (folderList.length === 1) ? folderList[0] : Folder.create({ name, type });
   }
 
+  /**
+   * Given a data model template name, return the array of item types it is applied to
+   *
+   * @param {String} templateName - the template name to look up
+   * @returns {Array}
+   */
   static GetTemplateItemTypes(templateName) {
     LOGGER.trace("GetTemplateItemTypes | CPRSystemUtils | Called.");
     const itemTypes = [];
@@ -207,5 +267,25 @@ export default class CPRSystemUtils {
       }
     });
     return itemTypes;
+  }
+
+  /**
+   * Return an array of data model templates associated with this Item's type. "common" is intentionally
+   * omitted because nothing should operate on it. The logic for common Item functionality should be in
+   * this very file.
+   *
+   * @returns {Array} - array of template names which just happens to match mixins available
+   */
+  static getDataModelTemplates(itemType) {
+    LOGGER.trace("getDataModelTemplates | DataModelUtils | Called.");
+    return game.system.template.Item[itemType].templates.filter((t) => t !== "common");
+  }
+
+  /**
+   * Answer whether an item has a specific data model template applied or not
+   */
+  static hasDataModelTemplate(item, template) {
+    LOGGER.trace("hasDataModelTemplate | DataModelUtils | Called.");
+    return CPRSystemUtils.getDataModelTemplates(item.type).includes(template);
   }
 }

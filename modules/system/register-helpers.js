@@ -604,7 +604,7 @@ export default function registerHandlebarsHelpers() {
    */
   Handlebars.registerHelper("cprGetTemplates", (itemType) => {
     LOGGER.trace("cprGetTemplates | handlebarsHelper | Called.");
-    return CPRItem.getDataModelTemplates(itemType);
+    return SystemUtils.getDataModelTemplates(itemType);
   });
 
   /**

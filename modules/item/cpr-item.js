@@ -65,29 +65,21 @@ export default class CPRItem extends Item {
   }
 
   /**
-   * Return an array of data model templates associated with this Item's type. "common" is intentionally
-   * omitted because nothing should operate on it. The logic for common Item functionality should be in
-   * this very file.
-   *
-   * @returns {Array} - array of template names which just happens to match mixins available
-   */
-  static getDataModelTemplates(itemType) {
-    LOGGER.trace("getDataModelTemplates | CPRItem | Called.");
-    return game.system.template.Item[itemType].templates.filter((t) => t !== "common");
-  }
-
-  /**
    * Load all mixins configured in the Item metadata
    *
    * @public
    */
   loadMixins() {
     LOGGER.trace("loadMixins | CPRItem | Called.");
-    const mixins = CPRItem.getDataModelTemplates(this.type);
+    const mixins = SystemUtils.getDataModelTemplates(this.type);
+    const itemData = this.data;
+    itemData.actions = ["delete"];
     for (let m = 0; m < mixins.length; m += 1) {
       switch (mixins[m]) {
         case "loadable": {
           Loadable.call(CPRItem.prototype);
+          itemData.actions.push("reload");
+          itemData.actions.push("changeAmmo");
           break;
         }
         case "virtual": {
@@ -96,26 +88,33 @@ export default class CPRItem extends Item {
         }
         case "physical": {
           Physical.call(CPRItem.prototype);
+          itemData.actions.push("conceal");
+          itemData.actions.push("equip");
           break;
         }
         case "upgradeable": {
           // Upgradeable.call(CPRItem.prototype);
+          itemData.actions.push("upgrade");
           break;
         }
         case "effects": {
           Effects.call(CPRItem.prototype);
+          // To Do: we could toggle on/off if there's exactly 1 effect enforced...
           break;
         }
         case "spawner": {
           // Spawner.call(CPRItem.prototype);
+          itemData.actions.push("rez");
           break;
         }
         case "consumable": {
           Consumeable.call(CPRItem.prototype);
+          itemData.actions.push("consume");
           break;
         }
         case "stackable": {
           Stackable.call(CPRItem.prototype);
+          itemData.actions.push("split");
           break;
         }
         default:
@@ -138,15 +137,18 @@ export default class CPRItem extends Item {
     this.loadMixins();
   }
 
-  /*
-  // Generic item.doAction() method so any idem can be called to
-  // perform an action.  This can be easily extended in the
-  // switch statement and adding additional methods for each item.
-  // Prepatory work for
-  // Click to Consume (Apply mods / effect / state change)
-  // Opening Agent Dialog
-  // Any calls to functions not related to rolls, triggered from actions.
-  // actorSheet UX gets actived -> actorSheet.eventFunction(event) ->
+  /**
+   * Generic item.doAction() method so any item can be called to
+   * perform an action.  This can be easily extended in the
+   * switch statement and adding additional methods for each item.
+   * Prepatory work for
+   * Click to Consume (Apply mods / effect / state change)
+   * Opening Agent Dialog
+   * Any calls to functions not related to rolls, triggered from actions.
+   *
+   * @param {Actor} actor - the actor (parent) associated with the item doing something
+   * @param {*} actionAttributes - arbitrary data to control the action
+   */
   doAction(actor, actionAttributes) {
     LOGGER.trace("doAction | CPRItem | Called.");
     const itemType = this.data.type;
@@ -201,7 +203,6 @@ export default class CPRItem extends Item {
     }
     return null;
   }
-  */
 
   confirmRoll(cprRoll) {
     LOGGER.trace("confirmRoll | CPRItem | Called.");
