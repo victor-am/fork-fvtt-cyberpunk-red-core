@@ -1,69 +1,69 @@
 {
-	"label": "Armadura",
+	"label": "Armor",
 	"entries": {
 		"Bodyweight Suit": {
-			"name": "Macacão especializado",
-			"description": "<p>Macacão reforçado, peça única. Pode armazenar um cyberdeck e suporta plugs de interface. Obrigatório ser usado nos slots de Corpo e Cabeça. +1 slot de expansão para Hardwares no cyberdeck equipado. Sem penalidade de armadura</p>"
+			"name": "Bodyweight Suit",
+			"description": "<p>Netrunner armored skinsuit. Can store Cyberdeck and support Interface Plugs. Can't be bought in two pieces. Always worn on both Head and Body Location. Adds one Hardware only Option Slot to connected Cyberdeck. No armor penalty.</p>"
 		},
 		"Bullet Proof Shield": {
-			"name": "Escudo à prova de bala",
-			"description": "<p>Requer um braço e tem VP que é reduzido por danos.</p>"
+			"name": "Bullet Proof Shield",
+			"description": "<p>Requires an arm and has HP that is reduced by damage.</p>"
 		},
 		"Flak (Body)": {
-			"name": "Armadura (corpo)",
-			"description": "<p>Armadura chapada de metal para resistir aos golpes mais poderosos. -4 a REF, DEX e MOVE.</p>"
+			"name": "Flak (Body)",
+			"description": "<p>Metal plated armor to resist the most powerful hits. -4 to REF, DEX, and MOVE.</p>"
 		},
 		"Flak (Head)": {
-			"name": "Armadura (cabeça)",
-			"description": "<p>Armadura chapada de metal para resistir aos acertos mais poderosos. -4 para REF, DEX e MOVE.</p>"
+			"name": "Flak (Head)",
+			"description": "<p>Metal plated armor to resist the most powerful hits to your head. -4 to REF, DEX, and MOVE.</p>"
 		},
 		"Heavy Armorjack (Body)": {
-			"name": "Colete Pesado",
-			"description": "<p>Versão mais pesada de um colete. -2 para REF, DEX e MOVE.</p>"
+			"name": "Heavy Armorjack (Body)",
+			"description": "<p>Heavier version of an Armorjack. -2 to REF, DEX, and MOVE.</p>"
 		},
 		"Heavy Armorjack (Head)": {
-			"name": "Capacete Pesado",
-			"description": "<p>A versão mais pesada de um capacete. -2 para REF, DEX e MOVE.</p>"
+			"name": "Heavy Armorjack (Head)",
+			"description": "<p>Heavier version of an Armorjack for your head. -2 to REF, DEX, and MOVE.</p>"
 		},
 		"Kevlar (Body)": {
-			"name": "Kevlar (corpo)",
-			"description": "<p>Kevlar padrão. Sem penalidade de armadura.</p>"
+			"name": "Kevlar (Body)",
+			"description": "<p>Standard Kevlar clothing. No armor penalty.</p>"
 		},
 		"Kevlar (Head)": {
-			"name": "Kevlar (cabeça)",
-			"description": "<p>Kevlar padrão. Sem penalidade de armadura.</p>"
+			"name": "Kevlar (Head)",
+			"description": "<p>Standard Kevlar for your head. No armor penalty.</p>"
 		},
 		"Leathers (Body)": {
-			"name": "Couro (Corpo)",
-			"description": "<p>Armadura de Couro Simples. Sem penalidade de armadura.</p>"
+			"name": "Leathers (Body)",
+			"description": "<p>Simple Leather armor. No armor penalty.</p>"
 		},
 		"Leathers (Head)": {
-			"name": "Couros (Cabeça)",
-			"description": "<p>Capacete de Couro simples para sua cabeça. Sem penalidade de armadura.</p>"
+			"name": "Leathers (Head)",
+			"description": "<p>Simple Leather armor for your head. No armor penalty.</p>"
 		},
 		"Light Armorjack (Body)": {
-			"name": "Colete Leve",
-			"description": "<p>Versão leve de um colete. Sem penalidade de armadura.</p>"
+			"name": "Light Armorjack (Body)",
+			"description": "<p>Light version of an Armorjack. No armor penalty.</p>"
 		},
 		"Light Armorjack (Head)": {
-			"name": "Capacete Leve",
-			"description": "<p>Versão leve de um capacete. Sem penalização de armadura.</p>"
+			"name": "Light Armorjack (Head)",
+			"description": "<p>Light version of an Armorjack for your head. No armor penalty.</p>"
 		},
 		"Medium Armorjack (Body)": {
-			"name": "Colete Médio",
-			"description": "<p>Versão média de um colete. -2 para REF, DEX e MOVE.</p>"
+			"name": "Medium Armorjack (Body)",
+			"description": "<p>Medium version of an Armorjack. -2 to REF, DEX, and MOVE.</p>"
 		},
 		"Medium Armorjack (Head)": {
-			"name": "Capacete Médio (cabeça)",
-			"description": "<p>A versão média de um capacete. -2 para REF, DEX e MOVE.</p>"
+			"name": "Medium Armorjack (Head)",
+			"description": "<p>Medium version of an Armorjack for your head. -2 to REF, DEX, and MOVE.</p>"
 		},
 		"Metalgear (Body)": {
-			"name": "Exoesqueleto (Corpo)",
-			"description": "<p>Armadura mais pesada e mais poderosa em circulação. -4 para REF, DEX e MOVE.</p>"
+			"name": "Metalgear (Body)",
+			"description": "<p>Heaviest and most powerful armor in circulation. -4 to REF, DEX, and MOVE.</p>"
 		},
 		"Metalgear (Head)": {
-			"name": "Exoesqueleto (cabeça)",
-			"description": "<p>Armadura mais pesada e mais poderosa em circulação. Protege sua cabeça. -4 para REF, DEX e MOVE.</p>"
+			"name": "Metalgear (Head)",
+			"description": "<p>Heaviest and most powerful armor in circulation. Protects your head -4 to REF, DEX, and MOVE.</p>"
 		}
 	}
 }
