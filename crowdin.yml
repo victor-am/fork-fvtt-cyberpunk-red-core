@@ -8,17 +8,17 @@ commit_message: '[ci skip]'
 preserve_hierarchy: true
 files:
   - source: /lang/en.json
-    translation: /lang/%osx_locale%.json
+    translation: /lang/%locale%.json
     type: json
     translation_replace:
       _: '-'
   - source: /babele/en/*.json
-    translation: /babele/%osx_locale%/%original_file_name%
+    translation: /babele/%locale%/%original_file_name%
     type: json
     translation_replace:
       _: '-'
-  - source: /lang/release-notes/*.en
-    translation: /lang/release-notes/%file_name%.%osx_locale%
-    type: json
-    translation_replace:
-      _: '-'
+  # - source: /lang/release-notes/*.en
+  #   translation: /lang/release-notes/%file_name%.%locale%
+  #   type: json
+  #   translation_replace:
+  #     _: '-'
