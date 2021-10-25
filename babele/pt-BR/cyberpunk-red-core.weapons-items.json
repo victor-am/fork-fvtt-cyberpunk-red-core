@@ -1,6 +1,10 @@
 {
 	"label": "Weapons",
 	"entries": {
+		"Air Pistol": {
+			"name": "Air Pistol",
+			"description": "<p>An Exotic Medium Pistol. Fires Paintballs. Refer to the full item description on pg. 347.&nbsp;</p>"
+		},
 		"Assault Rifle": {
 			"name": "Assault Rifle",
 			"description": "<p>A standard-issue assault rifle. </p>"
@@ -25,6 +29,10 @@
 			"name": "Combat Knife",
 			"description": "<p>A knife fit for the streets.</p>"
 		},
+		"Constitution Arms Hurricane Assault Weapon": {
+			"name": "Constitution Arms Hurricane Assault Weapon",
+			"description": "<p>An Exotic Shotgun with 2 ROF. Cannot make aimed shots and needs BODY 11 or higher (unless mounted). Refer to the full item description on pg. 348.</p>"
+		},
 		"Crossbow": {
 			"name": "Crossbow",
 			"description": "<p>A crossbow which must be reloaded after every attack. </p>"
@@ -36,6 +44,10 @@
 		"Cybersnake": {
 			"name": "Cybersnake",
 			"description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>"
+		},
+		"Dartgun": {
+			"name": "Dartgun",
+			"description": "<p>An Exotic Very Heavy Pistol. Refer to the full item description on pg. 348.</p>"
 		},
 		"Excellent Assault Rifle": {
 			"name": "Excellent Assault Rifle",
@@ -133,6 +145,10 @@
 			"name": "Excellent Very Heavy Pistol",
 			"description": "<p>A very heavy pistol. It can't be concealed. +1 to Attack.</p>"
 		},
+		"Flamethrower": {
+			"name": "Flamethrower",
+			"description": "<p>An Exotic Shotgun that uses the Heavy Weapons Skill. Refer to the full item description on pg. 348.&nbsp;</p>"
+		},
 		"Grenade Launcher": {
 			"name": "Grenade Launcher",
 			"description": "<p>A high-impact grenade launcher. You can use a variety of grenades with this. </p>"
@@ -149,6 +165,10 @@
 			"name": "Helicopter Blades",
 			"description": "<p>Taken from a derelict aircraft, these blades are capable of slicing most things easily. </p>"
 		},
+		"Kendachi Mono-Three": {
+			"name": "Kendachi Mono-Three",
+			"description": "<p>An Exotic, Excellent Quality, Two-Handed Very Heavy Melee Weapon. It appears as a high-tech katana. Refer to the full item description on pg. 348.</p>"
+		},
 		"Lead Pipe": {
 			"name": "Lead Pipe",
 			"description": "<p>A hollow cylinder, typically made of metal or fiberglass. It may have conveyed fluids once. </p>"
@@ -157,6 +177,10 @@
 			"name": "Machete",
 			"description": "<p>A long-bladed knife with a variety of uses. Known to be a favourite to some gangs of Night City. </p>"
 		},
+		"Malorian Arms 3516": {
+			"name": "Malorian Arms 3516",
+			"description": "<p>An Exotic, Excellent Quality Very Heavy Pistol. You must connect to this device with a Smartgun Link. Refer to the full item description on pg. 348.</p>"
+		},
 		"Martial Arts": {
 			"name": "Martial Arts",
 			"description": "<p>Throwing hands, does ignore half armor.</p>"
@@ -164,6 +188,14 @@
 		"Medium Pistol": {
 			"name": "Medium Pistol",
 			"description": "<p>A concealable, medium-sized pistol. </p>"
+		},
+		"Microwaver": {
+			"name": "Microwaver",
+			"description": "<p>An Exotic Very Heavy Pistol. Can cause cyberware or electrical components to be rendered inoperable for a minute. Refer to the full item description on pg. 348.</p>"
+		},
+		"Militech \"Cowboy\" U-56 Grenade Launcher": {
+			"name": "Militech \"Cowboy\" U-56 Grenade Launcher",
+			"description": "<p>An Exotic Grenade Launcher with 2 ROF. Holds four grenades. Requires BODY 11 or higher (unless mounted). Refer to the full item description on pg. 349.</p>"
 		},
 		"Naginata": {
 			"name": "Naginata",
@@ -265,6 +297,10 @@
 			"name": "Poor Very Heavy Pistol",
 			"description": "<p>A very heavy pistol. It can't be concealed.  If you roll 1 on Attack (Crit fail) the gun jams and requires using an action to clear. </p>"
 		},
+		"Rhinemetall EMG-86 Railgun": {
+			"name": "Rhinemetall EMG-86 Railgun",
+			"description": "<p>An Exotic Assault Rifle. It cannot make Aimed or Autofire Shots. Requires BODY 11 or higher (unless mounted). Refer to the full item description on pg. 349.&nbsp;</p>"
+		},
 		"Rippers": {
 			"name": "Rippers",
 			"description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>"
@@ -280,6 +316,10 @@
 		"Shotgun": {
 			"name": "Shotgun",
 			"description": "<p>An all-purpose shotgun. </p>"
+		},
+		"Shrieker": {
+			"name": "Shrieker",
+			"description": "<p>An Exotic Very Heavy Pistol. Requires ear protection to prevent Damaged Ear critical injuries. The target must beat a DV15 Resist Torture/Drugs Check or suffer the critical injury. Refer to the full item description on pg. 349.</p>"
 		},
 		"Sledgehammer": {
 			"name": "Sledgehammer",
@@ -297,6 +337,14 @@
 			"name": "Spiked Bat",
 			"description": "<p>An advancement over a regular bat. A number of nails have been hammered through towards the tip. </p>"
 		},
+		"Stun Baton": {
+			"name": "Stun Baton",
+			"description": "<p>An Exotic, One-handed Medium Melee Weapon. Target is knocked unconscious if damage dealt would reduce them to under 1 HP. Doesn't cause Critical Injuries or ablate armor. Refer to the full item description on pg. 349.</p>"
+		},
+		"Stun Gun": {
+			"name": "Stun Gun",
+			"description": "<p>An Exotic Heavy Pistol.&nbsp; Target is knocked unconscious if damage dealt would reduce them to under 1 HP. Doesn't cause Critical Injuries or ablate armor. Refer to the full item description on pg. 349.</p>"
+		},
 		"Sword": {
 			"name": "Sword",
 			"description": "<p>A bladed, hilted weapon. Specifically designed for cutting or thrusting. </p>"
@@ -308,6 +356,10 @@
 		"Tomahawk": {
 			"name": "Tomahawk",
 			"description": "<p>A light axe that can be thrown. </p>"
+		},
+		"Tsunami Arms Helix": {
+			"name": "Tsunami Arms Helix",
+			"description": "<p>An Exotic Assault Rifle that uses only Autofire. Holds 40 bullets, using 20 bullets with each attack. Uses Autofire rules with a multiplication up to a maximum of 5. Requires BODY 11 or higher (unless mounted). Refer to the full item description on pg. 349.&nbsp;</p>"
 		},
 		"Unarmed": {
 			"name": "Unarmed",
