@@ -86,7 +86,7 @@
 			"description": "<p>Musical instrument. Electric instruments require an amplifier.</p>"
 		},
 		"Excellent Quality Cyberdeck": {
-			"name": "Console de excelente qualidade",
+			"name": "Excellent Quality Cyberdeck",
 			"description": "<p><span style=\"color: #191813; font-family: 'Audimat Mono'; background-color: #eaeaea;\">Netrunner deck. 9 slots.</span></p>"
 		},
 		"Flashlight": {
@@ -127,11 +127,11 @@
 		},
 		"Linear Frame β (Beta)": {
 			"name": "Linear Frame β (Beta)",
-			"description": "<p>Exoesqueleto. Requer 2 plugs de interface. Aumenta o BODY para 14. Não altera o seu PV ou Salva de Morte.</p>"
+			"description": "<p>Exoskeleton. Requires 2 Interface Plugs. Increases BODY to 14 while plugged in. No changes to your HP or Deathsave. </p>"
 		},
 		"Linear Frame ∑ (Sigma)": {
 			"name": "Linear Frame ∑ (Sigma)",
-			"description": "<p>Exoesqueleto. Requer 1 plug de interface. Aumenta o BODY para 12. Não altera o seu PV ou Salva de Morte.</p>"
+			"description": "<p>Exoskeleton. Requires 1 Interface Plug. Increases BODY to 12 while plugged in. No changes to your HP or Deathsave. </p>"
 		},
 		"Lock Picking Set": {
 			"name": "Lock Picking Set",
