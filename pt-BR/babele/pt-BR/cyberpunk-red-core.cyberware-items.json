@@ -74,8 +74,8 @@
 			"description": "<p>A base interface for audio enhancements.</p>"
 		},
 		"Cyberdeck (Hardwired)": {
-			"name": "Cyberdeck (Hardwired)",
-			"description": "<p>A built-in cyberdeck. Always available. </p>"
+			"name": "Console (Fundido)",
+			"description": "<p>Um Console integrado. Sempre disponível. </p>"
 		},
 		"Cybereye": {
 			"name": "Cybereye",
