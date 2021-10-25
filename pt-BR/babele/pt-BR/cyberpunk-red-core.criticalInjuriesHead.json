@@ -1,5 +1,5 @@
 {
-	"label": "Ferimentos Críticos (Cabeça) - IMPORTE",
+	"label": "Critical Injuries (Head) - IMPORT ME",
 	"entries": {
 		"Brain Injury": {
 			"name": "Brain Injury",
@@ -15,7 +15,7 @@
 		},
 		"Cracked Skull": {
 			"name": "Cracked Skull",
-			"description": "<p>Recebe o triplo de dano em ataques mirados na cabeça.</p>"
+			"description": "<p>Triples damage to HP on aimed headshots.</p>"
 		},
 		"Crushed Windpipe": {
 			"name": "Crushed Windpipe",
