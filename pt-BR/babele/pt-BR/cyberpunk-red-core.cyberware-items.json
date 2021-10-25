@@ -1,5 +1,5 @@
 {
-	"label": "Cibernética",
+	"label": "Cyberware",
 	"entries": {
 		"Amplified Hearing": {
 			"name": "Amplified Hearing",
@@ -74,8 +74,8 @@
 			"description": "<p>A base interface for audio enhancements.</p>"
 		},
 		"Cyberdeck (Hardwired)": {
-			"name": "Console (Fundido)",
-			"description": "<p>Um Console integrado. Sempre disponível. </p>"
+			"name": "Cyberdeck (Hardwired)",
+			"description": "<p>A built-in cyberdeck. Always available. </p>"
 		},
 		"Cybereye": {
 			"name": "Cybereye",
@@ -143,11 +143,11 @@
 		},
 		"Implanted Linear Frame β (Beta)": {
 			"name": "Implanted Linear Frame β (Beta)",
-			"description": "<p>Aumenta seu atributo BODY para 14 (ajustando seu PV, Limite de Ferimentos e Salva de Morte)</p>"
+			"description": "<p>Increases your BODY stat to 14 (adjusting your HP and Wound Threshold and Death Save)</p>"
 		},
 		"Implanted Linear Frame ∑ (Sigma)": {
 			"name": "Implanted Linear Frame ∑ (Sigma)",
-			"description": "<p>Aumenta seu atributo BODY para 12 (ajustando seu PV, Limite de Ferimentos e Salva de Morte)</p>"
+			"description": "<p>Increases your BODY stat to 12 (adjusting your HP and Wound Threshold and Death Save)</p>"
 		},
 		"Independent Air Supply": {
 			"name": "Independent Air Supply",
@@ -226,7 +226,7 @@
 			"description": "<p>Access to nervous system. </p>"
 		},
 		"Olfactory Boost": {
-			"name": "Olfato Aguçado",
+			"name": "Olfactory Boost",
 			"description": "<p>Chipware. Allows scent tracking</p>"
 		},
 		"Pain Editor": {
@@ -366,7 +366,7 @@
 			"description": "<p>A metallic coating for your leg. Provides +2 to Wardrobe and Style. </p>"
 		},
 		"Tactile Boost": {
-			"name": "Impulso Tático",
+			"name": "Tactile Boost",
 			"description": "<p>Chipware. Can detect motion up to 20m/yd away through surfaces.</p>"
 		},
 		"Talon Foot": {
