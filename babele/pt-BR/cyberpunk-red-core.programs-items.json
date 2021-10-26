@@ -11,27 +11,27 @@
 		},
 		"DeckKRASH": {
 			"name": "DeckKRASH",
-			"description": "<p>Forces Netrunner to Jack Out unsafely. </p>"
+			"description": "<p>Força o Trilha Rede a Desconectar de forma insegura. </p>"
 		},
 		"Eraser": {
 			"name": "Eraser",
 			"description": "<p>+2 to Cloak Checks while Rezzed.</p>"
 		},
 		"Flak": {
-			"name": "Flak",
-			"description": "<p>Non-Black ICE attacks against you are reduced to 0 while Rezzed. Only 1 copy may be Rezzed at a time. Each copy has 1 use per Netrun.</p>"
+			"name": "Armadura",
+			"description": "<p>Os ataques de não Black ICE contra você são reduzidos a 0 enquanto Carregado. Apenas 1 cópia pode ser Carregada de cada vez. Cada cópia tem 1 uso por Invasão.</p>"
 		},
 		"Hellbolt": {
 			"name": "Hellbolt",
-			"description": "<p>2d6 damage direct to Netrunner's Brain. Their gear catches fire if not insulated. </p>"
+			"description": "<p>2d6 de dano direto ao cérebro do Trilha Rede. O alvo pega fogo se o console não tiver isolamento elétrico. </p>"
 		},
 		"Nervescrub": {
 			"name": "Nervescrub",
-			"description": "<p>Lowers a Netrunner's INT REF and DEX by 1d6 (min. 1) for 1 hour.</p>"
+			"description": "<p>Por 1 hora, diminui o INT, REF e DES por 1d6 (min. 1).</p>"
 		},
 		"Poison Flatline": {
 			"name": "Poison Flatline",
-			"description": "<p>Destroys a non-Black ICE on the enemy's cyberdeck at random.</p>"
+			"description": "<p>Destrui um gelo fora do preto no baralho inimigo aleAtoriamente.</p>"
 		},
 		"See Ya": {
 			"name": "See Ya",
@@ -47,7 +47,7 @@
 		},
 		"Superglue": {
 			"name": "Superglue",
-			"description": "<p>The netrunner cannot progress further into the Local NET or safely jacking out for 1d6 rounds.1 use per netrun. </p>"
+			"description": "<p>O Trilha Rede não pode continuar a descer na REDE local ou Desconectar com segurança por 1d6 turnos. Uso limitado de 1 por Invasão.</p>"
 		},
 		"Sword": {
 			"name": "Sword",
@@ -55,7 +55,7 @@
 		},
 		"Vrizzbolt": {
 			"name": "Vrizzbolt",
-			"description": "<p>1d6 damage direct to Netrunner's Brain. Lowers total net actions they can take by 1 (min. 2) on their next turn. </p>"
+			"description": "<p>1d6 de dano direto ao cérebro do Trilha Rede. Abaixa o total de ações na REDE em 1 até o próximo turno. (mínimo de ações de REDE é 2)</p>"
 		},
 		"Worm": {
 			"name": "Worm",
