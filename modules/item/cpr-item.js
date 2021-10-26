@@ -10,12 +10,14 @@ import DvUtils from "../utils/cpr-dvUtils.js";
 // Item mixins
 import Consumeable from "./mixins/cpr-consumeable.js";
 import Effects from "./mixins/cpr-effects.js";
+import Equippable from "./mixins/cpr-equippable.js";
 import Loadable from "./mixins/cpr-loadable.js";
 import Physical from "./mixins/cpr-physical.js";
 import Stackable from "./mixins/cpr-stackable.js";
 // import Spawner from "./mixins/cpr-spawner.js";
 // import Upgradeable from "./mixins/cpr-upgradeable.js";
 import Virtual from "./mixins/cpr-virtual.js";
+import Valuable from "./mixins/cpr-valuable.js";
 
 /**
  * We extend the base Item object (document) provided by Foundry. All items in the system derive from it.
@@ -76,25 +78,9 @@ export default class CPRItem extends Item {
     itemData.actions = ["delete"];
     for (let m = 0; m < mixins.length; m += 1) {
       switch (mixins[m]) {
-        case "loadable": {
-          Loadable.call(CPRItem.prototype);
-          itemData.actions.push("reload");
-          itemData.actions.push("changeAmmo");
-          break;
-        }
-        case "virtual": {
-          Virtual.call(CPRItem.prototype);
-          break;
-        }
-        case "physical": {
-          Physical.call(CPRItem.prototype);
-          itemData.actions.push("conceal");
-          itemData.actions.push("equip");
-          break;
-        }
-        case "upgradeable": {
-          // Upgradeable.call(CPRItem.prototype);
-          itemData.actions.push("upgrade");
+        case "consumable": {
+          Consumeable.call(CPRItem.prototype);
+          itemData.actions.push("consume");
           break;
         }
         case "effects": {
@@ -102,19 +88,43 @@ export default class CPRItem extends Item {
           // To Do: we could toggle on/off if there's exactly 1 effect enforced...
           break;
         }
+        case "equippable": {
+          Equippable.call(CPRItem.prototype);
+          itemData.actions.push("equip");
+          break;
+        }
+        case "loadable": {
+          Loadable.call(CPRItem.prototype);
+          itemData.actions.push("reload");
+          itemData.actions.push("changeAmmo");
+          break;
+        }
+        case "physical": {
+          Physical.call(CPRItem.prototype);
+          itemData.actions.push("conceal");
+          break;
+        }
         case "spawner": {
           // Spawner.call(CPRItem.prototype);
           itemData.actions.push("rez");
           break;
         }
-        case "consumable": {
-          Consumeable.call(CPRItem.prototype);
-          itemData.actions.push("consume");
-          break;
-        }
         case "stackable": {
           Stackable.call(CPRItem.prototype);
           itemData.actions.push("split");
+          break;
+        }
+        case "upgradeable": {
+          // Upgradeable.call(CPRItem.prototype);
+          itemData.actions.push("upgrade");
+          break;
+        }
+        case "valuable": {
+          Valuable.call(CPRItem.prototype);
+          break;
+        }
+        case "virtual": {
+          Virtual.call(CPRItem.prototype);
           break;
         }
         default:
@@ -252,7 +262,7 @@ export default class CPRItem extends Item {
     return localCprRoll;
   }
 
-  // ammo Item Methods
+  // AMMO FUNCTIONS
   _ammoAction(actionAttributes) {
     LOGGER.trace("_ammoAction | CPRItem | Called.");
     const actionData = actionAttributes["data-action"].nodeValue;
@@ -273,23 +283,8 @@ export default class CPRItem extends Item {
     }
   }
 
-  // SKILL FUNCTIONS
-  setSkillLevel(value) {
-    LOGGER.trace("setSkillLevel | CPRItem | Called.");
-    if (this.type === "skill") {
-      this.getRollData().level = Math.clamped(-99, value, 99);
-    }
-  }
-
-  setSkillMod(value) {
-    LOGGER.trace("setSkillMod | CPRItem | Called.");
-    if (this.type === "skill") {
-      this.getRollData().skillmod = Math.clamped(-99, value, 99);
-    }
-  }
-
   async setCompatibleAmmo(ammoList) {
-    LOGGER.trace("setCompatibleAmmo | CPRItem | Called.");
+    LOGGER.trace("setCompatibleAmmo | CPRSkillItem | Called.");
     this.data.data.ammoVariety = ammoList;
     if (this.actor) {
       this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
@@ -297,7 +292,6 @@ export default class CPRItem extends Item {
     return this.update({ "data.ammoVariety": ammoList });
   }
 
-  // AMMO FUNCTIONS
   async _ammoDecrement(changeAmount) {
     LOGGER.trace("_ammoDecrement | CPRItem | Called.");
     const currentValue = this.data.data.amount;
@@ -548,149 +542,6 @@ export default class CPRItem extends Item {
     return null;
   }
 
-  _createSkillRoll(actor) {
-    LOGGER.trace("_createSkillRoll | CPRItem | Called.");
-    const itemData = this.data.data;
-    const statName = itemData.stat;
-    const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
-    const statValue = actor.getStat(statName);
-    const skillName = this.name;
-    const skillLevel = itemData.level;
-    let roleName;
-    let roleValue = 0;
-    actor.data.filteredItems.role.forEach((r, index1) => {
-      const roleSkillBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.skillBonuses.some((b) => b.name === skillName));
-      if (roleSkillBonuses.length > 0 && index1 === 0) {
-        roleSkillBonuses.forEach((b, index2) => {
-          if (roleName) {
-            roleName += `, ${b.data.data.mainRoleAbility}`;
-          } else if (index2 === 0) {
-            roleName = b.data.data.mainRoleAbility;
-          }
-          roleValue += Math.floor(b.data.data.rank / b.data.data.bonusRatio);
-        });
-      }
-      const subroleSkillBonuses = r.data.data.abilities.filter((a) => a.skillBonuses.some((b) => b.name === skillName));
-      if (subroleSkillBonuses.length > 0) {
-        subroleSkillBonuses.forEach((b, index3) => {
-          if (roleName) {
-            roleName += `, ${b.name}`;
-          } else if (index3 === 0) {
-            roleName = b.name;
-          }
-          roleValue += Math.floor(b.rank / b.bonusRatio);
-        });
-      }
-    });
-    const cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel, roleName, roleValue);
-    cprRoll.addMod(actor.getArmorPenaltyMods(statName));
-    cprRoll.addMod(actor.getWoundStateMods());
-    cprRoll.addMod(this._getSkillMod());
-    cprRoll.addMod(actor.getUpgradeMods(statName));
-    cprRoll.addMod(actor.getUpgradeMods(skillName));
-    return cprRoll;
-  }
-
-  _createRoleRoll(rollType, actor, rollInfo) {
-    LOGGER.trace("_createRoleRoll | CPRItem | Called.");
-    const itemData = this.data.data;
-    let roleName = itemData.mainRoleAbility;
-    let rollTitle;
-    let statName = "--";
-    let skillName = "--";
-    let skillList;
-    let roleValue = 0;
-    let statValue = 0;
-    let skillValue = 0;
-    let boosterModifiers;
-    switch (rollType) {
-      case CPRRolls.rollTypes.INTERFACEABILITY: {
-        roleName = rollInfo.netRoleItem.data.data.mainRoleAbility;
-        roleValue = rollInfo.netRoleItem.data.data.rank;
-        const { interfaceAbility } = rollInfo;
-        const { cyberdeck } = rollInfo;
-        switch (interfaceAbility) {
-          case "speed": {
-            rollTitle = SystemUtils.Localize("CPR.global.generic.speed");
-            break;
-          }
-          case "defense": {
-            rollTitle = SystemUtils.Localize("CPR.global.generic.defense");
-            break;
-          }
-          default: {
-            rollTitle = SystemUtils.Localize(CPR.interfaceAbilities[interfaceAbility]);
-          }
-        }
-
-        boosterModifiers = cyberdeck.getBoosters(interfaceAbility);
-        break;
-      }
-      case CPRRolls.rollTypes.ROLEABILITY: {
-        if (rollInfo.rollSubType === "mainRoleAbility") {
-          if (itemData.addRoleAbilityRank) {
-            roleValue = itemData.rank;
-          }
-          if (itemData.stat !== "--") {
-            statName = itemData.stat;
-            statValue = actor.getStat(statName);
-          }
-          if (itemData.skill !== "--" && itemData.skill !== "varying") {
-            skillName = itemData.skill;
-            const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
-            if (skillObject !== undefined) {
-              skillValue = skillObject.data.data.level + skillObject.data.data.skillmod;
-            } else {
-              SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
-            }
-          } else if (itemData.skill === "varying") {
-            skillName = "varying";
-            if (itemData.stat !== "--") {
-              skillList = actor.data.filteredItems.skill.filter((s) => s.data.data.stat === itemData.stat);
-            } else {
-              skillList = actor.data.filteredItems.skill;
-            }
-          }
-        }
-
-        if (rollInfo.rollSubType === "subRoleAbility") {
-          const subRoleAbility = itemData.abilities.find((a) => a.name === rollInfo.subRoleName);
-          roleName = subRoleAbility.name;
-          roleValue = subRoleAbility.rank;
-          if (subRoleAbility.stat !== "--") {
-            statName = subRoleAbility.stat;
-            statValue = actor.getStat(statName);
-          }
-          if (subRoleAbility.skill !== "--" && subRoleAbility.skill !== "varying") {
-            skillName = subRoleAbility.skill.name;
-            const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
-            if (skillObject !== undefined) {
-              skillValue = skillObject.data.data.level + skillObject.data.data.skillmod;
-            } else {
-              SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
-            }
-          } else if (subRoleAbility.skill === "varying") {
-            skillName = "varying";
-            if (subRoleAbility.stat !== "--") {
-              skillList = actor.data.filteredItems.skill.filter((s) => s.data.data.stat === subRoleAbility.stat);
-            } else {
-              skillList = actor.data.filteredItems.skill;
-            }
-          }
-        }
-        break;
-      }
-      default:
-    }
-    const cprRoll = new CPRRolls.CPRRoleRoll(roleName, roleValue, skillName, skillValue, statName, statValue, skillList);
-    if (rollType === "interfaceAbility") {
-      cprRoll.setNetCombat(rollTitle);
-      cprRoll.addMod(boosterModifiers);
-    }
-    cprRoll.addMod(actor.getWoundStateMods());
-    return cprRoll;
-  }
-
   _createAttackRoll(type, actor) {
     LOGGER.trace("_createAttackRoll | CPRItem | Called.");
     const weaponData = this.data.data;
@@ -901,16 +752,5 @@ export default class CPRItem extends Item {
     const upgradeType = this.getUpgradeTypeFor("attackmod");
     returnValue = (upgradeType === "override") ? upgradeValue : returnValue + upgradeValue;
     return returnValue;
-  }
-
-  _getSkillMod() {
-    LOGGER.trace("_getSkillMod | CPRItem | Called.");
-    switch (this.type) {
-      case "skill": {
-        return this.data.data.skillmod;
-      }
-      default:
-    }
-    return 0;
   }
 }

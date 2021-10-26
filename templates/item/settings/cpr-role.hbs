@@ -1,0 +1,160 @@
+{{cprTrace "CPR-ROLE.HBS"}}
+      {{!--Item Name Settings--}}
+      {{!-- Role Item Settings--}}
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.itemSheet.role.mainAbilityName"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          <input name="data.mainRoleAbility" class="" data-dtype="{{data.data.mainRoleAbility}}" value="{{data.data.mainRoleAbility}}" type="text">
+        </div>
+      </li>
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.itemSheet.role.abilityRank"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          <input name="data.rank" class="" data-dtype="{{data.data.rank}}" value="{{data.data.rank}}" type="number">
+        </div>
+      </li>
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.itemSheet.role.hasRoll"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          {{#if data.data.hasRoll}}
+          <a class="item-checkbox" data-target="data.hasRoll"><i class="far fa-check-circle"></i></a>
+          {{else}}
+          <a class="item-checkbox" data-target="data.hasRoll"><i class="far fa-circle"></i></a>
+          {{/if}}
+        </div>
+      </li>
+      {{#if data.data.hasRoll}}
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.itemSheet.role.addRoleAbilityRankQuestion"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          {{#if data.data.addRoleAbilityRank}}
+          <a class="item-checkbox" data-target="data.addRoleAbilityRank"><i class="far fa-check-circle"></i></a>
+          {{else}}
+          <a class="item-checkbox" data-target="data.addRoleAbilityRank"><i class="far fa-circle"></i></a>
+          {{/if}}
+        </div>
+      </li>
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.global.generic.stat"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          <select name="data.stat" data-dtype="{{data.data.stat}}">
+            {{#select data.data.stat}}
+              <optgroup label = "{{localize "CPR.itemSheet.role.specialOptions"}}">
+                {{#each (cprFindConfigObj "roleSpecialOptions") as |option o|}}
+                {{#if (cprCompare o "!==" "varying")}}
+                  <option value="{{o}}">{{localize option}}</option>
+                {{/if}}
+                {{/each}}
+              </optgroup>
+              <optgroup label = "{{localize "CPR.itemSheet.role.statList"}}">
+                {{#each (cprFindConfigObj "statList") as |stat s|}}
+                  <option value="{{s}}">{{localize stat}}</option>
+                {{/each}}
+              </optgroup>
+            {{/select}}
+          </select>
+        </div>
+      </li>
+      <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+          {{localize "CPR.itemSheet.role.skill"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+          <select name="data.skill" data-dtype="{{data.data.skill}}">
+            {{#select data.data.skill}}
+              <optgroup label = "{{localize "CPR.itemSheet.role.specialOptions"}}">
+                {{#each (cprFindConfigObj "roleSpecialOptions") as |option o|}}
+                  <option value="{{o}}">{{localize option}}</option>
+                {{/each}}
+              </optgroup>
+              <optgroup label = "{{localize "CPR.itemSheet.role.skillList"}}">
+                {{#each (cprSort (cprGetProp this.filteredItems 'skill') "name") as |skill| }}
+                  <option value="{{skill.data.name}}">{{localize skill.data.name}}</option>
+                {{/each}}
+              </optgroup>
+            {{/select}}
+          </select>
+        </div>
+      </li>
+      {{/if}}
+      <div class="item flexrow setting-name text-nowrap">
+          <a class="select-role-bonuses text-bold">{{localize "CPR.itemSheet.role.configureRollBonuses"}}<i class="text-smallest text-super fas fa-wrench"></i></a>
+          {{#if (cprCompare data.data.bonusRatio "!==" 1)}}{{localize "CPR.itemSheet.role.bonusRatio"}} - 1:{{data.data.bonusRatio}}{{/if}}
+      </div>
+      <div class="compatible-ammo">
+        {{#each data.data.universalBonuses as |bonus|}}
+          <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap text-padding-left">
+                &nbsp;{{localize (cprFindConfigValue "universalBonuses" bonus)}}
+            </div>
+          </li>
+        {{/each}}
+        {{#each (cprSort data.data.skillBonuses "data.stat") as |bonus|}}
+          <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap text-padding-left">
+                &nbsp;{{#if bonus.data.core}}{{localize bonus.name}}{{else}}{{bonus.name}}{{/if}} ({{localize (cprFindConfigValue "statList" bonus.data.stat)}})
+            </div>
+          </li>
+        {{/each}}
+      </div>
+<div class="item-role-section item-role-grid">
+  <li class="items-header flexrow">
+    <span class="item-name role-name fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.global.generic.name"}}</span>
+    <span class="item-detail role-rank fg-white bg-black text-nowrap">{{localize "CPR.itemSheet.role.rank"}}</span>
+    <span class="item-detail role-rank fg-white bg-black text-nowrap">{{localize "CPR.itemSheet.role.multiplier"}}</span>
+    <span class="item-detail role-stat fg-white bg-black text-nowrap">{{localize "CPR.global.generic.stat"}}</span>
+    <span class="item-detail role-skill fg-white bg-black text-nowrap">{{localize "CPR.itemSheet.role.skill"}}</span>
+    <span class="item-detail role-bonuses fg-white bg-black text-nowrap">{{localize "CPR.itemSheet.role.bonuses"}}</span>
+    <span class="item-detail role-actions fg-white bg-black text-nowrap">
+      <a class="role-ability-action" data-action-type="create" data-action-target="-1"><i class="fas fa-plus-circle text-padding-right" title={{localize "CPR.itemSheet.role.newRoleAbility"}}></i></a>
+    </span>
+  </li>
+    <div class="role-list-content">
+      <ol class="items-list">
+        {{#each (cprSort data.data.abilities "name") as |ability|}}
+          <li class="item role-name flexrow">
+            <div class="item-name text-nowrap">{{ability.name}}</div>
+            <div class="item-detail role-rank text-nowrap">
+              {{ability.rank}}
+            </div>
+            <div class="item-detail role-multiplier text-nowrap">
+              {{#if (cprCompare ability.multiplier "!==" "--")}}x{{/if}}{{ability.multiplier}}
+            </div>
+            <div class="item-detail role-stat text-nowrap">
+              {{#if (cprCompare ability.stat "===" "--")}}
+              {{localize "CPR.global.generic.notApplicable"}}
+              {{else}}
+              {{localize (cprFindConfigValue "statList" ability.stat)}}
+              {{/if}}
+            </div>
+            <div class="item-detail role-skill text-nowrap">
+              {{#if ability.skill.data.core}}
+              {{localize (cprSplitJoinCoreSkills ability.skill.name)}}
+              {{else}}
+              {{ability.skill.name}}
+              {{/if}}
+              {{#if (cprCompare (cprCompare ability.skill "===" "--") "||" (cprCompare ability.skill "===" "varying"))}}
+              {{localize (cprFindConfigValue "roleSpecialOptions" ability.skill)}}
+              {{/if}}
+            </div>
+            <div class="item-detail role-bonuses text-nowrap">
+              <a class="select-subrole-bonuses" data-item-name="{{ability.name}}" title="{{localize "CPR.itemSheet.role.configureRollBonuses"}}"><i class="fas fa-wrench"></i></a>
+            </div>
+            <div class="item-detail role-actions text-nowrap">
+              <a class="role-ability-action" data-action-type="edit" data-action-target="{{ability.index}}"><i class="fas fa-edit fg-black" title={{localize "CPR.itemSheet.role.editRoleAbility"}}></i></a>
+              <a class="role-ability-action" data-action-type="delete" data-action-target="{{ability.index}}"><i class="fas fa-trash-alt fg-red" title={{localize "CPR.itemSheet.role.deleteRoleAbility"}}></i></a>
+            </div>
+          </li>
+        {{/each}}
+{{cprTrace "END CPR-ROLE.HBS"}}
+

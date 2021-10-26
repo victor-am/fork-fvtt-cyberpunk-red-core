@@ -6,8 +6,7 @@
 
         {{!-- Display at-a-glance stats in the description tab by mixin --}}
         {{#each (cprGetTemplates item.type) as |mixin|}}
-            {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/description/cpr-VAR.hbs" mixin) ../this}}
-            <hr>
+            {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-VAR.hbs" mixin) ../this}}
         {{/each}}
     </div>
     <div class="item-description-section">

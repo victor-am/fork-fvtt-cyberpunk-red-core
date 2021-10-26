@@ -1,17 +1,5 @@
 {{cprTrace "CPR-PHYSICAL.HBS"}}
-<div class="item-summary-line">
-    <span class="text-bold summary-name">{{localize "CPR.itemSheet.physical.price.price"}}:</span>
-    <span class="summary-value">{{item.data.data.price.market}}</span>
-</div>
-<div class="item-summary-line">
-    <span class="text-bold summary-name">{{localize "CPR.itemSheet.physical.price.category"}}:</span>
-    <span class="summary-value">{{localize (cprFindConfigValue "itemPriceCategory" item.data.data.price.category)}}</span>
-</div>
 {{#if item.isOwned}}
-    <div class="item-summary-line">
-        <span class="text-bold summary-name">{{localize "CPR.itemSheet.physical.location"}}:</span>
-        <span class="summary-value">{{item.data.data.equipped}}</span>
-    </div>
     <div class="item-summary-line">
         <span class="text-bold summary-name">{{localize "CPR.itemSheet.physical.concealed"}}:</span>
         {{#if item.data.data.concealable.concealable}}

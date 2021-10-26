@@ -368,11 +368,6 @@
         "favorite": false
       },
       "physical": {
-        "price": {
-          "market": 0,
-          "category": ""
-        },
-        "equipped": "owned",
         "concealable": {
           "concealable": false,
           "isConcealed": false
@@ -380,6 +375,15 @@
       },
       "stackable": {
         "amount": 1
+      },
+      "equippable": {
+        "equipped": "owned"
+      },
+      "valuable": {
+        "price": {
+          "market": 0,
+          "category": ""
+        }
       },
       "upgradable": {
         "isUpgraded": false,
@@ -425,6 +429,7 @@
       "templates": [
         "common",
         "physical",
+        "valuable",
         "upgradable"
       ],
       "variety": "",
@@ -495,16 +500,20 @@
       "templates": [
         "common",
         "effects",
+        "equippable",
         "physical",
-        "stackable"
+        "stackable",
+        "valuable"
       ]
     },
     "clothing": {
       "templates": [
         "common",
         "effects",
+        "equippable",
         "physical",
-        "stackable"
+        "stackable",
+        "valuable"
       ],
       "type": "",
       "style": ""
@@ -512,7 +521,8 @@
     "netarch": {
       "templates": [
         "common",
-        "physical"
+        "physical",
+        "valuable"
       ],
       "floors": []
     },

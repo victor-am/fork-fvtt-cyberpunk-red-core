@@ -113,18 +113,29 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/cpr-item-name.hbs",
 
     // Item Sheet - Settings Partials
+    "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-effects.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-equippable.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-physical.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-stackable.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-valuable.hbs",
+
     "systems/cyberpunk-red-core/templates/item/description/cpr-clothing.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-criticalInjury.hbs",
-    "systems/cyberpunk-red-core/templates/item/description/cpr-effects.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-gear.hbs",
-    "systems/cyberpunk-red-core/templates/item/description/cpr-physical.hbs",
-    "systems/cyberpunk-red-core/templates/item/description/cpr-stackable.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/cpr-role.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/cpr-skill.hbs",
+
+    "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-effects.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-equippable.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-physical.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-stackable.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-valuable.hbs",
+
     "systems/cyberpunk-red-core/templates/item/settings/cpr-clothing.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-criticalInjury.hbs",
-    "systems/cyberpunk-red-core/templates/item/settings/cpr-effects.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-gear.hbs",
-    "systems/cyberpunk-red-core/templates/item/settings/cpr-physical.hbs",
-    "systems/cyberpunk-red-core/templates/item/settings/cpr-stackable.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/cpr-role.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/cpr-skill.hbs",
 
     // Active Effects Sheet
     "systems/cyberpunk-red-core/templates/effects/cpr-active-effect-sheet.hbs",
