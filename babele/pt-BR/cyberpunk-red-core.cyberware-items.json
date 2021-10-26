@@ -1,8 +1,8 @@
 {
-	"label": "Cyberware",
+	"label": "Cibernética",
 	"entries": {
 		"Amplified Hearing": {
-			"name": "Amplified Hearing",
+			"name": "Aparelho Ampliado",
 			"description": "<p>Provides +2 to perception checks that use hearing. </p>"
 		},
 		"Anti-Dazzle": {
@@ -19,11 +19,11 @@
 		},
 		"AudioVox": {
 			"name": "AudioVox",
-			"description": "<p>Autotune synthesizer. Provides +2 to Acting and Play Instrument checks. </p>"
+			"description": "<p>Sintetizador de voz.</p><p>+2 em testes de Atua&ccedil;&atilde;o e Tocar instrumento.</p>"
 		},
 		"Battleglove": {
-			"name": "Battleglove",
-			"description": "<p>An exotic heavy gauntlet, that covers your hand and forearm. Provides three option slots. Refer to the full item description on pg. 347.&nbsp;</p>"
+			"name": "Luva de Batalha",
+			"description": "<p>Uma manopla pesada e exótica, cobre até o punho. Tem três espaços de melhoria. Veja a página 347.&nbsp;</p>"
 		},
 		"Big Knucks": {
 			"name": "Big Knucks",
@@ -34,8 +34,8 @@
 			"description": "<p>Provides an LED showing vitals readouts. Can be linked to your agent. </p>"
 		},
 		"Braindance Recorder": {
-			"name": "Braindance Recorder",
-			"description": "<p>Records memories for BD replay. Great for Medias.</p>"
+			"name": "Gravador de Neuro Dança",
+			"description": "<p>Grava memórias que podem ser revividas. Ótimo para Mídias.</p>"
 		},
 		"Bug Detector": {
 			"name": "Bug Detector",
@@ -62,8 +62,8 @@
 			"description": "<p>Allows you to shift eyes to an unlimited number of colors and patterns. </p>"
 		},
 		"Contraceptive Implant": {
-			"name": "Contraceptive Implant",
-			"description": "<p>Prevents undesired pregnancy.</p>"
+			"name": "Implante Contraceptivo",
+			"description": "<p>Impede uma gravidez indesejada.</p>"
 		},
 		"Cyberarm": {
 			"name": "Cyberarm",
@@ -74,8 +74,8 @@
 			"description": "<p>A base interface for audio enhancements.</p>"
 		},
 		"Cyberdeck (Hardwired)": {
-			"name": "Cyberdeck (Hardwired)",
-			"description": "<p>A built-in cyberdeck. Always available. </p>"
+			"name": "Console (Fundido)",
+			"description": "<p>Um Console integrado. Sempre disponível. </p>"
 		},
 		"Cybereye": {
 			"name": "Cybereye",
@@ -134,8 +134,8 @@
 			"description": "<p>Holster that is hidden inside you.</p>"
 		},
 		"Homing Tracer": {
-			"name": "Homing Tracer",
-			"description": "<p>Audio tracking of a tracer up to 1 mile. Replacements not included. </p>"
+			"name": "Radar com Rastreador",
+			"description": "<p>Rastreador com alcance de 2km, emite a&uacute;dio baseado na dist&acirc;ncia.</p>"
 		},
 		"Image Enhance": {
 			"name": "Image Enhance",
@@ -143,11 +143,11 @@
 		},
 		"Implanted Linear Frame β (Beta)": {
 			"name": "Implanted Linear Frame β (Beta)",
-			"description": "<p>Increases your BODY stat to 14 (adjusting your HP and Wound Threshold and Death Save)</p>"
+			"description": "<p>Aumenta seu atributo BODY para 14 (ajustando seu PV, Limite de Ferimentos e Salva de Morte)</p>"
 		},
 		"Implanted Linear Frame ∑ (Sigma)": {
 			"name": "Implanted Linear Frame ∑ (Sigma)",
-			"description": "<p>Increases your BODY stat to 12 (adjusting your HP and Wound Threshold and Death Save)</p>"
+			"description": "<p>Aumenta seu atributo BODY para 12 (ajustando seu PV, Limite de Ferimentos e Salva de Morte)</p>"
 		},
 		"Independent Air Supply": {
 			"name": "Independent Air Supply",
@@ -162,7 +162,7 @@
 			"description": "<p>Built in agent. Audio only but can be linked with other cybergear. </p>"
 		},
 		"Jump Booster": {
-			"name": "Jump Booster",
+			"name": "Super pulo",
 			"description": "<p>Built-in hydraulics negates penalty for jumping. Must be paired. </p>"
 		},
 		"Kerenzikov": {
@@ -226,12 +226,12 @@
 			"description": "<p>Access to nervous system. </p>"
 		},
 		"Olfactory Boost": {
-			"name": "Olfactory Boost",
+			"name": "Olfato Aguçado",
 			"description": "<p>Chipware. Allows scent tracking</p>"
 		},
 		"Pain Editor": {
 			"name": "Pain Editor",
-			"description": "<p>Chipware. Removes Seriously Wounded penalties.</p>"
+			"description": "<p>Chip. Remove os efeitos de \"Seriamente Ferido\".</p>"
 		},
 		"Plastic Covering (Cyber Arm)": {
 			"name": "Plastic Covering (Cyber Arm)",
@@ -243,19 +243,19 @@
 		},
 		"Popup Grenade Launcher": {
 			"name": "Popup Grenade Launcher",
-			"description": "<p>A concealable one-shot Grenade Launcher. Can't hold anything with this hand while activated. </p>"
+			"description": "<p>Um lança granada oculta de disparo único. Não pode segurar nada enquanto essa mão está ativa.</p>"
 		},
 		"Popup Melee Weapon": {
 			"name": "Popup Melee Weapon",
-			"description": "<p>A concealable Melee Weapon. Can't hold anything with this hand while activated. </p>"
+			"description": "<p>Uma arma Corpo à Corpo oculta. Não pode segurar nada enquanto essa mão está ativa.</p>"
 		},
 		"Popup Ranged Weapon": {
 			"name": "Popup Ranged Weapon",
-			"description": "<p>A concealable one-handed Ranged Weapon. Can't hold anything with this hand while activated. </p>"
+			"description": "<p>Uma arma uma mão, ataque à distância e oculta. Não pode segurar nada enquanto essa mão está ativa.</p>"
 		},
 		"Popup Shield": {
 			"name": "Popup Shield",
-			"description": "<p>A foldable bulletproof shield that can be drawn or stowed easily. Can't hold anything with this hand while activated. </p>"
+			"description": "<p>Um escudo retrátil e oculto. Não pode segurar nada enquanto essa mão está ativa.</p>"
 		},
 		"Quick Change Mount": {
 			"name": "Quick Change Mount",
@@ -311,7 +311,7 @@
 		},
 		"Shift Tacts": {
 			"name": "Shift Tacts",
-			"description": "<p>Change eye color. Can be activated/deactivated at will. </p>"
+			"description": "<p>Alterar a cor dos olhos. Pode ser ativado/desativado à vontade. </p>"
 		},
 		"Shoulder Cam": {
 			"name": "Shoulder Cam",
@@ -327,7 +327,7 @@
 		},
 		"Skin Weave": {
 			"name": "Skin Weave",
-			"description": "<p>Head and Body Armor SP7 and recovers 1SP /day. Does not stack</p>"
+			"description": "<p>Cabeça e armadura corporal PP7 e recupera 1PP /dia. Não acumula</p>"
 		},
 		"Skinwatch": {
 			"name": "Skinwatch",
@@ -347,7 +347,7 @@
 		},
 		"Subdermal Armor": {
 			"name": "Subdermal Armor",
-			"description": "<p>Head and Body Armor SP11 and recovers 1SP /day. Does not stack</p>"
+			"description": "<p>Cabeça e armadura corporal PP11 e recupera 1PP /dia. Não acumula</p>"
 		},
 		"Subdermal Grip": {
 			"name": "Subdermal Grip",
@@ -366,7 +366,7 @@
 			"description": "<p>A metallic coating for your leg. Provides +2 to Wardrobe and Style. </p>"
 		},
 		"Tactile Boost": {
-			"name": "Tactile Boost",
+			"name": "Impulso Tático",
 			"description": "<p>Chipware. Can detect motion up to 20m/yd away through surfaces.</p>"
 		},
 		"Talon Foot": {
@@ -395,7 +395,7 @@
 		},
 		"Toxin Binders": {
 			"name": "Toxin Binders",
-			"description": "<p>Provides +2 to Resist Torture/Drugs checks. </p>"
+			"description": "<p>+2 em Resistir Tortura/Drogas.</p>"
 		},
 		"Vampyres": {
 			"name": "Vampyres",
@@ -407,7 +407,7 @@
 		},
 		"Voice Stress Analyzer": {
 			"name": "Voice Stress Analyzer",
-			"description": "<p>Provides +2 to Human Perception and Interrogation checks. Can activate a special lie-detecting mode. </p>"
+			"description": "<p>+2 em Percepção Humana e Interrogação. Pode ativar um modo especial de \"detecção de mentira\".</p>"
 		},
 		"Web Foot": {
 			"name": "Web Foot",
