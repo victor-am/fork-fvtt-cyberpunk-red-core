@@ -23,13 +23,13 @@
         {{/if}}
       {{/if}}
     {{else}}
-      <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{foundation.data._id}}">
+      <a class="name item deletable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{foundation.data._id}}">
         {{~foundation.name~}}{{~#unless (cprCompare optionals.length ">" 0)~}}{{~#unless @last~}},{{~/unless~}}{{~/unless~}}
       </a>
     {{~/if}}
     {{~#if (cprCompare optionals.length ">" 0)~}}&nbsp;({{/if~}}
     {{~#each optionals as |optional o|~}}
-      <a class="name deletable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}">
+      <a class="name item deletable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}">
         {{~optional.name}}{{#unless @last}},&nbsp;{{/unless~}}
       </a>
     {{~/each}}
@@ -40,12 +40,12 @@
   <!-- Gear -->
   {{#each (cprSort (cprObjConcat actor.data.filteredItems.ammo actor.data.filteredItems.gear) "name") as |item i|}}
     {{#if (cprCompare item.type "===" "ammo")}}
-      <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
+      <a class="name item deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
         {{item.name}} (x{{item.data.data.amount}}){{#unless @last}},{{/unless}}
       </a>
     {{/if}}
     {{#if (cprCompare (cprCompare item.type "===" "gear") "||" (cprCompare item.type "===" "cyberdeck"))}}
-      <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
+      <a class="name item deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
         {{item.name}}{{#unless @last}},{{/unless}}
       </a>
     {{/if}}
@@ -53,7 +53,7 @@
   <!-- Display Item Upgrades in the Cyberware/Special Gear section -->
   {{#each (cprSort (cprObjConcat actor.data.filteredItems.itemUpgrade) "name") as |item i|}}
     {{#if (cprCompare item.type "===" "itemUpgrade")}}
-      <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
+      <a class="name item deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
         {{item.name}}{{#unless @last}},{{/unless}}
       </a>
     {{/if}}
