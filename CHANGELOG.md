@@ -28,6 +28,9 @@
 - Fixed #339 - Added missing Tracer Button.
 - Fixed #335 - The Media Role Ability now uses the associated rank as a modifier. 
 - Fixed #342 - Medical Grade Cyberlimbs are missing
+- Fixed #343 - Allow Smartglasses to take cybereye options. Add Smart Lens from Microchrome. Move Battleglove to gear.
+
+>>>>>>> dev
 # Version 0.79.1 | Date: 2021-09-11
 **Hot Fix**
 - Fixed #325 - DV ruler broken. Restored by naming the function.
