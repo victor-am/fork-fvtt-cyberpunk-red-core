@@ -40,6 +40,25 @@ export default class CPRActor extends Actor {
   }
 
   /**
+   * Also called when an actor is passed to the client. Notably this is called BEFORE active
+   * effects are applied to the actor, so we can prepare temporary variables for them to modify.
+   * We get the list of skills for the actor, including custom, and creates a "bonus" object
+   * in the actor data that active effects will later modify. When a skill roll is made, it will
+   * use the bonus object to consider skill mods from active effects on the actor.
+   *
+   * @override
+   */
+  prepareBaseData() {
+    LOGGER.trace("prepareBaseData | CPRActor | Called.");
+    super.prepareBaseData();
+    this.data.skillBonuses = {};
+    const skills = this.data.items.filter((i) => i.type === "skill");
+    skills.forEach((skill) => {
+      this.data.skillBonuses[skill.slugify()] = 0;
+    });
+  }
+
+  /**
    * Does mostly nothing. We should probably get rid of this.
    * @return {Object} - a huge structured object representing actor data.
    */
@@ -146,6 +165,8 @@ export default class CPRActor extends Actor {
    */
   getInstalledCyberware() {
     LOGGER.trace("getInstalledCyberware | CPRActor | Called.");
+    LOGGER.debug("ACTOR: THIS.DATA");
+    LOGGER.debugObject(this.data);
     return this.data.filteredItems.cyberware.filter((item) => item.data.data.isInstalled);
   }
 

@@ -1,4 +1,4 @@
-/* global ActiveEffect */
+/* global ActiveEffect game */
 import LOGGER from "./utils/cpr-logger.js";
 import SystemUtils from "./utils/cpr-systemUtils.js";
 
@@ -54,21 +54,44 @@ export default class CPRActiveEffect extends ActiveEffect {
    * Based on the activated mixins, determine how an item can be "used" to enable or disable
    * an active effect. This can only be used in the UIs, it is not saved as a property.
    *
-   * @override
+   * @return {Array}
    */
-  prepareDerivedData() {
-    LOGGER.trace("prepareDerivedData | CPRActiveEffect | Called.");
-    const effectData = this.data;
-    const parentItem = this.parent.data;
-    effectData.usageAllowed = ["always", "toggled"];
-    if (SystemUtils.hasDataModelTemplate(parentItem, "consumable")) {
-      effectData.usageAllowed.push("consumed");
+  getAllowedUsage() {
+    LOGGER.trace("getAllowedUsage | CPRActiveEffect | Called.");
+    const usageAllowed = ["always", "toggled"];
+    const parentItem = this.getItem();
+    if (SystemUtils.hasDataModelTemplate(parentItem.data.type, "consumable")) {
+      usageAllowed.push("consumed");
     }
-    if (SystemUtils.hasDataModelTemplate(parentItem, "physical")) {
-      effectData.usageAllowed.push("carried");
-      effectData.usageAllowed.push("equipped");
+    if (SystemUtils.hasDataModelTemplate(parentItem.data.type, "physical")) {
+      usageAllowed.push("carried");
+      usageAllowed.push("equipped");
     }
-    super.prepareDerivedData();
+    return usageAllowed;
+  }
+
+  /**
+   * Get the item that provides this active effect. You might think this is simply
+   * this.parent, but that returns the actor if this is on an owned item! Instead
+   * we use the origin property and follow that.
+   */
+  getItem() {
+    LOGGER.trace("getItem | CPRActiveEffect | Called.");
+    // Example origin value: "Actor.voAMugZgXyH2OG9l.Item.ioY6vLPzo2ZuhXuS"
+    const { origin } = this.data;
+    let retVal = null;
+    if (origin.startsWith("Item")) {
+      // This AE is on unowned item, we can just use the parent property
+      retVal = this.parent;
+    } else if (origin.startsWith("Actor")) {
+      // This AE is on an item owned by an actor
+      const originBits = origin.split(".");
+      const actor = game.actors.find((a) => a.id === originBits[1]);
+      retVal = actor.items.find((i) => i.data._id === originBits[3]);
+    } else {
+      LOGGER.error(`This AE origin is crazy! ${origin}`);
+    }
+    return retVal;
   }
 
   /**
@@ -80,7 +103,8 @@ export default class CPRActiveEffect extends ActiveEffect {
   set usage(use) {
     LOGGER.trace("set usage | CPRActiveEffect | Called.");
     // if this effect is not on a physical object, it cannot be carried or equipped
-    if (!(SystemUtils.hasDataModelTemplate(this.parent, "physical"))) {
+    const parentItem = this.getItem();
+    if (!(SystemUtils.hasDataModelTemplate(parentItem.data.type, "physical"))) {
       if (use === usageValues.CARRIED || use === usageValues.EQUIPPED) {
         LOGGER.error(`Cannot set usage to ${use} on a non-physical item!`);
         return null;

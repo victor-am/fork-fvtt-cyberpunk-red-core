@@ -270,6 +270,34 @@ export default class CPRSystemUtils {
   }
 
   /**
+   * Given the (assumed unique) ID of an Active Effect, return the corresponding object. Active Effects only
+   * exist as embedded objects on either Actors or Items. There is no place to look up from a list, so we
+   * go by the origin property that exists on data.
+   *
+   * This is called by handlebars helpers because the template only has data to go by, not object instances.
+   *
+   * @param {String} effectId
+   * @returns {CPRActiveEffect}
+   */
+  static GetEffect(effectId, origin) {
+    LOGGER.trace("GetEffect | CPRSystemUtils | Called.");
+    const originBits = origin.split(".");
+    if (origin.startsWith("Item")) {
+      // This AE is on an (unowned) item from the catalog
+      const item = game.items.find((i) => i.data._id === originBits[1]);
+      return item.effects.find((e) => e.data._id === effectId);
+    }
+    if (origin.startsWith("Actor")) {
+      // This AE is on an item owned by an actor
+      const actor = game.actors.find((a) => a.id === originBits[1]);
+      const item = actor.items.find((i) => i.data._id === originBits[3]);
+      return item.effects.find((e) => e.data._id === effectId);
+    }
+    LOGGER.error(`This AE origin is crazy! ${origin}`);
+    return null;
+  }
+
+  /**
    * Return an array of data model templates associated with this Item's type. "common" is intentionally
    * omitted because nothing should operate on it. The logic for common Item functionality should be in
    * this very file.
@@ -284,8 +312,8 @@ export default class CPRSystemUtils {
   /**
    * Answer whether an item has a specific data model template applied or not
    */
-  static hasDataModelTemplate(item, template) {
+  static hasDataModelTemplate(itemType, template) {
     LOGGER.trace("hasDataModelTemplate | DataModelUtils | Called.");
-    return CPRSystemUtils.getDataModelTemplates(item.type).includes(template);
+    return CPRSystemUtils.getDataModelTemplates(itemType).includes(template);
   }
 }

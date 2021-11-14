@@ -570,8 +570,7 @@
       "category": "none",
       "difficulty": "typical",
       "core": false,
-      "basic": false,
-      "skillmod": 0
+      "basic": false
     },
     "role": {
       "templates": [

@@ -29,24 +29,5 @@
             </div>
         </li>
     {{/if}}
-
-    <li class="item flexrow">
-        <div class="item flexrow setting-name text-nowrap">
-            {{localize "CPR.itemSheet.physical.location"}}
-        </div>
-        <div class="item flexrow setting-value text-nowrap item-end">
-            {{#if this.editable}}
-            <select name="data.equipped" data-dtype="{{data.data.equipped}}">
-                {{#select data.data.equipped}}
-                    {{#each (cprFindConfigObj "equipped") as |equipped e|}}
-                        <option value="{{e}}">{{localize equipped}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
-            {{else}}
-                <span class="text-flex-end">{{localize (cprFindConfigValue "equipped" data.data.equipped)}}</span>
-            {{/if}}
-        </div>
-    </li>
 {{/if}}
 {{cprTrace "END CPR-PHYSICAL.HBS"}}

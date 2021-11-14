@@ -608,6 +608,22 @@ export default function registerHandlebarsHelpers() {
   });
 
   /**
+   * Given an ActiveEffect, look up the (parent) Item providing it and figure out
+   * how the effect is allowed to be "used." For example, the effect on a physical
+   * object might be turned on when it is equipped or carried.
+   *
+   * TODO: is it better to compute allowed usage from data rather than call a method?
+   */
+  Handlebars.registerHelper("cprGetAllowedUsage", (effectData) => {
+    LOGGER.trace("cprGetAllowedUsage | handlebarsHelper | Called.");
+    LOGGER.debug("HELPER");
+    LOGGER.debugObject(effectData);
+    const effect = SystemUtils.GetEffect(effectData._id, effectData.origin);
+    LOGGER.debugObject(effect);
+    return effect.getAllowedUsage();
+  });
+
+  /**
    * Return the stat-changing details as text if an object has an upgrade
    */
   Handlebars.registerHelper("cprShowUpgrade", (obj, dataPoint) => {

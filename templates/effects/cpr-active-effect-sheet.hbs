@@ -43,7 +43,7 @@
                 <select name="data.flags.cyberpunk-red-core.usage" data-dtype="String">
                     {{log this}}
                     {{#select data.flags.cyberpunk-red-core.usage}}
-                        {{#each data.usageAllowed as |use|}}
+                        {{#each (cprGetAllowedUsage data) as |use|}}
                             <option value="{{use}}">{{localize (cprFindConfigValue "effectUses" use)}}</option>
                         {{/each}}
                     {{/select}}

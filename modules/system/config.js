@@ -398,7 +398,7 @@ CPR.effectModifierKeys = {
   "data.stats.body.value": "CPR.global.stats.body",
   "data.stats.emp.max": "CPR.global.stats.empMax",
   "data.stats.emp.value": "CPR.global.stats.emp",
-  "data.data.skills.perception": "CPR.global.skills.perception",
+  "skillBonuses.Perception": "CPR.global.skills.perception",
   "data.data.derivedStats.hp": "CPR.global.generic.hitpoints",
   "data.data.universalBonuses.attack": "CPR.itemSheet.weapon.attackMod",
 };

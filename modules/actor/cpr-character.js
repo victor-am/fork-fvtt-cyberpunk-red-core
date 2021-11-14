@@ -1,9 +1,6 @@
 /* globals game */
 import CPRActor from "./cpr-actor.js";
-import CPRChat from "../chat/cpr-chat.js";
-import * as CPRRolls from "../rolls/cpr-rolls.js";
 import LOGGER from "../utils/cpr-logger.js";
-import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
@@ -57,6 +54,8 @@ export default class CPRCharacterActor extends CPRActor {
     // Calculate MAX HP
     LOGGER.trace("_calculateDerivedStats | CPRCharacterActor | Called.");
     const actorData = this.data;
+    LOGGER.debug("ITEMTYPES");
+    LOGGER.debugObject(this.itemTypes);
     actorData.filteredItems = this.itemTypes;
 
     const { stats } = actorData.data;

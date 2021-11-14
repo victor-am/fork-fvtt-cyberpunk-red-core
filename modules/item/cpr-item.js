@@ -1,6 +1,5 @@
 /* global Item game getProperty */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
-import CPR from "../system/config.js";
 import LOGGER from "../utils/cpr-logger.js";
 import LoadAmmoPrompt from "../dialog/cpr-load-ammo-prompt.js";
 import Rules from "../utils/cpr-rules.js";

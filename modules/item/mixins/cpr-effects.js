@@ -1,9 +1,26 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import EventUtils from "../../utils/cpr-eventUtils.js";
-import CPRSystemUtils from "../../utils/cpr-systemUtils.js";
+import SystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
  * The Effects mixin in where the logic lives for managing active effects associated with Items.
+ * Valid mods are objects shown below. They are in the "changes" property of the active effect.
+ * {
+ *    key: "data.stats.dex.value"
+ *    mode: 2
+ *    priority: 10   <-- implies an order to applying effects; not used in this system
+ *    value: "20"
+ * }
+ *
+ * mode is an enum with the following behaviors:
+ *    0 (CUSTOM) - calls the "applyActiveEffect" hook with the value to figure out what to do with it
+ *    1 (MULTIPLY) - multiply this value with the current one
+ *    2 (ADD) - add this value to the current value (as an Integer) or set it if currently null
+ *    3 (DOWNGRADE) - like OVERRIDE but only replace if the value is lower (worse)
+ *    4 (UPGRADE) - like OVERRIDE but only replace if the value is higher (better)
+ *    5 (OVERRIDE) - replace the current value with this one
+ *
+ * Note: Only 1, 2, and 5 is used in this system
  */
 const Effects = function Effects() {
   /**
@@ -46,8 +63,12 @@ const Effects = function Effects() {
    */
   this.createEffect = function createEffect() {
     LOGGER.trace("addEffect | Effects | Called.");
+    if (this.isOwned) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.itemSheet.effects.editOwnedWarning"));
+      return null;
+    }
     return this.createEmbeddedDocuments("ActiveEffect", [{
-      label: CPRSystemUtils.Localize("CPR.itemSheet.effects.newEffect"),
+      label: SystemUtils.Localize("CPR.itemSheet.effects.newEffect"),
       icon: "icons/svg/aura.svg",
       origin: this.uuid,
       disabled: false,
@@ -63,6 +84,10 @@ const Effects = function Effects() {
   this.deleteEffect = function deleteEffect(eid) {
     LOGGER.trace("deleteEffect | Effects | Called.");
     const effect = this.getEffect(eid);
+    if (this.isOwned) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.itemSheet.effects.editOwnedWarning"));
+      return null;
+    }
     return effect.delete();
   };
 
@@ -74,6 +99,10 @@ const Effects = function Effects() {
    */
   this.editEffect = function editEffect(eid) {
     LOGGER.trace("editEffect | Effects | Called.");
+    if (this.isOwned) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.itemSheet.effects.editOwnedWarning"));
+      return null;
+    }
     const effect = this.getEffect(eid);
     return effect.sheet.render(true);
   };
@@ -96,77 +125,6 @@ const Effects = function Effects() {
   };
 
   /**
-   * Short hand method for getting all active effects on this item.
-   *
-   * @returns {Map} - all active effects on the item, even disabled ones
-   */
-  this.getAllEffects = function getAllEffects() {
-    LOGGER.trace("getAllEffects | Effects | Called.");
-    return this.data.effects;
-  };
-
-  /**
-   * Short hand method for getting all mods in an effect.
-   *
-   * @param {String} eid - active effect ID
-   * @returns {Array} - array of tuples in the form [stat, value]
-   */
-  this.getAllModsForEffect = function getAllModsForEffect(eid) {
-    LOGGER.trace("getAllModsForEffect | Effects | Called.");
-    const effect = this.getEffect(eid);
-    return effect.data.changes;
-  };
-
-  /**
-   * Rename an active effect on this item with the given name.
-   *
-   * @param {String} eid - active effect ID
-   * @param {String} name - new name (label) for the active effect
-   * @returns {ActiveEffect}
-   */
-  this.renameEffect = function renameEffect(eid, name) {
-    LOGGER.trace("setModOnEffect | Effects | Called.");
-    const effect = this.getEffect(eid);
-    LOGGER.debug(`Setting name on ${eid} to ${name}`);
-    if (this.isEmbedded) {
-      return this.actor.updateEmbeddedDocuments("ActiveEffect", [{ _id: this.id, data: this.data.data }]);
-    }
-    return effect.update({ label: name });
-  };
-
-  /**
-   * Add a modifier to the given active effect on this item. Valid mods are objects like this:
-   * {
-   *    key: "data.stats.dex.value"
-   *    mode: 2
-   *    priority: 10   <-- implies an order to applying effects; not used in this system
-   *    value: "20"
-   * }
-   *
-   * mode is an enum with the following behaviors:
-   *    0 (CUSTOM) - calls the "applyActiveEffect" hook with the value to figure out what to do with it
-   *    1 (MULTIPLY) - multiply this value with the current one
-   *    2 (ADD) - add this value to the current value (as an Integer) or set it if currently null
-   *    3 (DOWNGRADE) - like OVERRIDE but only replace if the value is lower (worse)
-   *    4 (UPGRADE) - like OVERRIDE but only replace if the value is higher (better)
-   *    5 (OVERRIDE) - replace the current value with this one
-   *
-   * Note: Only 1, 2, and 5 is used in this system
-   *
-   * @param {*} eid - active effect ID
-   * @param {*} mod - the mod to add, see above for structure
-   * @returns {ActiveEffect} - the active effect that was modified
-   */
-  this.setModOnEffect = function setModOnEffect(eid, mod) {
-    LOGGER.trace("setModOnEffect | Effects | Called.");
-    const effect = this.getEffect(eid);
-    // check that ability is valid!
-    const changes = effect.data.changes.push(mod);
-    effect.update({ changes });
-    return effect;
-  };
-
-  /**
    * Enable or disable the mods on an active effect on this item.
    *
    * @param {String} eid - active effect ID
@@ -177,6 +135,10 @@ const Effects = function Effects() {
     const effect = this.getEffect(eid);
     const value = !effect.data.disabled;
     LOGGER.debug(`Setting disabled on ${eid} to ${value}`);
+    if (this.isOwned) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.itemSheet.effects.editOwnedWarning"));
+      return null;
+    }
     return effect.update({ disabled: value });
   };
 };

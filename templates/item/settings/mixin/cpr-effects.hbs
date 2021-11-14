@@ -16,26 +16,32 @@
             <span class="effect-name text-padding-left">{{this.data.label}}</span>
             <span class="effect-usage">{{localize (cprFindConfigValue "effectUses" this.data.flags.cyberpunk-red-core.usage)}}</span>
             <span class="effect-actions text-padding-right effect-controls">
-                {{#if (cprCompare this.data.flags.cyberpunk-red-core.usage "===" "toggled")}}
-                    <a class="effect-control" data-action="toggle" data-effect-id="{{this.data._id}}" title="{{localize "CPR.itemSheet.effects.toggleEffectDesc"}}">
-                        <i class="far {{#if this.data.disabled}}fa-circle{{else}}fa-check-circle{{/if}}"></i>
+                {{#if ../this.isOwned}}
+                  <i class="fas fa-question-circle" title="{{localize "CPR.itemSheet.effects.editOwnedWarning"}}"></i>
+                {{else}}
+                    {{#if (cprCompare this.data.flags.cyberpunk-red-core.usage "===" "toggled")}}
+                        <a class="effect-control" data-action="toggle" data-effect-id="{{this.data._id}}" title="{{localize "CPR.itemSheet.effects.toggleEffectDesc"}}">
+                            <i class="far {{#if this.data.disabled}}fa-circle{{else}}fa-check-circle{{/if}}"></i>
+                        </a>
+                    {{/if}}
+                    <a class="effect-control" data-action="edit" data-effect-id="{{this.data._id}}" title="{{localize "CPR.itemSheet.effects.editEffectDesc"}}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a class="effect-control" data-action="delete" data-effect-id="{{this.data._id}}" title="{{localize "CPR.itemSheet.effects.deleteEffectDesc"}}">
+                        <i class="fas fa-trash"></i>
                     </a>
                 {{/if}}
-                <a class="effect-control" data-action="edit" data-effect-id="{{this.data._id}}" title="{{localize "CPR.itemSheet.effects.editEffectDesc"}}">
-                    <i class="fas fa-edit"></i>
-                </a>
-                <a class="effect-control" data-action="delete" data-effect-id="{{this.data._id}}" title="{{localize "CPR.itemSheet.effects.deleteEffectDesc"}}">
-                    <i class="fas fa-trash"></i>
-                </a>
             </span>
         </div>
     {{/each}}
-    <br>
-    <div class="item-controls effect-controls">
-        <a class="effect-control" data-action="create" title="{{localize 'CPR.itemSheet.effects.createEffectDesc'}}">
-            <i class="fas fa-plus"></i> {{localize "CPR.itemSheet.effects.createEffect"}}
-        </a>
-    </div>
+    {{#unless this.isOwned}}
+        <br>
+        <div class="item-controls effect-controls">
+            <a class="effect-control" data-action="create" title="{{localize 'CPR.itemSheet.effects.createEffectDesc'}}">
+                <i class="fas fa-plus"></i> {{localize "CPR.itemSheet.effects.createEffect"}}
+            </a>
+        </div>
+    {{/unless}}
 </div>
 <hr>
 {{cprTrace "END CPR-EFFECTS.HBS"}}
