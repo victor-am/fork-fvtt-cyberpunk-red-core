@@ -13,25 +13,25 @@
           look at the length of optionals to know the truth about used slots. -->
       {{#if (cprCompare optionals.length ">" 0)}}
         {{#if (cprCompare foundation.data.name "===" "Internal (7 Option Slots)")}}
-          {{localize "CPR.mookSheet.items.internalCyberware"~}}
+          <b>{{localize "CPR.mookSheet.items.internalCyberware"~}}</b>
         {{/if}}
         {{#if (cprCompare foundation.data.name "===" "External (7 Option Slots)")}}
-          {{localize "CPR.mookSheet.items.externalCyberware"~}}
+          <b>{{localize "CPR.mookSheet.items.externalCyberware"~}}</b>
         {{/if}}
         {{#if (cprCompare foundation.data.name "===" "Fashionware (7 Option Slots)")}}
-          {{localize "CPR.global.cyberwareType.fashionware"~}}
+           <b>{{localize "CPR.global.cyberwareType.fashionware"~}}</b>
         {{/if}}
       {{/if}}
     {{else}}
-      <a class="name item deletable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{foundation.data._id}}">
+      <b><a class="name item deletable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{foundation.data._id}}">
         {{~foundation.name~}}{{~#unless (cprCompare optionals.length ">" 0)~}}{{~#unless @last~}},{{~/unless~}}{{~/unless~}}
-      </a>
+      </a></b>
     {{~/if}}
     {{~#if (cprCompare optionals.length ">" 0)~}}&nbsp;({{/if~}}
     {{~#each optionals as |optional o|~}}
-      <a class="name item deletable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}">
+      <b><a class="name item deletable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}">
         {{~optional.name}}{{#unless @last}},&nbsp;{{/unless~}}
-      </a>
+      </a></b>
     {{~/each}}
     {{~#if (cprCompare optionals.length ">" 0)~}}
       ){{#unless @last}},{{/unless~}}
@@ -57,6 +57,20 @@
         {{item.name}}{{#unless @last}},{{/unless}}
       </a>
     {{/if}}
+  {{/each}}
+
+  {{#each (cprSort (cprObjConcat actor.data.filteredItems.cyberware) "name") as |item i|}}
+  {{#if item.data.data.core}}
+  {{else}}
+    {{#if item.data.data.isInstalled}}
+    {{else}}
+    {{#if (cprCompare item.type "===" "cyberware")}}
+      <a class="name item deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
+        {{item.name}}{{#unless @last}},{{/unless}}
+      </a>
+    {{/if}}
+    {{/if}}
+  {{/if}}
   {{/each}}
 </div>
 {{cprTrace "END CPR-MOOK-CYBERWARE.HBS"}}

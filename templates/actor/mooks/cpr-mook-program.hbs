@@ -12,7 +12,7 @@
       <span class="text-italics">{{item.name}}</span>{{#unless @last}},{{/unless}}
     </a>
     {{else}}
-    <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
+    <a class="name item deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
       {{item.name}}{{#unless @last}},{{/unless}}
     </a>
     {{/if}}
