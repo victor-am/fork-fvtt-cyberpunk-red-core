@@ -27,6 +27,8 @@
 - Fixed #337 - Added missing Bohemian Jacket. Corrected name of Asia Pop Mirrorshades and Mr. Studd.
 - Fixed #339 - Added missing Tracer Button.
 - Fixed #335 - The Media Role Ability now uses the associated rank as a modifier. 
+- Fixed #342 - Medical Grade Cyberlimbs are missing
+- Fixed #343 - Allow Smartglasses to take cybereye options. Add Smart Lens from Microchrome. Move Battleglove to gear.
 
 # Version 0.79.1 | Date: 2021-09-11
 **Hot Fix**
