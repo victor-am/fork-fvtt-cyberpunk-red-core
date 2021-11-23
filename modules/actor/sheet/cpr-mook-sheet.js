@@ -223,19 +223,15 @@ export default class CPRMookActorSheet extends CPRActorSheet {
       if (item.type === "cyberware") {
         if (item.data.data.core === true) {
           SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.cannotDeleteCoreCyberware"));
-        }
-        else {
-          if (item.data.data.isInstalled === false) {
-            this.actor.addCyberware(itemId);
-          }
-          else {
-            const foundationalId = $(event.currentTarget).attr("data-foundational-id");
-            const dialogTitle = SystemUtils.Localize("CPR.dialog.removeCyberware.title");
-            const dialogMessage = `${SystemUtils.Localize("CPR.dialog.removeCyberware.text")} ${item.name}?`;
-            const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
-            if (confirmRemove) {
-              await this.actor.removeCyberware(itemId, foundationalId, true);
-            }
+        } else if (item.data.data.isInstalled === false) {
+          this.actor.addCyberware(itemId);
+        } else {
+          const foundationalId = $(event.currentTarget).attr("data-foundational-id");
+          const dialogTitle = SystemUtils.Localize("CPR.dialog.removeCyberware.title");
+          const dialogMessage = `${SystemUtils.Localize("CPR.dialog.removeCyberware.text")} ${item.name}?`;
+          const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
+          if (confirmRemove) {
+            await this.actor.removeCyberware(itemId, foundationalId, true);
           }
         }
       }
