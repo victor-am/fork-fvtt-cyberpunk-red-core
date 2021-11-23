@@ -1018,6 +1018,7 @@ export default class CPRActorSheet extends ActorSheet {
         if (actor.data._id === this.actor.data._id
           || dragData.data.data.core === true
           || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.cannotDropInstalledCyberware"));
           return;
         }
         if (dragData.data.data.isUpgraded) {
