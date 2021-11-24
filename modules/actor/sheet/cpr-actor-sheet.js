@@ -1015,9 +1015,12 @@ export default class CPRActorSheet extends ActorSheet {
         return;
       }
       if (actor) {
-        if (actor.data._id === this.actor.data._id
-          || dragData.data.data.core === true
-          || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
+        // Do not move if the data is moved to itself
+        if (actor.data._id === this.actor.data._id) {
+          return;
+        }
+        // If the cyberware is marked as core, or is installed, throw an error message.
+        if (dragData.data.data.core === true || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
           SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.cannotDropInstalledCyberware"));
           return;
         }

@@ -13,6 +13,10 @@
   - If there are specific configuration instructions for a release (example: import the DV Tables Rolltable, or import Critical Injuries), they will also be provided in this pop-up.
     - DEV NOTE: To add this, simply create a new text file with the instructions in `lang/release-notes` with the name `v${version}-${lang}` and it will be automatically displayed
 - Actor damage application function has a new boolen argument to specify if the damage is lethal or not.  Non-lethal damage will not reduce an actor below 1 hit point.
+- Mook sheets have been modified slightly:
+  - Additional item types will now appear on a mook sheet, including clothing and cyberdeck items (they were previously invisible). 
+  - Cyberware can be installed or uninstalled using the SHIFT key. By default when dragging cyberware it will still prompt you to install it. Installed cyberware cannot be dragged, so must be uninstalled first.
+  - All items on a mook can be dragged between sheets, allowing the GM to "loot" mooks on behalf of player characters. 
 
 **Bug Fixes**
 - Rubber ammunition no longer ablates armor and will not reduce an actor to below 1 hit points per RAW.
