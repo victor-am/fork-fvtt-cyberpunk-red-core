@@ -1,7 +1,7 @@
-{{cprTrace "CPR-MOOK-CYBERWARE.HBS"}}
+{{cprTrace "CPR-MOOK-GEAR.HBS"}}
 <div class="items-header bg-red fg-white flexrow">
   <span class="item-name section-name text-nowrap text-padding-left">
-    {{localize "CPR.global.itemTypes.cyberware"}}/{{localize "CPR.mookSheet.items.specialGear"}}
+    {{localize "CPR.mookSheet.items.specialGear"}}
   </span>
 </div>
 <div class="bg-white fg-black text-padding-left">
@@ -23,10 +23,12 @@
         {{/if}}
       {{/if}}
     {{else}}
+    <!-- If Foundational Cyberware is present and has options installed, show the foundational cyberware -->
       <b><a class="name item changeable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressShiftToInstallorUninstall"}}" data-item-id="{{foundation.data._id}}">
         {{~foundation.name~}}{{~#unless (cprCompare optionals.length ">" 0)~}}{{~#unless @last~}},{{~/unless~}}{{~/unless~}}
       </a></b>
     {{~/if}}
+    <!-- For each optional cyberware, display it in a selection -->
     {{~#if (cprCompare optionals.length ">" 0)~}}&nbsp;({{/if~}}
     {{~#each optionals as |optional o|~}}
       <b><a class="name item changeable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressShiftToInstallorUninstall"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}">
@@ -37,20 +39,23 @@
       ){{#unless @last}},{{/unless~}}
     {{/if}}
   {{~/each}}{{#if (cprCompare (cprCompare (cprGetMookCyberwareLength this.installedCyberware) ">" 0) "&&" (cprCompare (cprCompare actor.data.filteredItems.ammo.length ">" 0) "||" (cprCompare actor.data.filteredItems.gear.length ">" 0)))}},{{/if}}
-  <!-- Gear -->
-  {{#each (cprSort (cprObjConcat actor.data.filteredItems.ammo actor.data.filteredItems.gear) "name") as |item i|}}
+  <!-- Display Ammo in the Gear section -->
+  {{#each (cprSort (cprObjConcat actor.data.filteredItems.ammo) "name") as |item i|}}
     {{#if (cprCompare item.type "===" "ammo")}}
       <a class="name item deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
         {{item.name}} (x{{item.data.data.amount}}){{#unless @last}},{{/unless}}
       </a>
     {{/if}}
-    {{#if (cprCompare (cprCompare item.type "===" "gear") "||" (cprCompare item.type "===" "cyberdeck"))}}
+  {{/each}}
+  <!-- Display Gear in the Gear section -->
+  {{#each (cprSort (cprObjConcat actor.data.filteredItems.gear) "name") as |item i|}}
+    {{#if (cprCompare item.type "===" "gear")}}
       <a class="name item deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
         {{item.name}}{{#unless @last}},{{/unless}}
       </a>
     {{/if}}
   {{/each}}
-  <!-- Display Item Upgrades in the Cyberware/Special Gear section -->
+  <!-- Display Item Upgrades in the Gear section -->
   {{#each (cprSort (cprObjConcat actor.data.filteredItems.itemUpgrade) "name") as |item i|}}
     {{#if (cprCompare item.type "===" "itemUpgrade")}}
       <a class="name item deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
@@ -58,7 +63,7 @@
       </a>
     {{/if}}
   {{/each}}
-  <!-- Display Clothing in the Cyberware/Special Gear section -->
+  <!-- Display Clothing in the Gear section -->
   {{#each (cprSort (cprObjConcat actor.data.filteredItems.clothing) "name") as |item i|}}
     {{#if (cprCompare item.type "===" "clothing")}}
       <a class="name item deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
@@ -66,7 +71,22 @@
       </a>
     {{/if}}
   {{/each}}
-
+  <!-- Display Cyberdecks in the Gear section -->
+  {{#each (cprSort (cprObjConcat actor.data.filteredItems.cyberdeck) "name") as |item i|}}
+    {{#if (cprCompare item.type "===" "cyberdeck")}}
+      <a class="name item deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
+        {{item.name}}{{#unless @last}},{{/unless}}
+      </a>
+    {{/if}}
+  {{/each}}
+  <!-- Display Programs in the Gear section -->
+  {{#each (cprSort (cprObjConcat actor.data.filteredItems.program) "name") as |item i|}}
+    {{#if (cprCompare item.type "===" "program")}}
+      <a class="name item deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
+        {{item.name}}{{#unless @last}},{{/unless}}
+      </a>
+    {{/if}}
+  {{/each}}
   {{#each (cprSort (cprObjConcat actor.data.filteredItems.cyberware) "name") as |item i|}}
   {{#if item.data.data.core}}
   {{else}}
@@ -81,4 +101,4 @@
   {{/if}}
   {{/each}}
 </div>
-{{cprTrace "END CPR-MOOK-CYBERWARE.HBS"}}
+{{cprTrace "END CPR-MOOK-GEAR.HBS"}}
