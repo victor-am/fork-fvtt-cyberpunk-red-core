@@ -51,10 +51,14 @@ export default class CPRActor extends Actor {
   prepareBaseData() {
     LOGGER.trace("prepareBaseData | CPRActor | Called.");
     super.prepareBaseData();
-    this.data.skillBonuses = {};
+    this.data.bonuses = {};
     const skills = this.data.items.filter((i) => i.type === "skill");
     skills.forEach((skill) => {
-      this.data.skillBonuses[skill.slugify()] = 0;
+      this.data.bonuses[skill.slugify()] = 0;
+    });
+    const roles = this.data.items.filter((i) => i.type === "role");
+    roles.forEach((role) => {
+      this.data.bonuses[role.slugify()] = 0;
     });
   }
 
@@ -165,8 +169,6 @@ export default class CPRActor extends Actor {
    */
   getInstalledCyberware() {
     LOGGER.trace("getInstalledCyberware | CPRActor | Called.");
-    LOGGER.debug("ACTOR: THIS.DATA");
-    LOGGER.debugObject(this.data);
     return this.data.filteredItems.cyberware.filter((item) => item.data.data.isInstalled);
   }
 

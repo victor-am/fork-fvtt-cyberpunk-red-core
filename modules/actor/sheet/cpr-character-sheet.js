@@ -349,13 +349,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   _updateSkill(event) {
     LOGGER.trace("_updateSkill | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
-    const updateType = $(event.currentTarget).attr("data-item-prop");
-    if (updateType === "data.level") {
-      item.setSkillLevel(parseInt(event.target.value, 10));
-    }
-    if (updateType === "data.mod") {
-      item.setSkillMod(parseInt(event.target.value, 10));
-    }
+    item.setSkillLevel(parseInt(event.target.value, 10));
     this._updateOwnedItem(item);
   }
 

@@ -582,7 +582,7 @@
       "addRoleAbilityRank": true,
       "stat": "--",
       "skill": "--",
-      "skillBonuses": [],
+      "bonuses": [],
       "universalBonuses": [],
       "bonusRatio": 1,
       "abilities": []

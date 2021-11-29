@@ -21,18 +21,6 @@ export default class CPRSkillItem extends CPRItem {
   }
 
   /**
-   * Set the mod for a skill. This is a flat value added or subtracted from any roll result
-   * associated with this skill.
-   *
-   * Note: might be able to remove this after the active effects work.
-   * @param {Number} value
-   */
-  setSkillMod(value) {
-    LOGGER.trace("setSkillMod | CPRSkillItem | Called.");
-    this.getRollData().skillmod = Math.clamped(-99, value, 99);
-  }
-
-  /**
    * Create a CPRRoll object with the right type and mods for this skill.
    *
    * @param {CPRActor} actor - the actor this skill is associated with
@@ -49,7 +37,7 @@ export default class CPRSkillItem extends CPRItem {
     let roleName;
     let roleValue = 0;
     actor.data.filteredItems.role.forEach((r, index1) => {
-      const roleSkillBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.skillBonuses.some((b) => b.name === skillName));
+      const roleSkillBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.bonuses.some((b) => b.name === skillName));
       if (roleSkillBonuses.length > 0 && index1 === 0) {
         roleSkillBonuses.forEach((b, index2) => {
           if (roleName) {
@@ -60,7 +48,7 @@ export default class CPRSkillItem extends CPRItem {
           roleValue += Math.floor(b.data.data.rank / b.data.data.bonusRatio);
         });
       }
-      const subroleSkillBonuses = r.data.data.abilities.filter((a) => a.skillBonuses.some((b) => b.name === skillName));
+      const subroleSkillBonuses = r.data.data.abilities.filter((a) => a.bonuses.some((b) => b.name === skillName));
       if (subroleSkillBonuses.length > 0) {
         subroleSkillBonuses.forEach((b, index3) => {
           if (roleName) {
@@ -78,6 +66,7 @@ export default class CPRSkillItem extends CPRItem {
     cprRoll.addMod(this._getSkillMod());
     cprRoll.addMod(actor.getUpgradeMods(statName));
     cprRoll.addMod(actor.getUpgradeMods(skillName));
+    cprRoll.addMod(actor.data.bonuses[skillName]); // active effects
     return cprRoll;
   }
 

@@ -385,24 +385,6 @@ CPR.universalBonuses = {
   damage: "CPR.universalBonuses.damage",
 };
 
-CPR.effectModifierKeys = {
-  "data.stats.int.value": "CPR.global.stats.int",
-  "data.stats.ref.value": "CPR.global.stats.ref",
-  "data.stats.dex.value": "CPR.global.stats.dex",
-  "data.stats.tech.value": "CPR.global.stats.tech",
-  "data.stats.cool.value": "CPR.global.stats.cool",
-  "data.stats.will.value": "CPR.global.stats.will",
-  "data.stats.luck.max": "CPR.global.stats.luckMax",
-  "data.stats.luck.value": "CPR.global.stats.luck",
-  "data.stats.move.value": "CPR.global.stats.move",
-  "data.stats.body.value": "CPR.global.stats.body",
-  "data.stats.emp.max": "CPR.global.stats.empMax",
-  "data.stats.emp.value": "CPR.global.stats.emp",
-  "skillBonuses.Perception": "CPR.global.skills.perception",
-  "data.data.derivedStats.hp": "CPR.global.generic.hitpoints",
-  "data.data.universalBonuses.attack": "CPR.itemSheet.weapon.attackMod",
-};
-
 CPR.effectModifierModes = {
   1: "CPR.effectSheet.modifiers.multiply",
   2: "CPR.effectSheet.modifiers.addsubtract",

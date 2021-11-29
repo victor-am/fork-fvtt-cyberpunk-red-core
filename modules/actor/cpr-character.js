@@ -54,8 +54,6 @@ export default class CPRCharacterActor extends CPRActor {
     // Calculate MAX HP
     LOGGER.trace("_calculateDerivedStats | CPRCharacterActor | Called.");
     const actorData = this.data;
-    LOGGER.debug("ITEMTYPES");
-    LOGGER.debugObject(this.itemTypes);
     actorData.filteredItems = this.itemTypes;
 
     const { stats } = actorData.data;

@@ -1,7 +1,6 @@
 /* global Handlebars game getProperty */
 import LOGGER from "../utils/cpr-logger.js";
 import CPR from "./config.js";
-import CPRItem from "../item/cpr-item.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default function registerHandlebarsHelpers() {
@@ -616,10 +615,7 @@ export default function registerHandlebarsHelpers() {
    */
   Handlebars.registerHelper("cprGetAllowedUsage", (effectData) => {
     LOGGER.trace("cprGetAllowedUsage | handlebarsHelper | Called.");
-    LOGGER.debug("HELPER");
-    LOGGER.debugObject(effectData);
     const effect = SystemUtils.GetEffect(effectData._id, effectData.origin);
-    LOGGER.debugObject(effect);
     return effect.getAllowedUsage();
   });
 
@@ -671,6 +667,18 @@ export default function registerHandlebarsHelpers() {
     }
     return upgradeResult;
   });
+
+  /**
+   * Return a map of effects keys (e.g. data.stat.dex.value) to their localized name. This is based on a given
+   * category which helps sort the list of available options in the UI.
+   */
+  Handlebars.registerHelper("cprGetEffectModifierMap", (keyCategory) => SystemUtils.GetEffectModifierMap(keyCategory));
+
+  /**
+   * Return the localized string that matches with the provided ActiveEffect key. This basically iterates over GetEffectModifierMap
+   * until it receives a hit, or returns the given key. The latter behavior is for custom effects keys.
+   */
+  Handlebars.registerHelper("cprGetEffectModifierKeyName", (category, key) => SystemUtils.GetEffectModifierKeyName(category, key));
 
   /**
    * Return true if a bit of text matches a filter value. If the filter is not set, everything matches.

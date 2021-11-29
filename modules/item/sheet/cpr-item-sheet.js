@@ -231,7 +231,7 @@ export default class CPRItemSheet extends ItemSheet {
       });
       const { bonusRatio } = formData;
       this.item.update({
-        "data.skillBonuses": skillBonusObjects,
+        "data.bonuses": skillBonusObjects,
         "data.universalBonuses": universalBonusesList,
         "data.bonusRatio": bonusRatio,
       });
@@ -268,7 +268,7 @@ export default class CPRItemSheet extends ItemSheet {
       formData.selectedUniversalBonuses.forEach((b) => {
         universalBonusesList.push(b);
       });
-      setProperty(subRole, "skillBonuses", skillBonusObjects);
+      setProperty(subRole, "bonuses", skillBonusObjects);
       setProperty(subRole, "universalBonuses", universalBonusesList);
       setProperty(subRole, "bonusRatio", formData.bonusRatio);
       this.item.update(itemData);
@@ -688,7 +688,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
-          skillBonuses: [],
+          bonuses: [],
           universalBonuses: [],
           bonusRatio: 1,
           hasRoll: formData.hasRoll,
@@ -704,7 +704,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
-          skillBonuses: [],
+          bonuses: [],
           universalBonuses: [],
           bonusRatio: 1,
           hasRoll: formData.hasRoll,
@@ -770,7 +770,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
-          skillBonuses: editElement.skillBonuses,
+          bonuses: editElement.bonuses,
           universalBonuses: editElement.universalBonuses,
           bonusRatio: editElement.bonusRatio,
           hasRoll: formData.hasRoll,

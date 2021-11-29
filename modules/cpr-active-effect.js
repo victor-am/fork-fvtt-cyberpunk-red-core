@@ -125,4 +125,15 @@ export default class CPRActiveEffect extends ActiveEffect {
     LOGGER.trace("get usage | CPRActiveEffect | Called.");
     return this.getFlag("cyberpunk-red-core", "usage");
   }
+
+  /**
+   * set the key category for a mod
+   *
+   * @param {Number} num - the index of the mod in the changes array
+   * @param {String} category - the key category value to set
+   */
+  async setModKeyCategory(num, category) {
+    LOGGER.trace("setModKeyCategory | CPRActiveEffect | Called.");
+    this.setFlag("cyberpunk-red-core", `changes.${num}`, category);
+  }
 }

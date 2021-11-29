@@ -298,6 +298,60 @@ export default class CPRSystemUtils {
   }
 
   /**
+   * Produce a config map of all stats, skills, and roles with their corresponding localized name.
+   * Used in the ActiveEffects sheet when managing what is modified by an effect. This does not
+   * consider custom skills or roles.
+   *
+   * @param {String} category - a category that helps sort keys that are presented
+   */
+  static GetEffectModifierMap(category) {
+    LOGGER.trace("GetEffectModifierMap | CPRSystemUtils | Called.");
+    switch (category) {
+      case "skill": {
+        return { "bonuses.Perception": "CPR.global.skills.perception" };
+      }
+      case "stat": {
+        return {
+          "data.stats.int.value": "CPR.global.stats.int",
+          "data.stats.ref.value": "CPR.global.stats.ref",
+          "data.stats.dex.value": "CPR.global.stats.dex",
+          "data.stats.tech.value": "CPR.global.stats.tech",
+          "data.stats.cool.value": "CPR.global.stats.cool",
+          "data.stats.will.value": "CPR.global.stats.will",
+          "data.stats.luck.max": "CPR.global.stats.luckMax",
+          "data.stats.luck.value": "CPR.global.stats.luck",
+          "data.stats.move.value": "CPR.global.stats.move",
+          "data.stats.body.value": "CPR.global.stats.body",
+          "data.stats.emp.max": "CPR.global.stats.empMax",
+          "data.stats.emp.value": "CPR.global.stats.emp",
+          "data.data.derivedStats.hp": "CPR.global.generic.hitpoints",
+          "data.data.universalBonuses.attack": "CPR.itemSheet.weapon.attackMod",
+        };
+      }
+      case "role": {
+        return { "bonuses.Operator": "CPR.global.role.fixer.ability.operator" };
+      }
+      // "custom" drops through here
+      default:
+    }
+    return null;
+  }
+
+  /**
+   * Given a key category (skill, role, stat, etc) and a key, return the human-readable
+   * name for it. Used in item sheets that have active effects.
+   *
+   * @param {String} category - see GetEffectModifierMap for valid values
+   * @param {String} key - e.g. "bonuses.Perception"
+   * @returns {String}
+   */
+  static GetEffectModifierKeyName(category, key) {
+    LOGGER.trace("GetEffectModifierKeyName | CPRSystemUtils | Called.");
+    if (category === "custom") return key;
+    return CPRSystemUtils.GetEffectModifierMap(category)[key];
+  }
+
+  /**
    * Return an array of data model templates associated with this Item's type. "common" is intentionally
    * omitted because nothing should operate on it. The logic for common Item functionality should be in
    * this very file.
@@ -305,7 +359,7 @@ export default class CPRSystemUtils {
    * @returns {Array} - array of template names which just happens to match mixins available
    */
   static getDataModelTemplates(itemType) {
-    LOGGER.trace("getDataModelTemplates | DataModelUtils | Called.");
+    LOGGER.trace("getDataModelTemplates | CPRSystemUtils | Called.");
     return game.system.template.Item[itemType].templates.filter((t) => t !== "common");
   }
 
@@ -313,7 +367,7 @@ export default class CPRSystemUtils {
    * Answer whether an item has a specific data model template applied or not
    */
   static hasDataModelTemplate(itemType, template) {
-    LOGGER.trace("hasDataModelTemplate | DataModelUtils | Called.");
+    LOGGER.trace("hasDataModelTemplate | CPRSystemUtils | Called.");
     return CPRSystemUtils.getDataModelTemplates(itemType).includes(template);
   }
 }
