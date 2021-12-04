@@ -18,8 +18,8 @@
 			"description": "<p>Record 24h of audio on a memory Chip.</p>"
 		},
 		"Auto Level Dampening Ear Protectors": {
-			"name": "Auto Level Dampening Ear Protectors",
-			"description": "<p>Wearer is immune to loud sounds.</p>"
+			"name": "Auto Nivelador de Audição",
+			"description": "<p>O usuário fica imune a sons altos.</p>"
 		},
 		"Binoculars": {
 			"name": "Binoculars",
