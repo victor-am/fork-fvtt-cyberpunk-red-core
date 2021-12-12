@@ -41,9 +41,10 @@ export default class CPRCombatant extends Combatant {
         } else {
           const cyberdeck = (actor.data.filteredItems.cyberdeck.filter((c) => c.data.data.equipped === "equipped"))[0];
           const netSpeed = cyberdeck.getBoosters("speed");
-          // This will need to be changed with Jalen's roles as items to identify
-          // what the net skill is to use.
-          cprInitiative = new CPRRolls.CPRInitiative(initiativeType, actor.type, formula, actor._getRoleValue("interface"), netSpeed);
+          // Filter for the Netrunner role on the actor then assign `netrunnerRank` the proper value
+          const netrunnerRole = (actor.data.filteredItems.role.filter((d) => d.data.name === "Netrunner"))[0];
+          const netrunnerRank = netrunnerRole.data.data.rank;
+          cprInitiative = new CPRRolls.CPRInitiative(initiativeType, actor.type, formula, netrunnerRank, netSpeed);
         }
         break;
       }

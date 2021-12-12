@@ -29,7 +29,7 @@
 - Fixed #335 - The Media Role Ability now uses the associated rank as a modifier. 
 - Fixed #342 - Medical Grade Cyberlimbs are missing
 - Fixed #343 - Allow Smartglasses to take cybereye options. Add Smart Lens from Microchrome. Move Battleglove to gear.
-- Fixed #334 - Missing translation strings for cyberdeck-based initiative (Meat/NET option) has been re-added. 
+- Fixed #334 - Missing translation strings for initiative (Meat/NET option) has been re-added and cyberware-based initiative is now working correctly.This requires a Netrunner to have the 'Netrunner' role assigned. Rezzed programs granting SPEED bonuses will be added as a modifier in accordance with pg. 205 of the core rulebook.
 
 # Version 0.79.1 | Date: 2021-09-11
 **Hot Fix**
