@@ -93,7 +93,7 @@ export default function preloadHandlebarsTemplates() {
     // Mook Sheet Partials
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-armor.hbs",
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-criticalInjury.hbs",
-    "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-cyberware.hbs",
+    "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-gear.hbs",
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-image.hbs",
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-program.hbs",
     "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-sheet-limited.hbs",

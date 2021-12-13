@@ -79,10 +79,9 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     html.find(".change-mook-name").click(() => this._changeMookName());
     html.find(".mook-image-toggle").click((event) => this._expandMookImage(event));
 
-    // handle the delete key
-    // div elements need focus for the DEL key to work on them
-    html.find(".deletable").hover((event) => $(event.currentTarget).focus());
-    html.find(".deletable").keydown((event) => this._handleDelKey(event));
+    // If the element is "changeable", check for a keydown action and handle the key press.
+    html.find(".changeable").hover((event) => $(event.currentTarget).focus());
+    html.find(".changeable").keydown((event) => this._handleKeyPress(event));
   }
 
   /**
@@ -180,8 +179,8 @@ export default class CPRMookActorSheet extends CPRActorSheet {
    * @private
    * @param {Object} event - event data such as a mouse click or key press
    */
-  async _handleDelKey(event) {
-    LOGGER.trace("_handleDelKey | CPRActorSheet | Called.");
+  async _handleKeyPress(event) {
+    LOGGER.trace("_handleKeyPress | CPRActorSheet | Called.");
     LOGGER.debug(event.keyCode);
     if (event.keyCode === 46) {
       LOGGER.debug("DEL key was pressed");
@@ -217,6 +216,25 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     } else if (event.keyCode === 18) {
       LOGGER.debug("ALT key was pressed");
       $(".skill-name").hide();
+    } else if (event.keyCode === 16) {
+      LOGGER.debug("SHIFT key was pressed");
+      const itemId = $(event.currentTarget).attr("data-item-id");
+      const item = this._getOwnedItem(itemId);
+      if (item.type === "cyberware") {
+        if (item.data.data.core === true) {
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.cannotDeleteCoreCyberware"));
+        } else if (item.data.data.isInstalled === false) {
+          this.actor.addCyberware(itemId);
+        } else {
+          const foundationalId = $(event.currentTarget).attr("data-foundational-id");
+          const dialogTitle = SystemUtils.Localize("CPR.dialog.removeCyberware.title");
+          const dialogMessage = `${SystemUtils.Localize("CPR.dialog.removeCyberware.text")} ${item.name}?`;
+          const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
+          if (confirmRemove) {
+            await this.actor.removeCyberware(itemId, foundationalId, true);
+          }
+        }
+      }
     }
   }
 }
