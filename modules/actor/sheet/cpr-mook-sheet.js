@@ -82,6 +82,9 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     // If the element is "changeable", check for a keydown action and handle the key press.
     html.find(".changeable").hover((event) => $(event.currentTarget).focus());
     html.find(".changeable").keydown((event) => this._handleKeyPress(event));
+
+    // If the element is "installable", await mouse click and process the event
+    html.find(".installable").click((event) => this._handleInstallAction(event));
   }
 
   /**
@@ -180,7 +183,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
    * @param {Object} event - event data such as a mouse click or key press
    */
   async _handleKeyPress(event) {
-    LOGGER.trace("_handleKeyPress | CPRActorSheet | Called.");
+    LOGGER.trace("_handleKeyPress | CPRMookActorSheet | Called.");
     LOGGER.debug(event.keyCode);
     if (event.keyCode === 46) {
       LOGGER.debug("DEL key was pressed");
@@ -216,10 +219,22 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     } else if (event.keyCode === 18) {
       LOGGER.debug("ALT key was pressed");
       $(".skill-name").hide();
-    } else if (event.keyCode === 16) {
-      LOGGER.debug("SHIFT key was pressed");
-      const itemId = $(event.currentTarget).attr("data-item-id");
-      const item = this._getOwnedItem(itemId);
+    }
+  }
+
+  /**
+   * Called when a user clicks their mouse on an element with "installable" class.
+   *
+   * @async
+   * @callback
+   * @private
+   * @param {Object} event - event data such as a mouse click or key press
+   */
+  async _handleInstallAction(event) {
+    LOGGER.trace("_handleInstallAction | CPRMookActorSheet | Called.");
+    const itemId = $(event.currentTarget).attr("data-item-id");
+    const item = this._getOwnedItem(itemId);
+    if (event.shiftKey) {
       if (item.type === "cyberware") {
         if (item.data.data.core === true) {
           SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.cannotDeleteCoreCyberware"));

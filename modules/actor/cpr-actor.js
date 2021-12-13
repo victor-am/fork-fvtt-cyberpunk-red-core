@@ -290,16 +290,20 @@ export default class CPRActor extends Actor {
    */
   _removeOptionalCyberware(item, foundationalId) {
     LOGGER.trace("_removeOptionalCyberware | CPRActor | Called.");
-    const foundationalCyberware = this._getOwnedItem(foundationalId);
-    const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots - item.data.data.slotSize;
-    const newOptionalIds = foundationalCyberware.getData().optionalIds.filter(
-      (optionId) => optionId !== item.data._id,
-    );
-    return this.updateEmbeddedDocuments("Item", [{
-      _id: foundationalCyberware.id,
-      "data.optionalIds": newOptionalIds,
-      "data.installedOptionSlots": newInstalledOptionSlots,
-    }]);
+    // If the cyberware item was not installed, don't process the removal from a non-existent foundational slot.
+    if (item.data.data.isInstalled) {
+      const foundationalCyberware = this._getOwnedItem(foundationalId);
+      const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots - item.data.data.slotSize;
+      const newOptionalIds = foundationalCyberware.getData().optionalIds.filter(
+        (optionId) => optionId !== item.data._id,
+      );
+      return this.updateEmbeddedDocuments("Item", [{
+        _id: foundationalCyberware.id,
+        "data.optionalIds": newOptionalIds,
+        "data.installedOptionSlots": newInstalledOptionSlots,
+      }]);
+    }
+    return null;
   }
 
   /**
