@@ -1,8 +1,18 @@
 # Cyberpunk RED - Welcome to The Street!
+![Release](https://img.shields.io/gitlab/v/tag/22820629?label=Latest%20Release)
 
-A implementation for the Cyberpunk RED TRPG Core Roles for FoundryVTT.
+![image](/images/Header-VTT.jpg)
+
+A implementation for the Cyberpunk RED TRPG Core Roles for Foundry VTT.
+
+
+>DISCLAIMER: This game system is unofficial content provided under the Homebrew Content Policy of R. Talsorian Games and is not approved or endorsed by RTG. This content references materials that are the property of R. Talsorian Games and its licensees.
 
 This project is under heavy development to get a working experience together, so please prepare yourself for a lot of change when using this it. We aim to be responsive so if you have suggestions, concerns, or ideas, please come talk to us!
+
+# Getting Started
+
+If you are a game master or player and curious about how Cyberpunk runs in Foundry VTT, [why not check out our extensive wiki articles](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/wikis/home), or this [YouTube playlist showcasing updates and walkthroughs.](https://www.youtube.com/playlist?list=PL4-W5wKEr1fm57F9qnF8a7opYJ1pBt36X) If you want to contribute to developing the system, read on! 
 
 # Installing
 
@@ -20,11 +30,9 @@ See [CHANGELOG.md](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/b
     > git clone git@gitlab.com:JasonAlanTerry/fvtt-cyberpunk-red-core.git<br>
     Conventions and more details on contributing to the process can be found in CONTRIBUTING.md
 
-2.  Check the Trello!<br>
-    The developers use Trello to plan out the next features. If you want to help, [have a look](https://trello.com/b/zb5FBnKS/project-red-roadmap-todo).
+2. Check the Confirmed issue list for current issues. If you want to report a bug or help us squish them, [check the list of confirmed issues we know about](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues?label_name%5B%5D=Confirmed).
 
-3. Check the issue lists<br>
-    If you want to report a bug or help us squish them, [check the list](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues).
+3. If you want to bring something new to the table, we have a number of proposed features brought forward by the community. [Check out what we'd like to accomplish and help us out if you have the time!](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/issues?label_name%5B%5D=Feature)
 
 4.  Chat with us on [Discord](https://discord.gg/hpyz2nf6Vk)!
 
