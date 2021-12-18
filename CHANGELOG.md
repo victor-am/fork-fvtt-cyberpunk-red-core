@@ -17,6 +17,7 @@
   - Additional item types will now appear on a mook sheet, including clothing and cyberdeck items (they were previously invisible if something went wrong). 
   - Cyberware can be installed or uninstalled by pressing Shift-Click (SHIFT key + Mouse Click) on the cyberware item. By default when dragging cyberware it will still prompt you to install it. Installed cyberware cannot be dragged, so must be uninstalled first.
   - All items on a mook can be dragged between sheets, allowing the GM to "loot" mooks on behalf of player characters.
+  - Several changes to the GitLab README to assist with introducing new developers to the system (Join Us!)
 
 **Bug Fixes**
 - Rubber ammunition no longer ablates armor and will not reduce an actor to below 1 hit points per RAW.
