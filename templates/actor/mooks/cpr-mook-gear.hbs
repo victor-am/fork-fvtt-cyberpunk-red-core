@@ -24,14 +24,14 @@
       {{/if}}
     {{else}}
     <!-- If Foundational Cyberware is present and has options installed, show the foundational cyberware -->
-      <b><a class="name item changeable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressShiftToInstallorUninstall"}}" data-item-id="{{foundation.data._id}}">
+      <b><a class="name item installable changeable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.shiftClickToInstallorUninstall"}}" data-item-id="{{foundation.data._id}}">
         {{~foundation.name~}}{{~#unless (cprCompare optionals.length ">" 0)~}}{{~#unless @last~}},{{~/unless~}}{{~/unless~}}
       </a></b>
     {{~/if}}
     <!-- For each optional cyberware, display it in a selection -->
     {{~#if (cprCompare optionals.length ">" 0)~}}&nbsp;({{/if~}}
     {{~#each optionals as |optional o|~}}
-      <b><a class="name item changeable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressShiftToInstallorUninstall"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}">
+      <b><a class="name item installable changeable item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.shiftClickToInstallorUninstall"}}" data-item-id="{{optional.data._id}}" data-foundational-id="{{../foundation.id}}">
         {{~optional.name}}{{#unless @last}},&nbsp;{{/unless~}}
       </a></b>
     {{~/each}}
@@ -93,7 +93,7 @@
     {{#if item.data.data.isInstalled}}
     {{else}}
     {{#if (cprCompare item.type "===" "cyberware")}}
-      <a class="name item changeable deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}, {{localize "CPR.mookSheet.items.pressShiftToInstallorUninstall"}}" data-item-id="{{item.id}}">
+      <a class="name item installable changeable deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}, {{localize "CPR.mookSheet.items.shiftClickToInstallorUninstall"}}" data-item-id="{{item.id}}">
         {{item.name}}{{#unless @last}},{{/unless}}
       </a>
     {{/if}}

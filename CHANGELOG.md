@@ -13,10 +13,10 @@
   - If there are specific configuration instructions for a release (example: import the DV Tables Rolltable, or import Critical Injuries), they will also be provided in this pop-up.
     - DEV NOTE: To add this, simply create a new text file with the instructions in `lang/release-notes` with the name `v${version}-${lang}` and it will be automatically displayed
 - Actor damage application function has a new boolen argument to specify if the damage is lethal or not.  Non-lethal damage will not reduce an actor below 1 hit point.
-- Mook sheets have been modified slightly:
-  - Additional item types will now appear on a mook sheet, including clothing and cyberdeck items (they were previously invisible). 
-  - Cyberware can be installed or uninstalled using the SHIFT key. By default when dragging cyberware it will still prompt you to install it. Installed cyberware cannot be dragged, so must be uninstalled first.
-  - All items on a mook can be dragged between sheets, allowing the GM to "loot" mooks on behalf of player characters. 
+- Mook sheets have been modified to correct a few problems:
+  - Additional item types will now appear on a mook sheet, including clothing and cyberdeck items (they were previously invisible if something went wrong). 
+  - Cyberware can be installed or uninstalled by pressing Shift-Click (SHIFT key + Mouse Click) on the cyberware item. By default when dragging cyberware it will still prompt you to install it. Installed cyberware cannot be dragged, so must be uninstalled first.
+  - All items on a mook can be dragged between sheets, allowing the GM to "loot" mooks on behalf of player characters.
   - Several changes to the GitLab README to assist with introducing new developers to the system (Join Us!)
 
 **Bug Fixes**
@@ -35,6 +35,8 @@
 - Fixed #342 - Medical Grade Cyberlimbs are missing
 - Fixed #343 - Allow Smartglasses to take cybereye options. Add Smart Lens from Microchrome. Move Battleglove to gear.
 - Fixed #334 - Missing translation strings for initiative (Meat/NET option) has been re-added and cyberware-based initiative is now working correctly.This requires a Netrunner to have the 'Netrunner' role assigned. Rezzed programs granting SPEED bonuses will be added as a modifier in accordance with pg. 205 of the core rulebook.
+- Fixed #349 - Installed cyberware properly supports "Ctrl+Click" to send details to the chat window. 
+- Fixed #350 - Fixed uninstalled cyberware on a mook sheet being impossible to delete if the original install failed.
 
 # Version 0.79.1 | Date: 2021-09-11
 **Hot Fix**
