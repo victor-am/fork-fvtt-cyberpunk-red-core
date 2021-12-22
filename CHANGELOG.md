@@ -1,5 +1,6 @@
 # Version DEV | Date: WIP
 **New Features**
+- Updated the system for Foundry v9 compatibility. No further updates will be provided to the 0.8.x release. [Please backup your data before attempting any major upgrade!](https://www.youtube.com/watch?v=OmbxMmqNNXU)
 - Added functionality to delete single ledger lines for the GM. Players are not able to do so.
   - It is possible to not only delete the line in the ledger, but also change the value up or down upon deletion.
 - Added functionality to manually increase the Death Save Penalty of a character. This is useful in case a character gets hit, while Mortally Wounded.
