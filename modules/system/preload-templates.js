@@ -45,6 +45,7 @@ export default function preloadHandlebarsTemplates() {
 
     // Right Pane Actor Partials
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/cpr-cyberware.hbs",
+    "systems/cyberpunk-red-core/templates/actor/parts/right-pane/cpr-effects.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/actor/parts/right-pane/cpr-skills.hbs",
 

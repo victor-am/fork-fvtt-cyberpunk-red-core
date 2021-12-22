@@ -34,6 +34,7 @@ export default class CPRActor extends Actor {
         this._calculateDerivedStats();
       } else {
         const actorData = this.data;
+        actorData.filteredEffects = this.prepareActiveEffectCategories();
         actorData.filteredItems = this.itemTypes;
       }
     }
@@ -69,6 +70,39 @@ export default class CPRActor extends Actor {
   getData() {
     LOGGER.trace("getData | CPRActor | Called.");
     return this.data.data;
+  }
+
+  /**
+   * Prepare the data structure for Active Effects which are currently applied to this actor.
+   * This came from the DND5E active-effect.js code. For now we removed temporary and suppressed
+   * effects since we do not yet implement that concept.
+   *
+   * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for
+   * @returns {object}                  Data for rendering
+   */
+  prepareActiveEffectCategories() {
+    LOGGER.trace("prepareActiveEffectCategories | CPRActor | Called.");
+    const categories = {
+      passive: {
+        type: "active",
+        label: game.i18n.localize("CPR.characterSheet.rightPane.effects.active"),
+        effects: [],
+      },
+      temporary: {
+        type: "disabled",
+        label: game.i18n.localize("CPR.characterSheet.rightPane.effects.disabled"),
+        effects: [],
+      },
+    };
+
+    // Iterate over active effects, classifying them into categories
+    for (const e of this.data.effects) {
+      e._getSourceName(); // Trigger a lookup for the source name
+      if (e.data.disabled) categories.inactive.effects.push(e);
+      else categories.passive.effects.push(e);
+    }
+
+    return categories;
   }
 
   /**

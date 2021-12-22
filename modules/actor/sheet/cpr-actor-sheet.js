@@ -47,7 +47,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   static get defaultOptions() {
     LOGGER.trace("defaultOptions | CPRActorSheet | Called.");
-    const defaultWidth = 800;
+    const defaultWidth = 966;
     const defaultHeight = 590;
     return mergeObject(super.defaultOptions, {
       classes: super.defaultOptions.classes.concat(["sheet", "actor"]),

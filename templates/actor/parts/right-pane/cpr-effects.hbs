@@ -1,0 +1,38 @@
+<ol class="effects-list">
+{{!-- derived from DND5E's active-effects.html --}}
+{{#each actor.data.filteredEffects as |section sid|}}
+    {{log section}}
+    <li class="effects-header flexrow" data-effect-type="{{section.type}}">
+        <div class="effect-name flexrow">{{localize section.label}}</div>
+        <div class="effect-source">{{localize "CPR.characterSheet.rightPane.effects.source"}}</div>
+        <div class="effect-actions text-padding-right">{{localize "CPR.characterSheet.rightPane.effects.actions"}}</div>
+    </li>
+        {{#each section.effects as |effect|}}
+            <li class="effect flexrow" data-effect-id="{{effect.id}}">
+                <div class="effect-name flexrow">
+                    <img class="effect-image" src="{{effect.data.icon}}"/>
+                    <h4><strong>{{effect.data.label}}</strong><br/>
+                        {{#each effect.data.changes}}
+                            {{!-- "this" is now an individual mod for the AE object --}}
+                            {{localize (cprGetEffectModifierKeyName (lookup ../data.flags.cyberpunk-red-core.changes @index) this.key)}}:
+                            {{#if this.value}}
+                                {{cprEffectModMode this.mode}}{{this.value}}{{#unless @last}},{{/unless}} 
+                            {{else}}
+                                0{{#unless @last}},{{/unless}} 
+                            {{/if}}
+                        {{/each}}
+                    </h4>    
+                </div>
+                <div class="effect-source">{{effect.sourceName}}</div>
+                <div class="effect-actions text-padding-right">
+                    <a class="effect-control" data-action="toggle" title="{{localize 'CPR.characterSheet.rightPane.effects.toggle'}}">
+                        <i class="fas {{#if effect.data.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+                    </a>
+                    <a class="effect-control" data-action="edit" title="{{localize 'CPR.characterSheet.rightPane.effects.edit'}}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </div>
+            </li>
+        {{/each}}
+{{/each}}
+</ol>

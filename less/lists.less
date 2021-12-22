@@ -68,7 +68,6 @@
 
     .effects-header {
         padding         : 0;
-        align-items     : center;
         background-color: @flint-black;
         color           : @chrome-white;
     }
@@ -81,17 +80,17 @@
     }
 
     .effect-name {
-        flex       : 0 0 50%;
+        flex       : 0 0 70%;
         margin     : 0;
         overflow   : hidden;
         text-align : left;
-        align-self: center;
+        align-items: center;
         text-overflow: ellipsis;
     }
 
-    .effect-usage {
-        flex      : 0 0 25%;
-        text-align : center;
+    .effect-source {
+        flex      : 0 0 20%;
+        text-align : left;
         word-break : break-word;
         white-space: nowrap;
         overflow   : hidden;
@@ -100,6 +99,7 @@
     }
 
     .effect-actions {
+        flex: 10%;
         text-align: end;
         align-self: center;
     }
