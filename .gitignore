@@ -2,11 +2,13 @@
 .idea/
 .vscode/
 node_modules
-*.pdf
-*.bak
+**/*.pdf
+**/*.bak
+**/*.swp
+**/*~
 
 # MacOS clutter
-.DS_Store
+**/.DS_Store
 
 !.vscode/extensions.json
 

@@ -476,6 +476,7 @@ export default class CPRActorSheet extends ActorSheet {
   /**
    * Render the item card (chat message) when ctrl-click happens on an item link, or display
    * the item sheet if ctrl was not pressed.
+   * To support shift-click in the cpr-mook-sheet, it expects any other event to not be a shift key.
    *
    * @private
    * @callback
@@ -487,7 +488,8 @@ export default class CPRActorSheet extends ActorSheet {
     const item = this.actor.items.find((i) => i.data._id === itemId);
     if (event.ctrlKey) {
       CPRChat.RenderItemCard(item);
-    } else {
+      return;
+    } if (!event.shiftKey) {
       item.sheet.render(true, { editable: true });
     }
   }
@@ -504,7 +506,12 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("_renderReadOnlyItemCard | CPRActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
     const item = this.actor.items.find((i) => i.data._id === itemId);
-    item.sheet.render(true, { editable: false });
+    if (event.ctrlKey) {
+      CPRChat.RenderItemCard(item);
+      return;
+    } if (!event.shiftKey) {
+      item.sheet.render(true, { editable: false });
+    }
   }
 
   /**
@@ -1015,9 +1022,13 @@ export default class CPRActorSheet extends ActorSheet {
         return;
       }
       if (actor) {
-        if (actor.data._id === this.actor.data._id
-          || dragData.data.data.core === true
-          || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
+        // Do not move if the data is moved to itself
+        if (actor.data._id === this.actor.data._id) {
+          return;
+        }
+        // If the cyberware is marked as core, or is installed, throw an error message.
+        if (dragData.data.data.core === true || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.cannotDropInstalledCyberware"));
           return;
         }
         if (dragData.data.data.isUpgraded) {

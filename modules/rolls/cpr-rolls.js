@@ -238,10 +238,10 @@ export class CPRInitiative extends CPRRoll {
     LOGGER.trace("constructor | CPRStatRoll | Called.");
     const die = /d[0-9][0-9]*/;
     if (formula.match(die)) {
-      super(SystemUtils.Localize("CPR.rolls.initiative"), formula);
+      super(SystemUtils.Localize("CPR.chat.initiative"), formula);
     } else {
       // Handle static initiative for Black ICE & Demons
-      super(SystemUtils.Localize("CPR.rolls.initiative"), "1d10");
+      super(SystemUtils.Localize("CPR.chat.initiative"), "1d10");
       this.formula = formula;
     }
     if (initiativeType === "meat") {

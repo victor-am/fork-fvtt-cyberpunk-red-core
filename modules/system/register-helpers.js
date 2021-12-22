@@ -576,7 +576,7 @@ export default function registerHandlebarsHelpers() {
    */
   Handlebars.registerHelper("cprEntityTypes", (entityType) => {
     LOGGER.trace("cprEntityTypes | handlebarsHelper | Called.");
-    return typeof game.system.entityTypes[entityType] === "object" ? game.system.entityTypes[entityType] : {};
+    return typeof game.system.documentTypes[entityType] === "object" ? game.system.documentTypes[entityType] : {};
   });
 
   /**
