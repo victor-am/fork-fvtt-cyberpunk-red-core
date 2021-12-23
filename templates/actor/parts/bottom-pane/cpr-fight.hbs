@@ -84,11 +84,11 @@
                             </a>
                             {{#if (cprCompare armor.id "===" ../actor.data.data.externalData.currentArmorBody.id)}}
                                 <a class="armor-current" data-location="body" data-item-id="{{armor.id}}">
-                                    <i class="fas fa-star" title="{{localize "CPR.resyncbodyarmor"}}"></i>
+                                    <i class="fas fa-star" title="{{localize "CPR.actorSheets.commonActions.resyncBodyArmor"}}"></i>
                                 </a>
                             {{else}}
                                 <a class="armor-current" data-location="body" data-item-id="{{armor.id}}">
-                                    <i class="far fa-star" title="{{localize "CPR.makebodyarmoractive"}}"></i>
+                                    <i class="far fa-star" title="{{localize "CPR.actorSheets.commonActions.makeBodyArmorActive"}}"></i>
                                 </a>
                             {{/if}}
                         </div>
