@@ -1,28 +1,31 @@
-{{trace "CPR-DEATHSAVE-BLOCK.HBS"}}
+{{cprTrace "CPR-DEATHSAVE-BLOCK.HBS"}}
 <div class="deathsave-block main-block">
   <div class="block-label text-small flex-space-between">
     <span class="text-padding-left">{{localize "CPR.characterSheet.leftPane.woundState"}}</span>
     <span class="text-padding-right" title="{{localize "CPR.characterSheet.leftPane.deathSave.roll"}}"><a class="rollable"  data-roll-title="{{localize "CPR.characterSheet.leftPane.deathSave.title"}}" data-roll-type="deathsave">{{localize "CPR.characterSheet.leftPane.deathSave.title"}}</a></span>
   </div>
   <div class="block-data flex-space-between">
-    {{!-- <span>{{localize (findConfigValue "woundState" this.data.woundState.currentWoundState)}}</span> --}}
+    {{!-- <span>{{localize (cprFindConfigValue "woundState" this.data.woundState.currentWoundState)}}</span> --}}
     {{#with this.data.data.derivedStats.currentWoundState as |state| }}
-    {{#if (compare state "===" "notWounded")}}
+    {{#if (cprCompare state "===" "notWounded")}}
     <i class="fg-green bg-white text-normal text-center width-full fas fa-smile" title="Not Wounded"></i>
     {{/if}}
-    {{#if (compare state "===" "lightlyWounded")}}
+    {{#if (cprCompare state "===" "lightlyWounded")}}
     <i class="fg-orange bg-white text-normal text-center width-full fas fa-meh" title="Lightly Wounded"></i>
     {{/if}}
-    {{#if (compare state "===" "seriouslyWounded")}}
+    {{#if (cprCompare state "===" "seriouslyWounded")}}
     <i class="fg-red bg-white text-normal text-center width-full fas fa-frown" title="Seriously Wounded"></i>
     {{/if}}
-    {{#if (compare state "===" "mortallyWounded")}}
+    {{#if (cprCompare state "===" "mortallyWounded")}}
     <i class="fg-black bg-white text-normal text-center width-full fas fa-skull" title="Mortally Wounded"></i>
     {{/if}}
     {{/with}}
-    <span class="width-full" title="{{localize "CPR.characterSheet.leftPane.deathSave.reset"}}
-    {{localize "CPR.global.generic.deathPenalty"}}: {{data.data.derivedStats.deathSave.penalty}}
-    {{localize "CPR.characterSheet.leftPane.deathSave.hoverCriticalInjuryPenalty"}}: {{data.data.derivedStats.deathSave.basePenalty}}"><a class="reset-value text-bold" data-value="deathsave">{{data.data.derivedStats.deathSave.value}}</a></span>
+    <div class="width-full">
+      <span class="width-half" title="{{localize "CPR.characterSheet.leftPane.deathSave.reset"}}
+      {{localize "CPR.global.generic.deathPenalty"}}: {{data.data.derivedStats.deathSave.penalty}}
+      {{localize "CPR.characterSheet.leftPane.deathSave.hoverCriticalInjuryPenalty"}}: {{data.data.derivedStats.deathSave.basePenalty}}"><a class="reset-deathsave-value text-bold">{{data.data.derivedStats.deathSave.value}}</a></span>
+      <a class="increase-deathsave-value"><i class="far fa-arrow-alt-circle-up text-smaller" title="{{localize "CPR.characterSheet.leftPane.deathSave.increase"}}"></i></a>
+    </div>
   </div>
 </div>
-{{trace "END CPR-DEATHSAVE-BLOCK.HBS"}}
+{{cprTrace "END CPR-DEATHSAVE-BLOCK.HBS"}}

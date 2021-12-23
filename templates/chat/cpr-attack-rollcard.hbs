@@ -1,4 +1,4 @@
-{{trace "CPR-ATTACK-ROLLCARD.HBS"}}
+{{cprTrace "CPR-ATTACK-ROLLCARD.HBS"}}
 <div class="rollcard">
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-stat">
@@ -12,7 +12,7 @@
           </a>
         </div>
         {{#if rollCardExtraArgs.ammoType}}
-        <div class="rollcard-subtitle-2-center text-small">{{localize (findConfigValue "ammoType" rollCardExtraArgs.ammoType)}}</div>
+        <div class="rollcard-subtitle-2-center text-small">{{localize (cprFindConfigValue "ammoType" rollCardExtraArgs.ammoType)}}</div>
         {{/if}}
       </div>
     </div>
@@ -30,7 +30,7 @@
           <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{initialRoll}}_fail.svg">
           <i class="fas fa-minus"></i>
           {{/if}}
-          <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{math "abs" criticalRoll}}.svg">
+          <img class="d10" src="systems/cyberpunk-red-core/icons/dice/red/d10_{{cprMath "abs" criticalRoll}}.svg">
           {{else}}
           <img class="d10" src="systems/cyberpunk-red-core/icons/dice/black/d10_{{initialRoll}}.svg">
           {{/if}}
@@ -61,4 +61,4 @@
     </div>
   </div>
 </div>
-{{trace "END CPR-ATTACK-ROLLCARD.HBS"}}
+{{cprTrace "END CPR-ATTACK-ROLLCARD.HBS"}}

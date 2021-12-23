@@ -1,14 +1,14 @@
-{{trace "CPR-DEMON-SHEET.HBS"}}
+{{cprTrace "CPR-DEMON-SHEET.HBS"}}
 <form>
-  {{#if (isDebug)}}
+  {{#if (cprIsDebug)}}
     actor ID: {{actor.id}}
   {{/if}}
   <div class="demon-sheet">
     <div class="demon-stats bg-red fg-white text-normal">
       <div class="demon-top flexrow bg-white">
         <div class="flexrow demon-label-corner-right bg-red"></div>
-        {{#each (findConfigObj "demonStatList") as |stat s|}}
-            {{#unless (compare s "===" "combatNumber")}}
+        {{#each (cprFindConfigObj "demonStatList") as |stat s|}}
+            {{#unless (cprCompare s "===" "combatNumber")}}
               <div class="flexrow demon-label-corner-both bg-red"></div>
             {{/unless}}
         {{/each}}
@@ -16,13 +16,13 @@
       </div>
       <div class="demon-head flexrow text-center block-label">
         <div>{{localize "CPR.global.generic.name"}}</div>
-        {{#each (findConfigObj "demonStatList") as |stat s|}}
+        {{#each (cprFindConfigObj "demonStatList") as |stat s|}}
           <div>
-            {{#unless (listContains "rez,netactions" s)}}
+            {{#unless (cprListContains "rez,netactions" s)}}
               <a class="rollable" data-roll-title="{{s}}" title="{{localize "CPR.actorSheets.rolling.clickToRollThisStat"}}">
             {{/unless}}
             {{localize stat}}
-            {{#unless (listContains "rez,netactions" s)}}
+            {{#unless (cprListContains "rez,netactions" s)}}
               </a>
             {{/unless}}
           </div>
@@ -33,7 +33,7 @@
           <input name="name" type="text" value="{{actor.name}}"/>
         </div>
         {{#each data.data.stats as |stat s|}}
-          {{#if (compare s "===" "rez")}}
+          {{#if (cprCompare s "===" "rez")}}
             <div class="min-of-max-container">
               <input class="text-center" name="data.stats.rez.value" type="number" value="{{this.value}}" />
               <div class="of bg-red fg-white text-normal text-bold">of</div>
@@ -59,4 +59,4 @@
     </div>
   </div>
 </form>
-{{trace "END CPR-DEMON-SHEET.HBS"}}
+{{cprTrace "END CPR-DEMON-SHEET.HBS"}}

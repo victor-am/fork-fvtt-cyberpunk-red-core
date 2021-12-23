@@ -290,16 +290,20 @@ export default class CPRActor extends Actor {
    */
   _removeOptionalCyberware(item, foundationalId) {
     LOGGER.trace("_removeOptionalCyberware | CPRActor | Called.");
-    const foundationalCyberware = this._getOwnedItem(foundationalId);
-    const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots - item.data.data.slotSize;
-    const newOptionalIds = foundationalCyberware.getData().optionalIds.filter(
-      (optionId) => optionId !== item.data._id,
-    );
-    return this.updateEmbeddedDocuments("Item", [{
-      _id: foundationalCyberware.id,
-      "data.optionalIds": newOptionalIds,
-      "data.installedOptionSlots": newInstalledOptionSlots,
-    }]);
+    // If the cyberware item was not installed, don't process the removal from a non-existent foundational slot.
+    if (item.data.data.isInstalled) {
+      const foundationalCyberware = this._getOwnedItem(foundationalId);
+      const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots - item.data.data.slotSize;
+      const newOptionalIds = foundationalCyberware.getData().optionalIds.filter(
+        (optionId) => optionId !== item.data._id,
+      );
+      return this.updateEmbeddedDocuments("Item", [{
+        _id: foundationalCyberware.id,
+        "data.optionalIds": newOptionalIds,
+        "data.installedOptionSlots": newInstalledOptionSlots,
+      }]);
+    }
+    return null;
   }
 
   /**
@@ -451,6 +455,16 @@ export default class CPRActor extends Actor {
       this.update({ "data.derivedStats.deathSave.penalty": deathPenalty });
     }
     return saveResult;
+  }
+
+  /**
+   * Method to manually increase the death save penalty by 1.
+   * Can be used in case a character gets hit by an attack while mortally wounded.
+   */
+  increaseDeathPenalty() {
+    LOGGER.trace("increaseDeathPenalty | CPRActor | Called.");
+    const deathPenalty = this.data.data.derivedStats.deathSave.penalty + 1;
+    this.update({ "data.derivedStats.deathSave.penalty": deathPenalty });
   }
 
   /**
@@ -635,6 +649,7 @@ export default class CPRActor extends Actor {
     LOGGER.trace("showLedger | CPRActor | Called.");
     if (this.isLedgerProperty(prop)) {
       const led = new CPRLedger();
+      led.setActor(this);
       led.setLedgerContent(prop, this.listRecords(prop));
       led.render(true);
     } else {
@@ -1003,9 +1018,10 @@ export default class CPRActor extends Actor {
    * @param {int} bonusDamage - value of the bonus damage
    * @param {string} location - location of the damage
    * @param {int} ablation - value of the ablation
-   * @param {boolean} ingoreHalfArmor - if half of the armor should be ignored
+   * @param {boolean} ignoreHalfArmor - if half of the armor should be ignored
+   * @param {boolean} damageLethal - if this damage can cause HP <= 0
    */
-  async _applyDamage(damage, bonusDamage, location, ablation, ingoreHalfArmor) {
+  async _applyDamage(damage, bonusDamage, location, ablation, ignoreHalfArmor, damageLethal) {
     LOGGER.trace("_applyDamage | CPRActor | Called.");
     let totalDamageDealt = 0;
     if (location === "brain") {
@@ -1029,7 +1045,7 @@ export default class CPRActor extends Actor {
         armorValue = newValue;
       }
     });
-    if (ingoreHalfArmor) {
+    if (ignoreHalfArmor) {
       armorValue = Math.ceil(armorValue / 2);
     }
     // Apply the bonusDamage, which penetrates the armor
@@ -1050,6 +1066,9 @@ export default class CPRActor extends Actor {
       takenDamage *= 2;
     }
     const currentHp = this.data.data.derivedStats.hp.value;
+    if (takenDamage >= currentHp && !damageLethal) {
+      takenDamage = currentHp - 1;
+    }
     await this.update({ "data.derivedStats.hp.value": currentHp - takenDamage });
     totalDamageDealt += takenDamage;
     // Ablate the armor correctly.

@@ -1,6 +1,6 @@
-{{trace "CPR-CONTAINER-ACTIONS.HBS"}}
+{{cprTrace "CPR-CONTAINER-ACTIONS.HBS"}}
 {{!-- Item purchase or take --}}
-{{#if (compare item.data.data.amount ">" "1")}}
+{{#if (cprCompare item.data.data.amount ">" "1")}}
 <a class="item-action" data-action-type="purchaseFraction">
   {{#if actor.data.flags.cyberpunk-red-core.items-free}}
     <i class="fas fa-hand-pointer" title="{{localize "CPR.containerSheet.action.takeItemPart"}}"></i>
@@ -17,7 +17,7 @@
   {{/if}}
 </a>
 {{!-- Item deletion --}}
-{{#if (compare isGM "||" actor.data.flags.cyberpunk-red-core.players-delete)}}
+{{#if (cprCompare isGM "||" actor.data.flags.cyberpunk-red-core.players-delete)}}
 <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.actorSheets.commonActions.deleteItem"}}"></i></a>
 {{/if}}
-{{trace "END CPR-CONTAINER-ACTIONS.HBS"}}
+{{cprTrace "END CPR-CONTAINER-ACTIONS.HBS"}}

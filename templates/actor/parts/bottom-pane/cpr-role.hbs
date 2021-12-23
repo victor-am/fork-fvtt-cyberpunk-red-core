@@ -1,33 +1,33 @@
-{{trace "CPR-ROLE.HBS"}}
-<div class="role-tab">
+{{cprTrace "CPR-ROLE.HBS"}}
+<div class="role-tab-content">
   <div class="role-section">
-    {{#if (compare actor.data.filteredItems.role.length "===" 0)}}
+    {{#if (cprCompare actor.data.filteredItems.role.length "===" 0)}}
       {{localize "CPR.characterSheet.bottomPane.role.noRolesWarning"}}
     {{else}}
-      {{#each (sort actor.data.filteredItems.role "name") as |role|}}
+      {{#each (cprSort actor.data.filteredItems.role "name") as |role|}}
       <div class="role-item">
         <ol class="items-list role-list">
           <div class="collapsible">
             <li class="item items-header flexrow" data-item-id="{{role.data._id}}">
               <span class="item-name role-name bg-black text-nowrap text-padding-left" id="roleTab-{{role}}">
                 <a class = "item-edit">{{role.data.name}} {{localize "CPR.characterSheet.bottomPane.role.abilities"}}&nbsp;</a>
-                <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.deleteitem"}}"></i></a>
+                <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.actorSheets.commonActions.deleteItem"}}"></i></a>
               </span>
               <span class="item-detail role-rank bg-black text-nowrap text-right">{{localize "CPR.characterSheet.bottomPane.role.rank"}}</span>
             </li>
             <ol class="items-list">
               <li class="item flexrow" draggable="true" data-item-id="{{role.data._id}}">
                 <div class="item-name role-name flexrow  text-nowrap">
-                  {{#if role.data.data.hasRoll}}<a class="rollable ability-name text-bold" data-roll-type="roleAbility" data-roll-subtype = "mainRoleAbility" data-roll-title="{{role.data.data.mainRoleAbility}}">&diams;{{/if}}<span class = "text-bold">{{role.data.data.mainRoleAbility}}:</span>{{#if role.data.data.hasRoll}}</a>{{/if}}
+                  {{#if role.data.data.hasRoll}}<a class="rollable ability-name text-bold" data-roll-type="roleAbility" data-roll-subtype = "mainRoleAbility" data-roll-title="{{role.data.data.mainRoleAbility}}">&diams;{{/if}}<span class="text-bold ability-name">{{role.data.data.mainRoleAbility}}:</span>{{#if role.data.data.hasRoll}}</a>{{/if}}
                 </div>
                 <div class="item-detail ability-rank text-nowrap">
                   <input class="number ability-input" value="{{role.data.data.rank}}" data-role-name="{{role.data.name}}" data-ability-name="{{role.data.data.mainRoleAbility}}" type="number">
                 </div>
               </li>
-              {{#each (reverse (sort role.data.data.abilities "hasRoll")) as |ability|}}
+              {{#each (cprReverse (cprSort role.data.data.abilities "hasRoll")) as |ability|}}
               <li class="item flexrow" draggable="true" data-item-id="{{role.data._id}}">
                 <div class="item-name role-name flexrow  text-nowrap">
-                  {{#if ability.hasRoll}}<a class="rollable ability-name subskill" data-roll-type="roleAbility" data-roll-subtype = "subRoleAbility" data-roll-title="{{ability.name}}">&nbsp;&diams;{{/if}}{{#unless ability.hasRoll}}&nbsp;{{/unless}}{{ability.name}}:{{#if ability.hasRoll}}</a>{{/if}}
+                  {{#if ability.hasRoll}}<a class="rollable ability-name subskill" data-roll-type="roleAbility" data-roll-subtype = "subRoleAbility" data-roll-title="{{ability.name}}">&nbsp;&diams;{{else}}<span class="ability-name">&nbsp;{{/if}}{{ability.name}}:{{#if ability.hasRoll}}</a>{{else}}</span>{{/if}}
                 </div>
                 <div class="item-detail ability-rank text-nowrap">
                   <input class="number ability-input" value="{{ability.rank}}" data-role-name="{{role}}" data-ability-name="{{role.data.data.mainRoleAbility}}" data-subskill-name="{{ability.name}}" type="number">
@@ -42,4 +42,4 @@
     {{/if}}
   </div>
 </div>
-{{trace "END CPR-ROLE.HBS"}}
+{{cprTrace "END CPR-ROLE.HBS"}}

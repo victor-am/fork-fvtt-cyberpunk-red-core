@@ -8,6 +8,7 @@ import RollCriticalInjuryPrompt from "../../dialog/cpr-roll-critical-injury-prom
 import Rules from "../../utils/cpr-rules.js";
 import SplitItemPrompt from "../../dialog/cpr-split-item-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
+import DvUtils from "../../utils/cpr-dvUtils.js";
 
 /**
  * Extend the basic ActorSheet, which comes from Foundry. Not all sheets used in
@@ -152,7 +153,10 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".item-view").click((event) => this._renderReadOnlyItemCard(event));
 
     // Reset Death Penalty
-    html.find(".reset-value").click((event) => this._resetDeathSave(event));
+    html.find(".reset-deathsave-value").click(() => this._resetDeathSave());
+
+    // Increase Death Penalty
+    html.find(".increase-deathsave-value").click(() => this._increaseDeathSave());
 
     // Filter contents of skills or gear
     html.find(".filter-contents").change((event) => this._applyContentFilter(event));
@@ -339,24 +343,25 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   /**
-   * Callback for reseting an actor's death save
-   * TODO: the data-value attribute is only used for this method, it is safe to remove it from the templates
-   *       and remove the switch statement herein.
+   * Callback for increasing an actor's death save
    *
    * @callback
    * @private
-   * @param {Object} event - object with details of the event
    */
-  _resetDeathSave(event) {
+  _increaseDeathSave() {
+    LOGGER.trace("_increaseDeathSave | CPRActorSheet | Called.");
+    this.actor.increaseDeathPenalty();
+  }
+
+  /**
+   * Callback for reseting an actor's death save
+   *
+   * @callback
+   * @private
+   */
+  _resetDeathSave() {
     LOGGER.trace("_resetDeathSave | CPRActorSheet | Called.");
-    const actorValue = $(event.currentTarget).attr("data-value");
-    switch (actorValue) {
-      case CPRRolls.rollTypes.DEATHSAVE: {
-        this.actor.resetDeathPenalty();
-        break;
-      }
-      default:
-    }
+    this.actor.resetDeathPenalty();
   }
 
   /**
@@ -471,6 +476,7 @@ export default class CPRActorSheet extends ActorSheet {
   /**
    * Render the item card (chat message) when ctrl-click happens on an item link, or display
    * the item sheet if ctrl was not pressed.
+   * To support shift-click in the cpr-mook-sheet, it expects any other event to not be a shift key.
    *
    * @private
    * @callback
@@ -482,7 +488,8 @@ export default class CPRActorSheet extends ActorSheet {
     const item = this.actor.items.find((i) => i.data._id === itemId);
     if (event.ctrlKey) {
       CPRChat.RenderItemCard(item);
-    } else {
+      return;
+    } if (!event.shiftKey) {
       item.sheet.render(true, { editable: true });
     }
   }
@@ -499,7 +506,12 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("_renderReadOnlyItemCard | CPRActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
     const item = this.actor.items.find((i) => i.data._id === itemId);
-    item.sheet.render(true, { editable: false });
+    if (event.ctrlKey) {
+      CPRChat.RenderItemCard(item);
+      return;
+    } if (!event.shiftKey) {
+      item.sheet.render(true, { editable: false });
+    }
   }
 
   /**
@@ -641,12 +653,27 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.debug(`firemode is ${firemode}`);
     LOGGER.debug(`weaponID is ${weaponID}`);
     LOGGER.debug(`flag is ${flag}`);
+    let newDvTable;
+    if (this.token !== null && firemode === "autofire") {
+      const weaponDvTable = (this._getOwnedItem(weaponID)).data.data.dvTable;
+      const currentDvTable = (weaponDvTable === "") ? getProperty(this.token.data, "flags.cprDvTable") : weaponDvTable;
+      if (typeof currentDvTable !== "undefined") {
+        const dvTable = currentDvTable.replace(" (Autofire)", "");
+        const afTable = (DvUtils.GetDvTables()).filter((name) => name.includes(dvTable) && name.includes("Autofire"));
+        if (afTable.length > 0) {
+          newDvTable = (flag === firemode) ? dvTable : afTable[0];
+        } else {
+          newDvTable = currentDvTable;
+        }
+      }
+    }
     if (flag === firemode) {
       // if the flag was already set to firemode, that means we unchecked a box
       this.actor.unsetFlag("cyberpunk-red-core", `firetype-${weaponID}`);
     } else {
       this.actor.setFlag("cyberpunk-red-core", `firetype-${weaponID}`, firemode);
     }
+    this.token.update({ "flags.cprDvTable": newDvTable });
   }
 
   /**
@@ -995,9 +1022,13 @@ export default class CPRActorSheet extends ActorSheet {
         return;
       }
       if (actor) {
-        if (actor.data._id === this.actor.data._id
-          || dragData.data.data.core === true
-          || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
+        // Do not move if the data is moved to itself
+        if (actor.data._id === this.actor.data._id) {
+          return;
+        }
+        // If the cyberware is marked as core, or is installed, throw an error message.
+        if (dragData.data.data.core === true || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.cannotDropInstalledCyberware"));
           return;
         }
         if (dragData.data.data.isUpgraded) {

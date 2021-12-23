@@ -1,4 +1,52 @@
+# Version 0.80.0 | Date: 2021-12-23
+
+**New Features**
+- Updated the system for Foundry v9 compatibility. No further updates will be provided to the 0.8.x release. [Please backup your data before attempting any major upgrade!](https://www.youtube.com/watch?v=OmbxMmqNNXU)
+- Added functionality to delete single ledger lines for the GM. Players are not able to do so.
+  - It is possible to not only delete the line in the ledger, but also change the value up or down upon deletion.
+- Added functionality to manually increase the Death Save Penalty of a character. This is useful in case a character gets hit, while Mortally Wounded.
+- Many new icons added to items in the compendiums! See CREDITS.md for attribution and thanks!
+
+**Changes**
+- When a release update is applied, a pop up window will now display with relevant information:
+  - At a minimum, there will be a link to the CHANGELOG for the release
+  - If there is a corresponding video which demonstrates new feature functions, it will also be linked off of the popup
+    - DEV NOTE: To add this, simply configure the flag for the Video URL `system.json` and it will be automatically displayed
+  - If there are specific configuration instructions for a release (example: import the DV Tables Rolltable, or import Critical Injuries), they will also be provided in this pop-up.
+    - DEV NOTE: To add this, simply create a new text file with the instructions in `lang/release-notes` with the name `v${version}-${lang}` and it will be automatically displayed
+- Actor damage application function has a new boolen argument to specify if the damage is lethal or not.  Non-lethal damage will not reduce an actor below 1 hit point.
+- Mook sheets have been modified to correct a few problems:
+  - Additional item types will now appear on a mook sheet, including clothing and cyberdeck items (they were previously invisible if something went wrong). 
+  - Cyberware can be installed or uninstalled by pressing Shift-Click (SHIFT key + Mouse Click) on the cyberware item. By default when dragging cyberware it will still prompt you to install it. Installed cyberware cannot be dragged, so must be uninstalled first.
+  - All items on a mook can be dragged between sheets, allowing the GM to "loot" mooks on behalf of player characters.
+  - Several changes to the GitLab README to assist with introducing new developers to the system (Join Us!)
+
+**Bug Fixes**
+- Rubber ammunition no longer ablates armor and will not reduce an actor to below 1 hit points per RAW.
+- Fixed #286 - The item data was not being passed when dragging from a Mook sheet causing the drag/drop to fail. This has been resolved.
+- Fixed #298 - DV ruler will attempt to automatically use the Autofire DV Table if an Autofire DV Table exists.
+  - NOTE: If your wielded weapon does not have a DV Table associated with the weapon item settings (example Assault Rifle), there is no way to know what the "proper DV" table is for this weapon, therefore if your Token already has a DV Table set on it of a weapon that also has an Autofire mode (example SMG), when you enable the Autofire radio button on the Assault Rifle, it will change to the SMG Autofire DV Table.  Best practice: Set DV Tables on the weapons themselves.
+- Fixed #328 - Deletion Icon for some Roles was hidden, due to a short name of the role abilities compared to the role name.
+- Fixed #254 - Deleting an unlinked token that has a sheet open will now close that sheet as it is rendered useless.
+- Fixed #329 - Containers are not randomly forgetting their settings anymore.
+- Fixed comments in the default macro that gets created when you drag a weapon to the hotbar to correctly provide the settings for a ranged weapon attack.
+- Fixed #331 - The actor role tab now uses the proper localisation string for deleting the role item. 
+- Fixed #337 - Added missing Bohemian Jacket. Corrected name of Asia Pop Mirrorshades and Mr. Studd.
+- Fixed #339 - Added missing Tracer Button.
+- Fixed #335 - The Media Role Ability now uses the associated rank as a modifier. 
+- Fixed #342 - Medical Grade Cyberlimbs are missing
+- Fixed #343 - Allow Smartglasses to take cybereye options. Add Smart Lens from Microchrome. Move Battleglove to gear.
+- Fixed #334 - Missing translation strings for initiative (Meat/NET option) has been re-added and cyberware-based initiative is now working correctly.This requires a Netrunner to have the 'Netrunner' role assigned. Rezzed programs granting SPEED bonuses will be added as a modifier in accordance with pg. 205 of the core rulebook.
+- Fixed #349 - Installed cyberware properly supports "Ctrl+Click" to send details to the chat window. 
+- Fixed #350 - Fixed uninstalled cyberware on a mook sheet being impossible to delete if the original install failed.
+- Fixed a couple missing translation strings related to synchronizing armor SP to resource bars
+
 # Version 0.79.1 | Date: 2021-09-11
+**Hot Fix**
+- Fixed #325 - DV ruler broken. Restored by naming the function.
+
+
+# Version 0.79.0 | Date: 2021-09-11
 
 **Hot Fix**
 - Fixed #325 - DV rulers broken when a DV table is set
@@ -36,7 +84,7 @@
 - Fixed #292: Attempting to delete installed cyberware is prevented now, as it can leave the actor in a broken state.
 - Fixed #294: Cybersnake and Vampyres cyberware items from the compendium now display their weapon stats in the fight tab.
 - Fixed #318: Underbarrel attachment item upgrades in the compendium now pre-select the appropriate ammo types.
-- Fixed #320: The missing Scorpion.png file is now available in the system icons/netrunning folder. Thanks again to Verasunrise and Hyriu33 for the artwork. 
+- Fixed #320: The missing Scorpion.png file is now available in the system icons/netrunning folder. Thanks again to Verasunrise and Hyriu33 for the artwork.
 - Fixed #322: Cyberware ranged weapons were not having their ammunition auto-decrement.
 - Fixed #323: Cyberware weapons now show as weapons in the Mook Sheet.
 - Fixes #317: Before adding a Role Item during migration, added a check to see if one exists already.  Also added code to the data model migration to remove the `roleskills` data point which should result in zeroing all of the role skills on that actor.  This datapoint can be removed next release.

@@ -1,4 +1,4 @@
-{{trace "CPR-SELECT-ITEM-UPGRADE-PROMPT.HBS"}}
+{{cprTrace "CPR-SELECT-ITEM-UPGRADE-PROMPT.HBS"}}
 <form>
   {{localize "CPR.dialog.selectItemUpgrades.selectItemUpgrades"}} "{{item.name}}", Choomba!
   <ol class="items-list">
@@ -14,7 +14,7 @@
     {{#each this.availableUpgrades as |upgrade|}}
     <li class="item flexrow">
       <div class="item flexrow setting-name text-nowrap">
-        {{upgrade.data.name}} ({{localize (findConfigValue "objectTypes" upgrade.data.data.type)}})
+        {{upgrade.data.name}} ({{localize (cprFindConfigValue "objectTypes" upgrade.data.data.type)}})
       </div>
       <div class="item flexrow setting-value text-nowrap text-space-around">
         {{#if upgrade.data.data.isInstalled}}
@@ -28,4 +28,4 @@
 
   </ol>
 </form>
-{{trace "END CPR-SELECT-ITEM-UPGRADE-PROMPT.HBS"}}
+{{cprTrace "END CPR-SELECT-ITEM-UPGRADE-PROMPT.HBS"}}

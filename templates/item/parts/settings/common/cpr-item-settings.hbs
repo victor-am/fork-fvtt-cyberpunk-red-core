@@ -1,4 +1,4 @@
-{{trace "CPR-ITEM-SETTINGS.HBS"}}
+{{cprTrace "CPR-ITEM-SETTINGS.HBS"}}
 <form>
     <div class="item-settings-tab">
         <div class="item-settings-section">
@@ -9,7 +9,7 @@
                     {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-item-name.hbs" this}}
 
                     {{!-- Physical Item Settings--}}
-                    {{#if (hasTemplate this.item.type "physicalItem")}}
+                    {{#if (cprHasTemplate this.item.type "physicalItem")}}
                     {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-physical-item.hbs" this}}
                     {{/if}}
 
@@ -28,14 +28,14 @@
                     </li>
 
                     {{!-- Upgrade Settings --}}
-                    {{#if (hasTemplate this.item.type "upgradable")}}
+                    {{#if (cprHasTemplate this.item.type "upgradable")}}
                         {{> "systems/cyberpunk-red-core/templates/item/parts/settings/common/cpr-upgradable-item.hbs" this}}
                     {{/if}}
 
-                    {{> (generatePartial "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-VAR.hbs" item.type) this}}
+                    {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-VAR.hbs" item.type) this}}
                 </ol>
             </div>
         </div>
     </div>
 </form>
-{{trace "END CPR-ITEM-SETTINGS.HBS"}}
+{{cprTrace "END CPR-ITEM-SETTINGS.HBS"}}

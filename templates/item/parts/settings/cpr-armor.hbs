@@ -1,4 +1,4 @@
-{{trace "CPR-ARMOR.HBS"}}
+{{cprTrace "CPR-ARMOR.HBS"}}
 {{!-- Armor Item Settings--}}
 {{!-- Armor Equipped Setting --}}
 <li class="item flexrow">
@@ -8,7 +8,7 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="data.equipped" data-dtype="{{data.data.equipped}}">
             {{#select data.data.equipped}}
-                {{#each (findConfigObj "equipped") as |vic v|}}
+                {{#each (cprFindConfigObj "equipped") as |vic v|}}
                     <option value="{{v}}">{{localize vic}}</option>
                 {{/each}}
             {{/select}}
@@ -24,7 +24,7 @@
         <input name="data.penalty" class="" type="number" value="{{data.data.penalty}}">
     </div>
 </li>
-{{#unless (compare data.data.isBodyLocation "||" data.data.isHeadLocation)}}
+{{#unless (cprCompare data.data.isBodyLocation "||" data.data.isHeadLocation)}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
             {{localize "CPR.itemSheet.armor.isShield"}}
@@ -42,7 +42,7 @@
     <hr>
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-            {{localize "CPR.itemSheet.common.maximum"}} {{localize "CPR.global.generic.hitpoints"}} {{showUpgrade this.item "shieldHp"}}
+            {{localize "CPR.itemSheet.common.maximum"}} {{localize "CPR.global.generic.hitpoints"}} {{cprShowUpgrade this.item "shieldHp"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
             <input name="data.shieldHitPoints.max" class="" type="number" value={{data.data.shieldHitPoints.max}}>
@@ -74,7 +74,7 @@
         <hr>
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.itemSheet.armor.headArmorSp"}} {{showUpgrade this.item "headSp"}}
+                {{localize "CPR.itemSheet.armor.headArmorSp"}} {{cprShowUpgrade this.item "headSp"}}
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="data.headLocation.sp" class="" type="number" value={{data.data.headLocation.sp}}>
@@ -94,7 +94,7 @@
     {{!-- Body Armor Settings--}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-            {{localize "CPR.global.location.body"}} {{localize "CPR.global.itemTypes.armor"}} 
+            {{localize "CPR.global.location.body"}} {{localize "CPR.global.itemTypes.armor"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
             {{#if data.data.isBodyLocation}}
@@ -108,7 +108,7 @@
         <hr>
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
-                {{localize "CPR.itemSheet.armor.bodyArmorSp"}}  {{showUpgrade this.item "bodySp"}}
+                {{localize "CPR.itemSheet.armor.bodyArmorSp"}}  {{cprShowUpgrade this.item "bodySp"}}
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 <input name="data.bodyLocation.sp" class="" type="number" value={{data.data.bodyLocation.sp}}>
@@ -124,4 +124,4 @@
         </li>
     {{/if}}
 {{/if}}
-{{trace "END CPR-ARMOR.HBS"}}
+{{cprTrace "END CPR-ARMOR.HBS"}}

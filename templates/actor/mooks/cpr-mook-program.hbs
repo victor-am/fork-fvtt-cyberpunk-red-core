@@ -1,4 +1,4 @@
-{{trace "CPR-MOOK-PROGRAM.HBS"}}
+{{cprTrace "CPR-MOOK-PROGRAM.HBS"}}
 <div class="items-header bg-red fg-white flexrow">
   <span class="item-name section-name text-nowrap text-padding-left">
     {{localize "CPR.mookSheet.items.cyberdeckPrograms"}}
@@ -7,15 +7,15 @@
 <div class="bg-white fg-black text-padding-left">
   <!-- Program -->
   {{#each actor.data.filteredItems.program as |item i|}}
-  {{#if (listContains actor.data.filteredItems.programsInstalled item.id)}}
+  {{#if (cprListContains actor.data.filteredItems.programsInstalled item.id)}}
     <a class="name item-view" tabindex="0" title="{{localize "CPR.mookSheet.items.InstalledClickToViewItemReadOnly"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}" data-item-id="{{item.id}}">
       <span class="text-italics">{{item.name}}</span>{{#unless @last}},{{/unless}}
     </a>
     {{else}}
-    <a class="name deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
+    <a class="name item deletable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
       {{item.name}}{{#unless @last}},{{/unless}}
     </a>
     {{/if}}
   {{/each}}
 </div>
-{{trace "END CPR-MOOK-PROGRAM.HBS"}}
+{{cprTrace "END CPR-MOOK-PROGRAM.HBS"}}

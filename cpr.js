@@ -16,6 +16,8 @@ import CPRMacro from "./modules/utils/cpr-macros.js";
 import SystemUtils from "./modules/utils/cpr-systemUtils.js";
 import Migration from "./modules/system/migration.js";
 
+import UpdateScreen from "./modules/system/update-popup.js";
+
 // Function imports
 import registerHooks from "./modules/system/hooks.js";
 import preloadHandlebarsTemplates from "./modules/system/preload-templates.js";
@@ -92,7 +94,7 @@ Hooks.once("ready", () => {
   if (!game.user.isGM) return;
   // This defines the version of the Data Model for this release.  We should
   // only update this when the Data Model Changes.
-  const DATA_MODEL_VERSION = "0.79.1";
+  const DATA_MODEL_VERSION = "0.80.0";
   // Get the version of the data model being used for the loaded world. At
   // the end of a migration, this is updated with the current version of the
   // CPR system.
@@ -104,6 +106,7 @@ Hooks.once("ready", () => {
     const needsMigration = dataModelVersion && isNewerVersion(DATA_MODEL_VERSION, dataModelVersion);
     if (!needsMigration) return;
     Migration.migrateWorld(dataModelVersion, DATA_MODEL_VERSION);
+    UpdateScreen.RenderPopup();
   }
 });
 

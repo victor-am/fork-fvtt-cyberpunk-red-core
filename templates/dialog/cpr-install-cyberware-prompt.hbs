@@ -1,4 +1,4 @@
-{{trace "CPR-INSTALL-CYBERWARE-PROMPT.HBS"}}
+{{cprTrace "CPR-INSTALL-CYBERWARE-PROMPT.HBS"}}
 <form id="installCyberware">
     {{!-- Select HL --}}
 
@@ -21,7 +21,7 @@
             </div>
         </li>
         {{#unless item.data.isFoundational}}
-            {{#if (listContains "fashionware,cyberwareInternal,cyberwareExternal" item.data.type)}}
+            {{#if (cprListContains "fashionware,cyberwareInternal,cyberwareExternal" item.data.type)}}
                 {{#each foundationalCyberware as |cyberware c|}}
                 <input type="hidden" name="foundationalId" value="{{cyberware.data._id}}">
                 {{/each}}
@@ -43,4 +43,4 @@
         {{/unless}}
     </ol>
 </form>
-{{trace "END CPR-INSTALL-CYBERWARE-PROMPT.HBS"}}
+{{cprTrace "END CPR-INSTALL-CYBERWARE-PROMPT.HBS"}}

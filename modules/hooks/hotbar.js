@@ -62,7 +62,7 @@ const hotbarHooks = () => {
         command += "//\n";
         command += "// damage - Set the rollType to this to roll damage instead of an attack\n";
         command += "//\n";
-        if (item.data.isRanged) {
+        if (item.data.data.isRanged) {
           command += "// For ranged weapons, you can configure a number of alternate fire:\n";
           command += "// attacks:\n";
           command += "//\n";

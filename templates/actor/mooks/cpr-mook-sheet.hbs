@@ -1,4 +1,4 @@
-{{trace "CPR-MOOK-SHEET.HBS"}}
+{{cprTrace "CPR-MOOK-SHEET.HBS"}}
 <form>
   <div class="mook-sheet">
     <div class="mook-name side-banner">
@@ -9,7 +9,7 @@
 
     <div class="mook-details">
       <div class="mook-img-and-stats">
-        <div class="mook-image bg-red {{#if (compare (compare actor.data.flags.collapsedImage "===" undefined) "||" (compare actor.data.flags.collapsedImage "===" true))}}mook-image-small-toggle{{/if}}">
+        <div class="mook-image bg-red {{#if (cprCompare (cprCompare actor.data.flags.collapsedImage "===" undefined) "||" (cprCompare actor.data.flags.collapsedImage "===" true))}}mook-image-small-toggle{{/if}}">
           {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-image.hbs"}}
         </div>
         <div class="mook-stats-and-derived">
@@ -30,7 +30,7 @@
             <div class="mook-wounded">
               <span class="text-padding-left">{{localize "CPR.mookSheet.woundState"}}</span>
               <div class="bg-white text-center text-normal text-bold fg-black">
-                {{localize (findConfigValue "woundState" data.data.derivedStats.currentWoundState)}}
+                {{localize (cprFindConfigValue "woundState" data.data.derivedStats.currentWoundState)}}
               </div>
             </div>
             <div class="mook-deathsave">
@@ -38,8 +38,9 @@
                 <a class="rollable" data-roll-title="{{localize "CPR.mookSheet.deathSave.title"}}" data-roll-type="deathsave">
                   {{localize "CPR.mookSheet.deathSave.title"}}</a>
               </span>
-              <div class="width-full bg-white text-center text-normal text-bold fg-black" title="{{localize "CPR.mookSheet.deathSave.reset"}}&#13{{localize "CPR.global.generic.deathPenalty" }}: {{data.data.derivedStats.deathSave.penalty}}&#13{{localize "CPR.mookSheet.deathSave.hoverCriticalInjuryPenalty" }}: {{data.data.derivedStats.deathSave.basePenalty}}">
-                <a class="reset-value text-bold" data-value="deathsave">{{data.data.derivedStats.deathSave.value}}</a>
+              <div class="width-full bg-white text-center text-normal text-bold fg-black">
+                <span title="{{localize "CPR.mookSheet.deathSave.reset"}}&#13{{localize "CPR.global.generic.deathPenalty" }}: {{data.data.derivedStats.deathSave.penalty}}&#13{{localize "CPR.mookSheet.deathSave.hoverCriticalInjuryPenalty" }}: {{data.data.derivedStats.deathSave.basePenalty}}"><a class="reset-deathsave-value text-bold">{{data.data.derivedStats.deathSave.value}}</a></span>
+                <a class="increase-deathsave-value"><i class="far fa-arrow-alt-circle-up text-smaller" title="{{localize "CPR.mookSheet.deathSave.increase"}}"></i></a>
               </div>
             </div>
           </div>
@@ -57,13 +58,8 @@
         {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-skills.hbs"}}
       </div>
       <div class="mook-special pad-thin fg-white bg-red">
-        {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-cyberware.hbs"}}
+        {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-gear.hbs"}}
       </div>
-      {{#if actor.data.filteredItems.program}}
-        <div class="mook-program pad-thin fg-white bg-red">
-          {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-program.hbs"}}
-        </div>
-      {{/if}}
       <div class="mook-crit pad-thin fg-white bg-red">
         {{> "systems/cyberpunk-red-core/templates/actor/mooks/cpr-mook-criticalInjury.hbs"}}
       </div>
@@ -78,4 +74,4 @@
     </div>
   </div>
 </form>
-{{trace "END CPR-MOOK-SHEET.HBS"}}
+{{cprTrace "END CPR-MOOK-SHEET.HBS"}}

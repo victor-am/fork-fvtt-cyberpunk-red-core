@@ -79,10 +79,12 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     html.find(".change-mook-name").click(() => this._changeMookName());
     html.find(".mook-image-toggle").click((event) => this._expandMookImage(event));
 
-    // handle the delete key
-    // div elements need focus for the DEL key to work on them
-    html.find(".deletable").hover((event) => $(event.currentTarget).focus());
-    html.find(".deletable").keydown((event) => this._handleDelKey(event));
+    // If the element is "changeable", check for a keydown action and handle the key press.
+    html.find(".changeable").hover((event) => $(event.currentTarget).focus());
+    html.find(".changeable").keydown((event) => this._handleKeyPress(event));
+
+    // If the element is "installable", await mouse click and process the event
+    html.find(".installable").click((event) => this._handleInstallAction(event));
   }
 
   /**
@@ -180,8 +182,8 @@ export default class CPRMookActorSheet extends CPRActorSheet {
    * @private
    * @param {Object} event - event data such as a mouse click or key press
    */
-  async _handleDelKey(event) {
-    LOGGER.trace("_handleDelKey | CPRActorSheet | Called.");
+  async _handleKeyPress(event) {
+    LOGGER.trace("_handleKeyPress | CPRMookActorSheet | Called.");
     LOGGER.debug(event.keyCode);
     if (event.keyCode === 46) {
       LOGGER.debug("DEL key was pressed");
@@ -217,6 +219,37 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     } else if (event.keyCode === 18) {
       LOGGER.debug("ALT key was pressed");
       $(".skill-name").hide();
+    }
+  }
+
+  /**
+   * Called when a user clicks their mouse on an element with "installable" class.
+   *
+   * @async
+   * @callback
+   * @private
+   * @param {Object} event - event data such as a mouse click or key press
+   */
+  async _handleInstallAction(event) {
+    LOGGER.trace("_handleInstallAction | CPRMookActorSheet | Called.");
+    const itemId = $(event.currentTarget).attr("data-item-id");
+    const item = this._getOwnedItem(itemId);
+    if (event.shiftKey) {
+      if (item.type === "cyberware") {
+        if (item.data.data.core === true) {
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.cannotDeleteCoreCyberware"));
+        } else if (item.data.data.isInstalled === false) {
+          this.actor.addCyberware(itemId);
+        } else {
+          const foundationalId = $(event.currentTarget).attr("data-foundational-id");
+          const dialogTitle = SystemUtils.Localize("CPR.dialog.removeCyberware.title");
+          const dialogMessage = `${SystemUtils.Localize("CPR.dialog.removeCyberware.text")} ${item.name}?`;
+          const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
+          if (confirmRemove) {
+            await this.actor.removeCyberware(itemId, foundationalId, true);
+          }
+        }
+      }
     }
   }
 }
