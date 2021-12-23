@@ -48,6 +48,11 @@
 
 # Version 0.79.0 | Date: 2021-09-11
 
+**Hot Fix**
+- Fixed #325 - DV rulers broken when a DV table is set
+
+# Version 0.79.0 | Date: 2021-09-11
+
 **New Features**
 - Added support for automatic damage application on Characters and Mooks.
   - The damage chat card of weapon attacks now has an additional button to apply the damage to the selected tokens.
