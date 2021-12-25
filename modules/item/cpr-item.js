@@ -73,7 +73,7 @@ export default class CPRItem extends Item {
   loadMixins() {
     LOGGER.trace("loadMixins | CPRItem | Called.");
     const mixins = SystemUtils.getDataModelTemplates(this.type);
-    const itemData = this.data;
+    const itemData = this.data.data;
     itemData.actions = ["delete"];
     for (let m = 0; m < mixins.length; m += 1) {
       switch (mixins[m]) {
@@ -84,6 +84,8 @@ export default class CPRItem extends Item {
         }
         case "effects": {
           Effects.call(CPRItem.prototype);
+          LOGGER.debug("adding allowedUsage I think");
+          itemData.allowedUsage = this.getAllowedUsage();
           // To Do: we could toggle on/off if there's exactly 1 effect enforced...
           break;
         }
@@ -136,6 +138,7 @@ export default class CPRItem extends Item {
   /**
    * Whenever an item is created or updated this method is called by Foundry. We use it
    * to add in the "mixins" enabled for this item type.
+   *
    * This seems excessive (once on item creation seems enough) but this is what DND5E does.
    *
    * @override

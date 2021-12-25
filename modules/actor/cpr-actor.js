@@ -73,9 +73,21 @@ export default class CPRActor extends Actor {
   }
 
   /**
+   * The Active Effects do not have access to their parent at preparation time so we wait until
+   * this stage to determine whether they are suppressed or not. Taken from dnd5e character code.
+   *
+   * @override
+   * @returns nothing, just applies effects to the actor
+   */
+  applyActiveEffects() {
+    LOGGER.trace("applyActiveEffects | CPRActor | Called.");
+    this.effects.forEach((e) => e.determineSuppression());
+    return super.applyActiveEffects();
+  }
+
+  /**
    * Prepare the data structure for Active Effects which are currently applied to this actor.
-   * This came from the DND5E active-effect.js code. For now we removed temporary and suppressed
-   * effects since we do not yet implement that concept.
+   * This came from the DND5E active-effect.js code.
    *
    * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for
    * @returns {object}                  Data for rendering
@@ -83,23 +95,23 @@ export default class CPRActor extends Actor {
   prepareActiveEffectCategories() {
     LOGGER.trace("prepareActiveEffectCategories | CPRActor | Called.");
     const categories = {
-      passive: {
+      active: {
         type: "active",
         label: game.i18n.localize("CPR.characterSheet.rightPane.effects.active"),
         effects: [],
       },
-      temporary: {
-        type: "disabled",
-        label: game.i18n.localize("CPR.characterSheet.rightPane.effects.disabled"),
+      inactive: {
+        type: "inactive",
+        label: game.i18n.localize("CPR.characterSheet.rightPane.effects.inactive"),
         effects: [],
       },
     };
 
     // Iterate over active effects, classifying them into categories
     for (const e of this.data.effects) {
-      e._getSourceName(); // Trigger a lookup for the source name
-      if (e.data.disabled) categories.inactive.effects.push(e);
-      else categories.passive.effects.push(e);
+      // e._getSourceName(); // Trigger a lookup for the source name
+      if (e.data.disabled || e.data.isSuppressed) categories.inactive.effects.push(e);
+      else categories.active.effects.push(e);
     }
 
     return categories;

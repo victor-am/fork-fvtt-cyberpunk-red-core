@@ -422,7 +422,8 @@
         "isInstalled": false
       },
       "effects": {
-        "revealed": []
+        "revealed": true,
+        "usage": "always"
       }
     },
     "ammo": {

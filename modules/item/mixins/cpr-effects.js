@@ -141,6 +141,46 @@ const Effects = function Effects() {
     }
     return effect.update({ disabled: value });
   };
+
+  /**
+   * Based on the data model, determine how an item can be "used" to enable or disable
+   * an active effect. This can only be used in the UIs, it is not saved as a property.
+   *
+   * @return {Array}
+   */
+  this.getAllowedUsage = function getAllowedUsage() {
+    LOGGER.trace("getAllowedUsage | Effects | Called.");
+    const usageAllowed = ["always", "toggled"];
+    if (SystemUtils.hasDataModelTemplate(this.data.type, "consumable")) {
+      usageAllowed.push("consumed");
+    }
+    if (SystemUtils.hasDataModelTemplate(this.data.type, "physical")) {
+      usageAllowed.push("carried");
+      usageAllowed.push("equipped");
+    }
+    return usageAllowed;
+  };
+
+  /**
+   * This is where the logic to determine if the effects provided by an item are suppressed or not.
+   * For example, an unequipped physical item would have its effects suppressed.
+   *
+   * This function assumes the item was never given an invalid usage in the first place. It trusts
+   * that the UI called getAllowedUsage (above) so that only valid ones are available.
+   *
+   * @returns {Bool}
+   */
+  this.areEffectsSuppressed = function areEffectsSuppressed() {
+    LOGGER.trace("areEffectsSuppressed | Effects | Called.");
+    switch (this.data.data.usage) {
+      case "carried":
+        return !(this.data.data.equipped in ["carried", "equipped"]);
+      case "equipped":
+        return this.data.data.equipped !== "equipped";
+      default:
+        return false;
+    }
+  };
 };
 
 export default Effects;

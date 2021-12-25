@@ -394,7 +394,6 @@ CPR.effectModifierModes = {
 CPR.effectUses = {
   always: "CPR.effectSheet.uses.always",
   carried: "CPR.effectSheet.uses.carried",
-  consumed: "CPR.effectSheet.uses.consumed",
   equipped: "CPR.effectSheet.uses.equipped",
   toggled: "CPR.effectSheet.uses.toggled",
 };

@@ -37,18 +37,6 @@
                 <input type="color" value="{{data.tint}}" data-edit="tint"/>
             </div>
         </div>
-        <div class="form-group">
-            <label>{{localize "CPR.effectSheet.uses.usage"}}</label>
-            <div class="form-fields effect-usage">
-                <select name="data.flags.cyberpunk-red-core.usage" data-dtype="String">
-                    {{#select data.flags.cyberpunk-red-core.usage}}
-                        {{#each (cprGetAllowedUsage data) as |use|}}
-                            <option value="{{use}}">{{localize (cprFindConfigValue "effectUses" use)}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select>
-            </div>
-        </div>
     </section>
 
     <!-- Effects Tab -->

@@ -1,129 +1,51 @@
-/* global ActiveEffect game */
+/* global ActiveEffect */
 import LOGGER from "./utils/cpr-logger.js";
-import SystemUtils from "./utils/cpr-systemUtils.js";
-
-/**
- * An "enum" for different kinds of usage
- */
-export const usageValues = {
-  ALWAYS: "always",
-  CARRIED: "carried",
-  CONSUMED: "consumed",
-  EQUIPPED: "equipped",
-  TOGGLED: "toggled",
-};
 
 /**
  * Extend the base ActiveEffect class to implement system-specific logic.
  * @extends {ActiveEffect}
  */
 export default class CPRActiveEffect extends ActiveEffect {
-  /**
-   * Provide a few system-specific properties to ActiveEffects. The logic generally lives
-   * in the "effects" mixin for items.
-   *
-   * Flags are the only way to persist data in ActiveEffects, at least in Foundry 0.8.x. They
-   * cannot be extended in template.json, and the document model prevents adding object properties.
-   *
-   * @override
-   * @private
-   */
-  _onCreate(data, options, userId) {
-    LOGGER.trace("_onCreate | CPRActiveEffect | Called.");
-
-    /**
-     *
-     * Should this active effect be visible to non-GMs?
-     * To Do: not currently used; just an idea
-     *
-     * @type {boolean}
-     */
-    this.setFlag("cyberpunk-red-core", "revealed", true);
-
-    /**
-     * Track how an active effect is turned on and off
-     *
-     * @type {String}
-     */
-    this.setFlag("cyberpunk-red-core", "usage", "toggled");
-
-    super._onCreate(data, options, userId);
-  }
-
-  /**
-   * Based on the activated mixins, determine how an item can be "used" to enable or disable
-   * an active effect. This can only be used in the UIs, it is not saved as a property.
-   *
-   * @return {Array}
-   */
-  getAllowedUsage() {
-    LOGGER.trace("getAllowedUsage | CPRActiveEffect | Called.");
-    const usageAllowed = ["always", "toggled"];
-    const parentItem = this.getItem();
-    if (SystemUtils.hasDataModelTemplate(parentItem.data.type, "consumable")) {
-      usageAllowed.push("consumed");
-    }
-    if (SystemUtils.hasDataModelTemplate(parentItem.data.type, "physical")) {
-      usageAllowed.push("carried");
-      usageAllowed.push("equipped");
-    }
-    return usageAllowed;
-  }
+  // XXX: I don't know why this is needed or whether it is even valid js. 5E does it, and without it,
+  // there are errors. :(
+  // isSuppressed = false;
 
   /**
    * Get the item that provides this active effect. You might think this is simply
    * this.parent, but that returns the actor if this is on an owned item! Instead
    * we use the origin property and follow that.
-   */
-  getItem() {
-    LOGGER.trace("getItem | CPRActiveEffect | Called.");
-    // Example origin value: "Actor.voAMugZgXyH2OG9l.Item.ioY6vLPzo2ZuhXuS"
-    const { origin } = this.data;
-    let retVal = null;
-    if (origin.startsWith("Item")) {
-      // This AE is on unowned item, we can just use the parent property
-      retVal = this.parent;
-    } else if (origin.startsWith("Actor")) {
-      // This AE is on an item owned by an actor
-      const originBits = origin.split(".");
-      const actor = game.actors.find((a) => a.id === originBits[1]);
-      retVal = actor.items.find((i) => i.data._id === originBits[3]);
-    } else {
-      LOGGER.error(`This AE origin is crazy! ${origin}`);
-    }
-    return retVal;
-  }
-
-  /**
-   * Some usages require a specific mixin be activated, so we check for that here. In this setter
-   * a Flag (in Foundry speak) is used to track the usage property.
    *
-   * @param {String} use - the usage value to set
+   * This method assumes this CPRActiveEffect instance is not on an item but rather
+   * an actor.
    */
-  set usage(use) {
-    LOGGER.trace("set usage | CPRActiveEffect | Called.");
-    // if this effect is not on a physical object, it cannot be carried or equipped
-    const parentItem = this.getItem();
-    if (!(SystemUtils.hasDataModelTemplate(parentItem.data.type, "physical"))) {
-      if (use === usageValues.CARRIED || use === usageValues.EQUIPPED) {
-        LOGGER.error(`Cannot set usage to ${use} on a non-physical item!`);
-        return null;
-      }
-    }
-    if (!(Object.values(usageValues).includes(use))) {
-      LOGGER.error(`Invalid usage chosen: ${use}`);
+  getSourceItem() {
+    LOGGER.trace("getSourceItem | CPRActiveEffect | Called.");
+    // Example origin value for an AE on an actor: "Actor.voAMugZgXyH2OG9l.Item.ioY6vLPzo2ZuhXuS"
+    // AE provided by an Item: "Item.ioY6vLPzo2ZuhXuS"
+    const [parentType, parentId, documentType, documentId] = this.data.origin?.split(".") ?? [];
+    if (parentType === "Item") return this.parent;
+    // LOGGER.debugObject(documentType);
+    // LOGGER.debugObject(this.data.origin?.split(".") ?? []);
+    if ((parentType !== "Actor") || (parentId !== this.parent.id) || (documentType !== "Item")) {
+      LOGGER.error("This AE has a crazy origin!");
       return null;
     }
-    this.setFlag("cyberpunk-red-core", "usage", use);
-    return use;
+    const item = this.parent.items.get(documentId);
+    if (!item) return null;
+    return item;
   }
 
   /**
-   * Likewise to the setter, this getter retrieves the Flag for usage
+   * Convenience getter for retrieving how an effect is "used", this is actually stored
+   * on the item providing the effect.
+   *
+   * XXX: LOGGER calls do not work in this getter. I don't know why; use console.
    */
   get usage() {
     LOGGER.trace("get usage | CPRActiveEffect | Called.");
-    return this.getFlag("cyberpunk-red-core", "usage");
+    const item = this.getSourceItem();
+    if (!item) return null;
+    return item.data.data.usage;
   }
 
   /**
@@ -135,5 +57,35 @@ export default class CPRActiveEffect extends ActiveEffect {
   async setModKeyCategory(num, category) {
     LOGGER.trace("setModKeyCategory | CPRActiveEffect | Called.");
     this.setFlag("cyberpunk-red-core", `changes.${num}`, category);
+  }
+
+  /**
+   * Check if this effect is suppressed before applying it. Taken from the 5E code in
+   * active-effect.js.
+   *
+   * @override
+   * @param {CPRActor} actor - who's getting the active effect?
+   * @param {Object} change - the change to apply from an effect
+   * @returns null if this is suppressed, apply() otherwise
+   */
+  apply(actor, change) {
+    LOGGER.trace("apply | CPRActiveEffect | Called.");
+    if (this.data.isSuppressed) return null;
+    return super.apply(actor, change);
+  }
+
+  /**
+   * Determine if this effect is suppressed because of some game mechanic, like the item is not equipped.
+   * This was mostly copied from the dnd5e module in active-effect.js.
+   *
+   * @returns nothing, it only sets the isSuppressed property (it's a mutator)
+   */
+  determineSuppression() {
+    LOGGER.trace("determineSuppression | CPRActiveEffect | Called.");
+    this.data.isSuppressed = false;
+    if (this.data.disabled || (this.parent.documentName !== "Actor")) return;
+    const item = this.getSourceItem();
+    this.data.isSuppressed = item.areEffectsSuppressed();
+    LOGGER.debug(`isSuppressed is ${this.data.isSuppressed}`);
   }
 }

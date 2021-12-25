@@ -1,7 +1,6 @@
 <ol class="effects-list">
 {{!-- derived from DND5E's active-effects.html --}}
 {{#each actor.data.filteredEffects as |section sid|}}
-    {{log section}}
     <li class="effects-header flexrow" data-effect-type="{{section.type}}">
         <div class="effect-name flexrow">{{localize section.label}}</div>
         <div class="effect-source">{{localize "CPR.characterSheet.rightPane.effects.source"}}</div>
@@ -23,7 +22,10 @@
                         {{/each}}
                     </h4>    
                 </div>
-                <div class="effect-source">{{effect.sourceName}}</div>
+                <div class="effect-source">
+                    {{effect.sourceName}}<br/>
+                    ({{localize (cprFindConfigValue "effectUses" effect.usage)}})
+                </div>
                 <div class="effect-actions text-padding-right">
                     <a class="effect-control" data-action="toggle" title="{{localize 'CPR.characterSheet.rightPane.effects.toggle'}}">
                         <i class="fas {{#if effect.data.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
