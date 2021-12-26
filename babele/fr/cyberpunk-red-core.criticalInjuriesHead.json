@@ -1,48 +1,48 @@
 {
-	"label": "Critical Injuries (Head) - IMPORT ME",
+	"label": "Blessures critiques (tête) - IMPORTEZ-MOI",
 	"entries": {
 		"Brain Injury": {
-			"name": "Brain Injury",
-			"description": "<p>-2 to actions.</p>"
+			"name": "Liaison cérébrale",
+			"description": "<p>-2 à toutes les actions. La pénalité au jet de sauvegarde contre la mort de base augmente de 1.</p>"
 		},
 		"Broken Jaw": {
-			"name": "Broken Jaw",
-			"description": "<p>-4 to Speech Actions.</p>"
+			"name": "Mâchoire cassée",
+			"description": "<p>-4 à toutes les actions impliquant de parler.</p>"
 		},
 		"Concussion": {
-			"name": "Concussion",
-			"description": "<p>-2 to actions.</p>"
+			"name": "Commotion cérébrale",
+			"description": "<p>-2 à toutes les actions.</p>"
 		},
 		"Cracked Skull": {
-			"name": "Cracked Skull",
-			"description": "<p>Triples damage to HP on aimed headshots.</p>"
+			"name": "Fracture du crâne",
+			"description": "<p>Les attaques visant la tête multiplient les dégats qui traversent les PA par 3 et non par 2. La pénalité au jet de sauvegarde contre la mort de base augmente de 1.</p>"
 		},
 		"Crushed Windpipe": {
-			"name": "Crushed Windpipe",
-			"description": "<p>Cannot speak.</p>"
+			"name": "Trachée écrasée",
+			"description": "<p>Impossible de parler. La pénalité au jet de sauvegarde contre la mort de base augmente de 1.</p>"
 		},
 		"Damaged Ear": {
-			"name": "Damaged Ear",
-			"description": "<p>If move more than 4m/yds in a Turn, cannot move next turn. -2 to Perception (hearing).</p>"
+			"name": "Oreille endommagée",
+			"description": "<p>Si vous déplacez de plus de 4 m à bien lors d'un Tour, vous ne pouvez pas effectuer d'action de mouvement lors de votre prochain tour. De plus, vous subissez -2 aux jets de Perception impliquant l'ouïe.</p>"
 		},
 		"Damaged Eye": {
-			"name": "Damaged Eye",
-			"description": "<p>-2 to Ranged and Perception (vision).</p>"
+			"name": "Œil endommagé",
+			"description": "<p>-2 aux attaques à Distance et aux jets de Perception impliquant la vue.</p>"
 		},
 		"Foreign Object (H)": {
-			"name": "Foreign Object (H)",
-			"description": "<p>Suffer Crit damage at end of turn if move more than 4m/yrds on foot.</p>"
+			"name": "Plaie avec corps étranger",
+			"description": "<p>A la fin de chaque tour lors duquel vous vous déplacez de plus de 4m à pied, vous subissez de nouveau les dégâts bonus de cette blessure critique.</p>"
 		},
 		"Lost Ear": {
-			"name": "Lost Ear",
-			"description": "<p>Ear is removed. If move more than 4m/yds in a Turn, cannot move next turn. -4 to Perception (hearing).</p>"
+			"name": "Oreille arrachée",
+			"description": "<p>L'oreille arrachée est perdu. A la fin de chaque tour lors duquel vous vous déplacez de plus de 4m à pied, vous ne pouvez pas effectuer d'action de mouvement lors de votre prochain tour. De plus, vous subissez -4 aux jets de Perception impliquant l'ouïe. La pénalité au jet de sauvegarde contre la mort de base augmente de 1.</p>"
 		},
 		"Lost Eye": {
-			"name": "Lost Eye",
-			"description": "<p>Eye is removed. -4 to Ranged and Perception (vision).</p>"
+			"name": "Œil crevé",
+			"description": "<p>L'œil crevé est perdu. -4 aux attaques à distance et aux jets de Perception impliquant la vue. La pénalité au jet de sauvegarde contre la mort de base augmente de 1.</p>"
 		},
 		"Whiplash": {
-			"name": "Whiplash",
+			"name": "Coup du lapin",
 			"description": null
 		}
 	}
