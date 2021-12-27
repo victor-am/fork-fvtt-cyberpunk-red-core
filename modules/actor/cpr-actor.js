@@ -55,11 +55,16 @@ export default class CPRActor extends Actor {
     this.data.bonuses = {};
     const skills = this.data.items.filter((i) => i.type === "skill");
     skills.forEach((skill) => {
-      this.data.bonuses[skill.slugify()] = 0;
+      this.data.bonuses[SystemUtils.slugify(skill.name)] = 0;
     });
     const roles = this.data.items.filter((i) => i.type === "role");
     roles.forEach((role) => {
-      this.data.bonuses[role.slugify()] = 0;
+      this.data.bonuses[SystemUtils.slugify(role.data.data.mainRoleAbility)] = 0;
+      if (role.data.data.abilities.length > 0) {
+        for (const ability of role.data.data.abilities) {
+          this.data.bonuses[SystemUtils.slugify(ability.name)] = 0;
+        }
+      }
     });
   }
 

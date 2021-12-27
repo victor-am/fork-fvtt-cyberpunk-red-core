@@ -174,7 +174,7 @@ const Effects = function Effects() {
     LOGGER.trace("areEffectsSuppressed | Effects | Called.");
     switch (this.data.data.usage) {
       case "carried":
-        return !(this.data.data.equipped in ["carried", "equipped"]);
+        return this.data.data.equipped === "owned";
       case "equipped":
         return this.data.data.equipped !== "equipped";
       default:

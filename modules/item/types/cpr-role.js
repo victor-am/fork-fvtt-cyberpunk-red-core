@@ -5,9 +5,9 @@ import LOGGER from "../../utils/cpr-logger.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
- * Extend the base CPRItem object with things specific to character roles.
+ * Extend the CPRSkillItem object with things specific to character roles.
  *
- * @extends {CPRItem}
+ * @extends {CPRSkillItem}
  */
 export default class CPRRoleItem extends CPRItem {
   /**
@@ -116,21 +116,5 @@ export default class CPRRoleItem extends CPRItem {
     }
     cprRoll.addMod(actor.getWoundStateMods());
     return cprRoll;
-  }
-
-  /**
-   * We use temporary objects with keys derived from skill names elsewhere in the code base.
-   * We need to be able to programmatically produce those keys from the name, and that is
-   * what this method does.
-   *
-   * TODO: the cprSplitJoinCoreSkills handlebars helper has a lot of code that overlaps with this.
-   * TODO: not sure returning just the name will work with localization
-   *
-   * @returns {String}
-   */
-  slugify() {
-    LOGGER.trace("slugify | CPRRoleItem | Called.");
-    return this.data.data.mainRoleAbility;
-    // return this.data.name.toLowerCase().replace(/\s+/g, "");
   }
 }

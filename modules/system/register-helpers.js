@@ -296,7 +296,6 @@ export default function registerHandlebarsHelpers() {
    */
   Handlebars.registerHelper("cprSort", (arr, property) => {
     LOGGER.trace("cprSort | handlebarsHelper | Called.");
-    LOGGER.debug(typeof arr);
     arr.sort((a, b) => {
       let comparator = 0;
       if (a[property] > b[property]) {
@@ -413,67 +412,34 @@ export default function registerHandlebarsHelpers() {
 
   /**
    * Some skills and roles have spaces and/or parantheses in their name. When substituting in translated strings,
-   * this can be a problem to find the key they're listed under. This helper does a little string manipulation
-   * to make that easier to manage.
+   * this can be a problem to find the key they're listed under.
+   *
    * Example: Resist Torture/Drugs -> Resist Torture Or Drugs
    */
-  Handlebars.registerHelper("cprSplitJoinCoreSkills", (string) => {
+  Handlebars.registerHelper("cprSplitJoinCoreSkills", (skillObj) => {
     LOGGER.trace("cprSplitJoinCoreSkills | handlebarsHelper | Called.");
-    const cprDot = "CPR.global.skills.";
-    const initialSplit = string.split(" ").join("");
-    const orCaseSplit = initialSplit.split("/").join("Or");
-    const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
-    const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
-    if (string === "Conceal/Reveal Object" || string === "Paint/Draw/Sculpt" || string === "Resist Torture/Drugs") {
-      return cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
-    }
-    if (string === "Language (Streetslang)") {
-      // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
-      // comment to fulfill the test case of the language file.
-      return cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
-    }
-    return cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
-    // This helper also translates the skills for the Elflines Online characters, created with by the macro in the compendium.
-    // In order for the test case to work these skills have to appear in the code. They are not used anywhere else, thus added
-    // here as a comment: "CPR.global.skills.athleticsAndContortionist", "CPR.global.skills.basicTechAndWeaponstech",
-    // "CPR.global.skills.compositionAndEducation", "CPR.global.skills.enduranceAndResistTortureAndDrugs", "CPR.global.skills.evasionAndDance",
-    // "CPR.global.skills.firstAidAndParamedicAndSurgery", "CPR.global.skills.persuasionAndTrading", "CPR.global.skills.pickLockAndPickPocket"
+    return "CPR.global.skills.".concat(SystemUtils.slugify(skillObj.name));
   });
 
   /**
    * Sort core skills, returning a new array. This goes a step further and considers unicode normalization form for
    * specific characters like slashes and parantheses.
    */
-  Handlebars.registerHelper("cprSortCoreSkills", (object) => {
+  Handlebars.registerHelper("cprSortCoreSkills", (skillObjArray) => {
     LOGGER.trace("cprSortCoreSkills | handlebarsHelper | Called.");
-    const objectTranslated = [];
-    object.forEach((o) => {
+    const sortedSkills = [];
+    skillObjArray.forEach((o) => {
       const newElement = o;
       if (o.data.data.core) {
-        const cprDot = "CPR.global.skills.";
-        const initialSplit = o.name.split(" ").join("");
-        const orCaseSplit = initialSplit.split("/").join("Or");
-        const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
-        const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
-        if (o.name === "Conceal/Reveal Object" || o.name === "Paint/Draw/Sculpt" || o.name === "Resist Torture/Drugs") {
-          const string = cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
-          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        } else if (o.name === "Language (Streetslang)") {
-          // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
-          // comment to fulfill the test case of the language file.
-          const string = cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
-          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        } else {
-          const string = cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
-          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        }
+        const tstring = "CPR.global.skills.".concat(SystemUtils.slugify(o.name));
+        newElement.translatedName = SystemUtils.Localize(tstring).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       } else {
         newElement.translatedName = o.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       }
-      objectTranslated.push(newElement);
+      sortedSkills.push(newElement);
     });
 
-    objectTranslated.sort((a, b) => {
+    sortedSkills.sort((a, b) => {
       let comparator = 0;
       if (a.translatedName > b.translatedName) {
         comparator = 1;
@@ -482,7 +448,7 @@ export default function registerHandlebarsHelpers() {
       }
       return comparator;
     });
-    return objectTranslated;
+    return sortedSkills;
   });
 
   /**

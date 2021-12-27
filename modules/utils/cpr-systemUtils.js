@@ -302,13 +302,84 @@ export default class CPRSystemUtils {
    * Used in the ActiveEffects sheet when managing what is modified by an effect. This does not
    * consider custom skills or roles.
    *
+   * This method is called by a handlebars helper and handlebars does not support async helpers.
+   * That is why this is not programmatically generating the skill list with GetCoreSkills().
+   * Maybe there is a way to make that not async?
+   *
    * @param {String} category - a category that helps sort keys that are presented
    */
   static GetEffectModifierMap(category) {
     LOGGER.trace("GetEffectModifierMap | CPRSystemUtils | Called.");
     switch (category) {
       case "skill": {
-        return { "bonuses.Perception": "CPR.global.skills.perception" };
+        return {
+          "bonuses.athletics": "CPR.global.skills.athletics",
+          "bonuses.basicTech": "CPR.global.skills.basicTech",
+          "bonuses.brawling": "CPR.global.skills.brawling",
+          "bonuses.bribery": "CPR.global.skills.bribery",
+          "bonuses.concentration": "CPR.global.skills.concentration",
+          "bonuses.conversation": "CPR.global.skills.conversation",
+          "bonuses.cyberTech": "CPR.global.skills.cybertech",
+          "bonuses.education": "CPR.global.skills.education",
+          "bonuses.evasion": "CPR.global.skills.evasion",
+          "bonuses.firstAid": "CPR.global.skills.firstAid",
+          "bonuses.humanPerception": "CPR.global.skills.humanPerception",
+          "bonuses.interrogation": "CPR.global.skills.interrogation",
+          "bonuses.localExpert": "CPR.global.skills.localExpert",
+          "bonuses.meleeWeapon": "CPR.global.skills.meleeWeapon",
+          "bonuses.perception": "CPR.global.skills.perception",
+          "bonuses.persuasion": "CPR.global.skills.persuasion",
+          "bonuses.playInstrument": "CPR.global.skills.playInstrument",
+          "bonuses.stealth": "CPR.global.skills.stealth",
+          "bonuses.tracking": "CPR.global.skills.tracking",
+          "bonuses.accounting": "CPR.global.skills.accounting",
+          "bonuses.acting": "CPR.global.skills.acting",
+          "bonuses.airVehicleTech": "CPR.global.skills.airVehicleTech",
+          "bonuses.animalHandling": "CPR.global.skills.animalHandling",
+          "bonuses.archery": "CPR.global.skills.archery",
+          "bonuses.autofire": "CPR.global.skills.autofire",
+          "bonuses.bureaucracy": "CPR.global.skills.bureaucracy",
+          "bonuses.business": "CPR.global.skills.business",
+          "bonuses.composition": "CPR.global.skills.composition",
+          "bonuses.concealOrRevealObject": "CPR.global.skills.concealOrRevealObject",
+          "bonuses.contortionist": "CPR.global.skills.contortionist",
+          "bonuses.criminology": "CPR.global.skills.criminology",
+          "bonuses.cryptography": "CPR.global.skills.cryptography",
+          "bonuses.dance": "CPR.global.skills.dance",
+          "bonuses.deduction": "CPR.global.skills.deduction",
+          "bonuses.demolitions": "CPR.global.skills.demolitions",
+          "bonuses.driveLandVehicle": "CPR.global.skills.driveLandVehicle",
+          "bonuses.electronicsAndSecurityTech": "CPR.global.skills.electronicsAndSecurityTech",
+          "bonuses.endurance": "CPR.global.skills.endurance",
+          "bonuses.forgery": "CPR.global.skills.forgery",
+          "bonuses.gamble": "CPR.global.skills.gamble",
+          "bonuses.handgun": "CPR.global.skills.handgun",
+          "bonuses.heavyWeapons": "CPR.global.skills.heavyWeapons",
+          "bonuses.landVehicleTech": "CPR.global.skills.landVehicleTech",
+          "bonuses.language": "CPR.global.skills.language",
+          "bonuses.librarySearch": "CPR.global.skills.librarySearch",
+          "bonuses.lipReading": "CPR.global.skills.lipReading",
+          "bonuses.martialArts": "CPR.global.skills.martialArts",
+          "bonuses.paintOrDrawOrSculpt": "CPR.global.skills.paintOrDrawOrSculpt",
+          "bonuses.paramedic": "CPR.global.skills.paramedic",
+          "bonuses.personalGrooming": "CPR.global.skills.personalGrooming",
+          "bonuses.photographyAndFilm": "CPR.global.skills.photographyAndFilm",
+          "bonuses.pickLock": "CPR.global.skills.pickLock",
+          "bonuses.pickPocket": "CPR.global.skills.pickPocket",
+          "bonuses.pilotAirVehicle": "CPR.global.skills.pilotAirVehicle",
+          "bonuses.pilotSeaVehicle": "CPR.global.skills.pilotSeaVehicle",
+          "bonuses.resistTortureOrDrugs": "CPR.global.skills.resistTortureOrDrugs",
+          "bonuses.riding": "CPR.global.skills.riding",
+          "bonuses.science": "CPR.global.skills.science",
+          "bonuses.seaVehicleTech": "CPR.global.skills.seaVehicleTech",
+          "bonuses.shoulderArms": "CPR.global.skills.shoulderArms",
+          "bonuses.streetWise": "CPR.global.skills.streetwise",
+          "bonuses.tactics": "CPR.global.skills.tactics",
+          "bonuses.trading": "CPR.global.skills.trading",
+          "bonuses.wardrobeAndStyle": "CPR.global.skills.wardrobeAndStyle",
+          "bonuses.weaponsTech": "CPR.global.skills.weaponstech",
+          "bonuses.wildernessSurvival": "CPR.global.skills.wildernessSurvival",
+        };
       }
       case "stat": {
         return {
@@ -329,12 +400,81 @@ export default class CPRSystemUtils {
         };
       }
       case "role": {
-        return { "bonuses.Operator": "CPR.global.role.fixer.ability.operator" };
+        return {
+          "bonuses.operator": "CPR.global.role.fixer.ability.operator",
+          "bonuses.teamwork": "CPR.global.role.exec.ability.teamwork",
+          "bonuses.backup": "CPR.global.role.lawman.ability.backup",
+          "bonuses.credibility": "CPR.global.role.media.ability.credibility",
+          "bonuses.medicalTechCryosystemOperation": "CPR.global.role.medtech.ability.medtechCryo",
+          "bonuses.medicalTechPharmaceuticals": "CPR.global.role.medtech.ability.medtechPharma",
+          "bonuses.medicine": "CPR.global.role.medtech.ability.medicine",
+          "bonuses.surgery": "CPR.global.role.medtech.ability.surgery",
+          "bonuses.interface": "CPR.global.role.netrunner.ability.interface",
+          "bonuses.backdoor": "CPR.global.role.netrunner.interfaceAbility.backdoor",
+          "bonuses.cloak": "CPR.global.role.netrunner.interfaceAbility.cloak",
+          "bonuses.control": "CPR.global.role.netrunner.interfaceAbility.control",
+          "bonuses.eyedee": "CPR.global.role.netrunner.interfaceAbility.eyedee",
+          "bonuses.pathfinder": "CPR.global.role.netrunner.interfaceAbility.pathfinder",
+          "bonuses.scanner": "CPR.global.role.netrunner.interfaceAbility.scanner",
+          "bonuses.slide": "CPR.global.role.netrunner.interfaceAbility.slide",
+          "bonuses.virus": "CPR.global.role.netrunner.interfaceAbility.virus",
+          "bonuses.zap": "CPR.global.role.netrunner.interfaceAbility.zap",
+          "bonuses.moto": "CPR.global.role.nomad.ability.moto",
+          "bonuses.charismaticImpact": "CPR.global.role.rockerboy.ability.charismaticImpact",
+          "bonuses.combatAwareness": "CPR.global.role.solo.ability.combatAwareness",
+          "bonuses.damageDeflection": "CPR.global.role.solo.ability.damageDeflection",
+          "bonuses.fumbleRecovery": "CPR.global.role.solo.ability.fumbleRecovery",
+          "bonuses.initiativeReaction": "CPR.global.role.solo.ability.initiativeReaction",
+          "bonuses.precisionAttack": "CPR.global.role.solo.ability.precisionAttack",
+          "bonuses.spotWeakness": "CPR.global.role.solo.ability.spotWeakness",
+          "bonuses.threatDetection": "CPR.global.role.solo.ability.threatDetection",
+          "bonuses.fabricationExpertise": "CPR.global.role.tech.ability.fabricationExpertise",
+          "bonuses.fieldExpertise": "CPR.global.role.tech.ability.fieldExpertise",
+          "bonuses.inventionExpertise": "CPR.global.role.tech.ability.inventionExpertise",
+          "bonuses.maker": "CPR.global.role.tech.ability.maker",
+          "bonuses.upgradeExpertise": "CPR.global.role.tech.ability.upgradeExpertise",
+        };
       }
       // "custom" drops through here
       default:
     }
-    return null;
+    return {};
+  }
+
+  /**
+   * We use temporary objects with keys derived from skill names elsewhere in the code base.
+   * We need to be able to programmatically produce those keys from the name, and that is
+   * what this method does. It takes a string and converts it to camelcase.
+   *
+   * These are used as parts of translation string identifies too. Examples:
+   *  "CPR.global.skills.languageStreetslang"               "CPR.global.skills.athleticsAndContortionist"
+   *  "CPR.global.skills.basicTechAndWeaponstech"           "CPR.global.skills.compositionAndEducation"
+   *  "CPR.global.skills.enduranceAndResistTortureAndDrugs" "CPR.global.skills.persuasionAndTrading"
+   *  "CPR.global.skills.evasionAndDance"                   "CPR.global.skills.pickLockAndPickPocket"
+   *  "CPR.global.skills.firstAidAndParamedicAndSurgery"
+   *
+   * NOTE: The strings above are used for Elfines characters, and not used in the code base anywhere. We
+   *       have CI that checks all translation strings are used, so to avoid making that fail, please
+   *       keep the examples here.
+   *
+   * TODO: not sure returning something based on the name will work with localization
+   *
+   * @returns {String}
+   */
+  static slugify(name) {
+    LOGGER.trace("slugify | CPRSkillItem | Called.");
+    const slug = name;
+    const initialSplit = slug.split(" ").join("");
+    const orCaseSplit = initialSplit.split("/").join("Or");
+    const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
+    const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
+    if (slug === "Conceal/Reveal Object" || slug === "Paint/Draw/Sculpt" || slug === "Resist Torture/Drugs") {
+      return orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
+    }
+    if (slug === "Language (Streetslang)") {
+      return parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
+    }
+    return andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
   }
 
   /**
@@ -342,7 +482,7 @@ export default class CPRSystemUtils {
    * name for it. Used in item sheets that have active effects.
    *
    * @param {String} category - see GetEffectModifierMap for valid values
-   * @param {String} key - e.g. "bonuses.Perception"
+   * @param {String} key - e.g. "bonuses.perception"
    * @returns {String}
    */
   static GetEffectModifierKeyName(category, key) {

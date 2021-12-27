@@ -27,7 +27,7 @@
             <div class="item-name text-nowrap">
                 <a class="rollable {{#if skill.data.data.basic}}text-bold{{/if}}" data-roll-type="skill"
                     data-roll-title="{{skill.name}}">
-                    {{#if skill.data.data.core}}{{localize (cprSplitJoinCoreSkills skill.name)}}{{else}}{{skill.name}}{{/if}} {{#if (cprCompare skill.data.data.difficulty "===" "difficult")}}(x2) {{/if}}<strong>({{localize
+                    {{#if skill.data.data.core}}{{localize (cprSplitJoinCoreSkills skill)}}{{else}}{{skill.name}}{{/if}} {{#if (cprCompare skill.data.data.difficulty "===" "difficult")}}(x2) {{/if}}<strong>({{localize
                         (cprFindConfigValue
                         "statList" skill.data.data.stat)}})</strong>
                 </a>

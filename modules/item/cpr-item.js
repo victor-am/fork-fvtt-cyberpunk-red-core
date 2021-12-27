@@ -84,7 +84,6 @@ export default class CPRItem extends Item {
         }
         case "effects": {
           Effects.call(CPRItem.prototype);
-          LOGGER.debug("adding allowedUsage I think");
           itemData.allowedUsage = this.getAllowedUsage();
           // To Do: we could toggle on/off if there's exactly 1 effect enforced...
           break;

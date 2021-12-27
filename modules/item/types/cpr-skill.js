@@ -71,22 +71,6 @@ export default class CPRSkillItem extends CPRItem {
   }
 
   /**
-   * We use temporary objects with keys derived from skill names elsewhere in the code base.
-   * We need to be able to programmatically produce those keys from the name, and that is
-   * what this method does.
-   *
-   * TODO: the cprSplitJoinCoreSkills handlebars helper has a lot of code that overlaps with this.
-   * TODO: not sure returning just the name will work with localization
-   *
-   * @returns {String}
-   */
-  slugify() {
-    LOGGER.trace("slugify | CPRSkillItem | Called.");
-    return this.data.name;
-    // return this.data.name.toLowerCase().replace(/\s+/g, "");
-  }
-
-  /**
    * Get the mod associated with this skill.
    *
    * @returns {Number}
