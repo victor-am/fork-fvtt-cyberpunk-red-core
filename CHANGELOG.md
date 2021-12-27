@@ -3,6 +3,7 @@
 **New Features**
 
 **Changes**
+- Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
 
 **Bug Fixes**
 
