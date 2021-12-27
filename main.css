@@ -911,11 +911,9 @@ button,
   font-size: 0.8rem;
   min-width: 135px;
 }
+.item-description-tab .item-summary-section .summary-name,
 .item-description-tab .item-summary-section .item-summary-line {
   display: flex;
-}
-.item-description-tab .item-summary-section .item-summary-line .summary-name {
-  flex: 0 0 70px;
 }
 .item-description-tab .item-description-section {
   grid-area: item-description-pane;

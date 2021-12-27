@@ -384,13 +384,10 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   _updateAmount(event) {
     LOGGER.trace("_updateAmount | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
-    const updateType = $(event.currentTarget).attr("data-item-prop");
-    if (updateType === "item.data.amount") {
-      if (!Number.isNaN(parseInt(event.target.value, 10))) {
-        item.setItemAmount(event.target.value);
-      } else {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.amountNotNumber"));
-      }
+    if (!Number.isNaN(parseInt(event.target.value, 10))) {
+      item.setItemAmount(event.target.value);
+    } else {
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.amountNotNumber"));
     }
     this._updateOwnedItem(item);
   }

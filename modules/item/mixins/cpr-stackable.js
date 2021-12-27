@@ -14,10 +14,10 @@ const Stackable = function Stackable() {
     LOGGER.trace("setItemAmount | Stackable | Called.");
     if (value.charAt(0) === "+" || value.charAt(0) === "-") {
       // handle a delta provided rather than a straight value
-      this.amount += parseInt(value, 10);
+      this.data.data.amount += parseInt(value, 10);
     } else {
       // set to what the user provided
-      this.amount = parseInt(value, 10);
+      this.data.data.amount = parseInt(value, 10);
     }
   };
 

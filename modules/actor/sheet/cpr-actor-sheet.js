@@ -1051,7 +1051,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   async _splitItem(item) {
     LOGGER.trace("_splitItem | CPRActorSheet | called.");
-    if (item.data.data.upgrades.length !== 0) {
+    if (item.data.data.upgrades && item.data.data.upgrades.length !== 0) {
       SystemUtils.DisplayMessage("warn", SystemUtils.Format("CPR.dialog.splitItem.warningUpgrade"));
     }
     const itemText = SystemUtils.Format("CPR.dialog.splitItem.text",

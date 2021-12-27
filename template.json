@@ -431,7 +431,7 @@
         "common",
         "physical",
         "valuable",
-        "upgradable"
+        "stackable"
       ],
       "variety": "",
       "type": ""
