@@ -14,7 +14,7 @@
 			"description": "<p>A firmly weighted bat. A favourite weapon of the Baseball Furies. </p>"
 		},
 		"Big Knucks": {
-			"name": "Big Knucks",
+			"name": "Super poings",
 			"description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>"
 		},
 		"Bow": {
@@ -42,11 +42,11 @@
 			"description": "<p>Useful as both a tool and a weapon. A rod of iron with split wedges on the ends. </p>"
 		},
 		"Cybersnake": {
-			"name": "Cybersnake",
+			"name": "Cybercobra",
 			"description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>"
 		},
 		"Dartgun": {
-			"name": "Dartgun",
+			"name": "Pistolet à fléchettes",
 			"description": "<p>An Exotic Very Heavy Pistol. Refer to the full item description on pg. 348.</p>"
 		},
 		"Excellent Assault Rifle": {
@@ -302,7 +302,7 @@
 			"description": "<p>An Exotic Assault Rifle. It cannot make Aimed or Autofire Shots. Requires BODY 11 or higher (unless mounted). Refer to the full item description on pg. 349.&nbsp;</p>"
 		},
 		"Rippers": {
-			"name": "Rippers",
+			"name": "Éventreurs",
 			"description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>"
 		},
 		"Rocket Launcher": {
@@ -350,7 +350,7 @@
 			"description": "<p>A bladed, hilted weapon. Specifically designed for cutting or thrusting. </p>"
 		},
 		"Talon Foot": {
-			"name": "Talon Foot",
+			"name": "Ergot",
 			"description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>"
 		},
 		"Tomahawk": {
@@ -374,7 +374,7 @@
 			"description": "<p>A very heavy pistol. It can't be concealed. </p>"
 		},
 		"Wolvers": {
-			"name": "Wolvers",
+			"name": "Etripeurs",
 			"description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>"
 		}
 	}
