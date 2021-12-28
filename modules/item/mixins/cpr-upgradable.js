@@ -1,7 +1,19 @@
-const Upgradeable = () => {
-      /** itemUpgrade Code */
-  uninstallUpgrades(upgrades) {
-    LOGGER.trace("uninstallUpgrades | CPRItem | Called.");
+import CPR from "../../system/config.js";
+import LOGGER from "../../utils/cpr-logger.js";
+
+/**
+ * If an item can ACCEPT upgrades (i.e. it has slots), then it should include this
+ * mixin. This does not accommodate items that are upgrades.
+ */
+const Upgradable = function Upgradable() {
+  /**
+   * Uninstall a list of upgrades from this Item
+   *
+   * @param {Array} upgrades - list of upgrade items to uninstall
+   * @returns the updated item document after uninstallation
+   */
+  this.uninstallUpgrades = function uninstallUpgrades(upgrades) {
+    LOGGER.trace("uninstallUpgrades | Upgradable | Called.");
     let installedUpgrades = this.data.data.upgrades;
     const updateList = [];
     upgrades.forEach((u) => {
@@ -49,10 +61,16 @@ const Upgradeable = () => {
       updateList.push({ _id: this.id, "data.isUpgraded": upgradeStatus, "data.upgrades": installedUpgrades });
     }
     return this.actor.updateEmbeddedDocuments("Item", updateList);
-  }
+  };
 
-  installUpgrades(upgrades) {
-    LOGGER.trace("installUpgrades | CPRItem | Called.");
+  /**
+   * Install a list of upgrades to this item.
+   *
+   * @param {Array} upgrades - the list of upgrades to install
+   * @returns the updated item document after the installation
+   */
+  this.installUpgrades = function installUpgrades(upgrades) {
+    LOGGER.trace("installUpgrades | Upgradable | Called.");
     if (typeof this.data.data.isUpgraded === "boolean") {
       const installedUpgrades = this.data.data.upgrades;
       const updateList = [];
@@ -97,10 +115,15 @@ const Upgradeable = () => {
       return this.actor.updateEmbeddedDocuments("Item", updateList);
     }
     return null;
-  }
+  };
 
-  getUpgradeTypeFor(dataPoint) {
-    LOGGER.trace("getUpgradeTypeFor | CPRItem | Called.");
+  /**
+   *
+   * @param {String} dataPoint
+   * @returns null or the upgrade type for a given data point
+   */
+  this.getUpgradeTypeFor = function getUpgradeTypeFor(dataPoint) {
+    LOGGER.trace("getUpgradeTypeFor | Upgradable | Called.");
     let upgradeType = "modifier";
     if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {
       const installedUpgrades = this.data.data.upgrades;
@@ -115,10 +138,15 @@ const Upgradeable = () => {
       return upgradeType;
     }
     return null;
-  }
+  };
 
-  getAllUpgradesFor(dataPoint) {
-    LOGGER.trace("getAllUpgradesFor | CPRItem | Called.");
+  /**
+   *
+   * @param {} dataPoint
+   * @returns
+   */
+  this.getAllUpgradesFor = function getAllUpgradesFor(dataPoint) {
+    LOGGER.trace("getAllUpgradesFor | Upgradable | Called.");
     let upgradeNumber = 0;
     let baseOverride = -100000;
     if (this.actor && typeof this.data.data.isUpgraded === "boolean" && this.data.data.isUpgraded) {
@@ -139,7 +167,7 @@ const Upgradeable = () => {
       upgradeNumber = (baseOverride === 0 || baseOverride === -100000) ? upgradeNumber : baseOverride;
     }
     return upgradeNumber;
-  }
+  };
 };
 
-export default Upgradeable;
+export default Upgradable;

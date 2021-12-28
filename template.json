@@ -367,6 +367,13 @@
         "source": "",
         "favorite": false
       },
+      "effects": {
+        "revealed": true,
+        "usage": "always"
+      },
+      "equippable": {
+        "equipped": "owned"
+      },
       "physical": {
         "concealable": {
           "concealable": false,
@@ -376,18 +383,16 @@
       "stackable": {
         "amount": 1
       },
-      "equippable": {
-        "equipped": "owned"
+      "upgradable": {
+        "upgradeType": "",
+        "upgrades": [],
+        "slots": 1
       },
       "valuable": {
         "price": {
           "market": 0,
           "category": ""
         }
-      },
-      "upgradable": {
-        "isUpgraded": false,
-        "upgrades": []
       },
       "weapon": {
         "weaponType": "",
@@ -420,10 +425,6 @@
       "installable": {
         "install": "mall",
         "isInstalled": false
-      },
-      "effects": {
-        "revealed": true,
-        "usage": "always"
       }
     },
     "ammo": {
@@ -439,9 +440,11 @@
     "armor": {
       "templates": [
         "common",
+        "effects",
+        "equippable",
         "physical",
         "upgradable",
-        "equippable"
+        "valuable"
       ],
       "isHeadLocation": false,
       "headLocation": {

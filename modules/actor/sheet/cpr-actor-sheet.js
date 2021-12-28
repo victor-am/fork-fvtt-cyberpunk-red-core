@@ -702,7 +702,6 @@ export default class CPRActorSheet extends ActorSheet {
   static async _setCriticalInjuryTable() {
     LOGGER.trace("_setCriticalInjuryTable | CPRActorSheet | Called.");
     const critInjuryTables = CPRActorSheet._getCriticalInjuryTables();
-    LOGGER.debugObject(critInjuryTables);
     const formData = await RollCriticalInjuryPrompt.RenderPrompt(critInjuryTables).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return undefined;
@@ -723,7 +722,6 @@ export default class CPRActorSheet extends ActorSheet {
     if (tableName === undefined) {
       return;
     }
-    LOGGER.debugObject(tableName);
     const table = game.tables.contents.find((t) => t.name === tableName);
     this._drawCriticalInjuryTable(tableName, table, 0);
     this._automaticResize();
@@ -744,7 +742,6 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("_drawCriticalInjuryTable | CPRActorSheet | Called.");
     if (iteration > 100) {
       // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6)
-      LOGGER.debug(table);
       const crit = game.items.find((item) => (
         (item.type === "criticalInjury") && (item.name === table.data.results._source[0].text)
       ));

@@ -292,7 +292,6 @@ export default class CPRNetarchUtils {
       LOGGER.log("Error no scene defined!");
       return;
     }
-    LOGGER.debug(this.scene);
     await this.scene.createEmbeddedDocuments("Tile", tileData);
   }
 

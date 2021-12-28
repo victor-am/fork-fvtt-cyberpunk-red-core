@@ -14,7 +14,7 @@ import Loadable from "./mixins/cpr-loadable.js";
 import Physical from "./mixins/cpr-physical.js";
 import Stackable from "./mixins/cpr-stackable.js";
 // import Spawner from "./mixins/cpr-spawner.js";
-// import Upgradeable from "./mixins/cpr-upgradeable.js";
+import Upgradable from "./mixins/cpr-upgradable.js";
 import Virtual from "./mixins/cpr-virtual.js";
 import Valuable from "./mixins/cpr-valuable.js";
 
@@ -114,8 +114,8 @@ export default class CPRItem extends Item {
           itemData.actions.push("split");
           break;
         }
-        case "upgradeable": {
-          // Upgradeable.call(CPRItem.prototype);
+        case "upgradable": {
+          Upgradable.call(CPRItem.prototype);
           itemData.actions.push("upgrade");
           break;
         }
@@ -263,29 +263,9 @@ export default class CPRItem extends Item {
     return localCprRoll;
   }
 
-  // AMMO FUNCTIONS
-  _ammoAction(actionAttributes) {
-    LOGGER.trace("_ammoAction | CPRItem | Called.");
-    const actionData = actionAttributes["data-action"].nodeValue;
-    const ammoAmount = actionAttributes["data-amount"].nodeValue;
-    switch (actionData) {
-      case "ammo-decrement":
-        this._ammoDecrement(ammoAmount);
-        break;
-      case "ammo-increment":
-        this._ammoIncrement(ammoAmount);
-        break;
-      default:
-    }
-
-    // If the actor, is updating his owned item, this logic should live within the actor.
-    if (this.actor) {
-      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
-    }
-  }
-
+  // Weapon Item Methods
   async setCompatibleAmmo(ammoList) {
-    LOGGER.trace("setCompatibleAmmo | CPRSkillItem | Called.");
+    LOGGER.trace("setCompatibleAmmo | CPRItem | Called.");
     this.data.data.ammoVariety = ammoList;
     if (this.actor) {
       this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
@@ -293,29 +273,6 @@ export default class CPRItem extends Item {
     return this.update({ "data.ammoVariety": ammoList });
   }
 
-  async _ammoDecrement(changeAmount) {
-    LOGGER.trace("_ammoDecrement | CPRItem | Called.");
-    const currentValue = this.data.data.amount;
-    const newValue = Math.max(0, Number(currentValue) - Number(changeAmount));
-    this.data.data.amount = newValue;
-    if (this.actor) {
-      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
-    }
-    return null;
-  }
-
-  async _ammoIncrement(changeAmount) {
-    LOGGER.trace("_ammoIncrement | CPRItem | Called.");
-    const currentValue = this.data.data.amount;
-    const newValue = Number(currentValue) + Number(changeAmount);
-    this.data.data.amount = newValue;
-    if (this.actor) {
-      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
-    }
-    return null;
-  }
-
-  // Weapon Item Methods
   async _weaponAction(actor, actionAttributes) {
     LOGGER.trace("_weaponAction | CPRItem | Called.");
     const actionData = actionAttributes["data-action"].nodeValue;

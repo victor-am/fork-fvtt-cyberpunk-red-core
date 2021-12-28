@@ -1,0 +1,39 @@
+{{cprTrace "CPR-UPGRADABLE.HBS"}}
+{{!-- Upgrade Installed Setting --}}
+<span class="text-large">{{localize "CPR.itemSheet.common.upgrades"}}</span>
+<li class="item flexrow">
+    {{localize "CPR.itemSheet.itemUpgrade.upgradeOverview"}}
+</li>
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.itemUpgrade.upgradeTypeAccepted"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if this.editable}}
+            <select name="data.upgradeType" data-dtype="{{data.data.upgradeType}}">
+                {{#select data.data.upgradeType}}
+                    {{#each (cprFindConfigObj "upgradeTypes") as |upgradeString upgradeType|}}
+                        <option value="{{upgradeType}}">{{localize (cprFindConfigValue "upgradeTypes" upgradeType)}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        {{else}}
+            <span class="text-flex-end">{{localize (cprFindConfigValue "upgradeTypes" data.data.type)}}</span>
+        {{/if}}
+    </div>
+</li>
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.global.generic.slots"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if this.editable}}
+            <input name="data.slots" class="" type="number" value="{{data.data.slots}}">
+        {{else}}
+            <span class="text-flex-end">{{data.data.slots}}</span>
+        {{/if}}
+    </div>
+</li>
+{{!-- listing out installed upgrades goes here --}}
+<hr>
+{{cprTrace "END CPR-UPGRADABLE.HBS"}}

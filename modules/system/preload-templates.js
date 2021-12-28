@@ -118,9 +118,11 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-equippable.hbs",
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-physical.hbs",
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-stackable.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-upgradable.hbs",
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-valuable.hbs",
 
     "systems/cyberpunk-red-core/templates/item/description/cpr-ammo.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/cpr-armor.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-clothing.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-criticalInjury.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-gear.hbs",
@@ -131,9 +133,11 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-equippable.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-physical.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-stackable.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-upgradable.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-valuable.hbs",
 
     "systems/cyberpunk-red-core/templates/item/settings/cpr-ammo.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/cpr-armor.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-clothing.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-criticalInjury.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-gear.hbs",

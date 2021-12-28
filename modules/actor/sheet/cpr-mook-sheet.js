@@ -101,7 +101,6 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     let again = true;
     const skillList = [];
     this.actor.data.filteredItems.skill.map((s) => {
-      LOGGER.debugObject(s);
       skillList.push(s.data.name);
       return skillList.sort();
     });
