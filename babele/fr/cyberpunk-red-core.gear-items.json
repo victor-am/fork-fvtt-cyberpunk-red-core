@@ -15,11 +15,11 @@
 		},
 		"Audio Recorder": {
 			"name": "Enregistreur audio",
-			"description": "<p>Record 24h of audio on a memory Chip.</p>"
+			"description": "<p>Enregistre jusqu'à 24 heures d'audio par puce mémoire.</p>"
 		},
 		"Auto Level Dampening Ear Protectors": {
-			"name": "Auto Level Dampening Ear Protectors",
-			"description": "<p>Wearer is immune to loud sounds.</p>"
+			"name": "Protection auditive active",
+			"description": "<p>Le porteur est immunisé contre la surdité et les effets issus des sons dangereux, comme ceux produis par des munitions étourdissantes.</p>"
 		},
 		"Binoculars": {
 			"name": "Binoculars",
