@@ -1,5 +1,4 @@
 import LOGGER from "../../utils/cpr-logger.js";
-import EventUtils from "../../utils/cpr-eventUtils.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
@@ -32,20 +31,20 @@ const Effects = function Effects() {
   this.manageEffects = function manageEffects(event) {
     LOGGER.trace("manageEffects | Effects | Called.");
     event.preventDefault();
-    const action = EventUtils.SystemUtils(event, "data-action");
+    const action = SystemUtils.GetEventDatum(event, "data-action");
     switch (action) {
       case "create":
         return this.createEffect();
       case "edit": {
-        const effectId = EventUtils.SystemUtils(event, "data-effect-id");
+        const effectId = SystemUtils.GetEventDatum(event, "data-effect-id");
         return this.editEffect(effectId);
       }
       case "delete": {
-        const effectId = EventUtils.SystemUtils(event, "data-effect-id");
+        const effectId = SystemUtils.GetEventDatum(event, "data-effect-id");
         return this.deleteEffect(effectId);
       }
       case "toggle": {
-        const effectId = EventUtils.SystemUtils(event, "data-effect-id");
+        const effectId = SystemUtils.GetEventDatum(event, "data-effect-id");
         return this.toggleEffect(effectId);
       }
       default:

@@ -126,8 +126,10 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/description/cpr-clothing.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-criticalInjury.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-gear.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/cpr-netarch.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-role.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-skill.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/cpr-vehicle.hbs",
 
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-effects.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-equippable.hbs",
@@ -141,8 +143,10 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/settings/cpr-clothing.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-criticalInjury.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-gear.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/cpr-netarch.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-role.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-skill.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/cpr-vehicle.hbs",
 
     // Active Effects Sheet
     "systems/cyberpunk-red-core/templates/effects/cpr-active-effect-sheet.hbs",

@@ -792,6 +792,7 @@
     "CPR.netArchitecture.floor.deleteConfirmation": "the floor from the NET Architecture",
     "CPR.netArchitecture.floor.dv": "DV",
     "CPR.netArchitecture.floor.edit": "Edit Floor",
+    "CPR.netArchitecture.floor.floors": "Floors",
     "CPR.netArchitecture.floor.moveDown": "Move Down",
     "CPR.netArchitecture.floor.moveUp": "Move Up",
     "CPR.netArchitecture.floor.options.blackIce.asp": "Asp",

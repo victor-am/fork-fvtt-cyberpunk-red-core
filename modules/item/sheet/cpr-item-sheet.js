@@ -12,7 +12,7 @@ import SelectItemUpgradePrompt from "../../dialog/cpr-select-item-upgrade-prompt
 import BoosterAddModifierPrompt from "../../dialog/cpr-booster-add-modifier-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
-import CPRNetarchUtils from "../../utils/cpr-netarchUtils.js";
+
 /**
  * Extend the basic ActorSheet.
  * @extends {ItemSheet}
@@ -127,8 +127,7 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".netarch-generate-auto").click(() => {
       if (game.user.isGM) {
-        const netarchGenerator = new CPRNetarchUtils(this.item);
-        netarchGenerator._generateNetarchScene();
+        this.item._generateNetarchScene();
       } else {
         SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noGMError"));
       }
@@ -136,8 +135,7 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".netarch-generate-custom").click(() => {
       if (game.user.isGM) {
-        const netarchGenerator = new CPRNetarchUtils(this.item);
-        netarchGenerator._customize();
+        this.item._customize();
       } else {
         SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noGMError"));
       }

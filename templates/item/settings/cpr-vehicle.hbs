@@ -1,0 +1,47 @@
+{{cprTrace "CPR-VEHICLE.HBS"}}
+{{!-- Vehicle Item Settings--}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.vehicle.tags"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <input name="data.tags" class="" type="text" value="{{data.data.tags}}" placeholder="License Plate No.">
+    </div>
+</li>
+
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.vehicle.structuralDamagePoints"}} {{cprShowUpgrade this.item "sdp"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <input name="data.sdp" class="" type="number" value={{data.data.sdp}} placeholder=50>
+    </div>
+</li>
+
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.vehicle.seats"}} {{cprShowUpgrade this.item "seats"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <input name="data.seats" class="" type="number" value={{data.data.seats}} placeholder=4>
+    </div>
+</li>
+
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.vehicle.combatSpeed"}} {{cprShowUpgrade this.item "speedCombat"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <input name="data.speedCombat" class="" type="number" value={{data.data.speedCombat}} placeholder=50>
+    </div>
+</li>
+
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.vehicle.speedNarrative"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        <input name="data.speedNarrative" class="" type="text" value="{{data.data.speedNarrative}}" placeholder="50">
+    </div>
+</li>
+{{cprTrace "END CPR-VEHICLE.HBS"}}
