@@ -15,7 +15,7 @@
 		},
 		"Audio Recorder": {
 			"name": "Enregistreur audio",
-			"description": "<p>Enregistre jusqu'a 24h d'audio par puce mémoire</p>"
+			"description": "<p>Enregistre jusqu'à 24 heures d'audio par puce mémoire</p>"
 		},
 		"AudioVox": {
 			"name": "AudioVox",
@@ -142,11 +142,11 @@
 			"description": "<p>Ajoute +2 en Perception, Lecture sur les lèvres et Dissimulation/Révélation d'objet. Nécessite deux cyberyeux et s'installe par paire.</p>"
 		},
 		"Implanted Linear Frame β (Beta)": {
-			"name": "Charpente linéaire implantée β (Beta)",
+			"name": "Charpente linéaire implantée Beta",
 			"description": "<p>Augmente le COR à 14 (ajustant vos PS, seuil de blessure et jet de Mort). Nécessite COR 8 et 2 maillages musculosquelettiques</p>"
 		},
 		"Implanted Linear Frame ∑ (Sigma)": {
-			"name": "Charpente linéaire implantée ∑ (Sigma)",
+			"name": "Charpente linéaire implantée Sigma",
 			"description": "<p>Augmente le COR à 12 (ajustant vos PS, seuil de blessure et jet de Mort). Nécessite COR 6 et un maillage musculosquelettiques</p>"
 		},
 		"Independent Air Supply": {
