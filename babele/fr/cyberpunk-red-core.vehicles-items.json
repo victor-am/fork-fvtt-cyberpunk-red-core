@@ -1,61 +1,61 @@
 {
-	"label": "Vehicles",
+	"label": "Véhicule",
 	"entries": {
 		"AV-4 Multipurpose Aerodyne": {
-			"name": "AV-4 Multipurpose Aerodyne",
-			"description": "<p>A multipurpose aircraft capable of quick insertion thanks to vertical thrusters. Used commonly by Trauma Teams. </p>"
+			"name": "Aérodyne polyvalent AV-4",
+			"description": "<p>Un véhicule volant muni d'un moteur à poussée verticale de haute technologie alimenté au CHOOH². Communément utilisé par la Trauma Team.</p>"
 		},
 		"AV-9 Super Aerodyne": {
-			"name": "AV-9 Super Aerodyne",
-			"description": "<p>A highly advanced AV with limited seats. Can travel up to 300 miles per hour. </p>"
+			"name": "Super-aérodyne AV-9",
+			"description": "<p>Un véhicule exotique volant muni d'un moteur à poussée verticale alimenté au CHOOH², capable de pointes de vitesses extrêmes.</p>"
 		},
 		"Aerozep": {
-			"name": "Aerozep",
-			"description": "<p>A modern-day cargo blimp. Requires a minimum of two rooms. The price is for each room below deck. </p>"
+			"name": "Aérozep",
+			"description": "<p>Un dirigeable de fret moderne dont la taille varie énormément selon sa fonction. Les aérozeps ont des pièces personnalisées.</p>"
 		},
 		"Cabin Cruiser": {
-			"name": "Cabin Cruiser",
-			"description": "<p>A very fast speedboat. Requires a minimum of two rooms. The price is for each room below deck. </p>"
+			"name": "Bateau de plaisance",
+			"description": "<p>Bateau à moteur de luxe alimenté en CHOOH² avec suffisamment de place pour loger quelques privilégiés. Les bateaux de plaisance ont des pièces personnalisées. </p>"
 		},
 		"Compact Groundcar": {
-			"name": "Compact Groundcar",
-			"description": "<p>A CHOOH2-powered groundcar. Very common with a few dozen manufacturers producing similar models. </p>"
+			"name": "Voiture terrestre compacte",
+			"description": "<p>Voiture ordinaire alimentée au CHOOH².</p>"
 		},
 		"Gyrocopter": {
-			"name": "Gyrocopter",
-			"description": "<p>A small two-seater rotorcraft. </p>"
+			"name": "Gyrocoptère",
+			"description": "<p>Un minuscule giravion aliment au CHOOH² généralement piloté par les passionnées de vol.</p>"
 		},
 		"Helicopter": {
-			"name": "Helicopter",
-			"description": "<p>A four-seater helicopter capable of high speeds and long flights. </p>"
+			"name": "Hélicoptère",
+			"description": "<p>Un hélicoptère standard alimenté au CHOOH² pouvant effectuer de longs vols.</p>"
 		},
 		"High Performance Groundcar": {
-			"name": "High Performance Groundcar",
-			"description": "<p>A specialised groundcar designed for sports performance. </p>"
+			"name": "Voiture terrestre à haute performance",
+			"description": "<p>Voiture de sport alimentée au CHOOH².</p>"
 		},
 		"Jetski": {
-			"name": "Jetski",
-			"description": "<p>A common CHOOH2-powered jetski that can seat two people. </p>"
+			"name": "Jet ski",
+			"description": "<p>Embarcation personnelle ordinaire alimentée au CHOOH²</p>"
 		},
 		"Roadbike": {
-			"name": "Roadbike",
-			"description": "<p>A common CHOOH2-powered roadbike seen during the time of the Red.</p>"
+			"name": "Moto de route",
+			"description": "<p>Moto ordinaire alimentée au CHOOH².</p>"
 		},
 		"Speedboat": {
-			"name": "Speedboat",
-			"description": "<p>A fast CHOOH2-powered speedboat. </p>"
+			"name": "Hors-bord",
+			"description": "<p>Un bateau rapide alimenté au CHOOH². </p>"
 		},
 		"Super Groundcar": {
-			"name": "Super Groundcar",
-			"description": "<p>An expensive, exotic CHOOH2 powered sportscar. It is capable of very high speeds. </p>"
+			"name": "Supervoiture terrestre",
+			"description": "<p>Une voiture de sport exotique alimentée au CHOOH², capable de pointes de vitesses extrêmes.</p>"
 		},
 		"Superbike": {
-			"name": "Superbike",
-			"description": "<p>A beefed-up version of a roadbike, capable of very high speeds. </p>"
+			"name": "Supermoto",
+			"description": "<p>Une moto de rue exotique alimentée au CHOOH², capable de pointes de vitesses extrêmes.</p>"
 		},
 		"Yacht": {
 			"name": "Yacht",
-			"description": "<p>A luxury speedboat. Requires a minimum of two rooms. The price is for each room below or above deck. </p>"
+			"description": "<p>Bateau de plaisance de luxe alimentée au CHOOH² avec largement assez de place pour loger et divertir un hôte et ses distingués invités. Les yatchs ont des pièces personnalisées. </p>"
 		}
 	}
 }
