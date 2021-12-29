@@ -207,7 +207,7 @@
 		},
 		"Smoke Grenade": {
 			"name": "Grenade fumigène",
-			"description": "<p>N'inflige pas de dégâts. Remplit de fumée une zone de 10 m par 10 m pendant 1 minute. Le malus ordinaire pour effectuer une action dans la zone voilée par la fumée est de -4.</p>"
+			"description": "<p>Lorsque vous utilisez ces munitions, vos attaques n'infligent pas de dégâts. Remplit de fumée une zone\nde 10 m par 10 m pendant une minute à l’impact. Le malus ordinaire pour effectuer une action dans une\nzone voilée par la fumée est de -4.</p>"
 		},
 		"Teargas Grenade": {
 			"name": "Grenade lacrymogène",
