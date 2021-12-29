@@ -1,5 +1,5 @@
 {
-	"label": "Équipement",
+	"label": "Objet",
 	"entries": {
 		"Agent": {
 			"name": "Agent",
@@ -22,224 +22,224 @@
 			"description": "<p>Le porteur est immunisé contre la surdité et les effets issus des sons dangereux, comme ceux produis par des munitions étourdissantes.</p>"
 		},
 		"Binoculars": {
-			"name": "Binoculars",
-			"description": "<p>Magnification: x2 or x3.</p>"
+			"name": "Jumelles",
+			"description": "<p>Vous regardez au travers et elles doublent ou triplent la taille de ce que vous voyez.</p>"
 		},
 		"Black Lace": {
-			"name": "Black Lace",
-			"description": "<p>Dose lasts 24 hours. <br />The user rolls 2d6 Humanity Loss and loses this temporarily while affected. The user ignores Seriously Wounded wound states for the duration.<br /><br />Secondary DV:17. <br />When the dose wears off, the user rolls WILL + Resist Torture/Drugs + 1d10 against Secondary DV. If this fails, they take the secondary effect as noted in the core rule book.&nbsp;</p>"
+			"name": "Dentelle noire",
+			"description": "<p>L'effet principal dure 24 heures<br />L'utilisateur subit une perte d'Humanité de 2d6 quand il prend une dose, il récupère cette Humanité s'il ne subit pas l'effet secondaire de la Dentelle noire. Pendant toute la durée de l'effet principal, l'utilisateur ignore les effets des blessures graves.<br /><br /> L'effet secondaire (SD 17). <br />Si l'utilisateur n'était pas déjà accro à la Dentelle noire, il le devient. Tant qu'il est accro, ses REF sont réduits de 2 pts, sauf s'il subit actuellement l'effet principal de la drogue.</p>"
 		},
 		"Blue Glass": {
-			"name": "Blue Glass",
-			"description": "<p>Dose lasts 4 hours. <br />The GM may occasionally tell the user that they are seeing swirls of colours. When this happens the user loses their action on a single turn.<br /><br />Secondary DV: 15. <br />When the dose wears off, the user rolls WILL + Resist Torture/Drugs + 1d10 against Secondary DV. If this fails, they take the secondary effect as noted in the core rule book.&nbsp;</p>"
+			"name": "Verre bleu",
+			"description": "<p>L'effet principal dure 4 heures<br />Pendant toute la durée de l'effet principal, le MJ vous dira parfois que vous \"avez des flashs\", ce qui veut dire que vous hallucinez de manière brève, mais intense, en voyant les tourbillons de couleurs fluo. Vous ne pouvez pas effectuer d'action lors d'un tour dans cet état.<br /><br /> L'effet secondaire (SD 15). <br />Si l'utilisateur n'était pas déjà accro il le devient. Le MJ vous dira parfois que vous \"avez des flashs\", ce qui veut dire que vous hallucinez de manière brève, mais intense, en voyant les tourbillons de couleurs fluo. Vous ne pouvez pas effectuer d'action lors d'un tour dans cet état. Tant que vous n'êtes plus en manque vous n'avez plus de \"flashs\".</p>"
 		},
 		"Boost": {
 			"name": "Boost",
-			"description": "<p>Dose lasts 24 hours. <br />The user has increased INT by 2 points for the duration. <br /><br />Secondary DV: 17. <br />When the dose wears off, the user rolls WILL + Resist Torture/Drugs + 1d10 against Secondary DV. If this fails, they take the secondary effect as noted in the core rule book.&nbsp;</p>"
+			"description": "<p>L'effet principal dure 24 heures<br />L'INT de l'utilisateur augmente de 2 pts.<br /><br /> L'effet secondaire (SD 17). <br />Si l'utilisateur n'était pas déjà accro au Boost, il le devient. Tant qu'il est accro, son INT est réduit de 2 pts.</p>"
 		},
 		"Braindance Viewer": {
-			"name": "Braindance Viewer",
-			"description": "<p>Braindance viewing device.</p>"
+			"name": "Lecteur de danse sensorielle",
+			"description": "<p>Permet de vivre l'expérience de la danse de sensorielle.</p>"
 		},
 		"Bug Detector": {
 			"name": "Détecteur de micros",
-			"description": "<p>Detect listening devices. Range 2m/yds.</p>"
+			"description": "<p>Bipe quand l'utilisateur se trouve à 2 m d'un dispositif d'écoute.</p>"
 		},
 		"Carryall": {
-			"name": "Carryall",
-			"description": "<p>Bag.</p>"
+			"name": "Fourre-tout",
+			"description": "<p>Sac de transport</p>"
 		},
 		"Chemical Analyzer": {
 			"name": "Analyseur chimique",
-			"description": "<p>Determine chemical composition using sample database.</p>"
+			"description": "<p>Teste la composition chimique d'une substance.</p>"
 		},
 		"Computer": {
-			"name": "Computer",
-			"description": "<p>Desktop or laptop.</p>"
+			"name": "Ordinateur",
+			"description": "<p>Fixe ou ordinateur portable.</p>"
 		},
 		"Cryopump": {
-			"name": "Cryopump",
-			"description": "<p>Briefcase used for hooking up a wounded person. Places them in stasis. </p>"
+			"name": "Cryocuve",
+			"description": "<p>Une cryocuve est un conteneur de taille humaine capable d'accueillir un adulte. Si le Medtech réussit un test de Techniques médicales SD13, la cryocuve peut maintenir 1 personne en stase aussi longtemps qu'on le désire. Le sujet est considéré comme inconscient, mais guérit deux fois plus vite que la normale.</p>"
 		},
 		"Cryotank": {
-			"name": "Cryotank",
-			"description": "<p>Holds a fully-sized human, heals injuries faster than normal. </p>"
+			"name": "Cryopompe",
+			"description": "<p>Outil de la taille d'une mallette, contenant un sac à cadavre relié à une puissante pompe. Une fois le sujet volontaire ou inconscient placé dans le sac et relié à la pompe au prix d'une action, cette dernière y injecte une fluide qui maintient un humain entièrement dimensionné, soigne les blessures plus rapidement que d'habitude.</p>"
 		},
 		"Cyberdeck": {
-			"name": "Cyberdeck",
-			"description": "<p><span style=\"color: #191813; font-family: 'Audimat Mono'; background-color: #eaeaea;\">Netrunner deck. 7 slots.</span></p>"
+			"name": "Cyberconsole",
+			"description": "<p><span style=\"color: #191813; font-family: 'Audimat Mono'; background-color: #eaeaea;\">Cyberconsole du netrunner. 7 emplacements.</span></p>"
 		},
 		"Disposable Cell Phone": {
-			"name": "Disposable Cell Phone",
-			"description": "<p>Voice calls only.</p>"
+			"name": "Téléphone jetable",
+			"description": "<p>Appels vocaux uniquement.</p>"
 		},
 		"Drum Synthesizer": {
-			"name": "Drum Synthesizer",
-			"description": "<p>Makes drum sounds when connected to amplifier.</p>"
+			"name": "Pad de percussion électronique",
+			"description": "<p>Permet de recréer n'importe quel type d'instrument de percussion. Nécessite un ampli.</p>"
 		},
 		"Duct Tape": {
-			"name": "Duct Tape",
-			"description": "<p>Use it to tape stuff.</p>"
+			"name": "Ruban adhésif",
+			"description": "<p>Plusieurs couleurs disponibles</p>"
 		},
 		"Electric Guitar/Other Instrument": {
-			"name": "Electric Guitar/Other Instrument",
-			"description": "<p>Musical instrument. Electric instruments require an amplifier.</p>"
+			"name": "Guitare Électrique/Autre Instrument",
+			"description": "<p>Instrument de musique. Les instruments électriques nécessitent un amplificateur.</p>"
 		},
 		"Excellent Quality Cyberdeck": {
-			"name": "Excellent Quality Cyberdeck",
-			"description": "<p><span style=\"color: #191813; font-family: 'Audimat Mono'; background-color: #eaeaea;\">Netrunner deck. 9 slots.</span></p>"
+			"name": "Cyberconsole d'excellente qualité",
+			"description": "<p><span style=\"color: #191813; font-family: 'Audimat Mono'; background-color: #eaeaea;\">Cyberconsole du netrunner. 9 emplacements.</span></p>"
 		},
 		"Flashlight": {
-			"name": "Flashlight",
-			"description": "<p>10h of light on a single charge. 100m/yd range.</p>"
+			"name": "Lampe-torche",
+			"description": "<p>Lampe-torche qui porte à 100 m. La batterie dure 10 h.</p>"
 		},
 		"Food Stick": {
-			"name": "Food Stick",
-			"description": "<p>Meal replacement bar.</p>"
+			"name": "Barre nutritive",
+			"description": "<p>Un repas exécrable sous forme de barre</p>"
 		},
 		"Glow Paint": {
-			"name": "Glow Paint",
-			"description": "<p>Spraypaint with glow-in-the-dark effect.</p>"
+			"name": "Peinture phosphorescente",
+			"description": "<p>Peinture qui brille dans le noir.</p>"
 		},
 		"Glow Stick": {
-			"name": "Glow Stick",
-			"description": "<p>Duration: 10h. Range: 4m/yds.</p>"
+			"name": "Bâton lumineux",
+			"description": "<p>Durée : 10 h. Rayon : 4 m.</p>"
 		},
 		"Grapple Gun": {
-			"name": "Grapple Gun",
-			"description": "<p>Range: 30m/yds. Not usable as weapon.</p>"
+			"name": "Lance-grappin",
+			"description": "<p>Projette un grappin rattaché à un câble de 30 m. Ne peut pas servir d'arme.</p>"
 		},
 		"Handcuffs": {
-			"name": "Handcuffs",
-			"description": "<p>BODY>10 can break.</p>"
+			"name": "Menottes",
+			"description": "<p>Entrave les mouvements. Pour les briser, il faut avoir 10+ en COR.</p>"
 		},
 		"Homing Tracer": {
 			"name": "Traceur",
-			"description": "<p>Range: 1 mile.</p>"
+			"description": "<p>Permet de suivre une balise connectée au traceur sur un rayon d'un kilomètre.</p>"
 		},
 		"Inflatable Bed & Sleep-bag": {
-			"name": "Inflatable Bed & Sleep-bag",
-			"description": "<p>Portable sleeping set.</p>"
+			"name": "Matelas autogonflant et sac de couchage",
+			"description": "<p>Un matelas qui se gonfle tout seul et son sac de couchage.</p>"
 		},
 		"Kibble Pack": {
-			"name": "Kibble Pack",
-			"description": "<p>One meal.</p>"
+			"name": "Paquet de croquettes",
+			"description": "<p>Un repas.</p>"
 		},
 		"Linear Frame β (Beta)": {
-			"name": "Linear Frame β (Beta)",
-			"description": "<p>Exoskeleton. Requires 2 Interface Plugs. Increases BODY to 14 while plugged in. No changes to your HP or Deathsave. </p>"
+			"name": "Charpente linéaire Beta",
+			"description": "<p>Exosquelette. Nécessite 2 installations de ports d'interface neuronale pour fonctionner. Augmente le COR à 14. Aucun changement à vos PS ou à la sauvegarde contre la mort.</p>"
 		},
 		"Linear Frame ∑ (Sigma)": {
-			"name": "Linear Frame ∑ (Sigma)",
-			"description": "<p>Exoskeleton. Requires 1 Interface Plug. Increases BODY to 12 while plugged in. No changes to your HP or Deathsave. </p>"
+			"name": "Charpente linéaire Sigma",
+			"description": "<p>Exosquelette. Nécessite 1 installation de port d'interface neuronale pour fonctionner. Augmente le COR à 12. Aucun changement à vos PS ou à la sauvegarde contre la mort.</p>"
 		},
 		"Lock Picking Set": {
-			"name": "Lock Picking Set",
-			"description": "<p>Needed to pick mechanical locks.</p>"
+			"name": "Outils de crochetage",
+			"description": "<p>Permettent de crocheter les serrures mécaniques</p>"
 		},
 		"MRE": {
-			"name": "MRE",
-			"description": "<p>Portable meal. Self-heating.</p>"
+			"name": "Ration alimentaire",
+			"description": "<p>Repas autochauffant dans son emballage composé de plastique et d'aluminium.</p>"
 		},
 		"Medscanner": {
 			"name": "Médiscanner",
-			"description": "<p>+2 First Aid or Paramedic checks.</p>"
+			"description": "<p>Permet de diagnostiquer les blessures et les infections. +2 en Premier secours et en Assistance médicale.</p>"
 		},
 		"Medtech Bag": {
-			"name": "Medtech Bag",
-			"description": "<p>Medical equipment.</p>"
+			"name": "Sacoche de Medtech",
+			"description": "<p>Une sacoche contenant du matériel médical indispensable.</p>"
 		},
 		"Memory Chip": {
 			"name": "Puce Mémoire",
-			"description": "<p>Data storage.</p>"
+			"description": "<p>Puce. Support de stockage standard.</p>"
 		},
 		"Personal CarePak": {
-			"name": "Personal CarePak",
-			"description": "<p>Toothbrush etc.</p>"
+			"name": "Pack hygiène",
+			"description": "<p>Tout le nécessaire pour l'hygiène corporelle</p>"
 		},
 		"Pocket Amplifier": {
-			"name": "Pocket Amplifier",
-			"description": "<p>Duration: 6h. Supports two instruments.</p>"
+			"name": "Amplificateur portable",
+			"description": "<p> Permet de connecter jusqu'à 2 instruments. Durée de la batterie : 6 h.</p>"
 		},
 		"Poor Quality Cyberdeck": {
-			"name": "Poor Quality Cyberdeck",
-			"description": "<p><span style=\"color: #191813; font-family: 'Audimat Mono'; background-color: #eaeaea;\">Netrunner deck. 5 slots.</span></p>"
+			"name": "Cyberconsole de mauvaise qualité",
+			"description": "<p><span style=\"color: #191813; font-family: 'Audimat Mono'; background-color: #eaeaea;\">Cyberconsole du netrunner. 5 emplacements.</span></p>"
 		},
 		"Radar Detector": {
 			"name": "Détecteur de radar",
-			"description": "<p>Detect radar beam. Range: 100m/yd</p>"
+			"description": "<p>Bipe quand il détecte des ondes électromagnétiques émises à moins de 100 m.</p>"
 		},
 		"Radiation Suit": {
-			"name": "Radiation Suit",
-			"description": "<p>Protects the wearer from radiation.</p>"
+			"name": "Combinaison antiradiation",
+			"description": "<p>Protège le porteur des radiations.</p>"
 		},
 		"Radio Communicator": {
 			"name": "Communicateur radio",
-			"description": "<p>Range: 1 mile. In-ear.</p>"
+			"description": "<p>Permet à l'utilisateur de communiquer par radio dans un rayon de 1,6 km.</p>"
 		},
 		"Radio Scanner/Music Player": {
 			"name": "Récepteur radio/lecteur de musique",
-			"description": "<p>Receive radio transmissions. Range: 1 mile.</p>"
+			"description": "<p>Permet d'écouter de la musique disponible sur un puits de données ou une puce mémoire, ou bien d'écouter les stations radios qui émettent dans un rayon d'un kilomètre.</p>"
 		},
 		"Road Flare": {
-			"name": "Road Flare",
-			"description": "<p>Range: 100m/yd. Duration: 1h.</p>"
+			"name": "Fusée de détresse",
+			"description": "<p>Éclaire un rayon de 100 m pendant 1 h.</p>"
 		},
 		"Rope (60m/yd)": {
-			"name": "Rope (60m/yd)",
-			"description": "<p>Nylon.</p>"
+			"name": "Corde (60m)",
+			"description": "<p>Corde en nylon.</p>"
 		},
 		"Scrambler/Descrambler": {
 			"name": "Brouilleur/décrypteur",
-			"description": "<p>Comm scrambler/receiver.</p>"
+			"description": "<p>Permet de brouiller les communications ou de rétablir le signal.</p>"
 		},
 		"Smart Glasses": {
-			"name": "Smart Glasses",
-			"description": "<p>2 slots for cybereye options.</p>"
+			"name": "Lunettes connectées",
+			"description": "<p>Contient 2 emplacements pour installer des cyberoptiques.</p>"
 		},
 		"Smash": {
 			"name": "Smash",
-			"description": "<p>Dose lasts 4 hours. <br />The user feels happy and satisfied, receiving a temporary modifier of +2 to: Dance/Contortionist/Conversation/Human Perception/Persuasion/Acting. <br /><br />Secondary DV: 15. <br />When the dose wears off, the user rolls WILL + Resist Torture/Drugs + 1d10 against Secondary DV. If this fails, they take the secondary effect as noted in the core rule book.&nbsp;</p>\n<p>&nbsp;</p>"
+			"description": "<p>L'effet principal dure 4 heures<br /> Jaune, mousseux et vendu partout en cannette. Pendant toute la durée de l'effet principal, l'utilisateur se sent euphorique, acrobatique et heureux. Cela lui donne un bonus de +2 en Danse, Contorsion, Conversation, Psychologie et Jeu d'acteur.<br /><br /> L'effet secondaire (SD 15). <br />Si l'utilisateur n'était pas déjà accro au Smash, il le devient. Tant qu'il est accro, l'utilisateur obtient un malus de -2 en Danse, Contorsion, Conversation, Psychologie et Jeu d'acteur. Si vous êtes accro au Smash, votre personnage aura envie de prendre une nouvelle dose.</p>"
 		},
 		"Synthcoke": {
-			"name": "Synthcoke",
-			"description": "<p>Dose lasts 4 hours. <br />The user has increased REF by 1 point for the duration. The user feels paranoid occasionally. <br /><br />Secondary DV: 15. <br />When the dose wears off, the user rolls WILL + Resist Torture/Drugs + 1d10 against Secondary DV. If this fails, they take the secondary effect as noted in the core rule book.&nbsp;</p>\n<p>&nbsp;</p>"
+			"name": "Synthécoke",
+			"description": "<p>L'effet principal dure 4 heures<br />Pendant toute la durée de l'effet principal, les REF de l'utilisateur augmentent de 1 pts. De plus l'utilisateur a tendance à la paranoïa.<br /><br /> L'effet secondaire (SD 15). <br />Si l'utilisateur n'était pas déjà accro au Synthécoke, il le devient. Tant qu'il est accro, les REF de l'utilisateur sont réduits de 2 pts. Si vous êtes accro, votre personnage aura envie de prendre une nouvelle dose.</p>"
 		},
 		"Tech Bag": {
-			"name": "Tech Bag",
-			"description": "<p>Tool bag.</p>"
+			"name": "Trousse de Techie",
+			"description": "<p>Petite sacoche à outils pour les réparations.</p>"
 		},
 		"Techscanner": {
 			"name": "Technoscanner",
-			"description": "<p>+2 to multiple TECH-based skills.</p>"
+			"description": "<p>Permet de diagnostiquer les causes de panne matérielle. +2 aux compétences basées sur la Tech.</p>"
 		},
 		"Techtool": {
-			"name": "Techtool",
-			"description": "<p>Multi-purpose tool.</p>"
+			"name": "Technioutil",
+			"description": "<p>Un outil multifonction.</p>"
 		},
 		"Tent and Camping Equipment": {
-			"name": "Tent and Camping Equipment",
-			"description": "<p>For one person.</p>"
+			"name": "Tente et matériel de bivouac",
+			"description": "<p>Matériel de campement pour une personne.</p>"
 		},
 		"Tracer Button": {
-			"name": "Tracer Button",
-			"description": "<p>Can be tracked from up to a mile away with a homing tracer.</p>"
+			"name": " Balise pour traceur",
+			"description": "<p>Dispositif permettant d'être traqué à l'aide d'un traceur sur un rayon d'un kilomètre.</p>"
 		},
 		"Vial of Biotoxin": {
-			"name": "Vial of Biotoxin",
-			"description": "<p>3d6 damage unless Resist Torture/Drugs. Armor does not apply.</p>"
+			"name": "Fiole de biotoxines",
+			"description": "<p>Inflige 3d6 dégâts qui ne sont pas réduits par l'armure. Pour contrer son effet, on utilise Résistance à la torture/aux drogues.</p>"
 		},
 		"Vial of Poison": {
-			"name": "Vial of Poison",
-			"description": "<p>2d6 damage unless Resist Torture/Drugs. Armor does not apply.</p>"
+			"name": "Fiole de poison",
+			"description": "<p>Inflige 2d6 dégâts qui ne sont pas réduits par l'armure. Pour contrer son effet, on utilise Résistance à la torture/aux drogues.</p>"
 		},
 		"Video Camera": {
-			"name": "Video Camera",
-			"description": "<p>12hr per memory chip.</p>"
+			"name": "Caméra",
+			"description": "<p>Enregistre jusqu'à 12 h d'audio et de vidéo sur une puce mémoire.</p>"
 		},
 		"Virtuality Goggles": {
-			"name": "Virtuality Goggles",
-			"description": "<p>Overlay cyberspace imagery onto vision.</p>"
+			"name": "Lunettes de réalité virtuelle",
+			"description": "<p>Projette des images du cyberespace sur le monde réel.</p>"
 		}
 	}
 }
