@@ -1,41 +1,41 @@
 {
-	"label": "Weapons",
+	"label": "Armes",
 	"entries": {
 		"Air Pistol": {
-			"name": "Air Pistol",
-			"description": "<p>An Exotic Medium Pistol. Fires Paintballs. Refer to the full item description on pg. 347.&nbsp;</p>"
+			"name": "Pistolet à air comprimé",
+			"description": "<p>Un pistolet moyen ui tire des billes de peinture (et d'acide ! page 347).</p>"
 		},
 		"Assault Rifle": {
-			"name": "Assault Rifle",
-			"description": "<p>A standard-issue assault rifle. </p>"
+			"name": "Fusil d'assaut",
+			"description": "<p>Un fusil d'assaut ordinaire. </p>"
 		},
 		"Baseball Bat": {
-			"name": "Baseball Bat",
-			"description": "<p>A firmly weighted bat. A favourite weapon of the Baseball Furies. </p>"
+			"name": "Batte de baseball",
+			"description": "<p>Une batte de baseball ordinaire. </p>"
 		},
 		"Big Knucks": {
 			"name": "Super poings",
-			"description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>"
+			"description": "<p>Cybermatériel de type Arme. Vous devez avoir installé le cybermatériel approprié.</p>"
 		},
 		"Bow": {
-			"name": "Bow",
-			"description": "<p>A revitalized bow that must be reloaded after every attack. </p>"
+			"name": "Arc",
+			"description": "<p>Un arc moderne.</p>"
 		},
 		"Chainsaw": {
-			"name": "Chainsaw",
-			"description": "<p>A portable, refuelable saw that runs on CHOOH2. Lasts about 2-3 hours on one tank. </p>"
+			"name": "Tronçonneuse",
+			"description": "<p>Une Tronçonneuse qui fonctionne avec du CHOOH². 2-3 heures d'utilisation par réservoir.</p>"
 		},
 		"Combat Knife": {
-			"name": "Combat Knife",
-			"description": "<p>A knife fit for the streets.</p>"
+			"name": "Couteau de Combat",
+			"description": "<p>Un couteau adapté aux combats de rues.</p>"
 		},
 		"Constitution Arms Hurricane Assault Weapon": {
 			"name": "Constitution Arms Hurricane Assault Weapon",
 			"description": "<p>An Exotic Shotgun with 2 ROF. Cannot make aimed shots and needs BODY 11 or higher (unless mounted). Refer to the full item description on pg. 348.</p>"
 		},
 		"Crossbow": {
-			"name": "Crossbow",
-			"description": "<p>A crossbow which must be reloaded after every attack. </p>"
+			"name": "Arbalète",
+			"description": "<p>Une arbalète moderne</p>"
 		},
 		"Crowbar": {
 			"name": "Crowbar",
@@ -43,15 +43,15 @@
 		},
 		"Cybersnake": {
 			"name": "Cybercobra",
-			"description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>"
+			"description": "<p>Cybermatériel de type Arme. Vous devez avoir installé le cybermatériel approprié.</p>"
 		},
 		"Dartgun": {
 			"name": "Pistolet à fléchettes",
 			"description": "<p>An Exotic Very Heavy Pistol. Refer to the full item description on pg. 348.</p>"
 		},
 		"Excellent Assault Rifle": {
-			"name": "Excellent Assault Rifle",
-			"description": "<p>A standard-issue assault rifle. +1 to Attack.</p>"
+			"name": "Fusil d'assaut d'excellente qualité",
+			"description": "<p>Un fusil d'assaut. +1 au jet d'attaque.</p>"
 		},
 		"Excellent Baseball Bat": {
 			"name": "Excellent Baseball Bat",
@@ -82,12 +82,12 @@
 			"description": "<p>A high-impact grenade launcher. You can use a variety of grenades with this. +1 to Attack.</p>"
 		},
 		"Excellent Heavy Pistol": {
-			"name": "Excellent Heavy Pistol",
-			"description": "<p>A concealable, heavy pistol. +1 to Attack.</p>"
+			"name": "Pistolet lourd d'excellente qualité",
+			"description": "<p>Un pistolet lourd. Dissimulable. +1 au jet d'attaque.</p>"
 		},
 		"Excellent Heavy SMG": {
-			"name": "Excellent Heavy SMG",
-			"description": "<p>A heavy SMG. Due to its size it can't be concealed. +1 to Attack.</p>"
+			"name": "Pistolet-mitrailleur lourd d'excellente qualité",
+			"description": "<p>Un pistolet-mitrailleur lourd. Non dissimulable. +1 au jet d'attaque.</p>"
 		},
 		"Excellent Helicopter Blades": {
 			"name": "Excellent Helicopter Blades",
@@ -102,8 +102,8 @@
 			"description": "<p>A long-bladed knife with a variety of uses. Known to be a favourite to some gangs  of Night City.  +1 to Attack.</p>"
 		},
 		"Excellent Medium Pistol": {
-			"name": "Excellent Medium Pistol",
-			"description": "<p>A concealable, medium-sized pistol. +1 to Attack.</p>"
+			"name": "Pistolet moyen d'excellente qualité",
+			"description": "<p>Un pistolet de taille moyenne. Dissimulable. +1 au jet d'attaque.</p>"
 		},
 		"Excellent Naginata": {
 			"name": "Excellent Naginata",
@@ -114,8 +114,8 @@
 			"description": "<p>Bring out the big guns. This rocket launcher will do some damage. +1 to Attack.</p>"
 		},
 		"Excellent SMG": {
-			"name": "Excellent SMG",
-			"description": "<p>A concealable SMG. +1 to Attack.</p>"
+			"name": "Pistolet-mitrailleur d'excellente qualité",
+			"description": "<p>Un pistolet-mitrailleur. Dissimulable. +1 au jet d'attaque.</p>"
 		},
 		"Excellent Shotgun": {
 			"name": "Excellent Shotgun",
@@ -134,16 +134,16 @@
 			"description": "<p>An advancement over a regular bat. A number of nails have been hammered through towards the tip.  +1 to Attack.</p>"
 		},
 		"Excellent Sword": {
-			"name": "Excellent Sword",
-			"description": "<p>A bladed, hilted weapon. Specifically designed for cutting or thrusting.  +1 to Attack.</p>"
+			"name": "Épée d'excellente qualité",
+			"description": "<p>Une arme avec une lame et une poignée. Conçue pour couper. +1 au jet d'attaque.</p>"
 		},
 		"Excellent Tomahawk": {
 			"name": "Excellent Tomahawk",
 			"description": "<p>A light axe that can be thrown. +1 to Attack.</p>"
 		},
 		"Excellent Very Heavy Pistol": {
-			"name": "Excellent Very Heavy Pistol",
-			"description": "<p>A very heavy pistol. It can't be concealed. +1 to Attack.</p>"
+			"name": "Pistolet très lourd d'excellente qualité",
+			"description": "<p>Un pistolet très lourd. Non dissimulable. +1 au jet d'attaque.</p>"
 		},
 		"Flamethrower": {
 			"name": "Flamethrower",
@@ -154,12 +154,12 @@
 			"description": "<p>A high-impact grenade launcher. You can use a variety of grenades with this. </p>"
 		},
 		"Heavy Pistol": {
-			"name": "Heavy Pistol",
-			"description": "<p>A concealable, heavy pistol. </p>"
+			"name": "Pistolet lourd",
+			"description": "<p>Un pistolet lourd. Dissimulable </p>"
 		},
 		"Heavy SMG": {
-			"name": "Heavy SMG",
-			"description": "<p>A heavy SMG. Due to its size it can't be concealed. </p>"
+			"name": "Pistolet-mitrailleur lourd",
+			"description": "<p>Un pistolet-mitrailleur lourd. Non dissimulable.</p>"
 		},
 		"Helicopter Blades": {
 			"name": "Helicopter Blades",
@@ -186,8 +186,8 @@
 			"description": "<p>Throwing hands, does ignore half armor.</p>"
 		},
 		"Medium Pistol": {
-			"name": "Medium Pistol",
-			"description": "<p>A concealable, medium-sized pistol. </p>"
+			"name": "Pistolet moyen",
+			"description": "<p>Un pistolet de taille moyenne. Dissimulable </p>"
 		},
 		"Microwaver": {
 			"name": "Microwaver",
@@ -202,8 +202,8 @@
 			"description": "<p>A japanese wooden pole with a curved blade on one side. Favoured by Arasaka tactical teams for close engagements. </p>"
 		},
 		"Poor Assault Rifle": {
-			"name": "Poor Assault Rifle",
-			"description": "<p>A standard-issue assault rifle.  If you roll 1 on Attack (Crit fail) the gun jams and requires using an action to clear. </p>"
+			"name": "Fusil d'assaut de mauvaise qualité",
+			"description": "<p>Un fusil d'assaut. Si vous faites 1 sur un jet d'attaque (Échec critique) l'arme est enrayée et cela nécessite une action pour le désenrayer.</p>"
 		},
 		"Poor Baseball Bat": {
 			"name": "Poor Baseball Bat",
@@ -234,12 +234,12 @@
 			"description": "<p>A high-impact grenade launcher. You can use a variety of grenades with this.  If you roll 1 on Attack (Crit fail) the gun jams and requires using an action to clear. </p>"
 		},
 		"Poor Heavy Pistol": {
-			"name": "Poor Heavy Pistol",
-			"description": "<p>A concealable, heavy pistol.  If you roll 1 on Attack (Crit fail) the gun jams and requires using an action to clear. </p>"
+			"name": "Pistolet lourd de mauvaise qualité",
+			"description": "<p>Un pistolet lourd. Dissimulable. Si vous faites 1 sur un jet d'attaque (Échec critique) le pistolet est enrayé et cela nécessite une action pour le désenrayer.</p>"
 		},
 		"Poor Heavy SMG": {
-			"name": "Poor Heavy SMG",
-			"description": "<p>A heavy SMG. Due to its size it can't be concealed.  If you roll 1 on Attack (Crit fail) the gun jams and requires using an action to clear. </p>"
+			"name": "Pistolet-mitrailleur lourd de mauvaise qualité",
+			"description": "<p>Pistolet-mitrailleur lourd. Non dissimulable. Si vous faites 1 sur un jet d'attaque (Échec critique) l'arme est enrayée et cela nécessite une action pour le désenrayer.</p>"
 		},
 		"Poor Helicopter Blades": {
 			"name": "Poor Helicopter Blades",
@@ -254,8 +254,8 @@
 			"description": "<p>A long-bladed knife with a variety of uses. Known to be a favourite to some gangs  of Night City.  If you roll 1 on Attack (Crit Fail) the weapon fails in some way and requires an action to be made usable again.</p>"
 		},
 		"Poor Medium Pistol": {
-			"name": "Poor Medium Pistol",
-			"description": "<p>A concealable, medium-sized pistol. If you roll 1 on Attack (Crit fail) the gun jams and requires using an action to clear. </p>"
+			"name": "Pistolet moyen de mauvaise qualité",
+			"description": "<p>Un pistolet de taille moyenne de mauvaise qualité. Dissimulable. Si vous faites 1 sur un jet d'attaque (Échec critique) le pistolet est enrayé et cela nécessite une action pour le désenrayer.</p>"
 		},
 		"Poor Naginata": {
 			"name": "Poor Naginata",
@@ -266,8 +266,8 @@
 			"description": "<p>Bring out the big guns. This rocket launcher will do some damage.  If you roll 1 on Attack (Crit fail) the gun jams and requires using an action to clear. </p>"
 		},
 		"Poor SMG": {
-			"name": "Poor SMG",
-			"description": "<p>A concealable SMG.  If you roll 1 on Attack (Crit fail) the gun jams and requires using an action to clear. </p>"
+			"name": "Pistolet-mitrailleur de mauvaise qualité",
+			"description": "<p>Pistolet-mitrailleur. Dissimulable. Si vous faites 1 sur un jet d'attaque (Échec critique) l'arme est enrayée et cela nécessite une action pour le désenrayer.</p>"
 		},
 		"Poor Shotgun": {
 			"name": "Poor Shotgun",
@@ -286,16 +286,16 @@
 			"description": "<p>An advancement over a regular bat. A number of nails have been hammered through towards the tip.  If you roll 1 on Attack (Crit Fail) the weapon fails in some way and requires an action to be made usable again.</p>"
 		},
 		"Poor Sword": {
-			"name": "Poor Sword",
-			"description": "<p>A bladed, hilted weapon. Specifically designed for cutting or thrusting.  If you roll 1 on Attack (Crit Fail) the weapon fails in some way and requires an action to be made usable again.</p>"
+			"name": "Épée de mauvaise qualité",
+			"description": "<p>Une arme avec une lame et une poignée. Conçue pour couper. Si vous faites 1 sur un jet d'attaque (Échec critique) l'attaque échoue et cela nécessite une action afin que l'arme soit à nouveau utilisable.</p>"
 		},
 		"Poor Tomahawk": {
 			"name": "Poor Tomahawk",
 			"description": "<p>A light axe that can be thrown.  If you roll 1 on Attack (Crit Fail) the weapon fails in some way and requires an action to be made usable again.</p>"
 		},
 		"Poor Very Heavy Pistol": {
-			"name": "Poor Very Heavy Pistol",
-			"description": "<p>A very heavy pistol. It can't be concealed.  If you roll 1 on Attack (Crit fail) the gun jams and requires using an action to clear. </p>"
+			"name": "Pistolet très lourd de mauvaise qualité",
+			"description": "<p>Un pistolet très lourd. Non dissimulable. Si vous faites 1 sur un jet d'attaque (Échec critique) le pistolet est enrayé et cela nécessite une action pour le désenrayer.</p>"
 		},
 		"Rhinemetall EMG-86 Railgun": {
 			"name": "Rhinemetall EMG-86 Railgun",
@@ -303,15 +303,15 @@
 		},
 		"Rippers": {
 			"name": "Éventreurs",
-			"description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>"
+			"description": "<p>Cybermatériel de type Arme. Vous devez avoir installé le cybermatériel approprié.</p>"
 		},
 		"Rocket Launcher": {
 			"name": "Rocket Launcher",
 			"description": "<p>Bring out the big guns. This rocket launcher will do some damage. </p>"
 		},
 		"SMG": {
-			"name": "SMG",
-			"description": "<p>A concealable SMG. </p>"
+			"name": "Pistolet-mitrailleur",
+			"description": "<p>Un pistolet-mitrailleur. Dissimulable.</p>"
 		},
 		"Shotgun": {
 			"name": "Shotgun",
@@ -327,7 +327,7 @@
 		},
 		"Slice N' Dice": {
 			"name": "Slice N' Dice",
-			"description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>"
+			"description": "<p>Cybermatériel de type Arme. Vous devez avoir installé le cybermatériel approprié.</p>"
 		},
 		"Sniper Rifle": {
 			"name": "Sniper Rifle",
@@ -346,12 +346,12 @@
 			"description": "<p>An Exotic Heavy Pistol.&nbsp; Target is knocked unconscious if damage dealt would reduce them to under 1 HP. Doesn't cause Critical Injuries or ablate armor. Refer to the full item description on pg. 349.</p>"
 		},
 		"Sword": {
-			"name": "Sword",
-			"description": "<p>A bladed, hilted weapon. Specifically designed for cutting or thrusting. </p>"
+			"name": "Épée",
+			"description": "<p>Une arme avec une lame et une poignée.</p>"
 		},
 		"Talon Foot": {
 			"name": "Ergot",
-			"description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>"
+			"description": "<p>Cybermatériel de type Arme. Vous devez avoir installé le cybermatériel approprié.</p>"
 		},
 		"Tomahawk": {
 			"name": "Tomahawk",
@@ -362,20 +362,20 @@
 			"description": "<p>An Exotic Assault Rifle that uses only Autofire. Holds 40 bullets, using 20 bullets with each attack. Uses Autofire rules with a multiplication up to a maximum of 5. Requires BODY 11 or higher (unless mounted). Refer to the full item description on pg. 349.&nbsp;</p>"
 		},
 		"Unarmed": {
-			"name": "Unarmed",
-			"description": "<p>Throwing hands, does not ignore half armor.</p>"
+			"name": "Désarmé",
+			"description": "<p>Utilise ses poings/pieds pour attaquer, n'ignore pas de moité l'armure.</p>"
 		},
 		"Vampyres": {
 			"name": "Vampyres",
-			"description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>"
+			"description": "<p>Cybermatériel de type Arme. Vous devez avoir installé le cybermatériel approprié.</p>"
 		},
 		"Very Heavy Pistol": {
-			"name": "Very Heavy Pistol",
-			"description": "<p>A very heavy pistol. It can't be concealed. </p>"
+			"name": "Pistolet très lourd",
+			"description": "<p>Un pistolet très lourd. Non dissimulable </p>"
 		},
 		"Wolvers": {
 			"name": "Etripeurs",
-			"description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>"
+			"description": "<p>Cybermatériel de type Arme. Vous devez avoir installé le cybermatériel approprié.</p>"
 		}
 	}
 }
