@@ -1,45 +1,45 @@
 {
-	"label": "Roles",
+	"label": "Rôle",
 	"entries": {
 		"Exec": {
-			"name": "Exec",
-			"description": "<p>Business executives and fat-cat defenders ready to risk it all to rise the corporate ladder and realize the New American dream.</p>"
+			"name": "Corporatiste",
+			"description": "<p>Cadres d'entreprise et corsaires du monde du business qui luttent pour rétablir le règne des mégacorporations.</p>"
 		},
 		"Fixer": {
 			"name": "Fixer",
-			"description": "<p>They can get anyone anything, as long as the price is right. Using their charm and skills of trade, they make the deals that keep the economy of the Dark Future flowing.</p>"
+			"description": "<p>Trafiquants, contrebandiers, négociateurs et informateurs qui règnent sur les marchés de minuit, dans la Rue d'après-guerre.</p>"
 		},
 		"Lawman": {
-			"name": "Lawman",
-			"description": "<p>Renegade defenders, corporate strike teams, or the last remnants of a government police force, they patrol the streets to enforce some order in an otherwise lawless world.</p>"
+			"name": "Justicier",
+			"description": "<p>Des agents de l'autorité augmentés qui patrouillent dans les rues sauvages et les autoroutes ou règnent les barbares de la route.</p>"
 		},
 		"Media": {
-			"name": "Media",
-			"description": "<p>Newspeople, influencers, and cultural phenomena, they are ready to expose the truth by any means necessary.</p>"
+			"name": "Média",
+			"description": "<p>Journalistes, stars médiatiques et influenceurs qui risquent tout au nom de la vérité ou pour la gloire.</p>"
 		},
 		"Medtech": {
 			"name": "Medtech",
-			"description": "<p>Backalley doctors and mechanics of cyberware, using their skills to keep fellow edgerunners in good shape and cybered up, often at a price.</p>"
+			"description": "<p>Docteurs de quartiers qui exercent sans autorisation et médecins de la cybernétique ; ils réparent aussi bien la chair que le métal.</p>"
 		},
 		"Netrunner": {
 			"name": "Netrunner",
-			"description": "<p>Master hackers who put themselves at risk as they jack into cyberspace to download secrets and infiltrate networks.</p>"
+			"description": "<p>Maîtres cybernétiques du piratage de l'après-NET et cambrioleurs des secrets de la psyché.</p>"
 		},
 		"Nomad": {
-			"name": "Nomad",
-			"description": "<p>Car people, truckers, transportation afficionados, air-pirates, they are the sole carriers of product across the world, maintaining the transport and supply chains in the time of the Red.</p>"
+			"name": "Nomade",
+			"description": "<p>Experts en transports, quintessence des guerriers de la route, pirates et contrebandiers qui relient les communautés du monde entier.</p>"
 		},
 		"Rockerboy": {
-			"name": "Rockerboy",
-			"description": "<p>Rebellious performance artists who use their craft to influence fans/crowds and fight back.</p>"
+			"name": "Rockeur",
+			"description": "<p>Rebelles rock'n'roll qui défient l'autorité à l'aide de concerts, d'œuvres d'art et de discours enflammés.</p>"
 		},
 		"Solo": {
 			"name": "Solo",
-			"description": "<p>Experts in combat who use their fighting prowess to dominate in the lawless time of the Red.</p>"
+			"description": "<p>Assassins, gardes du corps, tueurs à gages et mercenaire.</p>"
 		},
 		"Tech": {
-			"name": "Tech",
-			"description": "<p>Superior understanding of all-things tech allow them to invent, upgrade, and repair to keep the Dark Future functioning.</p>"
+			"name": "Techie",
+			"description": "<p>Mécaniciens renégats et inventeurs des supertechnologies ; ce sont eux qui assurent le fonctionnement de ce futur sombre.</p>"
 		}
 	}
 }
