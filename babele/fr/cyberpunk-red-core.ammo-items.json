@@ -1,5 +1,5 @@
 {
-	"label": "Munition",
+	"label": "Munitions",
 	"entries": {
 		"Armor Piercing Arrow": {
 			"name": "Flèche perforante",
@@ -154,7 +154,7 @@
 			"description": "<p>Ne cause pas de blessure critique et ne peut perforer une armure. Les dégâts laissent la cible à au moins 1 PS. Elle compte comme une munition standard lorsqu'elle est utilisée avec une arme exotique</p>"
 		},
 		"Rubber Medium Pistol": {
-			"name": "Pistolet moyen en Caoutchouc",
+			"name": "Pistolet moyen en caoutchouc",
 			"description": "<p>Ne cause pas de blessure critique et ne peut perforer une armure. Les dégâts laissent la cible à au moins 1 PS. Elle compte comme une munition standard lorsqu'elle est utilisée avec une arme exotique</p>"
 		},
 		"Rubber Rifle": {
