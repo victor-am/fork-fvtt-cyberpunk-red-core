@@ -62,7 +62,8 @@ export default class CPRActorSheet extends ActorSheet {
   /**
    * Get actor data into a more convenient organized structure. This should be called sparingly in code.
    * Only add new data points to getData when you need a complex struct, not when you only need to add
-   * new data points to shorten dataPaths.
+   * new data points to shorten dataPaths. Remember, this data is on the CPRActorSheet object, not the
+   * CPRActor object it is tied to. (this.actor)
    *
    * @override
    * @returns {Object} data - a curated structure of actorSheet data
@@ -91,8 +92,41 @@ export default class CPRActorSheet extends ActorSheet {
         });
       });
       data.filteredItems.programsInstalled = programsInstalled;
+      data.filteredEffects = this.prepareActiveEffectCategories();
     }
+
     return data;
+  }
+
+  /**
+   * Prepare the data structure for Active Effects which are currently applied to this actor.
+   * This came from the DND5E active-effect.js code.
+   *
+   * @returns {Object}                  Data for rendering
+   */
+  prepareActiveEffectCategories() {
+    LOGGER.trace("prepareActiveEffectCategories | CPRActorSheet | Called.");
+    const categories = {
+      active: {
+        type: "active",
+        label: SystemUtils.Localize("CPR.characterSheet.rightPane.effects.active"),
+        effects: [],
+      },
+      inactive: {
+        type: "inactive",
+        label: SystemUtils.Localize("CPR.characterSheet.rightPane.effects.inactive"),
+        effects: [],
+      },
+    };
+
+    // Iterate over active effects, classifying them into categories
+    for (const e of this.actor.effects) {
+      e._getSourceName(); // Trigger a lookup for the source name
+      if (e.data.disabled || e.data.isSuppressed) categories.inactive.effects.push(e);
+      else categories.active.effects.push(e);
+    }
+
+    return categories;
   }
 
   /**
@@ -215,27 +249,32 @@ export default class CPRActorSheet extends ActorSheet {
    */
   async _onRoll(event) {
     LOGGER.trace("_onRoll | CPRActorSheet | Called.");
-    let rollType = $(event.currentTarget).attr("data-roll-type");
+    let rollType = SystemUtils.GetEventDatum(event, "data-roll-type");
     let cprRoll;
     let item = null;
     switch (rollType) {
       case CPRRolls.rollTypes.DEATHSAVE:
       case CPRRolls.rollTypes.STAT: {
-        const rollName = $(event.currentTarget).attr("data-roll-title");
+        const rollName = SystemUtils.GetEventDatum(event, "data-roll-title");
         cprRoll = this.actor.createRoll(rollType, rollName);
         break;
       }
-      case CPRRolls.rollTypes.ROLEABILITY:
-      case CPRRolls.rollTypes.SKILL: {
+      case CPRRolls.rollTypes.ROLEABILITY: {
         const itemId = CPRActorSheet._getItemId(event);
-        const rollSubType = $(event.currentTarget).attr("data-roll-subtype");
-        const subRoleName = $(event.currentTarget).attr("data-roll-title");
+        const rollSubType = SystemUtils.GetEventDatum(event, "data-roll-subtype");
+        const subRoleName = SystemUtils.GetEventDatum(event, "data-roll-title");
         const rollInfo = {
           rollSubType,
           subRoleName,
         };
         item = this._getOwnedItem(itemId);
         cprRoll = item.createRoll(rollType, this.actor, rollInfo);
+        break;
+      }
+      case CPRRolls.rollTypes.SKILL: {
+        const itemId = CPRActorSheet._getItemId(event);
+        item = this._getOwnedItem(itemId);
+        cprRoll = item.createRoll(rollType, this.actor);
         break;
       }
       case CPRRolls.rollTypes.DAMAGE: {
@@ -256,8 +295,8 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
       case CPRRolls.rollTypes.INTERFACEABILITY: {
-        const interfaceAbility = $(event.currentTarget).attr("data-interface-ability");
-        const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
+        const interfaceAbility = SystemUtils.GetEventDatum(event, "data-interface-ability");
+        const cyberdeckId = SystemUtils.GetEventDatum(event, "data-cyberdeck-id");
         const cyberdeck = this._getOwnedItem(cyberdeckId);
         const netRoleItem = this.actor.data.filteredItems.role.find((r) => r.data.name === this.actor.data.data.roleInfo.activeNetRole);
         if (!netRoleItem) {
@@ -269,9 +308,9 @@ export default class CPRActorSheet extends ActorSheet {
         break;
       }
       case CPRRolls.rollTypes.CYBERDECKPROGRAM: {
-        const programId = $(event.currentTarget).attr("data-program-id");
-        const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
-        const executionType = $(event.currentTarget).attr("data-execution-type");
+        const programId = SystemUtils.GetEventDatum(event, "data-program-id");
+        const cyberdeckId = SystemUtils.GetEventDatum(event, "data-cyberdeck-id");
+        const executionType = SystemUtils.GetEventDatum(event, "data-execution-type");
         const cyberdeck = this._getOwnedItem(cyberdeckId);
         const netRoleItem = this.actor.data.filteredItems.role.find((r) => r.data.name === this.actor.data.data.roleInfo.activeNetRole);
         if (!netRoleItem) {
@@ -334,7 +373,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   _getFireCheckbox(event) {
     LOGGER.trace("_getFireCheckbox | CPRActorSheet | Called.");
-    const weaponID = $(event.currentTarget).attr("data-item-id");
+    const weaponID = SystemUtils.GetEventDatum(event, "data-item-id");
     const box = this.actor.getFlag("cyberpunk-red-core", `firetype-${weaponID}`);
     if (box) {
       return box;
@@ -374,7 +413,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   async _ablateArmor(event) {
     LOGGER.trace("_ablateArmor | CPRActorSheet | Called.");
-    const location = $(event.currentTarget).attr("data-location");
+    const location = SystemUtils.GetEventDatum(event, "data-location");
     this.actor._ablateArmor(location, 1);
   }
 
@@ -392,7 +431,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _itemAction(event) {
     LOGGER.trace("_itemAction | CPRActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
-    const actionType = $(event.currentTarget).attr("data-action-type");
+    const actionType = SystemUtils.GetEventDatum(event, "data-action-type");
     if (item) {
       switch (actionType) {
         case "delete": {
@@ -440,8 +479,8 @@ export default class CPRActorSheet extends ActorSheet {
    */
   _makeArmorCurrent(event) {
     LOGGER.trace("_makeArmorCurrent | CPRActorSheet | Called.");
-    const location = $(event.currentTarget).attr("data-location");
-    const id = $(event.currentTarget).attr("data-item-id");
+    const location = SystemUtils.GetEventDatum(event, "data-location");
+    const id = SystemUtils.GetEventDatum(event, "data-item-id");
     this.actor.makeThisArmorCurrent(location, id);
   }
 
@@ -525,10 +564,10 @@ export default class CPRActorSheet extends ActorSheet {
    */
   static _getItemId(event) {
     LOGGER.trace("_getItemId | CPRActorSheet | Called.");
-    let id = $(event.currentTarget).parents(".item").attr("data-item-id");
+    let id = SystemUtils.GetEventDatum(event, "data-item-id");
     if (typeof id === "undefined") {
       LOGGER.debug("Could not find itemId in parent elements, trying currentTarget");
-      id = $(event.currentTarget).attr("data-item-id");
+      id = SystemUtils.GetEventDatum(event, "data-item-id");
     }
     return id;
   }
@@ -561,7 +600,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   static _getObjProp(event) {
     LOGGER.trace("_getObjProp | CPRActorSheet | Called.");
-    return $(event.currentTarget).attr("data-item-prop");
+    return SystemUtils.GetEventDatum(event, "data-item-prop");
   }
 
   /**
@@ -647,8 +686,8 @@ export default class CPRActorSheet extends ActorSheet {
    */
   _fireCheckboxToggle(event) {
     LOGGER.trace("_fireCheckboxToggle | CPRActorSheet | Called.");
-    const weaponID = $(event.currentTarget).attr("data-item-id");
-    const firemode = $(event.currentTarget).attr("data-fire-mode");
+    const weaponID = SystemUtils.GetEventDatum(event, "data-item-id");
+    const firemode = SystemUtils.GetEventDatum(event, "data-fire-mode");
     const flag = getProperty(this.actor.data, `flags.cyberpunk-red-core.firetype-${weaponID}`);
     LOGGER.debug(`firemode is ${firemode}`);
     LOGGER.debug(`weaponID is ${weaponID}`);
@@ -983,7 +1022,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   _onDragItemStart(event) {
     LOGGER.trace("_onDragItemStart | CPRActorSheet | called.");
-    const itemId = event.currentTarget.getAttribute("data-item-id");
+    const itemId = SystemUtils.GetEventDatum(event, "data-item-id");
     const item = this.actor.getEmbeddedDocument("Item", itemId);
     const tokenId = (this.token === null) ? null : this.token.id;
     event.dataTransfer.setData("text/plain", JSON.stringify({
@@ -991,7 +1030,7 @@ export default class CPRActorSheet extends ActorSheet {
       actorId: this.actor.id,
       tokenId,
       data: item,
-      root: event.currentTarget.getAttribute("root"),
+      root: SystemUtils.GetEventDatum(event, "root"),
     }));
   }
 

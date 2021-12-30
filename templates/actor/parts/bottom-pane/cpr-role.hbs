@@ -10,15 +10,19 @@
           <div class="collapsible">
             <li class="item items-header flexrow" data-item-id="{{role.data._id}}">
               <span class="item-name role-name bg-black text-nowrap text-padding-left" id="roleTab-{{role}}">
-                <a class = "item-edit">{{role.data.name}} {{localize "CPR.characterSheet.bottomPane.role.abilities"}}&nbsp;</a>
+                <a class="item-edit">{{role.data.name}} {{localize "CPR.characterSheet.bottomPane.role.abilities"}}&nbsp;</a>
                 <a class="item-action" data-action-type="delete"><i class="fas fa-trash-alt fg-red" title="{{localize "CPR.actorSheets.commonActions.deleteItem"}}"></i></a>
               </span>
+              <span class="item-detail role-rank bg-black text-nowrap">{{localize "CPR.characterSheet.rightPane.skills.skillMod"}}</span>
               <span class="item-detail role-rank bg-black text-nowrap text-right">{{localize "CPR.characterSheet.bottomPane.role.rank"}}</span>
             </li>
             <ol class="items-list">
               <li class="item flexrow" draggable="true" data-item-id="{{role.data._id}}">
                 <div class="item-name role-name flexrow  text-nowrap">
                   {{#if role.data.data.hasRoll}}<a class="rollable ability-name text-bold" data-roll-type="roleAbility" data-roll-subtype = "mainRoleAbility" data-roll-title="{{role.data.data.mainRoleAbility}}">&diams;{{/if}}<span class="text-bold ability-name">{{role.data.data.mainRoleAbility}}:</span>{{#if role.data.data.hasRoll}}</a>{{/if}}
+                </div>
+                <div class="item-detail ability-rank text-nowrap {{#if (cprCompare (cprGetSkillBonus role.data.data.mainRoleAbility ../actor) "===" 0)}} zero-not-visible {{/if}}">
+                  {{cprGetSkillBonus role.data.data.mainRoleAbility ../actor}}
                 </div>
                 <div class="item-detail ability-rank text-nowrap">
                   <input class="number ability-input" value="{{role.data.data.rank}}" data-role-name="{{role.data.name}}" data-ability-name="{{role.data.data.mainRoleAbility}}" type="number">
@@ -28,6 +32,9 @@
               <li class="item flexrow" draggable="true" data-item-id="{{role.data._id}}">
                 <div class="item-name role-name flexrow  text-nowrap">
                   {{#if ability.hasRoll}}<a class="rollable ability-name subskill" data-roll-type="roleAbility" data-roll-subtype = "subRoleAbility" data-roll-title="{{ability.name}}">&nbsp;&diams;{{else}}<span class="ability-name">&nbsp;{{/if}}{{ability.name}}:{{#if ability.hasRoll}}</a>{{else}}</span>{{/if}}
+                </div>
+                <div class="item-detail ability-rank text-nowrap {{#if (cprCompare (cprGetSkillBonus ability.name ../actor) "===" 0)}} zero-not-visible {{/if}}">
+                  {{cprGetSkillBonus ability.name ../actor}}
                 </div>
                 <div class="item-detail ability-rank text-nowrap">
                   <input class="number ability-input" value="{{ability.rank}}" data-role-name="{{role}}" data-ability-name="{{role.data.data.mainRoleAbility}}" data-subskill-name="{{ability.name}}" type="number">

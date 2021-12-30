@@ -186,7 +186,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     LOGGER.debug(event.keyCode);
     if (event.keyCode === 46) {
       LOGGER.debug("DEL key was pressed");
-      const itemId = $(event.currentTarget).attr("data-item-id");
+      const itemId = SystemUtils.GetEventDatum(event, "data-item-id");
       const item = this._getOwnedItem(itemId);
       switch (item.type) {
         case "skill": {
@@ -199,7 +199,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
           if (item.data.data.core === true) {
             SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.cannotDeleteCoreCyberware"));
           } else {
-            const foundationalId = $(event.currentTarget).attr("data-foundational-id");
+            const foundationalId = SystemUtils.GetEventDatum(event, "data-foundational-id");
             const dialogTitle = SystemUtils.Localize("CPR.dialog.removeCyberware.title");
             const dialogMessage = `${SystemUtils.Localize("CPR.dialog.removeCyberware.text")} ${item.name}?`;
             const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
@@ -231,7 +231,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
    */
   async _handleInstallAction(event) {
     LOGGER.trace("_handleInstallAction | CPRMookActorSheet | Called.");
-    const itemId = $(event.currentTarget).attr("data-item-id");
+    const itemId = SystemUtils.GetEventDatum(event, "data-item-id");
     const item = this._getOwnedItem(itemId);
     if (event.shiftKey) {
       if (item.type === "cyberware") {
@@ -240,7 +240,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
         } else if (item.data.data.isInstalled === false) {
           this.actor.addCyberware(itemId);
         } else {
-          const foundationalId = $(event.currentTarget).attr("data-foundational-id");
+          const foundationalId = SystemUtils.GetEventDatum(event, "data-foundational-id");
           const dialogTitle = SystemUtils.Localize("CPR.dialog.removeCyberware.title");
           const dialogMessage = `${SystemUtils.Localize("CPR.dialog.removeCyberware.text")} ${item.name}?`;
           const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);

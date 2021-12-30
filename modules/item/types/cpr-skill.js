@@ -36,6 +36,8 @@ export default class CPRSkillItem extends CPRItem {
     const skillLevel = itemData.level;
     let roleName;
     let roleValue = 0;
+
+    // some role abilities modify skills too, so we account for that here
     actor.data.filteredItems.role.forEach((r, index1) => {
       const roleSkillBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.bonuses.some((b) => b.name === skillName));
       if (roleSkillBonuses.length > 0 && index1 === 0) {
@@ -48,7 +50,15 @@ export default class CPRSkillItem extends CPRItem {
           roleValue += Math.floor(b.data.data.rank / b.data.data.bonusRatio);
         });
       }
-      const subroleSkillBonuses = r.data.data.abilities.filter((a) => a.bonuses.some((b) => b.name === skillName));
+      // check whether a sub-ability of a role has the bonuses property. They might affect skills.
+      const subroleSkillBonuses = [];
+      r.data.data.abilities.forEach((a) => {
+        if ("bonuses" in a) {
+          a.bonuses.forEach((b) => {
+            if (b.name === skillName) subroleSkillBonuses.push(a);
+          });
+        }
+      });
       if (subroleSkillBonuses.length > 0) {
         subroleSkillBonuses.forEach((b, index3) => {
           if (roleName) {
@@ -63,20 +73,9 @@ export default class CPRSkillItem extends CPRItem {
     const cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel, roleName, roleValue);
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
     cprRoll.addMod(actor.getWoundStateMods());
-    cprRoll.addMod(this._getSkillMod());
     cprRoll.addMod(actor.getUpgradeMods(statName));
     cprRoll.addMod(actor.getUpgradeMods(skillName));
-    cprRoll.addMod(actor.data.bonuses[skillName]); // active effects
+    cprRoll.addMod(actor.data.bonuses[SystemUtils.slugify(skillName)]); // active effects
     return cprRoll;
-  }
-
-  /**
-   * Get the mod associated with this skill.
-   *
-   * @returns {Number}
-   */
-  _getSkillMod() {
-    LOGGER.trace("_getSkillMod | CPRSkillItem | Called.");
-    return this.data.data.skillmod;
   }
 }

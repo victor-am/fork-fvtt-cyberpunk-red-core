@@ -1,4 +1,5 @@
 /* globals game */
+import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
 import CPRActor from "./cpr-actor.js";
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
@@ -53,7 +54,6 @@ export default class CPRCharacterActor extends CPRActor {
   _calculateDerivedStats() {
     LOGGER.trace("_calculateDerivedStats | CPRCharacterActor | Called.");
     const actorData = this.data;
-    actorData.filteredEffects = this.prepareActiveEffectCategories();
     actorData.filteredItems = this.itemTypes;
 
     const { stats } = actorData.data;
@@ -123,5 +123,40 @@ export default class CPRCharacterActor extends CPRActor {
     derivedStats.deathSave.basePenalty = basePenalty;
     derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
     this.data.data.derivedStats = derivedStats;
+  }
+
+  /**
+   * Create an active effect on this actor. This method belongs here so migration scripts can
+   * dynamically generate effects based on custom mods already on the actor from earlier versions.
+   *
+   * @returns {CPRActiveEffect} the new document
+   */
+  createEffect() {
+    LOGGER.trace("createEffect | CPRCharacterActor | Called.");
+    return this.createEmbeddedDocuments("ActiveEffect", [{
+      label: SystemUtils.Localize("CPR.itemSheet.effects.newEffect"),
+      icon: "icons/svg/aura.svg",
+      origin: this.uuid,
+      disabled: false,
+    }]);
+  }
+
+  /**
+   * Delete the desired effect from this actor. Pops up a confirmation box if permitted.
+   *
+   * @param {CPRActiveEffect} effect - the effect to delete
+   * @returns null
+   */
+  static async deleteEffect(effect) {
+    LOGGER.trace("deleteEffect | CPRCharacterActor | Called.");
+    const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
+    if (setting) {
+      const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${effect.data.label}?`;
+      const confirmDelete = await ConfirmPrompt.RenderPrompt(
+        SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"), promptMessage,
+      ).catch((err) => LOGGER.debug(err));
+      if (!confirmDelete) return;
+    }
+    effect.delete();
   }
 }

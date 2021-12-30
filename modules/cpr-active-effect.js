@@ -6,10 +6,6 @@ import LOGGER from "./utils/cpr-logger.js";
  * @extends {ActiveEffect}
  */
 export default class CPRActiveEffect extends ActiveEffect {
-  // XXX: I don't know why this is needed or whether it is even valid js. 5E does it, and without it,
-  // there are errors. :(
-  // isSuppressed = false;
-
   /**
    * Get the item that provides this active effect. You might think this is simply
    * this.parent, but that returns the actor if this is on an owned item! Instead
@@ -19,17 +15,18 @@ export default class CPRActiveEffect extends ActiveEffect {
    * an actor.
    */
   getSourceItem() {
+    // TODO: some of the logic here overlaps with cpr-systemUtils.GetEffect()
     LOGGER.trace("getSourceItem | CPRActiveEffect | Called.");
     // Example origin value for an AE on an actor: "Actor.voAMugZgXyH2OG9l.Item.ioY6vLPzo2ZuhXuS"
     // AE provided by an Item: "Item.ioY6vLPzo2ZuhXuS"
     const [parentType, parentId, documentType, documentId] = this.data.origin?.split(".") ?? [];
-    if (parentType === "Item") return this.parent;
-    // LOGGER.debugObject(documentType);
-    // LOGGER.debugObject(this.data.origin?.split(".") ?? []);
+    if ((parentType === "Actor") && !documentType) return null; // effect on Actor itself, no Item to return
+    if (parentType === "Item") return this.parent; // effect is on an unowned Item
     if ((parentType !== "Actor") || (parentId !== this.parent.id) || (documentType !== "Item")) {
-      LOGGER.error("This AE has a crazy origin!");
+      LOGGER.error(`This AE has a crazy origin: ${this.data.origin}`);
       return null;
     }
+    // AE is on an actor and inheriting from an Item it owns
     const item = this.parent.items.get(documentId);
     if (!item) return null;
     return item;

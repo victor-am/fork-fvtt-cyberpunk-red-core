@@ -34,7 +34,6 @@ export default class CPRActor extends Actor {
         this._calculateDerivedStats();
       } else {
         const actorData = this.data;
-        actorData.filteredEffects = this.prepareActiveEffectCategories();
         actorData.filteredItems = this.itemTypes;
       }
     }
@@ -88,38 +87,6 @@ export default class CPRActor extends Actor {
     LOGGER.trace("applyActiveEffects | CPRActor | Called.");
     this.effects.forEach((e) => e.determineSuppression());
     return super.applyActiveEffects();
-  }
-
-  /**
-   * Prepare the data structure for Active Effects which are currently applied to this actor.
-   * This came from the DND5E active-effect.js code.
-   *
-   * @param {ActiveEffect[]} effects    The array of Active Effect instances to prepare sheet data for
-   * @returns {object}                  Data for rendering
-   */
-  prepareActiveEffectCategories() {
-    LOGGER.trace("prepareActiveEffectCategories | CPRActor | Called.");
-    const categories = {
-      active: {
-        type: "active",
-        label: game.i18n.localize("CPR.characterSheet.rightPane.effects.active"),
-        effects: [],
-      },
-      inactive: {
-        type: "inactive",
-        label: game.i18n.localize("CPR.characterSheet.rightPane.effects.inactive"),
-        effects: [],
-      },
-    };
-
-    // Iterate over active effects, classifying them into categories
-    for (const e of this.data.effects) {
-      // e._getSourceName(); // Trigger a lookup for the source name
-      if (e.data.disabled || e.data.isSuppressed) categories.inactive.effects.push(e);
-      else categories.active.effects.push(e);
-    }
-
-    return categories;
   }
 
   /**

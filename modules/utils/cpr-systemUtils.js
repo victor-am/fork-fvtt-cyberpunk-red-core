@@ -295,7 +295,7 @@ export default class CPRSystemUtils {
       const item = actor.items.find((i) => i.data._id === originBits[3]);
       return item.effects.find((e) => e.data._id === effectId);
     }
-    LOGGER.error(`This AE origin is crazy! ${origin}`);
+    LOGGER.error(`This AE has a crazy origin: ${origin}`);
     return null;
   }
 
@@ -312,7 +312,7 @@ export default class CPRSystemUtils {
     LOGGER.trace("GetEventDatum | CPRSystemUtils | Called.");
     let id = $(event.currentTarget).attr(datum);
     if (typeof id === "undefined") {
-      LOGGER.debug(`Could not find ${datum} in currentTarget trying parents`);
+      LOGGER.debug(`Could not find ${datum} in currentTarget trying .item parents`);
       id = $(event.currentTarget).parents(".item").attr(datum);
       if (typeof id === "undefined") {
         LOGGER.error(`Could not find ${datum} in the event data!`);

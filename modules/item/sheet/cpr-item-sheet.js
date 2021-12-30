@@ -157,7 +157,7 @@ export default class CPRItemSheet extends ItemSheet {
   _itemCheckboxToggle(event) {
     LOGGER.trace("_itemCheckboxToggle | CPRItemSheet | Called.");
     const itemData = duplicate(this.item.data);
-    const target = $(event.currentTarget).attr("data-target");
+    const target = SystemUtils.GetEventDatum(event, "data-target");
     const value = !getProperty(itemData, target);
     if (target === "data.concealable.concealable") {
       this.item.setConcealable(value);
@@ -174,7 +174,7 @@ export default class CPRItemSheet extends ItemSheet {
     const itemData = duplicate(this.item.data);
     // the target the option wants to be put into
     const target = $(event.currentTarget).parents(".item-multi-select").attr("data-target");
-    const value = $(event.currentTarget).attr("data-value");
+    const value = SystemUtils.GetEventDatum(event, "data-value");
     if (hasProperty(itemData, target)) {
       const prop = getProperty(itemData, target);
       if (prop.includes(value)) {
@@ -239,7 +239,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _selectSubroleBonuses(event) {
     LOGGER.trace("ItemSheet | _selectSubroleBonuses | Called.");
-    const subRoleName = $(event.currentTarget).attr("data-item-name");
+    const subRoleName = SystemUtils.GetEventDatum(event, "data-item-name");
     const itemData = duplicate(this.item.data);
     const roleType = "subRole";
     const subRole = itemData.data.abilities.find((a) => a.name === subRoleName);
@@ -290,8 +290,8 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _netarchLevelAction(event) {
     LOGGER.trace("_netarchLevelAction | CPRItemSheet | Called.");
-    const target = Number($(event.currentTarget).attr("data-action-target"));
-    const action = $(event.currentTarget).attr("data-action-type");
+    const target = Number(SystemUtils.GetEventDatum(event, "data-action-target"));
+    const action = SystemUtils.GetEventDatum(event, "data-action-type");
     const itemData = duplicate(this.item.data);
 
     if (action === "delete") {
@@ -484,7 +484,7 @@ export default class CPRItemSheet extends ItemSheet {
   // eslint-disable-next-line class-methods-use-this
   _openItemFromId(event) {
     LOGGER.trace("_openItemFromId | CPRItemSheet | Called.");
-    const itemId = $(event.currentTarget).attr("data-item-id");
+    const itemId = SystemUtils.GetEventDatum(event, "data-item-id");
     const itemEntity = game.items.get(itemId);
     if (itemEntity !== null) {
       itemEntity.sheet.render(true);
@@ -517,7 +517,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _delBoosterModifier(event) {
     LOGGER.trace("_delBoosterModifier | CPRItemSheet | Called.");
-    const boosterType = $(event.currentTarget).attr("data-booster-type");
+    const boosterType = SystemUtils.GetEventDatum(event, "data-booster-type");
     delete this.item.data.data.modifiers[boosterType];
     if (this.actor) {
       const updatedObject = { _id: this.item.id };
@@ -621,7 +621,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _cyberdeckProgramUninstall(event) {
     LOGGER.trace("_cyberdeckProgramUninstall | CPRItemSheet | Called.");
-    const programId = $(event.currentTarget).attr("data-item-id");
+    const programId = SystemUtils.GetEventDatum(event, "data-item-id");
 
     const cyberdeck = this.item;
     if (cyberdeck.data.type !== "cyberdeck") {
@@ -646,8 +646,8 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _roleAbilityAction(event) {
     LOGGER.trace("ItemSheet | _roleAbilityAction | Called.");
-    const target = Number($(event.currentTarget).attr("data-action-target"));
-    const action = $(event.currentTarget).attr("data-action-type");
+    const target = Number(SystemUtils.GetEventDatum(event, "data-action-target"));
+    const action = SystemUtils.GetEventDatum(event, "data-action-type");
     const itemData = duplicate(this.item.data);
     const pack = game.packs.get("cyberpunk-red-core.skills");
     const coreSkills = await pack.getDocuments();
@@ -834,7 +834,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _removeItemUpgrade(event) {
     LOGGER.trace("_removeItemUpgrade | CPRItemSheet | Called.");
-    const upgradeId = $(event.currentTarget).attr("data-item-id");
+    const upgradeId = SystemUtils.GetEventDatum(event, "data-item-id");
     const upgrade = this.actor.items.find((i) => i.data._id === upgradeId);
     await this.item.uninstallUpgrades([upgrade]);
   }
@@ -849,7 +849,7 @@ export default class CPRItemSheet extends ItemSheet {
    */
   _renderReadOnlyItemCard(event) {
     LOGGER.trace("_renderReadOnlyItemCard | CPRItemSheet | Called.");
-    const itemId = $(event.currentTarget).parents(".item").attr("data-item-id");
+    const itemId = SystemUtils.GetEventDatum(event, "data-item-id");
     const item = this.actor.items.find((i) => i.data._id === itemId);
     item.sheet.render(true, { editable: false });
   }

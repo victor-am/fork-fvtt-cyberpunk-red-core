@@ -31,6 +31,7 @@ const Effects = function Effects() {
   this.manageEffects = function manageEffects(event) {
     LOGGER.trace("manageEffects | Effects | Called.");
     event.preventDefault();
+    LOGGER.debug("effect listener fired");
     const action = SystemUtils.GetEventDatum(event, "data-action");
     switch (action) {
       case "create":
@@ -61,7 +62,7 @@ const Effects = function Effects() {
    * @returns {ActiveEffect} - the newly created document
    */
   this.createEffect = function createEffect() {
-    LOGGER.trace("addEffect | Effects | Called.");
+    LOGGER.trace("createEffect | Effects | Called.");
     if (this.isOwned) {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.itemSheet.effects.editOwnedWarning"));
       return null;

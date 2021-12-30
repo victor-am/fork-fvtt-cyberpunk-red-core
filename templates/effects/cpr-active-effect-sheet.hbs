@@ -1,4 +1,4 @@
-{{cprTrace "CPR-EFFECT-SHEET.HBS"}}
+{{cprTrace "CPR-ACTIVE-EFFECT-SHEET.HBS"}}
 {{!-- taken from Foundry code in resources/app/templates/sheets/active-effect-config.html --}}
 <form>
     <!-- Effect Header -->
@@ -69,10 +69,7 @@
                     {{else}}
                         <select name="changes.{{i}}.key" data-dtype="String">
                             {{#select change.key}}
-                                {{log (cprGetEffectModifierMap (lookup ../data.flags.cyberpunk-red-core.changes i))}}
                                 {{#each (cprGetEffectModifierMap (lookup ../data.flags.cyberpunk-red-core.changes i)) as |modkeyname modkey|}}
-                                    {{log modkeyname}}
-                                    {{log modkey}}
                                     <option value="{{modkey}}">{{localize modkeyname}}</option>
                                 {{/each}}
                             {{/select}}
@@ -105,4 +102,4 @@
         <button type="submit"><i class="fas fa-save"></i> {{localize submitText}}</button>
     </footer>
 </form>
-{{cprTrace "END CPR-EFFECT-SHEET.HBS"}}
+{{cprTrace "END CPR-ACTIVE-EFFECT-SHEET.HBS"}}

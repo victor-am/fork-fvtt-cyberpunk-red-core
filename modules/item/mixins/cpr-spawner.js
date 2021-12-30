@@ -1,12 +1,16 @@
-const Spawner = () => {
+/* global Actor Scene canvas game */
+import LOGGER from "../../utils/cpr-logger.js";
+import SystemUtils from "../../utils/cpr-systemUtils.js";
+
+const Spawner = function Spawner() {
   /**
    * Create a Black ICE Token on the active scene as it was just rezzed
    *
    * @private
    * @param {CPRItem} program      - CPRItem of the program create the Token for
    */
-  async _rezBlackIceToken(programData, callingToken) {
-    LOGGER.trace("_rezBlackIceToken | CPRItem | Called.");
+  this._rezBlackIceToken = async function _rezBlackIceToken(programData, callingToken) {
+    LOGGER.trace("_rezBlackIceToken | Spawner | Called.");
     let netrunnerToken = callingToken;
     let scene;
     const blackIceName = programData.name;
@@ -21,7 +25,7 @@ const Spawner = () => {
       if (tokenList.length === 1) {
         [netrunnerToken] = tokenList;
       } else {
-        LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed because we were unable to find a Token associated with World Actor "${this.actor.name}".`);
+        LOGGER.error(`Attempting to create a Black ICE Token failed because we were unable to find a Token associated with World Actor "${this.actor.name}".`);
         SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.rezBlackIceWithoutToken"));
         return;
       }
@@ -106,7 +110,7 @@ const Spawner = () => {
     } catch (error) {
       LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Token failed. Error: ${error}`);
     }
-  }
+  };
 
   /**
    * Remove a program from the rezzed list on the Cyberdeck
@@ -114,8 +118,8 @@ const Spawner = () => {
    * @public
    * @param {CPRItem} program      - CPRItem of the program de-rez
    */
-  async derezProgram(program) {
-    LOGGER.trace("derezProgram | CPRItem | Called.");
+  this.derezProgram = async function derezProgram(program) {
+    LOGGER.trace("derezProgram | Spawner | Called.");
     const { installed } = this.data.data.programs;
     const installIndex = installed.findIndex((p) => p._id === program.id);
     const programState = installed[installIndex];
@@ -129,7 +133,7 @@ const Spawner = () => {
     }
     const newRezzed = this.data.data.programs.rezzed.filter((p) => p._id !== program.id);
     this.data.data.programs.rezzed = newRezzed;
-  }
+  };
 
   /**
    * Remove a Black ICE Token from the game as it is de-rezzed
@@ -137,8 +141,8 @@ const Spawner = () => {
    * @private
    * @param {CPRItem} program      - CPRItem of the program to remove the token for
    */
-  static async _derezBlackIceToken(programData) {
-    LOGGER.trace("_derezBlackIceToken | CPRItem | Called.");
+  this._derezBlackIceProgram = async function _derezBlackIceToken(programData) {
+    LOGGER.trace("_derezBlackIceToken | Spawner | Called.");
     if (typeof programData.flags["cyberpunk-red-core"] !== "undefined") {
       const cprFlags = programData.flags["cyberpunk-red-core"];
       const { biTokenId } = cprFlags;
@@ -162,7 +166,7 @@ const Spawner = () => {
     } else {
       LOGGER.error(`_derezBlackIceToken | CPRItem | No flags found in programData.`);
     }
-  }
+  };
 
   /**
    * Reset a rezzed program numbers to be that of the installed version of the program
@@ -170,14 +174,14 @@ const Spawner = () => {
    * @public
    * @param {CPRItem} program      - CPRItem of the program to reset
    */
-  resetRezProgram(program) {
-    LOGGER.trace("resetRezProgram | CPRItem | Called.");
+  this.resetRezProgram = function resetRezProgram(program) {
+    LOGGER.trace("resetRezProgram | Spawner | Called.");
     const { rezzed } = this.data.data.programs;
     const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
     const { installed } = this.data.data.programs;
     const installedIndex = installed.findIndex((p) => p._id === program.id);
     this.data.data.programs.rezzed[rezzedIndex] = this.data.data.programs.installed[installedIndex];
-  }
+  };
 
   /**
    * Reduce the rezzed value of a rezzed program.
@@ -186,8 +190,8 @@ const Spawner = () => {
    * @param {CPRItem} program     - The program to reduce the REZ of
    * @param {Number} reduceAmount - Amount to reduce REZ by. Defaults to 1.
    */
-  reduceRezProgram(program, reduceAmount = 1) {
-    LOGGER.trace("reduceRezProgram | CPRItem | Called.");
+  this.reduceRezProgram = function reduceRezProgram(program, reduceAmount = 1) {
+    LOGGER.trace("reduceRezProgram | Spawner | Called.");
     const { rezzed } = this.data.data.programs;
     const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
     const programState = rezzed[rezzedIndex];
@@ -209,10 +213,10 @@ const Spawner = () => {
         }
       }
     }
-  }
+  };
 
-  updateRezzedProgram(programId, updatedData) {
-    LOGGER.trace("updateRezzedProgram | CPRItem | Called.");
+  this.updateRezzedProgram = function updateRezzedProgram(programId, updatedData) {
+    LOGGER.trace("updateRezzedProgram | Spawner | Called.");
     const { rezzed } = this.data.data.programs;
     const rezzedIndex = rezzed.findIndex((p) => p._id === programId);
     const programState = rezzed[rezzedIndex];
@@ -233,7 +237,7 @@ const Spawner = () => {
         default:
       }
     });
-  }
+  };
 };
 
 export default Spawner;

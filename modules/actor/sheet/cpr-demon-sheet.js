@@ -1,6 +1,7 @@
 /* global mergeObject ActorSheet $ */
 import CPRChat from "../../chat/cpr-chat.js";
 import LOGGER from "../../utils/cpr-logger.js";
+import SystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
  * Implement the Demon sheet, which extends ActorSheet directly from Foundry. This does
@@ -43,7 +44,7 @@ export default class CPRDemonActorSheet extends ActorSheet {
    */
   async _onRoll(event) {
     LOGGER.trace("_onRoll | CPRDemonActorSheet | Called.");
-    const rollName = $(event.currentTarget).attr("data-roll-title");
+    const rollName = SystemUtils.GetEventDatum(event, "data-roll-title");
     const cprRoll = this.actor.createStatRoll(rollName);
 
     const keepRolling = await cprRoll.handleRollDialog(event);

@@ -672,6 +672,15 @@ export default function registerHandlebarsHelpers() {
   });
 
   /**
+   * Get the transient bonus value applied to skills applied from Active Effects
+   */
+  Handlebars.registerHelper("cprGetSkillBonus", (skillName, actor) => {
+    LOGGER.trace("cprGetSkillBonus | handlebarsHelper | Called.");
+    const skillSlug = SystemUtils.slugify(skillName);
+    return actor.data.bonuses[skillSlug];
+  });
+
+  /**
    * Return true/false depending on whether debugElements setting in the game is enabled
    */
   Handlebars.registerHelper("cprIsDebug", () => {

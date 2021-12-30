@@ -98,7 +98,7 @@ export default class CPRLedger extends FormApplication {
    */
   async _deleteLedgerLine(event) {
     LOGGER.trace("_deleteLedgerLine | CPRLedger | called.");
-    const lineId = $(event.currentTarget).attr("data-line");
+    const lineId = SystemUtils.GetEventDatum(event, "data-line");
     this.contents = duplicate(this.actor.listRecords(this.name));
     let numbers = this.contents[lineId][0].match(/\d+/g);
     if (numbers === null) {

@@ -130,7 +130,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
   async _itemAction(event) {
     LOGGER.trace("_itemAction | CPRContainerSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
-    const actionType = $(event.currentTarget).attr("data-action-type");
+    const actionType = SystemUtils.GetEventDatum(event, "data-action-type");
     if (item) {
       switch (actionType) {
         case "delete": {
@@ -274,7 +274,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
    */
   async _createInventoryItem(event) {
     LOGGER.trace("_createInventoryItem | CPRContainerSheet | Called.");
-    const itemType = $(event.currentTarget).attr("data-item-type");
+    const itemType = SystemUtils.GetEventDatum(event, "data-item-type");
     const itemTypeNice = itemType.toLowerCase().capitalize();
     const itemString = "ITEM.Type";
     const itemTypeLocal = itemString.concat(itemTypeNice);
@@ -293,7 +293,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
    */
   async _checkboxToggle(event) {
     LOGGER.trace("_checkboxToggle | CPRContainerSheet | Called.");
-    const flagName = $(event.currentTarget).attr("data-flag-name");
+    const flagName = SystemUtils.GetEventDatum(event, "data-flag-name");
     const actor = this.token === null ? this.actor : this.token.actor;
     if (this.token === null) {
       SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.containerSettingsOnToken"));

@@ -52,8 +52,8 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
    */
   async _onRoll(event) {
     LOGGER.trace("_onRoll | CPRBlackIceActorSheet | Called.");
-    const rollType = $(event.currentTarget).attr("data-roll-type");
-    const rollName = $(event.currentTarget).attr("data-roll-title");
+    const rollType = SystemUtils.GetEventDatum(event, "data-roll-type");
+    const rollName = SystemUtils.GetEventDatum(event, "data-roll-title");
     let cprRoll;
     switch (rollType) {
       case "stat": {
@@ -61,9 +61,9 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
         break;
       }
       case "damage": {
-        const programId = $(event.currentTarget).attr("data-program-id");
-        const netrunnerTokenId = $(event.currentTarget).attr("data-netrunner-id");
-        const sceneId = $(event.currentTarget).attr("data-scene-id");
+        const programId = SystemUtils.GetEventDatum(event, "data-program-id");
+        const netrunnerTokenId = SystemUtils.GetEventDatum(event, "data-netrunner-id");
+        const sceneId = SystemUtils.GetEventDatum(event, "data-scene-id");
         cprRoll = this.actor.createDamageRoll(programId, netrunnerTokenId, sceneId);
         break;
       }
