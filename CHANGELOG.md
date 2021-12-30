@@ -1,4 +1,15 @@
 # Version DEV | Date: WIP
+
+**New Features**
+
+**Changes**
+- Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
+
+**Bug Fixes**
+
+
+# Version 0.80.0 | Date: 2021-12-23
+
 **New Features**
 - Updated the system for Foundry v9 compatibility. No further updates will be provided to the 0.8.x release. [Please backup your data before attempting any major upgrade!](https://www.youtube.com/watch?v=OmbxMmqNNXU)
 - Added functionality to delete single ledger lines for the GM. Players are not able to do so.
@@ -38,11 +49,16 @@
 - Fixed #334 - Missing translation strings for initiative (Meat/NET option) has been re-added and cyberware-based initiative is now working correctly.This requires a Netrunner to have the 'Netrunner' role assigned. Rezzed programs granting SPEED bonuses will be added as a modifier in accordance with pg. 205 of the core rulebook.
 - Fixed #349 - Installed cyberware properly supports "Ctrl+Click" to send details to the chat window. 
 - Fixed #350 - Fixed uninstalled cyberware on a mook sheet being impossible to delete if the original install failed.
+- Fixed a couple missing translation strings related to synchronizing armor SP to resource bars
 
 # Version 0.79.1 | Date: 2021-09-11
 **Hot Fix**
 - Fixed #325 - DV ruler broken. Restored by naming the function.
 
+# Version 0.79.0 | Date: 2021-09-11
+
+**Hot Fix**
+- Fixed #325 - DV rulers broken when a DV table is set
 
 # Version 0.79.0 | Date: 2021-09-11
 
