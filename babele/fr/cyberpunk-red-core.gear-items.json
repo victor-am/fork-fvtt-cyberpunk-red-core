@@ -1,5 +1,5 @@
 {
-	"label": "Objet",
+	"label": "Objets",
 	"entries": {
 		"Agent": {
 			"name": "Agent",
@@ -186,7 +186,7 @@
 			"description": "<p>Éclaire un rayon de 100 m pendant 1 h.</p>"
 		},
 		"Rope (60m/yd)": {
-			"name": "Corde (60m)",
+			"name": "Corde (60 m)",
 			"description": "<p>Corde en nylon.</p>"
 		},
 		"Scrambler/Descrambler": {
