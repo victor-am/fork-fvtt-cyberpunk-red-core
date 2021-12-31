@@ -83,7 +83,7 @@ const hotbarHooks = () => {
       } else {
         command += `game.cpr.macro.rollItemMacro("${itemName}", {skipPrompt});`;
       }
-      let macro = game.macros.entities.find((m) => (m.name === item.name) && (m.command === command));
+      let macro = game.macros.contents.find((m) => (m.name === item.name) && (m.command === command));
       const img = item.type === "skill" ? "systems/cyberpunk-red-core/icons/chip-skill.png" : item.img;
       if (!macro) {
         macro = await Macro.create({
@@ -99,7 +99,7 @@ const hotbarHooks = () => {
 
       const actor = game.actors.get(data._id);
       const command = `game.actors.get("${data._id}").sheet.render(true)`;
-      let macro = game.macros.entities.find((m) => (m.name === actor.name) && (m.command === command));
+      let macro = game.macros.contents.find((m) => (m.name === actor.name) && (m.command === command));
       if (!macro) {
         macro = await Macro.create({
           name: actor.data.name,
@@ -113,7 +113,7 @@ const hotbarHooks = () => {
       // Create a macro to open the journal sheet of the journal dropped on the hotbar
       const journal = game.journal.get(data._id);
       const command = `game.journal.get("${data._id}").sheet.render(true)`;
-      let macro = game.macros.entities.find((m) => (m.name === journal.name) && (m.command === command));
+      let macro = game.macros.contents.find((m) => (m.name === journal.name) && (m.command === command));
       if (!macro) {
         macro = await Macro.create({
           name: journal.data.name,
