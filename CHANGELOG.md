@@ -6,7 +6,7 @@
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
 
 **Bug Fixes**
-
+- Fixed #354: Item Upgrades should be removable again and additional upgrades can be installed.
 
 # Version 0.80.0 | Date: 2021-12-23
 
@@ -26,7 +26,7 @@
     - DEV NOTE: To add this, simply create a new text file with the instructions in `lang/release-notes` with the name `v${version}-${lang}` and it will be automatically displayed
 - Actor damage application function has a new boolen argument to specify if the damage is lethal or not.  Non-lethal damage will not reduce an actor below 1 hit point.
 - Mook sheets have been modified to correct a few problems:
-  - Additional item types will now appear on a mook sheet, including clothing and cyberdeck items (they were previously invisible if something went wrong). 
+  - Additional item types will now appear on a mook sheet, including clothing and cyberdeck items (they were previously invisible if something went wrong).
   - Cyberware can be installed or uninstalled by pressing Shift-Click (SHIFT key + Mouse Click) on the cyberware item. By default when dragging cyberware it will still prompt you to install it. Installed cyberware cannot be dragged, so must be uninstalled first.
   - All items on a mook can be dragged between sheets, allowing the GM to "loot" mooks on behalf of player characters.
   - Several changes to the GitLab README to assist with introducing new developers to the system (Join Us!)
@@ -40,14 +40,14 @@
 - Fixed #254 - Deleting an unlinked token that has a sheet open will now close that sheet as it is rendered useless.
 - Fixed #329 - Containers are not randomly forgetting their settings anymore.
 - Fixed comments in the default macro that gets created when you drag a weapon to the hotbar to correctly provide the settings for a ranged weapon attack.
-- Fixed #331 - The actor role tab now uses the proper localisation string for deleting the role item. 
+- Fixed #331 - The actor role tab now uses the proper localisation string for deleting the role item.
 - Fixed #337 - Added missing Bohemian Jacket. Corrected name of Asia Pop Mirrorshades and Mr. Studd.
 - Fixed #339 - Added missing Tracer Button.
-- Fixed #335 - The Media Role Ability now uses the associated rank as a modifier. 
+- Fixed #335 - The Media Role Ability now uses the associated rank as a modifier.
 - Fixed #342 - Medical Grade Cyberlimbs are missing
 - Fixed #343 - Allow Smartglasses to take cybereye options. Add Smart Lens from Microchrome. Move Battleglove to gear.
 - Fixed #334 - Missing translation strings for initiative (Meat/NET option) has been re-added and cyberware-based initiative is now working correctly.This requires a Netrunner to have the 'Netrunner' role assigned. Rezzed programs granting SPEED bonuses will be added as a modifier in accordance with pg. 205 of the core rulebook.
-- Fixed #349 - Installed cyberware properly supports "Ctrl+Click" to send details to the chat window. 
+- Fixed #349 - Installed cyberware properly supports "Ctrl+Click" to send details to the chat window.
 - Fixed #350 - Fixed uninstalled cyberware on a mook sheet being impossible to delete if the original install failed.
 - Fixed a couple missing translation strings related to synchronizing armor SP to resource bars
 
