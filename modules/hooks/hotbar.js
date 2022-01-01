@@ -97,8 +97,8 @@ const hotbarHooks = () => {
     } else if (data.type === "Actor") {
       // Create a macro to open the actor sheet of the actor dropped on the hotbar
 
-      const actor = game.actors.get(data._id);
-      const command = `game.actors.get("${data._id}").sheet.render(true)`;
+      const actor = game.actors.get(data.id);
+      const command = `game.actors.get("${data.id}").sheet.render(true)`;
       let macro = game.macros.contents.find((m) => (m.name === actor.name) && (m.command === command));
       if (!macro) {
         macro = await Macro.create({
@@ -111,8 +111,8 @@ const hotbarHooks = () => {
       }
     } else if (data.type === "JournalEntry") {
       // Create a macro to open the journal sheet of the journal dropped on the hotbar
-      const journal = game.journal.get(data._id);
-      const command = `game.journal.get("${data._id}").sheet.render(true)`;
+      const journal = game.journal.get(data.id);
+      const command = `game.journal.get("${data.id}").sheet.render(true)`;
       let macro = game.macros.contents.find((m) => (m.name === journal.name) && (m.command === command));
       if (!macro) {
         macro = await Macro.create({
