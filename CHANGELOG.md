@@ -7,6 +7,7 @@
 
 **Bug Fixes**
 - Fixed #354: Item Upgrades should be removable again and additional upgrades can be installed.
+- Fixed #355 - Drag and drop to hotbar restored
 
 # Version 0.80.0 | Date: 2021-12-23
 
