@@ -6,8 +6,8 @@
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
 
 **Bug Fixes**
+- Fixed #354: Item Upgrades should be removable again and additional upgrades can be installed.
 - Fixed #355 - Drag and drop to hotbar restored
-
 
 # Version 0.80.0 | Date: 2021-12-23
 

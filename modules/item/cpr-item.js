@@ -1484,7 +1484,7 @@ export default class CPRItem extends Item {
             }
           });
           const upgradeData = {
-            _id: u._id,
+            _id: u.id,
             name: u.name,
             data: {
               modifiers: modList,
