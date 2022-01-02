@@ -220,7 +220,7 @@ export default class CPRActorSheet extends ActorSheet {
     let item = null;
     switch (rollType) {
       case CPRRolls.rollTypes.DEATHSAVE:
-      case CPRRolls.rollTypes.STAREDOWN:
+      case CPRRolls.rollTypes.FACEDOWN:
       case CPRRolls.rollTypes.STAT: {
         const rollName = $(event.currentTarget).attr("data-roll-title");
         cprRoll = this.actor.createRoll(rollType, rollName);

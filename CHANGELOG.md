@@ -5,7 +5,7 @@
 **Changes**
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
 - Consolidated gain, lose and set ledger functions for EB, IP and Reputation to make it more manageable.
-- Feature Request #179: Add ability to track reputation and roll stare down.
+- Feature Request #179: Add ability to track reputation and roll face down.
 
 **Bug Fixes**
 - Fixed #354: Item Upgrades should be removable again and additional upgrades can be installed.

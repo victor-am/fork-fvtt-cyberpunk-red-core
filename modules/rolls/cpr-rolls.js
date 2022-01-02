@@ -351,17 +351,17 @@ export class CPRSkillRoll extends CPRStatRoll {
 }
 
 /**
- * A staredown roll extends the CPRStat to include the HBS files for Staredown
+ * A facedown roll extends the CPRStat to include the HBS files for Facedown
  */
-export class CPRStaredownRoll extends CPRStatRoll {
+export class CPRFacedownRoll extends CPRStatRoll {
   constructor(name, value) {
-    LOGGER.trace("constructor | CPRStaredownRoll | Called.");
+    LOGGER.trace("constructor | CPRFacedownRoll | Called.");
     super(name, "1d10");
     this.statName = name;
     this.statValue = value;
-    this.rollTitle = SystemUtils.Localize("CPR.dialog.staredown.title");
-    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-staredown-prompt.hbs";
-    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-staredown-rollcard.hbs";
+    this.rollTitle = SystemUtils.Localize("CPR.dialog.facedown.title");
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-facedown-prompt.hbs";
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-facedown-rollcard.hbs";
   }
 }
 
@@ -762,5 +762,5 @@ export const rollTypes = {
   DEATHSAVE: "deathsave",
   INTERFACEABILITY: "interfaceAbility",
   CYBERDECKPROGRAM: "cyberdeckProgram",
-  STAREDOWN: "staredown",
+  FACEDOWN: "facedown",
 };
