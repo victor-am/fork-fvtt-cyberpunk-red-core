@@ -1,4 +1,5 @@
 {{cprTrace "CPR-STAREDOWN-ROLLCARD.HBS"}}
+{{log this}}
 <div class="rollcard">
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-stat">
@@ -28,11 +29,8 @@
         </div>
         <div class="d10-data-div">
           <div class="d10-data-details hide">
-            {{#if mods}}
-            <span class="text-normal text-nowrap">{{localize "CPR.rolls.reputation"}}: {{mods}}</span>
-            <div class="text-normal text-bold text-nowrap">{{localize "CPR.rolls.mods"}} {{localize "CPR.rolls.total"}}:
-              {{totalMods}}</div>
-            {{/if}}
+            <div class="text-normal text-nowrap">{{localize "CPR.global.stats.cool"}}: {{statValue}}</div>
+            <div class="text-normal text-nowrap">{{localize "CPR.rolls.reputation"}}: {{mods}}</div>
           </div>
         </div>
       </div>
