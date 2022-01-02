@@ -2,23 +2,23 @@
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
 
-export default class ImprovementPointEditPrompt {
-  static async RenderPrompt() {
-    LOGGER.trace("RenderPrompt | ImprovementPointEditPrompt | called.");
+export default class LedgerEditPrompt {
+  static async RenderPrompt(title) {
+    LOGGER.trace("RenderPrompt | LedgerEditPrompt | called.");
     return new Promise((resolve, reject) => {
-      renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-improvement-point-edit-prompt.hbs").then((html) => {
+      renderTemplate("systems/cyberpunk-red-core/templates/dialog/cpr-ledger-edit-prompt.hbs").then((html) => {
         const _onCancel = () => {
-          LOGGER.trace("_onCancel | Dialog ImprovementPointEditPrompt | called.");
+          LOGGER.trace("_onCancel | Dialog LedgerEditPrompt | called.");
           reject(new Error("Promise rejected: Window Closed"));
         };
         // eslint-disable-next-line no-shadow
         const _onConfirm = (html) => {
-          LOGGER.trace("_onConfirm | Dialog ImprovementPointEditPrompt | called.");
+          LOGGER.trace("_onConfirm | Dialog LedgerEditPrompt | called.");
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
           resolve(formData);
         };
         new Dialog({
-          title: SystemUtils.Localize("CPR.characterSheet.leftPane.improvementPointsEdit"),
+          title: SystemUtils.Localize(title),
           content: html,
           buttons: {
             cancel: {
@@ -34,7 +34,7 @@ export default class ImprovementPointEditPrompt {
             },
           },
           default: "confirm",
-          render: LOGGER.trace("confirm | Dialog ImprovementPointEditPrompt | called."),
+          render: LOGGER.trace("confirm | Dialog LedgerEditPrompt | called."),
           close: () => {
             reject(new Error("Promise rejected: Window Closed"));
           },

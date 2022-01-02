@@ -793,6 +793,9 @@ export default class CPRActor extends Actor {
       case CPRRolls.rollTypes.DEATHSAVE: {
         return this._createDeathSaveRoll();
       }
+      case CPRRolls.rollTypes.STAREDOWN: {
+        return this._createStaredownRoll();
+      }
       default:
     }
     return undefined;
@@ -813,6 +816,22 @@ export default class CPRActor extends Actor {
     cprRoll.addMod(this.getArmorPenaltyMods(statName));
     cprRoll.addMod(this.getWoundStateMods());
     cprRoll.addMod(this.getUpgradeMods(statName));
+    return cprRoll;
+  }
+
+  /**
+   * Create a stat roll and return the object representing it
+   *
+   * @private
+   * @returns {CPRStaredownRoll}
+   */
+  _createStaredownRoll() {
+    LOGGER.trace("_createStaredownRoll | CPRActor | Called.");
+    const statName = "cool";
+    const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
+    const statValue = this.getStat(statName);
+    const cprRoll = new CPRRolls.CPRStaredownRoll(niceStatName, statValue);
+    cprRoll.addMod(this.data.data.reputation.value);
     return cprRoll;
   }
 

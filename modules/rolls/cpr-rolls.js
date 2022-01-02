@@ -351,6 +351,21 @@ export class CPRSkillRoll extends CPRStatRoll {
 }
 
 /**
+ * A staredown roll extends the CPRStat to include the HBS files for Staredown
+ */
+export class CPRStaredownRoll extends CPRStatRoll {
+  constructor(name, value) {
+    LOGGER.trace("constructor | CPRStaredownRoll | Called.");
+    super(name, "1d10");
+    this.statName = name;
+    this.statValue = value;
+    this.rollTitle = SystemUtils.Localize("CPR.dialog.staredown.title");
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-staredown-prompt.hbs";
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-staredown-rollcard.hbs";
+  }
+}
+
+/**
  * The roll for decreasing Humanity when cyberware is installed, usually a number of d6s.
  */
 export class CPRHumanityLossRoll extends CPRRoll {
@@ -747,4 +762,5 @@ export const rollTypes = {
   DEATHSAVE: "deathsave",
   INTERFACEABILITY: "interfaceAbility",
   CYBERDECKPROGRAM: "cyberdeckProgram",
+  STAREDOWN: "staredown",
 };
