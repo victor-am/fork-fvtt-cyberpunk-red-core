@@ -113,37 +113,47 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/cpr-item-settings.hbs",
     "systems/cyberpunk-red-core/templates/item/cpr-item-name.hbs",
 
-    // Item Sheet - Settings Partials
+    // Item Sheet Partials
+    // Description Mixins
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-effects.hbs",
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-equippable.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-installable.hbs",
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-physical.hbs",
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-stackable.hbs",
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-upgradable.hbs",
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-valuable.hbs",
 
+    // Description Types
     "systems/cyberpunk-red-core/templates/item/description/cpr-ammo.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-armor.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-clothing.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-criticalInjury.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/cpr-cyberdeck.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-netarch.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/cpr-program.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-role.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-skill.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-vehicle.hbs",
 
+    // Setting Mixins
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-effects.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-equippable.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-installable.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-physical.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-stackable.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-upgradable.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-valuable.hbs",
 
+    // Setting Types
     "systems/cyberpunk-red-core/templates/item/settings/cpr-ammo.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-armor.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-clothing.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-criticalInjury.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/cpr-cyberdeck.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-gear.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-netarch.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/cpr-program.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-role.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-skill.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-vehicle.hbs",

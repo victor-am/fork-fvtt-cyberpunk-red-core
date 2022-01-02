@@ -2,7 +2,7 @@ import CPRItem from "../cpr-item.js";
 import LOGGER from "../../utils/cpr-logger.js";
 
 /**
- * Extend the base CPRItem object with things specific to actor critical injuries.
+ * Extend the base CPRItem object with things specific to Programs.
  * @extends {CPRItem}
  */
 export default class CPRProgramItem extends CPRItem {

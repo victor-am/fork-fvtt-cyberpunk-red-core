@@ -534,4 +534,53 @@ export default class CPRSystemUtils {
     LOGGER.trace("hasDataModelTemplate | CPRSystemUtils | Called.");
     return CPRSystemUtils.getDataModelTemplates(itemType).includes(template);
   }
+
+  /**
+   * Return the list of actions that can be taken with this item. Used by the actor sheet.
+   * Note that "pin" is left out, it is hardcoded in the sheet code.
+   *
+   * @param {ItemData} itemData - the item data we will be inspecting
+   * @returns {String[]} - array of actions that can be taken
+   */
+  static getActions(itemData) {
+    LOGGER.trace("getActions | CPRItem | Called.");
+    const mixins = CPRSystemUtils.getDataModelTemplates(itemData.type);
+    const actions = ["delete"];
+    for (let m = 0; m < mixins.length; m += 1) {
+      switch (mixins[m]) {
+        case "consumable": {
+          actions.push("consume");
+          break;
+        }
+        case "equippable": {
+          actions.push("equip");
+          break;
+        }
+        case "installable": {
+          actions.push("install");
+          actions.push("uninstall");
+          break;
+        }
+        case "loadable": {
+          actions.push("reload");
+          actions.push("changeAmmo");
+          break;
+        }
+        case "physical": {
+          if (itemData.data.concealable.concealable) actions.push("conceal");
+          break;
+        }
+        case "spawner": {
+          actions.push("rez");
+          break;
+        }
+        case "stackable": {
+          if (itemData.data.amount > 1) actions.push("split");
+          break;
+        }
+        default:
+      }
+    }
+    return actions;
+  }
 }

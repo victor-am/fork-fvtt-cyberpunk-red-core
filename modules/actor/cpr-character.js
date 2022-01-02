@@ -54,7 +54,7 @@ export default class CPRCharacterActor extends CPRActor {
   _calculateDerivedStats() {
     LOGGER.trace("_calculateDerivedStats | CPRCharacterActor | Called.");
     const actorData = this.data;
-    actorData.filteredItems = this.itemTypes;
+    actorData.filteredItems = this.itemTypes; // the itemTypes getter is in foundry.js
 
     const { stats } = actorData.data;
     const { derivedStats } = actorData.data;

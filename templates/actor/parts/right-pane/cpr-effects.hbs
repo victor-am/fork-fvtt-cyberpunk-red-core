@@ -31,7 +31,6 @@
                         ({{localize (cprFindConfigValue "effectUses" effect.usage)}})
                     {{/if}}
                 </div>
-                {{log effect}}
                 <div class="effect-actions text-padding-right">
                     {{#if (cprCompare (cprCompare effect.sourceName "===" ../../actor.data.name) "||" (cprCompare effect.usage "===" "toggled"))}}
                         <a class="effect-control" data-action="toggle" title="{{localize 'CPR.characterSheet.rightPane.effects.toggle'}}">

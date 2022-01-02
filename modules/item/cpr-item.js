@@ -11,6 +11,7 @@ import Consumeable from "./mixins/cpr-consumeable.js";
 import Effects from "./mixins/cpr-effects.js";
 import Equippable from "./mixins/cpr-equippable.js";
 import Loadable from "./mixins/cpr-loadable.js";
+import Installable from "./mixins/cpr-installable.js";
 import Physical from "./mixins/cpr-physical.js";
 import Stackable from "./mixins/cpr-stackable.js";
 // import Spawner from "./mixins/cpr-spawner.js";
@@ -66,7 +67,8 @@ export default class CPRItem extends Item {
   }
 
   /**
-   * Load all mixins configured in the Item metadata
+   * Load all mixins configured in the Item metadata.
+   * TODO: enum this shit!
    *
    * @public
    */
@@ -74,12 +76,10 @@ export default class CPRItem extends Item {
     LOGGER.trace("loadMixins | CPRItem | Called.");
     const mixins = SystemUtils.getDataModelTemplates(this.type);
     const itemData = this.data.data;
-    itemData.actions = ["delete"];
     for (let m = 0; m < mixins.length; m += 1) {
       switch (mixins[m]) {
         case "consumable": {
           Consumeable.call(CPRItem.prototype);
-          itemData.actions.push("consume");
           break;
         }
         case "effects": {
@@ -90,33 +90,30 @@ export default class CPRItem extends Item {
         }
         case "equippable": {
           Equippable.call(CPRItem.prototype);
-          itemData.actions.push("equip");
-          break;
-        }
-        case "loadable": {
-          Loadable.call(CPRItem.prototype);
-          itemData.actions.push("reload");
-          itemData.actions.push("changeAmmo");
-          break;
-        }
-        case "physical": {
-          Physical.call(CPRItem.prototype);
-          itemData.actions.push("conceal");
-          break;
-        }
-        case "spawner": {
-          // Spawner.call(CPRItem.prototype);
-          itemData.actions.push("rez");
-          break;
-        }
-        case "stackable": {
-          Stackable.call(CPRItem.prototype);
-          itemData.actions.push("split");
           break;
         }
         case "upgradable": {
           Upgradable.call(CPRItem.prototype);
-          itemData.actions.push("upgrade");
+          break;
+        }
+        case "loadable": {
+          Loadable.call(CPRItem.prototype);
+          break;
+        }
+        case "installable": {
+          Installable.call(CPRItem.prototype);
+          break;
+        }
+        case "physical": {
+          Physical.call(CPRItem.prototype);
+          break;
+        }
+        case "spawner": {
+          // Spawner.call(CPRItem.prototype);
+          break;
+        }
+        case "stackable": {
+          Stackable.call(CPRItem.prototype);
           break;
         }
         case "valuable": {

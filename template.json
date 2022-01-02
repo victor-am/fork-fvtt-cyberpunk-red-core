@@ -424,7 +424,8 @@
       },
       "installable": {
         "install": "mall",
-        "isInstalled": false
+        "isInstalled": false,
+        "installedInto": ""
       }
     },
     "ammo": {
@@ -468,7 +469,6 @@
         "common",
         "physical",
         "upgradable",
-        "concealable",
         "weapon",
         "uses",
         "installable"
@@ -494,7 +494,6 @@
         "upgradable",
         "equippable"
       ],
-      "slots": 1,
       "programs": {
         "installed": [],
         "rezzed": []
@@ -525,7 +524,6 @@
     "netarch": {
       "templates": [
         "common",
-        "physical",
         "valuable"
       ],
       "floors": []
@@ -533,10 +531,9 @@
     "program": {
       "templates": [
         "common",
-        "physical",
-        "installable"
+        "installable",
+        "valuable"
       ],
-      "slots": 1,
       "class": "defender",
       "blackIceType": "antipersonnel",
       "isDemon": false,
