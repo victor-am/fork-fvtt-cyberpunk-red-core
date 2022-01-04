@@ -1,0 +1,26 @@
+{{cprTrace "CPR-INITIAL-ACTOR_DATA-PROMPT.HBS"}}
+{{log this}}
+<form>
+{{#each data.stats as |stat s|}}
+<div class="stat-block">
+  <div class="block-label">
+    <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}">
+      {{localize (cprFindConfigValue "statList" s)}}
+    </a>
+  </div>
+  <div class="block-data">
+    {{#unless (cprIsDefined this.max)}}
+    <input class="" name="data.stats.{{s}}.value" type="number" value="{{this.value}}" />
+    {{else}}
+    <div class="min-of-max-container">
+      <input class="" name="data.stats.{{s}}.value" type="number" value="{{this.value}}" />
+      <div class="of-stat bg-red fg-white text-normal text-bold">of</div>
+      <input class="" name="data.stats.{{s}}.max" type="number" value="{{this.max}}" />
+    </div>
+    {{/unless}}
+  </div>
+</div>
+{{/each}}
+</form>
+{{cprTrace "END CPR-INITIAL-ACTOR_DATA-PROMPT.HBS"}}
+
