@@ -84,6 +84,5 @@ export default class CPRActiveEffect extends ActiveEffect {
     const item = this.getSourceItem();
     if (!item) return; // happens on item delete
     this.data.isSuppressed = item.areEffectsSuppressed();
-    LOGGER.debug(`isSuppressed is ${this.data.isSuppressed}`);
   }
 }

@@ -24,39 +24,16 @@ export default class CPRCyberdeckItem extends CPRItem {
   availableSlots() {
     LOGGER.trace("availableSlots | CPRItem | Called.");
     const itemData = duplicate(this.data.data);
-
     let unusedSlots = 0;
-
-    switch (this.data.type) {
-      case "cyberdeck": {
-        const upgradeValue = this.getAllUpgradesFor("slots");
-        const upgradeType = this.getUpgradeTypeFor("slots");
-        unusedSlots = (upgradeType === "override") ? upgradeValue : itemData.slots + upgradeValue;
-        itemData.programs.installed.forEach((program) => {
-          unusedSlots -= program.data.slots;
-        });
-        itemData.upgrades.forEach((u) => {
-          unusedSlots -= u.data.size;
-        });
-        break;
-      }
-      case "weapon": {
-        unusedSlots = itemData.attachmentSlots;
-        itemData.upgrades.forEach((mod) => {
-          unusedSlots -= mod.data.size;
-        });
-        break;
-      }
-      case "cyberware": {
-        unusedSlots = itemData.optionSlots - itemData.installedOptionSlots;
-        itemData.upgrades.forEach((mod) => {
-          unusedSlots -= mod.data.size;
-        });
-        break;
-      }
-      default:
-    }
-
+    const upgradeValue = this.getAllUpgradesFor("slots");
+    const upgradeType = this.getUpgradeTypeFor("slots");
+    unusedSlots = (upgradeType === "override") ? upgradeValue : itemData.slots + upgradeValue;
+    itemData.programs.installed.forEach((program) => {
+      unusedSlots -= program.data.slots;
+    });
+    itemData.upgrades.forEach((u) => {
+      unusedSlots -= u.data.size;
+    });
     return unusedSlots;
   }
 
@@ -69,7 +46,7 @@ export default class CPRCyberdeckItem extends CPRItem {
    * @public
    */
   getInstalledPrograms() {
-    LOGGER.trace("getInstalledPrograms | CPRItem | Called.");
+    LOGGER.trace("getInstalledPrograms | CPRCyberdeckItem | Called.");
     return this.data.data.programs.installed;
   }
 
@@ -82,7 +59,7 @@ export default class CPRCyberdeckItem extends CPRItem {
    * @public
    */
   getRezzedPrograms() {
-    LOGGER.trace("getRezzedPrograms | CPRItem | Called.");
+    LOGGER.trace("getRezzedPrograms | CPRCyberdeckItem | Called.");
     return this.data.data.programs.rezzed;
   }
 
@@ -93,7 +70,7 @@ export default class CPRCyberdeckItem extends CPRItem {
    * @param {Array} programs      - Array of CPRItem programs
    */
   installPrograms(programs) {
-    LOGGER.trace("installPrograms | CPRItem | Called.");
+    LOGGER.trace("installPrograms | CPRCyberdeckItem | Called.");
     const { installed } = this.data.data.programs;
     programs.forEach((p) => {
       const onDeck = installed.filter((iProgram) => iProgram._id === p.data._id);
@@ -114,7 +91,7 @@ export default class CPRCyberdeckItem extends CPRItem {
    * @param {Array} programs      - Array of CPRItem programs
    */
   uninstallPrograms(programs) {
-    LOGGER.trace("uninstallPrograms | CPRItem | Called.");
+    LOGGER.trace("uninstallPrograms | CPRCyberdeckItem | Called.");
     let { rezzed } = this.data.data.programs;
     let { installed } = this.data.data.programs;
     const tokenList = [];
@@ -157,7 +134,7 @@ export default class CPRCyberdeckItem extends CPRItem {
    * @param {CPRItem} program      - CPRItem of the program to check
    */
   isRezzed(program) {
-    LOGGER.trace("isRezzed | CPRItem | Called.");
+    LOGGER.trace("isRezzed | CPRCyberdeckItem | Called.");
     const rezzedPrograms = this.data.data.programs.rezzed.filter((p) => p._id === program.id);
     const { installed } = this.data.data.programs;
     const installIndex = installed.findIndex((p) => p._id === program.data._id);
@@ -179,7 +156,7 @@ export default class CPRCyberdeckItem extends CPRItem {
    * @param {CPRItem} program      - CPRItem of the program to REZ
    */
   async rezProgram(program, callingToken) {
-    LOGGER.trace("rezProgram | CPRItem | Called.");
+    LOGGER.trace("rezProgram | CPRCyberdeckItem | Called.");
     const programData = duplicate(program.data);
     const { installed } = this.data.data.programs;
     const installIndex = installed.findIndex((p) => p._id === programData._id);
@@ -212,7 +189,7 @@ export default class CPRCyberdeckItem extends CPRItem {
    * @param {String} boosterType - string defining the type of boosters to return.
    */
   getBoosters(boosterType) {
-    LOGGER.trace("getBoosters | CPRItem | Called.");
+    LOGGER.trace("getBoosters | CPRCyberdeckItem | Called.");
     const { rezzed } = this.data.data.programs;
     let modifierTotal = 0;
     switch (boosterType) {
@@ -244,7 +221,7 @@ export default class CPRCyberdeckItem extends CPRItem {
   }
 
   _createCyberdeckRoll(rollType, actor, extraData = {}) {
-    LOGGER.trace("_createCyberdeckRoll | CPRItem | Called.");
+    LOGGER.trace("_createCyberdeckRoll | CPRCyberdeckItem | Called.");
     let rollModifiers = 0;
     let cprRoll;
     const { programId } = extraData;
@@ -259,7 +236,7 @@ export default class CPRCyberdeckItem extends CPRItem {
       }
     }
     if (program === null) {
-      LOGGER.error(`_createCyberdeckRoll | CPRItem | Unable to locate program ${programId}.`);
+      LOGGER.error(`_createCyberdeckRoll | CPRCyberdeckItem | Unable to locate program ${programId}.`);
       return CPRRolls.CPRRoll("Unknown Program", "1d10");
     }
     const skillName = "";

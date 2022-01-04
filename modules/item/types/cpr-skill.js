@@ -37,39 +37,14 @@ export default class CPRSkillItem extends CPRItem {
     let roleName;
     let roleValue = 0;
 
-    // some role abilities modify skills too, so we account for that here
-    actor.data.filteredItems.role.forEach((r, index1) => {
-      const roleSkillBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.bonuses.some((b) => b.name === skillName));
-      if (roleSkillBonuses.length > 0 && index1 === 0) {
-        roleSkillBonuses.forEach((b, index2) => {
-          if (roleName) {
-            roleName += `, ${b.data.data.mainRoleAbility}`;
-          } else if (index2 === 0) {
-            roleName = b.data.data.mainRoleAbility;
-          }
-          roleValue += Math.floor(b.data.data.rank / b.data.data.bonusRatio);
-        });
-      }
-      // check whether a sub-ability of a role has the bonuses property. They might affect skills.
-      const subroleSkillBonuses = [];
-      r.data.data.abilities.forEach((a) => {
-        if ("bonuses" in a) {
-          a.bonuses.forEach((b) => {
-            if (b.name === skillName) subroleSkillBonuses.push(a);
-          });
-        }
-      });
-      if (subroleSkillBonuses.length > 0) {
-        subroleSkillBonuses.forEach((b, index3) => {
-          if (roleName) {
-            roleName += `, ${b.name}`;
-          } else if (index3 === 0) {
-            roleName = b.name;
-          }
-          roleValue += Math.floor(b.rank / b.bonusRatio);
-        });
+    actor.data.filteredItems.role.forEach((r, index) => {
+      const [rn, rv] = r.getSkillBonuses(skillName);
+      if (index === 0) {
+        roleName = rn;
+        roleValue += rv;
       }
     });
+
     const cprRoll = new CPRRolls.CPRSkillRoll(niceStatName, statValue, skillName, skillLevel, roleName, roleValue);
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
     cprRoll.addMod(actor.getWoundStateMods());

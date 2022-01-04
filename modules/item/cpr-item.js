@@ -1,12 +1,10 @@
-/* global Item game getProperty */
+/* global Item game */
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import LOGGER from "../utils/cpr-logger.js";
-import LoadAmmoPrompt from "../dialog/cpr-load-ammo-prompt.js";
-import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
-import DvUtils from "../utils/cpr-dvUtils.js";
 
 // Item mixins
+import Attackable from "./mixins/cpr-attackable.js";
 import Consumeable from "./mixins/cpr-consumeable.js";
 import Effects from "./mixins/cpr-effects.js";
 import Equippable from "./mixins/cpr-equippable.js";
@@ -14,7 +12,7 @@ import Loadable from "./mixins/cpr-loadable.js";
 import Installable from "./mixins/cpr-installable.js";
 import Physical from "./mixins/cpr-physical.js";
 import Stackable from "./mixins/cpr-stackable.js";
-// import Spawner from "./mixins/cpr-spawner.js";
+import Spawnable from "./mixins/cpr-spawnable.js";
 import Upgradable from "./mixins/cpr-upgradable.js";
 import Virtual from "./mixins/cpr-virtual.js";
 import Valuable from "./mixins/cpr-valuable.js";
@@ -78,6 +76,10 @@ export default class CPRItem extends Item {
     const itemData = this.data.data;
     for (let m = 0; m < mixins.length; m += 1) {
       switch (mixins[m]) {
+        case "attackable": {
+          Attackable.call(CPRItem.prototype);
+          break;
+        }
         case "consumable": {
           Consumeable.call(CPRItem.prototype);
           break;
@@ -92,10 +94,6 @@ export default class CPRItem extends Item {
           Equippable.call(CPRItem.prototype);
           break;
         }
-        case "upgradable": {
-          Upgradable.call(CPRItem.prototype);
-          break;
-        }
         case "loadable": {
           Loadable.call(CPRItem.prototype);
           break;
@@ -108,12 +106,16 @@ export default class CPRItem extends Item {
           Physical.call(CPRItem.prototype);
           break;
         }
-        case "spawner": {
-          // Spawner.call(CPRItem.prototype);
+        case "spawnable": {
+          Spawnable.call(CPRItem.prototype);
           break;
         }
         case "stackable": {
           Stackable.call(CPRItem.prototype);
+          break;
+        }
+        case "upgradable": {
+          Upgradable.call(CPRItem.prototype);
           break;
         }
         case "valuable": {
@@ -127,7 +129,7 @@ export default class CPRItem extends Item {
         default:
           LOGGER.warn(`Tried to load an unknown mixin, ${mixins[m]}`);
       }
-      LOGGER.debug(`Added mixin ${mixins[m]} to ${this.id}`);
+      // LOGGER.debug(`Added mixin ${mixins[m]} to ${this.id}`);
     }
   }
 
@@ -260,209 +262,6 @@ export default class CPRItem extends Item {
     return localCprRoll;
   }
 
-  // Weapon Item Methods
-  async setCompatibleAmmo(ammoList) {
-    LOGGER.trace("setCompatibleAmmo | CPRItem | Called.");
-    this.data.data.ammoVariety = ammoList;
-    if (this.actor) {
-      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
-    }
-    return this.update({ "data.ammoVariety": ammoList });
-  }
-
-  async _weaponAction(actor, actionAttributes) {
-    LOGGER.trace("_weaponAction | CPRItem | Called.");
-    const actionData = actionAttributes["data-action"].nodeValue;
-    switch (actionData) {
-      case "select-ammo":
-        this._weaponLoad();
-        break;
-      case "unload":
-        this._weaponUnload();
-        break;
-      case "load":
-        this._weaponLoad();
-        break;
-      case "reload-ammo":
-        this._weaponLoad(this.data.data.magazine.ammoId);
-        break;
-      case "measure-dv":
-        this._measureDv(actor, this.data.data.dvTable);
-        break;
-      default:
-    }
-    if (this.actor) {
-      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
-    }
-  }
-
-  static async _measureDv(actor, dvTable) {
-    LOGGER.trace("_measureDv | CPRItem | Called.");
-    let newDvTable = dvTable;
-    if (actor.sheet.token !== null) {
-      const flag = getProperty(actor.data, `flags.cyberpunk-red-core.firetype-${this.data._id}`);
-      if (flag === "autofire") {
-        const afTable = (DvUtils.GetDvTables()).filter((name) => name.includes(dvTable) && name.includes("Autofire"));
-        if (afTable.length > 0) {
-          [newDvTable] = afTable;
-        }
-      }
-      actor.sheet.token.update({ "flags.cprDvTable": newDvTable });
-    }
-  }
-
-  async _weaponUnload() {
-    LOGGER.trace("_weaponUnload | CPRItem | Called.");
-    if (this.actor) {
-      // recover the ammo to the right object
-      const { ammoId } = this.data.data.magazine;
-      if (ammoId) {
-        const ammo = this.actor.items.find((i) => i.data._id === ammoId);
-
-        if (ammo !== null) {
-          if (this.data.data.magazine.value > 0) {
-            if (ammoId) {
-              await ammo._ammoIncrement(this.data.data.magazine.value);
-            }
-          }
-        }
-      }
-      this.data.data.magazine.value = 0;
-      this.data.data.magazine.ammoId = "";
-      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
-    }
-    return null;
-  }
-
-  // The only time an ammo ID is passed to this is when it is being reloaded
-  async _weaponLoad(reloadAmmoId) {
-    LOGGER.trace("_weaponLoad | CPRItem | Called.");
-    let selectedAmmoId = reloadAmmoId;
-    const loadUpdate = [];
-    if (this.actor) {
-      if (!selectedAmmoId) {
-        const ownedAmmo = this.actor.data.filteredItems.ammo;
-        const validAmmo = [];
-        Object.keys(ownedAmmo).forEach((index) => {
-          const ammo = ownedAmmo[index];
-          if (this.getRollData().ammoVariety.includes(ammo.getRollData().variety)) {
-            validAmmo.push(ammo);
-          }
-        });
-
-        let formData = {
-          weapon: this,
-          ammoList: validAmmo,
-          selectedAmmo: "",
-          returnType: "string",
-        };
-
-        if (validAmmo.length === 0) {
-          SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.noValidAmmo")));
-          return;
-        }
-
-        formData = await LoadAmmoPrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
-        if (formData === undefined) {
-          return;
-        }
-
-        selectedAmmoId = formData.selectedAmmo;
-      }
-
-      const loadedAmmo = this.data.data.magazine.ammoId;
-
-      if (loadedAmmo !== "" && loadedAmmo !== selectedAmmoId) {
-        await this._weaponUnload();
-      }
-
-      if (selectedAmmoId) {
-        const magazineData = this.data.data.magazine;
-
-        magazineData.ammoId = selectedAmmoId;
-
-        loadUpdate.push({ _id: this.data._id, "data.magazine.ammoId": selectedAmmoId });
-
-        const ammo = this.actor.items.find((i) => i.data._id === selectedAmmoId);
-
-        if (ammo === null) {
-          SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.ammoMissingFromGear")));
-          return;
-        }
-
-        if (ammo.getRollData().amount === 0) {
-          SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.reloadOutOfAmmo")));
-          return;
-        }
-
-        // By the time we reach here, we know the weapon and ammo we are loading
-        // Let's find out how much space is in the gun.
-        const upgradeValue = this.getAllUpgradesFor("magazine");
-        const upgradeType = this.getUpgradeTypeFor("magazine");
-
-        const magazineSpace = (upgradeType === "override") ? upgradeValue - magazineData.value : magazineData.max - magazineData.value + upgradeValue;
-
-        if (magazineSpace > 0) {
-          if (Number(ammo.data.data.amount) >= magazineSpace) {
-            magazineData.value += magazineSpace;
-            await ammo._ammoDecrement(magazineSpace);
-          } else {
-            magazineData.value = Number(this.data.data.magazine.value) + Number(ammo.data.data.amount);
-            await ammo._ammoDecrement(ammo.data.data.amount);
-          }
-        }
-        loadUpdate.push({ _id: this.data._id, "data.magazine": magazineData });
-      }
-      this.actor.updateEmbeddedDocuments("Item", loadUpdate);
-    }
-  }
-
-  static bulletConsumption(cprRoll) {
-    LOGGER.trace("bulletConsumption | CPRItem | Called.");
-    let bulletCount = 1;
-    if (cprRoll instanceof CPRRolls.CPRAutofireRoll || cprRoll instanceof CPRRolls.CPRSuppressiveFireRoll) {
-      bulletCount = 10;
-    }
-    return bulletCount;
-  }
-
-  hasAmmo(cprRoll) {
-    LOGGER.trace("hasAmmo | CPRItem | Called.");
-    return (this.data.data.magazine.value - CPRItem.bulletConsumption(cprRoll)) >= 0;
-  }
-
-  setWeaponAmmo(value) {
-    LOGGER.trace("setWeaponAmmo | CPRItem | Called.");
-    const maxAmmo = this.getRollData().magazine.max;
-    if (this.type === "weapon") {
-      if (value.charAt(0) === "+" || value.charAt(0) === "-") {
-        this.getRollData().magazine.value = Math.clamped(0, this.getRollData().magazine.value + parseInt(value, 10), maxAmmo);
-      } else {
-        this.getRollData().magazine.value = Math.clamped(0, value, maxAmmo);
-      }
-    }
-  }
-
-  // Returns true if weapon fired, otherwise returns false.
-  fireRangedWeapon(cprRoll) {
-    LOGGER.trace("fireRangedWeapon | CPRItem | Called.");
-    const discharged = CPRItem.bulletConsumption(cprRoll);
-    // don't go negative
-    this.data.data.magazine.value = Math.max(this.data.data.magazine.value - discharged, 0);
-    return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
-  }
-
-  _getLoadedAmmoType() {
-    LOGGER.trace("_getLoadedAmmoType | CPRItem | Called.");
-    if (this.actor) {
-      const ammo = this.actor.items.find((i) => i.data._id === this.data.data.magazine.ammoId);
-      if (ammo) {
-        return ammo.data.data.type;
-      }
-    }
-    return undefined;
-  }
-
   toggleFavorite() {
     LOGGER.trace("toggleFavorite | CPRItem | Called.");
     this.update({ "data.favorite": !this.data.data.favorite });
@@ -495,217 +294,5 @@ export default class CPRItem extends Item {
       default:
     }
     return null;
-  }
-
-  _createAttackRoll(type, actor) {
-    LOGGER.trace("_createAttackRoll | CPRItem | Called.");
-    const weaponData = this.data.data;
-    const weaponName = this.name;
-    const { weaponType } = weaponData;
-    let skillItem = actor.items.find((i) => i.name === weaponData.weaponSkill);
-
-    if (type === CPRRolls.rollTypes.SUPPRESSIVE || type === CPRRolls.rollTypes.AUTOFIRE) {
-      skillItem = actor.items.find((i) => i.name === "Autofire");
-      if (!this.data.data.fireModes.suppressiveFire) {
-        if (this.data.data.weaponType !== "smg" && this.data.data.weaponType !== "heavySmg" && this.data.data.weaponType !== "assaultRifle") {
-          Rules.lawyer(false, "CPR.messages.weaponDoesntSupportAltMode");
-        }
-      }
-    }
-
-    const skillValue = skillItem.data.data.level;
-    const skillName = skillItem.data.name;
-    const skillMod = skillItem.data.data.skillmod;
-    let cprRoll;
-    let statName;
-    if (weaponData.isRanged && this.data.data.weaponType !== "thrownWeapon") {
-      statName = "ref";
-    } else {
-      statName = "dex";
-    }
-
-    const niceStatName = SystemUtils.Localize(`CPR.global.stats.${statName}`);
-    const statValue = actor.getStat(statName);
-    let roleName;
-    let roleValue = 0;
-    actor.data.filteredItems.role.forEach((r, index1) => {
-      const roleSkillBonuses = actor.data.filteredItems.role.filter((role) => role.data.data.bonuses.some((b) => b.name === skillName));
-      if (roleSkillBonuses.length > 0 && index1 === 0) {
-        roleSkillBonuses.forEach((b, index2) => {
-          if (roleName) {
-            roleName += `, ${b.data.data.mainRoleAbility}`;
-          } else if (index2 === 0) {
-            roleName = b.data.data.mainRoleAbility;
-          }
-          roleValue += Math.floor(b.data.data.rank / b.data.data.bonusRatio);
-        });
-      }
-      const subroleSkillBonuses = r.data.data.abilities.filter((a) => a.bonuses.some((b) => b.name === skillName));
-      if (subroleSkillBonuses.length > 0) {
-        subroleSkillBonuses.forEach((b, index3) => {
-          if (roleName) {
-            roleName += `, ${b.name}`;
-          } else if (index3 === 0) {
-            roleName = b.name;
-          }
-          roleValue += Math.floor(b.rank / b.bonusRatio);
-        });
-      }
-    });
-    let universalBonusAttack = actor.data.data.universalBonuses.attack;
-    this.actor.data.filteredItems.role.forEach((r) => {
-      if (r.data.data.universalBonuses.includes("attack")) {
-        universalBonusAttack += Math.floor(r.data.data.rank / r.data.data.bonusRatio);
-      }
-      const subroleUniversalBonuses = r.data.data.abilities.filter((a) => a.universalBonuses.includes("attack"));
-      if (subroleUniversalBonuses.length > 0) {
-        subroleUniversalBonuses.forEach((b) => {
-          universalBonusAttack += Math.floor(b.rank / b.bonusRatio);
-        });
-      }
-    });
-
-    switch (type) {
-      case CPRRolls.rollTypes.AIMED: {
-        cprRoll = new CPRRolls.CPRAimedAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
-        break;
-      }
-      case CPRRolls.rollTypes.AUTOFIRE: {
-        cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
-        break;
-      }
-      case CPRRolls.rollTypes.SUPPRESSIVE: {
-        cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
-        break;
-      }
-      default:
-        cprRoll = new CPRRolls.CPRAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
-    }
-
-    // apply known mods
-    cprRoll.addMod(actor.getArmorPenaltyMods(statName));
-    cprRoll.addMod(actor.getWoundStateMods());
-    cprRoll.addMod(this._getMods());
-    cprRoll.addMod(this._getAttackMod());
-    cprRoll.addMod(skillMod);
-
-    if (cprRoll instanceof CPRRolls.CPRAttackRoll && weaponData.isRanged) {
-      Rules.lawyer(this.hasAmmo(cprRoll), "CPR.messages.weaponAttackOutOfBullets");
-    }
-    return cprRoll;
-  }
-
-  _createDamageRoll(type) {
-    LOGGER.trace("_createDamageRoll | CPRItem | Called.");
-    const rollName = this.data.name;
-    const { weaponType } = this.data.data;
-    let { damage } = this.data.data;
-    let universalBonusDamage = this.actor.data.data.universalBonuses.damage;
-    if ((weaponType === "unarmed" || weaponType === "martialArts") && this.data.data.unarmedAutomaticCalculation) {
-      // calculate damage based on BODY stat
-      const actorBodyStat = this.actor.data.data.stats.body.value;
-      if (actorBodyStat <= 4) {
-        if (weaponType === "unarmed" && this.actor.data.filteredItems.cyberware.some((c) => (
-          (c.data.data.type === "cyberArm") && (c.data.data.isInstalled === true) && (c.data.data.isFoundational === true)))) {
-          // If the user has an installed Cyberarm, which is a foundational. This is only for unarmed damage, not martial arts damage.
-          damage = "2d6";
-        } else {
-          damage = "1d6";
-        }
-      } else if (actorBodyStat <= 6) {
-        damage = "2d6";
-      } else if (actorBodyStat <= 10) {
-        damage = "3d6";
-      } else {
-        damage = "4d6";
-      }
-    }
-    this.actor.data.filteredItems.role.forEach((r) => {
-      if (r.data.data.universalBonuses.includes("damage")) {
-        universalBonusDamage += Math.floor(r.data.data.rank / r.data.data.bonusRatio);
-      }
-      const subroleUniversalBonuses = r.data.data.abilities.filter((a) => a.universalBonuses.includes("damage"));
-      if (subroleUniversalBonuses.length > 0) {
-        subroleUniversalBonuses.forEach((b) => {
-          universalBonusDamage += Math.floor(b.rank / b.bonusRatio);
-        });
-      }
-    });
-    const cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType, universalBonusDamage);
-
-    if (this.data.data.fireModes.autoFire === 0 && (
-      (this.data.data.weaponType === "smg" || this.data.data.weaponType === "heavySmg" || this.data.data.weaponType === "assaultRifle"))) {
-      this.data.data.fireModes.autoFire = this.data.data.weaponType === "assaultRifle" ? 4 : 3;
-    }
-
-    cprRoll.configureAutofire(1, this.data.data.fireModes.autoFire);
-
-    switch (type) {
-      case CPRRolls.rollTypes.AIMED: {
-        cprRoll.isAimed = true;
-        break;
-      }
-      case CPRRolls.rollTypes.AUTOFIRE: {
-        cprRoll.setAutofire();
-        break;
-      }
-      default:
-    }
-    if (this.data.data.isRanged) {
-      const ammoType = this._getLoadedAmmoType();
-      if (ammoType !== "undefined") {
-        cprRoll.rollCardExtraArgs.ammoType = ammoType;
-      }
-    }
-    const halfArmorAttacks = [
-      "lightMelee",
-      "medMelee",
-      "heavyMelee",
-      "vHeavyMelee",
-      "martialArts",
-    ];
-    if (halfArmorAttacks.includes(weaponType)) {
-      cprRoll.rollCardExtraArgs.ignoreHalfArmor = true;
-    }
-    const upgradeType = this.getUpgradeTypeFor("damage");
-    const upgradeValue = this.getAllUpgradesFor("damage");
-    if (upgradeType === "override") {
-      cprRoll.formula = "0d6";
-    }
-    cprRoll.addMod(upgradeValue);
-
-    return cprRoll;
-  }
-
-  _getMods() {
-    LOGGER.trace("_getMods | CPRItem | Called.");
-    switch (this.type) {
-      case "weapon": {
-        if (this.data.data.quality === "excellent") {
-          return 1;
-        }
-        break;
-      }
-      default:
-    }
-    return 0;
-  }
-
-  _getAttackMod() {
-    LOGGER.trace("_getAttackMod | CPRItem | Called.");
-    let returnValue = 0;
-    switch (this.type) {
-      case "weapon": {
-        if (typeof this.data.data.attackmod !== "undefined") {
-          returnValue = this.data.data.attackmod;
-        }
-        break;
-      }
-      default:
-    }
-    const upgradeValue = this.getAllUpgradesFor("attackmod");
-    const upgradeType = this.getUpgradeTypeFor("attackmod");
-    returnValue = (upgradeType === "override") ? upgradeValue : returnValue + upgradeValue;
-    return returnValue;
   }
 }

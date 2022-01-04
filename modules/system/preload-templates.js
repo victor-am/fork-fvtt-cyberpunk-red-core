@@ -115,8 +115,10 @@ export default function preloadHandlebarsTemplates() {
 
     // Item Sheet Partials
     // Description Mixins
+    "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-attackable.hbs",
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-effects.hbs",
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-equippable.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-loadable.hbs",
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-installable.hbs",
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-physical.hbs",
     "systems/cyberpunk-red-core/templates/item/description/mixin/cpr-stackable.hbs",
@@ -135,10 +137,13 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/description/cpr-role.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-skill.hbs",
     "systems/cyberpunk-red-core/templates/item/description/cpr-vehicle.hbs",
+    "systems/cyberpunk-red-core/templates/item/description/cpr-weapon.hbs",
 
     // Setting Mixins
+    "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-attackable.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-effects.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-equippable.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-loadable.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-installable.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-physical.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-stackable.hbs",
@@ -157,6 +162,7 @@ export default function preloadHandlebarsTemplates() {
     "systems/cyberpunk-red-core/templates/item/settings/cpr-role.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-skill.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/cpr-vehicle.hbs",
+    "systems/cyberpunk-red-core/templates/item/settings/cpr-weapon.hbs",
 
     // Active Effects Sheet
     "systems/cyberpunk-red-core/templates/effects/cpr-active-effect-sheet.hbs",

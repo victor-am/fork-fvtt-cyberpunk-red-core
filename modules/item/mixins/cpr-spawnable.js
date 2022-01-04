@@ -2,7 +2,7 @@
 import LOGGER from "../../utils/cpr-logger.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 
-const Spawner = function Spawner() {
+const Spawnable = function Spawnable() {
   /**
    * Create a Black ICE Token on the active scene as it was just rezzed
    *
@@ -240,4 +240,4 @@ const Spawner = function Spawner() {
   };
 };
 
-export default Spawner;
+export default Spawnable;

@@ -65,6 +65,8 @@ export default class CPRActor extends Actor {
         }
       }
     });
+    this.data.bonuses.universalAttack = 0;
+    this.data.bonuses.universalDamage = 0;
   }
 
   /**
@@ -335,7 +337,7 @@ export default class CPRActor extends Actor {
     if (item.data.data.isInstalled) {
       const foundationalCyberware = this._getOwnedItem(foundationalId);
       const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots - item.data.data.slotSize;
-      const newOptionalIds = foundationalCyberware.getData().optionalIds.filter(
+      const newOptionalIds = foundationalCyberware.data.data.optionalIds.filter(
         (optionId) => optionId !== item.data._id,
       );
       return this.updateEmbeddedDocuments("Item", [{
@@ -954,7 +956,8 @@ export default class CPRActor extends Actor {
   _getEquippedWeapons() {
     LOGGER.trace("_getEquippedWeapons | CPRActor | Called.");
     const weapons = this.data.filteredItems.weapon;
-    return weapons.filter((a) => a.getData().equipped === "equipped");
+    LOGGER.debugObject(weapons);
+    return weapons.filter((a) => a.data.data.equipped === "equipped");
   }
 
   /**
@@ -1172,7 +1175,7 @@ export default class CPRActor extends Actor {
           const armorData = a.data;
           armorData.data.shieldHitPoints.value = Number(armorData.data.shieldHitPoints.value);
           armorData.data.shieldHitPoints.max = Number(armorData.data.shieldHitPoints.max);
-          armorData.data.shieldHitPoints.value = Math.max((a.getData().shieldHitPoints.value - ablation), 0);
+          armorData.data.shieldHitPoints.value = Math.max((a.data.shieldHitPoints.value - ablation), 0);
           updateList.push({ _id: a.id, data: armorData.data });
         });
         await this.updateEmbeddedDocuments("Item", updateList);

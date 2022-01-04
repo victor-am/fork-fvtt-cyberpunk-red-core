@@ -12,7 +12,7 @@
                 <span class="summary-value">&nbsp;&nbsp;{{localize (cprGetEffectModifierKeyName (lookup ../data.flags.cyberpunk-red-core.changes @index) this.key)}}: </span>
                 <span class="summary-value">
                     {{#if this.value}}
-                        {{cprEffectModMode this.mode}}{{this.value}}
+                        {{cprEffectModMode this.mode this.value}}{{this.value}}
                     {{else}}
                         0
                     {{/if}}

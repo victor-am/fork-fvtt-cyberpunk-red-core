@@ -43,38 +43,32 @@
             "max": 6
           }
         },
-
         "externalData": {
           "currentArmorBody": {
             "id": "",
             "value": 0,
             "max": 0
           },
-
           "currentArmorHead": {
             "id": "",
             "value": 0,
             "max": 0
           },
-
           "currentArmorShield": {
             "id": "",
             "value": 0,
             "max": 0
           },
-
           "currentWeapon": {
             "id": "",
             "value": 0,
             "max": 0
           }
         },
-
         "universalBonuses": {
           "attack": 0,
           "damage": 0
         },
-
         "derivedStats": {
           "hp": {
             "value": 40,
@@ -357,6 +351,19 @@
       "weapon"
     ],
     "templates": {
+      "attackable": {
+        "weaponType": "",
+        "weaponSkill": "",
+        "fireModes": {
+          "autoFire": 0,
+          "suppressiveFire": false
+        },
+        "damage": "1d6",
+        "rof": 1,
+        "dvTable": "",
+        "isRanged": false,
+        "unarmedAutomaticCalculation": true
+      },
       "common": {
         "tags": [],
         "description": {
@@ -374,12 +381,27 @@
       "equippable": {
         "equipped": "owned"
       },
+      "loadable": {
+        "usesType": "magazine",
+        "magazine": {
+          "value": 0,
+          "max": 0,
+          "ammoId": ""
+        },
+        "ammoVariety": []
+      },
+      "installable": {
+        "install": "mall",
+        "isInstalled": false,
+        "installedInto": ""
+      },
       "physical": {
         "concealable": {
           "concealable": false,
           "isConcealed": false
         }
       },
+      "spawnable": {},
       "stackable": {
         "amount": 1
       },
@@ -393,39 +415,6 @@
           "market": 0,
           "category": ""
         }
-      },
-      "weapon": {
-        "weaponType": "",
-        "weaponSkill": "",
-        "fireModes": {
-          "autoFire": 0,
-          "suppressiveFire": false
-        },
-        "damage": "1d6",
-        "rof": 1,
-        "attachmentSlots": 0,
-        "dvTable": "",
-        "isRanged": false,
-        "attackmod": 0,
-        "unarmedAutomaticCalculation": true
-      },
-      "uses": {
-        "usesType": "magazine",
-        "magazine": {
-            "value": 0,
-            "max": 0,
-            "ammoId": ""
-        },
-        "ammoVariety": [],
-        "charges": {
-          "value": 0,
-          "max": 0
-        }
-      },
-      "installable": {
-        "install": "mall",
-        "isInstalled": false,
-        "installedInto": ""
       }
     },
     "ammo": {
@@ -466,11 +455,11 @@
     },
     "cyberware": {
       "templates": [
+        "attackable",
         "common",
         "physical",
         "upgradable",
-        "weapon",
-        "uses",
+        "loadable",
         "installable"
       ],
       "type": "cyberArm",
@@ -532,6 +521,7 @@
       "templates": [
         "common",
         "installable",
+        "spawnable",
         "valuable"
       ],
       "class": "defender",
@@ -552,13 +542,13 @@
     },
     "weapon": {
       "templates": [
+        "attackable",
         "common",
-        "physical",
-        "upgradable",
+        "effects",
         "equippable",
-        "concealable",
-        "weapon",
-        "uses"
+        "loadable",
+        "physical",
+        "upgradable"
       ],
       "handsReq": 1
     },
@@ -619,11 +609,11 @@
     },
     "itemUpgrade": {
       "templates": [
+        "attackable",
         "common",
         "physical",
         "installable",
-        "weapon",
-        "uses"
+        "loadable"
       ],
       "handsReq": 0,
       "equipped": "owned",

@@ -19,7 +19,7 @@ export default class CPRRoleItem extends CPRItem {
    * @returns {CPRRoll}
    */
   _createRoleRoll(rollType, actor, rollInfo) {
-    LOGGER.trace("_createRoleRoll | CPRItem | Called.");
+    LOGGER.trace("_createRoleRoll | CPRRoleItem | Called.");
     const itemData = this.data.data;
     let roleName = itemData.mainRoleAbility;
     let rollTitle;
@@ -116,5 +116,51 @@ export default class CPRRoleItem extends CPRItem {
     }
     cprRoll.addMod(actor.getWoundStateMods());
     return cprRoll;
+  }
+
+  /**
+   * Given the name of a skill, look up the role and subRole bonuses and see if any should
+   * be applied to the skill. If they do, sum them up and return the bonus.
+   *
+   * @param {String} skillName - name of the skill to look for
+   * @return {Array} - a tuple, the first is a list of related role abilities, the second being total bonuses
+   */
+  getSkillBonuses(skillName) {
+    LOGGER.trace("getSkillBonuses | CPRRoleItem | Called.");
+    // some role abilities modify skills too, so we account for that here
+    let roleName;
+    let roleValue = 0;
+    LOGGER.debugObject(this);
+    const roleSkillBonuses = this.data.data.bonuses.filter((b) => b.name === skillName);
+    if (roleSkillBonuses.length > 0) {
+      roleSkillBonuses.forEach((b, index2) => {
+        if (roleName) {
+          roleName += `, ${this.data.data.mainRoleAbility}`;
+        } else if (index2 === 0) {
+          roleName = this.data.data.mainRoleAbility;
+        }
+        roleValue += Math.floor(this.data.data.rank / this.data.data.bonusRatio);
+      });
+    }
+    // check whether a sub-ability of a role has the bonuses property. They might affect skills.
+    const subroleSkillBonuses = [];
+    this.data.data.abilities.forEach((a) => {
+      if ("bonuses" in a) {
+        a.bonuses.forEach((b) => {
+          if (b.name === skillName) subroleSkillBonuses.push(a);
+        });
+      }
+    });
+    if (subroleSkillBonuses.length > 0) {
+      subroleSkillBonuses.forEach((b, index3) => {
+        if (roleName) {
+          roleName += `, ${b.name}`;
+        } else if (index3 === 0) {
+          roleName = b.name;
+        }
+        roleValue += Math.floor(b.rank / b.bonusRatio);
+      });
+    }
+    return [roleName, roleValue];
   }
 }

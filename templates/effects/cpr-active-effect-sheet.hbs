@@ -43,8 +43,8 @@
     <section class="tab" data-tab="effects">
         <header class="effect-change effects-header flexrow">
             <div class="key">{{ localize "EFFECT.ChangeKey" }}</div>
-            <div class="mode">{{ localize "EFFECT.ChangeMode" }}</div>
             <div class="value">{{ localize "EFFECT.ChangeValue" }}</div>
+            <div class="mode">{{ localize "EFFECT.ChangeMode" }}</div>
             <div class="effect-controls">
                 <a class="effect-change-control" data-action="add"><i class="far fa-plus-square"></i></a>
             </div>
@@ -60,6 +60,7 @@
                                 <option value="skill">{{localize "CPR.effectSheet.keyCategory.skill"}}</option>
                                 <option value="stat">{{localize "CPR.effectSheet.keyCategory.stat"}}</option>
                                 <option value="role">{{localize "CPR.effectSheet.keyCategory.role"}}</option>
+                                <option value="combat">{{localize "CPR.effectSheet.keyCategory.combat"}}</option>
                                 <option value="custom">{{localize "CPR.effectSheet.keyCategory.custom"}}</option>
                             {{/select}}
                         </select>
@@ -76,22 +77,27 @@
                         </select>
                     {{/if}}
                 </div>
-                <div class="mode">
-                    <!-- If we need the other modes, go back to how Foundry does it here -->
-                    <select name="changes.{{i}}.mode" data-dtype="Number">
-                        {{#select change.mode}}
-                            {{#each (cprFindConfigObj "effectModifierModes") as |modename modenum|}}
-                                <option value="{{modenum}}">{{localize modename}}</option>
-                            {{/each}}
-                        {{/select}}
-                    </select>
-                </div>
                 <div class="value">
                     <input type="text" name="changes.{{i}}.value" value="{{change.value}}"/>
                 </div>
-                
+                <div class="mode">
+                    <select name="changes.{{i}}.mode" data-dtype="Number">
+                        {{#select change.mode}}
+                            {{!-- If we need the other modes, we need to make changes to actor.bonuses. Rather than 0 all values out, it
+                                needs to persist the existing value, and the mode so the math applies correctly. This has implications
+                                on how to present in the actor sheet too. Uncomment below to enable the other modes. 
+                            {{#each (cprFindConfigObj "effectModifierModes") as |modename modenum|}}
+                                <option value="{{modenum}}">{{localize modename}}</option>
+                            {{/each}} --}}
+                            <option value="2">{{localize "CPR.effectSheet.modifiers.addsubtract"}}</option>
+                        {{/select}}
+                    </select>
+                </div>
                 <div class="effect-controls">
-                    {{!-- <a class="effect-change-control" data-action="delete" data-index={{i}}><i class="fas fa-trash"></i></a>  --}}
+                    {{!-- Deleting a change is possible, but the changes Flag on the actor needs to not be an array first.
+                          Being an array creats a problem when a change in the middle of the list is deleted.
+                           <a class="effect-change-control" data-action="delete" data-index={{i}}><i class="fas fa-trash"></i></a>  --}}
+                    <i class="fas fa-question-circle" title="{{localize "CPR.effectSheet.info.deleteAndModesComing"}}"></i>
                 </div>
             </li>
             {{/each}}

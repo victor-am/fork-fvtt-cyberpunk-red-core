@@ -657,13 +657,13 @@ export default function registerHandlebarsHelpers() {
    * For readability's sake, translate the "mode" of an active effect mod into an intuitive mathematical operator.
    * For unknown modes, just return a question mark, which shouldn't happen.
    */
-  Handlebars.registerHelper("cprEffectModMode", (mode) => {
+  Handlebars.registerHelper("cprEffectModMode", (mode, value) => {
     LOGGER.trace("cprEffectModMode | handlebarsHelper | Called.");
     switch (mode) {
       case 1:
         return "*";
       case 2:
-        return "+";
+        return value > 0 ? "+" : "";
       case 3:
         return "=";
       default:

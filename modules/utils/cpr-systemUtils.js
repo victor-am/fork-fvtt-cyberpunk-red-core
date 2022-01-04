@@ -419,8 +419,13 @@ export default class CPRSystemUtils {
           "data.stats.body.value": "CPR.global.stats.body",
           "data.stats.emp.max": "CPR.global.stats.empMax",
           "data.stats.emp.value": "CPR.global.stats.emp",
+        };
+      }
+      case "combat": {
+        return {
           "data.data.derivedStats.hp": "CPR.global.generic.hitpoints",
-          "data.data.universalBonuses.attack": "CPR.itemSheet.weapon.attackMod",
+          "bonuses.universalAttack": "CPR.universalBonuses.attack",
+          "bonuses.universalDamage": "CPR.universalBonuses.damage",
         };
       }
       case "role": {
