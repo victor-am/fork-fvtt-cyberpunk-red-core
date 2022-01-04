@@ -1,3 +1,10 @@
+# Version 0.80.1 | Date: 2021-01-04
+**Hot Fix**
+- Addressed #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
+- Fixed #354: Item Upgrades should be removable again and additional upgrades can be installed.
+- Fixed #355 - Drag and drop to hotbar restored
+- Corrected many French translation strings
+
 # Version 0.80.0 | Date: 2021-12-23
 
 **New Features**
