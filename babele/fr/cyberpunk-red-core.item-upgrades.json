@@ -1,132 +1,132 @@
 {
-	"label": "Item Upgrades",
+	"label": "Améliorations d'objets",
 	"entries": {
 		"Assault Rifle Drum Magazine": {
-			"name": "Assault Rifle Drum Magazine",
+			"name": "Chargeur à tambour de fusil d'assaut",
 			"description": ""
 		},
 		"Assault Rifle Extended Magazine": {
-			"name": "Assault Rifle Extended Magazine",
+			"name": "Extension de chargeur pour fusil d'assaut",
 			"description": ""
 		},
 		"Backup Drive": {
-			"name": "Backup Drive",
-			"description": "<p>Saves Non-Black IE programs when destroyed. These programs can be re-installed by a Netrunner as a meat action.&nbsp;</p>"
+			"name": "Disque dur de sauvegarde",
+			"description": "<p>Sauvegarde les programmes offensifs, défensifs ou de soutien qui sont détruits en les plaçant sur le disque dur juste avant qu'ils ne disparaissent. En dépensant une action réelle, un netrunner peut réinstaller tous les programmes sauvés.</p>"
 		},
 		"Bayonet": {
-			"name": "Bayonet",
+			"name": "Baïonnette",
 			"description": ""
 		},
 		"DNA Lock": {
-			"name": "DNA Lock",
-			"description": "<p>Uses biometrics to lock the cyberdeck. Requires DV17 Electronics/Security Tech Check to crack.&nbsp;</p>"
+			"name": "Verrou biométrique",
+			"description": "<p>Utilise la biométrie pour verrouiller la cyberconsole. Impossible d'accéder à une cyberconsole verrouillée sans sa clé biométrique, à moins de réussir un jet de Sécurité électronique SD 17. </p>"
 		},
 		"Grenade Launcher Drum Magazine": {
-			"name": "Grenade Launcher Drum Magazine",
+			"name": "Chargeur à cylindre de lance-grenades",
 			"description": ""
 		},
 		"Grenade Launcher Extended Magazine": {
-			"name": "Grenade Launcher Extended Magazine",
+			"name": "Extension de chargeur pour lance-grenades",
 			"description": ""
 		},
 		"Grenade Launcher Underbarrel": {
-			"name": "Grenade Launcher Underbarrel",
+			"name": "Lance-grenades sous canon",
 			"description": ""
 		},
 		"Hardened Circuitry": {
-			"name": "Hardened Circuitry",
-			"description": "<p>Cyberdeck cannot be disabled or destroyed by EMP effects.&nbsp;</p>"
+			"name": "Circuits renforcés",
+			"description": "<p>Une Cyberconsole aux circuits renforcés ne peut pas être désactivé ou détruit par les effets d'IEM.</p>"
 		},
 		"Heavy Pistol Drum Magazine": {
-			"name": "Heavy Pistol Drum Magazine",
+			"name": "Chargeur à cylindre de pistolet lourd",
 			"description": ""
 		},
 		"Heavy Pistol Extended Magazine": {
-			"name": "Heavy Pistol Extended Magazine",
+			"name": "Extension de chargeur pour pistolet lourd",
 			"description": ""
 		},
 		"Heavy SMG Drum Magazine": {
-			"name": "Heavy SMG Drum Magazine",
+			"name": "Chargeur à cylindre de pistolet-mitrailleur lourd",
 			"description": ""
 		},
 		"Heavy SMG Extended Magazine": {
-			"name": "Heavy SMG Extended Magazine",
+			"name": "Extension de chargeur pour pistolet-mitrailleur lourd",
 			"description": ""
 		},
 		"Infrared Nightvision Scope": {
-			"name": "Infrared Nightvision Scope",
-			"description": "<p>Reduces penalties against targets in darkness, smoke/fog to 0.</p>"
+			"name": "Lunette infrarouge de vision nocturne",
+			"description": "<p>Réduit à 0 le malus imposé au tir contre une cible dissimulée par l'obscurité, la fumée, le brouillard etc...</p>"
 		},
 		"Insulated Wiring": {
-			"name": "Insulated Wiring",
-			"description": "<p>Cyberdeck and user clothing cannot catch fire.&nbsp;</p>"
+			"name": "Câblage isolé",
+			"description": "<p>Une cyberconsole dotée d'un câblage isolé ne peut ni prendre feu ni mettre le feu eux vêtements de l'utilisateur à cause de l'effet d'un programme.</p>"
 		},
 		"KRASH Barrier": {
-			"name": "KRASH Barrier",
-			"description": "<p>Cyberdeck is immune to effects that force the Netrunner to Jack Out (safely or unsafely)</p>"
+			"name": "Barrière anti-KRASH",
+			"description": "<p>Une cyberconsole dotée d'une Barrière anti-KRASH est immunisé contre les effets qui forcent le Netrunner à se déconnecter, que ce soit de manière sûre ou non.</p>"
 		},
 		"Medium Pistol Drum Magazine": {
-			"name": "Medium Pistol Drum Magazine",
+			"name": "Chargeur à cylindre de pistolet moyen",
 			"description": ""
 		},
 		"Medium Pistol Extended Magazine": {
-			"name": "Medium Pistol Extended Magazine",
+			"name": "Extension de chargeur pour pistolet moyen",
 			"description": ""
 		},
 		"Range Upgrade": {
-			"name": "Range Upgrade",
-			"description": "<p>Cyberdeck can connect to access points from up to 8m/yds away (instead of 6m/yds).</p>"
+			"name": "Extension de portée",
+			"description": "<p>Une cyberconsole dotée d'une extension de portée peut se connecter à un point d'accès situé à 8 m de distance ou moins.</p>"
 		},
 		"Rocket Launcher Drum Magazine": {
-			"name": "Rocket Launcher Drum Magazine",
+			"name": "Chargeur à cylindre de lance-roquettes",
 			"description": ""
 		},
 		"Rocket Launcher Extended Magazine": {
-			"name": "Rocket Launcher Extended Magazine",
+			"name": "Extension de chargeur pour lance-roquettes",
 			"description": ""
 		},
 		"SMG Drum Magazine": {
-			"name": "SMG Drum Magazine",
+			"name": "Chargeur à cylindre de pistolet-mitrailleur",
 			"description": ""
 		},
 		"SMG Extended Magazine": {
-			"name": "SMG Extended Magazine",
+			"name": "Extension de chargeur pour pistolet-mitrailleur",
 			"description": ""
 		},
 		"Shotgun Drum Magazine": {
-			"name": "Shotgun Drum Magazine",
+			"name": "Chargeur à cylindre de fusil à pompe",
 			"description": ""
 		},
 		"Shotgun Extended Magazine": {
-			"name": "Shotgun Extended Magazine",
+			"name": "Extension de chargeur pour fusil à pompe",
 			"description": ""
 		},
 		"Shotgun Underbarrel": {
-			"name": "Shotgun Underbarrel",
+			"name": "Double canon à pompe",
 			"description": ""
 		},
 		"Smartgun Link": {
-			"name": "Smartgun Link",
-			"description": "<p>Turns weapon into a \"Smartgun\". Refer to all rules specified on pg. 344 before using.&nbsp;</p>"
+			"name": "Liaison smartgun",
+			"description": "<p>Transforme l'arme en Smartgun (CF page 344).</p>"
 		},
 		"Sniper Rifle Drum Magazine": {
-			"name": "Sniper Rifle Drum Magazine",
+			"name": "Chargeur à cylindre de fusil de précision",
 			"description": ""
 		},
 		"Sniper Rifle Extended Magazine": {
-			"name": "Sniper Rifle Extended Magazine",
+			"name": "Extension de chargeur pour fusil de précision",
 			"description": ""
 		},
 		"Sniping Scope": {
-			"name": "Sniping Scope",
-			"description": "<p>Allows you to see detail up to 800m/yds. +1 to Single Shot/Aimed Shots for targets greater than 51m/yds.&nbsp;</p>"
+			"name": "Lunette de précision",
+			"description": "<p>Permet de voir les détails jusqu'à 800m. Lorsque vous attaquez une cible située à 51 m ou plus, vous pouvez ajouter +1 à votre jet. Ne s'ajoute pas aux bonus de téléoptique.</p>"
 		},
 		"Very Heavy Pistol Drum Magazine": {
-			"name": "Very Heavy Pistol Drum Magazine",
+			"name": "Chargeur à cylindre de pistolet très lourd",
 			"description": ""
 		},
 		"Very Heavy Pistol Extended Magazine": {
-			"name": "Very Heavy Pistol Extended Magazine",
+			"name": "Extension de chargeur pour pistolet très lourd",
 			"description": ""
 		}
 	}
