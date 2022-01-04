@@ -1,3 +1,13 @@
+# Version DEV | Date: WIP
+
+**New Features**
+
+**Changes**
+- Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
+- Consolidated gain, lose and set ledger functions for EB, IP and Reputation to make it more manageable.
+- Feature Request #179: Add ability to track reputation and roll face down.
+
+**Bug Fixes**
 # Version 0.80.1 | Date: 2021-01-04
 **Hot Fix**
 - Addressed #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
