@@ -54,7 +54,7 @@
                             /{{cprApplyUpgrade armor armor.data.data.headLocation.sp "headSp"}}
                             <a class="ablate" data-location="head">
                                 <i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.characterSheet.bottomPane.fight.ablateArmor"}}"></i>
-                            </a> 
+                            </a>
                             {{#if (cprCompare armor.id "===" ../actor.data.data.externalData.currentArmorHead.id)}}
                                 <a class="armor-current" data-location="head" data-item-id="{{armor.id}}">
                                     <i class="fas fa-star" title="{{localize "CPR.actorSheets.commonActions.resyncHeadArmor"}}"></i>
@@ -81,14 +81,14 @@
                             /{{cprApplyUpgrade armor armor.data.data.bodyLocation.sp "bodySp"}}
                             <a class="ablate" data-location="body">
                                 <i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.characterSheet.bottomPane.fight.ablateArmor"}}"></i>
-                            </a> 
+                            </a>
                             {{#if (cprCompare armor.id "===" ../actor.data.data.externalData.currentArmorBody.id)}}
                                 <a class="armor-current" data-location="body" data-item-id="{{armor.id}}">
-                                    <i class="fas fa-star" title="{{localize "CPR.resyncbodyarmor"}}"></i>
+                                    <i class="fas fa-star" title="{{localize "CPR.actorSheets.commonActions.resyncBodyArmor"}}"></i>
                                 </a>
                             {{else}}
                                 <a class="armor-current" data-location="body" data-item-id="{{armor.id}}">
-                                    <i class="far fa-star" title="{{localize "CPR.makebodyarmoractive"}}"></i>
+                                    <i class="far fa-star" title="{{localize "CPR.actorSheets.commonActions.makeBodyArmorActive"}}"></i>
                                 </a>
                             {{/if}}
                         </div>
@@ -108,7 +108,7 @@
                             /{{cprApplyUpgrade armor armor.data.data.shieldHitPoints.max "shieldHp"}}
                             <a class="ablate" data-location="shield">
                                 <i class="far fa-arrow-alt-circle-down" title="{{localize "CPR.characterSheet.bottomPane.fight.damageShield"}}"></i>
-                            </a> 
+                            </a>
                             {{#if (cprCompare armor.id "===" ../actor.data.data.externalData.currentArmorShield.id)}}
                                 <a class="armor-current" data-location="shield" data-item-id="{{armor.id}}">
                                     <i class="fas fa-star" title="{{localize "CPR.actorSheets.commonActions.resyncShield"}}"></i>

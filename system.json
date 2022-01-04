@@ -1,11 +1,11 @@
 {
-  "version": "0.80.0",
-  "flags": { "featureVideoURL": "" },
+  "version": "0.81.0",
+  "flags": { "featureVideoURL": "https://www.youtube.com/watch?v=2EJoC5oNWII" },
   "name": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
-  "minimumCoreVersion": "0.8.8",
-  "compatibleCoreVersion": "0.8.9",
+  "minimumCoreVersion": "9",
+  "compatibleCoreVersion": "9",
   "templateVersion": 2,
   "author": "The Project Red Team",
   "esmodules": ["cpr.js"],
@@ -13,7 +13,7 @@
   "packs": [
     {
       "label": "Skills (Core) - DO NOT USE",
-      "entity": "Item",
+      "type": "Item",
       "name": "skills",
       "path": "packs/skills.db",
       "system": "cyberpunk-red-core",
@@ -21,7 +21,7 @@
     },
     {
       "label": "Cyberware (Core) - DO NOT USE",
-      "entity": "Item",
+      "type": "Item",
       "name": "cyberware",
       "path": "packs/cyberware.db",
       "system": "cyberpunk-red-core",
@@ -29,7 +29,7 @@
     },
     {
       "label": "DV Rolltables - IMPORT ME",
-      "entity": "RollTable",
+      "type": "RollTable",
       "name": "dvTables",
       "path": "packs/dvTables.db",
       "system": "cyberpunk-red-core",
@@ -37,7 +37,7 @@
     },
     {
       "label": "Critical Injuries (Body) - IMPORT ME",
-      "entity": "Item",
+      "type": "Item",
       "name": "criticalInjuriesBody",
       "path": "packs/critical-injuries-body.db",
       "system": "cyberpunk-red-core",
@@ -45,7 +45,7 @@
     },
     {
       "label": "Critical Injuries (Head) - IMPORT ME",
-      "entity": "Item",
+      "type": "Item",
       "name": "criticalInjuriesHead",
       "path": "packs/critical-injuries-head.db",
       "system": "cyberpunk-red-core",
@@ -53,7 +53,7 @@
     },
     {
       "label": "Critical Injury Tables - IMPORT ME",
-      "entity": "RollTable",
+      "type": "RollTable",
       "name": "criticalInjuryTables",
       "path": "packs/critical-injury-tables.db",
       "system": "cyberpunk-red-core",
@@ -61,7 +61,7 @@
     },
     {
       "label": "Weapons",
-      "entity": "Item",
+      "type": "Item",
       "name": "weapons-items",
       "path": "packs/weapons.db",
       "system": "cyberpunk-red-core",
@@ -69,7 +69,7 @@
     },
     {
       "label": "Armor",
-      "entity": "Item",
+      "type": "Item",
       "name": "armor-items",
       "path": "packs/armor.db",
       "system": "cyberpunk-red-core",
@@ -77,7 +77,7 @@
     },
     {
       "label": "Ammo",
-      "entity": "Item",
+      "type": "Item",
       "name": "ammo-items",
       "path": "packs/ammo.db",
       "system": "cyberpunk-red-core",
@@ -85,7 +85,7 @@
     },
     {
       "label": "Cyberware",
-      "entity": "Item",
+      "type": "Item",
       "name": "cyberware-items",
       "path": "packs/cyberware-items.db",
       "system": "cyberpunk-red-core",
@@ -93,7 +93,7 @@
     },
     {
       "label": "Gear",
-      "entity": "Item",
+      "type": "Item",
       "name": "gear-items",
       "path": "packs/gear.db",
       "system": "cyberpunk-red-core",
@@ -101,7 +101,7 @@
     },
     {
       "label": "Programs",
-      "entity": "Item",
+      "type": "Item",
       "name": "programs-items",
       "path": "packs/programs.db",
       "system": "cyberpunk-red-core",
@@ -109,7 +109,7 @@
     },
     {
       "label": "Roles",
-      "entity": "Item",
+      "type": "Item",
       "name": "roles-items",
       "path": "packs/roles.db",
       "system": "cyberpunk-red-core",
@@ -117,7 +117,7 @@
     },
     {
       "label": "Vehicles",
-      "entity": "Item",
+      "type": "Item",
       "name": "vehicles-items",
       "path": "packs/vehicles.db",
       "system": "cyberpunk-red-core",
@@ -125,7 +125,7 @@
     },
     {
       "label": "Clothing",
-      "entity": "Item",
+      "type": "Item",
       "name": "clothing-items",
       "path": "packs/clothing.db",
       "system": "cyberpunk-red-core",
@@ -133,7 +133,7 @@
     },
     {
       "label": "Item Upgrades",
-      "entity": "Item",
+      "type": "Item",
       "name": "item-upgrades",
       "path": "packs/item-upgrades.db",
       "system": "cyberpunk-red-core",
@@ -141,7 +141,7 @@
     },
     {
       "label": "Scenes",
-      "entity": "Scene",
+      "type": "Scene",
       "name": "scenes",
       "path": "packs/scenes.db",
       "system": "cyberpunk-red-core",
@@ -149,7 +149,7 @@
     },
     {
       "label": "Elflines Online Macros",
-      "entity": "Macro",
+      "type": "Macro",
       "name": "elflines-online",
       "path": "packs/elflines-online.db",
       "system": "cyberpunk-red-core",
@@ -183,9 +183,9 @@
   "gridUnits": "m",
   "primaryTokenAttribute": "derivedStats.hp",
   "secondaryTokenAttribute": null,
-  "background" : "Header.jpg",
+  "background" : "images/Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
   "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/system.json",
-  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.80.0/fvtt-cyberpunk-red-core-v0.80.0.zip",
+  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.81.0/fvtt-cyberpunk-red-core-v0.81.0.zip",
   "license": "GPL v3"
 }
