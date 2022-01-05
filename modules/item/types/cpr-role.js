@@ -130,7 +130,6 @@ export default class CPRRoleItem extends CPRItem {
     // some role abilities modify skills too, so we account for that here
     let roleName;
     let roleValue = 0;
-    LOGGER.debugObject(this);
     const roleSkillBonuses = this.data.data.bonuses.filter((b) => b.name === skillName);
     if (roleSkillBonuses.length > 0) {
       roleSkillBonuses.forEach((b, index2) => {

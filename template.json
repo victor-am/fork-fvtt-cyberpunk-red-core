@@ -457,6 +457,7 @@
       "templates": [
         "attackable",
         "common",
+        "effects",
         "physical",
         "upgradable",
         "loadable",
@@ -616,7 +617,6 @@
         "loadable"
       ],
       "handsReq": 0,
-      "equipped": "owned",
       "size": 1,
       "type": "weapon",
       "modifiers": {}

@@ -65,7 +65,7 @@ export default class CPRCharacterActor extends CPRActor {
     if (setting) {
       // Set max HP
       derivedStats.hp.max = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
-
+      derivedStats.hp.max += actorData.bonuses.maxHp; // from any active effects
       derivedStats.hp.value = Math.min(
         derivedStats.hp.value,
         derivedStats.hp.max,
@@ -81,6 +81,7 @@ export default class CPRCharacterActor extends CPRActor {
         }
       });
       derivedStats.humanity.max = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
+      derivedStats.humanity.max += actorData.bonuses.maxHumanity; // from any active effects
       if (derivedStats.humanity.value > derivedStats.humanity.max) {
         derivedStats.humanity.value = derivedStats.humanity.max;
       }
@@ -98,7 +99,7 @@ export default class CPRCharacterActor extends CPRActor {
     derivedStats.currentWoundState = this.data.data.derivedStats.currentWoundState;
 
     // Death save
-    let basePenalty = 0;
+    let basePenalty = actorData.bonuses.deathSavePenalty; // 0 + active effects
     const critInjury = this.data.filteredItems.criticalInjury;
     critInjury.forEach((criticalInjury) => {
       const { deathSaveIncrease } = criticalInjury.data.data;
@@ -107,19 +108,6 @@ export default class CPRCharacterActor extends CPRActor {
       }
     });
 
-    // In 0.73.2 we moved all of the Death Save data into the single data point of
-    // derivedStats.deathSave.basePenalty, however, it causes a chicken/egg situation
-    // since it loads the data up before it migrates, triggering this code to run which
-    // errors out and ultimately messing the migration up. Yay. We should be able to
-    // remove this code after a release or two.
-    if ((typeof derivedStats.deathSave) === "number") {
-      const oldPenalty = derivedStats.deathSave;
-      derivedStats.deathSave = {
-        value: 0,
-        penalty: oldPenalty,
-        basePenalty,
-      };
-    }
     derivedStats.deathSave.basePenalty = basePenalty;
     derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
     this.data.data.derivedStats = derivedStats;

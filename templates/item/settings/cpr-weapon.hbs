@@ -1,22 +1,5 @@
 {{cprTrace "CPR-WEAPON.HBS"}}
 {{!-- Weapon Item Settings--}}
-{{#unless (cprCompare (cprCompare item.type "===" "itemUpgrade") "||" (cprCompare item.type "===" "cyberware"))}}
-    <li class="item flexrow">
-        <div class="item flexrow setting-name text-nowrap">
-            {{localize "CPR.global.equipState.equipped"}}
-        </div>
-        <div class="item flexrow setting-value text-nowrap item-end">
-            <select name="data.equipped" data-dtype="{{data.data.equipped}}">
-                {{#select data.data.equipped}}
-                    {{#each (cprFindConfigObj "equipped") as |equip e|}}
-                        <option value="{{e}}">{{localize equip}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
-        </div>
-    </li>
-{{/unless}}
-
 {{!-- ROF Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">

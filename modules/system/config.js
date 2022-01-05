@@ -404,6 +404,7 @@ CPR.effectUses = {
   carried: "CPR.effectSheet.uses.carried",
   consumed: "CPR.effectSheet.uses.consumed",
   equipped: "CPR.effectSheet.uses.equipped",
+  installed: "CPR.effectSheet.uses.installed",
   toggled: "CPR.effectSheet.uses.toggled",
 };
 

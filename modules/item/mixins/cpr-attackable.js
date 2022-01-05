@@ -84,7 +84,6 @@ const Attackable = function Attackable() {
       }
     });
 
-    LOGGER.debugObject(this.actor);
     // finally, total up active effects improving attacks
     universalBonusAttack += this.actor.data.bonuses.universalAttack;
 

@@ -155,8 +155,13 @@ const Effects = function Effects() {
       usageAllowed.push("consumed");
     }
     if (SystemUtils.hasDataModelTemplate(this.data.type, "physical")) {
-      usageAllowed.push("carried");
-      usageAllowed.push("equipped");
+      if (this.data.type !== "cyberware") {
+        usageAllowed.push("carried");
+        usageAllowed.push("equipped");
+      }
+    }
+    if (this.data.type === "cyberware") {
+      usageAllowed.push("installed");
     }
     return usageAllowed;
   };
@@ -177,6 +182,8 @@ const Effects = function Effects() {
         return this.data.data.equipped === "owned";
       case "equipped":
         return this.data.data.equipped !== "equipped";
+      case "installed":
+        return !this.data.data.isInstalled;
       default:
         return false;
     }

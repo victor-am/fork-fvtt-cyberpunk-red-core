@@ -14,7 +14,6 @@ import Physical from "./mixins/cpr-physical.js";
 import Stackable from "./mixins/cpr-stackable.js";
 import Spawnable from "./mixins/cpr-spawnable.js";
 import Upgradable from "./mixins/cpr-upgradable.js";
-import Virtual from "./mixins/cpr-virtual.js";
 import Valuable from "./mixins/cpr-valuable.js";
 
 /**
@@ -120,10 +119,6 @@ export default class CPRItem extends Item {
         }
         case "valuable": {
           Valuable.call(CPRItem.prototype);
-          break;
-        }
-        case "virtual": {
-          Virtual.call(CPRItem.prototype);
           break;
         }
         default:

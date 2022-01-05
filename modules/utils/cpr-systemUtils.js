@@ -414,18 +414,19 @@ export default class CPRSystemUtils {
           "data.stats.cool.value": "CPR.global.stats.cool",
           "data.stats.will.value": "CPR.global.stats.will",
           "data.stats.luck.max": "CPR.global.stats.luckMax",
-          "data.stats.luck.value": "CPR.global.stats.luck",
           "data.stats.move.value": "CPR.global.stats.move",
           "data.stats.body.value": "CPR.global.stats.body",
           "data.stats.emp.max": "CPR.global.stats.empMax",
-          "data.stats.emp.value": "CPR.global.stats.emp",
         };
       }
       case "combat": {
         return {
-          "data.data.derivedStats.hp": "CPR.global.generic.hitpoints",
-          "bonuses.universalAttack": "CPR.universalBonuses.attack",
-          "bonuses.universalDamage": "CPR.universalBonuses.damage",
+          "bonuses.hands": "CPR.effectSheet.combat.stats.numberOfHands",
+          "bonuses.maxHumanity": "CPR.effectSheet.combat.stats.maxHumanity",
+          "bonuses.maxHp": "CPR.effectSheet.combat.stats.maxHp",
+          "bonuses.deathSavePenalty": "CPR.effectSheet.combat.stats.deathPenalty",
+          "bonuses.universalAttack": "CPR.effectSheet.combat.stats.universalAttack",
+          "bonuses.universalDamage": "CPR.effectSheet.combat.stats.universalDamage",
         };
       }
       case "role": {

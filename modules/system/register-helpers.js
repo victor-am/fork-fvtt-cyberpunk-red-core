@@ -672,6 +672,25 @@ export default function registerHandlebarsHelpers() {
   });
 
   /**
+   * Figure out if an effect row should have a toggle glyph displayed or not.
+   * Only show the toggle if 1 of these conditions is true:
+   *    1. the effect is on the actor itself, not from an item
+   *    2. the item usage is set to "toggled"
+   *    3. the item is not suppressed and usage is not set to "always"
+   *
+   * @param {CPRActiveEffect} - effect data object
+   * @name {String} - the name of the actor
+   * @returns true or false if the toggle glyph should be displayed
+   */
+  Handlebars.registerHelper("cprShowEffectToggle", (effect, name) => {
+    LOGGER.trace("cprShowEffectToggle | handlebarsHelper | Called.");
+    if (effect.sourceName === name) return true;
+    if (!effect.data.isSuppressed && effect.usage !== "always") return true;
+    if (effect.data.isSuppressed && effect.usage === "toggled") return true;
+    return false;
+  });
+
+  /**
    * Get the transient bonus value applied to skills applied from Active Effects
    */
   Handlebars.registerHelper("cprGetSkillBonus", (skillName, actor) => {

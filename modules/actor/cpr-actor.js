@@ -65,6 +65,10 @@ export default class CPRActor extends Actor {
         }
       }
     });
+    this.data.bonuses.deathSavePenalty = 0;
+    this.data.bonuses.hands = 0;
+    this.data.bonuses.maxHp = 0;
+    this.data.bonuses.maxHumanity = 0;
     this.data.bonuses.universalAttack = 0;
     this.data.bonuses.universalDamage = 0;
   }
@@ -921,16 +925,15 @@ export default class CPRActor extends Actor {
   }
 
   /**
-   * Return the number of hands the actor has. For now this assumes 2, but in the future
-   * it will need to consider some cyberware options that provide more hands.
+   * Return the number of hands the actor has. For now this assumes 2 and considers any
+   * active effects that may add more. Characters cannot start with less than 2 hands.
    *
-   * @static
    * @private
    * @returns {Number}
    */
-  static _getHands() {
+  _getHands() {
     LOGGER.trace("_getHands | CPRActor | Called.");
-    return 2;
+    return 2 + this.data.bonuses.hands;
   }
 
   /**
@@ -943,7 +946,7 @@ export default class CPRActor extends Actor {
     LOGGER.trace("_getFreeHands | CPRActor | Called.");
     const weapons = this._getEquippedWeapons();
     const needed = weapons.map((w) => w.data.data.handsReq);
-    const freeHands = CPRActor._getHands() - needed.reduce((a, b) => a + b, 0);
+    const freeHands = this._getHands() - needed.reduce((a, b) => a + b, 0);
     return freeHands;
   }
 
@@ -956,7 +959,6 @@ export default class CPRActor extends Actor {
   _getEquippedWeapons() {
     LOGGER.trace("_getEquippedWeapons | CPRActor | Called.");
     const weapons = this.data.filteredItems.weapon;
-    LOGGER.debugObject(weapons);
     return weapons.filter((a) => a.data.data.equipped === "equipped");
   }
 
