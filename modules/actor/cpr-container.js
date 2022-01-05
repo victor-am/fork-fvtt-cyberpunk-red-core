@@ -1,5 +1,6 @@
 /* globals Actor, getProperty, setProperty, duplicate */
 import SystemUtils from "../utils/cpr-systemUtils.js";
+import CPRLedger from "../dialog/cpr-ledger-form.js";
 import LOGGER from "../utils/cpr-logger.js";
 
 /**
@@ -113,6 +114,18 @@ export default class CPRContainerActor extends Actor {
   }
 
   /**
+   * Pop up a dialog box with ledger records for a given property.
+   *
+   */
+  showLedger() {
+    LOGGER.trace("showLedger | CPRContainerActor | Called.");
+    const led = new CPRLedger();
+    led.setActor(this);
+    led.setLedgerContent("wealth", getProperty(this.data.data, `wealth.transactions`));
+    led.render(true);
+  }
+
+  /**
    * Change the value of a property and store a record of the change in the corresponding
    * ledger.
    *
@@ -121,23 +134,24 @@ export default class CPRContainerActor extends Actor {
    * @param {String} reason - a user-provided reason for the change
    * @returns {Number} (or null if not found)
    */
-  recordTransaction(value, reason) {
+  recordTransaction(itemName, price, quantity, purchaser, seller) {
     LOGGER.trace("recordTransaction | CPRContainerActor | Called.");
     const actorData = duplicate(this.data);
     let newValue = getProperty(actorData, "data.wealth.value");
-    newValue += value;
+    if (seller === this) {
+      newValue += price;
+    } else {
+      newValue -= price;
+    }
     setProperty(actorData, "data.wealth.value", newValue);
     // update the ledger with the change
     const ledger = getProperty(actorData, "data.wealth.transactions");
-    if (value > 0) {
-      ledger.push([
-        SystemUtils.Format("CPR.ledger.increaseSentence", { property: "wealth", amount: value, total: newValue }),
-        reason]);
-    } else {
-      ledger.push([
-        SystemUtils.Format("CPR.ledger.decreaseSentence", { property: "wealth", amount: (-1 * value), total: newValue }),
-        reason]);
-    }
+    const recordedValue = (price > 0) ? price : price * -1;
+    //"{seller} sold {name} (qty: {amount) to {purchaser} for {price} eb."
+    ledger.push([
+      SystemUtils.Format("CPR.containerSheet.tradeLog.vendor", {
+        name: itemName, price, quantity, seller, purchaser,
+      }), reason]);
     setProperty(actorData, "data.wealth.transactions", ledger);
     // update the actor and return the modified property
     this.update(actorData);

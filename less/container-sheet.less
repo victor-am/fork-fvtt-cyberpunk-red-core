@@ -28,12 +28,12 @@
         grid-gap  : 5px;
         padding: 5px;
 
-        grid-template-rows: 200px 28px 28px auto auto;
+        grid-template-rows: 200px 28px 28px 16px auto;
         grid-template-areas:
             "image"
             "name"
             "settings"
-            "money"
+            "eurobucks"
             "settingsgm";
 
         .image-block {
@@ -78,11 +78,21 @@
             width: 150px;
             float: right;
           }
+
+          .eurobucks-modify-reason-label {
+            max-width: fit-content;
+          }
         }
 
         .eurobucks-section {
-          grid-area: money;
+          grid-area: eurobucks;
+
+          .eurobucks-label {
+            display: flex;
+            align-items: center;
+          }
         }
+
     }
 
     .right-pane {

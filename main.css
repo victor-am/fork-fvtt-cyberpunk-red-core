@@ -715,8 +715,8 @@ button,
   max-width: 210px;
   grid-gap: 5px;
   padding: 5px;
-  grid-template-rows: 200px 28px 28px auto auto;
-  grid-template-areas: "image" "name" "settings" "money" "settingsgm";
+  grid-template-rows: 200px 28px 28px 16px auto;
+  grid-template-areas: "image" "name" "settings" "eurobucks" "settingsgm";
 }
 .container-sheet .left-pane .image-block {
   grid-area: image;
@@ -753,8 +753,15 @@ button,
   width: 150px;
   float: right;
 }
+.container-sheet .left-pane .settings-gm-section .eurobucks-modify-reason-label {
+  max-width: fit-content;
+}
 .container-sheet .left-pane .eurobucks-section {
-  grid-area: money;
+  grid-area: eurobucks;
+}
+.container-sheet .left-pane .eurobucks-section .eurobucks-label {
+  display: flex;
+  align-items: center;
 }
 .container-sheet .right-pane {
   grid-area: pane-right;

@@ -74,6 +74,10 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     // Toggle the state of a flag for the data of the checkbox
     html.find(".checkbox-toggle").click((event) => this._checkboxToggle(event));
 
+    // Eurobucks management
+    html.find(".eurobucks-input-button").click((event) => this._updateEurobucks(event));
+    html.find(".eurobucks-open-ledger").click(() => this.actor.showLedger());
+
     super.activateListeners(html);
   }
 
@@ -257,7 +261,8 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
           { name: item.name, price: cost })} - ${username}`;
       }
       await tradePartnerActor.deltaLedgerProperty("wealth", -1 * cost, reason);
-      await this.actor.recordTransaction(cost, reason);
+      itemName, price, quantity, reason, purchaser, seller
+      await this.actor.recordTransaction(item.name, cost, 1, tradePartnerActor, this.actor);
     }
     if (tradePartnerActor.automaticallyStackItems(new CPRItem(transferredItemData))) {
       await tradePartnerActor.createEmbeddedDocuments("Item", [transferredItemData]);
