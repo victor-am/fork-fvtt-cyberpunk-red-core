@@ -1,4 +1,5 @@
-/* globals Actor */
+/* globals Actor, getProperty, setProperty, duplicate */
+import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
 
 /**
@@ -109,5 +110,37 @@ export default class CPRContainerActor extends Actor {
       return this.setFlag("cyberpunk-red-core", flagName, true);
     }
     return this.unsetFlag("cyberpunk-red-core", flagName);
+  }
+
+  /**
+   * Change the value of a property and store a record of the change in the corresponding
+   * ledger.
+   *
+   * @param {String} prop - name of the property that has a ledger
+   * @param {Number} value - how much to increase or decrease the value by
+   * @param {String} reason - a user-provided reason for the change
+   * @returns {Number} (or null if not found)
+   */
+  recordTransaction(value, reason) {
+    LOGGER.trace("recordTransaction | CPRContainerActor | Called.");
+    const actorData = duplicate(this.data);
+    let newValue = getProperty(actorData, "data.wealth.value");
+    newValue += value;
+    setProperty(actorData, "data.wealth.value", newValue);
+    // update the ledger with the change
+    const ledger = getProperty(actorData, "data.wealth.transactions");
+    if (value > 0) {
+      ledger.push([
+        SystemUtils.Format("CPR.ledger.increaseSentence", { property: "wealth", amount: value, total: newValue }),
+        reason]);
+    } else {
+      ledger.push([
+        SystemUtils.Format("CPR.ledger.decreaseSentence", { property: "wealth", amount: (-1 * value), total: newValue }),
+        reason]);
+    }
+    setProperty(actorData, "data.wealth.transactions", ledger);
+    // update the actor and return the modified property
+    this.update(actorData);
+    return getProperty(this.data.data, "wealth");
   }
 }

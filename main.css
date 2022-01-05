@@ -716,7 +716,7 @@ button,
   grid-gap: 5px;
   padding: 5px;
   grid-template-rows: 200px 28px 28px auto auto;
-  grid-template-areas: "image" "name" "settings" "settingsgm" "money";
+  grid-template-areas: "image" "name" "settings" "money" "settingsgm";
 }
 .container-sheet .left-pane .image-block {
   grid-area: image;
@@ -753,7 +753,7 @@ button,
   width: 150px;
   float: right;
 }
-.container-sheet .left-pane .money-section {
+.container-sheet .left-pane .eurobucks-section {
   grid-area: money;
 }
 .container-sheet .right-pane {
