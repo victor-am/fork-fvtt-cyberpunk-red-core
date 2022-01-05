@@ -5,7 +5,7 @@ import Rules from "../../utils/cpr-rules.js";
 import SelectRolePrompt from "../../dialog/cpr-select-role-prompt.js";
 import SetLifepathPrompt from "../../dialog/cpr-set-lifepath-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
-import ImprovementPointEditPrompt from "../../dialog/cpr-improvement-point-edit-prompt.js";
+import LedgerEditPrompt from "../../dialog/cpr-ledger-edit-prompt.js";
 
 /**
  * Extend the basic CPRActorSheet with Character specific functionality.
@@ -98,6 +98,10 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     // IP related listeners
     html.find(".improvement-points-edit-button").click(() => this._updateIp());
     html.find(".improvement-points-open-ledger").click(() => this.actor.showLedger("improvementPoints"));
+
+    // Reputation related listeners
+    html.find(".reputation-edit-button").click(() => this._updateReputation());
+    html.find(".reputation-open-ledger").click(() => this.actor.showLedger("reputation"));
 
     // Listeners for eurobucks (in gear tab)
     html.find(".eurobucks-input-button").click((event) => this._updateEurobucks(event));
@@ -467,7 +471,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   async _updateIp() {
     LOGGER.trace("_updateIp | CPRCharacterActorSheet | Called.");
-    const formData = await ImprovementPointEditPrompt.RenderPrompt().catch((err) => LOGGER.debug(err));
+    const formData = await LedgerEditPrompt.RenderPrompt("CPR.characterSheet.leftPane.improvementPointsEdit").catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       // Prompt was closed
       return;
@@ -475,15 +479,15 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     if (formData.changeValue !== null && formData.changeValue !== "") {
       switch (formData.action) {
         case "add": {
-          this._gainIp(parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
+          this._gainLedger("improvementPoints", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
           break;
         }
         case "subtract": {
-          this._loseIp(parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
+          this._loseLedger("improvementPoints", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
           break;
         }
         case "set": {
-          this._setIp(parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
+          this._setLedger("improvementPoints", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
           break;
         }
         default: {
@@ -493,6 +497,45 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       }
     } else {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.improvementPointsEditWarn"));
+    }
+  }
+
+  /**
+   * Called when the Reputation editing glyph is clicked. Pops up a dialog to get details about the change
+   * and a reason, and then saves those similar to IP.
+   *
+   * @callback
+   * @private
+   * @returns {null}
+   */
+  async _updateReputation() {
+    LOGGER.trace("_updateIp | CPRCharacterActorSheet | Called.");
+    const formData = await LedgerEditPrompt.RenderPrompt("CPR.characterSheet.bottomPane.reputationEdit").catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      // Prompt was closed
+      return;
+    }
+    if (formData.changeValue !== null && formData.changeValue !== "") {
+      switch (formData.action) {
+        case "add": {
+          this._gainLedger("reputation", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
+          break;
+        }
+        case "subtract": {
+          this._loseLedger("reputation", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
+          break;
+        }
+        case "set": {
+          this._setLedger("reputation", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
+          break;
+        }
+        default: {
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.reputationEditInvalidAction"));
+          break;
+        }
+      }
+    } else {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.reputationEditWarn"));
     }
   }
 
@@ -512,15 +555,15 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     if (value !== "") {
       switch (action) {
         case "add": {
-          this._gainEb(parseInt(value, 10), `${reason} - ${game.user.name}`);
+          this._gainLedger("wealth", parseInt(value, 10), `${reason} - ${game.user.name}`);
           break;
         }
         case "subtract": {
-          this._loseEb(parseInt(value, 10), `${reason} - ${game.user.name}`);
+          this._loseLedger("wealth", parseInt(value, 10), `${reason} - ${game.user.name}`);
           break;
         }
         case "set": {
-          this._setEb(parseInt(value, 10), `${reason} - ${game.user.name}`);
+          this._setLedger("wealth", parseInt(value, 10), `${reason} - ${game.user.name}`);
           break;
         }
         default: {

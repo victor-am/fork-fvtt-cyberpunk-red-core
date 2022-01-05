@@ -12,9 +12,9 @@ export default function preloadHandlebarsTemplates() {
     // Dialog Partials
     "systems/cyberpunk-red-core/templates/dialog/cpr-confirmation-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-damage-application-prompt.hbs",
-    "systems/cyberpunk-red-core/templates/dialog/cpr-improvement-point-edit-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-ledger-deletion-prompt.hbs",
+    "systems/cyberpunk-red-core/templates/dialog/cpr-ledger-edit-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-ledger-form.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-load-ammo-prompt.hbs",
     "systems/cyberpunk-red-core/templates/dialog/cpr-mod-mook-skill-prompt.hbs",

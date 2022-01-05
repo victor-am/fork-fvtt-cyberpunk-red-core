@@ -220,6 +220,10 @@
           "notes": "",
           "history": ""
         },
+        "reputation": {
+          "value": 0,
+          "transactions": []
+        },
         "criticalInjuries": []
       }
     },
@@ -245,10 +249,6 @@
         "friends": "",
         "tragicLoveAffairs": "",
         "enemies": ""
-      },
-      "reputation:": {
-        "value": 0,
-        "transactions": []
       },
       "improvementPoints": {
         "value": 0,

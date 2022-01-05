@@ -260,6 +260,7 @@ export default class CPRActorSheet extends ActorSheet {
     let item = null;
     switch (rollType) {
       case CPRRolls.rollTypes.DEATHSAVE:
+      case CPRRolls.rollTypes.FACEDOWN:
       case CPRRolls.rollTypes.STAT: {
         const rollName = SystemUtils.GetEventDatum(event, "data-roll-title");
         cprRoll = this.actor.createRoll(rollType, rollName);
@@ -877,54 +878,9 @@ export default class CPRActorSheet extends ActorSheet {
 
   /**
    * Ledger methods
-   * For the most part ledgers are character-specific - they provide records of change to HP, EB, and IP.
-   * Mooks use this for HP too, and that's the only reason these remain here.
+   * For the most part ledgers are character-specific - they provide records of change to EB, IP and Reputation.
+   * Mooks use this for Reputation too, and that's the only reason these remain here.
    */
-
-  /**
-   * Set the EB on the actor to a specific value, with a reason.
-   *
-   * @private
-   * @param {Number} value - the value to set Eb to
-   * @param {String} reason - a freeform comment of why the Eb is changing to the given value
-   * @returns - the modified property or null if it was unsuccessful
-   */
-  _setEb(value, reason) {
-    LOGGER.trace("_setEb | CPRActorSheet | called.");
-    return this.actor.setLedgerProperty("wealth", value, reason);
-  }
-
-  /**
-   * Increase EB by an amount, with a reason
-   *
-   * @private
-   * @param {Number} value - the value to increase Eb by
-   * @param {String} reason - a freeform comment of why the Eb is changing to the given value
-   * @returns - the modified property or null if it was unsuccessful
-   */
-  _gainEb(value, reason) {
-    LOGGER.trace("_gainEb | CPRActorSheet | called.");
-    return this.actor.deltaLedgerProperty("wealth", value, reason);
-  }
-
-  /**
-   * Reduce EB by an amount, with a reason
-   *
-   * @private
-   * @param {Number} value - the value to reduce Eb to
-   * @param {String} reason - a freeform comment of why the Eb is changing to the given value
-   * @returns - the modified property or null if it was unsuccessful
-   */
-  _loseEb(value, reason) {
-    LOGGER.trace("_loseEb | CPRActorSheet | called.");
-    let tempVal = value;
-    if (tempVal > 0) {
-      tempVal = -tempVal;
-    }
-    const ledgerProp = this.actor.deltaLedgerProperty("wealth", tempVal, reason);
-    Rules.lawyer(ledgerProp.value > 0, "CPR.messages.warningNotEnoughEb");
-    return ledgerProp;
-  }
 
   /**
    * Provide an Array of values and reasons the EB has changed. Together this is the "ledger", a
@@ -950,48 +906,71 @@ export default class CPRActorSheet extends ActorSheet {
   }
 
   /**
-   * Set the Points on the actor to a specific value, with a reason.
+   * Set the value in a ledger on the actor to a specific value, with a reason.
    *
    * @private
+   * @param {String} ledgerName - The name of the ledger
    * @param {Number} value - the value to set IP to
    * @param {String} reason - a freeform comment of why the IP is changing to the given value
    * @returns - the modified property or null if it was unsuccessful
    */
-  _setIp(value, reason) {
-    LOGGER.trace("_setIp | CPRActorSheet | called.");
-    LOGGER.debug(`setting IP to ${value}`);
-    return this.actor.setLedgerProperty("improvementPoints", value, reason);
+  _setLedger(ledgerName, value, reason) {
+    LOGGER.trace("_setLedger | CPRActorSheet | called.");
+    LOGGER.debug(`setting ${ledgerName} to ${value}`);
+    return this.actor.setLedgerProperty(ledgerName, value, reason);
   }
 
   /**
-   * Increase ImprovementPoints by an amount, with a reason
+   * Increase ledger value by an amount, with a reason
    *
    * @private
+   * @param {String} ledgerName - The name of the ledger
    * @param {Number} value - the value to increase IP by
    * @param {String} reason - a freeform comment of why the IP is changing to the given value
    * @returns - the modified property or null if it was unsuccessful
    */
-  _gainIp(value, reason) {
-    LOGGER.trace("_gainIp | CPRActorSheet | called.");
-    return this.actor.deltaLedgerProperty("improvementPoints", value, reason);
+  _gainLedger(ledgerName, value, reason) {
+    LOGGER.trace("_gainLedger | CPRActorSheet | called.");
+    return this.actor.deltaLedgerProperty(ledgerName, value, reason);
   }
 
   /**
-   * Reduce ImprovementPoints by an amount, with a reason
+   * Reduce ledger value by an amount, with a reason
    *
    * @private
+   * @param {String} ledgerName - The name of the ledger
    * @param {Number} value - the value to reduce IP to
    * @param {String} reason - a freeform comment of why the IP is changing to the given value
    * @returns - the modified property or null if it was unsuccessful
    */
-  _loseIp(value, reason) {
-    LOGGER.trace("_loseIp | CPRActorSheet | called.");
+  _loseLedger(ledgerName, value, reason) {
+    LOGGER.trace("_loseLedger | CPRActorSheet | called.");
+    const resultantValue = this.actor.data.data[ledgerName].value - value;
+    let rulesWarning = "";
+    switch (ledgerName) {
+      case "improvementPoints": {
+        rulesWarning = "CPR.messages.warningNotEnoughIp";
+        break;
+      }
+      case "wealth": {
+        rulesWarning = "CPR.messages.warningNotEnoughEb";
+        break;
+      }
+      case "reputation": {
+        rulesWarning = "CPR.messages.warningNotEnoughReputation";
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+    Rules.lawyer(resultantValue > 0, rulesWarning);
     let tempVal = value;
     if (tempVal > 0) {
       tempVal = -tempVal;
     }
-    const ledgerProp = this.actor.deltaLedgerProperty("improvementPoints", tempVal, reason);
-    Rules.lawyer(ledgerProp.value > 0, "CPR.messages.warningNotEnoughIp");
+
+    const ledgerProp = this.actor.deltaLedgerProperty(ledgerName, tempVal, reason);
     return ledgerProp;
   }
 
