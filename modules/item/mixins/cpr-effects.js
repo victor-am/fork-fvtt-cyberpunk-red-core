@@ -151,8 +151,8 @@ const Effects = function Effects() {
   this.getAllowedUsage = function getAllowedUsage() {
     LOGGER.trace("getAllowedUsage | Effects | Called.");
     const usageAllowed = ["always", "toggled"];
-    if (SystemUtils.hasDataModelTemplate(this.data.type, "consumable")) {
-      usageAllowed.push("consumed");
+    if (this.data.type === "drug") {
+      usageAllowed.push("snorted");
     }
     if (SystemUtils.hasDataModelTemplate(this.data.type, "physical")) {
       if (this.data.type !== "cyberware") {

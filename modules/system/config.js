@@ -207,6 +207,7 @@ CPR.inventoryCategories = {
   ammo: "CPR.global.itemTypes.ammo",
   armor: "CPR.global.itemTypes.armor",
   cyberware: "CPR.global.itemTypes.cyberware",
+  drug: "CPR.global.itemTypes.drug",
   gear: "CPR.global.itemTypes.gear",
   clothing: "CPR.global.itemTypes.clothing",
   vehicle: "CPR.global.itemTypes.vehicle",
@@ -222,6 +223,7 @@ CPR.objectTypes = {
   criticalInjury: "CPR.global.itemTypes.criticalInjury",
   cyberdeck: "CPR.global.itemTypes.cyberdeck",
   cyberware: "CPR.global.itemTypes.cyberware",
+  drug: "CPR.global.itemTypes.drug",
   gear: "CPR.global.itemTypes.gear",
   itemUpgrade: "CPR.global.itemTypes.itemUpgrade",
   netarch: "CPR.global.itemTypes.netArchitecture",
@@ -402,9 +404,9 @@ CPR.effectModifierModes = {
 CPR.effectUses = {
   always: "CPR.effectSheet.uses.always",
   carried: "CPR.effectSheet.uses.carried",
-  consumed: "CPR.effectSheet.uses.consumed",
   equipped: "CPR.effectSheet.uses.equipped",
   installed: "CPR.effectSheet.uses.installed",
+  snorted: "CPR.effectSheet.uses.snorted",
   toggled: "CPR.effectSheet.uses.toggled",
 };
 

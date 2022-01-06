@@ -341,6 +341,7 @@
       "criticalInjury",
       "cyberdeck",
       "cyberware",
+      "drug",
       "gear",
       "itemUpgrade",
       "netarch",
@@ -421,8 +422,8 @@
       "templates": [
         "common",
         "physical",
-        "valuable",
-        "stackable"
+        "stackable",
+        "valuable"
       ],
       "variety": "",
       "type": ""
@@ -458,10 +459,11 @@
         "attackable",
         "common",
         "effects",
+        "installable",
+        "loadable",
         "physical",
         "upgradable",
-        "loadable",
-        "installable"
+        "valuable"
       ],
       "type": "cyberArm",
       "isWeapon": false,
@@ -482,12 +484,22 @@
         "common",
         "physical",
         "upgradable",
-        "equippable"
+        "equippable",
+        "valuable"
       ],
       "programs": {
         "installed": [],
         "rezzed": []
       }
+    },
+    "drug": {
+      "templates": [
+        "common",
+        "effects",
+        "physical",
+        "stackable",
+        "valuable"
+      ]
     },
     "gear": {
       "templates": [
@@ -549,7 +561,8 @@
         "equippable",
         "loadable",
         "physical",
-        "upgradable"
+        "upgradable",
+        "valuable"
       ],
       "handsReq": 1
     },

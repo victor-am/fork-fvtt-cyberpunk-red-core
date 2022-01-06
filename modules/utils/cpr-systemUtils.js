@@ -554,8 +554,8 @@ export default class CPRSystemUtils {
     const actions = ["delete"];
     for (let m = 0; m < mixins.length; m += 1) {
       switch (mixins[m]) {
-        case "consumable": {
-          actions.push("consume");
+        case "drug": {
+          if (itemData.data.amount > 0) actions.push("snort");
           break;
         }
         case "equippable": {
@@ -563,8 +563,8 @@ export default class CPRSystemUtils {
           break;
         }
         case "installable": {
-          actions.push("install");
-          actions.push("uninstall");
+          if (!itemData.data.isInstalled) actions.push("install");
+          else actions.push("uninstall");
           break;
         }
         case "loadable": {

@@ -19,6 +19,9 @@
 {{#if (cprCompare type "===" "armor")}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-repair-glyph.hbs"}}
 {{/if}}
+{{#if (cprCompare type "===" "drug")}}
+{{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-snort-glyph.hbs"}}
+{{/if}}
 {{#if (cprCompare (cprListContains "ammo,gear,clothing" type) "&&" (cprCompare data.data.amount ">" "1"))}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-split-item.hbs"}}
 {{/if}}

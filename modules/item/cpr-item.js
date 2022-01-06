@@ -5,7 +5,6 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 
 // Item mixins
 import Attackable from "./mixins/cpr-attackable.js";
-import Consumeable from "./mixins/cpr-consumeable.js";
 import Effects from "./mixins/cpr-effects.js";
 import Equippable from "./mixins/cpr-equippable.js";
 import Loadable from "./mixins/cpr-loadable.js";
@@ -77,10 +76,6 @@ export default class CPRItem extends Item {
       switch (mixins[m]) {
         case "attackable": {
           Attackable.call(CPRItem.prototype);
-          break;
-        }
-        case "consumable": {
-          Consumeable.call(CPRItem.prototype);
           break;
         }
         case "effects": {

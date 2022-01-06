@@ -465,6 +465,11 @@ export default class CPRActorSheet extends ActorSheet {
           this._splitItem(item);
           break;
         }
+        case "snort": {
+          // consume a drug
+          item.snort();
+          break;
+        }
         default: {
           item.doAction(this.actor, event.currentTarget.attributes);
         }

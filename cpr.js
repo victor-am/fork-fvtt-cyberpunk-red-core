@@ -54,6 +54,7 @@ Hooks.once("init", async () => {
       "criticalInjury",
       "cyberdeck",
       "cyberware",
+      "drug",
       "gear",
       "itemUpgrade",
       "netarch",
