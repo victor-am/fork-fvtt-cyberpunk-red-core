@@ -434,6 +434,20 @@ export default class Migration {
       await this.createActorItems(actor);
     }
 
+    if (actor.type === "container") {
+      const actorFlags = actor.data.flags;
+      if (typeof actorFlags["cyberpunk-red-core"] === "undefined") {
+        actor.data.flags["cyberpunk-red-core"] = {};
+      }
+
+      const systemFlags = actor.data.flags["cyberpunk-red-core"];
+
+      if (typeof systemFlags["container-type"] === "undefined") {
+        actor.setFlag("cyberpunk-red-core", "container-type", "shop");
+        actor.setFlag("cyberpunk-red-core", "players-sell", true);
+      }
+    }
+
     return this.migrateActorData(actor.data, "token");
   }
 
