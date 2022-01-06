@@ -329,6 +329,18 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     }
     const percent = parseInt(vendorConfig.itemTypes[itemData.type].purchasePercentage, 10);
 
+    let itemName = itemData.name;
+
+    if (itemData.data.isUpgraded) {
+      itemData.data.upgrades.forEach((upgrade) => {
+        const upgradeItem = tradePartnerActor.items.find((i) => i.data._id === upgrade._id);
+        if (upgradeItem) {
+          cost += upgradeItem.data.data.price.market;
+        }
+      });
+      itemName = `${SystemUtils.Localize("CPR.global.generic.upgraded")} ${itemName}`;
+    }
+
     let vendorOffer = parseInt(((amount * cost * percent) / 100), 10);
     vendorOffer = Math.min(vendorOffer, vendorData.data.wealth.value);
 
@@ -336,16 +348,47 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       {
         vendorName: tradePartnerActor.name,
         vendorOffer,
-        itemName: itemData.name,
+        itemName,
         percent,
       })}`;
     const formData = await PurchaseOrderPrompt.RenderPrompt(offerMessage).catch((err) => LOGGER.debug(err));
 
     if (formData !== undefined) {
-      if (!(getProperty(this.actor.data, "flags.cyberpunk-red-core.infinite-stock") && this.actor.items.find((i) => i.data.name === itemData.name))) {
-        await this.actor.createEmbeddedDocuments("Item", [itemData]);
+      let createItems = [];
+      const deleteItems = [];
+      if (itemData.data.isUpgraded) {
+        itemData.data.upgrades.forEach(async (upgrade) => {
+          const upgradeItem = tradePartnerActor.items.find((i) => i.data._id === upgrade._id);
+          if (upgradeItem) {
+            const newItem = duplicate(upgradeItem.data);
+            newItem.data.isInstalled = false;
+            newItem.data.install = "";
+            createItems.push(newItem);
+            deleteItems.push(upgradeItem.data._id);
+          }
+        });
+        itemData.data.isUpgraded = false;
+        itemData.data.upgrades = [];
       }
-      await tradePartnerActor.deleteEmbeddedDocuments("Item", [itemData._id]);
+
+      createItems.push(itemData);
+      deleteItems.push(itemData._id);
+
+      const infiniteStock = getProperty(this.actor.data, "flags.cyberpunk-red-core.infinite-stock");
+
+      if (infiniteStock) {
+        const itemList = createItems;
+        itemList.forEach((item) => {
+          if (this.actor.items.find((i) => i.data.name === item.name)) {
+            createItems = createItems.filter((ci) => ci._id !== item._id);
+          }
+        });
+      }
+
+      if (createItems.length > 0) {
+        await this.actor.createEmbeddedDocuments("Item", createItems);
+      }
+      await tradePartnerActor.deleteEmbeddedDocuments("Item", deleteItems);
 
       let reason = "";
       if (amount > 1) {
@@ -498,5 +541,13 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       setProperty(actorData, "data.vendor", promptData.currentConfig);
       this.actor.update(actorData);
     }
+  }
+
+  async _updateEurobucks(event) {
+    LOGGER.trace("_updateEurobucks | CPRContainerSheet | Called.");
+    const value = parseInt(event.currentTarget.parentElement.previousElementSibling.children[0].value, 10);
+    const action = $(event.currentTarget).attr("data-action");
+    const reason = `Sheet update ${action} ${event.currentTarget.parentElement.parentElement.nextElementSibling.children[1].lastElementChild.value}`;
+    await this.actor.recordTransaction(value, reason);
   }
 }

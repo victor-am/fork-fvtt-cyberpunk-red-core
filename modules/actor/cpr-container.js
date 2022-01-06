@@ -143,13 +143,36 @@ export default class CPRContainerActor extends Actor {
     const actorData = duplicate(this.data);
     let newValue = getProperty(actorData, "data.wealth.value");
     let transactionSentence;
-    if (reason.split(" ")[0] === "Sold") {
-      newValue += value;
-      transactionSentence = "CPR.ledger.increaseSentence";
-    } else {
-      newValue -= value;
-      transactionSentence = "CPR.ledger.decreaseSentence";
+    let transactionType = "set";
+
+    if (reason.match(/^Sold/)) {
+      transactionType = "add";
+    } else if (reason.match(/^Purchased/)) {
+      transactionType = "subtract";
+    } else if (reason.match(/^Sheet update/)) {
+      // eslint-disable-next-line prefer-destructuring
+      transactionType = reason.split(" ")[2];
     }
+
+    switch (transactionType) {
+      case "set": {
+        newValue = value;
+        transactionSentence = "CPR.ledger.setSentence";
+        break;
+      }
+      case "add": {
+        newValue += value;
+        transactionSentence = "CPR.ledger.increaseSentence";
+        break;
+      }
+      case "subtract": {
+        newValue -= value;
+        transactionSentence = "CPR.ledger.decreaseSentence";
+        break;
+      }
+      default:
+    }
+
     setProperty(actorData, "data.wealth.value", newValue);
     // update the ledger with the change
     const ledger = getProperty(actorData, "data.wealth.transactions");
