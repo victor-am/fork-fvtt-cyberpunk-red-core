@@ -312,6 +312,15 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     const username = game.user.name;
 
     let cost = 0;
+
+    if (itemData.type === "weapon") {
+      const { ammoId } = itemData.data.magazine;
+      if (ammoId !== "") {
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeLoadedWeaponWarn"));
+        return;
+      }
+    }
+
     if (itemData.type === "ammo" && itemData.data.variety !== "grenade" && itemData.data.variety !== "rocket") {
       // Ammunition, which is neither grenades nor rockets, are prices are for 10 of them (pg. 344)
       cost = parseInt(parseInt(itemData.data.price.market, 10) / 10, 10);
@@ -432,8 +441,8 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     const playersCanCreate = getProperty(this.actor.data, "flags.cyberpunk-red-core.players-create");
     const playersCanSell = getProperty(this.actor.data, "flags.cyberpunk-red-core.players-sell");
     if (game.user.isGM || playersCanCreate || playersCanSell) {
-      const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
-      if (playersCanSell) {
+      if (!game.user.isGM && !playersCanCreate) {
+        const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
         const vendorData = this.actor.data.data.vendor;
         if (dragData.type === "Item") {
           const itemData = dragData.data;
