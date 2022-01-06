@@ -6,8 +6,12 @@
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
 - Consolidated gain, lose and set ledger functions for EB, IP and Reputation to make it more manageable.
 - Feature Request #179: Add ability to track reputation and roll face down.
-
+- Feature Request #295: EB Ledger for Shop Container Actors
+- Feature Add: Player ability to sell to Vendors by drag/dropping from character sheet to Vendor.
+  - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item.  Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb.
+  
 **Bug Fixes**
+- Corrected an issue when a player did not have proper permissions on a Vendor, the purchase would fail, but the player would still be charged for the item
 # Version 0.80.1 | Date: 2021-01-04
 **Hot Fix**
 - Addressed #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.

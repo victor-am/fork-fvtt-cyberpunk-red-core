@@ -327,8 +327,8 @@
       },
       "restricted": false,
       "DV": 0,
-      "wealth": {
-        "value": 0
+      "vendor": {
+        "itemTypes": {}
       }
     },
     "demon": {

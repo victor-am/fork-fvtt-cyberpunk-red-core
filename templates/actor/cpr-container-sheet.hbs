@@ -1,5 +1,4 @@
 {{cprTrace "CPR-CONTAINER-SHEET.HBS"}}
-{{log this}}
 <form>
   <div class="container-sheet">
     <div class="left-pane bg-red">
@@ -140,6 +139,21 @@
                   {{/if}}
                 </a>
                 {{localize "CPR.containerSheet.settings.playersModify"}}
+              </div>
+            </li>
+            <li class="item flexrow">
+              <div class="item-name">
+                <a class="checkbox-toggle" data-flag-name="players-sell">
+                  {{#if actor.data.flags.cyberpunk-red-core.players-sell}}
+                    <i class="far fa-check-circle"></i>
+                  {{else}}
+                    <i class="far fa-circle"></i>
+                  {{/if}}
+                </a>
+                {{localize "CPR.containerSheet.settings.playersSell"}}
+                {{#if actor.data.flags.cyberpunk-red-core.players-sell}}
+                 <a class="vendor-configure-sell-to"><i class="text-smallest text-super fas fa-wrench"></i></a>
+                {{/if}}
               </div>
             </li>
             <li class="item flexrow">

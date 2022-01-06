@@ -67,6 +67,7 @@ export default class CPRContainerActor extends Actor {
         await this.unsetFlag("cyberpunk-red-core", "players-create");
         await this.unsetFlag("cyberpunk-red-core", "players-delete");
         await this.unsetFlag("cyberpunk-red-core", "players-modify");
+        await this.setFlag("cyberpunk-red-core", "players-sell", true);
         await this.unsetFlag("cyberpunk-red-core", "players-move");
         break;
       }
@@ -76,11 +77,13 @@ export default class CPRContainerActor extends Actor {
         await this.unsetFlag("cyberpunk-red-core", "players-create");
         await this.unsetFlag("cyberpunk-red-core", "players-delete");
         await this.unsetFlag("cyberpunk-red-core", "players-modify");
+        await this.unsetFlag("cyberpunk-red-core", "players-sell");
         await this.unsetFlag("cyberpunk-red-core", "players-move");
         break;
       }
       case "stash": {
         await this.unsetFlag("cyberpunk-red-core", "infinite-stock");
+        await this.unsetFlag("cyberpunk-red-core", "players-sell");
         await this.setFlag("cyberpunk-red-core", "items-free", true);
         await this.setFlag("cyberpunk-red-core", "players-create", true);
         await this.setFlag("cyberpunk-red-core", "players-delete", true);
@@ -134,24 +137,25 @@ export default class CPRContainerActor extends Actor {
    * @param {String} reason - a user-provided reason for the change
    * @returns {Number} (or null if not found)
    */
-  recordTransaction(itemName, price, quantity, purchaser, seller) {
+  recordTransaction(value, reason) {
     LOGGER.trace("recordTransaction | CPRContainerActor | Called.");
+    // update "value"; it may be negative
     const actorData = duplicate(this.data);
     let newValue = getProperty(actorData, "data.wealth.value");
-    if (seller === this) {
-      newValue += price;
+    let transactionSentence;
+    if (reason.split(" ")[0] === "Sold") {
+      newValue += value;
+      transactionSentence = "CPR.ledger.increaseSentence";
     } else {
-      newValue -= price;
+      newValue -= value;
+      transactionSentence = "CPR.ledger.decreaseSentence";
     }
     setProperty(actorData, "data.wealth.value", newValue);
     // update the ledger with the change
     const ledger = getProperty(actorData, "data.wealth.transactions");
-    const recordedValue = (price > 0) ? price : price * -1;
-    //"{seller} sold {name} (qty: {amount) to {purchaser} for {price} eb."
     ledger.push([
-      SystemUtils.Format("CPR.containerSheet.tradeLog.vendor", {
-        name: itemName, price, quantity, seller, purchaser,
-      }), reason]);
+      SystemUtils.Format(transactionSentence, { property: "wealth", amount: value, total: newValue }),
+      reason]);
     setProperty(actorData, "data.wealth.transactions", ledger);
     // update the actor and return the modified property
     this.update(actorData);
