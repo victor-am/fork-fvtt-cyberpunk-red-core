@@ -333,7 +333,10 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     const formData = await PurchaseOrderPrompt.RenderPrompt(offerMessage).catch((err) => LOGGER.debug(err));
 
     if (formData !== undefined) {
-      await this.actor.createEmbeddedDocuments("Item", [itemData]).then(tradePartnerActor.deleteEmbeddedDocuments("Item", [itemData._id]));
+      if (!(getProperty(this.actor.data, "flags.cyberpunk-red-core.infinite-stock") && this.actor.items.find((i) => i.data.name === itemData.name))) {
+        await this.actor.createEmbeddedDocuments("Item", [itemData]);
+      }
+      await tradePartnerActor.deleteEmbeddedDocuments("Item", [itemData._id]);
 
       let reason = "";
       if (amount > 1) {
