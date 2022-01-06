@@ -1,11 +1,34 @@
 # Version DEV | Date: WIP
 
 **New Features**
+- #225 - Active effects for Items
+  - Active Effects are a Foundry feature that allow items to apply modifications to stats and skills of characters in the game. Active Effects can also be added to Characters arbitrarily without associating to an item.
+  - An Effects tab on the actor sheet has been added to summarize where active effects are coming from. From there character-level effects can be 
+    managed. (create/toggle/edit/delete). Effects from Items cannot be edited or deleted from this tab. Mooks do not yet enjoy Active Effects.
+  - An Active Effect has a "usage" associated with it on an item. This affects when the effect will be applied. Examples are when carried, when equipped,
+    toggling it on/off yourself or always on. Some specialized ones exist too: Cyberware allows for "when installed." More may be added in the future.
+  - The following item types can have Active Effects added to them: armor, clothing, drugs (more on that next), gear, cyberware, weapons, and 
+    injuries (see #290).
+  - Active effects can be applied to stats, skills, role abilities, a handful of derived stats (like HP), or custom keys in a manner similar to what 5E
+    expects. Only plain addition or subtraction modes are supported.
+  - A MOD column has been added to the Role tab in a manner similar to what we have for skills already. Like skills, this makes it clear which abilities
+    are being affected by an Active Effect.
+  - Weapon quality is now an active effect that increases the attack bonus. We removed the fields in the weapon sheet to set weapon qualities or attack 
+    bonuses. See the weapon compendium for examples. Active Effects still give you all of the flexibility and power you had before.
+  - Arbitrary skill mods on characters cannot be set in the character sheet any more, that column shows mods coming from active effects now. You can 
+    still create skill mods with active effects using the Effects tab.
+- #305 - Drugs and Consumables
+  - The Drug item type has been added and has a unique action and usage. This is meant to model consumables, meaning items that stack and can be consumed
+    to enjoy some stat or skill benefit.
+  - Consuming a drug will reduce the amount by 1 and enable any active effects with the "when consumed" usage set.
+  - If you implemented drugs with a different item type before you may want to re-create them with the new type.
 
 **Changes**
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
 - Consolidated gain, lose and set ledger functions for EB, IP and Reputation to make it more manageable.
 - Feature Request #179: Add ability to track reputation and roll face down.
+- #244 - Remove unused data points in the template
+- Substanial refactoring of the item code to support Active Effects and improve maintainability.
 
 **Bug Fixes**
 # Version 0.80.1 | Date: 2021-01-04
