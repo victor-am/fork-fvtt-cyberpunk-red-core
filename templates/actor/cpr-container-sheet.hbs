@@ -39,15 +39,17 @@
       </div>
 
       {{!-- Eurobucks --}}
-      <div class="eurobucks-section bg-white">
-          <li class="item text-align-last-end flexrow">
-            <div class="item-name text-nowrap eurobucks-label">{{localize "CPR.containerSheet.settings.eurobucks.label"}}:</div>
-            <div class="item-end eurobucks-value">{{actor.data.data.wealth.value}}</div>
-            {{#if isGM}}
-            <a class="eurobucks-open-ledger" title="{{localize "CPR.ledger.ledgerOpen"}}"><i class="fas fa-sticky-note"></i></a>
-            {{/if}}
-          </li>
-      </div>
+      {{#if (cprCompare (cprCompare (cprCompare actor.data.flags.cyberpunk-red-core.container-type "===" "custom") "||" (cprCompare actor.data.flags.cyberpunk-red-core.container-type "===" "shop")) "||" (cprCompare actor.data.flags.cyberpunk-red-core.container-type "===" undefined))}}
+        <div class="eurobucks-section bg-white">
+            <li class="item text-align-last-end flexrow">
+              <div class="item-name text-nowrap eurobucks-label">{{localize "CPR.containerSheet.settings.eurobucks.label"}}:</div>
+              <div class="item-end eurobucks-value">{{actor.data.data.wealth.value}}</div>
+              {{#if isGM}}
+              <a class="eurobucks-open-ledger" title="{{localize "CPR.ledger.ledgerOpen"}}"><i class="fas fa-sticky-note"></i></a>
+              {{/if}}
+            </li>
+        </div>
+      {{/if}}
 
       {{!-- GM Settings --}}
       {{#if isGM}}
