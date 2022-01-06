@@ -85,6 +85,13 @@
               </div>
             </li>
           {{/if}}
+          {{#if (cprCompare actor.data.flags.cyberpunk-red-core.container-type "===" "shop")}}
+            <li class="item flexrow">
+              <div class="item-name text-bold text-center">
+                <a class="vendor-configure-sell-to">{{localize "CPR.containerSheet.settings.configureShop"}}</a>
+              </div>
+            </li>
+          {{/if}}
           {{#if (cprCompare (cprCompare (cprCompare actor.data.flags.cyberpunk-red-core.container-type "===" "custom") "||" (cprCompare actor.data.flags.cyberpunk-red-core.container-type "===" "shop")) "||" (cprCompare actor.data.flags.cyberpunk-red-core.container-type "===" undefined))}}
             <li class="item flexrow">
               <div class="item-name">

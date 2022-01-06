@@ -143,6 +143,7 @@
     "CPR.containerSheet.settings.playersDelete": "Delete items?",
     "CPR.containerSheet.settings.playersModify": "Modify items?",
     "CPR.containerSheet.settings.playersSell": "Sell items?",
+    "CPR.containerSheet.settings.configureShop": "Configure Shop",
     "CPR.containerSheet.settings.playersMove": "Move container?",
     "CPR.containerSheet.settings.title": "GM Settings",
     "CPR.containerSheet.tradeLog.multiplePurchased": "Purchased {amount} {name} for {price} eb.",
