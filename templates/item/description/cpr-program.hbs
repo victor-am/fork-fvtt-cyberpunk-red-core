@@ -1,3 +1,24 @@
 {{cprTrace "CPR-PROGRAM.HBS"}}
-{{!-- Program specific stats and values would go here if we had any --}}
+{{#if (cprCompare data.data.class "===" "blackice")}}
+<div class="item-summary-line">
+    <span class="text-bold summary-name">{{localize "CPR.global.blackIce.stats.per"}}:</span>
+    <span class="summary-value">{{data.data.per}}</span>
+</div>
+<div class="item-summary-line">
+    <span class="text-bold summary-name">{{localize "CPR.global.blackIce.stats.spd"}}:</span>
+    <span class="summary-value">{{data.data.spd}}</span>
+</div>
+{{/if}}
+<div class="item-summary-line">
+    <span class="text-bold summary-name">{{localize "CPR.global.blackIce.stats.atk"}}:</span>
+    <span class="summary-value">{{data.data.atk}}</span>
+</div>
+<div class="item-summary-line">
+    <span class="text-bold summary-name">{{localize "CPR.global.blackIce.stats.def"}}:</span>
+    <span class="summary-value">{{data.data.def}}</span>
+</div>
+<div class="item-summary-line">
+    <span class="text-bold summary-name">{{localize "CPR.global.generic.rez"}}:</span>
+    <span class="summary-value">{{data.data.rez}}</span>
+</div>
 {{cprTrace "END CPR-PROGRAM.HBS"}}

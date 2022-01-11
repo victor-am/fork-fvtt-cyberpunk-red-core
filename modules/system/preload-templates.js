@@ -146,7 +146,7 @@ export default function preloadHandlebarsTemplates() {
 
     // Setting Mixins
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-attackable.hbs",
-    "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-effects.hbs",
+    "systems/cyberpunk-red-core/templates/item/cpr-item-effects.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-equippable.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-loadable.hbs",
     "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-installable.hbs",

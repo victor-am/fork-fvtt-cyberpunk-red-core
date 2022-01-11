@@ -18,10 +18,7 @@ export default class CPRProgramItem extends CPRItem {
    * @public
    */
   setInstalled() {
-    LOGGER.trace("setInstalled | CPRItem | Called.");
-    if (this.data.type !== "program") {
-      return;
-    }
+    LOGGER.trace("setInstalled | CPRProgramItem | Called.");
     this.data.data.isInstalled = true;
   }
 
@@ -31,10 +28,7 @@ export default class CPRProgramItem extends CPRItem {
    * @public
    */
   unsetInstalled() {
-    LOGGER.trace("unsetInstalled | CPRItem | Called.");
-    if (this.data.type !== "program") {
-      return;
-    }
+    LOGGER.trace("unsetInstalled | CPRProgramItem | Called.");
     this.data.data.isInstalled = false;
   }
 
@@ -44,10 +38,37 @@ export default class CPRProgramItem extends CPRItem {
    * @public
    */
   getInstalled() {
-    LOGGER.trace("getInstalled | CPRItem | Called.");
-    if (this.data.type !== "program") {
-      return null;
-    }
+    LOGGER.trace("getInstalled | CPRProgramItem | Called.");
     return this.data.data.isInstalled;
+  }
+
+  /**
+   * Sets a program to uninstalled.
+   *
+   * @public
+   */
+  setRezzed() {
+    LOGGER.trace("setRezzed | CPRProgramItem | Called.");
+    this.data.data.isRezzed = true;
+  }
+
+  /**
+   * Sets a program to uninstalled.
+   *
+   * @public
+   */
+  unsetRezzed() {
+    LOGGER.trace("unsetRezzed | CPRProgramItem | Called.");
+    this.data.data.isRezzed = false;
+  }
+
+  /**
+   * Returns a boolean if the program is installed.
+   *
+   * @public
+   */
+  getRezzed() {
+    LOGGER.trace("getRezzed | CPRProgramItem | Called.");
+    return this.data.data.isRezzed;
   }
 }

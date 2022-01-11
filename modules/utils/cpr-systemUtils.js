@@ -422,11 +422,17 @@ export default class CPRSystemUtils {
       case "combat": {
         return {
           "bonuses.hands": "CPR.effectSheet.combat.stats.numberOfHands",
+          "bonuses.initiative": "CPR.effectSheet.combat.stats.initiative",
           "bonuses.maxHumanity": "CPR.effectSheet.combat.stats.maxHumanity",
           "bonuses.maxHp": "CPR.effectSheet.combat.stats.maxHp",
           "bonuses.deathSavePenalty": "CPR.effectSheet.combat.stats.deathPenalty",
           "bonuses.universalAttack": "CPR.effectSheet.combat.stats.universalAttack",
           "bonuses.universalDamage": "CPR.effectSheet.combat.stats.universalDamage",
+          "bonuses.attack": "CPR.effectSheet.combat.net.attack",
+          "bonuses.defense": "CPR.effectSheet.combat.net.defense",
+          "bonuses.perception_net": "CPR.effectSheet.combat.net.perception",
+          "bonuses.rez": "CPR.effectSheet.combat.net.rez",
+          "bonuses.speed": "CPR.effectSheet.combat.net.speed",
         };
       }
       case "role": {

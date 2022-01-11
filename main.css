@@ -887,7 +887,8 @@ button,
   flex-wrap: wrap;
 }
 .item-description-grid,
-.item-settings-grid {
+.item-settings-grid,
+.item-effects-grid {
   display: flex;
   width: inherit;
   height: inherit;
@@ -923,13 +924,17 @@ button,
   flex-wrap: wrap;
   height: unset;
 }
-.item-settings-tab {
+.item-settings-tab,
+.item-effects-tab {
   display: flex;
   width: auto;
   flex: 1;
   background-color: #eaeaeaff;
 }
-.item-settings-tab .item-settings-section {
+.item-settings-tab .item-settings-section,
+.item-effects-tab .item-settings-section,
+.item-settings-tab .item-effects-section,
+.item-effects-tab .item-effects-section {
   display: list-item;
   flex: 1;
 }

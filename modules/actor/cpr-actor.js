@@ -67,10 +67,17 @@ export default class CPRActor extends Actor {
     });
     this.data.bonuses.deathSavePenalty = 0;
     this.data.bonuses.hands = 0;
+    this.data.bonuses.initiative = 0;
     this.data.bonuses.maxHp = 0;
     this.data.bonuses.maxHumanity = 0;
     this.data.bonuses.universalAttack = 0;
     this.data.bonuses.universalDamage = 0;
+    // netrunning things
+    this.data.bonuses.speed = 0;
+    this.data.bonuses.perception_net = 0; // beware of hacks because "perception" is also a skill
+    this.data.bonuses.attack = 0;
+    this.data.bonuses.defense = 0;
+    this.data.bonuses.rez = 0;
   }
 
   /**

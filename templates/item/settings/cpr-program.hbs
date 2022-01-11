@@ -52,60 +52,6 @@
     </li>
 {{/if}}
 
-{{!-- Program Modifier for Boosters--}}
-{{#if (cprCompare data.data.class "===" "booster")}}
-    <li class="item flexrow">
-        <div class="item flexrow setting-name text-nowrap">
-            {{localize "CPR.itemSheet.program.boosterModifiers"}}
-        </div>
-        <div class="item flexrow setting-value text-nowrap item-end">
-            {{#if this.editable}}
-                <a class="program-add-booster-modifier" title="{{localize " CPR.itemSheet.program.addBoosterModifier"}}">
-                    <i class="fas fa-plus-circle text-padding-right"></i>
-                </a>
-            {{else}}
-                <i class="fas fa-plus-circle text-padding-right"></i>
-            {{/if}}
-        </div>
-    </li>
-    <li class="item flexrow text-bold">
-        <div class="item flexrow setting-name text-nowrap">
-            {{localize "CPR.global.generic.name"}}
-        </div>
-        <div class="item flexrow setting-value text-nowrap item-end">
-            {{localize "CPR.itemSheet.program.modifier"}}
-        </div>
-        <div class="item flexrow setting-value text-nowrap item-end">
-        </div>
-    </li>
-    {{#each data.data.modifiers as |boosterValue boosterType|}}
-        <li class="item flexrow">
-            <div class="item flexrow setting-name text-nowrap">
-                {{#if (cprCompare boosterType "===" "speed")}}
-                    {{localize "CPR.global.generic.speed"}}
-                {{else if (cprCompare boosterType "===" "attack")}}
-                    {{localize "CPR.rolls.attack"}}
-                {{else if (cprCompare boosterType "===" "defense")}}
-                    {{localize "CPR.global.generic.defense"}}
-                {{else}}
-                    {{localize (cprFindConfigValue "interfaceAbilities" boosterType)}}
-                {{/if}}
-            </div>
-            <div class="item flexrow setting-value text-nowrap item-end">
-                {{boosterValue}}
-            </div>
-            <div class="item flexrow setting-value text-nowrap item-end">
-                {{#if this.editable}}
-                    <a class="program-del-booster-modifier" data-booster-type="{{boosterType}}">
-                        <i class="fas fa-trash-alt fg-red" title="{{localize " CPR.itemSheet.program.deleteBoosterModifier"}}"></i>
-                    </a>
-                {{/if}}
-            </div>
-        </li>
-    {{/each}}
-    <hr>
-{{/if}}
-
 {{!-- Program Damage Rolls--}}
 {{#if (cprCompare (cprCompare (cprCompare data.data.class "===" "antiprogramattacker") "||" (cprCompare data.data.class "===" "antipersonnelattacker")) "||" (cprCompare data.data.class "===" "blackice")) }}
 
@@ -146,6 +92,7 @@
     <hr>
 {{/if}}
 
+{{#if (cprCompare data.data.class "===" "blackice")}}
 {{!-- Program PER--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
@@ -160,6 +107,7 @@
     </div>
 </li>
 
+{{!-- Program SPD--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.global.blackIce.stats.spd"}}
@@ -172,6 +120,7 @@
         {{/if}}
     </div>
 </li>
+{{/if}}
 
 {{!-- Program ATK--}}
 <li class="item flexrow">

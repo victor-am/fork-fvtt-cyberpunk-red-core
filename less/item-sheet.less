@@ -94,7 +94,8 @@
 }
 
 .item-description-grid,
-.item-settings-grid {
+.item-settings-grid,
+.item-effects-grid {
     display: flex;
     width  : inherit;
     height : inherit;
@@ -139,13 +140,14 @@
 }
 
 
-.item-settings-tab {
+.item-settings-tab,
+.item-effects-tab {
     display         : flex;
     width           : auto;
     flex            : 1;
     background-color: @chrome-white;
-
-    .item-settings-section {
+    .item-settings-section,
+    .item-effects-section {
         display: list-item;
         flex   : 1;
     }

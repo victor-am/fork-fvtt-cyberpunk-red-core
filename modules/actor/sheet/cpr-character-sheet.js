@@ -509,7 +509,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @returns {null}
    */
   async _updateReputation() {
-    LOGGER.trace("_updateIp | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("_updateReputation | CPRCharacterActorSheet | Called.");
     const formData = await LedgerEditPrompt.RenderPrompt("CPR.characterSheet.bottomPane.reputationEdit").catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       // Prompt was closed

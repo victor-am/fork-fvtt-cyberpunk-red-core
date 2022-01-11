@@ -25,7 +25,9 @@
 
                     {{!-- Settings from mixins --}}
                     {{#each (cprGetTemplates item.type) as |mixin|}}
-                        {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-VAR.hbs" mixin) ../this}}
+                        {{#if (cprCompare mixin "!==" "effects")}}
+                            {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-VAR.hbs" mixin) ../this}}
+                        {{/if}}
                     {{/each}}
 
                     {{!-- Settings specific to the item type --}}

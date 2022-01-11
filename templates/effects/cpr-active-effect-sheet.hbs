@@ -94,7 +94,7 @@
                     </select>
                 </div>
                 <div class="effect-controls">
-                    {{!-- Deleting a change is possible, but the changes Flag on the actor needs to not be an array first.
+                    {{!-- Deleting a change is possible, but the changes Flag on the actor should be a map rather than an array.
                           Being an array creats a problem when a change in the middle of the list is deleted.
                            <a class="effect-change-control" data-action="delete" data-index={{i}}><i class="fas fa-trash"></i></a>  --}}
                     <i class="fas fa-question-circle" title="{{localize "CPR.effectSheet.info.deleteAndModesComing"}}"></i>

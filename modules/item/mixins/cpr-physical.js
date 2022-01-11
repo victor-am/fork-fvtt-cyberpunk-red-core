@@ -21,12 +21,10 @@ const Physical = function Physical() {
     const itemData = duplicate(this.data);
     let target = "data.concealable.concealable";
     setProperty(itemData, target, val);
-    LOGGER.log(`${itemData._id} ${target} set to ${val}`);
     // if we are making an item "unconcealable" (too big), we also unset "concealed" for consistency's sake
     if (!val) {
       target = "data.concealable.isConcealed";
       setProperty(itemData, target, val);
-      LOGGER.log(`${itemData._id} ${target} set to ${val}`);
     }
     this.update(itemData);
   };

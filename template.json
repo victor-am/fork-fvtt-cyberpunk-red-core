@@ -257,7 +257,6 @@
           "isConcealed": false
         }
       },
-      "spawnable": {},
       "stackable": {
         "amount": 1
       },
@@ -280,8 +279,8 @@
         "stackable",
         "valuable"
       ],
-      "variety": "",
-      "type": ""
+      "variety": "heavyPistol",
+      "type": "basic"
     },
     "armor": {
       "templates": [
@@ -297,9 +296,9 @@
         "sp": 0,
         "ablation": 0
       },
-      "isBodyLocation": false,
+      "isBodyLocation": true,
       "bodyLocation": {
-        "sp": 0,
+        "sp": 7,
         "ablation": 0
       },
       "isShield": false,
@@ -308,6 +307,18 @@
         "max": 0
       },
       "penalty": 0
+    },
+    "clothing": {
+      "templates": [
+        "common",
+        "effects",
+        "equippable",
+        "physical",
+        "stackable",
+        "valuable"
+      ],
+      "type": "jacket",
+      "style": "genericChic"
     },
     "cyberware": {
       "templates": [
@@ -366,18 +377,6 @@
         "valuable"
       ]
     },
-    "clothing": {
-      "templates": [
-        "common",
-        "effects",
-        "equippable",
-        "physical",
-        "stackable",
-        "valuable"
-      ],
-      "type": "",
-      "style": ""
-    },
     "netarch": {
       "templates": [
         "common",
@@ -388,16 +387,15 @@
     "program": {
       "templates": [
         "common",
+        "effects",
         "installable",
-        "spawnable",
         "valuable"
       ],
       "class": "defender",
       "blackIceType": "antipersonnel",
-      "isDemon": false,
       "prototypeActor": "",
-      "modifiers": {},
       "interface": 0,
+      "isRezzed": false,
       "damage": {
         "standard": "1d6",
         "blackIce": ""

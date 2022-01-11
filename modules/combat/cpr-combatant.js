@@ -39,8 +39,7 @@ export default class CPRCombatant extends Combatant {
             }
           });
         } else {
-          const cyberdeck = (actor.data.filteredItems.cyberdeck.filter((c) => c.data.data.equipped === "equipped"))[0];
-          const netSpeed = cyberdeck.getBoosters("speed");
+          const netSpeed = actor.data.bonuses.speed; // active effects for speed, note "initiative" AEs come later
           // Filter for the Netrunner role on the actor then assign `netrunnerRank` the proper value
           const netrunnerRole = (actor.data.filteredItems.role.filter((d) => d.data.name === "Netrunner"))[0];
           const netrunnerRank = netrunnerRole.data.data.rank;
@@ -64,6 +63,7 @@ export default class CPRCombatant extends Combatant {
         break;
     }
     await cprInitiative.roll();
+    cprInitiative.addMod(actor.data.bonuses.initiative); // consider any active effects
     return cprInitiative;
   }
 }

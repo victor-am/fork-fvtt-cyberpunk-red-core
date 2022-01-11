@@ -11,7 +11,6 @@ import Loadable from "./mixins/cpr-loadable.js";
 import Installable from "./mixins/cpr-installable.js";
 import Physical from "./mixins/cpr-physical.js";
 import Stackable from "./mixins/cpr-stackable.js";
-import Spawnable from "./mixins/cpr-spawnable.js";
 import Upgradable from "./mixins/cpr-upgradable.js";
 import Valuable from "./mixins/cpr-valuable.js";
 
@@ -64,7 +63,7 @@ export default class CPRItem extends Item {
 
   /**
    * Load all mixins configured in the Item metadata.
-   * TODO: enum this shit!
+   * TODO: enum this
    *
    * @public
    */
@@ -98,10 +97,6 @@ export default class CPRItem extends Item {
         }
         case "physical": {
           Physical.call(CPRItem.prototype);
-          break;
-        }
-        case "spawnable": {
-          Spawnable.call(CPRItem.prototype);
           break;
         }
         case "stackable": {
@@ -264,6 +259,7 @@ export default class CPRItem extends Item {
         return this._createSkillRoll(actor);
       }
       case CPRRolls.rollTypes.INTERFACEABILITY:
+        return this._createInterfaceRoll(extraData);
       case CPRRolls.rollTypes.ROLEABILITY: {
         return this._createRoleRoll(type, actor, extraData);
       }

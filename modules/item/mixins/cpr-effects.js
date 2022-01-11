@@ -163,6 +163,9 @@ const Effects = function Effects() {
     if (this.data.type === "cyberware") {
       usageAllowed.push("installed");
     }
+    if (this.data.type === "program") {
+      usageAllowed.push("rezzed");
+    }
     return usageAllowed;
   };
 
@@ -184,6 +187,8 @@ const Effects = function Effects() {
         return this.data.data.equipped !== "equipped";
       case "installed":
         return !this.data.data.isInstalled;
+      case "rezzed":
+        return !this.data.data.isRezzed;
       default:
         return false;
     }

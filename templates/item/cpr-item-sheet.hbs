@@ -29,6 +29,11 @@
         <div class="tab-pink-underlay">
           <a class="tab-label text-small tab-indent" data-tab="item-settings">{{localize "CPR.settings.title"}}</a>
         </div>
+        {{#if (cprHasTemplate item.type "effects")}}
+          <div class="tab-pink-underlay">
+            <a class="tab-label text-small tab-indent" data-tab="item-effects">{{localize "CPR.itemSheet.effects.effects"}}</a>
+          </div>
+        {{/if}}
       </nav>
     </div>
     <div class="item-bottom-content-section">
@@ -38,6 +43,11 @@
       <div class="tab item-settings-grid" data-group="primary" data-tab="item-settings">
         {{> "systems/cyberpunk-red-core/templates/item/cpr-item-settings.hbs" this}}
       </div>
+      {{#if (cprHasTemplate item.type "effects")}}
+        <div class="tab item-effects-grid" data-group="primary" data-tab="item-effects">
+          {{> "systems/cyberpunk-red-core/templates/item/cpr-item-effects.hbs" this}}
+        </div>
+      {{/if}}
     </div>
 
   </div>
