@@ -44,14 +44,14 @@ import LOGGER from "./utils/cpr-logger.js";
 function factory(entities, baseClass) {
   return new Proxy(baseClass, {
     construct: (target, args) => {
-      LOGGER.trace("object construct | factory | actor-factor.js");
+      LOGGER.trace("object construct | factory | entity-factory.js");
       const [data, options] = args;
       const constructor = entities[data.type];
       if (!constructor) throw new Error(`Unsupported Entity type for create(): ${data.type}`);
       return new constructor(data, options);
     },
     get: (target, prop) => {
-      LOGGER.trace("object get | factory | actor-factor.js");
+      LOGGER.trace("object get | factory | entity-factory.js");
       switch (prop) {
         case "create":
           // Calling the class' create() static function

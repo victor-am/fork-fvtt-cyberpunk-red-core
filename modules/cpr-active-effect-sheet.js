@@ -38,25 +38,8 @@ export default class CPRActiveEffectSheet extends ActiveEffectConfig {
 
     // QoL - Select all text when grabbing text input.
     $("input[type=text]").focusin(() => $(this).select());
-
-    html.find(".effect-usage").change((event) => this._changeEffectUsage(event));
     html.find(".effect-key-category").change((event) => this._changeModKeyCategory(event));
     html.find(".effect-change-control").click((event) => this._effectChangeControl(event));
-  }
-
-  /**
-   * Change how an active effect is used.
-   *
-   * @async
-   * @callback
-   * @private
-   * @param {Object} event
-   */
-  async _changeEffectUsage(event) {
-    LOGGER.trace("_changeEffectUsage | CPRActiveEffectSheet | Called.");
-    LOGGER.debug(`Setting active usage flag to ${event.target.value}`);
-    const effect = this.object;
-    effect.usage = event.target.value;
   }
 
   /**
