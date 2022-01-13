@@ -8,6 +8,10 @@
 - Feature Request #179: Add ability to track reputation and roll face down.
 
 **Bug Fixes**
+- Fixed the ability to delete items from the Mook sheet.
+  
+**Maintenance items**
+- Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js
 # Version 0.80.1 | Date: 2021-01-04
 **Hot Fix**
 - Addressed #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
