@@ -12,7 +12,7 @@
 <div class="bg-white fg-black text-padding-left">
   {{#each (cprSort (cprGetMookSkills actor.data.filteredItems.skill) "name") as |skill s|}}
     {{#if (cprCompare skill.data.data.level ">" 0)}}
-      <span class="item deletable" data-item-id="{{skill.id}}" tabindex="0">
+      <span class="item deletable changeable" data-item-id="{{skill.id}}" tabindex="0">
         <a class="rollable"  data-roll-type="skill" data-roll-title="{{skill.name}}" title="{{localize "CPR.mookSheet.skills.clickToRollThisSkill"}}, {{localize "CPR.mookSheet.skills.pressDeleteToReset"}}">
           {{#if skill.data.data.core}}{{localize (cprSplitJoinCoreSkills skill.name)}}{{else}}{{skill.name}}{{/if}}
             {{#if (cprCompare (cprSystemConfig "mookSheetSkillDisplay") "===" "level")}}
