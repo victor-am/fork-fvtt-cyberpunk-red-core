@@ -4,7 +4,7 @@ import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRLedger from "../dialog/cpr-ledger-form.js";
 import CPR from "../system/config.js";
 import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
-import InstallCyberwarePrompt from "../dialog/cpr-cyberware-install-prompt.js";
+import InstallCyberwarePrompt from "../dialog/cpr-install-cyberware-prompt.js";
 import LOGGER from "../utils/cpr-logger.js";
 import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";

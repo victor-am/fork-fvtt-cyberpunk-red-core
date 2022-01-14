@@ -1,23 +1,21 @@
 /* eslint-disable no-shadow */
 /* global renderTemplate, FormDataExtended, Dialog */
-// TODO - Revist this method of dialog creation.
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
 
-export default class CyberwareInstallPrompt {
-  // TODO - Revist name of function.
+export default class InstallCyberwarePrompt {
   static async RenderPrompt(data) {
-    LOGGER.trace("RenderPrompt | CyberwareInstallPrompt | called.");
+    LOGGER.trace("RenderPrompt | InstallCyberwarePrompt | called.");
     // setup
     return new Promise((resolve, reject) => {
       const template = "systems/cyberpunk-red-core/templates/dialog/cpr-install-cyberware-prompt.hbs";
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
-          LOGGER.trace("_onCancel | Dialog CyberwareInstallPrompt | called.");
+          LOGGER.trace("_onCancel | Dialog InstallCyberwarePrompt | called.");
           reject(new Error("Promise rejected: Window Closed"));
         };
         const _onConfirm = (html) => {
-          LOGGER.trace("_onConfirm | Dialog CyberwareInstallPrompt | called.");
+          LOGGER.trace("_onConfirm | Dialog InstallCyberwarePrompt | called.");
           const formData = new FormDataExtended(html.find("form")[0]).toObject();
           resolve(formData);
         };
@@ -37,7 +35,7 @@ export default class CyberwareInstallPrompt {
             },
           },
           default: "confirm",
-          render: LOGGER.trace("render | Dialog CyberwareInstallPrompt | Called."),
+          render: LOGGER.trace("render | Dialog InstallCyberwarePrompt | Called."),
           close: () => {
             reject(new Error("Promise rejected: Window Closed"));
           },
