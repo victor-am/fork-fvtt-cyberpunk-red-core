@@ -968,7 +968,7 @@ export default class CPRActor extends Actor {
   }
 
   /**
-   * TODO:
+   * TODO: Delete this method after the March 2022 release.
    * This method was created to facilitate homebrew critical injuries with a macro.
    * It is not used anywhere else, and likely belongs in its own file to be exposed in
    * a sanctioned API. (_rollCriticalInjury() largely replaces this functionality.)

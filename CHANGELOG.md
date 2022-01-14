@@ -14,6 +14,7 @@
 **Maintenance items**
 - Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js
 - Added a warning popup if a macro is using actor.addCriticalInjury() alerting a user to the eventual deprecation of the method.  [Please see the updated API Wiki for details on the new way to create a Critical Injury from a Macro.](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/wikis/System-Documentation/API/addCriticalInjury)
+- Removed shading from the "Cancel" button on dialogs which may have inadvertently made people believe it was the default.
 # Version 0.80.1 | Date: 2021-01-04
 **Hot Fix**
 - Addressed #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
