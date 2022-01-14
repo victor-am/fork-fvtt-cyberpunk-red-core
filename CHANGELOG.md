@@ -17,6 +17,7 @@
 - Removed shading from the "Cancel" button on dialogs which may have inadvertently made people believe it was the default.
 - Renamed method _favoriteVisibility to _toggleSectionVisibility and CSS tag toggle-favorite-visibility to toggle-section-visibility as it accurately describes what happens
 - Updated the prompt naming for the cyberware installation to be consistent with code.
+- Consolidated the interface to get Roll Tables from the system into a method in systemUtils that can either use a regular expression or not.
 # Version 0.80.1 | Date: 2021-01-04
 **Hot Fix**
 - Addressed #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
