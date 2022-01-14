@@ -849,6 +849,7 @@
     "CPR.sheets.containerSheet": "Container/Shop Sheet",
     "CPR.sheets.demonSheet": "Demon Sheet",
     "CPR.sheets.mookSheet": "Mook Sheet",
+    "CPR.system.message.toBeDeprecated": "Usage of '{functionName}' will be deprecated in a future release.  See changelog for more details.",
     "CPR.system.update.changelogInformation": "Check the changelog for more information on this release, which can be found",
     "CPR.system.update.here": "HERE",
     "CPR.system.update.popupTitle": "{systemTitle} - Version {version} Upgrade",

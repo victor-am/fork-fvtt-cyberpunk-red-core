@@ -977,6 +977,7 @@ export default class CPRActor extends Actor {
    */
   addCriticalInjury(location, name, effect, quickFixType, quickFixDV, treatmentType, treatmentDV, deathSaveIncrease = false) {
     LOGGER.trace("addCriticalInjury | CPRActor | Called.");
+    SystemUtils.Format("CPR.system.message.toBeDeprecated", { functionName: "actor.addCriticalInjury" });
     const itemData = {
       type: "criticalInjury",
       name,
