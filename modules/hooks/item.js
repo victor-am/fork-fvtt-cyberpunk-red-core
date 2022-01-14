@@ -55,7 +55,6 @@ const itemHooks = () => {
   /**
    * The createItem Hook is provided by Foundry and triggered here. When an Item is created, this hook is called during
    * creation. This hook handles items dragged on the mook sheet to automatically equip or install them.
-   * TODO: this should be in the item.js hook code
    *
    * @public
    * @memberof hookEvents
