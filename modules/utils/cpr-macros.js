@@ -13,6 +13,10 @@ export default class CPRMacro {
     let actor;
     if (speaker.token) actor = game.actors.tokens[speaker.token];
     if (!actor) actor = game.actors.get(speaker.actor);
+    if (!actor) {
+      SystemUtils.DisplayMessage("warn", `${SystemUtils.Localize("CPR.macro.itemMissing")} ${itemName}`);
+      return;
+    }
     const item = actor ? actor.items.find((i) => i.name === itemName) : null;
 
     const displayName = actor === null ? "ERROR" : actor.name;

@@ -9,13 +9,14 @@
 
 **Bug Fixes**
 - Fixed the ability to delete items from the Mook sheet.
+- Fixed #367 - As a GM, if you attempted to use a macro to roll a skill without having an actor selected, it failed with a traceback. We now catch this and throw an appropriate message.
   
 **Maintenance items**
 - Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js
 # Version 0.80.1 | Date: 2021-01-04
 **Hot Fix**
 - Addressed #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
-- Fixed #354: Item Upgrades should be removable again and additional upgrades can be installed.
+- Fixed #354 - Item Upgrades should be removable again and additional upgrades can be installed.
 - Fixed #355 - Drag and drop to hotbar restored
 - Corrected many French translation strings
 
