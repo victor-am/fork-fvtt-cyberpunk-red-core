@@ -4,7 +4,7 @@ import * as CPRRolls from "../rolls/cpr-rolls.js";
 import CPRLedger from "../dialog/cpr-ledger-form.js";
 import CPR from "../system/config.js";
 import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
-import InstallCyberwarePrompt from "../dialog/cpr-cyberware-install-prompt.js";
+import InstallCyberwarePrompt from "../dialog/cpr-install-cyberware-prompt.js";
 import LOGGER from "../utils/cpr-logger.js";
 import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
@@ -968,7 +968,7 @@ export default class CPRActor extends Actor {
   }
 
   /**
-   * TODO:
+   * TODO: Delete this method after the March 2022 release.
    * This method was created to facilitate homebrew critical injuries with a macro.
    * It is not used anywhere else, and likely belongs in its own file to be exposed in
    * a sanctioned API. (_rollCriticalInjury() largely replaces this functionality.)
@@ -977,6 +977,7 @@ export default class CPRActor extends Actor {
    */
   addCriticalInjury(location, name, effect, quickFixType, quickFixDV, treatmentType, treatmentDV, deathSaveIncrease = false) {
     LOGGER.trace("addCriticalInjury | CPRActor | Called.");
+    SystemUtils.Format("CPR.system.message.toBeDeprecated", { functionName: "actor.addCriticalInjury" });
     const itemData = {
       type: "criticalInjury",
       name,

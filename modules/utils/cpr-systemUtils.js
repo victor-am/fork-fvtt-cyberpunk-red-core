@@ -22,6 +22,18 @@ export default class CPRSystemUtils {
     return content;
   }
 
+  static GetRollTables(tableName, useRegExp) {
+    LOGGER.trace("GetRollTables | CPRSystemUtils | Called.");
+    let tableList;
+    if (useRegExp) {
+      const searchString = new RegExp(tableName);
+      tableList = game.tables.filter((t) => t.data.name.match(searchString));
+    } else {
+      tableList = game.tables.filter((t) => t.data.name === tableName);
+    }
+    return tableList;
+  }
+
   static async DisplayMessage(msgType, msg) {
     LOGGER.trace("DisplayMessage | CPRSystemUtils | Called.");
     const localizedMessage = game.i18n.localize(msg);

@@ -96,6 +96,7 @@ input,
 select,
 button,
 .sidebar-tab .directory-header .header-search input,
+.dialog .dialog-buttons button,
 .dialog .dialog-buttons button.default {
   background: #eaeaeaff;
 }

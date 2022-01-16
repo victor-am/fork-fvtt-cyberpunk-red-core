@@ -12,10 +12,21 @@
   
 **Bug Fixes**
 - Corrected an issue when a player did not have proper permissions on a Vendor, the purchase would fail, but the player would still be charged for the item
+- Fixed the ability to delete items from the Mook sheet.
+- Fixed #367 - As a GM, if you attempted to use a macro to roll a skill without having an actor selected, it failed with a traceback. We now catch this and throw an appropriate message.
+  
+**Maintenance items**
+- Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js
+- Added a warning popup if a macro is using actor.addCriticalInjury() alerting a user to the eventual deprecation of the method.  [Please see the updated API Wiki for details on the new way to create a Critical Injury from a Macro.](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/wikis/System-Documentation/API/addCriticalInjury)
+- Removed shading from the "Cancel" button on dialogs which may have inadvertently made people believe it was the default.
+- Renamed method _favoriteVisibility to _toggleSectionVisibility and CSS tag toggle-favorite-visibility to toggle-section-visibility as it accurately describes what happens
+- Updated the prompt naming for the cyberware installation to be consistent with code.
+- Consolidated the interface to get Roll Tables from the system into a method in systemUtils that can either use a regular expression or not.
+
 # Version 0.80.1 | Date: 2021-01-04
 **Hot Fix**
 - Addressed #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
-- Fixed #354: Item Upgrades should be removable again and additional upgrades can be installed.
+- Fixed #354 - Item Upgrades should be removable again and additional upgrades can be installed.
 - Fixed #355 - Drag and drop to hotbar restored
 - Corrected many French translation strings
 
