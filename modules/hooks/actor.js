@@ -1,8 +1,5 @@
 /* global Hooks game */
 import LOGGER from "../utils/cpr-logger.js";
-import CPRCharacterActorSheet from "../actor/sheet/cpr-character-sheet.js";
-import CPRContainerActorSheet from "../actor/sheet/cpr-container-sheet.js";
-import CPRMookActorSheet from "../actor/sheet/cpr-mook-sheet.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
@@ -45,20 +42,20 @@ const actorHooks = () => {
    * @param {object} (unused)             Additional options which modify the creation request
    * @param {string} (unused)               The ID of the requesting user, always game.user.id
    */
-  Hooks.on("preUpdateActor", (actor, updatedData) => {
+  Hooks.on("preUpdateActor", (doc, updatedData) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
     if (updatedData.data && updatedData.data.externalData) {
       Object.keys(updatedData.data.externalData).forEach(
         (itemType) => {
           if (!updatedData.data.externalData[itemType].id) {
-            const itemId = actor.data.data.externalData[itemType].id;
-            const item = actor._getOwnedItem(itemId);
+            const itemId = doc.data.data.externalData[itemType].id;
+            const item = doc._getOwnedItem(itemId);
             const currentValue = updatedData.data.externalData[itemType].value;
             if (item) {
               switch (item.data.type) {
                 case "armor": {
                   if (itemType === "currentArmorBody") {
-                    const armorList = actor.getEquippedArmors("body");
+                    const armorList = doc.getEquippedArmors("body");
                     const updateList = [];
                     const diff = item.data.data.bodyLocation.sp - item.data.data.bodyLocation.ablation - currentValue;
                     armorList.forEach((a) => {
@@ -73,10 +70,10 @@ const actorHooks = () => {
                       }
                       updateList.push({ _id: a.id, data: armorData.data });
                     });
-                    actor.updateEmbeddedDocuments("Item", updateList);
+                    doc.updateEmbeddedDocuments("Item", updateList);
                   }
                   if (itemType === "currentArmorHead") {
-                    const armorList = actor.getEquippedArmors("head");
+                    const armorList = doc.getEquippedArmors("head");
                     const updateList = [];
                     const diff = item.data.data.headLocation.sp - item.data.data.headLocation.ablation - currentValue;
                     armorList.forEach((a) => {
@@ -91,11 +88,11 @@ const actorHooks = () => {
                       }
                       updateList.push({ _id: a.id, data: armorData.data });
                     });
-                    actor.updateEmbeddedDocuments("Item", updateList);
+                    doc.updateEmbeddedDocuments("Item", updateList);
                   }
                   if (itemType === "currentArmorShield") {
                     item.data.data.shieldHitPoints.value = currentValue;
-                    actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
+                    doc.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
                   }
                   break;
                 }
@@ -107,8 +104,8 @@ const actorHooks = () => {
       );
     }
 
-    if (actor.type === "blackIce" && actor.isToken && updatedData.data && updatedData.data.stats) {
-      const biToken = actor.token;
+    if (doc.type === "blackIce" && doc.isToken && updatedData.data && updatedData.data.stats) {
+      const biToken = doc.token;
 
       const netrunnerTokenId = biToken.getFlag("cyberpunk-red-core", "netrunnerTokenId");
       const cyberdeckId = biToken.getFlag("cyberpunk-red-core", "sourceCyberdeckId");
@@ -127,60 +124,6 @@ const actorHooks = () => {
         }
       }
     }
-  });
-
-  /**
-   * The createItem Hook is provided by Foundry and triggered here. When an Item is created, this hook is called during
-   * creation. This hook handles items dragged on the mook sheet to automatically equip or install them.
-   * TODO: this should be in the item.js hook code
-   *
-   * @public
-   * @memberof hookEvents
-   * @param {CPRItem} itemData            The pending document which is requested for creation
-   * @param {object} (unused)             Additional options which modify the creation request
-   * @param {string} userId               The ID of the requesting user, always game.user.id
-   */
-  Hooks.on("createItem", (itemData, _, userId) => {
-    LOGGER.trace("createItem | actorHooks | Called.");
-    const actor = itemData.parent;
-    if (actor !== null) {
-      if (itemData.type === "role" && actor.data.data.roleInfo.activeRole === "") {
-        actor.update({ "data.roleInfo.activeRole": itemData.data.name });
-      }
-
-      // when a new item is created (dragged) on a mook sheet, auto install or equip it
-      if (Object.values(actor.apps).some((app) => app instanceof CPRMookActorSheet) && userId === game.user.data._id) {
-        LOGGER.debug("handling a dragged item to the mook sheet");
-        actor.handleMookDraggedItem(actor._getOwnedItem(itemData.id));
-      }
-    }
-  });
-
-  /**
-   * The preCreateItem Hook is provided by Foundry and triggered here. When an Item is created, this hook is called just
-   * prior to creation. This code handles the case where an item is being created but it should "stack" on top of an
-   * existing item instead.
-   * TODO: this should be in the item.js hook code
-   *
-   * @public
-   * @memberof hookEvents
-   * @param {CPRItem} item          The pending document which is requested for creation
-   * @param {object} (unused)       The initial data object provided to the document creation request
-   * @param {object} options        Additional options which modify the creation request
-   * @param {string} userId         The ID of the requesting user, always game.user.id
-   * @return {boolean|void}         Explicitly return false to prevent creation of this Document
-   */
-  Hooks.on("preCreateItem", (item, _, options, userId) => {
-    LOGGER.trace("preCreateItem | actorHooks | Called.");
-    const actor = item.parent;
-    if (actor != null) {
-      if (Object.values(actor.apps).some((app) => app instanceof CPRCharacterActorSheet
-          || app instanceof CPRContainerActorSheet) && userId === game.user.data._id && !options.CPRsplitStack) {
-        LOGGER.debug("Attempting to stack items");
-        return actor.automaticallyStackItems(item);
-      }
-    }
-    return true;
   });
 };
 

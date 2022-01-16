@@ -20,7 +20,7 @@
           <li class="item flexrow" data-item-id="{{weapon.id}}">
             <div class="mook-weapon">
               <div class="item-name mook-weapon-name text-pad-right text-nowrap">
-                <a class="name item-edit deletable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
+                <a class="name item-edit deletable changeable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
                   {{weapon.name}}
                   {{#if weapon.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}
                 </a>
@@ -102,7 +102,7 @@
                     <li class="item flexrow">
                       <div class="mook-weapon">
                         <div class="item-name mook-weapon-name text-pad-right text-nowrap">
-                          <a class="name item-edit deletable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
+                          <a class="name item-edit deletable changeable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
                             {{weapon.name}}
                           </a>
                           {{#if (cprCompare weapon.data.data.quality "!==" "standard")}}
@@ -175,7 +175,7 @@
           <li class="item flexrow">
             <div class="mook-weapon">
               <div class="item-name mook-weapon-name text-pad-right text-nowrap">
-                <a class="name item-edit deletable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
+                <a class="name item-edit deletable changeable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
                   {{weapon.name}}
                   {{#if weapon.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}
                 </a>
@@ -257,7 +257,7 @@
                     <li class="item flexrow">
                       <div class="mook-weapon">
                         <div class="item-name mook-weapon-name text-pad-right text-nowrap">
-                          <a class="name item-edit deletable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
+                          <a class="name item-edit deletable changeable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
                             {{weapon.name}}
                           </a>
                           {{#if (cprCompare weapon.data.data.quality "!==" "standard")}}
