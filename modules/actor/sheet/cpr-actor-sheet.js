@@ -1012,7 +1012,9 @@ export default class CPRActorSheet extends ActorSheet {
           SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradedragupgradewarn"));
           return;
         }
-        await super._onDrop(event).then(actor.deleteEmbeddedDocuments("Item", [dragData.data._id]));
+        if (await super._onDrop(event)) {
+          await actor.deleteEmbeddedDocuments("Item", [dragData.data._id]);
+        }
       }
     } else {
       await super._onDrop(event);

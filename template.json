@@ -231,11 +231,18 @@
           "transactions": []
         },
         "criticalInjuries": []
+      },
+      "ledgerWealth": {
+        "wealth": {
+          "value": 0,
+          "transactions": []
+        }
       }
     },
     "character": {
       "templates": [
-        "common"
+        "common",
+        "ledgerWealth"
       ],
       "lifepath": {
         "culturalOrigin": "",
@@ -257,10 +264,6 @@
         "enemies": ""
       },
       "improvementPoints": {
-        "value": 0,
-        "transactions": []
-      },
-      "wealth": {
         "value": 0,
         "transactions": []
       },
@@ -309,6 +312,9 @@
       "notes": ""
     },
     "container": {
+      "templates": [
+        "ledgerWealth"
+      ],
       "hp": {
         "value": 40,
         "max": 40,
@@ -321,8 +327,8 @@
       },
       "restricted": false,
       "DV": 0,
-      "wealth": {
-        "value": 0
+      "vendor": {
+        "itemTypes": {}
       }
     },
     "demon": {
