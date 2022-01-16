@@ -58,8 +58,8 @@ const Loadable = function Loadable() {
    * @async
    * @returns - updated actor document, or null if this is not an owned item
    */
-  this._weaponUnload = async function _weaponUnload() {
-    LOGGER.trace("_weaponUnload | Loadable | Called.");
+  this._unloadItem = async function _unloadItem() {
+    LOGGER.trace("_unloadItem | Loadable | Called.");
     if (this.actor) {
       // recover the ammo to the right object
       const { ammoId } = this.data.data.magazine;
@@ -89,8 +89,8 @@ const Loadable = function Loadable() {
    * @param {String} reloadAmmoId - Id of the ammo being reloaded, null otherwise.
    * @returns null
    */
-  this._weaponLoad = async function _weaponLoad(reloadAmmoId) {
-    LOGGER.trace("_weaponLoad | Loadable | Called.");
+  this._loadItem = async function _loadItem(reloadAmmoId) {
+    LOGGER.trace("_loadItem | Loadable | Called.");
     let selectedAmmoId = reloadAmmoId;
     const loadUpdate = [];
     if (this.actor) {
@@ -123,7 +123,7 @@ const Loadable = function Loadable() {
 
       const loadedAmmo = this.data.data.magazine.ammoId;
       if (loadedAmmo !== "" && loadedAmmo !== selectedAmmoId) {
-        await this._weaponUnload();
+        await this._unloadItem();
       }
 
       if (selectedAmmoId) {

@@ -147,7 +147,6 @@ export default class CPRItem extends Item {
   doAction(actor, actionAttributes) {
     LOGGER.trace("doAction | CPRItem | Called.");
     const itemType = this.data.type;
-    // const changedItems = [];
     switch (itemType) {
       case "cyberware": {
         this._cyberwareAction(actor, actionAttributes);
@@ -169,6 +168,13 @@ export default class CPRItem extends Item {
     }
   }
 
+  /**
+   * Dispatcher for update-specific actions.
+   *
+   * @param {CPRActor} actor - who is performing the upgrade action?
+   * @param {Object} actionAttributes - details from the event data about the action
+   * @returns null for invalid actions
+   */
   _itemUpgradeAction(actor, actionAttributes) {
     LOGGER.trace("_itemUpgradeAction | CPRItem | Called.");
     switch (this.data.data.type) {
@@ -183,32 +189,24 @@ export default class CPRItem extends Item {
     return null;
   }
 
-  _cyberwareAction(actor, actionAttributes) {
-    LOGGER.trace("_cyberwareAction | CPRItem | Called.");
-    const actionData = actionAttributes["data-action"].nodeValue;
-    switch (actionData) {
-      case "select-ammo":
-      case "unload":
-      case "load":
-      case "reload-ammo":
-      case "measure-dv": {
-        return this._weaponAction(actor, actionAttributes);
-      }
-      default:
-    }
-    return null;
-  }
-
+  /**
+   * Pop up a confirmation dialog box when performing a roll. Depending on the type,
+   * the fields may be changed in the form. Properties in the CPRRoll object may
+   * be modified by the form answers, and that is what is returned.
+   *
+   * @param {CPRRoll} cprRoll
+   * @returns {CPRRoll}
+   */
   confirmRoll(cprRoll) {
     LOGGER.trace("confirmRoll | CPRItem | Called.");
     const itemType = this.data.type;
     const localCprRoll = cprRoll;
     const actorData = this.actor.data;
     const itemEntities = game.system.template.Item;
-    if (itemEntities[itemType].templates.includes("weapon")) {
+    if (itemEntities[itemType].templates.includes("loadable")) {
       if (localCprRoll instanceof CPRRolls.CPRAttackRoll) {
         if (this.data.data.isRanged) {
-          this.fireRangedWeapon(localCprRoll);
+          this.dischargeItem(localCprRoll);
           const ammoType = this._getLoadedAmmoType();
           if (ammoType !== "undefined") {
             localCprRoll.rollCardExtraArgs.ammoType = ammoType;
@@ -247,11 +245,22 @@ export default class CPRItem extends Item {
     return localCprRoll;
   }
 
+  /**
+   * Set whether the item is a favorite for the player, highlighting it in the UI/sheet
+   */
   toggleFavorite() {
     LOGGER.trace("toggleFavorite | CPRItem | Called.");
     this.update({ "data.favorite": !this.data.data.favorite });
   }
 
+  /**
+   * Dispatcher method for creating item-based rolls.
+   *
+   * @param {String} type - type of roll to be created
+   * @param {CPRActor} actor - actor doing the roll
+   * @param {Object} extraData - extra data about the roll to consider
+   * @returns {CPRRoll} or null for invalid roll types
+   */
   createRoll(type, actor, extraData = []) {
     LOGGER.trace("createRoll | CPRItem | Called.");
     switch (type) {
@@ -273,7 +282,6 @@ export default class CPRItem extends Item {
         const damageType = extraData.damageType ? extraData.damageType : type;
         return this._createDamageRoll(damageType);
       }
-      // case CPRRolls.rollTypes.INTERFACEABILITY:
       case CPRRolls.rollTypes.CYBERDECKPROGRAM: {
         return this._createCyberdeckRoll(type, actor, extraData);
       }

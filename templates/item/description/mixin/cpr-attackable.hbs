@@ -1,3 +1,18 @@
 {{cprTrace "CPR-ATTACKABLE.HBS"}}
-{{!-- ATTACKABLE details probably go here --}}
+{{#unless (cprCompare (cprCompare data.type "===" "cyberware") "&&" (cprCompare data.data.isWeapon "===" "false"))}}
+<div class="item-summary-line">
+    <span class="text-bold summary-name">{{localize "CPR.itemSheet.weapon.rof"}}:</span>
+    <span class="summary-value">{{cprApplyUpgrade item data.data.rof "rof"}}</span>
+</div>
+<div class="item-summary-line">
+    <span class="text-bold summary-name">{{localize "CPR.global.generic.damage"}}:</span>
+    <span class="summary-value">{{cprApplyUpgrade item data.data.damage "damage"}}</span>
+</div>
+{{#if data.data.isRanged}}
+    <div class="item-summary-line">
+        <span class="text-bold summary-name">{{localize "CPR.itemSheet.weapon.magSize"}}:</span>
+        <span class="summary-value">{{cprApplyUpgrade item data.data.magazine.max "magazine"}}</span>
+    </div>
+{{/if}}
+{{/unless}}
 {{cprTrace "END CPR-ATTACKABLE.HBS"}}

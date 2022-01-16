@@ -10,13 +10,50 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
  */
 const Attackable = function Attackable() {
   /**
+   * Dispatcher method for interacting with the attackable item. Most of these methods are implemented
+   * in the Loadable mixin. Note that this cannot be implemented in the weapon item code because
+   * cyberware can also be a "weapon."
+   *
+   * @async
+   * @callback
+   * @param {CPRActor} actor  - who is doing something with this weapon?
+   * @param {*} actionAttributes - details from the event indicating what the actor is doing
+   */
+  this._weaponAction = async function _weaponAction(actor, actionAttributes) {
+    LOGGER.trace("_weaponAction | CPRWeaponItem | Called.");
+    const actionData = actionAttributes["data-action"].nodeValue;
+    switch (actionData) {
+      case "select-ammo":
+        this._loadItem();
+        break;
+      case "unload":
+        this._unloadItem();
+        break;
+      case "load":
+        this._loadItem();
+        break;
+      case "reload-ammo":
+        this._loadItem(this.data.data.magazine.ammoId);
+        break;
+      case "measure-dv":
+        this._measureDv(actor, this.data.data.dvTable);
+        break;
+      default:
+    }
+    if (this.actor) {
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
+    }
+  };
+
+  /**
    * reduces the ammo count for this item after firing it
    *
    * @returns updated actor data
    */
-  this.fireRangedWeapon = function fireRangedWeapon(cprRoll) {
-    LOGGER.trace("fireRangedWeapon | Attackable | Called.");
+  this.dischargeItem = function dischargeItem(cprRoll) {
+    LOGGER.trace("dischargeItem | Attackable | Called.");
     const discharged = this.bulletConsumption(cprRoll);
+    LOGGER.debug(discharged);
     // don't go negative
     this.data.data.magazine.value = Math.max(this.data.data.magazine.value - discharged, 0);
     return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
@@ -71,7 +108,7 @@ const Attackable = function Attackable() {
     });
 
     // total up attack bonuses directly from role abilities (not indirectly from skills)
-    let universalBonusAttack = actor.data.data.universalBonuses.attack;
+    let universalBonusAttack = 0;
     this.actor.data.filteredItems.role.forEach((r) => {
       if (r.data.data.universalBonuses.includes("attack")) {
         universalBonusAttack += Math.floor(r.data.data.rank / r.data.data.bonusRatio);
@@ -126,7 +163,7 @@ const Attackable = function Attackable() {
     const rollName = this.data.name;
     const { weaponType } = this.data.data;
     let { damage } = this.data.data;
-    let universalBonusDamage = this.actor.data.data.universalBonuses.damage;
+    let universalBonusDamage = 0;
     if ((weaponType === "unarmed" || weaponType === "martialArts") && this.data.data.unarmedAutomaticCalculation) {
       // calculate damage based on BODY stat
       const actorBodyStat = this.actor.data.data.stats.body.value;

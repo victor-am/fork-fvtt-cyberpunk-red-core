@@ -8,28 +8,35 @@ import LOGGER from "./utils/cpr-logger.js";
 export default class CPRActiveEffect extends ActiveEffect {
   /**
    * Get the item that provides this active effect. You might think this is simply
-   * this.parent, but that returns the actor if this is on an owned item! Instead
-   * we use the origin property and follow that.
+   * this.parent, but that can vary depending on if it is on an actor itself, or
+   * an unlinked token. Instead we use the origin property and act from that.
    *
-   * This method assumes this CPRActiveEffect instance is not on an item but rather
-   * an actor.
+   * Example origins (in same order as conditionals below):
+   *    On a world actor itself: "Actor.voAMugZgXyH2OG9l"
+   *    On an unlinked token actor itself: "Scene.rG5JN8h8v5hFMmCC.Token.IbKRfHzNJyk1isk0"
+   *    AE on an unowned item: "Item.ioY6vLPzo2ZuhXuS"
+   *    AE from an item owned by a world actor: "Actor.voAMugZgXyH2OG9l.Item.ioY6vLPzo2ZuhXuS"
+   *    On an unlinked token actor with an owned item: "Scene.rG5JN8h8v5hFMmCC.Token.IbKRfHzNJyk1isk0.Item.9c66oxg9rk13o"
    */
   getSourceItem() {
-    // TODO: some of the logic here overlaps with cpr-systemUtils.GetEffect()
     LOGGER.trace("getSourceItem | CPRActiveEffect | Called.");
-    // Example origin value for an AE on an actor: "Actor.voAMugZgXyH2OG9l.Item.ioY6vLPzo2ZuhXuS"
-    // AE provided by an Item: "Item.ioY6vLPzo2ZuhXuS"
-    const [parentType, parentId, documentType, documentId] = this.data.origin?.split(".") ?? [];
-    if ((parentType === "Actor") && !documentType) return null; // effect on Actor itself, no Item to return
-    if (parentType === "Item") return this.parent; // effect is on an unowned Item
-    if ((parentType !== "Actor") || (parentId !== this.parent.id) || (documentType !== "Item")) {
-      LOGGER.error(`This AE has a crazy origin: ${this.data.origin}`);
-      return null;
+    // eslint-disable-next-line no-unused-vars
+    const [parentType, parentId, documentType, documentId, childType, childId] = this.data.origin?.split(".") ?? [];
+    if (parentType === "Actor" && !documentType) return null;
+    if (parentType === "Scene" && documentType === "Token" && !childType) return null;
+    if (parentType === "Item") return this.parent;
+    if (parentType === "Actor" && documentType === "Item") {
+      const item = this.parent.items.get(documentId);
+      if (!item) return null;
+      return item;
     }
-    // AE is on an actor and inheriting from an Item it owns
-    const item = this.parent.items.get(documentId);
-    if (!item) return null;
-    return item;
+    if (parentType === "Scene" && documentType === "Token" && childType === "Item") {
+      const item = this.parent.items.get(childId);
+      if (!item) return null;
+      return item;
+    }
+    LOGGER.error(`This AE has a crazy origin: ${this.data.origin}`);
+    return null;
   }
 
   /**

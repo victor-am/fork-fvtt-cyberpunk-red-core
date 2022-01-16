@@ -911,7 +911,7 @@ export default class CPRActor extends Actor {
       const weaponData = weapon.data.data;
       if (weaponData.isRanged) {
         if (weaponData.magazine.ammoId === ammoId) {
-          weapon._weaponUnload();
+          weapon._unloadItem();
         }
       }
     });

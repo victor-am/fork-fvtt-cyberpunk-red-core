@@ -417,7 +417,8 @@
         "upgradable",
         "valuable"
       ],
-      "handsReq": 1
+      "handsReq": 1,
+      "attackmod": 0
     },
     "skill": {
       "templates": [
