@@ -112,7 +112,6 @@ export default class CPRMookActorSheet extends CPRActorSheet {
       }
       const skill = this.actor.data.filteredItems.skill.filter((s) => s.name === formData.skillName)[0];
       skill.setSkillLevel(formData.skillLevel);
-      skill.setSkillMod(formData.skillMod);
       this._updateOwnedItem(skill);
       const updated = SystemUtils.Localize("CPR.mookSheet.skills.updated");
       const to = SystemUtils.Localize("CPR.mookSheet.skills.to");
@@ -191,7 +190,6 @@ export default class CPRMookActorSheet extends CPRActorSheet {
       switch (item.type) {
         case "skill": {
           item.setSkillLevel(0);
-          item.setSkillMod(0);
           this._updateOwnedItem(item);
           break;
         }

@@ -1,7 +1,10 @@
 {{cprTrace "CPR-UPGRADABLE.HBS"}}
 <div class="item-summary-line">
     <span class="text-bold summary-name">
-        {{localize "CPR.global.generic.slots"}}: {{cprMath "subtract" data.data.slots data.data.upgrades.length}}/{{data.data.slots}}
+        {{localize "CPR.itemSheet.itemUpgrade.unusedSlots"}}:
+    </span>
+    <span class="summary-value">
+        {{data.data.availableSlots}}/{{data.data.slots}}
     </span>
 </div>
 {{cprTrace "END CPR-UPGRADABLE.HBS"}}

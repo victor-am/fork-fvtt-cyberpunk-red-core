@@ -1,5 +1,20 @@
 {{cprTrace "CPR-ATTACKABLE.HBS"}}
-{{#unless (cprCompare (cprCompare data.type "===" "cyberware") "&&" (cprCompare data.data.isWeapon "===" "false"))}}
+{{!-- This awful logic is summarized here:
+    Show this content unless one of the following is true:
+        1. the item is cyberware and it is not a weapon
+        2. the item is an upgrade item and it is not a weapon
+--}}
+{{#unless (cprCompare 
+    (cprCompare 
+        (cprCompare data.type "===" "cyberware")
+        "&&"
+        (cprCompare data.data.isWeapon "===" "false"))
+    "||" 
+    (cprCompare
+        (cprCompare data.type "===" "itemUpgrade")
+        "&&"
+        (cprCompare data.data.modifiers.secondaryWeapon.configured "===" "false"))
+)}}
 {{!-- ROF Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">

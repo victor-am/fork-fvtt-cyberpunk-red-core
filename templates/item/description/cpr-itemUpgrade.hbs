@@ -1,3 +1,6 @@
 {{cprTrace "CPR-ITEMUPGRADE.HBS"}}
-{{!-- notthing for upgrades --}}
+<div class="item-summary-line">
+    <span class="text-bold summary-name">{{localize "CPR.itemSheet.itemUpgrade.upgradeType"}}:</span>
+    <span class="summary-value">{{localize (cprFindConfigValue "objectTypes" data.data.type)}}</span>
+</div>
 {{cprTrace "END CPR-ITEMUPGRADE.HBS"}}

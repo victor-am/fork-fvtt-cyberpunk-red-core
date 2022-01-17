@@ -267,8 +267,8 @@
       },
       "valuable": {
         "price": {
-          "market": 0,
-          "category": ""
+          "market": 100,
+          "category": "premium"
         }
       }
     },
@@ -481,12 +481,17 @@
         "common",
         "physical",
         "installable",
-        "loadable"
+        "loadable",
+        "valuable"
       ],
       "handsReq": 0,
       "size": 1,
       "type": "weapon",
-      "modifiers": {}
+      "modifiers": {
+        "secondaryWeapon": {
+          "configured": "false"
+        }
+      }
     }
   }
 }

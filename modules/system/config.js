@@ -234,14 +234,6 @@ CPR.objectTypes = {
   weapon: "CPR.global.itemTypes.weapon",
 };
 
-CPR.upgradeTypes = {
-  armor: "CPR.global.upgradeTypes.armor",
-  cyberdeck: "CPR.global.upgradeTypes.cyberdeck",
-  cyberware: "CPR.global.upgradeTypes.cyberware",
-  vehicle: "CPR.global.upgradeTypes.vehicle",
-  weapon: "CPR.global.upgradeTypes.weapon",
-};
-
 // Sorted A-Z
 CPR.clothingStyle = {
   asiaPop: "CPR.global.clothing.style.asiaPop",

@@ -17,7 +17,7 @@ export default class CPRWeaponItem extends CPRItem {
   availableSlots() {
     LOGGER.trace("availableSlots | CPRWeaponItem | Called.");
     const itemData = duplicate(this.data.data);
-    let unusedSlots = itemData.attachmentSlots;
+    let unusedSlots = itemData.slots;
     itemData.upgrades.forEach((mod) => {
       unusedSlots -= mod.data.size;
     });

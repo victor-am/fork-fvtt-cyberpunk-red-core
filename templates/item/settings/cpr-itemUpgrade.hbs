@@ -10,10 +10,7 @@
                 {{#select data.data.type}}
                     {{#each (cprEntityTypes "Item") as |itemType|}}
                         {{#if (cprHasTemplate itemType "upgradable")}}
-                            {{!-- Exclude ammo for the moment --}}
-                            {{#if (cprCompare itemType "!==" "ammo")}}
-                                <option value="{{itemType}}">{{localize (cprFindConfigValue "objectTypes" itemType)}}</option>
-                            {{/if}}
+                            <option value="{{itemType}}">{{localize (cprFindConfigValue "objectTypes" itemType)}}</option>
                         {{/if}}
                     {{/each}}
                 {{/select}}
@@ -102,8 +99,6 @@
             {{/if}}
         </div>
     </li>
-    {{#if (cprCompare (cprGetProp data.data.modifiers.secondaryWeapon "configured") "===" "true")}}
-        {{> "systems/cyberpunk-red-core/templates/item/parts/settings/cpr-weapon.hbs" this}}
-    {{/if}}
+    {{> "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-attackable.hbs" this}}
 {{/if}}
 {{cprTrace "END CPR-ITEMUPGRADE.HBS"}}

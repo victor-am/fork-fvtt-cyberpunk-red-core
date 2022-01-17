@@ -1,31 +1,8 @@
 {{cprTrace "CPR-UPGRADABLE.HBS"}}
 {{!-- Upgrade Installed Setting --}}
-<hr>
-<span class="text-large">{{localize "CPR.itemSheet.common.upgrades"}}</span>
-<li class="item flexrow">
-    {{localize "CPR.itemSheet.itemUpgrade.upgradeOverview"}}
-</li>
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.itemSheet.itemUpgrade.upgradeTypeAccepted"}}
-    </div>
-    <div class="item flexrow setting-value text-nowrap item-end">
-        {{#if this.editable}}
-            <select name="data.upgradeType" data-dtype="{{data.data.upgradeType}}">
-                {{#select data.data.upgradeType}}
-                    {{#each (cprFindConfigObj "upgradeTypes") as |upgradeString upgradeType|}}
-                        <option value="{{upgradeType}}">{{localize (cprFindConfigValue "upgradeTypes" upgradeType)}}</option>
-                    {{/each}}
-                {{/select}}
-            </select>
-        {{else}}
-            <span class="text-flex-end">{{localize (cprFindConfigValue "upgradeTypes" data.data.type)}}</span>
-        {{/if}}
-    </div>
-</li>
-<li class="item flexrow">
-    <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.global.generic.slots"}}
+        {{localize "CPR.itemSheet.itemUpgrade.slots"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
@@ -35,6 +12,56 @@
         {{/if}}
     </div>
 </li>
-{{!-- listing out installed upgrades goes here --}}
+
+{{!-- listing out installed upgrades --}}
+{{#if (cprCompare this.item.type "===" "weapon")}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        &nbsp;&nbsp;({{localize "CPR.itemSheet.itemUpgrade.unusedSlots"}}: {{data.data.availableSlots}})
+    </div>
+</li>
+{{/if}}
+
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{#if this.editable}}
+            <a class="select-item-upgrades" data-item-prop="select-item-upgrades">
+        {{/if}}
+        <strong>
+            {{localize "CPR.itemSheet.common.itemUpgrades"}}
+            {{#if (cprCompare data.type "===" "weapon")}} &#38; {{localize "CPR.itemSheet.weapon.attachments"}}{{/if}}
+        </strong>
+        {{#if this.editable}}
+            <i class="text-smallest text-super fas fa-wrench"></i>
+            </a>
+        {{/if}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+    </div>
+</li>
+{{#if data.data.isUpgraded}}
 <hr>
+{{#each data.data.upgrades as |upgrade|}}
+<li class="item flexrow" data-item-id="{{upgrade._id}}" draggable="false">
+    <div class="item-name flexrow setting-name text-nowrap">
+        {{#if this.editable}}
+            <a class="name item-view">{{upgrade.name}}</a>
+        {{else}}
+            <span class="text-flex-end">{{upgrade.name}}</span>
+        {{/if}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{localize "CPR.itemSheet.common.itemUpgradeSize"}}: {{upgrade.data.size}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if ../this.editable}}
+            <a class="remove-upgrade" data-item-id="{{upgrade._id}}">
+                <i class="fab fa-superpowers fg-red" title="{{localize "CPR.actorSheets.commonActions.removeUpgrade"}}"></i>
+            </a>
+        {{/if}}
+    </div>
+</li>
+{{/each}}
+<hr>
+{{/if}}
 {{cprTrace "END CPR-UPGRADABLE.HBS"}}
