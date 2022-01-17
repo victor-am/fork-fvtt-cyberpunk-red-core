@@ -75,7 +75,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     html.find(".set-lifepath").click(() => this._setLifepath());
 
     // toggle "favorite" skills and items
-    html.find(".toggle-favorite-visibility").click((event) => this._favoriteVisibility(event));
+    html.find(".toggle-section-visibility").click((event) => this._toggleSectionVisibility(event));
 
     // toggle the expand/collapse buttons for skill and item categories
     html.find(".expand-button").click((event) => this._expandButton(event));
@@ -278,14 +278,13 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
   /**
    * This is called when the eye glyph is clicked on the skill tab.
-   * TODO: the name is misleading because it hides favorites regardless.
    *
    * @callback
    * @private
    * @param {*} event - object with details of the event
    */
-  _favoriteVisibility(event) {
-    LOGGER.trace("_favoriteVisibility | CPRCharacterActorSheet | Called.");
+  _toggleSectionVisibility(event) {
+    LOGGER.trace("_toggleSectionVisibility | CPRCharacterActorSheet | Called.");
     const collapsibleElement = $(event.currentTarget).parents(".collapsible");
     const skillCategory = event.currentTarget.id.replace("-showFavorites", "");
     const categoryTarget = $(collapsibleElement.find(`#${skillCategory}`));

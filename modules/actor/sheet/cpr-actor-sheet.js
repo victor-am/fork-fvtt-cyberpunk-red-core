@@ -729,7 +729,6 @@ export default class CPRActorSheet extends ActorSheet {
 
   /**
    * Look up the critical injury rollable tables based on name.
-   * TODO: revisit whether regexes are the way to go here, and whether this is an actorSheet function
    *
    * @private
    * @returns {Array} - a sorted list of rollable table names that match expectations
@@ -737,9 +736,8 @@ export default class CPRActorSheet extends ActorSheet {
   static _getCriticalInjuryTables() {
     LOGGER.trace("_getCriticalInjuryTables | CPRActorSheet | Called.");
     const pattern = "^Critical Injury|^CriticalInjury|^CritInjury|^Crit Injury|^Critical Injuries|^CriticalInjuries";
-    const critPattern = new RegExp(pattern);
     const tableNames = [];
-    const tableList = game.tables.filter((t) => t.data.name.match(critPattern));
+    const tableList = SystemUtils.GetRollTables(pattern, true);
     tableList.forEach((table) => tableNames.push(table.data.name));
     return tableNames.sort();
   }
@@ -773,7 +771,7 @@ export default class CPRActorSheet extends ActorSheet {
     if (tableName === undefined) {
       return;
     }
-    const table = game.tables.contents.find((t) => t.name === tableName);
+    const table = (SystemUtils.GetRollTables(tableName, false))[0];
     this._drawCriticalInjuryTable(tableName, table, 0);
     this._automaticResize();
   }
@@ -1061,7 +1059,9 @@ export default class CPRActorSheet extends ActorSheet {
           SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradedragupgradewarn"));
           return;
         }
-        await super._onDrop(event).then(actor.deleteEmbeddedDocuments("Item", [dragData.data._id]));
+        if (await super._onDrop(event)) {
+          await actor.deleteEmbeddedDocuments("Item", [dragData.data._id]);
+        }
       }
     } else {
       await super._onDrop(event);

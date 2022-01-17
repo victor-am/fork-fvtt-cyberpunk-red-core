@@ -38,6 +38,25 @@ export default class CPRSystemUtils {
   }
 
   /**
+   * Get rollable tables by name, optionally by searching with a regexp
+   *
+   * @param {String} tableName
+   * @param {RegExp} useRegExp
+   * @returns {Array} table objects matching the given criteria
+   */
+  static GetRollTables(tableName, useRegExp) {
+    LOGGER.trace("GetRollTables | CPRSystemUtils | Called.");
+    let tableList;
+    if (useRegExp) {
+      const searchString = new RegExp(tableName);
+      tableList = game.tables.filter((t) => t.data.name.match(searchString));
+    } else {
+      tableList = game.tables.filter((t) => t.data.name === tableName);
+    }
+    return tableList;
+  }
+
+  /**
    * Display user-visible message. (blue, yellow, or red background)
    *
    * @param {String} msgType - type of message to display, which controls the color fo the dialog

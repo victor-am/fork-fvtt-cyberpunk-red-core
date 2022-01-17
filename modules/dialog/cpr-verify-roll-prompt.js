@@ -1,5 +1,4 @@
 /* global renderTemplate, FormDataExtended, Dialog */
-// TODO - Finish Refactor, See cyberware-install-prompt.js
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
 
