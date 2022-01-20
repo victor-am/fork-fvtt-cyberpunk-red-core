@@ -16,6 +16,7 @@ const Upgradable = function Upgradable() {
     LOGGER.trace("uninstallUpgrades | Upgradable | Called.");
     let installedUpgrades = this.data.data.upgrades;
     const updateList = [];
+    LOGGER.debugObject(upgrades);
     upgrades.forEach((u) => {
       installedUpgrades = installedUpgrades.filter((iUpgrade) => iUpgrade._id !== u.id);
       updateList.push({ _id: u.id, "data.isInstalled": false });
@@ -80,7 +81,7 @@ const Upgradable = function Upgradable() {
         const alreadyInstalled = installedUpgrades.filter((iUpgrade) => iUpgrade._id === u.data._id);
         if (alreadyInstalled.length === 0) {
           // Update the upgrade Item set the isInstalled Boolean and the install setting to this item
-          updateList.push({ _id: u.id, "data.isInstalled": true, "data.install": this.id });
+          updateList.push({ _id: u.data._id, "data.isInstalled": true, "data.install": this.id });
           const modList = {};
           const upgradeModifiers = u.data.data.modifiers;
           // Loop through the modifiers this upgrade has on it
@@ -100,7 +101,7 @@ const Upgradable = function Upgradable() {
             }
           });
           const upgradeData = {
-            _id: u._id,
+            _id: u.data._id,
             name: u.name,
             data: {
               modifiers: modList,
@@ -111,7 +112,6 @@ const Upgradable = function Upgradable() {
         }
       });
       updateList.push({ _id: this.id, "data.isUpgraded": true, "data.upgrades": installedUpgrades });
-
       return this.actor.updateEmbeddedDocuments("Item", updateList);
     }
     return null;

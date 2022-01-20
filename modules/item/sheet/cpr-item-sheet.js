@@ -835,7 +835,9 @@ export default class CPRItemSheet extends ItemSheet {
   async _removeItemUpgrade(event) {
     LOGGER.trace("_removeItemUpgrade | CPRItemSheet | Called.");
     const upgradeId = SystemUtils.GetEventDatum(event, "data-item-id");
+    LOGGER.debugObject(upgradeId);
     const upgrade = this.actor.items.find((i) => i.data._id === upgradeId);
+    LOGGER.debugObject(upgrade);
     await this.item.uninstallUpgrades([upgrade]);
   }
 
