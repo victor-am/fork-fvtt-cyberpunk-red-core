@@ -33,7 +33,8 @@ export default class CPRDrugItem extends CPRItem {
         LOGGER.debug(`setting ${ae.id} disabled to false`);
         effectUpdates.push({ _id: ae.id, disabled: false });
       });
-      this.actor.updateEmbeddedDocuments("ActiveEffect", effectUpdates);
+      this.actor.updateEmbeddedDocuments("ActiveEffect", effectUpdates); // update AEs
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]); // update the amount
     }
     SystemUtils.DisplayMessage("notify", `${this.data.name} ${SystemUtils.Localize("CPR.messages.consumedDrug")}`);
   }
