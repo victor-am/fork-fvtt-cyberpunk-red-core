@@ -94,11 +94,6 @@ export default class CPRActorSheet extends ActorSheet {
       data.filteredItems.programsInstalled = programsInstalled;
       data.filteredEffects = this.prepareActiveEffectCategories();
       data.filteredItemActions = {};
-      const inventory = data.items.filter((i) => i.type !== "skill" && i.type !== "role");
-      // put this information in the filteredItems structure
-      inventory.forEach((i) => {
-        data.filteredItemActions[i._id] = SystemUtils.getActions(i);
-      });
     }
 
     return data;

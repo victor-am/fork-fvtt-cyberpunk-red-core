@@ -7,6 +7,8 @@ import LOGGER from "../../utils/cpr-logger.js";
 const Valuable = function Valuable() {
   /**
    * Return the price of an Item that is set with the category.
+   * This is not used anywhere, but will be useful for future automation that sets the category
+   * automatically based on the price.
    *
    * @param {String} category - the price category for an Item
    * @returns {Number} - the price of the item per the core rules

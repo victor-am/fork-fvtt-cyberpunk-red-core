@@ -26,15 +26,15 @@ export default class CPRDrugItem extends CPRItem {
     if (!await this._confirmSnort()) return;
     this.data.data.amount = Math.max(0, this.data.data.amount - 1);
     if (this.actor) {
-      const origin = `Actor.${this.actor.id}.Item.${this.id}`;
-      const actorEffects = this.actor.data.effects.filter((ae) => ae.data.origin === origin && ae.usage === "snorted");
+      const originItem = `Item.${this.id}`;
+      const actorEffects = this.actor.data.effects.filter((ae) => ae.data.origin.endsWith(originItem) && ae.usage === "snorted");
+      const effectUpdates = [];
       actorEffects.forEach((ae) => {
-        LOGGER.debug(`setting ${ae.id} disabled to ${!ae.data.disabled}`);
-        this.actor.updateEmbeddedDocuments("ActiveEffect", [{ _id: ae.id, disabled: !ae.data.disabled }]);
+        LOGGER.debug(`setting ${ae.id} disabled to false`);
+        effectUpdates.push({ _id: ae.id, disabled: false });
       });
-      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
+      this.actor.updateEmbeddedDocuments("ActiveEffect", effectUpdates);
     }
-    LOGGER.debugObject(this);
     SystemUtils.DisplayMessage("notify", `${this.data.name} ${SystemUtils.Localize("CPR.messages.consumedDrug")}`);
   }
 

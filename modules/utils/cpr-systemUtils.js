@@ -541,6 +541,7 @@ export default class CPRSystemUtils {
   /**
    * Return the list of actions that can be taken with this item. Used by the actor sheet.
    * Note that "pin" is left out, it is hardcoded in the sheet code.
+   * This is not used anywhere right now, but will be useful when associating actions with mixins.
    *
    * @param {ItemData} itemData - the item data we will be inspecting
    * @returns {String[]} - array of actions that can be taken
