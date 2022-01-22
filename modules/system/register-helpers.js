@@ -695,8 +695,7 @@ export default function registerHandlebarsHelpers() {
    */
   Handlebars.registerHelper("cprGetSkillBonus", (skillName, actor) => {
     LOGGER.trace("cprGetSkillBonus | handlebarsHelper | Called.");
-    const skillSlug = SystemUtils.slugify(skillName);
-    return actor.data.bonuses[skillSlug];
+    return actor.getSkillMod(skillName);
   });
 
   /**
