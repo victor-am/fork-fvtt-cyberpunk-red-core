@@ -82,10 +82,10 @@ const Attackable = function Attackable() {
       }
     }
 
-    // total up bonuses from skills and stats
-    const skillValue = skillItem.data.data.level;
     const skillName = skillItem.data.name;
-    const skillMod = skillItem.data.data.skillmod;
+    // total up bonuses from skills and stats
+    const skillValue = actor.getSkillLevel(weaponData.weaponSkill);
+    const skillMod = actor.getSkillMod(weaponData.weaponSkill);
     let cprRoll;
     let statName;
     if (weaponData.isRanged && this.data.data.weaponType !== "thrownWeapon") {
