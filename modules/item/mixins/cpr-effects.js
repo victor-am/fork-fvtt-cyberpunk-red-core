@@ -18,8 +18,6 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
  *    3 (DOWNGRADE) - like OVERRIDE but only replace if the value is lower (worse)
  *    4 (UPGRADE) - like OVERRIDE but only replace if the value is higher (better)
  *    5 (OVERRIDE) - replace the current value with this one
- *
- * Note: Only 1, 2, and 5 is used in this system
  */
 const Effects = function Effects() {
   /**
