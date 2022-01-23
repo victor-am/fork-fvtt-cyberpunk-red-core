@@ -37,7 +37,7 @@ const itemHooks = () => {
     LOGGER.trace("preCreateItem | itemHooks | Called.");
 
     const actor = doc.parent;
-
+    let returnValue = true;
     if ((typeof createData.img === "undefined") && actor === null) {
       const itemImage = SystemUtils.GetDefaultImage("Item", createData.type);
       doc.data.update({ img: itemImage });
@@ -47,9 +47,10 @@ const itemHooks = () => {
       if (Object.values(actor.apps).some((app) => app instanceof CPRCharacterActorSheet
           || app instanceof CPRContainerActorSheet) && userId === game.user.data._id && !options.CPRsplitStack) {
         LOGGER.debug("Attempting to stack items");
-        actor.automaticallyStackItems(doc);
+        returnValue = actor.automaticallyStackItems(doc);
       }
     }
+    return returnValue;
   });
 
   /**
