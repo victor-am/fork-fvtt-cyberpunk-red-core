@@ -1,13 +1,19 @@
-/* eslint-disable foundry-cpr/logger-after-function-definition */
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-console */
-/* eslint-disable max-len */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-undef */
 /* eslint-disable no-await-in-loop */
-export default class Migration {
-  static async migrateWorld(oldDataModelVersion, newDataModelVersion) {
-    ui.notifications.notify(`Beginning Migration of Cyberpunk Red Core from Data Model ${oldDataModelVersion} to ${newDataModelVersion}.`);
+/* global CONFIG duplicate expandObject foundry game mergeObject ui */
+
+import CPRMigration from "../cpr-migration.js";
+import LOGGER from "../../../utils/cpr-logger.js";
+
+export default class BaseMigration extends CPRMigration {
+  constructor() {
+    LOGGER.trace("constructor | 0-base Migration");
+    super();
+    this.version = 0;
+  }
+
+  static async run() {
+    LOGGER.trace("run | 0-base Migration");
     let totalCount = game.items.contents.length;
     let quarterCount = totalCount / 4;
     let loopIndex = 0;
@@ -23,14 +29,14 @@ export default class Migration {
         loopIndex = 0;
       }
       try {
-        const updateData = this.migrateItemData(i.toObject());
+        const updateData = BaseMigration.migrateItemData(i.toObject());
         if (!foundry.utils.isObjectEmpty(updateData)) {
-          this._migrationLog(`Migrating Item entity ${i.name}`);
+          BaseMigration._migrationLog(`Migrating Item entity ${i.name}`);
           await i.update(updateData, { diff: false });
         }
       } catch (err) {
         err.message = `CPR MIGRATION | Failed cyberpunk-red-core system migration for Item ${i.name}: ${err.message}`;
-        console.error(err);
+        LOGGER.error(err);
       }
     }
     totalCount = game.actors.contents.length;
@@ -52,17 +58,17 @@ export default class Migration {
         // Create any new items needed for the character or mook before manipulating
         // any data points, example: Missing core Cyberware, Critical Injury Items, etc
         if (a.type === "character" || a.type === "mook") {
-          await this.createActorItems(a);
+          await BaseMigration.createActorItems(a);
         }
 
-        const updateData = this.migrateActorData(a.data, "actor");
+        const updateData = BaseMigration.migrateActorData(a.data, "actor");
         if (!foundry.utils.isObjectEmpty(updateData)) {
-          this._migrationLog(`Migrating Actor entity ${a.name}`);
+          BaseMigration._migrationLog(`Migrating Actor entity ${a.name}`);
           await a.update(updateData, { enforceTypes: false });
         }
       } catch (err) {
         err.message = `CPR MIGRATION | Failed cyberpunk-red-core system migration for Actor ${a.name}: ${err.message}`;
-        console.error(err);
+        LOGGER.error(err);
       }
     }
     totalCount = game.packs.size;
@@ -75,16 +81,16 @@ export default class Migration {
       ui.notifications.notify(`Migration of Pack ${loopIndex}/${totalCount} started.`);
 
       if (p.metadata.package === "world") {
-        this.migrateCompendium(p);
+        BaseMigration.migrateCompendium(p);
       }
     }
 
     // Migrate Actor Override Tokens
     for (const s of game.scenes.contents) {
       try {
-        const updateData = this.migrateSceneData(s.data);
+        const updateData = BaseMigration.migrateSceneData(s.data);
         if (!foundry.utils.isObjectEmpty(updateData)) {
-          this._migrationLog(`Migrating Scene entity ${s.name}`);
+          BaseMigration._migrationLog(`Migrating Scene entity ${s.name}`);
           await s.update(updateData, { enforceTypes: false });
           // If we do not do this, then synthetic token actors remain in cache
           // with the un-updated actorData.
@@ -95,17 +101,14 @@ export default class Migration {
         }
       } catch (err) {
         err.message = `CPR MIGRATION | Failed cyberpunk-red-core system migration for Scene ${s.name}: ${err.message}`;
-        console.error(err);
+        LOGGER.error(err);
       }
     }
-
-    ui.notifications.notify(`Migration of Cyberpunk Red Core to Data Model ${newDataModelVersion} Finished.`);
-
-    game.settings.set("cyberpunk-red-core", "dataModelVersion", newDataModelVersion);
   }
 
   // @param {object} actorData    The actor data object to update
   static migrateActorData(actorData, dataSource) {
+    LOGGER.trace("migrateActorData | 0-base Migration");
     const updateData = {};
 
     // Remove flags from container actors, they should be configured on token actors
@@ -126,7 +129,7 @@ export default class Migration {
       const items = actorData.items.reduce((arr, i) => {
         // Migrate the Owned Item
         const itemData = i instanceof CONFIG.Item.documentClass ? i.toObject() : i;
-        const itemUpdate = this.migrateItemData(itemData);
+        const itemUpdate = BaseMigration.migrateItemData(itemData);
 
         // Update the Owned Item
         if (!foundry.utils.isObjectEmpty(itemUpdate)) {
@@ -144,7 +147,6 @@ export default class Migration {
 
     /*
     After version 0.53, we moved deathSave to 3 values to support the rules:
-
     There are two things that can modify your Death Save rolls, the "Death Save Penalty" and the "Base Death Save Penalty".
 
     Your "Death Save Penalty" increases by 1 every time you succeed at a Death Save, and is applied to the roll. For example,
@@ -430,8 +432,9 @@ export default class Migration {
   }
 
   static async migrateTokenActor(actor) {
+    LOGGER.trace("migrateTokenActor | 0-base Migration");
     if (actor.type === "character" || actor.type === "mook") {
-      await this.createActorItems(actor);
+      await BaseMigration.createActorItems(actor);
     }
 
     if (actor.type === "container") {
@@ -448,21 +451,22 @@ export default class Migration {
       }
     }
 
-    return this.migrateActorData(actor.data, "token");
+    return BaseMigration.migrateActorData(actor.data, "token");
   }
 
   // Segmented out the creation of items for the Actors as they are not just
   // manipulating the Actor Data, they are creating new Item entities in the
   // world and adding them to the actors.
   static async createActorItems(actorDocument) {
+    LOGGER.trace("createActorItems | 0-base Migration");
     let newItems = [];
     const actorData = actorDocument.data;
     // Migrate critical injures to items
     if ((typeof actorData.data.criticalInjuries) !== "undefined") {
       if (actorData.data.criticalInjuries.length > 0) {
         const migratedInjuries = this.migrateCriticalInjuries(actorData);
-        if (!foundry.utils.isObjectEmpty(migratedInjures)) {
-          this._migrationLog(`Migration critical injuries for Actor "${actorData.name}" (${actorData._id})`);
+        if (!foundry.utils.isObjectEmpty(migratedInjuries)) {
+          BaseMigration._migrationLog(`Migration critical injuries for Actor "${actorData.name}" (${actorData._id})`);
           newItems = migratedInjuries;
         }
       }
@@ -521,7 +525,7 @@ export default class Migration {
     if (missingContent.length > 0) {
       missingContent.forEach((c) => {
         const missingItem = c.data;
-        this._migrationLog(`Actor "${actorData.name}" (${actorData._id}) is missing "${missingItem.name}". Creating.`);
+        BaseMigration._migrationLog(`Actor "${actorData.name}" (${actorData._id}) is missing "${missingItem.name}". Creating.`);
         newItems.push(missingItem);
       });
     }
@@ -534,7 +538,8 @@ export default class Migration {
       const itemData = p.data;
       let quantity = itemData.data.amount;
       if (quantity > 1) {
-        this._migrationLog(`Splitting Program "${itemData.name}" (${itemData._id}) Quanity: ${quantity} on actor "${actorData.name}" (${actorData._id}). Net new items: ${quantity - 1}`);
+        BaseMigration._migrationLog(`Splitting Program "${itemData.name}" (${itemData._id}) `
+          + `Quanity: ${quantity} on actor "${actorData.name}" (${actorData._id}). Net new items: ${quantity - 1}`);
         itemData.data.amount = 1;
         while (quantity > 1) {
           newItems.push(itemData);
@@ -549,6 +554,8 @@ export default class Migration {
   }
 
   static _validateCoreContent(actorData, content) {
+    LOGGER.trace("_validateCoreContent | 0-base Migration");
+
     const ownedCyberware = actorData.items.filter((o) => o.type === "cyberware");
     const installedCyberware = ownedCyberware.filter((i) => {
       let isInstalled = false;
@@ -572,6 +579,7 @@ export default class Migration {
   }
 
   static _migrateCriticalInjuries(actorData) {
+    LOGGER.trace("_migrateCriticalInjuries | 0-base Migration");
     const { criticalInjuries } = actorData.data;
     const injuryItems = [];
     criticalInjuries.forEach(async (injury) => {
@@ -607,6 +615,7 @@ export default class Migration {
 
   // @param {object} itemData    The actor data object to update
   static migrateItemData(itemData) {
+    LOGGER.trace("migrateItemData | 0-base Migration");
     let updateData = {};
 
     if (typeof itemData.data.description === "string") {
@@ -657,6 +666,8 @@ export default class Migration {
 
   // Item specific migration tasks
   static _migrateWeapon(itemData, updateData) {
+    LOGGER.trace("_migrateWeapon | 0-base Migration");
+
     if ((typeof itemData.data.isConcealed) === "undefined") {
       updateData["data.isConcealed"] = false;
     }
@@ -674,6 +685,8 @@ export default class Migration {
   }
 
   static _migrateArmor(itemData, updateData) {
+    LOGGER.trace("_migrateArmor | 0-base Migration");
+
     if ((typeof itemData.data.headLocation.sp) !== "number") {
       let newValue = 0;
       if ((typeof itemData.data.headLocation.sp) !== "undefined") {
@@ -722,6 +735,8 @@ export default class Migration {
   }
 
   static _migrateProgram(itemData, updateData) {
+    LOGGER.trace("_migrateProgram | 0-base Migration");
+
     if ((typeof itemData.data.slots) === "undefined" || itemData.data.slots === null) {
       updateData["data.slots"] = 1;
     }
@@ -845,6 +860,8 @@ export default class Migration {
   }
 
   static _migrateVehicle(itemData, updateData) {
+    LOGGER.trace("_migrateVehicle | 0-base Migration");
+
     if ((typeof itemData.data.sdp) === "undefined") {
       updateData["data.sdp"] = 0;
     } else if ((typeof itemData.data.sdp) !== "number") {
@@ -891,6 +908,8 @@ export default class Migration {
   }
 
   static _migrateGear(itemData, updateData) {
+    LOGGER.trace("_migrateGear | 0-base Migration");
+
     if ((typeof itemData.data.equipped) === "undefined") {
       updateData["data.equipped"] = "owned";
     }
@@ -908,6 +927,8 @@ export default class Migration {
   }
 
   static _migrateCyberware(itemData, updateData) {
+    LOGGER.trace("_migrateCyberware | 0-base Migration");
+
     if (typeof itemData.data.slotSize !== "number") {
       updateData["data.slotSize"] = 1;
     }
@@ -931,6 +952,8 @@ export default class Migration {
   // than if it is undefined because sometimes the value shows up as null.
   // Testing that theory here.
   static _migrateSkill(itemData, updateData) {
+    LOGGER.trace("_migrateSkill | 0-base Migration");
+
     if ((typeof itemData.data.skillmod) !== "number") {
       updateData["data.skillmod"] = 0;
     }
@@ -939,6 +962,8 @@ export default class Migration {
   }
 
   static _migrateNetArchitecture(itemData, updateData) {
+    LOGGER.trace("_migrateNetArchitecture | 0-base Migration");
+
     if (itemData.data.floors.length !== 0) {
       const newfloors = [];
       itemData.data.floors.forEach((floor) => {
@@ -979,6 +1004,8 @@ export default class Migration {
   }
 
   static async migrateCompendium(pack) {
+    LOGGER.trace("migrateCompendium | 0-base Migration");
+
     const { entity } = pack.metadata;
     if (!["Actor", "Item", "Scene"].includes(entity)) return;
     // Unlock the pack for editing
@@ -995,11 +1022,11 @@ export default class Migration {
       try {
         switch (entity) {
           case "Actor": {
-            updateData = this.migrateActorData(doc.data, "compendium");
+            updateData = BaseMigration.migrateActorData(doc.data, "compendium");
             break;
           }
           case "Item": {
-            updateData = this.migrateItemData(doc.toObject());
+            updateData = BaseMigration.migrateItemData(doc.toObject());
             break;
           }
           default:
@@ -1009,7 +1036,7 @@ export default class Migration {
         await doc.update(updateData);
       } catch (err) {
         err.message = `Failed cyberpunk-red-core system migration for entity ${doc.name} in pack ${pack.collection}: ${err.message}`;
-        console.error(err);
+        LOGGER.error(err);
       }
     }
 
@@ -1018,6 +1045,8 @@ export default class Migration {
   }
 
   static migrateSceneData(scene) {
+    LOGGER.trace("migrateSceneData | 0-base Migration");
+
     // Tokens contain an actorData element which is a diff from the original actor
     // and does NOT have all of the data elements of the original actor.  As best
     // as I can tell, token.actor.data is from the original actor with
@@ -1036,7 +1065,8 @@ export default class Migration {
         // is pulling the data from?  Either way, this is technically a broken
         // token and even Foundry throws errors when you do certain things
         // with this token.
-        this._migrationLog(`WARNING: Token "${t.name}" (${t.actorId}) on Scene "${scene.name}" (${scene._id}) appears to be missing the source Actor and may cause Foundry issues.`);
+        BaseMigration._migrationLog(`WARNING: Token "${t.name}" (${t.actorId}) on Scene "${scene.name}" (${scene._id})`
+          + `appears to be missing the source Actor and may cause Foundry issues.`);
         t.actorId = null;
         t.actorData = {};
       } else if (!t.actorLink) {
@@ -1066,6 +1096,7 @@ export default class Migration {
   }
 
   static _migrationLog(message) {
-    console.log(`CPR MIGRATION | ${message}`);
+    // eslint-disable-next-line foundry-cpr/logger-after-function-definition
+    LOGGER.log(`CPR MIGRATION | ${message}`);
   }
 }

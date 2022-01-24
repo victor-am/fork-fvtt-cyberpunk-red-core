@@ -12,6 +12,7 @@ export default class CPRActiveEffect extends ActiveEffect {
    * an unlinked token. Instead we use the origin property and act from that.
    *
    * Example origins (in same order as conditionals below):
+   *    Status effects (like an sleep icon on a token) are AEs, and the origin is "undefined"
    *    On a world actor itself: "Actor.voAMugZgXyH2OG9l"
    *    On an unlinked token actor itself: "Scene.rG5JN8h8v5hFMmCC.Token.IbKRfHzNJyk1isk0"
    *    AE on an unowned item: "Item.ioY6vLPzo2ZuhXuS"
@@ -20,6 +21,7 @@ export default class CPRActiveEffect extends ActiveEffect {
    */
   getSourceItem() {
     LOGGER.trace("getSourceItem | CPRActiveEffect | Called.");
+    if (!this.data.origin) return null;
     // eslint-disable-next-line no-unused-vars
     const [parentType, parentId, documentType, documentId, childType, childId] = this.data.origin?.split(".") ?? [];
     if (parentType === "Actor" && !documentType) return null;
@@ -35,6 +37,7 @@ export default class CPRActiveEffect extends ActiveEffect {
       if (!item) return null;
       return item;
     }
+    LOGGER.debugObject(this);
     LOGGER.error(`This AE has a crazy origin: ${this.data.origin}`);
     return null;
   }
