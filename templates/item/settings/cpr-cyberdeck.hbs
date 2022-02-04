@@ -1,20 +1,5 @@
 {{cprTrace "CPR-CYBERDECK.HBS"}}
 {{!-- Cyberdeck Item Settings--}}
-{{!-- Cyberdeck Quality Settings--}}
-<li class="item flexrow">
-    <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.global.itemTypes.cyberdeck"}} {{localize "CPR.itemSheet.common.quality"}}
-    </div>
-    <div class="item flexrow setting-value text-nowrap item-end">
-        <select name="data.quality" data-dtype="{{data.data.quality}}">
-            {{#select data.data.quality}}
-                {{#each (cprFindConfigObj "itemQuality") as |quality q| }}
-                    <option value="{{q}}">{{localize quality}}</option>
-                {{/each}}
-            {{/select}}
-        </select>
-    </div>
-</li>
 
 {{!-- Cyberdeck Installed Programs Settings--}}
 <li class="item flexrow">

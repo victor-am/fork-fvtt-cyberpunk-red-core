@@ -13,6 +13,7 @@ export default class CPRCyberwareItem extends CPRItem {
    * by starting with the number of slots this cyberware has and substacting
    * the slot size of each of the installed options.
    *
+   * @override
    * @public
    */
   availableSlots() {

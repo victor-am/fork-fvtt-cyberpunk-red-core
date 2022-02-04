@@ -22,6 +22,7 @@ export default class CPRCyberdeckItem extends CPRItem {
    * by starting with the number of slots this cyberdeck has and substacting
    * the slot size of each of the installed programs.
    *
+   * @override
    * @public
    */
   availableSlots() {

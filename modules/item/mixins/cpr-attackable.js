@@ -246,8 +246,11 @@ const Attackable = function Attackable() {
   };
 
   /**
-   * Get mods to the attack roll from upgrades.
-   * TODO: revisit this after the upgrade code is refactored.
+   * Get mods to the attack roll from upgrades. You might think this could be removed in favor of
+   * active effects, but alas, we cannot. Active Effects can only affect the item it is on, or
+   * the actors that own said item. (or actors themselves). An AE cannot by applied to a different
+   * item. In other words, an itemUpgrade cannot provide an AE that affects the item it is installed
+   * into. Therefore, we have to use this attackmod property instead.
    *
    * @returns {Number}
    */

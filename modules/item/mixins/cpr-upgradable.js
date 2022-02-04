@@ -1,3 +1,4 @@
+/* global duplicate */
 import CPR from "../../system/config.js";
 import LOGGER from "../../utils/cpr-logger.js";
 
@@ -118,8 +119,12 @@ const Upgradable = function Upgradable() {
   };
 
   /**
+   * Given a data point that this upgrade improves, find out the type of upgrade. In some ways
+   * this is a reimplementation of the "mode" for active effects. We could not use AEs here
+   * because AE cannot modify other items, only actors. Do not confuse this with the upgradeType
+   * property either, which controls what item types this upgrade is applicable for.
    *
-   * @param {String} dataPoint
+   * @param {String} dataPoint - a stat/property/value that this upgrade modifies on the parent item
    * @returns null or the upgrade type for a given data point
    */
   this.getUpgradeTypeFor = function getUpgradeTypeFor(dataPoint) {
@@ -141,8 +146,10 @@ const Upgradable = function Upgradable() {
   };
 
   /**
+   * Given a data point, total up all modifications being applied to it, and consider overrides. Again
+   * this is like what AEs do, but we cannot use them here.
    *
-   * @param {} dataPoint
+   * @param {} dataPoint - a stat/property/value that this upgrade modifies on the parent item
    * @returns
    */
   this.getAllUpgradesFor = function getAllUpgradesFor(dataPoint) {
@@ -167,6 +174,25 @@ const Upgradable = function Upgradable() {
       upgradeNumber = (baseOverride === 0 || baseOverride === -100000) ? upgradeNumber : baseOverride;
     }
     return upgradeNumber;
+  };
+
+  /**
+   * Dynamically calculates the number of free upgrade slots on the weapon
+   * by starting with the number of slots this weapon has and substacting
+   * the slot size of each of the upgrades.
+   *
+   * Note that some items override this method: cyberware and cyberdecks.
+   *
+   * @return {Number}
+   */
+  this.availableSlots = function availableSlots() {
+    LOGGER.trace("availableSlots | CPRWeaponItem | Called.");
+    const itemData = duplicate(this.data.data);
+    let unusedSlots = itemData.slots;
+    itemData.upgrades.forEach((mod) => {
+      unusedSlots -= mod.data.size;
+    });
+    return unusedSlots;
   };
 };
 

@@ -239,7 +239,8 @@
         "rof": 1,
         "dvTable": "",
         "isRanged": false,
-        "unarmedAutomaticCalculation": true
+        "unarmedAutomaticCalculation": true,
+        "attackmod": 0
       },
       "common": {
         "tags": [],
@@ -253,7 +254,7 @@
       },
       "effects": {
         "revealed": true,
-        "usage": "always"
+        "usage": "toggled"
       },
       "equippable": {
         "equipped": "owned"
@@ -269,8 +270,7 @@
       },
       "installable": {
         "install": "mall",
-        "isInstalled": false,
-        "installedInto": ""
+        "isInstalled": false
       },
       "physical": {
         "concealable": {
@@ -282,9 +282,8 @@
         "amount": 1
       },
       "upgradable": {
-        "upgradeType": "",
         "upgrades": [],
-        "slots": 1,
+        "slots": 3,
         "isUpgraded": false
       },
       "valuable": {
@@ -337,6 +336,7 @@
         "equippable",
         "physical",
         "stackable",
+        "upgradable",
         "valuable"
       ],
       "type": "jacket",
@@ -396,6 +396,7 @@
         "equippable",
         "physical",
         "stackable",
+        "upgradable",
         "valuable"
       ]
     },
@@ -439,8 +440,7 @@
         "upgradable",
         "valuable"
       ],
-      "handsReq": 1,
-      "attackmod": 0
+      "handsReq": 1
     },
     "skill": {
       "templates": [
