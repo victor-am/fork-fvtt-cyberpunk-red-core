@@ -59,6 +59,12 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
     html.find(".navtabs-right").click(() => this._clearContentFilter());
 
+    // calculate max Hp
+    html.find(".calculate-hp").click(() => this._setMaxHp());
+
+    // calculate max Hp
+    html.find(".calculate-humanity").click(() => this._setMaxHumanity());
+
     // Cycle equipment status
     html.find(".equip").click((event) => this._cycleEquipState(event));
 
@@ -132,6 +138,50 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     html.find(".effect-control").click((event) => this.manageEffect(event));
 
     super.activateListeners(html);
+  }
+
+  /**
+   * Calculate and set the max HP on this actor. Called when the calculator is clicked.
+   * If current hp is full and the max changes, we should update the current to match.
+   * We assume that to be preferred behavior more often than not.
+   *
+   * @callback
+   * @private
+   */
+  _setMaxHp() {
+    LOGGER.trace("_setMaxHp | CPRCharacterActorSheet | Called.");
+    const maxHp = this.actor.calcMaxHp();
+    const { hp } = this.actor.data.data.derivedStats;
+    this.actor.update({
+      "data.derivedStats.hp.max": maxHp,
+      "data.derivedStats.hp.value": hp.max === hp.value ? maxHp : hp.value,
+    });
+  }
+
+  /**
+   * Calculate the max humanity on this actor, called when the calculator is clicked.
+   * If current humanity is full and the max changes, we should update the current and EMP to match.
+   * We assume that to be preferred behavior more often than not, especially during character creation.
+   *
+   * @callback
+   * @private
+   */
+  _setMaxHumanity() {
+    LOGGER.trace("_setMaxHumanity | CPRCharacterActorSheet | Called.");
+    const maxHumanity = this.actor.calcMaxHumanity();
+    const { humanity } = this.actor.data.data.derivedStats;
+    if (humanity.max === humanity.value) {
+      this.actor.update({
+        "data.derivedStats.humanity.max": maxHumanity,
+        "data.derivedStats.humanity.value": maxHumanity,
+        "data.stats.emp.value": Math.floor(maxHumanity / 10),
+      });
+    } else {
+      this.actor.update({
+        "data.derivedStats.humanity.max": maxHumanity,
+        "data.stats.emp.value": Math.floor(maxHumanity / 10),
+      });
+    }
   }
 
   /**

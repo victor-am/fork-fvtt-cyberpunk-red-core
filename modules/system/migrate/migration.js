@@ -15,10 +15,21 @@ export default class MigrationRunner {
    */
   static async migrateWorld(oldDataModelVersion, newDataModelVersion) {
     LOGGER.trace("migrateWorld | MigrationRunner");
+    let good = true;
     const migrationsToDo = MigrationRunner._getMigrations(oldDataModelVersion, newDataModelVersion);
     CPRSystemUtils.DisplayMessage("notify", `Beginning Migration of Cyberpunk Red Core from Data Model ${oldDataModelVersion} to ${newDataModelVersion}.`);
-    migrationsToDo.forEach(async (m) => m.run());
-    CPRSystemUtils.DisplayMessage("notify", "Migrations completed!");
+    migrationsToDo.every(async (m) => {
+      try {
+        m.run();
+      } catch (err) {
+        CPRSystemUtils.DisplayMessage("error", `Fatal error while migrating to ${m.version}: ${err.message}`);
+        good = false;
+      }
+      return good; // if this is false, the every() will stop iterating
+    });
+    if (good) {
+      CPRSystemUtils.DisplayMessage("notify", "Migrations completed!");
+    }
   }
 
   /**

@@ -146,6 +146,42 @@ export default class CPRActor extends Actor {
   }
 
   /**
+   * Calculate the character's max HP based on stats and effects.
+   *
+   * @return {Number}
+   */
+  calcMaxHp() {
+    LOGGER.trace("_calcMaxHp | CPRActor | Called.");
+    const actorData = this.data;
+    const { stats } = actorData.data;
+    let maxHp = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
+    maxHp += actorData.bonuses.maxHp; // from any active effects
+    return maxHp;
+  }
+
+  /**
+   * Calculate the character's Humanity based on stats and effects.
+   *
+   * @return {Number}
+   */
+  calcMaxHumanity() {
+    LOGGER.trace("calcMaxHumanity | CPRActor | Called.");
+    const actorData = this.data;
+    const { stats } = actorData.data;
+    let cyberwarePenalty = 0;
+    this.getInstalledCyberware().forEach((cyberware) => {
+      if (cyberware.data.data.type === "borgware") {
+        cyberwarePenalty += 4;
+      } else if (parseInt(cyberware.data.data.humanityLoss.static, 10) > 0) {
+        cyberwarePenalty += 2;
+      }
+    });
+    let maxHumanity = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
+    maxHumanity += actorData.bonuses.maxHumanity; // from any active effects
+    return maxHumanity;
+  }
+
+  /**
    * Returns the current wound state of the actor
    *
    * @returns {String}

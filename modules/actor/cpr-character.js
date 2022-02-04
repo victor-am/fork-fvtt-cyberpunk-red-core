@@ -55,39 +55,7 @@ export default class CPRCharacterActor extends CPRActor {
     LOGGER.trace("_calculateDerivedStats | CPRCharacterActor | Called.");
     const actorData = this.data;
     actorData.filteredItems = this.itemTypes; // the itemTypes getter is in foundry.js
-
-    const { stats } = actorData.data;
     const { derivedStats } = actorData.data;
-    const setting = game.settings.get("cyberpunk-red-core", "calculateDerivedStats");
-
-    // After the initial config of the game, a GM may want to disable the auto-calculation
-    // of stats for Mooks & Players for custom homebrew rules
-    if (setting) {
-      // Set max HP
-      derivedStats.hp.max = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
-      derivedStats.hp.max += actorData.bonuses.maxHp; // from any active effects
-      derivedStats.hp.value = Math.min(
-        derivedStats.hp.value,
-        derivedStats.hp.max,
-      );
-
-      // Max Humanity
-      let cyberwarePenalty = 0;
-      this.getInstalledCyberware().forEach((cyberware) => {
-        if (cyberware.data.data.type === "borgware") {
-          cyberwarePenalty += 4;
-        } else if (parseInt(cyberware.data.data.humanityLoss.static, 10) > 0) {
-          cyberwarePenalty += 2;
-        }
-      });
-      derivedStats.humanity.max = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
-      derivedStats.humanity.max += actorData.bonuses.maxHumanity; // from any active effects
-      if (derivedStats.humanity.value > derivedStats.humanity.max) {
-        derivedStats.humanity.value = derivedStats.humanity.max;
-      }
-      // Setting EMP to value based on current humannity.
-      stats.emp.value = Math.floor(derivedStats.humanity.value / 10);
-    }
 
     // Seriously wounded
     derivedStats.seriouslyWounded = Math.ceil(derivedStats.hp.max / 2);
@@ -111,6 +79,13 @@ export default class CPRCharacterActor extends CPRActor {
     derivedStats.deathSave.basePenalty = basePenalty;
     derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
     this.data.data.derivedStats = derivedStats;
+    derivedStats.hp.value = Math.min(
+      derivedStats.hp.value,
+      derivedStats.hp.max,
+    );
+    if (derivedStats.humanity.value > derivedStats.humanity.max) {
+      derivedStats.humanity.value = derivedStats.humanity.max;
+    }
   }
 
   /**
