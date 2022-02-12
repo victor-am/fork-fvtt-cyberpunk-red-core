@@ -16,6 +16,9 @@
                     <h4><strong>{{effect.data.label}}</strong><br/>
                         {{#each effect.data.changes}}
                             {{!-- "this" is now an individual mod for the AE object --}}
+                            {{log (lookup ../data.flags.cyberpunk-red-core.changes @index)}}
+                            {{log ../data.flags.cyberpunk-red-core.changes}}
+                            {{log this.key}}
                             {{localize (cprGetEffectModifierKeyName (lookup ../data.flags.cyberpunk-red-core.changes @index) this.key)}}:
                             {{#if this.value}}
                                 {{cprEffectModMode this.mode this.value}}{{this.value}}{{#unless @last}},{{/unless}} 

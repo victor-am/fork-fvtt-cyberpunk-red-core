@@ -797,6 +797,8 @@
     "CPR.messages.weaponAttackOutOfBullets": "*CLICK* *CLICK*, you lack the bullets in your weapon to do that, Choomba!",
     "CPR.messages.weaponDoesntSupportAltMode": "That weapon doesn't support that Alt Fire Mode",
     "CPR.messages.youCyberpsycho": "Choom, you've gone too far! Cyberpsychosis has set in.",
+    "CPR.migration.effects.attackName": "Migrated Attack Bonus",
+    "CPR.migration.effects.damageName": "Migrated Damage Bonus",
     "CPR.migration.tag": "[MIGRATED]",
     "CPR.mookSheet.criticalInjuries": "Critical Injuries",
     "CPR.mookSheet.criticalInjuryRoll": "Roll on Critical Injury Table",

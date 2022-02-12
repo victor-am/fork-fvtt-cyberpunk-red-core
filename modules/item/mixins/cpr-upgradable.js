@@ -17,7 +17,6 @@ const Upgradable = function Upgradable() {
     LOGGER.trace("uninstallUpgrades | Upgradable | Called.");
     let installedUpgrades = this.data.data.upgrades;
     const updateList = [];
-    LOGGER.debugObject(upgrades);
     upgrades.forEach((u) => {
       installedUpgrades = installedUpgrades.filter((iUpgrade) => iUpgrade._id !== u.id);
       updateList.push({ _id: u.id, "data.isInstalled": false });
