@@ -39,8 +39,12 @@ export default class CPRSkillItem extends CPRItem {
 
     actor.data.filteredItems.role.forEach((r, index) => {
       const [rn, rv] = r.getSkillBonuses(skillName);
-      if (index === 0) {
-        roleName = rn;
+      if (rn) {
+        if (roleName) {
+          roleName += `, ${rn}`;
+        } else {
+          roleName = rn;
+        }
         roleValue += rv;
       }
     });
