@@ -235,7 +235,7 @@ export default class CPRItem extends Item {
       }
       if (isVarying) {
         const roleSkill = actorData.filteredItems.skill.find((s) => s.data.name === localCprRoll.skillName);
-        localCprRoll.skillValue = roleSkill.data.data.level + roleSkill.data.data.skillmod;
+        localCprRoll.skillValue = roleSkill.data.data.level; // + roleSkill.data.data.skillmod;
         if (localCprRoll.statName === "--") {
           localCprRoll.statName = roleSkill.data.data.stat;
           localCprRoll.statValue = this.actor.getStat(localCprRoll.statName);
