@@ -385,6 +385,7 @@ CPR.roleSpecialOptions = {
 CPR.universalBonuses = {
   attack: "CPR.universalBonuses.attack",
   damage: "CPR.universalBonuses.damage",
+  initiative: "CPR.universalBonuses.initiative",
 };
 
 CPR.effectModifierModes = {
