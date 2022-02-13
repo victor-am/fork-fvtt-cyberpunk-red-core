@@ -235,7 +235,8 @@ export default class CPRItem extends Item {
       }
       if (isVarying) {
         const roleSkill = actorData.filteredItems.skill.find((s) => s.data.name === localCprRoll.skillName);
-        localCprRoll.skillValue = roleSkill.data.data.level; // + roleSkill.data.data.skillmod;
+        localCprRoll.skillValue = roleSkill.data.data.level;
+        localCprRoll.addMod(actorData.bonuses[SystemUtils.slugify(roleSkill.data.name)]); // add skill bonuses from Active Effects
         if (localCprRoll.statName === "--") {
           localCprRoll.statName = roleSkill.data.data.stat;
           localCprRoll.statValue = this.actor.getStat(localCprRoll.statName);

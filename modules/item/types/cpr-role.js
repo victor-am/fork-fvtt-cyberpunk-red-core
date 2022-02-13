@@ -66,7 +66,7 @@ export default class CPRRoleItem extends CPRItem {
             skillName = itemData.skill;
             const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
             if (skillObject !== undefined) {
-              skillValue = skillObject.data.data.level; // + skillObject.data.data.skillmod;
+              skillValue = skillObject.data.data.level;
             } else {
               SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
             }
@@ -92,7 +92,7 @@ export default class CPRRoleItem extends CPRItem {
             skillName = subRoleAbility.skill.name;
             const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
             if (skillObject !== undefined) {
-              skillValue = skillObject.data.data.level; // + skillObject.data.data.skillmod;
+              skillValue = skillObject.data.data.level;
             } else {
               SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
             }
@@ -114,6 +114,8 @@ export default class CPRRoleItem extends CPRItem {
       cprRoll.setNetCombat(rollTitle);
       cprRoll.addMod(boosterModifiers);
     }
+    cprRoll.addMod(actor.data.bonuses[SystemUtils.slugify(skillName)]); // add skill bonuses from Active Effects
+    cprRoll.addMod(actor.data.bonuses[SystemUtils.slugify(roleName)]); // add role bonuses from Active Effects
     cprRoll.addMod(actor.getWoundStateMods());
     return cprRoll;
   }
