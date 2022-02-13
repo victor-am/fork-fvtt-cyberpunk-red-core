@@ -132,14 +132,8 @@ export default class CPRRoleItem extends CPRItem {
     let roleValue = 0;
     const roleSkillBonuses = this.data.data.bonuses.filter((b) => b.name === skillName);
     if (roleSkillBonuses.length > 0) {
-      roleSkillBonuses.forEach((b, index2) => {
-        if (roleName) {
-          roleName += `, ${this.data.data.mainRoleAbility}`;
-        } else if (index2 === 0) {
-          roleName = this.data.data.mainRoleAbility;
-        }
-        roleValue += Math.floor(this.data.data.rank / this.data.data.bonusRatio);
-      });
+      roleValue += Math.floor(this.data.data.rank / this.data.data.bonusRatio);
+      roleName = this.data.data.mainRoleAbility;
     }
     // check whether a sub-ability of a role has the bonuses property. They might affect skills.
     const subroleSkillBonuses = [];
@@ -151,10 +145,10 @@ export default class CPRRoleItem extends CPRItem {
       }
     });
     if (subroleSkillBonuses.length > 0) {
-      subroleSkillBonuses.forEach((b, index3) => {
+      subroleSkillBonuses.forEach((b, index) => {
         if (roleName) {
           roleName += `, ${b.name}`;
-        } else if (index3 === 0) {
+        } else if (index === 0) {
           roleName = b.name;
         }
         roleValue += Math.floor(b.rank / b.bonusRatio);

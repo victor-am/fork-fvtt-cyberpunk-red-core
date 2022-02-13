@@ -99,10 +99,15 @@ const Attackable = function Attackable() {
     const statValue = actor.getStat(statName);
     let roleName;
     let roleValue = 0;
-    actor.data.filteredItems.role.forEach((r, index) => {
+
+    actor.data.filteredItems.role.forEach((r) => {
       const [rn, rv] = r.getSkillBonuses(skillName);
-      if (index === 0) {
-        roleName = rn;
+      if (rn) {
+        if (roleName) {
+          roleName += `, ${rn}`;
+        } else {
+          roleName = rn;
+        }
         roleValue += rv;
       }
     });
