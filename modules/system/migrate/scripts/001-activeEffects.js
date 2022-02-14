@@ -1,4 +1,4 @@
-/* global */
+/* global duplicate */
 
 import CPRMigration from "../cpr-migration.js";
 import CPRSystemUtils from "../../../utils/cpr-systemUtils.js";
@@ -38,9 +38,13 @@ export default class ActiveEffectsMigration extends CPRMigration {
     // to the end, and the update() interprets that as, "delete the property with the same name but without the '-=' part."
     // Using delete or setting existing properties to null produces errors from update().
     updateData["data.-=skills"] = null;
-    updateData["data.-=roleInfo"] = null;
+    updateData["data.roleInfo.-=roles"] = null;
+    updateData["data.roleInfo.-=roleskills"] = null;
     updateData["data.-=universalBonuses"] = null;
     await actor.update(updateData);
+
+    // finally, migrate their owned items
+    for (const ownedItem of actor.items) ActiveEffectsMigration.updateItem(ownedItem);
   }
 
   /**
@@ -72,19 +76,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
 
   /**
    * Items changed in so many ways it seemed best to break out a separate migration
-   * path for each item type. Here's the complete of changes in psuedocode.
-   *  Ammo
-   *    Lost quality
-   *    Lost upgradeable properties
-   *    Gained concealable
-   *    if price is 0 and category is empty, set to 100/premium
-   *    if variety is empty set to heavyPistol
-   *    if type is empty set to basic
-   *  Armor
-   *    Lost quality
-   *    Lost amount - create duplicate items
-   *    Gained slots for upgrades
-   *    if price is 0 and category is empty, set to 100/premium
+   * path for each item type. Here's the complete of changes in psuedocode of what
+   * remains to be done.
    *  Clothing
    *    Gained slots for upgrades
    *    if price is 0 and category is empty, set to 100/premium
@@ -138,7 +131,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *    Lost quality - "excellent" should become an AE for Universal Attack
    *    Lost amount - create duplicate items
    *    Lost charges
-   *    Gained slots for upgrades
+   *    Gained slots for upgrades (attachmentSlots became slots)
    *
    * TODO: is this just the item directory, or does it include or owned items?
    * TODO: understand how upgrade slots work for different item types
@@ -147,11 +140,80 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *
    * @param {CPRItem} item
    */
-  updateItem(item) {
+  static updateItem(item) {
     LOGGER.trace("updateItem | 1-activeEffects Migration");
     switch (item.type) {
+      case "ammo":
+        ActiveEffectsMigration.updateAmmo(item);
+        break;
+      case "armor":
+        ActiveEffectsMigration.updateArmor(item);
+        break;
       default:
-        // ammo, drugs, and netarch drop through here
+        LOGGER.warn(`An unrecognized item type was ignored: ${item.type}. It was not migrated!`);
+    }
+  }
+
+  /**
+   * Here's what changed with Ammo:
+   *    Lost quality
+   *    Lost upgradeable properties
+   *    Gained concealable
+   *    if price is 0 and category is empty, set to 100/premium
+   *    if variety is empty set to heavyPistol
+   *    if type is empty set to basic
+   * @param {CPRItem} item
+   */
+  static async updateAmmo(ammo) {
+    LOGGER.trace("updateAmmo | 1-activeEffects Migration");
+    const updateData = {};
+    updateData["data.-=quality"] = null;
+    updateData["data.-=isUpgraded"] = null;
+    updateData["data.-=upgrades"] = null;
+    updateData["data.concealable"] = {
+      concealable: true,
+      isConcealed: false,
+    };
+    if (ammo.data.data.price.market === 0 && ammo.data.data.price.category === "") {
+      updateData["data.price.market"] = 100;
+      updateData["data.price.category"] = "premium";
+    }
+    if (ammo.data.data.variety === "") updateData["data.variety"] = "heavyPistol";
+    if (ammo.data.data.type === "") updateData["data.type"] = "basic";
+    await ammo.update(updateData);
+  }
+
+  /**
+   * Armor changed like so:
+   *    Lost quality
+   *    Lost amount - create duplicate items in inventory
+   *    Gained slots for upgrades
+   *    if price is 0 and category is empty, set to 100/premium
+   */
+  static async updateArmor(armor) {
+    LOGGER.trace("updateArmor | 1-activeEffects Migration");
+    const { amount } = armor.data.data;
+    const updateData = {};
+    updateData["data.-=quality"] = null;
+    updateData["data.-=amount"] = null;
+    // here we assume both values were never touched, and useless defaults still exist
+    if (armor.data.data.price.market === 0 && armor.data.data.price.category === "") {
+      updateData["data.price.market"] = 100;
+      updateData["data.price.category"] = "premium";
+    }
+    // here we assume the price was updated but not the category, so we update to match
+    if (armor.data.data.price.market !== 0 && armor.data.data.price.category === "") {
+      updateData["data.price.category"] = armor.getPriceCategory(armor.data.data.price.market);
+    }
+    updateData["data.slots"] = 3;
+    const newItemData = duplicate(await armor.update(updateData));
+    newItemData.data.equipped = "carried";
+    if (armor.isOwned && amount > 1) {
+      const dupeItems = [];
+      for (let i = 1; i < amount; i += 1) {
+        dupeItems.push(duplicate(newItemData));
+      }
+      await armor.actor.createEmbeddedDocuments("Item", dupeItems);
     }
   }
 }

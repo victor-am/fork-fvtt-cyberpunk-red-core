@@ -79,7 +79,7 @@ export default class CPRItemSheet extends ItemSheet {
     } else {
       data.filteredItems.skill = await SystemUtils.GetCoreSkills();
     }
-    if (data.item.type === "cyberdeck" || data.item.type === "weapon" || data.item.type === "cyberware") {
+    if (["cyberdeck", "weapon", "armor", "cyberware", "clothing"].indexOf(data.item.type) > -1) {
       data.data.data.availableSlots = this.object.availableSlots();
     }
     data.dvTableNames = DvUtils.GetDvTables();
