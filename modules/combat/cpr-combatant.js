@@ -65,9 +65,9 @@ export default class CPRCombatant extends Combatant {
         cprInitiative = new CPRRolls.CPRInitiative("meat", actor.type, formula, 0);
         break;
     }
-    await cprInitiative.roll();
     cprInitiative.addMod(actor.data.bonuses.initiative); // consider any active effects
     cprInitiative.addMod(universalBonusInitiative); // add bonus from role abilities and subabilities
+    await cprInitiative.roll();
     return cprInitiative;
   }
 }
