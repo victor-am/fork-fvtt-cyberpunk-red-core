@@ -23,21 +23,24 @@ export default class CPRCombatant extends Combatant {
     LOGGER.trace("getInitiativeRoll | CPRCombatant | Called.");
     let cprInitiative;
     const { actor } = this.token;
+    let universalBonusInitiative = 0;
     switch (actor.type) {
       case "character":
       case "mook": {
         if (initiativeType === "meat") {
           cprInitiative = new CPRRolls.CPRInitiative(initiativeType, actor.type, formula, actor.getStat("ref"));
-          const roleList = actor.getRoles();
-
-          roleList.forEach((role) => {
-            const relevantAbilities = role.data.data.abilities.filter((a) => a.name === "Initiative Reaction");
-            if (relevantAbilities.length > 0) {
-              relevantAbilities.forEach((ability) => {
-                cprInitiative.addMod(ability.rank);
+          actor.data.filteredItems.role.forEach((r) => {
+            if (r.data.data.universalBonuses.includes("initiative")) {
+              universalBonusInitiative += Math.floor(r.data.data.rank / r.data.data.bonusRatio);
+            }
+            const subroleUniversalBonuses = r.data.data.abilities.filter((a) => a.universalBonuses.includes("initiative"));
+            if (subroleUniversalBonuses.length > 0) {
+              subroleUniversalBonuses.forEach((b) => {
+                universalBonusInitiative += Math.floor(b.rank / b.bonusRatio);
               });
             }
           });
+
         } else {
           const netSpeed = actor.data.bonuses.speed; // active effects for speed, note "initiative" AEs come later
           // Filter for the Netrunner role on the actor then assign `netrunnerRank` the proper value
@@ -62,8 +65,9 @@ export default class CPRCombatant extends Combatant {
         cprInitiative = new CPRRolls.CPRInitiative("meat", actor.type, formula, 0);
         break;
     }
-    await cprInitiative.roll();
     cprInitiative.addMod(actor.data.bonuses.initiative); // consider any active effects
+    cprInitiative.addMod(universalBonusInitiative); // add bonus from role abilities and subabilities
+    await cprInitiative.roll();
     return cprInitiative;
   }
 }
