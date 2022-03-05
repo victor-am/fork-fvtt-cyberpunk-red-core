@@ -9,7 +9,8 @@
 - Feature Request #295: EB Ledger for Shop Container Actors
 - Feature Add: Player ability to sell to Vendors by drag/dropping from character sheet to Vendor.
   - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item.  Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb.
-  
+- Renamed included maps to better differentiate them from other map packs
+
 **Bug Fixes**
 - Corrected an issue when a player did not have proper permissions on a Vendor, the purchase would fail, but the player would still be charged for the item
 - Fixed the ability to delete items from the Mook sheet.
@@ -17,7 +18,7 @@
 - Fixed #373 - Expansive Shotgun Slug ammunition is now usable with the Shotgun (and not the Heavy Pistol).
 - Fixed #380 - Corrected various typos
 - Corrected various spelling and formatting issues in the changelog
-  
+
 **Maintenance items**
 - Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js
 - Added a warning popup if a macro is using actor.addCriticalInjury() alerting a user to the eventual deprecation of the method.  [Please see the updated API Wiki for details on the new way to create a Critical Injury from a Macro.](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/wikis/System-Documentation/API/addCriticalInjury)
