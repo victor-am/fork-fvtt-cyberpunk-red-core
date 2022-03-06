@@ -11,6 +11,22 @@ import LOGGER from "../utils/cpr-logger.js";
  */
 export default class CPRContainerActor extends Actor {
   /**
+   * create() is called when creating the actor, but it's not the same as a constructor. In the
+   * code here, we pre-configure a few token options to reduce repetitive clicking.
+   */
+  static async create(data, options) {
+    LOGGER.trace("create | CPRContainerActor | called.");
+    const createData = data;
+    if (typeof data.data === "undefined") {
+      LOGGER.trace("create | New Actor | CPRContainerActor | called.");
+      createData.token = {
+        disposition: 0,
+      };
+    }
+    super.create(createData, options);
+  }
+
+  /**
    * prepareData is called before the actor is vendored to clients, so we can filter
    * or streamline the data for convenience.
    */
