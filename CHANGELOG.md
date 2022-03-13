@@ -11,6 +11,7 @@
   - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item.  Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb.
 - Renamed included maps to better differentiate them from other map packs
 - Containers now default to Neutral Token Disposition
+- Added Medtech drugs to the compendium
 
 **Bug Fixes**
 - Corrected an issue when a player did not have proper permissions on a Vendor, the purchase would fail, but the player would still be charged for the item
