@@ -12,6 +12,7 @@
 - Renamed included maps to better differentiate them from other map packs
 - Containers now default to Neutral Token Disposition
 - Added Medtech drugs to the compendium
+- Added thrown weapons to the compendium
 
 **Bug Fixes**
 - Corrected an issue when a player did not have proper permissions on a Vendor, the purchase would fail, but the player would still be charged for the item
