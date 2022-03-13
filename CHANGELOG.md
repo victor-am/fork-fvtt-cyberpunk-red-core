@@ -17,6 +17,7 @@
 - Clarified the effect of the whiplash head critical injury
 - Added a unique icon to the Flamethrower
 - Feature Request #308: Renamed 'Datapoint' to 'Attribute' and renamed 'Item Upgrades' to simply 'Upgrades'
+- Feature Request #330: added Skin Weave and Subdermal Armor to the Armor compendium
 
 **Bug Fixes**
 - Corrected an issue when a player did not have proper permissions on a vendor, the purchase would fail, but the player would still be charged for the item
