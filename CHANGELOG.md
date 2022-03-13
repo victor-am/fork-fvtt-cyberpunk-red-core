@@ -12,8 +12,7 @@
 - Renamed included maps to better differentiate them from other map packs
 - Containers now default to Neutral Token Disposition
 - Added Medtech drugs to the compendium
-- Added thrown weapons to the compendium
-- Added thrown weapon DV table
+- Added thrown weapons to the compendium and a thrown weapon DV table
 - Clarified the effect of the whiplash head critical injury
 
 **Bug Fixes**
