@@ -94,7 +94,7 @@
               </div>
           </li>
         {{/if}}
-        <!-- Support Weapon Item Upgrades on the Mook Sheet -->
+        <!-- Support Weapon Upgrades on the Mook Sheet -->
         {{#if weapon.data.data.isUpgraded}}
           {{#each weapon.data.data.upgrades as |upgrade|}}
               {{#if (cprCompare upgrade.data.modifiers.secondaryWeapon.configured "===" "true")}}
@@ -249,7 +249,7 @@
               </div>
           </li>
         {{/if}}
-        <!-- Support Weapon Item Upgrades on the Mook Sheet -->
+        <!-- Support Weapon Upgrades on the Mook Sheet -->
         {{#if weapon.data.data.isUpgraded}}
           {{#each weapon.data.data.upgrades as |upgrade|}}
               {{#if (cprCompare upgrade.data.modifiers.secondaryWeapon.configured "===" "true")}}

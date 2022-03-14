@@ -55,7 +55,7 @@
       </a>
     {{/if}}
   {{/each}}
-  <!-- Display Item Upgrades in the Gear section -->
+  <!-- Display Upgrades in the Gear section -->
   {{#each (cprSort (cprObjConcat actor.data.filteredItems.itemUpgrade) "name") as |item i|}}
     {{#if (cprCompare item.type "===" "itemUpgrade")}}
       <a class="name item deletable changeable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
