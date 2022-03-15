@@ -4,4 +4,4 @@ We have a [Crowdin](https://crowdin.com/project/fvtt-cyberpunk-red-core) to help
 
 **If you are filing this issue we will assume you can do the proofreading and review!** Crowdin will provide a bunch of translations for text used in the module, and a subset of compendia. We will rely on you to confirm it is providing accurate translations.
 
-/label ~"localization"
+/label ~"Localization"

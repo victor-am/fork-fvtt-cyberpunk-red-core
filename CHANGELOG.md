@@ -1,31 +1,38 @@
 # Version DEV | Date: WIP
 
 **New Features**
+- Feature Request #179: Add ability to track reputation and roll face down
+- Feature Request #295: EB Ledger for Shop Container Actors
+- Added player ability to sell to Vendors by drag/dropping from character sheet to Vendor
+  - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item. Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb
 
 **Changes**
-- Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
-- Consolidated gain, lose and set ledger functions for EB, IP and Reputation to make it more manageable.
-- Feature Request #179: Add ability to track reputation and roll face down.
-- Feature Request #295: EB Ledger for Shop Container Actors
-- Feature Add: Player ability to sell to Vendors by drag/dropping from character sheet to Vendor.
-  - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item.  Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb.
-  
+- Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience
+- Consolidated gain, lose and set ledger functions for EB, IP and Reputation to make it more manageable
+- Renamed included maps to better differentiate them from other map packs
+- Containers now default to neutral token disposition
+- Added Medtech drugs to the compendium
+- Added thrown weapons to the compendium and a thrown weapon DV table
+- Clarified the effect of the whiplash head critical injury
+- Added a unique icon to the Flamethrower
+
 **Bug Fixes**
-- Corrected an issue when a player did not have proper permissions on a Vendor, the purchase would fail, but the player would still be charged for the item
-- Fixed the ability to delete items from the Mook sheet.
-- Fixed #367 - As a GM, if you attempted to use a macro to roll a skill without having an actor selected, it failed with a traceback. We now catch this and throw an appropriate message.
-- Fixed #373 - Expansive Shotgun Slug ammunition is now usable with the Shotgun (and not the Heavy Pistol).
+- Corrected an issue when a player did not have proper permissions on a vendor, the purchase would fail, but the player would still be charged for the item
+- Fixed the ability to delete items from the Mook sheet
+- Fixed #367 - As a GM, if you attempted to use a macro to roll a skill without having an actor selected, it failed with a traceback. We now catch this and throw an appropriate message
+- Fixed #373 - Expansive Shotgun Slug ammunition is now usable with the Shotgun (and not the Heavy Pistol)
 - Fixed #380 - Corrected various typos
 - Corrected various spelling and formatting issues in the changelog
-- Fixed #374 - Mook sheets now correctly show the updated magazine size when an item upgrade that changes it is used.
-  
+- Fixed #377 - Certain clothes have null as description instead of empty string
+- Fixed #374 - Mook sheets now correctly show the updated magazine size when an item upgrade that changes it is used
+
 **Maintenance items**
 - Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js
 - Added a warning popup if a macro is using actor.addCriticalInjury() alerting a user to the eventual deprecation of the method.  [Please see the updated API Wiki for details on the new way to create a Critical Injury from a Macro.](https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/wikis/System-Documentation/API/addCriticalInjury)
-- Removed shading from the "Cancel" button on dialogs which may have inadvertently made people believe it was the default.
+- Removed shading from the "Cancel" button on dialogs which may have inadvertently made people believe it was the default
 - Renamed method _favoriteVisibility to _toggleSectionVisibility and CSS tag toggle-favorite-visibility to toggle-section-visibility as it accurately describes what happens
-- Updated the prompt naming for the cyberware installation to be consistent with code.
-- Consolidated the interface to get Roll Tables from the system into a method in systemUtils that can either use a regular expression or not.
+- Updated the prompt naming for the cyberware installation to be consistent with code
+- Consolidated the interface to get Roll Tables from the system into a method in systemUtils that can either use a regular expression or not
 
 # Version 0.80.1 | Date: 2021-01-04
 
