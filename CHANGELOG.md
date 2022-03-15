@@ -16,8 +16,7 @@
 - Added thrown weapons to the compendium and a thrown weapon DV table
 - Clarified the effect of the whiplash head critical injury
 - Added a unique icon to the Flamethrower
-- Renamed 'Datapoint' to 'Attribute'
-- Renamed 'Item Upgrades' to simply 'Upgrades'
+- Feature Request #308: Renamed 'Datapoint' to 'Attribute' and renamed 'Item Upgrades' to simply 'Upgrades'
 
 **Bug Fixes**
 - Corrected an issue when a player did not have proper permissions on a vendor, the purchase would fail, but the player would still be charged for the item
