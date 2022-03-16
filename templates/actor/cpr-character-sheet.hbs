@@ -36,9 +36,9 @@
       </div>
       {{#if (cprSystemConfig "enableSheetContentFilter")}}
       <div class="sheet-cprFilter-section">
-          <a><i class="fas fa-trash-alt fg-red reset-content-cprFilter" title="{{localize "CPR.actorSheets.clearFilter"}}"></i></a>
+          <a><i class="fas fa-trash-alt fg-red reset-content-filter" title="{{localize "CPR.actorSheets.clearFilter"}}"></i></a>
           &nbsp;
-          <input class="cprFilter-contents" value="{{options.cprContentFilter}}" type="string" placeholder="Enter cprFilter text here...">
+          <input class="filter-contents" value="{{options.cprContentFilter}}" type="string" placeholder="Enter cprFilter text here...">
       </div>
       {{/if}}
       <div class="right-content-section">
