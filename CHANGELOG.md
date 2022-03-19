@@ -31,6 +31,7 @@
 - Fixed #377 - Certain clothes have null as description instead of empty string
 - Fixed #374 - Mook sheets now correctly show the updated magazine size when an item upgrade that changes it is used
 - Fixed actor sheet content filter not working anymore
+- Fixed #386 - Basic weapons in the compendium didn't have their range tables set
 - Fixed #375 - Read attackmod for both cyberware & weapons, previously cyberware was ignored.
 - Fixed #387 - Fixed adding macros for cyberware weapons
 
