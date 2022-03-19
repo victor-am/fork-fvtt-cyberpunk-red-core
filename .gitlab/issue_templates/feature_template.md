@@ -1,8 +1,13 @@
-### Description:
+### Description
 
-### Proposed Feature:
+[put text here]
+
+### Proposed feature
+
+[put text here]
 
 ### If feature concerns a 3rd party module integration
+
 If the module is NOT listed on the Manage Modules screen of CPR, please contact the module
 creator instead.  We can't do anything about modules that are system specific.
 

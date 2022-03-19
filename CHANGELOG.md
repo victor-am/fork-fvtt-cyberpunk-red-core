@@ -20,6 +20,7 @@
 - Feature Request #330: added Skin Weave and Subdermal Armor to the Armor compendium
 - Added a line break to the deathSaveIncrease summary line to enable easier reading
 - Adjusted wording for several critical injuries to reduce ambiguities
+- Adjusted the formatting of issues templates for easier filling out
 
 **Bug Fixes**
 - Corrected an issue when a player did not have proper permissions on a vendor, the purchase would fail, but the player would still be charged for the item
