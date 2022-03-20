@@ -816,7 +816,8 @@ export default class CPRItem extends Item {
     LOGGER.trace("_getAttackMod | CPRItem | Called.");
     let returnValue = 0;
     switch (this.type) {
-      case "weapon": {
+      case "weapon":
+      case "cyberware": {
         if (typeof this.data.data.attackmod !== "undefined") {
           returnValue = this.data.data.attackmod;
         }
