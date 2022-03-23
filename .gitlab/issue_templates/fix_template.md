@@ -1,32 +1,32 @@
 ### Description of problem
 
-[put text here]
+[Type text here]
 
 ### Version-release number of Foundry VTT & Cyberpunk RED Core
 
-[put text here]
+[Type text here]
 
 ### Have you been able to reproduce issue?
 
-[yes/no]
+[Yes/No]
 
 ### Steps to Reproduce
 
-1. [step 1]
-2. [step 2]
-3. [step 3]
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
 
 ### Actual results
 
-[put text here]
+[Type text here]
 
 ### Expected results:
 
-[put text here]
+[Type text here]
 
 ### Additional info
 
-[put text here]
+[Type text here]
 
 ### If bug concerns a 3rd party module
 

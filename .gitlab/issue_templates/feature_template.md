@@ -1,10 +1,10 @@
 ### Description
 
-[put text here]
+[Type text here]
 
 ### Proposed feature
 
-[put text here]
+[Type text here]
 
 ### If feature concerns a 3rd party module integration
 
