@@ -28,6 +28,7 @@
 - Fixed #374 - Mook sheets now correctly show the updated magazine size when an item upgrade that changes it is used
 - Fixed actor sheet content filter not working anymore
 - Fixed #375 - Read attackmod for both cyberware & weapons, previously cyberware was ignored.
+- Fixed #387 - Fixed adding macros for cyberware weapons
 
 **Maintenance items**
 - Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js
