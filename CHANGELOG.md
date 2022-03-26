@@ -5,7 +5,7 @@
 - Feature Request #295: EB Ledger for Shop Container Actors
 - Added player ability to sell to Vendors by drag/dropping from character sheet to Vendor
   - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item. Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb
-- Added possibility to describe a "/red" roll with a description, e.g. "/red 1d10 # This is my roll!". The description of individual dice is not possible.
+- Added possibility to describe a "/red" roll with a description, e.g. "/red 1d10 # This is my roll!". The description of individual dice is not possible
 
 **Changes**
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience
@@ -25,16 +25,17 @@
 **Bug Fixes**
 - Corrected an issue when a player did not have proper permissions on a vendor, the purchase would fail, but the player would still be charged for the item
 - Fixed the ability to delete items from the Mook sheet
-- Fixed #367 - As a GM, if you attempted to use a macro to roll a skill without having an actor selected, it failed with a traceback. We now catch this and throw an appropriate message
-- Fixed #373 - Expansive Shotgun Slug ammunition is now usable with the Shotgun (and not the Heavy Pistol)
-- Fixed #380 - Corrected various typos
+- Fixed #367: As a GM, if you attempted to use a macro to roll a skill without having an actor selected, it failed with a traceback. We now catch this and throw an appropriate message
+- Fixed #373: Expansive Shotgun Slug ammunition is now usable with the Shotgun (and not the Heavy Pistol)
+- Fixed #380: Corrected various typos
 - Corrected various spelling and formatting issues in the changelog
-- Fixed #377 - Certain clothes have null as description instead of empty string
-- Fixed #374 - Mook sheets now correctly show the updated magazine size when an item upgrade that changes it is used
+- Fixed #377: Certain clothes have null as description instead of empty string
+- Fixed #374: Mook sheets now correctly show the updated magazine size when an item upgrade that changes it is used
 - Fixed actor sheet content filter not working anymore
-- Fixed #386 - Basic weapons in the compendium didn't have their range tables set
-- Fixed #375 - Read attackmod for both cyberware & weapons, previously cyberware was ignored.
-- Fixed #387 - Fixed adding macros for cyberware weapons
+- Fixed #386: Basic weapons in the compendium didn't have their range tables set
+- Fixed #375: Read attackmod for both cyberware & weapons, previously cyberware was ignored
+- Fixed #387: Fixed adding macros for cyberware weapons
+- Fixed #390: Rubber Shotgun Slugs are considered Heavy Pistol Ammo
 
 **Maintenance items**
 - Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js
