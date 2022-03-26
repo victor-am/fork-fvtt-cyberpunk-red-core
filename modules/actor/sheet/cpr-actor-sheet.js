@@ -1067,7 +1067,7 @@ export default class CPRActorSheet extends ActorSheet {
   _createActorImageContextMenu(html) {
     LOGGER.trace("_createActorImageContextMenu | CPRActorSheet | called.");
     return new ContextMenu(html, ".image-block", [{
-      name: "Show Players",
+      name: SystemUtils.Format("CPR.characterSheet.leftPane.image.showPlayers"),
       icon: "<i class=\"fas fa-eye\"></i>",
       callback: () => {
         const { img, name } = this.actor.data;
