@@ -76,6 +76,7 @@
     "CPR.characterSheet.bottomPane.role.abilities": "Capacités",
     "CPR.characterSheet.bottomPane.role.noRolesWarning": "Aucun rôle défini, faites d'abord glisser un élément de rôle sur la feuille.",
     "CPR.characterSheet.bottomPane.role.rank": "Rang",
+    "CPR.characterSheet.leftPane.image.showPlayers": "Show Players",
     "CPR.characterSheet.leftPane.deathSave.hoverCriticalInjuryPenalty": "Pénalité de blessure critique",
     "CPR.characterSheet.leftPane.deathSave.increase": "Cliquez pour augmenter la pénalité de sauvegarde contre la mort",
     "CPR.characterSheet.leftPane.deathSave.reset": "Cliquez pour reset la pénalité de sauvegarde contre la mort",
