@@ -13,6 +13,8 @@ import BoosterAddModifierPrompt from "../../dialog/cpr-booster-add-modifier-prom
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
 import CPRNetarchUtils from "../../utils/cpr-netarchUtils.js";
+import createImageContextMenu from "../../utils/cpr-imageContextMenu.js";
+
 /**
  * Extend the basic ActorSheet.
  * @extends {ItemSheet}
@@ -861,19 +863,6 @@ export default class CPRItemSheet extends ItemSheet {
    */
   _createItemImageContextMenu(html) {
     LOGGER.trace("_createItemImageContextMenu | CPRItemSheet | Called.");
-    return new ContextMenu(html, ".item-image-block", [{
-      name: SystemUtils.Format("CPR.itemSheet.image.showPlayers"),
-      icon: "<i class=\"fas fa-eye\"></i>",
-      callback: () => {
-        const { img, name } = this.item.data;
-
-        const popout = new ImagePopout(img, {
-          title: name,
-          shareable: true,
-        });
-        popout.render(true);
-        popout.shareImage(true);
-      },
-    }]);
+    return createImageContextMenu(html, ".item-image-block", this.item.data);
   }
 }

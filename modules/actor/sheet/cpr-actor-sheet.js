@@ -1,4 +1,4 @@
-/* global ActorSheet, ContextMenu, ImagePopout, $, setProperty, game, getProperty, mergeObject duplicate */
+/* global ActorSheet, $, setProperty, game, getProperty, mergeObject duplicate */
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
@@ -9,6 +9,7 @@ import Rules from "../../utils/cpr-rules.js";
 import SplitItemPrompt from "../../dialog/cpr-split-item-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
+import createImageContextMenu from "../../utils/cpr-imageContextMenu.js";
 
 /**
  * Extend the basic ActorSheet, which comes from Foundry. Not all sheets used in
@@ -1066,20 +1067,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   _createActorImageContextMenu(html) {
     LOGGER.trace("_createActorImageContextMenu | CPRActorSheet | called.");
-    return new ContextMenu(html, ".image-block", [{
-      name: SystemUtils.Format("CPR.characterSheet.leftPane.image.showPlayers"),
-      icon: "<i class=\"fas fa-eye\"></i>",
-      callback: () => {
-        const { img, name } = this.actor.data;
-
-        const popout = new ImagePopout(img, {
-          title: name,
-          shareable: true,
-        });
-        popout.render(true);
-        popout.shareImage(true);
-      },
-    }]);
+    return createImageContextMenu(html, ".image-block", this.actor.data);
   }
 
   /**
