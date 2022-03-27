@@ -1,21 +1,35 @@
-### Description of problem:
+### Description of problem
 
-### Version-Release number Foundry VTT & Cyberpunk Red Core:
+[Type text here]
 
-### Have you been able to reproduce issue:
+### Version-release number of Foundry VTT & Cyberpunk RED Core
 
-### Steps to Reproduce:
-1.
-2.
-3.
+[Type text here]
 
-### Actual results:
+### Have you been able to reproduce issue?
+
+[Yes/No]
+
+### Steps to Reproduce
+
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+### Actual results
+
+[Type text here]
 
 ### Expected results:
 
-### Additional info:
+[Type text here]
+
+### Additional info
+
+[Type text here]
 
 ### If bug concerns a 3rd party module
+
 If the module is NOT listed on the Manage Modules screen of CPR, please contact the module
 creator instead.  We can't do anything about modules that are system specific.
 
