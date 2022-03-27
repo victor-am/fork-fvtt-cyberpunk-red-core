@@ -862,7 +862,7 @@ export default class CPRItemSheet extends ItemSheet {
   _createItemImageContextMenu(html) {
     LOGGER.trace("_createItemImageContextMenu | CPRItemSheet | Called.");
     return new ContextMenu(html, ".item-image-block", [{
-      name: SystemUtils.Format("CPR.characterSheet.leftPane.image.showPlayers"),
+      name: SystemUtils.Format("CPR.itemSheet.image.showPlayers"),
       icon: "<i class=\"fas fa-eye\"></i>",
       callback: () => {
         const { img, name } = this.item.data;

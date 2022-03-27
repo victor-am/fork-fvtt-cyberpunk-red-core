@@ -618,6 +618,7 @@
     "CPR.itemSheet.cyberware.rolled": "Rolled",
     "CPR.itemSheet.cyberware.slotSize": "Option Slots Size",
     "CPR.itemSheet.cyberware.staticHl": "Static HL",
+    "CPR.itemSheet.image.showPlayers": "Show Players",
     "CPR.itemSheet.itemUpgrade.dataPoint": "Attribute",
     "CPR.itemSheet.itemUpgrade.installationSize": "Installation size",
     "CPR.itemSheet.itemUpgrade.isSecondaryWeapon": "Is secondary weapon",
