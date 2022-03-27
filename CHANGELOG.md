@@ -5,7 +5,7 @@
 - Feature Request #295: EB Ledger for Shop Container Actors
 - Added player ability to sell to Vendors by drag/dropping from character sheet to Vendor
   - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item. Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb
-- Added possibility to describe a "/red" roll with a description, e.g. "/red 1d10 # This is my roll!". The description of individual dice is not possible.
+- Added possibility to describe a "/red" roll with a description, e.g. "/red 1d10 # This is my roll!". The description of individual dice is not possible
 - Feature Request #378: Add ability to share actor artwork to players from the character sheet by right clicking on the Actor's image.
 
 **Changes**
