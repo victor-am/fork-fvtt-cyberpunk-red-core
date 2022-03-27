@@ -76,6 +76,7 @@
     "CPR.characterSheet.bottomPane.role.abilities": "Talentos",
     "CPR.characterSheet.bottomPane.role.noRolesWarning": "Não há funções definidas, arraste uma para o personagem.",
     "CPR.characterSheet.bottomPane.role.rank": "Nível",
+    "CPR.characterSheet.leftPane.image.showPlayers": "Show Players",
     "CPR.characterSheet.leftPane.deathSave.hoverCriticalInjuryPenalty": "Penalidade de Ferimento Crítico",
     "CPR.characterSheet.leftPane.deathSave.increase": "Clique para aumentar a Penalidade de Salva de Morte",
     "CPR.characterSheet.leftPane.deathSave.reset": "Clique para resetar a Penalidade de Salva de Morte",
