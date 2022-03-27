@@ -18,7 +18,7 @@ system_version=$(grep version $systemfile | awk '{print $2}' | sed 's/^.//;s/..$
 download_zip=$(cat $systemfile | jq .download)
 if [[ $download_zip != "\"https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v${system_version}/fvtt-cyberpunk-red-core-v${system_version}.zip\"" ]]
 then
-  errors+=("The expected system version ($system_version) isn't in the download.zip value in 'system.json'...")
+  errors+=("The expected system version ($system_version) is not used in the 'download' property within 'system.json'...")
 fi
 
 if [ ${#errors[@]} -gt 0 ]
