@@ -811,7 +811,7 @@ button,
 }
 .demon-sheet .demon-details .demon-icon {
   gap: 5px;
-  padding-top: 5px;
+  margin-top: 5px;
   height: 72px;
   width: 72px;
   display: block;
