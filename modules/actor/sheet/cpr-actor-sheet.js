@@ -1,4 +1,4 @@
-/* global ActorSheet, $, setProperty, game, getProperty, mergeObject duplicate */
+/* global ActorSheet, ContextMenu, ImagePopout, $, setProperty, game, getProperty, mergeObject duplicate */
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
@@ -182,6 +182,9 @@ export default class CPRActorSheet extends ActorSheet {
       li.setAttribute("draggable", true);
       li.addEventListener("dragstart", handler, false);
     });
+
+    // Set up right click context menu when clicking on Actor's image
+    this._createActorImageContextMenu(html);
 
     if (!this.options.editable) return;
     // Listeners for editable fields under here. Fields might not be editable because
@@ -1052,6 +1055,31 @@ export default class CPRActorSheet extends ActorSheet {
     delete newItemData._id;
     await this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.amount": newAmount }]);
     await this.actor.createEmbeddedDocuments("Item", [newItemData], { CPRsplitStack: true });
+  }
+
+  /**
+   * Sets up a ContextMenu that appears when the Actor's image is right clicked.
+   * Enables the user to share the image with other players.
+   *
+   * @param {Object} html - The DOM object
+   * @returns {ContextMenu} The created ContextMenu
+   */
+  _createActorImageContextMenu(html) {
+    LOGGER.trace("_createActorImageContextMenu | CPRActorSheet | called.");
+    return new ContextMenu(html, ".image-block", [{
+      name: SystemUtils.Format("CPR.characterSheet.leftPane.image.showPlayers"),
+      icon: "<i class=\"fas fa-eye\"></i>",
+      callback: () => {
+        const { img, name } = this.actor.data;
+
+        const popout = new ImagePopout(img, {
+          title: name,
+          shareable: true,
+        });
+        popout.render(true);
+        popout.shareImage(true);
+      },
+    }]);
   }
 
   /**
