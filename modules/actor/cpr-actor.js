@@ -105,6 +105,7 @@ export default class CPRActor extends Actor {
   /**
    * The only reason we extend this code right now is to handle an edge case for migrations.
    *
+   * @override
    * @param {String} embeddedName - document name, usually a category like Item
    * @param {Object} data - Array of documents to consider
    * @param {Object} context - an object tracking the context in which the method is being called

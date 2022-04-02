@@ -265,13 +265,14 @@ export default class CPRSystemUtils {
    *
    * @param {String} type - the entity type the folder should group together
    * @param {String} name - a name for the folder
+   * @param {String} parent - (optional) folder ID to create this in, or null for a top-level folder
    * @returns {Folder} - the referenced folder or a newly created one
    */
-  static async GetFolder(type, name) {
+  static async GetFolder(type, name, parent = null) {
     LOGGER.trace("GetFolder | CPRSystemUtils | Called.");
     const folderList = game.folders.filter((folder) => folder.name === name && folder.type === type);
     // If the folder does not exist, we create it.
-    return (folderList.length === 1) ? folderList[0] : Folder.create({ name, type });
+    return (folderList.length === 1) ? folderList[0] : Folder.create({ name, type, parent });
   }
 
   /**

@@ -19,7 +19,7 @@ export default class MigrationRunner {
     this.allMigrations = Migrations;
     this.migrationsToDo = MigrationRunner._getMigrations(currDataModelVersion, newDataModelVersion);
     if (this.migrationsToDo.length < 1) return;
-    CPRSystemUtils.DisplayMessage("notify", `Beginning Migration of Cyberpunk Red Core from Data Model ${currDataModelVersion} to ${newDataModelVersion}.`);
+    CPRSystemUtils.DisplayMessage("notify", `Beginning Migrations of Cyberpunk Red Core from Data Model ${currDataModelVersion} to ${newDataModelVersion}.`);
     if (MigrationRunner.runMigrations(this.migrationsToDo)) CPRSystemUtils.DisplayMessage("notify", "Migrations completed!");
   }
 
@@ -32,19 +32,15 @@ export default class MigrationRunner {
    */
   static runMigrations(migrationsToDo) {
     LOGGER.trace("runMigrations | MigrationRunner");
-    // TODO: every() seems to always return true and runs async !?
-    // TODO: some error conditions are not caught, but maybe that's a byproduct of the above problem
-    const allGood = migrationsToDo.every(async (m) => {
+    for (const migration of migrationsToDo) {
       try {
-        return await m.run();
+        const result = migration.run();
+        if (!result) break;
       } catch (err) {
-        CPRSystemUtils.DisplayMessage("error", `Fatal error while migrating to ${m.version}: ${err.message}`);
-        LOGGER.error(`Fatal error while migrating to ${m.version}: ${err.message}`);
+        CPRSystemUtils.DisplayMessage("error", `Fatal error while migrating to ${migration.version}: ${err.message}`);
+        break;
       }
-      return false; // if we're here, the every() will stop iterating and return false
-    });
-    LOGGER.debug(`returning allGood: ${allGood}`);
-    return allGood;
+    }
   }
 
   /**

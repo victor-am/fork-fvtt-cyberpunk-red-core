@@ -1,4 +1,5 @@
-/* global duplicate mergeObject */
+/* eslint-disable no-await-in-loop */
+/* global duplicate mergeObject Item */
 
 import CPR from "../../config.js";
 import CPRMigration from "../cpr-migration.js";
@@ -13,6 +14,74 @@ export default class ActiveEffectsMigration extends CPRMigration {
   }
 
   /**
+   * Executed before the migration takes place, see run() in the base migration class.
+   * For this version, we create an item folder to copy items owned by characters. We do
+   * this because active effects cannot be added or changed on owned items. So, we copy
+   * an owned item here first, migrate it, and then copy it back to the character.
+   */
+  async preMigrate() {
+    LOGGER.trace("preMigrate | 1-activeEffects Migration");
+    CPRSystemUtils.DisplayMessage("notify", "Beginning pre-migration activities");
+    this.migrationFolder = await CPRSystemUtils.GetFolder("Item", "Migration Workspace");
+    /*
+    this.actorFolders = {};
+    for (const actor of game.actors.contents) {
+      // eslint-disable-next-line no-await-in-loop
+      this.actorFolders[`${actor.name}.${actor.id}`] = await CPRSystemUtils.GetFolder("Item", `${actor.name}.${actor.id}`, this.migrationFolder.id);
+      CPRSystemUtils.DisplayMessage("notify", `Preparing to update ${actor.name}`);
+      for (const ownedItem of actor.items) {
+        // TODO: maybe skip skills? might be an optimization opportunity there
+        // TODO: copy over token actor inventories too
+        if (!this.itemPrepared(actor, ownedItem.name)) {
+          Item.create({
+            name: ownedItem.name,
+            type: ownedItem.type,
+            data: duplicate(ownedItem.data),
+            folder: this.actorFolders[`${actor.name}.${actor.id}`],
+          });
+        }
+      }
+    } */
+  }
+
+  /**
+   * Copy an (owned) Item into the migration work folder. This will enable active effects to be created
+   * or changed on them. If it already exists, just return that.
+   *
+   * TODO: handle the case of duplicate items in an inventory (name is not precise enough)
+   *
+   * @param {CPRItem} itemData - the item we are copying
+   * @returns the copied item data
+   */
+  async backupOwnedItem(itemData) {
+    LOGGER.trace("backupOwnedItem | 1-activeEffects Migration");
+    let [foundItem] = this.migrationFolder.content.filter((i) => i.name === itemData.name);
+    if (!foundItem) {
+      foundItem = Item.create({
+        name: itemData.name,
+        type: itemData.type,
+        data: itemData.data,
+        folder: this.migrationFolder,
+      });
+    }
+    return foundItem;
+  }
+
+  /**
+   * Takes place after the data migration completes. All we do here is delete the migration
+   * folder for owned items, if it is empty. If not, that means 1 or more items did not
+   * migrate properly and we leave it behind for a GM to review what to do.
+   */
+  async postMigrate() {
+    LOGGER.trace("postMigrate | 1-activeEffects Migration");
+    CPRSystemUtils.DisplayMessage("notify", "Cleaning up migration data...");
+    if (this.migrationFolder.content.length === 0) {
+      LOGGER.debug("would delete migration folder");
+      this.migrationFolder.delete();
+    }
+  }
+
+  /**
    * The actors were updated in 2 ways.
    *    Universal Attack Bonus and Damage --> corresponding AE
    *    Deleted skill and role properties.
@@ -21,7 +90,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    * @static
    * @param {CPRActor} actor
    */
-  static async updateActor(actor) {
+  async updateActor(actor) {
     LOGGER.trace("updateActor | 1-activeEffects Migration");
     // const newActor = actor;
     if (!(actor.data.type === "character" || actor.data.type === "mook")) return;
@@ -57,8 +126,20 @@ export default class ActiveEffectsMigration extends CPRMigration {
     updateData["data.-=universalBonuses"] = null;
     await actor.update(updateData);
 
-    // finally, migrate their owned items
-    for (const ownedItem of actor.items) ActiveEffectsMigration.updateItem(ownedItem);
+    // Finally, migrate their owned items by copying from the item directory to their inventory
+    // on success, we delete the item from the directory, they should all be empty at the end.
+    // Egregious violation of no-await-in-loop here, but not sure how else to approach.
+    const totalItems = actor.items.length;
+    let doneItems = 0;
+    for (const ownedItem of actor.items) {
+      const newItem = await this.backupOwnedItem(ownedItem);
+      await ActiveEffectsMigration.updateItem(newItem);
+      await actor.createEmbeddedDocuments("Item", [newItem.data]);
+      await actor.deleteEmbeddedDocuments("Item", [ownedItem.id]);
+      await newItem.delete();
+      doneItems += 1;
+      if (doneItems % 25 === 0) CPRSystemUtils.DisplayMessage("notify", `${doneItems}/${totalItems} migrated`);
+    }
   }
 
   /**
@@ -107,50 +188,50 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *
    * @param {CPRItem} item
    */
-  static updateItem(item) {
+  static async updateItem(item) {
     LOGGER.trace("updateItem | 1-activeEffects Migration");
     switch (item.type) {
       case "ammo":
-        ActiveEffectsMigration.updateAmmo(item);
+        await ActiveEffectsMigration.updateAmmo(item);
         break;
       case "armor":
-        ActiveEffectsMigration.updateArmor(item);
+        await ActiveEffectsMigration.updateArmor(item);
         break;
       case "clothing":
-        ActiveEffectsMigration.updateClothing(item);
+        await ActiveEffectsMigration.updateClothing(item);
         break;
       case "criticalInjury":
-        ActiveEffectsMigration.updateCriticalInjury(item);
+        await ActiveEffectsMigration.updateCriticalInjury(item);
         break;
       case "cyberdeck":
-        ActiveEffectsMigration.updateCyberdeck(item);
+        await ActiveEffectsMigration.updateCyberdeck(item);
         break;
       case "cyberware":
-        ActiveEffectsMigration.updateCyberware(item);
+        await ActiveEffectsMigration.updateCyberware(item);
         break;
       case "gear":
-        ActiveEffectsMigration.updateGear(item);
+        await ActiveEffectsMigration.updateGear(item);
         break;
       case "itemUpgrade":
-        ActiveEffectsMigration.updateItemUpgrade(item);
+        await ActiveEffectsMigration.updateItemUpgrade(item);
         break;
       case "netarch":
-        ActiveEffectsMigration.updateNetArch(item);
+        await ActiveEffectsMigration.updateNetArch(item);
         break;
       case "program":
-        ActiveEffectsMigration.updateProgram(item);
+        await ActiveEffectsMigration.updateProgram(item);
         break;
       case "skill":
-        ActiveEffectsMigration.updateSkill(item);
+        await ActiveEffectsMigration.updateSkill(item);
         break;
       case "role":
-        ActiveEffectsMigration.updateRole(item);
+        await ActiveEffectsMigration.updateRole(item);
         break;
       case "vehicle":
-        ActiveEffectsMigration.updateVehicle(item);
+        await ActiveEffectsMigration.updateVehicle(item);
         break;
       case "weapon":
-        ActiveEffectsMigration.updateWeapon(item);
+        await ActiveEffectsMigration.updateWeapon(item);
         break;
       default:
         // note: drug was introduced with this release, so it will not fall through here

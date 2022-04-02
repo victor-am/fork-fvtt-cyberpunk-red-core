@@ -1,6 +1,7 @@
 /* global game */
 import * as Migrations from "./scripts/index.js";
 import LOGGER from "../../utils/cpr-logger.js";
+import CPRSystemUtils from "../../utils/cpr-systemUtils.js";
 
 /**
  * This is the base class for migration scripts. All migrations should extend this class and
@@ -22,17 +23,34 @@ export default class CPRMigration {
   /**
    * Execute the migration code. This should not be overidden with the exception of the legacy
    * migration scripts. (000-base.js)
-   * ToDo: should toObject() be called on each thing being migrated?
    */
   async run() {
     LOGGER.trace("run | CPRMigration");
     LOGGER.log(`Migrating to data model version ${this.version}`);
+    // These shenanigans are how we dynamically call static methods on whatever migration object is
+    // being run that extends this base class. Normally you need to be explicit, e.g. 
+    // ActiveEffectsMigration.run().
     const classRef = Migrations[this.constructor.name];
-    await classRef.preMigrate();
-    for (const item of game.items.contents) await classRef.updateItem(item);
-    for (const actor of game.actors.contents) await classRef.updateActor(actor);
-    await classRef.postMigrate();
+    await this.preMigrate(); 
+    let doneItems = 0;
+    let doneActors = 0;
+    const totalItems = game.items.size;
+    const totalActors = game.actors.size;
+    for (const item of game.items.contents) {
+      await classRef.updateItem(item);
+      doneItems += 1;
+      if (doneItems % 100 === 0) CPRSystemUtils.DisplayMessage("notify", `${doneItems}/${totalItems} migrated`);
+    }
+    CPRSystemUtils.DisplayMessage("notify", "All items migrated");
+    for (const actor of game.actors.contents) {
+      await this.updateActor(actor);
+      doneActors += 1;
+      if (doneActors % 10 === 0) CPRSystemUtils.DisplayMessage("notify", `${doneActors}/${totalActors} migrated`);
+    }
+    CPRSystemUtils.DisplayMessage("notify", "All actors migrated");
+    await this.postMigrate();
     game.settings.set("cyberpunk-red-core", "dataModelVersion", this.version);
+    return true;
   }
 
   /**
@@ -42,12 +60,12 @@ export default class CPRMigration {
    *
    * These all assume data model changes are sent to the server (they're mutators).
    */
-  static async preMigrate() {};
-  static async updateActor(actor) {};
+  async preMigrate() {};
+  async updateActor(actor) {};
   static async updateItem(item) {};
   static async updateMacro(macro) {};
   static async updateToken(token) {};
   static async updateTable(table) {};
   static async updateCompendium(comp) {};
-  static async postMigrate() {};
+  async postMigrate() {};
 }
