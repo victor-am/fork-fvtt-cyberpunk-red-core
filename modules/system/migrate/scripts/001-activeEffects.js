@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop */
-/* global duplicate mergeObject Item */
+/* global duplicate mergeObject structuredClone Item */
 
 import CPR from "../../config.js";
 import CPRMigration from "../cpr-migration.js";
@@ -22,26 +22,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
   async preMigrate() {
     LOGGER.trace("preMigrate | 1-activeEffects Migration");
     CPRSystemUtils.DisplayMessage("notify", "Beginning pre-migration activities");
-    this.migrationFolder = await CPRSystemUtils.GetFolder("Item", "Migration Workspace");
-    /*
-    this.actorFolders = {};
-    for (const actor of game.actors.contents) {
-      // eslint-disable-next-line no-await-in-loop
-      this.actorFolders[`${actor.name}.${actor.id}`] = await CPRSystemUtils.GetFolder("Item", `${actor.name}.${actor.id}`, this.migrationFolder.id);
-      CPRSystemUtils.DisplayMessage("notify", `Preparing to update ${actor.name}`);
-      for (const ownedItem of actor.items) {
-        // TODO: maybe skip skills? might be an optimization opportunity there
-        // TODO: copy over token actor inventories too
-        if (!this.itemPrepared(actor, ownedItem.name)) {
-          Item.create({
-            name: ownedItem.name,
-            type: ownedItem.type,
-            data: duplicate(ownedItem.data),
-            folder: this.actorFolders[`${actor.name}.${actor.id}`],
-          });
-        }
-      }
-    } */
+    this.migrationFolder = await CPRSystemUtils.GetFolder("Item", "Active Effect Migration Workspace");
   }
 
   /**
@@ -117,6 +98,21 @@ export default class ActiveEffectsMigration extends CPRMigration {
       // This AE goes on the actor, not the Item itself
       await ActiveEffectsMigration.addActiveEffect(actor, name, changes);
     }
+    // skill mods are applied directly to the actor because the skill "items" cannot be accessed in the UI,
+    // at least not the core ones
+    for (const skill of actor.items.filter((i) => i.type === "skill")) {
+      if (skill.data.data.skillmod !== 0) {
+        const name = ` ${CPRSystemUtils.Localize("CPR.migration.effects.skill")} ${skill.name}`;
+        const changes = [{
+          key: `bonuses.${CPRSystemUtils.slugify(skill.name)}`,
+          mode: 2,
+          value: skill.data.data.skillmod,
+          priority: 0,
+        }];
+        // This AE goes on the actor, not the Item itself
+        await ActiveEffectsMigration.addActiveEffect(actor, name, changes);
+      }
+    }
     // Deleting properties requires this special Foundry-specific magic. You create additional properties with "-=" appended
     // to the end, and the update() interprets that as, "delete the property with the same name but without the '-=' part."
     // Using delete or setting existing properties to null produces errors from update().
@@ -129,17 +125,26 @@ export default class ActiveEffectsMigration extends CPRMigration {
     // Finally, migrate their owned items by copying from the item directory to their inventory
     // on success, we delete the item from the directory, they should all be empty at the end.
     // Egregious violation of no-await-in-loop here, but not sure how else to approach.
-    const totalItems = actor.items.length;
     let doneItems = 0;
-    for (const ownedItem of actor.items) {
+    let ownedItems = JSON.parse(JSON.stringify(actor.items));
+    // We deliberately skip skills because for core skills their AEs cannot be edited or viewed
+    // They are applied to the actor instead for this migration (see earlier code)
+    ownedItems = ownedItems.filter((i) => {
+      if (i.type === "skill") return false;
+      if (i.type === "cyberware" && i.data.core) return false;
+      return true;
+    });
+    const totalItems = ownedItems.length;
+    for (const ownedItem of ownedItems) {
       const newItem = await this.backupOwnedItem(ownedItem);
       await ActiveEffectsMigration.updateItem(newItem);
       await actor.createEmbeddedDocuments("Item", [newItem.data]);
-      await actor.deleteEmbeddedDocuments("Item", [ownedItem.id]);
+      await actor.deleteEmbeddedDocuments("Item", [ownedItem._id]);
       await newItem.delete();
       doneItems += 1;
-      if (doneItems % 25 === 0) CPRSystemUtils.DisplayMessage("notify", `${doneItems}/${totalItems} migrated`);
+      if (doneItems % 25 === 0) CPRSystemUtils.DisplayMessage("notify", `${doneItems}/${totalItems} owned items on ${actor.name} migrated`);
     }
+    CPRSystemUtils.DisplayMessage("notify", `${actor.name} finished migration`);
   }
 
   /**
@@ -207,6 +212,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
         await ActiveEffectsMigration.updateCyberdeck(item);
         break;
       case "cyberware":
+        // never call this for "core" cyberware on actors!
         await ActiveEffectsMigration.updateCyberware(item);
         break;
       case "gear":
@@ -222,6 +228,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
         await ActiveEffectsMigration.updateProgram(item);
         break;
       case "skill":
+        // never call this for owned items!
         await ActiveEffectsMigration.updateSkill(item);
         break;
       case "role":
@@ -391,7 +398,10 @@ export default class ActiveEffectsMigration extends CPRMigration {
   }
 
   /**
-   * Cyberdeck
+   * Cyberdeck. Note we skill "core" cyberware since there is no way it could be edited to
+   * have mods that would require AEs to be created. Also we don't support "adding" core cyberware
+   * to actors, so even if we did migrate the item and give it AEs, we couldn't add it back to the
+   * actor. Here's what changed for everything else though.
    *    Lost quality
    *    Gained usage
    *    Gained slots for upgrades
@@ -512,6 +522,20 @@ export default class ActiveEffectsMigration extends CPRMigration {
   }
 
   /**
+   * Role:
+   *    "skillBonuses" became "bonuses"
+   *
+   * @param {CPRItem} role
+   */
+  static async updateRole(role) {
+    LOGGER.trace("updateRole | 1-activeEffects Migration");
+    const updateData = {};
+    updateData["data.bonuses"] = role.data.data.skillBonuses;
+    updateData["data.-=skillBonuses"] = null;
+    await role.update(updateData);
+  }
+
+  /**
    * Skill:
    *    "skillmod" property converted to AEs
    *
@@ -531,20 +555,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
     ActiveEffectsMigration.addActiveEffect(skill, name, changes);
     updateData["data.-=skillmod"] = null;
     await skill.update(updateData);
-  }
-
-  /**
-   * Role:
-   *    "skillBonuses" became "bonuses"
-   *
-   * @param {CPRItem} role
-   */
-  static async updateRole(role) {
-    LOGGER.trace("updateRole | 1-activeEffects Migration");
-    const updateData = {};
-    updateData["data.bonuses"] = role.data.data.skillBonuses;
-    updateData["data.-=skillBonuses"] = null;
-    await role.update(updateData);
   }
 
   /**

@@ -59,7 +59,7 @@ const itemHooks = () => {
    *
    * @public
    * @memberof hookEvents
-   * @param {CPRItem} itemData            The pending document which is requested for creation
+   * @param {CPRItem} doc                 The pending document which is requested for creation
    * @param {object} (unused)             Additional options which modify the creation request
    * @param {string} userId               The ID of the requesting user, always game.user.id
    */
@@ -81,13 +81,14 @@ const itemHooks = () => {
 
   /**
    * The deleteItem Hook is provided by Foundry and triggered here. When an Item is deleted, this hook is called during
-   * deletion.
+   * deletion. In here, if a role is being deleted, we look up other roles that are available and make one of them the
+   * new active role. Otherwise we warn that there is no active role on the actor.
    *
    * @public
    * @memberof hookEvents
-   * @param {CPRItem} itemData            The pending document which is requested for creation
-   * @param {object} (unused)             Additional options which modify the creation request
-   * @param {string} (unused)               The ID of the requesting user, always game.user.id
+   * @param {CPRItem} doc            The document (item) to be deleted
+   * @param {object} (unused)        Additional options which modify the creation request
+   * @param {string} (unused)        The ID of the requesting user, always game.user.id
    */
 
   Hooks.on("deleteItem", (doc) => {
@@ -95,13 +96,22 @@ const itemHooks = () => {
     const actor = doc.parent;
     if (actor !== null) {
       if (doc.type === "role" && actor.data.data.roleInfo.activeRole === doc.name) {
-        if (actor.data.filteredItems.role.length >= 1) {
-          const newActiveRole = actor.data.filteredItems.role
-            .sort((a, b) => (a.data.name > b.data.name ? 1 : -1))
-            .find((r) => r.data.name !== actor.data.data.roleInfo.activeRole);
-          actor.update({ "data.roleInfo.activeRole": newActiveRole.data.name });
-          const warning = `${SystemUtils.Localize("CPR.messages.warnDeleteActiveRole")} ${newActiveRole.data.name}`;
-          SystemUtils.DisplayMessage("warn", warning);
+        const actorRoles = actor.data.filteredItems.role.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+        if (actorRoles.length >= 1) {
+          // The actor has other roles besides the one being deleted
+          // First, we look for one with the same name. This covers a degenerate case where an actor has 2 or more roles
+          // of the same name configured, and a case where role items on an actor get replaced during a data migration.
+          let newRole;
+          const sameNameRoles = actorRoles.filter((r) => r.data.name === actor.data.data.roleInfo.activeRole);
+          if (sameNameRoles.length >= 1) {
+            newRole = sameNameRoles.find((r) => r.id !== doc.id);
+          } else {
+            // no other roles with the same name, pick the next in the list
+            [newRole] = actorRoles;
+            const warning = `${SystemUtils.Localize("CPR.messages.warnDeleteActiveRole")} ${newRole.data.name}`;
+            SystemUtils.DisplayMessage("warn", warning);
+          }
+          actor.update({ "data.roleInfo.activeRole": newRole.data.name });
         } else {
           actor.update({ "data.roleInfo.activeRole": "" });
           SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.characterSheet.bottomPane.role.noRolesWarning"));
@@ -117,7 +127,7 @@ const itemHooks = () => {
    *
    * @public
    * @memberof hookEvents
-   * @param {Document} doc          The Item document which is requested for creation
+   * @param {Document} doc          The Item document which is being updated
    * @param {object} updateData     A trimmed object with the data provided for creation
    * @param {object} (unused)       Additional options which modify the creation request
    * @param {string} (unused)       The ID of the requesting user, always game.user.id

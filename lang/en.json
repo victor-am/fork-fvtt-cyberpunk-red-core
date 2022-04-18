@@ -801,7 +801,7 @@
     "CPR.migration.effects.attackName": "Migrated Attack Bonus",
     "CPR.migration.effects.damageName": "Migrated Damage Bonus",
     "CPR.migration.effects.program": "Migrated Program Effect",
-    "CPR.migration.effects.skill": "Migrated Skill Mod",
+    "CPR.migration.effects.skill": "Migrated Skill Mod for",
     "CPR.migration.effects.weapon": "Migrated Excellent Quality Weapon",
     "CPR.migration.tag": "[MIGRATED]",
     "CPR.mookSheet.criticalInjuries": "Critical Injuries",

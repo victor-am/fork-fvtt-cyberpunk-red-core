@@ -32,22 +32,17 @@ export default class CPRMigration {
     // ActiveEffectsMigration.run().
     const classRef = Migrations[this.constructor.name];
     await this.preMigrate(); 
-    let doneItems = 0;
-    let doneActors = 0;
-    const totalItems = game.items.size;
-    const totalActors = game.actors.size;
-    for (const item of game.items.contents) {
-      await classRef.updateItem(item);
-      doneItems += 1;
-      if (doneItems % 100 === 0) CPRSystemUtils.DisplayMessage("notify", `${doneItems}/${totalItems} migrated`);
-    }
-    CPRSystemUtils.DisplayMessage("notify", "All items migrated");
-    for (const actor of game.actors.contents) {
-      await this.updateActor(actor);
-      doneActors += 1;
-      if (doneActors % 10 === 0) CPRSystemUtils.DisplayMessage("notify", `${doneActors}/${totalActors} migrated`);
-    }
-    CPRSystemUtils.DisplayMessage("notify", "All actors migrated");
+    const itemMigrations = await game.items.contents.map((actor) => classRef.updateItem(actor));
+    await Promise.all(itemMigrations);
+    CPRSystemUtils.DisplayMessage("notify", "All items migrated, continuing to actors");
+
+    // migrate actors
+    const actorMigrations = await game.actors.contents.map((actor) => this.updateActor(actor));
+    await Promise.all(actorMigrations);
+    CPRSystemUtils.DisplayMessage("notify", "All actors migrated, continuing to unlinked tokens");
+
+    // migrate unlinked tokens
+
     await this.postMigrate();
     game.settings.set("cyberpunk-red-core", "dataModelVersion", this.version);
     return true;
