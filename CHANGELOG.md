@@ -7,6 +7,12 @@
   - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item. Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb
 - Added possibility to describe a "/red" roll with a description, e.g. "/red 1d10 # This is my roll!". The description of individual dice is not possible
 - Feature Request #378: Add ability to share actor artwork to players from the character sheet by right clicking on the Actor's image.
+- Even more icons!
+  - Icons for each street drug
+  - Icons for each pharmaceutical 
+  - Even more status icons
+- Change Character sheet Wound State to unique icons rather than the font-awesome smileyfaces
+- CUB Condition Map json file, ready to be imported to CUB COndition Lab
 
 **Changes**
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience
