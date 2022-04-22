@@ -190,9 +190,9 @@ Audimat Typeface by [SMeltery](http://www.smeltery.net)
 - `icons/compendium/status/readied_action.svg` from [Backward Time](https://game-icons.net/1x1/delapouite/backward-time.html)
 - `icons/compendium/status/unconcious.svg` from [Knockout](https://game-icons.net/1x1/skoll/knockout.html)
 - `icons/compendium/status/wounded*` remixed from [Glass Heart](https://game-icons.net/1x1/lorc/glass-heart.html)
-- `icons/compendium/weapons/martial_arts.svg` remixed from [Karate Master](https://www.svgrepo.com/svg/120059/karate-master)
 - `icons/compendium/weapons/Flamethrower.svg` remixed from [Delapouite](https://game-icons.net/1x1/delapouite/flamethrower.html)
 - `icons/compendium/weapons/Thrown_Weapon.svg` remixed from [Lorc](https://game-icons.net/1x1/lorc/arrow-dunk.html)
+- `icons/compendium/weapons/martial_arts.svg` remixed from [Karate Master](https://www.svgrepo.com/svg/120059/karate-master)
 - `icons/compendium/weapons/microwaver.svg` remixed from [Canister](https://game-icons.net/1x1/lorc/cannister.html) and [Tec 9](https://game-icons.net/1x1/skoll/tec-9.html)
 
 ### LEGAL STUFF
