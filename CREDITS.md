@@ -197,6 +197,7 @@ Audimat Typeface by [SMeltery](http://www.smeltery.net)
 - `icons/compendium/weapons/martial_arts.svg` remixed from [Karate Master](https://www.svgrepo.com/svg/120059/karate-master)
 - `icons/compendium/weapons/microwaver.svg` remixed from [Canister](https://game-icons.net/1x1/lorc/cannister.html) and [Tec 9](https://game-icons.net/1x1/skoll/tec-9.html)
 - `icons/compendium/weapons/shrieker.svg` remixed from [CZ Scorpion](https://game-icons.net/1x1/skoll/cz-skorpion.html)
+- `icons/compendium/weapons/stun_gun.svg` remixed from [Mac 10](https://game-icons.net/1x1/skoll/mac-10.html)
 
 ### LEGAL STUFF
 
