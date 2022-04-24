@@ -137,7 +137,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       try {
         await ActiveEffectsMigration.migrateItem(newItem);
       } catch (err) {
-        throw new Error(`${newItem.name} (${newItem.id}) had a migration error: ${err.message}`);
+        throw new Error(`${ownedItem.name} (${ownedItem.id}) had a migration error: ${err.message}`);
       }
       await actor.createEmbeddedDocuments("Item", [newItem.data]);
       await actor.deleteEmbeddedDocuments("Item", [ownedItem._id]);

@@ -32,7 +32,7 @@ export default class CPRMigration {
     // ActiveEffectsMigration.run().
     const classRef = Migrations[this.constructor.name];
     await this.preMigrate();
-    
+
     // migrate unowned items
     if (!await CPRMigration.migrateItems(classRef)) {
       CPRSystemUtils.DisplayMessage("error", "Errors during Item migration, aborting");
@@ -40,7 +40,7 @@ export default class CPRMigration {
     }
     CPRSystemUtils.DisplayMessage("notify", "All items migrated, continuing to actors");
 
-    // migrate actors
+    // migrate actors 
     if (!await this.migrateActors()) {
       CPRSystemUtils.DisplayMessage("error", "Errors during Actor migration, aborting");
       return;
@@ -48,7 +48,7 @@ export default class CPRMigration {
     CPRSystemUtils.DisplayMessage("notify", "All actors migrated, continuing to unlinked tokens");
 
     // unlinked actors (tokens)
-    if (!await CPRMigration.migrateUnlinkedActors()) {
+    if (!await this.migrateUnlinkedActors()) {
       CPRSystemUtils.DisplayMessage("error", "Errors during unlinked Actor migration, aborting");
       return;
     }
@@ -91,14 +91,14 @@ export default class CPRMigration {
   static async migrateItems(classRef) {
     LOGGER.trace("migrateItems | CPRMigration");
     let good = true;
-    const docMigrations = game.items.contents.map(async (item) => {
+    const itemMigrations = game.items.contents.map(async (item) => {
       try {
         return await classRef.migrateItem(item);
       } catch (err) {
         throw new Error(`${item.name} had a migration error: ${err.message}`);    
       }
     });
-    const values = await Promise.allSettled(docMigrations);
+    const values = await Promise.allSettled(itemMigrations);
     for (const value of values.filter((v) => v.status !== "fulfilled")) {
       LOGGER.debugObject(value);
       LOGGER.error(`Migration error: ${value.reason.message}`);
@@ -115,14 +115,14 @@ export default class CPRMigration {
     LOGGER.trace("migrateActors | CPRMigration");
     // actors in the "directory"
     let good = true;
-    const docMigrations = game.actors.contents.map(async (actor) => {
+    const actorMigrations = game.actors.contents.map(async (actor) => {
       try {
         return await this.migrateActor(actor);
       } catch (err) {
         throw new Error(`${actor.name} had a migration error: ${err.message}`);    
       }
     });
-    const values = await Promise.allSettled(docMigrations);
+    const values = await Promise.allSettled(actorMigrations);
     for (const value of values.filter((v) => v.status !== "fulfilled")) {
       LOGGER.error(`Migration error: ${value.reason.message}`);
       LOGGER.error(value.reason.stack);
@@ -134,34 +134,42 @@ export default class CPRMigration {
   /**
    * Migrate unlinked Actors (tokens)
    */
-  static async migrateUnlinkedActors() {
+  async migrateUnlinkedActors() {
     LOGGER.trace("migrateUnlinkedActors | CPRMigration");
     let good = true;
     for (const scene of game.scenes.contents) {
-      const docMigrations = scene.tokens.contents.map(async (token) => {
-        if (!game.actors.has(token.actorId)) {
+      const tokens = scene.tokens.contents.filter((token) => {
+        if (!token.data.actorLink && !game.actors.has(token.data.actorId)) {
           // Degenerate case where the token is unlinked, but the actor it is derived from was since
           // deleted. This makes token.actor null so we don't have a full view of all of the actor data.
           // This is technically a broken token and even Foundry throws errors when you do certain things
           // with this token. We skip it.
-          LOGGER.warn(`WARNING: Token "${token.name}" (${token.actorId}) on Scene "${scene.name}" (${scene._id})`
-            + `appears to be missing the source Actor and may cause Foundry issues.`);
-        } else if (!token.actorLink) {
-          // unlinked token
-          try {
-            return await this.migrateActor(token.actor);
-          } catch (err) {
-            throw new Error(`${token.actor.name} token had a migration error: ${err.message}`);
-          }
+          LOGGER.warn(`WARNING: Token "${token.data.name}" (${token.data.actorId}) on Scene "${scene.name}" (${scene.id})`
+            + ` is missing the source Actor, so we will skip migrating it. Consider replacing or deleting it.`);
+          return false;
+        }
+        if (!token.data.actorLink) return true; // unlinked tokens, this is what we're after
+        // anything else is a linked token, we assume they're already migrated
+        return false;
+      });
+      const tokenMigrations = tokens.map(async (token) => {
+        LOGGER.debugObject(token);
+        // const t = token.toJSON();
+        // LOGGER.debugObject(t);
+        try {
+          return await this.migrateActor(token.actor);
+        } catch (err) {
+          throw new Error(`${token.actor.name} token had a migration error: ${err.message}`);
         }
       });
-      const values = await Promise.allSettled(docMigrations);
+      const values = await Promise.allSettled(tokenMigrations);
       for (const value of values.filter((v) => v.status !== "fulfilled")) {
         LOGGER.debugObject(value);
         LOGGER.error(`Migration error: ${value.reason.message}`);
         LOGGER.error(value.reason.stack);
         good = false;
       }
+      CPRSystemUtils.DisplayMessage("notify", `Migrated scene: ${scene.name}`);
     }
     return good;
   }
