@@ -100,7 +100,6 @@ export default class CPRMigration {
     });
     const values = await Promise.allSettled(itemMigrations);
     for (const value of values.filter((v) => v.status !== "fulfilled")) {
-      LOGGER.debugObject(value);
       LOGGER.error(`Migration error: ${value.reason.message}`);
       LOGGER.error(value.reason.stack);
       good = false;
@@ -153,9 +152,6 @@ export default class CPRMigration {
         return false;
       });
       const tokenMigrations = tokens.map(async (token) => {
-        LOGGER.debugObject(token);
-        // const t = token.toJSON();
-        // LOGGER.debugObject(t);
         try {
           return await this.migrateActor(token.actor);
         } catch (err) {
@@ -164,7 +160,6 @@ export default class CPRMigration {
       });
       const values = await Promise.allSettled(tokenMigrations);
       for (const value of values.filter((v) => v.status !== "fulfilled")) {
-        LOGGER.debugObject(value);
         LOGGER.error(`Migration error: ${value.reason.message}`);
         LOGGER.error(value.reason.stack);
         good = false;

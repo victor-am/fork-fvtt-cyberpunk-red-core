@@ -36,16 +36,14 @@ export default class ActiveEffectsMigration extends CPRMigration {
    */
   async backupOwnedItem(itemData) {
     LOGGER.trace("backupOwnedItem | 1-activeEffects Migration");
-    let [foundItem] = this.migrationFolder.content.filter((i) => i.name === itemData.name);
-    if (!foundItem) {
-      foundItem = Item.create({
-        name: itemData.name,
-        type: itemData.type,
-        data: itemData.data,
-        folder: this.migrationFolder,
-      });
-    }
-    return foundItem;
+    // let [foundItem] = this.migrationFolder.content.filter((i) => i.name === itemData.name);
+    // if (!foundItem) {
+    return Item.create({
+      name: itemData.name,
+      type: itemData.type,
+      data: itemData.data,
+      folder: this.migrationFolder,
+    });
   }
 
   /**
@@ -63,7 +61,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
   }
 
   /**
-   * The actors were updated in 2 ways.
+   * The actors were updated in 2 ways. No changes to demons, black-ice or containers.
    *    Universal Attack Bonus and Damage --> corresponding AE
    *    Deleted skill and role properties.
    *
@@ -73,10 +71,9 @@ export default class ActiveEffectsMigration extends CPRMigration {
    */
   async migrateActor(actor) {
     LOGGER.trace("migrateActor | 1-activeEffects Migration");
-    // const newActor = actor;
     if (!(actor.data.type === "character" || actor.data.type === "mook")) return;
     let updateData = {};
-    if (actor.data.data.universalBonuses.attack && actor.data.data.universalBonuses.attack !== 0) {
+    if (actor.data.data.universalBonuses?.attack && actor.data.data.universalBonuses.attack !== 0) {
       const name = CPRSystemUtils.Localize("CPR.migration.effects.attackName");
       const changes = [{
         key: "bonuses.universalAttack",
@@ -87,7 +84,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       // This AE goes on the actor, not the Item itself
       await ActiveEffectsMigration.addActiveEffect(actor, name, changes);
     }
-    if (actor.data.data.universalBonuses.damage && actor.data.data.universalBonuses.damage !== 0) {
+    if (actor.data.data.universalBonuses?.damage && actor.data.data.universalBonuses.damage !== 0) {
       const name = CPRSystemUtils.Localize("CPR.migration.effects.damageName");
       const changes = [{
         key: "bonuses.universalDamage",
@@ -137,7 +134,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       try {
         await ActiveEffectsMigration.migrateItem(newItem);
       } catch (err) {
-        throw new Error(`${ownedItem.name} (${ownedItem.id}) had a migration error: ${err.message}`);
+        throw new Error(`${ownedItem.name} (${ownedItem._id}) had a migration error: ${err.message}`);
       }
       await actor.createEmbeddedDocuments("Item", [newItem.data]);
       await actor.deleteEmbeddedDocuments("Item", [ownedItem._id]);

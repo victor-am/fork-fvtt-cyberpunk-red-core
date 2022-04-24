@@ -40,6 +40,10 @@ export default class MigrationRunner {
         CPRSystemUtils.DisplayMessage("error", `Fatal error while migrating to ${migration.version}: ${err.message}`);
         break;
       }
+      if (migration.flush) {
+        CPRSystemUtils.DisplayMessage("notify", `Migration to data model ${migration.version} complete, please refresh your browser tab to continue.`);
+        break;
+      }
     }
   }
 
