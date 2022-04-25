@@ -3,6 +3,7 @@ import CPRChat from "../../chat/cpr-chat.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import ConfigureBIActorFromProgramPrompt from "../../dialog/cpr-configure-bi-actor-from-program.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
+import createImageContextMenu from "../../utils/cpr-imageContextMenu.js";
 
 /**
  * Implement the Black-ICE sheet, which extends ActorSheet directly from Foundry. This does
@@ -38,6 +39,7 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
     LOGGER.trace("activateListeners | CPRBlackIceActorSheet | Called.");
     html.find(".rollable").click((event) => this._onRoll(event));
     html.find(".configure-from-program").click((event) => this._configureFromProgram(event));
+    this._createBlackIceImageContextMenu(html);
     super.activateListeners(html);
   }
 
@@ -122,5 +124,17 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
       }
     }
     this.render(true, { renderData: this.data });
+  }
+
+  /**
+   * Sets up a ContextMenu that appears when the Actor's image is right clicked.
+   * Enables the user to share the image with other players.
+   *
+   * @param {Object} html - The DOM object
+   * @returns {ContextMenu} The created ContextMenu
+   */
+  _createBlackIceImageContextMenu(html) {
+    LOGGER.trace("_createBlackIceImageContextMenu | CPRBlackIceActorSheet | Called.");
+    return createImageContextMenu(html, ".bice-icon", this.actor.data);
   }
 }
