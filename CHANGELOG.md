@@ -6,7 +6,8 @@
 - Added player ability to sell to Vendors by drag/dropping from character sheet to Vendor
   - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item. Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb
 - Added possibility to describe a "/red" roll with a description, e.g. "/red 1d10 # This is my roll!". The description of individual dice is not possible
-- Feature Request #378: Add ability to share actor & item artwork to players from the sheet by right clicking on the sheet's image.
+- Feature Request #378: Add ability to share actor artwork to players from the character sheet by right clicking on the Actor's image.
+- Feature Request #379: Added ability to populate a NET architecture with the help of rolltables. It also rolls for the number of floors (3d6) and how many branches there should be. (see p. 210 in the book)
 
 **Changes**
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience
