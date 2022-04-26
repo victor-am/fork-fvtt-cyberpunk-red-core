@@ -8,6 +8,12 @@
 - Added possibility to describe a "/red" roll with a description, e.g. "/red 1d10 # This is my roll!". The description of individual dice is not possible
 - Feature Request #378: Add ability to share actor artwork to players from the character sheet by right clicking on the Actor's image.
 - Feature Request #379: Added ability to populate a NET architecture with the help of rolltables. It also rolls for the number of floors (3d6) and how many branches there should be. (see p. 210 in the book)
+- Even more icons!
+  - Icons for each street drug
+  - Icons for each pharmaceutical 
+  - Even more status icons
+- Change Character sheet Wound State to unique icons rather than the font-awesome smileyfaces
+- CUB Condition Map json file, ready to be imported to CUB COndition Lab
 
 **Changes**
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience
