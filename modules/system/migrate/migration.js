@@ -58,6 +58,6 @@ export default class MigrationRunner {
     LOGGER.trace("_getMigrations | MigrationRunner");
     const migrations = Object.values(Migrations).map((M) => new M());
     return migrations.filter((m) => m.version > currDataModelVersion && m.version <= newDataModelVersion)
-      .sort((a, b) => a.version > b.version);
+      .sort((a, b) => (a.version > b.version ? 1 : -1));
   }
 }
