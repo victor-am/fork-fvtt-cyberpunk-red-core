@@ -1,5 +1,5 @@
 /* global ItemSheet */
-/* global mergeObject, game, $, hasProperty, getProperty, setProperty, duplicate */
+/* global mergeObject, game, $, hasProperty, getProperty, setProperty, duplicate, ContextMenu, ImagePopout */
 import LOGGER from "../../utils/cpr-logger.js";
 import CPR from "../../system/config.js";
 import { CPRRoll } from "../../rolls/cpr-rolls.js";
@@ -15,6 +15,8 @@ import BoosterAddModifierPrompt from "../../dialog/cpr-booster-add-modifier-prom
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
 import CPRNetarchUtils from "../../utils/cpr-netarchUtils.js";
+import createImageContextMenu from "../../utils/cpr-imageContextMenu.js";
+
 /**
  * Extend the basic ActorSheet.
  * @extends {ItemSheet}
@@ -152,6 +154,9 @@ export default class CPRItemSheet extends ItemSheet {
 
     // Sheet resizing
     html.find(".tab-label").click(() => this._automaticResize());
+
+    // Set up right click context menu when clicking on Item's image
+    this._createItemImageContextMenu(html);
   }
 
   /*
@@ -992,5 +997,17 @@ export default class CPRItemSheet extends ItemSheet {
     const itemId = $(event.currentTarget).parents(".item").attr("data-item-id");
     const item = this.actor.items.find((i) => i.data._id === itemId);
     item.sheet.render(true, { editable: false });
+  }
+
+  /**
+   * Sets up a ContextMenu that appears when the Item's image is right clicked.
+   * Enables the user to share the image with other players.
+   *
+   * @param {Object} html - The DOM object
+   * @returns {ContextMenu} The created ContextMenu
+   */
+  _createItemImageContextMenu(html) {
+    LOGGER.trace("_createItemImageContextMenu | CPRItemSheet | Called.");
+    return createImageContextMenu(html, ".item-image-block", this.item.data);
   }
 }
