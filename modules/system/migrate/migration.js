@@ -30,11 +30,11 @@ export default class MigrationRunner {
    * @param {Array[CPRMigration]} migrationsToDo
    * @returns {Boolean} - True if all migrations completed successfully
    */
-  static runMigrations(migrationsToDo) {
+  static async runMigrations(migrationsToDo) {
     LOGGER.trace("runMigrations | MigrationRunner");
     for (const migration of migrationsToDo) {
       try {
-        const result = migration.run();
+        const result = await migration.run();
         if (!result) break;
       } catch (err) {
         CPRSystemUtils.DisplayMessage("error", `Fatal error while migrating to ${migration.version}: ${err.message}`);
@@ -58,6 +58,6 @@ export default class MigrationRunner {
     LOGGER.trace("_getMigrations | MigrationRunner");
     const migrations = Object.values(Migrations).map((M) => new M());
     return migrations.filter((m) => m.version > currDataModelVersion && m.version <= newDataModelVersion)
-      .sort((a, b) => (a.version > b.version ? 1 : -1));
+      .sort((a, b) => a.version > b.version ? 1 : -1);
   }
 }

@@ -10,7 +10,6 @@ export default class BaseMigration extends CPRMigration {
     LOGGER.trace("constructor | 0-base Migration");
     super();
     this.version = 0;
-    this.errors = 0;
   }
 
   async run() {
@@ -109,9 +108,11 @@ export default class BaseMigration extends CPRMigration {
         LOGGER.error(err);
       }
     }
-    if (this.errors === 0) {
-      game.settings.set("cyberpunk-red-core", "dataModelVersion", this.version);
+    if (this.errors !== 0) {
+      return false;
     }
+    game.settings.set("cyberpunk-red-core", "dataModelVersion", this.version);
+    return true;
   }
 
   // @param {object} actorData    The actor data object to update

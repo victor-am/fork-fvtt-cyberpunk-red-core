@@ -76,9 +76,14 @@ export default class CPRCharacterActor extends CPRActor {
       }
     });
 
-    derivedStats.deathSave.basePenalty = basePenalty;
-    derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
-    this.data.data.derivedStats = derivedStats;
+    // We need to check this because the object is instantiated by the entity factory
+    // prior to migration and this data point changed from a type number to an type object
+    // which gets fixed during migration
+    if ((typeof derivedStats.deathSave) === "object") {
+      derivedStats.deathSave.basePenalty = basePenalty;
+      derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
+      this.data.data.derivedStats = derivedStats;
+    }
     derivedStats.hp.value = Math.min(
       derivedStats.hp.value,
       derivedStats.hp.max,

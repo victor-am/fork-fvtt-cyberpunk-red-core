@@ -18,6 +18,7 @@ export default class CPRMigration {
     LOGGER.trace("constructor | CPRMigration");
     this.version = null; // the data model version this migration will take us to
     this.flush = false; // migrations will stop after this script, even if more are needed
+    this.errors = 0; // Increment if there were errors as part of this migration.
   }
 
   /**
@@ -57,6 +58,9 @@ export default class CPRMigration {
     // In the future, put top-level migrations for tokens, scenes, compendiums, and other things here
 
     await this.postMigrate();
+    if (this.errors !== 0) {
+      return false;
+    }
     game.settings.set("cyberpunk-red-core", "dataModelVersion", this.version);
     return true;
   }
