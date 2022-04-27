@@ -120,11 +120,14 @@ export default class CPRActorSheet extends ActorSheet {
       },
     };
 
+    const setting = game.settings.get("cyberpunk-red-core", "displayStatusAsActiveEffects");
     // Iterate over active effects, classifying them into categories
     for (const e of this.actor.effects) {
       e._getSourceName(); // Trigger a lookup for the source name
-      if (e.data.disabled || e.data.isSuppressed) categories.inactive.effects.push(e);
-      else categories.active.effects.push(e);
+      if (!(typeof e.data.flags.core !== "undefined" && typeof e.data.flags.core.statusId !== "undefined") || setting) {
+        if (e.data.disabled || e.data.isSuppressed) categories.inactive.effects.push(e);
+        else categories.active.effects.push(e);
+      }
     }
 
     return categories;

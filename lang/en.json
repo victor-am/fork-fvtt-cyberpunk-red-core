@@ -902,6 +902,8 @@
     "CPR.settings.deleteConfirmation.name": "Delete item confirmation",
     "CPR.settings.derivedStats.hint": "When enabled, derived stats will be auto-calculated and can not be over-ridden",
     "CPR.settings.derivedStats.name": "Auto calculate derived stats",
+    "CPR.settings.displayStatusAsActiveEffects.hint": "When enabled, token status will be displayed in the Active Effects tab of the character sheet",
+    "CPR.settings.displayStatusAsActiveEffects.name": "Display Token Status as an Effect",
     "CPR.settings.enablePauseAnimation.hint": "Requires full reload to take effect (Ctrl+F5)",
     "CPR.settings.enablePauseAnimation.name": "Enable Pause Animation",
     "CPR.settings.enableSheetContentFilter.hint": "Enables a text box below Skills, Gear and Cyberware to allow you to quickly filter the lists to find what you're looking for",

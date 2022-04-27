@@ -123,6 +123,18 @@ const registerSystemSettings = () => {
     },
   });
 
+  game.settings.register("cyberpunk-red-core", "displayStatusAsActiveEffects", {
+    name: "CPR.settings.displayStatusAsActiveEffects.name",
+    hint: "CPR.settings.displayStatusAsActiveEffects.hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      LOGGER.log(`Changed displayStatusAsActiveEffects to ${value}`);
+    },
+  });
+
   game.settings.register("cyberpunk-red-core", "userSettings", {
     name: "User Settings",
     scope: "client",
