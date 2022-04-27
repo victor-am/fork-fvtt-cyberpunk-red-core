@@ -6,7 +6,7 @@
         <span class = "{{#if (cprCompare item.data.data.amount "===" 1)}}zero-not-visible{{/if}}">
             (x<span class="amount-input-wrap">
                 <span class="width-element">{{item.data.data.amount}}</span>
-                <input name = "item.data.amount" class = "number amount-input" style="text-align: right;" type = "text" data-item-prop = "item.data.amount" value = "{{item.data.data.amount}}">
+                <input name = "item.data.amount" class = "number amount-input" style="text-align: right;" type = "text" data-item-prop = "item.data.amount" value = "{{cprNumberFormat item.data.data.amount}}">
             </span>)
         </span>
     </div>

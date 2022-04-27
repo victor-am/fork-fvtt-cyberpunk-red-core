@@ -4,12 +4,12 @@
     <a class="name item-edit" title="{{item.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{item.name}}</a>&nbsp;
   </div>
   <div class="item-detail text-nowrap">
-    {{item.data.data.amount}}
+    {{cprNumberFormat item.data.data.amount}}
   </div>
   <div class="item-name gear-data text-nowrap">
     {{#if (cprCompare item.data.data.amount ">" "1")}}
       {{#if (cprCompare (cprCompare item.type "===" "ammo") "&&" (cprCompare (cprCompare item.data.data.variety "!==" "grenade") "&&" (cprCompare item.data.data.variety "!==" "rocket")))}}
-        {{localize "CPR.containerSheet.items.priceListingSingleAll" price=(cprMath "product" item.data.data.price.market "0.1") category=(localize (cprGetProp (cprFindConfigObj "itemPriceCategory") item.data.data.price.category)) priceAll=(cprMath "product" item.data.data.price.market item.data.data.amount "0.1")}}
+        {{localize "CPR.containerSheet.items.priceListingSingleAll" price=(cprMath "product" item.data.data.price.market "0.1") category=(localize (cprGetProp (cprFindConfigObj "itemPriceCategory") item.data.data.price.category)) priceAll=(cprNumberFormat (cprMath "product" item.data.data.price.market item.data.data.amount "0.1"))}}
       {{else}}
         {{localize "CPR.containerSheet.items.priceListingSingleAll" price=item.data.data.price.market category=(localize (cprGetProp (cprFindConfigObj "itemPriceCategory") item.data.data.price.category)) priceAll=(cprMath "product" item.data.data.price.market item.data.data.amount)}}
       {{/if}}
