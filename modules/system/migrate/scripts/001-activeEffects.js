@@ -339,7 +339,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(armor, 100) };
     updateData["data.slots"] = 3;
     updateData["data.usage"] = "equipped";
-    const newItemData = duplicate(await armor.update(updateData));
+    await armor.update(updateData);
+    const newItemData = duplicate(armor.data);
     await ActiveEffectsMigration.dupeOwnedItems(armor, amount, newItemData);
   }
 
@@ -457,7 +458,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
       updateData["data.modifiers"] = { secondaryWeapon: { configured: false } };
     }
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(upgrade, 500) };
-    const newItemData = duplicate(await upgrade.update(updateData));
+    await upgrade.update(updateData);
+    const newItemData = duplicate(upgrade.data);
     await ActiveEffectsMigration.dupeOwnedItems(upgrade, amount, newItemData);
   }
 
@@ -475,7 +477,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
     const { amount } = netarch.data.data;
     updateData = { ...updateData, ...CPRMigration.safeDelete(netarch, "data.quality") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(netarch, 5000) };
-    const newItemData = duplicate(await netarch.update(updateData));
+    await netarch.update(updateData);
+    const newItemData = duplicate(netarch.data);
     await ActiveEffectsMigration.dupeOwnedItems(netarch, amount, newItemData);
   }
 
@@ -515,7 +518,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
     ActiveEffectsMigration.addActiveEffect(program, name, changes);
     updateData = { ...updateData, ...CPRMigration.safeDelete(program, "data.modifiers") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(program, 100) };
-    const newItemData = duplicate(await program.update(updateData));
+    await program.update(updateData);
+    const newItemData = duplicate(program.data);
     await ActiveEffectsMigration.dupeOwnedItems(program, amount, newItemData);
   }
 
@@ -571,7 +575,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
     updateData = { ...updateData, ...CPRMigration.safeDelete(vehicle, "data.quality") };
     updateData["data.slots"] = 3;
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(vehicle, 10000) };
-    const newItemData = duplicate(await vehicle.update(updateData));
+    await vehicle.update(updateData);
+    const newItemData = duplicate(vehicle.data);
     await ActiveEffectsMigration.dupeOwnedItems(vehicle, amount, newItemData);
   }
 
@@ -606,7 +611,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
     updateData["data.slots"] = 3;
     updateData = { ...updateData, ...CPRMigration.safeDelete(weapon, "data.quality") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(weapon, 100) };
-    const newItemData = duplicate(await weapon.update(updateData));
+    await weapon.update(updateData);
+    const newItemData = duplicate(weapon.data);
     await ActiveEffectsMigration.dupeOwnedItems(weapon, amount, newItemData);
   }
 }
