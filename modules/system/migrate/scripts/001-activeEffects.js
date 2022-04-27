@@ -129,6 +129,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       return true;
     });
     const totalItems = ownedItems.length;
+    const remappedCyberware = {};
     for (const ownedItem of ownedItems) {
       const newItem = await this.backupOwnedItem(ownedItem);
       try {
@@ -136,11 +137,30 @@ export default class ActiveEffectsMigration extends CPRMigration {
       } catch (err) {
         throw new Error(`${ownedItem.name} (${ownedItem._id}) had a migration error: ${err.message}`);
       }
-      await actor.createEmbeddedDocuments("Item", [newItem.data]);
+      const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data]);
       await actor.deleteEmbeddedDocuments("Item", [ownedItem._id]);
       await newItem.delete();
+      // If this is an installed piece of cyberware, the item._id may be installed in another
+      // piece of cyberwares optionalId data point.
+      if (ownedItem.type === "cyberware" && ownedItem.data.isInstalled) {
+        remappedCyberware[ownedItem._id] = createdItem[0].data._id;
+      }
       doneItems += 1;
       if (doneItems % 25 === 0) CPRSystemUtils.DisplayMessage("notify", `${doneItems}/${totalItems} owned items on ${actor.name} migrated so far`);
+    }
+    if (Object.entries(remappedCyberware).length > 0) {
+      const updateList = [];
+      for (const cyberware of actor.items.filter((i) => i.type === "cyberware")) {
+        if (cyberware.data.data.optionalIds.length > 0) {
+          const oldIds = cyberware.data.data.optionalIds;
+          const newIds = [];
+          oldIds.forEach((id) => {
+            newIds.push(remappedCyberware[id]);
+          });
+          updateList.push({ _id: cyberware.id, "data.optionalIds": newIds });
+        }
+      }
+      await actor.updateEmbeddedDocuments("Item", updateList);
     }
     CPRSystemUtils.DisplayMessage("notify", `${actor.name} has migrated successfully`);
   }
