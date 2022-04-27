@@ -10,6 +10,7 @@ export default class BaseMigration extends CPRMigration {
     LOGGER.trace("constructor | 0-base Migration");
     super();
     this.version = 0;
+    this.errors = 0;
   }
 
   async run() {
@@ -37,6 +38,7 @@ export default class BaseMigration extends CPRMigration {
         }
       } catch (err) {
         err.message = `CPR MIGRATION | Failed cyberpunk-red-core system migration for Item ${i.name}: ${err.message}`;
+        this.errors += 1;
         LOGGER.error(err);
       }
     }
@@ -69,6 +71,7 @@ export default class BaseMigration extends CPRMigration {
         }
       } catch (err) {
         err.message = `CPR MIGRATION | Failed cyberpunk-red-core system migration for Actor ${a.name}: ${err.message}`;
+        this.errors += 1;
         LOGGER.error(err);
       }
     }
@@ -102,10 +105,13 @@ export default class BaseMigration extends CPRMigration {
         }
       } catch (err) {
         err.message = `CPR MIGRATION | Failed cyberpunk-red-core system migration for Scene ${s.name}: ${err.message}`;
+        this.errors += 1;
         LOGGER.error(err);
       }
     }
-    game.settings.set("cyberpunk-red-core", "dataModelVersion", this.version);
+    if (this.errors === 0) {
+      game.settings.set("cyberpunk-red-core", "dataModelVersion", this.version);
+    }
   }
 
   // @param {object} actorData    The actor data object to update
@@ -1040,6 +1046,7 @@ export default class BaseMigration extends CPRMigration {
         await doc.update(updateData);
       } catch (err) {
         err.message = `Failed cyberpunk-red-core system migration for entity ${doc.name} in pack ${pack.collection}: ${err.message}`;
+        this.errors += 1;
         LOGGER.error(err);
       }
     }
