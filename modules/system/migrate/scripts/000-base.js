@@ -317,8 +317,10 @@ export default class BaseMigration extends CPRMigration {
 
       // New data point needed for Roles as items implementation (0.79.1)
       if (actorData.data.roleInfo.activeNetRole === "") {
-        if (actorData.data.roleInfo.roles.includes("netrunner")) {
-          updateData["data.roleInfo.activeNetRole"] = "Netrunner";
+        if ((typeof actorData.data.roleInfo.roles) !== "undefined") {
+          if (actorData.data.roleInfo.roles.includes("netrunner")) {
+            updateData["data.roleInfo.activeNetRole"] = "Netrunner";
+          }
         }
       }
 
