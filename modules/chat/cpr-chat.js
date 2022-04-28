@@ -188,11 +188,15 @@ export default class CPRChat {
     const modifiers = /[+-][0-9][0-9]*/;
     const dice = /[0-9][0-9]*d[0-9][0-9]*/;
     let formula = "1d10";
+    let rollDescription = "";
+    if (data.includes("#")) {
+      rollDescription = data.slice(data.indexOf("#") + 1);
+    }
     if (data.match(dice)) {
       [formula] = data.match(dice);
     }
     if (data.match(modifiers)) {
-      const formulaModifiers = data.replace(formula, "");
+      const formulaModifiers = data.replace(formula, "").replace("#", "").replace(rollDescription, "");
       formula = `${formula}${formulaModifiers}`;
     }
     if (formula) {
@@ -201,6 +205,9 @@ export default class CPRChat {
         cprRoll = new CPRDamageRoll(SystemUtils.Localize("CPR.rolls.roll"), formula);
       } else {
         cprRoll = new CPRRoll(SystemUtils.Localize("CPR.rolls.roll"), formula);
+      }
+      if (rollDescription !== "") {
+        cprRoll.rollCardExtraArgs.rollDescription = rollDescription;
       }
       if (cprRoll.die !== "d6" && cprRoll.die !== "d10") {
         cprRoll.calculateCritical = false;

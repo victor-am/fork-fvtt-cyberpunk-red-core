@@ -28,7 +28,8 @@ export default class CPRMacro {
     const validRollTypes = ["skill", "attack", "damage", "aimed", "autofire", "suppressive"];
     let rollType;
     switch (item.data.type) {
-      case "weapon": {
+      case "weapon":
+      case "cyberware": {
         rollType = extraData.rollType;
         break;
       }

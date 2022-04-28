@@ -9,6 +9,7 @@ import Rules from "../../utils/cpr-rules.js";
 import SplitItemPrompt from "../../dialog/cpr-split-item-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
+import createImageContextMenu from "../../utils/cpr-imageContextMenu.js";
 
 /**
  * Extend the basic ActorSheet, which comes from Foundry. Not all sheets used in
@@ -220,6 +221,9 @@ export default class CPRActorSheet extends ActorSheet {
       li.setAttribute("draggable", true);
       li.addEventListener("dragstart", handler, false);
     });
+
+    // Set up right click context menu when clicking on Actor's image
+    this._createActorImageContextMenu(html);
 
     if (!this.options.editable) return;
     // Listeners for editable fields under here. Fields might not be editable because
@@ -1097,6 +1101,18 @@ export default class CPRActorSheet extends ActorSheet {
     delete newItemData._id;
     await this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.amount": newAmount }]);
     await this.actor.createEmbeddedDocuments("Item", [newItemData], { CPRsplitStack: true });
+  }
+
+  /**
+   * Sets up a ContextMenu that appears when the Actor's image is right clicked.
+   * Enables the user to share the image with other players.
+   *
+   * @param {Object} html - The DOM object
+   * @returns {ContextMenu} The created ContextMenu
+   */
+  _createActorImageContextMenu(html) {
+    LOGGER.trace("_createActorImageContextMenu | CPRActorSheet | called.");
+    return createImageContextMenu(html, ".image-block", this.actor.data);
   }
 
   /**
