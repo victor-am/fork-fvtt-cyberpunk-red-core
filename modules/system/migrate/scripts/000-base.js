@@ -4,6 +4,7 @@
 
 import CPRMigration from "../cpr-migration.js";
 import LOGGER from "../../../utils/cpr-logger.js";
+import CPRSystemUtils from "../../../utils/cpr-systemUtils.js";
 
 export default class BaseMigration extends CPRMigration {
   constructor() {
@@ -21,11 +22,11 @@ export default class BaseMigration extends CPRMigration {
     let displayPercent = 25;
 
     // Migrate World Items
-    ui.notifications.notify(`Beginning migration of ${totalCount} Items.`);
+    CPRSystemUtils.DisplayMessage("notify", `Beginning migration of ${totalCount} Items.`);
     for (const i of game.items.contents) {
       loopIndex += 1;
       if (loopIndex > quarterCount) {
-        ui.notifications.notify(`Migration of Items ${displayPercent}% completed.`);
+        CPRSystemUtils.DisplayMessage("notify", `Migration of Items ${displayPercent}% completed.`);
         displayPercent += 25;
         loopIndex = 0;
       }
@@ -47,11 +48,11 @@ export default class BaseMigration extends CPRMigration {
     loopIndex = 0;
 
     // Migrate World Actors
-    ui.notifications.notify(`Beginning migration of ${totalCount} Actors.`);
+    CPRSystemUtils.DisplayMessage("notify", `Beginning migration of ${totalCount} Actors.`);
     for (const a of game.actors.contents) {
       loopIndex += 1;
       if (loopIndex > quarterCount) {
-        ui.notifications.notify(`Migration of Actors ${displayPercent}% completed.`);
+        CPRSystemUtils.DisplayMessage("notify", `Migration of Actors ${displayPercent}% completed.`);
         displayPercent += 25;
         loopIndex = 0;
       }
@@ -78,10 +79,10 @@ export default class BaseMigration extends CPRMigration {
     loopIndex = 0;
 
     // Migrate World Compendiums
-    ui.notifications.notify(`Beginning migration of ${totalCount} Packs.`);
+    CPRSystemUtils.DisplayMessage("notify", `Beginning migration of ${totalCount} Packs.`);
     for (const p of game.packs) {
       loopIndex += 1;
-      ui.notifications.notify(`Migration of Pack ${loopIndex}/${totalCount} started.`);
+      CPRSystemUtils.DisplayMessage("notify", `Migration of Pack ${loopIndex}/${totalCount} started.`);
 
       if (p.metadata.package === "world") {
         BaseMigration.migrateCompendium(p);
@@ -502,7 +503,7 @@ export default class BaseMigration extends CPRMigration {
           }
           if (skillName === "subSkills" && newRole) {
             Object.entries(skillValue).forEach(([subSkillName, subSkillValue]) => {
-              const niceSubRoleName = game.i18n.localize(`CPR.global.role.${role}.ability.${subSkillName}`);
+              const niceSubRoleName = CPRSystemUtils.Localize(`CPR.global.role.${role}.ability.${subSkillName}`);
               newRole.data.abilities.find((a) => a.name === niceSubRoleName).rank = subSkillValue;
             });
           }
@@ -931,7 +932,7 @@ export default class BaseMigration extends CPRMigration {
     // in it's name will be prepended with a MIGRATE tag to let users know there's a new item type.
     if (gearName.includes("cyberdeck")) {
       const oldName = itemData.name;
-      updateData.name = `${game.i18n.localize("CPR.migration.tag")} ${oldName}`;
+      updateData.name = `${CPRSystemUtils.Localize("CPR.migration.tag")} ${oldName}`;
     }
 
     return updateData;

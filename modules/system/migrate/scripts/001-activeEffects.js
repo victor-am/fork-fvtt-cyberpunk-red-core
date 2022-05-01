@@ -21,7 +21,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    */
   async preMigrate() {
     LOGGER.trace("preMigrate | 1-activeEffects Migration");
-    CPRSystemUtils.DisplayMessage("notify", "Beginning pre-migration activities");
+    CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.effects.beginMigration"));
     this.migrationFolder = await CPRSystemUtils.GetFolder("Item", "Active Effect Migration Workspace");
   }
 
@@ -52,7 +52,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    */
   async postMigrate() {
     LOGGER.trace("postMigrate | 1-activeEffects Migration");
-    CPRSystemUtils.DisplayMessage("notify", "Cleaning up migration data...");
+    CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.effects.cleanUp"));
     if (this.migrationFolder.content.length === 0) {
       LOGGER.debug("would delete migration folder");
       this.migrationFolder.delete();
@@ -412,7 +412,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
    * actor. Here's what changed for everything else though.
    *    Lost quality
    *    Gained usage
-   *    Gained slots for upgrades
    *    if price is 0 and category is empty, set to 500/premium
    *
    * @param {CPRItem} deck
@@ -422,7 +421,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
     let updateData = {};
     updateData = { ...updateData, ...CPRMigration.safeDelete(deck, "data.quality") };
     updateData["data.usage"] = "toggled";
-    updateData["data.slots"] = 3;
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(deck, 500) };
     await deck.update(updateData);
   }

@@ -20,7 +20,9 @@ export default class MigrationRunner {
     this.migrationsToDo = MigrationRunner._getMigrations(currDataModelVersion, newDataModelVersion);
     if (this.migrationsToDo.length < 1) return;
     CPRSystemUtils.DisplayMessage("notify", `Beginning Migrations of Cyberpunk Red Core from Data Model ${currDataModelVersion} to ${newDataModelVersion}.`);
-    if (await MigrationRunner.runMigrations(this.migrationsToDo)) CPRSystemUtils.DisplayMessage("notify", "Migrations completed!");
+    if (await MigrationRunner.runMigrations(this.migrationsToDo)) {
+      CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.migrationsComplete"));
+    }
   }
 
   /**
@@ -36,16 +38,17 @@ export default class MigrationRunner {
       try {
         // eslint-disable-next-line no-await-in-loop
         const result = await migration.run();
-        if (!result) break;
+        if (!result) return false;
       } catch (err) {
         CPRSystemUtils.DisplayMessage("error", `Fatal error while migrating to ${migration.version}: ${err.message}`);
-        break;
+        return false;
       }
       if (migration.flush) {
         CPRSystemUtils.DisplayMessage("notify", `Migration to data model ${migration.version} complete, please refresh your browser tab to continue.`);
-        break;
+        return false;
       }
     }
+    return true;
   }
 
   /**

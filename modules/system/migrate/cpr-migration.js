@@ -36,24 +36,24 @@ export default class CPRMigration {
 
     // migrate unowned items
     if (!await CPRMigration.migrateItems(classRef)) {
-      CPRSystemUtils.DisplayMessage("error", "Errors during Item migration, aborting");
+      CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.itemErrors"));
       return;
     }
-    CPRSystemUtils.DisplayMessage("notify", "All items migrated, continuing to actors");
+    CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allItemsDone"));
 
     // migrate actors 
     if (!await this.migrateActors()) {
-      CPRSystemUtils.DisplayMessage("error", "Errors during Actor migration, aborting");
+      CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.actorErrors"));
       return;
     }
-    CPRSystemUtils.DisplayMessage("notify", "All actors migrated, continuing to unlinked tokens");
+    CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allActorsDone"));
 
     // unlinked actors (tokens)
     if (!await this.migrateUnlinkedActors()) {
-      CPRSystemUtils.DisplayMessage("error", "Errors during unlinked Actor migration, aborting");
+      CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.tokenErrors"));
       return;
     }
-    CPRSystemUtils.DisplayMessage("notify", "All tokens migrated");
+    CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allTokensDone"));
 
     // In the future, put top-level migrations for tokens, scenes, compendiums, and other things here
 
