@@ -14,13 +14,13 @@ export default class MigrationRunner {
    * @param {Number} currDataModelVersion - the current data model version
    * @param {Number} newDataModelVersion - the data model version we want to get to, may be multiple versions ahead
    */
-  migrateWorld(currDataModelVersion, newDataModelVersion) {
+  async migrateWorld(currDataModelVersion, newDataModelVersion) {
     LOGGER.trace("migrateWorld | MigrationRunner");
     this.allMigrations = Migrations;
     this.migrationsToDo = MigrationRunner._getMigrations(currDataModelVersion, newDataModelVersion);
     if (this.migrationsToDo.length < 1) return;
     CPRSystemUtils.DisplayMessage("notify", `Beginning Migrations of Cyberpunk Red Core from Data Model ${currDataModelVersion} to ${newDataModelVersion}.`);
-    if (MigrationRunner.runMigrations(this.migrationsToDo)) CPRSystemUtils.DisplayMessage("notify", "Migrations completed!");
+    if (await MigrationRunner.runMigrations(this.migrationsToDo)) CPRSystemUtils.DisplayMessage("notify", "Migrations completed!");
   }
 
   /**
@@ -34,6 +34,7 @@ export default class MigrationRunner {
     LOGGER.trace("runMigrations | MigrationRunner");
     for (const migration of migrationsToDo) {
       try {
+        // eslint-disable-next-line no-await-in-loop
         const result = await migration.run();
         if (!result) break;
       } catch (err) {
@@ -58,6 +59,6 @@ export default class MigrationRunner {
     LOGGER.trace("_getMigrations | MigrationRunner");
     const migrations = Object.values(Migrations).map((M) => new M());
     return migrations.filter((m) => m.version > currDataModelVersion && m.version <= newDataModelVersion)
-      .sort((a, b) => a.version > b.version ? 1 : -1);
+      .sort((a, b) => (a.version > b.version ? 1 : -1));
   }
 }

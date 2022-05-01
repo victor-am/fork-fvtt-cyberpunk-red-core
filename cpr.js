@@ -106,7 +106,7 @@ Hooks.once("init", async () => {
  * Our data model version scheme used to follow the system module version scheme (x.y.z),
  * but then we moved to integers for maintainability's sake.
  */
-Hooks.once("ready", () => {
+Hooks.once("ready", async () => {
   if (!game.user.isGM) return;
 
   // Retrofit the old version scheme into the new one. The active effects migration assumes
@@ -118,7 +118,7 @@ Hooks.once("ready", () => {
   if (dataModelVersion.indexOf(".") > -1) dataModelVersion = isNewerVersion("0.80.0", dataModelVersion) ? -1 : 0;
   LOGGER.debug(`New data model version is: ${dataModelVersion}`);
   const MR = new MigrationRunner();
-  MR.migrateWorld(dataModelVersion, DATA_MODEL_VERSION);
+  await MR.migrateWorld(dataModelVersion, DATA_MODEL_VERSION);
   UpdateScreen.RenderPopup();
 });
 

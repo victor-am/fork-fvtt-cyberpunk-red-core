@@ -29,15 +29,14 @@ export default class ActiveEffectsMigration extends CPRMigration {
    * Copy an (owned) Item into the migration work folder. This will enable active effects to be created
    * or changed on them. If it already exists, just return that.
    *
-   * TODO: handle the case of duplicate items in an inventory (name is not precise enough)
+   * Note: this method is not idempotent intentionally. Tracking what should or should not backed up
+   *       is a hard problem because the IDs will always change with each call.
    *
    * @param {CPRItem} itemData - the item we are copying
    * @returns the copied item data
    */
   async backupOwnedItem(itemData) {
     LOGGER.trace("backupOwnedItem | 1-activeEffects Migration");
-    // let [foundItem] = this.migrationFolder.content.filter((i) => i.name === itemData.name);
-    // if (!foundItem) {
     return Item.create({
       name: itemData.name,
       type: itemData.type,
@@ -81,7 +80,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
         value: actor.data.data.universalBonuses.attack,
         priority: 0,
       }];
-      // This AE goes on the actor, not the Item itself
       await ActiveEffectsMigration.addActiveEffect(actor, name, changes);
     }
     if (actor.data.data.universalBonuses?.damage && actor.data.data.universalBonuses.damage !== 0) {
@@ -92,7 +90,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
         value: actor.data.data.universalBonuses.damage,
         priority: 0,
       }];
-      // This AE goes on the actor, not the Item itself
       await ActiveEffectsMigration.addActiveEffect(actor, name, changes);
     }
     // skill mods are applied directly to the actor because the skill "items" cannot be accessed in the UI,
@@ -106,7 +103,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
           value: skill.data.data.skillmod,
           priority: 0,
         }];
-        // This AE goes on the actor, not the Item itself
         await ActiveEffectsMigration.addActiveEffect(actor, name, changes);
       }
     }
@@ -120,49 +116,42 @@ export default class ActiveEffectsMigration extends CPRMigration {
     // on success, we delete the item from the directory, they should all be empty at the end.
     // Egregious violation of no-await-in-loop here, but not sure how else to approach.
     let doneItems = 0;
-    let ownedItems = JSON.parse(JSON.stringify(actor.items));
     // We deliberately skip skills because for core skills their AEs cannot be edited or viewed
     // They are applied to the actor instead for this migration (see earlier code)
-    ownedItems = ownedItems.filter((i) => {
+    const ownedItems = actor.items.filter((i) => {
       if (i.type === "skill") return false;
       if (i.type === "cyberware" && i.data.core) return false;
       return true;
     });
     const totalItems = ownedItems.length;
-    const remappedCyberware = {};
+    const deleteItems = [];
     for (const ownedItem of ownedItems) {
-      const newItem = await this.backupOwnedItem(ownedItem);
+      // We cannot add AEs to owned items, that's a Foundry limitation. If an owned item might get an AE
+      // as a result of this migration, we must make an unowned copy first, and then copy that back to
+      // the actor. Not all item types require this, and skills are filtered out earlier.
+      let newItem = ownedItem;
+      if (["program", "weapon"].includes(ownedItem.data.type)) {
+        newItem = await this.backupOwnedItem(ownedItem);
+      }
       try {
         await ActiveEffectsMigration.migrateItem(newItem);
       } catch (err) {
-        throw new Error(`${ownedItem.name} (${ownedItem._id}) had a migration error: ${err.message}`);
+        throw new Error(`${ownedItem.data.name} (${ownedItem.data._id}) had a migration error: ${err.message}`);
       }
-      const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data]);
-      await actor.deleteEmbeddedDocuments("Item", [ownedItem._id]);
-      await newItem.delete();
-      // If this is an installed piece of cyberware, the item._id may be installed in another
-      // piece of cyberwares optionalId data point.
-      if (ownedItem.type === "cyberware" && ownedItem.data.isInstalled) {
-        remappedCyberware[ownedItem._id] = createdItem[0].data._id;
+      if (["program", "weapon"].includes(ownedItem.data.type)) {
+        await actor.createEmbeddedDocuments("Item", [newItem.data]);
+        await newItem.delete();
+        deleteItems.push(ownedItem.data._id);
       }
       doneItems += 1;
       if (doneItems % 25 === 0) CPRSystemUtils.DisplayMessage("notify", `${doneItems}/${totalItems} owned items on ${actor.name} migrated so far`);
     }
-    if (Object.entries(remappedCyberware).length > 0) {
-      const updateList = [];
-      for (const cyberware of actor.items.filter((i) => i.type === "cyberware")) {
-        if (cyberware.data.data.optionalIds.length > 0) {
-          const oldIds = cyberware.data.data.optionalIds;
-          const newIds = [];
-          oldIds.forEach((id) => {
-            newIds.push(remappedCyberware[id]);
-          });
-          updateList.push({ _id: cyberware.id, "data.optionalIds": newIds });
-        }
+    // delete all of the owned items we have replaced with items that have AEs
+    for (const delItem of deleteItems) {
+      if (actor.items.has(delItem._id)) {
+        actor.deleteEmbeddedDocuments("Item", [delItem._id]);
       }
-      await actor.updateEmbeddedDocuments("Item", updateList);
     }
-    CPRSystemUtils.DisplayMessage("notify", `${actor.name} has migrated successfully`);
   }
 
   /**
@@ -525,18 +514,20 @@ export default class ActiveEffectsMigration extends CPRMigration {
     const changes = [];
     let index = 0;
     const name = CPRSystemUtils.Localize("CPR.migration.effects.program");
-    for (const [key, value] of Object.entries(program.data.data.modifiers)) {
-      changes.push({
-        key: `bonuses.${CPRSystemUtils.slugify(key)}`,
-        value,
-        mode: 2,
-        priority: index,
-      });
-      index += 1;
+    // there's a rare case this is not defined for items that didn't complete previous migration(s)
+    if (program.data.data.modifiers) {
+      for (const [key, value] of Object.entries(program.data.data.modifiers)) {
+        changes.push({
+          key: `bonuses.${CPRSystemUtils.slugify(key)}`,
+          value,
+          mode: 2,
+          priority: index,
+        });
+        index += 1;
+      }
+      ActiveEffectsMigration.addActiveEffect(program, name, changes);
+      updateData = { ...updateData, ...CPRMigration.safeDelete(program, "data.modifiers") };
     }
-    // put the AE on the Item, not the actor
-    ActiveEffectsMigration.addActiveEffect(program, name, changes);
-    updateData = { ...updateData, ...CPRMigration.safeDelete(program, "data.modifiers") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(program, 100) };
     await program.update(updateData);
     const newItemData = duplicate(program.data);
@@ -573,7 +564,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
       mode: 2,
       priority: 0,
     }];
-    // put the AE on the Item, not the actor
     ActiveEffectsMigration.addActiveEffect(skill, name, changes);
     updateData = { ...updateData, ...CPRMigration.safeDelete(skill, "data.skillmod") };
     await skill.update(updateData);
@@ -622,7 +612,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
         mode: 2,
         priority: 0,
       }];
-      // put the AE on the Item, not the actor
       ActiveEffectsMigration.addActiveEffect(weapon, name, changes);
     }
     const { amount } = weapon.data.data;
