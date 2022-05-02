@@ -2,9 +2,11 @@
 /* global mergeObject, game, $, hasProperty, getProperty, setProperty, duplicate */
 import LOGGER from "../../utils/cpr-logger.js";
 import CPR from "../../system/config.js";
+import { CPRRoll } from "../../rolls/cpr-rolls.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import SelectCompatibleAmmo from "../../dialog/cpr-select-compatible-ammo.js";
 import NetarchLevelPrompt from "../../dialog/cpr-netarch-level-prompt.js";
+import NetarchRolltableGenerationPrompt from "../../dialog/cpr-netarch-rolltable-generation-prompt.js";
 import RoleAbilityPrompt from "../../dialog/cpr-role-ability-prompt.js";
 import SelectRoleBonuses from "../../dialog/cpr-select-role-bonuses-prompt.js";
 import CyberdeckSelectProgramsPrompt from "../../dialog/cpr-select-install-programs-prompt.js";
@@ -12,7 +14,8 @@ import SelectItemUpgradePrompt from "../../dialog/cpr-select-item-upgrade-prompt
 import BoosterAddModifierPrompt from "../../dialog/cpr-booster-add-modifier-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
-import CPRNetarchUtils from "../../utils/cpr-netarchUtils.js";
+import createImageContextMenu from "../../utils/cpr-imageContextMenu.js";
+
 /**
  * Extend the basic ActorSheet.
  * @extends {ItemSheet}
@@ -79,7 +82,7 @@ export default class CPRItemSheet extends ItemSheet {
     } else {
       data.filteredItems.skill = await SystemUtils.GetCoreSkills();
     }
-    if (data.item.type === "cyberdeck" || data.item.type === "weapon" || data.item.type === "cyberware") {
+    if (["cyberdeck", "weapon", "armor", "cyberware", "clothing"].indexOf(data.item.type) > -1) {
       data.data.data.availableSlots = this.object.availableSlots();
     }
     data.dvTableNames = DvUtils.GetDvTables();
@@ -94,10 +97,9 @@ export default class CPRItemSheet extends ItemSheet {
     if (!this.options.editable) return;
 
     // Select all text when grabbing text input.
-    $("input[type=text]").focusin(function () {
-      $(this).select();
-    });
+    $("input[type=text]").focusin(() => $(this).select());
 
+    // generic listeners
     html.find(".item-checkbox").click((event) => this._itemCheckboxToggle(event));
 
     html.find(".item-multi-option").click((event) => this._itemMultiOption(event));
@@ -105,6 +107,8 @@ export default class CPRItemSheet extends ItemSheet {
     html.find(".select-compatible-ammo").click(() => this._selectCompatibleAmmo());
 
     html.find(".netarch-level-action").click((event) => this._netarchLevelAction(event));
+
+    html.find(".netarch-roll-level").click(() => this._netarchGenerateFromTables());
 
     html.find(".role-ability-action").click((event) => this._roleAbilityAction(event));
 
@@ -128,8 +132,7 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".netarch-generate-auto").click(() => {
       if (game.user.isGM) {
-        const netarchGenerator = new CPRNetarchUtils(this.item);
-        netarchGenerator._generateNetarchScene();
+        this.item._generateNetarchScene();
       } else {
         SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noGMError"));
       }
@@ -137,8 +140,7 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".netarch-generate-custom").click(() => {
       if (game.user.isGM) {
-        const netarchGenerator = new CPRNetarchUtils(this.item);
-        netarchGenerator._customize();
+        this.item._customize();
       } else {
         SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noGMError"));
       }
@@ -146,20 +148,31 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".netarch-item-link").click((event) => this._openItemFromId(event));
 
+    // Active Effects listener
+    html.find(".effect-control").click((event) => this.item.manageEffects(event));
+
     // Sheet resizing
     html.find(".tab-label").click(() => this._automaticResize());
+
+    // Set up right click context menu when clicking on Item's image
+    this._createItemImageContextMenu(html);
   }
 
   /*
   INTERNAL METHODS BELOW HERE
-*/
+  */
+
   _itemCheckboxToggle(event) {
     LOGGER.trace("_itemCheckboxToggle | CPRItemSheet | Called.");
     const itemData = duplicate(this.item.data);
-    const target = $(event.currentTarget).attr("data-target");
-    if (hasProperty(itemData, target)) {
-      setProperty(itemData, target, !getProperty(itemData, target));
+    const target = SystemUtils.GetEventDatum(event, "data-target");
+    const value = !getProperty(itemData, target);
+    if (target === "data.concealable.concealable") {
+      this.item.setConcealable(value);
+    } else if (hasProperty(itemData, target)) {
+      setProperty(itemData, target, value);
       this.item.update(itemData);
+      LOGGER.log(`Item ${this.item.id} ${target} set to ${value}`);
       this._automaticResize(); // Resize the sheet as length of settings list might have changed
     }
   }
@@ -169,7 +182,7 @@ export default class CPRItemSheet extends ItemSheet {
     const itemData = duplicate(this.item.data);
     // the target the option wants to be put into
     const target = $(event.currentTarget).parents(".item-multi-select").attr("data-target");
-    const value = $(event.currentTarget).attr("data-value");
+    const value = SystemUtils.GetEventDatum(event, "data-value");
     if (hasProperty(itemData, target)) {
       const prop = getProperty(itemData, target);
       if (prop.includes(value)) {
@@ -185,7 +198,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _selectCompatibleAmmo() {
     LOGGER.trace("_selectCompatibleAmmo | CPRItemSheet | Called.");
-    const itemData = this.item.getData();
+    const itemData = this.item.data.data;
     let formData = { id: this.item.data._id, name: this.item.data.name, data: itemData };
     formData = await SelectCompatibleAmmo.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
@@ -224,7 +237,7 @@ export default class CPRItemSheet extends ItemSheet {
       });
       const { bonusRatio } = formData;
       this.item.update({
-        "data.skillBonuses": skillBonusObjects,
+        "data.bonuses": skillBonusObjects,
         "data.universalBonuses": universalBonusesList,
         "data.bonusRatio": bonusRatio,
       });
@@ -234,7 +247,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _selectSubroleBonuses(event) {
     LOGGER.trace("ItemSheet | _selectSubroleBonuses | Called.");
-    const subRoleName = $(event.currentTarget).attr("data-item-name");
+    const subRoleName = SystemUtils.GetEventDatum(event, "data-item-name");
     const itemData = duplicate(this.item.data);
     const roleType = "subRole";
     const subRole = itemData.data.abilities.find((a) => a.name === subRoleName);
@@ -261,7 +274,7 @@ export default class CPRItemSheet extends ItemSheet {
       formData.selectedUniversalBonuses.forEach((b) => {
         universalBonusesList.push(b);
       });
-      setProperty(subRole, "skillBonuses", skillBonusObjects);
+      setProperty(subRole, "bonuses", skillBonusObjects);
       setProperty(subRole, "universalBonuses", universalBonusesList);
       setProperty(subRole, "bonusRatio", formData.bonusRatio);
       this.item.update(itemData);
@@ -283,10 +296,151 @@ export default class CPRItemSheet extends ItemSheet {
     }
   }
 
+  async _netarchGenerateFromTables() {
+    LOGGER.trace("_netarchGenerateFromTables | CPRItemSheet | Called.");
+    const formData = await NetarchRolltableGenerationPrompt.RenderPrompt().catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
+    }
+    const packName = "cyberpunk-red-core.net-rolltables";
+    const packIndex = await game.packs.get(packName).getIndex();
+    const lobby = await game.packs.get(packName).getDocument(packIndex.contents.filter((i) => i.name === "First Two Floors (The Lobby)")[0]._id);
+    const other = await game.packs.get(packName).getDocument(packIndex.contents.filter((i) => i.name === "All Other Floors (".concat(formData.difficulty, ")"))[0]._id);
+    const numberOfFloorsRoll = new CPRRoll(SystemUtils.Localize("CPR.rolls.roll"), "3d6");
+    await numberOfFloorsRoll.roll();
+    const numberOfFloors = numberOfFloorsRoll.resultTotal;
+    const branchCheck = new CPRRoll(SystemUtils.Localize("CPR.rolls.roll"), "1d10");
+    await branchCheck.roll();
+    let branchCounter = 0;
+    while (branchCheck.initialRoll >= 7) {
+      branchCounter += 1;
+      if (branchCounter > 7) {
+        break;
+      }
+      // eslint-disable-next-line no-await-in-loop
+      await branchCheck.roll();
+    }
+    let floors = await this._netarchDrawFromTableCustom(lobby, 2);
+    if (numberOfFloors > 2) {
+      floors = floors.concat(await this._netarchDrawFromTableCustom(other, numberOfFloors - 2));
+    }
+    const prop = [];
+    let index = 0;
+    let floorIndex = 1;
+    let minfloorIndexbranch = 3;
+    let branch = "a";
+    floors.forEach((floor) => {
+      let content = "CPR.global.programClass.blackice";
+      if (floor.results[0].data.text.match("^Password")) {
+        content = "CPR.netArchitecture.floor.options.password";
+      }
+      if (floor.results[0].data.text.match("^File")) {
+        content = "CPR.netArchitecture.floor.options.file";
+      }
+      if (floor.results[0].data.text.match("^Control Node")) {
+        content = "CPR.netArchitecture.floor.options.controlnode";
+      }
+      let dv = "N/A";
+      const dvRegex = /DV([0-9]+)/g;
+      const match = dvRegex.exec(floor.results[0].data.text);
+      if (match !== null && match.length > 1) {
+        [, dv] = match;
+      }
+      let blackice = "--";
+      if (content.match("blackice")) {
+        switch (floor.results[0].data.text) {
+          case "Asp":
+            blackice = "CPR.netArchitecture.floor.options.blackIce.asp";
+            break;
+          case "Giant":
+            blackice = "CPR.netArchitecture.floor.options.blackIce.giant";
+            break;
+          case "Hellhound":
+            blackice = "CPR.netArchitecture.floor.options.blackIce.hellhound";
+            break;
+          case "Kraken":
+            blackice = "CPR.netArchitecture.floor.options.blackIce.kraken";
+            break;
+          case "Liche":
+            blackice = "CPR.netArchitecture.floor.options.blackIce.liche";
+            break;
+          case "Raven":
+            blackice = "CPR.netArchitecture.floor.options.blackIce.raven";
+            break;
+          case "Scorpion":
+            blackice = "CPR.netArchitecture.floor.options.blackIce.scorpion";
+            break;
+          case "Skunk":
+            blackice = "CPR.netArchitecture.floor.options.blackIce.skunk";
+            break;
+          case "Wisp":
+            blackice = "CPR.netArchitecture.floor.options.blackIce.wisp";
+            break;
+          case "Dragon":
+            blackice = "CPR.netArchitecture.floor.options.blackIce.dragon";
+            break;
+          case "Killer":
+            blackice = "CPR.netArchitecture.floor.options.blackIce.killer";
+            break;
+          case "Sabertooth":
+            blackice = "CPR.netArchitecture.floor.options.blackIce.sabertooth";
+            break;
+          default:
+            break;
+        }
+      }
+      if (branchCounter > 0 && floorIndex > minfloorIndexbranch && floorIndex > numberOfFloors / (branchCounter + 1) && index !== numberOfFloors - 1) {
+        floorIndex = minfloorIndexbranch;
+        minfloorIndexbranch += 1;
+        branch = String.fromCharCode(branch.charCodeAt() + 1);
+        branchCounter -= 1;
+      }
+      prop.push({
+        index,
+        floor: (floorIndex).toString(),
+        branch,
+        dv,
+        content,
+        blackice,
+        description: "Roll ".concat(floor.roll.total.toString(), ": ", floor.results[0].data.text),
+      });
+      index += 1;
+      floorIndex += 1;
+    });
+    const itemData = duplicate(this.item.data);
+    setProperty(itemData, "data.floors", prop);
+    this.item.update(itemData);
+    this._automaticResize(); // Resize the sheet as length of settings list might have changed
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async _netarchDrawFromTableCustom(table, number) {
+    LOGGER.trace("_netarchDrawFromTableCustom | CPRItemSheet | Called.");
+    let abortCounter = 0;
+    const drawDuplicatesRegex = "^File|^Control Node";
+    const drawnNumbers = [];
+    const drawnResults = [];
+    while (drawnResults.length < number) {
+      // eslint-disable-next-line no-await-in-loop
+      const res = await table.draw({ displayChat: false });
+      if (!drawnNumbers.includes(res.roll.total)) {
+        if (!res.results[0].data.text.match(drawDuplicatesRegex)) {
+          drawnNumbers.push(res.roll.total);
+        }
+        drawnResults.push(res);
+      }
+      abortCounter += 1;
+      if (abortCounter > 1000) {
+        break;
+      }
+    }
+    return drawnResults;
+  }
+
   async _netarchLevelAction(event) {
     LOGGER.trace("_netarchLevelAction | CPRItemSheet | Called.");
-    const target = Number($(event.currentTarget).attr("data-action-target"));
-    const action = $(event.currentTarget).attr("data-action-type");
+    const target = Number(SystemUtils.GetEventDatum(event, "data-action-target"));
+    const action = SystemUtils.GetEventDatum(event, "data-action-type");
     const itemData = duplicate(this.item.data);
 
     if (action === "delete") {
@@ -479,7 +633,7 @@ export default class CPRItemSheet extends ItemSheet {
   // eslint-disable-next-line class-methods-use-this
   _openItemFromId(event) {
     LOGGER.trace("_openItemFromId | CPRItemSheet | Called.");
-    const itemId = $(event.currentTarget).attr("data-item-id");
+    const itemId = SystemUtils.GetEventDatum(event, "data-item-id");
     const itemEntity = game.items.get(itemId);
     if (itemEntity !== null) {
       itemEntity.sheet.render(true);
@@ -512,7 +666,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _delBoosterModifier(event) {
     LOGGER.trace("_delBoosterModifier | CPRItemSheet | Called.");
-    const boosterType = $(event.currentTarget).attr("data-booster-type");
+    const boosterType = SystemUtils.GetEventDatum(event, "data-booster-type");
     delete this.item.data.data.modifiers[boosterType];
     if (this.actor) {
       const updatedObject = { _id: this.item.id };
@@ -616,7 +770,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _cyberdeckProgramUninstall(event) {
     LOGGER.trace("_cyberdeckProgramUninstall | CPRItemSheet | Called.");
-    const programId = $(event.currentTarget).attr("data-item-id");
+    const programId = SystemUtils.GetEventDatum(event, "data-item-id");
 
     const cyberdeck = this.item;
     if (cyberdeck.data.type !== "cyberdeck") {
@@ -641,8 +795,8 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _roleAbilityAction(event) {
     LOGGER.trace("ItemSheet | _roleAbilityAction | Called.");
-    const target = Number($(event.currentTarget).attr("data-action-target"));
-    const action = $(event.currentTarget).attr("data-action-type");
+    const target = Number(SystemUtils.GetEventDatum(event, "data-action-target"));
+    const action = SystemUtils.GetEventDatum(event, "data-action-type");
     const itemData = duplicate(this.item.data);
     const pack = game.packs.get("cyberpunk-red-core.skills");
     const coreSkills = await pack.getDocuments();
@@ -681,7 +835,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
-          skillBonuses: [],
+          bonuses: [],
           universalBonuses: [],
           bonusRatio: 1,
           hasRoll: formData.hasRoll,
@@ -697,7 +851,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
-          skillBonuses: [],
+          bonuses: [],
           universalBonuses: [],
           bonusRatio: 1,
           hasRoll: formData.hasRoll,
@@ -763,7 +917,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
-          skillBonuses: editElement.skillBonuses,
+          bonuses: editElement.bonuses,
           universalBonuses: editElement.universalBonuses,
           bonusRatio: editElement.bonusRatio,
           hasRoll: formData.hasRoll,
@@ -829,7 +983,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _removeItemUpgrade(event) {
     LOGGER.trace("_removeItemUpgrade | CPRItemSheet | Called.");
-    const upgradeId = $(event.currentTarget).attr("data-item-id");
+    const upgradeId = SystemUtils.GetEventDatum(event, "data-item-id");
     const upgrade = this.actor.items.find((i) => i.data._id === upgradeId);
     await this.item.uninstallUpgrades([upgrade]);
   }
@@ -844,8 +998,20 @@ export default class CPRItemSheet extends ItemSheet {
    */
   _renderReadOnlyItemCard(event) {
     LOGGER.trace("_renderReadOnlyItemCard | CPRItemSheet | Called.");
-    const itemId = $(event.currentTarget).parents(".item").attr("data-item-id");
+    const itemId = SystemUtils.GetEventDatum(event, "data-item-id");
     const item = this.actor.items.find((i) => i.data._id === itemId);
     item.sheet.render(true, { editable: false });
+  }
+
+  /**
+   * Sets up a ContextMenu that appears when the Item's image is right clicked.
+   * Enables the user to share the image with other players.
+   *
+   * @param {Object} html - The DOM object
+   * @returns {ContextMenu} The created ContextMenu
+   */
+  _createItemImageContextMenu(html) {
+    LOGGER.trace("_createItemImageContextMenu | CPRItemSheet | Called.");
+    return createImageContextMenu(html, ".item-image-block", this.item.data);
   }
 }

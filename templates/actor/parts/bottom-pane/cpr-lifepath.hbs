@@ -1,6 +1,12 @@
 {{cprTrace "CPR-LIFEPATH.HBS"}}
 <div class="lifepath-tab">
     <div class="notes-section">
+        <div class="reputation-details text-large text-bold">
+            {{localize "CPR.characterSheet.bottomPane.reputation"}}
+            <span class="text-float-right">
+                {{data.data.reputation.value}} <a class="reputation-edit-button"><i class="fas fa-edit"></i></a> <a class="reputation-open-ledger"><i class="fas fa-sticky-note"></i></a>
+            </span>
+        </div>
         <div class="notes-details">
             <div class="text-large text-bold">{{localize "CPR.characterSheet.bottomPane.lifepath.playerNotes"}}</div>
             <div class="note-pad">

@@ -1,6 +1,8 @@
 /* global mergeObject ActorSheet $ */
 import CPRChat from "../../chat/cpr-chat.js";
 import LOGGER from "../../utils/cpr-logger.js";
+import SystemUtils from "../../utils/cpr-systemUtils.js";
+import createImageContextMenu from "../../utils/cpr-imageContextMenu.js";
 
 /**
  * Implement the Demon sheet, which extends ActorSheet directly from Foundry. This does
@@ -29,6 +31,7 @@ export default class CPRDemonActorSheet extends ActorSheet {
   activateListeners(html) {
     LOGGER.trace("activateListeners | CPRDemonActorSheet | Called.");
     html.find(".rollable").click((event) => this._onRoll(event));
+    this._createDemonImageContextMenu(html);
     super.activateListeners(html);
   }
 
@@ -43,7 +46,7 @@ export default class CPRDemonActorSheet extends ActorSheet {
    */
   async _onRoll(event) {
     LOGGER.trace("_onRoll | CPRDemonActorSheet | Called.");
-    const rollName = $(event.currentTarget).attr("data-roll-title");
+    const rollName = SystemUtils.GetEventDatum(event, "data-roll-title");
     const cprRoll = this.actor.createStatRoll(rollName);
 
     const keepRolling = await cprRoll.handleRollDialog(event);
@@ -56,5 +59,17 @@ export default class CPRDemonActorSheet extends ActorSheet {
     const token = this.token === null ? null : this.token.data._id;
     cprRoll.entityData = { actor: this.actor.id, token };
     CPRChat.RenderRollCard(cprRoll);
+  }
+
+  /**
+   * Sets up a ContextMenu that appears when the Actor's image is right clicked.
+   * Enables the user to share the image with other players.
+   *
+   * @param {Object} html - The DOM object
+   * @returns {object} The created ContextMenu
+   */
+  _createDemonImageContextMenu(html) {
+    LOGGER.trace("_createDemonImageContextMenu | CPRDemonActorSheet | Called.");
+    return createImageContextMenu(html, ".demon-icon", this.actor.data);
   }
 }

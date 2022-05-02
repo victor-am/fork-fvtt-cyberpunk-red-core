@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop */
-/* global Combat CONFIG game foundry */
+/* global Combat game */
 import LOGGER from "../utils/cpr-logger.js";
 import CombatUtils from "../utils/cpr-combatUtils.js";
 import CPRChat from "../chat/cpr-chat.js";
@@ -10,7 +10,7 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 /**
  * A custom class so we can override initiative behaviors for Black-ICE and Demons.
  * According to the rules, these actors do not "roll" an initiative, instead they
- * get put "at the top", which an initiative value 1 better than whoever else is
+ * get put "at the top", with an initiative value 1 better than whoever else is
  * currently first on the list. Foundry does not support this natively, so we
  * override the _getInitiativeFormula to address that.
  *
@@ -29,8 +29,7 @@ export default class CPRCombat extends Combat {
    * @returns - a string representation of the roll formula for the initiative. "30" is a
    *            valid formula, which is treated like a constant.
    */
-  // eslint-disable-next-line class-methods-use-this
-  _getInitiativeFormula(combatant) {
+  static _getInitiativeFormula(combatant) {
     LOGGER.trace("_getInitiativeFormula | CPRCombat | Called.");
     if (combatant.actor.data.type === "blackIce" || combatant.actor.data.type === "demon") {
       const bestInit = CombatUtils.GetBestInit();
@@ -45,6 +44,7 @@ export default class CPRCombat extends Combat {
 
   /**
    * Roll initiative for one or multiple Combatants within the Combat entity
+   *
    * @param {string|string[]} ids     A Combatant id or Array of ids for which to roll
    * @param {object} [options={}]     Additional options which modify how initiative rolls are created or presented.
    * @param {string|null} [options.formula]         A non-default initiative formula to roll. Otherwise the system default is used.
@@ -102,7 +102,7 @@ export default class CPRCombat extends Combat {
 
       if (initiativeType !== "none") {
         // Produce an initiative roll for the Combatant
-        const cprRoll = (await combatant.getInitiativeRoll(this._getInitiativeFormula(combatant), initiativeType));
+        const cprRoll = (await combatant.getInitiativeRoll(CPRCombat._getInitiativeFormula(combatant), initiativeType));
 
         updates.push({ _id: id, initiative: cprRoll.resultTotal });
 

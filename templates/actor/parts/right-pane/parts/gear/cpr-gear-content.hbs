@@ -2,13 +2,14 @@
 <li class="item flexrow{{#if item.data.data.favorite}} favorite{{else}}{{#if (cprListContains sheet.options.collapsedSections "gearTab-gear")}} hide{{/if}}{{/if}}" data-item-id="{{item.data._id}}"
     data-item-category="{{item.type}}" draggable="true">
     <div class="item-name gear-name text-nowrap">
-        <a class="name item-edit" title="{{item.name}} x{{item.data.data.amount}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{item.name}}{{#if item.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}</a>
-        <span class = "{{#if (cprCompare item.data.data.amount "===" 1)}}zero-not-visible{{/if}}">
-          (x<span class="amount-input-wrap">
+      <a class="name item-edit" title="{{item.name}} x{{item.data.data.amount}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{item.name}}{{#if item.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}</a>
+      <span class="{{#if (cprCompare item.data.data.amount "===" 1)}}zero-not-visible{{/if}}">
+        (x<span class="amount-input-wrap">
             <span class="width-element">{{item.data.data.amount}}</span>
-            <input name = "item.data.amount" class = "number amount-input" style="text-align: right;" type = "text" data-item-prop = "item.data.amount" value = "{{item.data.data.amount}}">
-          </span>)
-        </span>
+              <input name="item.data.data.amount" class="number amount-input" style="text-align: right;" type="text" data-item-prop="item.data.data.amount" value="{{item.data.data.amount}}">
+            </span>)
+          </span>
+      </span>
     </div>
     <div class="item-detail gear-data text-nowrap">
         {{localize "CPR.global.generic.unitPrice"}}: {{item.data.data.price.market}} | {{localize "CPR.global.generic.stackPrice"}}: {{cprCalculateStackValue item}}

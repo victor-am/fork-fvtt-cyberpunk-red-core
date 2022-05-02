@@ -20,17 +20,14 @@
           <li class="item flexrow" data-item-id="{{weapon.id}}">
             <div class="mook-weapon">
               <div class="item-name mook-weapon-name text-pad-right text-nowrap">
-                <a class="name item-edit deletable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
+                <a class="name item-edit deletable changeable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
                   {{weapon.name}}
                   {{#if weapon.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}
                 </a>
-                {{#if (cprCompare weapon.data.data.quality "!==" "standard")}}
-                  ({{localize weapon.data.data.quality}})
-                {{/if}}
                 <br>
                 {{#if weapon.data.data.isRanged}}
                   {{#if weapon.data.data.magazine.ammoId}}
-                    ({{localize "CPR.global.itemTypes.ammo"}}: {{weapon.data.data.magazine.value}}/{{weapon.data.data.magazine.max}})
+                    ({{localize "CPR.global.itemTypes.ammo"}}: {{weapon.data.data.magazine.value}}/{{cprApplyUpgrade weapon weapon.data.data.magazine.max "magazine"}})
                   {{else}}
                     ({{localize "CPR.mookSheet.items.unloaded"}})
                   {{/if}}
@@ -94,7 +91,7 @@
               </div>
           </li>
         {{/if}}
-        <!-- Support Weapon Item Upgrades on the Mook Sheet -->
+        <!-- Support Weapon Upgrades on the Mook Sheet -->
         {{#if weapon.data.data.isUpgraded}}
           {{#each weapon.data.data.upgrades as |upgrade|}}
               {{#if (cprCompare upgrade.data.modifiers.secondaryWeapon.configured "===" "true")}}
@@ -102,12 +99,9 @@
                     <li class="item flexrow">
                       <div class="mook-weapon">
                         <div class="item-name mook-weapon-name text-pad-right text-nowrap">
-                          <a class="name item-edit deletable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
+                          <a class="name item-edit deletable changeable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
                             {{weapon.name}}
                           </a>
-                          {{#if (cprCompare weapon.data.data.quality "!==" "standard")}}
-                            ({{localize weapon.data.data.quality}})
-                          {{/if}}
                           <br>
                           {{#if weapon.data.data.isRanged}}
                             {{#if weapon.data.data.magazine.ammoId}}
@@ -175,13 +169,10 @@
           <li class="item flexrow">
             <div class="mook-weapon">
               <div class="item-name mook-weapon-name text-pad-right text-nowrap">
-                <a class="name item-edit deletable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
+                <a class="name item-edit deletable changeable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
                   {{weapon.name}}
                   {{#if weapon.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}
                 </a>
-                {{#if (cprCompare weapon.data.data.quality "!==" "standard")}}
-                  ({{localize weapon.data.data.quality}})
-                {{/if}}
                 <br>
                 {{#if weapon.data.data.isRanged}}
                   {{#if weapon.data.data.magazine.ammoId}}
@@ -249,7 +240,7 @@
               </div>
           </li>
         {{/if}}
-        <!-- Support Weapon Item Upgrades on the Mook Sheet -->
+        <!-- Support Weapon Upgrades on the Mook Sheet -->
         {{#if weapon.data.data.isUpgraded}}
           {{#each weapon.data.data.upgrades as |upgrade|}}
               {{#if (cprCompare upgrade.data.modifiers.secondaryWeapon.configured "===" "true")}}
@@ -257,12 +248,9 @@
                     <li class="item flexrow">
                       <div class="mook-weapon">
                         <div class="item-name mook-weapon-name text-pad-right text-nowrap">
-                          <a class="name item-edit deletable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
+                          <a class="name item-edit deletable changeable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
                             {{weapon.name}}
                           </a>
-                          {{#if (cprCompare weapon.data.data.quality "!==" "standard")}}
-                            ({{localize weapon.data.data.quality}})
-                          {{/if}}
                           <br>
                           {{#if weapon.data.data.isRanged}}
                             {{#if weapon.data.data.magazine.ammoId}}

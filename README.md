@@ -91,22 +91,32 @@ Icons should be SVG is possible. Actor Icons should be WEBP or PNG.
 
 All icons should follow the same colorscheme:
 
-* Background: 1b1f21ff
-* Foreground: e64539ff
-* Shadow: 3s3f5eff
+* Background: `1B1F21FF`
+* Foreground: `E64539FF`
+* Shadow: `3A3F5EFF`
 
 To recreate the effect on the icons you can use the following in Inkscape:
 
-0. Set background to: 1B1F21FF
+0. Set background to: `1B1F21FF`
 0. Ensure the foreground is a single object
   0. Select all paths
   0. Path > Union
-0. Set the foreground object path (and stroke if used) to: E64539FF
+0. Set the foreground object path (and stroke if used) to: `E64539FF`
 0. Select the forground object
 0. Filters > Dropshadow:
-  * Radius: `Variable`
-    * Adjust till it doesn't look terrible, low 0-10 for images with small narrow parts, higher for more solid images
-  * Horizontal: -4.0
-  * Vertical: -4.0
-  * Type: Inner
-  * Colour: 3A3F5EFF
+    * Radius: `Variable`
+        * Adjust till it doesn't look terrible, low 0-10 for images with small narrow parts, 20ish for more solid images
+    * Horizontal: 0
+    * Vertical: 0
+    * Type: Inner
+    * Colour: `3A3F5EFF`
+
+To recreate the effect on game-icons.net
+
+0. Set background shape to square
+0. Change background gradient colour to `1B1F21`
+0. Change foreground gradient colour to `E64539`
+0. Enable foreground shadow
+0. Set foreground shadow to side in with blur size 15
+0. Change foreground shadow colour to `3A3F5E`
+0. Download as `.svg`

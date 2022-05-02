@@ -31,14 +31,16 @@
           <div class="tab-pink-underlay">
             <a class="cyberware-tab tab-label text-bold tab-indent" data-tab="cyberware">{{localize "CPR.characterSheet.rightPane.cyber.title"}}</a>
           </div>
-
+          <div class="tab-pink-underlay">
+            <a class="effects-tab tab-label text-bold tab-indent" data-tab="effects">{{localize "CPR.characterSheet.rightPane.effects.title"}}</a>
+          </div>
         </nav>
       </div>
       {{#if (cprSystemConfig "enableSheetContentFilter")}}
       <div class="sheet-cprFilter-section">
-          <a><i class="fas fa-trash-alt fg-red reset-content-cprFilter" title="{{localize "CPR.actorSheets.clearFilter"}}"></i></a>
+          <a><i class="fas fa-trash-alt fg-red reset-content-filter" title="{{localize "CPR.actorSheets.clearFilter"}}"></i></a>
           &nbsp;
-          <input class="cprFilter-contents" value="{{options.cprContentFilter}}" type="string" placeholder="Enter cprFilter text here...">
+          <input class="filter-contents" value="{{options.cprContentFilter}}" type="string" placeholder="Enter cprFilter text here...">
       </div>
       {{/if}}
       <div class="right-content-section">
@@ -51,7 +53,9 @@
         <div class="tab cyberware-tab" data-group="primary" data-tab="cyberware">
           {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/cpr-cyberware.hbs"}}
         </div>
-
+        <div class="tab effects-tab" data-group="primary" data-tab="effects">
+          {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/cpr-effects.hbs"}}
+        </div>
       </div>
     </div>
     <div class="bottom-pane">
@@ -65,12 +69,14 @@
             <div class="tab-label text-bold tab-indent" data-tab="fight">
               <a data-tab="fight">{{localize "CPR.characterSheet.bottomPane.fight.title"}}</a>
               {{#if (cprCompare fightOptions "===" "both")}}
-                &nbsp;
                 {{#if (cprCompare fightState "===" "Meatspace")}}
                   (<span class="fg-yellow">{{localize "CPR.characterSheet.bottomPane.fight.meat"}}</span>|<a class="toggle-fight-state" data-state="Netspace">{{localize "CPR.characterSheet.bottomPane.fight.net"}}</a>)
                 {{else}}
                   (<a class="toggle-fight-state" data-state="Meatspace">{{localize "CPR.characterSheet.bottomPane.fight.meat"}}</a>|<span class="fg-yellow">{{localize "CPR.characterSheet.bottomPane.fight.net"}}</span>)
                 {{/if}}
+              {{/if}}
+              {{#if (cprCompare fightState "===" "Meatspace")}}
+               &nbsp;<a class="rollable" data-roll-type="facedown" data-roll-title="{{localize "CPR.characterSheet.bottomPane.fight.facedown"}}"><i class="far fa-angry"></i></a>
               {{/if}}
             </div>
           </div>

@@ -16,7 +16,7 @@
         <span class="item-detail skill-mod-value bg-black text-nowrap">{{localize "CPR.characterSheet.rightPane.skills.skillMod"}}</span>
         <span class="item-detail skill-level bg-black text-nowrap">{{localize "CPR.characterSheet.rightPane.skills.lvl"}}</span>
         <span class="item-detail skill-base bg-black text-nowrap">{{localize "CPR.characterSheet.rightPanke.skills.base"}}</span>
-        <span class="item-detail skill-favorite bg-black text-nowrap toggle-favorite-visibility" id="skillTab-{{category}}-showFavorites" title="{{localize "CPR.characterSheet.rightPane.skills.toggleCategoryAll"}}"><i class="far fa-eye show-favorites"></i><i class="far fa-eye-slash hide-favorites hide"></i></span>
+        <span class="item-detail skill-favorite bg-black text-nowrap toggle-section-visibility" id="skillTab-{{category}}-showFavorites" title="{{localize "CPR.characterSheet.rightPane.skills.toggleCategoryAll"}}"><i class="far fa-eye show-favorites"></i><i class="far fa-eye-slash hide-favorites hide"></i></span>
     </li>
     <ol class="items-list">
 
@@ -27,7 +27,7 @@
             <div class="item-name text-nowrap">
                 <a class="rollable {{#if skill.data.data.basic}}text-bold{{/if}}" data-roll-type="skill"
                     data-roll-title="{{skill.name}}">
-                    {{#if skill.data.data.core}}{{localize (cprSplitJoinCoreSkills skill.name)}}{{else}}{{skill.name}}{{/if}} {{#if (cprCompare skill.data.data.difficulty "===" "difficult")}}(x2) {{/if}}<strong>({{localize
+                    {{#if skill.data.data.core}}{{localize (cprSplitJoinCoreSkills skill)}}{{else}}{{skill.name}}{{/if}} {{#if (cprCompare skill.data.data.difficulty "===" "difficult")}}(x2) {{/if}}<strong>({{localize
                         (cprFindConfigValue
                         "statList" skill.data.data.stat)}})</strong>
                 </a>
@@ -37,16 +37,15 @@
                 <a class="item-action skill-custom" title="{{localize "CPR.characterSheet.rightPane.skills.editCustomSkill"}}" data-action-type="delete"><i class="fas fa-trash-alt"></i></a>
                 {{/if}}
             </div>
-            <div class="item-detail skill-mod-value text-nowrap {{#if (cprCompare skill.data.data.skillmod "===" 0)}} zero-not-visible {{/if}}">
-                <input class="number skill-input" value="{{skill.data.data.skillmod}}" type="number"
-                  data-item-prop="data.mod" data-dtype="Number">
+            <div class="item-detail skill-mod-value text-nowrap {{#if (cprCompare (cprGetSkillBonus skill.name ../actor) "===" 0)}} zero-not-visible {{/if}}">
+                {{cprGetSkillBonus skill.name ../actor}}
             </div>
             <div class="item-detail skill-level text-nowrap">
                 <input class="number skill-input" value="{{skill.data.data.level}}" type="number"
                     data-item-prop="data.level" data-dtype="Number">
             </div>
             <div class="item-detail skill-base text-nowrap">
-                {{cprMath "sum" skill.data.data.level skill.data.data.skillmod (lookup (cprGetProp ../actor.data.data.stats skill.data.data.stat) 'value')}}
+                {{cprMath "sum" skill.data.data.level (cprGetSkillBonus skill.name ../actor) (lookup (cprGetProp ../actor.data.data.stats skill.data.data.stat) 'value')}}
             </div>
             <div class="item-detail skill-favorite text-nowrap">
                 <a class="item-action" data-action-type="favorite" title="{{localize "CPR.actorSheets.commonActions.togglePin"}}">

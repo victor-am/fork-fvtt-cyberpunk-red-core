@@ -94,7 +94,8 @@
 }
 
 .item-description-grid,
-.item-settings-grid {
+.item-settings-grid,
+.item-effects-grid {
     display: flex;
     width  : inherit;
     height : inherit;
@@ -122,12 +123,9 @@
         font-size: @font-smaller;
         min-width: 135px;
 
+        .summary-name,
         .item-summary-line {
             display: flex;
-
-            .summary-name {
-                flex: 0 0 70px;
-            }
         }
     }
 
@@ -142,13 +140,14 @@
 }
 
 
-.item-settings-tab {
+.item-settings-tab,
+.item-effects-tab {
     display         : flex;
     width           : auto;
     flex            : 1;
     background-color: @chrome-white;
-
-    .item-settings-section {
+    .item-settings-section,
+    .item-effects-section {
         display: list-item;
         flex   : 1;
     }
@@ -156,14 +155,15 @@
 
 
 .item-image-block {
-    clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
+    .item-image-block-img {
+        clip-path: polygon(15px 0, 100% 0, 100% 100%, 0 100%, 0 15px);
+
+        width: 62px;
+        height: 62px;
+        object-fit: contain;
+    }
 }
 
-.item-image-block-img {
-    width: 62px;
-    height: 62px;
-    object-fit: contain;
-}
 
 .item-netarch-section {
   background-color: @wyrm-red;

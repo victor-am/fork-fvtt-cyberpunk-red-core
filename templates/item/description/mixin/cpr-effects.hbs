@@ -1,0 +1,24 @@
+{{cprTrace "CPR-EFFECTS.HBS"}}
+{{#each item.data.effects}}
+    {{!-- "effects" is a Map, so "this" is now an Active Effects object within the #each loop! --}}
+    {{#unless this.data.disabled}}
+        <div class="item-summary-line">
+            <span class="text-bold summary-name">{{this.data.label}}</span>
+            <span class="summary-value">{{#if (cprIsDebug)}}({{this.data._id}}){{/if}}</span>
+        </div>
+        {{#each this.data.changes}}
+            {{!-- "this" is now an individual mod for the AE object --}}
+            <div class="item-summary-line">
+                <span class="summary-value">&nbsp;&nbsp;{{localize (lookup (cprFindConfigValue "activeEffectKeys" (lookup ../data.flags.cyberpunk-red-core.changes @index)) this.key)}}: </span>
+                <span class="summary-value">
+                    {{#if this.value}}
+                        {{cprEffectModMode this.mode this.value}}{{this.value}}
+                    {{else}}
+                        0
+                    {{/if}}
+                </span>
+            </div>
+        {{/each}}
+    {{/unless}}
+{{/each}}
+{{cprTrace "END CPR-EFFECTS.HBS"}}
