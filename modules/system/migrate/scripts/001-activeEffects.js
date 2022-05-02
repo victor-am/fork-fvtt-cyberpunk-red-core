@@ -32,15 +32,15 @@ export default class ActiveEffectsMigration extends CPRMigration {
    * Note: this method is not idempotent intentionally. Tracking what should or should not backed up
    *       is a hard problem because the IDs will always change with each call.
    *
-   * @param {CPRItem} itemData - the item we are copying
+   * @param {CPRItem} item - the item we are copying
    * @returns the copied item data
    */
-  async backupOwnedItem(itemData) {
+  async backupOwnedItem(item) {
     LOGGER.trace("backupOwnedItem | 1-activeEffects Migration");
     return Item.create({
-      name: itemData.name,
-      type: itemData.type,
-      data: itemData.data,
+      name: item.name,
+      type: item.type,
+      data: item.data.data,
       folder: this.migrationFolder,
     });
   }
@@ -125,6 +125,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     });
     const totalItems = ownedItems.length;
     const deleteItems = [];
+    const remappedItems = {};
     for (const ownedItem of ownedItems) {
       // We cannot add AEs to owned items, that's a Foundry limitation. If an owned item might get an AE
       // as a result of this migration, we must make an unowned copy first, and then copy that back to
@@ -139,7 +140,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
         throw new Error(`${ownedItem.data.name} (${ownedItem.data._id}) had a migration error: ${err.message}`);
       }
       if (["program", "weapon"].includes(ownedItem.data.type)) {
-        await actor.createEmbeddedDocuments("Item", [newItem.data]);
+        const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data]);
+        remappedItems[ownedItem.data._id] = createdItem[0].data._id;
         await newItem.delete();
         deleteItems.push(ownedItem.data._id);
       }
@@ -151,6 +153,28 @@ export default class ActiveEffectsMigration extends CPRMigration {
       if (actor.items.has(delItem._id)) {
         actor.deleteEmbeddedDocuments("Item", [delItem._id]);
       }
+    }
+    // Update any item references for items re-created as part of this process
+    if (Object.entries(remappedItems).length > 0) {
+      const updateList = [];
+      for (const deck of actor.items.filter((i) => i.type === "cyberdeck")) {
+        const deckPrograms = deck.data.data.programs;
+        const deckUpgrades = deck.data.data.upgrades;
+        const newPrograms = {};
+        newPrograms.installed = [];
+        newPrograms.rezzed = [];
+        for (const program of deckPrograms.installed) {
+          if (typeof remappedItems[program._id] !== "undefined") {
+            newPrograms.installed.push(actor.items.filter((np) => np.id === remappedItems[program._id])[0].data);
+          }
+        }
+        for (const program of deckPrograms.rezzed) {
+          if (typeof remappedItems[program._id] !== "undefined") {
+            newPrograms.rezzed.push(actor.items.filter((np) => np.id === remappedItems[program._id])[0].data);
+          }
+        }
+        updateList.push({ _id: deck.data._id, "data.programs": newPrograms });
+      await actor.updateEmbeddedDocuments("Item", updateList);
     }
   }
 
