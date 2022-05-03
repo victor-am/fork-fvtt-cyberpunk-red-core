@@ -1,15 +1,15 @@
 {{cprTrace "CPR-PROGRAM.HBS"}}
 {{!-- Program Item Settings--}}
-{{!-- Program Slots--}}
+{{!-- Program Size--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.global.generic.slots"}}
+        {{localize "CPR.itemSheet.program.programSize"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-            <input name="data.slots" class="" type="number" value="{{data.data.slots}}" placeholder="1">
+            <input name="data.size" class="" type="number" value="{{data.data.size}}" placeholder="1">
         {{else}}
-        <span class="text-flex-end">{{data.data.slots}}</span>
+        <span class="text-flex-end">{{data.data.size}}</span>
         {{/if}}
     </div>
 </li>

@@ -133,6 +133,9 @@ export default class ActiveEffectsMigration extends CPRMigration {
       let newItem = ownedItem;
       if (["program", "weapon"].includes(ownedItem.data.type)) {
         newItem = await this.backupOwnedItem(ownedItem);
+        if (ownedItem.data.type === "program") {
+          newItem.data.data.size = ownedItem.data.data.slots;
+        }
       }
       try {
         await ActiveEffectsMigration.migrateItem(newItem);
@@ -535,6 +538,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *    Lost quality
    *    Gained usage
    *    Lost slots
+   *    Gained size
    *    Lost isDemon
    *    "modifiers" property converted to AEs
    *    if price is 0 and category is empty, set to 100/premium

@@ -427,6 +427,7 @@
       "blackIceType": "antipersonnel",
       "prototypeActor": "",
       "interface": 0,
+      "size": 1,
       "isRezzed": false,
       "damage": {
         "standard": "1d6",

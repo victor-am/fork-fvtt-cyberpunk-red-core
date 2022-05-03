@@ -33,7 +33,7 @@ export default class CPRCyberdeckItem extends CPRItem {
     const upgradeType = this.getUpgradeTypeFor("slots");
     unusedSlots = (upgradeType === "override") ? upgradeValue : itemData.slots + upgradeValue;
     itemData.programs.installed.forEach((program) => {
-      unusedSlots -= program.data.slots;
+      unusedSlots -= program.data.size;
     });
     itemData.upgrades.forEach((u) => {
       unusedSlots -= u.data.size;

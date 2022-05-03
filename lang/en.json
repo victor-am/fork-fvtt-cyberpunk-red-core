@@ -692,6 +692,7 @@
     "CPR.itemSheet.physical.price.price": "Price",
     "CPR.itemSheet.program.damageTo": "Damage to",
     "CPR.itemSheet.program.nonBlackIce": "non Black ICE",
+    "CPR.itemSheet.program.programSize": "Program Size",
     "CPR.itemSheet.role.abilityRank": "Ability Rank",
     "CPR.itemSheet.role.addRoleAbilityRankQuestion": "Add Role Ability rank?",
     "CPR.itemSheet.role.bonusRatio": "Bonus Ratio",
