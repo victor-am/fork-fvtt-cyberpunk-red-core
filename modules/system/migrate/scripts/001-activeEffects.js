@@ -174,6 +174,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
           }
         }
         updateList.push({ _id: deck.data._id, "data.programs": newPrograms });
+      }
       await actor.updateEmbeddedDocuments("Item", updateList);
     }
   }
