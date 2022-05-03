@@ -149,30 +149,45 @@ export default class ActiveEffectsMigration extends CPRMigration {
       if (doneItems % 25 === 0) CPRSystemUtils.DisplayMessage("notify", `${doneItems}/${totalItems} owned items on ${actor.name} migrated so far`);
     }
     // delete all of the owned items we have replaced with items that have AEs
+    const deleteList = [];
     for (const delItem of deleteItems) {
-      if (actor.items.has(delItem._id)) {
-        actor.deleteEmbeddedDocuments("Item", [delItem._id]);
+      if (actor.items.filter((i) => i.data._id === delItem).length > 0) {
+        deleteList.push(delItem);
       }
     }
+    await actor.deleteEmbeddedDocuments("Item", deleteList);
+
     // Update any item references for items re-created as part of this process
     if (Object.entries(remappedItems).length > 0) {
       const updateList = [];
       for (const deck of actor.items.filter((i) => i.type === "cyberdeck")) {
-        const deckPrograms = deck.data.data.programs;
-        const deckUpgrades = deck.data.data.upgrades;
+        const oldPrograms = deck.data.data.programs;
         const newPrograms = {};
         newPrograms.installed = [];
         newPrograms.rezzed = [];
-        for (const program of deckPrograms.installed) {
-          if (typeof remappedItems[program._id] !== "undefined") {
-            newPrograms.installed.push(actor.items.filter((np) => np.id === remappedItems[program._id])[0].data);
+        for (const oldProgram of oldPrograms.rezzed) {
+          if (typeof remappedItems[oldProgram._id] !== "undefined") {
+            const newProgramId = remappedItems[oldProgram._id];
+            const newProgram = actor.items.filter((np) => np.id === newProgramId)[0];
+            const rezzedInstance = randomID();
+            newProgram.setFlag("cyberpunk-red-core", "rezInstanceId", rezzedInstance);
+            newProgram.setRezzed();
+            newPrograms.rezzed.push(newProgram.data);
           }
         }
-        for (const program of deckPrograms.rezzed) {
-          if (typeof remappedItems[program._id] !== "undefined") {
-            newPrograms.rezzed.push(actor.items.filter((np) => np.id === remappedItems[program._id])[0].data);
+        for (const oldProgram of oldPrograms.installed) {
+          if (typeof remappedItems[oldProgram._id] !== "undefined") {
+            const newProgramId = remappedItems[oldProgram._id];
+            const newProgram = actor.items.filter((np) => np.id === newProgramId)[0];
+            const newProgramData = duplicate(newProgram.data);
+            const rezzedIndex = newPrograms.rezzed.findIndex((p) => p._id === newProgramId);
+            if (rezzedIndex !== -1) {
+              newProgramData.data.isRezzed = true;
+            }
+            newPrograms.installed.push(newProgramData);
           }
         }
+
         updateList.push({ _id: deck.data._id, "data.programs": newPrograms });
       }
       await actor.updateEmbeddedDocuments("Item", updateList);
@@ -527,7 +542,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    * @param {CPRItem} program
    */
   static async updateProgram(program) {
-    LOGGER.trace("updateCrupdateProgramiticalInjury | 1-activeEffects Migration");
+    LOGGER.trace("updateProgram | 1-activeEffects Migration");
     let updateData = {};
     const { amount } = program.data.data;
     updateData = { ...updateData, ...CPRMigration.safeDelete(program, "data.quality") };
