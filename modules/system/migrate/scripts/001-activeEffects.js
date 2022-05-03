@@ -169,6 +169,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
           if (typeof remappedItems[oldProgram._id] !== "undefined") {
             const newProgramId = remappedItems[oldProgram._id];
             const newProgram = actor.items.filter((np) => np.id === newProgramId)[0];
+            // eslint-disable-next-line no-undef
             const rezzedInstance = randomID();
             newProgram.setFlag("cyberpunk-red-core", "rezInstanceId", rezzedInstance);
             newProgram.setRezzed();
