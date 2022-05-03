@@ -279,7 +279,8 @@
       },
       "installable": {
         "install": "mall",
-        "isInstalled": false
+        "isInstalled": false,
+        "size": 1
       },
       "physical": {
         "concealable": {
@@ -427,7 +428,6 @@
       "blackIceType": "antipersonnel",
       "prototypeActor": "",
       "interface": 0,
-      "size": 1,
       "isRezzed": false,
       "damage": {
         "standard": "1d6",
@@ -517,7 +517,6 @@
         "valuable"
       ],
       "handsReq": 0,
-      "size": 1,
       "type": "weapon",
       "modifiers": {
         "secondaryWeapon": {
