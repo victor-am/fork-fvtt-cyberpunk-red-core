@@ -231,7 +231,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       }
       index += 1;
     });
-    document.updateEmbeddedDocuments("ActiveEffect", [newData]);
+    await document.updateEmbeddedDocuments("ActiveEffect", [newData]);
   }
 
   /**
@@ -568,7 +568,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
         });
         index += 1;
       }
-      ActiveEffectsMigration.addActiveEffect(program, name, changes);
+      await ActiveEffectsMigration.addActiveEffect(program, name, changes);
       updateData = { ...updateData, ...CPRMigration.safeDelete(program, "data.modifiers") };
     }
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(program, 100) };
@@ -607,7 +607,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       mode: 2,
       priority: 0,
     }];
-    ActiveEffectsMigration.addActiveEffect(skill, name, changes);
+    await ActiveEffectsMigration.addActiveEffect(skill, name, changes);
     updateData = { ...updateData, ...CPRMigration.safeDelete(skill, "data.skillmod") };
     await skill.update(updateData);
   }
@@ -655,7 +655,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
         mode: 2,
         priority: 0,
       }];
-      ActiveEffectsMigration.addActiveEffect(weapon, name, changes);
+      await ActiveEffectsMigration.addActiveEffect(weapon, name, changes);
     }
     const { amount } = weapon.data.data;
     updateData["data.usage"] = "equipped";
