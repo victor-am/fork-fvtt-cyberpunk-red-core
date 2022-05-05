@@ -53,8 +53,9 @@ export default class CPRItem extends Item {
     // which has been upgraded, remove the upgrade from the new weapon as it
     // may reference an itemUpgrade object which doesn't exist in the same
     // location as the upgradable item
+    const cprMigrationRunning = (typeof data.flags["cyberpunk-red-core"].cprItemMigrating !== "undefined") ? data.flags["cyberpunk-red-core"].cprItemMigrating : false;
     const upgradableItemTypes = SystemUtils.GetTemplateItemTypes("upgradable");
-    if (upgradableItemTypes.includes(data.type)) {
+    if (upgradableItemTypes.includes(data.type) && !cprMigrationRunning) {
       newData.data.isUpgraded = false;
       newData.data.upgrades = [];
     }

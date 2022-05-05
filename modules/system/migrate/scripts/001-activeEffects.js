@@ -2,6 +2,7 @@
 /* global duplicate Item */
 
 import CPR from "../../config.js";
+
 import CPRMigration from "../cpr-migration.js";
 import CPRSystemUtils from "../../../utils/cpr-systemUtils.js";
 import LOGGER from "../../../utils/cpr-logger.js";
@@ -42,6 +43,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       type: item.type,
       data: item.data.data,
       folder: this.migrationFolder,
+      flags: { "cyberpunk-red-core": { cprItemMigrating: true } },
     });
   }
 
@@ -143,6 +145,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
         throw new Error(`${ownedItem.data.name} (${ownedItem.data._id}) had a migration error: ${err.message}`);
       }
       if (["program", "weapon"].includes(ownedItem.data.type)) {
+        await newItem.setFlag("cyberpunk-red-core", "cprItemMigrating", true);
         const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data]);
         remappedItems[ownedItem.data._id] = createdItem[0].data._id;
         await newItem.delete();
@@ -246,6 +249,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    */
   static async migrateItem(item) {
     LOGGER.trace("migrateItem | 1-activeEffects Migration");
+    await item.setFlag("cyberpunk-red-core", "cprItemMigrating", true);
     switch (item.type) {
       case "ammo":
         await ActiveEffectsMigration.updateAmmo(item);
@@ -295,6 +299,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
         // note: drug was introduced with this release, so it will not fall through here
         LOGGER.warn(`An unrecognized item type was ignored: ${item.type}. It was not migrated!`);
     }
+    await item.unsetFlag("cyberpunk-red-core", "cprItemMigrating");
   }
 
   /**
