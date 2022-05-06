@@ -196,6 +196,9 @@ export default class ActiveEffectsMigration extends CPRMigration {
         }
 
         updateList.push({ _id: deck.data._id, "data.programs": newPrograms });
+        newPrograms.rezzed.forEach((program) => {
+          updateList.push({ _id: program._id, "data.isRezzed": true });
+        });
       }
       await actor.updateEmbeddedDocuments("Item", updateList);
     }
