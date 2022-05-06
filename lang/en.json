@@ -306,6 +306,7 @@
     "CPR.effectSheet.modifiers.lowerOf": "Override if Lower",
     "CPR.effectSheet.modifiers.multiply": "Multiply",
     "CPR.effectSheet.modifiers.override": "Override",
+    "CPR.effectSheet.netrun.speed": "Netrun Speed",
     "CPR.effectSheet.uses.usage": "When to Enable Effects",
     "CPR.effectSheet.uses.always": "Always On",
     "CPR.effectSheet.uses.carried": "When Carried or Equipped",

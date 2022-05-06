@@ -570,7 +570,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     let index = 0;
     const name = CPRSystemUtils.Localize("CPR.migration.effects.program");
     // there's a rare case this is not defined for items that didn't complete previous migration(s)
-    if (program.data.data.modifiers) {
+    if (typeof program.data.data.modifiers === "object" && Object.keys(program.data.data.modifiers).length > 0) {
       for (const [key, value] of Object.entries(program.data.data.modifiers)) {
         changes.push({
           key: `bonuses.${CPRSystemUtils.slugify(key)}`,
