@@ -442,6 +442,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *    Migrate Upgrades
    *    Gained usage
    *    Lost charges
+   *    Lost slotSize
+   *    Gained size
    *    Gained slots for upgrades
    *    if price is 0 and category is empty, set to 500/premium
    *
@@ -452,7 +454,9 @@ export default class ActiveEffectsMigration extends CPRMigration {
     let updateData = {};
     updateData["data.usage"] = "installed";
     updateData["data.slots"] = 3;
+    updateData["data.size"] = cyberware.data.data.slotSize;
     updateData = { ...updateData, ...CPRMigration.safeDelete(cyberware, "data.charges") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(cyberware, "data.slotSize") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(cyberware, 500) };
     await cyberware.update(updateData);
   }

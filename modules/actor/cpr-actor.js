@@ -327,10 +327,10 @@ export default class CPRActor extends Actor {
     LOGGER.trace(`_addOptionalCyberware | CPRActor | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
     const newOptionalIds = foundationalCyberware.data.data.optionalIds.concat(item.data._id);
-    const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots + item.data.data.slotSize;
+    const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots + item.data.data.size;
     tmpItem.data.data.isInstalled = true;
     const allowedSlots = Number(foundationalCyberware.availableSlots());
-    Rules.lawyer((item.data.data.slotSize <= allowedSlots), "CPR.messages.tooManyOptionalCyberwareInstalled");
+    Rules.lawyer((item.data.data.size <= allowedSlots), "CPR.messages.tooManyOptionalCyberwareInstalled");
     return this.updateEmbeddedDocuments("Item", [
       { _id: item.id, "data.isInstalled": true }, {
         _id: foundationalCyberware.id,
@@ -384,7 +384,7 @@ export default class CPRActor extends Actor {
     // If the cyberware item was not installed, don't process the removal from a non-existent foundational slot.
     if (item.data.data.isInstalled) {
       const foundationalCyberware = this._getOwnedItem(foundationalId);
-      const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots - item.data.data.slotSize;
+      const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots - item.data.data.size;
       const newOptionalIds = foundationalCyberware.data.data.optionalIds.filter(
         (optionId) => optionId !== item.data._id,
       );
