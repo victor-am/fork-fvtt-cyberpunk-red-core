@@ -42,6 +42,8 @@
 - Change Character sheet Wound State to unique icons rather than the font-awesome smileyfaces
 - CUB Condition Map json file, ready to be imported to CUB COndition Lab
 - Format Eurobucks displays in a more readable way
+- Use fantasy style icons for items when generating the ELO Armory
+- Add Head armor generation to ELO Armory Macro
 
 **Changes**
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience
