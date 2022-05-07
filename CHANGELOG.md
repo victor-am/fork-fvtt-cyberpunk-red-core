@@ -41,6 +41,11 @@
   - Even more status icons
 - Change Character sheet Wound State to unique icons rather than the font-awesome smileyfaces
 - CUB Condition Map json file, ready to be imported to CUB COndition Lab
+- Format Eurobucks displays in a more readable way
+
+**Changes**
+- Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience
+- Consolidated gain, lose and set ledger functions for EB, IP and Reputation to make it more manageable
 - Renamed included maps to better differentiate them from other map packs
 - Containers now default to neutral token disposition
 - Added Medtech drugs to the compendium

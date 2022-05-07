@@ -94,6 +94,27 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("cprIsNumber", (value) => !Number.isNaN(value));
 
   /**
+   * Formats thousands with a comma, optionally set decimal length
+   *
+   * Options:
+   *
+   *  @var decimalLength int The length of the decimals
+   *  @var thousandsSep char The thousands separator
+   *  @var decimalSep char The decimals separator
+   *
+   */
+  Handlebars.registerHelper("cprNumberFormat", (value, options) => {
+    LOGGER.trace("cprNumberFormat | handlebarsHelper | Called.");
+    const dl = options.hash.decimalLength || 0;
+    const ts = options.hash.thousandsSep || ",";
+    const ds = options.hash.decimalSep || ".";
+    const val = parseFloat(value);
+    const re = `\\d(?=(\\d{3})+${dl > 0 ? "\\D" : "$"})`;
+    const num = val.toFixed(Math.max(0, Math.floor(dl)));
+    return (ds ? num.replace(".", ds) : num).replace(new RegExp(re, "g"), `$&${ts}`);
+  });
+
+  /**
    * Given an Array of strings, create an object with those strings as properties. They are the assigned
    * in order to the remaining arguments passed to this helper.
    */

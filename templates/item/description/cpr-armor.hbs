@@ -1,6 +1,7 @@
 {{cprTrace "CPR-ARMOR.HBS"}}
-<div class="item-summary-section">
-    {{#if data.data.isHeadLocation}}
+<div class="item-description-tab">
+    <div class="item-summary-section">
+        {{#if data.data.isHeadLocation}}
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.armor.headSp"}}:</span>
             <span class="summary-value">{{cprApplyUpgrade this.item data.data.headLocation.sp "headSp"}}</span>
