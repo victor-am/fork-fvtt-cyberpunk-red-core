@@ -39,7 +39,7 @@
       <div class="eurobucks">
         <div class="current-eurobucks flexrow">
           <div class="eurobucks-text">{{localize "CPR.characterSheet.rightPane.eurobucks.eurobucks"}}:</div>
-          <div class="eurobucks-value text-left">{{actor.data.data.wealth.value}}</div>
+          <div class="eurobucks-value text-left">{{cprNumberFormat actor.data.data.wealth.value}}</div>
           <a class="eurobucks-open-ledger" title="{{localize "CPR.ledger.ledgerOpen"}}"><i class="fas fa-sticky-note"></i></a>
         </div>
         <ol class="items-list">

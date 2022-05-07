@@ -13,7 +13,7 @@
         {{#if this.editable}}
         <input name="data.price.market" class="" type="number" value="{{data.data.price.market}}">
         {{else}}
-        <span class="text-flex-end">{{data.data.price.market}}</span>
+        <span class="text-flex-end">{{cprNumberFormat data.data.price.market}}</span>
         {{/if}}
     </div>
 </li>
