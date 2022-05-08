@@ -99,7 +99,6 @@ const Attackable = function Attackable() {
     const statValue = actor.getStat(statName);
     let roleName;
     let roleValue = 0;
-
     actor.data.filteredItems.role.forEach((r) => {
       const [rn, rv] = r.getSkillBonuses(skillName);
       if (rn) {
@@ -150,6 +149,7 @@ const Attackable = function Attackable() {
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
     cprRoll.addMod(actor.getWoundStateMods());
     cprRoll.addMod(skillMod);
+    cprRoll.addMod(weaponData.attackmod);
 
     if (cprRoll instanceof CPRRolls.CPRAttackRoll && weaponData.isRanged) {
       Rules.lawyer(this.hasAmmo(cprRoll), "CPR.messages.weaponAttackOutOfBullets");
@@ -262,14 +262,8 @@ const Attackable = function Attackable() {
   this._getAttackMod = function _getAttackMod() {
     LOGGER.trace("_getAttackMod | Attackable | Called.");
     let returnValue = 0;
-    switch (this.type) {
-      case "weapon": {
-        if (typeof this.data.data.attackmod !== "undefined") {
-          returnValue = this.data.data.attackmod;
-        }
-        break;
-      }
-      default:
+    if (typeof this.data.data.attackmod !== "undefined") {
+      returnValue = this.data.data.attackmod;
     }
     const upgradeValue = this.getAllUpgradesFor("attackmod");
     const upgradeType = this.getUpgradeTypeFor("attackmod");

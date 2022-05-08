@@ -647,7 +647,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
 
   /**
    * Weapon
-   *    Lost quality - "excellent" should become an AE for Universal Attack
    *    Gained usage
    *    Lost charges
    *    Gained slots for upgrades (attachmentSlots became slots)
@@ -659,16 +658,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateWeapon(weapon) {
     LOGGER.trace("updateWeapon | 1-activeEffects Migration");
     let updateData = {};
-    if (weapon.data.data.quality === "excellent") {
-      const name = CPRSystemUtils.Localize("CPR.migration.effects.weapon");
-      const changes = [{
-        key: "bonuses.universalAttack",
-        value: 1,
-        mode: 2,
-        priority: 0,
-      }];
-      await ActiveEffectsMigration.addActiveEffect(weapon, name, changes);
-    }
     const { amount } = weapon.data.data;
     updateData["data.usage"] = "equipped";
     updateData = { ...updateData, ...CPRMigration.safeDelete(weapon, "data.charges") };

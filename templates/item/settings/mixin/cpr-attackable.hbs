@@ -15,7 +15,7 @@
         "&&"
         (cprCompare data.data.modifiers.secondaryWeapon.configured "===" "false"))
 )}}
-{{!-- ROF Settings--}}
+{{!-- ROF Settings --}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.itemSheet.weapon.rof"}} {{cprShowUpgrade this.item "rof"}}
@@ -29,7 +29,7 @@
     </div>
 </li>
 
-{{!-- Weapon Type Settings--}}
+{{!-- Weapon Type Settings --}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.global.itemTypes.weapon"}} {{localize "CPR.global.generic.type"}}
@@ -45,7 +45,7 @@
     </div>
 </li>
 
-{{!-- Weapon Skill Settings--}}
+{{!-- Weapon Skill Settings --}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.global.itemTypes.weapon"}} {{localize "CPR.global.itemTypes.skill"}}
@@ -66,7 +66,21 @@
     </div>
 </li>
 
-{{!-- Hands Required Settings--}}
+{{!-- Attack Mod settings --}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.weapon.attackMod"}} {{cprShowUpgrade this.item "attackmod"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if this.editable}}
+            <input name="data.attackmod" class="" type="number" value="{{data.data.attackmod}}">
+        {{else}}
+            <span class="text-flex-end">{{data.data.attackmod}}</span>
+        {{/if}}
+    </div>
+</li>
+
+{{!-- Hands Required Settings --}}
 {{#unless (cprCompare (cprCompare item.type "===" "itemUpgrade") "||" (cprCompare item.type "===" "cyberware"))}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
@@ -98,7 +112,7 @@
     </li>
 {{/if}}
 
-{{!- Weapon Damage Settings--}}
+{{!- Weapon Damage Settings --}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.global.generic.damage"}} {{cprShowUpgrade this.item "damage"}}
@@ -118,7 +132,7 @@
     </div>
 </li>
 
-{{!- Ranged Weapon Settings--}}
+{{!- Ranged Weapon Settings --}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.itemSheet.weapon.rangedWeapon"}}
@@ -158,7 +172,7 @@
         </div>
     </li>
     <hr>
-    {{!- Ranged Weapon - Alternate Fire Modes Settings--}}
+    {{!- Ranged Weapon - Alternate Fire Modes Settings --}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
             {{localize "CPR.global.skills.autofire"}} {{localize "CPR.itemSheet.common.maximum"}} {{localize "CPR.global.generic.multiplier"}}
@@ -196,7 +210,7 @@
         </div>
     </li>
 
-    {{!- Ranged Weapon - Magazine Size Settings--}}
+    {{!- Ranged Weapon - Magazine Size Settings --}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
             {{localize "CPR.itemSheet.weapon.magazine"}} {{localize "CPR.itemSheet.weapon.size"}} {{cprShowUpgrade this.item "magazine"}}
