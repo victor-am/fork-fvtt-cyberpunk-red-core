@@ -174,25 +174,6 @@ const Upgradable = function Upgradable() {
     }
     return upgradeNumber;
   };
-
-  /**
-   * Dynamically calculates the number of free upgrade slots on the item
-   * by starting with the number of slots this item has and substacting
-   * the slot size of each of the upgrades.
-   *
-   * Note that some items override this method: cyberware and cyberdecks.
-   *
-   * @return {Number}
-   */
-  this.availableSlots = function availableSlots() {
-    LOGGER.trace("availableSlots | Upgradable | Called.");
-    const itemData = duplicate(this.data.data);
-    let unusedSlots = itemData.slots;
-    itemData.upgrades.forEach((mod) => {
-      unusedSlots -= mod.data.size;
-    });
-    return unusedSlots;
-  };
 };
 
 export default Upgradable;
