@@ -803,6 +803,7 @@
     "CPR.migration.effects.attackName": "Migrated Attack Bonus",
     "CPR.migration.effects.beginMigration": "Beginning pre-migration activities",
     "CPR.migration.effects.cleanUp": "Cleaning up migration data...",
+    "CPR.migration.effects.clothing": "Migrated Clothing Bonus",
     "CPR.migration.effects.damageName": "Migrated Damage Bonus",
     "CPR.migration.effects.program": "Migrated Program Effect",
     "CPR.migration.effects.skill": "Migrated Skill Mod for",

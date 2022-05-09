@@ -133,7 +133,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       // as a result of this migration, we must make an unowned copy first, and then copy that back to
       // the actor. Not all item types require this, and skills are filtered out earlier.
       let newItem = ownedItem;
-      if (["program", "weapon"].includes(ownedItem.data.type)) {
+      if (["program", "weapon", "clothing"].includes(ownedItem.data.type)) {
         newItem = await this.backupOwnedItem(ownedItem);
         if (ownedItem.data.type === "program") {
           newItem.data.data.size = ownedItem.data.data.slots;
@@ -144,7 +144,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       } catch (err) {
         throw new Error(`${ownedItem.data.name} (${ownedItem.data._id}) had a migration error: ${err.message}`);
       }
-      if (["program", "weapon"].includes(ownedItem.data.type)) {
+      if (["program", "weapon", "clothing"].includes(ownedItem.data.type)) {
         await newItem.setFlag("cyberpunk-red-core", "cprItemMigrating", true);
         const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data]);
         remappedItems[ownedItem.data._id] = createdItem[0].data._id;
@@ -161,7 +161,23 @@ export default class ActiveEffectsMigration extends CPRMigration {
         deleteList.push(delItem);
       }
     }
-    await actor.deleteEmbeddedDocuments("Item", deleteList);
+    // delete all clothing item upgrades that were added as these have been replaced by Active Effects
+    const clothingUpgrades = actor.items.filter((i) => {
+      if (i.type === "itemUpgrade") {
+        if (i.data.data.type === "clothing") {
+          return true;
+        }
+      }
+      return false;
+    });
+
+    for (const clothingUpgrade of clothingUpgrades) {
+      deleteList.push(clothingUpgrade.data._id);
+    }
+
+    if (deleteList.length > 0) {
+      await actor.deleteEmbeddedDocuments("Item", deleteList);
+    }
 
     // Update any item references for items re-created as part of this process
     if (Object.entries(remappedItems).length > 0) {
@@ -423,6 +439,34 @@ export default class ActiveEffectsMigration extends CPRMigration {
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(clothing, 50) };
     if (clothing.data.data.type === "") updateData["data.type"] = "jacket";
     if (clothing.data.data.variety === "") updateData["data.variety"] = "genericChic";
+    // Clothing can only have itemUpgrades which affect either Cool or Wardrobe & BLAH
+    // This should be replaced with an Active Effect
+    if (clothing.data.data.isUpgraded) {
+      const changes = [];
+      let index = 0;
+      const name = CPRSystemUtils.Localize("CPR.migration.effects.clothing");
+      clothing.data.data.upgrades.forEach((upgradeItem) => {
+        for (const [dataPoint, settings] of Object.entries(upgradeItem.data.modifiers)) {
+          const { value } = settings;
+          if (typeof value === "number") {
+            const key = (dataPoint === "cool") ? "data.stats.cool.value" : "bonuses.wardrobeAndStyle";
+            const mode = (settings.type === "modifier") ? 2 : 1;
+            changes.push({
+              key,
+              value,
+              mode,
+              priority: index,
+            });
+            index += 1;
+          }
+        }
+      });
+      if (changes.length > 0) {
+        await ActiveEffectsMigration.addActiveEffect(clothing, name, changes);
+      }
+      updateData["data.isUpgraded"] = false;
+      updateData["data.upgrades"] = [];
+    }
     await clothing.update(updateData);
   }
 
