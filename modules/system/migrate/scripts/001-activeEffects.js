@@ -142,6 +142,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       try {
         await ActiveEffectsMigration.migrateItem(newItem);
       } catch (err) {
+        console.log(newItem);
         throw new Error(`${ownedItem.data.name} (${ownedItem.data._id}) had a migration error: ${err.message}`);
       }
       if (["program", "weapon", "clothing"].includes(ownedItem.data.type)) {

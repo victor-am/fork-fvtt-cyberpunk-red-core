@@ -474,18 +474,6 @@ CPR.upgradableDataPoints = {
       localization: "CPR.global.generic.slots",
     },
   },
-  clothing: {
-    "Wardrobe & Style": {
-      type: "modifier",
-      value: 0,
-      localization: "CPR.global.skills.wardrobeAndStyle",
-    },
-    cool: {
-      type: "modifier",
-      value: 0,
-      localization: "CPR.global.stats.cool",
-    },
-  },
   armor: {
     bodySp: {
       type: "modifier",
