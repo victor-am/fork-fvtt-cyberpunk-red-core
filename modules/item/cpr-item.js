@@ -110,11 +110,7 @@ export default class CPRItem extends Item {
           // Dynamically calculates the number of free upgrade slots on the item
           // by starting with the number of slots this item has and substacting
           // the slot size of each of the upgrades.
-          let unusedSlots = itemData.slots;
-          itemData.upgrades.forEach((mod) => {
-            unusedSlots -= mod.data.size;
-          });
-          this.data.data.availableSlots = unusedSlots;
+          this.data.data.availableSlots = this.availableSlots();
           break;
         }
         case "valuable": {
