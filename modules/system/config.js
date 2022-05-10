@@ -491,58 +491,6 @@ CPR.upgradableDataPoints = {
       localization: "CPR.itemSheet.itemUpgrade.shieldHp",
     },
   },
-  gear: {
-    int: {
-      type: "modifier",
-      value: 0,
-      localization: "CPR.global.stats.int",
-    },
-    ref: {
-      type: "modifier",
-      value: 0,
-      localization: "CPR.global.stats.ref",
-    },
-    dex: {
-      type: "modifier",
-      value: 0,
-      localization: "CPR.global.stats.dex",
-    },
-    tech: {
-      type: "modifier",
-      value: 0,
-      localization: "CPR.global.stats.tech",
-    },
-    cool: {
-      type: "modifier",
-      value: 0,
-      localization: "CPR.global.stats.cool",
-    },
-    will: {
-      type: "modifier",
-      value: 0,
-      localization: "CPR.global.stats.will",
-    },
-    luck: {
-      type: "modifier",
-      value: 0,
-      localization: "CPR.global.stats.luck",
-    },
-    move: {
-      type: "modifier",
-      value: 0,
-      localization: "CPR.global.stats.move",
-    },
-    body: {
-      type: "modifier",
-      value: 0,
-      localization: "CPR.global.stats.body",
-    },
-    emp: {
-      type: "modifier",
-      value: 0,
-      localization: "CPR.global.stats.emp",
-    },
-  },
 };
 
 CPR.activeEffectKeys = {

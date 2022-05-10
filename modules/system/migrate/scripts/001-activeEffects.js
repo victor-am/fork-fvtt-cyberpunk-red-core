@@ -125,7 +125,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       if (i.type === "cyberware" && i.data.core) return false;
       return true;
     });
-    const createAeItemTypes = ["program", "weapon", "clothing"];
+    const createAeItemTypes = ["program", "weapon", "clothing", "gear"];
     const totalItems = ownedItems.length;
     const deleteItems = [];
     const remappedItems = {};
@@ -163,18 +163,21 @@ export default class ActiveEffectsMigration extends CPRMigration {
         deleteList.push(delItem);
       }
     }
-    // delete all clothing item upgrades that were added as these have been replaced by Active Effects
-    const clothingUpgrades = actor.items.filter((i) => {
+    // delete all clothing & gear item upgrades that were added as these have been replaced by Active Effects
+    const itemUpgrades = actor.items.filter((i) => {
       if (i.type === "itemUpgrade") {
         if (i.data.data.type === "clothing") {
+          return true;
+        }
+        if (i.data.data.type === "gear") {
           return true;
         }
       }
       return false;
     });
 
-    for (const clothingUpgrade of clothingUpgrades) {
-      deleteList.push(clothingUpgrade.data._id);
+    for (const itemUpgrade of itemUpgrades) {
+      deleteList.push(itemUpgrade.data._id);
     }
 
     if (deleteList.length > 0) {
@@ -430,6 +433,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *    if price is 0 and category is empty, set to 50/premium
    *    if type is empty set to jacket
    *    if style is empty set to genericChic
+   *    if was upgraded, upgrade converted to active effect
    *
    * @param {CPRItem} clothing
    */
@@ -533,6 +537,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *    Gained usage
    *    Gained slots for upgrades
    *    if price is 0 and category is empty, set to 100/premium
+   *    if was upgraded, upgrade converted to active effect
    *
    * @param {CPRItem} gear
    */
@@ -540,9 +545,35 @@ export default class ActiveEffectsMigration extends CPRMigration {
     LOGGER.trace("updateGear | 1-activeEffects Migration");
     let updateData = {};
     updateData = { ...updateData, ...CPRMigration.safeDelete(gear, "data.quality") };
-    updateData["data.usage"] = "toggled";
+    updateData["data.usage"] = "equipped";
     updateData["data.slots"] = 3;
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(gear, 100) };
+    if (gear.data.data.isUpgraded) {
+      const changes = [];
+      let index = 0;
+      const name = CPRSystemUtils.Localize("CPR.migration.effects.gear");
+      gear.data.data.upgrades.forEach((upgradeItem) => {
+        for (const [dataPoint, settings] of Object.entries(upgradeItem.data.modifiers)) {
+          const { value } = settings;
+          if (typeof value === "number") {
+            const key = `data.stats.${dataPoint}.value`;
+            const mode = (settings.type === "modifier") ? 2 : 1;
+            changes.push({
+              key,
+              value,
+              mode,
+              priority: index,
+            });
+            index += 1;
+          }
+        }
+      });
+      if (changes.length > 0) {
+        await ActiveEffectsMigration.addActiveEffect(gear, name, changes);
+      }
+      updateData["data.isUpgraded"] = false;
+      updateData["data.upgrades"] = [];
+    }
     await gear.update(updateData);
   }
 

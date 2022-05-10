@@ -17,6 +17,10 @@ you can review and verify yourself.
    effect instead.  After conversion to an Active Effect, any clothing item upgrade is deleted from
    the actor as they are not needed anymore.  These item upgrades will be permanently deleted in a
    future release.
+ - Gear upgrades are now represented with active effects too.  Since gear upgrade could
+   only affect the stats, it made sense to make this an active effect instead.  After conversion
+   to an Active Effect, any clothing item upgrade is deleted from the actor as they are not needed
+   anymore.  These item upgrades will be permanently deleted in a future release.
  - Arbitrary skill mods on characters cannot be set in the character sheet any more, that column
    shows mods coming from active effects now. You can still create skill mods with active effects
    using the Effects tab. You may want to convert them from actor effects to effects on the items

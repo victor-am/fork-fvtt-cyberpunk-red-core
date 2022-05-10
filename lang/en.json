@@ -805,6 +805,7 @@
     "CPR.migration.effects.cleanUp": "Cleaning up migration data...",
     "CPR.migration.effects.clothing": "Migrated Clothing Bonus",
     "CPR.migration.effects.damageName": "Migrated Damage Bonus",
+    "CPR.migration.effects.gear": "Migrated Gear Bonus",
     "CPR.migration.effects.program": "Migrated Program Effect",
     "CPR.migration.effects.skill": "Migrated Skill Mod for",
     "CPR.migration.effects.weapon": "Migrated Excellent Quality Weapon",
