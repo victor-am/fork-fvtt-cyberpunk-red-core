@@ -125,6 +125,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       if (i.type === "cyberware" && i.data.core) return false;
       return true;
     });
+    const createAeItemTypes = ["program", "weapon", "clothing"];
     const totalItems = ownedItems.length;
     const deleteItems = [];
     const remappedItems = {};
@@ -133,7 +134,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       // as a result of this migration, we must make an unowned copy first, and then copy that back to
       // the actor. Not all item types require this, and skills are filtered out earlier.
       let newItem = ownedItem;
-      if (["program", "weapon", "clothing"].includes(ownedItem.data.type)) {
+      if (createAeItemTypes.includes(ownedItem.data.type)) {
         newItem = await this.backupOwnedItem(ownedItem);
         if (ownedItem.data.type === "program") {
           newItem.data.data.size = ownedItem.data.data.slots;
@@ -145,7 +146,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
         console.log(newItem);
         throw new Error(`${ownedItem.data.name} (${ownedItem.data._id}) had a migration error: ${err.message}`);
       }
-      if (["program", "weapon", "clothing"].includes(ownedItem.data.type)) {
+      if (createAeItemTypes.includes(ownedItem.data.type)) {
         await newItem.setFlag("cyberpunk-red-core", "cprItemMigrating", true);
         const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data]);
         remappedItems[ownedItem.data._id] = createdItem[0].data._id;
