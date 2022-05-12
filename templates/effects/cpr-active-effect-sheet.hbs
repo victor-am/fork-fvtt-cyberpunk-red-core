@@ -57,10 +57,9 @@
                     <span class="form-fields effect-key-category" data-index="{{i}}">
                         <select name="data.flags.cyberpunk-red-core.changes.{{i}}" data-dtype="String">
                             {{#select (lookup ../data.flags.cyberpunk-red-core.changes i)}}
-                                <option value="skill">{{localize "CPR.effectSheet.keyCategory.skill"}}</option>
-                                <option value="stat">{{localize "CPR.effectSheet.keyCategory.stat"}}</option>
-                                <option value="role">{{localize "CPR.effectSheet.keyCategory.role"}}</option>
-                                <option value="combat">{{localize "CPR.effectSheet.keyCategory.combat"}}</option>
+                                {{#each (cprFindConfigObj "activeEffectKeys" ) as |effectCategory ec|}}
+                                    <option value="{{ec}}">{{localize (cprObjConcat "CPR.effectSheet.keyCategory." ec)}}</option>
+                                {{/each}}
                                 <option value="custom">{{localize "CPR.effectSheet.keyCategory.custom"}}</option>
                             {{/select}}
                         </select>
