@@ -13,16 +13,20 @@ export default class MigrationRunner {
    *
    * @param {Number} currDataModelVersion - the current data model version
    * @param {Number} newDataModelVersion - the data model version we want to get to, may be multiple versions ahead
+   * @returns {Boolean} - True if all migrations completed successfully
    */
-  async migrateWorld(currDataModelVersion, newDataModelVersion) {
+  static async migrateWorld(currDataModelVersion, newDataModelVersion) {
     LOGGER.trace("migrateWorld | MigrationRunner");
     this.allMigrations = Migrations;
     this.migrationsToDo = MigrationRunner._getMigrations(currDataModelVersion, newDataModelVersion);
-    if (this.migrationsToDo.length < 1) return;
-    CPRSystemUtils.DisplayMessage("notify", `Beginning Migrations of Cyberpunk Red Core from Data Model ${currDataModelVersion} to ${newDataModelVersion}.`);
-    if (await MigrationRunner.runMigrations(this.migrationsToDo)) {
-      CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.migrationsComplete"));
+    if (this.migrationsToDo.length > 0) {
+      CPRSystemUtils.DisplayMessage("notify", `Beginning Migrations of Cyberpunk Red Core from Data Model ${currDataModelVersion} to ${newDataModelVersion}.`);
+      if (await MigrationRunner.runMigrations(this.migrationsToDo)) {
+        CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.migrationsComplete"));
+        return true;
+      }
     }
+    return false;
   }
 
   /**
