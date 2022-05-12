@@ -2085,6 +2085,9 @@ form input.number {
 .fight-weapon-attack {
   grid-area: fight-weapon-attack;
 }
+.active-effect-sheet .effect-change .key {
+  flex: 4;
+}
 .window-app .window-content {
   background: #eaeaeaff;
 }
