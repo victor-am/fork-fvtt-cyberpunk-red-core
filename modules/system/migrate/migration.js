@@ -15,7 +15,7 @@ export default class MigrationRunner {
    * @param {Number} newDataModelVersion - the data model version we want to get to, may be multiple versions ahead
    * @returns {Boolean} - True if all migrations completed successfully
    */
-  static async migrateWorld(currDataModelVersion, newDataModelVersion) {
+  async migrateWorld(currDataModelVersion, newDataModelVersion) {
     LOGGER.trace("migrateWorld | MigrationRunner");
     this.allMigrations = Migrations;
     this.migrationsToDo = MigrationRunner._getMigrations(currDataModelVersion, newDataModelVersion);
