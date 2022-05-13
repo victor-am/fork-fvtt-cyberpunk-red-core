@@ -89,6 +89,35 @@ export default function registerHandlebarsHelpers() {
   });
 
   /**
+   * Return the size of an object.
+   */
+  Handlebars.registerHelper("cprSizeOf", (object) => {
+    LOGGER.trace("cprSizeOf | handlebarsHelper | Called.");
+    let size = 0;
+    switch (typeof object) {
+      case "object": {
+        if (Array.isArray(object)) {
+          size = object.length;
+        } else {
+          size = object.size;
+        }
+        break;
+      }
+      case "string": {
+        size = object.length;
+        break;
+      }
+      case "number": {
+        size = object;
+        break;
+      }
+      default:
+        size = 0;
+    }
+    return size;
+  });
+
+  /**
    * Return true if a literal is a number
    */
   Handlebars.registerHelper("cprIsNumber", (value) => !Number.isNaN(value));
