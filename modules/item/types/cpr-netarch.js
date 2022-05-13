@@ -340,7 +340,7 @@ export default class CPRNetArchItem extends CPRItem {
    */
   static _checkDV(dv) {
     LOGGER.trace("_checkDV | CPRNetarchUtils | called.");
-    const reg = new RegExp("^[0-9]+$");
+    const reg = /^[0-9]+$/;
     if (reg.test(dv)) {
       return Number(dv);
     }

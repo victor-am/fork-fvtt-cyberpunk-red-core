@@ -82,9 +82,9 @@ export default class CPRItemSheet extends ItemSheet {
     } else {
       data.filteredItems.skill = await SystemUtils.GetCoreSkills();
     }
-    //if (["cyberdeck", "weapon", "armor", "cyberware", "clothing"].indexOf(data.item.type) > -1) {
-    //  data.data.data.availableSlots = this.object.availableSlots();
-    //}
+    // if (["cyberdeck", "weapon", "armor", "cyberware", "clothing"].indexOf(data.item.type) > -1) {
+    //   data.data.data.availableSlots = this.object.availableSlots();
+    // }
     data.dvTableNames = DvUtils.GetDvTables();
     return data;
   }
@@ -448,7 +448,8 @@ export default class CPRItemSheet extends ItemSheet {
       if (setting) {
         const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${SystemUtils.Localize("CPR.netArchitecture.floor.deleteConfirmation")}?`;
         const confirmDelete = await ConfirmPrompt.RenderPrompt(
-          SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"), promptMessage,
+          SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"),
+          promptMessage,
         );
         if (!confirmDelete) {
           return;
@@ -867,7 +868,8 @@ export default class CPRItemSheet extends ItemSheet {
       if (setting) {
         const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${SystemUtils.Localize("CPR.itemSheet.role.deleteConfirmation")}?`;
         const confirmDelete = await ConfirmPrompt.RenderPrompt(
-          SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"), promptMessage,
+          SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"),
+          promptMessage,
         );
         if (!confirmDelete) {
           return;

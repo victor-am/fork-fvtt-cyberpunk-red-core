@@ -73,7 +73,7 @@ export default class CPRActiveEffectSheet extends ActiveEffectConfig {
       case "add":
         return this._addEffectChange();
       case "delete":
-        // TODO: this is never actually called because deleting a mod means we need to
+        // XXX: this is never actually called because deleting a mod means we need to
         // reorder the flags that come after the deleted mod. The "changes" flag should
         // really be an array.
         return this._deleteEffectChange(event);
@@ -118,7 +118,7 @@ export default class CPRActiveEffectSheet extends ActiveEffectConfig {
     const effect = this.object;
     button.closest(".effect-change").remove();
     // remove the Flag tracking the key category
-    // TODO: this doesn't work well if a mod in the middle of the list is deleted
+    // XXX: this doesn't work well if a mod in the middle of the list is deleted
     effect.unsetFlag("cyberpunk-red-core", `changes.${button.dataset.index}`);
     return this.submit({ preventClose: true }).then(() => this.render());
   }

@@ -62,7 +62,8 @@ const actorHooks = () => {
                       const armorData = a.data;
                       if (diff > 0) {
                         armorData.data.bodyLocation.ablation = Math.min(
-                          armorData.data.bodyLocation.ablation + diff, armorData.data.bodyLocation.sp,
+                          armorData.data.bodyLocation.ablation + diff,
+                          armorData.data.bodyLocation.sp,
                         );
                       }
                       if (diff < 0 && item.data._id === a.data._id) {
@@ -80,7 +81,8 @@ const actorHooks = () => {
                       const armorData = a.data;
                       if (diff > 0) {
                         armorData.data.headLocation.ablation = Math.min(
-                          armorData.data.headLocation.ablation + diff, armorData.data.headLocation.sp,
+                          armorData.data.headLocation.ablation + diff,
+                          armorData.data.headLocation.sp,
                         );
                       }
                       if (diff < 0 && item.data._id === a.data._id) {

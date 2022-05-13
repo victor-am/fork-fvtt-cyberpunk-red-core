@@ -257,19 +257,25 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       const username = game.user.name;
       let reason = "";
       if (amount > 1) {
-        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.multiplePurchased",
-          { amount, name: item.name, price: cost })} - ${username}`;
+        reason = `${SystemUtils.Format(
+          "CPR.containerSheet.tradeLog.multiplePurchased",
+          { amount, name: item.name, price: cost },
+        )} - ${username}`;
       } else {
-        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.singlePurchased",
-          { name: item.name, price: cost })} - ${username}`;
+        reason = `${SystemUtils.Format(
+          "CPR.containerSheet.tradeLog.singlePurchased",
+          { name: item.name, price: cost },
+        )} - ${username}`;
       }
-      const vendorReason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.vendorSold",
+      const vendorReason = `${SystemUtils.Format(
+        "CPR.containerSheet.tradeLog.vendorSold",
         {
           name: item.name,
           quantity: amount,
           purchaser: tradePartnerActor.name,
           price: cost,
-        })} - ${username}`;
+        },
+      )} - ${username}`;
       await tradePartnerActor.deltaLedgerProperty("wealth", -1 * cost, reason);
       await this.actor.recordTransaction(cost, vendorReason);
     }
@@ -344,13 +350,15 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     let vendorOffer = parseInt(((amount * cost * percent) / 100), 10);
     vendorOffer = Math.min(vendorOffer, vendorData.data.wealth.value);
 
-    const offerMessage = `${SystemUtils.Format("CPR.dialog.container.vendor.offerToBuy",
+    const offerMessage = `${SystemUtils.Format(
+      "CPR.dialog.container.vendor.offerToBuy",
       {
         vendorName: tradePartnerActor.name,
         vendorOffer,
         itemName,
         percent,
-      })}`;
+      },
+    )}`;
     const formData = await PurchaseOrderPrompt.RenderPrompt(offerMessage).catch((err) => LOGGER.debug(err));
 
     if (formData !== undefined) {
@@ -392,24 +400,30 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
 
       let reason = "";
       if (amount > 1) {
-        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.multipleSold",
+        reason = `${SystemUtils.Format(
+          "CPR.containerSheet.tradeLog.multipleSold",
           {
             amount,
             name: itemData.name,
             price: vendorOffer,
             vendor: this.actor.name,
-          })} - ${username}`;
+          },
+        )} - ${username}`;
       } else {
-        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.singleSold",
-          { name: itemData.name, price: vendorOffer, vendor: this.actor.name })} - ${username}`;
+        reason = `${SystemUtils.Format(
+          "CPR.containerSheet.tradeLog.singleSold",
+          { name: itemData.name, price: vendorOffer, vendor: this.actor.name },
+        )} - ${username}`;
       }
-      const vendorReason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.vendorPurchased",
+      const vendorReason = `${SystemUtils.Format(
+        "CPR.containerSheet.tradeLog.vendorPurchased",
         {
           name: itemData.name,
           quantity: itemData.data.amount,
           seller: tradePartnerActor.name,
           price: vendorOffer,
-        })} - ${username}`;
+        },
+      )} - ${username}`;
       await tradePartnerActor.deltaLedgerProperty("wealth", vendorOffer, reason);
       await this.actor.recordTransaction(vendorOffer, vendorReason);
     }

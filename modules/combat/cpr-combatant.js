@@ -1,4 +1,4 @@
-/* global Combatant CONFIG game mergeObject */
+/* global Combatant */
 import LOGGER from "../utils/cpr-logger.js";
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 
@@ -40,7 +40,6 @@ export default class CPRCombatant extends Combatant {
               });
             }
           });
-
         } else {
           const netSpeed = actor.data.bonuses.speed; // active effects for speed, note "initiative" AEs come later
           // Filter for the Netrunner role on the actor then assign `netrunnerRank` the proper value

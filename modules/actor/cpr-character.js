@@ -1,5 +1,3 @@
-/* globals game */
-import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
 import CPRActor from "./cpr-actor.js";
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";

@@ -1,5 +1,4 @@
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
-import CPR from "../../system/config.js";
 import CPRItem from "../cpr-item.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";

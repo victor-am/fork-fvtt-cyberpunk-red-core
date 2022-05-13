@@ -635,7 +635,8 @@ export default class CPRActorSheet extends ActorSheet {
     if (setting && !skipConfirm) {
       const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${item.data.name}?`;
       const confirmDelete = await ConfirmPrompt.RenderPrompt(
-        SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"), promptMessage,
+        SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"),
+        promptMessage,
       ).catch((err) => LOGGER.debug(err));
       if (confirmDelete === undefined) {
         return;
@@ -846,7 +847,9 @@ export default class CPRActorSheet extends ActorSheet {
           const itemData = duplicate(crit.data);
           const result = await this.actor.createEmbeddedDocuments("Item", [itemData]);
           const cprRoll = new CPRRolls.CPRTableRoll(
-            crit.data.name, res.roll, "systems/cyberpunk-red-core/templates/chat/cpr-critical-injury-rollcard.hbs",
+            crit.data.name,
+            res.roll,
+            "systems/cyberpunk-red-core/templates/chat/cpr-critical-injury-rollcard.hbs",
           );
           cprRoll.rollCardExtraArgs.tableName = tableName;
           cprRoll.rollCardExtraArgs.itemName = result[0].name;
@@ -1082,16 +1085,20 @@ export default class CPRActorSheet extends ActorSheet {
     if (item.data.data.upgrades && item.data.data.upgrades.length !== 0) {
       SystemUtils.DisplayMessage("warn", SystemUtils.Format("CPR.dialog.splitItem.warningUpgrade"));
     }
-    const itemText = SystemUtils.Format("CPR.dialog.splitItem.text",
-      { amount: item.data.data.amount, itemName: item.name });
+    const itemText = SystemUtils.Format(
+      "CPR.dialog.splitItem.text",
+      { amount: item.data.data.amount, itemName: item.name },
+    );
     const formData = await SplitItemPrompt.RenderPrompt(itemText).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;
     }
     const oldAmount = parseInt(item.data.data.amount, 10);
     if (formData.splitAmount <= 0 || formData.splitAmount >= oldAmount) {
-      const warningMessage = SystemUtils.Format("CPR.dialog.splitItem.warningAmount",
-        { amountSplit: formData.splitAmount, amountOld: oldAmount, itemName: item.name });
+      const warningMessage = SystemUtils.Format(
+        "CPR.dialog.splitItem.warningAmount",
+        { amountSplit: formData.splitAmount, amountOld: oldAmount, itemName: item.name },
+      );
       SystemUtils.DisplayMessage("warn", warningMessage);
       return;
     }
