@@ -1584,7 +1584,8 @@ button,
   flex: 0 0 30px;
   border: none;
   margin-right: 5px;
-  width: 64px;
+  margin-left: 5px;
+  width: 32px;
 }
 .effects-list .effect-name {
   flex: 0 0 70%;
