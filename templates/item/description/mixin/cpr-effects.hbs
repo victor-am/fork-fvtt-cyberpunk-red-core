@@ -1,36 +1,44 @@
 {{cprTrace "CPR-EFFECTS.HBS"}}
 {{#if (cprCompare (cprSizeOf item.data.effects) ">" 3)}}
         <div class="item-summary-line">
-            <span class="text-bold summary-name">{{localize "CPR.itemSheet.effects.hasEffect"}}:</span>
+            <span class="text-bold summary-name">{{localize "CPR.itemSheet.effects.effects"}}:</span>
             <span class="summary-value">{{cprSizeOf item.data.effects}}</span>
         </div>
 {{else}}
     {{#each item.data.effects}}
         {{!-- "effects" is a Map, so "this" is now an Active Effects object within the #each loop! --}}
             <hr>
+            {{#if this.data.disabled}}
+              <span class="fg-grey">
+            {{/if}}
             <div class="item-summary-line">
                 <span class="text-bold summary-name">{{this.data.label}}</span>
                 <span class="summary-value">{{#if (cprIsDebug)}}({{this.data._id}}){{/if}}</span>
             </div>
-            {{#if this.data.disabled}}
-            <div>
-              <span class="text-italics">({{localize "CPR.itemSheet.effects.disabled"}})</span>
-            </div>
-            {{/if}}
 
-            {{#each this.data.changes}}
-                {{!-- "this" is now an individual mod for the AE object --}}
-                <div class="item-summary-line">
-                    <span class="summary-value summary-effect-name">{{localize (lookup (cprFindConfigValue "activeEffectKeys" (lookup ../data.flags.cyberpunk-red-core.changes @index)) this.key)}}: </span>
-                    <span class="summary-value summary-effect-value">
-                        {{#if this.value}}
-                            {{cprEffectModMode this.mode this.value}}{{this.value}}
-                        {{else}}
-                            0
-                        {{/if}}
-                    </span>
-                </div>
-            {{/each}}
+            {{#if (cprCompare (cprSizeOf this.data.changes) ">" 3)}}
+            <div class="text-nowrap">
+                <span class="text-bold summary-nam text-nowrap">{{localize "CPR.itemSheet.effects.effects"}}:</span>
+                <span class="summary-value text-nowrap">{{cprSizeOf this.data.changes}}</span>
+            </div>
+            {{else}}
+                {{#each this.data.changes}}
+                    {{!-- "this" is now an individual mod for the AE object --}}
+                    <div class="item-summary-line">
+                        <span class="summary-value summary-effect-name">{{localize (lookup (cprFindConfigValue "activeEffectKeys" (lookup ../data.flags.cyberpunk-red-core.changes @index)) this.key)}}: </span>
+                        <span class="summary-value summary-effect-value">
+                            {{#if this.value}}
+                                {{cprEffectModMode this.mode this.value}}{{this.value}}
+                            {{else}}
+                                0
+                            {{/if}}
+                        </span>
+                    </div>
+                {{/each}}
+            {{/if}}
+            {{#if this.data.disabled}}
+              </span>
+            {{/if}}
         {{#if @last}}<hr>{{/if}}
     {{/each}}
 {{/if}}
