@@ -15,11 +15,11 @@ export default class CPRChat {
    * @static
    * @param {*} content - html content of the chat message
    * @param {*} modeOverride - a means to override the "roll mode" (blind, private, etc)
-   * @param {*} isRoll - a flag indicating whether the chat message is from a dice roll
    * @param {*} forceWhisper - a flag forcing the chat message to be a whisper
+   * @param {*} isRoll - a flag indicating whether the chat message is from a dice roll
    * @returns {*} - object encapsulating chat message data
    */
-  static ChatDataSetup(content, modeOverride, isRoll = false, forceWhisper) {
+  static ChatDataSetup(content, modeOverride, forceWhisper, isRoll = false) {
     LOGGER.trace("ChatDataSetup | CPRChat | Called.");
     const chatData = {
       user: game.user.id,

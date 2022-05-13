@@ -1,4 +1,4 @@
-/* global ActorSheet mergeObject $ game duplicate */
+/* global ActorSheet mergeObject game duplicate */
 import CPRChat from "../../chat/cpr-chat.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import ConfigureBIActorFromProgramPrompt from "../../dialog/cpr-configure-bi-actor-from-program.js";
@@ -113,9 +113,13 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
       const program = (biPrograms.filter((p) => p.id === formData.programId))[0];
       const programData = duplicate(program.data.data);
       this.actor.programmaticallyUpdate(
-        programData.blackIceType, programData.per,
-        programData.spd, programData.atk,
-        programData.def, programData.rez, programData.rez,
+        programData.blackIceType,
+        programData.per,
+        programData.spd,
+        programData.atk,
+        programData.def,
+        programData.rez,
+        programData.rez,
       );
       if (this.actor.isToken) {
         this.actor.token.data.name = program.name;

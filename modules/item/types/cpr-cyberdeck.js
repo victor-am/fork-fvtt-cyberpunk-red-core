@@ -340,10 +340,14 @@ export default class CPRCyberdeckItem extends CPRItem {
         });
         // Configure the Actor based on the Black ICE Program Stats.
         blackIce.programmaticallyUpdate(
-          programData.data.blackIceType, programData.data.per,
-          programData.data.spd, programData.data.atk,
-          programData.data.def, programData.data.rez,
-          programData.data.rez, programData.data.description.value,
+          programData.data.blackIceType,
+          programData.data.per,
+          programData.data.spd,
+          programData.data.atk,
+          programData.data.def,
+          programData.data.rez,
+          programData.data.rez,
+          programData.data.description.value,
         );
       } catch (error) {
         LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Actor failed. Error: ${error}`);
@@ -376,9 +380,12 @@ export default class CPRCyberdeckItem extends CPRItem {
       if (biToken !== null) {
         // Update the Token Actor based on the Black ICE Program Stats, leaving any effect description in place.
         biToken.actor.programmaticallyUpdate(
-          programData.data.blackIceType, programData.data.per,
-          programData.data.spd, programData.data.atk,
-          programData.data.def, programData.data.rez,
+          programData.data.blackIceType,
+          programData.data.per,
+          programData.data.spd,
+          programData.data.atk,
+          programData.data.def,
+          programData.data.rez,
           programData.data.rez,
         );
         const cprFlags = (typeof programData.flags["cyberpunk-red-core"] !== "undefined") ? programData.flags["cyberpunk-red-core"] : {};
@@ -488,9 +495,12 @@ export default class CPRCyberdeckItem extends CPRItem {
         if (tokenList.length === 1) {
           const [biToken] = tokenList;
           biToken.actor.programmaticallyUpdate(
-            programState.data.blackIceType, programState.data.per,
-            programState.data.spd, programState.data.atk,
-            programState.data.def, programState.data.rez,
+            programState.data.blackIceType,
+            programState.data.per,
+            programState.data.spd,
+            programState.data.atk,
+            programState.data.def,
+            programState.data.rez,
           );
         }
       }

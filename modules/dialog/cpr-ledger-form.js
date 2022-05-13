@@ -1,4 +1,4 @@
-/* globals FormApplication mergeObject duplicate game $ setProperty getProperty */
+/* globals FormApplication mergeObject duplicate game setProperty getProperty */
 import LedgerDeletionPrompt from "./cpr-ledger-deletion-prompt.js";
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
@@ -111,7 +111,8 @@ export default class CPRLedger extends FormApplication {
     };
     // Check if value should also be changed.
     const confirmDelete = await LedgerDeletionPrompt.RenderPrompt(
-      SystemUtils.Localize("CPR.dialog.ledgerDeletion.title"), promptContent,
+      SystemUtils.Localize("CPR.dialog.ledgerDeletion.title"),
+      promptContent,
     ).catch((err) => LOGGER.debug(err));
     if (confirmDelete === undefined) {
       return;
