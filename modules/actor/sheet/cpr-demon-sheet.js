@@ -1,4 +1,4 @@
-/* global mergeObject ActorSheet $ */
+/* global mergeObject ActorSheet */
 import CPRChat from "../../chat/cpr-chat.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";

@@ -1584,7 +1584,8 @@ button,
   flex: 0 0 30px;
   border: none;
   margin-right: 5px;
-  width: 64px;
+  margin-left: 5px;
+  width: 32px;
 }
 .effects-list .effect-name {
   flex: 0 0 70%;
@@ -2084,6 +2085,12 @@ form input.number {
 }
 .fight-weapon-attack {
   grid-area: fight-weapon-attack;
+}
+.active-effect-sheet .effect-change .key {
+  flex: 4;
+}
+.summary-effect-value {
+  align-self: center;
 }
 .window-app .window-content {
   background: #eaeaeaff;

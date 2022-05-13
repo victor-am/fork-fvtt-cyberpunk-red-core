@@ -48,7 +48,8 @@ export default class CPRDrugItem extends CPRItem {
     LOGGER.trace("_confirmSnort | CPRDrugItem | called.");
     const promptMessage = `${SystemUtils.Localize("CPR.dialog.snortConfirmation.message")} ${this.data.name}?`;
     return ConfirmPrompt.RenderPrompt(
-      SystemUtils.Localize("CPR.dialog.snortConfirmation.title"), promptMessage,
+      SystemUtils.Localize("CPR.dialog.snortConfirmation.title"),
+      promptMessage,
     ).catch((err) => LOGGER.debug(err));
   }
 }

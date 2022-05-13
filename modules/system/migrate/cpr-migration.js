@@ -29,7 +29,7 @@ export default class CPRMigration {
     LOGGER.trace("run | CPRMigration");
     LOGGER.log(`Migrating to data model version ${this.version}`);
     // These shenanigans are how we dynamically call static methods on whatever migration object is
-    // being run that extends this base class. Normally you need to be explicit, e.g. 
+    // being run that extends this base class. Normally you need to be explicit, e.g.
     // ActiveEffectsMigration.run().
     const classRef = Migrations[this.constructor.name];
     await this.preMigrate();
@@ -41,7 +41,7 @@ export default class CPRMigration {
     }
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allItemsDone"));
 
-    // migrate actors 
+    // migrate actors
     if (!await this.migrateActors()) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.actorErrors"));
       return;
@@ -59,10 +59,9 @@ export default class CPRMigration {
 
     await this.postMigrate();
     if (this.errors !== 0) {
-      return false;
+      throw Error("Migration errors encountered");
     }
     game.settings.set("cyberpunk-red-core", "dataModelVersion", this.version);
-    return true;
   }
 
   /**
@@ -79,11 +78,11 @@ export default class CPRMigration {
    * @returns {Object}
    */
   static safeDelete(doc, prop) {
-    LOGGER.trace("deleteProperty | CPRMigration");
-    let key = prop
+    LOGGER.trace("safeDelete | CPRMigration");
+    let key = prop;
     if (key.includes("data.data")) key = key.slice(0, 4); // should only be one data
     if (hasProperty(doc.data, key)) {
-      key = prop.replace(/.([^.]*)$/, ".-=" + '$1');
+      key = prop.replace(/.([^.]*)$/, ".-=$1");
       return { [key]: null };
     }
     return {};
@@ -99,7 +98,7 @@ export default class CPRMigration {
       try {
         return await classRef.migrateItem(item);
       } catch (err) {
-        throw new Error(`${item.name} had a migration error: ${err.message}`);    
+        throw new Error(`${item.name} had a migration error: ${err.message}`);
       }
     });
     const values = await Promise.allSettled(itemMigrations);
@@ -122,7 +121,7 @@ export default class CPRMigration {
       try {
         return await this.migrateActor(actor);
       } catch (err) {
-        throw new Error(`${actor.name} had a migration error: ${err.message}`);    
+        throw new Error(`${actor.name} had a migration error: ${err.message}`);
       }
     });
     const values = await Promise.allSettled(actorMigrations);
@@ -162,6 +161,7 @@ export default class CPRMigration {
           throw new Error(`${token.actor.name} token had a migration error: ${err.message}`);
         }
       });
+      // eslint-disable-next-line no-await-in-loop
       const values = await Promise.allSettled(tokenMigrations);
       for (const value of values.filter((v) => v.status !== "fulfilled")) {
         LOGGER.error(`Migration error: ${value.reason.message}`);
@@ -176,18 +176,18 @@ export default class CPRMigration {
   /**
    * This block of abstract methods breaks down how each document type is migrated. If there
    * are any steps that need to be taken before migrating, put them in preMigrate. Likewise
-   * any clean up or changes after go in postMigrate.
+   * any clean up or changes after go in postMigrate. Note that uncommenting these will cause
+   * the linter to traceback for some ridiculous reason.
    *
-   * These all assume data model changes are sent to the server (they're mutators).
-   */
-
-  // TODO: add higher-level updateItems, updateActors, updateTokens, etc
-  async preMigrate() {};
-  async migrateActor(actor) {};
-  static async migrateItem(item) {};
-  static async migrateMacro(macro) {};
-  static async migrateToken(token) {};
-  static async migrateTable(table) {};
-  static async migrateCompendium(comp) {};
-  async postMigrate() {};
+   * They all assume data model changes are sent to the server (they're mutators).
+   *
+   * async preMigrate() {}
+   * async migrateActor(actor) {}
+   * static async migrateItem(item) {}
+   * static async migrateMacro(macro) {}
+   * static async migrateToken(token) {}
+   * static async migrateTable(table) {}
+   * static async migrateCompendium(comp) {}
+   * async postMigrate() {}
+  */
 }

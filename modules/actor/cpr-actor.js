@@ -1205,9 +1205,7 @@ export default class CPRActor extends Actor {
           armorData.data.headLocation.sp = Number(armorData.data.headLocation.sp);
           armorData.data.headLocation.ablation = Number(armorData.data.headLocation.ablation);
           const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.headLocation.sp + upgradeValue;
-          armorData.data.headLocation.ablation = Math.min(
-            (armorData.data.headLocation.ablation + ablation), armorSp,
-          );
+          armorData.data.headLocation.ablation = Math.min((armorData.data.headLocation.ablation + ablation), armorSp);
           updateList.push({ _id: a.id, data: armorData.data });
         });
         await this.updateEmbeddedDocuments("Item", updateList);
@@ -1224,9 +1222,7 @@ export default class CPRActor extends Actor {
           const upgradeValue = a.getAllUpgradesFor("bodySp");
           const upgradeType = a.getUpgradeTypeFor("bodySp");
           const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.bodyLocation.sp + upgradeValue;
-          armorData.data.bodyLocation.ablation = Math.min(
-            (armorData.data.bodyLocation.ablation + ablation), armorSp,
-          );
+          armorData.data.bodyLocation.ablation = Math.min((armorData.data.bodyLocation.ablation + ablation), armorSp);
           updateList.push({ _id: a.id, data: armorData.data });
         });
         await this.updateEmbeddedDocuments("Item", updateList);
@@ -1281,7 +1277,8 @@ export default class CPRActor extends Actor {
     if (setting) {
       const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${effect.data.label}?`;
       const confirmDelete = await ConfirmPrompt.RenderPrompt(
-        SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"), promptMessage,
+        SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"),
+        promptMessage,
       ).catch((err) => LOGGER.debug(err));
       if (!confirmDelete) return;
     }

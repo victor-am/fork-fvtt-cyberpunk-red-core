@@ -23,10 +23,8 @@ const Stackable = function Stackable() {
 
   /**
    * Return true or false based on whether the given item can "stack" with this one.
-   *
-   * @param {CPRItem} item - candidate Item for stacking
    */
-  this.canStack = function canStack(item) {
+  this.canStack = function canStack() {
     // we'll need this later for splitting and merging stacks of items
   };
 };
