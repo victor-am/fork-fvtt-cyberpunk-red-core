@@ -12,6 +12,12 @@
                 <span class="text-bold summary-name">{{this.data.label}}</span>
                 <span class="summary-value">{{#if (cprIsDebug)}}({{this.data._id}}){{/if}}</span>
             </div>
+            {{#if this.data.disabled}}
+            <div>
+              <span class="text-italics">({{localize "CPR.itemSheet.effects.disabled"}})</span>
+            </div>
+            {{/if}}
+
             {{#each this.data.changes}}
                 {{!-- "this" is now an individual mod for the AE object --}}
                 <div class="item-summary-line">
