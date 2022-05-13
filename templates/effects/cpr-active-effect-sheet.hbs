@@ -58,6 +58,13 @@
                         <select name="data.flags.cyberpunk-red-core.changes.{{i}}" data-dtype="String">
                             {{#select (lookup ../data.flags.cyberpunk-red-core.changes i)}}
                                 {{#each (cprFindConfigObj "activeEffectKeys" ) as |effectCategory ec|}}
+                                {{!-- Dynamically create the various effect keys. Added here to pass language pipeline:
+                                    CPR.effectSheet.keyCategory.combat
+                                    CPR.effectSheet.keyCategory.netrun
+                                    CPR.effectSheet.keyCategory.role
+                                    CPR.effectSheet.keyCategory.skill
+                                    CPR.effectSheet.keyCategory.stat                              
+                                --}}
                                     <option value="{{ec}}">{{localize (cprObjConcat "CPR.effectSheet.keyCategory." ec)}}</option>
                                 {{/each}}
                                 <option value="custom">{{localize "CPR.effectSheet.keyCategory.custom"}}</option>
