@@ -126,23 +126,39 @@ const Attackable = function Attackable() {
     });
 
     // finally, total up active effects improving attacks
-    universalBonusAttack += this.actor.data.bonuses.universalAttack;
+    universalBonusAttack += actor.data.bonuses.universalAttack;
 
     switch (type) {
       case CPRRolls.rollTypes.AIMED: {
         cprRoll = new CPRRolls.CPRAimedAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
+        cprRoll.addMod(actor.data.bonuses.aimedShot);
+        if (weaponData.isRanged) {
+          cprRoll.addMod(actor.data.bonuses.ranged);
+        } else {
+          cprRoll.addMod(actor.data.bonuses.melee);
+        }
         break;
       }
       case CPRRolls.rollTypes.AUTOFIRE: {
         cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
+        cprRoll.addMod(actor.data.bonuses.autofire);
+        cprRoll.addMod(actor.data.bonuses.ranged);
         break;
       }
       case CPRRolls.rollTypes.SUPPRESSIVE: {
         cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
+        cprRoll.addMod(actor.data.bonuses.suppressive);
+        cprRoll.addMod(actor.data.bonuses.ranged);
         break;
       }
       default:
         cprRoll = new CPRRolls.CPRAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
+        if (weaponData.isRanged) {
+          cprRoll.addMod(actor.data.bonuses.singleShot);
+          cprRoll.addMod(actor.data.bonuses.ranged);
+        } else {
+          cprRoll.addMod(actor.data.bonuses.melee);
+        }
     }
 
     // apply other known mods

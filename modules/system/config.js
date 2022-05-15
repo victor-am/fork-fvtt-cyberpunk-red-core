@@ -502,6 +502,12 @@ CPR.activeEffectKeys = {
     "bonuses.deathSavePenalty": "CPR.effectSheet.combat.stats.deathPenalty",
     "bonuses.universalAttack": "CPR.effectSheet.combat.stats.universalAttack",
     "bonuses.universalDamage": "CPR.effectSheet.combat.stats.universalDamage",
+    "bonuses.aimedShot": "CPR.effectSheet.combat.stats.aimedShot",
+    "bonuses.singleShot": "CPR.effectSheet.combat.stats.singleShot",
+    "bonuses.melee": "CPR.effectSheet.combat.stats.melee",
+    "bonuses.ranged": "CPR.effectSheet.combat.stats.ranged",
+    "bonuses.autofire": "CPR.effectSheet.combat.stats.autofire",
+    "bonuses.suppressive": "CPR.effectSheet.combat.stats.suppressive",
   },
   netrun: {
     "bonuses.attack": "CPR.effectSheet.netrun.attack",

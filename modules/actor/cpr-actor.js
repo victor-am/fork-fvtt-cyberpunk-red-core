@@ -78,6 +78,13 @@ export default class CPRActor extends Actor {
     this.data.bonuses.attack = 0;
     this.data.bonuses.defense = 0;
     this.data.bonuses.rez = 0;
+    // combat-related rolls
+    this.data.bonuses.aimedShot = 0;
+    this.data.bonuses.melee = 0;
+    this.data.bonuses.ranged = 0;
+    this.data.bonuses.autofire = 0;
+    this.data.bonuses.suppressive = 0;
+    this.data.bonuses.singleShot = 0;
   }
 
   /**
