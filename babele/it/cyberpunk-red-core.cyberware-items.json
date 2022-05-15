@@ -2,420 +2,420 @@
 	"label": "Cyberware",
 	"entries": {
 		"Amplified Hearing": {
-			"name": "Amplified Hearing",
-			"description": "<p>Provides +2 to perception checks that use hearing. </p>"
+			"name": "Udito Amplificato",
+			"description": "<p>+2 su Prove di Percezione (udito). Richiede Sistema Cyberudito. Installazioni multiple: NO</p>"
 		},
 		"Anti-Dazzle": {
-			"name": "Anti-Dazzle",
-			"description": "<p>Must be paired. Provides immunity to dazzling effects (like flashbangs).</p>"
+			"name": "Antiriflesso",
+			"description": "<p>Richiede Cyberocchi. Deve essere accoppiato. Fornisce immunità agli effetti abbaglianti (come i flashbangs).</p>"
 		},
 		"Artificial Shoulder Mount": {
-			"name": "Artificial Shoulder Mount",
-			"description": "<p>Allows you to install an extra pair of cyberarms. </p>"
+			"name": "Innesto Spalla Artificiale",
+			"description": "<p>Ti permette di installare 2 Cyberarms sotto le braccia naturali. Installazione multipla: NO</p>"
 		},
 		"Audio Recorder": {
-			"name": "Audio Recorder",
-			"description": "<p>Records sound. Can link into a chip or agent.  </p>"
+			"name": "Registratore Audio",
+			"description": "<p>Registra audio su Chip di Memoria o un Agent collegato. Richiede Sistema Cyberudito.</p>"
 		},
 		"AudioVox": {
 			"name": "AudioVox",
-			"description": "<p>Autotune synthesizer. Provides +2 to Acting and Play Instrument checks. </p>"
+			"description": "<p>Sintetizzatore vocale. +2 a Recitare e Musica quando si canta.</p>"
 		},
 		"Battleglove": {
-			"name": "Battleglove",
-			"description": "<p>An exotic heavy gauntlet, that covers your hand and forearm. Provides three option slots. Refer to the full item description on pg. 347.&nbsp;</p>"
+			"name": "Guanto da Battaglia",
+			"description": "<p>Un guanto pesante esotico, che copre la mano e l'avambraccio. Fornisce 3 slot di opzione da Cyberbraccio o Cyberarto. (Vedi pg. 347)</p>"
 		},
 		"Big Knucks": {
-			"name": "Big Knucks",
-			"description": "<p>Armored knuckles which function as a Melee Weapon. </p>"
+			"name": "Nocche Blindate",
+			"description": "<p>Arma da Mischia Media. Occultabile. Installabile come unico cyberware in un braccio di carne.</p>"
 		},
 		"Biomonitor": {
 			"name": "Biomonitor",
-			"description": "<p>Provides an LED showing vitals readouts. Can be linked to your agent. </p>"
+			"description": "<p>Impianto sotto pelle con LED che mostra letture vitali. Può essere collegato al tuo Agent. </p>"
 		},
 		"Braindance Recorder": {
-			"name": "Braindance Recorder",
-			"description": "<p>Records memories for BD replay. Great for Medias.</p>"
+			"name": "Registratore Braindance",
+			"description": "<p>Registra i ricordi dal tuo punto di vista per il replay di BD e li salva su Agent collegato o Chip di Memoria. Per visualizzarli è necessario un Visore Braindance. Ottimo per i media. Requisiti: Collegamento Neurale</p>"
 		},
 		"Bug Detector": {
-			"name": "Bug Detector",
-			"description": "<p>Notifies of bugs or taps within 2m/yds.</p>"
+			"name": "Rilevatore di Cimici",
+			"description": "<p>Notifica dispositivi di ascolto entro 2m. Requistiti: Sistema Cyberudito.</p>"
 		},
 		"Chemical Analyzer": {
-			"name": "Chemical Analyzer",
-			"description": "<p>Chipware. Test chemical make up of something.</p>"
+			"name": "Analizzatore Chimico",
+			"description": "<p>Chipware. Analizza la composizione chimica di una sostanza confrontandola con un database. Richiede Alveolo.</p>"
 		},
 		"Chemskin": {
-			"name": "Chemskin",
-			"description": "<p>+2 Personal Grooming when using Techhair as well. Changes hue.</p>"
+			"name": "Chimipelle",
+			"description": "<p>Pigmenti introdotti nella pelle per cambiarne il colore. +2 a Cura della Persona se si hanno anche i Tecnocapelli.</p>"
 		},
 		"Chipware Socket": {
-			"name": "Chipware Socket",
-			"description": "<p>Single socket for installation and removal of a piece of chipware. </p>"
+			"name": "Alveolo",
+			"description": "<p>Singola presa per l'installazione e la rimozione di un pezzo di chipware. Si possono installare prese multiple da acquistare singolarmente. Requisiti: Collegamento Neurale</p>"
 		},
 		"Chyron": {
 			"name": "Chyron",
-			"description": "<p>Tiny screen in your eye. Provides picture-in-picture for those boring moments. </p>"
+			"description": "<p>Piccolo schermo nel tuo occhio per vedere video, messaggi da altri cyberware o dispositivi. Fornisce picture-in-picture per quei momenti noiosi. </p>"
 		},
 		"Color Shift": {
-			"name": "Color Shift",
-			"description": "<p>Allows you to shift eyes to an unlimited number of colors and patterns. </p>"
+			"name": "Cambio Colore",
+			"description": "<p>Ti permette di cambiare gli occhi con un numero illimitato di colori e motivi. Requisiti: Cyberocchio</p>"
 		},
 		"Contraceptive Implant": {
-			"name": "Contraceptive Implant",
-			"description": "<p>Prevents undesired pregnancy.</p>"
+			"name": "Impianto Contraccettivo",
+			"description": "<p>Previene una gravidanza indesiderata.</p>"
 		},
 		"Cyberarm": {
-			"name": "Cyberarm",
-			"description": "<p>A cybernetical replacement arm. Comes with a free hand. </p>"
+			"name": "Cyberbraccio",
+			"description": "<p>Braccio cibernetico. Include 4 slot opzionali. Viene fornito con una mano gratuita che non genera Perdita di Umanità e non occupa slot. </p>"
 		},
 		"Cyberaudio Suite": {
-			"name": "Cyberaudio Suite",
-			"description": "<p>A base interface for audio enhancements.</p>"
+			"name": "Sistema Cyberudito",
+			"description": "<p>Un'interfaccia di base per miglioramenti audio.</p>"
 		},
 		"Cyberdeck (Hardwired)": {
-			"name": "Cyberdeck (Hardwired)",
-			"description": "<p>A built-in cyberdeck. Always available. </p>"
+			"name": "Cyberdeck (Cablato)",
+			"description": "<p>Un cyberdeck. Sempre disponibile. Requisiti: Cyberbraccio, 3 Slot, Collegamento Neurale e Connettori d'Interfaccia</p>"
 		},
 		"Cybereye": {
-			"name": "Cybereye",
-			"description": "<p>An artificial eye. Choose Kiroshi Optics!</p>"
+			"name": "Cyberocchio",
+			"description": "<p>Un occhio artificiale. Scegli Kiroshi Optics!</p>"
 		},
 		"Cyberleg": {
-			"name": "Cyberleg",
-			"description": "<p>A cybernetical replacement leg. Comes with a free foot. </p>"
+			"name": "Cybergamba",
+			"description": "<p>Una gamba cibernetica. Viene fornita con un Piede Standard che non comporta Perdita di Umanità e non occupa slot. </p>"
 		},
 		"Cybersnake": {
-			"name": "Cybersnake",
-			"description": "<p>A throat snake which is a Very Heavy Melee weapon.  </p>"
+			"name": "Cyberserpente",
+			"description": "<p>Un'Arma da Mischia Molto Pesante installata nell'esofago o in gola. Viene occultata e non richiede Prove.</p>"
 		},
 		"Dartgun": {
-			"name": "Dartgun",
-			"description": "<p>A single shot weapon which can be concealed. </p>"
+			"name": "Lanciadardi",
+			"description": "<p>Una Pistola a Dardi a colpo singolo nascosta nell’occhio. </p>"
 		},
 		"Difficult Skill Chip": {
-			"name": "Difficult Skill Chip",
-			"description": "<p>Chipware. Provides  a value of 3 to a specific (x2) skill while installed (unless the skill is already 3+). </p>"
+			"name": "Chip Abilità",
+			"description": "<p>Chipware. Richiede Alveolo. Quando è installato in un Alveolo, fornisce un’Abilità a Livello +3, a meno che si conosca già a livelli superiori. I Chip per le Abilità (×2) costano 1.000 E$, gli altri 500. </p>"
 		},
 		"EMP Threading": {
-			"name": "EMP Threading",
-			"description": "<p>PCB effect on skin.</p>"
+			"name": "Filamenti EMP",
+			"description": "<p>Sottili e all'ultima moda filamenti d’argento, simili a circuiti stampati lungo il corpo.</p>"
 		},
 		"Enhanced Antibodies": {
-			"name": "Enhanced Antibodies",
-			"description": "<p>Doubles natural healing while resting. </p>"
+			"name": "Anticorpi Potenziati",
+			"description": "<p>Raddoppia la guarigione dei PF dopo un giorno di riposo completo. </p>"
 		},
 		"Gills": {
-			"name": "Gills",
-			"description": "<p>Allows for breathing underwater. </p>"
+			"name": "Branchie",
+			"description": "<p>Permette di respirare sott'acqua. </p>"
 		},
 		"Grafted Muscle and Bone Lace": {
-			"name": "Grafted Muscle and Bone Lace",
-			"description": "<p>Increase Body by 2 (and related stats). Stacks. Max at 10 Body.</p>"
+			"name": "Laccio Osseo-Muscolare",
+			"description": "<p>Aumenta il FIS di 2 (e le statistiche correlate). Installazioni Multiple: Si. FIS Max:10.</p>"
 		},
 		"Grapple Hand": {
-			"name": "Grapple Hand",
-			"description": "<p>A retractable grappling hook embedded into your hand.</p>"
+			"name": "Mano Rampino",
+			"description": "<p>Come Azione, l’utente può scagliare un rampino a reazione, che si aggancia a qualsiasi copertura “spessa” entro 30m. Il cavo può reggere fino a due volte il peso dell’utente e ha 10 PF.\nNega la normale penalità per arrampicarsi ed è possibile recuperare il cavo senza alcuna Azione, anche mentre lo si sta impiegando. Mentre è in funzione la mano non può essere usata altrimenti. È inutile come arma e non può essere usata per un’Azione di Lotta.</p>"
 		},
 		"Grip Foot": {
-			"name": "Grip Foot",
-			"description": "<p>Provides traction for climbing vertically. Must be paired. </p>"
+			"name": "Piede Grip",
+			"description": "<p>Fornisce trazione per arrampicarsi verticalmente. Nega la penalità al movimento arrampicandosi. Deve essere accoppiato. </p>"
 		},
 		"Hardened Shielding (Cyber Arm)": {
-			"name": "Hardened Shielding (Cyber Arm)",
-			"description": "<p>The arm and installed options are not affected by EMP effects. </p>"
+			"name": "Schermatura Rinforzata (Cyberbraccio)",
+			"description": "<p>Il braccio e le opzioni installate non sono influenzate dagli impulsi EMPe programmi, salvo i Black ICE. </p>"
 		},
 		"Hardened Shielding (Cyber Leg)": {
-			"name": "Hardened Shielding (Cyber Leg)",
-			"description": "<p>The leg and installed options are not affected by EMP effects. </p>"
+			"name": "Schermatura Rinforzata (Cybergamba)",
+			"description": "<p>L'arto e le opzioni installate non sono influenzate dagli impulsi EMPe programmi, salvo i Black ICE. </p>"
 		},
 		"Hidden Holster": {
-			"name": "Hidden Holster",
-			"description": "<p>Holster that is hidden inside you.</p>"
+			"name": "Fondina Nascosta",
+			"description": "<p>Fondina inserita nel corpo, dove nascondere un’arma occultabile senza effettuare Prove.</p>"
 		},
 		"Homing Tracer": {
-			"name": "Homing Tracer",
-			"description": "<p>Audio tracking of a tracer up to 1 mile. Replacements not included. </p>"
+			"name": "Localizzatore",
+			"description": "<p>Comunicazione audio con portata fino a 1,6km. Sostituzioni non incluse. </p>"
 		},
 		"Image Enhance": {
-			"name": "Image Enhance",
-			"description": "<p>Must be paired. +2 Perception and Lip Reading and Conceal/Reveal Object when using sight.</p>"
+			"name": "Definitore d’Immagine",
+			"description": "<p>Deve essere accoppiato. +2 alle Prove di Leggere le Labbra, Nascondere/Trovare Oggetti e Percezione basate sulla vista. Installazioni multiple non cumulative.</p>"
 		},
 		"Implanted Linear Frame β (Beta)": {
-			"name": "Implanted Linear Frame β (Beta)",
-			"description": "<p>Increases your BODY stat to 14 (adjusting your HP and Wound Threshold and Death Save)</p>"
+			"name": "Telaio Lineare ß (Beta) Esoscheletro Impiantato",
+			"description": "<p>Aumenta FIS a 14 (15 max), soglia PF, Soglia Ferite e TS Morte. Richiede FIS 8 e due Lacci Osseo-Muscolari.</p>"
 		},
 		"Implanted Linear Frame ∑ (Sigma)": {
-			"name": "Implanted Linear Frame ∑ (Sigma)",
-			"description": "<p>Increases your BODY stat to 12 (adjusting your HP and Wound Threshold and Death Save)</p>"
+			"name": "Telaio Lineare Σ (Sigma) Esoscheletro Impiantato",
+			"description": "<p>Aumenta FIS a 12 (13 max), soglia PF, Soglia Ferite e TS Morte. Richiede FIS 6 e un Laccio Osseo-Muscolare.</p>"
 		},
 		"Independent Air Supply": {
-			"name": "Independent Air Supply",
-			"description": "<p>30 minutes of refillable breathable air. </p>"
+			"name": "Riserva d’Aria Indipendente",
+			"description": "<p>30 minuti di aria respirabile ricaricabile dall'atmosfera (1 ora). </p>"
 		},
 		"Interface Plugs": {
-			"name": "Interface Plugs",
-			"description": "<p>Plugs in the wrist or head to allow you to connect to machines/systems hands-free. </p>"
+			"name": "Connettore d’Interfaccia",
+			"description": "<p>Spinotti al polso o alla testa per permetterti di connetterti a macchine/sistemi senza mani (Cyberdeck, ecc...)</p>"
 		},
 		"Internal Agent": {
-			"name": "Internal Agent",
-			"description": "<p>Built in agent. Audio only but can be linked with other cybergear. </p>"
+			"name": "Agent Interno",
+			"description": "<p>Agent completo a comandi vocali ma può essere collegato ad altri cybergear. </p>"
 		},
 		"Jump Booster": {
 			"name": "Jump Booster",
-			"description": "<p>Built-in hydraulics negates penalty for jumping. Must be paired. </p>"
+			"description": "<p>Idrauliche incorporate negano la penalità per il salto. Deve essere accoppiata. </p>"
 		},
 		"Kerenzikov": {
 			"name": "Kerenzikov",
-			"description": "<p>Speedware. Permanent +2 to Initiative. </p>"
+			"description": "<p>Speedware sempre attivo. Permanente +2 all'iniziativa. </p>"
 		},
 		"Level Damper": {
-			"name": "Level Damper",
-			"description": "<p>Provides immunity to deafness or sudden loud noises. </p>"
+			"name": "Antiassordante",
+			"description": "<p>Fornisce immunità a sordità o rumori improvvisi come da flashbang. </p>"
 		},
 		"Light Tattoo": {
-			"name": "Light Tattoo",
-			"description": "<p>Glowing tattoos. +2 to Wardrobe & Style if you have at least three installed.</p>"
+			"name": "Tatuaggio Luminoso",
+			"description": "<p>Tatuaggi luminescenti. +2 a Guardaroba e Stile (non cumulativo) se ne hai almeno installati 3.</p>"
 		},
 		"Low Light/IR/UV": {
-			"name": "Low Light/IR/UV",
-			"description": "<p>Must be paired. Ignore any vision penalties due to lighting or fog/smoke.</p>"
+			"name": "Bassa Luminosità/Infrarosso/UV",
+			"description": "<p>Deve essere accoppiato. Riduce a 0 le penalità di visione dovute all'illuminazione o alla nebbia/fumo. Richiede 2 Cyberocchi.</p>"
 		},
 		"Meat Arm": {
-			"name": "Meat Arm",
-			"description": "<p>A regular arm. This can support attachments like a Standard Hand or some weapons and tools as the only installed piece.</p>"
+			"name": "Braccio Di Carne",
+			"description": "<p>Un braccio regolare che può supportare aggiunte come una Mano Standard o alcune armi e strumenti come l'unico pezzo installato.</p>"
 		},
 		"Meat Leg": {
-			"name": "Meat Leg",
-			"description": "<p>A regular leg. This can support attachments like a Standard Foot or weapons such as the Talon Foot.</p>"
+			"name": "Gamba Di Carne",
+			"description": "<p>Una gamba regolare. Questo può supportare allegati come un Piede Standard o armi come il Piede Pattino.</p>"
 		},
 		"Medscanner": {
 			"name": "Medscanner",
-			"description": "<p>Built-in medscanner which allows for quick assessment of injuries. Provides +2 to First Aid and Paramedic skill checks.</p>"
+			"description": "<p>Medscanner installato nel braccio. Aiuta a diagnosticare ferite e malattie. +2 a Pronto Soccorso e Paramedico.</p>"
 		},
 		"Memory Chip": {
-			"name": "Memory Chip",
-			"description": "<p>Chipware. Data Storage. Like a flash drive for your brain. Eject safely. </p>"
+			"name": "Chip di memoria",
+			"description": "<p>Chipware. Archiviazione dati. Mentre è installato, il cyberware dell’utente può leggere o scrivere da esso. Richiede Alveolo. </p>"
 		},
 		"MicroOptics": {
-			"name": "MicroOptics",
-			"description": "<p>Provides up to 400x magnification.</p>"
+			"name": "MicroOttica",
+			"description": "<p>Fornisce fino a 400x ingrandimento.</p>"
 		},
 		"MicroVideo": {
 			"name": "MicroVideo",
-			"description": "<p>An eye camera which can link into a chip or agent. Great for Medias. </p>"
+			"description": "<p>Una telecamera per gli occhi che può collegarsi a un Chip di Memoria o ad un Agent. Ottimo per i media. </p>"
 		},
 		"Midnight Lady Sexual Implant": {
-			"name": "Midnight Lady Sexual Implant",
-			"description": "<p>Machine washable.</p>"
+			"name": "Impianto Sessuale Mezzanotte Lady",
+			"description": "<p>Lavabile in lavatrice.</p>"
 		},
 		"Mr. Studd Sexual Implant": {
-			"name": "Mr. Studd Sexual Implant",
-			"description": "<p>Ready when you are.</p>"
+			"name": "Impianto Sessuale Mr. Studd ",
+			"description": "<p>Sono pronto quando lo sei tu.</p>"
 		},
 		"MultiOptic Mount": {
-			"name": "MultiOptic Mount",
-			"description": "<p>Allows you to install up to 5 more cybereyes. Cybereyes sold separately. </p>"
+			"name": "Innesto MultiOttico",
+			"description": "<p>Ti permette di installare fino a 5 altri cyberocchi. Cybereyes venduti separatamente. </p>"
 		},
 		"Nasal Filters": {
-			"name": "Nasal Filters",
-			"description": "<p>Provides immunity to inhalable gases or fumes. </p>"
+			"name": "Filtri Nasali",
+			"description": "<p>Fornisce immunità ai gas o ai fumi inalabili. </p>"
 		},
 		"Neural Link": {
-			"name": "Neural Link",
-			"description": "<p>Access to nervous system. </p>"
+			"name": "Collegamento Neurale",
+			"description": "<p>Sistema nervoso artificiale. </p>"
 		},
 		"Olfactory Boost": {
-			"name": "Olfactory Boost",
-			"description": "<p>Chipware. Allows scent tracking</p>"
+			"name": "Amplificatore Olfattivo",
+			"description": "<p>Chipware. Permette di usare Seguire Tracce con l'olfatto</p>"
 		},
 		"Pain Editor": {
-			"name": "Pain Editor",
-			"description": "<p>Chipware. Removes Seriously Wounded penalties.</p>"
+			"name": "Antidolorifico",
+			"description": "<p>Chipware. Ignori le penalità della Soglia Ferito Gravemente.</p>"
 		},
 		"Plastic Covering (Cyber Arm)": {
-			"name": "Plastic Covering (Cyber Arm)",
-			"description": "<p>A type of plastic coating for your arm. </p>"
+			"name": "Copertura Plastica (Cyberbraccio)",
+			"description": "<p>Rivestimento in plastica in vari colori e motivi per il braccio. </p>"
 		},
 		"Plastic Covering (Cyber Leg)": {
-			"name": "Plastic Covering (Cyber Leg)",
-			"description": "<p>A type of plastic coating for your leg. </p>"
+			"name": "Copertura Plastica (Cybergamba)",
+			"description": "<p>Rivestimento in plastica in vari colori e motivi per la gamba. </p>"
 		},
 		"Popup Grenade Launcher": {
-			"name": "Popup Grenade Launcher",
-			"description": "<p>A concealable one-shot Grenade Launcher. Can't hold anything with this hand while activated. </p>"
+			"name": "Lanciagranate Popup",
+			"description": "<p>Un Lanciagranate a Una Mano con un solo colpo installato nel braccio. Incompatibile con gli Accessori eccetto il Collegamento Smartgun. Occultabile senza alcuna Prova. Quando è in uso la mano non può impugnare nulla. </p>"
 		},
 		"Popup Melee Weapon": {
-			"name": "Popup Melee Weapon",
-			"description": "<p>A concealable Melee Weapon. Can't hold anything with this hand while activated. </p>"
+			"name": "Arma da Mischia Popup",
+			"description": "<p>Un'Arma da mischia occultabile. Non è possibile tenere nulla con questa mano mentre è attivata. </p>"
 		},
 		"Popup Ranged Weapon": {
-			"name": "Popup Ranged Weapon",
-			"description": "<p>A concealable one-handed Ranged Weapon. Can't hold anything with this hand while activated. </p>"
+			"name": "Arma a Distanza Popup",
+			"description": "<p>Un'Arma a Distanza ad una mano nascosta. Non è possibile tenere nulla con questa mano mentre è attivata. </p>"
 		},
 		"Popup Shield": {
-			"name": "Popup Shield",
-			"description": "<p>A foldable bulletproof shield that can be drawn or stowed easily. Can't hold anything with this hand while activated. </p>"
+			"name": "Scudo Popup",
+			"description": "<p>Uno scudo a prova di proiettile pieghevole che può essere estratto o riposto facilmente. Non puoi tenere nulla con questa mano mentre è attivato. </p>"
 		},
 		"Quick Change Mount": {
-			"name": "Quick Change Mount",
-			"description": "<p>Your cyberarm can be detached and re-attached (and swapped) using your open socket. Keep an arm for every occasion. </p>"
+			"name": "Innesto Cambio\nRapido",
+			"description": "<p>Il tuo cyberarm può essere staccato e riattaccato (e scambiato) usando il tuo innesto aperto. Tieni un braccio per ogni occasione. </p>"
 		},
 		"Radar / Sonar Implant": {
-			"name": "Radar / Sonar Implant",
-			"description": "<p>Scans 50m/yds around you. Doesn't work through cover. </p>"
+			"name": "Impianto Radar / Sonar",
+			"description": "<p>Scansiona di continuo quel che ti circonda entro 50m. Non funziona attraverso coperture (es: porte). \nIl GM segnala all’utente la presenza di oggetti in movimento rilevati e la loro direzione.</p>"
 		},
 		"Radar Detector": {
-			"name": "Radar Detector",
-			"description": "<p>Notifies of detected active radar within a 1 mile radius.</p>"
+			"name": "Rivelatore Radar",
+			"description": "<p>Notifica il radar attivo rilevato entro un raggio di 100m.</p>"
 		},
 		"Radiation Detector": {
-			"name": "Radiation Detector",
-			"description": "<p>Shows radiation with a blue glow. Maximum range 100m/yds.</p>"
+			"name": "Rilevatore di Radiazioni",
+			"description": "<p>Mostra la radiazione con un bagliore blu. Massimo raggio d'azione 100m.</p>"
 		},
 		"Radio Communicator": {
-			"name": "Radio Communicator",
-			"description": "<p>Built in walkie-talkie. 1 mile range.</p>"
+			"name": "Comunicatore Radio",
+			"description": "<p>Walkie-talkie integrato. 1,6km di raggio.</p>"
 		},
 		"Radio Scanner/Music Player": {
-			"name": "Radio Scanner/Music Player",
-			"description": "<p>Tune into CitiNet radio stations or play your locally saved music.</p>"
+			"name": "Radio/Lettore Musicale",
+			"description": "<p>Sintonizza le stazioni radio CitiNet entro 1,6km o riproduci la tua musica salvata localmente sul Data Pool o Chip di Memoria.</p>"
 		},
 		"Realskinn Covering (Cyber Arm)": {
-			"name": "Realskinn Covering (Cyber Arm)",
-			"description": "<p>An artifical skin type for your arm. </p>"
+			"name": "Copertura Realskinn (Cyberarto)",
+			"description": "<p>Rivestimento di pelle artificiale per il braccio. </p>"
 		},
 		"Realskinn Covering (Cyber Leg)": {
-			"name": "Realskinn Covering (Cyber Leg)",
-			"description": "<p>An artifical skin type for your leg. </p>"
+			"name": "Copertura Realskinn (Cybergamba)",
+			"description": "<p>Rivestimento di pelle artificiale per la gamba. </p>"
 		},
 		"Rippers": {
-			"name": "Rippers",
-			"description": "<p>Very sharp fingernails which are a Medium Melee Weapon. Can be concealed. </p>"
+			"name": "Digitolame",
+			"description": "<p>Artigli retrattili in carbonio laminato, sono un'Arma da mischia media che può essere nascosta senza Prova. </p>"
 		},
 		"Sandevistan": {
 			"name": "Sandevistan",
-			"description": "<p>Speedware. +3 to Initiative for 1 min. 1hr cooldown.</p>"
+			"description": "<p>Speedware. Se attivato da +3 all'Iniziativa per 1 min. Richiede 1 ora di raffreddamento.</p>"
 		},
 		"Scrambler/Descrambler": {
-			"name": "Scrambler/Descrambler",
-			"description": "<p>Encodes and decodes transmissions.</p>"
+			"name": "Codificatore/Decodificatore",
+			"description": "<p>Codifica e decodifica le trasmissioni.</p>"
 		},
 		"Scratchers": {
-			"name": "Scratchers",
-			"description": "<p>Sharp fingernails which are a Light Melee Weapon. Can be concealed. </p>"
+			"name": "Scorticatori",
+			"description": "<p>Unghie taglienti in carbonio laminato, sono un'Arma da mischia leggera. Può essere nascosta. </p>"
 		},
 		"Sensor Array": {
-			"name": "Sensor Array",
-			"description": "<p>Allows you to install up to 5 more cyberaudio options. </p>"
+			"name": "Modulo Sensori",
+			"description": "<p>Ti permette di installare fino a 5 altre opzioni cyberaudio. </p>"
 		},
 		"Shift Tacts": {
-			"name": "Shift Tacts",
-			"description": "<p>Change eye color. Can be activated/deactivated at will. </p>"
+			"name": "Mutalenti",
+			"description": "<p>Cambia il colore degli occhi. Può essere attivato/disattivato a piacimento. </p>"
 		},
 		"Shoulder Cam": {
-			"name": "Shoulder Cam",
-			"description": "<p>A stowable camera that pops out of your shoulder. Can link with an agent or memory chip. </p>"
+			"name": "Videocamera",
+			"description": "<p>Una fotocamera occultabile nella spalla. Può collegarsi con un Agent o un Chip di Memoria. </p>"
 		},
 		"Skate Foot": {
-			"name": "Skate Foot",
-			"description": "<p>While running your movement is increased by 6m/yds. Must be paired. </p>"
+			"name": "Piede Pattino",
+			"description": "<p>Rollerblade nel piede. Incrementa di 6m la velocità in Corsa. Occultabile. Deve essere accoppiato.</p>"
 		},
 		"Skill Chip": {
-			"name": "Skill Chip",
-			"description": "<p>Chipware. Provides  a value of 3 to a specific skill while installed (unless the skill is already 3+). </p>"
+			"name": "Chip Abilità",
+			"description": "<p>Chipware. Fornisce un valore di 3 ad un'abilità specifica mentre è installata (a meno che l'abilità non sia già 3+). </p>"
 		},
 		"Skin Weave": {
 			"name": "Skin Weave",
-			"description": "<p>Head and Body Armor SP7 and recovers 1SP /day. Does not stack</p>"
+			"description": "<p>Testa e Corpo Armatura SP7 e recupera 1SP /giorno. Non cumulabile</p>"
 		},
 		"Skinwatch": {
-			"name": "Skinwatch",
-			"description": "<p>An LED watch in your skin.</p>"
+			"name": "Orologio Dermale",
+			"description": "<p>Un orologio LED nella tua pelle.</p>"
 		},
 		"Slice 'N Dice": {
-			"name": "Slice 'N Dice",
-			"description": "<p>Monofilament wiring which is a Medium Melee Weapon. Can be concealed. </p>"
+			"name": "Rasoio Monofilare",
+			"description": "<p>Frusta monomolecolare inserita nel pollice. Arma da Mischia Media, occultabile senza alcuna Prova. Quando in uso la mano non può impugnare nulla. </p>"
 		},
 		"Standard Foot": {
-			"name": "Standard Foot",
-			"description": "<p>Looks like a normal foot for the most part. </p>"
+			"name": "Piede Standard",
+			"description": "<p>Sembra un piede normale per la maggior parte. </p>"
 		},
 		"Standard Hand": {
-			"name": "Standard Hand",
-			"description": "<p>Looks like a normal hand for the most part. </p>"
+			"name": "Mano Standard",
+			"description": "<p>Sembra una mano normale per la maggior parte. </p>"
 		},
 		"Subdermal Armor": {
-			"name": "Subdermal Armor",
-			"description": "<p>Head and Body Armor SP11 and recovers 1SP /day. Does not stack</p>"
+			"name": "Armatura Subdermale",
+			"description": "<p>Testa e Corpo Armatura SP11 e recupera 1SP /giorno. Non cumulablie</p>"
 		},
 		"Subdermal Grip": {
-			"name": "Subdermal Grip",
-			"description": "<p>Plating on your hand which allows you to utilise Smartguns. Requires a neural link. </p>"
+			"name": "Presa Sottocutanea",
+			"description": "<p>Placcatura palmare sottocutanea che consente di utilizzare Smartguns. Richiede un Collegamento Neurale. </p>"
 		},
 		"Subdermal Pocket": {
-			"name": "Subdermal Pocket",
-			"description": "<p>2x4 inch underskin pocket</p>"
+			"name": "Tasca Subdermale",
+			"description": "<p>Tasca sottopelle da 5x10 cm con zip in RealSkinn. Contenuto occultabile senza bisogno di Prove.</p>"
 		},
 		"Superchrome Covering (Cyber Arm)": {
-			"name": "Superchrome Covering (Cyber Arm)",
-			"description": "<p>A metallic coating for your arm. Provides +2 to Wardrobe and Style. </p>"
+			"name": "Copertura Supercrome (Cyberbraccio)",
+			"description": "<p>Un rivestimento cromato per il braccio. Fornisce +2 a Guardaroba e Stile. </p>"
 		},
 		"Superchrome Covering (Cyber Leg)": {
-			"name": "Superchrome Covering (Cyber Leg)",
-			"description": "<p>A metallic coating for your leg. Provides +2 to Wardrobe and Style. </p>"
+			"name": "Copertura Supercrome (Cybergamba)",
+			"description": "<p>Un rivestimento cromato per la gamba. Fornisce +2 a Guardaroba e Stile. </p>"
 		},
 		"Tactile Boost": {
-			"name": "Tactile Boost",
-			"description": "<p>Chipware. Can detect motion up to 20m/yd away through surfaces.</p>"
+			"name": "Amplificatore Tattile",
+			"description": "<p>Chipware. Puoi rilevare il movimento fino a 20m attraverso le superfici. Mentre viene usata come rilevatore, la mano non può compiere altre azioni.</p>"
 		},
 		"Talon Foot": {
-			"name": "Talon Foot",
-			"description": "<p>A retractable blade in your foot which is a Light Melee Weapon. </p>"
+			"name": "Piede Artigliato",
+			"description": "<p>Una lama retrattile nel tuo piede, Arma da mischia leggera occultabile senza alcuna Prova. </p>"
 		},
 		"Targeting Scope": {
-			"name": "Targeting Scope",
-			"description": "<p>Provides a +1 to aimed shots.</p>"
+			"name": "Mirino",
+			"description": "<p>Fornisce un +1 ai colpi mirati.</p>"
 		},
 		"Techhair": {
-			"name": "Techhair",
-			"description": "<p>+2 Grooming with Chemskin. Color changing hair.</p>"
+			"name": "Tecnocapelli",
+			"description": "<p>Capelli artificiali luminescenti, sensibili a temperatura o cambiamenti ormonali. Chi ha anche la Chimipelle somma +2 a Cura della Persona (non cumulativo).</p>"
 		},
 		"Techscanner": {
-			"name": "Techscanner",
-			"description": "<p>Contains a variety of built-in gadgets and tools. Provides a +2 bonus to multiple skill checks. </p>"
+			"name": "Tecnoscanner",
+			"description": "<p>Analizza diversi tipi di macchinari e dispositivi elettronici, assiste in riparazioni e in altri lavori. Fornisce un bonus +2 per più controlli di abilità come Cybertecnologia, Elettronica e Sicurezza, Tecnologia degli Aeromobili, Tecnologia dei Veicoli Terrestri, Tecnologia delle Armi, Tecnologia delle Imbarcazioni e Tecnologia di Base. </p>"
 		},
 		"TeleOptics": {
-			"name": "TeleOptics",
-			"description": "<p>Telescope in your eye up to 800m/yds. +1 to single shot/aimed shot if greater than 51m away.</p>"
+			"name": "TeleOttica",
+			"description": "<p>Telescopio nel tuo occhio in grado di vedere dettagli fino a 800m. Aggiunge +1 alle Prove d’Attacco per Colpi Singoli e Colpi Mirati contro bersagli a oltre 51m di distanza. Non cumulativo.</p>"
 		},
 		"Tool Hand": {
-			"name": "Tool Hand",
-			"description": "<p>Each finger in your hand has a different tool. Great for Techs!</p>"
+			"name": "Mano Attrezzo",
+			"description": "<p>Ogni dito in mano ha uno strumento diverso come cacciavite, trapano, ecc...  Ottimo Tecnoattrezzo!</p>"
 		},
 		"Toxin Binders": {
-			"name": "Toxin Binders",
-			"description": "<p>Provides +2 to Resist Torture/Drugs checks. </p>"
+			"name": "Filtro Antitossina",
+			"description": "<p>Fornisce +2 a Resistere a Tortura/Droghe. Installazioni multiple senza effetti.</p>"
 		},
 		"Vampyres": {
-			"name": "Vampyres",
-			"description": "<p>Pointy Teeth which is a Light Melee weapon. Can use poison/toxins. </p>"
+			"name": "Zanne Vampiriche",
+			"description": "<p>Zanne installate in bocca. Arma da Mischia Leggera di Alta Qualità, occultabile senza bisogno di Prove. Una Fiala di Veleno o Biotossina (venduta separatamente, pag. 353), può essere celata in uno scomparto nel palato. Il contenuto viene applicato alle Zanne in silenzio e senza bisogno di Azioni. L’effetto dura 30 minuti ed esurisce l’intera fiala. L’installazione delle Zanne modifica tutta la bocca, rendendo impossibile avvelenarsi da soli mentre si mangia una bistecca o si fallisce una Prova </p>"
 		},
 		"Virtuality": {
 			"name": "Virtuality",
-			"description": "<p>Must be paired. Built-in virtuality goggles. </p>"
+			"description": "<p>Proietta il cyberspazio in sovrimpressione nel campo visivo dell’utente. Deve essere accoppiato. </p>"
 		},
 		"Voice Stress Analyzer": {
-			"name": "Voice Stress Analyzer",
-			"description": "<p>Provides +2 to Human Perception and Interrogation checks. Can activate a special lie-detecting mode. </p>"
+			"name": "Analizzatore di Stress",
+			"description": "<p>Fornisce +2 a controlli di Prove di Sensibilità e Interrogatorio. Puoi attivare la speciale funzione macchina della verità.\nPer 1 minuto, il GM effettuerà in segreto le Prove di Sensibilità e Interrogatorio, segnalando quando qualcuno mente. </p>"
 		},
 		"Web Foot": {
-			"name": "Web Foot",
-			"description": "<p>Webbing between your toes allows you to swim. Must be paired. </p>"
+			"name": "Piede Palmato",
+			"description": "<p>Membrane tra le dita dei piedi ti permette di nuotare senza penalità. Deve essere accoppiato. </p>"
 		},
 		"Wolvers": {
 			"name": "Wolvers",
-			"description": "<p>Claws which retract from your knuckles which is a Heavy Melee Weapon. Can be concealed. </p>"
+			"description": "<p>Artigli in carbonio laminato che ritraggono dalle tue nocche che è un'Arma da Mischia Pesante. Può essere nascosto. Quando si usa non si può impugnare nulla.</p>"
 		}
 	}
 }
