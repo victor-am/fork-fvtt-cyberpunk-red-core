@@ -37,6 +37,7 @@
     </div>
     <div class="bottom-pane-gear">
       <div class="eurobucks">
+        {{#if (cprCompare this.data.type "===" "character")}}
         <div class="current-eurobucks flexrow">
           <div class="eurobucks-text">{{localize "CPR.characterSheet.rightPane.eurobucks.eurobucks"}}:</div>
           <div class="eurobucks-value text-left">{{cprNumberFormat actor.data.data.wealth.value}}</div>
@@ -57,6 +58,7 @@
             <input class="eurobucks-input-reason eurobucks-modify-reason" placeholder="{{localize "CPR.characterSheet.rightPane.eurobucks.eurobucksModifyReasonPlaceholder"}}" type="text">
           </div>
         </ol>
+      {{/if}}
       </div>
     </div>
 </div>

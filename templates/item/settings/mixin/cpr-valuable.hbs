@@ -1,0 +1,39 @@
+{{cprTrace "CPR-VALUABLE.HBS"}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap" title="
+      {{#if (cprCompare data.type "===" "ammo")}}
+        {{localize "CPR.itemSheet.physical.priceHoverExplanationAmmo"}}
+      {{else}}
+        {{localize "CPR.itemSheet.physical.priceHoverExplanation"}}
+      {{/if}}
+      ">
+        {{localize "CPR.itemSheet.physical.price.price"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if this.editable}}
+            <input name="data.price.market" class="" type="number" value="{{data.data.price.market}}">
+        {{else}}
+            <span class="text-flex-end">{{cprNumberFormat data.data.price.market}}</span>
+        {{/if}}
+    </div>
+</li>
+
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.physical.price.category"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if this.editable}}
+        <select name="data.price.category" data-dtype="{{data.data.price.category}}">
+            {{#select data.data.price.category}}
+                {{#each (cprFindConfigObj "itemPriceCategory") as |category c|}}
+                    <option value="{{c}}">{{localize category}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+        {{else}}
+            <span class="text-flex-end">{{localize (cprFindConfigValue "itemPriceCategory" data.data.price.category)}}</span>
+        {{/if}}
+    </div>
+</li>
+{{cprTrace "END CPR-VALUABLE.HBS"}}

@@ -1,4 +1,4 @@
-/* global Combatant CONFIG game mergeObject */
+/* global Combatant */
 import LOGGER from "../utils/cpr-logger.js";
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 
@@ -23,24 +23,25 @@ export default class CPRCombatant extends Combatant {
     LOGGER.trace("getInitiativeRoll | CPRCombatant | Called.");
     let cprInitiative;
     const { actor } = this.token;
+    let universalBonusInitiative = 0;
     switch (actor.type) {
       case "character":
       case "mook": {
         if (initiativeType === "meat") {
           cprInitiative = new CPRRolls.CPRInitiative(initiativeType, actor.type, formula, actor.getStat("ref"));
-          const roleList = actor.getRoles();
-
-          roleList.forEach((role) => {
-            const relevantAbilities = role.data.data.abilities.filter((a) => a.name === "Initiative Reaction");
-            if (relevantAbilities.length > 0) {
-              relevantAbilities.forEach((ability) => {
-                cprInitiative.addMod(ability.rank);
+          actor.data.filteredItems.role.forEach((r) => {
+            if (r.data.data.universalBonuses.includes("initiative")) {
+              universalBonusInitiative += Math.floor(r.data.data.rank / r.data.data.bonusRatio);
+            }
+            const subroleUniversalBonuses = r.data.data.abilities.filter((a) => a.universalBonuses.includes("initiative"));
+            if (subroleUniversalBonuses.length > 0) {
+              subroleUniversalBonuses.forEach((b) => {
+                universalBonusInitiative += Math.floor(b.rank / b.bonusRatio);
               });
             }
           });
         } else {
-          const cyberdeck = (actor.data.filteredItems.cyberdeck.filter((c) => c.data.data.equipped === "equipped"))[0];
-          const netSpeed = cyberdeck.getBoosters("speed");
+          const netSpeed = actor.data.bonuses.speed; // active effects for speed, note "initiative" AEs come later
           // Filter for the Netrunner role on the actor then assign `netrunnerRank` the proper value
           const netrunnerRole = (actor.data.filteredItems.role.filter((d) => d.data.name === "Netrunner"))[0];
           const netrunnerRank = netrunnerRole.data.data.rank;
@@ -63,6 +64,8 @@ export default class CPRCombatant extends Combatant {
         cprInitiative = new CPRRolls.CPRInitiative("meat", actor.type, formula, 0);
         break;
     }
+    cprInitiative.addMod(actor.data.bonuses.initiative); // consider any active effects
+    cprInitiative.addMod(universalBonusInitiative); // add bonus from role abilities and subabilities
     await cprInitiative.roll();
     return cprInitiative;
   }

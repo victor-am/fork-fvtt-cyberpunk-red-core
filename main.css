@@ -367,6 +367,7 @@ button,
 .skills-tab .right-pane-skills {
   grid-area: skills-right;
 }
+.effects-tab,
 .cyberware-tab,
 .gear-tab {
   display: grid;
@@ -896,7 +897,8 @@ button,
   flex-wrap: wrap;
 }
 .item-description-grid,
-.item-settings-grid {
+.item-settings-grid,
+.item-effects-grid {
   display: flex;
   width: inherit;
   height: inherit;
@@ -920,11 +922,9 @@ button,
   font-size: 0.8rem;
   min-width: 135px;
 }
+.item-description-tab .item-summary-section .summary-name,
 .item-description-tab .item-summary-section .item-summary-line {
   display: flex;
-}
-.item-description-tab .item-summary-section .item-summary-line .summary-name {
-  flex: 0 0 70px;
 }
 .item-description-tab .item-description-section {
   grid-area: item-description-pane;
@@ -934,13 +934,17 @@ button,
   flex-wrap: wrap;
   height: unset;
 }
-.item-settings-tab {
+.item-settings-tab,
+.item-effects-tab {
   display: flex;
   width: auto;
   flex: 1;
   background-color: #eaeaeaff;
 }
-.item-settings-tab .item-settings-section {
+.item-settings-tab .item-settings-section,
+.item-effects-tab .item-settings-section,
+.item-settings-tab .item-effects-section,
+.item-effects-tab .item-effects-section {
   display: list-item;
   flex: 1;
 }
@@ -1563,6 +1567,48 @@ button,
 .items-list .item-end {
   text-align: end;
 }
+.effects-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  background-color: #eaeaeaff;
+}
+.effects-list .effects-header {
+  padding: 0;
+  background-color: #2d2f2fff;
+  color: #eaeaeaff;
+}
+.effects-list .effect-image {
+  flex: 0 0 30px;
+  border: none;
+  margin-right: 5px;
+  margin-left: 5px;
+  width: 32px;
+}
+.effects-list .effect-name {
+  flex: 0 0 70%;
+  margin: 0;
+  overflow: hidden;
+  text-align: left;
+  align-items: center;
+  text-overflow: ellipsis;
+}
+.effects-list .effect-source {
+  flex: 0 0 20%;
+  text-align: left;
+  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  align-self: center;
+  text-overflow: ellipsis;
+}
+.effects-list .effect-actions {
+  flex: 10%;
+  text-align: end;
+  align-self: center;
+}
 .skills-tab li:nth-child(even) {
   background-color: #ffc3b6ff;
 }
@@ -1596,9 +1642,6 @@ button,
 }
 .role-tab {
   width: 100%;
-}
-.role-tab .role-tab-content {
-  width: 50%;
 }
 .role-tab .role-tab-content .role-item .role-name,
 .role-tab .role-tab-content .role-item .ability-name {
@@ -2042,6 +2085,12 @@ form input.number {
 }
 .fight-weapon-attack {
   grid-area: fight-weapon-attack;
+}
+.active-effect-sheet .effect-change .key {
+  flex: 4;
+}
+.summary-effect-value {
+  align-self: center;
 }
 .window-app .window-content {
   background: #eaeaeaff;

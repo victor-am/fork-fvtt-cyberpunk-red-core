@@ -1,10 +1,37 @@
 # Version DEV | Date: WIP
 
 **New Features**
-- Feature Request #179: Add ability to track reputation and roll face down
+- #225 - Active effects for Items
+  - Active Effects are a Foundry feature that allow items to apply modifications to stats and skills of characters in the game. Active Effects can also be added to Characters arbitrarily without associating to an item.
+  - An Effects tab on the actor sheet has been added to summarize where active effects are coming from. From there character-level effects can be 
+    managed. (create/toggle/edit/delete). Effects from Items cannot be edited or deleted from this tab. Mooks do not yet enjoy Active Effects.
+  - An Active Effect has a "usage" associated with it on an item. This affects when the effect will be applied. Examples are when carried, when equipped,
+    toggling it on/off yourself or always on. Some specialized ones exist too: Cyberware allows for "when installed." More may be added in the future.
+  - The following item types can have Active Effects added to them: armor, clothing, drugs (more on that next), gear, cyberware, weapons, and 
+    injuries (see #290).
+  - Active effects can be applied to stats, skills, role abilities, a handful of derived stats (like HP), or custom keys in a manner similar to what 5E
+    expects. Only plain addition or subtraction modes are supported.
+  - A MOD column has been added to the Role tab in a manner similar to what we have for skills already. Like skills, this makes it clear which abilities
+    are being affected by an Active Effect.
+  - Weapon quality is now an active effect that increases the attack bonus. We removed the fields in the weapon sheet to set weapon qualities or attack 
+    bonuses. See the weapon compendium for examples. Active Effects still give you all of the flexibility and power you had before.
+  - Arbitrary skill mods on characters cannot be set in the character sheet any more, that column shows mods coming from active effects now. You can 
+    still create skill mods with active effects using the Effects tab.
+- #305 - Drugs and Consumables
+  - The Drug item type has been added and has a unique action and usage. This is meant to model consumables, meaning items that stack and can be consumed
+    to enjoy some stat or skill benefit.
+  - Consuming a drug will reduce the amount by 1 and enable any active effects with the "when consumed" usage set.
+  - If you implemented drugs with a different item type before you may want to re-create them with the new type.
 - Feature Request #295: EB Ledger for Shop Container Actors
-- Added player ability to sell to Vendors by drag/dropping from character sheet to Vendor
-  - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item. Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb
+- Feature Add: Player ability to sell to Vendors by drag/dropping from character sheet to Vendor.
+  - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item.  Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb.
+- Feature Request #179: Add ability to track reputation and roll face down.
+
+**Changes**
+- Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
+- Consolidated gain, lose and set ledger functions for EB, IP and Reputation to make it more manageable.
+- #244 - Remove unused data points in the template
+- Substanial refactoring of the item code to support Active Effects and improve maintainability.
 - Added possibility to describe a "/red" roll with a description, e.g. "/red 1d10 # This is my roll!". The description of individual dice is not possible
 - Feature Request #378: Add ability to share actor artwork to players from the character sheet by right clicking on the Actor's image.
 - Feature Request #379: Added ability to populate a NET architecture with the help of rolltables. It also rolls for the number of floors (3d6) and how many branches there should be. (see p. 210 in the book)
@@ -32,6 +59,7 @@
 - Added a line break to the deathSaveIncrease summary line to enable easier reading
 - Adjusted wording for several critical injuries to reduce ambiguities
 - Adjusted the formatting of issues templates for easier filling out
+
 
 **Bug Fixes**
 - Corrected an issue when a player did not have proper permissions on a vendor, the purchase would fail, but the player would still be charged for the item

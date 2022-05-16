@@ -1,5 +1,5 @@
 /* global ItemSheet */
-/* global mergeObject, game, $, hasProperty, getProperty, setProperty, duplicate, ContextMenu, ImagePopout */
+/* global mergeObject, game, $, hasProperty, getProperty, setProperty, duplicate */
 import LOGGER from "../../utils/cpr-logger.js";
 import CPR from "../../system/config.js";
 import { CPRRoll } from "../../rolls/cpr-rolls.js";
@@ -14,7 +14,6 @@ import SelectItemUpgradePrompt from "../../dialog/cpr-select-item-upgrade-prompt
 import BoosterAddModifierPrompt from "../../dialog/cpr-booster-add-modifier-prompt.js";
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
-import CPRNetarchUtils from "../../utils/cpr-netarchUtils.js";
 import createImageContextMenu from "../../utils/cpr-imageContextMenu.js";
 
 /**
@@ -83,9 +82,9 @@ export default class CPRItemSheet extends ItemSheet {
     } else {
       data.filteredItems.skill = await SystemUtils.GetCoreSkills();
     }
-    if (data.item.type === "cyberdeck" || data.item.type === "weapon" || data.item.type === "cyberware") {
-      data.data.data.availableSlots = this.object.availableSlots();
-    }
+    // if (["cyberdeck", "weapon", "armor", "cyberware", "clothing"].indexOf(data.item.type) > -1) {
+    //   data.data.data.availableSlots = this.object.availableSlots();
+    // }
     data.dvTableNames = DvUtils.GetDvTables();
     return data;
   }
@@ -98,10 +97,9 @@ export default class CPRItemSheet extends ItemSheet {
     if (!this.options.editable) return;
 
     // Select all text when grabbing text input.
-    $("input[type=text]").focusin(function () {
-      $(this).select();
-    });
+    $("input[type=text]").focusin(() => $(this).select());
 
+    // generic listeners
     html.find(".item-checkbox").click((event) => this._itemCheckboxToggle(event));
 
     html.find(".item-multi-option").click((event) => this._itemMultiOption(event));
@@ -134,8 +132,7 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".netarch-generate-auto").click(() => {
       if (game.user.isGM) {
-        const netarchGenerator = new CPRNetarchUtils(this.item);
-        netarchGenerator._generateNetarchScene();
+        this.item._generateNetarchScene();
       } else {
         SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noGMError"));
       }
@@ -143,14 +140,16 @@ export default class CPRItemSheet extends ItemSheet {
 
     html.find(".netarch-generate-custom").click(() => {
       if (game.user.isGM) {
-        const netarchGenerator = new CPRNetarchUtils(this.item);
-        netarchGenerator._customize();
+        this.item._customize();
       } else {
         SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noGMError"));
       }
     });
 
     html.find(".netarch-item-link").click((event) => this._openItemFromId(event));
+
+    // Active Effects listener
+    html.find(".effect-control").click((event) => this.item.manageEffects(event));
 
     // Sheet resizing
     html.find(".tab-label").click(() => this._automaticResize());
@@ -161,14 +160,19 @@ export default class CPRItemSheet extends ItemSheet {
 
   /*
   INTERNAL METHODS BELOW HERE
-*/
+  */
+
   _itemCheckboxToggle(event) {
     LOGGER.trace("_itemCheckboxToggle | CPRItemSheet | Called.");
     const itemData = duplicate(this.item.data);
-    const target = $(event.currentTarget).attr("data-target");
-    if (hasProperty(itemData, target)) {
-      setProperty(itemData, target, !getProperty(itemData, target));
+    const target = SystemUtils.GetEventDatum(event, "data-target");
+    const value = !getProperty(itemData, target);
+    if (target === "data.concealable.concealable") {
+      this.item.setConcealable(value);
+    } else if (hasProperty(itemData, target)) {
+      setProperty(itemData, target, value);
       this.item.update(itemData);
+      LOGGER.log(`Item ${this.item.id} ${target} set to ${value}`);
       this._automaticResize(); // Resize the sheet as length of settings list might have changed
     }
   }
@@ -178,7 +182,7 @@ export default class CPRItemSheet extends ItemSheet {
     const itemData = duplicate(this.item.data);
     // the target the option wants to be put into
     const target = $(event.currentTarget).parents(".item-multi-select").attr("data-target");
-    const value = $(event.currentTarget).attr("data-value");
+    const value = SystemUtils.GetEventDatum(event, "data-value");
     if (hasProperty(itemData, target)) {
       const prop = getProperty(itemData, target);
       if (prop.includes(value)) {
@@ -194,7 +198,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _selectCompatibleAmmo() {
     LOGGER.trace("_selectCompatibleAmmo | CPRItemSheet | Called.");
-    const itemData = this.item.getData();
+    const itemData = this.item.data.data;
     let formData = { id: this.item.data._id, name: this.item.data.name, data: itemData };
     formData = await SelectCompatibleAmmo.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
@@ -233,7 +237,7 @@ export default class CPRItemSheet extends ItemSheet {
       });
       const { bonusRatio } = formData;
       this.item.update({
-        "data.skillBonuses": skillBonusObjects,
+        "data.bonuses": skillBonusObjects,
         "data.universalBonuses": universalBonusesList,
         "data.bonusRatio": bonusRatio,
       });
@@ -243,7 +247,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _selectSubroleBonuses(event) {
     LOGGER.trace("ItemSheet | _selectSubroleBonuses | Called.");
-    const subRoleName = $(event.currentTarget).attr("data-item-name");
+    const subRoleName = SystemUtils.GetEventDatum(event, "data-item-name");
     const itemData = duplicate(this.item.data);
     const roleType = "subRole";
     const subRole = itemData.data.abilities.find((a) => a.name === subRoleName);
@@ -270,7 +274,7 @@ export default class CPRItemSheet extends ItemSheet {
       formData.selectedUniversalBonuses.forEach((b) => {
         universalBonusesList.push(b);
       });
-      setProperty(subRole, "skillBonuses", skillBonusObjects);
+      setProperty(subRole, "bonuses", skillBonusObjects);
       setProperty(subRole, "universalBonuses", universalBonusesList);
       setProperty(subRole, "bonusRatio", formData.bonusRatio);
       this.item.update(itemData);
@@ -435,8 +439,8 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _netarchLevelAction(event) {
     LOGGER.trace("_netarchLevelAction | CPRItemSheet | Called.");
-    const target = Number($(event.currentTarget).attr("data-action-target"));
-    const action = $(event.currentTarget).attr("data-action-type");
+    const target = Number(SystemUtils.GetEventDatum(event, "data-action-target"));
+    const action = SystemUtils.GetEventDatum(event, "data-action-type");
     const itemData = duplicate(this.item.data);
 
     if (action === "delete") {
@@ -444,7 +448,8 @@ export default class CPRItemSheet extends ItemSheet {
       if (setting) {
         const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${SystemUtils.Localize("CPR.netArchitecture.floor.deleteConfirmation")}?`;
         const confirmDelete = await ConfirmPrompt.RenderPrompt(
-          SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"), promptMessage,
+          SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"),
+          promptMessage,
         );
         if (!confirmDelete) {
           return;
@@ -629,7 +634,7 @@ export default class CPRItemSheet extends ItemSheet {
   // eslint-disable-next-line class-methods-use-this
   _openItemFromId(event) {
     LOGGER.trace("_openItemFromId | CPRItemSheet | Called.");
-    const itemId = $(event.currentTarget).attr("data-item-id");
+    const itemId = SystemUtils.GetEventDatum(event, "data-item-id");
     const itemEntity = game.items.get(itemId);
     if (itemEntity !== null) {
       itemEntity.sheet.render(true);
@@ -662,7 +667,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _delBoosterModifier(event) {
     LOGGER.trace("_delBoosterModifier | CPRItemSheet | Called.");
-    const boosterType = $(event.currentTarget).attr("data-booster-type");
+    const boosterType = SystemUtils.GetEventDatum(event, "data-booster-type");
     delete this.item.data.data.modifiers[boosterType];
     if (this.actor) {
       const updatedObject = { _id: this.item.id };
@@ -766,7 +771,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _cyberdeckProgramUninstall(event) {
     LOGGER.trace("_cyberdeckProgramUninstall | CPRItemSheet | Called.");
-    const programId = $(event.currentTarget).attr("data-item-id");
+    const programId = SystemUtils.GetEventDatum(event, "data-item-id");
 
     const cyberdeck = this.item;
     if (cyberdeck.data.type !== "cyberdeck") {
@@ -791,8 +796,8 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _roleAbilityAction(event) {
     LOGGER.trace("ItemSheet | _roleAbilityAction | Called.");
-    const target = Number($(event.currentTarget).attr("data-action-target"));
-    const action = $(event.currentTarget).attr("data-action-type");
+    const target = Number(SystemUtils.GetEventDatum(event, "data-action-target"));
+    const action = SystemUtils.GetEventDatum(event, "data-action-type");
     const itemData = duplicate(this.item.data);
     const pack = game.packs.get("cyberpunk-red-core.skills");
     const coreSkills = await pack.getDocuments();
@@ -831,7 +836,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
-          skillBonuses: [],
+          bonuses: [],
           universalBonuses: [],
           bonusRatio: 1,
           hasRoll: formData.hasRoll,
@@ -847,7 +852,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
-          skillBonuses: [],
+          bonuses: [],
           universalBonuses: [],
           bonusRatio: 1,
           hasRoll: formData.hasRoll,
@@ -863,7 +868,8 @@ export default class CPRItemSheet extends ItemSheet {
       if (setting) {
         const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${SystemUtils.Localize("CPR.itemSheet.role.deleteConfirmation")}?`;
         const confirmDelete = await ConfirmPrompt.RenderPrompt(
-          SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"), promptMessage,
+          SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"),
+          promptMessage,
         );
         if (!confirmDelete) {
           return;
@@ -913,7 +919,7 @@ export default class CPRItemSheet extends ItemSheet {
           multiplier: formData.multiplier,
           stat: formData.stat,
           skill: skillObject,
-          skillBonuses: editElement.skillBonuses,
+          bonuses: editElement.bonuses,
           universalBonuses: editElement.universalBonuses,
           bonusRatio: editElement.bonusRatio,
           hasRoll: formData.hasRoll,
@@ -979,7 +985,7 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _removeItemUpgrade(event) {
     LOGGER.trace("_removeItemUpgrade | CPRItemSheet | Called.");
-    const upgradeId = $(event.currentTarget).attr("data-item-id");
+    const upgradeId = SystemUtils.GetEventDatum(event, "data-item-id");
     const upgrade = this.actor.items.find((i) => i.data._id === upgradeId);
     await this.item.uninstallUpgrades([upgrade]);
   }
@@ -994,7 +1000,7 @@ export default class CPRItemSheet extends ItemSheet {
    */
   _renderReadOnlyItemCard(event) {
     LOGGER.trace("_renderReadOnlyItemCard | CPRItemSheet | Called.");
-    const itemId = $(event.currentTarget).parents(".item").attr("data-item-id");
+    const itemId = SystemUtils.GetEventDatum(event, "data-item-id");
     const item = this.actor.items.find((i) => i.data._id === itemId);
     item.sheet.render(true, { editable: false });
   }

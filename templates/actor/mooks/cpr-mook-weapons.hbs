@@ -24,9 +24,6 @@
                   {{weapon.name}}
                   {{#if weapon.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}
                 </a>
-                {{#if (cprCompare weapon.data.data.quality "!==" "standard")}}
-                  ({{localize weapon.data.data.quality}})
-                {{/if}}
                 <br>
                 {{#if weapon.data.data.isRanged}}
                   {{#if weapon.data.data.magazine.ammoId}}
@@ -105,9 +102,6 @@
                           <a class="name item-edit deletable changeable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
                             {{weapon.name}}
                           </a>
-                          {{#if (cprCompare weapon.data.data.quality "!==" "standard")}}
-                            ({{localize weapon.data.data.quality}})
-                          {{/if}}
                           <br>
                           {{#if weapon.data.data.isRanged}}
                             {{#if weapon.data.data.magazine.ammoId}}
@@ -179,9 +173,6 @@
                   {{weapon.name}}
                   {{#if weapon.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}
                 </a>
-                {{#if (cprCompare weapon.data.data.quality "!==" "standard")}}
-                  ({{localize weapon.data.data.quality}})
-                {{/if}}
                 <br>
                 {{#if weapon.data.data.isRanged}}
                   {{#if weapon.data.data.magazine.ammoId}}
@@ -260,9 +251,6 @@
                           <a class="name item-edit deletable changeable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
                             {{weapon.name}}
                           </a>
-                          {{#if (cprCompare weapon.data.data.quality "!==" "standard")}}
-                            ({{localize weapon.data.data.quality}})
-                          {{/if}}
                           <br>
                           {{#if weapon.data.data.isRanged}}
                             {{#if weapon.data.data.magazine.ammoId}}

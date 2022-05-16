@@ -1,0 +1,104 @@
+{{cprTrace "CPR-ITEMUPGRADE.HBS"}}
+{{!-- Upgrade Installed Setting --}}
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.itemUpgrade.upgradeType"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if this.editable}}
+            <select name="data.type" data-dtype="{{data.data.type}}">
+                {{#select data.data.type}}
+                    {{#each (cprEntityTypes "Item") as |itemType|}}
+                        {{#if (cprHasTemplate itemType "upgradable")}}
+                            <option value="{{itemType}}">{{localize (cprFindConfigValue "objectTypes" itemType)}}</option>
+                        {{/if}}
+                    {{/each}}
+                {{/select}}
+            </select>
+        {{else}}
+            <span class="text-flex-end">{{localize (cprFindConfigValue "objectTypes" data.data.type)}}</span>
+        {{/if}}
+    </div>
+</li>
+
+{{!-- Size of the upgrade --}}
+
+<li class="item flexrow">
+    <div class="item flexrow setting-name text-nowrap">
+        {{localize "CPR.itemSheet.itemUpgrade.installationSize"}}
+    </div>
+    <div class="item flexrow setting-value text-nowrap item-end">
+        {{#if this.editable}}
+            <input name="data.size" class="" type="number" value="{{data.data.size}}">
+        {{else}}
+            <span class="text-flex-end">{{data.data.size}}</span>
+        {{/if}}
+    </div>
+</li>
+<hr>
+{{localize "CPR.itemSheet.itemUpgrade.upgradeOverview"}}
+<hr>
+{{!-- Cyberware has no upgradable data points, but could have a weapon attachment --}}
+
+{{#if (cprCompare data.data.type "!==" "cyberware")}}
+    <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+            {{localize "CPR.itemSheet.itemUpgrade.dataPoint"}}
+        </div>
+        <div class="item flexrow setting-type text-nowrap">
+            {{localize "CPR.itemSheet.itemUpgrade.modifierType"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+            {{localize "CPR.itemSheet.itemUpgrade.modifierValue"}}
+        </div>
+    </li>
+
+    {{#each (cprFindConfigValue "upgradableDataPoints" data.data.type) as |dataPoint dp|}}
+        {{#if (cprListContains (cprGetProp (cprFindConfigValue "upgradableDataPoints" "upgradeConfig") "configurableTypes") dataPoint.type)}}
+            <li class="item flexrow">
+                <div class="item flexrow setting-name text-nowrap">
+                    {{localize dataPoint.localization}}
+                </div>
+                <div class="item flexrow setting-type text-nowrap">
+                    <select name="data.modifiers.{{dp}}.type" data-dtype="{{cprGetProp (cprGetProp ../data.data.modifiers dp) "type"}}">
+                        {{#select (cprGetProp (cprGetProp ../data.data.modifiers dp) "type")}}
+                            {{#each (cprGetProp (cprFindConfigValue "upgradableDataPoints" "upgradeConfig") "configurableTypes") as |configType ct|}}
+                            {{#unless (cprCompare (cprListContains "clothing,gear" ../../this.item.data.data.type) "&&" (cprCompare ct "!==" "modifier"))}}
+                                <option value="{{ct}}">{{localize configType}}</option>
+                                {{/unless}}
+                            {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                <div class="item flexrow setting-value text-nowrap item-end">
+                    {{#if ../this.editable}}
+                        <input name="data.modifiers.{{dp}}.value" class="" type="number" value="{{cprGetProp (cprGetProp ../data.data.modifiers dp) "value"}}">
+                    {{else}}
+                        <span class="text-flex-end">{{cprGetProp (cprGetProp ../data.data.modifiers dp) "value"}}</span>
+                    {{/if}}
+                </div>
+            </li>
+        {{/if}}
+    {{/each}}
+{{/if}}
+{{#if (cprCompare (cprCompare data.data.type "===" "weapon") "||" (cprCompare data.data.type "===" "cyberware"))}}
+    <li class="item flexrow">
+        <div class="item flexrow setting-name text-nowrap">
+            {{localize "CPR.itemSheet.itemUpgrade.isSecondaryWeapon"}}
+        </div>
+        <div class="item flexrow setting-value text-nowrap item-end">
+            {{#if this.editable}}
+                <select name="data.modifiers.secondaryWeapon.configured" data-dtype="text">
+                    {{#select data.data.modifiers.secondaryWeapon.configured}}
+                        <option value="false">{{localize "CPR.global.generic.false"}}</option>
+                        <option value="true">{{localize "CPR.global.generic.true"}}</option>
+                    {{/select}}
+                </select>
+            {{else}}
+                <span class="text-flex-end">{{data.data.modifiers.secondaryWeapon.configured}}</span>
+            {{/if}}
+        </div>
+    </li>
+    {{> "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-attackable.hbs" this}}
+{{/if}}
+{{cprTrace "END CPR-ITEMUPGRADE.HBS"}}

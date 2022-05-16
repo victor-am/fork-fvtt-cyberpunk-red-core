@@ -11,7 +11,9 @@
         {{> "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-hitpoint-block.hbs"}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-deathsave-block.hbs"}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-humanity-block.hbs"}}
-        {{> "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-ip-block.hbs"}}
+        {{#if (cprCompare this.data.type "===" "character")}}
+          {{> "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-ip-block.hbs"}}
+        {{/if}}
 
       </div>
       <div class="stats-section bg-red">
@@ -31,7 +33,9 @@
           <div class="tab-pink-underlay">
             <a class="cyberware-tab tab-label text-bold tab-indent" data-tab="cyberware">{{localize "CPR.characterSheet.rightPane.cyber.title"}}</a>
           </div>
-
+          <div class="tab-pink-underlay">
+            <a class="effects-tab tab-label text-bold tab-indent" data-tab="effects">{{localize "CPR.characterSheet.rightPane.effects.title"}}</a>
+          </div>
         </nav>
       </div>
       {{#if (cprSystemConfig "enableSheetContentFilter")}}
@@ -51,7 +55,9 @@
         <div class="tab cyberware-tab" data-group="primary" data-tab="cyberware">
           {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/cpr-cyberware.hbs"}}
         </div>
-
+        <div class="tab effects-tab" data-group="primary" data-tab="effects">
+          {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/cpr-effects.hbs"}}
+        </div>
       </div>
     </div>
     <div class="bottom-pane">

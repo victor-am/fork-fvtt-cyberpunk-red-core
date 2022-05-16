@@ -101,7 +101,6 @@ export default class CPRMookActor extends CPRActor {
   handleMookDraggedItem(item) {
     LOGGER.trace("handleMookDraggedItem | CPRActor | Called.");
     LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
-    LOGGER.debugObject(item);
     switch (item.data.type) {
       case "clothing":
       case "weapon":

@@ -59,6 +59,12 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
     html.find(".navtabs-right").click(() => this._clearContentFilter());
 
+    // calculate max Hp
+    html.find(".calculate-hp").click(() => this._setMaxHp());
+
+    // calculate max Hp
+    html.find(".calculate-humanity").click(() => this._setMaxHumanity());
+
     // Cycle equipment status
     html.find(".equip").click((event) => this._cycleEquipState(event));
 
@@ -127,7 +133,55 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     // Uninstall a program on a Cyberdeck
     html.find(".program-uninstall").click((event) => this._cyberdeckProgramUninstall(event));
 
+    // Effects tab listeners
+    // Create Active Effect
+    html.find(".effect-control").click((event) => this.manageEffect(event));
+
     super.activateListeners(html);
+  }
+
+  /**
+   * Calculate and set the max HP on this actor. Called when the calculator is clicked.
+   * If current hp is full and the max changes, we should update the current to match.
+   * We assume that to be preferred behavior more often than not.
+   *
+   * @callback
+   * @private
+   */
+  _setMaxHp() {
+    LOGGER.trace("_setMaxHp | CPRCharacterActorSheet | Called.");
+    const maxHp = this.actor.calcMaxHp();
+    const { hp } = this.actor.data.data.derivedStats;
+    this.actor.update({
+      "data.derivedStats.hp.max": maxHp,
+      "data.derivedStats.hp.value": hp.max === hp.value ? maxHp : hp.value,
+    });
+  }
+
+  /**
+   * Calculate the max humanity on this actor, called when the calculator is clicked.
+   * If current humanity is full and the max changes, we should update the current and EMP to match.
+   * We assume that to be preferred behavior more often than not, especially during character creation.
+   *
+   * @callback
+   * @private
+   */
+  _setMaxHumanity() {
+    LOGGER.trace("_setMaxHumanity | CPRCharacterActorSheet | Called.");
+    const maxHumanity = this.actor.calcMaxHumanity();
+    const { humanity } = this.actor.data.data.derivedStats;
+    if (humanity.max === humanity.value) {
+      this.actor.update({
+        "data.derivedStats.humanity.max": maxHumanity,
+        "data.derivedStats.humanity.value": maxHumanity,
+        "data.stats.emp.value": Math.floor(maxHumanity / 10),
+      });
+    } else {
+      this.actor.update({
+        "data.derivedStats.humanity.max": maxHumanity,
+        "data.stats.emp.value": Math.floor(maxHumanity / 10),
+      });
+    }
   }
 
   /**
@@ -224,8 +278,8 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     LOGGER.trace("_installRemoveCyberwareAction | CPRCharacterActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
     const item = this._getOwnedItem(itemId);
-    if (item.getData().isInstalled) {
-      const foundationalId = $(event.currentTarget).parents(".item").attr("data-foundational-id");
+    if (item.data.data.isInstalled) {
+      const foundationalId = SystemUtils.GetEventDatum(event, "data-foundational-id");
       this.actor.removeCyberware(itemId, foundationalId);
     } else {
       this.actor.addCyberware(itemId);
@@ -352,13 +406,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   _updateSkill(event) {
     LOGGER.trace("_updateSkill | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
-    const updateType = $(event.currentTarget).attr("data-item-prop");
-    if (updateType === "data.level") {
-      item.setSkillLevel(parseInt(event.target.value, 10));
-    }
-    if (updateType === "data.mod") {
-      item.setSkillMod(parseInt(event.target.value, 10));
-    }
+    item.setSkillLevel(parseInt(event.target.value, 10));
     this._updateOwnedItem(item);
   }
 
@@ -372,7 +420,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   _updateWeaponAmmo(event) {
     LOGGER.trace("_updateWeaponAmmo | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
-    const updateType = $(event.currentTarget).attr("data-item-prop");
+    const updateType = SystemUtils.GetEventDatum(event, "data-item-prop");
     if (updateType === "data.magazine.value") {
       if (!Number.isNaN(parseInt(event.target.value, 10))) {
         item.setWeaponAmmo(event.target.value);
@@ -393,13 +441,10 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   _updateAmount(event) {
     LOGGER.trace("_updateAmount | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
-    const updateType = $(event.currentTarget).attr("data-item-prop");
-    if (updateType === "item.data.amount") {
-      if (!Number.isNaN(parseInt(event.target.value, 10))) {
-        item.setItemAmount(event.target.value);
-      } else {
-        SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.amountNotNumber"));
-      }
+    if (!Number.isNaN(parseInt(event.target.value, 10))) {
+      item.setItemAmount(event.target.value);
+    } else {
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.amountNotNumber"));
     }
     this._updateOwnedItem(item);
   }
@@ -416,7 +461,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     LOGGER.trace("ActorID _updateRoleAbility | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const itemData = duplicate(item.data);
-    const subskill = $(event.currentTarget).attr("data-subskill-name");
+    const subskill = SystemUtils.GetEventDatum(event, "data-subskill-name");
     const value = parseInt(event.target.value, 10);
     if (!Number.isNaN(value)) {
       if (hasProperty(itemData, "data.rank")) {
@@ -434,6 +479,34 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       }
     } else {
       SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.amountNotNumber"));
+    }
+  }
+
+  /**
+   * Create a new active effect for this actor. This sets up all the defaults.
+   * Note: It would be nice to add custom properties, but they seem to be ignored by Foundry.
+   * This is why we provide a custom CPRActiveEffect object elsewhere in the code base.
+   *
+   * @async - deleteEffect may pop up a dialog
+   * @returns {ActiveEffect} - the newly created or updated document
+   */
+  async manageEffect(event) {
+    LOGGER.trace("manageEffect | CPRCharacterActorSheet | Called.");
+    event.preventDefault();
+    const action = SystemUtils.GetEventDatum(event, "data-action");
+    const effectId = SystemUtils.GetEventDatum(event, "data-effect-id");
+    const effect = this.actor.effects.get(effectId);
+    switch (action) {
+      case "create":
+        return this.actor.createEffect();
+      case "edit":
+        return effect.sheet.render(true);
+      case "delete":
+        return this.actor.constructor.deleteEffect(effect);
+      case "toggle":
+        return effect.update({ disabled: !effect.data.disabled });
+      default:
+        return null;
     }
   }
 
@@ -485,7 +558,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @returns {null}
    */
   async _updateReputation() {
-    LOGGER.trace("_updateIp | CPRCharacterActorSheet | Called.");
+    LOGGER.trace("_updateReputation | CPRCharacterActorSheet | Called.");
     const formData = await LedgerEditPrompt.RenderPrompt("CPR.characterSheet.bottomPane.reputationEdit").catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       // Prompt was closed
@@ -527,7 +600,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     LOGGER.trace("_updateEurobucks | CPRCharacterActorSheet | Called.");
     const { value } = event.currentTarget.parentElement.parentElement.children[1];
     const reason = event.currentTarget.parentElement.parentElement.nextElementSibling.lastElementChild.value;
-    const action = $(event.currentTarget).attr("data-action");
+    const action = SystemUtils.GetEventDatum(event, "data-action");
     if (value !== "") {
       switch (action) {
         case "add": {
@@ -562,7 +635,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   async _createInventoryItem(event) {
     LOGGER.trace("_createInventoryItem | CPRCharacterActorSheet | Called.");
-    const itemType = $(event.currentTarget).attr("data-item-type");
+    const itemType = SystemUtils.GetEventDatum(event, "data-item-type");
     const itemTypeNice = itemType.toLowerCase().capitalize();
     const itemString = "ITEM.Type";
     const itemTypeLocal = itemString.concat(itemTypeNice);
@@ -588,7 +661,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   _toggleFightState(event) {
     LOGGER.trace("_toggleFightState | CPRCharacterSheet | Called.");
-    const fightState = $(event.currentTarget).attr("data-state");
+    const fightState = SystemUtils.GetEventDatum(event, "data-state");
     this.actor.setFlag("cyberpunk-red-core", "fightState", fightState);
   }
 
@@ -602,10 +675,10 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   async _cyberdeckProgramExecution(event) {
     LOGGER.trace("_cyberdeckProgramExecution | CPRCharacterActorSheet | Called.");
-    const executionType = $(event.currentTarget).attr("data-execution-type");
-    const programId = $(event.currentTarget).attr("data-program-id");
+    const executionType = SystemUtils.GetEventDatum(event, "data-execution-type");
+    const programId = SystemUtils.GetEventDatum(event, "data-program-id");
     const program = this._getOwnedItem(programId);
-    const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
+    const cyberdeckId = SystemUtils.GetEventDatum(event, "data-cyberdeck-id");
     const cyberdeck = this._getOwnedItem(cyberdeckId);
     const { token } = this;
     switch (executionType) {
@@ -672,7 +745,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   async _cyberdeckProgramInstall(event) {
     LOGGER.trace("_cyberdeckProgramInstall | CPRCharacterActorSheet | Called.");
-    const cyberdeckId = $(event.currentTarget).attr("data-item-id");
+    const cyberdeckId = SystemUtils.GetEventDatum(event, "data-item-id");
     const cyberdeck = this._getOwnedItem(cyberdeckId);
 
     return cyberdeck.sheet._cyberdeckSelectInstalledPrograms(event);
@@ -687,7 +760,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   async _cyberdeckProgramUninstall(event) {
     LOGGER.trace("_cyberdeckProgramUninstall | CPRCharacterActorSheet | Called.");
-    const cyberdeckId = $(event.currentTarget).attr("data-cyberdeck-id");
+    const cyberdeckId = SystemUtils.GetEventDatum(event, "data-cyberdeck-id");
     const cyberdeck = this._getOwnedItem(cyberdeckId);
 
     return cyberdeck.sheet._cyberdeckProgramUninstall(event);

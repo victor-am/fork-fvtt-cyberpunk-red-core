@@ -76,6 +76,15 @@ helper-test:
   - echo "Checking use of handlebars helpers..."
   - ./.gitlab/pipeline_tests/test-handlebars-helpers.sh
 
+pack-alpha-sort-test:
+  stage: test
+  before_script:
+    - apt-get update
+    - apt-get install jq --yes
+  script:
+    - echo "Checking if packs are sorted alphabetically"
+    - ./.gitlab/pipeline_tests/test-pack-alpha-sort.sh
+
 pre-release:
   stage: pre-release
   before_script:
