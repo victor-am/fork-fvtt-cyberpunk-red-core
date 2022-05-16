@@ -37,6 +37,19 @@ export default class CPRItem extends Item {
     if (this.data.type === "weapon") {
       cprData["data.dvTable"] = data["data.dvTable"] === null ? "" : data["data.dvTable"];
     }
+
+    // If an AE has a usage !== "toggled", then any active effects should not be disabled
+    // (ie: Always On, Installed, etc) otherwise the disabled flag takes presentence when
+    // determining if the effect is suppressed or not
+    if (data["data.usage"] !== "undefined" && data["data.usage"] !== this.data.data.usage) {
+      if (data["data.usage"] !== "toggled") {
+        this.effects.forEach((e) => {
+          if (e.data.disabled) {
+            this.toggleEffect(e.data._id);
+          }
+        });
+      }
+    }
     return super.update(cprData, options);
   }
 
