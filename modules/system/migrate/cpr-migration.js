@@ -37,21 +37,21 @@ export default class CPRMigration {
     // migrate unowned items
     if (!await CPRMigration.migrateItems(classRef)) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.itemErrors"));
-      return;
+      return false;
     }
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allItemsDone"));
 
     // migrate actors
     if (!await this.migrateActors()) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.actorErrors"));
-      return;
+      return false;
     }
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allActorsDone"));
 
     // unlinked actors (tokens)
     if (!await this.migrateUnlinkedActors()) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.tokenErrors"));
-      return;
+      return false;
     }
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allTokensDone"));
 
@@ -62,6 +62,7 @@ export default class CPRMigration {
       throw Error("Migration errors encountered");
     }
     game.settings.set("cyberpunk-red-core", "dataModelVersion", this.version);
+    return true;
   }
 
   /**
