@@ -59,6 +59,8 @@
 - Added a line break to the deathSaveIncrease summary line to enable easier reading
 - Adjusted wording for several critical injuries to reduce ambiguities
 - Adjusted the formatting of issues templates for easier filling out
+- Set upgrade slots to 0 on melee, cyberware, and exotic weapons in the compendium
+- Re-wording of Bows/Crossbows descriptin in compendium
 
 
 **Bug Fixes**
@@ -75,6 +77,7 @@
 - Fixed #375: Read attackmod for both cyberware & weapons, previously cyberware was ignored
 - Fixed #387: Fixed adding macros for cyberware weapons
 - Fixed #390: Rubber Shotgun Slugs are considered Heavy Pistol Ammo
+- Fixed #416: Excellent Weapons missing +1 to attack
 
 **Maintenance items**
 - Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js
