@@ -1,4 +1,5 @@
-/* global mergeObject $ game getProperty duplicate setProperty */
+/* global mergeObject game getProperty duplicate setProperty */
+/* eslint-env jquery */
 import CPRActorSheet from "./cpr-actor-sheet.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
@@ -559,9 +560,14 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
 
   async _updateEurobucks(event) {
     LOGGER.trace("_updateEurobucks | CPRContainerSheet | Called.");
-    const value = parseInt(event.currentTarget.parentElement.previousElementSibling.children[0].value, 10);
+    // const value = parseInt(event.currentTarget.parentElement.previousElementSibling.children[0].value, 10);
+    const value = parseInt($("#eurobucks").val(), 10);
     const action = $(event.currentTarget).attr("data-action");
-    const reason = `Sheet update ${action} ${event.currentTarget.parentElement.parentElement.nextElementSibling.children[1].lastElementChild.value}`;
+    if (!value) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.eurobucksModifyWarn"));
+      return;
+    }
+    const reason = `Sheet update ${action} ${value}`;
     await this.actor.recordTransaction(value, reason);
   }
 }
