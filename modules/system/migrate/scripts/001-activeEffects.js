@@ -221,6 +221,11 @@ export default class ActiveEffectsMigration extends CPRMigration {
         });
       }
       await actor.updateEmbeddedDocuments("Item", updateList);
+      const removeItemFlags = [];
+      for (const item of actor.items) {
+        removeItemFlags.push(item.unsetFlag("cyberpunk-red-core", "cprItemMigrating"));
+      }
+      await Promise.all(removeItemFlags);
     }
   }
 
