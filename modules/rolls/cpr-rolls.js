@@ -351,6 +351,21 @@ export class CPRSkillRoll extends CPRStatRoll {
 }
 
 /**
+ * A facedown roll extends the CPRStat to include the HBS files for Facedown
+ */
+export class CPRFacedownRoll extends CPRStatRoll {
+  constructor(name, value) {
+    LOGGER.trace("constructor | CPRFacedownRoll | Called.");
+    super(name, "1d10");
+    this.statName = name;
+    this.statValue = value;
+    this.rollTitle = SystemUtils.Localize("CPR.dialog.facedown.title");
+    this.rollPrompt = "systems/cyberpunk-red-core/templates/dialog/rolls/cpr-verify-roll-facedown-prompt.hbs";
+    this.rollCard = "systems/cyberpunk-red-core/templates/chat/cpr-facedown-rollcard.hbs";
+  }
+}
+
+/**
  * The roll for decreasing Humanity when cyberware is installed, usually a number of d6s.
  */
 export class CPRHumanityLossRoll extends CPRRoll {
@@ -747,4 +762,5 @@ export const rollTypes = {
   DEATHSAVE: "deathsave",
   INTERFACEABILITY: "interfaceAbility",
   CYBERDECKPROGRAM: "cyberdeckProgram",
+  FACEDOWN: "facedown",
 };

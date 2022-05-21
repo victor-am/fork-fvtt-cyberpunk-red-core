@@ -2,8 +2,26 @@
 
 - This System Implementation is the product of the CPR System Dev Team!
 
+### ART CREDITS
+
+- Pause overlay image: [Olena Panasovska](https://thenounproject.com/term/cyberpunk/1797860/) (CCBY)
+- Netarchitecture tiles, Dystopian City Streets, Dystopian City Junction scenes and and background picture created by [SolutionMaps](https://www.patreon.com/solutionmaps)
+- Netrunning icons provided by Verasunrise and Hyriu33
+- Program/Black ICE icon usage inspired by [Verfasst von Tim](https://charzinski.wordpress.com/2021/01/10/cyberpunk-red-netrunner-cards/)
+- Status & Critical Injury icons inspired by by [evr-](https://old.reddit.com/r/cyberpunkred/comments/lpicdf/roll20_custom_status_icons_for_cyberpunk_red/)
+
+### CODE CREDITS
+
+- Some of our chat message code was inspired from the [Chat Message Accessibility Indicators module](https://github.com/schultzcole/FVTT-Chat-Message-Accessibility-Indicators)
+
+### PEOPLE CREDITS
+
+### FONT CREDITS
+
+Audimat Typeface by [SMeltery](http://www.smeltery.net)
+
 ### ICON CREDITS
-G
+
 - Icons, Art, Design, and Styling: [Flintwyrm](https://twitter.com/Flintwyrm)
 - Default icons for compendia provided by Lorc, Delapouite, Skoll, sbed, and John Colburn (from https://game-icons.net) under the CC-BY license (https://creativecommons.org/licenses/by/3.0/)
 - Ammo Icons by [Mirradin](https://old.reddit.com/user/Mirrandin)
@@ -167,27 +185,19 @@ G
 - `icons/compendium/status/netrunning.svg` from [Virtual Reality Headset Virtual Reality Augmented Reality Ar](https://www.svgrepo.com/svg/308146/virtual-reality-headset-virtual-reality-augmented-reality-ar)
 - `icons/compendium/status/on_fire.svg` from [Fire Silhouette](https://game-icons.net/1x1/lorc/fire-silhouette.html)
 - `icons/compendium/status/prone.svg` remixed from [Up Arrow](https://www.svgrepo.com/svg/73039/up-arrow)
+- `icons/compendium/status/radiation_high,svg` from [SVGRepo](https://www.svgrepo.com/svg/216429/radiation-nuclear)
+- `icons/compendium/status/radiation_low.svg` from [SVGRepo](https://www.svgrepo.com/svg/92220/radiation)
 - `icons/compendium/status/readied_action.svg` from [Backward Time](https://game-icons.net/1x1/delapouite/backward-time.html)
 - `icons/compendium/status/unconcious.svg` from [Knockout](https://game-icons.net/1x1/skoll/knockout.html)
-- `icons/compendium/weapons/martial_arts/.svg` remixed from [Karate Master](https://www.svgrepo.com/svg/120059/karate-master)
-
-### ART CREDITS
-
-- Pause overlay image: [Olena Panasovska](https://thenounproject.com/term/cyberpunk/1797860/) (CCBY)
-- Netarchitecture tiles, Dystopian City Streets, Dystopian City Junction scenes and and background picture created by [SolutionMaps](https://www.patreon.com/solutionmaps).
-- Netrunning icons provided by Verasunrise and Hyriu33.
-- Program/Black ICE icon usage inspired by [Verfasst von Tim](https://charzinski.wordpress.com/2021/01/10/cyberpunk-red-netrunner-cards/).
-- Status & Critical Injury icons inspired by by [evr-](https://old.reddit.com/r/cyberpunkred/comments/lpicdf/roll20_custom_status_icons_for_cyberpunk_red/).
-
-### CODE CREDITS
-
-- Some of our chat message code was inspired from the [Chat Message Accessibility Indicators module](https://github.com/schultzcole/FVTT-Chat-Message-Accessibility-Indicators)
-
-### PEOPLE CREDITS
-
-### FONT CREDITS
-
-Audimat Typeface by [SMeltery](http://www.smeltery.net)
+- `icons/compendium/status/wounded*` remixed from [Glass Heart](https://game-icons.net/1x1/lorc/glass-heart.html)
+- `icons/compendium/weapons/Flamethrower.svg` remixed from [Delapouite](https://game-icons.net/1x1/delapouite/flamethrower.html)
+- `icons/compendium/weapons/Thrown_Weapon.svg` remixed from [Lorc](https://game-icons.net/1x1/lorc/arrow-dunk.html)
+- `icons/compendium/weapons/air_pistol.svg` remixed from [Mac 10](https://game-icons.net/1x1/skoll/mac-10.html)
+- `icons/compendium/weapons/dartgun.svg` remixed from [Bolter Gun](https://game-icons.net/1x1/lorc/bolter-gun.html)
+- `icons/compendium/weapons/martial_arts.svg` remixed from [Karate Master](https://www.svgrepo.com/svg/120059/karate-master)
+- `icons/compendium/weapons/microwaver.svg` remixed from [Canister](https://game-icons.net/1x1/lorc/cannister.html) and [Tec 9](https://game-icons.net/1x1/skoll/tec-9.html)
+- `icons/compendium/weapons/shrieker.svg` remixed from [CZ Scorpion](https://game-icons.net/1x1/skoll/cz-skorpion.html)
+- `icons/compendium/weapons/stun_gun.svg` remixed from [Mac 10](https://game-icons.net/1x1/skoll/mac-10.html)
 
 ### LEGAL STUFF
 

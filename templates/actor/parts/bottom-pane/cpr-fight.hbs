@@ -144,9 +144,6 @@
                             <div class="fight-weapon">
                                 <div class="item-name fight-weapon-name">
                                     <a class="name item-edit" title="{{weapon.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{weapon.name}}</a>
-                                    {{#if (cprCompare weapon.data.data.quality "!==" "standard")}}
-                                    ({{localize weapon.data.data.quality}})
-                                    {{/if}}
                                     {{#if (cprCompare (cprApplyUpgrade weapon weapon.data.data.attackmod "attackmod") ">" "0")}}(+{{cprApplyUpgrade weapon weapon.data.data.attackmod "attackmod"}}){{/if}}
                                     {{#if (cprCompare (cprApplyUpgrade weapon weapon.data.data.attackmod "attackmod") "<" "0")}}({{cprApplyUpgrade weapon weapon.data.data.attackmod "attackmod"}}){{/if}}
                                     {{#if weapon.data.data.magazine.ammoId}}
@@ -225,9 +222,6 @@
                                         <div class="fight-weapon">
                                             <div class="item-name fight-weapon-name">
                                                 <a class="name item-view" title="{{weapon.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{../../this.name}} {{localize "CPR.characterSheet.bottomPane.fight.attachment"}}: {{weapon.name}}</a>
-                                                {{#if (cprCompare weapon.data.data.quality "!==" "standard")}}
-                                                    ({{localize weapon.data.data.quality}})
-                                                {{/if}}
                                                 {{#if (cprCompare weapon.data.data.attackmod ">" "0")}}(+{{weapon.data.data.attackmod}}){{/if}}
                                                 {{#if (cprCompare weapon.data.data.attackmod "<" "0")}}({{weapon.data.data.attackmod}}){{/if}}
                                                 {{#if weapon.data.data.magazine.ammoId}}
@@ -316,9 +310,6 @@
                             <div class="fight-weapon">
                                 <div class="item-name fight-weapon-name">
                                     <a class="name item-edit" title="{{weapon.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{weapon.name}}</a>
-                                    {{#if (cprCompare weapon.data.data.quality "!==" "standard")}}
-                                    ({{localize weapon.data.data.quality}})
-                                    {{/if}}
                                     {{#if (cprCompare weapon.data.data.attackmod ">" "0")}}(+{{weapon.data.data.attackmod}}){{/if}}
                                     {{#if (cprCompare weapon.data.data.attackmod "<" "0")}}({{weapon.data.data.attackmod}}){{/if}}
                                     {{#if weapon.data.data.magazine.ammoId}}
@@ -397,9 +388,6 @@
                                         <div class="fight-weapon">
                                             <div class="item-name fight-weapon-name">
                                                 <a class="name item-view" title="{{weapon.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{../../this.name}} {{localize "CPR.characterSheet.bottomPane.fight.attachment"}}: {{weapon.name}}</a>
-                                                {{#if (cprCompare weapon.data.data.quality "!==" "standard")}}
-                                                    ({{localize weapon.data.data.quality}})
-                                                {{/if}}
                                                 {{#if (cprCompare weapon.data.data.attackmod ">" "0")}}(+{{weapon.data.data.attackmod}}){{/if}}
                                                 {{#if (cprCompare weapon.data.data.attackmod "<" "0")}}({{weapon.data.data.attackmod}}){{/if}}
                                                 {{#if weapon.data.data.magazine.ammoId}}

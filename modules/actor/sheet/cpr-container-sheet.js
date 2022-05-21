@@ -1,10 +1,12 @@
-/* global mergeObject $ game getProperty duplicate */
+/* global mergeObject $ game getProperty duplicate setProperty */
 import CPRActorSheet from "./cpr-actor-sheet.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import CPRChat from "../../chat/cpr-chat.js";
 import CPRItem from "../../item/cpr-item.js";
 import PurchasePartPrompt from "../../dialog/cpr-purchase-part-prompt.js";
+import ConfigureSellToPrompt from "../../dialog/cpr-container-configure-sell-to-prompt.js";
+import PurchaseOrderPrompt from "../../dialog/cpr-container-vendor-purchase-order-prompt.js";
 
 /**
  * Implement the sheet for containers and shop keepers. This extends CPRActorSheet to make use
@@ -73,6 +75,11 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     html.find(".container-type-dropdown").change((event) => this._setContainerType(event));
     // Toggle the state of a flag for the data of the checkbox
     html.find(".checkbox-toggle").click((event) => this._checkboxToggle(event));
+    // Eurobucks management
+    html.find(".eurobucks-input-button").click((event) => this._updateEurobucks(event));
+    html.find(".eurobucks-open-ledger").click(() => this.actor.showLedger());
+    // Configure container to purchase items from players
+    html.find(".vendor-configure-sell-to").click(() => this._configureSellTo());
 
     super.activateListeners(html);
   }
@@ -130,7 +137,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
   async _itemAction(event) {
     LOGGER.trace("_itemAction | CPRContainerSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
-    const actionType = $(event.currentTarget).attr("data-action-type");
+    const actionType = SystemUtils.GetEventDatum(event, "data-action-type");
     if (item) {
       switch (actionType) {
         case "delete": {
@@ -209,6 +216,13 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeWithWarn"));
       return;
     }
+
+    // Players must have Owned permission on Containers for them to function properly
+    if (!this.actor.isOwner) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.insufficientPermissions"));
+      return;
+    }
+
     const transferredItemData = duplicate(item.data);
     let cost = 0;
     if (item.type === "ammo" && item.data.data.variety !== "grenade" && item.data.data.variety !== "rocket") {
@@ -243,13 +257,27 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       const username = game.user.name;
       let reason = "";
       if (amount > 1) {
-        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.multiple",
-          { amount, name: item.name, price: cost })} - ${username}`;
+        reason = `${SystemUtils.Format(
+          "CPR.containerSheet.tradeLog.multiplePurchased",
+          { amount, name: item.name, price: cost },
+        )} - ${username}`;
       } else {
-        reason = `${SystemUtils.Format("CPR.containerSheet.tradeLog.single",
-          { name: item.name, price: cost })} - ${username}`;
+        reason = `${SystemUtils.Format(
+          "CPR.containerSheet.tradeLog.singlePurchased",
+          { name: item.name, price: cost },
+        )} - ${username}`;
       }
+      const vendorReason = `${SystemUtils.Format(
+        "CPR.containerSheet.tradeLog.vendorSold",
+        {
+          name: item.name,
+          quantity: amount,
+          purchaser: tradePartnerActor.name,
+          price: cost,
+        },
+      )} - ${username}`;
       await tradePartnerActor.deltaLedgerProperty("wealth", -1 * cost, reason);
+      await this.actor.recordTransaction(cost, vendorReason);
     }
     if (tradePartnerActor.automaticallyStackItems(new CPRItem(transferredItemData))) {
       await tradePartnerActor.createEmbeddedDocuments("Item", [transferredItemData]);
@@ -265,6 +293,143 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
   }
 
   /**
+   * Handle the purchase of an item. The item is added to the actor specified as
+   * the tradePartner and money is deducted accordingly.
+   *
+   * @private
+   * @param {string} sellerId - actor.id of the person selling the item
+   * @param {Item} item - object to be purchased
+   */
+  async _sellItemTo(event) {
+    LOGGER.trace("_sellItemTo | CPRContainerSheet | Called.");
+
+    // Players must have Owned permission on Containers for them to function properly
+    if (!this.actor.isOwner) {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.insufficientPermissions"));
+      return;
+    }
+    const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
+    const tradePartnerActor = game.actors.get(dragData.actorId);
+
+    const itemData = duplicate(dragData.data);
+    const amount = parseInt(itemData.data.amount, 10);
+    const vendorData = this.actor.data;
+    const vendorConfig = vendorData.data.vendor;
+    const username = game.user.name;
+
+    let cost = 0;
+
+    if (itemData.type === "weapon") {
+      const { ammoId } = itemData.data.magazine;
+      if (ammoId !== "") {
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeLoadedWeaponWarn"));
+        return;
+      }
+    }
+
+    if (itemData.type === "ammo" && itemData.data.variety !== "grenade" && itemData.data.variety !== "rocket") {
+      // Ammunition, which is neither grenades nor rockets, are prices are for 10 of them (pg. 344)
+      cost = parseInt(parseInt(itemData.data.price.market, 10) / 10, 10);
+    } else {
+      cost = parseInt(itemData.data.price.market, 10);
+    }
+    const percent = parseInt(vendorConfig.itemTypes[itemData.type].purchasePercentage, 10);
+
+    let itemName = itemData.name;
+
+    if (itemData.data.isUpgraded) {
+      itemData.data.upgrades.forEach((upgrade) => {
+        const upgradeItem = tradePartnerActor.items.find((i) => i.data._id === upgrade._id);
+        if (upgradeItem) {
+          cost += upgradeItem.data.data.price.market;
+        }
+      });
+      itemName = `${SystemUtils.Localize("CPR.global.generic.upgraded")} ${itemName}`;
+    }
+
+    let vendorOffer = parseInt(((amount * cost * percent) / 100), 10);
+    vendorOffer = Math.min(vendorOffer, vendorData.data.wealth.value);
+
+    const offerMessage = `${SystemUtils.Format(
+      "CPR.dialog.container.vendor.offerToBuy",
+      {
+        vendorName: tradePartnerActor.name,
+        vendorOffer,
+        itemName,
+        percent,
+      },
+    )}`;
+    const formData = await PurchaseOrderPrompt.RenderPrompt(offerMessage).catch((err) => LOGGER.debug(err));
+
+    if (formData !== undefined) {
+      let createItems = [];
+      const deleteItems = [];
+      if (itemData.data.isUpgraded) {
+        itemData.data.upgrades.forEach(async (upgrade) => {
+          const upgradeItem = tradePartnerActor.items.find((i) => i.data._id === upgrade._id);
+          if (upgradeItem) {
+            const newItem = duplicate(upgradeItem.data);
+            newItem.data.isInstalled = false;
+            newItem.data.install = "";
+            createItems.push(newItem);
+            deleteItems.push(upgradeItem.data._id);
+          }
+        });
+        itemData.data.isUpgraded = false;
+        itemData.data.upgrades = [];
+      }
+
+      createItems.push(itemData);
+      deleteItems.push(itemData._id);
+
+      const infiniteStock = getProperty(this.actor.data, "flags.cyberpunk-red-core.infinite-stock");
+
+      if (infiniteStock) {
+        const itemList = createItems;
+        itemList.forEach((item) => {
+          if (this.actor.items.find((i) => i.data.name === item.name)) {
+            createItems = createItems.filter((ci) => ci._id !== item._id);
+          }
+        });
+      }
+
+      if (createItems.length > 0) {
+        await this.actor.createEmbeddedDocuments("Item", createItems);
+      }
+      await tradePartnerActor.deleteEmbeddedDocuments("Item", deleteItems);
+
+      let reason = "";
+      if (amount > 1) {
+        reason = `${SystemUtils.Format(
+          "CPR.containerSheet.tradeLog.multipleSold",
+          {
+            amount,
+            name: itemData.name,
+            price: vendorOffer,
+            vendor: this.actor.name,
+          },
+        )} - ${username}`;
+      } else {
+        reason = `${SystemUtils.Format(
+          "CPR.containerSheet.tradeLog.singleSold",
+          { name: itemData.name, price: vendorOffer, vendor: this.actor.name },
+        )} - ${username}`;
+      }
+      const vendorReason = `${SystemUtils.Format(
+        "CPR.containerSheet.tradeLog.vendorPurchased",
+        {
+          name: itemData.name,
+          quantity: itemData.data.amount,
+          seller: tradePartnerActor.name,
+          price: vendorOffer,
+        },
+      )} - ${username}`;
+      await tradePartnerActor.deltaLedgerProperty("wealth", vendorOffer, reason);
+      await this.actor.recordTransaction(vendorOffer, vendorReason);
+    }
+  }
+
+  /**
    * Create an item in the inventory of the actor. The templates will hide this functionality
    * if the GMs does not want to permit players to create their own items.
    *
@@ -274,7 +439,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
    */
   async _createInventoryItem(event) {
     LOGGER.trace("_createInventoryItem | CPRContainerSheet | Called.");
-    const itemType = $(event.currentTarget).attr("data-item-type");
+    const itemType = SystemUtils.GetEventDatum(event, "data-item-type");
     const itemTypeNice = itemType.toLowerCase().capitalize();
     const itemString = "ITEM.Type";
     const itemTypeLocal = itemString.concat(itemTypeNice);
@@ -293,7 +458,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
    */
   async _checkboxToggle(event) {
     LOGGER.trace("_checkboxToggle | CPRContainerSheet | Called.");
-    const flagName = $(event.currentTarget).attr("data-flag-name");
+    const flagName = SystemUtils.GetEventDatum(event, "data-flag-name");
     const actor = this.token === null ? this.actor : this.token.actor;
     if (this.token === null) {
       SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.containerSettingsOnToken"));
@@ -331,10 +496,72 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
   async _onDrop(event) {
     LOGGER.trace("_onDrop | CPRContainerSheet | Called.");
     const playersCanCreate = getProperty(this.actor.data, "flags.cyberpunk-red-core.players-create");
-    if (game.user.isGM || playersCanCreate) {
+    const playersCanSell = getProperty(this.actor.data, "flags.cyberpunk-red-core.players-sell");
+    if (game.user.isGM || playersCanCreate || playersCanSell) {
+      if (!game.user.isGM && !playersCanCreate) {
+        const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
+        const vendorData = this.actor.data.data.vendor;
+        if (dragData.type === "Item") {
+          const itemData = dragData.data;
+          if (typeof vendorData.itemTypes[itemData.type] !== "undefined" && vendorData.itemTypes[itemData.type].isPurchasing) {
+            await this._sellItemTo(event);
+            return;
+          }
+          SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeDragNotBuying"));
+          return;
+        }
+      }
       super._onDrop(event);
     } else {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeDragInWarn"));
     }
+  }
+
+  /**
+   * Configure Container Actor to be able to purchase items from a player.
+   *
+   * @private
+   * @callback
+   */
+  async _configureSellTo() {
+    LOGGER.trace("_configureSellTo | CPRContainerSheet | Called.");
+    const actorData = duplicate(this.actor.data);
+    const promptData = {};
+    promptData.itemTypes = [];
+    const itemEntities = game.system.template.Item;
+    game.system.template.Item.types.forEach((itemType) => {
+      if (itemEntities[itemType].templates.includes("physicalItem")) {
+        promptData.itemTypes.push(itemType);
+      }
+    });
+    promptData.currentConfig = actorData.data.vendor;
+
+    promptData.itemTypes.forEach((itemType) => {
+      if (typeof promptData.currentConfig.itemTypes[itemType] === "undefined") {
+        promptData.currentConfig.itemTypes[itemType] = {
+          isPurchasing: false,
+          purchasePercentage: 0,
+        };
+      }
+    });
+
+    const formData = await ConfigureSellToPrompt.RenderPrompt(promptData).catch((err) => LOGGER.debug(err));
+    if (formData !== undefined) {
+      promptData.itemTypes.forEach((itemType) => {
+        const isPurchasing = formData[`sell-${itemType}`];
+        const purchasePercentage = (isPurchasing) ? formData[`pct-${itemType}`] : 0;
+        promptData.currentConfig.itemTypes[itemType] = { isPurchasing, purchasePercentage };
+      });
+      setProperty(actorData, "data.vendor", promptData.currentConfig);
+      this.actor.update(actorData);
+    }
+  }
+
+  async _updateEurobucks(event) {
+    LOGGER.trace("_updateEurobucks | CPRContainerSheet | Called.");
+    const value = parseInt(event.currentTarget.parentElement.previousElementSibling.children[0].value, 10);
+    const action = $(event.currentTarget).attr("data-action");
+    const reason = `Sheet update ${action} ${event.currentTarget.parentElement.parentElement.nextElementSibling.children[1].lastElementChild.value}`;
+    await this.actor.recordTransaction(value, reason);
   }
 }

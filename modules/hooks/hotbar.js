@@ -45,8 +45,8 @@ const hotbarHooks = () => {
         return;
       }
 
-      // Create item macro if rollable item - weapon or skill
-      if (item.type !== "weapon" && item.type !== "skill") {
+      // Create item macro if rollable item - weapon, cyberware weapon or skill
+      if (item.type !== "weapon" && !(item.type === "cyberware" && item.data.data.isWeapon) && item.type !== "skill") {
         return;
       }
       let command = "";
@@ -55,7 +55,7 @@ const hotbarHooks = () => {
       command += "const skipPrompt = false;\n";
       command += "\n";
       const itemName = item.name.replace(/\\/g, "\\\\").replace(/\\([\s\S])|(")/g, "\\$1$2");
-      if (item.type === "weapon") {
+      if (item.type === "weapon" || (item.type === "cyberware" && item.data.data.isWeapon)) {
         command += "// The roll type of the weapon for this macro is configurable.\n";
         command += "// By default, we do the standard attack, however the rollType,\n";
         command += "// may be configured by setting it to a different value:\n";
@@ -80,7 +80,7 @@ const hotbarHooks = () => {
         command += "// Do not edit anything below this line, please.\n";
         command += "\n";
         command += `game.cpr.macro.rollItemMacro("${itemName}", {skipPrompt, rollType});`;
-      } else {
+      } else if (item.type === "skill") {
         command += `game.cpr.macro.rollItemMacro("${itemName}", {skipPrompt});`;
       }
       let macro = game.macros.contents.find((m) => (m.name === item.name) && (m.command === command));

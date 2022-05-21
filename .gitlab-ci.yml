@@ -9,6 +9,8 @@ stages:
   - init
   - build
   - test
+  - pre-release
+  - release
 
 init:
   stage: init
@@ -73,3 +75,35 @@ helper-test:
   script:
   - echo "Checking use of handlebars helpers..."
   - ./.gitlab/pipeline_tests/test-handlebars-helpers.sh
+
+pack-alpha-sort-test:
+  stage: test
+  before_script:
+    - apt-get update
+    - apt-get install jq --yes
+  script:
+    - echo "Checking if packs are sorted alphabetically"
+    - ./.gitlab/pipeline_tests/test-pack-alpha-sort.sh
+
+pre-release:
+  stage: pre-release
+  before_script:
+    - 'apt-get update'
+    - 'apt-get install jq -y'
+  rules: 
+    - if: '$CI_COMMIT_BRANCH == "dev"'
+  allow_failure: true
+  script:
+    - echo "Checking if Dev is suitable for release to Master..."
+    - ./.gitlab/pipeline_tests/pre-release-checks.sh
+
+release:
+  stage: release
+  rules: 
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: manual
+  script:
+    - echo "Running the release job"
+    - MASTER_VERSION=$(grep version system.json | awk '{print $2}' | sed 's/^.//;s/..$//')
+    - > 
+      curl --header "Content-Type: application/json" --header "JOB-TOKEN: $CI_JOB_TOKEN" --data "{\"name\": \"v$MASTER_VERSION\", \"tag_name\": \"v$MASTER_VERSION\", \"description\": \"Automated release of v$MASTER_VERSION\", \"ref\": \"$CI_COMMIT_SHA\" }" --request POST "https://gitlab.com/api/v4/projects/22820629/releases"

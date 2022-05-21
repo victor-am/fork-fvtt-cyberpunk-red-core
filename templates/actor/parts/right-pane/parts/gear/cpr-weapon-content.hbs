@@ -7,9 +7,6 @@
   </div>
   <div class="item-detail gear-data text-nowrap">
     {{localize (cprFindConfigValue "weaponTypeList" item.data.data.weaponType)}}
-    {{#if (ne item.data.data.quality "standard")}}
-    ({{localize item.data.data.quality}})
-    {{/if}}
     {{#if item.data.data.isRanged}}
     {{#if item.data.data.magazine.ammoId}}
     |

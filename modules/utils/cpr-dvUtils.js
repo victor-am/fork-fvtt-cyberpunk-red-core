@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
 import LOGGER from "./cpr-logger.js";
+import SystemUtils from "./cpr-systemUtils.js";
 
 export default class DvUtils {
   static GetDvTables() {
     LOGGER.trace("GetDvTables | DvUtils | called.");
-    const dvPattern = new RegExp("^DV ");
     const tableNames = [];
-    const tableList = game.tables.filter((t) => t.data.name.match(dvPattern));
+    const tableList = SystemUtils.GetRollTables("^DV", true);
     tableList.forEach((table) => tableNames.push(table.data.name));
     return tableNames.sort();
   }
@@ -16,7 +16,7 @@ export default class DvUtils {
     const dvTables = this.GetDvTables();
     let DV = null;
     if (dvTables.includes(tableName)) {
-      const rollTable = (game.tables.filter((t) => t.data.name === tableName))[0];
+      const rollTable = (SystemUtils.GetRollTables(tableName, true))[0];
       const tableResults = rollTable.getResultsForRoll(distance);
       if (tableResults.length === 1) {
         DV = tableResults[0].data.text;

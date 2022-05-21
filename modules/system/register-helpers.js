@@ -89,9 +89,59 @@ export default function registerHandlebarsHelpers() {
   });
 
   /**
+   * Return the size of an object.
+   */
+  Handlebars.registerHelper("cprSizeOf", (object) => {
+    LOGGER.trace("cprSizeOf | handlebarsHelper | Called.");
+    let size = 0;
+    switch (typeof object) {
+      case "object": {
+        if (Array.isArray(object)) {
+          size = object.length;
+        } else {
+          size = object.size;
+        }
+        break;
+      }
+      case "string": {
+        size = object.length;
+        break;
+      }
+      case "number": {
+        size = object;
+        break;
+      }
+      default:
+        size = 0;
+    }
+    return size;
+  });
+
+  /**
    * Return true if a literal is a number
    */
   Handlebars.registerHelper("cprIsNumber", (value) => !Number.isNaN(value));
+
+  /**
+   * Formats thousands with a comma, optionally set decimal length
+   *
+   * Options:
+   *
+   *  @var decimalLength int The length of the decimals
+   *  @var thousandsSep char The thousands separator
+   *  @var decimalSep char The decimals separator
+   *
+   */
+  Handlebars.registerHelper("cprNumberFormat", (value, options) => {
+    LOGGER.trace("cprNumberFormat | handlebarsHelper | Called.");
+    const dl = options.hash.decimalLength || 0;
+    const ts = options.hash.thousandsSep || ",";
+    const ds = options.hash.decimalSep || ".";
+    const val = parseFloat(value);
+    const re = `\\d(?=(\\d{3})+${dl > 0 ? "\\D" : "$"})`;
+    const num = val.toFixed(Math.max(0, Math.floor(dl)));
+    return (ds ? num.replace(".", ds) : num).replace(new RegExp(re, "g"), `$&${ts}`);
+  });
 
   /**
    * Given an Array of strings, create an object with those strings as properties. They are the assigned
@@ -296,7 +346,6 @@ export default function registerHandlebarsHelpers() {
    */
   Handlebars.registerHelper("cprSort", (arr, property) => {
     LOGGER.trace("cprSort | handlebarsHelper | Called.");
-    LOGGER.debug(typeof arr);
     arr.sort((a, b) => {
       let comparator = 0;
       if (a[property] > b[property]) {
@@ -413,67 +462,34 @@ export default function registerHandlebarsHelpers() {
 
   /**
    * Some skills and roles have spaces and/or parantheses in their name. When substituting in translated strings,
-   * this can be a problem to find the key they're listed under. This helper does a little string manipulation
-   * to make that easier to manage.
+   * this can be a problem to find the key they're listed under.
+   *
    * Example: Resist Torture/Drugs -> Resist Torture Or Drugs
    */
-  Handlebars.registerHelper("cprSplitJoinCoreSkills", (string) => {
+  Handlebars.registerHelper("cprSplitJoinCoreSkills", (skillObj) => {
     LOGGER.trace("cprSplitJoinCoreSkills | handlebarsHelper | Called.");
-    const cprDot = "CPR.global.skills.";
-    const initialSplit = string.split(" ").join("");
-    const orCaseSplit = initialSplit.split("/").join("Or");
-    const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
-    const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
-    if (string === "Conceal/Reveal Object" || string === "Paint/Draw/Sculpt" || string === "Resist Torture/Drugs") {
-      return cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
-    }
-    if (string === "Language (Streetslang)") {
-      // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
-      // comment to fulfill the test case of the language file.
-      return cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
-    }
-    return cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
-    // This helper also translates the skills for the Elflines Online characters, created with by the macro in the compendium.
-    // In order for the test case to work these skills have to appear in the code. They are not used anywhere else, thus added
-    // here as a comment: "CPR.global.skills.athleticsAndContortionist", "CPR.global.skills.basicTechAndWeaponstech",
-    // "CPR.global.skills.compositionAndEducation", "CPR.global.skills.enduranceAndResistTortureAndDrugs", "CPR.global.skills.evasionAndDance",
-    // "CPR.global.skills.firstAidAndParamedicAndSurgery", "CPR.global.skills.persuasionAndTrading", "CPR.global.skills.pickLockAndPickPocket"
+    return "CPR.global.skills.".concat(SystemUtils.slugify(skillObj.name));
   });
 
   /**
    * Sort core skills, returning a new array. This goes a step further and considers unicode normalization form for
    * specific characters like slashes and parantheses.
    */
-  Handlebars.registerHelper("cprSortCoreSkills", (object) => {
+  Handlebars.registerHelper("cprSortCoreSkills", (skillObjArray) => {
     LOGGER.trace("cprSortCoreSkills | handlebarsHelper | Called.");
-    const objectTranslated = [];
-    object.forEach((o) => {
+    const sortedSkills = [];
+    skillObjArray.forEach((o) => {
       const newElement = o;
       if (o.data.data.core) {
-        const cprDot = "CPR.global.skills.";
-        const initialSplit = o.name.split(" ").join("");
-        const orCaseSplit = initialSplit.split("/").join("Or");
-        const parenCaseSplit = initialSplit.split("(").join("").split(")").join("");
-        const andCaseSplit = initialSplit.split("/").join("And").split("&").join("And");
-        if (o.name === "Conceal/Reveal Object" || o.name === "Paint/Draw/Sculpt" || o.name === "Resist Torture/Drugs") {
-          const string = cprDot + orCaseSplit.charAt(0).toLowerCase() + orCaseSplit.slice(1);
-          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        } else if (o.name === "Language (Streetslang)") {
-          // Creates "CPR.global.skills.languageStreetslang", which is not used elsewhere and thus mentioned in this
-          // comment to fulfill the test case of the language file.
-          const string = cprDot + parenCaseSplit.charAt(0).toLowerCase() + parenCaseSplit.slice(1);
-          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        } else {
-          const string = cprDot + andCaseSplit.charAt(0).toLowerCase() + andCaseSplit.slice(1);
-          newElement.translatedName = SystemUtils.Localize(string).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        }
+        const tstring = "CPR.global.skills.".concat(SystemUtils.slugify(o.name));
+        newElement.translatedName = SystemUtils.Localize(tstring).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       } else {
         newElement.translatedName = o.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       }
-      objectTranslated.push(newElement);
+      sortedSkills.push(newElement);
     });
 
-    objectTranslated.sort((a, b) => {
+    sortedSkills.sort((a, b) => {
       let comparator = 0;
       if (a.translatedName > b.translatedName) {
         comparator = 1;
@@ -482,7 +498,7 @@ export default function registerHandlebarsHelpers() {
       }
       return comparator;
     });
-    return objectTranslated;
+    return sortedSkills;
   });
 
   /**
@@ -599,6 +615,14 @@ export default function registerHandlebarsHelpers() {
   });
 
   /**
+   * Look at the data model for a type of item, and return the list of templates it comes with
+   */
+  Handlebars.registerHelper("cprGetTemplates", (itemType) => {
+    LOGGER.trace("cprGetTemplates | handlebarsHelper | Called.");
+    return SystemUtils.getDataModelTemplates(itemType);
+  });
+
+  /**
    * Return the stat-changing details as text if an object has an upgrade
    */
   Handlebars.registerHelper("cprShowUpgrade", (obj, dataPoint) => {
@@ -656,6 +680,70 @@ export default function registerHandlebarsHelpers() {
       return true;
     }
     return applyToText.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1;
+  });
+
+  /**
+   * For readability's sake return (a translated) "Yes" or "No" based on whether something is true or false
+   */
+  Handlebars.registerHelper("cprYesNo", (bool) => {
+    LOGGER.trace("cprYesNo | handlebarsHelper | Called.");
+    if (bool) return SystemUtils.Localize("CPR.global.generic.yes");
+    return SystemUtils.Localize("CPR.global.generic.no");
+  });
+
+  /**
+   * For readability's sake, translate the "mode" of an active effect mod into an intuitive mathematical operator.
+   * For unknown modes, just return a question mark, which shouldn't happen. Modes are constants provided by Foundry:
+   *    0 (CUSTOM) - calls the "applyActiveEffect" hook with the value to figure out what to do with it (not used)
+   *    1 (MULTIPLY) - multiply this value with the current one
+   *    2 (ADD) - add this value to the current value (as an Integer) or set it if currently null
+   *    3 (DOWNGRADE) - like OVERRIDE but only replace if the value is lower (worse)
+   *    4 (UPGRADE) - like OVERRIDE but only replace if the value is higher (better)
+   *    5 (OVERRIDE) - replace the current value with this one
+   */
+  Handlebars.registerHelper("cprEffectModMode", (mode, value) => {
+    LOGGER.trace("cprEffectModMode | handlebarsHelper | Called.");
+    switch (mode) {
+      case 1:
+        return "*";
+      case 2:
+        return value > 0 ? "+" : ""; // account for minus already being there for negative numbers
+      case 3:
+        return "<=";
+      case 4:
+        return ">=";
+      case 5:
+        return "=";
+      default:
+        return "?";
+    }
+  });
+
+  /**
+   * Figure out if an effect row should have a toggle glyph displayed or not.
+   * Only show the toggle if 1 of these conditions is true:
+   *    1. the effect is on the actor itself, not from an item
+   *    2. the item usage is set to "toggled"
+   *    3. the item is not suppressed and usage is not set to "always"
+   *
+   * @param {CPRActiveEffect} - effect data object
+   * @name {String} - the name of the actor
+   * @returns true or false if the toggle glyph should be displayed
+   */
+  Handlebars.registerHelper("cprShowEffectToggle", (effect, name) => {
+    LOGGER.trace("cprShowEffectToggle | handlebarsHelper | Called.");
+    if (effect.sourceName === name) return true;
+    if (!effect.data.isSuppressed && effect.usage !== "always") return true;
+    if (effect.data.isSuppressed && effect.usage === "toggled") return true;
+    return false;
+  });
+
+  /**
+   * Get the transient bonus value applied to skills applied from Active Effects
+   */
+  Handlebars.registerHelper("cprGetSkillBonus", (skillName, actor) => {
+    LOGGER.trace("cprGetSkillBonus | handlebarsHelper | Called.");
+    return actor.getSkillMod(skillName);
   });
 
   /**

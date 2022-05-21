@@ -3,6 +3,11 @@
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-stat">
       <div class="text-center text-padding-top text-normal">{{rollTitle}} ({{formula}})</div>
+      {{#if rollCardExtraArgs.rollDescription}}
+        <div class="rollcard-subtitle">
+          <div class="rollcard-subtitle-center text-small">{{rollCardExtraArgs.rollDescription}}</div>
+        </div>
+      {{/if}}
     </div>
   </div>
   <div class="rollcard-bottom">

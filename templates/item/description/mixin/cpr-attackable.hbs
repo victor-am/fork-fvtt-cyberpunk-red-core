@@ -1,0 +1,37 @@
+{{cprTrace "CPR-ATTACKABLE.HBS"}}
+{{!-- This awful logic is summarized here:
+    Show this content unless one of the following is true:
+        1. the item is cyberware and it is not a weapon
+        2. the item is an upgrade item and it is not a weapon
+--}}
+{{#unless (cprCompare 
+    (cprCompare 
+        (cprCompare data.type "===" "cyberware")
+        "&&"
+        (cprCompare data.data.isWeapon "===" "false"))
+    "||" 
+    (cprCompare
+        (cprCompare data.type "===" "itemUpgrade")
+        "&&"
+        (cprCompare (cprGetProp data.data.modifiers.secondaryWeapon "configured") "===" "false"))
+)}}
+<div class="item-summary-line">
+    <span class="text-bold summary-name">{{localize "CPR.itemSheet.weapon.rof"}}:</span>
+    <span class="summary-value">{{cprApplyUpgrade item data.data.rof "rof"}}</span>
+</div>
+<div class="item-summary-line">
+    <span class="text-bold summary-name">{{localize "CPR.global.generic.damage"}}:</span>
+    <span class="summary-value">{{cprApplyUpgrade item data.data.damage "damage"}}</span>
+</div>
+<div class="item-summary-line">
+    <span class="text-bold summary-name">{{localize "CPR.itemSheet.weapon.attackMod"}}:</span>
+    <span class="summary-value">{{cprApplyUpgrade item data.data.attackmod "attackmod"}}</span>
+</div>
+{{#if data.data.isRanged}}
+<div class="item-summary-line">
+    <span class="text-bold summary-name">{{localize "CPR.itemSheet.weapon.magSize"}}:</span>
+    <span class="summary-value">{{cprApplyUpgrade item data.data.magazine.max "magazine"}}</span>
+</div>
+{{/if}}
+{{/unless}}
+{{cprTrace "END CPR-ATTACKABLE.HBS"}}
