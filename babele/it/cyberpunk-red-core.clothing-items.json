@@ -1,364 +1,364 @@
 {
-	"label": "Clothing",
+	"label": "Abbigliamento",
 	"entries": {
 		"Asia Pop Bottoms": {
-			"name": "Asia Pop Bottoms",
+			"name": "Asia Pop Sotto",
 			"description": ""
 		},
 		"Asia Pop Contact Lenses": {
-			"name": "Asia Pop Contact Lenses",
+			"name": "Asia Pop Lenti A Contatto",
 			"description": ""
 		},
 		"Asia Pop Footwear": {
-			"name": "Asia Pop Footwear",
+			"name": "Asia Pop Calzature",
 			"description": ""
 		},
 		"Asia Pop Glasses": {
-			"name": "Asia Pop Glasses",
+			"name": "Pop Asia Occhiali",
 			"description": ""
 		},
 		"Asia Pop Hat": {
-			"name": "Asia Pop Hat",
+			"name": "Pop Asia Cappello",
 			"description": ""
 		},
 		"Asia Pop Jacket": {
-			"name": "Asia Pop Jacket",
+			"name": "Asia Pop Giacca",
 			"description": ""
 		},
 		"Asia Pop Jewelry": {
-			"name": "Asia Pop Jewelry",
+			"name": "Pop Asia Gioielli",
 			"description": ""
 		},
 		"Asia Pop Mirrorshades": {
-			"name": "Asia Pop Mirrorshades",
+			"name": "Asia Pop Occhiali a Specchio",
 			"description": null
 		},
 		"Asia Pop Top": {
-			"name": "Asia Pop Top",
+			"name": "Asia Pop Sopra",
 			"description": ""
 		},
 		"Bag Lady Chic Bottoms": {
-			"name": "Bag Lady Chic Bottoms",
+			"name": "Trasandato Sotto",
 			"description": ""
 		},
 		"Bag Lady Chic Contact Lenses": {
-			"name": "Bag Lady Chic Contact Lenses",
+			"name": "Trasandato Lenti A Contatto",
 			"description": ""
 		},
 		"Bag Lady Chic Footwear": {
-			"name": "Bag Lady Chic Footwear",
+			"name": "Trasandato Calzature",
 			"description": ""
 		},
 		"Bag Lady Chic Glasses": {
-			"name": "Bag Lady Chic Glasses",
+			"name": "Trasandato Occhiali",
 			"description": null
 		},
 		"Bag Lady Chic Hat": {
-			"name": "Bag Lady Chic Hat",
+			"name": "Trasandato Cappello",
 			"description": ""
 		},
 		"Bag Lady Chic Jacket": {
-			"name": "Bag Lady Chic Jacket",
+			"name": "Trasandato Giacca",
 			"description": ""
 		},
 		"Bag Lady Chic Jewelry": {
-			"name": "Bag Lady Chic Jewelry",
+			"name": "Trasandato Gioielli",
 			"description": ""
 		},
 		"Bag Lady Chic Mirrorshades": {
-			"name": "Bag Lady Chic Mirrorshades",
+			"name": "Trasandato Occhiali a Specchio",
 			"description": ""
 		},
 		"Bag Lady Chic Top": {
-			"name": "Bag Lady Chic Top",
+			"name": "Trasandato Sopra",
 			"description": ""
 		},
 		"Bohemian Bottoms": {
-			"name": "Bohemian Bottoms",
+			"name": "Bohémien Sotto",
 			"description": ""
 		},
 		"Bohemian Contact Lenses": {
-			"name": "Bohemian Contact Lenses",
+			"name": "Bohémien Lenti a Contatto",
 			"description": ""
 		},
 		"Bohemian Footwear": {
-			"name": "Bohemian Footwear",
+			"name": "Bohémien Calzature",
 			"description": ""
 		},
 		"Bohemian Glasses": {
-			"name": "Bohemian Glasses",
+			"name": "Bohémien Occhiali",
 			"description": ""
 		},
 		"Bohemian Hat": {
-			"name": "Bohemian Hat",
+			"name": "Bohémien Cappello",
 			"description": ""
 		},
 		"Bohemian Jacket": {
-			"name": "Bohemian Jacket",
+			"name": "Bohémien Giacca",
 			"description": ""
 		},
 		"Bohemian Jewelry": {
-			"name": "Bohemian Jewelry",
+			"name": "Bohémien Gioielli",
 			"description": ""
 		},
 		"Bohemian Mirrorshades": {
-			"name": "Bohemian Mirrorshades",
+			"name": "Bohémien Occhiali a Specchio",
 			"description": ""
 		},
 		"Bohemian Top": {
-			"name": "Bohemian Top",
+			"name": "Bohémien Sopra",
 			"description": ""
 		},
 		"Businesswear Bottoms": {
-			"name": "Businesswear Bottoms",
+			"name": "Business Sotto",
 			"description": ""
 		},
 		"Businesswear Contact Lenses": {
-			"name": "Businesswear Contact Lenses",
+			"name": "Business Lenti a Contatto",
 			"description": ""
 		},
 		"Businesswear Footwear": {
-			"name": "Businesswear Footwear",
+			"name": "Business Calzature",
 			"description": ""
 		},
 		"Businesswear Glasses": {
-			"name": "Businesswear Glasses",
+			"name": "Business Occhiali",
 			"description": ""
 		},
 		"Businesswear Hat": {
-			"name": "Businesswear Hat",
+			"name": "Business Cappello",
 			"description": ""
 		},
 		"Businesswear Jacket": {
-			"name": "Businesswear Jacket",
+			"name": "Business Giacca",
 			"description": ""
 		},
 		"Businesswear Jewelry": {
-			"name": "Businesswear Jewelry",
+			"name": "Business Gioielli",
 			"description": ""
 		},
 		"Businesswear Mirrorshades": {
-			"name": "Businesswear Mirrorshades",
+			"name": "Business Occhiali a Specchio",
 			"description": ""
 		},
 		"Businesswear Top": {
-			"name": "Businesswear Top",
+			"name": "Business Sopra",
 			"description": ""
 		},
 		"Gang Colors Bottoms": {
-			"name": "Gang Colors Bottoms",
+			"name": "Gang Sotto",
 			"description": ""
 		},
 		"Gang Colors Contact Lenses": {
-			"name": "Gang Colors Contact Lenses",
+			"name": "Gang Lenti a Contatto",
 			"description": ""
 		},
 		"Gang Colors Footwear": {
-			"name": "Gang Colors Footwear",
+			"name": "Gang Calzature",
 			"description": ""
 		},
 		"Gang Colors Glasses": {
-			"name": "Gang Colors Glasses",
+			"name": "Gang Occhiali",
 			"description": ""
 		},
 		"Gang Colors Hat": {
-			"name": "Gang Colors Hat",
+			"name": "Gang Cappello",
 			"description": ""
 		},
 		"Gang Colors Jacket": {
-			"name": "Gang Colors Jacket",
+			"name": "Gang Giacca",
 			"description": ""
 		},
 		"Gang Colors Jewelry": {
-			"name": "Gang Colors Jewelry",
+			"name": "Gang Gioielli",
 			"description": ""
 		},
 		"Gang Colors Mirrorshades": {
-			"name": "Gang Colors Mirrorshades",
+			"name": "Gang Occhiali a Specchio",
 			"description": ""
 		},
 		"Gang Colors Top": {
-			"name": "Gang Colors Top",
+			"name": "Gang Sopra",
 			"description": ""
 		},
 		"Generic Chic Bottoms": {
-			"name": "Generic Chic Bottoms",
+			"name": "Chic Sotto",
 			"description": ""
 		},
 		"Generic Chic Contact Lenses": {
-			"name": "Generic Chic Contact Lenses",
+			"name": "Chic Lenti a Contatto",
 			"description": ""
 		},
 		"Generic Chic Footwear": {
-			"name": "Generic Chic Footwear",
+			"name": "Chic Calzature",
 			"description": ""
 		},
 		"Generic Chic Glasses": {
-			"name": "Generic Chic Glasses",
+			"name": "Chic Occhiali",
 			"description": ""
 		},
 		"Generic Chic Hat": {
-			"name": "Generic Chic Hat",
+			"name": "Chic Cappello",
 			"description": ""
 		},
 		"Generic Chic Jacket": {
-			"name": "Generic Chic Jacket",
+			"name": "Chic Giacca",
 			"description": ""
 		},
 		"Generic Chic Jewelry": {
-			"name": "Generic Chic Jewelry",
+			"name": "Chic Gioielli",
 			"description": ""
 		},
 		"Generic Chic Mirrorshades": {
-			"name": "Generic Chic Mirrorshades",
+			"name": "Chic Occhiali a Specchio",
 			"description": ""
 		},
 		"Generic Chic Top": {
-			"name": "Generic Chic Top",
+			"name": "Chic Sopra",
 			"description": ""
 		},
 		"High Fashion Bottoms": {
-			"name": "High Fashion Bottoms",
+			"name": "Alta Moda Sotto",
 			"description": ""
 		},
 		"High Fashion Contact Lenses": {
-			"name": "High Fashion Contact Lenses",
+			"name": "Alta Moda Lenti a Contatto",
 			"description": ""
 		},
 		"High Fashion Footwear": {
-			"name": "High Fashion Footwear",
+			"name": "Alta Moda Calzature",
 			"description": ""
 		},
 		"High Fashion Glasses": {
-			"name": "High Fashion Glasses",
+			"name": "Alta Moda Occhiali",
 			"description": ""
 		},
 		"High Fashion Hat": {
-			"name": "High Fashion Hat",
+			"name": "Alta Moda Cappello",
 			"description": ""
 		},
 		"High Fashion Jacket": {
-			"name": "High Fashion Jacket",
+			"name": "Alta Moda Giacca",
 			"description": ""
 		},
 		"High Fashion Jewelry": {
-			"name": "High Fashion Jewelry",
+			"name": "Alta Moda Gioielli",
 			"description": ""
 		},
 		"High Fashion Mirrorshades": {
-			"name": "High Fashion Mirrorshades",
+			"name": "Alta Moda Occhiali a Specchio",
 			"description": ""
 		},
 		"High Fashion Top": {
-			"name": "High Fashion Top",
+			"name": "Alta Moda Sopra",
 			"description": ""
 		},
 		"Leisurewear Bottoms": {
-			"name": "Leisurewear Bottoms",
+			"name": "Casual Sotto",
 			"description": ""
 		},
 		"Leisurewear Contact Lenses": {
-			"name": "Leisurewear Contact Lenses",
+			"name": "Casual Lenti a Contatto",
 			"description": ""
 		},
 		"Leisurewear Footwear": {
-			"name": "Leisurewear Footwear",
+			"name": "Casual Calzature",
 			"description": ""
 		},
 		"Leisurewear Glasses": {
-			"name": "Leisurewear Glasses",
+			"name": "Casual Occhiali",
 			"description": ""
 		},
 		"Leisurewear Hat": {
-			"name": "Leisurewear Hat",
+			"name": "Casual Cappello",
 			"description": ""
 		},
 		"Leisurewear Jacket": {
-			"name": "Leisurewear Jacket",
+			"name": "Casual Giacca",
 			"description": ""
 		},
 		"Leisurewear Jewelry": {
-			"name": "Leisurewear Jewelry",
+			"name": "Casual Gioielli",
 			"description": ""
 		},
 		"Leisurewear Mirrorshades": {
-			"name": "Leisurewear Mirrorshades",
+			"name": "Casual Occhiali a Specchio",
 			"description": ""
 		},
 		"Leisurewear Top": {
-			"name": "Leisurewear Top",
+			"name": "Casual Sopra",
 			"description": ""
 		},
 		"Nomad Leathers Bottoms": {
-			"name": "Nomad Leathers Bottoms",
+			"name": "Cuoio da Nomade Sotto",
 			"description": ""
 		},
 		"Nomad Leathers Contact Lenses": {
-			"name": "Nomad Leathers Contact Lenses",
+			"name": "Cuoio da Nomade Lenti a Contatto",
 			"description": ""
 		},
 		"Nomad Leathers Footwear": {
-			"name": "Nomad Leathers Footwear",
+			"name": "Cuoio da Nomade Calzature",
 			"description": ""
 		},
 		"Nomad Leathers Glasses": {
-			"name": "Nomad Leathers Glasses",
+			"name": "Cuoio da Nomade Occhiali",
 			"description": ""
 		},
 		"Nomad Leathers Hat": {
-			"name": "Nomad Leathers Hat",
+			"name": "Cuoio da Nomade Cappello",
 			"description": ""
 		},
 		"Nomad Leathers Jacket": {
-			"name": "Nomad Leathers Jacket",
+			"name": "Cuoio da Nomade Giacca",
 			"description": ""
 		},
 		"Nomad Leathers Jewelry": {
-			"name": "Nomad Leathers Jewelry",
+			"name": "Cuoio da Nomade Gioielli",
 			"description": ""
 		},
 		"Nomad Leathers Mirrorshades": {
-			"name": "Nomad Leathers Mirrorshades",
+			"name": "Cuoio da Nomade Occhiali a Specchio",
 			"description": ""
 		},
 		"Nomad Leathers Top": {
-			"name": "Nomad Leathers Top",
+			"name": "Top In Piume Nomade",
 			"description": ""
 		},
 		"Urban Flash Bottoms": {
-			"name": "Urban Flash Bottoms",
+			"name": "Urban Flash Sotto",
 			"description": ""
 		},
 		"Urban Flash Contact Lenses": {
-			"name": "Urban Flash Contact Lenses",
+			"name": "Urban Flash Lenti a Contatto",
 			"description": ""
 		},
 		"Urban Flash Footwear": {
-			"name": "Urban Flash Footwear",
+			"name": "Urban Flash Calzature",
 			"description": ""
 		},
 		"Urban Flash Glasses": {
-			"name": "Urban Flash Glasses",
+			"name": "Urban Flash Occhiali",
 			"description": ""
 		},
 		"Urban Flash Hat": {
-			"name": "Urban Flash Hat",
+			"name": "Urban Flash Cappello",
 			"description": ""
 		},
 		"Urban Flash Jacket": {
-			"name": "Urban Flash Jacket",
+			"name": "Urban Flash Giacca",
 			"description": ""
 		},
 		"Urban Flash Jewelry": {
-			"name": "Urban Flash Jewelry",
+			"name": "Urban Flash Gioielli",
 			"description": ""
 		},
 		"Urban Flash Mirrorshades": {
-			"name": "Urban Flash Mirrorshades",
+			"name": "Urban Flash Occhiali a Specchio",
 			"description": ""
 		},
 		"Urban Flash Top": {
-			"name": "Urban Flash Top",
+			"name": "Urban Flash Sopra",
 			"description": ""
 		}
 	}

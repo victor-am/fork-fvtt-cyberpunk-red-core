@@ -167,7 +167,7 @@
 		},
 		"Kendachi Mono-Three": {
 			"name": "Kendachi Mono-trois",
-			"description": "<p>Arme exotique de mêlée à deux mains très lourde d'excellente qualité. Avec la bonne clef biométrique, les dégâts infligés\npar cette arme ignorent totalement l'armure de la cible si le PA de celle-ci est inférieur à 1. Des armures de PA supérieur\nfonctionnent normalement. Ce katana high-tech est pourvu d'une lame de cristal presque transparente. Le cristal orbital\nrenforce son tranchant aux dents microscopiques qui vibre à une cadence de mille fois par minute lorsqu'un utilisateur\néquipé de la bonne clef biométrique en saisit la poignée. En l'absence de clef, l'arme ne vibre pas, mais demeure une arme\nexotique de mêlée à deux mains très lourde d'excellente qualité.</p>"
+			"description": "<p>Arme exotique de mêlée à deux mains très lourde d'excellente qualité. Avec la bonne clef biométrique, les dégâts infligés\npar cette arme ignorent totalement l'armure de la cible si le PA de celle-ci est inférieur à 11. Des armures de PA supérieur\nfonctionnent normalement. Ce katana high-tech est pourvu d'une lame de cristal presque transparente. Le cristal orbital\nrenforce son tranchant aux dents microscopiques qui vibre à une cadence de mille fois par minute lorsqu'un utilisateur\néquipé de la bonne clef biométrique en saisit la poignée. En l'absence de clef, l'arme ne vibre pas, mais demeure une arme\nexotique de mêlée à deux mains très lourde d'excellente qualité.</p>"
 		},
 		"Lead Pipe": {
 			"name": "Tuyau en plomb",

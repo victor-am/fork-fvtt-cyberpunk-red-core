@@ -1,48 +1,48 @@
 {
-	"label": "Critical Injuries (Head) - IMPORT ME",
+	"label": "Ferite Critiche (Testa) - IMPORTA",
 	"entries": {
 		"Brain Injury": {
-			"name": "Brain Injury",
-			"description": "<p>-2 to actions.</p>"
+			"name": "Commozione Celebrale",
+			"description": "<p>-2 alle azioni.</p>"
 		},
 		"Broken Jaw": {
-			"name": "Broken Jaw",
-			"description": "<p>-4 to Speech Actions.</p>"
+			"name": "Mascella Rotta",
+			"description": "<p>-4 alle azioni in cui serve parlare.</p>"
 		},
 		"Concussion": {
-			"name": "Concussion",
-			"description": "<p>-2 to actions.</p>"
+			"name": "Trauma Cranico",
+			"description": "<p>-2 alle azioni. Penalità Base al TS Morte: +1</p>"
 		},
 		"Cracked Skull": {
-			"name": "Cracked Skull",
-			"description": "<p>Triples damage to HP on aimed headshots.</p>"
+			"name": "Teschio Incrinato",
+			"description": "<p>PF x3 su Colpi Mirati alla Testa. Penalità TS Morte: +1</p>"
 		},
 		"Crushed Windpipe": {
-			"name": "Crushed Windpipe",
-			"description": "<p>Cannot speak.</p>"
+			"name": "Laringe Schiacciata",
+			"description": "<p>Impossibile parlare. Penalità TS Morte: +1</p>"
 		},
 		"Damaged Ear": {
-			"name": "Damaged Ear",
-			"description": "<p>If move more than 4m/yds in a Turn, cannot move next turn. -2 to Perception (hearing).</p>"
+			"name": "Orecchio Danneggiato",
+			"description": "<p>Se muovi più di 4m a piedi, non puoi muoverti il prossimo turno. -2 a Prove di Percezione (udito).</p>"
 		},
 		"Damaged Eye": {
-			"name": "Damaged Eye",
-			"description": "<p>-2 to Ranged and Perception (vision).</p>"
+			"name": "Occhio Danneggiato",
+			"description": "<p>-2 Attacchi a Distanza e Prove di Percezione (vista).</p>"
 		},
 		"Foreign Object (H)": {
-			"name": "Foreign Object (H)",
-			"description": "<p>Suffer Crit damage at end of turn if move more than 4m/yrds on foot.</p>"
+			"name": "Corpo Estraneo",
+			"description": "<p>Subisci Danno Bonus alla fine del turno se ti muovi per più di 4m a piedi.</p>"
 		},
 		"Lost Ear": {
-			"name": "Lost Ear",
-			"description": "<p>Ear is removed. If move more than 4m/yds in a Turn, cannot move next turn. -4 to Perception (hearing).</p>"
+			"name": "Perdita dell'Udito",
+			"description": "<p>Orecchio distrutto. Se ti muovi di più di 4m in un turno, non muovi nel turno successivo. -4 a Prove di Percezione (udito). Penalità TS Morte: +1</p>"
 		},
 		"Lost Eye": {
-			"name": "Lost Eye",
-			"description": "<p>Eye is removed. -4 to Ranged and Perception (vision).</p>"
+			"name": "Perdita dell'Occhio",
+			"description": "<p>Occhio distrutto. -4 a Attacchi a Distanza e Prove di Percezione (vista). Penalità TS Morte: +1</p>"
 		},
 		"Whiplash": {
-			"name": "Whiplash",
+			"name": "Colpo di Frusta",
 			"description": null
 		}
 	}
