@@ -73,6 +73,11 @@ export default class CPRItem extends Item {
       newData.data.isUpgraded = false;
       newData.data.upgrades = [];
     }
+    const loadableItemTypes = SystemUtils.GetTemplateItemTypes("loadable");
+    if (loadableItemTypes.includes(data.type) && !cprMigrationRunning) {
+      newData.data.magazine.ammoId = "";
+      newData.data.magazine.value = 0;
+    }
     super._onCreate(newData, options, userId);
   }
 
