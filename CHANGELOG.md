@@ -44,6 +44,8 @@
 - Format Eurobucks displays in a more readable way
 - Use fantasy style icons for items when generating the ELO Armory
 - Add Head armor generation to ELO Armory Macro
+- Add missing Lifepath questions
+- Fix ordering of Lifepath items to match Book order
 - Rename Excellent/Poor Quality Weapon/Cyberdeck Compendium items for easier sorting
 
 **Changes**
