@@ -1,132 +1,132 @@
 {
-	"label": "Upgrades",
+	"label": "Aggiornamenti",
 	"entries": {
 		"Assault Rifle Drum Magazine": {
-			"name": "Assault Rifle Drum Magazine",
+			"name": "Caricatore a Tamburo Fucile d'Assalto",
 			"description": ""
 		},
 		"Assault Rifle Extended Magazine": {
-			"name": "Assault Rifle Extended Magazine",
+			"name": "Caricatore Esteso Fucile d'Assalto",
 			"description": ""
 		},
 		"Backup Drive": {
-			"name": "Backup Drive",
-			"description": "<p>Saves Non-Black IE programs when destroyed. These programs can be re-installed by a Netrunner as a meat action.&nbsp;</p>"
+			"name": "Disco di Backup",
+			"description": "<p>Quando installato, il Disco di Backup “salva” tutti i Programmi Boost, Difensivi e Offensivi non Black ICE quando vengono Distrutti, copiandoli un attimo prima della fine. Come Azione IRL, il Netrunner può reinstallare un Programma “salvato” nel proprio deck, se ha lo Slot per farlo. I programmi recuperati con limitazioni “una volta per Netrun” sono nello stesso stato in cui erano al momento del salvataggio</p>"
 		},
 		"Bayonet": {
-			"name": "Bayonet",
+			"name": "Baionetta",
 			"description": ""
 		},
 		"DNA Lock": {
-			"name": "DNA Lock",
-			"description": "<p>Uses biometrics to lock the cyberdeck. Requires DV17 Electronics/Security Tech Check to crack.&nbsp;</p>"
+			"name": "Blocco DNA",
+			"description": "<p>Utilizza la biometria per bloccare il cyberdeck. Richiede una Prova di Elettronica e Sicurezza VD17 per usarlo senza chiave.&nbsp;</p>"
 		},
 		"Grenade Launcher Drum Magazine": {
-			"name": "Grenade Launcher Drum Magazine",
+			"name": "Caricatore a Tamburo Lanciagranate",
 			"description": ""
 		},
 		"Grenade Launcher Extended Magazine": {
-			"name": "Grenade Launcher Extended Magazine",
+			"name": "Caricatore Esteso Lanciagranate",
 			"description": ""
 		},
 		"Grenade Launcher Underbarrel": {
-			"name": "Grenade Launcher Underbarrel",
+			"name": "Lanciagranate Accessorio",
 			"description": ""
 		},
 		"Hardened Circuitry": {
-			"name": "Hardened Circuitry",
-			"description": "<p>Cyberdeck cannot be disabled or destroyed by EMP effects.&nbsp;</p>"
+			"name": "Circuiti Rinforzati",
+			"description": "<p>Cyberdeck non può essere disabilitato o distrutto dagli effetti EMP, Microonde o Programmi Black ICE.&nbsp;</p>"
 		},
 		"Heavy Pistol Drum Magazine": {
-			"name": "Heavy Pistol Drum Magazine",
+			"name": "Caricatore a Tamburo Pistola Pesante",
 			"description": ""
 		},
 		"Heavy Pistol Extended Magazine": {
-			"name": "Heavy Pistol Extended Magazine",
+			"name": "Caricatore Esteso Pistola Pesante",
 			"description": ""
 		},
 		"Heavy SMG Drum Magazine": {
-			"name": "Heavy SMG Drum Magazine",
+			"name": "Caricatore a Tamburo Mitra Pesante",
 			"description": ""
 		},
 		"Heavy SMG Extended Magazine": {
-			"name": "Heavy SMG Extended Magazine",
+			"name": "Caricatore Esteso Mitra Pesante",
 			"description": ""
 		},
 		"Infrared Nightvision Scope": {
-			"name": "Infrared Nightvision Scope",
-			"description": "<p>Reduces penalties against targets in darkness, smoke/fog to 0.</p>"
+			"name": "Mirino a Infrarossi",
+			"description": "<p>Riduce a 0 le penalità per colpire un bersaglio occultato da oscurità, fumo, nebbia, ecc. Usando questo mirino è possibile distinguere la carne (calda) dal metallo (freddo).</p>"
 		},
 		"Insulated Wiring": {
-			"name": "Insulated Wiring",
-			"description": "<p>Cyberdeck and user clothing cannot catch fire.&nbsp;</p>"
+			"name": "Cavi Isolati",
+			"description": "<p>Un Cyberdeck con Cavi Isolati non può prendere fuoco né incendiare i vestiti a causa dell’effetto di un Programma.&nbsp;</p>"
 		},
 		"KRASH Barrier": {
-			"name": "KRASH Barrier",
-			"description": "<p>Cyberdeck is immune to effects that force the Netrunner to Jack Out (safely or unsafely)</p>"
+			"name": "Barriera KRASH",
+			"description": "<p>Cyberdeck è immune agli effetti che costringono il Netrunner a Scollegarsi (in sucurezza o senza)</p>"
 		},
 		"Medium Pistol Drum Magazine": {
-			"name": "Medium Pistol Drum Magazine",
+			"name": "Caricatore a Tamburo Pistola Media",
 			"description": ""
 		},
 		"Medium Pistol Extended Magazine": {
-			"name": "Medium Pistol Extended Magazine",
+			"name": "Caricatore Esteso Pistola Media",
 			"description": ""
 		},
 		"Range Upgrade": {
-			"name": "Range Upgrade",
-			"description": "<p>Cyberdeck can connect to access points from up to 8m/yds away (instead of 6m/yds).</p>"
+			"name": "Portata Migliorata",
+			"description": "<p>Cyberdeck può connettersi ai punti di accesso entro un raggio di 8m (invece di 6m).</p>"
 		},
 		"Rocket Launcher Drum Magazine": {
-			"name": "Rocket Launcher Drum Magazine",
+			"name": "Caricatore a Tamburo Lanciarazzi",
 			"description": ""
 		},
 		"Rocket Launcher Extended Magazine": {
-			"name": "Rocket Launcher Extended Magazine",
+			"name": "Caricatore Esteso Lanciarazzi",
 			"description": ""
 		},
 		"SMG Drum Magazine": {
-			"name": "SMG Drum Magazine",
+			"name": "Caricatore a Tamburo Mitra",
 			"description": ""
 		},
 		"SMG Extended Magazine": {
-			"name": "SMG Extended Magazine",
+			"name": "Caricatore Esteso Mitra",
 			"description": ""
 		},
 		"Shotgun Drum Magazine": {
-			"name": "Shotgun Drum Magazine",
+			"name": "Caricatore a Tamburo Shotgun",
 			"description": ""
 		},
 		"Shotgun Extended Magazine": {
-			"name": "Shotgun Extended Magazine",
+			"name": "Caricatore Esteso Shotgun",
 			"description": ""
 		},
 		"Shotgun Underbarrel": {
-			"name": "Shotgun Underbarrel",
+			"name": "Shotgun Accessorio",
 			"description": ""
 		},
 		"Smartgun Link": {
-			"name": "Smartgun Link",
-			"description": "<p>Turns weapon into a \"Smartgun\". Refer to all rules specified on pg. 344 before using.&nbsp;</p>"
+			"name": "Collegamento Smartgun",
+			"description": "<p>Trasforma l'arma in una \"Smartgun\". Fai riferimento a tutte le regole specificate su pg. 344 prima di usare.&nbsp;</p>"
 		},
 		"Sniper Rifle Drum Magazine": {
-			"name": "Sniper Rifle Drum Magazine",
+			"name": "Caricatore a Tamburo Fucile da Cecchino",
 			"description": ""
 		},
 		"Sniper Rifle Extended Magazine": {
-			"name": "Sniper Rifle Extended Magazine",
+			"name": "Caricatore Esteso Fucile da Cecchino",
 			"description": ""
 		},
 		"Sniping Scope": {
-			"name": "Sniping Scope",
-			"description": "<p>Allows you to see detail up to 800m/yds. +1 to Single Shot/Aimed Shots for targets greater than 51m/yds.&nbsp;</p>"
+			"name": "Mirino di Precisione",
+			"description": "<p>Ti permette di vedere i dettagli fino a 800m. Aggiunge +1 alle Prove per sparare in modalità Colpo Singolo o Colpo Mirato contro bersagli oltre 51m. Non è cumulativo con il cyberware TeleOttica.&nbsp;</p>"
 		},
 		"Very Heavy Pistol Drum Magazine": {
-			"name": "Very Heavy Pistol Drum Magazine",
+			"name": "Caricatore a Tamburo Pistola Molto Pesante",
 			"description": ""
 		},
 		"Very Heavy Pistol Extended Magazine": {
-			"name": "Very Heavy Pistol Extended Magazine",
+			"name": "Caricatore Esteso Pistola Molto Pesante",
 			"description": ""
 		}
 	}

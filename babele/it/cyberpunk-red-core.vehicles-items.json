@@ -1,61 +1,61 @@
 {
-	"label": "Vehicles",
+	"label": "Veicoli",
 	"entries": {
 		"AV-4 Multipurpose Aerodyne": {
-			"name": "AV-4 Multipurpose Aerodyne",
-			"description": "<p>A multipurpose aircraft capable of quick insertion thanks to vertical thrusters. Used commonly by Trauma Teams. </p>"
+			"name": "AV-4 Aerodyne Multiruolo",
+			"description": "<p>Un velivolo multiuso in grado di inserirsi rapidamente grazie a propulsori verticali. Utilizzato comunemente dai Trauma Team. </p>"
 		},
 		"AV-9 Super Aerodyne": {
-			"name": "AV-9 Super Aerodyne",
-			"description": "<p>A highly advanced AV with limited seats. Can travel up to 300 miles per hour. </p>"
+			"name": "AV-9 Super-Aerodyne",
+			"description": "<p>Un AV piccolo ma altamente avanzato con posti limitati. Puoi viaggiare fino a 483 km/h. </p>"
 		},
 		"Aerozep": {
 			"name": "Aerozep",
-			"description": "<p>A modern-day cargo blimp. Requires a minimum of two rooms. The price is for each room below deck. </p>"
+			"description": "<p>Un moderno dirigibile cargo. Richiede un minimo di due cabine personalizzate. </p>"
 		},
 		"Cabin Cruiser": {
-			"name": "Cabin Cruiser",
-			"description": "<p>A very fast speedboat. Requires a minimum of two rooms. The price is for each room below deck. </p>"
+			"name": "Cabinato",
+			"description": "<p>Un motoscafo lussuoso molto veloce. Richiede un minimo di due per cabina per pochi personalizzata. </p>"
 		},
 		"Compact Groundcar": {
-			"name": "Compact Groundcar",
-			"description": "<p>A CHOOH2-powered groundcar. Very common with a few dozen manufacturers producing similar models. </p>"
+			"name": "Utilitaria",
+			"description": "<p>Una macchina normale alimentata da CHOOH2. Molto comune con alcune decine di produttori che offrono modelli simili. </p>"
 		},
 		"Gyrocopter": {
-			"name": "Gyrocopter",
-			"description": "<p>A small two-seater rotorcraft. </p>"
+			"name": "Girocottero",
+			"description": "<p>Un piccolo elicottero a CHOOH2 popolare tra gli hobbisti. </p>"
 		},
 		"Helicopter": {
-			"name": "Helicopter",
-			"description": "<p>A four-seater helicopter capable of high speeds and long flights. </p>"
+			"name": "Elicottero",
+			"description": "<p>Un elicottero a CHOOH2 con quattro posti capace di alte velocità e voli lunghi. </p>"
 		},
 		"High Performance Groundcar": {
-			"name": "High Performance Groundcar",
-			"description": "<p>A specialised groundcar designed for sports performance. </p>"
+			"name": "Auto Sportiva",
+			"description": "<p>Un'Auto sportiva a CHOOH2 creata per le prestazioni sportive. </p>"
 		},
 		"Jetski": {
-			"name": "Jetski",
-			"description": "<p>A common CHOOH2-powered jetski that can seat two people. </p>"
+			"name": "Moto d'Acqua",
+			"description": "<p>Una comune moto d'acqua alimentata a CHOOH2 che può ospitare due persone. </p>"
 		},
 		"Roadbike": {
-			"name": "Roadbike",
-			"description": "<p>A common CHOOH2-powered roadbike seen during the time of the Red.</p>"
+			"name": "Motocicletta",
+			"description": "<p>Una moto comune a CHOOH2 avvistata durante il periodo del Rosso.</p>"
 		},
 		"Speedboat": {
-			"name": "Speedboat",
-			"description": "<p>A fast CHOOH2-powered speedboat. </p>"
+			"name": "Motoscafo",
+			"description": "<p>Un veloce motoscafo a CHOOH2. </p>"
 		},
 		"Super Groundcar": {
-			"name": "Super Groundcar",
-			"description": "<p>An expensive, exotic CHOOH2 powered sportscar. It is capable of very high speeds. </p>"
+			"name": "Superauto",
+			"description": "<p>Un'auto sportiva costosa ed esotica a CHOOH2. È capace di velocità molto elevate. </p>"
 		},
 		"Superbike": {
-			"name": "Superbike",
-			"description": "<p>A beefed-up version of a roadbike, capable of very high speeds. </p>"
+			"name": "Supermoto",
+			"description": "<p>Una versione migliorata di una moto, capace di velocità molto elevate. </p>"
 		},
 		"Yacht": {
 			"name": "Yacht",
-			"description": "<p>A luxury speedboat. Requires a minimum of two rooms. The price is for each room below or above deck. </p>"
+			"description": "<p>Un motoscafo di lusso con ambienti per il divertimento e per i tuoi amici. Richiede un minimo di 4 per cabina. </p>"
 		}
 	}
 }
