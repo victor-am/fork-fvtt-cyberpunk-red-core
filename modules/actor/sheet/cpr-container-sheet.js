@@ -563,7 +563,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     // const value = parseInt(event.currentTarget.parentElement.previousElementSibling.children[0].value, 10);
     const value = parseInt($("#eurobucks").val(), 10);
     const action = $(event.currentTarget).attr("data-action");
-    if (!value) {
+    if (Number.isNaN(value)) {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.eurobucksModifyWarn"));
       return;
     }
