@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* global game hasProperty */
 import * as Migrations from "./scripts/index.js";
 import LOGGER from "../../utils/cpr-logger.js";
@@ -55,7 +56,14 @@ export default class CPRMigration {
     }
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allTokensDone"));
 
-    // In the future, put top-level migrations for tokens, scenes, compendiums, and other things here
+    // compendia
+    if (!await this.migrateCompendia(classRef)) {
+      CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.compendiaErrors"));
+      return false;
+    }
+    CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allCompendiaDone"));
+
+    // In the future, put top-level migrations for tokens, scenes, and other things here
 
     await this.postMigrate();
     if (this.errors !== 0) {
@@ -162,7 +170,6 @@ export default class CPRMigration {
           throw new Error(`${token.actor.name} token had a migration error: ${err.message}`);
         }
       });
-      // eslint-disable-next-line no-await-in-loop
       const values = await Promise.allSettled(tokenMigrations);
       for (const value of values.filter((v) => v.status !== "fulfilled")) {
         LOGGER.error(`Migration error: ${value.reason.message}`);
@@ -172,6 +179,41 @@ export default class CPRMigration {
       CPRSystemUtils.DisplayMessage("notify", `Migrated scene: ${scene.name}`);
     }
     return good;
+  }
+
+  /**
+   * Migrate compendia.
+   */
+  async migrateCompendia(classRef) {
+    LOGGER.trace("migrateCompendia | CPRMigration");
+    for (const pack of game.packs.filter((p) => p.metadata.package === "world")) {
+      const { entity } = pack.metadata;
+      if (!["Actor", "Item", "Scene"].includes(entity)) return;
+      const wasLocked = pack.locked;
+      await pack.configure({ locked: false });
+      await pack.migrate();
+      const documents = await pack.getDocuments();
+
+      // Iterate over compendium entries - applying fine-tuned migration functions
+      for (const doc of documents) {
+        let updateData = {};
+        switch (entity) {
+          case "Actor": {
+            updateData = this.migrateActor(entity);
+            break;
+          }
+          case "Item": {
+            updateData = classRef.migrateItem(entity);
+            break;
+          }
+          default:
+        }
+        // Save the entry
+        await doc.update(updateData);
+      }
+      // Apply the original locked status for the pack
+      await pack.configure({ locked: wasLocked });
+    }
   }
 
   /**
@@ -188,7 +230,6 @@ export default class CPRMigration {
    * static async migrateMacro(macro) {}
    * static async migrateToken(token) {}
    * static async migrateTable(table) {}
-   * static async migrateCompendium(comp) {}
    * async postMigrate() {}
   */
 }

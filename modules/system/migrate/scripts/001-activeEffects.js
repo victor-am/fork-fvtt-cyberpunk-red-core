@@ -269,15 +269,17 @@ export default class ActiveEffectsMigration extends CPRMigration {
    * Items changed in so many ways it seemed best to break out a separate migration
    * path for each item type.
    *
-   * TODO: understand how upgrade slots work for different item types
-   *       this was originally in a case statement in the item code, now split per-type
-   *       can subclasses override a function provided by the upgradeable mixin?
+   * There is an unusual escape case when migrating compendium items here. Community
+   * members were happy to add active effects where it made sense to them, but did
+   * not clean up unused properties. That step is handled as a special case here.
+   * In future migrations, we should do all compendium migrations in code.
    *
    * @param {CPRItem} item
    */
   static async migrateItem(item) {
     LOGGER.trace("migrateItem | 1-activeEffects Migration");
     await item.setFlag("cyberpunk-red-core", "cprItemMigrating", true);
+    if (item.pack) return ActiveEffectsMigration.migrateCompItem(item);
     switch (item.type) {
       case "ammo":
         await ActiveEffectsMigration.updateAmmo(item);
@@ -328,6 +330,30 @@ export default class ActiveEffectsMigration extends CPRMigration {
         LOGGER.warn(`An unrecognized item type was ignored: ${item.type}. It was not migrated!`);
     }
     await item.unsetFlag("cyberpunk-red-core", "cprItemMigrating");
+    return null;
+  }
+
+  /**
+   * A special case method for removing unused properties from items in compendia. Community members had
+   * already handled adding AEs and other tweaks at the time.
+   *
+   * @param {CPRItem} item - an item document included in a compendium
+   * @returns {Object} - specially formatted object for updating documents
+   */
+  static async migrateCompItem(item) {
+    LOGGER.trace("migrateCompItem | 1-activeEffects Migration");
+    let updateData = {};
+    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.quality") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.isUpgraded") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.upgrades") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.amount") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.charges") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.slotSize") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.isDemon") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.slots") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.modifiers") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.skillmod") };
+    return updateData;
   }
 
   /**
