@@ -269,16 +269,10 @@ export default class ActiveEffectsMigration extends CPRMigration {
    * Items changed in so many ways it seemed best to break out a separate migration
    * path for each item type.
    *
-   * There is an unusual escape case when migrating compendium items here. Community
-   * members were happy to add active effects where it made sense to them, but did
-   * not clean up unused properties. That step is handled as a special case here.
-   * In future migrations, we should do all compendium migrations in code.
-   *
    * @param {CPRItem} item
    */
   static async migrateItem(item) {
     LOGGER.trace("migrateItem | 1-activeEffects Migration");
-    await item.setFlag("cyberpunk-red-core", "cprItemMigrating", true);
     if (item.pack) return ActiveEffectsMigration.migrateCompItem(item);
     switch (item.type) {
       case "ammo":
@@ -330,7 +324,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
         LOGGER.warn(`An unrecognized item type was ignored: ${item.type}. It was not migrated!`);
     }
     await item.unsetFlag("cyberpunk-red-core", "cprItemMigrating");
-    return null;
   }
 
   /**
