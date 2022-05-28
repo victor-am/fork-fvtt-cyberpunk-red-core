@@ -334,29 +334,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
   }
 
   /**
-   * A special case method for removing unused properties from items in compendia. Community members had
-   * already handled adding AEs and other tweaks at the time.
-   *
-   * @param {CPRItem} item - an item document included in a compendium
-   * @returns {Object} - specially formatted object for updating documents
-   */
-  static async migrateCompItem(item) {
-    LOGGER.trace("migrateCompItem | 1-activeEffects Migration");
-    let updateData = {};
-    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.quality") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.isUpgraded") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.upgrades") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.amount") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.charges") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.slotSize") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.isDemon") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.slots") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.modifiers") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(item, "data.skillmod") };
-    return updateData;
-  }
-
-  /**
    * Set a default price and category under certain conditions. This is meant to fill in empty
    * values that should not have been empty in the first place.
    *

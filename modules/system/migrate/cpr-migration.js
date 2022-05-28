@@ -50,7 +50,7 @@ export default class CPRMigration {
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allActorsDone"));
 
     // unlinked actors (tokens)
-    if (!await this.migrateUnlinkedActors()) {
+    if (!await this.migrateScenes()) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.tokenErrors"));
       return false;
     }
@@ -143,10 +143,10 @@ export default class CPRMigration {
   }
 
   /**
-   * Migrate unlinked Actors (tokens)
+   * Migrate scenes. We specifically focus on unlinked tokens for now.
    */
-  async migrateUnlinkedActors() {
-    LOGGER.trace("migrateUnlinkedActors | CPRMigration");
+  async migrateScenes() {
+    LOGGER.trace("migrateScenes | CPRMigration");
     let good = true;
     for (const scene of game.scenes.contents) {
       const tokens = scene.tokens.contents.filter((token) => {
@@ -182,13 +182,14 @@ export default class CPRMigration {
   }
 
   /**
-   * Migrate compendia.
+   * Migrate compendia. This code is not meant to be run on the system-provided compendia
+   * that we provide. They are updated and imported on the side. The benefit of that approach
+   * to users is decreased migration times. I.e., we already migrated our compendia.
    */
   async migrateCompendia(classRef) {
     LOGGER.trace("migrateCompendia | CPRMigration");
-    for (const pack of game.packs.filter((p) => p.metadata.package === "world")) {
-      const { entity } = pack.metadata;
-      if (!["Actor", "Item", "Scene"].includes(entity)) return;
+    for (const pack of game.packs.filter((p) => p.metadata.package === "world" && ["Actor", "Item", "Scene"].includes(p.metadata.type))) {
+      LOGGER.debugObject(pack.metadata);
       const wasLocked = pack.locked;
       await pack.configure({ locked: false });
       await pack.migrate();
@@ -196,20 +197,22 @@ export default class CPRMigration {
 
       // Iterate over compendium entries - applying fine-tuned migration functions
       for (const doc of documents) {
-        let updateData = {};
-        switch (entity) {
+        switch (doc) {
           case "Actor": {
-            updateData = this.migrateActor(entity);
+            await this.migrateActor(doc);
             break;
           }
           case "Item": {
-            updateData = classRef.migrateItem(entity);
+            await classRef.migrateItem(doc);
+            break;
+          }
+          case "Scene": {
+            await this.migrateScenes(doc);
             break;
           }
           default:
+            CPRSystemUtils.DisplayMessage("error", `Unexpected doc type in compendia: ${doc}`);
         }
-        // Save the entry
-        await doc.update(updateData);
       }
       // Apply the original locked status for the pack
       await pack.configure({ locked: wasLocked });
