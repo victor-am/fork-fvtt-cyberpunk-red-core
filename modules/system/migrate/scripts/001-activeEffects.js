@@ -273,7 +273,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    */
   static async migrateItem(item) {
     LOGGER.trace("migrateItem | 1-activeEffects Migration");
-    if (item.pack) return ActiveEffectsMigration.migrateCompItem(item);
+    await item.setFlag("cyberpunk-red-core", "cprItemMigrating", true);
     switch (item.type) {
       case "ammo":
         await ActiveEffectsMigration.updateAmmo(item);
