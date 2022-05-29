@@ -34,7 +34,7 @@ export default class CPRMigration {
     // ActiveEffectsMigration.run().
     const classRef = Migrations[this.constructor.name];
     await this.preMigrate();
-q
+
     // migrate unowned items
     if (!await CPRMigration.migrateItems(classRef)) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.itemErrors"));
