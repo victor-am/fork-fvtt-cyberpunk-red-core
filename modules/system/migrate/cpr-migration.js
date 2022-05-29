@@ -34,7 +34,7 @@ export default class CPRMigration {
     // ActiveEffectsMigration.run().
     const classRef = Migrations[this.constructor.name];
     await this.preMigrate();
-
+q
     // migrate unowned items
     if (!await CPRMigration.migrateItems(classRef)) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.itemErrors"));
@@ -185,19 +185,19 @@ export default class CPRMigration {
    * Migrate compendia. This code is not meant to be run on the system-provided compendia
    * that we provide. They are updated and imported on the side. The benefit of that approach
    * to users is decreased migration times. I.e., we already migrated our compendia.
+   *
+   * We respect whether a compendium is locked. If it is, do not touch it. This does invite problems
+   * later on if a user tries to use entries with an outdated data model. However, the discord
+   * community for Foundry preferred locked things to be left alone.
    */
   async migrateCompendia(classRef) {
     LOGGER.trace("migrateCompendia | CPRMigration");
-    for (const pack of game.packs.filter((p) => p.metadata.package === "world" && ["Actor", "Item", "Scene"].includes(p.metadata.type))) {
-      LOGGER.debugObject(pack.metadata);
-      const wasLocked = pack.locked;
-      await pack.configure({ locked: false });
-      await pack.migrate();
-      const documents = await pack.getDocuments();
-
+    let good = true;
+    for (const pack of game.packs.filter((p) => p.metadata.package === "world" && ["Actor", "Item", "Scene"].includes(p.metadata.type) && !p.locked)) {
       // Iterate over compendium entries - applying fine-tuned migration functions
-      for (const doc of documents) {
-        switch (doc) {
+      const docs = await pack.getDocuments();
+      const packMigrations = docs.map(async (doc) => {
+        switch (pack.metadata.type) {
           case "Actor": {
             await this.migrateActor(doc);
             break;
@@ -213,10 +213,15 @@ export default class CPRMigration {
           default:
             CPRSystemUtils.DisplayMessage("error", `Unexpected doc type in compendia: ${doc}`);
         }
+      });
+      const values = await Promise.allSettled(packMigrations);
+      for (const value of values.filter((v) => v.status !== "fulfilled")) {
+        LOGGER.error(`Migration error: ${value.reason.message}`);
+        LOGGER.error(value.reason.stack);
+        good = false;
       }
-      // Apply the original locked status for the pack
-      await pack.configure({ locked: wasLocked });
     }
+    return good;
   }
 
   /**
