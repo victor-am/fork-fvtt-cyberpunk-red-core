@@ -219,6 +219,20 @@ const Loadable = function Loadable() {
     }
     return undefined;
   };
+
+  /**
+   * Whenever a new loadable item is created, we automatically clear the ammo associated with it.
+   * Otherwise, a copied Item will contain references to ammo used in the original item.
+   *
+   * @param {Object} data - the data the item is being created from
+   */
+  this.clearAmmo = function clearAmmo(data) {
+    LOGGER.trace("clearAmmo | Loadable | Called.");
+    const newData = data;
+    newData.data.magazine.ammoId = "";
+    newData.data.magazine.value = 0;
+    return newData;
+  };
 };
 
 export default Loadable;
