@@ -269,10 +269,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
    * Items changed in so many ways it seemed best to break out a separate migration
    * path for each item type.
    *
-   * TODO: understand how upgrade slots work for different item types
-   *       this was originally in a case statement in the item code, now split per-type
-   *       can subclasses override a function provided by the upgradeable mixin?
-   *
    * @param {CPRItem} item
    */
   static async migrateItem(item) {
