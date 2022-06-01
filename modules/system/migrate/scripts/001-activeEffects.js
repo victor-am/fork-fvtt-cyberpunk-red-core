@@ -44,7 +44,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       data: item.data.data,
       folder: this.migrationFolder,
     }, {
-      isMigration: true,
+      isMigrating: true,
     });
   }
 
