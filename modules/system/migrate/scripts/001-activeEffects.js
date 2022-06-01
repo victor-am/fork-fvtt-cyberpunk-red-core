@@ -147,7 +147,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
         throw new Error(`${ownedItem.data.name} (${ownedItem.data._id}) had a migration error: ${err.message}`);
       }
       if (createAeItemTypes.includes(ownedItem.data.type)) {
-        const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data]);
+        const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data], { isMigrating: true });
         remappedItems[ownedItem.data._id] = createdItem[0].data._id;
         await newItem.delete();
         deleteItems.push(ownedItem.data._id);
