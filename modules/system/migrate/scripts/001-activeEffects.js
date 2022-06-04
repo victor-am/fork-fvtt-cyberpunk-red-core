@@ -43,7 +43,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
       type: item.type,
       data: item.data.data,
       folder: this.migrationFolder,
-      flags: { "cyberpunk-red-core": { cprItemMigrating: true } },
+    }, {
+      isMigrating: true,
     });
   }
 
@@ -146,8 +147,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
         throw new Error(`${ownedItem.data.name} (${ownedItem.data._id}) had a migration error: ${err.message}`);
       }
       if (createAeItemTypes.includes(ownedItem.data.type)) {
-        await newItem.setFlag("cyberpunk-red-core", "cprItemMigrating", true);
-        const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data]);
+        const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data], { isMigrating: true });
         remappedItems[ownedItem.data._id] = createdItem[0].data._id;
         await newItem.delete();
         deleteItems.push(ownedItem.data._id);
@@ -221,11 +221,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
         });
       }
       await actor.updateEmbeddedDocuments("Item", updateList);
-      const removeItemFlags = [];
-      for (const item of actor.items) {
-        removeItemFlags.push(item.unsetFlag("cyberpunk-red-core", "cprItemMigrating"));
-      }
-      await Promise.all(removeItemFlags);
     }
   }
 
@@ -273,7 +268,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
    */
   static async migrateItem(item) {
     LOGGER.trace("migrateItem | 1-activeEffects Migration");
-    await item.setFlag("cyberpunk-red-core", "cprItemMigrating", true);
     switch (item.type) {
       case "ammo":
         await ActiveEffectsMigration.updateAmmo(item);
@@ -323,7 +317,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
         // note: drug was introduced with this release, so it will not fall through here
         LOGGER.warn(`An unrecognized item type was ignored: ${item.type}. It was not migrated!`);
     }
-    await item.unsetFlag("cyberpunk-red-core", "cprItemMigrating");
   }
 
   /**

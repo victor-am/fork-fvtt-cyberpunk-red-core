@@ -193,6 +193,20 @@ const Upgradable = function Upgradable() {
     });
     return unusedSlots;
   };
+
+  /**
+   * Whenever a new upgradeable item is created, we automatically clear the upgrades associated with it.
+   * Otherwise, a copied Item will contain references to upgrades used in the original item.
+   *
+   * @param {Object} data - the data the item is being created from
+   */
+  this.clearUpgrades = function clearUpgrades(data) {
+    LOGGER.trace("clearUpgrades | Upgradable | Called.");
+    const newData = data;
+    newData.data.isUpgraded = false;
+    newData.data.upgrades = [];
+    return newData;
+  };
 };
 
 export default Upgradable;

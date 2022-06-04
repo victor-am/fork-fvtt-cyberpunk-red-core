@@ -54,29 +54,30 @@ export default class CPRItem extends Item {
   }
 
   /**
-   * TODO: probably not needed after the new code
+   * We extend this (for now) to handle a migration edge case. Normally, when cloning an item
+   * we remove any ammo or upgrades loaded into it. This is because cloning it as-is, the IDs
+   * of the included items will be cloned too, which isn't what we want. Longer term, ammo and
+   * upgrades should come along for the ride, but be separately created items.
+   *
+   * During the Active Effects data migration, we did want to keep the included items.
+   * To enable that behavior, pass isMigrating as true in the options object when calling Item.create().
+   *
    * @param {Item} data - the primitive data for the Item being created
-   * @param {Object} options - options (from Foundry) to the Item creation process
+   * @param {Object} options - options (for Foundry) to the Item creation process
    * @param {String} userId - user ID that is creating the Item
    */
   _onCreate(data, options, userId) {
     LOGGER.trace("_onCreate | CPRItem | Called.");
-    const newData = data;
-    // If we are creating an upgradable item from an existing upgradable item
-    // which has been upgraded, remove the upgrade from the new weapon as it
-    // may reference an itemUpgrade object which doesn't exist in the same
-    // location as the upgradable item
-    const cprMigrationRunning = (typeof data.flags["cyberpunk-red-core"] !== "undefined" && typeof data.flags["cyberpunk-red-core"].cprItemMigrating !== "undefined")
-      ? data.flags["cyberpunk-red-core"].cprItemMigrating : false;
-    const upgradableItemTypes = SystemUtils.GetTemplateItemTypes("upgradable");
-    if (upgradableItemTypes.includes(data.type) && !cprMigrationRunning) {
-      newData.data.isUpgraded = false;
-      newData.data.upgrades = [];
-    }
-    const loadableItemTypes = SystemUtils.GetTemplateItemTypes("loadable");
-    if (loadableItemTypes.includes(data.type) && !cprMigrationRunning) {
-      newData.data.magazine.ammoId = "";
-      newData.data.magazine.value = 0;
+    let newData = data;
+    const cprMigrationRunning = options.isMigrating || false;
+    LOGGER.debugObject(options);
+    if (!cprMigrationRunning) {
+      if (SystemUtils.hasDataModelTemplate(data.type, "upgradable")) {
+        newData = this.clearUpgrades(newData);
+      }
+      if (SystemUtils.hasDataModelTemplate(data.type, "loadable")) {
+        newData = this.clearAmmo(newData);
+      }
     }
     super._onCreate(newData, options, userId);
   }
