@@ -403,7 +403,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *    Gained slots for upgrades
    *    Lost amount - create duplicate items in inventory
    *
-   * @param {CPRItem} clothing
+   * @param {CPRItem} armor
    */
   static async updateArmor(armor) {
     LOGGER.trace("updateArmor | 1-activeEffects Migration");
@@ -485,8 +485,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *    Migrate Upgrades
    *    Gained usage
    *    Lost charges
-   *    Lost slotSize
-   *    Gained size
+   *    Lost slotSize, renamed to "size"
    *    Gained slots for upgrades
    *    if price is 0 and category is empty, set to 500/premium
    *
@@ -574,7 +573,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
    * itemUpgrades
    *    Lost quality
    *    Lost charges
-   *    confirm how upgrades and slots work
    *    modifiers.secondaryWeapon.configured = false if not already defined
    *    if price is 0 and category is empty, set to 500/premium
    *    Lost amount - create duplicate items
@@ -697,7 +695,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
   /**
    * Vehicle
    *    Lost quality
-   *    Lost ammount - create duplicate items
+   *    Lost amount - create duplicate items
    *    if price is 0 and category is empty, set to 10000/premium
    *    Gained slots for upgrades
    *

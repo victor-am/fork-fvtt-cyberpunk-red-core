@@ -1,90 +1,4140 @@
-{"_id":"0CBcnKeBBdtgBIL8","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bohemian","tags":[],"type":"bottoms","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg","name":"Bohemian Bottoms","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"1x52ExyH731wjlpS","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bohemian","tags":[],"type":"jewelry","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg","name":"Bohemian Jewelry","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"25t3j7MSZSyNJ5IE","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bagLadyChic","tags":[],"type":"jewelry","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg","name":"Bag Lady Chic Jewelry","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"2YIFI4PXDl03f5JN","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"asiaPop","tags":[],"type":"jacket","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg","name":"Asia Pop Jacket","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"3WE9aogYMXwAFY4T","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"leisurewear","tags":[],"type":"top","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg","name":"Leisurewear Top","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"4ZfOT0KQYFrWrkXx","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"leisurewear","tags":[],"type":"mirrorshades","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg","name":"Leisurewear Mirrorshades","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"5GYWZ8on1dAa01wN","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"gangColors","tags":[],"type":"bottoms","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg","name":"Gang Colors Bottoms","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"5U8Kx7btmzyeGBFo","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"cheap","market":10},"quality":"standard","revealed":true,"slots":3,"source":"","style":"genericChic","tags":[],"type":"hats","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg","name":"Generic Chic Hat","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"5kcbcYg51fnp1f0d","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"nomadLeathers","tags":[],"type":"jacket","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg","name":"Nomad Leathers Jacket","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"6AZ5nuMYwuSnWX6H","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"leisurewear","tags":[],"type":"bottoms","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg","name":"Leisurewear Bottoms","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"6IaUgeOd9ieawHar","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"genericChic","tags":[],"type":"mirrorshades","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg","name":"Generic Chic Mirrorshades","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"77fBVoj64xglHMje","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"nomadLeathers","tags":[],"type":"footwear","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg","name":"Nomad Leathers Footwear","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"7h2vMuQkCgrU897R","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"veryExpensive","market":1000},"quality":"standard","revealed":true,"slots":3,"source":"","style":"highFashion","tags":[],"type":"glasses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg","name":"High Fashion Glasses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"7tV9lyWn8AeWWvAp","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"nomadLeathers","tags":[],"type":"top","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg","name":"Nomad Leathers Top","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"87FCwoT4udxfHRsd","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"urbanFlash","tags":[],"type":"top","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg","name":"Urban Flash Top","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"8KmJWxzz9kZML812","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bagLadyChic","tags":[],"type":"bottoms","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.4O56Rrx3mdBAAusM"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg","name":"Bag Lady Chic Bottoms","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"8gnxucKMgByw65Po","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"genericChic","tags":[],"type":"bottoms","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg","name":"Generic Chic Bottoms","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"9IVlYYPJtpMotDrJ","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"gangColors","tags":[],"type":"mirrorshades","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg","name":"Gang Colors Mirrorshades","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"C00TRm2EI16DX85C","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"genericChic","tags":[],"type":"jewelry","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg","name":"Generic Chic Jewelry","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"CeFVpwx3DzH01G8s","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"businesswear","tags":[],"type":"contactLenses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg","name":"Businesswear Contact Lenses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"DuQ2MREGrNOUpnlW","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"asiaPop","tags":[],"type":"glasses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg","name":"Asia Pop Glasses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"E3yE2F32nHazk9mk","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"urbanFlash","tags":[],"type":"bottoms","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg","name":"Urban Flash Bottoms","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"EdjVJ3veUC0P9aId","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"nomadLeathers","tags":[],"type":"contactLenses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg","name":"Nomad Leathers Contact Lenses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"Eo7vhQR8eQKfsNf9","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"nomadLeathers","tags":[],"type":"glasses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg","name":"Nomad Leathers Glasses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"FGqDpSdIZVx2UWg2","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"businesswear","tags":[],"type":"top","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg","name":"Businesswear Top","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"GPTMGlVgWOFcTyAb","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"gangColors","tags":[],"type":"footwear","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg","name":"Gang Colors Footwear","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"HnwYA2qGEMmEpvXA","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bohemian","tags":[],"type":"glasses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg","name":"Bohemian Glasses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"IfSQR7gCPXHU6ks8","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"leisurewear","tags":[],"type":"hats","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg","name":"Leisurewear Hat","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"Ijj8PawzU0OuQzIr","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"urbanFlash","tags":[],"type":"jewelry","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg","name":"Urban Flash Jewelry","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"JSQlRiW2oShZtqsY","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"cheap","market":10},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bagLadyChic","tags":[],"type":"hats","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg","name":"Bag Lady Chic Hat","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"JtUVxuszEQKI7I99","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"leisurewear","tags":[],"type":"glasses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg","name":"Leisurewear Glasses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"L4EnMdGhBkn5HkaC","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"gangColors","tags":[],"type":"top","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg","name":"Gang Colors Top","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"LPirYQ55qAX0xfkG","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"expensive","market":500},"quality":"standard","revealed":true,"slots":3,"source":"","style":"highFashion","tags":[],"type":"top","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg","name":"High Fashion Top","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"MEYv94DSweiurekJ","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bohemian","tags":[],"type":"footwear","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg","name":"Bohemian Footwear","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"MJl0bl3lN9bQBa8P","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"asiaPop","tags":[],"type":"mirrorshades","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg","name":"Asia Pop Mirrorshades","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"MS5cbeQRH61QIfxv","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bohemian","tags":[],"type":"top","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg","name":"Bohemian Top","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"MYc7rptmeSsSXJvi","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"genericChic","tags":[],"type":"jacket","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg","name":"Generic Chic Jacket","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"NP977YA6A8CW7EJ9","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bohemian","tags":[],"type":"jacket","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg","name":"Bohemian Jacket","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"NeJ07dTC02s3xRTQ","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"nomadLeathers","tags":[],"type":"jewelry","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg","name":"Nomad Leathers Jewelry","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"OYGpO8g4cg3DxGQD","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"genericChic","tags":[],"type":"footwear","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg","name":"Generic Chic Footwear","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"Pmh1vDX8VsknbuCD","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"asiaPop","tags":[],"type":"footwear","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg","name":"Asia Pop Footwear","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"Q0H0ixXDQDG94OK3","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"expensive","market":500},"quality":"standard","revealed":true,"slots":3,"source":"","style":"businesswear","tags":[],"type":"hats","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg","name":"Businesswear Hat","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"QwKvKYamASnu1ebZ","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"urbanFlash","tags":[],"type":"jacket","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg","name":"Urban Flash Jacket","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"R6WqiamVb7UnsFWu","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"cheap","market":10},"quality":"standard","revealed":true,"slots":3,"source":"","style":"gangColors","tags":[],"type":"contactLenses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg","name":"Gang Colors Contact Lenses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"RZXCgGDklfrbzttO","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"veryExpensive","market":1000},"quality":"standard","revealed":true,"slots":3,"source":"","style":"highFashion","tags":[],"type":"mirrorshades","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg","name":"High Fashion Mirrorshades","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"RdnqHZNag40UpnDV","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bagLadyChic","tags":[],"type":"mirrorshades","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg","name":"Bag Lady Chic Mirrorshades","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"S2y3lSgM1T8LgTgy","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"asiaPop","tags":[],"type":"hats","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg","name":"Asia Pop Hat","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"S9nSXgmuqKe8djF9","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"asiaPop","tags":[],"type":"top","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg","name":"Asia Pop Top","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"SS4sf8hfyk0ROnKk","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"leisurewear","tags":[],"type":"jacket","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg","name":"Leisurewear Jacket","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"VQtOo51VwPvCbiKt","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"expensive","market":500},"quality":"standard","revealed":true,"slots":3,"source":"","style":"businesswear","tags":[],"type":"glasses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg","name":"Businesswear Glasses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"WuUtzFTaUye9seG9","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"nomadLeathers","tags":[],"type":"mirrorshades","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg","name":"Nomad Leathers Mirrorshades","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"XAkfnCMSHIszqWaP","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"expensive","market":500},"quality":"standard","revealed":true,"slots":3,"source":"","style":"businesswear","tags":[],"type":"footwear","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg","name":"Businesswear Footwear","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"XbtNRQPK7Qr610yR","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"expensive","market":500},"quality":"standard","revealed":true,"slots":3,"source":"","style":"businesswear","tags":[],"type":"jacket","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg","name":"Businesswear Jacket","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"Y9IkJwhelQxtqXN0","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bagLadyChic","tags":[],"type":"footwear","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg","name":"Bag Lady Chic Footwear","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"Yl5C01qlCIJWGlQh","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"cheap","market":10},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bagLadyChic","tags":[],"type":"glasses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg","name":"Bag Lady Chic Glasses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"ZOC9uW4vQ5mKz4IJ","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"nomadLeathers","tags":[],"type":"hats","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg","name":"Nomad Leathers Hat","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"cLUlW0daNnju3yjq","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"leisurewear","tags":[],"type":"jewelry","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg","name":"Leisurewear Jewelry","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"d1T0scURk8hHPRuU","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"leisurewear","tags":[],"type":"footwear","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg","name":"Leisurewear Footwear","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"f6rtjA0zs2W7mbYa","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"genericChic","tags":[],"type":"top","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg","name":"Generic Chic Top","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"fvVqKyrHJZwNLk5N","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"cheap","market":10},"quality":"standard","revealed":true,"slots":3,"source":"","style":"genericChic","tags":[],"type":"contactLenses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg","name":"Generic Chic Contact Lenses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"fwAh1jtY1RLVIaHQ","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"urbanFlash","tags":[],"type":"mirrorshades","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg","name":"Urban Flash Mirrorshades","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"geV3m8I1E9hsPDXp","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bagLadyChic","tags":[],"type":"jacket","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg","name":"Bag Lady Chic Jacket","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"hCz6YA3BPHQIHrPT","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"cheap","market":10},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bagLadyChic","tags":[],"type":"contactLenses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg","name":"Bag Lady Chic Contact Lenses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"hXkWhf8jZAyDbBds","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"asiaPop","tags":[],"type":"jewelry","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg","name":"Asia Pop Jewelry","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"iV0OlVpVDBMfi9OU","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"veryExpensive","market":1000},"quality":"standard","revealed":true,"slots":3,"source":"","style":"highFashion","tags":[],"type":"jacket","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg","name":"High Fashion Jacket","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"iv8qhx5B2UU7bLnR","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"urbanFlash","tags":[],"type":"footwear","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg","name":"Urban Flash Footwear","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"kINhqOwESx2PBNWP","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"gangColors","tags":[],"type":"jacket","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg","name":"Gang Colors Jacket","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"kswhcY620TLrJv5P","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"asiaPop","tags":[],"type":"contactLenses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg","name":"Asia Pop Contact Lenses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"pZ2XMesik07zWVVW","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"urbanFlash","tags":[],"type":"glasses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg","name":"Urban Flash Glasses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"qnZRZnxg5m5nARcV","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bohemian","tags":[],"type":"mirrorshades","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg","name":"Bohemian Mirrorshades","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"qw8yGV5IXIKtD0xR","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"genericChic","tags":[],"type":"glasses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg","name":"Generic Chic Glasses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"rQ0fGmExhfBUZwdJ","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"expensive","market":500},"quality":"standard","revealed":true,"slots":3,"source":"","style":"businesswear","tags":[],"type":"bottoms","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg","name":"Businesswear Bottoms","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"rY7GQG68hxY0DciT","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"cheap","market":10},"quality":"standard","revealed":true,"slots":3,"source":"","style":"gangColors","tags":[],"type":"hats","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg","name":"Gang Colors Hat","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"s82cvHxaxRlKWgNK","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"nomadLeathers","tags":[],"type":"bottoms","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg","name":"Nomad Leathers Bottoms","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"sDF0Roc800KgKJKD","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"urbanFlash","tags":[],"type":"contactLenses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg","name":"Urban Flash Contact Lenses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"seyXslbShLqECHzr","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"luxury","market":5000},"quality":"standard","revealed":true,"slots":3,"source":"","style":"businesswear","tags":[],"type":"jewelry","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg","name":"Businesswear Jewelry","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"srv4MXttx6j9faum","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"leisurewear","tags":[],"type":"contactLenses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg","name":"Leisurewear Contact Lenses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"t7qcqbY6Z97edaZh","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"luxury","market":5000},"quality":"standard","revealed":true,"slots":3,"source":"","style":"highFashion","tags":[],"type":"hats","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg","name":"High Fashion Hat","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"tWE2jMdlE4Ba6Y5I","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"cheap","market":10},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bohemian","tags":[],"type":"contactLenses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg","name":"Bohemian Contact Lenses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"tfOqjhSfVOExLlLm","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"everyday","market":20},"quality":"standard","revealed":true,"slots":3,"source":"","style":"gangColors","tags":[],"type":"glasses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg","name":"Gang Colors Glasses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"thhFVnQuKN2QJ6TD","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"veryExpensive","market":1000},"quality":"standard","revealed":true,"slots":3,"source":"","style":"highFashion","tags":[],"type":"contactLenses","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg","name":"High Fashion Contact Lenses","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"tjsKVAMQbQm9tmV6","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"asiaPop","tags":[],"type":"bottoms","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg","name":"Asia Pop Bottoms","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"tokC5LUYb7dERrLO","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"costly","market":50},"quality":"standard","revealed":true,"slots":3,"source":"","style":"gangColors","tags":[],"type":"jewelry","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg","name":"Gang Colors Jewelry","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"vHUFBXoUnVjeZFF7","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"superLuxury","market":50000},"quality":"standard","revealed":true,"slots":3,"source":"","style":"highFashion","tags":[],"type":"jewelry","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg","name":"High Fashion Jewelry","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"vL66WDORB3Eq98yF","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"cheap","market":10},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bohemian","tags":[],"type":"hats","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg","name":"Bohemian Hat","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"vdq6sLyQ1YtJyNd5","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"expensive","market":500},"quality":"standard","revealed":true,"slots":3,"source":"","style":"businesswear","tags":[],"type":"mirrorshades","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg","name":"Businesswear Mirrorshades","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"wNgkboYRGScFvKaM","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"veryExpensive","market":1000},"quality":"standard","revealed":true,"slots":3,"source":"","style":"highFashion","tags":[],"type":"bottoms","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg","name":"High Fashion Bottoms","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"yQW8UmzDPllHFBEf","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"cheap","market":10},"quality":"standard","revealed":true,"slots":3,"source":"","style":"bagLadyChic","tags":[],"type":"top","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg","name":"Bag Lady Chic Top","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"ynpRSGFLvTgqjdzH","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"premium","market":100},"quality":"standard","revealed":true,"slots":3,"source":"","style":"urbanFlash","tags":[],"type":"hats","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg","name":"Urban Flash Hat","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
-{"_id":"ywxpLH8fVwFW209S","data":{"amount":1,"concealable":{"concealable":false,"isConcealed":false},"description":{"chat":"","unidentified":"","value":""},"equipped":"owned","favorite":false,"isUpgraded":false,"price":{"category":"luxury","market":5000},"quality":"standard","revealed":true,"slots":3,"source":"","style":"highFashion","tags":[],"type":"footwear","upgrades":[],"usage":"toggled"},"effects":[],"flags":{"core":{"sourceId":"Item.8dIHRb7insfy2ggz"}},"folder":null,"img":"systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg","name":"High Fashion Footwear","permission":{"default":0,"vQIsCsDFm7H1QU0F":3},"sort":0,"type":"clothing"}
+{
+  "_id": "0CBcnKeBBdtgBIL8",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bohemian",
+    "tags": [],
+    "type": "bottoms",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg",
+  "name": "Bohemian Bottoms",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "1x52ExyH731wjlpS",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bohemian",
+    "tags": [],
+    "type": "jewelry",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg",
+  "name": "Bohemian Jewelry",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "25t3j7MSZSyNJ5IE",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bagLadyChic",
+    "tags": [],
+    "type": "jewelry",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg",
+  "name": "Bag Lady Chic Jewelry",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "2YIFI4PXDl03f5JN",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "asiaPop",
+    "tags": [],
+    "type": "jacket",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg",
+  "name": "Asia Pop Jacket",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "3WE9aogYMXwAFY4T",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "leisurewear",
+    "tags": [],
+    "type": "top",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg",
+  "name": "Leisurewear Top",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "4ZfOT0KQYFrWrkXx",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "leisurewear",
+    "tags": [],
+    "type": "mirrorshades",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg",
+  "name": "Leisurewear Mirrorshades",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "5GYWZ8on1dAa01wN",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "gangColors",
+    "tags": [],
+    "type": "bottoms",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg",
+  "name": "Gang Colors Bottoms",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "5U8Kx7btmzyeGBFo",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "cheap",
+      "market": 10
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "genericChic",
+    "tags": [],
+    "type": "hats",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg",
+  "name": "Generic Chic Hat",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "5kcbcYg51fnp1f0d",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "nomadLeathers",
+    "tags": [],
+    "type": "jacket",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg",
+  "name": "Nomad Leathers Jacket",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "6AZ5nuMYwuSnWX6H",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "leisurewear",
+    "tags": [],
+    "type": "bottoms",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg",
+  "name": "Leisurewear Bottoms",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "6IaUgeOd9ieawHar",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "genericChic",
+    "tags": [],
+    "type": "mirrorshades",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg",
+  "name": "Generic Chic Mirrorshades",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "77fBVoj64xglHMje",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "nomadLeathers",
+    "tags": [],
+    "type": "footwear",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg",
+  "name": "Nomad Leathers Footwear",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "7h2vMuQkCgrU897R",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "veryExpensive",
+      "market": 1000
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "highFashion",
+    "tags": [],
+    "type": "glasses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg",
+  "name": "High Fashion Glasses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "7tV9lyWn8AeWWvAp",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "nomadLeathers",
+    "tags": [],
+    "type": "top",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg",
+  "name": "Nomad Leathers Top",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "87FCwoT4udxfHRsd",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "urbanFlash",
+    "tags": [],
+    "type": "top",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg",
+  "name": "Urban Flash Top",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "8KmJWxzz9kZML812",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bagLadyChic",
+    "tags": [],
+    "type": "bottoms",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.4O56Rrx3mdBAAusM"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg",
+  "name": "Bag Lady Chic Bottoms",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "8gnxucKMgByw65Po",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "genericChic",
+    "tags": [],
+    "type": "bottoms",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg",
+  "name": "Generic Chic Bottoms",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "9IVlYYPJtpMotDrJ",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "gangColors",
+    "tags": [],
+    "type": "mirrorshades",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg",
+  "name": "Gang Colors Mirrorshades",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "C00TRm2EI16DX85C",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "genericChic",
+    "tags": [],
+    "type": "jewelry",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg",
+  "name": "Generic Chic Jewelry",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "CeFVpwx3DzH01G8s",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "businesswear",
+    "tags": [],
+    "type": "contactLenses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg",
+  "name": "Businesswear Contact Lenses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "DuQ2MREGrNOUpnlW",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "asiaPop",
+    "tags": [],
+    "type": "glasses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg",
+  "name": "Asia Pop Glasses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "E3yE2F32nHazk9mk",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "urbanFlash",
+    "tags": [],
+    "type": "bottoms",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg",
+  "name": "Urban Flash Bottoms",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "EdjVJ3veUC0P9aId",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "nomadLeathers",
+    "tags": [],
+    "type": "contactLenses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg",
+  "name": "Nomad Leathers Contact Lenses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "Eo7vhQR8eQKfsNf9",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "nomadLeathers",
+    "tags": [],
+    "type": "glasses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg",
+  "name": "Nomad Leathers Glasses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "FGqDpSdIZVx2UWg2",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "businesswear",
+    "tags": [],
+    "type": "top",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg",
+  "name": "Businesswear Top",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "GPTMGlVgWOFcTyAb",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "gangColors",
+    "tags": [],
+    "type": "footwear",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg",
+  "name": "Gang Colors Footwear",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "HnwYA2qGEMmEpvXA",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bohemian",
+    "tags": [],
+    "type": "glasses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg",
+  "name": "Bohemian Glasses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "IfSQR7gCPXHU6ks8",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "leisurewear",
+    "tags": [],
+    "type": "hats",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg",
+  "name": "Leisurewear Hat",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "Ijj8PawzU0OuQzIr",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "urbanFlash",
+    "tags": [],
+    "type": "jewelry",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg",
+  "name": "Urban Flash Jewelry",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "JSQlRiW2oShZtqsY",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "cheap",
+      "market": 10
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bagLadyChic",
+    "tags": [],
+    "type": "hats",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg",
+  "name": "Bag Lady Chic Hat",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "JtUVxuszEQKI7I99",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "leisurewear",
+    "tags": [],
+    "type": "glasses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg",
+  "name": "Leisurewear Glasses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "L4EnMdGhBkn5HkaC",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "gangColors",
+    "tags": [],
+    "type": "top",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg",
+  "name": "Gang Colors Top",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "LPirYQ55qAX0xfkG",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "expensive",
+      "market": 500
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "highFashion",
+    "tags": [],
+    "type": "top",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg",
+  "name": "High Fashion Top",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "MEYv94DSweiurekJ",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bohemian",
+    "tags": [],
+    "type": "footwear",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg",
+  "name": "Bohemian Footwear",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "MJl0bl3lN9bQBa8P",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "asiaPop",
+    "tags": [],
+    "type": "mirrorshades",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg",
+  "name": "Asia Pop Mirrorshades",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "MS5cbeQRH61QIfxv",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bohemian",
+    "tags": [],
+    "type": "top",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg",
+  "name": "Bohemian Top",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "MYc7rptmeSsSXJvi",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "genericChic",
+    "tags": [],
+    "type": "jacket",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg",
+  "name": "Generic Chic Jacket",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "NP977YA6A8CW7EJ9",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bohemian",
+    "tags": [],
+    "type": "jacket",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg",
+  "name": "Bohemian Jacket",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "NeJ07dTC02s3xRTQ",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "nomadLeathers",
+    "tags": [],
+    "type": "jewelry",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg",
+  "name": "Nomad Leathers Jewelry",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "OYGpO8g4cg3DxGQD",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "genericChic",
+    "tags": [],
+    "type": "footwear",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg",
+  "name": "Generic Chic Footwear",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "Pmh1vDX8VsknbuCD",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "asiaPop",
+    "tags": [],
+    "type": "footwear",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg",
+  "name": "Asia Pop Footwear",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "Q0H0ixXDQDG94OK3",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "expensive",
+      "market": 500
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "businesswear",
+    "tags": [],
+    "type": "hats",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg",
+  "name": "Businesswear Hat",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "QwKvKYamASnu1ebZ",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "urbanFlash",
+    "tags": [],
+    "type": "jacket",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg",
+  "name": "Urban Flash Jacket",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "R6WqiamVb7UnsFWu",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "cheap",
+      "market": 10
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "gangColors",
+    "tags": [],
+    "type": "contactLenses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg",
+  "name": "Gang Colors Contact Lenses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "RZXCgGDklfrbzttO",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "veryExpensive",
+      "market": 1000
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "highFashion",
+    "tags": [],
+    "type": "mirrorshades",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg",
+  "name": "High Fashion Mirrorshades",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "RdnqHZNag40UpnDV",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bagLadyChic",
+    "tags": [],
+    "type": "mirrorshades",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg",
+  "name": "Bag Lady Chic Mirrorshades",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "S2y3lSgM1T8LgTgy",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "asiaPop",
+    "tags": [],
+    "type": "hats",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg",
+  "name": "Asia Pop Hat",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "S9nSXgmuqKe8djF9",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "asiaPop",
+    "tags": [],
+    "type": "top",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg",
+  "name": "Asia Pop Top",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "SS4sf8hfyk0ROnKk",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "leisurewear",
+    "tags": [],
+    "type": "jacket",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg",
+  "name": "Leisurewear Jacket",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "VQtOo51VwPvCbiKt",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "expensive",
+      "market": 500
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "businesswear",
+    "tags": [],
+    "type": "glasses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg",
+  "name": "Businesswear Glasses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "WuUtzFTaUye9seG9",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "nomadLeathers",
+    "tags": [],
+    "type": "mirrorshades",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg",
+  "name": "Nomad Leathers Mirrorshades",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "XAkfnCMSHIszqWaP",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "expensive",
+      "market": 500
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "businesswear",
+    "tags": [],
+    "type": "footwear",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg",
+  "name": "Businesswear Footwear",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "XbtNRQPK7Qr610yR",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "expensive",
+      "market": 500
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "businesswear",
+    "tags": [],
+    "type": "jacket",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg",
+  "name": "Businesswear Jacket",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "Y9IkJwhelQxtqXN0",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bagLadyChic",
+    "tags": [],
+    "type": "footwear",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg",
+  "name": "Bag Lady Chic Footwear",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "Yl5C01qlCIJWGlQh",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "cheap",
+      "market": 10
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bagLadyChic",
+    "tags": [],
+    "type": "glasses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg",
+  "name": "Bag Lady Chic Glasses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "ZOC9uW4vQ5mKz4IJ",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "nomadLeathers",
+    "tags": [],
+    "type": "hats",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg",
+  "name": "Nomad Leathers Hat",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "cLUlW0daNnju3yjq",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "leisurewear",
+    "tags": [],
+    "type": "jewelry",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg",
+  "name": "Leisurewear Jewelry",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "d1T0scURk8hHPRuU",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "leisurewear",
+    "tags": [],
+    "type": "footwear",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg",
+  "name": "Leisurewear Footwear",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "f6rtjA0zs2W7mbYa",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "genericChic",
+    "tags": [],
+    "type": "top",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg",
+  "name": "Generic Chic Top",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "fvVqKyrHJZwNLk5N",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "cheap",
+      "market": 10
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "genericChic",
+    "tags": [],
+    "type": "contactLenses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg",
+  "name": "Generic Chic Contact Lenses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "fwAh1jtY1RLVIaHQ",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "urbanFlash",
+    "tags": [],
+    "type": "mirrorshades",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg",
+  "name": "Urban Flash Mirrorshades",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "geV3m8I1E9hsPDXp",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bagLadyChic",
+    "tags": [],
+    "type": "jacket",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg",
+  "name": "Bag Lady Chic Jacket",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "hCz6YA3BPHQIHrPT",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "cheap",
+      "market": 10
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bagLadyChic",
+    "tags": [],
+    "type": "contactLenses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg",
+  "name": "Bag Lady Chic Contact Lenses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "hXkWhf8jZAyDbBds",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "asiaPop",
+    "tags": [],
+    "type": "jewelry",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg",
+  "name": "Asia Pop Jewelry",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "iV0OlVpVDBMfi9OU",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "veryExpensive",
+      "market": 1000
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "highFashion",
+    "tags": [],
+    "type": "jacket",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg",
+  "name": "High Fashion Jacket",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "iv8qhx5B2UU7bLnR",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "urbanFlash",
+    "tags": [],
+    "type": "footwear",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg",
+  "name": "Urban Flash Footwear",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "kINhqOwESx2PBNWP",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "gangColors",
+    "tags": [],
+    "type": "jacket",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jacket.svg",
+  "name": "Gang Colors Jacket",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "kswhcY620TLrJv5P",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "asiaPop",
+    "tags": [],
+    "type": "contactLenses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg",
+  "name": "Asia Pop Contact Lenses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "pZ2XMesik07zWVVW",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "urbanFlash",
+    "tags": [],
+    "type": "glasses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg",
+  "name": "Urban Flash Glasses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "qnZRZnxg5m5nARcV",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bohemian",
+    "tags": [],
+    "type": "mirrorshades",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg",
+  "name": "Bohemian Mirrorshades",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "qw8yGV5IXIKtD0xR",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "genericChic",
+    "tags": [],
+    "type": "glasses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg",
+  "name": "Generic Chic Glasses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "rQ0fGmExhfBUZwdJ",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "expensive",
+      "market": 500
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "businesswear",
+    "tags": [],
+    "type": "bottoms",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg",
+  "name": "Businesswear Bottoms",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "rY7GQG68hxY0DciT",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "cheap",
+      "market": 10
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "gangColors",
+    "tags": [],
+    "type": "hats",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg",
+  "name": "Gang Colors Hat",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "s82cvHxaxRlKWgNK",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "nomadLeathers",
+    "tags": [],
+    "type": "bottoms",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg",
+  "name": "Nomad Leathers Bottoms",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "sDF0Roc800KgKJKD",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "urbanFlash",
+    "tags": [],
+    "type": "contactLenses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg",
+  "name": "Urban Flash Contact Lenses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "seyXslbShLqECHzr",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "luxury",
+      "market": 5000
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "businesswear",
+    "tags": [],
+    "type": "jewelry",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg",
+  "name": "Businesswear Jewelry",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "srv4MXttx6j9faum",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "leisurewear",
+    "tags": [],
+    "type": "contactLenses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg",
+  "name": "Leisurewear Contact Lenses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "t7qcqbY6Z97edaZh",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "luxury",
+      "market": 5000
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "highFashion",
+    "tags": [],
+    "type": "hats",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg",
+  "name": "High Fashion Hat",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "tWE2jMdlE4Ba6Y5I",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "cheap",
+      "market": 10
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bohemian",
+    "tags": [],
+    "type": "contactLenses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg",
+  "name": "Bohemian Contact Lenses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "tfOqjhSfVOExLlLm",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "everyday",
+      "market": 20
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "gangColors",
+    "tags": [],
+    "type": "glasses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_glasses.svg",
+  "name": "Gang Colors Glasses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "thhFVnQuKN2QJ6TD",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "veryExpensive",
+      "market": 1000
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "highFashion",
+    "tags": [],
+    "type": "contactLenses",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_contact_lenses.svg",
+  "name": "High Fashion Contact Lenses",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "tjsKVAMQbQm9tmV6",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "asiaPop",
+    "tags": [],
+    "type": "bottoms",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg",
+  "name": "Asia Pop Bottoms",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "tokC5LUYb7dERrLO",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "costly",
+      "market": 50
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "gangColors",
+    "tags": [],
+    "type": "jewelry",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg",
+  "name": "Gang Colors Jewelry",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "vHUFBXoUnVjeZFF7",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "superLuxury",
+      "market": 50000
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "highFashion",
+    "tags": [],
+    "type": "jewelry",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_jewllery.svg",
+  "name": "High Fashion Jewelry",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "vL66WDORB3Eq98yF",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "cheap",
+      "market": 10
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bohemian",
+    "tags": [],
+    "type": "hats",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg",
+  "name": "Bohemian Hat",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "vdq6sLyQ1YtJyNd5",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "expensive",
+      "market": 500
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "businesswear",
+    "tags": [],
+    "type": "mirrorshades",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_mirrorshades.svg",
+  "name": "Businesswear Mirrorshades",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "wNgkboYRGScFvKaM",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "veryExpensive",
+      "market": 1000
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "highFashion",
+    "tags": [],
+    "type": "bottoms",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_bottoms.svg",
+  "name": "High Fashion Bottoms",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "yQW8UmzDPllHFBEf",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "cheap",
+      "market": 10
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "bagLadyChic",
+    "tags": [],
+    "type": "top",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_top.svg",
+  "name": "Bag Lady Chic Top",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "ynpRSGFLvTgqjdzH",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "premium",
+      "market": 100
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "urbanFlash",
+    "tags": [],
+    "type": "hats",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_hat.svg",
+  "name": "Urban Flash Hat",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
+{
+  "_id": "ywxpLH8fVwFW209S",
+  "data": {
+    "amount": 1,
+    "concealable": {
+      "concealable": false,
+      "isConcealed": false
+    },
+    "description": {
+      "chat": "",
+      "unidentified": "",
+      "value": ""
+    },
+    "equipped": "owned",
+    "favorite": false,
+    "isUpgraded": false,
+    "price": {
+      "category": "luxury",
+      "market": 5000
+    },
+    "quality": "standard",
+    "revealed": true,
+    "slots": 3,
+    "source": "",
+    "style": "highFashion",
+    "tags": [],
+    "type": "footwear",
+    "upgrades": [],
+    "usage": "equipped"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sourceId": "Item.8dIHRb7insfy2ggz"
+    }
+  },
+  "folder": null,
+  "img": "systems/cyberpunk-red-core/icons/compendium/clothing/generic_footwear.svg",
+  "name": "High Fashion Footwear",
+  "permission": {
+    "default": 0,
+    "vQIsCsDFm7H1QU0F": 3
+  },
+  "sort": 0,
+  "type": "clothing"
+}
