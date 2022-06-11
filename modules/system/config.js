@@ -508,6 +508,8 @@ CPR.activeEffectKeys = {
     "bonuses.ranged": "CPR.effectSheet.combat.stats.ranged",
     "bonuses.autofire": "CPR.effectSheet.combat.stats.autofire",
     "bonuses.suppressive": "CPR.effectSheet.combat.stats.suppressive",
+    "bonuses.run": "CPR.effectSheet.combat.stats.runSpeed",
+    "bonuses.walk": "CPR.effectSheet.combat.stats.walkSpeed",
   },
   netrun: {
     "bonuses.attack": "CPR.effectSheet.netrun.attack",

@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* global Hooks dragRuler */
 import LOGGER from "../utils/cpr-logger.js";
 
@@ -23,8 +24,8 @@ const externalHooks = () => {
 
       getRanges(token) {
         LOGGER.trace("dragRulerHook | getRanges  | Called.");
-        const walkSpeed = token.actor.data.data.derivedStats.walk.value;
-        const runSpeed = token.actor.data.data.derivedStats.run.value;
+        const walkSpeed = token.actor.data.data.derivedStats.walk.value + token.actor.data.bonuses.walk;
+        const runSpeed = token.actor.data.data.derivedStats.run.value + token.actor.data.bonuses.run;
         const ranges = [
           { range: walkSpeed, color: "walk" },
           { range: runSpeed, color: "run" },
