@@ -12,13 +12,17 @@
 #     # $ jq (long command below) > pack.db.new && diff -u pack.db.old pack.db.new
 #
 
+# "strict mode"
+set -euo pipefail
+IFS=$'\n\t'
+
 PACKPATH='../../../../packs'
 TMPFILE="$PACKPATH/temp.json"
-JQOPTS="-c" # minifies the output
+JQOPTS="-cS" # minifies the output and sorts keys (IDs) alphanumerically
 
 # ammo
 PACK="$PACKPATH/ammo.db"
-jq $JQOPS 'del(.data.quality) | del(.data.upgrades) | del(.data.isUpgraded) | .data.concealable.concealable = true' $PACK > $TMPFILE
+jq $JQOPTS 'del(.data.quality) | del(.data.upgrades) | del(.data.isUpgraded) | .data.concealable.concealable = true' $PACK > $TMPFILE
 # price data was already set
 # variety was already set
 # type was already set
@@ -26,7 +30,7 @@ mv $TMPFILE $PACK
 
 # armor
 PACK="$PACKPATH/armor.db"
-jq $JQOPS 'del(.data.quality) | del(.data.amount) | .data.usage = "equipped"' $PACK > $TMPFILE
+jq $JQOPTS 'del(.data.quality) | del(.data.amount) | .data.usage = "equipped"' $PACK > $TMPFILE
 # slots was already set to 3 (?)
 # usage was all toggled (?)
 # price data was already set
@@ -34,7 +38,7 @@ mv $TMPFILE $PACK
 
 # clothing
 PACK="$PACKPATH/clothing.db"
-jq $JQOPS '.data.usage = "equipped"' $PACK > $TMPFILE
+jq $JQOPTS '.data.usage = "equipped"' $PACK > $TMPFILE
 # slots was already set to 3 (?)
 # price data was already set
 # type was already set
@@ -45,22 +49,22 @@ mv $TMPFILE $PACK
 # nothing to do here as usage was already set and that is the only change
 # PACK="$PACKPATH/critical-injuries-body.db"
 # PACK="$PACKPATH/critical-injuries-head.db"
-# jq $JQOPS '' > $TMPFILE
+# jq $JQOPTS '' > $TMPFILE
 # mv $TMPFILE $PACK
 
 # cyberware
 PACK="$PACKPATH/cyberware.db" # needed?
 PACK="$PACKPATH/cyberware-items.db"
 # !!! some size and slotSize values did not agree (?)
-jq $JQOPS 'del(.data.charges) | .data.size = .data.slotSize | del(.data.slotSize)' $PACK > $TMPFILE
+jq $JQOPTS 'del(.data.charges) | .data.size = .data.slotSize | del(.data.slotSize)' $PACK > $TMPFILE
 # usage was already set
 # slots was already set
 # price data was already set
 mv $TMPFILE $PACK
 
 # For drugs, we just move them out of the gear compendium. Twig already created them in there.
-jq $JQOPS 'select(.type == "drug")' "$PACKPATH/gear.db" > "$PACKPATH/drugs.db"
-jq $JQOPS 'del(select(.type == "drug"))' "$PACKPATH/gear.db" > $TMPFILE 
+jq $JQOPTS 'select(.type == "drug")' "$PACKPATH/gear.db" > "$PACKPATH/drugs.db"
+jq $JQOPTS 'del(select(.type == "drug"))' "$PACKPATH/gear.db" > $TMPFILE 
 # the above command leaves "null" for each item deleted, so we clean that here
 sed /^null$/d $TMPFILE > "$PACKPATH/gear.db"
 rm $TMPFILE
@@ -69,7 +73,7 @@ rm $TMPFILE
 
 # gear
 PACK="$PACKPATH/gear.db"
-jq $JQOPS 'del(.data.quality)' $PACK > $TMPFILE
+jq $JQOPTS 'del(.data.quality)' $PACK > $TMPFILE
 # usage was already set
 # slots was already set
 # price data was already set
@@ -77,7 +81,7 @@ mv $TMPFILE $PACK
 
 # item upgrades
 PACK="$PACKPATH/item-upgrades.db"
-jq $JQOPS 'del(.data.quality) | del(.data.charges) | del(.data.amount)' $PACK > $TMPFILE
+jq $JQOPTS 'del(.data.quality) | del(.data.charges) | del(.data.amount)' $PACK > $TMPFILE
 # modifier data was already set
 # price data already set
 mv $TMPFILE $PACK
@@ -86,7 +90,7 @@ mv $TMPFILE $PACK
 
 # programs
 PACK="$PACKPATH/programs.db"
-jq $JQOPS 'del(.data.quality) | del(.data.slots) | del(.data.isDemon) | del(.data.modifiers) | del(.data.amount)' $PACK > $TMPFILE
+jq $JQOPTS 'del(.data.quality) | del(.data.slots) | del(.data.isDemon) | del(.data.modifiers) | del(.data.amount)' $PACK > $TMPFILE
 # usage data already set
 # size data already set
 # price data already set
@@ -94,25 +98,25 @@ mv $TMPFILE $PACK
 
 # roles
 PACK="$PACKPATH/roles.db"
-jq $JQOPS '.data.bonuses = .data.skillBonuses | del(.data.skillBonusesj)' $PACK > $TMPFILE
+jq $JQOPTS '.data.bonuses = .data.skillBonuses | del(.data.skillBonusesj)' $PACK > $TMPFILE
 mv $TMPFILE $PACK
 
 # skills
 # skillmod looked already missing (?)
 # PACK="$PACKPATH/skills.db"
-# jq $JQOPS '' $PACK > $TMPFILE
+# jq $JQOPTS '' $PACK > $TMPFILE
 # mv $TMPFILE $PACK
 
 # vehicles
 PACK="$PACKPATH/vehicles.db"
-jq $JQOPS 'del(.data.quality) | del(.data.amount)' $PACK > $TMPFILE
+jq $JQOPTS 'del(.data.quality) | del(.data.amount)' $PACK > $TMPFILE
 # price data already set
 # slots already set
 mv $TMPFILE $PACK
 
 # weapons
 PACK="$PACKPATH/weapons.db"
-jq $JQOPS '.data.usage = "equipped" | del(.data.charges) | del(.data.amount)' $PACK > $TMPFILE
+jq $JQOPTS '.data.usage = "equipped" | del(.data.charges) | del(.data.amount)' $PACK > $TMPFILE
 # slot data already set
 # price data already set
 mv $TMPFILE $PACK
