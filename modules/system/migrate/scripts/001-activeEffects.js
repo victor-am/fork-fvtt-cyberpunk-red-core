@@ -43,7 +43,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
       type: item.type,
       data: item.data.data,
       folder: this.migrationFolder,
-      flags: { "cyberpunk-red-core": { cprItemMigrating: true } },
+    }, {
+      isMigrating: true,
     });
   }
 
@@ -146,8 +147,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
         throw new Error(`${ownedItem.data.name} (${ownedItem.data._id}) had a migration error: ${err.message}`);
       }
       if (createAeItemTypes.includes(ownedItem.data.type)) {
-        await newItem.setFlag("cyberpunk-red-core", "cprItemMigrating", true);
-        const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data]);
+        const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data], { isMigrating: true });
         remappedItems[ownedItem.data._id] = createdItem[0].data._id;
         await newItem.delete();
         deleteItems.push(ownedItem.data._id);
@@ -221,11 +221,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
         });
       }
       await actor.updateEmbeddedDocuments("Item", updateList);
-      const removeItemFlags = [];
-      for (const item of actor.items) {
-        removeItemFlags.push(item.unsetFlag("cyberpunk-red-core", "cprItemMigrating"));
-      }
-      await Promise.all(removeItemFlags);
     }
   }
 
@@ -269,15 +264,10 @@ export default class ActiveEffectsMigration extends CPRMigration {
    * Items changed in so many ways it seemed best to break out a separate migration
    * path for each item type.
    *
-   * TODO: understand how upgrade slots work for different item types
-   *       this was originally in a case statement in the item code, now split per-type
-   *       can subclasses override a function provided by the upgradeable mixin?
-   *
    * @param {CPRItem} item
    */
   static async migrateItem(item) {
     LOGGER.trace("migrateItem | 1-activeEffects Migration");
-    await item.setFlag("cyberpunk-red-core", "cprItemMigrating", true);
     switch (item.type) {
       case "ammo":
         await ActiveEffectsMigration.updateAmmo(item);
@@ -327,7 +317,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
         // note: drug was introduced with this release, so it will not fall through here
         LOGGER.warn(`An unrecognized item type was ignored: ${item.type}. It was not migrated!`);
     }
-    await item.unsetFlag("cyberpunk-red-core", "cprItemMigrating");
   }
 
   /**
@@ -414,7 +403,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *    Gained slots for upgrades
    *    Lost amount - create duplicate items in inventory
    *
-   * @param {CPRItem} clothing
+   * @param {CPRItem} armor
    */
   static async updateArmor(armor) {
     LOGGER.trace("updateArmor | 1-activeEffects Migration");
@@ -496,8 +485,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *    Migrate Upgrades
    *    Gained usage
    *    Lost charges
-   *    Lost slotSize
-   *    Gained size
+   *    Lost slotSize, renamed to "size"
    *    Gained slots for upgrades
    *    if price is 0 and category is empty, set to 500/premium
    *
@@ -585,7 +573,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
    * itemUpgrades
    *    Lost quality
    *    Lost charges
-   *    confirm how upgrades and slots work
    *    modifiers.secondaryWeapon.configured = false if not already defined
    *    if price is 0 and category is empty, set to 500/premium
    *    Lost amount - create duplicate items
@@ -708,7 +695,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
   /**
    * Vehicle
    *    Lost quality
-   *    Lost ammount - create duplicate items
+   *    Lost amount - create duplicate items
    *    if price is 0 and category is empty, set to 10000/premium
    *    Gained slots for upgrades
    *

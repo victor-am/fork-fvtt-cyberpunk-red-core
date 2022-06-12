@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* global game hasProperty */
 import * as Migrations from "./scripts/index.js";
 import LOGGER from "../../utils/cpr-logger.js";
@@ -49,13 +50,20 @@ export default class CPRMigration {
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allActorsDone"));
 
     // unlinked actors (tokens)
-    if (!await this.migrateUnlinkedActors()) {
+    if (!await this.migrateScenes()) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.tokenErrors"));
       return false;
     }
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allTokensDone"));
 
-    // In the future, put top-level migrations for tokens, scenes, compendiums, and other things here
+    // compendia
+    if (!await this.migrateCompendia(classRef)) {
+      CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.compendiaErrors"));
+      return false;
+    }
+    CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allCompendiaDone"));
+
+    // In the future, put top-level migrations for tokens, scenes, and other things here
 
     await this.postMigrate();
     if (this.errors !== 0) {
@@ -135,10 +143,10 @@ export default class CPRMigration {
   }
 
   /**
-   * Migrate unlinked Actors (tokens)
+   * Migrate scenes. We specifically focus on unlinked tokens for now.
    */
-  async migrateUnlinkedActors() {
-    LOGGER.trace("migrateUnlinkedActors | CPRMigration");
+  async migrateScenes() {
+    LOGGER.trace("migrateScenes | CPRMigration");
     let good = true;
     for (const scene of game.scenes.contents) {
       const tokens = scene.tokens.contents.filter((token) => {
@@ -162,7 +170,6 @@ export default class CPRMigration {
           throw new Error(`${token.actor.name} token had a migration error: ${err.message}`);
         }
       });
-      // eslint-disable-next-line no-await-in-loop
       const values = await Promise.allSettled(tokenMigrations);
       for (const value of values.filter((v) => v.status !== "fulfilled")) {
         LOGGER.error(`Migration error: ${value.reason.message}`);
@@ -170,6 +177,49 @@ export default class CPRMigration {
         good = false;
       }
       CPRSystemUtils.DisplayMessage("notify", `Migrated scene: ${scene.name}`);
+    }
+    return good;
+  }
+
+  /**
+   * Migrate compendia. This code is not meant to be run on the system-provided compendia
+   * that we provide. They are updated and imported on the side. The benefit of that approach
+   * to users is decreased migration times. I.e., we already migrated our compendia.
+   *
+   * We respect whether a compendium is locked. If it is, do not touch it. This does invite problems
+   * later on if a user tries to use entries with an outdated data model. However, the discord
+   * community for Foundry preferred locked things to be left alone.
+   */
+  async migrateCompendia(classRef) {
+    LOGGER.trace("migrateCompendia | CPRMigration");
+    let good = true;
+    for (const pack of game.packs.filter((p) => p.metadata.package === "world" && ["Actor", "Item", "Scene"].includes(p.metadata.type) && !p.locked)) {
+      // Iterate over compendium entries - applying fine-tuned migration functions
+      const docs = await pack.getDocuments();
+      const packMigrations = docs.map(async (doc) => {
+        switch (pack.metadata.type) {
+          case "Actor": {
+            await this.migrateActor(doc);
+            break;
+          }
+          case "Item": {
+            await classRef.migrateItem(doc);
+            break;
+          }
+          case "Scene": {
+            await this.migrateScenes(doc);
+            break;
+          }
+          default:
+            CPRSystemUtils.DisplayMessage("error", `Unexpected doc type in compendia: ${doc}`);
+        }
+      });
+      const values = await Promise.allSettled(packMigrations);
+      for (const value of values.filter((v) => v.status !== "fulfilled")) {
+        LOGGER.error(`Migration error: ${value.reason.message}`);
+        LOGGER.error(value.reason.stack);
+        good = false;
+      }
     }
     return good;
   }
@@ -188,7 +238,6 @@ export default class CPRMigration {
    * static async migrateMacro(macro) {}
    * static async migrateToken(token) {}
    * static async migrateTable(table) {}
-   * static async migrateCompendium(comp) {}
    * async postMigrate() {}
   */
 }
