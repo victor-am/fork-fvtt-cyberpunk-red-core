@@ -113,6 +113,15 @@ export default class ActiveEffectsMigration extends CPRMigration {
     updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "data.roleInfo.roles") };
     updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "data.roleInfo.roleskills") };
     updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "data.universalBonuses") };
+
+    // Update derivedStats with walk/run values
+    updateData["data.derivedStats.walk"] = {
+      value: actor.data.data.stats.move.value * 2,
+    };
+    updateData["data.derivedStats.run"] = {
+      value: actor.data.data.stats.move.value * 4,
+    };
+
     await actor.update(updateData);
 
     // Finally, migrate their owned items by copying from the item directory to their inventory
