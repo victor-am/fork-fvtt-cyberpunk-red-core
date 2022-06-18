@@ -55,6 +55,11 @@ export default class CPRCharacterActor extends CPRActor {
     actorData.filteredItems = this.itemTypes; // the itemTypes getter is in foundry.js
     const { derivedStats } = actorData.data;
 
+    // Walk & Run
+    // From the Move/Run Action (pg 127)
+    derivedStats.walk.value = actorData.data.stats.move.value * 2;
+    derivedStats.run.value = actorData.data.stats.move.value * 4;
+
     // Seriously wounded
     derivedStats.seriouslyWounded = Math.ceil(derivedStats.hp.max / 2);
 

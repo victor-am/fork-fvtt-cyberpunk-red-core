@@ -27,6 +27,7 @@
   - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item.  Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb.
 - Feature Request #179: Add ability to track reputation and roll face down.
 - Add Light/Medium/Heavy/Very Heavy Generic Melee Weapons.
+- Support for the Drag Ruler module
 
 **Changes**
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
@@ -48,6 +49,7 @@
 - Add missing Lifepath questions
 - Fix ordering of Lifepath items to match Book order
 - Rename Excellent/Poor Quality Weapon/Cyberdeck Compendium items for easier sorting
+- Add `walk`/`run` as derivedStats
 
 **Changes**
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience
