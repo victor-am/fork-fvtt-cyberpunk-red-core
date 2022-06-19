@@ -165,7 +165,7 @@
       {{/each}}
 
       {{#each (cprSort (cprFilter actor.data.filteredItems.cyberware "data.data.isInstalled" true) "name") as |weapon|}}
-        {{#if (cprCompare data.data.isWeapon "===" "true")}}
+        {{#if (cprCompare data.data.isWeapon "===" true)}}
           <li class="item flexrow">
             <div class="mook-weapon">
               <div class="item-name mook-weapon-name text-pad-right text-nowrap">

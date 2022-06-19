@@ -4,12 +4,12 @@
         1. the item is cyberware and it is not a weapon
         2. the item is an upgrade item and it is not a weapon
 --}}
-{{#unless (cprCompare 
-    (cprCompare 
+{{#unless (cprCompare
+    (cprCompare
         (cprCompare data.type "===" "cyberware")
         "&&"
-        (cprCompare data.data.isWeapon "===" "false"))
-    "||" 
+        (cprCompare data.data.isWeapon "===" false))
+    "||"
     (cprCompare
         (cprCompare data.type "===" "itemUpgrade")
         "&&"
