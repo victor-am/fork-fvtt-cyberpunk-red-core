@@ -691,6 +691,7 @@
     "CPR.itemSheet.itemUpgrade.override": "Sobrescrever",
     "CPR.itemSheet.itemUpgrade.shieldHp": "Pontos de vida do Escudo",
     "CPR.itemSheet.itemUpgrade.slots": "Upgrade Slots",
+    "CPR.itemSheet.itemUpgrade.usedSlots": "Used Upgrade Slots",
     "CPR.itemSheet.itemUpgrade.unusedSlots": "Unused Upgrade Slots",
     "CPR.itemSheet.itemUpgrade.upgradeOverview": "Modificadores vão ser somados/subtraídos do attribute. Sobrescrever vai trocar o valor do attribute. Cuidado: Aplicar uma sobrescrita vai ignorar qualquer modificador de melhoria e a maior sobrescrita vai ser usada.",
     "CPR.itemSheet.itemUpgrade.upgradeType": "Tipo de atualização",
