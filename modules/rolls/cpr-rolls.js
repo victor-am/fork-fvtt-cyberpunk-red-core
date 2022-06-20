@@ -37,6 +37,8 @@ export class CPRRoll {
     this.faces = [];
     // the result of the roll before applying mods or critical effects
     this.initialRoll = 0;
+    // the amount of luck used on this roll
+    this.luck = 0;
     // skip rolling a critical die, such as with death saves
     this.calculateCritical = true;
     // if a critical die was rolled, this is the stored result
@@ -139,8 +141,8 @@ export class CPRRoll {
   }
 
   /**
-   * Simple method to compute the initial roll result and mods. This does not take
-   * critical events into account.
+   * Simple method to compute the initial roll result plus mods and luck. This
+   * does not take critical events into account.
    * Important: This MUST be called from roll()!
    *
    * @private
@@ -148,7 +150,7 @@ export class CPRRoll {
    */
   _computeBase() {
     LOGGER.trace("_computeBase | CPRRoll | Called.");
-    return this.initialRoll + this.totalMods();
+    return this.initialRoll + this.totalMods() + this.luck;
   }
 
   /**
@@ -263,7 +265,7 @@ export class CPRInitiative extends CPRRoll {
 
   _computeBase() {
     LOGGER.trace("_computeBase | CPRStatRoll | Called.");
-    return this.initialRoll + this.totalMods() + this.statValue;
+    return this.initialRoll + this.totalMods() + this.statValue + this.luck;
   }
 }
 
@@ -289,7 +291,7 @@ export class CPRStatRoll extends CPRRoll {
    */
   _computeBase() {
     LOGGER.trace("_computeBase | CPRStatRoll | Called.");
-    return this.initialRoll + this.totalMods() + this.statValue;
+    return this.initialRoll + this.totalMods() + this.statValue + this.luck;
   }
 }
 
@@ -358,9 +360,9 @@ export class CPRSkillRoll extends CPRStatRoll {
   _computeBase() {
     LOGGER.trace("_computeBase | CPRSkillRoll | Called.");
     if (this.universalBonusAttack) {
-      return this.initialRoll + this.totalMods() + this.statValue + this.skillValue + this.roleValue + this.universalBonusAttack;
+      return this.initialRoll + this.totalMods() + this.statValue + this.skillValue + this.roleValue + this.luck + this.universalBonusAttack;
     }
-    return this.initialRoll + this.totalMods() + this.statValue + this.skillValue + this.roleValue;
+    return this.initialRoll + this.totalMods() + this.statValue + this.skillValue + this.roleValue + this.luck;
   }
 }
 
@@ -560,6 +562,9 @@ export class CPRRoleRoll extends CPRRoll {
    */
   _computeBase() {
     LOGGER.trace("_computeBase | CPRRoleRoll | Called.");
+    if (rollName === "Charismatic Impact" || rollName === "Interface") {
+      return this.initialRoll + this.totalMods() + this.roleValue + this.skillValue + this.statValue + this.luck;
+    }
     return this.initialRoll + this.totalMods() + this.roleValue + this.skillValue + this.statValue;
   }
 
