@@ -3,19 +3,19 @@
 **New Features**
 - #225 - Active effects for Items
   - Active Effects are a Foundry feature that allow items to apply modifications to stats and skills of characters in the game. Active Effects can also be added to Characters arbitrarily without associating to an item.
-  - An Effects tab on the actor sheet has been added to summarize where active effects are coming from. From there character-level effects can be 
+  - An Effects tab on the actor sheet has been added to summarize where active effects are coming from. From there character-level effects can be
     managed. (create/toggle/edit/delete). Effects from Items cannot be edited or deleted from this tab. Mooks do not yet enjoy Active Effects.
   - An Active Effect has a "usage" associated with it on an item. This affects when the effect will be applied. Examples are when carried, when equipped,
     toggling it on/off yourself or always on. Some specialized ones exist too: Cyberware allows for "when installed." More may be added in the future.
-  - The following item types can have Active Effects added to them: armor, clothing, drugs (more on that next), gear, cyberware, weapons, and 
+  - The following item types can have Active Effects added to them: armor, clothing, drugs (more on that next), gear, cyberware, weapons, and
     injuries (see #290).
   - Active effects can be applied to stats, skills, role abilities, a handful of derived stats (like HP), or custom keys in a manner similar to what 5E
     expects. Only plain addition or subtraction modes are supported.
   - A MOD column has been added to the Role tab in a manner similar to what we have for skills already. Like skills, this makes it clear which abilities
     are being affected by an Active Effect.
-  - Weapon quality is now an active effect that increases the attack bonus. We removed the fields in the weapon sheet to set weapon qualities or attack 
+  - Weapon quality is now an active effect that increases the attack bonus. We removed the fields in the weapon sheet to set weapon qualities or attack
     bonuses. See the weapon compendium for examples. Active Effects still give you all of the flexibility and power you had before.
-  - Arbitrary skill mods on characters cannot be set in the character sheet any more, that column shows mods coming from active effects now. You can 
+  - Arbitrary skill mods on characters cannot be set in the character sheet any more, that column shows mods coming from active effects now. You can
     still create skill mods with active effects using the Effects tab.
 - #305 - Drugs and Consumables
   - The Drug item type has been added and has a unique action and usage. This is meant to model consumables, meaning items that stack and can be consumed
@@ -28,6 +28,7 @@
 - Feature Request #179: Add ability to track reputation and roll face down.
 - Add Light/Medium/Heavy/Very Heavy Generic Melee Weapons.
 - Support for the Drag Ruler module
+- Feature Request #424: Ability to use LUCK on Stat, Skill, Attack, Program, Cyberdeck, and Interface/Charismatic Impact rolls. Automatically deducts from character sheet.
 
 **Changes**
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
@@ -39,7 +40,7 @@
 - Feature Request #379: Added ability to populate a NET architecture with the help of rolltables. It also rolls for the number of floors (3d6) and how many branches there should be. (see p. 210 in the book)
 - Even more icons!
   - Icons for each street drug
-  - Icons for each pharmaceutical 
+  - Icons for each pharmaceutical
   - Even more status icons
 - Change Character sheet Wound State to unique icons rather than the font-awesome smileyfaces
 - CUB Condition Map json file, ready to be imported to CUB COndition Lab
