@@ -265,6 +265,7 @@ export class CPRInitiative extends CPRRoll {
 
   _computeBase() {
     LOGGER.trace("_computeBase | CPRStatRoll | Called.");
+    // TODO: there is not currently a way for players to enter LUCK for initiative rolls
     return this.initialRoll + this.totalMods() + this.statValue + this.luck;
   }
 }
