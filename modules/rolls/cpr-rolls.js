@@ -562,7 +562,7 @@ export class CPRRoleRoll extends CPRRoll {
    */
   _computeBase() {
     LOGGER.trace("_computeBase | CPRRoleRoll | Called.");
-    if (this.rollName === "Charismatic Impact" || this.rollName === "Interface") {
+    if (this.roleName === "Charismatic Impact" || this.roleName === "Interface") {
       return this.initialRoll + this.totalMods() + this.roleValue + this.skillValue + this.statValue + this.luck;
     }
     return this.initialRoll + this.totalMods() + this.roleValue + this.skillValue + this.statValue;
