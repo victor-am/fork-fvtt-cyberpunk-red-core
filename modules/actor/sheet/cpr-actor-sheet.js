@@ -358,6 +358,14 @@ export default class CPRActorSheet extends ActorSheet {
       cprRoll.saveResult = this.actor.processDeathSave(cprRoll);
     }
 
+    // "Consume" LUCK if used
+    if (Number.isInteger(cprRoll.luck) > 0) {
+      let luckStat = this.actor.data.data.stats.luck.value
+      this.actor.update({
+        'data.stats.luck.value': luckStat - ((cprRoll.luck > luckStat) ? luckStat : cprRoll.luck)
+      });
+    }
+
     // output to chat
     const token = this.token === null ? null : this.token.data._id;
     cprRoll.entityData = { actor: this.actor.id, token };
