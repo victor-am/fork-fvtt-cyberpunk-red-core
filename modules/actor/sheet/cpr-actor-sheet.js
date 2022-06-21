@@ -360,9 +360,9 @@ export default class CPRActorSheet extends ActorSheet {
 
     // "Consume" LUCK if used
     if (Number.isInteger(cprRoll.luck) > 0) {
-      let luckStat = this.actor.data.data.stats.luck.value
+      const luckStat = this.actor.data.data.stats.luck.value;
       this.actor.update({
-        'data.stats.luck.value': luckStat - ((cprRoll.luck > luckStat) ? luckStat : cprRoll.luck)
+        "data.stats.luck.value": luckStat - ((cprRoll.luck > luckStat) ? luckStat : cprRoll.luck),
       });
     }
 
