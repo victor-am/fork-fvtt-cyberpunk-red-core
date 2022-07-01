@@ -42,7 +42,7 @@
   - Icons for each pharmaceutical 
   - Even more status icons
 - Change Character sheet Wound State to unique icons rather than the font-awesome smileyfaces
-- CUB Condition Map json file, ready to be imported to CUB COndition Lab
+- CUB Condition Map json file, ready to be imported to CUB Condition Lab
 - Format Eurobucks displays in a more readable way
 - Use fantasy style icons for items when generating the ELO Armory
 - Add Head armor generation to ELO Armory Macro
@@ -50,10 +50,6 @@
 - Fix ordering of Lifepath items to match Book order
 - Rename Excellent/Poor Quality Weapon/Cyberdeck Compendium items for easier sorting
 - Add `walk`/`run` as derivedStats
-
-**Changes**
-- Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience
-- Consolidated gain, lose and set ledger functions for EB, IP and Reputation to make it more manageable
 - Renamed included maps to better differentiate them from other map packs
 - Containers now default to neutral token disposition
 - Added Medtech drugs to the compendium
