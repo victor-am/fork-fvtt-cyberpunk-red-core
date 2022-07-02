@@ -80,12 +80,12 @@
               </div>
               <div class="mook-weapon-rolls fight-weapon-attack text-nowrap text-right">
                 <a class="rollable" data-roll-type="attack" data-item-id={{weapon.id}}>
-                  <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
+                  <i class="fas fa-fist-raised red-fg" title="{{localize "CPR.characterSheet.bottomPane.fight.rollAnAttack"}}"></i>
                 </a>
                 {{#if (cprCompare (cprFireFlag ../actor "suppressive" weapon.id) "!==" "checked")}}
                   <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}}
                     data-damage="{{weapon.data.data.damage}}">
-                    <i class="fas fa-tint red-fg" title="Roll Damage"></i>
+                    <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
                   </a>
                 {{/if}}
               </div>
@@ -148,12 +148,12 @@
                         </div>
                         <div class="mook-weapon-rolls fight-weapon-attack text-nowrap text-right">
                           <a class="rollable" data-roll-type="attack" data-item-id={{weapon.id}}>
-                            <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
+                            <i class="fas fa-fist-raised red-fg" title="{{localize "CPR.characterSheet.bottomPane.fight.rollAnAttack"}}"></i>
                           </a>
                           {{#if (cprCompare (cprFireFlag ../actor "suppressive" weapon.id) "!==" "checked")}}
                             <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}}
                               data-damage="{{weapon.data.data.damage}}">
-                              <i class="fas fa-tint red-fg" title="Roll Damage"></i>
+                              <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
                             </a>
                           {{/if}}
                         </div>
@@ -229,12 +229,12 @@
               </div>
               <div class="mook-weapon-rolls fight-weapon-attack text-nowrap text-right">
                 <a class="rollable" data-roll-type="attack" data-item-id={{weapon.id}}>
-                  <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
+                  <i class="fas fa-fist-raised red-fg" title="{{localize "CPR.characterSheet.bottomPane.fight.rollAnAttack"}}"></i>
                 </a>
                 {{#if (cprCompare (cprFireFlag ../actor "suppressive" weapon.id) "!==" "checked")}}
                   <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}}
                     data-damage="{{weapon.data.data.damage}}">
-                    <i class="fas fa-tint red-fg" title="Roll Damage"></i>
+                    <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
                   </a>
                 {{/if}}
               </div>
@@ -297,12 +297,12 @@
                         </div>
                         <div class="mook-weapon-rolls fight-weapon-attack text-nowrap text-right">
                           <a class="rollable" data-roll-type="attack" data-item-id={{weapon.id}}>
-                            <i class="fas fa-fist-raised red-fg" title="Roll an Attack"></i>
+                            <i class="fas fa-fist-raised red-fg" title="{{localize "CPR.characterSheet.bottomPane.fight.rollAnAttack"}}"></i>
                           </a>
                           {{#if (cprCompare (cprFireFlag ../actor "suppressive" weapon.id) "!==" "checked")}}
                             <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}}
                               data-damage="{{weapon.data.data.damage}}">
-                              <i class="fas fa-tint red-fg" title="Roll Damage"></i>
+                              <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
                             </a>
                           {{/if}}
                         </div>
