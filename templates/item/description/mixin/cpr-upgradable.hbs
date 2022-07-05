@@ -4,7 +4,11 @@
         {{localize "CPR.itemSheet.itemUpgrade.usedSlots"}}:
     </span>
     <span class="summary-value">
-        {{data.data.installedOptionSlots}}/{{data.data.slots}}
+        {{#if (cprCompare item.type "===" "cyberware")}}
+            {{data.data.installedOptionSlots}}/{{data.data.slots}}
+        {{else}}
+            {{data.data.upgrades.length}}/{{data.data.slots}}
+        {{/if}}
     </span>
 </div>
 {{cprTrace "END CPR-UPGRADABLE.HBS"}}
