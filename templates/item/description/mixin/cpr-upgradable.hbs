@@ -6,6 +6,8 @@
     <span class="summary-value">
         {{#if (cprCompare item.type "===" "cyberware")}}
             {{data.data.installedOptionSlots}}/{{data.data.slots}}
+        {{else if (cprCompare item.type "===" "cyberdeck")}}
+            {{cprMath "sum" data.data.upgrades.length data.data.programs.installed.length}}/{{data.data.slots}}
         {{else}}
             {{data.data.upgrades.length}}/{{data.data.slots}}
         {{/if}}
