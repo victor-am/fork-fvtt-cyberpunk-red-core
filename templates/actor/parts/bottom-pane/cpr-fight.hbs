@@ -302,7 +302,7 @@
                         </span>
                     </li>
                 {{#each (cprSort (cprFilter actor.data.filteredItems.cyberware "data.data.isInstalled" true) "name") as |weapon|}}
-                {{#if (cprCompare data.data.isWeapon "===" "true")}}
+                {{#if (cprCompare data.data.isWeapon "===" true)}}
                         <li class="weapon-grid item flexrow" data-item-id="{{weapon.id}}">
                             <div class="fight-weapon-icon">
                                 <img class="fight-weapon-icon-img" src="{{img}}"/>

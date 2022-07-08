@@ -497,6 +497,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *    Lost slotSize, renamed to "size"
    *    Gained slots for upgrades
    *    if price is 0 and category is empty, set to 500/premium
+   *    if `isWeapon` is a string convert to boolean
    *
    * @param {CPRItem} cyberware
    */
@@ -509,6 +510,17 @@ export default class ActiveEffectsMigration extends CPRMigration {
     updateData = { ...updateData, ...CPRMigration.safeDelete(cyberware, "data.charges") };
     updateData = { ...updateData, ...CPRMigration.safeDelete(cyberware, "data.slotSize") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(cyberware, 500) };
+
+    // Migrate cyberware to use booleans for `isWeapon`
+    // some already are bools so check if we actually need to migrate first
+    if (typeof cyberware.data.data.isWeapon === "string") {
+      if (cyberware.data.data.isWeapon === "true") {
+        updateData["data.isWeapon"] = true;
+      } else {
+        updateData["data.isWeapon"] = false;
+      }
+    }
+
     await cyberware.update(updateData);
   }
 

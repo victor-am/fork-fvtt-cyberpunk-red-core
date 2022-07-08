@@ -66,7 +66,7 @@
     </div>
 </li>
 
-{{#unless (cprListContains "fashionware,cyberwareInternal,cyberwareExternal" data.data.type)}}
+{{#unless (cprListContains "fashionware,cyberwareExternal" data.data.type)}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
             {{localize "CPR.itemSheet.cyberware.requiresFoundational"}}
@@ -142,14 +142,17 @@
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
             {{#if this.editable}}
-                <select name="data.isWeapon" data-dtype="{{data.data.isWeapon}}">
-                    {{#select data.data.isWeapon}}
-                        <option value="false">{{localize "CPR.global.generic.false"}}</option>
-                        <option value="true">{{localize "CPR.global.generic.true"}}</option>
-                    {{/select}}
-                </select>
+                {{#if data.data.isWeapon}}
+                    <a class="item-checkbox" data-target="data.isWeapon"><i class="far fa-check-circle"></i></a>
+                {{else}}
+                    <a class="item-checkbox" data-target="data.isWeapon"><i class="far fa-circle"></i></a>
+                {{/if}}
             {{else}}
-                <span class="text-flex-end">{{localize (cprObjConcat "CPR.global.generic." data.data.isWeapon)}}</span>
+                {{#if data.data.isWeapon}}
+                    <i class="far fa-check-circle"></i>
+                {{else}}
+                    <i class="far fa-circle"></i>
+                {{/if}}
             {{/if}}
         </div>
     </li>
