@@ -50,6 +50,8 @@
 - Fix ordering of Lifepath items to match Book order
 - Rename Excellent/Poor Quality Weapon/Cyberdeck Compendium items for easier sorting
 - Add `walk`/`run` as derivedStats
+- Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience
+- Consolidated gain, lose and set ledger functions for EB, IP and Reputation to make it more manageable
 - Renamed included maps to better differentiate them from other map packs
 - Containers now default to neutral token disposition
 - Added Medtech drugs to the compendium
@@ -63,6 +65,7 @@
 - Adjusted the formatting of issues templates for easier filling out
 - Set upgrade slots to 0 on melee, cyberware, and exotic weapons in the compendium
 - Re-wording of Bows/Crossbows descriptin in compendium
+- Fix Item Sheet upgrade display count to correctly show upgrade usage
 
 
 **Bug Fixes**

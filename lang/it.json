@@ -693,6 +693,7 @@
     "CPR.itemSheet.itemUpgrade.override": "Override",
     "CPR.itemSheet.itemUpgrade.shieldHp": "Punti Colpo Scudo",
     "CPR.itemSheet.itemUpgrade.slots": "Upgrade Slots",
+    "CPR.itemSheet.itemUpgrade.usedSlots": "Used Upgrade Slots",
     "CPR.itemSheet.itemUpgrade.unusedSlots": "Unused Upgrade Slots",
     "CPR.itemSheet.netArchitecture.itemNotFound": "Nessun oggetto con questo nome trovato. Per favore crealo o importalo.",
     "CPR.itemSheet.physical.priceHoverExplanationAmmo": "The price entered here should be the price of a single purchase unit of the item. The amount for a purchase unit is 1 for grenades and rockets and 10 otherwise, see p. 344 in the rulebook.",
