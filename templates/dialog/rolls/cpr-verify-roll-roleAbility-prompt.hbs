@@ -65,6 +65,16 @@
             </div>
         </li>
 
+        {{#if (cprCompare (cprCompare roleName "===" "Interface") "||" (cprCompare roleName "===" "Charismatic Impact"))}}
+        <li class="item flexrow">
+            <div class="item flexrow setting-name text-nowrap">
+                {{localize "CPR.rolls.luck"}}:
+            </div>
+            <div class="item flexrow setting-value text-nowrap item-end">
+                <input name="luck" class="" type="number" data-dtype="Number" value={{luck}}>
+            </div>
+        </li>
+        {{/if}}
 
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
