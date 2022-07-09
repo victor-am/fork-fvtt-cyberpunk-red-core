@@ -67,6 +67,7 @@
 - Set upgrade slots to 0 on melee, cyberware, and exotic weapons in the compendium
 - Re-wording of Bows/Crossbows descriptin in compendium
 - Fix Item Sheet upgrade display count to correctly show upgrade usage
+- Greeter text (the post-migration pop-up window) is displayed as HTML rather than plain text
 
 
 **Bug Fixes**
