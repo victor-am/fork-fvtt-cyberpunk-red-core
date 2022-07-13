@@ -1,30 +1,30 @@
-Welcome to the 0.81.0 release!
-This release beings a dramatic re-write of the Item code to integrate with Active Effects,
-a feature provided by Foundry that allows Items to change the stats of characters in the game.
-The migration code should have taken care of everything for you.
+<p>Welcome to the 0.81.0 release!</p>
+<p>This release beings a dramatic re-write of the item code to integrate with <i>active effects</i>,
+a feature provided by Foundry that allows items to change the stats of characters in the game.  
+The migration code should have taken care of everything for you.  However, a few things have been 
+replaced with active effects that we want to call out here so you can review and verify yourself.  
+You checked the changelog too, right?  A lot of item fields and values have moved around.</p>
 
-However, a few things have been replaced with active effects that we want to call out here so 
-you can review and verify yourself.
+<ul>
+  <li>Weapon quality has been removed and replaced with attack mod, which allows you to set any
+    modifier you want to the weapon.  The <i>excellent</i> quality items usually get +1.</li>
+  <li>Program mods (Boost, etc) are now represented with active effects.  You may want to confirm
+    the active effects are doing the right thing prior to playing the game.</li>
+  <li>Clothing upgrades are now represented with active effects too.  Since clothing upgrades could
+    only affect the COOL stat or the Wardrobe & Style skill, it made sense to make this an active
+    effect instead.  After conversion to an Active Effect, any clothing item upgrade is deleted from
+    the actor as they are not needed anymore.  These item upgrades will be permanently deleted in a
+    future release.</li>
+  <li>Arbitrary skill mods on characters cannot be set in the character sheet any more, that column
+    shows mods coming from active effects now. You can still create skill mods with active effects
+    using the Effects tab. You may want to convert them from actor effects to effects on the items
+    that provided the mod in your game.</li>
+  <li>A drug item type has been added. Several items have been migrated over to that type in the
+    compendiums. You may want to re-create drugs with that item type if you created some of your
+    own already.</li>
+</ul>
 
- - Weapon quality is now an active effect that increases the attack bonus. We removed the fields
-   in the weapon sheet to set weapon qualities or attack bonuses. See the weapon compendium for
-   examples. Active Effects still give you all of the flexibility and power you had before.
-   The data migration should handle this for you, but you may want to check.
- - Program mods (boost, etc) are now represented with active effects too. Like weapons, you may
-   want to confirm the active effects are doing the right thing for your game.
- - Clothing upgrades are now represented with active effects too.  Since clothing upgrade could
-   only affect the COOL stat or the Wardrobe & Style skill, it made sense to make this an active
-   effect instead.  After conversion to an Active Effect, any clothing item upgrade is deleted from
-   the actor as they are not needed anymore.  These item upgrades will be permanently deleted in a
-   future release.
- - Gear upgrades are now represented with active effects too.  Since gear upgrade could
-   only affect the stats, it made sense to make this an active effect instead.  After conversion
-   to an Active Effect, any clothing item upgrade is deleted from the actor as they are not needed
-   anymore.  These item upgrades will be permanently deleted in a future release.
- - Arbitrary skill mods on characters cannot be set in the character sheet any more, that column
-   shows mods coming from active effects now. You can still create skill mods with active effects
-   using the Effects tab. You may want to convert them from actor effects to effects on the items
-   that provided the mod in your game.
- - A drug item type has been added. Several items have been migrated over to that type in the
-   compendiums. You may want to re-create drugs with that item type if you created some of your
-   own already.
+<p>Items in the provided CPR-C compendia have all been adapted to use Active Effects, we recommend
+using those as a base whenever you are creating a new item.  Any custom items in your game have been
+migrated, but we were conservative about creating Active Effects for them.  You may want to check on
+them specifically.  The same is true for items owned by characters and mooks.</p>

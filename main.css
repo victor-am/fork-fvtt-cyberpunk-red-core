@@ -925,6 +925,10 @@ button,
 .item-description-tab .item-summary-section .summary-name,
 .item-description-tab .item-summary-section .item-summary-line {
   display: flex;
+  justify-content: space-between;
+}
+.item-description-tab .item-summary-section .summary-value {
+  align-self: center;
 }
 .item-description-tab .item-description-section {
   grid-area: item-description-pane;
@@ -2088,6 +2092,10 @@ form input.number {
 }
 .active-effect-sheet .effect-change .key {
   flex: 4;
+}
+.summary-effect-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .summary-effect-value {
   align-self: center;
