@@ -29,6 +29,7 @@ export default class CPRMigration {
   async run() {
     LOGGER.trace("run | CPRMigration");
     LOGGER.log(`Migrating to data model version ${this.version}`);
+
     // These shenanigans are how we dynamically call static methods on whatever migration object is
     // being run that extends this base class. Normally you need to be explicit, e.g.
     // ActiveEffectsMigration.run().
@@ -36,11 +37,15 @@ export default class CPRMigration {
     await this.preMigrate();
 
     // migrate unowned items
+    CPRSystemUtils.updateLoadBar(1, "Migration running. Migrating Items, Actors, Scenes and Compendia...");
+
     if (!await CPRMigration.migrateItems(classRef)) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.itemErrors"));
       return false;
     }
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allItemsDone"));
+
+    CPRSystemUtils.updateLoadBar(25, "Migration running. Migrating Actors, Scenes and Compendia... [COMPLETED: Items]");
 
     // migrate actors
     if (!await this.migrateActors()) {
@@ -49,12 +54,16 @@ export default class CPRMigration {
     }
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allActorsDone"));
 
+    CPRSystemUtils.updateLoadBar(50, "Migration running. Migrating Scenes and Compendia... [COMPLETED: Items, Actors]");
+
     // unlinked actors (tokens)
     if (!await this.migrateScenes()) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.tokenErrors"));
       return false;
     }
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allTokensDone"));
+
+    CPRSystemUtils.updateLoadBar(75, "Migration running. Migrating Compendia... [COMPLETED: Items, Actors, Scenes]");
 
     // compendia
     if (!await this.migrateCompendia(classRef)) {
@@ -63,9 +72,12 @@ export default class CPRMigration {
     }
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allCompendiaDone"));
 
+    CPRSystemUtils.updateLoadBar(100, "Migration completed. [COMPLETED: Items, Actors, Scenes, Compendia]");
+
     // In the future, put top-level migrations for tokens, scenes, and other things here
 
     await this.postMigrate();
+
     if (this.errors !== 0) {
       throw Error("Migration errors encountered");
     }

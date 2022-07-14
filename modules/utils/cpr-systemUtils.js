@@ -421,4 +421,21 @@ export default class CPRSystemUtils {
     }
     return actions;
   }
+
+  /**
+   * Updates the loading bar at the top of the page.
+   * The last time this is called should set the percentage to 100 so it will clear the bar.
+   *
+   * @param {Number} percent - Percentage complete
+   * @param {String} migrationStatus - The words to display on the migration status bar
+   */
+  static updateLoadBar(percent, updateStatus) {
+    LOGGER.trace("updateLoadBar | CPRSystemUtils");
+    const loader = document.getElementById("loading");
+    loader.querySelector("#context").textContent = updateStatus;
+    loader.querySelector("#progress").textContent = `${percent}%`;
+    loader.children["loading-bar"].style = `width: ${percent}%`;
+    loader.style.display = "block";
+    if ((percent === 100) && !loader.hidden) $(loader).fadeOut(2000);
+  }
 }
