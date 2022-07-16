@@ -6,17 +6,19 @@ you can review and verify yourself. You checked the changelog too, right?  A lot
 and values have moved around.</p>
 
 <ul>
-  <li>Weapon quality has been removed and replaced with attack mod, which allows you to set any
-    modifier you want to the weapon.  The <i>excellent</i> quality items usually get +1.</li>
-  <li>Program mods (Boost, etc) are now represented with active effects.  You may want to confirm
-    the active effects are doing the right thing prior to playing the game if you created your own
-    programs.</li>
-  <li>Clothing upgrades are now represented with active effects too.  Since clothing upgrades could
-    only affect the COOL stat or the Wardrobe & Style skill, it made sense to make this an active
-    effect instead.  After conversion to an Active Effect, any clothing item upgrade is deleted from
-    the actor as they are not needed anymore.  These item upgrades will be permanently deleted in a
-    future release. If there is custom clothing in your world, double check it behaves like you
-    expect. If it was upgraded, you should see active effects providing the benefits.</li>
+  <li>Modifiers provided by programs (such as Boost providing a bonus to Speed) are provided by active effects now.
+    Take a look at your characters and confirm the effects are doing what you expect. You may wish to change the
+    programmatically generated name for them too.</li>
+  <li>Modifiers provided by item upgrades to gear and clothing are now provided by active effects. The migration
+    should have created active effects for those items automatically and removed the item upgrades associated with them.
+    If they are owned by a character, then the character should also have those effects bestowed on them. Again,
+    please review the active effects on the character and change the names to be something more appropriate.</li>
+  <li>Clothing and gear upgrade items no longer have modifers. Instead of those items, use active effects on
+    an upgraded item instead. You can still create more upgrade items, but know the ability to do so may be
+    removed in a future update. They provide no modifiers in this release.</li>
+  <li>Upgrade items with modifiers that *overrode* values rather than added/subtracted from are not yet
+    supported by active effects. Currently CPR-C effects can only add or subtract values to skills and rolls.
+    We will support the other active effect modes in a future release.</li>
   <li>Arbitrary skill mods on characters cannot be set in the character sheet any more, that column
     shows mods coming from active effects now. You can still create skill mods with active effects
     using the Effects tab. You may want to convert them from actor effects to effects on the items
@@ -25,7 +27,7 @@ and values have moved around.</p>
   <li>A drug item type has been added. Several items have been migrated over to that type in the
     compendiums. You may want to re-create drugs with that item type if you created some of your
     own already, then you can use active effects to simulate drug effects and withdrawal.</li>
-  <li>Some items like armor, vehicles, and weapons no longer "stack." If a player had multiple in their
+  <li>Vehicles and weapons no longer "stack." If a player had multiple in their
     inventory, there will be duplicate items post migration instead, up to 50.</li>
 </ul>
 
