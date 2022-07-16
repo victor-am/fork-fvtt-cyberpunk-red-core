@@ -438,4 +438,15 @@ export default class CPRSystemUtils {
     loader.style.display = "block";
     if ((percent === 100) && !loader.hidden) $(loader).fadeOut(2000);
   }
+
+  /**
+   * Fades the loading bar at the top of the page in the event it gets stuck there. (ie failed migration)
+   */
+  static fadeLoadBar() {
+    LOGGER.trace("fadeLoadBar | CPRSystemUtils");
+    const loader = document.getElementById("loading");
+    if (!loader.hidden) {
+      $(loader).fadeOut(2000);
+    }
+  }
 }

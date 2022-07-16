@@ -20,6 +20,8 @@ export default class CPRMigration {
     this.version = null; // the data model version this migration will take us to
     this.flush = false; // migrations will stop after this script, even if more are needed
     this.errors = 0; // Increment if there were errors as part of this migration.
+    this.statusPercent = 0;
+    this.statusMessage = "";
   }
 
   /**
@@ -37,42 +39,72 @@ export default class CPRMigration {
     await this.preMigrate();
 
     // migrate unowned items
-    CPRSystemUtils.updateLoadBar(1, "Migration running. Migrating Items, Actors, Scenes and Compendia...");
+    this.statusPercent = 1;
+    this.statusMessage = `${CPRSystemUtils.Localize("CPR.migration.status.start")} `
+                         + `${CPRSystemUtils.Localize("CPR.migration.status.items")}, `
+                         + `${CPRSystemUtils.Localize("CPR.migration.status.actors")}, `
+                         + `${CPRSystemUtils.Localize("CPR.migration.status.scenes")}, `
+                         + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}...`;
+    CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
 
     if (!await CPRMigration.migrateItems(classRef)) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.itemErrors"));
       return false;
     }
-    CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allItemsDone"));
 
-    CPRSystemUtils.updateLoadBar(25, "Migration running. Migrating Actors, Scenes and Compendia... [COMPLETED: Items]");
+    this.statusPercent += 24;
+    this.statusMessage = `${CPRSystemUtils.Localize("CPR.migration.status.start")} `
+                        + `${CPRSystemUtils.Localize("CPR.migration.status.actors")}, `
+                        + `${CPRSystemUtils.Localize("CPR.migration.status.scenes")}, `
+                        + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}. `
+                        + `[${CPRSystemUtils.Localize("CPR.migration.status.completed")}: `
+                        + `${CPRSystemUtils.Localize("CPR.migration.status.items")}]`;
+    CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
 
     // migrate actors
     if (!await this.migrateActors()) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.actorErrors"));
       return false;
     }
-    CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allActorsDone"));
 
-    CPRSystemUtils.updateLoadBar(50, "Migration running. Migrating Scenes and Compendia... [COMPLETED: Items, Actors]");
+    this.statusPercent += 25;
+    this.statusMessage = `${CPRSystemUtils.Localize("CPR.migration.status.start")} `
+                        + `${CPRSystemUtils.Localize("CPR.migration.status.scenes")}, `
+                        + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}. `
+                        + `[${CPRSystemUtils.Localize("CPR.migration.status.completed")}: `
+                        + `${CPRSystemUtils.Localize("CPR.migration.status.items")}, `
+                        + `${CPRSystemUtils.Localize("CPR.migration.status.actors")}]`;
+    CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
 
     // unlinked actors (tokens)
     if (!await this.migrateScenes()) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.tokenErrors"));
       return false;
     }
-    CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allTokensDone"));
 
-    CPRSystemUtils.updateLoadBar(75, "Migration running. Migrating Compendia... [COMPLETED: Items, Actors, Scenes]");
+    this.statusPercent += 25;
+    this.statusMessage = `${CPRSystemUtils.Localize("CPR.migration.status.start")} `
+                        + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}. `
+                        + `[${CPRSystemUtils.Localize("CPR.migration.status.completed")}: `
+                        + `${CPRSystemUtils.Localize("CPR.migration.status.items")}, `
+                        + `${CPRSystemUtils.Localize("CPR.migration.status.actors")}, `
+                        + `${CPRSystemUtils.Localize("CPR.migration.status.scenes")}]`;
+    CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
 
     // compendia
     if (!await this.migrateCompendia(classRef)) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.compendiaErrors"));
       return false;
     }
-    CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.status.allCompendiaDone"));
 
-    CPRSystemUtils.updateLoadBar(100, "Migration completed. [COMPLETED: Items, Actors, Scenes, Compendia]");
+    this.statusPercent = 100;
+    this.statusMessage = `${CPRSystemUtils.Localize("CPR.migration.status.finished")}`
+                      + `[${CPRSystemUtils.Localize("CPR.migration.status.completed")}: `
+                      + `${CPRSystemUtils.Localize("CPR.migration.status.items")}, `
+                      + `${CPRSystemUtils.Localize("CPR.migration.status.actors")}, `
+                      + `${CPRSystemUtils.Localize("CPR.migration.status.scenes")}, `
+                      + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}]`;
+    CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
 
     // In the future, put top-level migrations for tokens, scenes, and other things here
 
@@ -115,6 +147,7 @@ export default class CPRMigration {
   static async migrateItems(classRef) {
     LOGGER.trace("migrateItems | CPRMigration");
     let good = true;
+
     const itemMigrations = game.items.contents.map(async (item) => {
       try {
         return await classRef.migrateItem(item);
@@ -160,7 +193,11 @@ export default class CPRMigration {
   async migrateScenes() {
     LOGGER.trace("migrateScenes | CPRMigration");
     let good = true;
+    const totalScenes = game.scenes.size;
+    const watermark = (totalScenes / 24) + 1;
+    let loopIndex = 0;
     for (const scene of game.scenes.contents) {
+      loopIndex += 1;
       const tokens = scene.tokens.contents.filter((token) => {
         if (!token.data.actorLink && !game.actors.has(token.data.actorId)) {
           // Degenerate case where the token is unlinked, but the actor it is derived from was since
@@ -188,7 +225,13 @@ export default class CPRMigration {
         LOGGER.error(value.reason.stack);
         good = false;
       }
-      CPRSystemUtils.DisplayMessage("notify", `Migrated scene: ${scene.name}`);
+      if (loopIndex >= watermark) {
+        if (this.statusPercent < 100) {
+          this.statusPercent += 1;
+          CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
+        }
+        loopIndex = 0;
+      }
     }
     return good;
   }

@@ -127,7 +127,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
     // Finally, migrate their owned items by copying from the item directory to their inventory
     // on success, we delete the item from the directory, they should all be empty at the end.
     // Egregious violation of no-await-in-loop here, but not sure how else to approach.
-    let doneItems = 0;
     // We deliberately skip skills because for core skills their AEs cannot be edited or viewed
     // They are applied to the actor instead for this migration (see earlier code)
     const ownedItems = actor.items.filter((i) => {
@@ -136,7 +135,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
       return true;
     });
     const createAeItemTypes = ["program", "weapon", "clothing", "gear"];
-    const totalItems = ownedItems.length;
     const deleteItems = [];
     const remappedItems = {};
     for (const ownedItem of ownedItems) {
@@ -161,8 +159,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
         await newItem.delete();
         deleteItems.push(ownedItem.data._id);
       }
-      doneItems += 1;
-      if (doneItems % 25 === 0) CPRSystemUtils.DisplayMessage("notify", `${doneItems}/${totalItems} owned items on ${actor.name} migrated so far`);
     }
     // delete all of the owned items we have replaced with items that have AEs
     const deleteList = [];
