@@ -553,6 +553,7 @@ CPR.activeEffectKeys = {
     "bonuses.upgradeExpertise": "CPR.effectSheet.roleAbility.tech.upgradeExpertise",
   },
   skill: {
+    // Note this listing is expanded in register-helpers (cprGetSkillsForEffects), it is not used as-is
     "bonuses.accounting": "CPR.global.skills.accounting",
     "bonuses.acting": "CPR.global.skills.acting",
     "bonuses.airVehicleTech": "CPR.global.skills.airVehicleTech",

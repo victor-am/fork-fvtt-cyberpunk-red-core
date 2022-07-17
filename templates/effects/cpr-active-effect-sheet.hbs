@@ -73,7 +73,17 @@
                     </span>
                     {{#if (cprCompare (lookup ../data.flags.cyberpunk-red-core.changes i) "===" "custom")}}
                         <input type="text" name="changes.{{i}}.key" value="{{change.key}}"/>
-                    {{else}}
+                    {{/if}}
+                    {{#if (cprCompare (lookup ../data.flags.cyberpunk-red-core.changes i) "===" "skill")}}
+                        <select name="changes.{{i}}.key" data-dtype="String">
+                            {{#select change.key}}
+                                    {{#each (cprGetSkillsForEffects ../this) as |modkeyname modkey|}}
+                                        <option value="{{modkey}}">{{localize modkeyname}}</option>
+                                    {{/each}}
+                                {{/select}}
+                            </select>
+                    {{/if}}
+                    {{#if (cprListContains "combat,netrun,role,stat" (lookup ../data.flags.cyberpunk-red-core.changes i))}}
                         <select name="changes.{{i}}.key" data-dtype="String">
                             {{#select change.key}}
                                 {{#each (cprFindConfigValue "activeEffectKeys" (lookup ../data.flags.cyberpunk-red-core.changes i)) as |modkeyname modkey|}}
