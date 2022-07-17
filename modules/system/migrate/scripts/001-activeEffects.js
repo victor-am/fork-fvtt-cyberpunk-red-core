@@ -578,7 +578,12 @@ export default class ActiveEffectsMigration extends CPRMigration {
         for (const [dataPoint, settings] of Object.entries(upgradeItem.data.modifiers)) {
           const { value } = settings;
           if (typeof value === "number") {
-            const key = `data.stats.${dataPoint}.value`;
+            let key;
+            if (dataPoint === "luck" || dataPoint === "emp") {
+              key = `data.stats.${dataPoint}.max`;
+            } else {
+              key = `data.stats.${dataPoint}.value`;
+            }
             const mode = (settings.type === "modifier") ? 2 : 1;
             changes.push({
               key,

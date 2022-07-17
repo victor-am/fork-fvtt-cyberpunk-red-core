@@ -1,7 +1,6 @@
 /* global Handlebars game getProperty */
 import LOGGER from "../utils/cpr-logger.js";
 import CPR from "./config.js";
-import CPRActor from "../actor/cpr-actor.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 export default function registerHandlebarsHelpers() {
@@ -749,13 +748,12 @@ export default function registerHandlebarsHelpers() {
    */
   Handlebars.registerHelper("cprGetSkillsForEffects", (effect) => {
     LOGGER.trace("cprGetSkillsForEffects | handlebarsHelper | Called.");
-    LOGGER.debugObject(effect);
-    // const doc = effect.getSourceItem(); // TODO: never returns an actor, only null
     const skillMap = CPR.activeEffectKeys.skill;
     let skillList = [];
     if (effect.isItemEffect) {
       skillList = game.items.filter((i) => i.type === "skill");
     } else if (effect.isActorEffect) {
+      const doc = effect.getEffectParent();
       skillList = doc.items.filter((i) => i.type === "skill");
     }
 
@@ -779,9 +777,6 @@ export default function registerHandlebarsHelpers() {
    * @return {String} - the name of the skill or stat being changed
    */
   Handlebars.registerHelper("cprGetChangeNameByKey", (doc, cat, key) => {
-    LOGGER.debugObject(doc);
-    LOGGER.debugObject(cat);
-    LOGGER.debugObject(key);
     if (!cat) {
       LOGGER.error("Undefined change category! No idea what this effect changes!");
       return "???";
