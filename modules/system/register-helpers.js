@@ -726,9 +726,9 @@ export default function registerHandlebarsHelpers() {
    *    2. the item usage is set to "toggled"
    *    3. the item is not suppressed and usage is not set to "always"
    *
-   * @param {CPRActiveEffect} - effect data object
-   * @name {String} - the name of the actor
-   * @returns true or false if the toggle glyph should be displayed
+   * @param {CPRActiveEffect} effect - active effect data object
+   * @param {String} name - the name of the actor
+   * @returns {Bool} true or false if the toggle glyph should be displayed
    */
   Handlebars.registerHelper("cprShowEffectToggle", (effect, name) => {
     LOGGER.trace("cprShowEffectToggle | handlebarsHelper | Called.");
@@ -736,6 +736,66 @@ export default function registerHandlebarsHelpers() {
     if (!effect.data.isSuppressed && effect.usage !== "always") return true;
     if (effect.data.isSuppressed && effect.usage === "toggled") return true;
     return false;
+  });
+
+  /**
+   * Generate a mapping of skill names and bonus object references for the AE sheet. If the AE
+   * comes from an Item, we look up all non-core skill items in the world, and use that list.
+   * If it comes from an actor, we loop over the skills it owns and generate a mapping with that.
+   *
+   * @param {CPRActiveEffect} effect - the AE in question
+   * @return {Object} - sorted object of skill keys to names
+   */
+  Handlebars.registerHelper("cprGetSkillsForEffects", (effect) => {
+    LOGGER.trace("cprGetSkillsForEffects | handlebarsHelper | Called.");
+    const skillMap = CPR.activeEffectKeys.skill;
+    let skillList = [];
+    if (effect.isItemEffect) {
+      skillList = game.items.filter((i) => i.type === "skill");
+    } else if (effect.isActorEffect) {
+      const doc = effect.getEffectParent();
+      skillList = doc.items.filter((i) => i.type === "skill");
+    }
+
+    for (const skill of skillList) {
+      skillMap["bonuses.".concat(SystemUtils.slugify(skill.name))] = skill.name;
+    }
+    // "sort" the skillMap properties before passing it back
+    return Object.keys(skillMap).sort().reduce((result, key) => {
+      result[key] = skillMap[key];
+      return result;
+    }, {});
+  });
+
+  /**
+   * Return the name of a skill or stat being changed by an effect. Used in a
+   * few active effect UIs.
+   *
+   * @param {Document} doc - the item providing an effect
+   * @param {String} cat - category of change mods
+   * @param {String} key - key for the stat or skill that is being changed by an effect
+   * @return {String} - the name of the skill or stat being changed
+   */
+  Handlebars.registerHelper("cprGetChangeNameByKey", (doc, cat, key) => {
+    if (!cat) {
+      LOGGER.error("Undefined change category! No idea what this effect changes!");
+      return "???";
+    }
+    if (cat === "custom") return key;
+    if (cat === "skill") {
+      const skillMap = CPR.activeEffectKeys.skill;
+      let skillList = [];
+      if (doc.isOwned) {
+        skillList = doc.parent.items.filter((i) => i.type === "skill");
+      } else {
+        skillList = game.items.filter((i) => i.type === "skill");
+      }
+      for (const skill of skillList) {
+        skillMap["bonuses.".concat(SystemUtils.slugify(skill.name))] = skill.name;
+      }
+      return SystemUtils.Localize(skillMap[key]);
+    }
+    return SystemUtils.Localize(CPR.activeEffectKeys[cat][key]);
   });
 
   /**
