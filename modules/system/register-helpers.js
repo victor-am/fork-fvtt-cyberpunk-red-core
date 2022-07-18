@@ -423,7 +423,7 @@ export default function registerHandlebarsHelpers() {
     let returnValue = false;
     const cyberware = actor.getInstalledCyberware();
     cyberware.forEach((cw) => {
-      if (cw.data.data.isWeapon === "true") {
+      if (cw.data.data.isWeapon) {
         returnValue = true;
       }
     });
