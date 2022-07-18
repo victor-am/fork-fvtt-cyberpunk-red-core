@@ -94,7 +94,6 @@ export default class CPRActorSheet extends ActorSheet {
       });
       data.filteredItems.programsInstalled = programsInstalled;
       data.filteredEffects = this.prepareActiveEffectCategories();
-      data.filteredItemActions = {};
     }
 
     return data;

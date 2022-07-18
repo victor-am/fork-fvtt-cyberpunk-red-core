@@ -2,7 +2,6 @@
 /* global duplicate Item */
 
 import CPR from "../../config.js";
-
 import CPRMigration from "../cpr-migration.js";
 import CPRSystemUtils from "../../../utils/cpr-systemUtils.js";
 import LOGGER from "../../../utils/cpr-logger.js";
@@ -95,8 +94,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
       }];
       await ActiveEffectsMigration.addActiveEffect(actor, name, changes);
     }
-    // skill mods are applied directly to the actor because the skill "items" cannot be accessed in the UI,
-    // at least not the core ones
+    // Skill mods are applied directly to the actor because core skill "items" cannot be accessed in
+    // the UI. Nor do they have the AE data template.
     for (const skill of actor.items.filter((i) => i.type === "skill")) {
       if (skill.data.data.skillmod && skill.data.data.skillmod !== 0) {
         const name = ` ${CPRSystemUtils.Localize("CPR.migration.effects.skill")} ${skill.name}`;
@@ -106,7 +105,9 @@ export default class ActiveEffectsMigration extends CPRMigration {
           value: skill.data.data.skillmod,
           priority: 0,
         }];
-        await ActiveEffectsMigration.addActiveEffect(actor, name, changes);
+        // Note this is the one place with force the change category to "skill". This is required
+        // for custom skills to work; they will never be in the CPR.activeEffectsKeys object.
+        await ActiveEffectsMigration.addActiveEffect(actor, name, changes, ["skill"]);
       }
     }
     updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "data.skills") };
@@ -239,9 +240,10 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *   mode: {Number}                   // the AE mode that is appropriate (see cpr-effects.js, you probably want 2)
    *   value: {Number}                  // how much to change the skill by
    *   priority: {Number}               // the order in which the change is applied, start at 0
+   * @param {Array:String} cats         // an array of change categories (skill, combat, netrun, etc) to match with changes
    * @returns {CPRActiveEffect}
    */
-  static async addActiveEffect(document, effectName, changes) {
+  static async addActiveEffect(document, effectName, changes, cats = null) {
     LOGGER.trace("addActiveEffect | 1-activeEffects Migration");
     if (document.isOwned) return;
     const [effect] = await document.createEffect();
@@ -251,17 +253,24 @@ export default class ActiveEffectsMigration extends CPRMigration {
       changes,
     };
     let index = 0;
-    changes.forEach((change) => {
-      // do a reverse look up on the activeEffectKeys object in config.js; given an AE key, find the category
-      // the key category is saved as a flag on the AE document for the UI to pull later
-      for (const [category, entries] of Object.entries(CPR.activeEffectKeys)) {
-        if (typeof entries[change.key] !== "undefined") {
-          newData[`flags.cyberpunk-red-core.changes.${index}`] = category;
-          break;
+    if (cats === null) {
+      changes.forEach((change) => {
+        // do a reverse look up on the activeEffectKeys object in config.js; given an AE key, find the category
+        // the key category is saved as a flag on the AE document for the UI to pull later
+        for (const [category, entries] of Object.entries(CPR.activeEffectKeys)) {
+          if (typeof entries[change.key] !== "undefined") {
+            newData[`flags.cyberpunk-red-core.changes.${index}`] = category;
+            break;
+          }
         }
-      }
-      index += 1;
-    });
+        index += 1;
+      });
+    } else {
+      changes.forEach(() => {
+        newData[`flags.cyberpunk-red-core.changes.${index}`] = cats[index];
+        index += 1;
+      });
+    }
     await document.updateEmbeddedDocuments("ActiveEffect", [newData]);
   }
 
@@ -565,7 +574,12 @@ export default class ActiveEffectsMigration extends CPRMigration {
         for (const [dataPoint, settings] of Object.entries(upgradeItem.data.modifiers)) {
           const { value } = settings;
           if (typeof value === "number") {
-            const key = `data.stats.${dataPoint}.value`;
+            let key;
+            if (dataPoint === "luck" || dataPoint === "emp") {
+              key = `data.stats.${dataPoint}.max`;
+            } else {
+              key = `data.stats.${dataPoint}.value`;
+            }
             const mode = (settings.type === "modifier") ? 2 : 1;
             changes.push({
               key,
@@ -690,21 +704,15 @@ export default class ActiveEffectsMigration extends CPRMigration {
 
   /**
    * Skill:
-   *    "skillmod" property converted to AEs
+   *    "skillmod" property is removed; use AEs on the actor instead
+   *
+   * This call assumes the AEs are created on the actor already.
    *
    * @param {CPRItem} skill
    */
   static async updateSkill(skill) {
     LOGGER.trace("updateSkill | 1-activeEffects Migration");
     let updateData = {};
-    const name = CPRSystemUtils.Localize("CPR.migration.effects.skill");
-    const changes = [{
-      key: `bonuses.${CPRSystemUtils.slugify(skill.name)}`,
-      value: skill.data.data.skillmod,
-      mode: 2,
-      priority: 0,
-    }];
-    await ActiveEffectsMigration.addActiveEffect(skill, name, changes);
     updateData = { ...updateData, ...CPRMigration.safeDelete(skill, "data.skillmod") };
     await skill.update(updateData);
   }

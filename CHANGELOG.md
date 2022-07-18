@@ -13,10 +13,10 @@
     expects. Only plain addition or subtraction modes are supported.
   - A MOD column has been added to the Role tab in a manner similar to what we have for skills already. Like skills, this makes it clear which abilities
     are being affected by an Active Effect.
-  - Weapon quality is now an active effect that increases the attack bonus. We removed the fields in the weapon sheet to set weapon qualities or attack
-    bonuses. See the weapon compendium for examples. Active Effects still give you all of the flexibility and power you had before.
   - Arbitrary skill mods on characters cannot be set in the character sheet any more, that column shows mods coming from active effects now. You can
     still create skill mods with active effects using the Effects tab.
+  - Active effects can affect skills on a character, even custom skills. Note that there is a known issue where a custom skill does not always show up
+    the first time any character is opened. (see issue #440 for details) Closing an reopening the sheet fixes it for the rest of that session.
 - #305 - Drugs and Consumables
   - The Drug item type has been added and has a unique action and usage. This is meant to model consumables, meaning items that stack and can be consumed
     to enjoy some stat or skill benefit.
@@ -30,6 +30,7 @@
 - Support for the Drag Ruler module
 - Feature Request #424: Ability to use LUCK on Stat, Skill, Attack, Program, Cyberdeck, and Interface/Charismatic Impact rolls. Automatically deducts from character sheet.
 - #414 - German is now a supported language. Most game system text (excluding pre-made items) will appear in this language if set in game settings. Thank you to our German translators: High123, Similar and Tealk.
+
 
 **Changes**
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
@@ -70,6 +71,16 @@
 - Fix Item Sheet upgrade display count to correctly show upgrade usage
 - Greeter text (the post-migration pop-up window) is displayed as HTML rather than plain text
 - Changed migration status to use a status bar instead of flooding the screen with status messages
+- Ammo can be concealed, and can no longer be "upgraded." Different ammo types (rubber, toxic, etc) are still intact.
+- A few changes to your world may have been made as part of migration activities.
+  - Some fields on items were given defaults if they are empty. For example a null price or price category is set to something befitting the
+  item type. It is still a guess, but now there is possibly correct data instead of definitely wrong or useless data. 
+  - Clothing and gear upgrades were converted to active effects.
+  - Armor, programs, netarch, vehicles, and weapons cannot be stacked any more. Duplicate items may have been created (up to 50) in players' inventories.
+  - The *quality* field has been removed from items (weapons, cyberdecks and vehicles) to avoid confusion about whether to change values in other fields. 
+    You can still use the name and other fields (such at attack modifier) to express excellent quality items.
+  - Some item types (weapons, vehicles) no longer "stack." They do not have an amount field any more.
+
 
 
 **Bug Fixes**
