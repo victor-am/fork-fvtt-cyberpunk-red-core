@@ -54,11 +54,9 @@ export default class CPRMigration {
 
     this.statusPercent += 24;
     this.statusMessage = `${CPRSystemUtils.Localize("CPR.migration.status.start")} `
-                        + `${CPRSystemUtils.Localize("CPR.migration.status.actors")}, `
-                        + `${CPRSystemUtils.Localize("CPR.migration.status.scenes")}, `
-                        + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}. `
-                        + `[${CPRSystemUtils.Localize("CPR.migration.status.completed")}: `
-                        + `${CPRSystemUtils.Localize("CPR.migration.status.items")}]`;
+                         + `${CPRSystemUtils.Localize("CPR.migration.status.actors")}, `
+                         + `${CPRSystemUtils.Localize("CPR.migration.status.scenes")}, `
+                         + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}...`;
     CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
 
     // migrate actors
@@ -69,11 +67,8 @@ export default class CPRMigration {
 
     this.statusPercent += 25;
     this.statusMessage = `${CPRSystemUtils.Localize("CPR.migration.status.start")} `
-                        + `${CPRSystemUtils.Localize("CPR.migration.status.scenes")}, `
-                        + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}. `
-                        + `[${CPRSystemUtils.Localize("CPR.migration.status.completed")}: `
-                        + `${CPRSystemUtils.Localize("CPR.migration.status.items")}, `
-                        + `${CPRSystemUtils.Localize("CPR.migration.status.actors")}]`;
+                         + `${CPRSystemUtils.Localize("CPR.migration.status.scenes")}, `
+                         + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}...`;
     CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
 
     // unlinked actors (tokens)
@@ -84,11 +79,7 @@ export default class CPRMigration {
 
     this.statusPercent += 25;
     this.statusMessage = `${CPRSystemUtils.Localize("CPR.migration.status.start")} `
-                        + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}. `
-                        + `[${CPRSystemUtils.Localize("CPR.migration.status.completed")}: `
-                        + `${CPRSystemUtils.Localize("CPR.migration.status.items")}, `
-                        + `${CPRSystemUtils.Localize("CPR.migration.status.actors")}, `
-                        + `${CPRSystemUtils.Localize("CPR.migration.status.scenes")}]`;
+                         + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}...`;
     CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
 
     // compendia
@@ -98,12 +89,7 @@ export default class CPRMigration {
     }
 
     this.statusPercent = 100;
-    this.statusMessage = `${CPRSystemUtils.Localize("CPR.migration.status.finished")}`
-                      + `[${CPRSystemUtils.Localize("CPR.migration.status.completed")}: `
-                      + `${CPRSystemUtils.Localize("CPR.migration.status.items")}, `
-                      + `${CPRSystemUtils.Localize("CPR.migration.status.actors")}, `
-                      + `${CPRSystemUtils.Localize("CPR.migration.status.scenes")}, `
-                      + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}]`;
+    this.statusMessage = `${CPRSystemUtils.Localize("CPR.migration.status.migrationsComplete")}`;
     CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
 
     // In the future, put top-level migrations for tokens, scenes, and other things here

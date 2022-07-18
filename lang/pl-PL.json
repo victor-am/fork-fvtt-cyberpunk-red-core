@@ -824,8 +824,6 @@
     "CPR.migration.status.actors": "Actors",
     "CPR.migration.status.compendia": "Compendia",
     "CPR.migration.status.compendiaErrors": "Errors during Compendia migration, aborting",
-    "CPR.migration.status.completed": "COMPLETED",
-    "CPR.migration.status.finshed": "Migration finished.",
     "CPR.migration.status.itemErrors": "Errors during Item migration, aborting",
     "CPR.migration.status.items": "Items",
     "CPR.migration.status.migrationsComplete": "Migrations complete!",

@@ -2093,7 +2093,6 @@ form input.number {
 .active-effect-sheet .effect-change .key {
   flex: 4;
 }
-/* Re-added to .less for consistency. This comment is to pass the pipeline */
 .summary-effect-name {
   overflow: hidden;
   text-overflow: ellipsis;
