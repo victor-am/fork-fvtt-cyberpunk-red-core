@@ -2093,6 +2093,7 @@ form input.number {
 .active-effect-sheet .effect-change .key {
   flex: 4;
 }
+/* comment to pass pipeline while trying to re-sync main.ss and less files */
 .summary-effect-name {
   overflow: hidden;
   text-overflow: ellipsis;
