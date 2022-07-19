@@ -17,17 +17,15 @@ export default class BaseMigration extends CPRMigration {
     LOGGER.trace("run | 0-base Migration");
     LOGGER.log(`Migrating to data model version ${this.version} (legacy migration script)`);
     let totalCount = game.items.contents.length;
-    let quarterCount = totalCount / 4;
+    let watermarkCount = (totalCount / 24) + 1;
     let loopIndex = 0;
-    let displayPercent = 25;
 
     // Migrate World Items
-    CPRSystemUtils.DisplayMessage("notify", `Beginning migration of ${totalCount} Items.`);
     for (const i of game.items.contents) {
       loopIndex += 1;
-      if (loopIndex > quarterCount) {
-        CPRSystemUtils.DisplayMessage("notify", `Migration of Items ${displayPercent}% completed.`);
-        displayPercent += 25;
+      if (loopIndex > watermarkCount) {
+        this.statusPercent += 1;
+        CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
         loopIndex = 0;
       }
       try {
@@ -43,17 +41,15 @@ export default class BaseMigration extends CPRMigration {
       }
     }
     totalCount = game.actors.contents.length;
-    quarterCount = totalCount / 4;
-    displayPercent = 25;
+    watermarkCount = (totalCount / 24) + 1;
     loopIndex = 0;
 
     // Migrate World Actors
-    CPRSystemUtils.DisplayMessage("notify", `Beginning migration of ${totalCount} Actors.`);
     for (const a of game.actors.contents) {
       loopIndex += 1;
-      if (loopIndex > quarterCount) {
-        CPRSystemUtils.DisplayMessage("notify", `Migration of Actors ${displayPercent}% completed.`);
-        displayPercent += 25;
+      if (loopIndex > watermarkCount) {
+        this.statusPercent += 1;
+        CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
         loopIndex = 0;
       }
 
@@ -75,14 +71,19 @@ export default class BaseMigration extends CPRMigration {
         LOGGER.error(err);
       }
     }
+
     totalCount = game.packs.size;
+    watermarkCount = (totalCount / 24) + 1;
     loopIndex = 0;
 
     // Migrate World Compendiums
-    CPRSystemUtils.DisplayMessage("notify", `Beginning migration of ${totalCount} Packs.`);
     for (const p of game.packs) {
       loopIndex += 1;
-      CPRSystemUtils.DisplayMessage("notify", `Migration of Pack ${loopIndex}/${totalCount} started.`);
+      if (loopIndex > watermarkCount) {
+        this.statusPercent += 1;
+        CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
+        loopIndex = 0;
+      }
 
       if (p.metadata.package === "world") {
         BaseMigration.migrateCompendium(p);

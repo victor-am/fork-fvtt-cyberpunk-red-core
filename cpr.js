@@ -121,6 +121,8 @@ Hooks.once("ready", async () => {
   if (await MR.migrateWorld(dataModelVersion, DATA_MODEL_VERSION)) {
     UpdateScreen.RenderPopup();
   }
+  // Ensure load bar is gone
+  SystemUtils.fadeMigrationBar();
 });
 
 registerHooks();

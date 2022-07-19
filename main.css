@@ -2100,6 +2100,42 @@ form input.number {
 .summary-effect-value {
   align-self: center;
 }
+#cpr-migrating {
+  display: none;
+  width: 100%;
+  height: 16px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid var(--color-border-dark);
+  box-shadow: 0 0 4px #b2c3ff;
+  border-radius: 4px;
+  z-index: calc(var(--z-index-canvas) + 1);
+}
+#cpr-migrating label {
+  line-height: 16px;
+  position: absolute;
+  top: -4px;
+  padding: 0 5px;
+  font-size: var(--font-size-18);
+  color: var(--color-text-light-0);
+  background: rgba(0, 0, 0, 0.6);
+  text-shadow: 1px 1px 6px var(--color-text-light-0);
+}
+#cpr-migrating #cpr-mig-context {
+  left: 5px;
+}
+#cpr-migrating #cpr-mig-progress {
+  top: -4px;
+  right: 0;
+  padding: 0 8px;
+}
+#cpr-migrating #cpr-migration-bar {
+  position: relative;
+  margin: 1px;
+  height: 10px;
+  background: #5d49ff;
+  border: 1px solid #b2c3ff;
+  border-radius: 2px;
+}
 .window-app .window-content {
   background: #eaeaeaff;
 }

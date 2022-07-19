@@ -15,6 +15,8 @@
     are being affected by an Active Effect.
   - Arbitrary skill mods on characters cannot be set in the character sheet any more, that column shows mods coming from active effects now. You can
     still create skill mods with active effects using the Effects tab.
+  - Active effects can affect skills on a character, even custom skills. Note that there is a known issue where a custom skill does not always show up
+    the first time any character is opened. (see issue #440 for details) Closing an reopening the sheet fixes it for the rest of that session.
 - #305 - Drugs and Consumables
   - The Drug item type has been added and has a unique action and usage. This is meant to model consumables, meaning items that stack and can be consumed
     to enjoy some stat or skill benefit.
@@ -68,6 +70,7 @@
 - Re-wording of Bows/Crossbows descriptin in compendium
 - Fix Item Sheet upgrade display count to correctly show upgrade usage
 - Greeter text (the post-migration pop-up window) is displayed as HTML rather than plain text
+- Changed migration status to use a status bar instead of flooding the screen with status messages
 - Ammo can be concealed, and can no longer be "upgraded." Different ammo types (rubber, toxic, etc) are still intact.
 - A few changes to your world may have been made as part of migration activities.
   - Some fields on items were given defaults if they are empty. For example a null price or price category is set to something befitting the
