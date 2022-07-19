@@ -25,7 +25,7 @@ export default class BaseMigration extends CPRMigration {
       loopIndex += 1;
       if (loopIndex > watermarkCount) {
         this.statusPercent += 1;
-        CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
+        CPRSystemUtils.updateMigrationBar(this.statusPercent, this.statusMessage);
         loopIndex = 0;
       }
       try {
@@ -49,7 +49,7 @@ export default class BaseMigration extends CPRMigration {
       loopIndex += 1;
       if (loopIndex > watermarkCount) {
         this.statusPercent += 1;
-        CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
+        CPRSystemUtils.updateMigrationBar(this.statusPercent, this.statusMessage);
         loopIndex = 0;
       }
 
@@ -81,7 +81,7 @@ export default class BaseMigration extends CPRMigration {
       loopIndex += 1;
       if (loopIndex > watermarkCount) {
         this.statusPercent += 1;
-        CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
+        CPRSystemUtils.updateMigrationBar(this.statusPercent, this.statusMessage);
         loopIndex = 0;
       }
 
