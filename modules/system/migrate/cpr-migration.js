@@ -45,7 +45,7 @@ export default class CPRMigration {
                          + `${CPRSystemUtils.Localize("CPR.migration.status.actors")}, `
                          + `${CPRSystemUtils.Localize("CPR.migration.status.scenes")}, `
                          + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}...`;
-    CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
+    CPRSystemUtils.updateMigrationBar(this.statusPercent, this.statusMessage);
 
     if (!await CPRMigration.migrateItems(classRef)) {
       CPRSystemUtils.DisplayMessage("error", CPRSystemUtils.Localize("CPR.migration.status.itemErrors"));
@@ -57,7 +57,7 @@ export default class CPRMigration {
                          + `${CPRSystemUtils.Localize("CPR.migration.status.actors")}, `
                          + `${CPRSystemUtils.Localize("CPR.migration.status.scenes")}, `
                          + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}...`;
-    CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
+    CPRSystemUtils.updateMigrationBar(this.statusPercent, this.statusMessage);
 
     // migrate actors
     if (!await this.migrateActors()) {
@@ -69,7 +69,7 @@ export default class CPRMigration {
     this.statusMessage = `${CPRSystemUtils.Localize("CPR.migration.status.start")} `
                          + `${CPRSystemUtils.Localize("CPR.migration.status.scenes")}, `
                          + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}...`;
-    CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
+    CPRSystemUtils.updateMigrationBar(this.statusPercent, this.statusMessage);
 
     // unlinked actors (tokens)
     if (!await this.migrateScenes()) {
@@ -80,7 +80,7 @@ export default class CPRMigration {
     this.statusPercent += 25;
     this.statusMessage = `${CPRSystemUtils.Localize("CPR.migration.status.start")} `
                          + `${CPRSystemUtils.Localize("CPR.migration.status.compendia")}...`;
-    CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
+    CPRSystemUtils.updateMigrationBar(this.statusPercent, this.statusMessage);
 
     // compendia
     if (!await this.migrateCompendia(classRef)) {
@@ -90,7 +90,7 @@ export default class CPRMigration {
 
     this.statusPercent = 100;
     this.statusMessage = `${CPRSystemUtils.Localize("CPR.migration.status.migrationsComplete")}`;
-    CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
+    CPRSystemUtils.updateMigrationBar(this.statusPercent, this.statusMessage);
 
     // In the future, put top-level migrations for tokens, scenes, and other things here
 
@@ -214,7 +214,7 @@ export default class CPRMigration {
       if (loopIndex >= watermark) {
         if (this.statusPercent < 100) {
           this.statusPercent += 1;
-          CPRSystemUtils.updateLoadBar(this.statusPercent, this.statusMessage);
+          CPRSystemUtils.updateMigrationBar(this.statusPercent, this.statusMessage);
         }
         loopIndex = 0;
       }

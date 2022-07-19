@@ -122,7 +122,7 @@ Hooks.once("ready", async () => {
     UpdateScreen.RenderPopup();
   }
   // Ensure load bar is gone
-  SystemUtils.fadeLoadBar();
+  SystemUtils.fadeMigrationBar();
 });
 
 registerHooks();
