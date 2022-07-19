@@ -433,6 +433,7 @@ export default class CPRSystemUtils {
     LOGGER.trace("updateMigrationBar | CPRSystemUtils");
     const migrating = document.getElementById("cpr-migrating");
     if (migrating === null) {
+      // Add the migration bar to the document since it is not there
       const migrationNode = document.createElement("div");
       migrationNode.id = "cpr-migrating";
       migrationNode.style = `display: block;`;
@@ -452,6 +453,7 @@ export default class CPRSystemUtils {
       const uiTop = document.getElementById("ui-top");
       uiTop.appendChild(migrationNode);
     } else {
+      // Update the existing bar
       migrating.querySelector("#cpr-mig-context").textContent = updateStatus;
       migrating.querySelector("#cpr-mig-progress").textContent = `${percent}%`;
       migrating.children["cpr-migration-bar"].style = `width: ${percent}%`;
