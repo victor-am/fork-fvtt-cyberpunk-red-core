@@ -8,7 +8,7 @@
         <div class="rollcard-subtitle-right">
           <a class="clickable" data-action="rollDamage" data-actor-id="{{entityData.actor}}" data-damage-location="{{location}}"
            data-token-id="{{entityData.token}}" data-attack-type="autofire" data-item-id="{{entityData.item}}">
-            <i class="fas fa-tint red-fg" title="Damage"></i>
+            <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
           </a>
         </div>
          {{#if rollCardExtraArgs.ammoType}}
@@ -53,6 +53,9 @@
             <span class="text-normal text-nowrap">{{localize "CPR.rolls.rollMods"}}: {{mods}}</span>
             <div class="text-normal text-bold text-nowrap">{{localize "CPR.rolls.mods"}} {{localize "CPR.rolls.total"}}:
               {{totalMods}}</div>
+            {{/if}}
+            {{#if luck}}
+            <div class="text-normal text-bold text-nowrap">{{localize "CPR.global.stats.luck"}}: {{luck}}</div>
             {{/if}}
           </div>
         </div>

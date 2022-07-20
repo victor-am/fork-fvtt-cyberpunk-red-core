@@ -94,7 +94,6 @@ export default class CPRActorSheet extends ActorSheet {
       });
       data.filteredItems.programsInstalled = programsInstalled;
       data.filteredEffects = this.prepareActiveEffectCategories();
-      data.filteredItemActions = {};
     }
 
     return data;
@@ -356,6 +355,14 @@ export default class CPRActorSheet extends ActorSheet {
     // Post roll tasks
     if (cprRoll instanceof CPRRolls.CPRDeathSaveRoll) {
       cprRoll.saveResult = this.actor.processDeathSave(cprRoll);
+    }
+
+    // "Consume" LUCK if used
+    if (Number.isInteger(cprRoll.luck) > 0) {
+      const luckStat = this.actor.data.data.stats.luck.value;
+      this.actor.update({
+        "data.stats.luck.value": luckStat - ((cprRoll.luck > luckStat) ? luckStat : cprRoll.luck),
+      });
     }
 
     // output to chat

@@ -2,7 +2,6 @@
 /* global duplicate Item */
 
 import CPR from "../../config.js";
-
 import CPRMigration from "../cpr-migration.js";
 import CPRSystemUtils from "../../../utils/cpr-systemUtils.js";
 import LOGGER from "../../../utils/cpr-logger.js";
@@ -43,7 +42,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
       type: item.type,
       data: item.data.data,
       folder: this.migrationFolder,
-      flags: { "cyberpunk-red-core": { cprItemMigrating: true } },
+    }, {
+      isMigrating: true,
     });
   }
 
@@ -94,8 +94,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
       }];
       await ActiveEffectsMigration.addActiveEffect(actor, name, changes);
     }
-    // skill mods are applied directly to the actor because the skill "items" cannot be accessed in the UI,
-    // at least not the core ones
+    // Skill mods are applied directly to the actor because core skill "items" cannot be accessed in
+    // the UI. Nor do they have the AE data template.
     for (const skill of actor.items.filter((i) => i.type === "skill")) {
       if (skill.data.data.skillmod && skill.data.data.skillmod !== 0) {
         const name = ` ${CPRSystemUtils.Localize("CPR.migration.effects.skill")} ${skill.name}`;
@@ -105,19 +105,29 @@ export default class ActiveEffectsMigration extends CPRMigration {
           value: skill.data.data.skillmod,
           priority: 0,
         }];
-        await ActiveEffectsMigration.addActiveEffect(actor, name, changes);
+        // Note this is the one place with force the change category to "skill". This is required
+        // for custom skills to work; they will never be in the CPR.activeEffectsKeys object.
+        await ActiveEffectsMigration.addActiveEffect(actor, name, changes, ["skill"]);
       }
     }
     updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "data.skills") };
     updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "data.roleInfo.roles") };
     updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "data.roleInfo.roleskills") };
     updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "data.universalBonuses") };
+
+    // Update derivedStats with walk/run values
+    updateData["data.derivedStats.walk"] = {
+      value: actor.data.data.stats.move.value * 2,
+    };
+    updateData["data.derivedStats.run"] = {
+      value: actor.data.data.stats.move.value * 4,
+    };
+
     await actor.update(updateData);
 
     // Finally, migrate their owned items by copying from the item directory to their inventory
     // on success, we delete the item from the directory, they should all be empty at the end.
     // Egregious violation of no-await-in-loop here, but not sure how else to approach.
-    let doneItems = 0;
     // We deliberately skip skills because for core skills their AEs cannot be edited or viewed
     // They are applied to the actor instead for this migration (see earlier code)
     const ownedItems = actor.items.filter((i) => {
@@ -126,7 +136,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
       return true;
     });
     const createAeItemTypes = ["program", "weapon", "clothing", "gear"];
-    const totalItems = ownedItems.length;
     const deleteItems = [];
     const remappedItems = {};
     for (const ownedItem of ownedItems) {
@@ -146,14 +155,11 @@ export default class ActiveEffectsMigration extends CPRMigration {
         throw new Error(`${ownedItem.data.name} (${ownedItem.data._id}) had a migration error: ${err.message}`);
       }
       if (createAeItemTypes.includes(ownedItem.data.type)) {
-        await newItem.setFlag("cyberpunk-red-core", "cprItemMigrating", true);
-        const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data]);
+        const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data], { isMigrating: true });
         remappedItems[ownedItem.data._id] = createdItem[0].data._id;
         await newItem.delete();
         deleteItems.push(ownedItem.data._id);
       }
-      doneItems += 1;
-      if (doneItems % 25 === 0) CPRSystemUtils.DisplayMessage("notify", `${doneItems}/${totalItems} owned items on ${actor.name} migrated so far`);
     }
     // delete all of the owned items we have replaced with items that have AEs
     const deleteList = [];
@@ -221,11 +227,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
         });
       }
       await actor.updateEmbeddedDocuments("Item", updateList);
-      const removeItemFlags = [];
-      for (const item of actor.items) {
-        removeItemFlags.push(item.unsetFlag("cyberpunk-red-core", "cprItemMigrating"));
-      }
-      await Promise.all(removeItemFlags);
     }
   }
 
@@ -239,9 +240,10 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *   mode: {Number}                   // the AE mode that is appropriate (see cpr-effects.js, you probably want 2)
    *   value: {Number}                  // how much to change the skill by
    *   priority: {Number}               // the order in which the change is applied, start at 0
+   * @param {Array:String} cats         // an array of change categories (skill, combat, netrun, etc) to match with changes
    * @returns {CPRActiveEffect}
    */
-  static async addActiveEffect(document, effectName, changes) {
+  static async addActiveEffect(document, effectName, changes, cats = null) {
     LOGGER.trace("addActiveEffect | 1-activeEffects Migration");
     if (document.isOwned) return;
     const [effect] = await document.createEffect();
@@ -251,17 +253,24 @@ export default class ActiveEffectsMigration extends CPRMigration {
       changes,
     };
     let index = 0;
-    changes.forEach((change) => {
-      // do a reverse look up on the activeEffectKeys object in config.js; given an AE key, find the category
-      // the key category is saved as a flag on the AE document for the UI to pull later
-      for (const [category, entries] of Object.entries(CPR.activeEffectKeys)) {
-        if (typeof entries[change.key] !== "undefined") {
-          newData[`flags.cyberpunk-red-core.changes.${index}`] = category;
-          break;
+    if (cats === null) {
+      changes.forEach((change) => {
+        // do a reverse look up on the activeEffectKeys object in config.js; given an AE key, find the category
+        // the key category is saved as a flag on the AE document for the UI to pull later
+        for (const [category, entries] of Object.entries(CPR.activeEffectKeys)) {
+          if (typeof entries[change.key] !== "undefined") {
+            newData[`flags.cyberpunk-red-core.changes.${index}`] = category;
+            break;
+          }
         }
-      }
-      index += 1;
-    });
+        index += 1;
+      });
+    } else {
+      changes.forEach(() => {
+        newData[`flags.cyberpunk-red-core.changes.${index}`] = cats[index];
+        index += 1;
+      });
+    }
     await document.updateEmbeddedDocuments("ActiveEffect", [newData]);
   }
 
@@ -269,15 +278,10 @@ export default class ActiveEffectsMigration extends CPRMigration {
    * Items changed in so many ways it seemed best to break out a separate migration
    * path for each item type.
    *
-   * TODO: understand how upgrade slots work for different item types
-   *       this was originally in a case statement in the item code, now split per-type
-   *       can subclasses override a function provided by the upgradeable mixin?
-   *
    * @param {CPRItem} item
    */
   static async migrateItem(item) {
     LOGGER.trace("migrateItem | 1-activeEffects Migration");
-    await item.setFlag("cyberpunk-red-core", "cprItemMigrating", true);
     switch (item.type) {
       case "ammo":
         await ActiveEffectsMigration.updateAmmo(item);
@@ -327,7 +331,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
         // note: drug was introduced with this release, so it will not fall through here
         LOGGER.warn(`An unrecognized item type was ignored: ${item.type}. It was not migrated!`);
     }
-    await item.unsetFlag("cyberpunk-red-core", "cprItemMigrating");
   }
 
   /**
@@ -414,7 +417,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *    Gained slots for upgrades
    *    Lost amount - create duplicate items in inventory
    *
-   * @param {CPRItem} clothing
+   * @param {CPRItem} armor
    */
   static async updateArmor(armor) {
     LOGGER.trace("updateArmor | 1-activeEffects Migration");
@@ -496,10 +499,10 @@ export default class ActiveEffectsMigration extends CPRMigration {
    *    Migrate Upgrades
    *    Gained usage
    *    Lost charges
-   *    Lost slotSize
-   *    Gained size
+   *    Lost slotSize, renamed to "size"
    *    Gained slots for upgrades
    *    if price is 0 and category is empty, set to 500/premium
+   *    if `isWeapon` is a string convert to boolean
    *
    * @param {CPRItem} cyberware
    */
@@ -512,6 +515,17 @@ export default class ActiveEffectsMigration extends CPRMigration {
     updateData = { ...updateData, ...CPRMigration.safeDelete(cyberware, "data.charges") };
     updateData = { ...updateData, ...CPRMigration.safeDelete(cyberware, "data.slotSize") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(cyberware, 500) };
+
+    // Migrate cyberware to use booleans for `isWeapon`
+    // some already are bools so check if we actually need to migrate first
+    if (typeof cyberware.data.data.isWeapon === "string") {
+      if (cyberware.data.data.isWeapon === "true") {
+        updateData["data.isWeapon"] = true;
+      } else {
+        updateData["data.isWeapon"] = false;
+      }
+    }
+
     await cyberware.update(updateData);
   }
 
@@ -560,7 +574,12 @@ export default class ActiveEffectsMigration extends CPRMigration {
         for (const [dataPoint, settings] of Object.entries(upgradeItem.data.modifiers)) {
           const { value } = settings;
           if (typeof value === "number") {
-            const key = `data.stats.${dataPoint}.value`;
+            let key;
+            if (dataPoint === "luck" || dataPoint === "emp") {
+              key = `data.stats.${dataPoint}.max`;
+            } else {
+              key = `data.stats.${dataPoint}.value`;
+            }
             const mode = (settings.type === "modifier") ? 2 : 1;
             changes.push({
               key,
@@ -585,7 +604,6 @@ export default class ActiveEffectsMigration extends CPRMigration {
    * itemUpgrades
    *    Lost quality
    *    Lost charges
-   *    confirm how upgrades and slots work
    *    modifiers.secondaryWeapon.configured = false if not already defined
    *    if price is 0 and category is empty, set to 500/premium
    *    Lost amount - create duplicate items
@@ -686,21 +704,15 @@ export default class ActiveEffectsMigration extends CPRMigration {
 
   /**
    * Skill:
-   *    "skillmod" property converted to AEs
+   *    "skillmod" property is removed; use AEs on the actor instead
+   *
+   * This call assumes the AEs are created on the actor already.
    *
    * @param {CPRItem} skill
    */
   static async updateSkill(skill) {
     LOGGER.trace("updateSkill | 1-activeEffects Migration");
     let updateData = {};
-    const name = CPRSystemUtils.Localize("CPR.migration.effects.skill");
-    const changes = [{
-      key: `bonuses.${CPRSystemUtils.slugify(skill.name)}`,
-      value: skill.data.data.skillmod,
-      mode: 2,
-      priority: 0,
-    }];
-    await ActiveEffectsMigration.addActiveEffect(skill, name, changes);
     updateData = { ...updateData, ...CPRMigration.safeDelete(skill, "data.skillmod") };
     await skill.update(updateData);
   }
@@ -708,7 +720,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
   /**
    * Vehicle
    *    Lost quality
-   *    Lost ammount - create duplicate items
+   *    Lost amount - create duplicate items
    *    if price is 0 and category is empty, set to 10000/premium
    *    Gained slots for upgrades
    *

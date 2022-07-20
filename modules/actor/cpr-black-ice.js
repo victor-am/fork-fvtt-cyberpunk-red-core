@@ -38,13 +38,13 @@ export default class CPRBlackIceActor extends Actor {
    * of the roll code in cpr-actor.js is implemented here.
    *
    * @param {String} statName - name of the stat being rolled (DEF, ATK, etc)
-   * @returns {CPRStatRoll}
+   * @returns {CPRProgramStatRoll}
    */
   createStatRoll(statName) {
     LOGGER.trace("createStatRoll | CPRBlackIceActor | called.");
     const niceStatName = SystemUtils.Localize(CPR.blackIceStatList[statName]);
     const statValue = parseInt(this.data.data.stats[statName], 10);
-    const cprRoll = new CPRRolls.CPRStatRoll(niceStatName, statValue);
+    const cprRoll = new CPRRolls.CPRProgramStatRoll(niceStatName, statValue);
     if (this.isToken && typeof this.token.data.flags["cyberpunk-red-core"] !== "undefined") {
       const cprFlags = this.token.data.flags["cyberpunk-red-core"];
       if (typeof cprFlags.program !== "undefined") {

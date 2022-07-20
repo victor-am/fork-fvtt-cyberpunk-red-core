@@ -36,13 +36,13 @@ export default class CPRDemonActor extends Actor {
    * Very simple code to roll a stat
    *
    * @param {String} statName - the name of the stat being rolled
-   * @returns {CPRStatRoll}
+   * @returns {CPRProgramStatRoll}
    */
   createStatRoll(statName) {
     LOGGER.trace("createStatRoll | CPRDemonActor | called.");
     const niceStatName = SystemUtils.Localize(CPR.demonStatList[statName]);
     const statValue = parseInt(this.data.data.stats[statName], 10);
-    return new CPRRolls.CPRStatRoll(niceStatName, statValue);
+    return new CPRRolls.CPRProgramStatRoll(niceStatName, statValue);
   }
 
   /**

@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 /* global game, Application, mergeObject */
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
@@ -34,6 +33,8 @@ export default class UpdateScreen extends Application {
 
     const releaseInstructions = (response.status === 200) ? await response.text() : "";
 
+    // TODO: releaseInstructions is external html, should Handlebars.SafeString be called? It seems to
+    //       always returns nothing though.
     const data = {
       updateBanner: SystemUtils.Format("CPR.system.update.welcomeToSystem", { system: game.system.data.title }),
       releaseVersion: game.system.data.version,

@@ -162,6 +162,14 @@
       "path": "packs/net-rolltables.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Drugs",
+      "type": "Item",
+      "name": "drugs-items",
+      "path": "packs/drugs.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
     }
   ],
   "languages": [
@@ -169,6 +177,11 @@
       "lang": "en",
       "name": "English",
       "path": "lang/en.json"
+    },
+    {
+      "lang": "de",
+      "name": "German",
+      "path": "lang/de-DE.json"
     },
     {
       "lang": "fr",

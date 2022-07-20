@@ -71,6 +71,12 @@
             "max": 40,
             "transactions": []
           },
+          "walk": {
+            "value": 0
+          },
+          "run": {
+            "value": 0
+          },
           "roleInfo": {
             "activeNetRole": "",
             "activeRole": ""

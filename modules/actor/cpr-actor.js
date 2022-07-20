@@ -65,6 +65,8 @@ export default class CPRActor extends Actor {
         }
       }
     });
+    this.data.bonuses.run = 0;
+    this.data.bonuses.walk = 0;
     this.data.bonuses.deathSavePenalty = 0;
     this.data.bonuses.hands = 0;
     this.data.bonuses.initiative = 0;

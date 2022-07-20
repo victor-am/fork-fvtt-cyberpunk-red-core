@@ -3,20 +3,20 @@
 **New Features**
 - #225 - Active effects for Items
   - Active Effects are a Foundry feature that allow items to apply modifications to stats and skills of characters in the game. Active Effects can also be added to Characters arbitrarily without associating to an item.
-  - An Effects tab on the actor sheet has been added to summarize where active effects are coming from. From there character-level effects can be 
+  - An Effects tab on the actor sheet has been added to summarize where active effects are coming from. From there character-level effects can be
     managed. (create/toggle/edit/delete). Effects from Items cannot be edited or deleted from this tab. Mooks do not yet enjoy Active Effects.
   - An Active Effect has a "usage" associated with it on an item. This affects when the effect will be applied. Examples are when carried, when equipped,
     toggling it on/off yourself or always on. Some specialized ones exist too: Cyberware allows for "when installed." More may be added in the future.
-  - The following item types can have Active Effects added to them: armor, clothing, drugs (more on that next), gear, cyberware, weapons, and 
+  - The following item types can have Active Effects added to them: armor, clothing, drugs (more on that next), gear, cyberware, weapons, and
     injuries (see #290).
   - Active effects can be applied to stats, skills, role abilities, a handful of derived stats (like HP), or custom keys in a manner similar to what 5E
     expects. Only plain addition or subtraction modes are supported.
   - A MOD column has been added to the Role tab in a manner similar to what we have for skills already. Like skills, this makes it clear which abilities
     are being affected by an Active Effect.
-  - Weapon quality is now an active effect that increases the attack bonus. We removed the fields in the weapon sheet to set weapon qualities or attack 
-    bonuses. See the weapon compendium for examples. Active Effects still give you all of the flexibility and power you had before.
-  - Arbitrary skill mods on characters cannot be set in the character sheet any more, that column shows mods coming from active effects now. You can 
+  - Arbitrary skill mods on characters cannot be set in the character sheet any more, that column shows mods coming from active effects now. You can
     still create skill mods with active effects using the Effects tab.
+  - Active effects can affect skills on a character, even custom skills. Note that there is a known issue where a custom skill does not always show up
+    the first time any character is opened. (see issue #440 for details) Closing an reopening the sheet fixes it for the rest of that session.
 - #305 - Drugs and Consumables
   - The Drug item type has been added and has a unique action and usage. This is meant to model consumables, meaning items that stack and can be consumed
     to enjoy some stat or skill benefit.
@@ -26,6 +26,11 @@
 - Feature Add: Player ability to sell to Vendors by drag/dropping from character sheet to Vendor.
   - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item.  Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb.
 - Feature Request #179: Add ability to track reputation and roll face down.
+- Add Light/Medium/Heavy/Very Heavy Generic Melee Weapons.
+- Support for the Drag Ruler module
+- Feature Request #424: Ability to use LUCK on Stat, Skill, Attack, Program, Cyberdeck, and Interface/Charismatic Impact rolls. Automatically deducts from character sheet.
+- #414 - German is now a supported language. Most game system text (excluding pre-made items) will appear in this language if set in game settings. Thank you to our German translators: High123, Similar and Tealk.
+
 
 **Changes**
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience.
@@ -37,18 +42,17 @@
 - Feature Request #379: Added ability to populate a NET architecture with the help of rolltables. It also rolls for the number of floors (3d6) and how many branches there should be. (see p. 210 in the book)
 - Even more icons!
   - Icons for each street drug
-  - Icons for each pharmaceutical 
+  - Icons for each pharmaceutical
   - Even more status icons
 - Change Character sheet Wound State to unique icons rather than the font-awesome smileyfaces
-- CUB Condition Map json file, ready to be imported to CUB COndition Lab
+- CUB Condition Map json file, ready to be imported to CUB Condition Lab
 - Format Eurobucks displays in a more readable way
 - Use fantasy style icons for items when generating the ELO Armory
 - Add Head armor generation to ELO Armory Macro
 - Add missing Lifepath questions
 - Fix ordering of Lifepath items to match Book order
 - Rename Excellent/Poor Quality Weapon/Cyberdeck Compendium items for easier sorting
-
-**Changes**
+- Add `walk`/`run` as derivedStats
 - Feature Request #352: Removed the fixed height CSS for the "Player Notes" section in the lifepath tab for a better writing/reading experience
 - Consolidated gain, lose and set ledger functions for EB, IP and Reputation to make it more manageable
 - Renamed included maps to better differentiate them from other map packs
@@ -64,6 +68,19 @@
 - Adjusted the formatting of issues templates for easier filling out
 - Set upgrade slots to 0 on melee, cyberware, and exotic weapons in the compendium
 - Re-wording of Bows/Crossbows descriptin in compendium
+- Fix Item Sheet upgrade display count to correctly show upgrade usage
+- Greeter text (the post-migration pop-up window) is displayed as HTML rather than plain text
+- Changed migration status to use a status bar instead of flooding the screen with status messages
+- Ammo can be concealed, and can no longer be "upgraded." Different ammo types (rubber, toxic, etc) are still intact.
+- A few changes to your world may have been made as part of migration activities.
+  - Some fields on items were given defaults if they are empty. For example a null price or price category is set to something befitting the
+  item type. It is still a guess, but now there is possibly correct data instead of definitely wrong or useless data. 
+  - Clothing and gear upgrades were converted to active effects.
+  - Armor, programs, netarch, vehicles, and weapons cannot be stacked any more. Duplicate items may have been created (up to 50) in players' inventories.
+  - The *quality* field has been removed from items (weapons, cyberdecks and vehicles) to avoid confusion about whether to change values in other fields. 
+    You can still use the name and other fields (such at attack modifier) to express excellent quality items.
+  - Some item types (weapons, vehicles) no longer "stack." They do not have an amount field any more.
+
 
 
 **Bug Fixes**
@@ -81,6 +98,7 @@
 - Fixed #387: Fixed adding macros for cyberware weapons
 - Fixed #390: Rubber Shotgun Slugs are considered Heavy Pistol Ammo
 - Fixed #416: Excellent Weapons missing +1 to attack
+- Fixed #433: Fixed some hard-coded text to now use the localized strings
 
 **Maintenance items**
 - Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js

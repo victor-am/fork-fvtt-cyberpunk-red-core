@@ -148,7 +148,6 @@ export default class CPRContainerActor extends Actor {
    * Change the value of a property and store a record of the change in the corresponding
    * ledger.
    *
-   * @param {String} prop - name of the property that has a ledger
    * @param {Number} value - how much to increase or decrease the value by
    * @param {String} reason - a user-provided reason for the change
    * @returns {Number} (or null if not found)
@@ -157,7 +156,7 @@ export default class CPRContainerActor extends Actor {
     LOGGER.trace("recordTransaction | CPRContainerActor | Called.");
     // update "value"; it may be negative
     const actorData = duplicate(this.data);
-    let newValue = getProperty(actorData, "data.wealth.value");
+    let newValue = getProperty(actorData, "data.wealth.value") || 0;
     let transactionSentence;
     let transactionType = "set";
 
