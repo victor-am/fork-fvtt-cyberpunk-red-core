@@ -1,11 +1,14 @@
 {
-  "version": "0.81.0",
+  "version": "0.82.0",
   "flags": { "featureVideoURL": "https://www.youtube.com/watch?v=2EJoC5oNWII" },
-  "name": "cyberpunk-red-core",
+  "id": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
-  "minimumCoreVersion": "9",
-  "compatibleCoreVersion": "9",
+  "compatibility": {
+    "minimum": 10,
+    "verified": 10,
+    "maximum": 10
+  },
   "templateVersion": 2,
   "author": "The Project Red Team",
   "esmodules": ["cpr.js"],
@@ -179,9 +182,9 @@
       "path": "lang/en.json"
     },
     {
-      "lang": "de",
-      "name": "German",
-      "path": "lang/de-DE.json"
+      "lang": "pl",
+      "name": "Polish",
+      "path": "lang/pl-PL.json"
     },
     {
       "lang": "fr",
