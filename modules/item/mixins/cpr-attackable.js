@@ -85,24 +85,7 @@ const Attackable = function Attackable() {
     }
 
     // Account for an upgrade that gives an attackmod bonus
-    let attackMod = weaponData.attackmod;
-    const itemEntities = game.system.template.Item;
-    const itemType = this.type;
-    if (itemEntities[itemType].templates.includes("upgradable") && this.data.data.isUpgraded) {
-      const upgradeValue = this.getAllUpgradesFor("attackmod");
-      const upgradeType = this.getUpgradeTypeFor("attackmod");
-      if (upgradeValue !== "" && upgradeValue !== 0) {
-        if (upgradeType === "override") {
-          attackMod = upgradeValue;
-        } else if (typeof upgradeValue !== "number") {
-          if (upgradeValue !== 0 && upgradeValue !== "") {
-            attackMod = `${attackMod} + ${upgradeValue}`;
-          }
-        } else {
-          attackMod += upgradeValue;
-        }
-      }
-    }
+    const attackMod = this._getAttackMod();
 
     const skillName = skillItem.data.name;
     // total up bonuses from skills and stats
