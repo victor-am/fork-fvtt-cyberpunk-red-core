@@ -698,6 +698,15 @@ export default class ActiveEffectsMigration extends CPRMigration {
     LOGGER.trace("updateRole | 1-activeEffects Migration");
     let updateData = {};
     updateData["data.bonuses"] = role.data.data.skillBonuses;
+    const roleAbilities = role.data.data.abilities;
+    const updatedRoleAbilities = [];
+    roleAbilities.forEach((ra) => {
+      const newRoleAbility = ra;
+      newRoleAbility.bonuses = ra.skillBonuses;
+      delete newRoleAbility.skillBonuses;
+      updatedRoleAbilities.push(newRoleAbility);
+    });
+    updateData["data.abilities"] = updatedRoleAbilities;
     updateData = { ...updateData, ...CPRMigration.safeDelete(role, "data.quality") };
     await role.update(updateData);
   }
