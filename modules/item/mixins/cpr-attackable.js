@@ -1,3 +1,5 @@
+/* global game */
+
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import Rules from "../../utils/cpr-rules.js";
@@ -78,6 +80,26 @@ const Attackable = function Attackable() {
       if (!this.data.data.fireModes.suppressiveFire) {
         if (this.data.data.weaponType !== "smg" && this.data.data.weaponType !== "heavySmg" && this.data.data.weaponType !== "assaultRifle") {
           Rules.lawyer(false, "CPR.messages.weaponDoesntSupportAltMode");
+        }
+      }
+    }
+
+    // Account for an upgrade that gives an attackmod bonus
+    let attackMod = weaponData.attackmod;
+    const itemEntities = game.system.template.Item;
+    const itemType = this.type;
+    if (itemEntities[itemType].templates.includes("upgradable") && this.data.data.isUpgraded) {
+      const upgradeValue = this.getAllUpgradesFor("attackmod");
+      const upgradeType = this.getUpgradeTypeFor("attackmod");
+      if (upgradeValue !== "" && upgradeValue !== 0) {
+        if (upgradeType === "override") {
+          attackMod = upgradeValue;
+        } else if (typeof upgradeValue !== "number") {
+          if (upgradeValue !== 0 && upgradeValue !== "") {
+            attackMod = `${attackMod} + ${upgradeValue}`;
+          }
+        } else {
+          attackMod += upgradeValue;
         }
       }
     }
@@ -165,7 +187,7 @@ const Attackable = function Attackable() {
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
     cprRoll.addMod(actor.getWoundStateMods());
     cprRoll.addMod(skillMod);
-    cprRoll.addMod(weaponData.attackmod);
+    cprRoll.addMod(attackMod);
 
     if (cprRoll instanceof CPRRolls.CPRAttackRoll && weaponData.isRanged) {
       Rules.lawyer(this.hasAmmo(cprRoll), "CPR.messages.weaponAttackOutOfBullets");
