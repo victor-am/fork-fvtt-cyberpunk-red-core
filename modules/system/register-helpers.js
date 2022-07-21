@@ -242,8 +242,8 @@ export default function registerHandlebarsHelpers() {
   /**
    * Show option slots on a cyberware item
    */
-  Handlebars.registerHelper("cprShowOptionSlotStatus", (obj) => {
-    LOGGER.trace("cprShowOptionSlotStatus | handlebarsHelper | Called.");
+  Handlebars.registerHelper("cprShowSlotStatus", (obj) => {
+    LOGGER.trace("cprShowSlotStatus | handlebarsHelper | Called.");
     if (obj.type === "cyberware") {
       const { optionSlots } = obj.data.data;
       if (optionSlots > 0) {
@@ -252,6 +252,13 @@ export default function registerHandlebarsHelpers() {
         return (`- ${installedOptionSlots}/${optionSlots} ${SystemUtils.Localize("CPR.itemSheet.cyberware.optionalSlots")}`);
       }
       LOGGER.trace(`hasOptionalSlots is 0`);
+    }
+    if (obj.type === "cyberdeck") {
+      const upgradeValue = obj.getAllUpgradesFor("slots");
+      const upgradeType = obj.getUpgradeTypeFor("slots");
+      const totalSlots = (upgradeType === "override") ? upgradeValue : obj.data.data.slots + upgradeValue;
+      const usedSlots = obj.data.data.upgrades.length + obj.data.data.programs.installed.length;
+      return (`${usedSlots}/${totalSlots}`);
     }
     return "";
   });
