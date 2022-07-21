@@ -119,15 +119,15 @@ export default class CPRLedger extends FormApplication {
     }
     this.contents.splice(lineId, 1);
     const dataPointTransactions = `data.${this.name}.transactions`;
-    const actorData = duplicate(this.actor.data);
-    setProperty(actorData, dataPointTransactions, this.contents);
+    const cprActorData = duplicate(this.actor.system);
+    setProperty(cprActorData, dataPointTransactions, this.contents);
     // Change the value if desired.
     if (confirmDelete.action && numbers[0] !== "NaN") {
       const dataPointValue = `data.${this.name}.value`;
-      const value = getProperty(actorData, dataPointValue);
-      setProperty(actorData, dataPointValue, value + (confirmDelete.sign * numbers[0]));
+      const value = getProperty(cprActorData, dataPointValue);
+      setProperty(cprActorData, dataPointValue, value + (confirmDelete.sign * numbers[0]));
     }
-    await this.actor.update(actorData);
+    await this.actor.update(cprActorData);
     this._makeLedgerReadable(this.name);
     this.render();
   }

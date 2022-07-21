@@ -17,7 +17,7 @@ export default class CPRContainerActor extends Actor {
   static async create(data, options) {
     LOGGER.trace("create | CPRContainerActor | called.");
     const createData = data;
-    if (typeof data.data === "undefined") {
+    if (typeof data.system === "undefined") {
       LOGGER.trace("create | New Actor | CPRContainerActor | called.");
       createData.token = {
         disposition: 0,
@@ -34,8 +34,8 @@ export default class CPRContainerActor extends Actor {
     LOGGER.trace("prepareData | CPRContainerActor | Called.");
     super.prepareData();
     if (this.compendium === null || this.compendium === undefined) {
-      const actorData = this.data;
-      actorData.filteredItems = this.itemTypes;
+      const cprData = this.system;
+      cprData.filteredItems = this.itemTypes;
     }
   }
 
@@ -52,14 +52,14 @@ export default class CPRContainerActor extends Actor {
     LOGGER.trace("automaticallyStackItems | CPRContainerActor | Called.");
     const stackableItemTypes = ["ammo", "gear", "clothing"];
     if (stackableItemTypes.includes(newItem.type)) {
-      const match = this.items.find((i) => i.type === newItem.type && i.name === newItem.name && i.data.data.upgrades.length === 0);
+      const match = this.items.find((i) => i.type === newItem.type && i.name === newItem.name && i.system.upgrades.length === 0);
       if (match) {
-        let oldAmount = parseInt(match.data.data.amount, 10);
-        let addedAmount = parseInt(newItem.data.data.amount, 10);
+        let oldAmount = parseInt(match.system.amount, 10);
+        let addedAmount = parseInt(newItem.system.amount, 10);
         if (Number.isNaN(oldAmount)) { oldAmount = 1; }
         if (Number.isNaN(addedAmount)) { addedAmount = 1; }
         const newAmount = oldAmount + addedAmount;
-        this.updateEmbeddedDocuments("Item", [{ _id: match.id, "data.amount": newAmount.toString() }]);
+        this.updateEmbeddedDocuments("Item", [{ _id: match.id, "system.amount": newAmount.toString() }]);
         return false;
       }
     }
@@ -140,7 +140,7 @@ export default class CPRContainerActor extends Actor {
     LOGGER.trace("showLedger | CPRContainerActor | Called.");
     const led = new CPRLedger();
     led.setActor(this);
-    led.setLedgerContent("wealth", getProperty(this.data.data, `wealth.transactions`));
+    led.setLedgerContent("wealth", getProperty(this.system, `wealth.transactions`));
     led.render(true);
   }
 
@@ -155,8 +155,8 @@ export default class CPRContainerActor extends Actor {
   recordTransaction(value, reason) {
     LOGGER.trace("recordTransaction | CPRContainerActor | Called.");
     // update "value"; it may be negative
-    const actorData = duplicate(this.data);
-    let newValue = getProperty(actorData, "data.wealth.value") || 0;
+    const cprData = duplicate(this.system);
+    let newValue = getProperty(cprData, "wealth.value") || 0;
     let transactionSentence;
     let transactionType = "set";
 
@@ -188,15 +188,15 @@ export default class CPRContainerActor extends Actor {
       default:
     }
 
-    setProperty(actorData, "data.wealth.value", newValue);
+    setProperty(cprData, "wealth.value", newValue);
     // update the ledger with the change
-    const ledger = getProperty(actorData, "data.wealth.transactions");
+    const ledger = getProperty(cprData, "wealth.transactions");
     ledger.push([
       SystemUtils.Format(transactionSentence, { property: "wealth", amount: value, total: newValue }),
       reason]);
-    setProperty(actorData, "data.wealth.transactions", ledger);
+    setProperty(cprData, "wealth.transactions", ledger);
     // update the actor and return the modified property
-    this.update(actorData);
-    return getProperty(this.data.data, "wealth");
+    this.update(cprData);
+    return getProperty(this.system, "wealth");
   }
 }

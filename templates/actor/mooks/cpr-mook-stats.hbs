@@ -1,6 +1,6 @@
 {{cprTrace "CPR-MOOK-STATS.HBS"}}
 {{!-- Partials to create stat-units from template --}}
-{{#each data.data.stats as |stat s|}}
+{{#each system.stats as |stat s|}}
   <div class="mook-{{s}}-stat">
     <div>
       <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}" title="{{localize CPR.clicktorollthisstat}}">
@@ -9,7 +9,7 @@
     </div>
     <div class="block-data text-large">
       {{#if (cprCompare s "!==" "luck")}}
-      <input class="" name="data.stats.{{s}}.value" type="number" value="{{this.value}}"/>
+      <input class="" name="system.stats.{{s}}.value" type="number" value="{{this.value}}"/>
       {{else}}
       <input class="" name="dash" type="text" readonly value="-"/>
       {{/if}}

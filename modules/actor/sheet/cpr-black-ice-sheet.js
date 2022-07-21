@@ -80,7 +80,7 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
     await cprRoll.roll();
 
     // output to chat
-    const token = this.token === null ? null : this.token.data._id;
+    const token = this.token === null ? null : this.token._id;
     cprRoll.entityData = { actor: this.actor.id, token };
     CPRChat.RenderRollCard(cprRoll);
   }
@@ -95,7 +95,7 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
    */
   async _configureFromProgram() {
     LOGGER.trace("_configureFromProgram | CPRBlackIceActorSheet | Called.");
-    const biPrograms = game.items.filter((i) => i.type === "program" && i.data.data.class === "blackice");
+    const biPrograms = game.items.filter((i) => i.type === "program" && i.system.class === "blackice");
     const linkedProgramId = (this.actor.isToken) ? this.actor.token.getFlag("cyberpunk-red-core", "programId") : null;
     if (linkedProgramId === null) {
       SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.linkBlackIceWithoutToken"));
@@ -111,20 +111,20 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
       await this.actor.token.unsetFlag("cyberpunk-red-core", "programId");
     } else {
       const program = (biPrograms.filter((p) => p.id === formData.programId))[0];
-      const programData = duplicate(program.data.data);
+      const cprProgramData = duplicate(program.system);
       this.actor.programmaticallyUpdate(
-        programData.blackIceType,
-        programData.per,
-        programData.spd,
-        programData.atk,
-        programData.def,
-        programData.rez,
-        programData.rez,
+        cprProgramData.blackIceType,
+        cprProgramData.per,
+        cprProgramData.spd,
+        cprProgramData.atk,
+        cprProgramData.def,
+        cprProgramData.rez,
+        cprProgramData.rez,
       );
       if (this.actor.isToken) {
-        this.actor.token.data.name = program.name;
-        this.actor.data.name = program.name;
-        await this.actor.token.setFlag("cyberpunk-red-core", "programId", program.data._id);
+        this.actor.token.name = program.name;
+        this.actor.name = program.name;
+        await this.actor.token.setFlag("cyberpunk-red-core", "programId", program._id);
       }
     }
     this.render(true, { renderData: this.data });
@@ -139,6 +139,6 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
    */
   _createBlackIceImageContextMenu(html) {
     LOGGER.trace("_createBlackIceImageContextMenu | CPRBlackIceActorSheet | Called.");
-    return createImageContextMenu(html, ".bice-icon", this.actor.data);
+    return createImageContextMenu(html, ".bice-icon", this.actor);
   }
 }

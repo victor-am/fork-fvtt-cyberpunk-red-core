@@ -197,11 +197,11 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("cprCalculateStackValue", (item) => {
     LOGGER.trace("cprCalculateStackValue | handlebarsHelper | Called.");
     const { type } = item;
-    const price = item.data.data.price.market;
-    const { amount } = item.data.data;
+    const price = item.system.price.market;
+    const { amount } = item.system;
     let totalPrice = amount * price;
     if (type === "ammo") {
-      const { variety } = item.data.data;
+      const { variety } = item.system;
       if (!(variety === "grenade" || variety === "rocket")) {
         totalPrice = (amount / 10) * price;
       }
@@ -237,7 +237,7 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("cprShowOptionSlotStatus", (obj) => {
     LOGGER.trace("cprShowOptionSlotStatus | handlebarsHelper | Called.");
     if (obj.type === "cyberware") {
-      const { optionSlots } = obj.data.data;
+      const { optionSlots } = obj.system;
       if (optionSlots > 0) {
         LOGGER.trace(`hasOptionalSlots is greater than 0`);
         const installedOptionSlots = optionSlots - obj.availableSlots();
@@ -411,8 +411,8 @@ export default function registerHandlebarsHelpers() {
    */
   Handlebars.registerHelper("cprGetSkillStat", (skill, actor) => {
     LOGGER.trace("cprGetSkillStat | handlebarsHelper | Called.");
-    const skillStat = skill.data.data.stat;
-    return actor.data.data.stats[skillStat].value;
+    const skillStat = skill.system.stat;
+    return actor.system.stats[skillStat].value;
   });
 
   /**
@@ -423,7 +423,7 @@ export default function registerHandlebarsHelpers() {
     let returnValue = false;
     const cyberware = actor.getInstalledCyberware();
     cyberware.forEach((cw) => {
-      if (cw.data.data.isWeapon) {
+      if (cw.system.isWeapon) {
         returnValue = true;
       }
     });
@@ -480,7 +480,7 @@ export default function registerHandlebarsHelpers() {
     const sortedSkills = [];
     skillObjArray.forEach((o) => {
       const newElement = o;
-      if (o.data.data.core) {
+      if (o.system.core) {
         const tstring = "CPR.global.skills.".concat(SystemUtils.slugify(o.name));
         newElement.translatedName = SystemUtils.Localize(tstring).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       } else {
@@ -506,9 +506,9 @@ export default function registerHandlebarsHelpers() {
    */
   Handlebars.registerHelper("cprItemIdFromName", (itemName, itemType) => {
     LOGGER.trace("cprItemIdFromName | handlebarsHelper | Called.");
-    const item = game.items.find((i) => i.data.name === itemName && i.type === itemType);
+    const item = game.items.find((i) => i.name === itemName && i.type === itemType);
     if (item !== undefined) {
-      return item.data._id;
+      return item._id;
     }
     return "DOES NOT EXIST";
   });
@@ -535,7 +535,7 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace("cprGetMookSkills | handlebarsHelper | Called.");
     const skillList = [];
     array.forEach((skill) => {
-      if (skill.data.data.level > 0 || skill.data.data.skillmod > 0) {
+      if (skill.system.level > 0 || skill.system.skillmod > 0) {
         skillList.push(skill);
       }
     });
@@ -630,7 +630,7 @@ export default function registerHandlebarsHelpers() {
     const itemEntities = game.system.template.Item;
     const itemType = obj.type;
     let upgradeText = "";
-    if (itemEntities[itemType].templates.includes("upgradable") && obj.data.data.isUpgraded) {
+    if (itemEntities[itemType].templates.includes("upgradable") && obj.system.isUpgraded) {
       const upgradeValue = obj.getAllUpgradesFor(dataPoint);
       if (upgradeValue !== 0 && upgradeValue !== "") {
         const modType = obj.getUpgradeTypeFor(dataPoint);
@@ -653,7 +653,7 @@ export default function registerHandlebarsHelpers() {
     if (Number.isNaN(upgradeResult)) {
       upgradeResult = baseValue;
     }
-    if (itemEntities[itemType].templates.includes("upgradable") && obj.data.data.isUpgraded) {
+    if (itemEntities[itemType].templates.includes("upgradable") && obj.system.isUpgraded) {
       const upgradeValue = obj.getAllUpgradesFor(dataPoint);
       const upgradeType = obj.getUpgradeTypeFor(dataPoint);
       if (upgradeValue !== "" && upgradeValue !== 0) {

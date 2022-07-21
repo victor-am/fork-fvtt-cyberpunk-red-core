@@ -27,7 +27,7 @@ export default class HudInterface {
       formData.dvTable = "";
     }
     const { controlled } = canvas.tokens;
-    const index = controlled.findIndex((x) => x.data._id === tokenData._id);
+    const index = controlled.findIndex((x) => x._id === tokenData._id);
     const token = controlled[index];
     token.document.update({ "flags.cprDvTable": formData.dvTable });
   }

@@ -10,7 +10,7 @@
   </li>
   <div class="netarch-list-content">
     <ol class="items-list">
-      {{#each (cprSort data.data.floors "index") as |floor|}}
+      {{#each (cprSort item.system.floors "index") as |floor|}}
         <li class=" item-netarch-grid item flexrow">
           <div class="netarch-level">{{floor.floor}}{{floor.branch}}</div>
           <div class="netarch-dv">

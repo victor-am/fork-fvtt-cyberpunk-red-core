@@ -1,15 +1,15 @@
-{{cprTrace "CPR-UPGRADABLE.HBS"}}
+{{cprTrace "ITEM-DESC-MIXIN CPR-UPGRADABLE.HBS"}}
 <div class="item-summary-line">
     <span class="text-bold summary-name">
         {{localize "CPR.itemSheet.itemUpgrade.usedSlots"}}:
     </span>
     <span class="summary-value">
         {{#if (cprCompare item.type "===" "cyberware")}}
-            {{data.data.installedOptionSlots}}/{{data.data.slots}}
+            {{item.system.installedOptionSlots}}/{{item.system.slots}}
         {{else if (cprCompare item.type "===" "cyberdeck")}}
-            {{cprMath "sum" data.data.upgrades.length data.data.programs.installed.length}}/{{data.data.slots}}
+            {{cprMath "sum" item.system.upgrades.length item.system.programs.installed.length}}/{{item.system.slots}}
         {{else}}
-            {{data.data.upgrades.length}}/{{data.data.slots}}
+            {{item.system.upgrades.length}}/{{item.system.slots}}
         {{/if}}
     </span>
 </div>

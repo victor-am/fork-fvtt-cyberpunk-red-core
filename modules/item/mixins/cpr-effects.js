@@ -114,7 +114,7 @@ const Effects = function Effects() {
    */
   this.getEffect = function getEffect(eid) {
     LOGGER.trace("getEffect | Effects | Called.");
-    const effect = this.data.effects.get(eid);
+    const effect = this.effects.get(eid);
     if (!effect) {
       LOGGER.error(`Active effect ${eid} does not exist!`);
       return null;
@@ -131,7 +131,7 @@ const Effects = function Effects() {
   this.toggleEffect = function toggleEffect(eid) {
     LOGGER.trace("toggleEffect | Effects | Called.");
     const effect = this.getEffect(eid);
-    const value = !effect.data.disabled;
+    const value = !effect.disabled;
     LOGGER.debug(`Setting disabled on ${eid} to ${value}`);
     if (this.isOwned) {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.itemSheet.effects.editOwnedWarning"));
@@ -149,19 +149,19 @@ const Effects = function Effects() {
   this.getAllowedUsage = function getAllowedUsage() {
     LOGGER.trace("getAllowedUsage | Effects | Called.");
     const usageAllowed = ["always", "toggled"];
-    if (this.data.type === "drug") {
+    if (this.type === "drug") {
       usageAllowed.push("snorted");
     }
-    if (SystemUtils.hasDataModelTemplate(this.data.type, "physical")) {
-      if (this.data.type !== "cyberware") {
+    if (SystemUtils.hasDataModelTemplate(this.type, "physical")) {
+      if (this.type !== "cyberware") {
         usageAllowed.push("carried");
         usageAllowed.push("equipped");
       }
     }
-    if (this.data.type === "cyberware") {
+    if (this.type === "cyberware") {
       usageAllowed.push("installed");
     }
-    if (this.data.type === "program") {
+    if (this.type === "program") {
       usageAllowed.push("rezzed");
     }
     return usageAllowed;
@@ -178,15 +178,15 @@ const Effects = function Effects() {
    */
   this.areEffectsSuppressed = function areEffectsSuppressed() {
     LOGGER.trace("areEffectsSuppressed | Effects | Called.");
-    switch (this.data.data.usage) {
+    switch (this.system.usage) {
       case "carried":
-        return this.data.data.equipped === "owned";
+        return this.system.equipped === "owned";
       case "equipped":
-        return this.data.data.equipped !== "equipped";
+        return this.system.equipped !== "equipped";
       case "installed":
-        return !this.data.data.isInstalled;
+        return !this.system.isInstalled;
       case "rezzed":
-        return !this.data.data.isRezzed;
+        return !this.system.isRezzed;
       default:
         return false;
     }

@@ -190,7 +190,7 @@ export default class CPRMigration {
           // deleted. This makes token.actor null so we don't have a full view of all of the actor data.
           // This is technically a broken token and even Foundry throws errors when you do certain things
           // with this token. We skip it.
-          LOGGER.warn(`WARNING: Token "${token.data.name}" (${token.data.actorId}) on Scene "${scene.name}" (${scene.id})`
+          LOGGER.warn(`WARNING: Token "${token.name}" (${token.data.actorId}) on Scene "${scene.name}" (${scene.id})`
             + ` is missing the source Actor, so we will skip migrating it. Consider replacing or deleting it.`);
           return false;
         }

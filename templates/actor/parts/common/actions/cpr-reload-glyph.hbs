@@ -1,6 +1,6 @@
 {{cprTrace "CPR-RELOAD-GLYPH.HBS"}}
-{{#if (cprCompare data.data.magazine.ammoId "!==" "")}}
-    {{#if (cprCompare data.data.magazine.value "<" (cprApplyUpgrade this data.data.magazine.max "magazine"))}}
+{{#if (cprCompare system.magazine.ammoId "!==" "")}}
+    {{#if (cprCompare system.magazine.value "<" (cprApplyUpgrade this system.magazine.max "magazine"))}}
         <a class="item-action" data-item-id="{{id}}" data-action="reload-ammo"><i class="fas fa-redo-alt" title="{{localize "CPR.actorSheets.commonActions.reload"}}"></i></a>
     {{/if}}
 {{/if}}

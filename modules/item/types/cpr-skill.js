@@ -28,16 +28,16 @@ export default class CPRSkillItem extends CPRItem {
    */
   _createSkillRoll(actor) {
     LOGGER.trace("_createSkillRoll | CPRSkillItem | Called.");
-    const itemData = this.data.data;
-    const statName = itemData.stat;
+    const cprItemData = this.system;
+    const statName = cprItemData.stat;
     const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
     const statValue = actor.getStat(statName);
     const skillName = this.name;
-    const skillLevel = itemData.level;
+    const skillLevel = cprItemData.level;
     let roleName;
     let roleValue = 0;
 
-    actor.data.filteredItems.role.forEach((r) => {
+    actor.system.filteredItems.role.forEach((r) => {
       const [rn, rv] = r.getSkillBonuses(skillName);
       if (rn) {
         if (roleName) {
@@ -54,7 +54,7 @@ export default class CPRSkillItem extends CPRItem {
     cprRoll.addMod(actor.getWoundStateMods());
     cprRoll.addMod(actor.getUpgradeMods(statName));
     cprRoll.addMod(actor.getUpgradeMods(skillName));
-    cprRoll.addMod(actor.data.bonuses[SystemUtils.slugify(skillName)]); // active effects
+    cprRoll.addMod(actor.system.bonuses[SystemUtils.slugify(skillName)]); // active effects
     return cprRoll;
   }
 }

@@ -151,10 +151,10 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   _setMaxHp() {
     LOGGER.trace("_setMaxHp | CPRCharacterActorSheet | Called.");
     const maxHp = this.actor.calcMaxHp();
-    const { hp } = this.actor.data.data.derivedStats;
+    const { hp } = this.actor.system.derivedStats;
     this.actor.update({
-      "data.derivedStats.hp.max": maxHp,
-      "data.derivedStats.hp.value": hp.max === hp.value ? maxHp : hp.value,
+      "system.derivedStats.hp.max": maxHp,
+      "system.derivedStats.hp.value": hp.max === hp.value ? maxHp : hp.value,
     });
   }
 
@@ -169,17 +169,17 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   _setMaxHumanity() {
     LOGGER.trace("_setMaxHumanity | CPRCharacterActorSheet | Called.");
     const maxHumanity = this.actor.calcMaxHumanity();
-    const { humanity } = this.actor.data.data.derivedStats;
+    const { humanity } = this.actor.system.derivedStats;
     if (humanity.max === humanity.value) {
       this.actor.update({
-        "data.derivedStats.humanity.max": maxHumanity,
-        "data.derivedStats.humanity.value": maxHumanity,
-        "data.stats.emp.value": Math.floor(maxHumanity / 10),
+        "system.derivedStats.humanity.max": maxHumanity,
+        "system.derivedStats.humanity.value": maxHumanity,
+        "system.stats.emp.value": Math.floor(maxHumanity / 10),
       });
     } else {
       this.actor.update({
-        "data.derivedStats.humanity.max": maxHumanity,
-        "data.stats.emp.value": Math.floor(maxHumanity / 10),
+        "system.derivedStats.humanity.max": maxHumanity,
+        "system.stats.emp.value": Math.floor(maxHumanity / 10),
       });
     }
   }
@@ -196,17 +196,17 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     LOGGER.trace("_cycleEquipState | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const prop = CPRActorSheet._getObjProp(event);
-    switch (item.data.data.equipped) {
+    switch (item.system.equipped) {
       case "owned": {
         this._updateOwnedItemProp(item, prop, "carried");
         break;
       }
       case "carried": {
-        if (item.data.type === "weapon") {
+        if (item.type === "weapon") {
           Rules.lawyer(this.actor.canHoldWeapon(item), "CPR.messages.warningTooManyHands");
         }
-        if (item.data.type === "cyberdeck") {
-          if (this.actor.hasItemTypeEquipped(item.data.type)) {
+        if (item.type === "cyberdeck") {
+          if (this.actor.hasItemTypeEquipped(item.type)) {
             Rules.lawyer(false, "CPR.messages.errorTooManyCyberdecks");
             this._updateOwnedItemProp(item, prop, "owned");
             break;
@@ -240,27 +240,27 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const upgradeValue = item.getAllUpgradesFor("shieldHp");
     const upgradeType = item.getUpgradeTypeFor("shieldHp");
-    const currentArmorBodyValue = item.data.data.bodyLocation.sp;
-    const currentArmorHeadValue = item.data.data.headLocation.sp;
-    const currentArmorShieldValue = (upgradeType === "override") ? upgradeValue : item.data.data.shieldHitPoints.max + upgradeValue;
+    const currentArmorBodyValue = item.system.bodyLocation.sp;
+    const currentArmorHeadValue = item.system.headLocation.sp;
+    const currentArmorShieldValue = (upgradeType === "override") ? upgradeValue : item.system.shieldHitPoints.max + upgradeValue;
     // XXX: cannot use _getObjProp since we need to update 2 props
-    this._updateOwnedItemProp(item, "data.headLocation.ablation", 0);
-    this._updateOwnedItemProp(item, "data.bodyLocation.ablation", 0);
-    this._updateOwnedItemProp(item, "data.shieldHitPoints.value", currentArmorShieldValue);
+    this._updateOwnedItemProp(item, "system.headLocation.ablation", 0);
+    this._updateOwnedItemProp(item, "system.bodyLocation.ablation", 0);
+    this._updateOwnedItemProp(item, "system.shieldHitPoints.value", currentArmorShieldValue);
     // Update actor external data when armor is repaired:
-    if (CPRActorSheet._getItemId(event) === this.actor.data.data.externalData.currentArmorBody.id) {
+    if (CPRActorSheet._getItemId(event) === this.actor.system.externalData.currentArmorBody.id) {
       this.actor.update({
-        "data.externalData.currentArmorBody.value": currentArmorBodyValue,
+        "system.externalData.currentArmorBody.value": currentArmorBodyValue,
       });
     }
-    if (CPRActorSheet._getItemId(event) === this.actor.data.data.externalData.currentArmorHead.id) {
+    if (CPRActorSheet._getItemId(event) === this.actor.system.externalData.currentArmorHead.id) {
       this.actor.update({
-        "data.externalData.currentArmorHead.value": currentArmorHeadValue,
+        "system.externalData.currentArmorHead.value": currentArmorHeadValue,
       });
     }
-    if (CPRActorSheet._getItemId(event) === this.actor.data.data.externalData.currentArmorShield.id) {
+    if (CPRActorSheet._getItemId(event) === this.actor.system.externalData.currentArmorShield.id) {
       this.actor.update({
-        "data.externalData.currentArmorShield.value": currentArmorShieldValue,
+        "system.externalData.currentArmorShield.value": currentArmorShieldValue,
       });
     }
   }
@@ -278,7 +278,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     LOGGER.trace("_installRemoveCyberwareAction | CPRCharacterActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
     const item = this._getOwnedItem(itemId);
-    if (item.data.data.isInstalled) {
+    if (item.system.isInstalled) {
       const foundationalId = SystemUtils.GetEventDatum(event, "data-foundational-id");
       this.actor.removeCyberware(itemId, foundationalId);
     } else {
@@ -296,18 +296,18 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   async _selectRoles() {
     LOGGER.trace("_selectRoles | CPRCharacterActorSheet | Called.");
-    if (this.actor.data.filteredItems.role.length === 0) {
+    if (this.actor.system.filteredItems.role.length === 0) {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.characterSheet.bottomPane.role.noRolesWarning"));
       return;
     }
     let formData = {
-      roles: this.actor.data.filteredItems.role,
+      roles: this.actor.system.filteredItems.role,
     };
     formData = await SelectRolePrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;
     }
-    this.actor.update({ "data.roleInfo.activeRole": formData.activeRole, "data.roleInfo.activeNetRole": formData.activeNetRole });
+    this.actor.update({ "system.roleInfo.activeRole": formData.activeRole, "system.roleInfo.activeNetRole": formData.activeNetRole });
   }
 
   /**
@@ -319,7 +319,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   async _setLifepath() {
     LOGGER.trace("_setLifepath | CPRCharacterActorSheet | Called.");
-    const formData = await SetLifepathPrompt.RenderPrompt(this.actor.data).catch((err) => LOGGER.debug(err));
+    const formData = await SetLifepathPrompt.RenderPrompt(this.actor.system).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;
     }
@@ -421,7 +421,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     LOGGER.trace("_updateWeaponAmmo | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const updateType = SystemUtils.GetEventDatum(event, "data-item-prop");
-    if (updateType === "data.magazine.value") {
+    if (updateType === "system.magazine.value") {
       if (!Number.isNaN(parseInt(event.target.value, 10))) {
         item.setWeaponAmmo(event.target.value);
       } else {
@@ -460,22 +460,22 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   _updateRoleAbility(event) {
     LOGGER.trace("ActorID _updateRoleAbility | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
-    const itemData = duplicate(item.data);
+    const cprItemData = duplicate(item.system);
     const subskill = SystemUtils.GetEventDatum(event, "data-subskill-name");
     const value = parseInt(event.target.value, 10);
     if (!Number.isNaN(value)) {
-      if (hasProperty(itemData, "data.rank")) {
+      if (hasProperty(itemData, "system.rank")) {
         if (subskill) {
-          const updateSubskill = itemData.data.abilities.filter((a) => a.name === subskill);
+          const updateSubskill = cprItemData.abilities.filter((a) => a.name === subskill);
           if (updateSubskill.length === 1) {
             updateSubskill[0].rank = value;
           } else {
             SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.multipleAbilitiesWithTheSameName"));
           }
         } else {
-          itemData.data.rank = value;
+          cprItemData.rank = value;
         }
-        item.update(itemData);
+        item.update(cprItemData);
       }
     } else {
       SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.amountNotNumber"));
@@ -504,7 +504,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       case "delete":
         return this.actor.constructor.deleteEffect(effect);
       case "toggle":
-        return effect.update({ disabled: !effect.data.disabled });
+        return effect.update({ disabled: !effect.system.disabled });
       default:
         return null;
     }
@@ -721,11 +721,11 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
     const updateList = [];
     if (cyberdeck.isOwned && cyberdeck.isEmbedded) {
-      updateList.push({ _id: cyberdeck.id, data: cyberdeck.data.data });
+      updateList.push({ _id: cyberdeck.id, data: cyberdeck.system });
     }
 
     if (program.isOwned && program.isEmbedded) {
-      updateList.push({ _id: program.id, data: program.data.data });
+      updateList.push({ _id: program.id, data: program.system });
     }
 
     if (updateList.length > 0) {

@@ -29,11 +29,11 @@ export default class CPRCombatant extends Combatant {
       case "mook": {
         if (initiativeType === "meat") {
           cprInitiative = new CPRRolls.CPRInitiative(initiativeType, actor.type, formula, actor.getStat("ref"));
-          actor.data.filteredItems.role.forEach((r) => {
-            if (r.data.data.universalBonuses.includes("initiative")) {
-              universalBonusInitiative += Math.floor(r.data.data.rank / r.data.data.bonusRatio);
+          actor.system.filteredItems.role.forEach((r) => {
+            if (r.system.universalBonuses.includes("initiative")) {
+              universalBonusInitiative += Math.floor(r.system.rank / r.system.bonusRatio);
             }
-            const subroleUniversalBonuses = r.data.data.abilities.filter((a) => a.universalBonuses.includes("initiative"));
+            const subroleUniversalBonuses = r.system.abilities.filter((a) => a.universalBonuses.includes("initiative"));
             if (subroleUniversalBonuses.length > 0) {
               subroleUniversalBonuses.forEach((b) => {
                 universalBonusInitiative += Math.floor(b.rank / b.bonusRatio);
@@ -41,10 +41,10 @@ export default class CPRCombatant extends Combatant {
             }
           });
         } else {
-          const netSpeed = actor.data.bonuses.speed; // active effects for speed, note "initiative" AEs come later
+          const netSpeed = actor.system.bonuses.speed; // active effects for speed, note "initiative" AEs come later
           // Filter for the Netrunner role on the actor then assign `netrunnerRank` the proper value
-          const netrunnerRole = (actor.data.filteredItems.role.filter((d) => d.data.name === "Netrunner"))[0];
-          const netrunnerRank = netrunnerRole.data.data.rank;
+          const netrunnerRole = (actor.system.filteredItems.role.filter((d) => d.name === "Netrunner"))[0];
+          const netrunnerRank = netrunnerRole.system.rank;
           cprInitiative = new CPRRolls.CPRInitiative(initiativeType, actor.type, formula, netrunnerRank, netSpeed);
         }
         break;
@@ -64,7 +64,7 @@ export default class CPRCombatant extends Combatant {
         cprInitiative = new CPRRolls.CPRInitiative("meat", actor.type, formula, 0);
         break;
     }
-    cprInitiative.addMod(actor.data.bonuses.initiative); // consider any active effects
+    cprInitiative.addMod(actor.system.bonuses.initiative); // consider any active effects
     cprInitiative.addMod(universalBonusInitiative); // add bonus from role abilities and subabilities
     await cprInitiative.roll();
     return cprInitiative;

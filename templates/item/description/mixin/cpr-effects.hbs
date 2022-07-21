@@ -1,28 +1,28 @@
-{{cprTrace "CPR-EFFECTS.HBS"}}
-{{#if (cprCompare (cprSizeOf item.data.effects) ">" 3)}}
+{{cprTrace "ITEM-DESC-MIXIN CPR-EFFECTS.HBS"}}
+{{#if (cprCompare (cprSizeOf item.system.effects) ">" 3)}}
         <div class="item-summary-line">
             <span class="text-bold summary-name">{{localize "CPR.itemSheet.effects.effects"}}:</span>
-            <span class="summary-value">{{cprSizeOf item.data.effects}}</span>
+            <span class="summary-value">{{cprSizeOf item.system.effects}}</span>
         </div>
 {{else}}
-    {{#each item.data.effects}}
+    {{#each item.system.effects}}
         {{!-- "effects" is a Map, so "this" is now an Active Effects object within the #each loop! --}}
             <hr>
-            {{#if this.data.disabled}}
+            {{#if this.disabled}}
               <span class="fg-grey">
             {{/if}}
             <div class="item-summary-line">
-                <span class="text-bold summary-name">{{this.data.label}}</span>
-                <span class="summary-value">{{#if (cprIsDebug)}}({{this.data._id}}){{/if}}</span>
+                <span class="text-bold summary-name">{{this.label}}</span>
+                <span class="summary-value">{{#if (cprIsDebug)}}({{this._id}}){{/if}}</span>
             </div>
 
-            {{#if (cprCompare (cprSizeOf this.data.changes) ">" 3)}}
+            {{#if (cprCompare (cprSizeOf this.system.changes) ">" 3)}}
             <div class="text-nowrap">
                 <span class="text-bold summary-nam text-nowrap">{{localize "CPR.itemSheet.effects.effects"}}:</span>
-                <span class="summary-value text-nowrap">{{cprSizeOf this.data.changes}}</span>
+                <span class="summary-value text-nowrap">{{cprSizeOf this.system.changes}}</span>
             </div>
             {{else}}
-                {{#each this.data.changes}}
+                {{#each this.system.changes}}
                     {{!-- "this" is now an individual mod for the AE object --}}
                     <div class="item-summary-line">
                         <span class="summary-value summary-effect-name">
@@ -38,7 +38,7 @@
                     </div>
                 {{/each}}
             {{/if}}
-            {{#if this.data.disabled}}
+            {{#if this.disabled}}
               </span>
             {{/if}}
         {{#if @last}}<hr>{{/if}}

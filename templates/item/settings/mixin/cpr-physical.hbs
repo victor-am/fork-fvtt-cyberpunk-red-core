@@ -6,24 +6,24 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-            <a class="item-checkbox" data-target="data.concealable.concealable"><i class="far fa{{#if data.data.concealable.concealable}}-check{{/if}}-circle"></i></a>
+            <a class="item-checkbox" data-target="system.concealable.concealable"><i class="far fa{{#if item.system.concealable.concealable}}-check{{/if}}-circle"></i></a>
         {{else}}
-            <span><i class="far fa{{#if data.data.concealable.concealable}}-check{{/if}}-circle"></i></span>
+            <span><i class="far fa{{#if item.system.concealable.concealable}}-check{{/if}}-circle"></i></span>
         {{/if}}
     </div>
 </li>
 
 {{#if this.isOwned}}
-    {{#if data.data.concealable.concealable}}
+    {{#if item.system.concealable.concealable}}
         <li class="item flexrow">
             <div class="item flexrow setting-name text-nowrap">
                 {{localize "CPR.itemSheet.physical.concealed"}}
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 {{#if this.editable}}
-                    <a class="item-checkbox" data-target="data.concealable.isConcealed"><i class="far fa{{#if data.data.concealable.isConcealed}}-check{{/if}}-circle"></i></a>
+                    <a class="item-checkbox" data-target="system.concealable.isConcealed"><i class="far fa{{#if item.system.concealable.isConcealed}}-check{{/if}}-circle"></i></a>
                 {{else}}
-                    <span><i class="far fa{{#if data.data.concealable.isConcealed}}-check{{/if}}-circle"></i></span>
+                    <span><i class="far fa{{#if item.system.concealable.isConcealed}}-check{{/if}}-circle"></i></span>
                 {{/if}}
             </div>
         </li>

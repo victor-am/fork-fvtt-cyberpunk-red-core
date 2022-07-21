@@ -6,8 +6,8 @@
         {{localize "CPR.itemSheet.ammo.variety"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        <select name="data.variety" data-dtype="{{data.data.variety}}">
-            {{#select data.data.variety}}
+        <select name="system.variety" data-dtype="{{item.system.variety}}">
+            {{#select system.variety}}
                 {{#each (cprFindConfigObj "ammoVariety") as |variety v|}}
                     <option value="{{v}}">{{localize variety}}</option>
                 {{/each}}
@@ -21,8 +21,8 @@
         {{localize "CPR.global.generic.type"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        <select name="data.type" data-dtype="{{data.data.type}}">
-            {{#select data.data.type}}
+        <select name="system.type" data-dtype="{{item.system.type}}">
+            {{#select system.type}}
                 {{#each (cprFindConfigObj "ammoType") as |type t|}}
                     <option value="{{t}}">{{localize type}}</option>
                 {{/each}}

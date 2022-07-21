@@ -5,9 +5,9 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-            <input name="data.amount" class="" type="number" value="{{data.data.amount}}">
+            <input name="system.amount" class="" type="number" value="{{item.system.amount}}">
         {{else}}
-            <span class="text-flex-end">{{data.data.amount}}</span>
+            <span class="text-flex-end">{{item.system.amount}}</span>
         {{/if}}
     </div>
 </li>

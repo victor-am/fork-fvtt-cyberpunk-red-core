@@ -19,8 +19,8 @@ export default class CPRRoleItem extends CPRItem {
    */
   _createRoleRoll(rollType, actor, rollInfo) {
     LOGGER.trace("_createRoleRoll | CPRRoleItem | Called.");
-    const itemData = this.data.data;
-    let roleName = itemData.mainRoleAbility;
+    const cprItemData = this.system;
+    let roleName = cprItemData.mainRoleAbility;
     let statName = "--";
     let skillName = "--";
     let skillList;
@@ -28,33 +28,33 @@ export default class CPRRoleItem extends CPRItem {
     let statValue = 0;
     let skillValue = 0;
     if (rollInfo.rollSubType === "mainRoleAbility") {
-      if (itemData.addRoleAbilityRank) {
-        roleValue = itemData.rank;
+      if (cprItemData.addRoleAbilityRank) {
+        roleValue = cprItemData.rank;
       }
-      if (itemData.stat !== "--") {
-        statName = itemData.stat;
+      if (cprItemData.stat !== "--") {
+        statName = cprItemData.stat;
         statValue = actor.getStat(statName);
       }
-      if (itemData.skill !== "--" && itemData.skill !== "varying") {
-        skillName = itemData.skill;
-        const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
+      if (cprItemData.skill !== "--" && cprItemData.skill !== "varying") {
+        skillName = cprItemData.skill;
+        const skillObject = actor.system.filteredItems.skill.find((i) => skillName === i.name);
         if (skillObject !== undefined) {
-          skillValue = skillObject.data.data.level;
+          skillValue = skillObject.system.level;
         } else {
           SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
         }
-      } else if (itemData.skill === "varying") {
+      } else if (cprItemData.skill === "varying") {
         skillName = "varying";
-        if (itemData.stat !== "--") {
-          skillList = actor.data.filteredItems.skill.filter((s) => s.data.data.stat === itemData.stat);
+        if (cprItemData.stat !== "--") {
+          skillList = actor.system.filteredItems.skill.filter((s) => s.system.stat === cprItemData.stat);
         } else {
-          skillList = actor.data.filteredItems.skill;
+          skillList = actor.system.filteredItems.skill;
         }
       }
     }
 
     if (rollInfo.rollSubType === "subRoleAbility") {
-      const subRoleAbility = itemData.abilities.find((a) => a.name === rollInfo.subRoleName);
+      const subRoleAbility = cprItemData.abilities.find((a) => a.name === rollInfo.subRoleName);
       roleName = subRoleAbility.name;
       roleValue = subRoleAbility.rank;
       if (subRoleAbility.stat !== "--") {
@@ -63,25 +63,25 @@ export default class CPRRoleItem extends CPRItem {
       }
       if (subRoleAbility.skill !== "--" && subRoleAbility.skill !== "varying") {
         skillName = subRoleAbility.skill.name;
-        const skillObject = actor.data.filteredItems.skill.find((i) => skillName === i.data.name);
+        const skillObject = actor.system.filteredItems.skill.find((i) => skillName === i.name);
         if (skillObject !== undefined) {
-          skillValue = skillObject.data.data.level;
+          skillValue = skillObject.system.level;
         } else {
           SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.noskillbythatname"));
         }
       } else if (subRoleAbility.skill === "varying") {
         skillName = "varying";
         if (subRoleAbility.stat !== "--") {
-          skillList = actor.data.filteredItems.skill.filter((s) => s.data.data.stat === subRoleAbility.stat);
+          skillList = actor.system.filteredItems.skill.filter((s) => s.system.stat === subRoleAbility.stat);
         } else {
-          skillList = actor.data.filteredItems.skill;
+          skillList = actor.system.filteredItems.skill;
         }
       }
     }
 
     const cprRoll = new CPRRolls.CPRRoleRoll(roleName, roleValue, skillName, skillValue, statName, statValue, skillList);
-    cprRoll.addMod(actor.data.bonuses[SystemUtils.slugify(skillName)]); // add skill bonuses from Active Effects
-    cprRoll.addMod(actor.data.bonuses[SystemUtils.slugify(roleName)]); // add role bonuses from Active Effects
+    cprRoll.addMod(actor.system.bonuses[SystemUtils.slugify(skillName)]); // add skill bonuses from Active Effects
+    cprRoll.addMod(actor.system.bonuses[SystemUtils.slugify(roleName)]); // add role bonuses from Active Effects
     cprRoll.addMod(actor.getWoundStateMods());
     return cprRoll;
   }
@@ -98,14 +98,14 @@ export default class CPRRoleItem extends CPRItem {
     // some role abilities modify skills too, so we account for that here
     let roleName;
     let roleValue = 0;
-    const roleSkillBonuses = this.data.data.bonuses.filter((b) => b.name === skillName);
+    const roleSkillBonuses = this.system.bonuses.filter((b) => b.name === skillName);
     if (roleSkillBonuses.length > 0) {
-      roleValue += Math.floor(this.data.data.rank / this.data.data.bonusRatio);
-      roleName = this.data.data.mainRoleAbility;
+      roleValue += Math.floor(this.system.rank / this.system.bonusRatio);
+      roleName = this.system.mainRoleAbility;
     }
     // check whether a sub-ability of a role has the bonuses property. They might affect skills.
     const subroleSkillBonuses = [];
-    this.data.data.abilities.forEach((a) => {
+    this.system.abilities.forEach((a) => {
       if ("bonuses" in a) {
         a.bonuses.forEach((b) => {
           if (b.name === skillName) subroleSkillBonuses.push(a);

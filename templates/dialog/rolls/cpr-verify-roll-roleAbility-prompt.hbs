@@ -35,7 +35,7 @@
             <select name = "skillName">
               {{#select skillName}}
                 {{#each (cprSort skillList "name") as |skill|}}
-                  <option value = "{{skill.data.name}}">{{skill.data.name}}</option>
+                  <option value = "{{skill.name}}">{{skill.name}}</option>
                 {{/each}}
               {{/select}}
             </select>

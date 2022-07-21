@@ -7,7 +7,7 @@ export default class DvUtils {
     LOGGER.trace("GetDvTables | DvUtils | called.");
     const tableNames = [];
     const tableList = SystemUtils.GetRollTables("^DV", true);
-    tableList.forEach((table) => tableNames.push(table.data.name));
+    tableList.forEach((table) => tableNames.push(table.name));
     return tableNames.sort();
   }
 

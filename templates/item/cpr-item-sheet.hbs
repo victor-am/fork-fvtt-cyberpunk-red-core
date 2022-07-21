@@ -9,15 +9,15 @@
     <div class="item-header-section items-list flexcol">
       <li class="item flexrow">
         <div class="item-name text-large text-bold text-left text-padding-left">
-          {{item.name}}{{#if (cprIsUpgradable item.type)}}{{#if item.data.data.isUpgraded}}<sup><i title="{{localize "
+          {{item.name}}{{#if (cprIsUpgradable item.type)}}{{#if item.system.isUpgraded}}<sup><i title="{{localize "
               CPR.upgraded"}}" class="fab fa-uniregistry"></sup></i>{{/if}}{{/if}}
         </div>
         <div class="item-detail text-right text-padding-right">
           {{#if (cprIsDebug)}}({{item.id}}){{/if}}
           {{localize (cprFindConfigValue "objectTypes" item.type)}} <a class="fas fa-question-circle help-article"
             href="https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/wikis/help-articles/{{item.type}}"
-            title="{{localize "CPR.global.generic.helparticle"}}"></a>{{#if (cprCompare data.data.source "!==" "")}} |
-          {{data.data.source}}{{/if}}
+            title="{{localize "CPR.global.generic.helparticle"}}"></a>{{#if (cprCompare item.system.source "!==" "")}} |
+          {{item.system.source}}{{/if}}
         </div>
       </li>
       <li></li>

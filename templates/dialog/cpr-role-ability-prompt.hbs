@@ -69,7 +69,7 @@
           </optgroup>
           <optgroup label = "{{localize "CPR.dialog.createEditRoleAbility.skillList"}}">
             {{#each (cprSort skillOptions "name") as |option o|}}
-              <option value="{{option.data.name}}">{{option.data.name}}</option>
+              <option value="{{option.name}}">{{option.name}}</option>
             {{/each}}
           </optgroup>
           {{/select}}

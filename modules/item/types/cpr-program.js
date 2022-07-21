@@ -19,7 +19,7 @@ export default class CPRProgramItem extends CPRItem {
    */
   setInstalled() {
     LOGGER.trace("setInstalled | CPRProgramItem | Called.");
-    this.data.data.isInstalled = true;
+    this.system.isInstalled = true;
   }
 
   /**
@@ -29,7 +29,7 @@ export default class CPRProgramItem extends CPRItem {
    */
   unsetInstalled() {
     LOGGER.trace("unsetInstalled | CPRProgramItem | Called.");
-    this.data.data.isInstalled = false;
+    this.system.isInstalled = false;
   }
 
   /**
@@ -39,7 +39,7 @@ export default class CPRProgramItem extends CPRItem {
    */
   getInstalled() {
     LOGGER.trace("getInstalled | CPRProgramItem | Called.");
-    return this.data.data.isInstalled;
+    return this.system.isInstalled;
   }
 
   /**
@@ -49,7 +49,7 @@ export default class CPRProgramItem extends CPRItem {
    */
   setRezzed() {
     LOGGER.trace("setRezzed | CPRProgramItem | Called.");
-    this.data.data.isRezzed = true;
+    this.system.isRezzed = true;
   }
 
   /**
@@ -59,7 +59,7 @@ export default class CPRProgramItem extends CPRItem {
    */
   unsetRezzed() {
     LOGGER.trace("unsetRezzed | CPRProgramItem | Called.");
-    this.data.data.isRezzed = false;
+    this.system.isRezzed = false;
   }
 
   /**
@@ -69,6 +69,6 @@ export default class CPRProgramItem extends CPRItem {
    */
   getRezzed() {
     LOGGER.trace("getRezzed | CPRProgramItem | Called.");
-    return this.data.data.isRezzed;
+    return this.system.isRezzed;
   }
 }

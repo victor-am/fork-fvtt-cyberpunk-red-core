@@ -1,4 +1,4 @@
-{{cprTrace "CPR-ATTACKABLE.HBS"}}
+{{cprTrace "ITEM-DESC-MIXIN CPR-ATTACKABLE.HBS"}}
 {{!-- This awful logic is summarized here:
     Show this content unless one of the following is true:
         1. the item is cyberware and it is not a weapon
@@ -6,31 +6,31 @@
 --}}
 {{#unless (cprCompare
     (cprCompare
-        (cprCompare data.type "===" "cyberware")
+        (cprCompare item.type "===" "cyberware")
         "&&"
-        (cprCompare data.data.isWeapon "===" false))
+        (cprCompare item.system.isWeapon "===" false))
     "||"
     (cprCompare
-        (cprCompare data.type "===" "itemUpgrade")
+        (cprCompare item.type "===" "itemUpgrade")
         "&&"
-        (cprCompare (cprGetProp data.data.modifiers.secondaryWeapon "configured") "===" "false"))
+        (cprCompare (cprGetProp item.system.modifiers.secondaryWeapon "configured") "===" "false"))
 )}}
 <div class="item-summary-line">
     <span class="text-bold summary-name">{{localize "CPR.itemSheet.weapon.rof"}}:</span>
-    <span class="summary-value">{{cprApplyUpgrade item data.data.rof "rof"}}</span>
+    <span class="summary-value">{{cprApplyUpgrade item item.system.rof "rof"}}</span>
 </div>
 <div class="item-summary-line">
     <span class="text-bold summary-name">{{localize "CPR.global.generic.damage"}}:</span>
-    <span class="summary-value">{{cprApplyUpgrade item data.data.damage "damage"}}</span>
+    <span class="summary-value">{{cprApplyUpgrade item item.system.damage "damage"}}</span>
 </div>
 <div class="item-summary-line">
     <span class="text-bold summary-name">{{localize "CPR.itemSheet.weapon.attackMod"}}:</span>
-    <span class="summary-value">{{cprApplyUpgrade item data.data.attackmod "attackmod"}}</span>
+    <span class="summary-value">{{cprApplyUpgrade item item.system.attackmod "attackmod"}}</span>
 </div>
-{{#if data.data.isRanged}}
+{{#if item.system.isRanged}}
 <div class="item-summary-line">
     <span class="text-bold summary-name">{{localize "CPR.itemSheet.weapon.magSize"}}:</span>
-    <span class="summary-value">{{cprApplyUpgrade item data.data.magazine.max "magazine"}}</span>
+    <span class="summary-value">{{cprApplyUpgrade item item.system.magazine.max "magazine"}}</span>
 </div>
 {{/if}}
 {{/unless}}

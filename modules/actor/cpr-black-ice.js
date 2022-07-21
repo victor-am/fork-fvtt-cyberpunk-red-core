@@ -24,7 +24,7 @@ export default class CPRBlackIceActor extends Actor {
   static async create(data, options) {
     LOGGER.trace("create | CPRBlackIceActor | called.");
     const createData = data;
-    if (typeof data.data === "undefined") {
+    if (typeof data.system === "undefined") {
       LOGGER.trace("create | New Actor | CPRBlackIceActor | called.");
       createData.token = {
         bar1: { attribute: "stats.rez" },
@@ -43,10 +43,10 @@ export default class CPRBlackIceActor extends Actor {
   createStatRoll(statName) {
     LOGGER.trace("createStatRoll | CPRBlackIceActor | called.");
     const niceStatName = SystemUtils.Localize(CPR.blackIceStatList[statName]);
-    const statValue = parseInt(this.data.data.stats[statName], 10);
+    const statValue = parseInt(this.system.stats[statName], 10);
     const cprRoll = new CPRRolls.CPRProgramStatRoll(niceStatName, statValue);
-    if (this.isToken && typeof this.token.data.flags["cyberpunk-red-core"] !== "undefined") {
-      const cprFlags = this.token.data.flags["cyberpunk-red-core"];
+    if (this.isToken && typeof this.token.flags["cyberpunk-red-core"] !== "undefined") {
+      const cprFlags = this.token.flags["cyberpunk-red-core"];
       if (typeof cprFlags.program !== "undefined") {
         cprRoll.rollCardExtraArgs.program = duplicate(cprFlags.program);
       }
@@ -56,7 +56,7 @@ export default class CPRBlackIceActor extends Actor {
       cprRoll.rollCardExtraArgs.program = {
         data: {
           class: "blackice",
-          blackIceType: this.data.data.class,
+          blackIceType: this.system.class,
         },
       };
     }
@@ -87,7 +87,7 @@ export default class CPRBlackIceActor extends Actor {
         program = netrunnerToken.actor._getOwnedItem(programId);
       }
     } else {
-      const programList = game.items.filter((i) => i.data._id === programId);
+      const programList = game.items.filter((i) => i._id === programId);
       if (programList.length === 1) {
         [program] = programList;
       }
@@ -97,9 +97,9 @@ export default class CPRBlackIceActor extends Actor {
     let programName = this.name;
     let programData = {};
     if (program) {
-      damageFormula = (this.data.data.class === "antiprogram") ? program.data.data.damage.blackIce : program.data.data.damage.standard;
+      damageFormula = (this.system.class === "antiprogram") ? program.system.damage.blackIce : program.system.damage.standard;
       programName = program.name;
-      programData = program.data;
+      programData = program.system;
     }
 
     const cprRoll = new CPRRolls.CPRDamageRoll(programName, damageFormula, "program");
@@ -124,23 +124,23 @@ export default class CPRBlackIceActor extends Actor {
    */
   programmaticallyUpdate(type, per, spd, atk, def, rezValue, rezMax = null, effect = null) {
     LOGGER.trace("programmaticallyUpdate | CPRBlackIceActor | called.");
-    const actorData = duplicate(this.data);
-    setProperty(actorData, "data.class", type);
-    setProperty(actorData, "data.stats.per", per);
-    setProperty(actorData, "data.stats.spd", spd);
-    setProperty(actorData, "data.stats.atk", atk);
-    setProperty(actorData, "data.stats.def", def);
-    setProperty(actorData, "data.stats.rez.value", rezValue);
+    const cprData = duplicate(this.system);
+    setProperty(cprData, "class", type);
+    setProperty(cprData, "stats.per", per);
+    setProperty(cprData, "stats.spd", spd);
+    setProperty(cprData, "stats.atk", atk);
+    setProperty(cprData, "stats.def", def);
+    setProperty(cprData, "stats.rez.value", rezValue);
     // The last 2 args would only be passed upon creation, so we have default values so we can tell if
     // this is the Creation or Update
     if (rezMax !== null) {
-      setProperty(actorData, "data.stats.rez.max", rezMax);
+      setProperty(cprData, "stats.rez.max", rezMax);
     }
     if (effect !== null) {
       const effectText = effect.replace(/(<([^>]+)>)/gi, "");
-      setProperty(actorData, "data.effect", effectText);
+      setProperty(cprData, "effect", effectText);
     }
-    this.update(actorData);
+    this.update(cprData);
   }
 
   /**
@@ -151,8 +151,8 @@ export default class CPRBlackIceActor extends Actor {
   async _applyDamage(damage, bonusDamage) {
     LOGGER.trace("_applyDamage | CPRBlackIceActor | Called.");
     // As a Black ICE does not have any armor the damage will be simply subtracted from the REZ.
-    const currentRez = this.data.data.stats.rez.value;
-    await this.update({ "data.stats.rez.value": currentRez - damage - bonusDamage });
+    const currentRez = this.system.stats.rez.value;
+    await this.update({ "system.stats.rez.value": currentRez - damage - bonusDamage });
     CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: damage + bonusDamage, rezReduction: true });
   }
 
@@ -164,7 +164,7 @@ export default class CPRBlackIceActor extends Actor {
   */
   getStat(statName) {
     LOGGER.trace("getStat | CPRBlackIceActor | Called.");
-    const statValue = (statName === "rez") ? this.data.data.stats[statName].value : this.data.data.stats[statName];
+    const statValue = (statName === "rez") ? this.system.stats[statName].value : this.system.stats[statName];
     return parseInt(statValue, 10);
   }
 }

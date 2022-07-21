@@ -8,6 +8,24 @@ import LOGGER from "./utils/cpr-logger.js";
  */
 export default class CPRActiveEffect extends ActiveEffect {
   /**
+   * We extend the constructor to initialize CPR data structures used for tracking the CPRActiveEffect
+   * With V10, Foundry moved all system data points into {obj}.system, so we will follow suit with
+   * active effects
+   *
+   * @constructor
+   * @param {*} object - the Foundry object data for an Active Effect
+   * @param {*} options - The Foundry options for an Active Effect
+   */
+  constructor(object={}, options={}) {
+    super(object, options);
+    if (!this.system) {
+      this.system = {
+        isSuppressed: false
+      };
+    }
+  }
+
+  /**
    * Get the item/actor that provides this active effect. You might think this is simply
    * this.parent, but that can vary depending on if it is on an actor itself, or
    * an unlinked token. Instead we use the origin property and act from that.
@@ -25,9 +43,9 @@ export default class CPRActiveEffect extends ActiveEffect {
    */
   getEffectParent() {
     LOGGER.trace("getEffectParent | CPRActiveEffect | Called.");
-    if (!this.data.origin) return null;
+    if (!this.origin) return null;
     // eslint-disable-next-line no-unused-vars
-    const [parentType, parentId, documentType, documentId, childType, childId] = this.data.origin?.split(".") ?? [];
+    const [parentType, parentId, documentType, documentId, childType, childId] = this.origin?.split(".") ?? [];
     if (parentType === "Actor" && !documentType) return this.parent;
     if (parentType === "Compendium") return null;
     if (parentType === "Scene" && documentType === "Token" && !childType) return this.parent;
@@ -42,7 +60,7 @@ export default class CPRActiveEffect extends ActiveEffect {
       if (!item) return null;
       return item;
     }
-    LOGGER.error(`This AE has a crazy origin: ${this.data.origin}`);
+    LOGGER.error(`This AE has a crazy origin: ${this.origin}`);
     return null;
   }
 
@@ -56,7 +74,7 @@ export default class CPRActiveEffect extends ActiveEffect {
     LOGGER.trace("get usage | CPRActiveEffect | Called.");
     const item = this.getEffectParent();
     if (!item) return null;
-    return item.data.data.usage;
+    return item.system.usage;
   }
 
   /**
@@ -81,7 +99,7 @@ export default class CPRActiveEffect extends ActiveEffect {
    */
   apply(actor, change) {
     LOGGER.trace("apply | CPRActiveEffect | Called.");
-    if (this.data.isSuppressed) return null;
+    if (this.system.isSuppressed) return null;
     return super.apply(actor, change);
   }
 
@@ -96,11 +114,11 @@ export default class CPRActiveEffect extends ActiveEffect {
    */
   determineSuppression() {
     LOGGER.trace("determineSuppression | CPRActiveEffect | Called.");
-    this.data.isSuppressed = false;
-    if (this.data.disabled || (this.parent.documentName !== "Actor")) return;
+    this.system.isSuppressed = false;
+    if (this.system.disabled || (this.parent.documentName !== "Actor")) return;
     const doc = this.getEffectParent();
     if (!doc) return; // happens on item delete
     if (doc instanceof CPRActor) return; // we never suppress actor effects
-    this.data.isSuppressed = doc.areEffectsSuppressed();
+    this.system.isSuppressed = doc.areEffectsSuppressed();
   }
 }

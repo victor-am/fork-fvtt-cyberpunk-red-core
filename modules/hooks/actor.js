@@ -48,53 +48,53 @@ const actorHooks = () => {
       Object.keys(updatedData.data.externalData).forEach(
         (itemType) => {
           if (!updatedData.data.externalData[itemType].id) {
-            const itemId = doc.data.data.externalData[itemType].id;
+            const itemId = doc.system.externalData[itemType].id;
             const item = doc._getOwnedItem(itemId);
             const currentValue = updatedData.data.externalData[itemType].value;
             if (item) {
-              switch (item.data.type) {
+              switch (item.type) {
                 case "armor": {
                   if (itemType === "currentArmorBody") {
                     const armorList = doc.getEquippedArmors("body");
                     const updateList = [];
-                    const diff = item.data.data.bodyLocation.sp - item.data.data.bodyLocation.ablation - currentValue;
+                    const diff = item.system.bodyLocation.sp - item.system.bodyLocation.ablation - currentValue;
                     armorList.forEach((a) => {
-                      const armorData = a.data;
+                      const armorData = a.system;
                       if (diff > 0) {
-                        armorData.data.bodyLocation.ablation = Math.min(
-                          armorData.data.bodyLocation.ablation + diff,
-                          armorData.data.bodyLocation.sp,
+                        armorData.bodyLocation.ablation = Math.min(
+                          armorData.bodyLocation.ablation + diff,
+                          armorData.bodyLocation.sp,
                         );
                       }
-                      if (diff < 0 && item.data._id === a.data._id) {
-                        armorData.data.bodyLocation.ablation = Math.max(armorData.data.bodyLocation.ablation + diff, 0);
+                      if (diff < 0 && item._id === a._id) {
+                        armorData.bodyLocation.ablation = Math.max(armorData.bodyLocation.ablation + diff, 0);
                       }
-                      updateList.push({ _id: a.id, data: armorData.data });
+                      updateList.push({ _id: a.id, data: armorData });
                     });
                     doc.updateEmbeddedDocuments("Item", updateList);
                   }
                   if (itemType === "currentArmorHead") {
                     const armorList = doc.getEquippedArmors("head");
                     const updateList = [];
-                    const diff = item.data.data.headLocation.sp - item.data.data.headLocation.ablation - currentValue;
+                    const diff = item.system.headLocation.sp - item.system.headLocation.ablation - currentValue;
                     armorList.forEach((a) => {
                       const armorData = a.data;
                       if (diff > 0) {
-                        armorData.data.headLocation.ablation = Math.min(
-                          armorData.data.headLocation.ablation + diff,
-                          armorData.data.headLocation.sp,
+                        armorData.headLocation.ablation = Math.min(
+                          armorData.headLocation.ablation + diff,
+                          armorData.headLocation.sp,
                         );
                       }
-                      if (diff < 0 && item.data._id === a.data._id) {
-                        armorData.data.headLocation.ablation = Math.max(armorData.data.headLocation.ablation + diff, 0);
+                      if (diff < 0 && item._id === a._id) {
+                        armorData.headLocation.ablation = Math.max(armorData.headLocation.ablation + diff, 0);
                       }
-                      updateList.push({ _id: a.id, data: armorData.data });
+                      updateList.push({ _id: a.id, data: armorData });
                     });
                     doc.updateEmbeddedDocuments("Item", updateList);
                   }
                   if (itemType === "currentArmorShield") {
-                    item.data.data.shieldHitPoints.value = currentValue;
-                    doc.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
+                    item.system.shieldHitPoints.value = currentValue;
+                    doc.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.system }]);
                   }
                   break;
                 }
@@ -122,7 +122,7 @@ const actorHooks = () => {
           const netrunner = netrunnerToken.actor;
           const cyberdeck = netrunner._getOwnedItem(cyberdeckId);
           cyberdeck.updateRezzedProgram(programId, updatedData.data.stats);
-          netrunner.updateEmbeddedDocuments("Item", [{ _id: cyberdeck.id, data: cyberdeck.data.data }]);
+          netrunner.updateEmbeddedDocuments("Item", [{ _id: cyberdeck.id, data: cyberdeck.system }]);
         }
       }
     }

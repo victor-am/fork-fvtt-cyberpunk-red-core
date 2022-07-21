@@ -72,28 +72,30 @@ export default class CPRActorSheet extends ActorSheet {
   getData() {
     LOGGER.trace("getData | CPRActorSheet | Called.");
     const data = super.getData();
-    data.filteredItems = this.actor.data.filteredItems;
-    if (this.actor.data.type === "mook" || this.actor.data.type === "character") {
-      data.installedCyberware = this._getSortedInstalledCyberware();
+    const cprActorData = data.data.system;
+    cprActorData.filteredItems = this.actor.system.filteredItems;
+    if (this.actor.type === "mook" || this.actor.type === "character") {
+      cprActorData.installedCyberware = this._getSortedInstalledCyberware();
 
-      data.fightOptions = (this.actor.hasItemTypeEquipped("cyberdeck")) ? "both" : "";
+      cprActorData.fightOptions = (this.actor.hasItemTypeEquipped("cyberdeck")) ? "both" : "";
       let fightState = this.actor.getFlag("cyberpunk-red-core", "fightState");
-      if (!fightState || data.fightOptions !== "both") {
+      if (!fightState || cprActorData.fightOptions !== "both") {
         fightState = "Meatspace";
       }
-      data.fightState = fightState;
-      data.cyberdeck = "";
+      cprActorData.fightState = fightState;
+      cprActorData.cyberdeck = "";
       if (fightState === "Netspace") {
-        data.cyberdeck = this.actor.getEquippedCyberdeck();
+        cprActorData.cyberdeck = this.actor.getEquippedCyberdeck();
       }
       const programsInstalled = [];
-      this.actor.data.filteredItems.cyberdeck.forEach((deck) => {
-        deck.data.data.programs.installed.forEach((program) => {
+      this.actor.system.filteredItems.cyberdeck.forEach((deck) => {
+        deck.system.programs.installed.forEach((program) => {
           programsInstalled.push(program._id);
         });
       });
-      data.filteredItems.programsInstalled = programsInstalled;
-      data.filteredEffects = this.prepareActiveEffectCategories();
+      cprActorData.filteredItems.programsInstalled = programsInstalled;
+      cprActorData.filteredEffects = this.prepareActiveEffectCategories();
+      data.actor.system = cprActorData;
     }
 
     return data;
@@ -124,8 +126,8 @@ export default class CPRActorSheet extends ActorSheet {
     // Iterate over active effects, classifying them into categories
     for (const e of this.actor.effects) {
       e._getSourceName(); // Trigger a lookup for the source name
-      if (!(typeof e.data.flags.core !== "undefined" && typeof e.data.flags.core.statusId !== "undefined") || setting) {
-        if (e.data.disabled || e.data.isSuppressed) categories.inactive.effects.push(e);
+      if (!(typeof e.flags.core !== "undefined" && typeof e.flags.core.statusId !== "undefined") || setting) {
+        if (e.disabled || e.system.isSuppressed) categories.inactive.effects.push(e);
         else categories.active.effects.push(e);
       }
     }
@@ -143,19 +145,19 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("_getSortedInstalledCyberware | CPRActorSheet | Called.");
     // Get all Installed Cyberware first...
     const installedCyberware = this.actor.getInstalledCyberware();
-    const installedFoundationalCyberware = installedCyberware.filter((c) => c.data.data.isFoundational === true);
+    const installedFoundationalCyberware = installedCyberware.filter((c) => c.system.isFoundational === true);
 
     // Now sort allInstalledCybere by type, and only get foundational
     const sortedInstalledCyberware = {};
     for (const [type] of Object.entries(CPR.cyberwareTypeList)) {
       sortedInstalledCyberware[type] = installedFoundationalCyberware.filter(
-        (cyberware) => cyberware.data.data.type === type,
+        (cyberware) => cyberware.system.type === type,
       );
       sortedInstalledCyberware[type] = sortedInstalledCyberware[type].map(
         (cyberware) => ({ foundation: cyberware, optionals: [] }),
       );
       sortedInstalledCyberware[type].forEach((entry) => {
-        entry.foundation.data.data.optionalIds.forEach((id) => entry.optionals.push(this._getOwnedItem(id)));
+        entry.foundation.system.optionalIds.forEach((id) => entry.optionals.push(this._getOwnedItem(id)));
       });
     }
     return sortedInstalledCyberware;
@@ -306,7 +308,7 @@ export default class CPRActorSheet extends ActorSheet {
         const interfaceAbility = SystemUtils.GetEventDatum(event, "data-interface-ability");
         const cyberdeckId = SystemUtils.GetEventDatum(event, "data-cyberdeck-id");
         const cyberdeck = this._getOwnedItem(cyberdeckId);
-        const netRoleItem = this.actor.data.filteredItems.role.find((r) => r.data.name === this.actor.data.data.roleInfo.activeNetRole);
+        const netRoleItem = this.actor.system.filteredItems.role.find((r) => r.name === this.actor.system.roleInfo.activeNetRole);
         if (!netRoleItem) {
           const error = SystemUtils.Localize("CPR.messages.noNetrunningRoleConfigured");
           SystemUtils.DisplayMessage("error", error);
@@ -320,7 +322,7 @@ export default class CPRActorSheet extends ActorSheet {
         const cyberdeckId = SystemUtils.GetEventDatum(event, "data-cyberdeck-id");
         const executionType = SystemUtils.GetEventDatum(event, "data-execution-type");
         const cyberdeck = this._getOwnedItem(cyberdeckId);
-        const netRoleItem = this.actor.data.filteredItems.role.find((r) => r.data.name === this.actor.data.data.roleInfo.activeNetRole);
+        const netRoleItem = this.actor.system.filteredItems.role.find((r) => r.name === this.actor.system.roleInfo.activeNetRole);
         if (!netRoleItem) {
           const error = SystemUtils.Localize("CPR.messages.noNetrunningRoleConfigured");
           SystemUtils.DisplayMessage("error", error);
@@ -359,14 +361,14 @@ export default class CPRActorSheet extends ActorSheet {
 
     // "Consume" LUCK if used
     if (Number.isInteger(cprRoll.luck) > 0) {
-      const luckStat = this.actor.data.data.stats.luck.value;
+      const luckStat = this.actor.system.stats.luck.value;
       this.actor.update({
         "data.stats.luck.value": luckStat - ((cprRoll.luck > luckStat) ? luckStat : cprRoll.luck),
       });
     }
 
     // output to chat
-    const token = this.token === null ? null : this.token.data._id;
+    const token = this.token === null ? null : this.token._id;
     cprRoll.entityData = { actor: this.actor.id, token };
     if (item) {
       cprRoll.entityData.item = item.id;
@@ -485,7 +487,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
       // Only update if we aren't deleting the item.  Item deletion is handled in this._deleteOwnedItem()
       if (actionType !== "delete") {
-        this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
+        this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.system }]);
       }
     }
   }
@@ -511,12 +513,12 @@ export default class CPRActorSheet extends ActorSheet {
    *
    * @private
    * @param {Item} item - object to be updated
-   * @param {String} prop - property to be updated in a dot notation (e.g. "item.data.name")
+   * @param {String} prop - property to be updated in a dot notation (e.g. "item.name")
    * @param {*} value - value to set the property to
    */
   _updateOwnedItemProp(item, prop, value) {
     LOGGER.trace("_updateOwnedItemProp | CPRActorSheet | Called.");
-    setProperty(item.data, prop, value);
+    setProperty(item, prop, value);
     this._updateOwnedItem(item);
   }
 
@@ -530,7 +532,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   _updateOwnedItem(item) {
     LOGGER.trace("_updateOwnedItem | CPRActorSheet | Called.");
-    return this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
+    return this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.system }]);
   }
 
   /**
@@ -545,7 +547,7 @@ export default class CPRActorSheet extends ActorSheet {
   _renderItemCard(event) {
     LOGGER.trace("_renderItemCard | CPRActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
-    const item = this.actor.items.find((i) => i.data._id === itemId);
+    const item = this.actor.items.find((i) => i._id === itemId);
     if (event.ctrlKey) {
       CPRChat.RenderItemCard(item);
       return;
@@ -565,7 +567,7 @@ export default class CPRActorSheet extends ActorSheet {
   _renderReadOnlyItemCard(event) {
     LOGGER.trace("_renderReadOnlyItemCard | CPRActorSheet | Called.");
     const itemId = CPRActorSheet._getItemId(event);
-    const item = this.actor.items.find((i) => i.data._id === itemId);
+    const item = this.actor.items.find((i) => i._id === itemId);
     if (event.ctrlKey) {
       CPRChat.RenderItemCard(item);
       return;
@@ -602,7 +604,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   _getOwnedItem(itemId) {
     LOGGER.trace("_getOwnedItem | CPRActorSheet | Called.");
-    return this.actor.items.find((i) => i.data._id === itemId);
+    return this.actor.items.find((i) => i._id === itemId);
   }
 
   /**
@@ -640,7 +642,7 @@ export default class CPRActorSheet extends ActorSheet {
     const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
     // Only show the delete confirmation if the setting is on, and internally we do not want to skip it.
     if (setting && !skipConfirm) {
-      const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${item.data.name}?`;
+      const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${item.name}?`;
       const confirmDelete = await ConfirmPrompt.RenderPrompt(
         SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"),
         promptMessage,
@@ -653,10 +655,10 @@ export default class CPRActorSheet extends ActorSheet {
       }
     }
     if (item.type === "ammo") {
-      const weapons = this.actor.data.filteredItems.weapon;
+      const weapons = this.actor.system.filteredItems.weapon;
       let ammoIsLoaded = false;
       weapons.forEach((weapon) => {
-        const weaponData = weapon.data.data;
+        const weaponData = weapon.system;
         if (weaponData.isRanged) {
           if (weaponData.magazine.ammoId === item.id) {
             const warningMessage = `${SystemUtils.Localize("CPR.messages.ammoDeleteWarning")}: ${weapon.name}`;
@@ -681,14 +683,14 @@ export default class CPRActorSheet extends ActorSheet {
       await this.actor.updateEmbeddedDocuments("Item", updateList);
     }
     if (item.type === "cyberware") {
-      if (item.data.data.isInstalled) {
+      if (item.system.isInstalled) {
         SystemUtils.DisplayMessage("warn", "CPR.messages.cyberwareDeleteWarning");
         return;
       }
     }
 
     if (game.system.template.Item[item.type].templates.includes("upgradable")) {
-      const { upgrades } = item.data.data;
+      const { upgrades } = item.system;
       const updateList = [];
       upgrades.forEach((u) => {
         updateList.push({ _id: u._id, "data.isInstalled": false });
@@ -710,14 +712,14 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("_fireCheckboxToggle | CPRActorSheet | Called.");
     const weaponID = SystemUtils.GetEventDatum(event, "data-item-id");
     const firemode = SystemUtils.GetEventDatum(event, "data-fire-mode");
-    const flag = getProperty(this.actor.data, `flags.cyberpunk-red-core.firetype-${weaponID}`);
+    const flag = getProperty(this.actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
     LOGGER.debug(`firemode is ${firemode}`);
     LOGGER.debug(`weaponID is ${weaponID}`);
     LOGGER.debug(`flag is ${flag}`);
     let newDvTable;
     if (this.token !== null && firemode === "autofire") {
-      const weaponDvTable = (this._getOwnedItem(weaponID)).data.data.dvTable;
-      const currentDvTable = (weaponDvTable === "") ? getProperty(this.token.data, "flags.cprDvTable") : weaponDvTable;
+      const weaponDvTable = (this._getOwnedItem(weaponID)).system.dvTable;
+      const currentDvTable = (weaponDvTable === "") ? getProperty(this.token, "flags.cprDvTable") : weaponDvTable;
       if (typeof currentDvTable !== "undefined") {
         const dvTable = currentDvTable.replace(" (Autofire)", "");
         const afTable = (DvUtils.GetDvTables()).filter((name) => name.includes(dvTable) && name.includes("Autofire"));
@@ -748,7 +750,7 @@ export default class CPRActorSheet extends ActorSheet {
     const pattern = "^Critical Injury|^CriticalInjury|^CritInjury|^Crit Injury|^Critical Injuries|^CriticalInjuries";
     const tableNames = [];
     const tableList = SystemUtils.GetRollTables(pattern, true);
-    tableList.forEach((table) => tableNames.push(table.data.name));
+    tableList.forEach((table) => tableNames.push(table.name));
     return tableNames.sort();
   }
 
@@ -802,17 +804,17 @@ export default class CPRActorSheet extends ActorSheet {
     if (iteration > 100) {
       // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6)
       const crit = game.items.find((item) => (
-        (item.type === "criticalInjury") && (item.name === table.data.results._source[0].text)
+        (item.type === "criticalInjury") && (item.name === table.system.data._source[0].text)
       ));
       if (!crit) {
         SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.dialog.rollCriticalInjury.criticalInjuryNoneWarning")));
         return;
       }
-      const critType = crit.data.data.location;
+      const critType = crit.system.location;
       LOGGER.debug(`critType is ${critType}`);
       let numberCritInjurySameType = 0;
-      this.actor.data.filteredItems.criticalInjury.forEach((injury) => {
-        if (injury.data.data.location === critType) { numberCritInjurySameType += 1; }
+      this.actor.system.filteredItems.criticalInjury.forEach((injury) => {
+        if (injury.system.location === critType) { numberCritInjurySameType += 1; }
       });
       if (table.data.results.contents.length <= numberCritInjurySameType) {
         SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.criticalInjuryDuplicateAllWarning")));
@@ -831,8 +833,8 @@ export default class CPRActorSheet extends ActorSheet {
         if (res.results.length > 0) {
           // Check if the critical Injury already exists on the character
           let injuryAlreadyExists = false;
-          this.actor.data.filteredItems.criticalInjury.forEach((injury) => {
-            if (injury.data.name === res.results[0].data.text) { injuryAlreadyExists = true; }
+          this.actor.system.filteredItems.criticalInjury.forEach((injury) => {
+            if (injury.name === res.results[0].data.text) { injuryAlreadyExists = true; }
           });
           if (injuryAlreadyExists) {
             const setting = game.settings.get("cyberpunk-red-core", "preventDuplicateCriticalInjuries");
@@ -851,10 +853,15 @@ export default class CPRActorSheet extends ActorSheet {
             SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.dialog.rollCriticalInjury.criticalInjuryNoneWarning")));
             return;
           }
-          const itemData = duplicate(crit.data);
-          const result = await this.actor.createEmbeddedDocuments("Item", [itemData]);
+          const cprItemData = {
+            name: crit.name,
+            type: crit.type,
+            img: crit.img,
+            system: duplicate(crit.system),
+          }
+          const result = await this.actor.createEmbeddedDocuments("Item", [cprItemData]);
           const cprRoll = new CPRRolls.CPRTableRoll(
-            crit.data.name,
+            crit.name,
             res.roll,
             "systems/cyberpunk-red-core/templates/chat/cpr-critical-injury-rollcard.hbs",
           );
@@ -960,7 +967,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   _loseLedger(ledgerName, value, reason) {
     LOGGER.trace("_loseLedger | CPRActorSheet | called.");
-    const resultantValue = this.actor.data.data[ledgerName].value - value;
+    const resultantValue = this.actor.system[ledgerName].value - value;
     let rulesWarning = "";
     switch (ledgerName) {
       case "improvementPoints": {
@@ -1027,7 +1034,7 @@ export default class CPRActorSheet extends ActorSheet {
     const tokenId = (this.token === null) ? null : this.token.id;
     event.dataTransfer.setData("text/plain", JSON.stringify({
       type: "Item",
-      actorId: this.actor.id,
+      actorId: this.actor._id,
       tokenId,
       data: item,
       root: SystemUtils.GetEventDatum(event, "root"),
@@ -1059,20 +1066,20 @@ export default class CPRActorSheet extends ActorSheet {
       }
       if (actor) {
         // Do not move if the data is moved to itself
-        if (actor.data._id === this.actor.data._id) {
+        if (actor._id === this.actor._id) {
           return;
         }
         // If the cyberware is marked as core, or is installed, throw an error message.
-        if (dragData.data.data.core === true || (dragData.data.type === "cyberware" && dragData.data.data.isInstalled)) {
+        if (dragData.data.core === true || (dragData.data.type === "cyberware" && dragData.data.isInstalled)) {
           SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.cannotDropInstalledCyberware"));
           return;
         }
-        if (dragData.data.data.isUpgraded) {
+        if (dragData.data.isUpgraded) {
           SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradedragupgradewarn"));
           return;
         }
         if (await super._onDrop(event)) {
-          await actor.deleteEmbeddedDocuments("Item", [dragData.data._id]);
+          await actor.deleteEmbeddedDocuments("Item", [dragData._id]);
         }
       }
     } else {
@@ -1089,18 +1096,18 @@ export default class CPRActorSheet extends ActorSheet {
    */
   async _splitItem(item) {
     LOGGER.trace("_splitItem | CPRActorSheet | called.");
-    if (item.data.data.upgrades && item.data.data.upgrades.length !== 0) {
+    if (item.system.upgrades && item.system.upgrades.length !== 0) {
       SystemUtils.DisplayMessage("warn", SystemUtils.Format("CPR.dialog.splitItem.warningUpgrade"));
     }
     const itemText = SystemUtils.Format(
       "CPR.dialog.splitItem.text",
-      { amount: item.data.data.amount, itemName: item.name },
+      { amount: item.system.amount, itemName: item.name },
     );
     const formData = await SplitItemPrompt.RenderPrompt(itemText).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;
     }
-    const oldAmount = parseInt(item.data.data.amount, 10);
+    const oldAmount = parseInt(item.system.amount, 10);
     if (formData.splitAmount <= 0 || formData.splitAmount >= oldAmount) {
       const warningMessage = SystemUtils.Format(
         "CPR.dialog.splitItem.warningAmount",
@@ -1110,11 +1117,11 @@ export default class CPRActorSheet extends ActorSheet {
       return;
     }
     const newAmount = oldAmount - formData.splitAmount;
-    const newItemData = duplicate(item.data);
-    newItemData.data.amount = formData.splitAmount;
-    delete newItemData._id;
+    const cprNewItemData = duplicate(item.system);
+    cprNewItemData.amount = formData.splitAmount;
+    delete cprNewItemData._id;
     await this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.amount": newAmount }]);
-    await this.actor.createEmbeddedDocuments("Item", [newItemData], { CPRsplitStack: true });
+    await this.actor.createEmbeddedDocuments("Item", [cprNewItemData], { CPRsplitStack: true });
   }
 
   /**
@@ -1126,7 +1133,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   _createActorImageContextMenu(html) {
     LOGGER.trace("_createActorImageContextMenu | CPRActorSheet | called.");
-    return createImageContextMenu(html, ".image-block", this.actor.data);
+    return createImageContextMenu(html, ".image-block", this.actor);
   }
 
   /**
