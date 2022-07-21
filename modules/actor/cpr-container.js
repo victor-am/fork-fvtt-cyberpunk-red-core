@@ -49,18 +49,21 @@ export default class CPRContainerActor extends Actor {
    *                    - false if it has been stacked on an existing item
    */
   automaticallyStackItems(newItem) {
-    LOGGER.trace("automaticallyStackItems | CPRContainerActor | Called.");
-    const stackableItemTypes = ["ammo", "gear", "clothing"];
-    if (stackableItemTypes.includes(newItem.type)) {
-      const match = this.items.find((i) => i.type === newItem.type && i.name === newItem.name && i.data.data.upgrades.length === 0);
-      if (match) {
-        let oldAmount = parseInt(match.data.data.amount, 10);
-        let addedAmount = parseInt(newItem.data.data.amount, 10);
-        if (Number.isNaN(oldAmount)) { oldAmount = 1; }
-        if (Number.isNaN(addedAmount)) { addedAmount = 1; }
-        const newAmount = oldAmount + addedAmount;
-        this.updateEmbeddedDocuments("Item", [{ _id: match.id, "data.amount": newAmount.toString() }]);
-        return false;
+    LOGGER.trace("automaticallyStackItems | CPRActor | Called.");
+    const itemTemplates = SystemUtils.getDataModelTemplates(newItem.data.type);
+    if (itemTemplates.includes("stackable")) {
+      const itemMatch = this.items.find((i) => i.type === newItem.type && i.name === newItem.name);
+      if (itemMatch) {
+        const canStack = !(itemTemplates.includes("upgradable") && itemMatch.data.data.upgrades.length === 0);
+        if (canStack) {
+          let oldAmount = parseInt(itemMatch.data.data.amount, 10);
+          let addedAmount = parseInt(newItem.data.data.amount, 10);
+          if (Number.isNaN(oldAmount)) { oldAmount = 1; }
+          if (Number.isNaN(addedAmount)) { addedAmount = 1; }
+          const newAmount = oldAmount + addedAmount;
+          this.updateEmbeddedDocuments("Item", [{ _id: itemMatch.id, "data.amount": newAmount }]);
+          return false;
+        }
       }
     }
     // If not stackable, then return true to continue adding the item.
