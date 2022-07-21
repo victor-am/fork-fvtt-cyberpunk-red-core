@@ -119,8 +119,16 @@ export default function registerHandlebarsHelpers() {
 
   /**
    * Return true if a literal is a number
+   * For whatever reason, if value is the string "NaN", Javascript thinks
+   * it is a number?
    */
-  Handlebars.registerHelper("cprIsNumber", (value) => !Number.isNaN(value));
+  Handlebars.registerHelper("cprIsNumber", (value) => {
+    LOGGER.trace("cprIsNumber | handlebarsHelper | Called.");
+    if (typeof value === "string" && value === "NaN") {
+      return false;
+    }
+    return !Number.isNaN(value);
+  });
 
   /**
    * Formats thousands with a comma, optionally set decimal length
