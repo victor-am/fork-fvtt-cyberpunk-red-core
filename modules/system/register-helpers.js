@@ -733,8 +733,8 @@ export default function registerHandlebarsHelpers() {
   Handlebars.registerHelper("cprShowEffectToggle", (effect, name) => {
     LOGGER.trace("cprShowEffectToggle | handlebarsHelper | Called.");
     if (effect.sourceName === name) return true;
-    if (!effect.data.isSuppressed && effect.usage !== "always") return true;
-    if (effect.data.isSuppressed && effect.usage === "toggled") return true;
+    if (!effect.system.isSuppressed && effect.usage !== "always") return true;
+    if (effect.system.isSuppressed && effect.usage === "toggled") return true;
     return false;
   });
 

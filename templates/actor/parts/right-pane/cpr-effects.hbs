@@ -3,7 +3,7 @@
 {{log this}}
 <ol class="effects-list">
 {{!-- derived from DND5E's active-effects.html --}}
-{{#each data.system.filteredEffects as |section sid|}}
+{{#each actor.system.filteredEffects as |section sid|}}
     <li class="effects-header flexrow" data-effect-type="{{section.type}}">
         <div class="effect-name flexrow">{{localize section.label}}</div>
         <div class="effect-source">{{localize "CPR.characterSheet.rightPane.effects.source"}}</div>
@@ -18,7 +18,7 @@
                     <h4><strong>{{effect.label}}</strong><br/>
                         {{#each effect.changes}}
                             {{!-- "this" is now an individual mod for the AE object --}}
-                            {{cprGetChangeNameByKey ../this (lookup ../system.flags.cyberpunk-red-core.changes @index) this.key}}
+                            {{cprGetChangeNameByKey ../this (lookup ../flags.cyberpunk-red-core.changes @index) this.key}}
                             {{#if this.value}}
                                 {{cprEffectModMode this.mode this.value}}{{this.value}}{{#unless @last}},{{/unless}}
                             {{else}}

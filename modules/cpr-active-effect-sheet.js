@@ -39,7 +39,7 @@ export default class CPRActiveEffectSheet extends ActiveEffectConfig {
     // QoL - Select all text when grabbing text input.
     $("input[type=text]").focusin(() => $(this).select());
     html.find(".effect-key-category").change((event) => this._changeModKeyCategory(event));
-    html.find(".effect-control").click((event) => this._effectChangeControl(event));
+    html.find(".effect-change-control").click((event) => this._effectChangeControl(event));
   }
 
   /**

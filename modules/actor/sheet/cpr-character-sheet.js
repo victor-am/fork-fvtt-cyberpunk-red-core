@@ -504,7 +504,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       case "delete":
         return this.actor.constructor.deleteEffect(effect);
       case "toggle":
-        return effect.update({ disabled: !effect.system.disabled });
+        return effect.update({ disabled: !effect.disabled });
       default:
         return null;
     }
