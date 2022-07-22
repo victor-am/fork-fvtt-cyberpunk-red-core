@@ -22,7 +22,7 @@ const actorHooks = () => {
     LOGGER.trace("preCreateActor | actorHooks | Called.");
     if ((typeof createData.img === "undefined")) {
       const actorImage = SystemUtils.GetDefaultImage("Actor", createData.type);
-      doc.data.update({ img: actorImage });
+      doc.updateSource({ img: actorImage });
     }
   });
 

@@ -40,7 +40,7 @@ const itemHooks = () => {
     let returnValue = true;
     if ((typeof createData.img === "undefined") && actor === null) {
       const itemImage = SystemUtils.GetDefaultImage("Item", createData.type);
-      doc.data.update({ img: itemImage });
+      doc.updateSource({ img: itemImage });
     }
 
     if (actor != null) {

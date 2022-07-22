@@ -1,4 +1,6 @@
 {{cprTrace "CPR-PROGRAM.HBS"}}
+{{log "CPR-PROGRAM.HBS"}}
+{{log this}}
 {{!-- Program Item Settings--}}
 {{!-- Program Size--}}
 <li class="item flexrow">
@@ -7,7 +9,7 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-            <input name="data.size" class="" type="number" value="{{item.system.size}}" placeholder="1">
+            <input name="system.size" class="" type="number" value="{{item.system.size}}" placeholder="1">
         {{else}}
         <span class="text-flex-end">{{item.system.size}}</span>
         {{/if}}
@@ -20,7 +22,7 @@
         {{localize "CPR.global.generic.class"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        <select name="data.class" data-dtype="{{item.system.class}}">
+        <select name="system.class" data-dtype="{{item.system.class}}">
             {{#select item.system.class}}
                 {{#each (cprFindConfigObj "programClassList") as |class c| }}
                     <option value="{{c}}">{{localize class}}</option>
@@ -41,7 +43,7 @@
             {{localize "CPR.global.programClass.blackice"}} {{localize "CPR.global.generic.type"}}
         </div>
         <div class="item flexrow setting-value text-nowrap item-end">
-            <select name="data.blackIceType" data-dtype="{{item.system.blackIceType}}">
+            <select name="system.blackIceType" data-dtype="{{item.system.blackIceType}}">
                 {{#select item.system.blackIceType}}
                     {{#each (cprFindConfigObj "blackIceType") as |blackIceType bit| }}
                         <option value="{{bit}}">{{localize blackIceType}}</option>
@@ -67,7 +69,7 @@
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 {{#if this.editable}}
-                    <input name="data.damage.standard" class="" type="text" value="{{item.system.damage.standard}}">
+                    <input name="system.damage.standard" class="" type="text" value="{{item.system.damage.standard}}">
                 {{else}}
                     <span class="text-flex-end">{{item.system.damage.standard}}</span>
                 {{/if}}
@@ -82,7 +84,7 @@
             </div>
             <div class="item flexrow setting-value text-nowrap item-end">
                 {{#if this.editable}}
-                    <input name="data.damage.blackIce" class="" type="text" value="{{item.system.damage.blackIce}}">
+                    <input name="system.damage.blackIce" class="" type="text" value="{{item.system.damage.blackIce}}">
                 {{else}}
                     <span class="text-flex-end">{{item.system.damage.blackIce}}</span>
                 {{/if}}
@@ -100,7 +102,7 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-            <input name="data.per" class="" type="number" value="{{item.system.per}}" placeholder="5">
+            <input name="system.per" class="" type="number" value="{{item.system.per}}" placeholder="5">
         {{else}}
             <span class="text-flex-end">{{item.system.per}}</span>
         {{/if}}
@@ -114,7 +116,7 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-            <input name="data.spd" class="" type="number" value="{{item.system.spd}}" placeholder="5">
+            <input name="system.spd" class="" type="number" value="{{item.system.spd}}" placeholder="5">
         {{else}}
             <span class="text-flex-end">{{item.system.spd}}</span>
         {{/if}}
@@ -129,7 +131,7 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-            <input name="data.atk" class="" type="number" value="{{item.system.atk}}" placeholder="5">
+            <input name="system.atk" class="" type="number" value="{{item.system.atk}}" placeholder="5">
         {{else}}
             <span class="text-flex-end">{{item.system.atk}}</span>
         {{/if}}
@@ -143,7 +145,7 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-            <input name="data.def" class="" type="number" value="{{item.system.def}}" placeholder="5">
+            <input name="system.def" class="" type="number" value="{{item.system.def}}" placeholder="5">
         {{else}}
             <span class="text-flex-end">{{item.system.def}}</span>
         {{/if}}
@@ -157,7 +159,7 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-            <input name="data.rez" class="" type="number" value="{{item.system.rez}}" placeholder="5">
+            <input name="system.rez" class="" type="number" value="{{item.system.rez}}" placeholder="5">
         {{else}}
             <span class="text-flex-end">{{item.system.rez}}</span>
         {{/if}}
