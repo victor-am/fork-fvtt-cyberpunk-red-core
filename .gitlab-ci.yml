@@ -45,8 +45,8 @@ lang-test 1/2:
 lang-test 2/2:
   stage: test
   before_script:
-    - 'apt-get update'
-    - 'apt-get install jq -yes'
+    - apt-get update
+    - apt-get install jq --yes
   script:
     - echo "Checking if all the language files specified in system.json exist..."
     - ./.gitlab/pipeline_tests/test-lang-existence.sh
