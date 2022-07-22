@@ -1,4 +1,4 @@
-/* global Actors ActorSheet CONFIG Hooks Items ItemSheet game isNewerVersion */
+/* global Actors ActorSheet CONFIG Hooks Items ItemSheet game isNewerVersion DocumentSheetConfig */
 // Object imports
 import CPRActiveEffect from "./modules/cpr-active-effect.js";
 import CPRActiveEffectSheet from "./modules/cpr-active-effect-sheet.js";
@@ -86,11 +86,12 @@ Hooks.once("init", async () => {
 
   // Assign the actor class to the CONFIG
   CONFIG.ActiveEffect.documentClass = CPRActiveEffect;
-  CONFIG.ActiveEffect.sheetClass = CPRActiveEffectSheet;
+  DocumentSheetConfig.registerSheet(CPRActiveEffect, "cyberpunk-red-core", CPRActiveEffectSheet, { makeDefault: true });
   CONFIG.Actor.documentClass = actorConstructor;
   CONFIG.Combat.documentClass = CPRCombat;
   CONFIG.Item.documentClass = itemConstructor;
   CONFIG.Combatant.documentClass = CPRCombatant;
+
 
   preloadHandlebarsTemplates();
   registerHandlebarsHelpers();
