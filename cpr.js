@@ -92,7 +92,6 @@ Hooks.once("init", async () => {
   CONFIG.Item.documentClass = itemConstructor;
   CONFIG.Combatant.documentClass = CPRCombatant;
 
-
   preloadHandlebarsTemplates();
   registerHandlebarsHelpers();
   registerSystemSettings();
