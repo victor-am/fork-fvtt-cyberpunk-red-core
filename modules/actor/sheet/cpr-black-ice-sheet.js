@@ -127,7 +127,7 @@ export default class CPRBlackIceActorSheet extends ActorSheet {
         await this.actor.token.setFlag("cyberpunk-red-core", "programId", program._id);
       }
     }
-    this.render(true, { renderData: this.data });
+    this.render(true, { renderData: this.actor.system });
   }
 
   /**

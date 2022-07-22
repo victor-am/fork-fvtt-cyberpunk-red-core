@@ -834,7 +834,7 @@ export default class CPRActorSheet extends ActorSheet {
           // Check if the critical Injury already exists on the character
           let injuryAlreadyExists = false;
           this.actor.system.filteredItems.criticalInjury.forEach((injury) => {
-            if (injury.name === res.results[0].data.text) { injuryAlreadyExists = true; }
+            if (injury.name === res.results[0].text) { injuryAlreadyExists = true; }
           });
           if (injuryAlreadyExists) {
             const setting = game.settings.get("cyberpunk-red-core", "preventDuplicateCriticalInjuries");
@@ -847,7 +847,7 @@ export default class CPRActorSheet extends ActorSheet {
             }
           }
           const crit = game.items.find((item) => (
-            (item.type === "criticalInjury") && (item.name === res.results[0].data.text)
+            (item.type === "criticalInjury") && (item.name === res.results[0].text)
           ));
           if (!crit) {
             SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.dialog.rollCriticalInjury.criticalInjuryNoneWarning")));
