@@ -1,4 +1,6 @@
-{{cprTrace "CPR-ROLE.HBS"}}
+{{cprTrace "ITEM CPR-ROLE.HBS"}}
+{{log "ITEM CPR-ROLE.HBS"}}
+{{log this}}
       {{!--Item Name Settings--}}
       {{!-- Role Item Settings--}}
       <li class="item flexrow">
@@ -78,7 +80,7 @@
                 {{/each}}
               </optgroup>
               <optgroup label = "{{localize "CPR.itemSheet.role.skillList"}}">
-                {{#each (cprSort (cprGetProp this.filteredItems 'skill') "name") as |skill| }}
+                {{#each (cprSort (cprGetProp item.system.filteredItems 'skill') "name") as |skill| }}
                   <option value="{{skill.name}}">{{localize skill.name}}</option>
                 {{/each}}
               </optgroup>
