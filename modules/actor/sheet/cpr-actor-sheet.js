@@ -72,7 +72,7 @@ export default class CPRActorSheet extends ActorSheet {
   getData() {
     LOGGER.trace("getData | CPRActorSheet | Called.");
     const data = super.getData();
-    const cprActorData = data.data.system;
+    const cprActorData = system.system.system;
     cprActorData.filteredItems = this.actor.system.filteredItems;
     if (this.actor.type === "mook" || this.actor.type === "character") {
       cprActorData.installedCyberware = this._getSortedInstalledCyberware();
@@ -95,7 +95,7 @@ export default class CPRActorSheet extends ActorSheet {
       });
       cprActorData.filteredItems.programsInstalled = programsInstalled;
       cprActorData.filteredEffects = this.prepareActiveEffectCategories();
-      data.actor.system = cprActorData;
+      system.actor.system = cprActorData;
     }
 
     return data;
@@ -363,7 +363,7 @@ export default class CPRActorSheet extends ActorSheet {
     if (Number.isInteger(cprRoll.luck) > 0) {
       const luckStat = this.actor.system.stats.luck.value;
       this.actor.update({
-        "data.stats.luck.value": luckStat - ((cprRoll.luck > luckStat) ? luckStat : cprRoll.luck),
+        "system.stats.luck.value": luckStat - ((cprRoll.luck > luckStat) ? luckStat : cprRoll.luck),
       });
     }
 
@@ -678,7 +678,7 @@ export default class CPRActorSheet extends ActorSheet {
       const programs = item.getInstalledPrograms();
       const updateList = [];
       programs.forEach((p) => {
-        updateList.push({ _id: p._id, "data.isInstalled": false });
+        updateList.push({ _id: p._id, "system.isInstalled": false });
       });
       await this.actor.updateEmbeddedDocuments("Item", updateList);
     }
@@ -693,7 +693,7 @@ export default class CPRActorSheet extends ActorSheet {
       const { upgrades } = item.system;
       const updateList = [];
       upgrades.forEach((u) => {
-        updateList.push({ _id: u._id, "data.isInstalled": false });
+        updateList.push({ _id: u._id, "system.isInstalled": false });
       });
       await this.actor.updateEmbeddedDocuments("Item", updateList);
     }
@@ -804,7 +804,7 @@ export default class CPRActorSheet extends ActorSheet {
     if (iteration > 100) {
       // 6% chance to reach here in case of only one rare critical injury remaining (2 or 12 on 2d6)
       const crit = game.items.find((item) => (
-        (item.type === "criticalInjury") && (item.name === table.system.data._source[0].text)
+        (item.type === "criticalInjury") && (item.name === table._source[0].text)
       ));
       if (!crit) {
         SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.dialog.rollCriticalInjury.criticalInjuryNoneWarning")));
@@ -816,7 +816,7 @@ export default class CPRActorSheet extends ActorSheet {
       this.actor.system.filteredItems.criticalInjury.forEach((injury) => {
         if (injury.system.location === critType) { numberCritInjurySameType += 1; }
       });
-      if (table.data.results.contents.length <= numberCritInjurySameType) {
+      if (table.results.contents.length <= numberCritInjurySameType) {
         SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.criticalInjuryDuplicateAllWarning")));
         return;
       }
@@ -1070,11 +1070,11 @@ export default class CPRActorSheet extends ActorSheet {
           return;
         }
         // If the cyberware is marked as core, or is installed, throw an error message.
-        if (dragData.data.core === true || (dragData.data.type === "cyberware" && dragData.data.isInstalled)) {
+        if (dragData.system.core === true || (dragData.system.type === "cyberware" && dragData.system.isInstalled)) {
           SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.cannotDropInstalledCyberware"));
           return;
         }
-        if (dragData.data.isUpgraded) {
+        if (dragData.system.isUpgraded) {
           SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradedragupgradewarn"));
           return;
         }
@@ -1120,7 +1120,7 @@ export default class CPRActorSheet extends ActorSheet {
     const cprNewItemData = duplicate(item.system);
     cprNewItemData.amount = formData.splitAmount;
     delete cprNewItemData._id;
-    await this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.amount": newAmount }]);
+    await this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, "system.amount": newAmount }]);
     await this.actor.createEmbeddedDocuments("Item", [cprNewItemData], { CPRsplitStack: true });
   }
 

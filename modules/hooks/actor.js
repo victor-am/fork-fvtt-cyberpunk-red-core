@@ -44,13 +44,13 @@ const actorHooks = () => {
    */
   Hooks.on("preUpdateActor", (doc, updatedData) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
-    if (updatedData.data && updatedData.data.externalData) {
-      Object.keys(updatedData.data.externalData).forEach(
+    if (updatedData.system && updatedData.system.externalData) {
+      Object.keys(updatedData.system.externalData).forEach(
         (itemType) => {
-          if (!updatedData.data.externalData[itemType].id) {
+          if (!updatedData.system.externalData[itemType].id) {
             const itemId = doc.system.externalData[itemType].id;
             const item = doc._getOwnedItem(itemId);
-            const currentValue = updatedData.data.externalData[itemType].value;
+            const currentValue = updatedData.system.externalData[itemType].value;
             if (item) {
               switch (item.type) {
                 case "armor": {
@@ -78,7 +78,7 @@ const actorHooks = () => {
                     const updateList = [];
                     const diff = item.system.headLocation.sp - item.system.headLocation.ablation - currentValue;
                     armorList.forEach((a) => {
-                      const armorData = a.data;
+                      const armorData = a.system;
                       if (diff > 0) {
                         armorData.headLocation.ablation = Math.min(
                           armorData.headLocation.ablation + diff,
@@ -88,7 +88,7 @@ const actorHooks = () => {
                       if (diff < 0 && item._id === a._id) {
                         armorData.headLocation.ablation = Math.max(armorData.headLocation.ablation + diff, 0);
                       }
-                      updateList.push({ _id: a.id, data: armorData });
+                      updateList.push({ _id: a.id, system: armorData });
                     });
                     doc.updateEmbeddedDocuments("Item", updateList);
                   }
@@ -106,7 +106,7 @@ const actorHooks = () => {
       );
     }
 
-    if (doc.type === "blackIce" && doc.isToken && updatedData.data && updatedData.data.stats) {
+    if (doc.type === "blackIce" && doc.isToken && updatedData.system && updatedData.system.stats) {
       const biToken = doc.token;
 
       const netrunnerTokenId = biToken.getFlag("cyberpunk-red-core", "netrunnerTokenId");
@@ -121,7 +121,7 @@ const actorHooks = () => {
           const netrunnerToken = tokenList[0];
           const netrunner = netrunnerToken.actor;
           const cyberdeck = netrunner._getOwnedItem(cyberdeckId);
-          cyberdeck.updateRezzedProgram(programId, updatedData.data.stats);
+          cyberdeck.updateRezzedProgram(programId, updatedData.system.stats);
           netrunner.updateEmbeddedDocuments("Item", [{ _id: cyberdeck.id, data: cyberdeck.system }]);
         }
       }
