@@ -241,7 +241,7 @@ export default class CPRCyberdeckItem extends CPRItem {
       default:
     }
     cprRoll.setNetCombat(pgmName);
-    if (roleName !== "blackice") cprRoll.addMod(this.actor.system.bonuses[SystemUtils.slugify(roleName)]);
+    if (roleName !== "blackice") cprRoll.addMod(this.actor.bonuses[SystemUtils.slugify(roleName)]);
     cprRoll.addMod(actor.getWoundStateMods());
     return cprRoll;
   }
@@ -277,11 +277,11 @@ export default class CPRCyberdeckItem extends CPRItem {
     // consider active effects
     if (interfaceAbility === "perception") {
       // hack because "perception" is already used for the skill
-      cprRoll.addMod(this.actor.system.bonuses.perception_net);
+      cprRoll.addMod(this.actor.bonuses.perception_net);
     } else {
-      cprRoll.addMod(this.actor.system.bonuses[interfaceAbility]);
+      cprRoll.addMod(this.actor.bonuses[interfaceAbility]);
     }
-    cprRoll.addMod(this.actor.system.bonuses[SystemUtils.slugify(roleName)]);
+    cprRoll.addMod(this.actor.bonuses[SystemUtils.slugify(roleName)]);
     cprRoll.addMod(this.actor.getWoundStateMods());
     return cprRoll;
   }

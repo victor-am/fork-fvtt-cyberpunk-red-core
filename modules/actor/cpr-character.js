@@ -72,7 +72,7 @@ export default class CPRCharacterActor extends CPRActor {
     derivedStats.currentWoundState = cprData.derivedStats.currentWoundState;
 
     // Death save
-    let basePenalty = cprData.bonuses.deathSavePenalty; // 0 + active effects
+    let basePenalty = this.bonuses.deathSavePenalty; // 0 + active effects
     const critInjury = cprData.filteredItems.criticalInjury;
     critInjury.forEach((criticalInjury) => {
       const { deathSaveIncrease } = criticalInjury.system;

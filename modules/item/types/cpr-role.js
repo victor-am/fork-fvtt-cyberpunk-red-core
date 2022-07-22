@@ -80,8 +80,8 @@ export default class CPRRoleItem extends CPRItem {
     }
 
     const cprRoll = new CPRRolls.CPRRoleRoll(roleName, roleValue, skillName, skillValue, statName, statValue, skillList);
-    cprRoll.addMod(actor.system.bonuses[SystemUtils.slugify(skillName)]); // add skill bonuses from Active Effects
-    cprRoll.addMod(actor.system.bonuses[SystemUtils.slugify(roleName)]); // add role bonuses from Active Effects
+    cprRoll.addMod(actor.bonuses[SystemUtils.slugify(skillName)]); // add skill bonuses from Active Effects
+    cprRoll.addMod(actor.bonuses[SystemUtils.slugify(roleName)]); // add role bonuses from Active Effects
     cprRoll.addMod(actor.getWoundStateMods());
     return cprRoll;
   }
@@ -98,7 +98,7 @@ export default class CPRRoleItem extends CPRItem {
     // some role abilities modify skills too, so we account for that here
     let roleName;
     let roleValue = 0;
-    const roleSkillBonuses = this.system.bonuses.filter((b) => b.name === skillName);
+    const roleSkillBonuses = this.bonuses.filter((b) => b.name === skillName);
     if (roleSkillBonuses.length > 0) {
       roleValue += Math.floor(this.system.rank / this.system.bonusRatio);
       roleName = this.system.mainRoleAbility;

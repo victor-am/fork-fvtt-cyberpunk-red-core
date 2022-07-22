@@ -51,42 +51,42 @@ export default class CPRActor extends Actor {
   prepareBaseData() {
     LOGGER.trace("prepareBaseData | CPRActor | Called.");
     super.prepareBaseData();
-    this.system.bonuses = {};
+    this.bonuses = {};
     const skills = this.items.filter((i) => i.type === "skill");
     skills.forEach((skill) => {
-      this.system.bonuses[SystemUtils.slugify(skill.name)] = 0;
+      this.bonuses[SystemUtils.slugify(skill.name)] = 0;
     });
     const roles = this.items.filter((i) => i.type === "role");
     roles.forEach((role) => {
-      this.system.bonuses[SystemUtils.slugify(role.system.mainRoleAbility)] = 0;
+      this.bonuses[SystemUtils.slugify(role.system.mainRoleAbility)] = 0;
       if (role.system.abilities.length > 0) {
         for (const ability of role.system.abilities) {
-          this.system.bonuses[SystemUtils.slugify(ability.name)] = 0;
+          this.bonuses[SystemUtils.slugify(ability.name)] = 0;
         }
       }
     });
-    this.system.bonuses.run = 0;
-    this.system.bonuses.walk = 0;
-    this.system.bonuses.deathSavePenalty = 0;
-    this.system.bonuses.hands = 0;
-    this.system.bonuses.initiative = 0;
-    this.system.bonuses.maxHp = 0;
-    this.system.bonuses.maxHumanity = 0;
-    this.system.bonuses.universalAttack = 0;
-    this.system.bonuses.universalDamage = 0;
+    this.bonuses.run = 0;
+    this.bonuses.walk = 0;
+    this.bonuses.deathSavePenalty = 0;
+    this.bonuses.hands = 0;
+    this.bonuses.initiative = 0;
+    this.bonuses.maxHp = 0;
+    this.bonuses.maxHumanity = 0;
+    this.bonuses.universalAttack = 0;
+    this.bonuses.universalDamage = 0;
     // netrunning things
-    this.system.bonuses.speed = 0;
-    this.system.bonuses.perception_net = 0; // beware of hacks because "perception" is also a skill
-    this.system.bonuses.attack = 0;
-    this.system.bonuses.defense = 0;
-    this.system.bonuses.rez = 0;
+    this.bonuses.speed = 0;
+    this.bonuses.perception_net = 0; // beware of hacks because "perception" is also a skill
+    this.bonuses.attack = 0;
+    this.bonuses.defense = 0;
+    this.bonuses.rez = 0;
     // combat-related rolls
-    this.system.bonuses.aimedShot = 0;
-    this.system.bonuses.melee = 0;
-    this.system.bonuses.ranged = 0;
-    this.system.bonuses.autofire = 0;
-    this.system.bonuses.suppressive = 0;
-    this.system.bonuses.singleShot = 0;
+    this.bonuses.aimedShot = 0;
+    this.bonuses.melee = 0;
+    this.bonuses.ranged = 0;
+    this.bonuses.autofire = 0;
+    this.bonuses.suppressive = 0;
+    this.bonuses.singleShot = 0;
   }
 
   /**
@@ -166,7 +166,7 @@ export default class CPRActor extends Actor {
     const cprData = this.system;
     const { stats } = cprData;
     let maxHp = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
-    maxHp += cprData.bonuses.maxHp; // from any active effects
+    maxHp += cprData.system.bonuses.maxHp; // from any active effects
     return maxHp;
   }
 
@@ -188,7 +188,7 @@ export default class CPRActor extends Actor {
       }
     });
     let maxHumanity = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
-    maxHumanity += cprData.bonuses.maxHumanity; // from any active effects
+    maxHumanity += cprData.system.bonuses.maxHumanity; // from any active effects
     return maxHumanity;
   }
 
@@ -528,7 +528,7 @@ export default class CPRActor extends Actor {
   getSkillMod(skillName) {
     LOGGER.trace("getSkillMod | CPRActor | Called.");
     const skillSlug = SystemUtils.slugify(skillName);
-    return this.system.bonuses[skillSlug];
+    return this.bonuses[skillSlug];
   }
 
   /**
@@ -1002,7 +1002,7 @@ export default class CPRActor extends Actor {
    */
   _getHands() {
     LOGGER.trace("_getHands | CPRActor | Called.");
-    return 2 + this.system.bonuses.hands;
+    return 2 + this.bonuses.hands;
   }
 
   /**

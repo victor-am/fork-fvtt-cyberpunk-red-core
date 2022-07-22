@@ -54,7 +54,7 @@ export default class CPRSkillItem extends CPRItem {
     cprRoll.addMod(actor.getWoundStateMods());
     cprRoll.addMod(actor.getUpgradeMods(statName));
     cprRoll.addMod(actor.getUpgradeMods(skillName));
-    cprRoll.addMod(actor.system.bonuses[SystemUtils.slugify(skillName)]); // active effects
+    cprRoll.addMod(actor.bonuses[SystemUtils.slugify(skillName)]); // active effects
     return cprRoll;
   }
 }

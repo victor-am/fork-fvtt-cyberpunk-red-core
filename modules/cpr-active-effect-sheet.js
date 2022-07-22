@@ -90,7 +90,7 @@ export default class CPRActiveEffectSheet extends ActiveEffectConfig {
    */
   async _addEffectChange() {
     LOGGER.trace("_addEffectChange | CPRActiveEffectSheet | Called.");
-    const idx = this.document.data.changes.length;
+    const idx = this.document.changes.length;
     LOGGER.debug(`adding change defaults for changes.${idx}`);
     return this.submit({
       preventClose: true,

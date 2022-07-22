@@ -24,8 +24,8 @@ const externalHooks = () => {
 
       getRanges(token) {
         LOGGER.trace("dragRulerHook | getRanges  | Called.");
-        const walkSpeed = token.actor.system.derivedStats.walk.value + token.actor.system.bonuses.walk;
-        const runSpeed = token.actor.system.derivedStats.run.value + token.actor.system.bonuses.run;
+        const walkSpeed = token.actor.system.derivedStats.walk.value + token.actor.bonuses.walk;
+        const runSpeed = token.actor.system.derivedStats.run.value + token.actor.bonuses.run;
         const ranges = [
           { range: walkSpeed, color: "walk" },
           { range: runSpeed, color: "run" },
