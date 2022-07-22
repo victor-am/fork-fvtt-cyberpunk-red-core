@@ -15,7 +15,8 @@ export default class HudPrompt {
         };
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog HudPrompt | called.");
-          const formData = new FormDataExtended(html.find("form")[0]).toObject();
+          const fd = new FormDataExtended(html.find("form")[0]);
+          const formData = foundry.utils.expandObject(fd.object);
           resolve(formData);
         };
         new Dialog({

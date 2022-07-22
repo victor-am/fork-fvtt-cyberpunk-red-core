@@ -140,7 +140,7 @@ export default class CPRBlackIceActor extends Actor {
       const effectText = effect.replace(/(<([^>]+)>)/gi, "");
       setProperty(cprData, "effect", effectText);
     }
-    this.update(cprData);
+    this.update({ system: cprData });
   }
 
   /**

@@ -1,4 +1,4 @@
-/* global renderTemplate, FormDataExtended, Dialog */
+/* global renderTemplate, FormDataExtended, Dialog foundry */
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
 
@@ -15,7 +15,8 @@ export default class VerifyRollPrompt {
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog VerifyRollPrompt | called.");
 
-          const formData = new FormDataExtended(html.find("form")[0]).toObject();
+          const fd = new FormDataExtended(html.find("form")[0]);
+          const formData = foundry.utils.expandObject(fd.object);
           if (formData.mods) {
             formData.mods = formData.mods.replace(/ +/g, ",");
             formData.mods = formData.mods.replace(/,+/g, ",");

@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-/* global renderTemplate Dialog FormDataExtended */
+/* global renderTemplate Dialog FormDataExtended foundry */
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
@@ -17,7 +17,8 @@ export default class InstallProgramsPrompt {
           LOGGER.trace("_onConfirm | Dialog InstallProgramsPrompt | called.");
           const programList = html.find("[name=\"selectedPrograms\"");
           const selectedPrograms = [];
-          const formData = new FormDataExtended(html.find("form")[0]).toObject();
+          const fd = new FormDataExtended(html.find("form")[0]);
+          const formData = foundry.utils.expandObject(fd.object);
           Object.keys(programList).forEach((program) => {
             if (programList[program].checked) {
               selectedPrograms.push(programList[program].value);
