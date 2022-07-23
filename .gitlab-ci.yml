@@ -36,11 +36,20 @@ unit-test:
     - echo "Executing tests..."
     - npm test
 
-lang-test:
+lang-test 1/2:
   stage: test
   script:
     - echo "Checking language file for unused strings..."
     - ./.gitlab/pipeline_tests/test-lang-file.sh
+
+lang-test 2/2:
+  stage: test
+  before_script:
+    - apt-get update
+    - apt-get install jq --yes
+  script:
+    - echo "Checking if all the language files specified in system.json exist..."
+    - ./.gitlab/pipeline_tests/test-lang-existence.sh
 
 changelog-dev-test:
   stage: test
@@ -90,7 +99,7 @@ pre-release:
   before_script:
     - 'apt-get update'
     - 'apt-get install jq -y'
-  rules: 
+  rules:
     - if: '$CI_COMMIT_BRANCH == "dev"'
   allow_failure: true
   script:
@@ -99,11 +108,11 @@ pre-release:
 
 release:
   stage: release
-  rules: 
+  rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
       when: manual
   script:
     - echo "Running the release job"
     - MASTER_VERSION=$(grep version system.json | awk '{print $2}' | sed 's/^.//;s/..$//')
-    - > 
+    - >
       curl --header "Content-Type: application/json" --header "JOB-TOKEN: $CI_JOB_TOKEN" --data "{\"name\": \"v$MASTER_VERSION\", \"tag_name\": \"v$MASTER_VERSION\", \"description\": \"Automated release of v$MASTER_VERSION\", \"ref\": \"$CI_COMMIT_SHA\" }" --request POST "https://gitlab.com/api/v4/projects/22820629/releases"
