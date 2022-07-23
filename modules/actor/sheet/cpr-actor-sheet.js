@@ -72,7 +72,7 @@ export default class CPRActorSheet extends ActorSheet {
   getData() {
     LOGGER.trace("getData | CPRActorSheet | Called.");
     const data = super.getData();
-    const cprActorData = data.system;
+    const cprActorData = data.data.system;
     cprActorData.filteredItems = this.actor.system.filteredItems;
     if (this.actor.type === "mook" || this.actor.type === "character") {
       cprActorData.installedCyberware = this._getSortedInstalledCyberware();
@@ -95,7 +95,7 @@ export default class CPRActorSheet extends ActorSheet {
       });
       cprActorData.filteredItems.programsInstalled = programsInstalled;
       cprActorData.filteredEffects = this.prepareActiveEffectCategories();
-      system.actor.system = cprActorData;
+      data.actor.system = cprActorData;
     }
 
     return data;
