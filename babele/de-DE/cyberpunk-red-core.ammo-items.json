@@ -1,0 +1,217 @@
+{
+	"label": "Munition",
+	"entries": {
+		"Armor Piercing Arrow": {
+			"name": "Panzerbrechend - Pfeil",
+			"description": "<p>Doppelte Abtragung der Rüstung.</p>"
+		},
+		"Armor Piercing Grenade": {
+			"name": "Panzerbrechend - Granate",
+			"description": "<p>Doppelte Abtragung der Rüstung.</p>"
+		},
+		"Armor Piercing Heavy Pistol": {
+			"name": "Panzerbrechend - Schwere Pistole",
+			"description": "<p>Doppelte Abtragung der Rüstung.</p>"
+		},
+		"Armor Piercing Medium Pistol": {
+			"name": "Panzerbrechend - Mittelschwere Pistole",
+			"description": "<p>Doppelte Abtragung der Rüstung.</p>"
+		},
+		"Armor Piercing Rifle": {
+			"name": "Panzerbrechend - Sturmgewehr",
+			"description": "<p>Doppelte Abtragung der Rüstung.</p>"
+		},
+		"Armor Piercing Rocket": {
+			"name": "Panzerbrechend - Rakete",
+			"description": "<p>Doppelte Abtragung der Rüstung.</p>"
+		},
+		"Armor Piercing Shotgun Slug": {
+			"name": "Panzerbrechend - Flintenpatrone",
+			"description": "<p>Doppelte Abtragung der Rüstung.</p>"
+		},
+		"Armor Piercing Very Heavy Pistol": {
+			"name": "Panzerbrechend - Sehr Schwere Pistole",
+			"description": "<p>Doppelte Abtragung der Rüstung.</p>"
+		},
+		"Basic Arrow": {
+			"name": "Basismunition - Pfeil",
+			"description": "<p>Standardmunition, keine Besonderheiten.</p>"
+		},
+		"Basic Heavy Pistol": {
+			"name": "Basismunition - Schwere Pistole",
+			"description": "<p>Standardmunition, keine Besonderheiten.</p>"
+		},
+		"Basic Medium Pistol": {
+			"name": "Basismunition - Mittelschwere Pistole",
+			"description": "<p>Standardmunition, keine Besonderheiten.</p>"
+		},
+		"Basic Rifle": {
+			"name": "Basismunition - Sturmgewehr",
+			"description": "<p>Standardmunition, keine Besonderheiten.</p>"
+		},
+		"Basic Shotgun Shell": {
+			"name": "Basismunition - Schrotpatrone",
+			"description": "<p>Standardmunition, keine Besonderheiten.</p>"
+		},
+		"Basic Shotgun Slug": {
+			"name": "Basismunition - Flintenpatrone",
+			"description": "<p>Standardmunition, keine Besonderheiten.</p>"
+		},
+		"Basic Very Heavy Pistol": {
+			"name": "Basismunition - Sehr Schwere Pistole",
+			"description": "<p>Standardmunition, keine Besonderheiten.</p>"
+		},
+		"Battery Pack": {
+			"name": "Batteriepack",
+			"description": "<p>A rechargable (1 hour) battery pack, commonly used with Exotic weapons. Contains 8 shots and can be recharged.&nbsp;</p>"
+		},
+		"Biotoxin Arrow": {
+			"name": "Biotoxin - Pfeil",
+			"description": "<p>Der Angriff richtet keinen Schaden an. Das Ziel muss eine Probe auf Folter/Drogen widerstehen, mit SG 15 abzulegen. Scheitert die Probe, erleidet das Ziel 3W6 direkten Schaden an seinen TP. Panzerung wird nicht abgetragen.</p>"
+		},
+		"Biotoxin Grenade": {
+			"name": "Biotoxin - Granate",
+			"description": "<p>Der Angriff richtet keinen Schaden an. Das Ziel muss eine Probe auf Folter/Drogen widerstehen, mit SG 15 abzulegen. Scheitert die Probe, erleidet das Ziel 3W6 direkten Schaden an seinen TP. Panzerung wird nicht abgetragen.</p>"
+		},
+		"EMP Grenade": {
+			"name": "EMP - Granate",
+			"description": "<p>If hit DV15 Cybertech Check. On Fail 2 pieces of Cyberware or carried electronics (GM's choice) stop working for 1 minute. Cyberlimbs hang loosely like a dismembered meat arm see pg. 187.</p>"
+		},
+		"Expansive Arrow": {
+			"name": "Ausdehnungsmunition - Pfeil",
+			"description": "<p>If you roll Foreign object Critical (see pg. 187), victim rolls for a second (different) Critical Injury. Second injury does not deal bonus damage.</p>"
+		},
+		"Expansive Heavy Pistol": {
+			"name": "Ausdehnungsmunition - Schwere Pistole",
+			"description": "<p>If you roll Foreign object Critical (see pg. 187), victim rolls for a second (different) Critical Injury. Second injury does not deal bonus damage.</p>"
+		},
+		"Expansive Medium Pistol": {
+			"name": "Ausdehnungsmunition - Mittelschwere Pistole",
+			"description": "<p>If you roll Foreign object Critical (see pg. 187), victim rolls for a second (different) Critical Injury. Second injury does not deal bonus damage.</p>"
+		},
+		"Expansive Rifle": {
+			"name": "Ausdehnungsmunition - Sturmgewehr",
+			"description": "<p>If you roll Foreign object Critical (see pg. 187), victim rolls for a second (different) Critical Injury. Second injury does not deal bonus damage.</p>"
+		},
+		"Expansive Shotgun Slug": {
+			"name": "Ausdehnungsmunition - Flintenpatrone",
+			"description": "<p>If you roll Foreign object Critical (see pg. 187), victim rolls for a second (different) Critical Injury. Second injury does not deal bonus damage.</p>"
+		},
+		"Expansive Very Heavy Pistol": {
+			"name": "Ausdehnungsmunition - Sehr Schwere Pistole",
+			"description": "<p>If you roll Foreign object Critical (see pg. 187), victim rolls for a second (different) Critical Injury. Second injury does not deal bonus damage.</p>"
+		},
+		"Flashbang Grenade": {
+			"name": "Blendmunition - Granate",
+			"description": "<p>Der Angriff richtet keinen Schaden an. Stattdessen müssen alle eine Probe auf Folter/Drogen widerstehen mit SG 15 ablegen. Wer scheitert, erleidet für die nächste Minute die Kritischen Verletzungen Augenschaden und Ohrenschaden (siehe Seite 188). Diese Kritischen Verletzungen richten keinen Bonusschaden an.</p>"
+		},
+		"Incendiary Arrow": {
+			"name": "Brandmunition - Pfeil",
+			"description": "<p>If damage dealt to target they are set alight. Target takes 2 damage to HP at end of their turn unless they use action to extinguish flames. Does not stack. </p>"
+		},
+		"Incendiary Grenade": {
+			"name": "Brandmunition - Granate",
+			"description": "<p>Wenn du durch die Panzerung eines Ziels hindurch Schaden anrichtest, steckst du das Ziel in Brand. Wenn das Ziel keine Aktion aufwendet, um sich selbst zu löschen, werden am Ende jedes seiner Züge 2 Schadenspunkte direkt von seinen TP abgezogen. Wenn der Effekt mehrfach auftritt, ist er nicht kumulativ.</p>"
+		},
+		"Incendiary Heavy Pistol": {
+			"name": "Brandmunition - Schwere Pistole",
+			"description": "<p>Wenn du durch die Panzerung eines Ziels hindurch Schaden anrichtest, steckst du das Ziel in Brand. Wenn das Ziel keine Aktion aufwendet, um sich selbst zu löschen, werden am Ende jedes seiner Züge 2 Schadenspunkte direkt von seinen TP abgezogen. Wenn der Effekt mehrfach auftritt, ist er nicht kumulativ.</p>"
+		},
+		"Incendiary Medium Pistol": {
+			"name": "Brandmunition - Mittelschwere Pistole",
+			"description": "<p>Wenn du durch die Panzerung eines Ziels hindurch Schaden anrichtest, steckst du das Ziel in Brand. Wenn das Ziel keine Aktion aufwendet, um sich selbst zu löschen, werden am Ende jedes seiner Züge 2 Schadenspunkte direkt von seinen TP abgezogen. Wenn der Effekt mehrfach auftritt, ist er nicht kumulativ.</p>"
+		},
+		"Incendiary Rifle": {
+			"name": "Brandmunition - Sturmgewehr",
+			"description": "<p>Wenn du durch die Panzerung eines Ziels hindurch Schaden anrichtest, steckst du das Ziel in Brand. Wenn das Ziel keine Aktion aufwendet, um sich selbst zu löschen, werden am Ende jedes seiner Züge 2 Schadenspunkte direkt von seinen TP abgezogen. Wenn der Effekt mehrfach auftritt, ist er nicht kumulativ.</p>"
+		},
+		"Incendiary Shotgun Shell": {
+			"name": "Brandmunition - Schrotpatrone",
+			"description": "<p>Wenn du durch die Panzerung eines Ziels hindurch Schaden anrichtest, steckst du das Ziel in Brand. Wenn das Ziel keine Aktion aufwendet, um sich selbst zu löschen, werden am Ende jedes seiner Züge 2 Schadenspunkte direkt von seinen TP abgezogen. Wenn der Effekt mehrfach auftritt, ist er nicht kumulativ.</p>"
+		},
+		"Incendiary Shotgun Slug": {
+			"name": "Brandmunition - Flintenpatrone",
+			"description": "<p>Wenn du durch die Panzerung eines Ziels hindurch Schaden anrichtest, steckst du das Ziel in Brand. Wenn das Ziel keine Aktion aufwendet, um sich selbst zu löschen, werden am Ende jedes seiner Züge 2 Schadenspunkte direkt von seinen TP abgezogen. Wenn der Effekt mehrfach auftritt, ist er nicht kumulativ.</p>"
+		},
+		"Incendiary Very Heavy Pistol": {
+			"name": "Brandmunition - Sehr Schwere Pistole",
+			"description": "<p>Wenn du durch die Panzerung eines Ziels hindurch Schaden anrichtest, steckst du das Ziel in Brand. Wenn das Ziel keine Aktion aufwendet, um sich selbst zu löschen, werden am Ende jedes seiner Züge 2 Schadenspunkte direkt von seinen TP abgezogen. Wenn der Effekt mehrfach auftritt, ist er nicht kumulativ.</p>"
+		},
+		"Poison Arrow": {
+			"name": "Giftmunition - Pfeil",
+			"description": "<p>Der Angriff richtet keinen Schaden an. Das Ziel muss eine Probe auf Folter/Drogen widerstehen, mit SG 13 abzulegen. Scheitert die Probe, erleidet das Ziel 2W6 direkten Schaden an seinen TP. Panzerung wird nicht abgetragen.</p>"
+		},
+		"Poison Grenade": {
+			"name": "Giftmunition - Granate",
+			"description": "<p>Der Angriff richtet keinen Schaden an. Das Ziel muss eine Probe auf Folter/Drogen widerstehen, mit SG 13 abzulegen. Scheitert die Probe, erleidet das Ziel 2W6 direkten Schaden an seinen TP. Panzerung wird nicht abgetragen.</p>"
+		},
+		"Rubber Arrow": {
+			"name": "Gummimunition - Pfeil",
+			"description": "<p>Schaden führt nicht zu kritischen Verletzungen. Kann keine Panzerung abtragen. Diese Munition kann die TP eines Ziels nicht von 1 auf 0 senken. Bei Exotischen Waffen gilt Gummimunition als Basismunition.</p>"
+		},
+		"Rubber Heavy Pistol": {
+			"name": "Gummimunition - Schwere Pistole",
+			"description": "<p>Schaden führt nicht zu kritischen Verletzungen. Kann keine Panzerung abtragen. Diese Munition kann die TP eines Ziels nicht von 1 auf 0 senken. Bei Exotischen Waffen gilt Gummimunition als Basismunition.</p>"
+		},
+		"Rubber Medium Pistol": {
+			"name": "Gummimunition - Mittelschwere Pistole",
+			"description": "<p>Schaden führt nicht zu kritischen Verletzungen. Kann keine Panzerung abtragen. Diese Munition kann die TP eines Ziels nicht von 1 auf 0 senken. Bei Exotischen Waffen gilt Gummimunition als Basismunition.</p>"
+		},
+		"Rubber Rifle": {
+			"name": "Gummimunition - Sturmgewehr",
+			"description": "<p>Schaden führt nicht zu kritischen Verletzungen. Kann keine Panzerung abtragen. Diese Munition kann die TP eines Ziels nicht von 1 auf 0 senken. Bei Exotischen Waffen gilt Gummimunition als Basismunition.</p>"
+		},
+		"Rubber Shotgun Slug": {
+			"name": "Gummimunition - Flintenpatrone",
+			"description": "<p>Schaden führt nicht zu kritischen Verletzungen. Kann keine Panzerung abtragen. Diese Munition kann die TP eines Ziels nicht von 1 auf 0 senken. Bei Exotischen Waffen gilt Gummimunition als Basismunition.</p>"
+		},
+		"Rubber Very Heavy Pistol": {
+			"name": "Gummimunition - Sehr Schwere Pistole",
+			"description": "<p>Schaden führt nicht zu kritischen Verletzungen. Kann keine Panzerung abtragen. Diese Munition kann die TP eines Ziels nicht von 1 auf 0 senken. Bei Exotischen Waffen gilt Gummimunition als Basismunition.</p>"
+		},
+		"Sleep Arrow": {
+			"name": "Schlafmunition - Pfeil",
+			"description": "<p>Der Angriff richtet keinen Schaden an. Das Ziel muss eine Probe auf Folter/Drogen widerstehen, mit SG 13 abzulegen. Scheitert die Probe, erleidet das Ziel die Zustände Liegend (siehe Seite 169) und Bewusstlos, die 1 Minute lang anhalten, es sei denn, das Ziel wird durch Schaden oder dadurch geweckt, dass jemand eine Aktion aufwendet, um es zu berühren.</p>"
+		},
+		"Sleep Grenade": {
+			"name": "Schlafmunition - Granate",
+			"description": "<p>Der Angriff richtet keinen Schaden an. Das Ziel muss eine Probe auf Folter/Drogen widerstehen, mit SG 13 abzulegen. Scheitert die Probe, erleidet das Ziel die Zustände Liegend (siehe Seite 169) und Bewusstlos, die 1 Minute lang anhalten, es sei denn, das Ziel wird durch Schaden oder dadurch geweckt, dass jemand eine Aktion aufwendet, um es zu berühren.</p>"
+		},
+		"Smart Arrow": {
+			"name": "Smart - Pfeil",
+			"description": "<p>Req Targeting Scope Cyberware, otherwise won't fire. If miss single attack by 4 or less, roll second attack at same DV 1d10+10 (not normal stat). Can add luck. Target can dodge the second roll as normal if able to do so. </p>"
+		},
+		"Smart Heavy Pistol": {
+			"name": "Smart - Schwere Pistole",
+			"description": "<p>Req Targeting Scope Cyberware, otherwise won't fire. If miss single attack by 4 or less, roll second attack at same DV 1d10+10 (not normal stat). Can add luck. Target can dodge the second roll as normal if able to do so. </p>"
+		},
+		"Smart Medium Pistol": {
+			"name": "Smart - Mittelschwere Pistole",
+			"description": "<p>Req Targeting Scope Cyberware, otherwise won't fire. If miss single attack by 4 or less, roll second attack at same DV 1d10+10 (not normal stat). Can add luck. Target can dodge the second roll as normal if able to do so. </p>"
+		},
+		"Smart Rifle": {
+			"name": "Smart - Sturmgewehr",
+			"description": "<p>Req Targeting Scope Cyberware, otherwise won't fire. If miss single attack by 4 or less, roll second attack at same DV 1d10+10 (not normal stat). Can add luck. Target can dodge the second roll as normal if able to do so. </p>"
+		},
+		"Smart Rocket": {
+			"name": "Smart - Rakete",
+			"description": "<p>Req Targeting Scope Cyberware, otherwise won't fire. If miss single attack by 4 or less, roll second attack at same DV 1d10+10 (not normal stat). Can add luck. Target can dodge the second roll as normal if able to do so. </p>"
+		},
+		"Smart Shotgun Slug": {
+			"name": "Smart - Flintenpatrone",
+			"description": "<p>Req Targeting Scope Cyberware, otherwise won't fire. If miss single attack by 4 or less, roll second attack at same DV 1d10+10 (not normal stat). Can add luck. Target can dodge the second roll as normal if able to do so. </p>"
+		},
+		"Smart Very Heavy Pistol": {
+			"name": "Smart - Sehr Schwere Pistole",
+			"description": "<p>Req Targeting Scope Cyberware, otherwise won't fire. If miss single attack by 4 or less, roll second attack at same DV 1d10+10 (not normal stat). Can add luck. Target can dodge the second roll as normal if able to do so. </p>"
+		},
+		"Smoke Grenade": {
+			"name": "Rauchmunition - Granate",
+			"description": "<p>Der Angriff richtet keinen Schaden an. Erfüllt für eine Minute nach dem Aufprall ein Gebiet von 10 x 10 Metern mit Rauch. Der normale Malus für den Versuch, eine Aufgabe zu erfüllen, liegt bei –4.</p>"
+		},
+		"Teargas Grenade": {
+			"name": "Tränengas - Granate",
+			"description": "<p>Der Angriff richtet keinen Schaden an. Stattdessen muss jeder mit Fleischaugen eine Probe auf Folter/Drogen widerstehen mit SG 13 ablegen. Wer scheitert, erleidet in der nächsten Minute die Kritische Verletzung Augenschaden (siehe Seite 188). Diese Kritische Verletzung richtet keinen Bonusschaden an.</p>"
+		}
+	}
+}
