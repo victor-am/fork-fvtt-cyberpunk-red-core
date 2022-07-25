@@ -22,7 +22,7 @@
               (+{{cprMath "sum" skill.data.data.level (cprGetSkillStat skill ../actor)}}){{#unless @last}},{{/unless}}
             {{/if}}
             {{#if (cprCompare (cprSystemConfig "mookSheetSkillDisplay") "===" "total")}}
-              (+{{cprMath "sum" skill.data.data.level (cprGetSkillStat skill ../actor) skill.data.data.skillmod}}){{#unless @last}},{{/unless}}
+              (+{{cprMath "sum" skill.data.data.level (cprGetSkillStat skill ../actor) (cprGetSkillBonus skill.name ../actor)}}){{#unless @last}},{{/unless}}
             {{/if}}
         </a>
         {{#if (cprCompare skill.data.data.core "===" false)}}
