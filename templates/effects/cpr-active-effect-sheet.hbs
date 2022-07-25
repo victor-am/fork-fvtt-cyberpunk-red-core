@@ -63,7 +63,7 @@
                                     CPR.effectSheet.keyCategory.netrun
                                     CPR.effectSheet.keyCategory.role
                                     CPR.effectSheet.keyCategory.skill
-                                    CPR.effectSheet.keyCategory.stat                              
+                                    CPR.effectSheet.keyCategory.stat
                                 --}}
                                     <option value="{{ec}}">{{localize (cprObjConcat "CPR.effectSheet.keyCategory." ec)}}</option>
                                 {{/each}}
@@ -77,7 +77,7 @@
                     {{#if (cprCompare (lookup ../data.flags.cyberpunk-red-core.changes i) "===" "skill")}}
                         <select name="changes.{{i}}.key" data-dtype="String">
                             {{#select change.key}}
-                                    {{#each (cprGetSkillsForEffects ../this.data) as |modkeyname modkey|}}
+                                    {{#each (cprGetSkillsForEffects ../this) as |modkeyname modkey|}}
                                         <option value="{{modkey}}">{{localize modkeyname}}</option>
                                     {{/each}}
                                 {{/select}}

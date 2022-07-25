@@ -100,6 +100,7 @@
 - Fixed #416: Excellent Weapons missing +1 to attack
 - Fixed #433: Fixed some hard-coded text to now use the localized strings
 - Fixed #431: Mook sheets now correctly show the skill total instead of NaN
+- Fixed #440: Skills correctly auto-populate the drop down when first opened when adding a skill active effect
 
 **Maintenance items**
 - Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js
