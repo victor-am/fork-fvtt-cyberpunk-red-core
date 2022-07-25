@@ -1,3 +1,5 @@
+/* global game */
+
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import Rules from "../../utils/cpr-rules.js";
@@ -82,6 +84,9 @@ const Attackable = function Attackable() {
       }
     }
 
+    // Account for an upgrade that gives an attackmod bonus
+    const attackMod = this._getAttackMod();
+
     const skillName = skillItem.data.name;
     // total up bonuses from skills and stats
     const skillValue = actor.getSkillLevel(weaponData.weaponSkill);
@@ -165,7 +170,7 @@ const Attackable = function Attackable() {
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
     cprRoll.addMod(actor.getWoundStateMods());
     cprRoll.addMod(skillMod);
-    cprRoll.addMod(weaponData.attackmod);
+    cprRoll.addMod(attackMod);
 
     if (cprRoll instanceof CPRRolls.CPRAttackRoll && weaponData.isRanged) {
       Rules.lawyer(this.hasAmmo(cprRoll), "CPR.messages.weaponAttackOutOfBullets");

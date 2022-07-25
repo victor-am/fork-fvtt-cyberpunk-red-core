@@ -531,7 +531,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     promptData.itemTypes = [];
     const itemEntities = game.system.template.Item;
     game.system.template.Item.types.forEach((itemType) => {
-      if (itemEntities[itemType].templates.includes("physicalItem")) {
+      if (itemEntities[itemType].templates.includes("physical")) {
         promptData.itemTypes.push(itemType);
       }
     });
