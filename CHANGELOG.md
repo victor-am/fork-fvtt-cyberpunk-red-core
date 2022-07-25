@@ -74,10 +74,10 @@
 - Ammo can be concealed, and can no longer be "upgraded." Different ammo types (rubber, toxic, etc) are still intact.
 - A few changes to your world may have been made as part of migration activities.
   - Some fields on items were given defaults if they are empty. For example a null price or price category is set to something befitting the
-  item type. It is still a guess, but now there is possibly correct data instead of definitely wrong or useless data. 
+  item type. It is still a guess, but now there is possibly correct data instead of definitely wrong or useless data.
   - Clothing and gear upgrades were converted to active effects.
   - Armor, programs, netarch, vehicles, and weapons cannot be stacked any more. Duplicate items may have been created (up to 50) in players' inventories.
-  - The *quality* field has been removed from items (weapons, cyberdecks and vehicles) to avoid confusion about whether to change values in other fields. 
+  - The *quality* field has been removed from items (weapons, cyberdecks and vehicles) to avoid confusion about whether to change values in other fields.
     You can still use the name and other fields (such at attack modifier) to express excellent quality items.
   - Some item types (weapons, vehicles) no longer "stack." They do not have an amount field any more.
 
@@ -99,6 +99,7 @@
 - Fixed #390: Rubber Shotgun Slugs are considered Heavy Pistol Ammo
 - Fixed #416: Excellent Weapons missing +1 to attack
 - Fixed #433: Fixed some hard-coded text to now use the localized strings
+- Fixed #431: Mook sheets now correctly show the skill total instead of NaN
 
 **Maintenance items**
 - Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js
