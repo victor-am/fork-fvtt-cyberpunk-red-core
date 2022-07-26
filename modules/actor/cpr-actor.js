@@ -464,7 +464,6 @@ export default class CPRActor extends Actor {
         "data.stats.emp.value": Math.floor(maxHumanity / 10),
       });
     }
-
   }
 
   /**

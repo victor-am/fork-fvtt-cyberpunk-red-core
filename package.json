@@ -13,7 +13,7 @@
     "lint": "npx eslint modules"
   },
   "devDependencies": {
-    "eslint": "^8.15.0",
+    "eslint": "^8.20.0",
     "eslint-plugin-foundry-cpr": "file:.gitlab/pipeline_tests/eslint-plugin-foundry-cpr",
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
