@@ -100,6 +100,7 @@
 - Fixed #416: Excellent Weapons missing +1 to attack
 - Fixed #433: Fixed some hard-coded text to now use the localized strings
 - Fixed #431: Mook sheets now correctly show the skill total instead of NaN
+- Fixes #449: The stat value now shows on a stat roll card
 
 **Maintenance items**
 - Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js
