@@ -173,8 +173,9 @@ export default class CPRActor extends Actor {
    * Calculate the character's Humanity based on stats and effects.
    *
    * @return {Number}
+   * @private
    */
-  calcMaxHumanity() {
+  _calcMaxHumanity() {
     LOGGER.trace("calcMaxHumanity | CPRActor | Called.");
     const actorData = this.data;
     const { stats } = actorData.data;
@@ -293,7 +294,7 @@ export default class CPRActor extends Actor {
       if (formData === undefined) {
         return;
       }
-      this._addFoundationalCyberware(item, formData);
+      await this._addFoundationalCyberware(item, formData);
     } else {
       const formData = await InstallCyberwarePrompt.RenderPrompt({
         item: item.data,
@@ -302,8 +303,9 @@ export default class CPRActor extends Actor {
       if (formData === undefined) {
         return;
       }
-      this._addOptionalCyberware(item, formData);
+      await this._addOptionalCyberware(item, formData);
     }
+    await this.setMaxHumanity();
   }
 
   /**
@@ -437,6 +439,32 @@ export default class CPRActor extends Actor {
   _getOwnedItem(itemId) {
     LOGGER.trace("_getOwnedItem | CPRActor | Called.");
     return this.items.find((i) => i.data._id === itemId);
+  }
+
+  /**
+   * Calculate the max humanity on this actor.
+   * If current humanity is full and the max changes, we should update the current and EMP to match.
+   * We assume that to be preferred behavior more often than not, especially during character creation.
+   *
+   * @callback
+   */
+  setMaxHumanity() {
+    LOGGER.trace("setMaxHumanity | CPRActor | Called.");
+    const maxHumanity = this._calcMaxHumanity();
+    const { humanity } = this.data.data.derivedStats;
+    if (humanity.max === humanity.value) {
+      this.update({
+        "data.derivedStats.humanity.max": maxHumanity,
+        "data.derivedStats.humanity.value": maxHumanity,
+        "data.stats.emp.value": Math.floor(maxHumanity / 10),
+      });
+    } else {
+      this.update({
+        "data.derivedStats.humanity.max": maxHumanity,
+        "data.stats.emp.value": Math.floor(maxHumanity / 10),
+      });
+    }
+
   }
 
   /**
