@@ -768,17 +768,7 @@ export default function registerHandlebarsHelpers() {
     if (effect.isItemEffect) {
       skillList = game.items.filter((i) => i.type === "skill");
     } else if (effect.isActorEffect) {
-      const effectOrigin = effect.data.origin;
-      // eslint-disable-next-line quotes, no-useless-escape
-      const tokenRegex = 'Token\.[a-zA-Z0-9]+';
-      // eslint-disable-next-line quotes, no-useless-escape
-      const actorRegex = 'Actor\.[a-zA-Z0-9]+';
-      let originString = effectOrigin.match(new RegExp(tokenRegex));
-      if (!originString || originString.length === 0) {
-        originString = effectOrigin.match(new RegExp(actorRegex));
-      }
-      const [actorType, actorId] = originString[0].split(".");
-      const actor = (actorType === "Actor") ? game.actors.find((a) => a.id === actorId) : game.actors.tokens[actorId];
+      const actor = effect.data.document.getEffectParent();
       skillList = actor.items.filter((i) => i.type === "skill");
     }
 
