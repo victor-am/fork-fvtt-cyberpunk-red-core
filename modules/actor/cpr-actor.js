@@ -289,23 +289,26 @@ export default class CPRActor extends Actor {
 
     if (compatibleFoundationalCyberware.length < 1 && !item.data.data.isFoundational) {
       Rules.lawyer(false, "CPR.messages.warnNoFoundationalCyberwareOfCorrectType");
-    } else if (item.data.data.isFoundational) {
-      const formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data }).catch((err) => LOGGER.debug(err));
-      if (formData === undefined) {
-        return;
-      }
-      await this._addFoundationalCyberware(item, formData);
     } else {
-      const formData = await InstallCyberwarePrompt.RenderPrompt({
-        item: item.data,
-        foundationalCyberware: compatibleFoundationalCyberware,
-      }).catch((err) => LOGGER.debug(err));
-      if (formData === undefined) {
-        return;
+      let formData;
+      if (item.data.data.isFoundational) {
+        formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data }).catch((err) => LOGGER.debug(err));
+        if (formData === undefined) {
+          return;
+        }
+        await this._addFoundationalCyberware(item, formData);
+      } else {
+        formData = await InstallCyberwarePrompt.RenderPrompt({
+          item: item.data,
+          foundationalCyberware: compatibleFoundationalCyberware,
+        }).catch((err) => LOGGER.debug(err));
+        if (formData === undefined) {
+          return;
+        }
+        await this._addOptionalCyberware(item, formData);
       }
-      await this._addOptionalCyberware(item, formData);
+      await this.loseHumanityValue(item, formData);
     }
-    await this.setMaxHumanity();
   }
 
   /**
@@ -316,9 +319,7 @@ export default class CPRActor extends Actor {
    * @param {Object} formData - an object representing answers from the installation dialog box
    * @returns {Object}
    */
-  _addFoundationalCyberware(item, formData) {
-    LOGGER.trace("_addFoundationalCyberware | CPRActor | Called.");
-    this.loseHumanityValue(item, formData);
+  _addFoundationalCyberware(item) {
     LOGGER.debug("_addFoundationalCyberware | CPRActor | Applying foundational cyberware.");
     return this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.isInstalled": true }]);
   }
@@ -334,7 +335,6 @@ export default class CPRActor extends Actor {
   async _addOptionalCyberware(item, formData) {
     LOGGER.trace("_addOptionalCyberware | CPRActor | Called.");
     const tmpItem = item;
-    this.loseHumanityValue(item, formData);
     LOGGER.trace(`_addOptionalCyberware | CPRActor | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
     const newOptionalIds = foundationalCyberware.data.data.optionalIds.concat(item.data._id);
@@ -377,7 +377,8 @@ export default class CPRActor extends Actor {
       } else {
         await this._removeOptionalCyberware(item, foundationalId);
       }
-      return this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.isInstalled": false }]);
+      await this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.isInstalled": false }]);
+      return this.setMaxHumanity();
     }
     return this.updateEmbeddedDocuments("Item", []);
   }
@@ -456,12 +457,12 @@ export default class CPRActor extends Actor {
       this.update({
         "data.derivedStats.humanity.max": maxHumanity,
         "data.derivedStats.humanity.value": maxHumanity,
-        "data.stats.emp.value": Math.floor(maxHumanity / 10),
+        "data.stats.emp.value": Math.floor(humanity.value / 10),
       });
     } else {
       this.update({
         "data.derivedStats.humanity.max": maxHumanity,
-        "data.stats.emp.value": Math.floor(maxHumanity / 10),
+        "data.stats.emp.value": Math.floor(humanity.value / 10),
       });
     }
   }
@@ -477,7 +478,7 @@ export default class CPRActor extends Actor {
    * @param {CPRItem} item - the Cyberware item being installed (provided just to name the roll)
    * @param {Object} amount - contains a humanityLoss attribute we use to reduce humanity.
    *                          Will roll dice if it is a formula.
-   * @returns {null}
+   * @returns {@Promise}
    */
   async loseHumanityValue(item, amount) {
     LOGGER.trace("loseHumanityValue | CPRActor | Called.");
@@ -503,7 +504,8 @@ export default class CPRActor extends Actor {
       Rules.lawyer(false, "CPR.messages.youCyberpsycho");
     }
 
-    this.update({ "data.derivedStats.humanity.value": value });
+    await this.update({ "data.derivedStats.humanity.value": value });
+    await this.setMaxHumanity();
   }
 
   /**
