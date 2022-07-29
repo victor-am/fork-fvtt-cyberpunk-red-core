@@ -159,7 +159,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   }
 
   /**
-   * Calculate the max humanity on this actor, called when the calculator is clicked.
+   * Calls the actor method to calculate and set the max humanity on this actor
    * If current humanity is full and the max changes, we should update the current and EMP to match.
    * We assume that to be preferred behavior more often than not, especially during character creation.
    *
@@ -168,20 +168,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   _setMaxHumanity() {
     LOGGER.trace("_setMaxHumanity | CPRCharacterActorSheet | Called.");
-    const maxHumanity = this.actor.calcMaxHumanity();
-    const { humanity } = this.actor.data.data.derivedStats;
-    if (humanity.max === humanity.value) {
-      this.actor.update({
-        "data.derivedStats.humanity.max": maxHumanity,
-        "data.derivedStats.humanity.value": maxHumanity,
-        "data.stats.emp.value": Math.floor(maxHumanity / 10),
-      });
-    } else {
-      this.actor.update({
-        "data.derivedStats.humanity.max": maxHumanity,
-        "data.stats.emp.value": Math.floor(maxHumanity / 10),
-      });
-    }
+    this.actor.setMaxHumanity();
   }
 
   /**
