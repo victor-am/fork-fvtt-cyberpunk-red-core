@@ -100,7 +100,8 @@
 - Fixed #416: Excellent Weapons missing +1 to attack
 - Fixed #433: Fixed some hard-coded text to now use the localized strings
 - Fixed #431: Mook sheets now correctly show the skill total instead of NaN
-- Fixed #440: Skills correctly auto-populate the drop down when first opened when adding a skill active effect
+- Fixes #446 & #447: Fixes issues with Max Humanity and Empathy getting set properly when installing Cyberware
+- Fixes #449: The stat value now shows on a stat roll card
 
 **Maintenance items**
 - Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js
