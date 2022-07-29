@@ -296,7 +296,7 @@ export default class CPRActor extends Actor {
         if (formData === undefined) {
           return;
         }
-        await this._addFoundationalCyberware(item, formData);
+        await this._addFoundationalCyberware(item);
       } else {
         formData = await InstallCyberwarePrompt.RenderPrompt({
           item: item.data,
@@ -316,7 +316,6 @@ export default class CPRActor extends Actor {
    *
    * @private
    * @param {CPRItem} item - the Cyberware item to install
-   * @param {Object} formData - an object representing answers from the installation dialog box
    * @returns {Object}
    */
   _addFoundationalCyberware(item) {
