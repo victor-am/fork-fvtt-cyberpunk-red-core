@@ -102,6 +102,7 @@
 - Fixed #431: Mook sheets now correctly show the skill total instead of NaN
 - Fixes #446 & #447: Fixes issues with Max Humanity and Empathy getting set properly when installing Cyberware
 - Fixes #449: The stat value now shows on a stat roll card
+- Fixes #450: Unable to delete ledger lines for a container type actor
 
 **Maintenance items**
 - Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js
