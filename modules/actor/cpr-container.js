@@ -136,6 +136,23 @@ export default class CPRContainerActor extends Actor {
   }
 
   /**
+   * Get all records from the associated ledger of a property. Currently the only
+   * ledger that the container actor supports is the wealth ledger, however the
+   * actor data model does have hit points listed as a ledger so we will
+   * leave this as is.
+   *
+   * @param {String} prop - name of the property that has a ledger
+   * @returns {Array} - Each element is a tuple: [value, reason], or null if not found
+   */
+  listRecords(prop) {
+    LOGGER.trace("listRecords | CPRContainerActor | Called.");
+    if (prop === "wealth") {
+      return getProperty(this.data.data, `${prop}.transactions`);
+    }
+    return null;
+  }
+
+  /**
    * Pop up a dialog box with ledger records for a given property.
    *
    */
