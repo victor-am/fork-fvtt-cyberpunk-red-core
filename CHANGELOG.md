@@ -25,7 +25,7 @@
 - Feature Request #295: EB Ledger for Shop Container Actors
 - Feature Add: Player ability to sell to Vendors by drag/dropping from character sheet to Vendor.
   - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item.  Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb.
-- Feature Request #179: Add ability to track reputation and roll face down.
+- Feature Request #179: Add ability to track reputation and roll face down (Works for Mooks as well since MR !625).
 - Add Light/Medium/Heavy/Very Heavy Generic Melee Weapons.
 - Support for the Drag Ruler module
 - Feature Request #424: Ability to use LUCK on Stat, Skill, Attack, Program, Cyberdeck, and Interface/Charismatic Impact rolls. Automatically deducts from character sheet.
