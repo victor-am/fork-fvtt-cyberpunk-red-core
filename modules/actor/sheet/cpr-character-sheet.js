@@ -105,10 +105,6 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     html.find(".improvement-points-edit-button").click(() => this._updateIp());
     html.find(".improvement-points-open-ledger").click(() => this.actor.showLedger("improvementPoints"));
 
-    // Reputation related listeners
-    html.find(".reputation-edit-button").click(() => this._updateReputation());
-    html.find(".reputation-open-ledger").click(() => this.actor.showLedger("reputation"));
-
     // Listeners for eurobucks (in gear tab)
     html.find(".eurobucks-input-button").click((event) => this._updateEurobucks(event));
     html.find(".eurobucks-open-ledger").click(() => this.actor.showLedger("wealth"));
@@ -533,45 +529,6 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       }
     } else {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.improvementPointsEditWarn"));
-    }
-  }
-
-  /**
-   * Called when the Reputation editing glyph is clicked. Pops up a dialog to get details about the change
-   * and a reason, and then saves those similar to IP.
-   *
-   * @callback
-   * @private
-   * @returns {null}
-   */
-  async _updateReputation() {
-    LOGGER.trace("_updateReputation | CPRCharacterActorSheet | Called.");
-    const formData = await LedgerEditPrompt.RenderPrompt("CPR.characterSheet.bottomPane.reputationEdit").catch((err) => LOGGER.debug(err));
-    if (formData === undefined) {
-      // Prompt was closed
-      return;
-    }
-    if (formData.changeValue !== null && formData.changeValue !== "") {
-      switch (formData.action) {
-        case "add": {
-          this._gainLedger("reputation", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
-          break;
-        }
-        case "subtract": {
-          this._loseLedger("reputation", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
-          break;
-        }
-        case "set": {
-          this._setLedger("reputation", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
-          break;
-        }
-        default: {
-          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.reputationEditInvalidAction"));
-          break;
-        }
-      }
-    } else {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.reputationEditWarn"));
     }
   }
 
