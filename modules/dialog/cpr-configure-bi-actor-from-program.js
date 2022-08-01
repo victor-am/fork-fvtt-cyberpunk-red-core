@@ -25,12 +25,12 @@ export default class ConfigureBIActorFromProgramPrompt {
             cancel: {
               icon: "<i class=\"fas fa-times\"></i>",
               label: SystemUtils.Localize("CPR.dialog.common.cancel"),
-              callback: (html) => _onCancel(html), // TODO fix no-shadow
+              callback: (html) => _onCancel(html),
             },
             confirm: {
               icon: "<i class=\"fas fa-check\"></i>",
               label: SystemUtils.Localize("CPR.dialog.common.confirm"),
-              callback: (html) => _onConfirm(html), // TODO fix no-shadow
+              callback: (html) => _onConfirm(html),
             },
           },
           default: "confirm",

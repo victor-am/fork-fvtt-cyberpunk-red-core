@@ -5,8 +5,8 @@
         <a class="name item-edit" title="{{item.name}} x{{item.data.data.amount}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{item.name}}{{#if item.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}</a>
         <span class = "{{#if (cprCompare item.data.data.amount "===" 1)}}zero-not-visible{{/if}}">
           (x<span class="amount-input-wrap">
-            <span class="width-element">{{item.data.data.amount}}</span>
-            <input name = "item.data.amount" class = "number amount-input" style="text-align: right;" type = "text" data-item-prop = "item.data.amount" value = "{{item.data.data.amount}}">
+            <span class="width-element">{{cprNumberFormat item.data.data.amount}}</span>
+            <input name = "item.data.amount" class = "number amount-input" style="text-align: right;" type = "text" data-item-prop = "item.data.amount" value = "{{cprNumberFormat item.data.data.amount}}">
           </span>)
         </span>
     </div>

@@ -1,4 +1,6 @@
-/* globals Actor */
+/* globals Actor, getProperty, setProperty, duplicate */
+import SystemUtils from "../utils/cpr-systemUtils.js";
+import CPRLedger from "../dialog/cpr-ledger-form.js";
 import LOGGER from "../utils/cpr-logger.js";
 
 /**
@@ -8,6 +10,22 @@ import LOGGER from "../utils/cpr-logger.js";
  * @extends {Actor}
  */
 export default class CPRContainerActor extends Actor {
+  /**
+   * create() is called when creating the actor, but it's not the same as a constructor. In the
+   * code here, we pre-configure a few token options to reduce repetitive clicking.
+   */
+  static async create(data, options) {
+    LOGGER.trace("create | CPRContainerActor | called.");
+    const createData = data;
+    if (typeof data.data === "undefined") {
+      LOGGER.trace("create | New Actor | CPRContainerActor | called.");
+      createData.token = {
+        disposition: 0,
+      };
+    }
+    super.create(createData, options);
+  }
+
   /**
    * prepareData is called before the actor is vendored to clients, so we can filter
    * or streamline the data for convenience.
@@ -31,18 +49,21 @@ export default class CPRContainerActor extends Actor {
    *                    - false if it has been stacked on an existing item
    */
   automaticallyStackItems(newItem) {
-    LOGGER.trace("automaticallyStackItems | CPRContainerActor | Called.");
-    const stackableItemTypes = ["ammo", "gear", "clothing"];
-    if (stackableItemTypes.includes(newItem.type)) {
-      const match = this.items.find((i) => i.type === newItem.type && i.name === newItem.name && i.data.data.upgrades.length === 0);
-      if (match) {
-        let oldAmount = parseInt(match.data.data.amount, 10);
-        let addedAmount = parseInt(newItem.data.data.amount, 10);
-        if (Number.isNaN(oldAmount)) { oldAmount = 1; }
-        if (Number.isNaN(addedAmount)) { addedAmount = 1; }
-        const newAmount = oldAmount + addedAmount;
-        this.updateEmbeddedDocuments("Item", [{ _id: match.id, "data.amount": newAmount.toString() }]);
-        return false;
+    LOGGER.trace("automaticallyStackItems | CPRActor | Called.");
+    const itemTemplates = SystemUtils.getDataModelTemplates(newItem.data.type);
+    if (itemTemplates.includes("stackable")) {
+      const itemMatch = this.items.find((i) => i.type === newItem.type && i.name === newItem.name);
+      if (itemMatch) {
+        const canStack = !(itemTemplates.includes("upgradable") && itemMatch.data.data.upgrades.length === 0);
+        if (canStack) {
+          let oldAmount = parseInt(itemMatch.data.data.amount, 10);
+          let addedAmount = parseInt(newItem.data.data.amount, 10);
+          if (Number.isNaN(oldAmount)) { oldAmount = 1; }
+          if (Number.isNaN(addedAmount)) { addedAmount = 1; }
+          const newAmount = oldAmount + addedAmount;
+          this.updateEmbeddedDocuments("Item", [{ _id: itemMatch.id, "data.amount": newAmount }]);
+          return false;
+        }
       }
     }
     // If not stackable, then return true to continue adding the item.
@@ -65,6 +86,7 @@ export default class CPRContainerActor extends Actor {
         await this.unsetFlag("cyberpunk-red-core", "players-create");
         await this.unsetFlag("cyberpunk-red-core", "players-delete");
         await this.unsetFlag("cyberpunk-red-core", "players-modify");
+        await this.setFlag("cyberpunk-red-core", "players-sell", true);
         await this.unsetFlag("cyberpunk-red-core", "players-move");
         break;
       }
@@ -74,11 +96,13 @@ export default class CPRContainerActor extends Actor {
         await this.unsetFlag("cyberpunk-red-core", "players-create");
         await this.unsetFlag("cyberpunk-red-core", "players-delete");
         await this.unsetFlag("cyberpunk-red-core", "players-modify");
+        await this.unsetFlag("cyberpunk-red-core", "players-sell");
         await this.unsetFlag("cyberpunk-red-core", "players-move");
         break;
       }
       case "stash": {
         await this.unsetFlag("cyberpunk-red-core", "infinite-stock");
+        await this.unsetFlag("cyberpunk-red-core", "players-sell");
         await this.setFlag("cyberpunk-red-core", "items-free", true);
         await this.setFlag("cyberpunk-red-core", "players-create", true);
         await this.setFlag("cyberpunk-red-core", "players-delete", true);
@@ -109,5 +133,90 @@ export default class CPRContainerActor extends Actor {
       return this.setFlag("cyberpunk-red-core", flagName, true);
     }
     return this.unsetFlag("cyberpunk-red-core", flagName);
+  }
+
+  /**
+   * Get all records from the associated ledger of a property. Currently the only
+   * ledger that the container actor supports is the wealth ledger, however the
+   * actor data model does have hit points listed as a ledger so we will
+   * leave this as is.
+   *
+   * @param {String} prop - name of the property that has a ledger
+   * @returns {Array} - Each element is a tuple: [value, reason], or null if not found
+   */
+  listRecords(prop) {
+    LOGGER.trace("listRecords | CPRContainerActor | Called.");
+    if (prop === "wealth") {
+      return getProperty(this.data.data, `${prop}.transactions`);
+    }
+    return null;
+  }
+
+  /**
+   * Pop up a dialog box with ledger records for a given property.
+   *
+   */
+  showLedger() {
+    LOGGER.trace("showLedger | CPRContainerActor | Called.");
+    const led = new CPRLedger();
+    led.setActor(this);
+    led.setLedgerContent("wealth", getProperty(this.data.data, `wealth.transactions`));
+    led.render(true);
+  }
+
+  /**
+   * Change the value of a property and store a record of the change in the corresponding
+   * ledger.
+   *
+   * @param {Number} value - how much to increase or decrease the value by
+   * @param {String} reason - a user-provided reason for the change
+   * @returns {Number} (or null if not found)
+   */
+  recordTransaction(value, reason) {
+    LOGGER.trace("recordTransaction | CPRContainerActor | Called.");
+    // update "value"; it may be negative
+    const actorData = duplicate(this.data);
+    let newValue = getProperty(actorData, "data.wealth.value") || 0;
+    let transactionSentence;
+    let transactionType = "set";
+
+    if (reason.match(/^Sold/)) {
+      transactionType = "add";
+    } else if (reason.match(/^Purchased/)) {
+      transactionType = "subtract";
+    } else if (reason.match(/^Sheet update/)) {
+      // eslint-disable-next-line prefer-destructuring
+      transactionType = reason.split(" ")[2];
+    }
+
+    switch (transactionType) {
+      case "set": {
+        newValue = value;
+        transactionSentence = "CPR.ledger.setSentence";
+        break;
+      }
+      case "add": {
+        newValue += value;
+        transactionSentence = "CPR.ledger.increaseSentence";
+        break;
+      }
+      case "subtract": {
+        newValue -= value;
+        transactionSentence = "CPR.ledger.decreaseSentence";
+        break;
+      }
+      default:
+    }
+
+    setProperty(actorData, "data.wealth.value", newValue);
+    // update the ledger with the change
+    const ledger = getProperty(actorData, "data.wealth.transactions");
+    ledger.push([
+      SystemUtils.Format(transactionSentence, { property: "wealth", amount: value, total: newValue }),
+      reason]);
+    setProperty(actorData, "data.wealth.transactions", ledger);
+    // update the actor and return the modified property
+    this.update(actorData);
+    return getProperty(this.data.data, "wealth");
   }
 }

@@ -162,6 +162,7 @@
     }
 }
 
+.effects-tab,
 .cyberware-tab,
 .gear-tab {
     display              : grid;
@@ -170,7 +171,6 @@
     width                : inherit;
     background-color     : @chrome-white;
 }
-
 
 .gear-tab-data {
     display              : grid;
@@ -379,10 +379,12 @@
 }
 
 .image-block {
-    clip-path: polygon(25px 0, 100% 0, 100% 100%, 0 100%, 0 25px);
-
     height: 190px;
     width : 190px;
+
+    .profile-img {
+        clip-path: polygon(25px 0, 100% 0, 100% 100%, 0 100%, 0 25px);
+    }
 }
 
 .stat-block {

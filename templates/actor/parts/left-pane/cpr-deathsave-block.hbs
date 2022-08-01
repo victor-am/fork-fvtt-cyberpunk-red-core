@@ -8,16 +8,16 @@
     {{!-- <span>{{localize (cprFindConfigValue "woundState" this.data.woundState.currentWoundState)}}</span> --}}
     {{#with this.data.data.derivedStats.currentWoundState as |state| }}
     {{#if (cprCompare state "===" "notWounded")}}
-    <i class="fg-green bg-white text-normal text-center width-full fas fa-smile" title="Not Wounded"></i>
+    <img class="width-full" src="systems/cyberpunk-red-core/icons/hud/wounded_none.svg" width="20" height="20" alt="{{localize "CPR.global.woundState.notWounded"}}" title="{{localize "CPR.global.woundState.notWounded"}}">
     {{/if}}
     {{#if (cprCompare state "===" "lightlyWounded")}}
-    <i class="fg-orange bg-white text-normal text-center width-full fas fa-meh" title="Lightly Wounded"></i>
+    <img class="width-full" src="systems/cyberpunk-red-core/icons/hud/wounded_lightly.svg" width="20" height="20" alt="{{localize "CPR.global.woundState.lightlyWounded"}}" title="{{localize "CPR.global.woundState.lightlyWounded"}}">
     {{/if}}
     {{#if (cprCompare state "===" "seriouslyWounded")}}
-    <i class="fg-red bg-white text-normal text-center width-full fas fa-frown" title="Seriously Wounded"></i>
+    <img class="width-full" src="systems/cyberpunk-red-core/icons/hud/wounded_seriously.svg" width="20" height="20" alt="{{localize "CPR.global.woundState.seriouslyWounded"}}" title="{{localize "CPR.global.woundState.seriouslyWounded"}}">
     {{/if}}
     {{#if (cprCompare state "===" "mortallyWounded")}}
-    <i class="fg-black bg-white text-normal text-center width-full fas fa-skull" title="Mortally Wounded"></i>
+    <img class="width-full" src="systems/cyberpunk-red-core/icons/hud/wounded_mortally.svg" width="20" height="20" alt="{{localize "CPR.global.woundState.mortallyWounded"}}" title="{{localize "CPR.global.woundState.mortallyWounded"}}">
     {{/if}}
     {{/with}}
     <div class="width-full">

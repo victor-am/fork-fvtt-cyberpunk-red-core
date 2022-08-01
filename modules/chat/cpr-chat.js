@@ -15,11 +15,11 @@ export default class CPRChat {
    * @static
    * @param {*} content - html content of the chat message
    * @param {*} modeOverride - a means to override the "roll mode" (blind, private, etc)
-   * @param {*} isRoll - a flag indicating whether the chat message is from a dice roll
    * @param {*} forceWhisper - a flag forcing the chat message to be a whisper
+   * @param {*} isRoll - a flag indicating whether the chat message is from a dice roll
    * @returns {*} - object encapsulating chat message data
    */
-  static ChatDataSetup(content, modeOverride, isRoll = false, forceWhisper) {
+  static ChatDataSetup(content, modeOverride, forceWhisper, isRoll = false) {
     LOGGER.trace("ChatDataSetup | CPRChat | Called.");
     const chatData = {
       user: game.user.id,
@@ -188,11 +188,15 @@ export default class CPRChat {
     const modifiers = /[+-][0-9][0-9]*/;
     const dice = /[0-9][0-9]*d[0-9][0-9]*/;
     let formula = "1d10";
+    let rollDescription = "";
+    if (data.includes("#")) {
+      rollDescription = data.slice(data.indexOf("#") + 1);
+    }
     if (data.match(dice)) {
       [formula] = data.match(dice);
     }
     if (data.match(modifiers)) {
-      const formulaModifiers = data.replace(formula, "");
+      const formulaModifiers = data.replace(formula, "").replace("#", "").replace(rollDescription, "");
       formula = `${formula}${formulaModifiers}`;
     }
     if (formula) {
@@ -201,6 +205,9 @@ export default class CPRChat {
         cprRoll = new CPRDamageRoll(SystemUtils.Localize("CPR.rolls.roll"), formula);
       } else {
         cprRoll = new CPRRoll(SystemUtils.Localize("CPR.rolls.roll"), formula);
+      }
+      if (rollDescription !== "") {
+        cprRoll.rollCardExtraArgs.rollDescription = rollDescription;
       }
       if (cprRoll.die !== "d6" && cprRoll.die !== "d10") {
         cprRoll.calculateCritical = false;
@@ -223,22 +230,22 @@ export default class CPRChat {
   static async chatListeners(html) {
     LOGGER.trace("chatListeners | CPRChat | Called.");
     html.on("click", ".clickable", async (event) => {
-      const clickAction = $(event.currentTarget).attr("data-action");
+      const clickAction = SystemUtils.GetEventDatum(event, "data-action");
 
       switch (clickAction) {
         case "toggleVisibility": {
-          const elementName = $(event.currentTarget).attr("data-visible-element");
+          const elementName = SystemUtils.GetEventDatum(event, "data-visible-element");
           $(html).find(`.${elementName}`).toggleClass("hide");
           break;
         }
         case "rollDamage": {
           // This will let us click a damage link off of the attack card
           const rollType = "damage";
-          const actorId = $(event.currentTarget).attr("data-actor-id");
-          const itemId = $(event.currentTarget).attr("data-item-id");
-          const tokenId = $(event.currentTarget).attr("data-token-id");
-          const location = $(event.currentTarget).attr("data-damage-location");
-          const attackType = $(event.currentTarget).attr("data-attack-type");
+          const actorId = SystemUtils.GetEventDatum(event, "data-actor-id");
+          const itemId = SystemUtils.GetEventDatum(event, "data-item-id");
+          const tokenId = SystemUtils.GetEventDatum(event, "data-token-id");
+          const location = SystemUtils.GetEventDatum(event, "data-damage-location");
+          const attackType = SystemUtils.GetEventDatum(event, "data-attack-type");
           const actor = (Object.keys(game.actors.tokens).includes(tokenId))
             ? game.actors.tokens[tokenId]
             : game.actors.find((a) => a.id === actorId);
@@ -266,9 +273,9 @@ export default class CPRChat {
           break;
         }
         case "itemEdit": {
-          const itemId = $(event.currentTarget).attr("data-item-id");
-          const actorId = $(event.currentTarget).attr("data-actor-id");
-          const tokenId = $(event.currentTarget).attr("data-token-id");
+          const itemId = SystemUtils.GetEventDatum(event, "data-item-id");
+          const actorId = SystemUtils.GetEventDatum(event, "data-actor-id");
+          const tokenId = SystemUtils.GetEventDatum(event, "data-token-id");
           const actor = (Object.keys(game.actors.tokens).includes(tokenId))
             ? game.actors.tokens[tokenId]
             : game.actors.find((a) => a.id === actorId);
@@ -328,15 +335,15 @@ export default class CPRChat {
    */
   static async damageApplication(event) {
     LOGGER.trace("damageApplication | CPRChat | Called.");
-    const totalDamage = parseInt($(event.currentTarget).attr("data-total-damage"), 10);
-    const bonusDamage = parseInt($(event.currentTarget).attr("data-bonus-damage"), 10);
-    const damageLethal = (/true/i).test($(event.currentTarget).attr("data-damage-lethal"));
-    let location = $(event.currentTarget).attr("data-damage-location");
+    const totalDamage = parseInt(SystemUtils.GetEventDatum(event, "data-total-damage"), 10);
+    const bonusDamage = parseInt(SystemUtils.GetEventDatum(event, "data-bonus-damage"), 10);
+    const damageLethal = (/true/i).test(SystemUtils.GetEventDatum(event, "data-damage-lethal"));
+    let location = SystemUtils.GetEventDatum(event, "data-damage-location");
     if (location !== "head" && location !== "brain") {
       location = "body";
     }
-    const ablation = parseInt($(event.currentTarget).attr("data-ablation"), 10);
-    const ignoreHalfArmor = (/true/i).test($(event.currentTarget).attr("data-ignore-half-armor"));
+    const ablation = parseInt(SystemUtils.GetEventDatum(event, "data-ablation"), 10);
+    const ignoreHalfArmor = (/true/i).test(SystemUtils.GetEventDatum(event, "data-ignore-half-armor"));
     const tokens = canvas.tokens.controlled;
     if (tokens.length === 0) {
       SystemUtils.DisplayMessage("warn", "CPR.chat.damageApplication.noTokenSelected");

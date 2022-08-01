@@ -1,9 +1,5 @@
-/* globals game */
 import CPRActor from "./cpr-actor.js";
-import CPRChat from "../chat/cpr-chat.js";
-import * as CPRRolls from "../rolls/cpr-rolls.js";
 import LOGGER from "../utils/cpr-logger.js";
-import Rules from "../utils/cpr-rules.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
 /**
@@ -54,42 +50,15 @@ export default class CPRCharacterActor extends CPRActor {
    * their client settings.
    */
   _calculateDerivedStats() {
-    // Calculate MAX HP
     LOGGER.trace("_calculateDerivedStats | CPRCharacterActor | Called.");
     const actorData = this.data;
-    actorData.filteredItems = this.itemTypes;
-
-    const { stats } = actorData.data;
+    actorData.filteredItems = this.itemTypes; // the itemTypes getter is in foundry.js
     const { derivedStats } = actorData.data;
-    const setting = game.settings.get("cyberpunk-red-core", "calculateDerivedStats");
 
-    // After the initial config of the game, a GM may want to disable the auto-calculation
-    // of stats for Mooks & Players for custom homebrew rules
-    if (setting) {
-      // Set max HP
-      derivedStats.hp.max = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
-
-      derivedStats.hp.value = Math.min(
-        derivedStats.hp.value,
-        derivedStats.hp.max,
-      );
-
-      // Max Humanity
-      let cyberwarePenalty = 0;
-      this.getInstalledCyberware().forEach((cyberware) => {
-        if (cyberware.getData().type === "borgware") {
-          cyberwarePenalty += 4;
-        } else if (parseInt(cyberware.getData().humanityLoss.static, 10) > 0) {
-          cyberwarePenalty += 2;
-        }
-      });
-      derivedStats.humanity.max = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
-      if (derivedStats.humanity.value > derivedStats.humanity.max) {
-        derivedStats.humanity.value = derivedStats.humanity.max;
-      }
-      // Setting EMP to value based on current humannity.
-      stats.emp.value = Math.floor(derivedStats.humanity.value / 10);
-    }
+    // Walk & Run
+    // From the Move/Run Action (pg 127)
+    derivedStats.walk.value = actorData.data.stats.move.value * 2;
+    derivedStats.run.value = actorData.data.stats.move.value * 4;
 
     // Seriously wounded
     derivedStats.seriouslyWounded = Math.ceil(derivedStats.hp.max / 2);
@@ -101,7 +70,7 @@ export default class CPRCharacterActor extends CPRActor {
     derivedStats.currentWoundState = this.data.data.derivedStats.currentWoundState;
 
     // Death save
-    let basePenalty = 0;
+    let basePenalty = actorData.bonuses.deathSavePenalty; // 0 + active effects
     const critInjury = this.data.filteredItems.criticalInjury;
     critInjury.forEach((criticalInjury) => {
       const { deathSaveIncrease } = criticalInjury.data.data;
@@ -110,21 +79,20 @@ export default class CPRCharacterActor extends CPRActor {
       }
     });
 
-    // In 0.73.2 we moved all of the Death Save data into the single data point of
-    // derivedStats.deathSave.basePenalty, however, it causes a chicken/egg situation
-    // since it loads the data up before it migrates, triggering this code to run which
-    // errors out and ultimately messing the migration up. Yay. We should be able to
-    // remove this code after a release or two.
-    if ((typeof derivedStats.deathSave) === "number") {
-      const oldPenalty = derivedStats.deathSave;
-      derivedStats.deathSave = {
-        value: 0,
-        penalty: oldPenalty,
-        basePenalty,
-      };
+    // We need to check this because the object is instantiated by the entity factory
+    // prior to migration and this data point changed from a type number to an type object
+    // which gets fixed during migration
+    if ((typeof derivedStats.deathSave) === "object") {
+      derivedStats.deathSave.basePenalty = basePenalty;
+      derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
+      this.data.data.derivedStats = derivedStats;
     }
-    derivedStats.deathSave.basePenalty = basePenalty;
-    derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
-    this.data.data.derivedStats = derivedStats;
+    derivedStats.hp.value = Math.min(
+      derivedStats.hp.value,
+      derivedStats.hp.max,
+    );
+    if (derivedStats.humanity.value > derivedStats.humanity.max) {
+      derivedStats.humanity.value = derivedStats.humanity.max;
+    }
   }
 }

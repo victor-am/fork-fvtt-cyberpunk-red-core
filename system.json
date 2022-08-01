@@ -1,6 +1,6 @@
 {
-  "version": "0.80.1",
-  "flags": { "featureVideoURL": "https://www.youtube.com/watch?v=2EJoC5oNWII" },
+  "version": "0.81.0",
+  "flags": { "featureVideoURL": "https://www.youtube.com/watch?v=OHK6czoghhU" },
   "name": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
@@ -132,7 +132,7 @@
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Item Upgrades",
+      "label": "Upgrades",
       "type": "Item",
       "name": "item-upgrades",
       "path": "packs/item-upgrades.db",
@@ -140,7 +140,7 @@
       "package": "cyberpunk-red-core"
     },
     {
-      "label": "Scenes",
+      "label": "Cyberpunk RED Core Maps",
       "type": "Scene",
       "name": "scenes",
       "path": "packs/scenes.db",
@@ -154,6 +154,22 @@
       "path": "packs/elflines-online.db",
       "system": "cyberpunk-red-core",
       "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "NET architecture Rolltables",
+      "type": "RollTable",
+      "name": "net-rolltables",
+      "path": "packs/net-rolltables.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
+    },
+    {
+      "label": "Drugs",
+      "type": "Item",
+      "name": "drugs-items",
+      "path": "packs/drugs.db",
+      "system": "cyberpunk-red-core",
+      "package": "cyberpunk-red-core"
     }
   ],
   "languages": [
@@ -161,6 +177,11 @@
       "lang": "en",
       "name": "English",
       "path": "lang/en.json"
+    },
+    {
+      "lang": "de",
+      "name": "German",
+      "path": "lang/de-DE.json"
     },
     {
       "lang": "fr",
@@ -186,6 +207,6 @@
   "background" : "images/Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
   "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/system.json",
-  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.80.1/fvtt-cyberpunk-red-core-v0.80.1.zip",
+  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.81.0/fvtt-cyberpunk-red-core-v0.81.0.zip",
   "license": "GPL v3"
 }

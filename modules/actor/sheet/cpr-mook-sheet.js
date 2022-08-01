@@ -101,7 +101,6 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     let again = true;
     const skillList = [];
     this.actor.data.filteredItems.skill.map((s) => {
-      LOGGER.debugObject(s);
       skillList.push(s.data.name);
       return skillList.sort();
     });
@@ -113,7 +112,6 @@ export default class CPRMookActorSheet extends CPRActorSheet {
       }
       const skill = this.actor.data.filteredItems.skill.filter((s) => s.name === formData.skillName)[0];
       skill.setSkillLevel(formData.skillLevel);
-      skill.setSkillMod(formData.skillMod);
       this._updateOwnedItem(skill);
       const updated = SystemUtils.Localize("CPR.mookSheet.skills.updated");
       const to = SystemUtils.Localize("CPR.mookSheet.skills.to");
@@ -187,12 +185,11 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     LOGGER.debug(event.keyCode);
     if (event.keyCode === 46) {
       LOGGER.debug("DEL key was pressed");
-      const itemId = $(event.currentTarget).attr("data-item-id");
+      const itemId = SystemUtils.GetEventDatum(event, "data-item-id");
       const item = this._getOwnedItem(itemId);
       switch (item.type) {
         case "skill": {
           item.setSkillLevel(0);
-          item.setSkillMod(0);
           this._updateOwnedItem(item);
           break;
         }
@@ -200,7 +197,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
           if (item.data.data.core === true) {
             SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.cannotDeleteCoreCyberware"));
           } else {
-            const foundationalId = $(event.currentTarget).attr("data-foundational-id");
+            const foundationalId = SystemUtils.GetEventDatum(event, "data-foundational-id");
             const dialogTitle = SystemUtils.Localize("CPR.dialog.removeCyberware.title");
             const dialogMessage = `${SystemUtils.Localize("CPR.dialog.removeCyberware.text")} ${item.name}?`;
             const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);
@@ -232,7 +229,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
    */
   async _handleInstallAction(event) {
     LOGGER.trace("_handleInstallAction | CPRMookActorSheet | Called.");
-    const itemId = $(event.currentTarget).attr("data-item-id");
+    const itemId = SystemUtils.GetEventDatum(event, "data-item-id");
     const item = this._getOwnedItem(itemId);
     if (event.shiftKey) {
       if (item.type === "cyberware") {
@@ -241,7 +238,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
         } else if (item.data.data.isInstalled === false) {
           this.actor.addCyberware(itemId);
         } else {
-          const foundationalId = $(event.currentTarget).attr("data-foundational-id");
+          const foundationalId = SystemUtils.GetEventDatum(event, "data-foundational-id");
           const dialogTitle = SystemUtils.Localize("CPR.dialog.removeCyberware.title");
           const dialogMessage = `${SystemUtils.Localize("CPR.dialog.removeCyberware.text")} ${item.name}?`;
           const confirmRemove = await ConfirmPrompt.RenderPrompt(dialogTitle, dialogMessage);

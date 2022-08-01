@@ -5,18 +5,6 @@ import LOGGER from "../utils/cpr-logger.js";
  * This file defines user settings for the system module.
  */
 const registerSystemSettings = () => {
-  game.settings.register("cyberpunk-red-core", "calculateDerivedStats", {
-    name: "CPR.settings.derivedStats.name",
-    hint: "CPR.settings.derivedStats.hint",
-    scope: "world",
-    config: true,
-    type: Boolean,
-    default: true,
-    onChange: (value) => {
-      LOGGER.log(`Changed calculateDerivedStats to ${value}`);
-    },
-  });
-
   game.settings.register("cyberpunk-red-core", "playersCreateInventory", {
     name: "CPR.settings.playersCreateInventory.name",
     hint: "CPR.settings.playersCreateInventory.hint",
@@ -135,6 +123,18 @@ const registerSystemSettings = () => {
     },
   });
 
+  game.settings.register("cyberpunk-red-core", "displayStatusAsActiveEffects", {
+    name: "CPR.settings.displayStatusAsActiveEffects.name",
+    hint: "CPR.settings.displayStatusAsActiveEffects.hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      LOGGER.log(`Changed displayStatusAsActiveEffects to ${value}`);
+    },
+  });
+
   game.settings.register("cyberpunk-red-core", "userSettings", {
     name: "User Settings",
     scope: "client",
@@ -148,7 +148,7 @@ const registerSystemSettings = () => {
     name: "CPR.settings.systemDataModelVersion.name",
     hint: "CPR.settings.systemDataModelVersion.hint",
     scope: "world",
-    config: false,
+    config: true,
     type: String,
     default: "",
     onChange: (value) => {
