@@ -40,6 +40,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     return Item.create({
       name: item.name,
       type: item.type,
+      img: item.img,
       data: item.data.data,
       folder: this.migrationFolder,
     }, {
