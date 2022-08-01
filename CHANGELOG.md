@@ -1,4 +1,4 @@
-# Version DEV | Date: WIP
+# Version 0.81.0 | Date: 2022-07-31
 
 **New Features**
 - #225 - Active effects for Items
