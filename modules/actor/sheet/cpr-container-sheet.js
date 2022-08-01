@@ -318,7 +318,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
 
     const cprItemData = duplicate(dragData.data);
     let cprItemName = dragData.name;
-    const amount = parseInt(cprItemData.amount, 10);
+    const amount = itemData.data.amount ? parseInt(cprItemData.amount, 10) : 1;
     const vendorData = this.actor.system;
     const vendorConfig = vendorData.vendor;
     const username = game.user.name;
@@ -536,7 +536,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     promptData.itemTypes = [];
     const itemEntities = game.system.template.Item;
     game.system.template.Item.types.forEach((itemType) => {
-      if (itemEntities[itemType].templates.includes("physicalItem")) {
+      if (itemEntities[itemType].templates.includes("physical")) {
         promptData.itemTypes.push(itemType);
       }
     });

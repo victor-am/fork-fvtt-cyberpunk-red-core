@@ -49,18 +49,21 @@ export default class CPRContainerActor extends Actor {
    *                    - false if it has been stacked on an existing item
    */
   automaticallyStackItems(newItem) {
-    LOGGER.trace("automaticallyStackItems | CPRContainerActor | Called.");
-    const stackableItemTypes = ["ammo", "gear", "clothing"];
-    if (stackableItemTypes.includes(newItem.type)) {
-      const match = this.items.find((i) => i.type === newItem.type && i.name === newItem.name && i.system.upgrades.length === 0);
-      if (match) {
-        let oldAmount = parseInt(match.system.amount, 10);
-        let addedAmount = parseInt(newItem.system.amount, 10);
-        if (Number.isNaN(oldAmount)) { oldAmount = 1; }
-        if (Number.isNaN(addedAmount)) { addedAmount = 1; }
-        const newAmount = oldAmount + addedAmount;
-        this.updateEmbeddedDocuments("Item", [{ _id: match.id, "system.amount": newAmount.toString() }]);
-        return false;
+    LOGGER.trace("automaticallyStackItems | CPRActor | Called.");
+    const itemTemplates = SystemUtils.getDataModelTemplates(newItem.data.type);
+    if (itemTemplates.includes("stackable")) {
+      const itemMatch = this.items.find((i) => i.type === newItem.type && i.name === newItem.name && i.system.upgrades.length === 0);
+      if (itemMatch) {
+        const canStack = !(itemTemplates.includes("upgradable") && itemMatch.system.upgrades.length === 0);
+        if (canStack) {
+          let oldAmount = parseInt(itemMatch.system.amount, 10);
+          let addedAmount = parseInt(newItem.system.amount, 10);
+          if (Number.isNaN(oldAmount)) { oldAmount = 1; }
+          if (Number.isNaN(addedAmount)) { addedAmount = 1; }
+          const newAmount = oldAmount + addedAmount;
+          this.updateEmbeddedDocuments("Item", [{ _id: itemMatch._id, "system.amount": newAmount }]);
+          return false;
+        }
       }
     }
     // If not stackable, then return true to continue adding the item.
@@ -130,6 +133,23 @@ export default class CPRContainerActor extends Actor {
       return this.setFlag("cyberpunk-red-core", flagName, true);
     }
     return this.unsetFlag("cyberpunk-red-core", flagName);
+  }
+
+  /**
+   * Get all records from the associated ledger of a property. Currently the only
+   * ledger that the container actor supports is the wealth ledger, however the
+   * actor data model does have hit points listed as a ledger so we will
+   * leave this as is.
+   *
+   * @param {String} prop - name of the property that has a ledger
+   * @returns {Array} - Each element is a tuple: [value, reason], or null if not found
+   */
+  listRecords(prop) {
+    LOGGER.trace("listRecords | CPRContainerActor | Called.");
+    if (prop === "wealth") {
+      return getProperty(this.data.data, `${prop}.transactions`);
+    }
+    return null;
   }
 
   /**

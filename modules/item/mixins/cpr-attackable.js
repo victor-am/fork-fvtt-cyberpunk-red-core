@@ -1,3 +1,5 @@
+/* global game */
+
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import Rules from "../../utils/cpr-rules.js";
@@ -226,7 +228,7 @@ const Attackable = function Attackable() {
     const cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType, universalBonusDamage);
     if (cprWeaponData.fireModes.autoFire === 0 && (
       (cprWeaponData.weaponType === "smg" || cprWeaponData.weaponType === "heavySmg" || cprWeaponData.weaponType === "assaultRifle"))) {
-        cprWeaponData.fireModes.autoFire = cprWeaponData.weaponType === "assaultRifle" ? 4 : 3;
+      cprWeaponData.fireModes.autoFire = cprWeaponData.weaponType === "assaultRifle" ? 4 : 3;
     }
 
     cprRoll.configureAutofire(1, cprWeaponData.fireModes.autoFire);

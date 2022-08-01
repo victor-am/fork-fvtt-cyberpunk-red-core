@@ -105,10 +105,6 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     html.find(".improvement-points-edit-button").click(() => this._updateIp());
     html.find(".improvement-points-open-ledger").click(() => this.actor.showLedger("improvementPoints"));
 
-    // Reputation related listeners
-    html.find(".reputation-edit-button").click(() => this._updateReputation());
-    html.find(".reputation-open-ledger").click(() => this.actor.showLedger("reputation"));
-
     // Listeners for eurobucks (in gear tab)
     html.find(".eurobucks-input-button").click((event) => this._updateEurobucks(event));
     html.find(".eurobucks-open-ledger").click(() => this.actor.showLedger("wealth"));
@@ -159,7 +155,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
   }
 
   /**
-   * Calculate the max humanity on this actor, called when the calculator is clicked.
+   * Calls the actor method to calculate and set the max humanity on this actor
    * If current humanity is full and the max changes, we should update the current and EMP to match.
    * We assume that to be preferred behavior more often than not, especially during character creation.
    *
@@ -168,20 +164,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   _setMaxHumanity() {
     LOGGER.trace("_setMaxHumanity | CPRCharacterActorSheet | Called.");
-    const maxHumanity = this.actor.calcMaxHumanity();
-    const { humanity } = this.actor.system.derivedStats;
-    if (humanity.max === humanity.value) {
-      this.actor.update({
-        "system.derivedStats.humanity.max": maxHumanity,
-        "system.derivedStats.humanity.value": maxHumanity,
-        "system.stats.emp.value": Math.floor(maxHumanity / 10),
-      });
-    } else {
-      this.actor.update({
-        "system.derivedStats.humanity.max": maxHumanity,
-        "system.stats.emp.value": Math.floor(maxHumanity / 10),
-      });
-    }
+    this.actor.setMaxHumanity();
   }
 
   /**
@@ -546,45 +529,6 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
       }
     } else {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.improvementPointsEditWarn"));
-    }
-  }
-
-  /**
-   * Called when the Reputation editing glyph is clicked. Pops up a dialog to get details about the change
-   * and a reason, and then saves those similar to IP.
-   *
-   * @callback
-   * @private
-   * @returns {null}
-   */
-  async _updateReputation() {
-    LOGGER.trace("_updateReputation | CPRCharacterActorSheet | Called.");
-    const formData = await LedgerEditPrompt.RenderPrompt("CPR.characterSheet.bottomPane.reputationEdit").catch((err) => LOGGER.debug(err));
-    if (formData === undefined) {
-      // Prompt was closed
-      return;
-    }
-    if (formData.changeValue !== null && formData.changeValue !== "") {
-      switch (formData.action) {
-        case "add": {
-          this._gainLedger("reputation", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
-          break;
-        }
-        case "subtract": {
-          this._loseLedger("reputation", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
-          break;
-        }
-        case "set": {
-          this._setLedger("reputation", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
-          break;
-        }
-        default: {
-          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.reputationEditInvalidAction"));
-          break;
-        }
-      }
-    } else {
-      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.reputationEditWarn"));
     }
   }
 

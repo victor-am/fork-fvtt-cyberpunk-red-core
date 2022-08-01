@@ -4,7 +4,11 @@
     <a class="name item-edit" title="{{item.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{item.name}}</a>&nbsp;
   </div>
   <div class="item-detail text-nowrap">
+    {{#if (cprIsNumber (cprNumberFormat item.system.amount))}}
     {{cprNumberFormat item.system.amount}}
+    {{else}}
+    1
+    {{/if}}
   </div>
   <div class="item-name gear-data text-nowrap">
     {{#if (cprCompare item.system.amount ">" "1")}}

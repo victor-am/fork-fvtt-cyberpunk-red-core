@@ -1,6 +1,26 @@
 # Version DEV | Date: WIP
 
 **New Features**
+-
+
+**Changes**
+-
+
+**Bug Fixes**
+-
+
+**Maintenance items**
+-
+# Version 0.81.1 (Hotfix) | Date: 2022-08-01
+**Bug Fixes**
+- #456 - Selling non-stackable items to vendors results in a NaN offer from the vendor
+- #454 - Kendachi Mono-Three has Incorrect Attack Bonus
+- #452 - Migrated Excellent Quality Weapons have no Bonus to Attack
+- #451 - All Migrated Weapon Icons Changed to Heavy Pistol
+
+# Version 0.81.0 | Date: 2022-07-31
+
+**New Features**
 - #225 - Active effects for Items
   - Active Effects are a Foundry feature that allow items to apply modifications to stats and skills of characters in the game. Active Effects can also be added to Characters arbitrarily without associating to an item.
   - An Effects tab on the actor sheet has been added to summarize where active effects are coming from. From there character-level effects can be
@@ -25,7 +45,7 @@
 - Feature Request #295: EB Ledger for Shop Container Actors
 - Feature Add: Player ability to sell to Vendors by drag/dropping from character sheet to Vendor.
   - Vendors have been enhanced with the ability to allow players to sell to them. The type of items the vendor is willing to purchase is configurable and each item type can have a set percentage to offer for to purchase the item.  Example: Setting armor purchase percentage to 80, will offer a player 80eb for a piece of armor that has a value of 100eb.
-- Feature Request #179: Add ability to track reputation and roll face down.
+- Feature Request #179: Add ability to track reputation and roll face down (Works for Mooks as well since MR !625).
 - Add Light/Medium/Heavy/Very Heavy Generic Melee Weapons.
 - Support for the Drag Ruler module
 - Feature Request #424: Ability to use LUCK on Stat, Skill, Attack, Program, Cyberdeck, and Interface/Charismatic Impact rolls. Automatically deducts from character sheet.
@@ -74,10 +94,10 @@
 - Ammo can be concealed, and can no longer be "upgraded." Different ammo types (rubber, toxic, etc) are still intact.
 - A few changes to your world may have been made as part of migration activities.
   - Some fields on items were given defaults if they are empty. For example a null price or price category is set to something befitting the
-  item type. It is still a guess, but now there is possibly correct data instead of definitely wrong or useless data. 
+  item type. It is still a guess, but now there is possibly correct data instead of definitely wrong or useless data.
   - Clothing and gear upgrades were converted to active effects.
   - Armor, programs, netarch, vehicles, and weapons cannot be stacked any more. Duplicate items may have been created (up to 50) in players' inventories.
-  - The *quality* field has been removed from items (weapons, cyberdecks and vehicles) to avoid confusion about whether to change values in other fields. 
+  - The *quality* field has been removed from items (weapons, cyberdecks and vehicles) to avoid confusion about whether to change values in other fields.
     You can still use the name and other fields (such at attack modifier) to express excellent quality items.
   - Some item types (weapons, vehicles) no longer "stack." They do not have an amount field any more.
 
@@ -99,6 +119,10 @@
 - Fixed #390: Rubber Shotgun Slugs are considered Heavy Pistol Ammo
 - Fixed #416: Excellent Weapons missing +1 to attack
 - Fixed #433: Fixed some hard-coded text to now use the localized strings
+- Fixed #431: Mook sheets now correctly show the skill total instead of NaN
+- Fixes #446 & #447: Fixes issues with Max Humanity and Empathy getting set properly when installing Cyberware
+- Fixes #449: The stat value now shows on a stat roll card
+- Fixes #450: Unable to delete ledger lines for a container type actor
 
 **Maintenance items**
 - Moved preCreateItem hook from actor.js to item.js and combined the code of createItem hook from both actor.js and item.js into item.js

@@ -1,6 +1,6 @@
 {
   "version": "0.82.0",
-  "flags": { "featureVideoURL": "https://www.youtube.com/watch?v=2EJoC5oNWII" },
+  "flags": { "featureVideoURL": "https://www.youtube.com/watch?v=OHK6czoghhU" },
   "id": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
@@ -210,6 +210,6 @@
   "background" : "images/Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
   "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/system.json",
-  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.80.1/fvtt-cyberpunk-red-core-v0.80.1.zip",
+  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.81.1/fvtt-cyberpunk-red-core-v0.81.1.zip",
   "license": "GPL v3"
 }

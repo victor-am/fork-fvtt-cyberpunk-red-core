@@ -41,6 +41,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       name: item.name,
       type: item.type,
       data: item.system,
+      img: item.img,
       folder: this.migrationFolder,
     }, {
       isMigrating: true,
@@ -697,7 +698,16 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateRole(role) {
     LOGGER.trace("updateRole | 1-activeEffects Migration");
     let updateData = {};
-    updateData["data.bonuses"] = role.system.skillBonuses;
+    updateData["data.bonuses"] = role.data.data.skillBonuses;
+    const roleAbilities = role.data.data.abilities;
+    const updatedRoleAbilities = [];
+    roleAbilities.forEach((ra) => {
+      const newRoleAbility = ra;
+      newRoleAbility.bonuses = ra.skillBonuses;
+      delete newRoleAbility.skillBonuses;
+      updatedRoleAbilities.push(newRoleAbility);
+    });
+    updateData["data.abilities"] = updatedRoleAbilities;
     updateData = { ...updateData, ...CPRMigration.safeDelete(role, "data.quality") };
     await role.update(updateData);
   }
@@ -751,10 +761,16 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateWeapon(weapon) {
     LOGGER.trace("updateWeapon | 1-activeEffects Migration");
     let updateData = {};
-    const { amount } = weapon.system;
+    const { amount } = weapon.data.data;
+    const { quality } = weapon.data.data;
+    const { attackmod } = weapon.data.data;
+
     updateData["data.usage"] = "equipped";
     updateData = { ...updateData, ...CPRMigration.safeDelete(weapon, "data.charges") };
     updateData["data.slots"] = 3;
+    if (quality === "excellent") {
+      updateData["data.attackmod"] = attackmod + 1;
+    }
     updateData = { ...updateData, ...CPRMigration.safeDelete(weapon, "data.quality") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(weapon, 100) };
     await weapon.update(updateData);

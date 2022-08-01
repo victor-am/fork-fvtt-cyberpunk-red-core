@@ -7,7 +7,7 @@
         {{#if (cprCompare item.type "===" "cyberware")}}
             {{item.system.installedOptionSlots}}/{{item.system.slots}}
         {{else if (cprCompare item.type "===" "cyberdeck")}}
-            {{cprMath "sum" item.system.upgrades.length item.system.programs.installed.length}}/{{item.system.slots}}
+            {{cprShowSlotStatus item}}
         {{else}}
             {{item.system.upgrades.length}}/{{item.system.slots}}
         {{/if}}

@@ -10,6 +10,7 @@ import SplitItemPrompt from "../../dialog/cpr-split-item-prompt.js";
 import SystemUtils from "../../utils/cpr-systemUtils.js";
 import DvUtils from "../../utils/cpr-dvUtils.js";
 import createImageContextMenu from "../../utils/cpr-imageContextMenu.js";
+import LedgerEditPrompt from "../../dialog/cpr-ledger-edit-prompt.js";
 
 /**
  * Extend the basic ActorSheet, which comes from Foundry. Not all sheets used in
@@ -245,6 +246,10 @@ export default class CPRActorSheet extends ActorSheet {
     html.find(".tab-label:not(.skills-tab):not(.gear-tab):not(.cyberware-tab)").click(
       () => this._automaticResize(),
     );
+
+    // Reputation related listeners
+    html.find(".reputation-edit-button").click(() => this._updateReputation());
+    html.find(".reputation-open-ledger").click(() => this.actor.showLedger("reputation"));
 
     super.activateListeners(html);
   }
@@ -1162,6 +1167,45 @@ export default class CPRActorSheet extends ActorSheet {
     if (typeof this.options.cprContentFilter !== "undefined" && this.options.cprContentFilter !== "") {
       this.options.cprContentFilter = "";
       this._render();
+    }
+  }
+
+  /**
+   * Called when the Reputation editing glyph is clicked. Pops up a dialog to get details about the change
+   * and a reason, and then saves those similar to IP.
+   *
+   * @callback
+   * @private
+   * @returns {null}
+   */
+  async _updateReputation() {
+    LOGGER.trace("_updateReputation | CPRCharacterActorSheet | Called.");
+    const formData = await LedgerEditPrompt.RenderPrompt("CPR.characterSheet.bottomPane.reputationEdit").catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      // Prompt was closed
+      return;
+    }
+    if (formData.changeValue !== null && formData.changeValue !== "") {
+      switch (formData.action) {
+        case "add": {
+          this._gainLedger("reputation", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
+          break;
+        }
+        case "subtract": {
+          this._loseLedger("reputation", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
+          break;
+        }
+        case "set": {
+          this._setLedger("reputation", parseInt(formData.changeValue, 10), `${formData.changeReason} - ${game.user.name}`);
+          break;
+        }
+        default: {
+          SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.reputationEditInvalidAction"));
+          break;
+        }
+      }
+    } else {
+      SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.reputationEditWarn"));
     }
   }
 }
