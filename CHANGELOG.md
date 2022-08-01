@@ -4,7 +4,7 @@
 - #454 - Kendachi Mono-Three has Incorrect Attack Bonus
 - #452 - Migrated Excellent Quality Weapons have no Bonus to Attack
 - #451 - All Migrated Weapon Icons Changed to Heavy Pistol
--
+
 # Version 0.81.0 | Date: 2022-07-31
 
 **New Features**
