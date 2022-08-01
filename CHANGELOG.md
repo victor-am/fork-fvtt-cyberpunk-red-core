@@ -1,6 +1,7 @@
 # Version 0.81.1 (Hotfix) | Date: 2022-08-01
 **Bug Fixes**
 - #456 - Selling non-stackable items to vendors results in a NaN offer from the vendor
+- #454 - Kendachi Mono-Three has Incorrect Attack Bonus
 -
 # Version 0.81.0 | Date: 2022-07-31
 
