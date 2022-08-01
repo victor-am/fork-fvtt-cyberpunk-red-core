@@ -761,9 +761,15 @@ export default class ActiveEffectsMigration extends CPRMigration {
     LOGGER.trace("updateWeapon | 1-activeEffects Migration");
     let updateData = {};
     const { amount } = weapon.data.data;
+    const { quality } = weapon.data.data;
+    const { attackmod } = weapon.data.data;
+
     updateData["data.usage"] = "equipped";
     updateData = { ...updateData, ...CPRMigration.safeDelete(weapon, "data.charges") };
     updateData["data.slots"] = 3;
+    if (quality === "excellent") {
+      updateData["data.attackmod"] = attackmod + 1;
+    }
     updateData = { ...updateData, ...CPRMigration.safeDelete(weapon, "data.quality") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(weapon, 100) };
     await weapon.update(updateData);
