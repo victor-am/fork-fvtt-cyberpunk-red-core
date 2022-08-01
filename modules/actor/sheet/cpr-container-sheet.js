@@ -313,7 +313,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     const tradePartnerActor = game.actors.get(dragData.actorId);
 
     const itemData = duplicate(dragData.data);
-    const amount = parseInt(itemData.data.amount, 10);
+    const amount = itemData.data.amount ? parseInt(itemData.data.amount, 10) : 1;
     const vendorData = this.actor.data;
     const vendorConfig = vendorData.data.vendor;
     const username = game.user.name;
