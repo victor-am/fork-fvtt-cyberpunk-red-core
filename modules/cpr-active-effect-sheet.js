@@ -122,4 +122,11 @@ export default class CPRActiveEffectSheet extends ActiveEffectConfig {
     effect.unsetFlag("cyberpunk-red-core", `changes.${button.dataset.index}`);
     return this.submit({ preventClose: true }).then(() => this.render());
   }
+
+  getData() {
+    LOGGER.trace("getData | CPRActiveEffectSheet | Called.");
+    const data = super.getData();
+    data.effectParent = this.document.getEffectParent();
+    return data;
+  }
 }

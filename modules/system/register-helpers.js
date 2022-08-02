@@ -768,7 +768,7 @@ export default function registerHandlebarsHelpers() {
     if (effect.isItemEffect) {
       skillList = game.items.filter((i) => i.type === "skill");
     } else if (effect.isActorEffect) {
-      const actor = effect.document.getEffectParent();
+      const actor = effect.effectParent;
       skillList = actor.items.filter((i) => i.type === "skill");
     }
 

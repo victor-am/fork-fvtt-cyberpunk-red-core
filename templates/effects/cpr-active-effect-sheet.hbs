@@ -33,8 +33,8 @@
         <div class="form-group">
             <label>{{ localize "EFFECT.IconTint" }}</label>
             <div class="form-fields">
-                <input class="color" type="text" name="tint" value="{{data.tint}}"/>
-                <input type="color" value="{{data.tint}}" data-edit="tint"/>
+                <input class="color" type="text" name="tint" value="{{effect.tint}}"/>
+                <input type="color" value="{{effect.tint}}" data-edit="tint"/>
             </div>
         </div>
     </section>
@@ -55,7 +55,7 @@
             <li class="effect-change flexrow">
                 <div class="key" data-index="{{i}}">
                     <span class="form-fields effect-key-category" data-index="{{i}}">
-                        <select name="data.flags.cyberpunk-red-core.changes.{{i}}" data-dtype="String">
+                        <select name="flags.cyberpunk-red-core.changes.{{i}}" data-dtype="String">
                             {{#select (lookup ../data.flags.cyberpunk-red-core.changes i)}}
                                 {{#each (cprFindConfigObj "activeEffectKeys" ) as |effectCategory ec|}}
                                 {{!-- Dynamically create the various effect keys. Added here to pass language pipeline:

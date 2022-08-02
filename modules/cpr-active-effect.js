@@ -16,11 +16,12 @@ export default class CPRActiveEffect extends ActiveEffect {
    * @param {*} object - the Foundry object data for an Active Effect
    * @param {*} options - The Foundry options for an Active Effect
    */
-  constructor(object={}, options={}) {
+  constructor(object = {}, options = {}) {
+    LOGGER.trace("constructor | CPRActiveEffect | Called.");
     super(object, options);
     if (!this.system) {
       this.system = {
-        isSuppressed: false
+        isSuppressed: false,
       };
     }
   }
