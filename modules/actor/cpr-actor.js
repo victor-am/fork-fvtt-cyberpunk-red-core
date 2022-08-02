@@ -448,17 +448,17 @@ export default class CPRActor extends Actor {
   setMaxHumanity() {
     LOGGER.trace("setMaxHumanity | CPRActor | Called.");
     const maxHumanity = this._calcMaxHumanity();
-    const { humanity } = this.data.data.derivedStats;
+    const { humanity } = this.system.derivedStats;
     if (humanity.max === humanity.value) {
       this.update({
-        "data.derivedStats.humanity.max": maxHumanity,
-        "data.derivedStats.humanity.value": maxHumanity,
-        "data.stats.emp.value": Math.floor(humanity.value / 10),
+        "system.derivedStats.humanity.max": maxHumanity,
+        "system.derivedStats.humanity.value": maxHumanity,
+        "system.stats.emp.value": Math.floor(humanity.value / 10),
       });
     } else {
       this.update({
-        "data.derivedStats.humanity.max": maxHumanity,
-        "data.stats.emp.value": Math.floor(humanity.value / 10),
+        "system.derivedStats.humanity.max": maxHumanity,
+        "system.stats.emp.value": Math.floor(humanity.value / 10),
       });
     }
   }

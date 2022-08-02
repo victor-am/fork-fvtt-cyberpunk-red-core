@@ -65,8 +65,8 @@ export default class CPRItemSheet extends ItemSheet {
   /** @override */
   async getData() {
     LOGGER.trace("getData | CPRItemSheet | Called.");
-    const data = super.getData();
-    const cprData = data.data.system;
+    const foundryData = super.getData();
+    const cprData = foundryData.item.system;
     // data.isGM = game.user.isGM;
     cprData.isGM = game.user.isGM;
     cprData.isOwned = this.object.isOwned;
@@ -76,7 +76,7 @@ export default class CPRItemSheet extends ItemSheet {
     cprData.filteredItems = {};
     if (cprData.isOwned) {
       cprData.filteredItems = this.object.actor.itemTypes;
-    } else if (data.item.type === "role") {
+    } else if (foundryData.item.type === "role") {
       const coreSkills = await SystemUtils.GetCoreSkills();
       const worldSkills = game.items.filter((i) => i.type === "skill");
       cprData.filteredItems.skill = coreSkills.concat(worldSkills);
@@ -87,8 +87,8 @@ export default class CPRItemSheet extends ItemSheet {
     //   data.system.availableSlots = this.object.availableSlots();
     // }
     cprData.dvTableNames = DvUtils.GetDvTables();
-    data.item.system = cprData;
-    return data;
+    foundryData.item.system = cprData;
+    return foundryData;
   }
 
   /* -------------------------------------------- */

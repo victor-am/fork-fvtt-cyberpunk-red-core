@@ -147,7 +147,7 @@ export default class CPRContainerActor extends Actor {
   listRecords(prop) {
     LOGGER.trace("listRecords | CPRContainerActor | Called.");
     if (prop === "wealth") {
-      return getProperty(this.data.data, `${prop}.transactions`);
+      return getProperty(this.system, `${prop}.transactions`);
     }
     return null;
   }
