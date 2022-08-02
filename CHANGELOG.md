@@ -1,5 +1,6 @@
 # Version 0.81.2 (Hotfix) | Date: 2022-08-02
 - #458 - The rulers for the DV Calculation is broken for tables with regexp characters in the name [such as (Autofire)]
+- #455 - Containers/Vendors issues (non-English settings)
 
 # Version 0.81.1 (Hotfix) | Date: 2022-08-01
 **Bug Fixes**
