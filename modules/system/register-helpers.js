@@ -256,8 +256,8 @@ export default function registerHandlebarsHelpers() {
     if (obj.type === "cyberdeck") {
       const upgradeValue = obj.getAllUpgradesFor("slots");
       const upgradeType = obj.getUpgradeTypeFor("slots");
-      const totalSlots = (upgradeType === "override") ? upgradeValue : obj.data.data.slots + upgradeValue;
-      const usedSlots = obj.data.data.upgrades.length + obj.data.data.programs.installed.length;
+      const totalSlots = (upgradeType === "override") ? upgradeValue : obj.system.slots + upgradeValue;
+      const usedSlots = obj.system.upgrades.length + obj.system.programs.installed.length;
       return (`${usedSlots}/${totalSlots}`);
     }
     return "";
@@ -451,7 +451,7 @@ export default function registerHandlebarsHelpers() {
    */
   Handlebars.registerHelper("cprFireMode", (actor, firemode, weaponID) => {
     LOGGER.trace("cprFireMode | handlebarsHelper | Called.");
-    const flag = getProperty(actor, `data.flags.cyberpunk-red-core.firetype-${weaponID}`);
+    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
     if (flag === firemode) {
       return true;
     }
@@ -463,7 +463,7 @@ export default function registerHandlebarsHelpers() {
    */
   Handlebars.registerHelper("cprFireFlag", (actor, firetype, weaponID) => {
     LOGGER.trace("cprFireFlag | handlebarsHelper | Called.");
-    const flag = getProperty(actor, `data.flags.cyberpunk-red-core.firetype-${weaponID}`);
+    const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${weaponID}`);
     if (flag === firetype) {
       return "checked";
     }
@@ -768,7 +768,7 @@ export default function registerHandlebarsHelpers() {
     if (effect.isItemEffect) {
       skillList = game.items.filter((i) => i.type === "skill");
     } else if (effect.isActorEffect) {
-      const actor = effect.data.document.getEffectParent();
+      const actor = effect.document.getEffectParent();
       skillList = actor.items.filter((i) => i.type === "skill");
     }
 
