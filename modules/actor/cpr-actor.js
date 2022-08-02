@@ -189,7 +189,7 @@ export default class CPRActor extends Actor {
       }
     });
     let maxHumanity = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
-    maxHumanity += cprData.system.bonuses.maxHumanity; // from any active effects
+    maxHumanity += this.bonuses.maxHumanity; // from any active effects
     return maxHumanity;
   }
 
