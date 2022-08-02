@@ -96,7 +96,7 @@ export default class CPRActiveEffectSheet extends ActiveEffectConfig {
       preventClose: true,
       updateData: {
         [`changes.${idx}`]: {
-          key: "bonuses.Perception",
+          key: "bonuses.perception",
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           value: "",
         },
