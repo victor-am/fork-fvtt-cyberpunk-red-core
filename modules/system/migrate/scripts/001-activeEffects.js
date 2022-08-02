@@ -56,7 +56,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
   async postMigrate() {
     LOGGER.trace("postMigrate | 1-activeEffects Migration");
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.effects.cleanUp"));
-    if (this.migrationFolder.content.length === 0) {
+    if (this.migrationFolder.contents.length === 0) {
       LOGGER.debug("would delete migration folder");
       this.migrationFolder.delete();
     }
