@@ -265,7 +265,7 @@ export default class CPRActor extends Actor {
         return this.system.filteredItems.cyberware.filter(
           (item) => item.system.isInstalled
             && item.system.isFoundational
-            && item.type === type,
+            && item.system.type === type,
         );
       }
       SystemUtils.DisplayMessage("error", "Invalid cyberware type!");
@@ -290,22 +290,26 @@ export default class CPRActor extends Actor {
 
     if (compatibleFoundationalCyberware.length < 1 && !item.system.isFoundational) {
       Rules.lawyer(false, "CPR.messages.warnNoFoundationalCyberwareOfCorrectType");
-    } else if (item.system.isFoundational) {
-      const formData = await InstallCyberwarePrompt.RenderPrompt({ item }).catch((err) => LOGGER.debug(err));
+      return;
+    }
+    let formData;
+    if (item.system.isFoundational) {
+      formData = await InstallCyberwarePrompt.RenderPrompt({ item }).catch((err) => LOGGER.debug(err));
       if (formData === undefined) {
         return;
       }
       this._addFoundationalCyberware(item, formData);
     } else {
-      const formData = await InstallCyberwarePrompt.RenderPrompt({
+      formData = await InstallCyberwarePrompt.RenderPrompt({
         item,
         foundationalCyberware: compatibleFoundationalCyberware,
       }).catch((err) => LOGGER.debug(err));
       if (formData === undefined) {
         return;
       }
-      await this.loseHumanityValue(item, formData);
+      await this._addOptionalCyberware(item, formData);
     }
+    await this.loseHumanityValue(item, formData);
   }
 
   /**
@@ -480,6 +484,7 @@ export default class CPRActor extends Actor {
     LOGGER.trace("loseHumanityValue | CPRActor | Called.");
     if (amount.humanityLoss === "None") {
       LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was None.");
+      await this.setMaxHumanity();
       return;
     }
     const { humanity } = this.system.derivedStats;
@@ -675,13 +680,13 @@ export default class CPRActor extends Actor {
     LOGGER.trace("deltaLedgerProperty | CPRActor | Called.");
     if (this.isLedgerProperty(prop)) {
       // update "value"; it may be negative
-      const valProp = `system.${prop}.value`;
-      const cprData = duplicate(this);
+      const valProp = `${prop}.value`;
+      const cprData = duplicate(this.system);
       let newValue = getProperty(cprData, valProp);
       newValue += value;
       setProperty(cprData, valProp, newValue);
       // update the ledger with the change
-      const ledgerProp = `system.${prop}.transactions`;
+      const ledgerProp = `${prop}.transactions`;
       const ledger = getProperty(cprData, ledgerProp);
       if (value > 0) {
         ledger.push([
@@ -694,7 +699,7 @@ export default class CPRActor extends Actor {
       }
       setProperty(cprData, ledgerProp, ledger);
       // update the actor and return the modified property
-      this.update(cprData);
+      this.update({ system: cprData });
       return getProperty(this.system, prop);
     }
     return null;
@@ -712,14 +717,14 @@ export default class CPRActor extends Actor {
   setLedgerProperty(prop, value, reason) {
     LOGGER.trace("setLedgerProperty | CPRActor | Called.");
     if (this.isLedgerProperty(prop)) {
-      const valProp = `system.${prop}.value`;
-      const ledgerProp = `system.${prop}.transactions`;
+      const valProp = `${prop}.value`;
+      const ledgerProp = `${prop}.transactions`;
       const cprData = duplicate(this.system);
       setProperty(cprData, valProp, value);
       const ledger = getProperty(cprData, ledgerProp);
       ledger.push([SystemUtils.Format("CPR.ledger.setSentence", { property: prop, total: value }), reason]);
       setProperty(cprData, ledgerProp, ledger);
-      this.update(cprData);
+      this.update({ system: cprData });
       return getProperty(this.system, prop);
     }
     return null;

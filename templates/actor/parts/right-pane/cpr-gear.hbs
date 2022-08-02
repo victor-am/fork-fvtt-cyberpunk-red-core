@@ -1,5 +1,7 @@
 
-{{cprTrace "CPR-GEAR.HBS"}}
+{{cprTrace "START RIGHT-PANE CPR-GEAR.HBS"}}
+{{log "START RIGHT-PANE CPR-GEAR.HBS"}}
+{{log this}}
 <div class="gear-tab-data">
     <div class="top-pane-gear">
         <ol class="items-list gear-list">
@@ -37,7 +39,7 @@
     </div>
     <div class="bottom-pane-gear">
       <div class="eurobucks">
-        {{#if (cprCompare this.type "===" "character")}}
+        {{#if (cprCompare actor.type "===" "character")}}
         <div class="current-eurobucks flexrow">
           <div class="eurobucks-text">{{localize "CPR.characterSheet.rightPane.eurobucks.eurobucks"}}:</div>
           <div class="eurobucks-value text-left">{{cprNumberFormat actor.system.wealth.value}}</div>
@@ -62,4 +64,4 @@
       </div>
     </div>
 </div>
-{{cprTrace "END CPR-GEAR.HBS"}}
+{{cprTrace "END RIGHT-PANE CPR-GEAR.HBS"}}
