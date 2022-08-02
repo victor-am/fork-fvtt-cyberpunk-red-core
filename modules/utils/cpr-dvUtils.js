@@ -16,7 +16,7 @@ export default class DvUtils {
     const dvTables = this.GetDvTables();
     let DV = null;
     if (dvTables.includes(tableName)) {
-      const rollTable = (SystemUtils.GetRollTables(tableName, true))[0];
+      const rollTable = (SystemUtils.GetRollTables(tableName, false))[0];
       const tableResults = rollTable.getResultsForRoll(distance);
       if (tableResults.length === 1) {
         DV = tableResults[0].data.text;
