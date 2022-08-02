@@ -483,6 +483,7 @@ export default class CPRActor extends Actor {
     LOGGER.trace("loseHumanityValue | CPRActor | Called.");
     if (amount.humanityLoss === "None") {
       LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was None.");
+      await this.setMaxHumanity();
       return;
     }
     const { humanity } = this.data.data.derivedStats;

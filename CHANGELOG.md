@@ -1,4 +1,8 @@
+# Version 0.81.3 (Hotfix) | Date: TBD
+**Bug Fixes**
+- When installing cyberware and selecting `None` for the Humanity Loss, the maximum humanity was not being decremented forcing one to re-calculate it using the calculator.
 # Version 0.81.2 (Hotfix) | Date: 2022-08-02
+**Bug Fixes**
 - #458 - The rulers for the DV Calculation is broken for tables with regexp characters in the name [such as (Autofire)]
 - #455 - Containers/Vendors issues (non-English settings)
 
