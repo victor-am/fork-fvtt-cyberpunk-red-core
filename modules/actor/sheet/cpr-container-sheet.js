@@ -278,7 +278,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
         },
       )} - ${username}`;
       await tradePartnerActor.deltaLedgerProperty("wealth", -1 * cost, reason);
-      await this.actor.recordTransaction(cost, vendorReason);
+      await this.actor.recordTransaction(cost, vendorReason, this.actor);
     }
     if (tradePartnerActor.automaticallyStackItems(new CPRItem(transferredItemData))) {
       await tradePartnerActor.createEmbeddedDocuments("Item", [transferredItemData]);
@@ -426,7 +426,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
         },
       )} - ${username}`;
       await tradePartnerActor.deltaLedgerProperty("wealth", vendorOffer, reason);
-      await this.actor.recordTransaction(vendorOffer, vendorReason);
+      await this.actor.recordTransaction(vendorOffer, vendorReason, tradePartnerActor);
     }
   }
 
