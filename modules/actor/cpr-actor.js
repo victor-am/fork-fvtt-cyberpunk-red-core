@@ -483,6 +483,7 @@ export default class CPRActor extends Actor {
     LOGGER.trace("loseHumanityValue | CPRActor | Called.");
     if (amount.humanityLoss === "None") {
       LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was None.");
+      await this.setMaxHumanity();
       return;
     }
     const { humanity } = this.data.data.derivedStats;
@@ -1216,8 +1217,14 @@ export default class CPRActor extends Actor {
     }
     await this.update({ "data.derivedStats.hp.value": currentHp - takenDamage });
     totalDamageDealt += takenDamage;
-    // Ablate the armor correctly.
-    await this._ablateArmor(location, ablation);
+
+    // Ablate the armor correctly if there's armor equipped
+    if (armors.length > 0) {
+      await this._ablateArmor(location, ablation);
+    } else {
+      // Set ablation to 0 to show properly on the card since there was no armor
+      ablation = 0;
+    }
 
     CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: totalDamageDealt, ablation });
   }
