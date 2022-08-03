@@ -132,8 +132,8 @@ const Upgradable = function Upgradable() {
     if (this.actor && typeof this.system.isUpgraded === "boolean" && this.system.isUpgraded) {
       const installedUpgrades = this.system.upgrades;
       installedUpgrades.forEach((upgrade) => {
-        if (typeof upgrade.system.modifiers[dataPoint] !== "undefined") {
-          const modType = upgrade.system.modifiers[dataPoint].type;
+        if (typeof upgrade.data.modifiers[dataPoint] !== "undefined") {
+          const modType = upgrade.data.modifiers[dataPoint].type;
           if (modType !== "modifier") {
             upgradeType = modType;
           }
@@ -158,9 +158,9 @@ const Upgradable = function Upgradable() {
     if (this.actor && typeof this.system.isUpgraded === "boolean" && this.system.isUpgraded) {
       const installedUpgrades = this.system.upgrades;
       installedUpgrades.forEach((upgrade) => {
-        if (typeof upgrade.system.modifiers[dataPoint] !== "undefined") {
-          const modType = upgrade.system.modifiers[dataPoint].type;
-          const modValue = upgrade.system.modifiers[dataPoint].value;
+        if (typeof upgrade.data.modifiers[dataPoint] !== "undefined") {
+          const modType = upgrade.data.modifiers[dataPoint].type;
+          const modValue = upgrade.data.modifiers[dataPoint].value;
           if (typeof modValue === "number" && modValue !== 0) {
             if (modType === "override") {
               baseOverride = (modValue > baseOverride) ? modValue : baseOverride;
@@ -189,7 +189,7 @@ const Upgradable = function Upgradable() {
     const cprItemData = duplicate(this.system);
     let unusedSlots = cprItemData.slots;
     cprItemData.upgrades.forEach((mod) => {
-      unusedSlots -= mod.system.size;
+      unusedSlots -= mod.data.size;
     });
     return unusedSlots;
   };

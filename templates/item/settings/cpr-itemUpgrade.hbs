@@ -1,4 +1,6 @@
 {{cprTrace "CPR-ITEMUPGRADE.HBS"}}
+{{log "CPR-ITEMUPGRADE.HBS"}}
+{{log this}}
 {{!-- Upgrade Installed Setting --}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
@@ -6,8 +8,8 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-            <select name="item.type" data-dtype="{{item.type}}">
-                {{#select item.type}}
+            <select name="system.type" data-dtype="{{item.system.type}}">
+                {{#select item.system.type}}
                     {{#each (cprEntityTypes "Item") as |itemType|}}
                         {{#if (cprHasTemplate itemType "upgradable")}}
                             <option value="{{itemType}}">{{localize (cprFindConfigValue "objectTypes" itemType)}}</option>
@@ -53,17 +55,17 @@
         </div>
     </li>
 
-    {{#each (cprFindConfigValue "upgradableDataPoints" item.type) as |dataPoint dp|}}
+    {{#each (cprFindConfigValue "upgradableDataPoints" item.system.type) as |dataPoint dp|}}
         {{#if (cprListContains (cprGetProp (cprFindConfigValue "upgradableDataPoints" "upgradeConfig") "configurableTypes") dataPoint.type)}}
             <li class="item flexrow">
                 <div class="item flexrow setting-name text-nowrap">
                     {{localize dataPoint.localization}}
                 </div>
                 <div class="item flexrow setting-type text-nowrap">
-                    <select name="system.modifiers.{{dp}}.type" data-dtype="{{cprGetProp (cprGetProp ../system.modifiers dp) "type"}}">
-                        {{#select (cprGetProp (cprGetProp ../system.modifiers dp) "type")}}
+                    <select name="system.modifiers.{{dp}}.type" data-dtype="{{cprGetProp (cprGetProp ../item.system.modifiers dp) "type"}}">
+                        {{#select (cprGetProp (cprGetProp ../item.system.modifiers dp) "type")}}
                             {{#each (cprGetProp (cprFindConfigValue "upgradableDataPoints" "upgradeConfig") "configurableTypes") as |configType ct|}}
-                            {{#unless (cprCompare (cprListContains "clothing,gear" ../../this.item.system.type) "&&" (cprCompare ct "!==" "modifier"))}}
+                            {{#unless (cprCompare (cprListContains "clothing,gear" ../../item.system.type) "&&" (cprCompare ct "!==" "modifier"))}}
                                 <option value="{{ct}}">{{localize configType}}</option>
                                 {{/unless}}
                             {{/each}}
@@ -72,16 +74,16 @@
                 </div>
                 <div class="item flexrow setting-value text-nowrap item-end">
                     {{#if ../this.editable}}
-                        <input name="system.modifiers.{{dp}}.value" class="" type="number" value="{{cprGetProp (cprGetProp ../system.modifiers dp) "value"}}">
+                        <input name="system.modifiers.{{dp}}.value" class="" type="number" value="{{cprGetProp (cprGetProp ../item.system.modifiers dp) "value"}}">
                     {{else}}
-                        <span class="text-flex-end">{{cprGetProp (cprGetProp ../system.modifiers dp) "value"}}</span>
+                        <span class="text-flex-end">{{cprGetProp (cprGetProp ../item.system.modifiers dp) "value"}}</span>
                     {{/if}}
                 </div>
             </li>
         {{/if}}
     {{/each}}
 {{/if}}
-{{#if (cprCompare (cprCompare system.type "===" "weapon") "||" (cprCompare system.type "===" "cyberware"))}}
+{{#if (cprCompare (cprCompare item.system.type "===" "weapon") "||" (cprCompare item.system.type "===" "cyberware"))}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
             {{localize "CPR.itemSheet.itemUpgrade.isSecondaryWeapon"}}
@@ -89,7 +91,7 @@
         <div class="item flexrow setting-value text-nowrap item-end">
             {{#if this.editable}}
                 <select name="system.modifiers.secondaryWeapon.configured" data-dtype="text">
-                    {{#select system.modifiers.secondaryWeapon.configured}}
+                    {{#select item.system.modifiers.secondaryWeapon.configured}}
                         <option value="false">{{localize "CPR.global.generic.false"}}</option>
                         <option value="true">{{localize "CPR.global.generic.true"}}</option>
                     {{/select}}
