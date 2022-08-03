@@ -172,7 +172,7 @@ export default class CPRContainerActor extends Actor {
    * @param {String} reason - a user-provided reason for the change
    * @returns {Number} (or null if not found)
    */
-  recordTransaction(value, reason) {
+  recordTransaction(value, reason, seller = null) {
     LOGGER.trace("recordTransaction | CPRContainerActor | Called.");
     // update "value"; it may be negative
     const cprData = duplicate(this.system);
@@ -180,11 +180,13 @@ export default class CPRContainerActor extends Actor {
     let transactionSentence;
     let transactionType = "set";
 
-    if (reason.match(/^Sold/)) {
-      transactionType = "add";
-    } else if (reason.match(/^Purchased/)) {
-      transactionType = "subtract";
-    } else if (reason.match(/^Sheet update/)) {
+    if (seller) {
+      if (seller.data._id === this.data._id) {
+        transactionType = "add";
+      } else {
+        transactionType = "subtract";
+      }
+    } else {
       // eslint-disable-next-line prefer-destructuring
       transactionType = reason.split(" ")[2];
     }

@@ -11,6 +11,17 @@
 
 **Maintenance items**
 -
+# Version 0.81.3 (Hotfix) | Date: 2022-08-02
+**Bug Fixes**
+- When installing cyberware and selecting `None` for the Humanity Loss, the maximum humanity was not being decremented forcing one to re-calculate it using the calculator.
+- Corrected  an issue with Compendium Migration where `Scene` type Compendia was not properly being migrated.
+- #437 - Chat Card shows armor ablation even if target has no Armor
+- #419 - Invert function of CTRL Rolls creates an issue with Primary Role Abilities
+# Version 0.81.2 (Hotfix) | Date: 2022-08-02
+**Bug Fixes**
+- #458 - The rulers for the DV Calculation is broken for tables with regexp characters in the name [such as (Autofire)]
+- #455 - Containers/Vendors issues (non-English settings)
+
 # Version 0.81.1 (Hotfix) | Date: 2022-08-01
 **Bug Fixes**
 - #456 - Selling non-stackable items to vendors results in a NaN offer from the vendor

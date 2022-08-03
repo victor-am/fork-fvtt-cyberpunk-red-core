@@ -179,47 +179,53 @@ export default class CPRMigration {
   async migrateScenes() {
     LOGGER.trace("migrateScenes | CPRMigration");
     let good = true;
-    const totalScenes = game.scenes.size;
-    const watermark = (totalScenes / 24) + 1;
-    let loopIndex = 0;
-    for (const scene of game.scenes.contents) {
-      loopIndex += 1;
-      const tokens = scene.tokens.contents.filter((token) => {
-        if (!token.data.actorLink && !game.actors.has(token.data.actorId)) {
-          // Degenerate case where the token is unlinked, but the actor it is derived from was since
-          // deleted. This makes token.actor null so we don't have a full view of all of the actor data.
-          // This is technically a broken token and even Foundry throws errors when you do certain things
-          // with this token. We skip it.
-          LOGGER.warn(`WARNING: Token "${token.name}" (${token.data.actorId}) on Scene "${scene.name}" (${scene.id})`
-            + ` is missing the source Actor, so we will skip migrating it. Consider replacing or deleting it.`);
-          return false;
-        }
-        if (!token.data.actorLink) return true; // unlinked tokens, this is what we're after
-        // anything else is a linked token, we assume they're already migrated
-        return false;
-      });
-      const tokenMigrations = tokens.map(async (token) => {
-        try {
-          return await this.migrateActor(token.actor);
-        } catch (err) {
-          throw new Error(`${token.actor.name} token had a migration error: ${err.message}`);
-        }
-      });
-      const values = await Promise.allSettled(tokenMigrations);
-      for (const value of values.filter((v) => v.status !== "fulfilled")) {
-        LOGGER.error(`Migration error: ${value.reason.message}`);
-        LOGGER.error(value.reason.stack);
-        good = false;
+    const sceneMigrations = game.scenes.contents.map(async (scene) => {
+      try {
+        return await this.migrateScene(scene);
+      } catch (err) {
+        throw new Error(`${scene.name} had a migration error: ${err.message}`);
       }
-      if (loopIndex >= watermark) {
-        if (this.statusPercent < 100) {
-          this.statusPercent += 1;
-          CPRSystemUtils.updateMigrationBar(this.statusPercent, this.statusMessage);
-        }
-        loopIndex = 0;
-      }
+    });
+    const values = await Promise.allSettled(sceneMigrations);
+    for (const value of values.filter((v) => v.status !== "fulfilled")) {
+      LOGGER.error(`Migration error: ${value.reason.message}`);
+      LOGGER.error(value.reason.stack);
+      good = false;
     }
     return good;
+  }
+
+  /**
+   * Migrate scene
+   */
+  async migrateScene(scene) {
+    LOGGER.trace("migrateScene | CPRMigration");
+    const tokens = scene.tokens.contents.filter((token) => {
+      if (!token.data.actorLink && !game.actors.has(token.data.actorId)) {
+        // Degenerate case where the token is unlinked, but the actor it is derived from was since
+        // deleted. This makes token.actor null so we don't have a full view of all of the actor data.
+        // This is technically a broken token and even Foundry throws errors when you do certain things
+        // with this token. We skip it.
+        LOGGER.warn(`WARNING: Token "${token.data.name}" (${token.data.actorId}) on Scene "${scene.name}" (${scene.id})`
+            + ` is missing the source Actor, so we will skip migrating it. Consider replacing or deleting it.`);
+        return false;
+      }
+      if (!token.data.actorLink) return true; // unlinked tokens, this is what we're after
+      // anything else is a linked token, we assume they're already migrated
+      return false;
+    });
+    const tokenMigrations = tokens.map(async (token) => {
+      try {
+        return await this.migrateActor(token.actor);
+      } catch (err) {
+        throw new Error(`${token.actor.name} token had a migration error: ${err.message}`);
+      }
+    });
+    const values = await Promise.allSettled(tokenMigrations);
+    for (const value of values.filter((v) => v.status !== "fulfilled")) {
+      LOGGER.error(`Migration error: ${value.reason.message}`);
+      LOGGER.error(value.reason.stack);
+    }
   }
 
   /**
@@ -235,6 +241,8 @@ export default class CPRMigration {
     LOGGER.trace("migrateCompendia | CPRMigration");
     let good = true;
     for (const pack of game.packs.filter((p) => p.metadata.package === "world" && ["Actor", "Item", "Scene"].includes(p.metadata.type) && !p.locked)) {
+      // Perform Foundry server-side migration of the pack data model
+      await pack.migrate();
       // Iterate over compendium entries - applying fine-tuned migration functions
       const docs = await pack.getDocuments();
       const packMigrations = docs.map(async (doc) => {
@@ -248,7 +256,7 @@ export default class CPRMigration {
             break;
           }
           case "Scene": {
-            await this.migrateScenes(doc);
+            await this.migrateScene(doc);
             break;
           }
           default:
