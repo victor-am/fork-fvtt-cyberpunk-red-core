@@ -177,7 +177,7 @@ export default class CPRActor extends Actor {
    * @private
    */
   _calcMaxHumanity() {
-    LOGGER.trace("calcMaxHumanity | CPRActor | Called.");
+    LOGGER.trace("_calcMaxHumanity | CPRActor | Called.");
     const cprData = this.system;
     const { stats } = cprData;
     let cyberwarePenalty = 0;
@@ -1223,12 +1223,10 @@ export default class CPRActor extends Actor {
     // Ablate the armor correctly if there's armor equipped
     if (armors.length > 0) {
       await this._ablateArmor(location, ablation);
-    } else {
-      // Set ablation to 0 to show properly on the card since there was no armor
-      ablation = 0;
     }
 
-    CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: totalDamageDealt, ablation });
+    const cardDisplayAblation = (armors.length > 0) ? ablation : 0;
+    CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: totalDamageDealt, ablation: cardDisplayAblation });
   }
 
   /**

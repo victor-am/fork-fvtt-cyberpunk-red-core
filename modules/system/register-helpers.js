@@ -777,6 +777,7 @@ export default function registerHandlebarsHelpers() {
     }
     // "sort" the skillMap properties before passing it back
     return Object.keys(skillMap).sort().reduce((result, key) => {
+      // eslint-disable-next-line no-param-reassign
       result[key] = skillMap[key];
       return result;
     }, {});
