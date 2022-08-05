@@ -454,7 +454,7 @@ export default class CPRActor extends Actor {
     LOGGER.trace("setMaxHumanity | CPRActor | Called.");
     const maxHumanity = this._calcMaxHumanity();
     const { humanity } = this.system.derivedStats;
-    if (humanity.max === humanity.value && humanity.max < maxHumanity) {
+    if (humanity.max === humanity.value && maxHumanity < humanity.max) {
       await this.update({
         "system.derivedStats.humanity.max": maxHumanity,
         "system.derivedStats.humanity.value": maxHumanity,
