@@ -210,6 +210,6 @@
   "background" : "images/Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
   "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/system.json",
-  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.81.2/fvtt-cyberpunk-red-core-v0.81.2.zip",
+  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.81.3/fvtt-cyberpunk-red-core-v0.81.3.zip",
   "license": "GPL v3"
 }

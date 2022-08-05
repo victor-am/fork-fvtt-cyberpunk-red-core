@@ -89,7 +89,7 @@ export class CPRRoll {
    */
   addMod(mod) {
     LOGGER.trace("addMod | CPRRoll | Called.");
-    if (mod !== 0) this.mods.push(mod);
+    if (mod && mod !== 0) this.mods.push(mod);
   }
 
   /**
