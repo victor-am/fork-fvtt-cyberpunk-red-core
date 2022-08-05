@@ -440,14 +440,14 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    * @private
    * @param {*} event - object with details of the event
    */
-  _updateRoleAbility(event) {
+  async _updateRoleAbility(event) {
     LOGGER.trace("ActorID _updateRoleAbility | CPRCharacterActorSheet | Called.");
     const item = this._getOwnedItem(CPRActorSheet._getItemId(event));
     const cprItemData = duplicate(item.system);
     const subskill = SystemUtils.GetEventDatum(event, "data-subskill-name");
     const value = parseInt(event.target.value, 10);
     if (!Number.isNaN(value)) {
-      if (hasProperty(itemData, "system.rank")) {
+      if (hasProperty(cprItemData, "rank")) {
         if (subskill) {
           const updateSubskill = cprItemData.abilities.filter((a) => a.name === subskill);
           if (updateSubskill.length === 1) {
@@ -458,7 +458,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
         } else {
           cprItemData.rank = value;
         }
-        item.update(cprItemData);
+        await item.update({ system: cprItemData });
       }
     } else {
       SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.amountNotNumber"));
