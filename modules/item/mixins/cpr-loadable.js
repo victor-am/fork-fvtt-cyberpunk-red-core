@@ -24,7 +24,7 @@ const Loadable = function Loadable() {
     LOGGER.trace("setCompatibleAmmo | Loadable | Called.");
     this.system.ammoVariety = ammoList;
     if (this.actor) {
-      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.system }]);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]);
     }
     return this.update({ "system.ammoVariety": ammoList });
   };
@@ -76,7 +76,7 @@ const Loadable = function Loadable() {
       }
       this.system.magazine.value = 0;
       this.system.magazine.ammoId = "";
-      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.system }]);
+      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]);
     }
     return null;
   };
@@ -129,7 +129,7 @@ const Loadable = function Loadable() {
       if (selectedAmmoId) {
         const magazineData = this.system.magazine;
         magazineData.ammoId = selectedAmmoId;
-        loadUpdate.push({ _id: this._id, "data.magazine.ammoId": selectedAmmoId });
+        loadUpdate.push({ _id: this._id, "system.magazine.ammoId": selectedAmmoId });
         const ammo = this.actor.items.find((i) => i._id === selectedAmmoId);
         if (ammo === null) {
           SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.ammoMissingFromGear")));
@@ -155,7 +155,7 @@ const Loadable = function Loadable() {
             await ammo._ammoDecrement(ammo.system.amount);
           }
         }
-        loadUpdate.push({ _id: this._id, "data.magazine": magazineData });
+        loadUpdate.push({ _id: this._id, "system.magazine": magazineData });
       }
       this.actor.updateEmbeddedDocuments("Item", loadUpdate);
     }

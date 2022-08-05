@@ -19,12 +19,12 @@ const Upgradable = function Upgradable() {
     const updateList = [];
     upgrades.forEach((u) => {
       installedUpgrades = installedUpgrades.filter((iUpgrade) => iUpgrade._id !== u.id);
-      updateList.push({ _id: u.id, "data.isInstalled": false });
+      updateList.push({ _id: u.id, "system.isInstalled": false });
     });
     const upgradeStatus = (installedUpgrades.length > 0);
     // Need to set this so it can be used further in this function.
     this.system.upgrades = installedUpgrades;
-    updateList.push({ _id: this.id, "data.isUpgraded": upgradeStatus, "data.upgrades": installedUpgrades });
+    updateList.push({ _id: this.id, "system.isUpgraded": upgradeStatus, "system.upgrades": installedUpgrades });
 
     if (this.type === "weapon" && this.system.isRanged) {
       const magazineData = this.system.magazine;
@@ -35,13 +35,13 @@ const Upgradable = function Upgradable() {
       if (extraBullets > 0) {
         updateList.push({
           _id: this.id,
-          "data.isUpgraded": upgradeStatus,
-          "data.upgrades": installedUpgrades,
-          "data.magazine.value": magazineData.max,
+          "system.isUpgraded": upgradeStatus,
+          "system.upgrades": installedUpgrades,
+          "system.magazine.value": magazineData.max,
         });
         const ammo = this.actor.items.find((i) => i._id === magazineData.ammoId);
         const ammoStack = ammo.system.amount + extraBullets;
-        updateList.push({ _id: ammo.id, "data.amount": ammoStack });
+        updateList.push({ _id: ammo.id, "system.amount": ammoStack });
       }
     } else if (this.type === "armor") {
       const { bodyLocation } = this.system;
@@ -52,14 +52,14 @@ const Upgradable = function Upgradable() {
       shieldHitPoints.value = (shieldHitPoints.value > shieldHitPoints.max) ? shieldHitPoints.max : shieldHitPoints.value;
       updateList.push({
         _id: this.id,
-        "data.isUpgraded": upgradeStatus,
-        "data.upgrades": installedUpgrades,
-        "data.bodyLocation": bodyLocation,
-        "data.headLocation": headLocation,
-        "data.shieldHitPoints": shieldHitPoints,
+        "system.isUpgraded": upgradeStatus,
+        "system.upgrades": installedUpgrades,
+        "system.bodyLocation": bodyLocation,
+        "system.headLocation": headLocation,
+        "system.shieldHitPoints": shieldHitPoints,
       });
     } else {
-      updateList.push({ _id: this.id, "data.isUpgraded": upgradeStatus, "data.upgrades": installedUpgrades });
+      updateList.push({ _id: this.id, "system.isUpgraded": upgradeStatus, "system.upgrades": installedUpgrades });
     }
     return this.actor.updateEmbeddedDocuments("Item", updateList);
   };
@@ -81,7 +81,7 @@ const Upgradable = function Upgradable() {
         const alreadyInstalled = installedUpgrades.filter((iUpgrade) => iUpgrade._id === u._id);
         if (alreadyInstalled.length === 0) {
           // Update the upgrade Item set the isInstalled Boolean and the install setting to this item
-          updateList.push({ _id: u._id, "data.isInstalled": true, "data.install": this.id });
+          updateList.push({ _id: u._id, "system.isInstalled": true, "system.install": this.id });
           const modList = {};
           const upgradeModifiers = u.system.modifiers;
           // Loop through the modifiers this upgrade has on it
@@ -103,7 +103,7 @@ const Upgradable = function Upgradable() {
           const upgradeData = {
             _id: u._id,
             name: u.name,
-            data: {
+            system: {
               modifiers: modList,
               size: u.system.size,
             },
@@ -111,7 +111,7 @@ const Upgradable = function Upgradable() {
           installedUpgrades.push(upgradeData);
         }
       });
-      updateList.push({ _id: this.id, "data.isUpgraded": true, "data.upgrades": installedUpgrades });
+      updateList.push({ _id: this.id, "system.isUpgraded": true, "system.upgrades": installedUpgrades });
       return this.actor.updateEmbeddedDocuments("Item", updateList);
     }
     return null;
@@ -132,8 +132,8 @@ const Upgradable = function Upgradable() {
     if (this.actor && typeof this.system.isUpgraded === "boolean" && this.system.isUpgraded) {
       const installedUpgrades = this.system.upgrades;
       installedUpgrades.forEach((upgrade) => {
-        if (typeof upgrade.data.modifiers[dataPoint] !== "undefined") {
-          const modType = upgrade.data.modifiers[dataPoint].type;
+        if (typeof upgrade.system.modifiers[dataPoint] !== "undefined") {
+          const modType = upgrade.system.modifiers[dataPoint].type;
           if (modType !== "modifier") {
             upgradeType = modType;
           }
@@ -158,9 +158,9 @@ const Upgradable = function Upgradable() {
     if (this.actor && typeof this.system.isUpgraded === "boolean" && this.system.isUpgraded) {
       const installedUpgrades = this.system.upgrades;
       installedUpgrades.forEach((upgrade) => {
-        if (typeof upgrade.data.modifiers[dataPoint] !== "undefined") {
-          const modType = upgrade.data.modifiers[dataPoint].type;
-          const modValue = upgrade.data.modifiers[dataPoint].value;
+        if (typeof upgrade.system.modifiers[dataPoint] !== "undefined") {
+          const modType = upgrade.system.modifiers[dataPoint].type;
+          const modValue = upgrade.system.modifiers[dataPoint].value;
           if (typeof modValue === "number" && modValue !== 0) {
             if (modType === "override") {
               baseOverride = (modValue > baseOverride) ? modValue : baseOverride;
@@ -189,7 +189,7 @@ const Upgradable = function Upgradable() {
     const cprItemData = duplicate(this.system);
     let unusedSlots = cprItemData.slots;
     cprItemData.upgrades.forEach((mod) => {
-      unusedSlots -= mod.data.size;
+      unusedSlots -= mod.system.size;
     });
     return unusedSlots;
   };

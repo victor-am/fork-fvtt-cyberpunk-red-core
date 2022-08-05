@@ -43,7 +43,7 @@ const Attackable = function Attackable() {
       default:
     }
     if (this.actor) {
-      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.system }]);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]);
     }
   };
 
@@ -58,7 +58,7 @@ const Attackable = function Attackable() {
     LOGGER.debug(discharged);
     // don't go negative
     this.system.magazine.value = Math.max(this.system.magazine.value - discharged, 0);
-    return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.system }]);
+    return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]);
   };
 
   /**

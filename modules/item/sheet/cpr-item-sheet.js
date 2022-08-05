@@ -201,7 +201,7 @@ export default class CPRItemSheet extends ItemSheet {
   async _selectCompatibleAmmo() {
     LOGGER.trace("_selectCompatibleAmmo | CPRItemSheet | Called.");
     const cprItemData = this.item.system;
-    let formData = { id: this.item._id, name: this.item.name, data: cprItemData };
+    let formData = { id: this.item._id, name: this.item.name, system: cprItemData };
     formData = await SelectCompatibleAmmo.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;

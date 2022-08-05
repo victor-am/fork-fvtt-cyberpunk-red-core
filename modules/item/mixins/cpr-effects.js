@@ -5,7 +5,7 @@ import SystemUtils from "../../utils/cpr-systemUtils.js";
  * The Effects mixin in where the logic lives for managing active effects associated with Items.
  * Valid mods are objects shown below. They are in the "changes" property of the active effect.
  * {
- *    key: "data.stats.dex.value"
+ *    key: "system.stats.dex.value"
  *    mode: 2
  *    priority: 10   <-- implies an order to applying effects; not used in this system
  *    value: "20"
