@@ -10,7 +10,12 @@
     "maximum": 10
   },
   "templateVersion": 2,
-  "author": "The Project Red Team",
+  "authors": [
+    {
+      "name": "The Project Red Team",
+      "url":"https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core"
+    }
+  ],
   "esmodules": ["cpr.js"],
   "styles": ["main.css"],
   "packs": [
