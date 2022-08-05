@@ -298,7 +298,7 @@ export default class CPRActor extends Actor {
       if (formData === undefined) {
         return;
       }
-      this._addFoundationalCyberware(item, formData);
+      await this._addFoundationalCyberware(item, formData);
     } else {
       formData = await InstallCyberwarePrompt.RenderPrompt({
         item,
@@ -444,23 +444,24 @@ export default class CPRActor extends Actor {
 
   /**
    * Calculate the max humanity on this actor.
-   * If current humanity is full and the max changes, we should update the current and EMP to match.
+   * If current humanity is full and the max changes, we should update the current and EMP to match only
+   * if the new max is less than the old max.
    * We assume that to be preferred behavior more often than not, especially during character creation.
    *
    * @callback
    */
-  setMaxHumanity() {
+  async setMaxHumanity() {
     LOGGER.trace("setMaxHumanity | CPRActor | Called.");
     const maxHumanity = this._calcMaxHumanity();
     const { humanity } = this.system.derivedStats;
-    if (humanity.max === humanity.value) {
-      this.update({
+    if (humanity.max === humanity.value && humanity.max < maxHumanity) {
+      await this.update({
         "system.derivedStats.humanity.max": maxHumanity,
         "system.derivedStats.humanity.value": maxHumanity,
         "system.stats.emp.value": Math.floor(humanity.value / 10),
       });
     } else {
-      this.update({
+      await this.update({
         "system.derivedStats.humanity.max": maxHumanity,
         "system.stats.emp.value": Math.floor(humanity.value / 10),
       });
