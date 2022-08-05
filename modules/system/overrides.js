@@ -2,10 +2,10 @@
 import DvUtils from "../utils/cpr-dvUtils.js";
 
 export default function overrideRulerFunctions() {
-  const originalLabel = Ruler.prototype._getSegmentLabel;
+  const foundryPrototype = Ruler.prototype._getSegmentLabel;
   Ruler.prototype._getSegmentLabel = function _getSegmentLabel(segment, totalDistance) {
     const { distance } = segment;
-    let returnLabel = originalLabel.call(segment, totalDistance);
+    let returnLabel = foundryPrototype.call("_getSegmentLabel", segment, totalDistance);
     if (this.user.isSelf) {
       const token = canvas.tokens.controlled["0"];
       if (token) {
