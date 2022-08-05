@@ -202,7 +202,7 @@ export default class CPRItem extends Item {
    */
   _itemUpgradeAction(actor, actionAttributes) {
     LOGGER.trace("_itemUpgradeAction | CPRItem | Called.");
-    switch (this.type) {
+    switch (this.system.type) {
       case "weapon": {
         if (this.system.modifiers.secondaryWeapon.configured) {
           return this._weaponAction(actor, actionAttributes);
