@@ -1,4 +1,6 @@
 {{cprTrace "CPR-ATTACKABLE.HBS"}}
+{{log "CPR-ATTACKABLE.HBS"}}
+{{log this}}
 {{!-- ROF Settings --}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
@@ -148,7 +150,7 @@
             <select name="system.dvTable" data-dtype="{{item.system.dvTable}}">
                 {{#select item.system.dvTable}}
                     <option value="">N/A</option>
-                    {{#each this.dvTableNames as |rollTable| }}
+                    {{#each item.system.dvTableNames as |rollTable| }}
                         <option value="{{rollTable}}">{{rollTable}}</option>
                     {{/each}}
                 {{/select}}
@@ -231,7 +233,7 @@
             </a>
         {{/if}}
     </div>
-    {{!- Ranged Weapon - Compatible Settings --}}
+    {{!- Ranged Weapon - Compatible Ammo Settings --}}
     <div class="compatible-ammo">
         {{#each (cprFindConfigObj "ammoVariety") as |ammoVariety a|}}
             {{#if (cprListContains (cprGetProp ../item.system "ammoVariety") a)}}
