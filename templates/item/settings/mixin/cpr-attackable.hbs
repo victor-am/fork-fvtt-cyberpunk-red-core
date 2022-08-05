@@ -1,20 +1,4 @@
 {{cprTrace "CPR-ATTACKABLE.HBS"}}
-{{!-- This awful logic is summarized here:
-    Show this content unless one of the following is true:
-        1. the item is cyberware and it is not a weapon
-        2. the item is an upgrade item and it is not a weapon
---}}
-{{#unless (cprCompare
-    (cprCompare
-        (cprCompare item.type "===" "cyberware")
-        "&&"
-        (cprCompare item.system.isWeapon "===" false))
-    "||"
-    (cprCompare
-        (cprCompare item.type "===" "itemUpgrade")
-        "&&"
-        (cprCompare item.system.modifiers.secondaryWeapon.configured "===" "false"))
-)}}
 {{!-- ROF Settings --}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
@@ -266,5 +250,4 @@
         {{/each}}
     </div>
 {{/if}}
-{{/unless}}
 {{cprTrace "END CPR-ATTACKABLE.HBS"}}

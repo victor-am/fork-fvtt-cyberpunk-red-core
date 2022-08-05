@@ -101,6 +101,8 @@
             {{/if}}
         </div>
     </li>
-    {{> "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-attackable.hbs" this}}
+    {{#if (cprCompare item.system.modifiers.secondaryWeapon.configured "===" "true")}}
+      {{> "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-attackable.hbs" this}}
+    {{/if}}
 {{/if}}
 {{cprTrace "END CPR-ITEMUPGRADE.HBS"}}

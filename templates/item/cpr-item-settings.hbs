@@ -24,15 +24,15 @@
 
                 {{!-- Settings from mixins --}}
                 {{#each (cprGetTemplates item.type) as |mixin|}}
-                {{#if (cprCompare mixin "!==" "effects")}}
-                {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-VAR.hbs" mixin)
-                ../this}}
-                {{/if}}
+                  {{#if (cprCompare mixin "!==" "effects")}}
+                    {{#if (cprCompare (cprCompare mixin "===" "attackable") "&&" (cprCompare ../item.type "!==" "itemUpgrade"))}}
+                      {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-VAR.hbs" mixin) ../this}}
+                    {{/if}}
+                  {{/if}}
                 {{/each}}
 
                 {{!-- Settings specific to the item type --}}
-                {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/settings/cpr-VAR.hbs" item.type)
-                this}}
+                {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/item/settings/cpr-VAR.hbs" item.type) this}}
             </ol>
         </div>
     </div>
