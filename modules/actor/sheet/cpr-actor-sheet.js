@@ -98,7 +98,8 @@ export default class CPRActorSheet extends ActorSheet {
       cprActorData.filteredEffects = this.prepareActiveEffectCategories();
       data.actor.system = cprActorData;
     }
-
+    // This appears to have been removed in V10?
+    data.isGM = game.user.isGM;
     return data;
   }
 
@@ -1074,17 +1075,19 @@ export default class CPRActorSheet extends ActorSheet {
         if (actor._id === this.actor._id) {
           return;
         }
+        const item = dragData.data;
+        const cprData = item.system;
         // If the cyberware is marked as core, or is installed, throw an error message.
-        if (dragData.system.core === true || (dragData.system.type === "cyberware" && dragData.system.isInstalled)) {
+        if (cprData.core === true || (cprData.type === "cyberware" && cprData.isInstalled)) {
           SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.cannotDropInstalledCyberware"));
           return;
         }
-        if (dragData.system.isUpgraded) {
+        if (cprData.isUpgraded) {
           SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradedragupgradewarn"));
           return;
         }
         if (await super._onDrop(event)) {
-          await actor.deleteEmbeddedDocuments("Item", [dragData._id]);
+          await actor.deleteEmbeddedDocuments("Item", [item._id]);
         }
       }
     } else {

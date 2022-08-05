@@ -28,7 +28,7 @@ export default class CPRMookActor extends CPRActor {
           name: item.name,
           img: item.img,
           type: item.type,
-          system: item.system
+          system: item.system,
         };
         createData.items.push(cprItem);
       });

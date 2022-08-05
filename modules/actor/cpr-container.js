@@ -218,7 +218,7 @@ export default class CPRContainerActor extends Actor {
       reason]);
     setProperty(cprData, "wealth.transactions", ledger);
     // update the actor and return the modified property
-    this.update(cprData);
+    this.update({ system: cprData });
     return getProperty(this.system, "wealth");
   }
 }

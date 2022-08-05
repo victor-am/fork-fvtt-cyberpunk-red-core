@@ -48,10 +48,12 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     cprActorData.userOwnedActors.unshift({ id: "", name: "--" });
     if (game.user.character !== undefined && game.user.character !== null) {
       cprActorData.userCharacter = game.user.character.id;
-      if (cprActorData.tradePartnerId === undefined) {
+      if (!cprActorData.tradePartnerId) {
         cprActorData.tradePartnerId = game.user.character.id;
       }
-      cprActorData.tradePartnerId = this.tradePartnerId;
+      if (this.tradePartnerId) {
+        cprActorData.tradePartnerId = this.tradePartnerId;
+      }
     } else {
       cprActorData.userCharacter = "";
       cprActorData.tradePartnerId = this.tradePartnerId;
@@ -316,16 +318,17 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
     const tradePartnerActor = game.actors.get(dragData.actorId);
 
-    const cprItemData = duplicate(dragData.data);
+    const item = duplicate(dragData.data);
+    const cprItemData = item.system;
     let cprItemName = dragData.name;
-    const amount = itemData.data.amount ? parseInt(cprItemData.amount, 10) : 1;
+    const amount = cprItemData.amount ? parseInt(cprItemData.amount, 10) : 1;
     const vendorData = this.actor.system;
     const vendorConfig = vendorData.vendor;
     const username = game.user.name;
 
     let cost = 0;
 
-    if (itemData.type === "weapon") {
+    if (item.type === "weapon") {
       const { ammoId } = cprItemData.magazine;
       if (ammoId !== "") {
         SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeLoadedWeaponWarn"));
@@ -333,15 +336,13 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       }
     }
 
-    if (cprItemData.type === "ammo" && cprItemData.variety !== "grenade" && cprItemData.variety !== "rocket") {
+    if (item.type === "ammo" && cprItemData.variety !== "grenade" && cprItemData.variety !== "rocket") {
       // Ammunition, which is neither grenades nor rockets, are prices are for 10 of them (pg. 344)
       cost = parseInt(parseInt(cprItemData.price.market, 10) / 10, 10);
     } else {
       cost = parseInt(cprItemData.price.market, 10);
     }
-    const percent = parseInt(vendorConfig.itemTypes[itemData.type].purchasePercentage, 10);
-
-
+    const percent = parseInt(vendorConfig.itemTypes[item.type].purchasePercentage, 10);
 
     if (cprItemData.isUpgraded) {
       cprItemData.upgrades.forEach((upgrade) => {
@@ -385,16 +386,20 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
         cprItemData.upgrades = [];
       }
 
-      createItems.push(cprItemData);
-      deleteItems.push(cprItemData._id);
+      createItems.push({
+        name: item.name,
+        system: cprItemData,
+        type: item.type,
+      });
+      deleteItems.push(item._id);
 
       const infiniteStock = getProperty(this.actor, "flags.cyberpunk-red-core.infinite-stock");
 
       if (infiniteStock) {
         const itemList = createItems;
-        itemList.forEach((item) => {
-          if (this.actor.items.find((i) => i.name === item.name)) {
-            createItems = createItems.filter((ci) => ci._id !== item._id);
+        itemList.forEach((infiniteItem) => {
+          if (this.actor.items.find((i) => i.name === infiniteItem.name)) {
+            createItems = createItems.filter((ci) => ci._id !== infiniteItem._id);
           }
         });
       }
@@ -410,7 +415,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
           "CPR.containerSheet.tradeLog.multipleSold",
           {
             amount,
-            name: itemData.name,
+            name: item.name,
             price: vendorOffer,
             vendor: this.actor.name,
           },
@@ -418,13 +423,13 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       } else {
         reason = `${SystemUtils.Format(
           "CPR.containerSheet.tradeLog.singleSold",
-          { name: itemData.name, price: vendorOffer, vendor: this.actor.name },
+          { name: item.name, price: vendorOffer, vendor: this.actor.name },
         )} - ${username}`;
       }
       const vendorReason = `${SystemUtils.Format(
         "CPR.containerSheet.tradeLog.vendorPurchased",
         {
-          name: itemData.name,
+          name: item.name,
           quantity: cprItemData.amount,
           seller: tradePartnerActor.name,
           price: vendorOffer,
@@ -540,7 +545,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
         promptData.itemTypes.push(itemType);
       }
     });
-    promptData.currentConfig = cprActorData.data.vendor;
+    promptData.currentConfig = cprActorData.vendor;
 
     promptData.itemTypes.forEach((itemType) => {
       if (typeof promptData.currentConfig.itemTypes[itemType] === "undefined") {
