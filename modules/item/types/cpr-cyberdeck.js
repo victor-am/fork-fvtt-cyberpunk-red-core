@@ -83,6 +83,7 @@ export default class CPRCyberdeckItem extends CPRItem {
         programInstallation.isRezzed = false;
         programInstallation._id = p._id;
         programInstallation.name = p.name;
+        programInstallation.flags = p.flags;
         installed.push(programInstallation);
         p.setInstalled();
       }
@@ -145,12 +146,12 @@ export default class CPRCyberdeckItem extends CPRItem {
     const { installed } = this.system.programs;
     const installIndex = installed.findIndex((p) => p._id === program._id);
     const programState = installed[installIndex];
-    programState.data.isRezzed = (rezzedPrograms.length > 0);
+    programState.isRezzed = (rezzedPrograms.length > 0);
     installed[installIndex] = programState;
     this.system.programs.installed = installed;
     // Passed by reference
     // eslint-disable-next-line no-param-reassign
-    program.data.isRezzed = (rezzedPrograms.length > 0);
+    program.isRezzed = (rezzedPrograms.length > 0);
     return (rezzedPrograms.length > 0);
   }
 
@@ -163,10 +164,11 @@ export default class CPRCyberdeckItem extends CPRItem {
    */
   async rezProgram(program, callingToken) {
     LOGGER.trace("rezProgram | CPRCyberdeckItem | Called.");
-    const programData = duplicate(program.data);
+    const programData = duplicate(program.system);
     const { installed } = this.system.programs;
     const installIndex = installed.findIndex((p) => p._id === programData._id);
     const programState = installed[installIndex];
+
     // This instance ID is being added pro-actively because the rulebook
     // is a bit fuzzy on the bottom of Page 201 with regards to rezzing the
     // same program multiple times.  The rulebook says:
@@ -178,29 +180,29 @@ export default class CPRCyberdeckItem extends CPRItem {
     // multiple times, we will already have a an instance ID to differentiate
     // the different rezzes.
     const rezzedInstance = randomID();
-    program.setFlag("cyberpunk-red-core", "rezInstanceId", rezzedInstance);
-    program.setRezzed();
-    programState.data.isRezzed = true;
+    program.setRezzed(rezzedInstance);
+    programState.isRezzed = true;
+    programState.flags = duplicate(program.flags);
     installed[installIndex] = programState;
-    if (programData.data.class === "blackice") {
-      await this._rezBlackIceToken(programData, callingToken);
+    if (programData.class === "blackice") {
+      await this._rezBlackIceToken(programState, callingToken);
     }
     this.system.programs.installed = installed;
-    this.system.programs.rezzed.push(programData);
+    this.system.programs.rezzed.push(programState);
   }
 
   _createCyberdeckRoll(rollType, actor, extraData = {}) {
     LOGGER.trace("_createCyberdeckRoll | CPRCyberdeckItem | Called.");
     let cprRoll;
     const { programId } = extraData;
-    const programList = this.getInstalledPrograms().filter((iProgram) => iProgram._id === programId);
-    let program = (programList.length > 0) ? programList[0] : null;
-    let damageFormula = (program === null) ? "1d6" : program.data.damage.standard;
-    if (program.data.class === "blackice") {
+    const programData = this.getInstalledPrograms().filter((iProgram) => iProgram._id === programId);
+    let program = (programData.length > 0) ? programData[0] : null;
+    let damageFormula = (program === null) ? "1d6" : program.damage.standard;
+    if (program.class === "blackice") {
       const rezzedList = this.getRezzedPrograms().filter((rProgram) => rProgram._id === programId);
       program = (rezzedList.length > 0) ? rezzedList[0] : null;
-      if (program.data.blackIceType === "antiprogram") {
-        damageFormula = program.data.damage.blackIce;
+      if (program.blackIceType === "antiprogram") {
+        damageFormula = program.damage.blackIce;
       }
     }
     if (program === null) {
@@ -209,16 +211,16 @@ export default class CPRCyberdeckItem extends CPRItem {
     }
     const skillName = "";
     const skillValue = 0;
-    const roleName = (program.data.class === "blackice") ? "Black ICE" : extraData.netRoleItem.system.mainRoleAbility;
-    const roleValue = (program.data.class === "blackice") ? 0 : extraData.netRoleItem.system.rank;
-    const atkValue = (program === null) ? 0 : program.data.atk;
+    const roleName = (program.class === "blackice") ? "Black ICE" : extraData.netRoleItem.system.mainRoleAbility;
+    const roleValue = (program.class === "blackice") ? 0 : extraData.netRoleItem.system.rank;
+    const atkValue = (program === null) ? 0 : program.atk;
     const pgmName = (program === null) ? "Program" : program.name;
     const { executionType } = extraData;
     switch (executionType) {
       case "atk":
       case "def": {
         const niceName = executionType.toUpperCase();
-        cprRoll = (program.data.class === "blackice") ? new CPRRolls.CPRStatRoll(niceName, program.data[executionType]) : new CPRRolls.CPRAttackRoll(
+        cprRoll = (program.class === "blackice") ? new CPRRolls.CPRStatRoll(niceName, program[executionType]) : new CPRRolls.CPRAttackRoll(
           pgmName,
           niceName,
           atkValue,
@@ -233,8 +235,8 @@ export default class CPRCyberdeckItem extends CPRItem {
       }
       case "damage": {
         cprRoll = new CPRRolls.CPRDamageRoll(program.name, damageFormula, "program");
-        cprRoll.rollCardExtraArgs.pgmClass = program.data.class;
-        cprRoll.rollCardExtraArgs.pgmDamage = program.data.damage;
+        cprRoll.rollCardExtraArgs.pgmClass = program.class;
+        cprRoll.rollCardExtraArgs.pgmDamage = program.damage;
         cprRoll.rollCardExtraArgs.program = program;
         break;
       }
@@ -342,14 +344,14 @@ export default class CPRCyberdeckItem extends CPRItem {
         });
         // Configure the Actor based on the Black ICE Program Stats.
         blackIce.programmaticallyUpdate(
-          programData.data.blackIceType,
-          programData.data.per,
-          programData.data.spd,
-          programData.data.atk,
-          programData.data.def,
-          programData.data.rez,
-          programData.data.rez,
-          programData.data.description.value,
+          programData.blackIceType,
+          programData.per,
+          programData.spd,
+          programData.atk,
+          programData.def,
+          programData.rez,
+          programData.rez,
+          programData.description.value,
         );
       } catch (error) {
         LOGGER.error(`_rezBlackIceToken | CPRItem | Attempting to create a Black ICE Actor failed. Error: ${error}`);
@@ -369,11 +371,11 @@ export default class CPRCyberdeckItem extends CPRItem {
     const tokenData = [{
       name: blackIce.name,
       actorId: blackIce._id,
-      actorData: blackIce.data,
+      actorData: blackIce.system,
       actorLink: false,
       img: blackIce.img,
-      x: netrunnerToken.data.x + 75,
-      y: netrunnerToken.data.y,
+      x: netrunnerToken.x + 75,
+      y: netrunnerToken.y,
       flags: { "cyberpunk-red-core": tokenFlags },
     }];
     try {
@@ -382,13 +384,13 @@ export default class CPRCyberdeckItem extends CPRItem {
       if (biToken !== null) {
         // Update the Token Actor based on the Black ICE Program Stats, leaving any effect description in place.
         biToken.actor.programmaticallyUpdate(
-          programData.data.blackIceType,
-          programData.data.per,
-          programData.data.spd,
-          programData.data.atk,
-          programData.data.def,
-          programData.data.rez,
-          programData.data.rez,
+          programData.blackIceType,
+          programData.per,
+          programData.spd,
+          programData.atk,
+          programData.def,
+          programData.rez,
+          programData.rez,
         );
         const cprFlags = (typeof programData.flags["cyberpunk-red-core"] !== "undefined") ? programData.flags["cyberpunk-red-core"] : {};
         cprFlags.biTokenId = biToken.id;
@@ -416,7 +418,7 @@ export default class CPRCyberdeckItem extends CPRItem {
     const { rezzed } = this.system.programs;
     const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
     const programData = rezzed[rezzedIndex];
-    programState.data.isRezzed = false;
+    programState.isRezzed = false;
     program.unsetRezzed();
     installed[installIndex] = programState;
     if (program.system.class === "blackice") {
@@ -486,10 +488,10 @@ export default class CPRCyberdeckItem extends CPRItem {
     const { rezzed } = this.system.programs;
     const rezzedIndex = rezzed.findIndex((p) => p._id === program.id);
     const programState = rezzed[rezzedIndex];
-    const newRez = Math.max(programState.data.rez - reduceAmount, 0);
-    programState.data.rez = newRez;
+    const newRez = Math.max(programState.rez - reduceAmount, 0);
+    programState.rez = newRez;
     this.system.programs.rezzed[rezzedIndex] = programState;
-    if (programState.data.class === "blackice" && typeof programState.flags["cyberpunk-red-core"] !== "undefined") {
+    if (programState.class === "blackice" && typeof programState.flags["cyberpunk-red-core"] !== "undefined") {
       const cprFlags = programState.flags["cyberpunk-red-core"];
       if (typeof cprFlags.biTokenId !== "undefined") {
         const { biTokenId } = cprFlags;
@@ -497,12 +499,12 @@ export default class CPRCyberdeckItem extends CPRItem {
         if (tokenList.length === 1) {
           const [biToken] = tokenList;
           biToken.actor.programmaticallyUpdate(
-            programState.data.blackIceType,
-            programState.data.per,
-            programState.data.spd,
-            programState.data.atk,
-            programState.data.def,
-            programState.data.rez,
+            programState.blackIceType,
+            programState.per,
+            programState.spd,
+            programState.atk,
+            programState.def,
+            programState.rez,
           );
         }
       }
@@ -531,7 +533,7 @@ export default class CPRCyberdeckItem extends CPRItem {
           break;
         }
         case "rez": {
-          programState.data.rez = updatedData.rez.value;
+          programState.rez = updatedData.rez.value;
           break;
         }
         default:

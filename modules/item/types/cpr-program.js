@@ -47,8 +47,11 @@ export default class CPRProgramItem extends CPRItem {
    *
    * @public
    */
-  setRezzed() {
+  setRezzed(instanceId = null) {
     LOGGER.trace("setRezzed | CPRProgramItem | Called.");
+    if (instanceId) {
+      this.setFlag("cyberpunk-red-core", "rezInstanceId", instanceId);
+    }
     this.system.isRezzed = true;
   }
 
