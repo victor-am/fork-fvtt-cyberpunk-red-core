@@ -19,14 +19,14 @@ const Physical = function Physical() {
   this.setConcealable = function setConcealable(val) {
     LOGGER.trace("setConcealable | Physical | Called.");
     const cprItemData = duplicate(this.system);
-    let target = "system.concealable.concealable";
+    let target = "concealable.concealable";
     setProperty(cprItemData, target, val);
     // if we are making an item "unconcealable" (too big), we also unset "concealed" for consistency's sake
     if (!val) {
-      target = "system.concealable.isConcealed";
+      target = "concealable.isConcealed";
       setProperty(cprItemData, target, val);
     }
-    this.update(cprItemData);
+    this.update({ system: cprItemData });
   };
 };
 
