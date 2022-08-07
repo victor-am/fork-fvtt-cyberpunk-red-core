@@ -1,6 +1,5 @@
 {{cprTrace "START ITEM SETTINGS CPR-CYBERWARE.HBS"}}
 {{!-- Cyberware Item Setting --}}
-{{!-- Cyberware Type Setting --}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.global.generic.type"}}
@@ -20,7 +19,7 @@
 
     </div>
 </li>
-{{!-- Armor Penalty Settings--}}
+{{!-- Install Location Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.global.generic.install"}}
@@ -39,7 +38,7 @@
         {{/if}}
     </div>
 </li>
-{{!--Head Armor Settings--}}
+{{!-- Static Humanity Loss Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.dialog.installCyberware.static"}} {{localize "CPR.dialog.installCyberware.humanityLoss"}}
@@ -52,7 +51,7 @@
         {{/if}}
     </div>
 </li>
-
+{{!-- Rolled Humanity Loss Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.itemSheet.cyberware.rolled"}} {{localize "CPR.dialog.installCyberware.humanityLoss"}}
@@ -65,7 +64,7 @@
         {{/if}}
     </div>
 </li>
-
+{{!-- Requires Foundational Settings--}}
 {{#unless (cprListContains "fashionware,cyberwareExternal" item.system.type)}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
@@ -157,4 +156,7 @@
         </div>
     </li>
 {{/unless}}
+{{#if item.system.isWeapon}}
+  {{> "systems/cyberpunk-red-core/templates/item/settings/mixin/cpr-attackable.hbs" this}}
+{{/if}}
 {{cprTrace "END CPR-CYBERWARE.HBS"}}

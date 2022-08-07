@@ -492,7 +492,7 @@ CPR.upgradableDataPoints = {
     },
   },
   clothing: {
-    wardrobeAndStyle: {
+    "Wardrobe & Style": {
       type: "modifier",
       value: 0,
       localization: "CPR.global.skills.wardrobeAndStyle",
