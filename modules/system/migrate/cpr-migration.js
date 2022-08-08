@@ -112,6 +112,10 @@ export default class CPRMigration {
    * Example deletion key that will delete "data.whatever.property":
    *    { "data.whatever.-=property": null }
    *
+   * Prior to Foundry V10, all CPR data was stored in "data.data" however with V10, that has
+   * been moved to "system" directly off of the object.  Due to this, it is no longer necessary with V10+
+   * to pass the object stub (ie "system") in the property name.
+   *
    * @param {Document} doc - document (item or actor) that we intend to delete properties on
    * @param {String} prop - dot-notation of the property, "data.roleInfo.role" for example
    * @returns {Object}
@@ -119,9 +123,14 @@ export default class CPRMigration {
   static safeDelete(doc, prop) {
     LOGGER.trace("safeDelete | CPRMigration");
     let key = prop;
-    if (key.includes("data.data")) key = key.slice(0, 4); // should only be one data
-    if (hasProperty(doc.data, key)) {
-      key = prop.replace(/.([^.]*)$/, ".-=$1");
+    const foundryVersion = parseInt(game.version, 10);
+    const systemData = (foundryVersion < 10) ? "data" : "system";
+    if (foundryVersion < 10) {
+      if (key.includes("data.data")) key = key.slice(5); // should only be one data for v9
+    }
+
+    if (hasProperty(doc[systemData], key)) {
+      key = prop.match(/.\../) ? prop.replace(/.([^.]*)$/, ".-=$1") : `-=${prop}`;
       return { [key]: null };
     }
     return {};

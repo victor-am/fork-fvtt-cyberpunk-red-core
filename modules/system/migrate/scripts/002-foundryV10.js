@@ -1,9 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* global game, duplicate */
 
-import CPR from "../../config.js";
 import CPRMigration from "../cpr-migration.js";
-import CPRSystemUtils from "../../../utils/cpr-systemUtils.js";
 import LOGGER from "../../../utils/cpr-logger.js";
 
 export default class FoundryV10Migration extends CPRMigration {
@@ -20,7 +18,7 @@ export default class FoundryV10Migration extends CPRMigration {
    * an owned item here first, migrate it, and then copy it back to the character.
    */
   async preMigrate() {
-    LOGGER.trace("preMigrate | 2-foundryV10 Migration");
+    LOGGER.trace("preMigrate | 1-activeEffects Migration");
   }
 
   /**
@@ -29,7 +27,7 @@ export default class FoundryV10Migration extends CPRMigration {
    * migrate properly and we leave it behind for a GM to review what to do.
    */
   async postMigrate() {
-    LOGGER.trace("postMigrate | 2-foundryV10 Migration");
+    LOGGER.trace("postMigrate | 1-activeEffects Migration");
   }
 
   /**
@@ -43,114 +41,122 @@ export default class FoundryV10Migration extends CPRMigration {
    */
   async migrateActor(actor) {
     LOGGER.trace("migrateActor | 2-foundryV10 Migration");
-    console.log(actor);
+    const updatedItemList = [];
+    actor.items.forEach((item) => {
+      const systemChanges = FoundryV10Migration.scrubItem(item);
+
+      if (item.system.upgrades && item.system.upgrades.length > 0) {
+        const newUpgrades = [];
+        item.system.upgrades.forEach((upgrade) => {
+          const upgradeData = duplicate(upgrade.data);
+          delete upgrade.data;
+          upgrade.system = upgradeData;
+          newUpgrades.push(upgrade);
+        });
+        systemChanges.upgrades = newUpgrades;
+      }
+
+      if (Object.keys(systemChanges).length !== 0) {
+        updatedItemList.push({
+          _id: item.id,
+          system: systemChanges,
+        });
+      }
+    });
+
+    const cyberware = actor.items.filter((i) => i.type === "cyberware");
+    cyberware.forEach((item) => {
+      if (item.system.optionalIds.length > 0) {
+        console.log("MIGRATION OPTIONAL IDS");
+        console.log(item);
+      }
+    });
+
+    const cyberdecks = actor.items.filter((i) => i.type === "cyberdeck");
+    cyberdecks.forEach((item) => {
+      const systemChanges = {};
+      if (item.system.programs.installed.length > 0) {
+        const newInstalled = [];
+        item.system.programs.installed.forEach((program) => {
+          const programData = duplicate(program.data);
+          delete program.data;
+          program.system = programData;
+          newInstalled.push(program);
+        });
+        systemChanges.installed = newInstalled;
+      }
+      if (item.system.programs.rezzed.length > 0) {
+        const newRezzed = [];
+        item.system.programs.rezzed.forEach((program) => {
+          const programData = duplicate(program.data);
+          delete program.data;
+          program.system = programData;
+          newRezzed.push(program);
+        });
+        systemChanges.rezzed = newRezzed;
+      }
+      if (Object.keys(systemChanges).length !== 0) {
+        updatedItemList.push({
+          _id: item.id,
+          system: {
+            programs: systemChanges,
+          },
+        });
+        console.log("CYBERDECK UPDATE");
+        console.log(item.id);
+        console.log(systemChanges);
+      }
+    });
+
+    if (updatedItemList.length > 0) {
+      await actor.updateEmbeddedDocuments("Item", updatedItemList);
+      console.log(`Updated ${actor.id}`);
+      console.log(updatedItemList);
+    }
   }
 
   /**
-   * Items changed in so many ways it seemed best to break out a separate migration
-   * path for each item type.
+   * The Foundry object migration handles most of the changes here.  The things that we are doing here
+   * is cleaning up stale data points which somehow slipped through the cracks during previous migrations.
    *
    * @param {CPRItem} item
    */
   static async migrateItem(item) {
     LOGGER.trace("migrateItem | 2-foundryV10 Migration");
-    let itemData = duplicate(item.system);
-    const system = {};
-    let updateData = {};
-    /*
-    game.system.template.Item[item.type].templates.forEach((template) => {
-      switch (template) {
-        case "attackable": {
-          updateData = FoundryV10Migration.migrateAttackableTemplate(item);
-        }
-        case "common": {
-          updateData = FoundryV10Migration.migrateCommonTemplate(item);
-        }
-        case "effects": {
-          updateData = FoundryV10Migration.migrateEffectsTemplate(item);
-        }
-        case "equippable": {
-          updateData = FoundryV10Migration.migrateEquippableTemplate(item);
-        }
-        case "loadable": {
-          updateData = FoundryV10Migration.migrateLoadableTemplate(item);
-        }
-        case "installable": {
-          updateData = FoundryV10Migration.migrateInstallableTemplate(item);
-        }
-        case "physical": {
-          updateData = FoundryV10Migration.migratePhysicalTemplate(item);
-        }
-        case "stackable": {
-          updateData = FoundryV10Migration.migrateStackableTemplate(item);
-          break;
-        }
-        case "upgradeable": {
-          updateData = FoundryV10Migration.migrateUpgradeableTemplate(item);
-          break;
-        }
-        case "valuable": {
-          updateData = FoundryV10Migration.migrateValuableTemplate(item);
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-    });
-    */
-  }
 
-  static async migrateMacro(macro) {
-    LOGGER.trace("migrateMacro | 2-foundryV10 Migration");
-    console.log(macro);
-  }
+    const systemChanges = FoundryV10Migration.scrubItem(item);
 
-  static async migrateToken(token) {
-    LOGGER.trace("migrateToken | 2-foundryV10 Migration");
-    console.log(token);
-  }
-
-  static async migrateTable(table) {
-    LOGGER.trace("migrateTable | 2-foundryV10 Migration");
-    console.log(table);
+    await item.update({ system: systemChanges }, { CPRmigration: true, mergeDeletes: true });
   }
 
   /**
-   * Upgradeable
+   * Clean data points that shouldn't exist on our data model which must have slipped through the cracks
+   * in the past migration code.
    *
-   * @param {CPRItem} systemData
+   * @param {CPRItem} item
    */
-  static async updateUpgradeableTemplate(item) {
-    LOGGER.trace("updateUpgradeableTemplate | 2-foundryV10 Migration");
-    let updateData = {};
-    const itemData = duplicate(item.system);
-    if (typeof itemData.attachmentSlots !== "undefined") {
-      updateData = { ...updateData, ...CPRMigration.safeDelete(item, "system.attachmentSlots") };
+  static scrubItem(item) {
+    LOGGER.trace("scrubItem | 2-foundryV10 Migration");
+    let systemChanges = {};
+    if (typeof item.system.attachmentSlots !== "undefined") {
+      systemChanges = { ...systemChanges, ...CPRMigration.safeDelete(item, "attachmentSlots") };
     }
-    if (typeof itemData.availableSlots !== "undefined") {
-      updateData = { ...updateData, ...CPRMigration.safeDelete(item, "system.availableSlots") };
-    }
-    return updateData;
-  }
 
-  /**
-   * Attackable
-   *
-   * @param {CPRItem} systemData
-   */
-  static async updatePhysicalTemplate(item) {
-    LOGGER.trace("updatePhysicalTemplate | 2-foundryV10 Migration");
-    let updateData = {};
-    const itemData = duplicate(item.system);
-    if (typeof itemData.concealable !== "object") {
-      const concealableData = {
-        concealable: itemData.concealable,
-        isConcealed: itemData.isConcealed,
+    if (game.system.template.Item[item.type].templates.includes("physical") && typeof item.system.concealable !== "object") {
+      systemChanges.concealable = {
+        concealable: item.system.concealable,
+        isConcealed: item.system.isConcealed,
       };
-      updateData.concealable = concealableData;
-      updateData = { ...updateData, ...CPRMigration.safeDelete(item, "system.isConcealed") };
+      systemChanges = { ...systemChanges, ...CPRMigration.safeDelete(item, "isConcealed") };
     }
-    return updateData;
+
+    if (!game.system.template.Item[item.type].templates.includes("stackable") && (typeof item.system.amount !== "undefined")) {
+      systemChanges = { ...systemChanges, ...CPRMigration.safeDelete(item, "amount") };
+    }
+
+    if (typeof item.system.upgrade !== "undefined") {
+      systemChanges = { ...systemChanges, ...CPRMigration.safeDelete(item, "upgrade") };
+    }
+    return systemChanges;
   }
 }
