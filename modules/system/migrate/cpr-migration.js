@@ -22,6 +22,7 @@ export default class CPRMigration {
     this.errors = 0; // Increment if there were errors as part of this migration.
     this.statusPercent = 0;
     this.statusMessage = "";
+    this.name = "Base CPRMigration Class";
   }
 
   /**

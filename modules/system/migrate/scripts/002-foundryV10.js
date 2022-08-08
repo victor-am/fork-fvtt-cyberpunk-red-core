@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop */
-/* global game, duplicate */
+/* global game, duplicate, mergeObject */
 
 import CPRMigration from "../cpr-migration.js";
 import LOGGER from "../../../utils/cpr-logger.js";
@@ -9,25 +9,23 @@ export default class FoundryV10Migration extends CPRMigration {
     LOGGER.trace("constructor | 2-foundryV10 Migration");
     super();
     this.version = 2;
+    this.name = "Foundry V10 Initial Migration";
   }
 
   /**
    * Executed before the migration takes place, see run() in the base migration class.
-   * For this version, we create an item folder to copy items owned by characters. We do
-   * this because active effects cannot be added or changed on owned items. So, we copy
-   * an owned item here first, migrate it, and then copy it back to the character.
    */
   async preMigrate() {
     LOGGER.trace("preMigrate | 1-activeEffects Migration");
+    LOGGER.log(`Starting migration: ${this.name}`);
   }
 
   /**
-   * Takes place after the data migration completes. All we do here is delete the migration
-   * folder for owned items, if it is empty. If not, that means 1 or more items did not
-   * migrate properly and we leave it behind for a GM to review what to do.
+   * Takes place after the data migration completes.
    */
   async postMigrate() {
     LOGGER.trace("postMigrate | 1-activeEffects Migration");
+    LOGGER.log(`Finishing migration: ${this.name}`);
   }
 
   /**
@@ -64,14 +62,6 @@ export default class FoundryV10Migration extends CPRMigration {
       }
     });
 
-    const cyberware = actor.items.filter((i) => i.type === "cyberware");
-    cyberware.forEach((item) => {
-      if (item.system.optionalIds.length > 0) {
-        console.log("MIGRATION OPTIONAL IDS");
-        console.log(item);
-      }
-    });
-
     const cyberdecks = actor.items.filter((i) => i.type === "cyberdeck");
     cyberdecks.forEach((item) => {
       const systemChanges = {};
@@ -80,8 +70,7 @@ export default class FoundryV10Migration extends CPRMigration {
         item.system.programs.installed.forEach((program) => {
           const programData = duplicate(program.data);
           delete program.data;
-          program.system = programData;
-          newInstalled.push(program);
+          newInstalled.push(mergeObject(program, programData));
         });
         systemChanges.installed = newInstalled;
       }
@@ -90,8 +79,7 @@ export default class FoundryV10Migration extends CPRMigration {
         item.system.programs.rezzed.forEach((program) => {
           const programData = duplicate(program.data);
           delete program.data;
-          program.system = programData;
-          newRezzed.push(program);
+          newRezzed.push(mergeObject(program, programData));
         });
         systemChanges.rezzed = newRezzed;
       }
@@ -102,16 +90,11 @@ export default class FoundryV10Migration extends CPRMigration {
             programs: systemChanges,
           },
         });
-        console.log("CYBERDECK UPDATE");
-        console.log(item.id);
-        console.log(systemChanges);
       }
     });
 
     if (updatedItemList.length > 0) {
       await actor.updateEmbeddedDocuments("Item", updatedItemList);
-      console.log(`Updated ${actor.id}`);
-      console.log(updatedItemList);
     }
   }
 

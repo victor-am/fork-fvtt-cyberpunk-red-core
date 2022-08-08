@@ -1,5 +1,4 @@
 {{cprTrace "START ITEM SETTINGS CPR-CYBERDECK.HBS"}}
-{{log "START ITEM SETTINGS CPR-CYBERDECK.HBS"}}
 {{!-- Cyberdeck Item Settings--}}
 
 {{!-- Cyberdeck Installed Programs Settings--}}
@@ -17,8 +16,6 @@
 <div class="installed-programs">
 
 </div>
-{{#each item.system.programs.installed as |program|}}
-{{log program}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
             {{#if (cprListContains "speed,attack,defense" program.system.class)}}
