@@ -23,6 +23,7 @@ export default class CPRMigration {
     this.statusPercent = 0;
     this.statusMessage = "";
     this.name = "Base CPRMigration Class";
+    this.foundryMajorVersion = parseInt(game.version, 10);
   }
 
   /**
@@ -124,9 +125,8 @@ export default class CPRMigration {
   static safeDelete(doc, prop) {
     LOGGER.trace("safeDelete | CPRMigration");
     let key = prop;
-    const foundryVersion = parseInt(game.version, 10);
-    const systemData = (foundryVersion < 10) ? "data" : "system";
-    if (foundryVersion < 10) {
+    const systemData = (this.foundryMajorVersion < 10) ? "data" : "system";
+    if (this.foundryMajorVersion < 10) {
       if (key.includes("data.data")) key = key.slice(5); // should only be one data for v9
     }
 
@@ -211,16 +211,17 @@ export default class CPRMigration {
   async migrateScene(scene) {
     LOGGER.trace("migrateScene | CPRMigration");
     const tokens = scene.tokens.contents.filter((token) => {
-      if (!token.data.actorLink && !game.actors.has(token.data.actorId)) {
+      const tokenData = (this.foundryMajorVersion < 10) ? token.data : token;
+      if (!tokenData.actorLink && !game.actors.has(tokenData.actorId)) {
         // Degenerate case where the token is unlinked, but the actor it is derived from was since
         // deleted. This makes token.actor null so we don't have a full view of all of the actor data.
         // This is technically a broken token and even Foundry throws errors when you do certain things
         // with this token. We skip it.
-        LOGGER.warn(`WARNING: Token "${token.data.name}" (${token.data.actorId}) on Scene "${scene.name}" (${scene.id})`
+        LOGGER.warn(`WARNING: Token "${tokenData.name}" (${tokenData.actorId}) on Scene "${scene.name}" (${scene.id})`
             + ` is missing the source Actor, so we will skip migrating it. Consider replacing or deleting it.`);
         return false;
       }
-      if (!token.data.actorLink) return true; // unlinked tokens, this is what we're after
+      if (!tokenData.actorLink) return true; // unlinked tokens, this is what we're after
       // anything else is a linked token, we assume they're already migrated
       return false;
     });
