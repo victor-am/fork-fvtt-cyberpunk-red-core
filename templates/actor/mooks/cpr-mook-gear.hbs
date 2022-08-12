@@ -6,7 +6,7 @@
 </div>
 <div class="bg-white fg-black text-padding-left">
   <!-- Cyberware -->
-  {{#each (cprGetMookCyberware this.installedCyberware) as |type t|}}
+  {{#each (cprGetMookCyberware actor.system.installedCyberware) as |type t|}}
     {{#if foundation.system.core}}
       <!-- This messy mapping is because the names of internal cyberware are not concise enough
            Also hasOptionalSlots is false for core cyberware for an unknown reason. We have to
@@ -38,7 +38,7 @@
     {{~#if (cprCompare optionals.length ">" 0)~}}
       ){{#unless @last}},{{/unless~}}
     {{/if}}
-  {{~/each}}{{#if (cprCompare (cprCompare (cprGetMookCyberwareLength this.installedCyberware) ">" 0) "&&" (cprCompare (cprCompare actor.system.filteredItems.ammo.length ">" 0) "||" (cprCompare actor.system.filteredItems.gear.length ">" 0)))}},{{/if}}
+  {{~/each}}{{#if (cprCompare (cprCompare (cprGetMookCyberwareLength actor.system.installedCyberware) ">" 0) "&&" (cprCompare (cprCompare actor.system.filteredItems.ammo.length ">" 0) "||" (cprCompare actor.system.filteredItems.gear.length ">" 0)))}},{{/if}}
   <!-- Display Ammo in the Gear section -->
   {{#each (cprSort (cprObjConcat actor.system.filteredItems.ammo) "name") as |item i|}}
     {{#if (cprCompare item.type "===" "ammo")}}
