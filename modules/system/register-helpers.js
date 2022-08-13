@@ -2,6 +2,7 @@
 import LOGGER from "../utils/cpr-logger.js";
 import CPR from "./config.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
+import CPRActiveEffect from "../cpr-active-effect.js";
 
 export default function registerHandlebarsHelpers() {
   LOGGER.log("Calling Register Handlebars Helpers");
@@ -798,11 +799,12 @@ export default function registerHandlebarsHelpers() {
       return "???";
     }
     if (cat === "custom") return key;
+    const sourceDoc = (doc instanceof CPRActiveEffect) ? doc.getEffectParent() : doc;
     if (cat === "skill") {
       const skillMap = CPR.activeEffectKeys.skill;
       let skillList = [];
-      if (doc.isOwned) {
-        skillList = doc.parent.items.filter((i) => i.type === "skill");
+      if (sourceDoc.isOwned) {
+        skillList = sourceDoc.parent.items.filter((i) => i.type === "skill");
       } else {
         skillList = game.items.filter((i) => i.type === "skill");
       }

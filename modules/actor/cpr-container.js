@@ -50,7 +50,7 @@ export default class CPRContainerActor extends Actor {
    */
   automaticallyStackItems(newItem) {
     LOGGER.trace("automaticallyStackItems | CPRActor | Called.");
-    const itemTemplates = SystemUtils.getDataModelTemplates(newItem.data.type);
+    const itemTemplates = SystemUtils.getDataModelTemplates(newItem.type);
     if (itemTemplates.includes("stackable")) {
       const itemMatch = this.items.find((i) => i.type === newItem.type && i.name === newItem.name && i.system.upgrades.length === 0);
       if (itemMatch) {
@@ -181,7 +181,7 @@ export default class CPRContainerActor extends Actor {
     let transactionType = "set";
 
     if (seller) {
-      if (seller.data._id === this.data._id) {
+      if (seller._id === this._id) {
         transactionType = "add";
       } else {
         transactionType = "subtract";

@@ -230,7 +230,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       return;
     }
 
-    const transferredItemData = duplicate(item.system);
+    const transferredItemData = duplicate(item);
     let cost = 0;
     if (item.type === "ammo" && item.system.variety !== "grenade" && item.system.variety !== "rocket") {
       // Ammunition, which is neither grenades nor rockets, are prices are for 10 of them (pg. 344)
@@ -249,7 +249,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
         SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.dialog.purchasePart.wrongAmountWarning"));
         return;
       }
-      transferredItemData.amount = newAmount;
+      transferredItemData.system.amount = newAmount;
       cost *= newAmount;
     } else {
       cost *= item.system.amount;
@@ -260,7 +260,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
         SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradePriceWarn"));
         return;
       }
-      const { amount } = transferredItemData;
+      const { amount } = transferredItemData.system;
       const username = game.user.name;
       let reason = "";
       if (amount > 1) {
@@ -293,7 +293,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       if (all) {
         await this._deleteOwnedItem(item, true);
       } else {
-        const keepAmount = item.system.amount - transferredItemData.amount;
+        const keepAmount = item.system.amount - transferredItemData.system.amount;
         await this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, "system.amount": keepAmount }]);
       }
     }
