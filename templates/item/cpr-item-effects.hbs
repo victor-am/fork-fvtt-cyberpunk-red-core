@@ -2,7 +2,7 @@
 <div class="item-effects-tab">
     <div class="item-effects-section">
         <div class="effects-list">
-            {{#if (cprCompare this.isOwned "&&" (cprCompare item.system.effects.size "===" 0))}}
+            {{#if (cprCompare item.isOwned "&&" (cprCompare item.system.effects.size "===" 0))}}
                     {{localize "CPR.itemSheet.effects.editOwnedWarning"}}
             {{else}}
                 <li class="effects-header flexrow">
@@ -11,29 +11,29 @@
                     <span class="effect-actions text-padding-right">{{localize "CPR.itemSheet.effects.actions"}}</span>
                 </li>
 
-                {{#each item.system.effects}}
+                {{#each item.effects as |effect|}}
                     {{!-- "effects" is a Map, so "this" is now an Active Effects object within the #each loop! --}}
                     <div class="effects-list flexrow">
-                        <span class="effect-image"><img src="{{this.system.icon}}" /></span>
-                        <h4 class="effect-name"><strong>{{this.system.label}}</strong><br />
-                            {{#each this.system.changes}}
+                        <span class="effect-image"><img src="{{effect.icon}}" /></span>
+                        <h4 class="effect-name"><strong>{{effect.label}}</strong><br />
+                            {{#each effect.changes as |change|}}
                                 {{!-- "this" is now an individual "change" for the AE object --}}
-                                {{cprGetChangeNameByKey ../this.data (lookup ../item.system.flags.cyberpunk-red-core.changes @index) this.key}}
-                                {{#if this.value}}
-                                    {{cprEffectModMode this.mode this.value}}{{this.value}}{{#unless @last}},{{/unless}}
+                                {{cprGetChangeNameByKey ../../item (lookup effect.flags.cyberpunk-red-core.changes @index) change.key}}
+                                {{#if change.value}}
+                                    {{cprEffectModMode change.mode change.value}}{{change.value}}{{#unless @last}},{{/unless}}
                                 {{else}}
                                     0{{#unless @last}},{{/unless}}
                                 {{/if}}
                             {{/each}}
                         </h4>
                         <span class="effect-actions text-padding-right effect-controls">
-                            {{#if ../this.isOwned}}
+                            {{#if ../item.isOwned}}
                                 <i class="fas fa-question-circle" title="{{localize "CPR.itemSheet.effects.editOwnedWarning"}}"></i>
                             {{else}}
-                                {{#if (cprCompare ../system.usage "===" "toggled")}}
-                                <a class="effect-control" data-action="toggle" data-effect-id="{{this._id}}"
+                                {{#if (cprCompare ../item.system.usage "===" "toggled")}}
+                                <a class="effect-control" data-action="toggle" data-effect-id="{{item._id}}"
                                     title="{{localize "CPR.itemSheet.effects.toggleEffectDesc"}}">
-                                    <i class="far {{#if this.system.disabled}}fa-circle{{else}}fa-check-circle{{/if}}"></i>
+                                    <i class="far {{#if item.system.disabled}}fa-circle{{else}}fa-check-circle{{/if}}"></i>
                                 </a>
                                 {{/if}}
                                 <a class="effect-control" data-action="edit" data-effect-id="{{this._id}}" title="{{localize "CPR.itemSheet.effects.editEffectDesc"}}">
