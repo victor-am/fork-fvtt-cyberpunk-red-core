@@ -109,6 +109,7 @@
                             {{/select}}
                         </select>
                     {{else}}
+                        <input type="hidden" name="changes.{{i}}.mode" data-dtype="Number" value="2">
                         <span>{{localize "CPR.effectSheet.modifiers.addSubtract"}}</option>
                     {{/if}}
                 </div>
