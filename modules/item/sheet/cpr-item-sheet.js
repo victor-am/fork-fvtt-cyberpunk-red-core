@@ -222,7 +222,7 @@ export default class CPRItemSheet extends ItemSheet {
     const allSkills = this.object.isOwned ? this.actor.system.filteredItems.skill
       : coreSkills.concat(customSkills).sort((a, b) => (a.name > b.name ? 1 : -1));
     const allSkillsData = [];
-    allSkills.forEach((a) => allSkillsData.push(a.data));
+    allSkills.forEach((a) => allSkillsData.push(a));
     let formData = { skillList: allSkillsData, roleType, system: cprItemData };
     formData = await SelectRoleBonuses.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
@@ -259,7 +259,7 @@ export default class CPRItemSheet extends ItemSheet {
     const allSkills = this.object.isOwned ? this.actor.system.filteredItems.skill
       : coreSkills.concat(customSkills).sort((a, b) => (a.name > b.name ? 1 : -1));
     const allSkillsData = [];
-    allSkills.forEach((a) => allSkillsData.push(a.data));
+    allSkills.forEach((a) => allSkillsData.push(a));
     let formData = {
       skillList: allSkillsData, roleType, subRole, system: cprItemData,
     };

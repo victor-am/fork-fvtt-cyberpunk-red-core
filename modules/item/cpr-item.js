@@ -227,7 +227,7 @@ export default class CPRItem extends Item {
     const itemType = this.type;
     const cprItemData = this.system;
     const localCprRoll = cprRoll;
-    const cprActorData = this.actor.system;
+    const cprActorData = this.actor;
     const itemEntities = game.system.template.Item;
 
     if (itemEntities[itemType].templates.includes("loadable")) {
@@ -261,7 +261,7 @@ export default class CPRItem extends Item {
         isVarying = true;
       }
       if (isVarying) {
-        const roleSkill = cprActorData.filteredItems.skill.find((s) => s.name === localCprRoll.skillName);
+        const roleSkill = cprActorData.system.filteredItems.skill.find((s) => s.name === localCprRoll.skillName);
         localCprRoll.skillValue = roleSkill.system.level;
         localCprRoll.addMod(cprActorData.bonuses[SystemUtils.slugify(roleSkill.name)]); // add skill bonuses from Active Effects
         if (localCprRoll.statName === "--") {
