@@ -1,12 +1,12 @@
 {
     "entries": {
         "Air Pistol": {
-            "description": "<p>Un pistolet moyen ui tire des billes de peinture (et d'acide ! page 347).</p>",
-            "name": "Pistolet à air comprimé"
+            "description": "<p>An Exotic Medium Pistol. Fires Paintballs. Refer to the full item description on pg. 347.&nbsp;</p>",
+            "name": "Air Pistol"
         },
         "Assault Rifle": {
-            "description": "<p>Un fusil d'assaut ordinaire. </p>",
-            "name": "Fusil d'assaut"
+            "description": "<p>A standard-issue assault rifle. </p>",
+            "name": "Assault Rifle"
         },
         "Assault Rifle (Excellent)": {
             "description": "<p>A standard-issue assault rifle. +1 to Attack.</p>",
@@ -17,8 +17,8 @@
             "name": "Assault Rifle (Poor)"
         },
         "Baseball Bat": {
-            "description": "<p>Une batte de baseball ordinaire. </p>",
-            "name": "Batte de baseball"
+            "description": "<p>A firmly weighted bat. A favourite weapon of the Baseball Furies. </p>",
+            "name": "Baseball Bat"
         },
         "Baseball Bat (Excellent)": {
             "description": "<p>A firmly weighted bat. A favourite weapon of the Baseball Furies. +1 to Attack.</p>",
@@ -29,12 +29,12 @@
             "name": "Baseball Bat (Poor)"
         },
         "Big Knucks": {
-            "description": "<p>Cybermatériel de type Arme. Vous devez avoir installé le cybermatériel approprié.</p>",
-            "name": "Super poings"
+            "description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>",
+            "name": "Big Knucks"
         },
         "Bow": {
-            "description": "<p>Un arc moderne.</p>",
-            "name": "Arc"
+            "description": "<p>A revitalized bow that must be reloaded after every attack. </p>",
+            "name": "Bow"
         },
         "Bow (Excellent)": {
             "description": "<p>A revitalized bow that must be reloaded after every attack. +1 to Attack.</p>",
@@ -45,8 +45,8 @@
             "name": "Bow (Poor)"
         },
         "Chainsaw": {
-            "description": "<p>Une Tronçonneuse qui fonctionne avec du CHOOH². 2-3 heures d'utilisation par réservoir.</p>",
-            "name": "Tronçonneuse"
+            "description": "<p>A portable, refuelable saw that runs on CHOOH2. Lasts about 2-3 hours on one tank. </p>",
+            "name": "Chainsaw"
         },
         "Chainsaw (Excellent)": {
             "description": "<p>A portable, refuelable saw that runs on CHOOH2. Lasts about 2-3 hours on one tank.  +1 to Attack.</p>",
@@ -57,8 +57,8 @@
             "name": "Chainsaw (Poor)"
         },
         "Combat Knife": {
-            "description": "<p>Un couteau adapté aux combats de rues.</p>",
-            "name": "Couteau de Combat"
+            "description": "<p>A knife fit for the streets.</p>",
+            "name": "Combat Knife"
         },
         "Combat Knife (Excellent)": {
             "description": "<p>A knife fit for the streets. +1 to Attack.</p>",
@@ -69,12 +69,12 @@
             "name": "Combat Knife (Poor)"
         },
         "Constitution Arms Hurricane Assault Weapon": {
-            "description": "<p>Fusil à pompe exotique à 2 Att/round. Ne peut pas être utilisé pour viser. Son chargeur en cylindre contient 16 cartouches.\nRecharger cette arme nécessite deux actions, ce qui nécessite deux tours. Tirer avec le fusil d'assaut nécessite une valeur\nde Corps de 11 au moins sauf s'il est monté.</p>",
-            "name": "Fusil à pompe Hurricane de Constitution Arms"
+            "description": "<p>An Exotic Shotgun with 2 ROF. Cannot make aimed shots and needs BODY 11 or higher (unless mounted). Refer to the full item description on pg. 348.</p>",
+            "name": "Constitution Arms Hurricane Assault Weapon"
         },
         "Crossbow": {
-            "description": "<p>Une arbalète moderne.</p>",
-            "name": "Arbalète"
+            "description": "<p>A crossbow which must be reloaded after every attack. </p>",
+            "name": "Crossbow"
         },
         "Crossbow (Excellent)": {
             "description": "<p>A crossbow which must be reloaded after every attack. +1 to Attack.</p>",
@@ -85,8 +85,8 @@
             "name": "Crossbow (Poor)"
         },
         "Crowbar": {
-            "description": "<p>Utile comme outil et en tant qu'arme.</p>",
-            "name": "Pied de biche"
+            "description": "<p>Useful as both a tool and a weapon. A rod of iron with split wedges on the ends. </p>",
+            "name": "Crowbar"
         },
         "Crowbar (Excellent)": {
             "description": "<p>Useful as both a tool and a weapon. A rod of iron with split wedges on the ends.  +1 to Attack.</p>",
@@ -97,20 +97,20 @@
             "name": "Crowbar (Poor)"
         },
         "Cybersnake": {
-            "description": "<p>Cybermatériel de type Arme. Vous devez avoir installé le cybermatériel approprié.</p>",
-            "name": "Cybercobra"
+            "description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>",
+            "name": "Cybersnake"
         },
         "Dartgun": {
-            "description": "<p>Un pistolet exotique très lourd qu'on ne peut charger qu'avec des munitions de type flèche. Contrairement aux autres\narmes tirant des flèches, le pistolet à fléchettes est muni d'un chargeur spécial de 8 flèches et doit être rechargé comme\nun pistolet très lourd standard</p>",
-            "name": "Pistolet à fléchettes"
+            "description": "<p>An Exotic Very Heavy Pistol. Refer to the full item description on pg. 348.</p>",
+            "name": "Dartgun"
         },
         "Flamethrower": {
-            "description": "<p>Un fusil à pompe exotique qu'on utilise avec la compétence Armes lourdes plutôt qu'Armes d'épaule. Du point de vue des\nrègles, le Crache-feu est un fusil à pompe qui ne peut tirer que des cartouches de chevrotine incendiaires, mais une fois les cibles en feu, à moins de dépenser une action pour s'éteindre, elles subissent 4 points de dégâts appliqués directement à leurs PS à la fin de leur tour. Les dégâts infligés par cette arme ne peuvent pas causer de blessure critique, et on ne peut pas s'en servir pour viser.</p>",
-            "name": "Crache-feu"
+            "description": "<p>An Exotic Shotgun that uses the Heavy Weapons Skill. Refer to the full item description on pg. 348.&nbsp;</p>",
+            "name": "Flamethrower"
         },
         "Grenade Launcher": {
-            "description": "<p>Lance-grenades avec lesquels vous pouvez utiliser une grande variété de grenades.</p>",
-            "name": "Lance-grenades"
+            "description": "<p>A high-impact grenade launcher. You can use a variety of grenades with this. </p>",
+            "name": "Grenade Launcher"
         },
         "Grenade Launcher (Excellent)": {
             "description": "<p>A high-impact grenade launcher. You can use a variety of grenades with this. +1 to Attack.</p>",
@@ -121,8 +121,8 @@
             "name": "Grenade Launcher (Poor)"
         },
         "Heavy Pistol": {
-            "description": "<p>Un pistolet lourd. Dissimulable </p>",
-            "name": "Pistolet lourd"
+            "description": "<p>A concealable, heavy pistol. </p>",
+            "name": "Heavy Pistol"
         },
         "Heavy Pistol (Excellent)": {
             "description": "<p>A concealable, heavy pistol. +1 to Attack.</p>",
@@ -133,8 +133,8 @@
             "name": "Heavy Pistol (Poor)"
         },
         "Heavy SMG": {
-            "description": "<p>Un pistolet-mitrailleur lourd. Non dissimulable.</p>",
-            "name": "Pistolet-mitrailleur lourd"
+            "description": "<p>A heavy SMG. Due to its size it can't be concealed. </p>",
+            "name": "Heavy SMG"
         },
         "Heavy SMG (Excellent)": {
             "description": "<p>A heavy SMG. Due to its size it can't be concealed. +1 to Attack.</p>",
@@ -145,8 +145,8 @@
             "name": "Heavy SMG (Poor)"
         },
         "Helicopter Blades": {
-            "description": "<p>Récupéré sur un hélicoptère délabré, ces lames sont capables de trancher presque n'importe quoi.</p>",
-            "name": "Pale d'hélicoptère"
+            "description": "<p>Taken from a derelict aircraft, these blades are capable of slicing most things easily. </p>",
+            "name": "Helicopter Blades"
         },
         "Helicopter Blades (Excellent)": {
             "description": "<p>Taken from a derelict aircraft, these blades are capable of slicing most things easily.  +1 to Attack.</p>",
@@ -157,12 +157,12 @@
             "name": "Helicopter Blades (Poor)"
         },
         "Kendachi Mono-Three": {
-            "description": "<p>Arme exotique de mêlée à deux mains très lourde d'excellente qualité. Avec la bonne clef biométrique, les dégâts infligés\npar cette arme ignorent totalement l'armure de la cible si le PA de celle-ci est inférieur à 11. Des armures de PA supérieur\nfonctionnent normalement. Ce katana high-tech est pourvu d'une lame de cristal presque transparente. Le cristal orbital\nrenforce son tranchant aux dents microscopiques qui vibre à une cadence de mille fois par minute lorsqu'un utilisateur\néquipé de la bonne clef biométrique en saisit la poignée. En l'absence de clef, l'arme ne vibre pas, mais demeure une arme\nexotique de mêlée à deux mains très lourde d'excellente qualité.</p>",
-            "name": "Kendachi Mono-trois"
+            "description": "<p>An Exotic, Excellent Quality, Two-Handed Very Heavy Melee Weapon. It appears as a high-tech katana. Refer to the full item description on pg. 348.</p>",
+            "name": "Kendachi Mono-Three"
         },
         "Lead Pipe": {
-            "description": "<p>Un cylindre creux, fait en métal ou en fibre de verre.</p>",
-            "name": "Tuyau en plomb"
+            "description": "<p>A hollow cylinder, typically made of metal or fiberglass. It may have conveyed fluids once. </p>",
+            "name": "Lead Pipe"
         },
         "Lead Pipe (Excellent)": {
             "description": "<p>A hollow cylinder, typically made of metal or fiberglass. It may have conveyed fluids once.  +1 to Attack.</p>",
@@ -173,8 +173,8 @@
             "name": "Lead Pipe (Poor)"
         },
         "Machete": {
-            "description": "<p>Un couteau à lame longue qui à une variété d'utilisations.</p>",
-            "name": "Machette"
+            "description": "<p>A long-bladed knife with a variety of uses. Known to be a favourite to some gangs of Night City. </p>",
+            "name": "Machete"
         },
         "Machete (Excellent)": {
             "description": "<p>A long-bladed knife with a variety of uses. Known to be a favourite to some gangs  of Night City.  +1 to Attack.</p>",
@@ -185,16 +185,16 @@
             "name": "Machete (Poor)"
         },
         "Malorian Arms 3516": {
-            "description": "<p>Pistolet exotique très lourd d'excellente qualité. Infligeant 5d6 points de dégâts par tir, il est pourvu d'une liaison smartgun\ninstallée par défaut qu'il faut relier (par port d'interface neuronale ou par poignée subdermique) afin de se servir de\nl'arme. Extrêmement rare et recherchée, cette arme est encore plus chère aujourd'hui que par le passé, et encore, quand\non arrive à en trouver une à vendre..</p>",
-            "name": "3516 de Malorian Arms"
+            "description": "<p>An Exotic, Excellent Quality Very Heavy Pistol. You must connect to this device with a Smartgun Link. Refer to the full item description on pg. 348.</p>",
+            "name": "Malorian Arms 3516"
         },
         "Martial Arts": {
-            "description": "<p>Utilise ses poings/pieds pour attaquer, ignore la moitié de l'armure de l'adversaire.</p>",
-            "name": "Arts martiaux"
+            "description": "<p>Throwing hands, does ignore half armor.</p>",
+            "name": "Martial Arts"
         },
         "Medium Pistol": {
-            "description": "<p>Un pistolet de taille moyenne. Dissimulable </p>",
-            "name": "Pistolet moyen"
+            "description": "<p>A concealable, medium-sized pistol. </p>",
+            "name": "Medium Pistol"
         },
         "Medium Pistol (Excellent)": {
             "description": "<p>A concealable, medium-sized pistol. +1 to Attack.</p>",
@@ -205,15 +205,15 @@
             "name": "Medium Pistol (Poor)"
         },
         "Microwaver": {
-            "description": "<p>Pistolet exotique très lourd. Au lieu d'infliger des dégâts, lorsqu'il touche sa cible, celle-ci doit effectuer un test de Cybertech\nSD 15. En cas d'échec, le MJ choisit deux éléments de cybermatériel ou d'électronique transportée qui cessent de\nfonctionner pendant une minute. Les cybermembres désactivés de la sorte pendent, inanimés, comme des membres de\nchair inerte. Cf. blessures critiques PAGE 187. Les munitions ne coûtent rien, car l'arme utilise des batteries facilement\nrechargeables (1 heure) qu'il faut remplacer après 8 tirs. Chaque batterie supplémentaire coûte 50 ED (Coûteux).</p>",
-            "name": "Canon à ondes"
+            "description": "<p>An Exotic Very Heavy Pistol. Can cause cyberware or electrical components to be rendered inoperable for a minute. Refer to the full item description on pg. 348.</p>",
+            "name": "Microwaver"
         },
         "Militech \"Cowboy\" U-56 Grenade Launcher": {
-            "description": "<p>Lance-grenades exotique à 2 Att/round. Son chargeur abrite quatre grenades. Bien qu'il s'agisse d'une arme exotique,\nil est capable de lancer n'importe quelle grenade. Recharger cette arme nécessite deux actions, ce qui nécessite deux\ntours. Tirer avec le lance-grenades nécessite une valeur de Corps de 11 au moins sauf s'il est monté.</p>",
-            "name": "Lance-grenades Militech \"Cowboy\" U-56"
+            "description": "<p>An Exotic Grenade Launcher with 2 ROF. Holds four grenades. Requires BODY 11 or higher (unless mounted). Refer to the full item description on pg. 349.</p>",
+            "name": "Militech \"Cowboy\" U-56 Grenade Launcher"
         },
         "Naginata": {
-            "description": "<p>Arme d'origine japonaise, proche du fauchard à lame courbe. Utilisé par les équipes tactiques d'Arasaka lors des confrontations aux corps à corps.</p>",
+            "description": "<p>A japanese wooden pole with a curved blade on one side. Favoured by Arasaka tactical teams for close engagements. </p>",
             "name": "Naginata"
         },
         "Naginata (Excellent)": {
@@ -225,16 +225,16 @@
             "name": "Naginata (Poor)"
         },
         "Rhinemetall EMG-86 Railgun": {
-            "description": "<p>Fusil d'assaut exotique avec lequel on ne peut ni viser, ni tirer, ni effectuer de tir automatique, On l'utilise avec la compétence \nArmes lourdes plutôt qu'Armes d'épaule. Le chargeur contient 4 cartouches. Les dégâts infligés par l'arme ignorent\ntotalement l'armure de la cible si le PA de celle­ ci est inférieur à 11. Des armures de PA supérieur fonctionnent normalement.\nRecharger cette arme nécessite deux actions, ce qui nécessite deux tours. Tirer avec le canon électrique nécessite une\nvaleur de Corps de 11 au moins sauf s'il est monté.</p>",
-            "name": "Canon électrique Rhinemetall EMG-86"
+            "description": "<p>An Exotic Assault Rifle. It cannot make Aimed or Autofire Shots. Requires BODY 11 or higher (unless mounted). Refer to the full item description on pg. 349.&nbsp;</p>",
+            "name": "Rhinemetall EMG-86 Railgun"
         },
         "Rippers": {
-            "description": "<p>Cybermatériel de type Arme. Vous devez avoir installé le cybermatériel approprié.</p>",
-            "name": "Éventreurs"
+            "description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>",
+            "name": "Rippers"
         },
         "Rocket Launcher": {
-            "description": "<p>Sortez l'artillerie lourde. Ce lance-roquettes fera quelques dégâts.</p>",
-            "name": "Lance-roquettes"
+            "description": "<p>Bring out the big guns. This rocket launcher will do some damage. </p>",
+            "name": "Rocket Launcher"
         },
         "Rocket Launcher (Excellent)": {
             "description": "<p>Bring out the big guns. This rocket launcher will do some damage. +1 to Attack.</p>",
@@ -245,8 +245,8 @@
             "name": "Rocket Launcher (Poor)"
         },
         "SMG": {
-            "description": "<p>Un pistolet-mitrailleur. Dissimulable.</p>",
-            "name": "Pistolet-mitrailleur"
+            "description": "<p>A concealable SMG. </p>",
+            "name": "SMG"
         },
         "SMG (Excellent)": {
             "description": "<p>A concealable SMG. +1 to Attack.</p>",
@@ -257,8 +257,8 @@
             "name": "SMG (Poor)"
         },
         "Shotgun": {
-            "description": "<p>Un fusil à pompe polyvalent. </p>",
-            "name": "Fusil à pompe"
+            "description": "<p>An all-purpose shotgun. </p>",
+            "name": "Shotgun"
         },
         "Shotgun (Excellent)": {
             "description": "<p>An all-purpose shotgun. +1 to Attack.</p>",
@@ -269,12 +269,12 @@
             "name": "Shotgun (Poor)"
         },
         "Shrieker": {
-            "description": "<p>Pistolet exotique très lourd. Quand l'utilisateur s'en sert sans protection auditive, il subit la blessure critique Oreille endommagée. Au lieu d'infliger des dégâts, si l'attaque touche, elle force la cible à effectuer un test de Résistance à la torture/aux drogues contre un SD 15. \nQuiconque échoue subit la blessure critique Oreille endommagée. Les munitions ne coûtent rien, car l'arme utilise des batteries facilement rechargeables (1 heure) qu'il faut remplacer après 8 tirs. Chaque batterie coûte 50 ED (Coûteux).</p>",
-            "name": "Hurleur"
+            "description": "<p>An Exotic Very Heavy Pistol. Requires ear protection to prevent Damaged Ear critical injuries. The target must beat a DV15 Resist Torture/Drugs Check or suffer the critical injury. Refer to the full item description on pg. 349.</p>",
+            "name": "Shrieker"
         },
         "Sledgehammer": {
-            "description": "<p>Une sorte de grand maillet avec une tête métallique plate.</p>",
-            "name": "Masse"
+            "description": "<p>A large mallet-like object with a flat metal head which distributes impacted force over a wide area. </p>",
+            "name": "Sledgehammer"
         },
         "Sledgehammer (Excellent)": {
             "description": "<p>A large mallet-like object with a flat metal head which distributes impacted force over a wide area.  +1 to Attack.</p>",
@@ -285,12 +285,12 @@
             "name": "Sledgehammer (Poor)"
         },
         "Slice N' Dice": {
-            "description": "<p>Cybermatériel de type Arme. Vous devez avoir installé le cybermatériel approprié.</p>",
-            "name": "Découpeur"
+            "description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>",
+            "name": "Slice N' Dice"
         },
         "Sniper Rifle": {
-            "description": "<p>Un fusil utilisé afin d'engager des cibles à longue distance.</p>",
-            "name": "Fusil de précision"
+            "description": "<p>A long-distance sniper rifle. Holds 4 bullets in a magazine. </p>",
+            "name": "Sniper Rifle"
         },
         "Sniper Rifle (Excellent)": {
             "description": "<p>A long-distance sniper rifle. Holds 4 bullets in a magazine. +1 to Attack.</p>",
@@ -301,8 +301,8 @@
             "name": "Sniper Rifle (Poor)"
         },
         "Spiked Bat": {
-            "description": "<p>Une batte de baseball ayant de multiples clous.</p>",
-            "name": "Batte cloutée"
+            "description": "<p>An advancement over a regular bat. A number of nails have been hammered through towards the tip. </p>",
+            "name": "Spiked Bat"
         },
         "Spiked Bat (Excellent)": {
             "description": "<p>An advancement over a regular bat. A number of nails have been hammered through towards the tip.  +1 to Attack.</p>",
@@ -313,16 +313,16 @@
             "name": "Spiked Bat (Poor)"
         },
         "Stun Baton": {
-            "description": "<p>Arme exotique de mêlée moyenne à une main. Si les dégâts qu'elle inflige réduisent une cible sous 1 PS, la cible est\nsimplement inconsciente et reste à 1 PS. Les dégâts infligés par cette arme ne peuvent pas causer de blessure critique et\nne perforent pas l'armure</p>",
-            "name": "Matraque électrique"
+            "description": "<p>An Exotic, One-handed Medium Melee Weapon. Target is knocked unconscious if damage dealt would reduce them to under 1 HP. Doesn't cause Critical Injuries or ablate armor. Refer to the full item description on pg. 349.</p>",
+            "name": "Stun Baton"
         },
         "Stun Gun": {
-            "description": "<p>Pistolet exotique lourd. Si les dégâts qu'elle inflige réduisent une cible sous 1 PS, la cible est simplement inconsciente et\nreste à 1 PS. Les dégâts infligés par cette arme ne peuvent pas causer de blessure critique et ne perforent pas l'armure.\nLes munitions ne coûtent rien, car l'arme utilise des batteries facilement rechargeables (1 heure) qu'il faut remplacer après\n8 tirs. Chaque batterie coûte 50 ED (Coûteux).</p>",
-            "name": "Pistolet à impulsion électrique"
+            "description": "<p>An Exotic Heavy Pistol.&nbsp; Target is knocked unconscious if damage dealt would reduce them to under 1 HP. Doesn't cause Critical Injuries or ablate armor. Refer to the full item description on pg. 349.</p>",
+            "name": "Stun Gun"
         },
         "Sword": {
-            "description": "<p>Une arme avec une lame et une poignée.</p>",
-            "name": "Épée"
+            "description": "<p>A bladed, hilted weapon. Specifically designed for cutting or thrusting. </p>",
+            "name": "Sword"
         },
         "Sword (Excellent)": {
             "description": "<p>A bladed, hilted weapon. Specifically designed for cutting or thrusting.  +1 to Attack.</p>",
@@ -333,11 +333,11 @@
             "name": "Sword (Poor)"
         },
         "Talon Foot": {
-            "description": "<p>Cybermatériel de type Arme. Vous devez avoir installé le cybermatériel approprié.</p>",
-            "name": "Ergot"
+            "description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>",
+            "name": "Talon Foot"
         },
         "Tomahawk": {
-            "description": "<p>Une hache légère qui peut être lancée.</p>",
+            "description": "<p>A light axe that can be thrown. </p>",
             "name": "Tomahawk"
         },
         "Tomahawk (Excellent)": {
@@ -349,20 +349,20 @@
             "name": "Tomahawk (Poor)"
         },
         "Tsunami Arms Helix": {
-            "description": "<p>Fusil d'assaut exotique qui ne peut être utilisé qu'en tir automatique. Ne peut pas être utilisé pour viser ni tirer au coup par\ncoup. Le chargeur abrite 40 balles. Quand on tire, le Helix consomme 20 balles par attaque. Si on touche la cible, on lance\n2d6 pour les dégâts, et on multiplie le résultat par la différence entre le résultat du test et le SD pour toucher (max 5). Recharger cette arme nécessite deux actions, ce qui nécessite deux tours. Tirer avec le canon électrique nécessite une valeur de Corps de 11 au moins sauf s'il est monté.</p>",
-            "name": "Helix de Tsunami Arms"
+            "description": "<p>An Exotic Assault Rifle that uses only Autofire. Holds 40 bullets, using 20 bullets with each attack. Uses Autofire rules with a multiplication up to a maximum of 5. Requires BODY 11 or higher (unless mounted). Refer to the full item description on pg. 349.&nbsp;</p>",
+            "name": "Tsunami Arms Helix"
         },
         "Unarmed": {
-            "description": "<p>Utilise ses poings/pieds pour attaquer, n'ignore pas la moitié de l'armure de l'adversaire.</p>",
-            "name": "Désarmé"
+            "description": "<p>Throwing hands, does not ignore half armor.</p>",
+            "name": "Unarmed"
         },
         "Vampyres": {
-            "description": "<p>Cybermatériel de type Arme. Vous devez avoir installé le cybermatériel approprié.</p>",
+            "description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>",
             "name": "Vampyres"
         },
         "Very Heavy Pistol": {
-            "description": "<p>Un pistolet très lourd. Non dissimulable </p>",
-            "name": "Pistolet très lourd"
+            "description": "<p>A very heavy pistol. It can't be concealed. </p>",
+            "name": "Very Heavy Pistol"
         },
         "Very Heavy Pistol (Excellent)": {
             "description": "<p>A very heavy pistol. It can't be concealed. +1 to Attack.</p>",
@@ -373,9 +373,9 @@
             "name": "Very Heavy Pistol (Poor)"
         },
         "Wolvers": {
-            "description": "<p>Cybermatériel de type Arme. Vous devez avoir installé le cybermatériel approprié.</p>",
-            "name": "Etripeurs"
+            "description": "<p>Cyberware weapon. You must have the appropriate cyberware installed. </p>",
+            "name": "Wolvers"
         }
     },
-    "label": "Armes"
+    "label": "Weapons"
 }
