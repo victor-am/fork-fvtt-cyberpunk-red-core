@@ -98,7 +98,7 @@ export default class CPRRoleItem extends CPRItem {
     // some role abilities modify skills too, so we account for that here
     let roleName;
     let roleValue = 0;
-    const roleSkillBonuses = this.bonuses.filter((b) => b.name === skillName);
+    const roleSkillBonuses = this.system.bonuses.filter((b) => b.name === skillName);
     if (roleSkillBonuses.length > 0) {
       roleValue += Math.floor(this.system.rank / this.system.bonusRatio);
       roleName = this.system.mainRoleAbility;
