@@ -1,4 +1,6 @@
 {{cprTrace "START ITEM CPR-ITEM-DESCRIPTION.HBS"}}
+{{log "START ITEM CPR-ITEM-DESCRIPTION.HBS"}}
+{{log this}}
 <div class="item-description-tab">
     <div class="item-summary-section">
         {{!-- Display stats by item type --}}
@@ -10,7 +12,7 @@
         {{/each}}
     </div>
     <div class="item-description-section">
-        {{editor system.description.value target="system.description.value" button=true owner=owner
+        {{editor item.system.description.value target="system.description.value" button=true owner=owner
         editable=editable}}
     </div>
 </div>
