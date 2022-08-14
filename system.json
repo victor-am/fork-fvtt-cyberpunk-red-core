@@ -197,6 +197,11 @@
       "path": "lang/it.json"
     },
     {
+      "lang": "pl",
+      "name": "Polish",
+      "path": "lang/pl-PL.json"
+    },
+    {
       "lang": "pt-BR",
       "name": "Brazilian Portuguese",
       "path": "lang/pt-BR.json"
