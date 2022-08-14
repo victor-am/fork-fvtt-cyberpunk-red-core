@@ -333,24 +333,24 @@ export default class CPRItemSheet extends ItemSheet {
     let branch = "a";
     floors.forEach((floor) => {
       let content = "CPR.global.programClass.blackice";
-      if (floor.results[0].data.text.match("^Password")) {
+      if (floor.results[0].text.match("^Password")) {
         content = "CPR.netArchitecture.floor.options.password";
       }
-      if (floor.results[0].data.text.match("^File")) {
+      if (floor.results[0].text.match("^File")) {
         content = "CPR.netArchitecture.floor.options.file";
       }
-      if (floor.results[0].data.text.match("^Control Node")) {
+      if (floor.results[0].text.match("^Control Node")) {
         content = "CPR.netArchitecture.floor.options.controlnode";
       }
       let dv = "N/A";
       const dvRegex = /DV([0-9]+)/g;
-      const match = dvRegex.exec(floor.results[0].data.text);
+      const match = dvRegex.exec(floor.results[0].text);
       if (match !== null && match.length > 1) {
         [, dv] = match;
       }
       let blackice = "--";
       if (content.match("blackice")) {
-        switch (floor.results[0].data.text) {
+        switch (floor.results[0].text) {
           case "Asp":
             blackice = "CPR.netArchitecture.floor.options.blackIce.asp";
             break;
@@ -404,7 +404,7 @@ export default class CPRItemSheet extends ItemSheet {
         dv,
         content,
         blackice,
-        description: "Roll ".concat(floor.roll.total.toString(), ": ", floor.results[0].data.text),
+        description: "Roll ".concat(floor.roll.total.toString(), ": ", floor.results[0].text),
       });
       index += 1;
       floorIndex += 1;
@@ -426,7 +426,7 @@ export default class CPRItemSheet extends ItemSheet {
       // eslint-disable-next-line no-await-in-loop
       const res = await table.draw({ displayChat: false });
       if (!drawnNumbers.includes(res.roll.total)) {
-        if (!res.results[0].data.text.match(drawDuplicatesRegex)) {
+        if (!res.results[0].text.match(drawDuplicatesRegex)) {
           drawnNumbers.push(res.roll.total);
         }
         drawnResults.push(res);
