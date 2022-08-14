@@ -21,7 +21,7 @@ export default class CPRCyberwareItem extends CPRItem {
     const cprItemData = duplicate(this.system);
     let unusedSlots = cprItemData.optionSlots - cprItemData.installedOptionSlots;
     cprItemData.upgrades.forEach((mod) => {
-      unusedSlots -= mod.data.size;
+      unusedSlots -= mod.system.size;
     });
     return unusedSlots;
   }
