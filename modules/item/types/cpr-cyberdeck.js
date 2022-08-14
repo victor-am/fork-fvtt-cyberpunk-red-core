@@ -529,7 +529,7 @@ export default class CPRCyberdeckItem extends CPRItem {
         case "spd":
         case "atk":
         case "def": {
-          programState.data[attribute] = updatedData[attribute];
+          programState[attribute] = updatedData[attribute];
           break;
         }
         case "rez": {
