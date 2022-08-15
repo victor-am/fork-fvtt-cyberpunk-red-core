@@ -163,10 +163,9 @@ export default class CPRActor extends Actor {
    */
   calcMaxHp() {
     LOGGER.trace("_calcMaxHp | CPRActor | Called.");
-    const cprData = this.system;
-    const { stats } = cprData;
+    const { stats } = this.system;
     let maxHp = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
-    maxHp += cprData.system.bonuses.maxHp; // from any active effects
+    maxHp += this.bonuses.maxHp; // from any active effects
     return maxHp;
   }
 
