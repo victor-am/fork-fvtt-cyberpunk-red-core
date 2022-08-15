@@ -58,9 +58,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       cprActorData.userCharacter = "";
       cprActorData.tradePartnerId = this.tradePartnerId;
     }
-    foundryData.isGM = game.user.isGM;
     foundryData.data.system = cprActorData;
-    foundryData.actor.system = cprActorData;
     return foundryData;
   }
 
