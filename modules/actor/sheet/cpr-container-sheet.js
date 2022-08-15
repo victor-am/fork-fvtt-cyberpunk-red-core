@@ -41,9 +41,9 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
    */
   getData() {
     LOGGER.trace("getData | CPRContainerSheet | Called.");
-    const data = super.getData();
-    const cprActorData = data.actor.system;
-    cprActorData.isGM = game.user.isGM;
+    const foundryData = super.getData();
+    const cprActorData = foundryData.actor.system;
+
     cprActorData.userOwnedActors = game.actors.filter((a) => a.isOwner && a.type === "character");
     cprActorData.userOwnedActors.unshift({ id: "", name: "--" });
     if (game.user.character !== undefined && game.user.character !== null) {
@@ -58,10 +58,10 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       cprActorData.userCharacter = "";
       cprActorData.tradePartnerId = this.tradePartnerId;
     }
-
-    data.data = cprActorData;
-    data.actor.system = cprActorData;
-    return data;
+    foundryData.isGM = game.user.isGM;
+    foundryData.data.system = cprActorData;
+    foundryData.actor.system = cprActorData;
+    return foundryData;
   }
 
   /**

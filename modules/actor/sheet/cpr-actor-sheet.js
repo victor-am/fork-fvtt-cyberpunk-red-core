@@ -73,8 +73,8 @@ export default class CPRActorSheet extends ActorSheet {
   getData() {
     LOGGER.trace("getData | CPRActorSheet | Called.");
     const foundryData = super.getData();
-    const cprActorData = foundryData.data.system;
-    cprActorData.filteredItems = this.actor.system.filteredItems;
+    const cprActorData = foundryData.actor.system;
+    // cprActorData.filteredItems = this.actor.system.filteredItems;
     if (this.actor.type === "mook" || this.actor.type === "character") {
       cprActorData.installedCyberware = this._getSortedInstalledCyberware();
 
@@ -96,7 +96,7 @@ export default class CPRActorSheet extends ActorSheet {
       });
       cprActorData.filteredItems.programsInstalled = programsInstalled;
       cprActorData.filteredEffects = this.prepareActiveEffectCategories();
-      data.actor.system = cprActorData;
+      foundryData.data.system = cprActorData;
     }
     // This appears to have been removed in V10?
     foundryData.isGM = game.user.isGM;
