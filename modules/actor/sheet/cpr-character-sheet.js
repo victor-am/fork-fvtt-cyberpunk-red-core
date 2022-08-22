@@ -547,7 +547,7 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
     let action = SystemUtils.GetEventDatum(event, "data-action");
     if (value !== "") {
       value = parseInt(value, 10);
-      if (isNaN(value)) {
+      if (Number.isNaN(value)) {
         action = "error";
       }
       switch (action) {
