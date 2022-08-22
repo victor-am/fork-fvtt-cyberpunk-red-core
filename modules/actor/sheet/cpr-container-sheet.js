@@ -239,18 +239,19 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     if (!all) {
       const itemText = SystemUtils.Format("CPR.dialog.purchasePart.text", { itemName: item.name });
       const formData = await PurchasePartPrompt.RenderPrompt(itemText).catch((err) => LOGGER.debug(err));
+      const inventoryAmount = (typeof item.data.data.amount !== "undefined") ? parseInt(item.data.data.amount, 10) : 1;
       if (formData === undefined) {
         return;
       }
       const newAmount = parseInt(formData.purchaseAmount, 10);
-      if (newAmount < 1 || newAmount >= parseInt(item.system.amount, 10)) {
+      if (newAmount < 1 || newAmount >= inventoryAmount) {
         SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.dialog.purchasePart.wrongAmountWarning"));
         return;
       }
       transferredItemData.system.amount = newAmount;
       cost *= newAmount;
     } else {
-      cost *= item.system.amount;
+      cost *= (typeof item.data.data.amount !== "undefined") ? parseInt(item.data.data.amount, 10) : 1;
     }
     const tradePartnerActor = game.actors.get(this.tradePartnerId);
     if (!getProperty(this.actor, "flags.cyberpunk-red-core.items-free")) {

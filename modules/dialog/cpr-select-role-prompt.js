@@ -19,6 +19,9 @@ export default class SelectRolesPrompt {
           const netRoleList = html.find("[name=\"activeNetRole\"");
           let activeRole = "";
           let activeNetRole = "";
+          //const myForm = html.find("form")[0];
+          const fd = new FormDataExtended(html.find("form")[0]);
+          //const formData = foundry.utils.expandObject(fd.object);
           const formData = {};
           Object.keys(roleList).forEach((role) => {
             if (roleList[role].checked) {

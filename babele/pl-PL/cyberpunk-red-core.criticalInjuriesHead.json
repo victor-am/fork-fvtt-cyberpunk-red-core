@@ -2,47 +2,47 @@
 	"label": "Critical Injuries (Head) - IMPORT ME",
 	"entries": {
 		"Brain Injury": {
-			"name": "Brain Injury",
-			"description": "<p>-2 to actions.</p>"
+			"name": "Uraz mózgu",
+			"description": "<p>-2 do wszystkich akcji. +1 PT do Testu Przeżywalności.</p>"
 		},
 		"Broken Jaw": {
-			"name": "Broken Jaw",
-			"description": "<p>-4 to Speech Actions.</p>"
+			"name": "Złamana szczęka",
+			"description": "<p>-4 do akcji mowy.</p>"
 		},
 		"Concussion": {
-			"name": "Concussion",
-			"description": "<p>-2 to actions.</p>"
+			"name": "Wstrząśnienie mózgu",
+			"description": "<p>-2 do wszystkich akcji.</p>"
 		},
 		"Cracked Skull": {
-			"name": "Cracked Skull",
-			"description": "<p>Triples damage to HP on aimed headshots.</p>"
+			"name": "Pęknięta czaszka",
+			"description": "<p>Potrójne obrażenia zadawane PW od strzałów z przycelowania w głowę. +1 PT do Testu Przeżywalności.</p>"
 		},
 		"Crushed Windpipe": {
-			"name": "Crushed Windpipe",
-			"description": "<p>Cannot speak.</p>"
+			"name": "Zmiażdżona krtań",
+			"description": "<p>Nie możesz mówić. +1 PT do Testu Przeżywalności.</p>"
 		},
 		"Damaged Ear": {
-			"name": "Damaged Ear",
-			"description": "<p>If move more than 4m/yds in a Turn, cannot move next turn. -2 to Perception (hearing).</p>"
+			"name": "Uraz ucha",
+			"description": "<p>Jeśli poruszysz się o więcej niż 4m/jardy w turze, nie możesz się ruszyć w następnej turze. -2 do percepcji (słuch).</p>"
 		},
 		"Damaged Eye": {
-			"name": "Damaged Eye",
-			"description": "<p>-2 to Ranged and Perception (vision).</p>"
+			"name": "Uraz oka",
+			"description": "<p>-2 do ataków dystansowych i percepcji (wizja)</p>"
 		},
 		"Foreign Object (H)": {
-			"name": "Foreign Object (H)",
-			"description": "<p>Suffer Crit damage at end of turn if move more than 4m/yrds on foot.</p>"
+			"name": "Ciało obce (G)",
+			"description": "<p>Otrzymujesz obrażenia krytyczne tej rany na koniec tury jeśli ruszysz się więcej niż 4m/jardy pieszo. Pancerz nie redukuje tych obrażeń.</p>"
 		},
 		"Lost Ear": {
-			"name": "Lost Ear",
-			"description": "<p>Ear is removed. If move more than 4m/yds in a Turn, cannot move next turn. -4 to Perception (hearing).</p>"
+			"name": "Urwane ucho",
+			"description": "<p>Tracisz ucho. Jeśli poruszysz się o więcej niż 4m/jardy w turze, nie możesz się ruszyć w następnej turze. -4 do percepcji (słuch). +1 PT do Testu Przeżywalności.</p>"
 		},
 		"Lost Eye": {
-			"name": "Lost Eye",
-			"description": "<p>Eye is removed. -4 to Ranged and Perception (vision).</p>"
+			"name": "Utrata oka",
+			"description": "<p>Tracisz oko. -4 do ataków dystansowych i percepcji (wizja). +1 PT do Testu Przeżywalności. </p>"
 		},
 		"Whiplash": {
-			"name": "Whiplash",
+			"name": "Odgięciowy uraz kręgosłupa szyjnego",
 			"description": null
 		}
 	}
