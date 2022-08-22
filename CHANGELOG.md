@@ -1,3 +1,16 @@
+# Version DEV | Date: WIP
+
+**New Features**
+-
+
+**Changes**
+-
+
+**Bug Fixes**
+-
+
+**Maintenance items**
+
 # Version 0.81.4 (Hotfix) | Date: 2022-08-21
 #464 - Fix issue where containers corrupt eurobucks amount for non-stackable items
 
