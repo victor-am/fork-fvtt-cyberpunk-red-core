@@ -16,7 +16,7 @@
     "eslint": "^8.15.0",
     "eslint-plugin-foundry-cpr": "file:.gitlab/pipeline_tests/eslint-plugin-foundry-cpr",
     "fs-extra": "^10.1.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-cli": "^2.3.0",
     "gulp-less": "^5.0.0"
   },
