@@ -1,10 +1,10 @@
 # Version DEV | Date: WIP
 
 **New Features**
--
+- Polish support available!
 
 **Changes**
--
+- Updated translations for Italian and German languages
 
 **Bug Fixes**
 -
