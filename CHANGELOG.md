@@ -1,5 +1,6 @@
 # Version 0.81.5 (Hotfix) | Date: 2022-08-XX
 #467 - Fix shield ablation arrow in Fight Tab to be functional
+#461 - Throw an exception if someone enters a decimal point when modifying eurobucks.
 
 # Version 0.81.4 (Hotfix) | Date: 2022-08-21
 #464 - Fix issue where containers corrupt eurobucks amount for non-stackable items
