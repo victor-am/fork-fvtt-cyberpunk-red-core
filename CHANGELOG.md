@@ -1,5 +1,9 @@
-# Version 0.81.4 (Hotfix) | Date: 2022-08-??
+# Version 0.81.4 (Hotfix) | Date: 2022-08-21
 #464 - Fix issue where containers corrupt eurobucks amount for non-stackable items
+
+**New Features**
+- Polish support available!
+
 # Version 0.81.3 (Hotfix) | Date: 2022-08-02
 **Bug Fixes**
 - When installing cyberware and selecting `None` for the Humanity Loss, the maximum humanity was not being decremented forcing one to re-calculate it using the calculator.
