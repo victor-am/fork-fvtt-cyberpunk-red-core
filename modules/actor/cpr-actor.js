@@ -1280,7 +1280,7 @@ export default class CPRActor extends Actor {
           const armorData = a.data;
           armorData.data.shieldHitPoints.value = Number(armorData.data.shieldHitPoints.value);
           armorData.data.shieldHitPoints.max = Number(armorData.data.shieldHitPoints.max);
-          armorData.data.shieldHitPoints.value = Math.max((a.data.shieldHitPoints.value - ablation), 0);
+          armorData.data.shieldHitPoints.value = Math.max((armorData.data.shieldHitPoints.value - ablation), 0);
           updateList.push({ _id: a.id, data: armorData.data });
         });
         await this.updateEmbeddedDocuments("Item", updateList);
