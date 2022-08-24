@@ -62,7 +62,7 @@
 			"description": "<p>Basic ammo, nothing special.</p>"
 		},
 		"Battery Pack": {
-			"name": "Battery Pack",
+			"name": "Paquete de Baterías",
 			"description": "<p>A rechargable (1 hour) battery pack, commonly used with Exotic weapons. Contains 8 shots and can be recharged.&nbsp;</p>"
 		},
 		"Biotoxin Arrow": {
@@ -139,7 +139,7 @@
 		},
 		"Poison Arrow": {
 			"name": "Poison Arrow",
-			"description": "<p>No immediate damage. If meat target hit, DV13 Resist Torture/Drugs Check. On a fail 2d6 damage to HP. No Ablation. </p>"
+			"description": "<p>Sin daño inmediato. Al golpear, tira Resistir Tortugas/Drogas contra DV13. Al fallar 2d6 de daño a HP sin ablación. </p>"
 		},
 		"Poison Grenade": {
 			"name": "Poison Grenade",
@@ -147,7 +147,7 @@
 		},
 		"Rubber Arrow": {
 			"name": "Rubber Arrow",
-			"description": "<p>Does not cause Critical Injury. Does not ablate armor. Leaves target at minimum 1hp. Counts as Basic ammo for exotic weapons</p>"
+			"description": "<p>No causa lesiones críticas ni produce ablación. No puede dejar al objetivo con menos de 1HP. Cuenta como munición básica para armas exóticas</p>"
 		},
 		"Rubber Heavy Pistol": {
 			"name": "Rubber Heavy Pistol",
