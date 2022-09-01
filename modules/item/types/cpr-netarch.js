@@ -86,25 +86,25 @@ export default class CPRNetArchItem extends CPRItem {
       },
     };
 
-    const floorData = duplicate(this.data.data.floors);
+    const floorData = duplicate(this.system.floors);
     if (floorData.length === 0) {
       SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.netArchitecture.generation.noFloorError"));
       return;
     }
     if (this.options.sceneName === null) {
       if (this.animated) {
-        if (game.scenes.find((f) => f.name === `${this.data.name} (animated)`) === null
-        || game.scenes.find((f) => f.name === `${this.data.name} (animated)`) === undefined) {
-          await this._duplicateScene(`${this.data.name} (animated)`);
+        if (game.scenes.find((f) => f.name === `${this.name} (animated)`) === null
+        || game.scenes.find((f) => f.name === `${this.name} (animated)`) === undefined) {
+          await this._duplicateScene(`${this.name} (animated)`);
         } else {
-          this.scene = game.scenes.find((f) => f.name === `${this.data.name} (animated)`);
+          this.scene = game.scenes.find((f) => f.name === `${this.name} (animated)`);
           await this._removeAllTiles();
         }
-      } else if (game.scenes.find((f) => f.name === this.data.name) === null
-                 || game.scenes.find((f) => f.name === this.data.name) === undefined) {
-        await this._duplicateScene(`${this.data.name}`);
+      } else if (game.scenes.find((f) => f.name === this.name) === null
+                 || game.scenes.find((f) => f.name === this.name) === undefined) {
+        await this._duplicateScene(`${this.name}`);
       } else {
-        this.scene = game.scenes.find((f) => f.name === this.data.name);
+        this.scene = game.scenes.find((f) => f.name === this.name);
         await this._removeAllTiles();
       }
     } else {
@@ -293,12 +293,12 @@ export default class CPRNetArchItem extends CPRItem {
   async _duplicateScene(newName) {
     LOGGER.trace("_duplicateScene | CPRNetarchUtils | Called.");
     let scene = null;
-    if (this.animated) {
-      scene = await game.packs.get("cyberpunk-red-core.scenes").getDocument("kmVVudIkBTEODmcq");
-    } else {
-      scene = await game.packs.get("cyberpunk-red-core.scenes").getDocument("vHjjIdBSOEQdrgrl");
+    const sceneName = (this.animated) ? "NetarchTemplate-animated" : "NetarchTemplate";
+    const sceneList = (await game.packs.get("cyberpunk-red-core.scenes").getDocuments()).filter((s) => s.name === sceneName);
+    if (sceneList.length > 0) {
+      [scene] = sceneList;
     }
-    const sceneData = duplicate(scene.data);
+    const sceneData = duplicate(scene);
     sceneData.id = null;
     sceneData.name = newName;
     await Scene.createDocuments([sceneData]);

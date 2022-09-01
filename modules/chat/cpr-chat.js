@@ -116,7 +116,7 @@ export default class CPRChat {
       trimmedItem.trimName = `${trimmedItem.trimName.slice(0, maxNameLen - 1)}…`;
     }
     const maxDescLen = 5000;
-    trimmedItem.trimDesc = item.data.data.description.value;
+    trimmedItem.trimDesc = item.system.description.value;
     if (trimmedItem.trimDesc === null || trimmedItem.trimDesc.length === 0) {
       trimmedItem.trimDesc = "(No description)";
     } else if (trimmedItem.trimDesc.length > maxDescLen) {
@@ -132,7 +132,7 @@ export default class CPRChat {
         if (item.entityData.token !== null) {
           const token = game.actors.tokens[item.entityData.token];
           if (token !== undefined) {
-            alias = token.data.name;
+            alias = token.name;
           }
         }
         chatOptions.speaker = { actor, alias };
@@ -279,7 +279,7 @@ export default class CPRChat {
           const actor = (Object.keys(game.actors.tokens).includes(tokenId))
             ? game.actors.tokens[tokenId]
             : game.actors.find((a) => a.id === actorId);
-          const item = actor.items.find((i) => i.data._id === itemId);
+          const item = actor.items.find((i) => i._id === itemId);
           item.sheet.render(true, { editable: false });
           break;
         }

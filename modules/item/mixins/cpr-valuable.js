@@ -29,9 +29,9 @@ const Valuable = function Valuable() {
     };
 
     let price = PRICE_CATEGORY_MAPPINGS[category];
-    const itemData = this.data;
-    if (itemData.type === "ammo") {
-      if (itemData.variety !== "grenade" && itemData.variety !== "rocket") price /= 10;
+    const cprItemData = this.system;
+    if (this.type === "ammo") {
+      if (cprItemData.variety !== "grenade" && cprItemData.variety !== "rocket") price /= 10;
     }
     return price;
   };

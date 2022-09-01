@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-/* global renderTemplate Dialog FormDataExtended */
+/* global renderTemplate Dialog FormDataExtended foundry */
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
@@ -15,7 +15,8 @@ export default class ConfigureBIActorFromProgramPrompt {
         };
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog ConfigureBIActorFromProgramPrompt | called.");
-          const formData = new FormDataExtended(html.find("form")[0]).toObject();
+          const fd = new FormDataExtended(html.find("form")[0]);
+          const formData = foundry.utils.expandObject(fd.object);
           resolve(formData);
         };
         new Dialog({

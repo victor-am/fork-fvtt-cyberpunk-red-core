@@ -18,10 +18,10 @@ export default class CPRCyberwareItem extends CPRItem {
    */
   availableSlots() {
     LOGGER.trace("availableSlots | CPRCyberwareItem | Called.");
-    const itemData = duplicate(this.data.data);
-    let unusedSlots = itemData.optionSlots - itemData.installedOptionSlots;
-    itemData.upgrades.forEach((mod) => {
-      unusedSlots -= mod.data.size;
+    const cprItemData = duplicate(this.system);
+    let unusedSlots = cprItemData.optionSlots - cprItemData.installedOptionSlots;
+    cprItemData.upgrades.forEach((mod) => {
+      unusedSlots -= mod.system.size;
     });
     return unusedSlots;
   }

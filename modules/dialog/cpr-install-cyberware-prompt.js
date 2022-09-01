@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-/* global renderTemplate, FormDataExtended, Dialog */
+/* global renderTemplate, FormDataExtended, Dialog foundry */
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
 
@@ -16,7 +16,8 @@ export default class InstallCyberwarePrompt {
         };
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog InstallCyberwarePrompt | called.");
-          const formData = new FormDataExtended(html.find("form")[0]).toObject();
+          const fd = new FormDataExtended(html.find("form")[0]);
+          const formData = foundry.utils.expandObject(fd.object);
           resolve(formData);
         };
         new Dialog({

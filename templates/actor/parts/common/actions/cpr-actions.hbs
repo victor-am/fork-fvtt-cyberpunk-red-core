@@ -1,14 +1,10 @@
-{{cprTrace "CPR-ACTIONS.HBS"}}
+{{cprTrace "START ACTOR PARTS COMMON ACTIONS CPR-ACTIONS.HBS"}}
 {{#if (cprCompare type "===" "weapon")}}
 {{!-- LOAD/RELOAD ACTION --}}
-{{#if data.data.isRanged}}
+{{#if system.isRanged}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-reload-glyph.hbs"}}
 {{/if}}
-{{!-- CONCEAL ACTION
-{{#if data.concealable}}
-<i class="fas fa-eye-slash" title="Toggle Conceal"></i>
-{{/if}}
---}}
+
 {{/if}}
 {{#if (cprCompare type "===" "cyberware")}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-install-cyberware-glyph.hbs"}}
@@ -22,14 +18,14 @@
 {{#if (cprCompare type "===" "drug")}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-snort-glyph.hbs"}}
 {{/if}}
-{{#if (cprCompare (cprListContains "ammo,gear,clothing" type) "&&" (cprCompare data.data.amount ">" "1"))}}
+{{#if (cprCompare (cprListContains "ammo,gear,clothing" type) "&&" (cprCompare system.amount ">" "1"))}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-split-item.hbs"}}
 {{/if}}
 {{#if (cprListContains "weapon,armor,gear,clothing,cyberdeck" type)}}
 {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-equip-glyph.hbs"}}
 {{/if}}
 <a class="item-action" data-action-type="favorite" title="{{localize "CPR.actorSheets.commonActions.togglePin"}}">
-    {{#if data.data.favorite}}
+    {{#if system.favorite}}
     <i class="fas fa-thumbtack fg-black favorite"></i>
     {{else}}
     <i class="fas fa-thumbtack fg-grey"></i>
@@ -37,10 +33,10 @@
 </a>
 {{!-- ITEM MANAGEMENT --}}
 {{#if (cprIsUpgradable type)}}
-  {{#if data.data.isUpgraded}}
+  {{#if system.isUpgraded}}
     {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
   {{else}}
-    {{#unless (cprIsEmpty (cprFilter (cprFilter actor.data.filteredItems.itemUpgrade "data.data.type" type) "data.data.isInstalled" false))}}
+    {{#unless (cprIsEmpty (cprFilter (cprFilter actor.system.filteredItems.itemUpgrade "system.type" type) "system.isInstalled" false))}}
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
     {{/unless}}
   {{/if}}

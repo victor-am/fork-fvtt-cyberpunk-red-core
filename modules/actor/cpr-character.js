@@ -23,16 +23,18 @@ export default class CPRCharacterActor extends CPRActor {
   static async create(data, options) {
     LOGGER.trace("create | CPRCharacterActor | called.");
     const createData = data;
-    if (typeof data.data === "undefined") {
+    if (typeof data.system === "undefined") {
       LOGGER.trace("create | New Actor | CPRCharacterActor | called.");
       createData.items = [];
       const tmpItems = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
       tmpItems.forEach((item) => {
-        // With 0.8.8 a warning about effects not being an array was thrown,
-        // this converts it into an array for the creation.
-        // eslint-disable-next-line no-param-reassign
-        item.data.effects = item.data.effects.contents;
-        createData.items.push(item.data);
+        const cprItem = {
+          name: item.name,
+          img: item.img,
+          type: item.type,
+          system: item.system,
+        };
+        createData.items.push(cprItem);
       });
       createData.token = {
         actorLink: true,
@@ -51,14 +53,14 @@ export default class CPRCharacterActor extends CPRActor {
    */
   _calculateDerivedStats() {
     LOGGER.trace("_calculateDerivedStats | CPRCharacterActor | Called.");
-    const actorData = this.data;
-    actorData.filteredItems = this.itemTypes; // the itemTypes getter is in foundry.js
-    const { derivedStats } = actorData.data;
+    const cprData = this.system;
+    cprData.filteredItems = this.itemTypes; // the itemTypes getter is in foundry.js
+    const { derivedStats } = cprData;
 
     // Walk & Run
     // From the Move/Run Action (pg 127)
-    derivedStats.walk.value = actorData.data.stats.move.value * 2;
-    derivedStats.run.value = actorData.data.stats.move.value * 4;
+    derivedStats.walk.value = cprData.stats.move.value * 2;
+    derivedStats.run.value = cprData.stats.move.value * 4;
 
     // Seriously wounded
     derivedStats.seriouslyWounded = Math.ceil(derivedStats.hp.max / 2);
@@ -67,13 +69,13 @@ export default class CPRCharacterActor extends CPRActor {
     // value would be equal to max, however their current wound state was never updated.
     this._setWoundState();
     // Updated derivedStats variable with currentWoundState
-    derivedStats.currentWoundState = this.data.data.derivedStats.currentWoundState;
+    derivedStats.currentWoundState = cprData.derivedStats.currentWoundState;
 
     // Death save
-    let basePenalty = actorData.bonuses.deathSavePenalty; // 0 + active effects
-    const critInjury = this.data.filteredItems.criticalInjury;
+    let basePenalty = this.bonuses.deathSavePenalty; // 0 + active effects
+    const critInjury = cprData.filteredItems.criticalInjury;
     critInjury.forEach((criticalInjury) => {
-      const { deathSaveIncrease } = criticalInjury.data.data;
+      const { deathSaveIncrease } = criticalInjury.system;
       if (deathSaveIncrease) {
         basePenalty += 1;
       }
@@ -85,7 +87,7 @@ export default class CPRCharacterActor extends CPRActor {
     if ((typeof derivedStats.deathSave) === "object") {
       derivedStats.deathSave.basePenalty = basePenalty;
       derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
-      this.data.data.derivedStats = derivedStats;
+      this.system.derivedStats = derivedStats;
     }
     derivedStats.hp.value = Math.min(
       derivedStats.hp.value,

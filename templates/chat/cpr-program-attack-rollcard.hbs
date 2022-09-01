@@ -1,4 +1,4 @@
-{{cprTrace "CPR-PROGRAM-ATTACK-ROLLCARD.HBS"}}
+{{cprTrace "START CHAT CPR-PROGRAM-ATTACK-ROLLCARD.HBS"}}
 <div class="rollcard">
   <div class="rollcard-top">
     <div class="cpr-block chat-rollTitle-stat">
@@ -7,7 +7,7 @@
         <div class="rollcard-subtitle-center text-small">{{localize "CPR.rolls.attack"}}</div>
         <div class="rollcard-subtitle-right">
         </div>
-        <div class="rollcard-subtitle-2-center text-small">{{#if (cprCompare rollCardExtraArgs.program.data.class "===" "blackice")}}{{localize (cprFindConfigValue "blackIceType" rollCardExtraArgs.program.data.blackIceType)}} {{/if}}{{localize (cprFindConfigValue "programClassList" rollCardExtraArgs.program.data.class)}}</div>
+        <div class="rollcard-subtitle-2-center text-small">{{#if (cprCompare rollCardExtraArgs.program.system.class "===" "blackice")}}{{localize (cprFindConfigValue "blackIceType" rollCardExtraArgs.program.system.blackIceType)}} {{/if}}{{localize (cprFindConfigValue "programClassList" rollCardExtraArgs.program.system.class)}}</div>
       </div>
     </div>
   </div>

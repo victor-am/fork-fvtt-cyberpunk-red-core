@@ -90,13 +90,13 @@ export default class CPRActiveEffectSheet extends ActiveEffectConfig {
    */
   async _addEffectChange() {
     LOGGER.trace("_addEffectChange | CPRActiveEffectSheet | Called.");
-    const idx = this.document.data.changes.length;
+    const idx = this.document.changes.length;
     LOGGER.debug(`adding change defaults for changes.${idx}`);
     return this.submit({
       preventClose: true,
       updateData: {
         [`changes.${idx}`]: {
-          key: "bonuses.Perception",
+          key: "bonuses.perception",
           mode: CONST.ACTIVE_EFFECT_MODES.ADD,
           value: "",
         },
@@ -121,5 +121,12 @@ export default class CPRActiveEffectSheet extends ActiveEffectConfig {
     // XXX: this doesn't work well if a mod in the middle of the list is deleted
     effect.unsetFlag("cyberpunk-red-core", `changes.${button.dataset.index}`);
     return this.submit({ preventClose: true }).then(() => this.render());
+  }
+
+  getData() {
+    LOGGER.trace("getData | CPRActiveEffectSheet | Called.");
+    const data = super.getData();
+    data.effectParent = this.document.getEffectParent();
+    return data;
   }
 }

@@ -1,5 +1,5 @@
 {{!-- New Layout --}}
-{{cprTrace "CPR-CHARACTER-SHEET.HBS"}}
+{{cprTrace "START ACTOR CPR-CHARACTER-SHEET.HBS"}}
 <form>
   <div class="actor-sheet character">
 
@@ -11,7 +11,7 @@
         {{> "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-hitpoint-block.hbs"}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-deathsave-block.hbs"}}
         {{> "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-humanity-block.hbs"}}
-        {{#if (cprCompare this.data.type "===" "character")}}
+        {{#if (cprCompare actor.type "===" "character")}}
           {{> "systems/cyberpunk-red-core/templates/actor/parts/left-pane/cpr-ip-block.hbs"}}
         {{/if}}
 
@@ -70,14 +70,14 @@
           <div class="tab-pink-underlay">
             <div class="tab-label text-bold tab-indent" data-tab="fight">
               <a data-tab="fight">{{localize "CPR.characterSheet.bottomPane.fight.title"}}</a>
-              {{#if (cprCompare fightOptions "===" "both")}}
-                {{#if (cprCompare fightState "===" "Meatspace")}}
+              {{#if (cprCompare actor.system.fightOptions "===" "both")}}
+                {{#if (cprCompare actor.system.fightState "===" "Meatspace")}}
                   (<span class="fg-yellow">{{localize "CPR.characterSheet.bottomPane.fight.meat"}}</span>|<a class="toggle-fight-state" data-state="Netspace">{{localize "CPR.characterSheet.bottomPane.fight.net"}}</a>)
                 {{else}}
                   (<a class="toggle-fight-state" data-state="Meatspace">{{localize "CPR.characterSheet.bottomPane.fight.meat"}}</a>|<span class="fg-yellow">{{localize "CPR.characterSheet.bottomPane.fight.net"}}</span>)
                 {{/if}}
               {{/if}}
-              {{#if (cprCompare fightState "===" "Meatspace")}}
+              {{#if (cprCompare actor.system.fightState "===" "Meatspace")}}
                &nbsp;<a class="rollable" title="{{localize "CPR.characterSheet.bottomPane.fight.facedown"}}" data-roll-type="facedown" data-roll-title="{{localize "CPR.characterSheet.bottomPane.fight.facedown"}}"><i class="far fa-angry"></i></a>
               {{/if}}
             </div>

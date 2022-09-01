@@ -56,7 +56,7 @@ export default class CPRDemonActorSheet extends ActorSheet {
     await cprRoll.roll();
 
     // output to chat
-    const token = this.token === null ? null : this.token.data._id;
+    const token = this.token === null ? null : this.token._id;
     cprRoll.entityData = { actor: this.actor.id, token };
     CPRChat.RenderRollCard(cprRoll);
   }
@@ -70,6 +70,6 @@ export default class CPRDemonActorSheet extends ActorSheet {
    */
   _createDemonImageContextMenu(html) {
     LOGGER.trace("_createDemonImageContextMenu | CPRDemonActorSheet | Called.");
-    return createImageContextMenu(html, ".demon-icon", this.actor.data);
+    return createImageContextMenu(html, ".demon-icon", this.actor);
   }
 }

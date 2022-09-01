@@ -1,4 +1,4 @@
-{{cprTrace "CPR-SKILLS-CATEGORY.HBS"}}
+{{cprTrace "START ACTOR PARTS RIGHT-PANE PARTS SKILLS CPR-SKILLS-CATEGORY.HBS"}}
 <div class="collapsible">
     <li class="items-header flexrow collapsible">
 
@@ -20,19 +20,19 @@
     </li>
     <ol class="items-list">
 
-        {{#each (cprSortCoreSkills (cprFilter actor.data.filteredItems.skill "data.data.category" category) ) as |skill s|}}
+        {{#each (cprSortCoreSkills (cprFilter actor.system.filteredItems.skill "system.category" category) ) as |skill s|}}
         {{#if (cprSheetContentFilter ../this.sheet.options.cprContentFilter skill.translatedName)}}
-        <li class="item skill-name flexrow{{#if skill.data.data.favorite}} favorite{{else}}{{#if (cprListContains ../sheet.options.collapsedSections (cprGeneratePartial "skillTab-VAR" ../category))}} hide{{/if}}{{/if}}" data-item-id="{{skill.data._id}}"
-            data-skill-category="{{skill.data.data.category}}" draggable="true">
+        <li class="item skill-name flexrow{{#if skill.system.favorite}} favorite{{else}}{{#if (cprListContains ../sheet.options.collapsedSections (cprGeneratePartial "skillTab-VAR" ../category))}} hide{{/if}}{{/if}}" data-item-id="{{skill._id}}"
+            data-skill-category="{{skill.system.category}}" draggable="true">
             <div class="item-name text-nowrap">
-                <a class="rollable {{#if skill.data.data.basic}}text-bold{{/if}}" data-roll-type="skill"
+                <a class="rollable {{#if skill.system.basic}}text-bold{{/if}}" data-roll-type="skill"
                     data-roll-title="{{skill.name}}">
-                    {{#if skill.data.data.core}}{{localize (cprSplitJoinCoreSkills skill)}}{{else}}{{skill.name}}{{/if}} {{#if (cprCompare skill.data.data.difficulty "===" "difficult")}}(x2) {{/if}}<strong>({{localize
+                    {{#if skill.system.core}}{{localize (cprSplitJoinCoreSkills skill)}}{{else}}{{skill.name}}{{/if}} {{#if (cprCompare skill.system.difficulty "===" "difficult")}}(x2) {{/if}}<strong>({{localize
                         (cprFindConfigValue
-                        "statList" skill.data.data.stat)}})</strong>
+                        "statList" skill.system.stat)}})</strong>
                 </a>
 
-                {{#if (cprCompare skill.data.data.core "===" false)}}
+                {{#if (cprCompare skill.system.core "===" false)}}
                 <a class="item-edit skill-custom" title="{{localize "CPR.actorSheets.commonActions.editCustomSkill"}}"><i class="fas fa-edit"></i></a>
                 <a class="item-action skill-custom" title="{{localize "CPR.characterSheet.rightPane.skills.editCustomSkill"}}" data-action-type="delete"><i class="fas fa-trash-alt"></i></a>
                 {{/if}}
@@ -41,15 +41,15 @@
                 {{cprGetSkillBonus skill.name ../actor}}
             </div>
             <div class="item-detail skill-level text-nowrap">
-                <input class="number skill-input" value="{{skill.data.data.level}}" type="number"
-                    data-item-prop="data.level" data-dtype="Number">
+                <input class="number skill-input" value="{{skill.system.level}}" type="number"
+                    data-item-prop="system.level" data-dtype="Number">
             </div>
             <div class="item-detail skill-base text-nowrap">
-                {{cprMath "sum" skill.data.data.level (cprGetSkillBonus skill.name ../actor) (lookup (cprGetProp ../actor.data.data.stats skill.data.data.stat) 'value')}}
+                {{cprMath "sum" skill.system.level (cprGetSkillBonus skill.name ../actor) (lookup (cprGetProp ../actor.system.stats skill.system.stat) 'value')}}
             </div>
             <div class="item-detail skill-favorite text-nowrap">
                 <a class="item-action" data-action-type="favorite" title="{{localize "CPR.actorSheets.commonActions.togglePin"}}">
-                    {{#if skill.data.data.favorite}}
+                    {{#if skill.system.favorite}}
                     <i class="fas fa-thumbtack fg-black favorite"></i>
                     {{else}}
                     <i class="fas fa-thumbtack fg-grey"></i>

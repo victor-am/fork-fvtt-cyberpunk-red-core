@@ -1,6 +1,6 @@
-{{cprTrace "CPR-STAT-BLOCK.HBS"}}
+{{cprTrace "START ACTOR PARTS LEFT-PANE CPR-STAT-BLOCK.HBS"}}
 {{!-- Partials to create stat-units from template --}}
-{{#each data.data.stats as |stat s|}}
+{{#each actor.system.stats as |stat s|}}
 <div class="stat-block">
   <div class="block-label">
     <a class="rollable" data-roll-type="stat" data-roll-title="{{s}}">
@@ -9,12 +9,12 @@
   </div>
   <div class="block-data">
     {{#unless (cprIsDefined this.max)}}
-    <input class="" name="data.stats.{{s}}.value" type="number" value="{{this.value}}" />
+    <input class="" name="system.stats.{{s}}.value" type="number" value="{{this.value}}" />
     {{else}}
     <div class="min-of-max-container">
-      <input class="" name="data.stats.{{s}}.value" type="number" value="{{this.value}}" />
+      <input class="" name="system.stats.{{s}}.value" type="number" value="{{this.value}}" />
       <div class="of-stat bg-red fg-white text-normal text-bold">of</div>
-      <input class="" name="data.stats.{{s}}.max" type="number" value="{{this.max}}" />
+      <input class="" name="system.stats.{{s}}.max" type="number" value="{{this.max}}" />
     </div>
     {{/unless}}
   </div>

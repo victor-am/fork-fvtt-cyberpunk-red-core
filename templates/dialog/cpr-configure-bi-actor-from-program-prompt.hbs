@@ -1,4 +1,4 @@
-{{cprTrace "CPR-CONFIGURE-BI-ACTOR-FROM-PROGRAM-PROMPT.HBS"}}
+{{cprTrace "START DIALOG CPR-CONFIGURE-BI-ACTOR-FROM-PROGRAM-PROMPT.HBS"}}
 <form>
   <div>
     <ol class="items-list">
@@ -7,7 +7,7 @@
           <select name="programId">
             <option value = "unlink">{{localize "CPR.dialog.configureBlackIceActorFromProgram.unlinkBlackIceFromProgram"}}</option>
             {{#each biProgramList as |program|}}
-              <option value="{{program.data._id}}">{{#if (cprCompare program.data._id "===" linkedProgramId)}}* {{/if}}{{program.data.name}}</option>
+              <option value="{{program._id}}">{{#if (cprCompare program._id "===" linkedProgramId)}}* {{/if}}{{program.name}}</option>
             {{/each}}
           </select>
         </div>

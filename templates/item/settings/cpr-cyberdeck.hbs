@@ -1,4 +1,4 @@
-{{cprTrace "CPR-CYBERDECK.HBS"}}
+{{cprTrace "START ITEM SETTINGS CPR-CYBERDECK.HBS"}}
 {{!-- Cyberdeck Item Settings--}}
 
 {{!-- Cyberdeck Installed Programs Settings--}}
@@ -10,22 +10,22 @@
         </a>
     </div>
     <div class="item flexrow setting-name text-nowrap">
-        {{localize "CPR.itemSheet.cyberdeck.availableSlots"}}: {{data.data.availableSlots}}
+        {{localize "CPR.itemSheet.cyberdeck.availableSlots"}}: {{item.system.availableSlots}}
     </div>
 </li>
 <div class="installed-programs">
 
 </div>
-{{#each data.data.programs.installed as |program|}}
+{{#each item.system.programs.installed as |program|}}
     <li class="item flexrow">
         <div class="item flexrow setting-name text-nowrap">
-            {{#if (cprListContains "speed,attack,defense" program.data.class)}}
-                &nbsp;{{program.name}} ({{localize program.data.class}}) &nbsp;
+            {{#if (cprListContains "speed,attack,defense" program.system.class)}}
+                &nbsp;{{program.name}} ({{localize program.system.class}}) &nbsp;
                 <a class="program-uninstall" data-item-id="{{program._id}}">
                     <i class="fas fa-folder-minus fg-red" title="{{localize "CPR.itemSheet.cyberdeck.eraseProgram"}}"></i>
                 </a>
             {{else}}
-                &nbsp;{{program.name}} ({{localize (cprFindConfigValue "programClassList" program.data.class)}}) &nbsp;
+                &nbsp;{{program.name}} ({{localize (cprFindConfigValue "programClassList" program.class)}}) &nbsp;
                 <a class="program-uninstall" data-item-id="{{program._id}}">
                     <i class="fas fa-folder-minus fg-red" title="{{localize " CPR.itemSheet.cyberdeck.eraseProgram"}}"></i>
                 </a>

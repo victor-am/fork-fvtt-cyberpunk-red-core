@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-/* global renderTemplate FormDataExtended Dialog */
+/* global renderTemplate FormDataExtended Dialog foundry */
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
@@ -19,7 +19,8 @@ export default class SelectRoleBonuses {
           const universalBonusList = html.find("[name=\"universalBonuses\"");
           const selectedSkills = [];
           const selectedUniversalBonuses = [];
-          const formData = new FormDataExtended(html.find("form")[0]).toObject();
+          const fd = new FormDataExtended(html.find("form")[0]);
+          const formData = foundry.utils.expandObject(fd.object);
           Object.keys(skillList).forEach((skill) => {
             if (skillList[skill].checked) {
               selectedSkills.push(skillList[skill].value);

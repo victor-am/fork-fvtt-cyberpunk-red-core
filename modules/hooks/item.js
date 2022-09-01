@@ -40,12 +40,12 @@ const itemHooks = () => {
     let returnValue = true;
     if ((typeof createData.img === "undefined") && actor === null) {
       const itemImage = SystemUtils.GetDefaultImage("Item", createData.type);
-      doc.data.update({ img: itemImage });
+      doc.updateSource({ img: itemImage });
     }
 
     if (actor != null) {
       if (Object.values(actor.apps).some((app) => app instanceof CPRCharacterActorSheet
-          || app instanceof CPRContainerActorSheet) && userId === game.user.data._id && !options.CPRsplitStack) {
+          || app instanceof CPRContainerActorSheet) && userId === game.user._id && !options.CPRsplitStack) {
         LOGGER.debug("Attempting to stack items");
         returnValue = actor.automaticallyStackItems(doc);
       }
@@ -67,12 +67,12 @@ const itemHooks = () => {
     LOGGER.trace("createItem | actorHooks | Called.");
     const actor = doc.parent;
     if (actor !== null) {
-      if (doc.type === "role" && actor.data.data.roleInfo.activeRole === "") {
-        actor.update({ "data.roleInfo.activeRole": doc.data.name });
+      if (doc.type === "role" && actor.system.roleInfo.activeRole === "") {
+        actor.update({ "data.roleInfo.activeRole": doc.name });
       }
 
       // when a new item is created (dragged) on a mook sheet, auto install or equip it
-      if (Object.values(actor.apps).some((app) => app instanceof CPRMookActorSheet) && userId === game.user.data._id) {
+      if (Object.values(actor.apps).some((app) => app instanceof CPRMookActorSheet) && userId === game.user._id) {
         LOGGER.debug("handling a dragged item to the mook sheet");
         actor.handleMookDraggedItem(actor._getOwnedItem(doc.id));
       }
@@ -95,23 +95,23 @@ const itemHooks = () => {
     LOGGER.trace("deleteItem | itemHooks | Called.");
     const actor = doc.parent;
     if (actor !== null) {
-      if (doc.type === "role" && actor.data.data.roleInfo.activeRole === doc.name) {
-        const actorRoles = actor.data.filteredItems.role.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+      if (doc.type === "role" && actor.system.roleInfo.activeRole === doc.name) {
+        const actorRoles = actor.system.filteredItems.role.sort((a, b) => (a.name > b.name ? 1 : -1));
         if (actorRoles.length >= 1) {
           // The actor has other roles besides the one being deleted
           // First, we look for one with the same name. This covers a degenerate case where an actor has 2 or more roles
           // of the same name configured, and a case where role items on an actor get replaced during a data migration.
           let newRole;
-          const sameNameRoles = actorRoles.filter((r) => r.data.name === actor.data.data.roleInfo.activeRole);
+          const sameNameRoles = actorRoles.filter((r) => r.name === actor.system.roleInfo.activeRole);
           if (sameNameRoles.length >= 1) {
             newRole = sameNameRoles.find((r) => r.id !== doc.id);
           } else {
             // no other roles with the same name, pick the next in the list
             [newRole] = actorRoles;
-            const warning = `${SystemUtils.Localize("CPR.messages.warnDeleteActiveRole")} ${newRole.data.name}`;
+            const warning = `${SystemUtils.Localize("CPR.messages.warnDeleteActiveRole")} ${newRole.name}`;
             SystemUtils.DisplayMessage("warn", warning);
           }
-          actor.update({ "data.roleInfo.activeRole": newRole.data.name });
+          actor.update({ "data.roleInfo.activeRole": newRole.name });
         } else {
           actor.update({ "data.roleInfo.activeRole": "" });
           SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.characterSheet.bottomPane.role.noRolesWarning"));
@@ -134,10 +134,10 @@ const itemHooks = () => {
    */
   Hooks.on("updateItem", (doc, updateData) => {
     LOGGER.trace("updateItem | itemHooks | Called.");
-    if (updateData.data && updateData.data.abilities) {
-      const roleRank = doc.data.data.rank;
+    if (updateData.system && updateData.system.abilities) {
+      const roleRank = doc.system.rank;
       let subRolesValue = 0;
-      doc.data.data.abilities.forEach((a) => {
+      doc.system.abilities.forEach((a) => {
         if (a.multiplier !== "--") {
           subRolesValue += (a.rank * a.multiplier);
         }
