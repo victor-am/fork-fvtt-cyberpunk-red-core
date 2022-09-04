@@ -1,68 +1,68 @@
 {
-	"label": "Armor",
+	"label": "Armadura",
 	"entries": {
 		"Bodyweight Suit": {
-			"name": "Bodyweight Suit",
-			"description": "<p>Netrunner armored skinsuit. Can store Cyberdeck and support Interface Plugs. Can't be bought in two pieces. Always worn on both Head and Body Location. Adds one Hardware only Option Slot to connected Cyberdeck. No armor penalty.</p>"
+			"name": "Traje de Peso Corporal",
+			"description": "<p>Traje de piel blindado de Netrunner. Puede almacenar Cyberdeck y admitir enchufes de interfaz. No se puede comprar en dos piezas. Usar siempre tanto en la Cabeza como en el Cuerpo. Añade una Ranura de opción de Hardware a Cyberdeck conectado. Sin penalidad de armadura.</p>"
 		},
 		"Bullet Proof Shield": {
-			"name": "Bullet Proof Shield",
-			"description": "<p>Requires an arm and has HP that is reduced by damage.</p>"
+			"name": "Escudo a prueba de balas",
+			"description": "<p>Requiere un brazo y tiene vida reducida por daño.</p>"
 		},
 		"Flak (Body)": {
-			"name": "Flak (Body)",
-			"description": "<p>Metal plated armor to resist the most powerful hits. -4 to REF, DEX, and MOVE.</p>"
+			"name": "Flak (Cuerpo)",
+			"description": "<p>Armadura de metal para resistir los golpes más poderosos. -4 para REF, DEX y MOVE.</p>"
 		},
 		"Flak (Head)": {
-			"name": "Flak (Head)",
-			"description": "<p>Metal plated armor to resist the most powerful hits to your head. -4 to REF, DEX, and MOVE.</p>"
+			"name": "Flak (cabeza)",
+			"description": "<p>Armadura de metal para resistir los golpes más poderosos a la cabeza. -4 a REF, DEX y MOVE.</p>"
 		},
 		"Heavy Armorjack (Body)": {
-			"name": "Heavy Armorjack (Body)",
-			"description": "<p>Heavier version of an Armorjack. -2 to REF, DEX, and MOVE.</p>"
+			"name": "Armorjack Pesado (cuerpo)",
+			"description": "<p>Versión más pesada de una Armorjack. -2 a REF, DEX y MOVE.</p>"
 		},
 		"Heavy Armorjack (Head)": {
-			"name": "Heavy Armorjack (Head)",
-			"description": "<p>Heavier version of an Armorjack for your head. -2 to REF, DEX, and MOVE.</p>"
+			"name": "Armorjack Pesado (cabeza)",
+			"description": "<p>Versión más pesada de una Armorjack. -2 a REF, DEX y MOVE.</p>"
 		},
 		"Kevlar (Body)": {
-			"name": "Kevlar (Body)",
-			"description": "<p>Standard Kevlar clothing. No armor penalty.</p>"
+			"name": "Kevlar (Cuerpo)",
+			"description": "<p>Ropa estándar de Kevlar. Sin penalización de armadura.</p>"
 		},
 		"Kevlar (Head)": {
-			"name": "Kevlar (Head)",
-			"description": "<p>Standard Kevlar for your head. No armor penalty.</p>"
+			"name": "Kevlar (Cabeza)",
+			"description": "<p>Kevlar estándar para tu cabeza. Sin penalización de armadura.</p>"
 		},
 		"Leathers (Body)": {
-			"name": "Leathers (Body)",
-			"description": "<p>Simple Leather armor. No armor penalty.</p>"
+			"name": "Cueros (Cuerpo)",
+			"description": "<p>Armadura de cuero sencilla. Sin penalización de armadura.</p>"
 		},
 		"Leathers (Head)": {
-			"name": "Leathers (Head)",
-			"description": "<p>Simple Leather armor for your head. No armor penalty.</p>"
+			"name": "Cueros (Cabeza)",
+			"description": "<p>Armadura de cuero simple para tu cabeza. Sin penalización de armadura.</p>"
 		},
 		"Light Armorjack (Body)": {
-			"name": "Light Armorjack (Body)",
-			"description": "<p>Light version of an Armorjack. No armor penalty.</p>"
+			"name": "Armorjack Ligero (Cuerpo)",
+			"description": "<p>Versión ligera de una Armorjack. Sin penalización de armadura.</p>"
 		},
 		"Light Armorjack (Head)": {
-			"name": "Light Armorjack (Head)",
-			"description": "<p>Light version of an Armorjack for your head. No armor penalty.</p>"
+			"name": "Armorjack Ligero (Cabeza)",
+			"description": "<p>Versión ligera de un Armorjack para tu cabeza. Sin pena de armadura.</p>"
 		},
 		"Medium Armorjack (Body)": {
-			"name": "Medium Armorjack (Body)",
-			"description": "<p>Medium version of an Armorjack. -2 to REF, DEX, and MOVE.</p>"
+			"name": "Armorjack Medio (Cuerpo)",
+			"description": "<p>Versión media de una Armorjack. -2 a REF, DEX, y MOVE.</p>"
 		},
 		"Medium Armorjack (Head)": {
-			"name": "Medium Armorjack (Head)",
-			"description": "<p>Medium version of an Armorjack for your head. -2 to REF, DEX, and MOVE.</p>"
+			"name": "Armorjack Medio (Cabeza)",
+			"description": "<p>Versión media de un Armorjack para tu cabeza. -2 a REF, DEX y MOVE.</p>"
 		},
 		"Metalgear (Body)": {
-			"name": "Metalgear (Body)",
-			"description": "<p>Heaviest and most powerful armor in circulation. -4 to REF, DEX, and MOVE.</p>"
+			"name": "Metalgear (Cuerpo)",
+			"description": "<p>Armadura más pesada y poderosa en circulación. -4 a REF, DEX y MOVE.</p>"
 		},
 		"Metalgear (Head)": {
-			"name": "Metalgear (Head)",
+			"name": "Metalgear (Cabeza)",
 			"description": "<p>Armadura más pesada y poderosa en circulación. Protege tu cabeza -4 a REF, DEX y MOVE.</p>"
 		}
 	}
