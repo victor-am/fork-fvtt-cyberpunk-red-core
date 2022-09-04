@@ -164,7 +164,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       // Only update if we aren't deleting the item.  Item deletion is handled in this._deleteOwnedItem()
       // The same holds for purchasing the item, as it is handled by this._purchaseItem()
       if (actionType !== "delete" && actionType !== "purchase") {
-        this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.system }]);
+        this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, system: item.system }]);
       }
     }
   }

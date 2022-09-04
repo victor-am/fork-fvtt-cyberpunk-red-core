@@ -1249,7 +1249,7 @@ export default class CPRActor extends Actor {
           cprArmorData.headLocation.ablation = Number(cprArmorData.headLocation.ablation);
           const armorSp = (upgradeType === "override") ? upgradeValue : cprArmorData.headLocation.sp + upgradeValue;
           cprArmorData.headLocation.ablation = Math.min((cprArmorData.headLocation.ablation + ablation), armorSp);
-          updateList.push({ _id: a.id, data: cprArmorData });
+          updateList.push({ _id: a.id, system: cprArmorData });
         });
         await this.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as head armor is ablated:
@@ -1266,7 +1266,7 @@ export default class CPRActor extends Actor {
           const upgradeType = a.getUpgradeTypeFor("bodySp");
           const armorSp = (upgradeType === "override") ? upgradeValue : cprArmorData.bodyLocation.sp + upgradeValue;
           cprArmorData.bodyLocation.ablation = Math.min((cprArmorData.bodyLocation.ablation + ablation), armorSp);
-          updateList.push({ _id: a.id, data: cprArmorData });
+          updateList.push({ _id: a.id, system: cprArmorData });
         });
         await this.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as body armor is ablated:
@@ -1280,7 +1280,7 @@ export default class CPRActor extends Actor {
           cprArmorData.shieldHitPoints.value = Number(cprArmorData.shieldHitPoints.value);
           cprArmorData.shieldHitPoints.max = Number(cprArmorData.shieldHitPoints.max);
           cprArmorData.shieldHitPoints.value = Math.max((a.system.shieldHitPoints.value - ablation), 0);
-          updateList.push({ _id: a.id, data: cprArmorData });
+          updateList.push({ _id: a.id, system: cprArmorData });
         });
         await this.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as shield is damaged:

@@ -665,11 +665,11 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
     const updateList = [];
     if (cyberdeck.isOwned && cyberdeck.isEmbedded) {
-      updateList.push({ _id: cyberdeck.id, data: cyberdeck.system });
+      updateList.push({ _id: cyberdeck.id, system: cyberdeck.system });
     }
 
     if (program.isOwned && program.isEmbedded) {
-      updateList.push({ _id: program.id, data: program.system });
+      updateList.push({ _id: program.id, system: program.system });
     }
 
     if (updateList.length > 0) {

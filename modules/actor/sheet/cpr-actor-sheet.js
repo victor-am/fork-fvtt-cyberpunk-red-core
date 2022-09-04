@@ -493,7 +493,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
       // Only update if we aren't deleting the item.  Item deletion is handled in this._deleteOwnedItem()
       if (actionType !== "delete") {
-        this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.system }]);
+        this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, system: item.system }]);
       }
     }
   }
@@ -538,7 +538,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   _updateOwnedItem(item) {
     LOGGER.trace("_updateOwnedItem | CPRActorSheet | Called.");
-    return this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.system }]);
+    return this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, system: item.system }]);
   }
 
   /**

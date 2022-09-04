@@ -69,7 +69,7 @@ const actorHooks = () => {
                       if (diff < 0 && item._id === a._id) {
                         armorData.bodyLocation.ablation = Math.max(armorData.bodyLocation.ablation + diff, 0);
                       }
-                      updateList.push({ _id: a.id, data: armorData });
+                      updateList.push({ _id: a.id, system: armorData });
                     });
                     doc.updateEmbeddedDocuments("Item", updateList);
                   }
@@ -94,7 +94,7 @@ const actorHooks = () => {
                   }
                   if (itemType === "currentArmorShield") {
                     item.system.shieldHitPoints.value = currentValue;
-                    doc.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.system }]);
+                    doc.updateEmbeddedDocuments("Item", [{ _id: item.id, system: item.system }]);
                   }
                   break;
                 }
@@ -122,7 +122,7 @@ const actorHooks = () => {
           const netrunner = netrunnerToken.actor;
           const cyberdeck = netrunner._getOwnedItem(cyberdeckId);
           cyberdeck.updateRezzedProgram(programId, updatedData.system.stats);
-          netrunner.updateEmbeddedDocuments("Item", [{ _id: cyberdeck.id, data: cyberdeck.system }]);
+          netrunner.updateEmbeddedDocuments("Item", [{ _id: cyberdeck.id, system: cyberdeck.system }]);
         }
       }
     }
