@@ -1,48 +1,48 @@
 {
-	"label": "Critical Injuries (Head) - IMPORT ME",
+	"label": "Heridas Críticas (Cabeza) - IMPORTAR",
 	"entries": {
 		"Brain Injury": {
-			"name": "Brain Injury",
-			"description": "<p>-2 to actions.</p>"
+			"name": "Lesión Cerebral",
+			"description": "<p>-2 a las acciones.</p>"
 		},
 		"Broken Jaw": {
-			"name": "Broken Jaw",
-			"description": "<p>-4 to Speech Actions.</p>"
+			"name": "Mandíbula Rota",
+			"description": "<p>-4 para acciones que requieran la voz.</p>"
 		},
 		"Concussion": {
-			"name": "Concussion",
-			"description": "<p>-2 to actions.</p>"
+			"name": "Concusión",
+			"description": "<p>-2 a las acciones.</p>"
 		},
 		"Cracked Skull": {
-			"name": "Cracked Skull",
-			"description": "<p>Triples damage to HP on aimed headshots.</p>"
+			"name": "Cráneo Partido",
+			"description": "<p>Triplica el daño a HP en los tiros dirigidos a la Cabeza.</p>"
 		},
 		"Crushed Windpipe": {
-			"name": "Crushed Windpipe",
-			"description": "<p>Cannot speak.</p>"
+			"name": "Traquea Aplastada",
+			"description": "<p>No se puede hablar.</p>"
 		},
 		"Damaged Ear": {
-			"name": "Damaged Ear",
-			"description": "<p>If move more than 4m/yds in a Turn, cannot move next turn. -2 to Perception (hearing).</p>"
+			"name": "Oído Dañado",
+			"description": "<p>Si se mueve más de 4m/yds en un turno, no se puede mover el siguiente turno. -2 a la Percepción (oído).</p>"
 		},
 		"Damaged Eye": {
-			"name": "Damaged Eye",
-			"description": "<p>-2 to Ranged and Perception (vision).</p>"
+			"name": "Ojo Dañado",
+			"description": "<p>-2 a Ataques a Distancia y Percepción (visión).</p>"
 		},
 		"Foreign Object (H)": {
-			"name": "Foreign Object (H)",
-			"description": "<p>Suffer Crit damage at end of turn if move more than 4m/yrds on foot.</p>"
+			"name": "Objeto Extraño (H)",
+			"description": "<p>Sufre daño crítico al final del turno si te mueves más de 4m/yardas a pie.</p>"
 		},
 		"Lost Ear": {
-			"name": "Lost Ear",
-			"description": "<p>Ear is removed. If move more than 4m/yds in a Turn, cannot move next turn. -4 to Perception (hearing).</p>"
+			"name": "Oído Perdido",
+			"description": "<p>El oído ha sido eliminado. Si se mueve más de 4m/yds en un turno, no se puede mover el siguiente turno. -4 a la Percepción (audición).</p>"
 		},
 		"Lost Eye": {
-			"name": "Lost Eye",
-			"description": "<p>Eye is removed. -4 to Ranged and Perception (vision).</p>"
+			"name": "Ojo Perdido",
+			"description": "<p>El ojo es removido. -4 a Ataques a Distancia y Percepción (visión).</p>"
 		},
 		"Whiplash": {
-			"name": "Whiplash",
+			"name": "Latigazo",
 			"description": null
 		}
 	}
