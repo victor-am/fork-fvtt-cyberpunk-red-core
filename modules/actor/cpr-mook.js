@@ -10,9 +10,15 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
  */
 export default class CPRMookActor extends CPRActor {
   /**
-   * Like characters, we extend the create() method to set HP as the default resource bar, set some other
-   * token defaults, and pre-populate the actor with skills, cyberware, and other "items."
+   * create() is called when creating the actor, but it's not the same as a constructor. In the
+   * code here, we pre-populate characters with skills, core cyberware, and other baked-in items.
+   * We also pre-configure a few token options to reduce repetitive clicking, such as setting HP
+   * as a resource bar. Mooks by default have a neutral disposition and no actor link with tokens.
    *
+   * TODO: most of this can be moved up to CPRActor.create()
+   *
+   * @async
+   * @static
    * @param {Object} data - data used in creating a basic mook
    * @param {Object} options - not used here but passed up to the parent class
    */
@@ -38,85 +44,5 @@ export default class CPRMookActor extends CPRActor {
       };
     }
     super.create(createData, options);
-  }
-
-  /**
-   * Set the mook's name, called from the sheet.
-   *
-   * @param {Object} formData - an object representing what was typed in the mook-name dialog
-   * @returns {Object}
-   */
-  setMookName(formData) {
-    LOGGER.trace("setMookName | CPRMookActor | called.");
-    return this.update(formData);
-  }
-
-  /**
-   * Automatically calculate "derived" stats based on changes to other stats like we do with
-   * characters. This code intentionally omits Humanity.
-   */
-  _calculateDerivedStats() {
-    LOGGER.trace("_calculateDerivedStats | CPRMookActor | Called.");
-    const cprData = this.system;
-    cprData.filteredItems = this.itemTypes;
-    const { derivedStats } = cprData;
-    derivedStats.seriouslyWounded = Math.ceil(derivedStats.hp.max / 2);
-
-    // We need to always call this because if the actor was wounded and now is not, their
-    // value would be equal to max, however their current wound state was never updated.
-    this._setWoundState();
-    derivedStats.currentWoundState = this.system.derivedStats.currentWoundState;
-
-    // Death save
-    let basePenalty = 0;
-    const critInjury = this.system.filteredItems.criticalInjury;
-    critInjury.forEach((criticalInjury) => {
-      const { deathSaveIncrease } = criticalInjury.system;
-      if (deathSaveIncrease) {
-        basePenalty += 1;
-      }
-    });
-    // In 0.73.2 we moved all of the Death Save data into the single data point of
-    // derivedStats.deathSave.basePenalty, however, it causes a chicken/egg situation
-    // since it loads the data up before it migrates, triggering this code to run which
-    // errors out and ultimately messing the migration up. Yay. We should be able to
-    // remove this code after a release or two
-    if ((typeof derivedStats.deathSave) === "number") {
-      const oldPenalty = derivedStats.deathSave;
-      derivedStats.deathSave = {
-        value: 0,
-        penalty: oldPenalty,
-        basePenalty,
-      };
-    }
-    derivedStats.deathSave.basePenalty = basePenalty;
-    derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
-    this.system.derivedStats = derivedStats;
-  }
-
-  /**
-   * Called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
-   * It handles the automatic equipping of gear and installation of cyberware.
-   *
-   * @param {CPRItem} item - the item that was dragged
-   */
-  handleMookDraggedItem(item) {
-    LOGGER.trace("handleMookDraggedItem | CPRActor | Called.");
-    LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
-    switch (item.type) {
-      case "clothing":
-      case "weapon":
-      case "gear":
-      case "armor": {
-        // chose change done for 0.8.x, and not the fix from dev, as it seems to work without it.
-        this.updateEmbeddedDocuments("Item", [{ _id: item._id, "system.equipped": "equipped" }]);
-        break;
-      }
-      case "cyberware": {
-        this.addCyberware(item._id);
-        break;
-      }
-      default:
-    }
   }
 }

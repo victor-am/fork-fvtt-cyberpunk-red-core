@@ -16,7 +16,11 @@ import MookNamePrompt from "../../dialog/cpr-mook-name-prompt.js";
  * @extends {CPRActorSheet}
  */
 export default class CPRMookActorSheet extends CPRActorSheet {
-  /** @override */
+  /**
+   * getter that controls the sheet sizing
+   *
+   * @override
+   */
   static get defaultOptions() {
     LOGGER.trace("defaultOptions | CPRMookActorSheet | Called.");
     const defaultWidth = 750;
@@ -34,6 +38,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
    * This is how details are obscured from those players, we simply do not render them.
    * Yes, they can still find this information in game.actors and the Foundry development
    * community does not really view this as a problem.
+   *
    * https://discord.com/channels/170995199584108546/596076404618166434/864673619098730506
    *
    * @property
@@ -94,7 +99,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
    * @async
    * @callback
    * @private
-   * @returns {null}
+   * @returns null
    */
   async _modMookSkill() {
     LOGGER.trace("_modMookSkill | CPRMookActorSheet | Called.");
@@ -127,7 +132,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
    * @async
    * @callback
    * @private
-   * @returns {bull}
+   * @returns null
    */
   async _changeMookName() {
     LOGGER.trace("_changeMookName | CPRMookActorSheet | Called.");
@@ -136,9 +141,9 @@ export default class CPRMookActorSheet extends CPRActorSheet {
       return;
     }
     if (!this.isToken) {
-      await this.actor.setMookName(formData);
+      await this.actor.update(formData);
     } else {
-      await this.token.setMookName(formData);
+      await this.token.update(formData);
     }
   }
 

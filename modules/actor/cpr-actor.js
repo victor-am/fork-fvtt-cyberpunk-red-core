@@ -1,9 +1,10 @@
 /* globals Actor, game, getProperty, setProperty, hasProperty, duplicate */
-import CPRChat from "../chat/cpr-chat.js";
-import * as CPRRolls from "../rolls/cpr-rolls.js";
-import CPRLedger from "../dialog/cpr-ledger-form.js";
-import CPR from "../system/config.js";
 import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
+import CPR from "../system/config.js";
+import CPRChat from "../chat/cpr-chat.js";
+import CPRCharacterActorSheet from "./sheet/cpr-character-sheet.js";
+import CPRLedger from "../dialog/cpr-ledger-form.js";
+import * as CPRRolls from "../rolls/cpr-rolls.js";
 import InstallCyberwarePrompt from "../dialog/cpr-install-cyberware-prompt.js";
 import LOGGER from "../utils/cpr-logger.js";
 import Rules from "../utils/cpr-rules.js";
@@ -90,16 +91,6 @@ export default class CPRActor extends Actor {
   }
 
   /**
-   * Does mostly nothing. We should probably get rid of this.
-   * TO BE REMOVED
-   * @return {Object} - a huge structured object representing actor data.
-   */
-  getData() {
-    LOGGER.trace("getData | CPRActor | Called.");
-    return this;
-  }
-
-  /**
    * The Active Effects do not have access to their parent at preparation time so we wait until
    * this stage to determine whether they are suppressed or not. Taken from dnd5e character code.
    *
@@ -145,15 +136,55 @@ export default class CPRActor extends Actor {
   }
 
   /**
-   * Characters and Mooks have ways to calculate derived stats, and they extend
-   * this method to do so.
+   * This is where derived stats are calculated, and the behavior is driven by which sheet
+   * (aka "app") is associated with the actor. This includes max HP, Humanity, Empathy, and
+   * Death Saves. Foror mooks we do not mess with Humanity.
    *
-   * @abstract
+   * @private
    */
-  // eslint-disable-next-line class-methods-use-this
   _calculateDerivedStats() {
     LOGGER.trace("_calculateDerivedStats | CPRActor | Called.");
-    throw new Error("This is an abstract method");
+    const cprData = this.system;
+    cprData.filteredItems = this.itemTypes;
+    const { derivedStats } = cprData;
+
+    // Walk & Run, from the Move/Run Action (pg 127)
+    derivedStats.walk.value = cprData.stats.move.value * 2;
+    derivedStats.run.value = cprData.stats.move.value * 4;
+
+    // seriously wounded
+    derivedStats.seriouslyWounded = Math.ceil(derivedStats.hp.max / 2);
+
+    // We need to always call this because if the actor was wounded and now is not, their
+    // value would be equal to max, however their current wound state was never updated.
+    this._setWoundState();
+    // Updated derivedStats variable with currentWoundState
+    derivedStats.currentWoundState = this.system.derivedStats.currentWoundState;
+
+    // Death save
+    let basePenalty = this.bonuses.deathSavePenalty; // 0 + active effects
+    const critInjury = cprData.filteredItems.criticalInjury;
+    critInjury.forEach((criticalInjury) => {
+      const { deathSaveIncrease } = criticalInjury.system;
+      if (deathSaveIncrease) {
+        basePenalty += 1;
+      }
+    });
+    derivedStats.deathSave.basePenalty = basePenalty;
+    derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
+    this.system.derivedStats = derivedStats;
+
+    // The rest is character-specific. We only calculate hp and humanity for characters because some mooks
+    // break the rules/standards.
+    if (Object.values(this.apps).some((app) => app instanceof CPRCharacterActorSheet)) {
+      derivedStats.hp.value = Math.min(
+        derivedStats.hp.value,
+        derivedStats.hp.max,
+      );
+      if (derivedStats.humanity.value > derivedStats.humanity.max) {
+        derivedStats.humanity.value = derivedStats.humanity.max;
+      }
+    }
   }
 
   /**
@@ -471,9 +502,9 @@ export default class CPRActor extends Actor {
    * Called when cyberware is installed, this method decreases Humanity on an actor, rolling
    * for the value if need be.
    *
-   * To Do: this should be in cpr-character only since Humanity is overlooked for NPCs, however
+   * You may think this should be in cpr-character only since Humanity is overlooked for NPCs, however
    * because users can switch between mook and character sheets independent of actor type, we
-   * have to keep this here for now. (i.e. they can create a mook but switch to the character sheet)
+   * have to keep this here. (i.e. they can create a mook but switch to the character sheet)
    *
    * @param {CPRItem} item - the Cyberware item being installed (provided just to name the roll)
    * @param {Object} amount - contains a humanityLoss attribute we use to reduce humanity.
@@ -512,9 +543,8 @@ export default class CPRActor extends Actor {
   /**
    * Persist life path information to the actor model
    *
-   * To Do: this should be in cpr-character only since Humanity is overlooked for NPCs, however
-   * because users can switch between mook and character sheets independent of actor type, we
-   * have to keep this here for now. (i.e. they can create a mook but switch to the character sheet)
+   * Again, this should be in cpr-character only since Humanity is overlooked for NPCs, but
+   * users can switch between sheet types.
    *
    * @param {Object} formData  - an object of answers provided by the user in a form
    * @returns {Object}
@@ -523,14 +553,6 @@ export default class CPRActor extends Actor {
     LOGGER.trace("setLifepath | CPRActor | Called.");
     return this.update(formData);
   }
-
-  /**
-   * Called when the user accepts the dialog box defining roles and which one is "active." The data
-   * is persisted to the actor object here.
-   *
-   * @param {Object} formData - an object of answers provided by the user in a form
-   * @returns {Object}
-   */
 
   /**
    * Return the skill level (number) for a given skill on the actor.
@@ -1326,5 +1348,42 @@ export default class CPRActor extends Actor {
       if (!confirmDelete) return;
     }
     effect.delete();
+  }
+
+  /**
+   * MOOK SPECIFIC CODE BELOW
+   *
+   * When a user changes sheets (character/mook), the type for the actor itself does not change.
+   * This forces us to put actor code in the same place, and have the sheets encode specific behaviors,
+   * not the actors.
+   *
+   * Why not put this in the mook sheet code? Because sometimes changes to the actor are made from other
+   * places like an item sheet or via automation from other modules.
+   */
+
+  /**
+   * Called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
+   * It handles the automatic equipping of gear and installation of cyberware.
+   *
+   * @param {CPRItem} item - the item that was dragged
+   */
+  handleMookDraggedItem(item) {
+    LOGGER.trace("handleMookDraggedItem | CPRActor | Called.");
+    LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
+    switch (item.type) {
+      case "clothing":
+      case "weapon":
+      case "gear":
+      case "armor": {
+        // chose change done for 0.8.x, and not the fix from dev, as it seems to work without it.
+        this.updateEmbeddedDocuments("Item", [{ _id: item._id, "system.equipped": "equipped" }]);
+        break;
+      }
+      case "cyberware": {
+        this.addCyberware(item._id);
+        break;
+      }
+      default:
+    }
   }
 }
