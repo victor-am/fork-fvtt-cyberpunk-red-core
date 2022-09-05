@@ -7,7 +7,7 @@
 -
 
 **Bug Fixes**
--
+#473 - Fashionware foundational item not migrated to v10 
 
 **Maintenance items**
 
