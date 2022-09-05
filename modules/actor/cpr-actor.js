@@ -3,7 +3,6 @@ import ConfirmPrompt from "../dialog/cpr-confirmation-prompt.js";
 import CPR from "../system/config.js";
 import CPRChat from "../chat/cpr-chat.js";
 import CPRCharacterActorSheet from "./sheet/cpr-character-sheet.js";
-import CPRLedger from "../dialog/cpr-ledger-form.js";
 import * as CPRRolls from "../rolls/cpr-rolls.js";
 import InstallCyberwarePrompt from "../dialog/cpr-install-cyberware-prompt.js";
 import LOGGER from "../utils/cpr-logger.js";
@@ -138,7 +137,7 @@ export default class CPRActor extends Actor {
   /**
    * This is where derived stats are calculated, and the behavior is driven by which sheet
    * (aka "app") is associated with the actor. This includes max HP, Humanity, Empathy, and
-   * Death Saves. Foror mooks we do not mess with Humanity.
+   * Death Saves. For mooks we skip humanity and hp calculations.
    *
    * @private
    */
@@ -185,42 +184,6 @@ export default class CPRActor extends Actor {
         derivedStats.humanity.value = derivedStats.humanity.max;
       }
     }
-  }
-
-  /**
-   * Calculate the character's max HP based on stats and effects.
-   *
-   * @return {Number}
-   */
-  calcMaxHp() {
-    LOGGER.trace("_calcMaxHp | CPRActor | Called.");
-    const { stats } = this.system;
-    let maxHp = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
-    maxHp += this.bonuses.maxHp; // from any active effects
-    return maxHp;
-  }
-
-  /**
-   * Calculate the character's Humanity based on stats and effects.
-   *
-   * @return {Number}
-   * @private
-   */
-  _calcMaxHumanity() {
-    LOGGER.trace("_calcMaxHumanity | CPRActor | Called.");
-    const cprData = this.system;
-    const { stats } = cprData;
-    let cyberwarePenalty = 0;
-    this.getInstalledCyberware().forEach((cyberware) => {
-      if (cyberware.system.type === "borgware") {
-        cyberwarePenalty += 4;
-      } else if (parseInt(cyberware.system.humanityLoss.static, 10) > 0) {
-        cyberwarePenalty += 2;
-      }
-    });
-    let maxHumanity = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
-    maxHumanity += this.bonuses.maxHumanity; // from any active effects
-    return maxHumanity;
   }
 
   /**
@@ -473,88 +436,6 @@ export default class CPRActor extends Actor {
   }
 
   /**
-   * Calculate the max humanity on this actor.
-   * If current humanity is full and the max changes, we should update the current and EMP to match only
-   * if the new max is less than the old max.
-   * We assume that to be preferred behavior more often than not, especially during character creation.
-   *
-   * @callback
-   */
-  async setMaxHumanity() {
-    LOGGER.trace("setMaxHumanity | CPRActor | Called.");
-    const maxHumanity = this._calcMaxHumanity();
-    const { humanity } = this.system.derivedStats;
-    if (humanity.max === humanity.value && maxHumanity < humanity.max) {
-      await this.update({
-        "system.derivedStats.humanity.max": maxHumanity,
-        "system.derivedStats.humanity.value": maxHumanity,
-        "system.stats.emp.value": Math.floor(humanity.value / 10),
-      });
-    } else {
-      await this.update({
-        "system.derivedStats.humanity.max": maxHumanity,
-        "system.stats.emp.value": Math.floor(humanity.value / 10),
-      });
-    }
-  }
-
-  /**
-   * Called when cyberware is installed, this method decreases Humanity on an actor, rolling
-   * for the value if need be.
-   *
-   * You may think this should be in cpr-character only since Humanity is overlooked for NPCs, however
-   * because users can switch between mook and character sheets independent of actor type, we
-   * have to keep this here. (i.e. they can create a mook but switch to the character sheet)
-   *
-   * @param {CPRItem} item - the Cyberware item being installed (provided just to name the roll)
-   * @param {Object} amount - contains a humanityLoss attribute we use to reduce humanity.
-   *                          Will roll dice if it is a formula.
-   * @returns {@Promise}
-   */
-  async loseHumanityValue(item, amount) {
-    LOGGER.trace("loseHumanityValue | CPRActor | Called.");
-    if (amount.humanityLoss === "None") {
-      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was None.");
-      await this.setMaxHumanity();
-      return;
-    }
-    const { humanity } = this.system.derivedStats;
-    let value = Number.isInteger(humanity.value) ? humanity.value : humanity.max;
-    if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
-      const humRoll = new CPRRolls.CPRHumanityLossRoll(item.name, amount.humanityLoss);
-      await humRoll.roll();
-      value -= humRoll.resultTotal;
-      humRoll.entityData = { actor: this.id };
-      CPRChat.RenderRollCard(humRoll);
-      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was rolled.");
-    } else {
-      value -= parseInt(amount.humanityLoss, 10);
-      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was static.");
-    }
-
-    if (value <= 0) {
-      Rules.lawyer(false, "CPR.messages.youCyberpsycho");
-    }
-
-    await this.update({ "system.derivedStats.humanity.value": value });
-    await this.setMaxHumanity();
-  }
-
-  /**
-   * Persist life path information to the actor model
-   *
-   * Again, this should be in cpr-character only since Humanity is overlooked for NPCs, but
-   * users can switch between sheet types.
-   *
-   * @param {Object} formData  - an object of answers provided by the user in a form
-   * @returns {Object}
-   */
-  setLifepath(formData) {
-    LOGGER.trace("setLifepath | CPRActor | Called.");
-    return this.update(formData);
-  }
-
-  /**
    * Return the skill level (number) for a given skill on the actor.
    *
    * @param {String} skillName - the skill name (e.g. from CPR.skillList) to look up
@@ -770,6 +651,10 @@ export default class CPRActor extends Actor {
    * Return whether a property in actor data is a ledgerProperty. This means it has
    * two (sub-)properties, "value", and "transactions".
    *
+   * XXX: This method is copied to cpr-container.js because CPRContainerActor does not inherit
+   *      from this class. We could fix that, but then all other code in that file would be added
+   *      here, which is already long. If you make changes here, be sure to consider them there too.
+   *
    * @param {String} prop - name of the property that has a ledger
    * @returns {Boolean}
    */
@@ -785,23 +670,6 @@ export default class CPRActor extends Actor {
       return false;
     }
     return true;
-  }
-
-  /**
-   * Pop up a dialog box with ledger records for a given property.
-   *
-   * @param {String} prop - name of the property that has a ledger
-   */
-  showLedger(prop) {
-    LOGGER.trace("showLedger | CPRActor | Called.");
-    if (this.isLedgerProperty(prop)) {
-      const led = new CPRLedger();
-      led.setActor(this);
-      led.setLedgerContent(prop, this.listRecords(prop));
-      led.render(true);
-    } else {
-      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.ledgerErrorIsNoLedger"));
-    }
   }
 
   /**
@@ -1351,15 +1219,135 @@ export default class CPRActor extends Actor {
   }
 
   /**
-   * MOOK SPECIFIC CODE BELOW
+   * Warning!
    *
    * When a user changes sheets (character/mook), the type for the actor itself does not change.
    * This forces us to put actor code in the same place, and have the sheets encode specific behaviors,
-   * not the actors.
-   *
-   * Why not put this in the mook sheet code? Because sometimes changes to the actor are made from other
-   * places like an item sheet or via automation from other modules.
+   * not the actors. Below you're going to see methods that look like they belong in cpr-mook.js
+   * or cpr-character.js, but doing so will result in broken functionality if a user swaps sheets.
    */
+
+  /** CHARACTER SPECIFIC CODE */
+
+  /**
+   * Calculate the character's max HP based on stats and effects.
+   *
+   * @return {Number}
+   */
+  calcMaxHp() {
+    LOGGER.trace("_calcMaxHp | CPRActor | Called.");
+    const { stats } = this.system;
+    let maxHp = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
+    maxHp += this.bonuses.maxHp; // from any active effects
+    return maxHp;
+  }
+
+  /**
+   * Calculate the character's Humanity based on stats and effects.
+   *
+   * @return {Number}
+   * @private
+   */
+  _calcMaxHumanity() {
+    LOGGER.trace("_calcMaxHumanity | CPRActor | Called.");
+    const cprData = this.system;
+    const { stats } = cprData;
+    let cyberwarePenalty = 0;
+    this.getInstalledCyberware().forEach((cyberware) => {
+      if (cyberware.system.type === "borgware") {
+        cyberwarePenalty += 4;
+      } else if (parseInt(cyberware.system.humanityLoss.static, 10) > 0) {
+        cyberwarePenalty += 2;
+      }
+    });
+    let maxHumanity = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
+    maxHumanity += this.bonuses.maxHumanity; // from any active effects
+    return maxHumanity;
+  }
+
+  /**
+   * Calculate the max humanity on this actor.
+   * If current humanity is full and the max changes, we should update the current and EMP to match only
+   * if the new max is less than the old max.
+   * We assume that to be preferred behavior more often than not, especially during character creation.
+   *
+   * @callback
+   */
+  async setMaxHumanity() {
+    LOGGER.trace("setMaxHumanity | CPRActor | Called.");
+    const maxHumanity = this._calcMaxHumanity();
+    const { humanity } = this.system.derivedStats;
+    if (humanity.max === humanity.value && maxHumanity < humanity.max) {
+      await this.update({
+        "system.derivedStats.humanity.max": maxHumanity,
+        "system.derivedStats.humanity.value": maxHumanity,
+        "system.stats.emp.value": Math.floor(humanity.value / 10),
+      });
+    } else {
+      await this.update({
+        "system.derivedStats.humanity.max": maxHumanity,
+        "system.stats.emp.value": Math.floor(humanity.value / 10),
+      });
+    }
+  }
+
+  /**
+   * Called when cyberware is installed, this method decreases Humanity on an actor, rolling
+   * for the value if need be.
+   *
+   * You may think this should be in cpr-character only since Humanity is overlooked for NPCs, however
+   * because users can switch between mook and character sheets independent of actor type, we
+   * have to keep this here. (i.e. they can create a mook but switch to the character sheet)
+   *
+   * @param {CPRItem} item - the Cyberware item being installed (provided just to name the roll)
+   * @param {Object} amount - contains a humanityLoss attribute we use to reduce humanity.
+   *                          Will roll dice if it is a formula.
+   * @returns {@Promise}
+   */
+  async loseHumanityValue(item, amount) {
+    LOGGER.trace("loseHumanityValue | CPRActor | Called.");
+    if (amount.humanityLoss === "None") {
+      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was None.");
+      await this.setMaxHumanity();
+      return;
+    }
+    const { humanity } = this.system.derivedStats;
+    let value = Number.isInteger(humanity.value) ? humanity.value : humanity.max;
+    if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
+      const humRoll = new CPRRolls.CPRHumanityLossRoll(item.name, amount.humanityLoss);
+      await humRoll.roll();
+      value -= humRoll.resultTotal;
+      humRoll.entityData = { actor: this.id };
+      CPRChat.RenderRollCard(humRoll);
+      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was rolled.");
+    } else {
+      value -= parseInt(amount.humanityLoss, 10);
+      LOGGER.trace("CPR Actor loseHumanityValue | Called. | humanityLoss was static.");
+    }
+
+    if (value <= 0) {
+      Rules.lawyer(false, "CPR.messages.youCyberpsycho");
+    }
+
+    await this.update({ "system.derivedStats.humanity.value": value });
+    await this.setMaxHumanity();
+  }
+
+  /**
+   * Persist life path information to the actor model
+   *
+   * Again, this should be in cpr-character only since Humanity is overlooked for NPCs, but
+   * users can switch between sheet types.
+   *
+   * @param {Object} formData  - an object of answers provided by the user in a form
+   * @returns {Object}
+   */
+  setLifepath(formData) {
+    LOGGER.trace("setLifepath | CPRActor | Called.");
+    return this.update(formData);
+  }
+
+  /** MOOK SPECIFIC CODE */
 
   /**
    * Called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet

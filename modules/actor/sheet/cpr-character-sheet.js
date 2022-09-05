@@ -103,11 +103,11 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
     // IP related listeners
     html.find(".improvement-points-edit-button").click(() => this._updateIp());
-    html.find(".improvement-points-open-ledger").click(() => this.actor.showLedger("improvementPoints"));
+    html.find(".improvement-points-open-ledger").click(() => this.showLedger("improvementPoints"));
 
     // Listeners for eurobucks (in gear tab)
     html.find(".eurobucks-input-button").click((event) => this._updateEurobucks(event));
-    html.find(".eurobucks-open-ledger").click(() => this.actor.showLedger("wealth"));
+    html.find(".eurobucks-open-ledger").click(() => this.showLedger("wealth"));
 
     // Create item in inventory
     html.find(".item-create").click((event) => this._createInventoryItem(event));

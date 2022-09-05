@@ -82,7 +82,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     html.find(".checkbox-toggle").click((event) => this._checkboxToggle(event));
     // Eurobucks management
     html.find(".eurobucks-input-button").click((event) => this._updateEurobucks(event));
-    html.find(".eurobucks-open-ledger").click(() => this.actor.showLedger());
+    html.find(".eurobucks-open-ledger").click(() => this.showLedger("wealth"));
     // Configure container to purchase items from players
     html.find(".vendor-configure-sell-to").click(() => this._configureSellTo());
 

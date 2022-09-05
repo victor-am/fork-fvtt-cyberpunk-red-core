@@ -1,6 +1,5 @@
-/* globals Actor, getProperty, setProperty, duplicate */
+/* globals Actor, getProperty, hasProperty, setProperty, duplicate */
 import SystemUtils from "../utils/cpr-systemUtils.js";
-import CPRLedger from "../dialog/cpr-ledger-form.js";
 import LOGGER from "../utils/cpr-logger.js";
 
 /**
@@ -153,15 +152,24 @@ export default class CPRContainerActor extends Actor {
   }
 
   /**
-   * Pop up a dialog box with ledger records for a given property.
+   * Return whether a property in actor data is a ledgerProperty. This means it has
+   * two (sub-)properties, "value", and "transactions".
    *
+   * @param {String} prop - name of the property that has a ledger
+   * @returns {Boolean}
    */
-  showLedger() {
-    LOGGER.trace("showLedger | CPRContainerActor | Called.");
-    const led = new CPRLedger();
-    led.setActor(this);
-    led.setLedgerContent("wealth", getProperty(this.system, `wealth.transactions`));
-    led.render(true);
+  isLedgerProperty(prop) {
+    LOGGER.trace("isLedgerProperty | CPRContainerActor | Called.");
+    const ledgerData = getProperty(this.system, prop);
+    if (!hasProperty(ledgerData, "value")) {
+      SystemUtils.DisplayMessage("error", SystemUtils.Format("CPR.ledger.errorMessage.missingValue", { prop }));
+      return false;
+    }
+    if (!hasProperty(ledgerData, "transactions")) {
+      SystemUtils.DisplayMessage("error", SystemUtils.Format("CPR.ledger.errorMessage.missingTransactions", { prop }));
+      return false;
+    }
+    return true;
   }
 
   /**

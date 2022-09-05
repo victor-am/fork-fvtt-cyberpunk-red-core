@@ -3,6 +3,7 @@ import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
 import CPRChat from "../../chat/cpr-chat.js";
+import CPRLedger from "../../dialog/cpr-ledger-form.js";
 import LOGGER from "../../utils/cpr-logger.js";
 import RollCriticalInjuryPrompt from "../../dialog/cpr-roll-critical-injury-prompt.js";
 import Rules from "../../utils/cpr-rules.js";
@@ -250,7 +251,7 @@ export default class CPRActorSheet extends ActorSheet {
 
     // Reputation related listeners
     html.find(".reputation-edit-button").click(() => this._updateReputation());
-    html.find(".reputation-open-ledger").click(() => this.actor.showLedger("reputation"));
+    html.find(".reputation-open-ledger").click(() => this.showLedger("reputation"));
 
     super.activateListeners(html);
   }
@@ -1000,6 +1001,23 @@ export default class CPRActorSheet extends ActorSheet {
 
     const ledgerProp = this.actor.deltaLedgerProperty(ledgerName, tempVal, reason);
     return ledgerProp;
+  }
+
+  /**
+   * Pop up a dialog box with ledger records for a given property.
+   *
+   * @param {String} prop - name of the property that has a ledger
+   */
+  showLedger(prop) {
+    LOGGER.trace("showLedger | CPRActor | Called.");
+    if (this.actor.isLedgerProperty(prop)) {
+      const led = new CPRLedger();
+      led.setActor(this);
+      led.setLedgerContent(prop, this.actor.listRecords(prop));
+      led.render(true);
+    } else {
+      SystemUtils.DisplayMessage("error", SystemUtils.Localize("CPR.messages.ledgerErrorIsNoLedger"));
+    }
   }
 
   /**
