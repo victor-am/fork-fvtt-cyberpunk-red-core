@@ -155,6 +155,10 @@ export default class CPRContainerActor extends Actor {
    * Return whether a property in actor data is a ledgerProperty. This means it has
    * two (sub-)properties, "value", and "transactions".
    *
+   * XXX: This method is copied from cpr-actor.js because CPRContainerActor does not inherit
+   *      from that class. We could fix that, but then all other code in this file would be added
+   *      to an already long file. If you make changes here, be sure to consider them there too.
+   *
    * @param {String} prop - name of the property that has a ledger
    * @returns {Boolean}
    */

@@ -17,6 +17,36 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
  */
 export default class CPRActor extends Actor {
   /**
+   * create() is called when creating the actor, but it's not the same as a constructor. In the
+   * code here, we pre-populate characters with skills, core cyberware, and other baked-in items.
+   *
+   * @async
+   * @override
+   * @static
+   * @param {Object} data - a complex structure with details and data to stuff into the actor object
+   * @param {Object} options - not used here, but required by the parent class
+   */
+  static async create(data, options) {
+    LOGGER.trace("create | CPRCharacterActor | called.");
+    const createData = data;
+    if (typeof data.system === "undefined") {
+      LOGGER.trace("create | New Actor | CPRCharacterActor | called.");
+      createData.items = [];
+      const tmpItems = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
+      tmpItems.forEach((item) => {
+        const cprItem = {
+          name: item.name,
+          img: item.img,
+          type: item.type,
+          system: item.system,
+        };
+        createData.items.push(cprItem);
+      });
+    }
+    super.create(createData, options);
+  }
+
+  /**
    * Called when an actor is passed to the client, we override this to calculate
    * derived stats and massage some of the data for convenience later.
    *
@@ -139,6 +169,8 @@ export default class CPRActor extends Actor {
    * (aka "app") is associated with the actor. This includes max HP, Humanity, Empathy, and
    * Death Saves. For mooks we skip humanity and hp calculations.
    *
+   * To Do: this is called 3 times when creating an actor... why?
+   *
    * @private
    */
   _calculateDerivedStats() {
@@ -173,9 +205,17 @@ export default class CPRActor extends Actor {
     derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
     this.system.derivedStats = derivedStats;
 
-    // The rest is character-specific. We only calculate hp and humanity for characters because some mooks
-    // break the rules/standards.
-    if (Object.values(this.apps).some((app) => app instanceof CPRCharacterActorSheet)) {
+    LOGGER.debug("dumping actor");
+    LOGGER.debugObject(this);
+    if (typeof this.apps === "undefined") {
+      // this happens when the actor is being created, we hardcode defaults here based on 6s in all stats
+      derivedStats.hp.value = 40;
+      derivedStats.hp.max = 40;
+      derivedStats.humanity.value = 60;
+      derivedStats.humanity.max = 60;
+    } else if (Object.values(this.apps).some((app) => app instanceof CPRCharacterActorSheet)) {
+      // The rest is character-specific. We only calculate hp and humanity for characters because some mooks
+      // break the rules/standards.
       derivedStats.hp.value = Math.min(
         derivedStats.hp.value,
         derivedStats.hp.max,
