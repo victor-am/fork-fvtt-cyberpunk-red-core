@@ -66,7 +66,7 @@
 			"description": "<p>Soporta un humano de tamaño completo, cura las lesiones más rápido de lo normal. </p>"
 		},
 		"Cyberdeck": {
-			"name": "Cyberdeck",
+			"name": "Cyberterminal",
 			"description": "<p><span style=\"color: #191813; font-family: 'Audimat Mono'; background-color: #eaeaea;\">Terminal de Netrunner. 7 ranuras.</span></p>"
 		},
 		"Disposable Cell Phone": {
@@ -86,7 +86,7 @@
 			"description": "<p>Instrumento musical. Los instrumentos eléctricos requieren un amplificador.</p>"
 		},
 		"Excellent Quality Cyberdeck": {
-			"name": "Ciberdeck de calidad excelente",
+			"name": "Cyberterminal de calidad excelente",
 			"description": "<p><span style=\"color: #191813; font-family: 'Audimat Mono'; background-color: #eaeaea;\">Terminal de Netrunner. 9 ranuras.</span></p>"
 		},
 		"Flashlight": {
@@ -111,7 +111,7 @@
 		},
 		"Handcuffs": {
 			"name": "Esposas",
-			"description": "<p>BODY>10 las puede romper.</p>"
+			"description": "<p>TCO mayor a 10 las puede romper.</p>"
 		},
 		"Homing Tracer": {
 			"name": "Dispositivo de Rastreo",
@@ -127,11 +127,11 @@
 		},
 		"Linear Frame β (Beta)": {
 			"name": "Armazón Lineal β (beta)",
-			"description": "<p>Exosqueleto. Requiere 2 conectores de interfaz. Aumenta BODY a 14 mientras estás conectado. Sin cambios en tu HP o Salvación contra Muerte. </p>"
+			"description": "<p>Exosqueleto. Requiere 2 conectores de interfaz. Aumenta TCO a 14 mientras estás conectado. Sin cambios en tu HP o Salvación contra Muerte. </p>"
 		},
 		"Linear Frame ∑ (Sigma)": {
 			"name": "Armazón Lineal ∑ (Sigma)",
-			"description": "<p>Exosqueleto. Requiere 1 conector de interfaz. Aumenta BODY a 12 mientras estás conectado. Sin cambios en tu HP o Salvación contra Muerte. </p>"
+			"description": "<p>Exosqueleto. Requiere 1 conector de interfaz. Aumenta TCO a 12 mientras estás conectado. Sin cambios en tu HP o Salvación contra Muerte. </p>"
 		},
 		"Lock Picking Set": {
 			"name": "Kit para Forzar Cerraduras",
@@ -146,7 +146,7 @@
 			"description": "<p>+2 tiradas de Primeros Auxilios o Paramédicos.</p>"
 		},
 		"Medtech Bag": {
-			"name": "Bolsa Medtech",
+			"name": "Bolsa Medtec",
 			"description": "<p>Equipos médicos,</p>"
 		},
 		"Memory Chip": {
@@ -162,7 +162,7 @@
 			"description": "<p>Duración: 6h. Soporta dos instrumentos.</p>"
 		},
 		"Poor Quality Cyberdeck": {
-			"name": "Ciberdeck de baja calidad",
+			"name": "Cyberterminal de baja calidad",
 			"description": "<p><span style=\"color: #191813; font-family: 'Audimat Mono'; background-color: #eaeaea;\">Terminal de Netrunner. 5 ranuras.</span></p>"
 		},
 		"Radar Detector": {
@@ -206,12 +206,12 @@
 			"description": "<p>Dosis dura 4 horas. <br />El usuario ha aumentado REF por 1 puntos durante la duración. <br /><br />DV secundario: 15. <br />Cuando la dosis se desgasta, el usuario tira WILL + Resistir Torturas/Drogas + 1d10 contra DV secundario. Si esto falla, toman el efecto secundario como se indica en el libro de reglas básico.&nbsp;</p>\n<p>&nbsp;</p>"
 		},
 		"Tech Bag": {
-			"name": "Bolsa de Técnica",
+			"name": "Bolsa Técnica",
 			"description": "<p>Bolsa de herramientas.</p>"
 		},
 		"Techscanner": {
 			"name": "Escáner técnico",
-			"description": "<p>+2 a múltiples habilidades basadas en TECH.</p>"
+			"description": "<p>+2 a múltiples habilidades basadas en TEC.</p>"
 		},
 		"Techtool": {
 			"name": "Herramienta Técnica",
