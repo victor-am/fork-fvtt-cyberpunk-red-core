@@ -7,7 +7,7 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="system.variety" data-dtype="{{item.system.variety}}">
-            {{#select system.variety}}
+            {{#select item.system.variety}}
                 {{#each (cprFindConfigObj "ammoVariety") as |variety v|}}
                     <option value="{{v}}">{{localize variety}}</option>
                 {{/each}}
@@ -22,7 +22,7 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="system.type" data-dtype="{{item.system.type}}">
-            {{#select system.type}}
+            {{#select item.system.type}}
                 {{#each (cprFindConfigObj "ammoType") as |type t|}}
                     <option value="{{t}}">{{localize type}}</option>
                 {{/each}}

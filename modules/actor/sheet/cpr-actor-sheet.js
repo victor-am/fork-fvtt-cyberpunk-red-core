@@ -72,9 +72,9 @@ export default class CPRActorSheet extends ActorSheet {
    */
   getData() {
     LOGGER.trace("getData | CPRActorSheet | Called.");
-    const data = super.getData();
-    const cprActorData = data.data.system;
-    cprActorData.filteredItems = this.actor.system.filteredItems;
+    const foundryData = super.getData();
+    const cprActorData = foundryData.actor.system;
+    // cprActorData.filteredItems = this.actor.system.filteredItems;
     if (this.actor.type === "mook" || this.actor.type === "character") {
       cprActorData.installedCyberware = this._getSortedInstalledCyberware();
 
@@ -96,11 +96,11 @@ export default class CPRActorSheet extends ActorSheet {
       });
       cprActorData.filteredItems.programsInstalled = programsInstalled;
       cprActorData.filteredEffects = this.prepareActiveEffectCategories();
-      data.actor.system = cprActorData;
+      foundryData.data.system = cprActorData;
     }
     // This appears to have been removed in V10?
-    data.isGM = game.user.isGM;
-    return data;
+    foundryData.isGM = game.user.isGM;
+    return foundryData;
   }
 
   /**
@@ -493,7 +493,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
       // Only update if we aren't deleting the item.  Item deletion is handled in this._deleteOwnedItem()
       if (actionType !== "delete") {
-        this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.system }]);
+        this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, system: item.system }]);
       }
     }
   }
@@ -538,7 +538,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   _updateOwnedItem(item) {
     LOGGER.trace("_updateOwnedItem | CPRActorSheet | Called.");
-    return this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.system }]);
+    return this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, system: item.system }]);
   }
 
   /**

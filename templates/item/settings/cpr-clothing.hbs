@@ -6,7 +6,7 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="system.style" data-dtype="{{item.system.style}}">
-            {{#select system.style}}
+            {{#select item.system.style}}
                 {{#each (cprFindConfigObj "clothingStyle") as |style s| }}
                     <option value="{{s}}">{{localize style}}</option>
                 {{/each}}

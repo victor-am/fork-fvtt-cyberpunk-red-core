@@ -765,9 +765,9 @@ export default class CPRItemSheet extends ItemSheet {
     cyberdeck.uninstallPrograms(unselectedPrograms);
     cyberdeck.installPrograms(selectedPrograms);
 
-    const updateList = [{ _id: cyberdeck.id, data: cyberdeck.system }];
+    const updateList = [{ _id: cyberdeck.id, system: cyberdeck.system }];
     programList.forEach((program) => {
-      updateList.push({ _id: program.id, data: program.system });
+      updateList.push({ _id: program.id, system: program.system });
     });
     await actor.updateEmbeddedDocuments("Item", updateList);
   }
@@ -792,7 +792,7 @@ export default class CPRItemSheet extends ItemSheet {
 
     cyberdeck.uninstallPrograms([program]);
 
-    const updateList = [{ _id: cyberdeck._id, data: cyberdeck.system }];
+    const updateList = [{ _id: cyberdeck._id, system: cyberdeck.system }];
     updateList.push({ _id: program._id, "data.isInstalled": false });
     await actor.updateEmbeddedDocuments("Item", updateList);
   }

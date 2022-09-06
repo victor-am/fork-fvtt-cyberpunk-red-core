@@ -30,7 +30,7 @@
             <div class="mook-wounded">
               <span class="text-padding-left">{{localize "CPR.mookSheet.woundState"}}</span>
               <div class="bg-white text-center text-normal text-bold fg-black">
-                {{localize (cprFindConfigValue "woundState" system.derivedStats.currentWoundState)}}
+                {{localize (cprFindConfigValue "woundState" actor.system.derivedStats.currentWoundState)}}
               </div>
             </div>
             <div class="mook-deathsave">

@@ -41,9 +41,9 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
    */
   getData() {
     LOGGER.trace("getData | CPRContainerSheet | Called.");
-    const data = super.getData();
-    const cprActorData = data.actor.system;
-    cprActorData.isGM = game.user.isGM;
+    const foundryData = super.getData();
+    const cprActorData = foundryData.actor.system;
+
     cprActorData.userOwnedActors = game.actors.filter((a) => a.isOwner && a.type === "character");
     cprActorData.userOwnedActors.unshift({ id: "", name: "--" });
     if (game.user.character !== undefined && game.user.character !== null) {
@@ -58,10 +58,8 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       cprActorData.userCharacter = "";
       cprActorData.tradePartnerId = this.tradePartnerId;
     }
-
-    data.data = cprActorData;
-    data.actor.system = cprActorData;
-    return data;
+    foundryData.data.system = cprActorData;
+    return foundryData;
   }
 
   /**
@@ -166,7 +164,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       // Only update if we aren't deleting the item.  Item deletion is handled in this._deleteOwnedItem()
       // The same holds for purchasing the item, as it is handled by this._purchaseItem()
       if (actionType !== "delete" && actionType !== "purchase") {
-        this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.system }]);
+        this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, system: item.system }]);
       }
     }
   }
@@ -241,18 +239,19 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     if (!all) {
       const itemText = SystemUtils.Format("CPR.dialog.purchasePart.text", { itemName: item.name });
       const formData = await PurchasePartPrompt.RenderPrompt(itemText).catch((err) => LOGGER.debug(err));
+      const inventoryAmount = (typeof item.data.data.amount !== "undefined") ? parseInt(item.data.data.amount, 10) : 1;
       if (formData === undefined) {
         return;
       }
       const newAmount = parseInt(formData.purchaseAmount, 10);
-      if (newAmount < 1 || newAmount >= parseInt(item.system.amount, 10)) {
+      if (newAmount < 1 || newAmount >= inventoryAmount) {
         SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.dialog.purchasePart.wrongAmountWarning"));
         return;
       }
       transferredItemData.system.amount = newAmount;
       cost *= newAmount;
     } else {
-      cost *= item.system.amount;
+      cost *= (typeof item.data.data.amount !== "undefined") ? parseInt(item.data.data.amount, 10) : 1;
     }
     const tradePartnerActor = game.actors.get(this.tradePartnerId);
     if (!getProperty(this.actor, "flags.cyberpunk-red-core.items-free")) {
