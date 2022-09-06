@@ -2,8 +2,8 @@
 	"label": "Armadura",
 	"entries": {
 		"Bodyweight Suit": {
-			"name": "Traje de Peso Corporal",
-			"description": "<p>Traje de piel blindado de Netrunner. Puede almacenar Cyberdeck y admitir enchufes de interfaz. No se puede comprar en dos piezas. Usar siempre tanto en la Cabeza como en el Cuerpo. Añade una Ranura de opción de Hardware a Cyberdeck conectado. Sin penalidad de armadura.</p>"
+			"name": "Traje Corporal",
+			"description": "<p>Traje de piel blindado de Netrunner. Puede almacenar Cyberdeck y admitir enchufes de interfaz. No se puede comprar en dos piezas. Usar siempre tanto en la Cabeza como en el Cuerpo. Añade una Ranura de opción de Hardware a Cyberterminal conectado. Sin penalidad de armadura.</p>"
 		},
 		"Bullet Proof Shield": {
 			"name": "Escudo a prueba de balas",
