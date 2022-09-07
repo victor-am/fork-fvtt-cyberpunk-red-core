@@ -12,9 +12,21 @@
     <input class="" name="system.stats.{{s}}.value" type="number" value="{{this.value}}" />
     {{else}}
     <div class="min-of-max-container">
+      {{#if (cprCompare (cprCompare this.value ">" 9) "||" (cprCompare this.max ">" 9))}}
+      <div class="text-smaller">
+      {{/if}}
       <input class="" name="system.stats.{{s}}.value" type="number" value="{{this.value}}" />
+      {{#if (cprCompare (cprCompare this.value ">" 9) "||" (cprCompare this.max ">" 9))}}
+      </div>
+      {{/if}}
       <div class="of-stat bg-red fg-white text-normal text-bold">of</div>
+      {{#if (cprCompare (cprCompare this.value ">" 9) "||" (cprCompare this.max ">" 9))}}
+      <div class="text-smaller">
+      {{/if}}
       <input class="" name="system.stats.{{s}}.max" type="number" value="{{this.max}}" />
+      {{#if (cprCompare (cprCompare this.value ">" 9) "||" (cprCompare this.max ">" 9))}}
+      </div>
+      {{/if}}
     </div>
     {{/unless}}
   </div>

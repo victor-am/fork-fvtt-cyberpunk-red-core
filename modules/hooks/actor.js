@@ -126,6 +126,17 @@ const actorHooks = () => {
         }
       }
     }
+
+    if (updatedData.system && updatedData.system.stats && (updatedData.system.stats.emp || updatedData.system.stats.luck)) {
+      const updatedValue = (updatedData.system.stats.emp) ? updatedData.system.stats.emp.value : updatedData.system.stats.luck.value;
+      const updatedMax = (updatedData.system.stats.emp) ? updatedData.system.stats.emp.max : updatedData.system.stats.luck.max;
+      if (updatedValue && Number(updatedValue) > 9) {
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.doubleDigitStatValueWarn"));
+      }
+      if (updatedMax && Number(updatedMax) > 9) {
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.doubleDigitStatMaxWarn"));
+      }
+    }
   });
 };
 

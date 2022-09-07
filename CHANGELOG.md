@@ -7,7 +7,8 @@
 -
 
 **Bug Fixes**
-#473 - Fashionware foundational item not migrated to v10 
+#473 - Fashionware foundational item not migrated to v10
+#472 - EMP & Luck Values/Max greater than 9 mess with the formatting.  If a user enters a value > 9, a warning banner is shown letting them know there will be formatting issues and the font size of the numbers is reduced by one level.
 
 **Maintenance items**
 
