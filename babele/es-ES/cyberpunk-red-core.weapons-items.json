@@ -69,7 +69,7 @@
             "name": "Cuchillo de Combate (Pobre)"
         },
         "Constitution Arms Hurricane Assault Weapon": {
-            "description": "<p>Una escopeta exótica con ROF 2. No puede hacer disparos dirigidos y necesita TCO 11 o superior (a menos que esté montada). Consulte la descripción completa del artículo en pg. 348.</p>",
+            "description": "<p>Una escopeta exótica con VD 2. No puede hacer disparos dirigidos y necesita TCO 11 o superior (a menos que esté montada). Consulte la descripción completa del artículo en pg. 348.</p>",
             "name": "Armas de Asalto de Hurricane Constitution"
         },
         "Crossbow": {
@@ -157,7 +157,7 @@
             "name": "Hojas de Helicóptero (Pobre)"
         },
         "Kendachi Mono-Three": {
-            "description": "<p>Un arma cuerpo a cuerpo muy pesada exótica y de excelente calidad a dos manos o una mano. Parece como un katana de alta tecnología. Consulte la descripción completa del objeto en pg. 348.</p>",
+            "description": "<p>Un arma cuerpo a cuerpo muy pesada, exótica y de excelente calidad a dos manos o una mano. Parece como un katana de alta tecnología. Consulte la descripción completa del objeto en pg. 348.</p>",
             "name": "Kendachi Monokatana"
         },
         "Lead Pipe": {
@@ -209,7 +209,7 @@
             "name": "Microondas"
         },
         "Militech \"Cowboy\" U-56 Grenade Launcher": {
-            "description": "<p>Un lanzador exótico de granadas con 2 ROF. Aporta cuatro granadas. Requiere TCO 11 o superior (a menos que se monte). Consulte la descripción completa del artículo en pg. 349.</p>",
+            "description": "<p>Un lanzador exótico de granadas con 2 VD. Aporta cuatro granadas. Requiere TCO 11 o superior (a menos que se monte). Consulte la descripción completa del artículo en pg. 349.</p>",
             "name": "Lanzador de Granadas U-56 Militech \"Cowboy\""
         },
         "Naginata": {
