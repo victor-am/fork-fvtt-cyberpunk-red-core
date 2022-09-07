@@ -1064,7 +1064,7 @@ export default class CPRActorSheet extends ActorSheet {
   async _onDrop(event) {
     LOGGER.trace("_onDrop | CPRActorSheet | called.");
     const dragData = TextEditor.getDragEventData(event);
-    if (dragData.system.actorId !== undefined) {
+    if (dragData.system && dragData.system.actorId !== undefined) {
       // Transfer ownership from one player to another
       const actor = (Object.keys(game.actors.tokens).includes(dragData.system.tokenId))
         ? game.actors.tokens[dragData.system.tokenId]

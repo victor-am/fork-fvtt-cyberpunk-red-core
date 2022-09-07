@@ -506,6 +506,10 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
    */
   async _onDrop(event) {
     LOGGER.trace("_onDrop | CPRContainerSheet | Called.");
+    const containerType = getProperty(this.actor, "flags.cyberpunk-red-core.container-type");
+    if (!containerType) {
+      await this.actor.setContainerType("shop");
+    }
     const playersCanCreate = getProperty(this.actor, "flags.cyberpunk-red-core.players-create");
     const playersCanSell = getProperty(this.actor, "flags.cyberpunk-red-core.players-sell");
     if (game.user.isGM || playersCanCreate || playersCanSell) {
