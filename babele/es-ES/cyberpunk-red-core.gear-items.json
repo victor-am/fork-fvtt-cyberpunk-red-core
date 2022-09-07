@@ -27,15 +27,15 @@
 		},
 		"Black Lace": {
 			"name": "Lazo Negro",
-			"description": "<p>La dosis dura 24 horas. <br />El usuario tira 2d6 Pérdida de Humanidad y pierde esto temporalmente mientras está afectado. El usuario ignora el estado herido seriamente durante la duración.<br /><br /> DV secundaria:17. <br />Cuando la dosis se desgasta, el usuario tira WILL + Resistir Torturas/Drogas + 1d10 contra DVD secundario. Si esto falla, toman el efecto secundario como se indica en el libro de reglas básico. &nbsp;</p>"
+			"description": "<p>La dosis dura 24 horas. <br />El usuario tira 2d6 Pérdida de Humanidad y pierde esto temporalmente mientras está afectado. El usuario ignora el estado herido seriamente durante la duración.<br /><br /> DV secundaria:17. <br />Cuando la dosis se desgasta, el usuario tira VOL + Resistir Torturas/Drogas + 1d10 contra DVD secundario. Si esto falla, toman el efecto secundario como se indica en el libro de reglas básico. &nbsp;</p>"
 		},
 		"Blue Glass": {
 			"name": "Cristal Azul",
-			"description": "<p>La dosis dura 4 horas. <br />El GM puede indicar ocasionalmente al usuario que está viendo remolinos de colores. Cuando esto ocurre, el usuario pierde su acción en un solo turno.<br /><br />DV secundario: 15. <br />Cuando la dosis se desgasta, el usuario tira WILL + Resistir Torturas/Drogas + 1d10 contra DV secundario. Si esto falla, toman el efecto secundario como se indica en el libro de reglas básico. &nbsp;</p>"
+			"description": "<p>La dosis dura 4 horas. <br />El GM puede indicar ocasionalmente al usuario que está viendo remolinos de colores. Cuando esto ocurre, el usuario pierde su acción en un solo turno.<br /><br />DV secundario: 15. <br />Cuando la dosis se desgasta, el usuario tira VOL + Resistir Torturas/Drogas + 1d10 contra DV secundario. Si esto falla, toman el efecto secundario como se indica en el libro de reglas básico. &nbsp;</p>"
 		},
 		"Boost": {
 			"name": "Boost",
-			"description": "<p>Dose dura 24 horas. <br />El usuario ha aumentado INT por 2 puntos durante la duración. <br /><br />DV secundario: 17. <br />Cuando la dosis se desgasta, el usuario tira WILL + Resistir Torturas/Drogas + 1d10 contra DV secundario. Si esto falla, toman el efecto secundario como se indica en el libro de reglas básico.&nbsp;</p>"
+			"description": "<p>Dose dura 24 horas. <br />El usuario ha aumentado INT por 2 puntos durante la duración. <br /><br />DV secundario: 17. <br />Cuando la dosis se desgasta, el usuario tira VOL + Resistir Torturas/Drogas + 1d10 contra DV secundario. Si esto falla, toman el efecto secundario como se indica en el libro de reglas básico.&nbsp;</p>"
 		},
 		"Braindance Viewer": {
 			"name": "Visor de Braindance",
@@ -146,7 +146,7 @@
 			"description": "<p>+2 tiradas de Primeros Auxilios o Paramédicos.</p>"
 		},
 		"Medtech Bag": {
-			"name": "Bolsa Medtec",
+			"name": "Bolsa de Tecnomédico",
 			"description": "<p>Equipos médicos,</p>"
 		},
 		"Memory Chip": {
@@ -199,14 +199,14 @@
 		},
 		"Smash": {
 			"name": "Smash",
-			"description": "<p>Dosis dura 4 horas. <br />El usuario se siente feliz y satisfecho recibiendo un modificador temporal de +2 para: Bailar/Contorsionista/Conversación/Percepción Humana/Persuasión/Actuación. <br /><br />DV Secundaria: 15. <br />Cuando se agota la dosis, el usuario tira WILL + Resistir Tortura/Drogas + 1d10 contra DVD secundario. Si esto falla, toman el efecto secundario como se señala en el libro de reglas basico.&nbsp;</p>\n<p>&nbsp;</p>"
+			"description": "<p>Dosis dura 4 horas. <br />El usuario se siente feliz y satisfecho recibiendo un modificador temporal de +2 para: Bailar/Contorsionista/Conversación/Percepción Humana/Persuasión/Actuación. <br /><br />DV Secundaria: 15. <br />Cuando se agota la dosis, el usuario tira VOL + Resistir Tortura/Drogas + 1d10 contra DVD secundario. Si esto falla, toman el efecto secundario como se señala en el libro de reglas basico.&nbsp;</p>\n<p>&nbsp;</p>"
 		},
 		"Synthcoke": {
 			"name": "Sintecoca",
-			"description": "<p>Dosis dura 4 horas. <br />El usuario ha aumentado REF por 1 puntos durante la duración. <br /><br />DV secundario: 15. <br />Cuando la dosis se desgasta, el usuario tira WILL + Resistir Torturas/Drogas + 1d10 contra DV secundario. Si esto falla, toman el efecto secundario como se indica en el libro de reglas básico.&nbsp;</p>\n<p>&nbsp;</p>"
+			"description": "<p>Dosis dura 4 horas. <br />El usuario ha aumentado REF por 1 puntos durante la duración. <br /><br />DV secundario: 15. <br />Cuando la dosis se desgasta, el usuario tira VOL + Resistir Torturas/Drogas + 1d10 contra DV secundario. Si esto falla, toman el efecto secundario como se indica en el libro de reglas básico.&nbsp;</p>\n<p>&nbsp;</p>"
 		},
 		"Tech Bag": {
-			"name": "Bolsa Técnica",
+			"name": "Bolsa de Técnico",
 			"description": "<p>Bolsa de herramientas.</p>"
 		},
 		"Techscanner": {
