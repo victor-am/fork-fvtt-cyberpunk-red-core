@@ -44,8 +44,12 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     const foundryData = super.getData();
     const cprActorData = foundryData.actor.system;
 
-    cprActorData.userOwnedActors = game.actors.filter((a) => a.isOwner && a.type === "character");
+    cprActorData.userOwnedActors = [];
+    game.actors.filter((a) => a.isOwner && a.type === "character").forEach((a) => {
+      cprActorData.userOwnedActors.push({ id: a.id, name: a.name });
+    });
     cprActorData.userOwnedActors.unshift({ id: "", name: "--" });
+
     if (game.user.character !== undefined && game.user.character !== null) {
       cprActorData.userCharacter = game.user.character.id;
       if (!cprActorData.tradePartnerId) {
