@@ -4,6 +4,7 @@ This hotfix addresses the following issues:
   <li>Clicking the shield ablation arrow in the Fight Tab is now working properly.</li>
   <li>Entering a decimal point when modifying eurobucks no longer corrupts the eutobucks ledger.</li>
   <li>Checking Autofire in the Fight Tab now correctly uses the Autofire skill.</li>
+  <li>Using an image that is too large for the image block will hide any of the overflowing image.</li>
 </ul>
 <br>
 <b>Notes: 0.81.4</b>
