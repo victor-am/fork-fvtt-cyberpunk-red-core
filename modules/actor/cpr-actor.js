@@ -34,7 +34,6 @@ export default class CPRActor extends Actor {
         this._calculateDerivedStats();
       } else {
         const cprData = this.system;
-        cprData.filteredItems = this.itemTypes;
       }
     }
   }
@@ -247,7 +246,7 @@ export default class CPRActor extends Actor {
    */
   getInstalledCyberware() {
     LOGGER.trace("getInstalledCyberware | CPRActor | Called.");
-    return this.system.filteredItems.cyberware.filter((item) => item.system.isInstalled);
+    return this.itemTypes.cyberware.filter((item) => item.system.isInstalled);
   }
 
   /**
@@ -261,7 +260,7 @@ export default class CPRActor extends Actor {
     LOGGER.trace("getInstalledFoundationalCyberware | CPRActor | Called.");
     if (type) {
       if (type in CPR.cyberwareTypeList) {
-        return this.system.filteredItems.cyberware.filter(
+        return this.itemTypes.cyberware.filter(
           (item) => item.system.isInstalled
             && item.system.isFoundational
             && item.system.type === type,
@@ -269,7 +268,7 @@ export default class CPRActor extends Actor {
       }
       SystemUtils.DisplayMessage("error", "Invalid cyberware type!");
     }
-    return this.system.filteredItems.cyberware.filter(
+    return this.itemTypes.cyberware.filter(
       (item) => item.system.isInstalled && item.system.isFoundational,
     );
   }
@@ -540,7 +539,7 @@ export default class CPRActor extends Actor {
    */
   getSkillLevel(skillName) {
     LOGGER.trace("getSkillLevel | CPRActor | Called.");
-    const skillList = (this.system.filteredItems.skill).filter((s) => s.name === skillName);
+    const skillList = (this.itemTypes.skill).filter((s) => s.name === skillName);
     if (skillList.length > 0) {
       const relevantSkill = skillList[0];
       return parseInt(relevantSkill.system.level, 10);
@@ -628,7 +627,7 @@ export default class CPRActor extends Actor {
     let modType = "modifier";
 
     itemTypes.forEach((itemType) => {
-      const itemList = this.system.filteredItems[itemType].filter((i) => i.system.equipped === "equipped" && i.system.isUpgraded);
+      const itemList = this.itemTypes[itemType].filter((i) => i.system.equipped === "equipped" && i.system.isUpgraded);
       itemList.forEach((i) => {
         const upgradeValue = i.getAllUpgradesFor(baseName);
         const upgradeType = i.getUpgradeTypeFor(baseName);
@@ -848,7 +847,7 @@ export default class CPRActor extends Actor {
    */
   getEquippedArmors(location) {
     LOGGER.trace("getEquippedArmors | CPRActor | Called.");
-    const armors = this.system.filteredItems.armor;
+    const armors = this.itemTypes.armor;
     const equipped = armors.filter((item) => item.system.equipped === "equipped");
 
     if (location === "body") {
@@ -978,7 +977,7 @@ export default class CPRActor extends Actor {
   // in case the ammo item is deleted or given to someone else.
   unloadAmmoFromAllOwnedWeapons(ammoId) {
     LOGGER.trace("unloadAmmoFromAllOwnedWeapons | CPRActor | Called.");
-    const weapons = this.system.filteredItems.weapon;
+    const weapons = this.itemTypes.weapon;
     weapons.forEach((weapon) => {
       const cprWeaponData = weapon.system;
       if (cprWeaponData.isRanged) {
@@ -999,8 +998,8 @@ export default class CPRActor extends Actor {
   hasItemTypeEquipped(itemType) {
     LOGGER.trace("hasItemTypeEquipped | CPRActor | Called.");
     let equipped = false;
-    if (this.system.filteredItems[itemType]) {
-      this.system.filteredItems[itemType].forEach((i) => {
+    if (this.itemTypes[itemType]) {
+      this.itemTypes[itemType].forEach((i) => {
         if (i.system.equipped) {
           if (i.system.equipped === "equipped") {
             equipped = true;
@@ -1019,7 +1018,7 @@ export default class CPRActor extends Actor {
    */
   getRoles() {
     LOGGER.trace("getRoles | CPRActor | Called.");
-    return this.system.filteredItems.role;
+    return this.itemTypes.role;
   }
 
   /**
@@ -1056,7 +1055,7 @@ export default class CPRActor extends Actor {
    */
   _getEquippedWeapons() {
     LOGGER.trace("_getEquippedWeapons | CPRActor | Called.");
-    const weapons = this.system.filteredItems.weapon;
+    const weapons = this.itemTypes.weapon;
     return weapons.filter((a) => a.system.equipped === "equipped");
   }
 
@@ -1083,7 +1082,7 @@ export default class CPRActor extends Actor {
    */
   getEquippedCyberdeck() {
     LOGGER.trace("getEquippedCyberdeck | CPRActor | Called.");
-    const cyberdecks = this.system.filteredItems.cyberdeck;
+    const cyberdecks = this.itemTypes.cyberdeck;
     const equipped = cyberdecks.filter((item) => item.system.equipped === "equipped");
     if (equipped) {
       return equipped[0];

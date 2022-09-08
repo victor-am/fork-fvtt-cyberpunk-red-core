@@ -16,7 +16,7 @@
         {{#if system.isUpgraded}}
           {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
         {{else}}
-          {{#unless (cprIsEmpty (cprFilter (cprFilter foundation.actor.system.filteredItems.itemUpgrade "type" "cyberware") "system.isInstalled" false))}}
+          {{#unless (cprIsEmpty (cprFilter (cprFilter foundation.actor.itemTypes.itemUpgrade "type" "cyberware") "system.isInstalled" false))}}
             {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
           {{/unless}}
         {{/if}}
@@ -40,7 +40,7 @@
         {{#if system.isUpgraded}}
           {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
         {{else}}
-          {{#unless (cprIsEmpty (cprFilter (cprFilter actor.system.filteredItems.itemUpgrade "type" "cyberware") "system.isInstalled" false))}}
+          {{#unless (cprIsEmpty (cprFilter (cprFilter actor.itemTypes.itemUpgrade "type" "cyberware") "system.isInstalled" false))}}
             {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
           {{/unless}}
         {{/if}}

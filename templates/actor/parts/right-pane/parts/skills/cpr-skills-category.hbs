@@ -20,7 +20,7 @@
     </li>
     <ol class="items-list">
 
-        {{#each (cprSortCoreSkills (cprFilter actor.system.filteredItems.skill "system.category" category) ) as |skill s|}}
+        {{#each (cprSortCoreSkills (cprFilter actor.itemTypes.skill "system.category" category) ) as |skill s|}}
         {{#if (cprSheetContentFilter ../this.sheet.options.cprContentFilter skill.translatedName)}}
         <li class="item skill-name flexrow{{#if skill.system.favorite}} favorite{{else}}{{#if (cprListContains ../sheet.options.collapsedSections (cprGeneratePartial "skillTab-VAR" ../category))}} hide{{/if}}{{/if}}" data-item-id="{{skill._id}}"
             data-skill-category="{{skill.system.category}}" draggable="true">

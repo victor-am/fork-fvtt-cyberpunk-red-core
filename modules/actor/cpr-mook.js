@@ -58,7 +58,6 @@ export default class CPRMookActor extends CPRActor {
   _calculateDerivedStats() {
     LOGGER.trace("_calculateDerivedStats | CPRMookActor | Called.");
     const cprData = this.system;
-    cprData.filteredItems = this.itemTypes;
     const { derivedStats } = cprData;
     derivedStats.seriouslyWounded = Math.ceil(derivedStats.hp.max / 2);
 
@@ -69,7 +68,7 @@ export default class CPRMookActor extends CPRActor {
 
     // Death save
     let basePenalty = 0;
-    const critInjury = this.system.filteredItems.criticalInjury;
+    const critInjury = this.itemTypes.criticalInjury;
     critInjury.forEach((criticalInjury) => {
       const { deathSaveIncrease } = criticalInjury.system;
       if (deathSaveIncrease) {
