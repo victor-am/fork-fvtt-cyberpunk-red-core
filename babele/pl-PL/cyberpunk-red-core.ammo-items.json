@@ -10,7 +10,7 @@
 			"description": "<p>Podwójne uszkodzenia pancerza.</p>"
 		},
 		"Armor Piercing Heavy Pistol": {
-			"name": "Pistoletowa Ciężka Przeciwpancerna",
+			"name": "Pistoletowa Ciężka PPanc.",
 			"description": "<p>Podwójne uszkodzenia pancerza.</p>"
 		},
 		"Armor Piercing Medium Pistol": {
@@ -18,19 +18,19 @@
 			"description": "<p>Podwójne uszkodzenia pancerza.</p>"
 		},
 		"Armor Piercing Rifle": {
-			"name": "Karabinowa Przeciwpancerna",
+			"name": "Karabinowa PPanc.",
 			"description": "<p>Podwójne uszkodzenia pancerza.</p>"
 		},
 		"Armor Piercing Rocket": {
-			"name": "Rakieta Przeciwpancerna",
+			"name": "Rakieta PPanc.",
 			"description": "<p>Podwójne uszkodzenia pancerza.</p>"
 		},
 		"Armor Piercing Shotgun Slug": {
-			"name": "Breneka Przeciwpancerna",
+			"name": "Breneka PPanc.",
 			"description": "<p>Podwójne uszkodzenia pancerza.</p>"
 		},
 		"Armor Piercing Very Heavy Pistol": {
-			"name": "Pistoletowa B. Ciężka Przeciwpancerna",
+			"name": "Pistoletowa B. Ciężka PPanc.",
 			"description": "<p>Podwójne uszkodzenia pancerza.</p>"
 		},
 		"Basic Arrow": {
