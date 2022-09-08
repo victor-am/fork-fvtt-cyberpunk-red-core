@@ -12,20 +12,31 @@
     <input class="" name="system.stats.{{s}}.value" type="number" value="{{this.value}}" />
     {{else}}
     <div class="min-of-max-container">
-      {{#if (cprCompare (cprCompare this.value ">" 9) "||" (cprCompare this.max ">" 9))}}
-      <div class="text-smaller">
-      {{/if}}
-      <input class="" name="system.stats.{{s}}.value" type="number" value="{{this.value}}" />
-      {{#if (cprCompare (cprCompare this.value ">" 9) "||" (cprCompare this.max ">" 9))}}
+      {{#if (cprCompare this.value ">" 9)}}
+      <div class="fg-red tooltip">
+        <span class="tooltiptext">{{s}} value of {{this.value}} is too large for this field.</span>
+        <input class="" name="system.stats.{{s}}.value" type="number" value="{{this.value}}" />
       </div>
+      {{else}}
+        <input class="" name="system.stats.{{s}}.value" type="number" value="{{this.value}}" />
       {{/if}}
-      <div class="of-stat bg-red fg-white text-normal text-bold">of</div>
+
       {{#if (cprCompare (cprCompare this.value ">" 9) "||" (cprCompare this.max ">" 9))}}
-      <div class="text-smaller">
-      {{/if}}
-      <input class="" name="system.stats.{{s}}.max" type="number" value="{{this.max}}" />
-      {{#if (cprCompare (cprCompare this.value ">" 9) "||" (cprCompare this.max ">" 9))}}
+      <div class="tooltip">
+        <span class="tooltiptext">{{s}} fields have numbers too large for proper display.</span>
+        <div class="of-stat bg-red fg-white text-normal text-bold">of</div>
       </div>
+      {{else}}
+        <div class="of-stat bg-red fg-white text-normal text-bold">of</div>
+      {{/if}}
+
+      {{#if (cprCompare this.max ">" 9)}}
+      <div class="fg-red tooltip">
+        <span class="tooltiptext">{{s}} max of {{this.max}} is too large for this field.</span>
+        <input class="" name="system.stats.{{s}}.max" type="number" value="{{this.max}}" />
+      </div>
+      {{else}}
+        <input class="" name="system.stats.{{s}}.max" type="number" value="{{this.max}}" />
       {{/if}}
     </div>
     {{/unless}}
