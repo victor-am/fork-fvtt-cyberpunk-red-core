@@ -7,12 +7,13 @@
 -
 
 **Bug Fixes**
-#473 - Fashionware foundational item not migrated to v10 
+#473 - Fashionware foundational item not migrated to v10
 
 **Maintenance items**
 
 # Version 0.81.4 (Hotfix) | Date: 2022-08-21
 #464 - Fix issue where containers corrupt eurobucks amount for non-stackable items
+#474 - Replaced `filteredItems` on `Item` types with scoped, relative properties called `relativeSkills` and `relativeAmmo` for specific items which require these data points.
 
 **New Features**
 - Polish support available!

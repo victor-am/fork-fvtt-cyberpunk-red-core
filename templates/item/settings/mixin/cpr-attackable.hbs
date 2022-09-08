@@ -37,7 +37,7 @@
     <div class="item flexrow setting-value text-nowrap item-end">
         <select name="system.weaponSkill" data-dtype="{{item.system.weaponSkill}}">
             {{#select item.system.weaponSkill}}
-                {{#each (cprSort (cprGetProp item.system.filteredItems 'skill') "name") as |skillOption| }}
+                {{#each (cprSort (cprGetProp item.system 'relativeSkills') "name") as |skillOption| }}
                     {{#if (cprListContains "Athletics" skillOption.name)}}
                         <option value="{{skillOption.name}}">{{skillOption.name}}</option>
                     {{/if}}
@@ -239,9 +239,9 @@
                     <div class="item flexrow setting-name text-nowrap text-padding-left">
                         &nbsp;{{localize ammoVariety}}
                         {{#if ../item.isOwned}}
-                            {{#if (cprIsNumber (cprMath "sum" (cprGetProp (cprFilter ../item.system.filteredItems.ammo "system.variety" a) "system.amount")))}}
+                            {{#if (cprIsNumber (cprMath "sum" (cprGetProp (cprFilter ../item.system.relativeAmmo "system.variety" a) "system.amount")))}}
                                 <div class="text-right">
-                                    &nbsp;&nbsp;({{localize "CPR.itemSheet.weapon.youOwn"}} {{cprMath "sum" (cprGetProp (cprFilter ../item.system.filteredItems.ammo "system.variety" a) "system.amount")}} {{localize "CPR.itemSheet.weapon.rounds"}})
+                                    &nbsp;&nbsp;({{localize "CPR.itemSheet.weapon.youOwn"}} {{cprMath "sum" (cprGetProp (cprFilter ../item.system.relativeAmmo "system.variety" a) "system.amount")}} {{localize "CPR.itemSheet.weapon.rounds"}})
                                 </div>
                             {{/if}}
                         {{/if}}
