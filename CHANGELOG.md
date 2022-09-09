@@ -2,13 +2,15 @@
 
 **New Features**
 - Foundry V10 Compatibility
+- Spanish translation! Thank you ZRAAA78!
 
 **Changes**
 -
 
 **Bug Fixes**
 #473 - Fashionware foundational item not migrated to v10
-#472 - EMP & Luck Values/Max greater than 9 mess with the formatting.  If a user enters a value > 9, a warning banner is shown letting them know there will be formatting issues and the font size of the numbers is reduced by one level.
+#472 - EMP & Luck Values/Max greater than 9 mess with the formatting.  If a user enters a value > 9, a warning banner is shown letting them know there will be formatting issues and the formatting changes to make it more obvious something is amiss.
+#468 - Actor image goes outside border over text fixed (overflow hidden).
 
 **Maintenance items**
 
