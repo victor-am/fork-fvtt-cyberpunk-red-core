@@ -565,6 +565,7 @@ button,
 .image-block {
   height: 190px;
   width: 190px;
+  overflow: hidden;
 }
 .image-block .profile-img {
   clip-path: polygon(25px 0, 100% 0, 100% 100%, 0 100%, 0 25px);
