@@ -70,19 +70,23 @@ export default class CPRItemSheet extends ItemSheet {
     // data.isGM = game.user.isGM;
     cprData.isGM = game.user.isGM;
     cprData.isOwned = this.object.isOwned;
-    // data.filteredItems will be other items relevant to this one.
-    // For owned objects, the item list will come from the character owner
-    // For unowned objects, the item list will come from the core list of objects
-    cprData.filteredItems = {};
-    if (cprData.isOwned) {
-      cprData.filteredItems = this.object.actor.itemTypes;
-    } else if (foundryData.item.type === "role") {
-      const coreSkills = await SystemUtils.GetCoreSkills();
-      const worldSkills = game.items.filter((i) => i.type === "skill");
-      cprData.filteredItems.skill = coreSkills.concat(worldSkills);
-    } else {
-      cprData.filteredItems.skill = await SystemUtils.GetCoreSkills();
+    const itemType = foundryData.item.type;
+    const mixins = SystemUtils.getDataModelTemplates(itemType);
+    if (itemType === "role" || mixins.includes("attackable")) {
+      // data.filteredItems will be other items relevant to this one.
+      // For owned objects, the item list will come from the character owner
+      // For unowned objects, the item list will come from the core list of objects
+      cprData.filteredItems = {};
+      if (cprData.isOwned) {
+        cprData.relativeSkills = this.object.actor.itemTypes.skill;
+        cprData.relativeAmmo = this.object.actor.itemTypes.ammo;
+      } else {
+        const coreSkills = await SystemUtils.GetCoreSkills();
+        const worldSkills = game.items.filter((i) => i.type === "skill");
+        cprData.relativeSkills = coreSkills.concat(worldSkills);
+      }
     }
+
     // if (["cyberdeck", "weapon", "armor", "cyberware", "clothing"].indexOf(data.item.type) > -1) {
     //   data.system.availableSlots = this.object.availableSlots();
     // }
