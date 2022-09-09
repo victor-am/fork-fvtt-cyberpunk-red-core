@@ -2,6 +2,7 @@
 
 **New Features**
 - Foundry V10 Compatibility
+- Spanish translation! Thank you ZRAAA78!
 
 **Changes**
 -

@@ -187,9 +187,9 @@
       "path": "lang/en.json"
     },
     {
-      "lang": "pl",
-      "name": "Polish",
-      "path": "lang/pl-PL.json"
+      "lang": "es",
+      "name": "Spanish",
+      "path": "lang/es-ES.json"
     },
     {
       "lang": "fr",
