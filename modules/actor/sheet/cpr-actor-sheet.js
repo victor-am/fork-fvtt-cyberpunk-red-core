@@ -1,4 +1,4 @@
-/* global ActorSheet, $, setProperty, game, getProperty, mergeObject duplicate */
+/* global ActorSheet, $, setProperty, game, getProperty, mergeObject duplicate, TextEditor */
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
@@ -1040,10 +1040,13 @@ export default class CPRActorSheet extends ActorSheet {
     const tokenId = (this.token === null) ? null : this.token.id;
     event.dataTransfer.setData("text/plain", JSON.stringify({
       type: "Item",
-      actorId: this.actor._id,
-      tokenId,
-      data: item,
-      root: SystemUtils.GetEventDatum(event, "root"),
+      uuid: item.uuid,
+      system: {
+        actorId: this.actor._id,
+        tokenId,
+        data: item,
+        root: SystemUtils.GetEventDatum(event, "root"),
+      },
     }));
   }
 
@@ -1060,12 +1063,12 @@ export default class CPRActorSheet extends ActorSheet {
    */
   async _onDrop(event) {
     LOGGER.trace("_onDrop | CPRActorSheet | called.");
-    const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
-    if (dragData.actorId !== undefined) {
+    const dragData = TextEditor.getDragEventData(event);
+    if (dragData.system && dragData.system.actorId !== undefined) {
       // Transfer ownership from one player to another
-      const actor = (Object.keys(game.actors.tokens).includes(dragData.tokenId))
-        ? game.actors.tokens[dragData.tokenId]
-        : game.actors.find((a) => a.id === dragData.actorId);
+      const actor = (Object.keys(game.actors.tokens).includes(dragData.system.tokenId))
+        ? game.actors.tokens[dragData.system.tokenId]
+        : game.actors.find((a) => a.id === dragData.system.actorId);
       if (actor.type === "container" && !game.user.isGM) {
         SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeDragOutWarn"));
         return;
@@ -1075,7 +1078,7 @@ export default class CPRActorSheet extends ActorSheet {
         if (actor._id === this.actor._id) {
           return;
         }
-        const item = dragData.data;
+        const item = dragData.system.data;
         const cprData = item.system;
         // If the cyberware is marked as core, or is installed, throw an error message.
         if (cprData.core === true || (cprData.type === "cyberware" && cprData.isInstalled)) {
