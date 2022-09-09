@@ -9,6 +9,7 @@
 
 **Bug Fixes**
 #473 - Fashionware foundational item not migrated to v10
+#468 - Actor image goes outside border over text
 
 **Maintenance items**
 
