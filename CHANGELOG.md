@@ -9,7 +9,10 @@
 
 **Bug Fixes**
 #473 - Fashionware foundational item not migrated to v10
+#472 - EMP & Luck Values/Max greater than 9 mess with the formatting.  If a user enters a value > 9, a warning banner is shown letting them know there will be formatting issues and the formatting changes to make it more obvious something is amiss.
+#468 - Actor image goes outside border over text fixed (overflow hidden).
 #474 - Replaced `filteredItems` on `Item` types with scoped, relative properties called `relativeSkills` and `relativeAmmo` for specific items which require these data points.
+- Replaced all instances of filteredItems with actor.itemTypes (native to Foundry). This addressed an issue causing very slow loading times of the resources tab in the token configuration dialog.
 
 **Maintenance items**
 

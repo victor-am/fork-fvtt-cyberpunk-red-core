@@ -12,9 +12,32 @@
     <input class="" name="system.stats.{{s}}.value" type="number" value="{{this.value}}" />
     {{else}}
     <div class="min-of-max-container">
-      <input class="" name="system.stats.{{s}}.value" type="number" value="{{this.value}}" />
-      <div class="of-stat bg-red fg-white text-normal text-bold">of</div>
-      <input class="" name="system.stats.{{s}}.max" type="number" value="{{this.max}}" />
+      {{#if (cprCompare this.value ">" 9)}}
+      <div class="fg-red tooltip">
+        <span class="tooltiptext">{{s}} {{localize 'CPR.tooltip.valueOf'}} {{this.value}} {{localize 'CPR.tooltip.isTooLargeForThisField'}}.</span>
+        <input class="" name="system.stats.{{s}}.value" type="number" value="{{this.value}}" />
+      </div>
+      {{else}}
+        <input class="" name="system.stats.{{s}}.value" type="number" value="{{this.value}}" />
+      {{/if}}
+
+      {{#if (cprCompare (cprCompare this.value ">" 9) "||" (cprCompare this.max ">" 9))}}
+      <div class="tooltip">
+        <span class="tooltiptext">{{s}} {{localize 'CPR.tooltip.fieldsHaveNumbersTooLargeToDisplay'}}.</span>
+        <div class="of-stat bg-red fg-white text-normal text-bold">of</div>
+      </div>
+      {{else}}
+        <div class="of-stat bg-red fg-white text-normal text-bold">of</div>
+      {{/if}}
+
+      {{#if (cprCompare this.max ">" 9)}}
+      <div class="fg-red tooltip">
+        <span class="tooltiptext">{{s}} {{localize 'CPR.tooltip.maxOf'}} {{this.max}} {{localize 'CPR.tooltip.isTooLargeForThisField'}}.</span>
+        <input class="" name="system.stats.{{s}}.max" type="number" value="{{this.max}}" />
+      </div>
+      {{else}}
+        <input class="" name="system.stats.{{s}}.max" type="number" value="{{this.max}}" />
+      {{/if}}
     </div>
     {{/unless}}
   </div>
