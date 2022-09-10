@@ -54,7 +54,6 @@ export default class CPRCharacterActor extends CPRActor {
   _calculateDerivedStats() {
     LOGGER.trace("_calculateDerivedStats | CPRCharacterActor | Called.");
     const cprData = this.system;
-    cprData.filteredItems = this.itemTypes; // the itemTypes getter is in foundry.js
     const { derivedStats } = cprData;
 
     // Walk & Run
@@ -73,7 +72,7 @@ export default class CPRCharacterActor extends CPRActor {
 
     // Death save
     let basePenalty = this.bonuses.deathSavePenalty; // 0 + active effects
-    const critInjury = cprData.filteredItems.criticalInjury;
+    const critInjury = this.itemTypes.criticalInjury;
     critInjury.forEach((criticalInjury) => {
       const { deathSaveIncrease } = criticalInjury.system;
       if (deathSaveIncrease) {

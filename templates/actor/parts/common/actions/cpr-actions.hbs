@@ -36,7 +36,7 @@
   {{#if system.isUpgraded}}
     {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
   {{else}}
-    {{#unless (cprIsEmpty (cprFilter (cprFilter actor.system.filteredItems.itemUpgrade "system.type" type) "system.isInstalled" false))}}
+    {{#unless (cprIsEmpty (cprFilter (cprFilter actor.itemTypes.itemUpgrade "system.type" type) "system.isInstalled" false))}}
       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
     {{/unless}}
   {{/if}}

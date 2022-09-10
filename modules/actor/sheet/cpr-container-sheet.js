@@ -1,4 +1,4 @@
-/* global mergeObject game getProperty duplicate setProperty */
+/* global mergeObject game getProperty duplicate setProperty TextEditor Item */
 /* eslint-env jquery */
 import CPRActorSheet from "./cpr-actor-sheet.js";
 import LOGGER from "../../utils/cpr-logger.js";
@@ -44,8 +44,12 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     const foundryData = super.getData();
     const cprActorData = foundryData.actor.system;
 
-    cprActorData.userOwnedActors = game.actors.filter((a) => a.isOwner && a.type === "character");
+    cprActorData.userOwnedActors = [];
+    game.actors.filter((a) => a.isOwner && a.type === "character").forEach((a) => {
+      cprActorData.userOwnedActors.push({ id: a.id, name: a.name });
+    });
     cprActorData.userOwnedActors.unshift({ id: "", name: "--" });
+
     if (game.user.character !== undefined && game.user.character !== null) {
       cprActorData.userCharacter = game.user.character.id;
       if (!cprActorData.tradePartnerId) {
@@ -314,12 +318,13 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.insufficientPermissions"));
       return;
     }
-    const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
-    const tradePartnerActor = game.actors.get(dragData.actorId);
+    const dragData = TextEditor.getDragEventData(event);
 
-    const item = duplicate(dragData.data);
+    const tradePartnerActor = game.actors.get(dragData.system.actorId);
+
+    const item = duplicate(dragData.system.data);
     const cprItemData = item.system;
-    let cprItemName = dragData.name;
+    let cprItemName = dragData.system.name;
     const amount = cprItemData.amount ? parseInt(cprItemData.amount, 10) : 1;
     const vendorData = this.actor.system;
     const vendorConfig = vendorData.vendor;
@@ -505,14 +510,19 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
    */
   async _onDrop(event) {
     LOGGER.trace("_onDrop | CPRContainerSheet | Called.");
+    const containerType = getProperty(this.actor, "flags.cyberpunk-red-core.container-type");
+    if (!containerType) {
+      await this.actor.setContainerType("shop");
+    }
     const playersCanCreate = getProperty(this.actor, "flags.cyberpunk-red-core.players-create");
     const playersCanSell = getProperty(this.actor, "flags.cyberpunk-red-core.players-sell");
     if (game.user.isGM || playersCanCreate || playersCanSell) {
       if (!game.user.isGM && !playersCanCreate) {
-        const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
+        const dragData = TextEditor.getDragEventData(event);
         const vendorData = this.actor.system.vendor;
         if (dragData.type === "Item") {
-          const itemData = dragData.data;
+          const item = await Item.implementation.fromDropData(dragData);
+          const itemData = item.toObject();
           if (typeof vendorData.itemTypes[itemData.type] !== "undefined" && vendorData.itemTypes[itemData.type].isPurchasing) {
             await this._sellItemTo(event);
             return;
@@ -558,7 +568,7 @@ export default class CPRContainerActorSheet extends CPRActorSheet {
     const formData = await ConfigureSellToPrompt.RenderPrompt(promptData).catch((err) => LOGGER.debug(err));
     if (formData !== undefined) {
       promptData.itemTypes.forEach((itemType) => {
-        const isPurchasing = formData[`sell-${itemType}`];
+        const isPurchasing = formData.buying.includes(itemType);
         const purchasePercentage = (isPurchasing) ? formData[`pct-${itemType}`] : 0;
         promptData.currentConfig.itemTypes[itemType] = { isPurchasing, purchasePercentage };
       });

@@ -96,7 +96,7 @@ const itemHooks = () => {
     const actor = doc.parent;
     if (actor !== null) {
       if (doc.type === "role" && actor.system.roleInfo.activeRole === doc.name) {
-        const actorRoles = actor.system.filteredItems.role.sort((a, b) => (a.name > b.name ? 1 : -1));
+        const actorRoles = actor.itemTypes.role.sort((a, b) => (a.name > b.name ? 1 : -1));
         if (actorRoles.length >= 1) {
           // The actor has other roles besides the one being deleted
           // First, we look for one with the same name. This covers a degenerate case where an actor has 2 or more roles

@@ -109,7 +109,7 @@ export default class CPRActiveEffect extends ActiveEffect {
    * This was mostly copied from the dnd5e module in active-effect.js.
    *
    * Warning: If errors are thrown in this method, they'll show up early on loading Foundry,
-   * and break basic functionality like populating filteredItems in actor.getData.
+   * and break basic functionality, for example, in actor.getData.
    *
    * @returns nothing, it only sets the isSuppressed property (it's a mutator)
    */
