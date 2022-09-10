@@ -712,7 +712,7 @@ export default class CPRItemSheet extends ItemSheet {
     programList = actor.itemTypes.program;
 
     // Remove all programs that are installed somewhere other than this deck
-    actor.system.programsInstalled.forEach((programId) => {
+    this.item.system.programs.installed.forEach((programId) => {
       const onDeck = installedPrograms.filter((p) => p._id === programId);
       if (onDeck.length === 0) {
         programList = programList.filter((p) => p.id !== programId);
