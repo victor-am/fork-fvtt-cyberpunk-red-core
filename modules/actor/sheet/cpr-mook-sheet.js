@@ -100,7 +100,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     LOGGER.trace("_modMookSkill | CPRMookActorSheet | Called.");
     let again = true;
     const skillList = [];
-    this.actor.system.filteredItems.skill.map((s) => {
+    this.actor.itemTypes.skill.map((s) => {
       skillList.push(s.name);
       return skillList.sort();
     });
@@ -110,7 +110,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
       if (formData === undefined) {
         return;
       }
-      const skill = this.actor.system.filteredItems.skill.filter((s) => s.name === formData.skillName)[0];
+      const skill = this.actor.itemTypes.skill.filter((s) => s.name === formData.skillName)[0];
       skill.setSkillLevel(formData.skillLevel);
       this._updateOwnedItem(skill);
       const updated = SystemUtils.Localize("CPR.mookSheet.skills.updated");

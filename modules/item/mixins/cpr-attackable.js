@@ -101,7 +101,7 @@ const Attackable = function Attackable() {
     const statValue = actor.getStat(statName);
     let roleName;
     let roleValue = 0;
-    actor.system.filteredItems.role.forEach((r) => {
+    actor.itemTypes.role.forEach((r) => {
       const [rn, rv] = r.getSkillBonuses(skillName);
       if (rn) {
         if (roleName) {
@@ -115,7 +115,7 @@ const Attackable = function Attackable() {
 
     // total up attack bonuses directly from role abilities (not indirectly from skills)
     let universalBonusAttack = 0;
-    this.actor.system.filteredItems.role.forEach((r) => {
+    this.actor.itemTypes.role.forEach((r) => {
       if (r.system.universalBonuses.includes("attack")) {
         universalBonusAttack += Math.floor(r.system.rank / r.system.bonusRatio);
       }
@@ -193,7 +193,7 @@ const Attackable = function Attackable() {
       const cprActorData = this.actor.system;
       const actorBodyStat = cprActorData.stats.body.value;
       if (actorBodyStat <= 4) {
-        if (weaponType === "unarmed" && cprActorData.filteredItems.cyberware.some((c) => (
+        if (weaponType === "unarmed" && this.actor.itemTypes.cyberware.some((c) => (
           (c.system.type === "cyberArm") && (c.system.isInstalled === true) && (c.system.isFoundational === true)))) {
           // If the user has an installed Cyberarm, which is a foundational. This is only for unarmed damage, not martial arts damage.
           damage = "2d6";
@@ -210,7 +210,7 @@ const Attackable = function Attackable() {
     }
 
     // consider damage bonuses coming from role abilties
-    this.actor.system.filteredItems.role.forEach((r) => {
+    this.actor.itemTypes.role.forEach((r) => {
       if (r.system.universalBonuses.includes("damage")) {
         universalBonusDamage += Math.floor(r.system.rank / r.system.bonusRatio);
       }

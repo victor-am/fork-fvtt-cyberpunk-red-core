@@ -74,7 +74,6 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("getData | CPRActorSheet | Called.");
     const foundryData = super.getData();
     const cprActorData = foundryData.actor.system;
-    // cprActorData.filteredItems = this.actor.system.filteredItems;
     if (this.actor.type === "mook" || this.actor.type === "character") {
       cprActorData.installedCyberware = this._getSortedInstalledCyberware();
 
@@ -89,12 +88,12 @@ export default class CPRActorSheet extends ActorSheet {
         cprActorData.cyberdeck = this.actor.getEquippedCyberdeck();
       }
       const programsInstalled = [];
-      this.actor.system.filteredItems.cyberdeck.forEach((deck) => {
+      this.actor.itemTypes.cyberdeck.forEach((deck) => {
         deck.system.programs.installed.forEach((program) => {
           programsInstalled.push(program._id);
         });
       });
-      cprActorData.filteredItems.programsInstalled = programsInstalled;
+      cprActorData.programsInstalled = programsInstalled;
       cprActorData.filteredEffects = this.prepareActiveEffectCategories();
       foundryData.data.system = cprActorData;
     }
@@ -314,7 +313,7 @@ export default class CPRActorSheet extends ActorSheet {
         const interfaceAbility = SystemUtils.GetEventDatum(event, "data-interface-ability");
         const cyberdeckId = SystemUtils.GetEventDatum(event, "data-cyberdeck-id");
         const cyberdeck = this._getOwnedItem(cyberdeckId);
-        const netRoleItem = this.actor.system.filteredItems.role.find((r) => r.name === this.actor.system.roleInfo.activeNetRole);
+        const netRoleItem = this.actor.itemTypes.role.find((r) => r.name === this.actor.system.roleInfo.activeNetRole);
         if (!netRoleItem) {
           const error = SystemUtils.Localize("CPR.messages.noNetrunningRoleConfigured");
           SystemUtils.DisplayMessage("error", error);
@@ -328,7 +327,7 @@ export default class CPRActorSheet extends ActorSheet {
         const cyberdeckId = SystemUtils.GetEventDatum(event, "data-cyberdeck-id");
         const executionType = SystemUtils.GetEventDatum(event, "data-execution-type");
         const cyberdeck = this._getOwnedItem(cyberdeckId);
-        const netRoleItem = this.actor.system.filteredItems.role.find((r) => r.name === this.actor.system.roleInfo.activeNetRole);
+        const netRoleItem = this.actor.itemTypes.role.find((r) => r.name === this.actor.system.roleInfo.activeNetRole);
         if (!netRoleItem) {
           const error = SystemUtils.Localize("CPR.messages.noNetrunningRoleConfigured");
           SystemUtils.DisplayMessage("error", error);
@@ -661,7 +660,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
     }
     if (item.type === "ammo") {
-      const weapons = this.actor.system.filteredItems.weapon;
+      const weapons = this.actor.itemTypes.weapon;
       let ammoIsLoaded = false;
       weapons.forEach((weapon) => {
         const weaponData = weapon.system;
@@ -819,7 +818,7 @@ export default class CPRActorSheet extends ActorSheet {
       const critType = crit.system.location;
       LOGGER.debug(`critType is ${critType}`);
       let numberCritInjurySameType = 0;
-      this.actor.system.filteredItems.criticalInjury.forEach((injury) => {
+      this.actor.itemTypes.criticalInjury.forEach((injury) => {
         if (injury.system.location === critType) { numberCritInjurySameType += 1; }
       });
       if (table.results.contents.length <= numberCritInjurySameType) {
@@ -839,7 +838,7 @@ export default class CPRActorSheet extends ActorSheet {
         if (res.results.length > 0) {
           // Check if the critical Injury already exists on the character
           let injuryAlreadyExists = false;
-          this.actor.system.filteredItems.criticalInjury.forEach((injury) => {
+          this.actor.itemTypes.criticalInjury.forEach((injury) => {
             if (injury.name === res.results[0].text) { injuryAlreadyExists = true; }
           });
           if (injuryAlreadyExists) {

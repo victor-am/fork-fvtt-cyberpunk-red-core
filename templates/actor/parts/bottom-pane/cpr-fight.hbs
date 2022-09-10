@@ -12,7 +12,7 @@
         <div class="critical-injury-content">
             {{!-- Critical Injury as Item --}}
             <ol class="items-list critical-injury-list">
-              {{#each (cprSort actor.system.filteredItems.criticalInjury "name") as |criticalInjury| }}
+              {{#each (cprSort actor.itemTypes.criticalInjury "name") as |criticalInjury| }}
               <li class="flex-space-between item flexrow" data-item-id="{{criticalInjury.id}}" data-item-category="{{criticalInjury.type}}" draggable="true">
                 <div><a class="name item-edit text-nowrap {{#if criticalInjury.system.deathSaveIncrease}}text-bold{{/if}}" title="{{criticalInjury.name}}&#13{{localize "CPR.characterSheet.bottomPane.fight.clickToViewTheItem"}}&#13{{localize "CPR.characterSheet.bottomPane.fight.controlClickToSendToChat"}}">{{criticalInjury.name}} {{#if (cprCompare criticalInjury.system.location "===" "body")}}<i class="fas fa-user-injured text-padding-left"></i>{{/if}}{{#if (cprCompare criticalInjury.system.location "===" "head")}}<i class="fas fa-tired text-padding-left"></i>{{/if}}</a></div>
                 <div class="item-detail gear-actions text-nowrap">
@@ -31,7 +31,7 @@
         </li>
         <div class="armor-content">
             <ol class="items-list fight-armor-list">
-                {{#each (cprSort actor.system.filteredItems.armor "name") as |armor| }}
+                {{#each (cprSort actor.itemTypes.armor "name") as |armor| }}
                 {{cprTrace armor}}
                 {{#if (cprCompare armor.system.equipped "===" "equipped")}}
                 <li class="item armor-piece" >
@@ -135,7 +135,7 @@
         </li>
         <div class="weapon-content">
             <ol class="items-list weapons-grid">
-                {{#each (cprSort actor.system.filteredItems.weapon "name") as |weapon|}}
+                {{#each (cprSort actor.itemTypes.weapon "name") as |weapon|}}
                     {{#if (cprCompare weapon.system.equipped "===" "equipped")}}
                         <li class="weapon-grid item flexrow" data-item-id="{{weapon.id}}">
                             <div class="fight-weapon-icon">
@@ -214,7 +214,7 @@
                         {{#if weapon.system.isUpgraded}}
                             {{#each weapon.system.upgrades as |upgrade|}}
                                 {{#if (cprCompare upgrade.system.modifiers.secondaryWeapon.configured "===" "true")}}
-                                    {{#each (cprFilter ../actor.system.filteredItems.itemUpgrade "_id" upgrade._id) as |weapon|}}
+                                    {{#each (cprFilter ../actor.itemTypes.itemUpgrade "_id" upgrade._id) as |weapon|}}
                                     <li class="weapon-grid item flexrow" data-item-id="{{weapon.id}}">
                                         <div class="fight-weapon-icon">
                                             <img class="fight-weapon-icon-img" src="{{img}}"/>
@@ -301,7 +301,7 @@
                             {{localize "CPR.characterSheet.bottomPane.fight.cyberwareWeapons"}}
                         </span>
                     </li>
-                {{#each (cprSort (cprFilter actor.system.filteredItems.cyberware "system.isInstalled" true) "name") as |weapon|}}
+                {{#each (cprSort (cprFilter actor.itemTypes.cyberware "system.isInstalled" true) "name") as |weapon|}}
                 {{#if (cprCompare system.isWeapon "===" true)}}
                         <li class="weapon-grid item flexrow" data-item-id="{{weapon.id}}">
                             <div class="fight-weapon-icon">
@@ -380,7 +380,7 @@
                                             {{#if weapon.system.isUpgraded}}
                             {{#each weapon.system.upgrades as |upgrade|}}
                                 {{#if (cprCompare upgrade.system.modifiers.secondaryWeapon.configured "===" "true")}}
-                                    {{#each (cprFilter ../actor.system.filteredItems.itemUpgrade "_id" upgrade._id) as |weapon|}}
+                                    {{#each (cprFilter ../actor.itemTypes.itemUpgrade "_id" upgrade._id) as |weapon|}}
                                     <li class="weapon-grid item flexrow" data-item-id="{{weapon.id}}">
                                         <div class="fight-weapon-icon">
                                             <img class="fight-weapon-icon-img" src="{{img}}"/>

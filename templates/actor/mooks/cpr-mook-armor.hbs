@@ -7,7 +7,7 @@
   </div>
   <div class="armor-content fg-black">
     <ol class="items-list fight-armor-list">
-      {{#each (cprSort actor.system.filteredItems.armor "name") as |armor| }}
+      {{#each (cprSort actor.itemTypes.armor "name") as |armor| }}
         {{#if (cprCompare armor.system.equipped "===" "equipped")}}
           <li class="item armor-piece">
             <li class="flex-space-between item flexrow" data-item-id="{{armor.id}}">

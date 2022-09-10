@@ -29,7 +29,7 @@ export default class CPRCombatant extends Combatant {
       case "mook": {
         if (initiativeType === "meat") {
           cprInitiative = new CPRRolls.CPRInitiative(initiativeType, actor.type, formula, actor.getStat("ref"));
-          actor.system.filteredItems.role.forEach((r) => {
+          actor.itemTypes.role.forEach((r) => {
             if (r.system.universalBonuses.includes("initiative")) {
               universalBonusInitiative += Math.floor(r.system.rank / r.system.bonusRatio);
             }
@@ -43,7 +43,7 @@ export default class CPRCombatant extends Combatant {
         } else {
           const netSpeed = actor.bonuses.speed; // active effects for speed, note "initiative" AEs come later
           // Filter for the Netrunner role on the actor then assign `netrunnerRank` the proper value
-          const netrunnerRole = (actor.system.filteredItems.role.filter((d) => d.name === "Netrunner"))[0];
+          const netrunnerRole = (actor.itemTypes.role.filter((d) => d.name === "Netrunner"))[0];
           const netrunnerRank = netrunnerRole.system.rank;
           cprInitiative = new CPRRolls.CPRInitiative(initiativeType, actor.type, formula, netrunnerRank, netSpeed);
         }

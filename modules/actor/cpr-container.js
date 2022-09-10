@@ -35,7 +35,6 @@ export default class CPRContainerActor extends Actor {
     super.prepareData();
     if (this.compendium === null || this.compendium === undefined) {
       const cprData = this.system;
-      cprData.filteredItems = this.itemTypes;
     }
   }
 
