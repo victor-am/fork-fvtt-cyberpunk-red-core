@@ -87,13 +87,6 @@ export default class CPRActorSheet extends ActorSheet {
       if (fightState === "Netspace") {
         cprActorData.cyberdeck = this.actor.getEquippedCyberdeck();
       }
-      const programsInstalled = [];
-      this.actor.itemTypes.cyberdeck.forEach((deck) => {
-        deck.system.programs.installed.forEach((program) => {
-          programsInstalled.push(program._id);
-        });
-      });
-      cprActorData.programsInstalled = programsInstalled;
       cprActorData.filteredEffects = this.prepareActiveEffectCategories();
       foundryData.data.system = cprActorData;
     }
