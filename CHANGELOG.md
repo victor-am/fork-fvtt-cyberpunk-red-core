@@ -14,6 +14,7 @@
 #474 - Replaced `filteredItems` on `Item` types with scoped, relative properties called `relativeSkills` and `relativeAmmo` for specific items which require these data points.
 - Replaced all instances of filteredItems with actor.itemTypes (native to Foundry). This addressed an issue causing very slow loading times of the resources tab in the token configuration dialog.
 - Removed the need for installedPrograms data to be stored on the actor which was noticed during the filteredItems cleanup.
+#469 - Fixed icon display for Foreign Object Critical in Rollable Tables
 
 **Maintenance items**
 
