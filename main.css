@@ -1571,6 +1571,16 @@ button,
 .items-list .item-end {
   text-align: end;
 }
+.mook-skills-list {
+  max-height: 700px;
+  overflow-y: auto;
+}
+.mook-skills-list li:nth-child(even) {
+  background-color: #ffc3b6ff;
+}
+.mook-skills-list li:nth-child(odd) {
+  background-color: #eaeaeaff;
+}
 .effects-list {
   list-style: none;
   margin: 0;

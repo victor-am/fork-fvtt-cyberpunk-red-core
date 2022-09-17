@@ -551,7 +551,7 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace("cprGetMookSkills | handlebarsHelper | Called.");
     const skillList = [];
     array.forEach((skill) => {
-      if (skill.system.level > 0 || skill.system.skillmod > 0) {
+      if (skill.system.level !== 0 || skill.system.skillmod > 0) {
         skillList.push(skill);
       }
     });
@@ -721,17 +721,17 @@ export default function registerHandlebarsHelpers() {
     LOGGER.trace("cprEffectModMode | handlebarsHelper | Called.");
     switch (mode) {
       case 1:
-        return "*";
+        return `*${value}`;
       case 2:
-        return value > 0 ? "+" : ""; // account for minus already being there for negative numbers
+        return value > 0 ? `+${value}` : value; // account for minus already being there for negative numbers
       case 3:
-        return "<=";
+        return `<=${value}`;
       case 4:
-        return ">=";
+        return `>=${value}`;
       case 5:
-        return "=";
+        return `=${value}`;
       default:
-        return "?";
+        return `?${value}`;
     }
   });
 

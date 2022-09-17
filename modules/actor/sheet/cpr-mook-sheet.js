@@ -80,7 +80,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
   activateListeners(html) {
     LOGGER.trace("activateListeners | CPRMookActorSheet | Called.");
     super.activateListeners(html);
-    html.find(".mod-mook-skill").click(() => this._modMookSkill());
+    html.find(".mod-mook-skill").click(() => this._modMookSkills());
     html.find(".change-mook-name").click(() => this._changeMookName());
     html.find(".mook-image-toggle").click((event) => this._expandMookImage(event));
 
@@ -94,36 +94,55 @@ export default class CPRMookActorSheet extends CPRActorSheet {
 
   /**
    * Called when the edit-skills glyph (top right of the skills section on the sheet) is clicked. This
-   * pops up the wizard for modifying mook skills quickly.
+   * pops up the wizard for modifying mook skills quickly. The form data is then parsed for values that
+   * are different from what is current on the mook's skill objects. Those are the updates we send
+   * along.
    *
    * @async
    * @callback
    * @private
    * @returns null
    */
-  async _modMookSkill() {
-    LOGGER.trace("_modMookSkill | CPRMookActorSheet | Called.");
-    let again = true;
+  async _modMookSkills() {
+    LOGGER.trace("_modMookSkills | CPRMookActorSheet | Called.");
     const skillList = [];
     this.actor.system.filteredItems.skill.map((s) => {
-      skillList.push(s.name);
-      return skillList.sort();
+      const skillRef = {
+        name: s.name,
+        level: s.system.level,
+        stat: this.actor.system.stats[s.system.stat].value,
+        mod: this.actor.bonuses[SystemUtils.slugify(s.name)],
+      };
+      skillList.push(skillRef);
+      return skillList.sort((a, b) => ((a.name > b.name) ? 1 : -1));
     });
-    while (again) {
-      // eslint-disable-next-line no-await-in-loop
-      const formData = await ModMookSkillPrompt.RenderPrompt({ skillList }).catch((err) => LOGGER.debug(err));
-      if (formData === undefined) {
-        return;
-      }
-      const skill = this.actor.system.filteredItems.skill.filter((s) => s.name === formData.skillName)[0];
-      skill.setSkillLevel(formData.skillLevel);
-      this._updateOwnedItem(skill);
-      const updated = SystemUtils.Localize("CPR.mookSheet.skills.updated");
-      const to = SystemUtils.Localize("CPR.mookSheet.skills.to");
-      const msg = `${updated} ${formData.skillName} ${to} ${formData.skillLevel}`;
-      SystemUtils.DisplayMessage("notify", msg);
-      again = formData.again;
+
+    // pop up the form with embedded skill details
+    const formData = await ModMookSkillPrompt.RenderPrompt({ skillList }).catch((err) => LOGGER.debug(err));
+    if (formData === undefined) {
+      return;
     }
+
+    // go over each skill and see if the value differs from the skill objects on the mook (actor)
+    const updatedSkills = [];
+    for (const skill of skillList) {
+      if (formData[skill.name] !== skill.level) {
+        LOGGER.debug(`you changed ${skill.name} from ${skill.level} to ${formData[skill.name]}`);
+        const [updatedSkill] = this.actor.system.filteredItems.skill.filter((s) => skill.name === s.name);
+        updatedSkill.setSkillLevel(formData[skill.name]);
+        updatedSkills.push({
+          _id: updatedSkill._id,
+          system: {
+            level: updatedSkill.system.level,
+          },
+        });
+      }
+    }
+    if (!updatedSkills.length) return;
+
+    // finally, update the skill objects
+    this.actor.updateEmbeddedDocuments("Item", updatedSkills);
+    SystemUtils.DisplayMessage("notify", `${updatedSkills.length} ${SystemUtils.Localize("CPR.mookSheet.skills.updated")}`);
   }
 
   /**
