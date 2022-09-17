@@ -1,4 +1,4 @@
-/* global ActorSheet, $, setProperty, game, getProperty, mergeObject duplicate */
+/* global ActorSheet, $, setProperty, game, getProperty, mergeObject duplicate, TextEditor */
 import ConfirmPrompt from "../../dialog/cpr-confirmation-prompt.js";
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import CPR from "../../system/config.js";
@@ -75,7 +75,6 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("getData | CPRActorSheet | Called.");
     const foundryData = super.getData();
     const cprActorData = foundryData.actor.system;
-    // cprActorData.filteredItems = this.actor.system.filteredItems;
     if (this.actor.type === "mook" || this.actor.type === "character") {
       cprActorData.installedCyberware = this._getSortedInstalledCyberware();
 
@@ -89,13 +88,6 @@ export default class CPRActorSheet extends ActorSheet {
       if (fightState === "Netspace") {
         cprActorData.cyberdeck = this.actor.getEquippedCyberdeck();
       }
-      const programsInstalled = [];
-      this.actor.system.filteredItems.cyberdeck.forEach((deck) => {
-        deck.system.programs.installed.forEach((program) => {
-          programsInstalled.push(program._id);
-        });
-      });
-      cprActorData.filteredItems.programsInstalled = programsInstalled;
       cprActorData.filteredEffects = this.prepareActiveEffectCategories();
       foundryData.data.system = cprActorData;
     }
@@ -315,7 +307,7 @@ export default class CPRActorSheet extends ActorSheet {
         const interfaceAbility = SystemUtils.GetEventDatum(event, "data-interface-ability");
         const cyberdeckId = SystemUtils.GetEventDatum(event, "data-cyberdeck-id");
         const cyberdeck = this._getOwnedItem(cyberdeckId);
-        const netRoleItem = this.actor.system.filteredItems.role.find((r) => r.name === this.actor.system.roleInfo.activeNetRole);
+        const netRoleItem = this.actor.itemTypes.role.find((r) => r.name === this.actor.system.roleInfo.activeNetRole);
         if (!netRoleItem) {
           const error = SystemUtils.Localize("CPR.messages.noNetrunningRoleConfigured");
           SystemUtils.DisplayMessage("error", error);
@@ -329,7 +321,7 @@ export default class CPRActorSheet extends ActorSheet {
         const cyberdeckId = SystemUtils.GetEventDatum(event, "data-cyberdeck-id");
         const executionType = SystemUtils.GetEventDatum(event, "data-execution-type");
         const cyberdeck = this._getOwnedItem(cyberdeckId);
-        const netRoleItem = this.actor.system.filteredItems.role.find((r) => r.name === this.actor.system.roleInfo.activeNetRole);
+        const netRoleItem = this.actor.itemTypes.role.find((r) => r.name === this.actor.system.roleInfo.activeNetRole);
         if (!netRoleItem) {
           const error = SystemUtils.Localize("CPR.messages.noNetrunningRoleConfigured");
           SystemUtils.DisplayMessage("error", error);
@@ -494,7 +486,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
       // Only update if we aren't deleting the item.  Item deletion is handled in this._deleteOwnedItem()
       if (actionType !== "delete") {
-        this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.system }]);
+        this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, system: item.system }]);
       }
     }
   }
@@ -539,7 +531,7 @@ export default class CPRActorSheet extends ActorSheet {
    */
   _updateOwnedItem(item) {
     LOGGER.trace("_updateOwnedItem | CPRActorSheet | Called.");
-    return this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.system }]);
+    return this.actor.updateEmbeddedDocuments("Item", [{ _id: item.id, system: item.system }]);
   }
 
   /**
@@ -662,7 +654,7 @@ export default class CPRActorSheet extends ActorSheet {
       }
     }
     if (item.type === "ammo") {
-      const weapons = this.actor.system.filteredItems.weapon;
+      const weapons = this.actor.itemTypes.weapon;
       let ammoIsLoaded = false;
       weapons.forEach((weapon) => {
         const weaponData = weapon.system;
@@ -820,7 +812,7 @@ export default class CPRActorSheet extends ActorSheet {
       const critType = crit.system.location;
       LOGGER.debug(`critType is ${critType}`);
       let numberCritInjurySameType = 0;
-      this.actor.system.filteredItems.criticalInjury.forEach((injury) => {
+      this.actor.itemTypes.criticalInjury.forEach((injury) => {
         if (injury.system.location === critType) { numberCritInjurySameType += 1; }
       });
       if (table.results.contents.length <= numberCritInjurySameType) {
@@ -840,7 +832,7 @@ export default class CPRActorSheet extends ActorSheet {
         if (res.results.length > 0) {
           // Check if the critical Injury already exists on the character
           let injuryAlreadyExists = false;
-          this.actor.system.filteredItems.criticalInjury.forEach((injury) => {
+          this.actor.itemTypes.criticalInjury.forEach((injury) => {
             if (injury.name === res.results[0].text) { injuryAlreadyExists = true; }
           });
           if (injuryAlreadyExists) {
@@ -1058,10 +1050,13 @@ export default class CPRActorSheet extends ActorSheet {
     const tokenId = (this.token === null) ? null : this.token.id;
     event.dataTransfer.setData("text/plain", JSON.stringify({
       type: "Item",
-      actorId: this.actor._id,
-      tokenId,
-      data: item,
-      root: SystemUtils.GetEventDatum(event, "root"),
+      uuid: item.uuid,
+      system: {
+        actorId: this.actor._id,
+        tokenId,
+        data: item,
+        root: SystemUtils.GetEventDatum(event, "root"),
+      },
     }));
   }
 
@@ -1078,12 +1073,12 @@ export default class CPRActorSheet extends ActorSheet {
    */
   async _onDrop(event) {
     LOGGER.trace("_onDrop | CPRActorSheet | called.");
-    const dragData = JSON.parse(event.dataTransfer.getData("text/plain"));
-    if (dragData.actorId !== undefined) {
+    const dragData = TextEditor.getDragEventData(event);
+    if (dragData.system && dragData.system.actorId !== undefined) {
       // Transfer ownership from one player to another
-      const actor = (Object.keys(game.actors.tokens).includes(dragData.tokenId))
-        ? game.actors.tokens[dragData.tokenId]
-        : game.actors.find((a) => a.id === dragData.actorId);
+      const actor = (Object.keys(game.actors.tokens).includes(dragData.system.tokenId))
+        ? game.actors.tokens[dragData.system.tokenId]
+        : game.actors.find((a) => a.id === dragData.system.actorId);
       if (actor.type === "container" && !game.user.isGM) {
         SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.tradeDragOutWarn"));
         return;
@@ -1093,7 +1088,7 @@ export default class CPRActorSheet extends ActorSheet {
         if (actor._id === this.actor._id) {
           return;
         }
-        const item = dragData.data;
+        const item = dragData.system.data;
         const cprData = item.system;
         // If the cyberware is marked as core, or is installed, throw an error message.
         if (cprData.core === true || (cprData.type === "cyberware" && cprData.isInstalled)) {

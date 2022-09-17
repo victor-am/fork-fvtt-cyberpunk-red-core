@@ -14,8 +14,16 @@ export default class ContainerVendorSellToPrompt {
         // eslint-disable-next-line no-shadow
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog ContainerVendorSellToPrompt | called.");
+          const purchasingItems = html.find("[name=\"buying\"");
+          const purchasingItemsList = [];
           const fd = new FormDataExtended(html.find("form")[0]);
           const formData = foundry.utils.expandObject(fd.object);
+          Object.keys(purchasingItems).forEach((item) => {
+            if (purchasingItems[item].checked) {
+              purchasingItemsList.push(purchasingItems[item].value);
+            }
+          });
+          formData.purchasingItems = purchasingItemsList;
           resolve(formData);
         };
         new Dialog({

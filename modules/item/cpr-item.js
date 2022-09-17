@@ -260,7 +260,7 @@ export default class CPRItem extends Item {
         isVarying = true;
       }
       if (isVarying) {
-        const roleSkill = cprActorData.system.filteredItems.skill.find((s) => s.name === localCprRoll.skillName);
+        const roleSkill = cprActorData.itemTypes.skill.find((s) => s.name === localCprRoll.skillName);
         localCprRoll.skillValue = roleSkill.system.level;
         localCprRoll.addMod(cprActorData.bonuses[SystemUtils.slugify(roleSkill.name)]); // add skill bonuses from Active Effects
         if (localCprRoll.statName === "--") {

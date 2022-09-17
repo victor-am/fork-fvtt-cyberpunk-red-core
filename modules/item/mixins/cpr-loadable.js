@@ -95,7 +95,7 @@ const Loadable = function Loadable() {
     const loadUpdate = [];
     if (this.actor) {
       if (!selectedAmmoId) {
-        const ownedAmmo = this.actor.system.filteredItems.ammo;
+        const ownedAmmo = this.actor.itemTypes.ammo;
         const validAmmo = [];
         Object.keys(ownedAmmo).forEach((index) => {
           const ammo = ownedAmmo[index];

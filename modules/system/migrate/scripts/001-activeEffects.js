@@ -11,6 +11,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     LOGGER.trace("constructor | 1-activeEffects Migration");
     super();
     this.version = 1;
+    this.name = "Active Effects Migration";
   }
 
   /**
@@ -21,6 +22,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    */
   async preMigrate() {
     LOGGER.trace("preMigrate | 1-activeEffects Migration");
+    LOGGER.log(`Starting migration: ${this.name}`);
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.effects.beginMigration"));
     this.migrationFolder = await CPRSystemUtils.GetFolder("Item", "Active Effect Migration Workspace");
   }
@@ -60,6 +62,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
       LOGGER.debug("would delete migration folder");
       this.migrationFolder.delete();
     }
+    LOGGER.log(`Finishing migration: ${this.name}`);
   }
 
   /**

@@ -70,19 +70,22 @@ export default class CPRItemSheet extends ItemSheet {
     // data.isGM = game.user.isGM;
     cprData.isGM = game.user.isGM;
     cprData.isOwned = this.object.isOwned;
-    // data.filteredItems will be other items relevant to this one.
-    // For owned objects, the item list will come from the character owner
-    // For unowned objects, the item list will come from the core list of objects
-    cprData.filteredItems = {};
-    if (cprData.isOwned) {
-      cprData.filteredItems = this.object.actor.itemTypes;
-    } else if (foundryData.item.type === "role") {
-      const coreSkills = await SystemUtils.GetCoreSkills();
-      const worldSkills = game.items.filter((i) => i.type === "skill");
-      cprData.filteredItems.skill = coreSkills.concat(worldSkills);
-    } else {
-      cprData.filteredItems.skill = await SystemUtils.GetCoreSkills();
+    const itemType = foundryData.item.type;
+    const mixins = SystemUtils.getDataModelTemplates(itemType);
+    if (itemType === "role" || mixins.includes("attackable")) {
+      // relativeSkills and relativeAmmo will be other items relevant to this one.
+      // For owned objects, the item list will come from the character owner
+      // For unowned objects, the item list will come from the core list of objects
+      if (cprData.isOwned) {
+        cprData.relativeSkills = this.object.actor.itemTypes.skill;
+        cprData.relativeAmmo = this.object.actor.itemTypes.ammo;
+      } else {
+        const coreSkills = await SystemUtils.GetCoreSkills();
+        const worldSkills = game.items.filter((i) => i.type === "skill");
+        cprData.relativeSkills = coreSkills.concat(worldSkills);
+      }
     }
+
     // if (["cyberdeck", "weapon", "armor", "cyberware", "clothing"].indexOf(data.item.type) > -1) {
     //   data.system.availableSlots = this.object.availableSlots();
     // }
@@ -219,7 +222,7 @@ export default class CPRItemSheet extends ItemSheet {
     const pack = game.packs.get("cyberpunk-red-core.skills");
     const coreSkills = await pack.getDocuments();
     const customSkills = game.items.filter((i) => i.type === "skill");
-    const allSkills = this.object.isOwned ? this.actor.system.filteredItems.skill
+    const allSkills = this.object.isOwned ? this.actor.itemTypes.skill
       : coreSkills.concat(customSkills).sort((a, b) => (a.name > b.name ? 1 : -1));
     const allSkillsData = [];
     allSkills.forEach((a) => allSkillsData.push({ name: a.name, core: a.system.core }));
@@ -256,7 +259,7 @@ export default class CPRItemSheet extends ItemSheet {
     const pack = game.packs.get("cyberpunk-red-core.skills");
     const coreSkills = await pack.getDocuments();
     const customSkills = game.items.filter((i) => i.type === "skill");
-    const allSkills = this.object.isOwned ? this.actor.system.filteredItems.skill
+    const allSkills = this.object.isOwned ? this.actor.itemTypes.skill
       : coreSkills.concat(customSkills).sort((a, b) => (a.name > b.name ? 1 : -1));
     const allSkillsData = [];
     allSkills.forEach((a) => allSkillsData.push({ name: a.name, core: a.system.core }));
@@ -706,10 +709,10 @@ export default class CPRItemSheet extends ItemSheet {
     let programList = [];
 
     // Start with the list of all programs owned by the actor
-    programList = actor.system.filteredItems.program;
+    programList = actor.itemTypes.program;
 
     // Remove all programs that are installed somewhere other than this deck
-    actor.system.filteredItems.programsInstalled.forEach((programId) => {
+    this.item.system.programs.installed.forEach((programId) => {
       const onDeck = installedPrograms.filter((p) => p._id === programId);
       if (onDeck.length === 0) {
         programList = programList.filter((p) => p.id !== programId);
@@ -765,9 +768,9 @@ export default class CPRItemSheet extends ItemSheet {
     cyberdeck.uninstallPrograms(unselectedPrograms);
     cyberdeck.installPrograms(selectedPrograms);
 
-    const updateList = [{ _id: cyberdeck.id, data: cyberdeck.system }];
+    const updateList = [{ _id: cyberdeck.id, system: cyberdeck.system }];
     programList.forEach((program) => {
-      updateList.push({ _id: program.id, data: program.system });
+      updateList.push({ _id: program.id, system: program.system });
     });
     await actor.updateEmbeddedDocuments("Item", updateList);
   }
@@ -788,11 +791,11 @@ export default class CPRItemSheet extends ItemSheet {
       return;
     }
 
-    const program = (actor.system.filteredItems.program.filter((p) => p._id === programId))[0];
+    const program = (actor.itemTypes.program.filter((p) => p._id === programId))[0];
 
     cyberdeck.uninstallPrograms([program]);
 
-    const updateList = [{ _id: cyberdeck._id, data: cyberdeck.system }];
+    const updateList = [{ _id: cyberdeck._id, system: cyberdeck.system }];
     updateList.push({ _id: program._id, "data.isInstalled": false });
     await actor.updateEmbeddedDocuments("Item", updateList);
   }
@@ -805,7 +808,7 @@ export default class CPRItemSheet extends ItemSheet {
     const pack = game.packs.get("cyberpunk-red-core.skills");
     const coreSkills = await pack.getDocuments();
     const customSkills = game.items.filter((i) => i.type === "skill");
-    const allSkills = this.object.isOwned ? this.actor.system.filteredItems.skill
+    const allSkills = this.object.isOwned ? this.actor.itemTypes.skill
       : coreSkills.concat(customSkills).sort((a, b) => (a.name > b.name ? 1 : -1));
     if (action === "create") {
       let formData = {
@@ -948,7 +951,7 @@ export default class CPRItemSheet extends ItemSheet {
     }
 
     const installedUpgrades = item.system.upgrades;
-    const ownedUpgrades = actor.system.filteredItems.itemUpgrade;
+    const ownedUpgrades = actor.itemTypes.itemUpgrade;
     const availableUpgrades = ownedUpgrades.filter((u) => u.system.type === item.type && u.system.isInstalled === false);
     let uninstallList = [];
     installedUpgrades.forEach((u) => {

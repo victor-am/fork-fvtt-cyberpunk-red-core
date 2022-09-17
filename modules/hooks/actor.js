@@ -69,7 +69,7 @@ const actorHooks = () => {
                       if (diff < 0 && item._id === a._id) {
                         armorData.bodyLocation.ablation = Math.max(armorData.bodyLocation.ablation + diff, 0);
                       }
-                      updateList.push({ _id: a.id, data: armorData });
+                      updateList.push({ _id: a.id, system: armorData });
                     });
                     doc.updateEmbeddedDocuments("Item", updateList);
                   }
@@ -94,7 +94,7 @@ const actorHooks = () => {
                   }
                   if (itemType === "currentArmorShield") {
                     item.system.shieldHitPoints.value = currentValue;
-                    doc.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.system }]);
+                    doc.updateEmbeddedDocuments("Item", [{ _id: item.id, system: item.system }]);
                   }
                   break;
                 }
@@ -122,8 +122,19 @@ const actorHooks = () => {
           const netrunner = netrunnerToken.actor;
           const cyberdeck = netrunner._getOwnedItem(cyberdeckId);
           cyberdeck.updateRezzedProgram(programId, updatedData.system.stats);
-          netrunner.updateEmbeddedDocuments("Item", [{ _id: cyberdeck.id, data: cyberdeck.system }]);
+          netrunner.updateEmbeddedDocuments("Item", [{ _id: cyberdeck.id, system: cyberdeck.system }]);
         }
+      }
+    }
+
+    if (updatedData.system && updatedData.system.stats && (updatedData.system.stats.emp || updatedData.system.stats.luck)) {
+      const updatedValue = (updatedData.system.stats.emp) ? updatedData.system.stats.emp.value : updatedData.system.stats.luck.value;
+      const updatedMax = (updatedData.system.stats.emp) ? updatedData.system.stats.emp.max : updatedData.system.stats.luck.max;
+      if (updatedValue && Number(updatedValue) > 9) {
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.doubleDigitStatValueWarn"));
+      }
+      if (updatedMax && Number(updatedMax) > 9) {
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.doubleDigitStatMaxWarn"));
       }
     }
   });

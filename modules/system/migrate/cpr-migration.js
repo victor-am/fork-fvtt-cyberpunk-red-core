@@ -22,6 +22,8 @@ export default class CPRMigration {
     this.errors = 0; // Increment if there were errors as part of this migration.
     this.statusPercent = 0;
     this.statusMessage = "";
+    this.name = "Base CPRMigration Class";
+    this.foundryMajorVersion = parseInt(game.version, 10);
   }
 
   /**
@@ -112,6 +114,10 @@ export default class CPRMigration {
    * Example deletion key that will delete "data.whatever.property":
    *    { "data.whatever.-=property": null }
    *
+   * Prior to Foundry V10, all CPR data was stored in "data.data" however with V10, that has
+   * been moved to "system" directly off of the object.  Due to this, it is no longer necessary with V10+
+   * to pass the object stub (ie "system") in the property name.
+   *
    * @param {Document} doc - document (item or actor) that we intend to delete properties on
    * @param {String} prop - dot-notation of the property, "data.roleInfo.role" for example
    * @returns {Object}
@@ -119,9 +125,13 @@ export default class CPRMigration {
   static safeDelete(doc, prop) {
     LOGGER.trace("safeDelete | CPRMigration");
     let key = prop;
-    if (key.includes("data.data")) key = key.slice(0, 4); // should only be one data
-    if (hasProperty(doc.data, key)) {
-      key = prop.replace(/.([^.]*)$/, ".-=$1");
+    const systemData = (this.foundryMajorVersion < 10) ? "data" : "system";
+    if (this.foundryMajorVersion < 10) {
+      if (key.includes("data.data")) key = key.slice(5); // should only be one data for v9
+    }
+
+    if (hasProperty(doc[systemData], key)) {
+      key = prop.match(/.\../) ? prop.replace(/.([^.]*)$/, ".-=$1") : `-=${prop}`;
       return { [key]: null };
     }
     return {};
@@ -201,16 +211,17 @@ export default class CPRMigration {
   async migrateScene(scene) {
     LOGGER.trace("migrateScene | CPRMigration");
     const tokens = scene.tokens.contents.filter((token) => {
-      if (!token.data.actorLink && !game.actors.has(token.data.actorId)) {
+      const tokenData = (this.foundryMajorVersion < 10) ? token.data : token;
+      if (!tokenData.actorLink && !game.actors.has(tokenData.actorId)) {
         // Degenerate case where the token is unlinked, but the actor it is derived from was since
         // deleted. This makes token.actor null so we don't have a full view of all of the actor data.
         // This is technically a broken token and even Foundry throws errors when you do certain things
         // with this token. We skip it.
-        LOGGER.warn(`WARNING: Token "${token.data.name}" (${token.data.actorId}) on Scene "${scene.name}" (${scene.id})`
+        LOGGER.warn(`WARNING: Token "${tokenData.name}" (${tokenData.actorId}) on Scene "${scene.name}" (${scene.id})`
             + ` is missing the source Actor, so we will skip migrating it. Consider replacing or deleting it.`);
         return false;
       }
-      if (!token.data.actorLink) return true; // unlinked tokens, this is what we're after
+      if (!tokenData.actorLink) return true; // unlinked tokens, this is what we're after
       // anything else is a linked token, we assume they're already migrated
       return false;
     });

@@ -37,7 +37,7 @@ export default class CPRRoleItem extends CPRItem {
       }
       if (cprItemData.skill !== "--" && cprItemData.skill !== "varying") {
         skillName = cprItemData.skill;
-        const skillObject = actor.system.filteredItems.skill.find((i) => skillName === i.name);
+        const skillObject = actor.itemTypes.skill.find((i) => skillName === i.name);
         if (skillObject !== undefined) {
           skillValue = skillObject.system.level;
         } else {
@@ -46,9 +46,9 @@ export default class CPRRoleItem extends CPRItem {
       } else if (cprItemData.skill === "varying") {
         skillName = "varying";
         if (cprItemData.stat !== "--") {
-          skillList = actor.system.filteredItems.skill.filter((s) => s.system.stat === cprItemData.stat);
+          skillList = actor.itemTypes.skill.filter((s) => s.system.stat === cprItemData.stat);
         } else {
-          skillList = actor.system.filteredItems.skill;
+          skillList = actor.itemTypes.skill;
         }
       }
     }
@@ -63,7 +63,7 @@ export default class CPRRoleItem extends CPRItem {
       }
       if (subRoleAbility.skill !== "--" && subRoleAbility.skill !== "varying") {
         skillName = subRoleAbility.skill.name;
-        const skillObject = actor.system.filteredItems.skill.find((i) => skillName === i.name);
+        const skillObject = actor.itemTypes.skill.find((i) => skillName === i.name);
         if (skillObject !== undefined) {
           skillValue = skillObject.system.level;
         } else {
@@ -72,9 +72,9 @@ export default class CPRRoleItem extends CPRItem {
       } else if (subRoleAbility.skill === "varying") {
         skillName = "varying";
         if (subRoleAbility.stat !== "--") {
-          skillList = actor.system.filteredItems.skill.filter((s) => s.system.stat === subRoleAbility.stat);
+          skillList = actor.itemTypes.skill.filter((s) => s.system.stat === subRoleAbility.stat);
         } else {
-          skillList = actor.system.filteredItems.skill;
+          skillList = actor.itemTypes.skill;
         }
       }
     }

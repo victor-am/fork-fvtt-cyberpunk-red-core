@@ -279,12 +279,12 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
    */
   async _selectRoles() {
     LOGGER.trace("_selectRoles | CPRCharacterActorSheet | Called.");
-    if (this.actor.system.filteredItems.role.length === 0) {
+    if (this.actor.itemTypes.role.length === 0) {
       SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.characterSheet.bottomPane.role.noRolesWarning"));
       return;
     }
     let formData = {
-      roles: this.actor.system.filteredItems.role,
+      roles: this.actor.itemTypes.role,
     };
     formData = await SelectRolePrompt.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
@@ -665,11 +665,11 @@ export default class CPRCharacterActorSheet extends CPRActorSheet {
 
     const updateList = [];
     if (cyberdeck.isOwned && cyberdeck.isEmbedded) {
-      updateList.push({ _id: cyberdeck.id, data: cyberdeck.system });
+      updateList.push({ _id: cyberdeck.id, system: cyberdeck.system });
     }
 
     if (program.isOwned && program.isEmbedded) {
-      updateList.push({ _id: program.id, data: program.system });
+      updateList.push({ _id: program.id, system: program.system });
     }
 
     if (updateList.length > 0) {

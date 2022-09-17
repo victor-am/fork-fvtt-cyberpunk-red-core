@@ -26,7 +26,7 @@ export default class CPRAmmoItem extends CPRItem {
 
     // If the actor, is updating his owned item, this logic should live within the actor.
     if (this.actor) {
-      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.system }]);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]);
     }
   }
 
@@ -42,7 +42,7 @@ export default class CPRAmmoItem extends CPRItem {
     const newValue = Math.max(0, Number(currentValue) - Number(changeAmount));
     this.system.amount = newValue;
     if (this.actor) {
-      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.system }]);
+      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]);
     }
     return null;
   }
@@ -59,7 +59,7 @@ export default class CPRAmmoItem extends CPRItem {
     const newValue = Number(currentValue) + Number(changeAmount);
     this.system.amount = newValue;
     if (this.actor) {
-      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.system }]);
+      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]);
     }
     return null;
   }

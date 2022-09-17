@@ -18,7 +18,7 @@
         {{localize (cprFindConfigValue "objectTypes" type)}}
       </div>
       <div class="item flexrow setting-value text-nowrap text-space-around">
-        <input type="checkbox" name="sell-{{type}}" value="" {{#if (cprGetProp (cprGetProp ../currentConfig.itemTypes type) "isPurchasing")}}checked{{/if}}>
+        <input type="checkbox" name="buying" value="{{type}}" {{#if (cprGetProp (cprGetProp ../currentConfig.itemTypes type) "isPurchasing")}}checked{{/if}}>
       </div>
       <div class="item flexrow setting-value text-nowrap text-space-around">
         <input class="" name="pct-{{type}}" type="number" value={{cprGetProp (cprGetProp ../currentConfig.itemTypes type) "purchasePercentage"}} />

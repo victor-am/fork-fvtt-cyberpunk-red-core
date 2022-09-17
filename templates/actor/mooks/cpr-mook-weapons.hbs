@@ -15,7 +15,7 @@
           {{localize "CPR.global.generic.actions"}}
         </div>
       </li>
-      {{#each (cprSort actor.system.filteredItems.weapon "name") as |weapon|}}
+      {{#each (cprSort actor.itemTypes.weapon "name") as |weapon|}}
         {{#if (cprCompare weapon.system.equipped "===" "equipped")}}
           <li class="item flexrow" data-item-id="{{weapon.id}}">
             <div class="mook-weapon">
@@ -38,7 +38,7 @@
                     {{#if weapon.system.isUpgraded}}
                       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
                     {{else}}
-                      {{#unless (cprIsEmpty (cprFilter (cprFilter actor.system.filteredItems.itemUpgrade "type" type) "system.isInstalled" false))}}
+                      {{#unless (cprIsEmpty (cprFilter (cprFilter actor.itemTypes.itemUpgrade "type" type) "system.isInstalled" false))}}
                         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
                       {{/unless}}
                     {{/if}}
@@ -95,7 +95,7 @@
         {{#if weapon.system.isUpgraded}}
           {{#each weapon.system.upgrades as |upgrade|}}
               {{#if (cprCompare upgrade.system.modifiers.secondaryWeapon.configured "===" "true")}}
-                  {{#each (cprFilter ../actor.system.filteredItems.itemUpgrade "_id" upgrade._id) as |weapon|}}
+                  {{#each (cprFilter ../actor.itemTypes.itemUpgrade "_id" upgrade._id) as |weapon|}}
                     <li class="item flexrow">
                       <div class="mook-weapon">
                         <div class="item-name mook-weapon-name text-pad-right text-nowrap">
@@ -164,7 +164,7 @@
         {{/if}}
       {{/each}}
 
-      {{#each (cprSort (cprFilter actor.system.filteredItems.cyberware "system.isInstalled" true) "name") as |weapon|}}
+      {{#each (cprSort (cprFilter actor.itemTypes.cyberware "system.isInstalled" true) "name") as |weapon|}}
         {{#if (cprCompare system.isWeapon "===" true)}}
           <li class="item flexrow">
             <div class="mook-weapon">
@@ -187,7 +187,7 @@
                     {{#if weapon.system.isUpgraded}}
                       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
                     {{else}}
-                      {{#unless (cprIsEmpty (cprFilter (cprFilter actor.system.filteredItems.itemUpgrade "type" type) "system.isInstalled" false))}}
+                      {{#unless (cprIsEmpty (cprFilter (cprFilter actor.itemTypes.itemUpgrade "type" type) "system.isInstalled" false))}}
                         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
                       {{/unless}}
                     {{/if}}
@@ -244,7 +244,7 @@
         {{#if weapon.system.isUpgraded}}
           {{#each weapon.system.upgrades as |upgrade|}}
               {{#if (cprCompare upgrade.system.modifiers.secondaryWeapon.configured "===" "true")}}
-                  {{#each (cprFilter ../actor.system.filteredItems.itemUpgrade "_id" upgrade._id) as |weapon|}}
+                  {{#each (cprFilter ../actor.itemTypes.itemUpgrade "_id" upgrade._id) as |weapon|}}
                     <li class="item flexrow">
                       <div class="mook-weapon">
                         <div class="item-name mook-weapon-name text-pad-right text-nowrap">
