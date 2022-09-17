@@ -1,7 +1,7 @@
 # Version DEV | Date: WIP
 
 **New Features**
-- Foundry V10 Compatibility
+- New UI for modifying Mook skills on the Mook sheet
 
 **Changes**
 -
