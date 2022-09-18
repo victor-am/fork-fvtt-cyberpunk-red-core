@@ -1388,20 +1388,17 @@ export default class CPRActor extends Actor {
    * Called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
    * It handles the automatic equipping of gear and installation of cyberware.
    *
-   * @async
-   * @param {CPRItem} item - the item that was dragged
+   * @param {CPRItem} item - the item document that was dragged
    */
-  async handleMookDraggedItem(item) {
+  handleMookDraggedItem(item) {
     LOGGER.trace("handleMookDraggedItem | CPRActor | Called.");
-    LOGGER.debugObject(item);
     // auto-install this cyberware
     if (item.type === "cyberware") {
       this.addCyberware(item._id);
     }
     // auto-equip this item
     if (SystemUtils.hasDataModelTemplate(item.type, "stackable")) {
-      await this.updateEmbeddedDocuments("Item", [{ _id: item._id, "system.equipped": "equipped" }]);
+      this.updateEmbeddedDocuments("Item", [{ _id: item._id, "system.equipped": "equipped" }]);
     }
-    return true;
   }
 }

@@ -1,4 +1,5 @@
 {{cprTrace "START ACTOR MOOKS CPR-MOOK-ARMOR.HBS"}}
+{{log this}}
 <div class="armor-section">
   <div class="bg-red fg-white">
     <span class="item-name section-name text-nowrap text-padding-left">
@@ -7,6 +8,9 @@
   </div>
   <div class="armor-content fg-black">
     <ol class="items-list fight-armor-list">
+      {{#if (cprCompare this.data.system.equippedArmor.length "===" 0)}}
+        {{localize "CPR.mookSheet.noArmorEquipped"}}
+      {{/if}}
       {{#each (cprSort actor.itemTypes.armor "name") as |armor| }}
         {{#if (cprCompare armor.system.equipped "===" "equipped")}}
           <li class="item armor-piece">

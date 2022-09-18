@@ -71,7 +71,7 @@ const itemHooks = () => {
       if (doc.type === "role" && actor.system.roleInfo.activeRole === "") {
         actor.update({ "data.roleInfo.activeRole": doc.name });
       }
-      // when a new item is created (dragged) on a mook sheet, auto install or equip it
+      // when a new item is created (dragged) on a mook sheet, perform a couple changes like auto-equip
       if (Object.values(actor.apps).some((app) => app instanceof CPRMookActorSheet) && userId === game.user._id) {
         LOGGER.debug("handling a dragged item to the mook sheet");
         actor.handleMookDraggedItem(doc);

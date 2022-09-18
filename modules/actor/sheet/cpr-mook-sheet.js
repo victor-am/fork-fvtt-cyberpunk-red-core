@@ -41,6 +41,7 @@ export default class CPRMookActorSheet extends CPRActorSheet {
    *
    * https://discord.com/channels/170995199584108546/596076404618166434/864673619098730506
    *
+   * @override
    * @property
    * @returns {String} - path to a handlebars template
    */
@@ -68,6 +69,26 @@ export default class CPRMookActorSheet extends CPRActorSheet {
     } else {
       await super._render(force, options);
     }
+  }
+
+  /**
+   * The Mook sheet goes a little further than actor.getData by tracking whether any armor
+   * or weapons (including cyberware weapons) are equipped on the mook.
+   *
+   * @override
+   * @returns {Object} data - a curated structure of actorSheet data
+   */
+  getData() {
+    LOGGER.trace("getData | CPRMookActorSheet | Called.");
+    const foundryData = super.getData();
+    const cprActorData = foundryData.actor.system;
+    cprActorData.equippedArmor = this.actor.itemTypes.armor.filter((item) => item.system.equipped === "equipped");
+    cprActorData.equippedWeapons = this.actor.itemTypes.weapon.filter((item) => item.system.equipped === "equipped");
+    const installedCyberware = this.actor.getInstalledCyberware();
+    const installedWeapons = installedCyberware.filter((c) => c.system.isWeapon === true);
+    cprActorData.equippedWeapons = cprActorData.equippedWeapons.concat(installedWeapons);
+    foundryData.data.system = cprActorData;
+    return foundryData;
   }
 
   /**
