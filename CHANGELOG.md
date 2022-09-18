@@ -2,9 +2,12 @@
 
 **New Features**
 - New UI for modifying Mook skills on the Mook sheet
+- Drugs can be used in the Mook sheet
+- Stackable items can be dragged to the Mook sheet and stacked properly
 
 **Changes**
--
+- Mook portrait is always shown
+- A few minor UI improvements to the Mook sheet
 
 **Bug Fixes**
 #473 - Fashionware foundational item not migrated to v10
