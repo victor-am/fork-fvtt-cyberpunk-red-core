@@ -45,12 +45,16 @@
     {{~#if (cprListContains "ammo,clothing,cyberdeck,drug,gear" itemType)}}
       {{~#each (cprSort items "name") as |item i|}}
         <a class="name item deletable changeable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
-          {{item.name}} {{#if (cprHasTemplate item.type "stackable")}}(x{{item.system.amount}}){{/if}}{{~#unless @last}},{{~/unless}}
+          {{item.name}} 
         </a>
+        {{#if (cprCompare item.type "===" "drug")}}
+          <a class="item-action" data-item-id="{{item.id}}" data-action-type="snort"><i class="fas fa-pills" title="{{localize "CPR.global.generic.snort"}}"></i></a>
+        {{/if}}
+        {{#if (cprHasTemplate item.type "stackable")}}(x{{item.system.amount}}){{/if}}
+        {{~#unless @last}},{{~/unless}}
       {{~/each}}
       {{~#if (cprCompare items.length ">" 0)}}
-        {{log items.length}}
-        {{~#unless @last}},{{~/unless}}
+        {{~#unless @last}};{{~/unless}}
       {{~/if}}
     {{~/if}}
   {{~/each}}
