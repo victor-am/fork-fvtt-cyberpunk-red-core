@@ -1397,7 +1397,7 @@ export default class CPRActor extends Actor {
       this.addCyberware(item._id);
     }
     // auto-equip this item
-    if (SystemUtils.hasDataModelTemplate(item.type, "stackable")) {
+    if (SystemUtils.hasDataModelTemplate(item.type, "equippable")) {
       this.updateEmbeddedDocuments("Item", [{ _id: item._id, "system.equipped": "equipped" }]);
     }
   }

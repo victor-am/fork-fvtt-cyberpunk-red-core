@@ -37,25 +37,25 @@
     {{~/each}}
     {{~#if (cprCompare optionals.length ">" 0)~}}
       ){{~#unless @last}},{{~/unless}}
-    {{/if}}
+    {{~/if}}
   {{~/each}}
-  {{#if (cprCompare (cprCompare (cprGetMookCyberwareLength actor.system.installedCyberware) ">" 0) "&&" (cprCompare (cprCompare actor.itemTypes.ammo.length ">" 0) "||" (cprCompare actor.itemTypes.gear.length ">" 0)))}},{{/if}}
+  {{~#if (cprCompare (cprCompare (cprGetMookCyberwareLength actor.system.installedCyberware) ">" 0) "&&" (cprCompare (cprCompare actor.itemTypes.ammo.length ">" 0) "||" (cprCompare actor.itemTypes.gear.length ">" 0)))}},{{~/if}}
   <!-- Display specific item types in the Gear section -->
   {{~#each actor.itemTypes as |items itemType|}}
     {{~#if (cprListContains "ammo,clothing,cyberdeck,drug,gear" itemType)}}
-      {{~#each (cprSort items "name") as |item i|}}
-        <a class="name item deletable changeable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
-          {{item.name}} 
-        </a>
-        {{#if (cprCompare item.type "===" "drug")}}
-          <a class="item-action" data-item-id="{{item.id}}" data-action-type="snort"><i class="fas fa-pills" title="{{localize "CPR.global.generic.snort"}}"></i></a>
-        {{/if}}
-        {{#if (cprHasTemplate item.type "stackable")}}(x{{item.system.amount}}){{/if}}
-        {{~#unless @last}},{{~/unless}}
-      {{~/each}}
       {{~#if (cprCompare items.length ">" 0)}}
-        {{~#unless @last}};{{~/unless}}
+        {{~#unless @first}};{{~/unless}}
       {{~/if}}
+      {{~#each (cprSort items "name") as |item i|}}
+        {{~#unless @first}},{{~/unless}}
+        <a class="name item deletable changeable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
+          {{~item.name~}}
+        </a>
+        {{~#if (cprCompare item.type "===" "drug")}}
+          <a class="item-action" data-item-id="{{item.id}}" data-action-type="snort"><i class="fas fa-pills" title="{{localize "CPR.global.generic.snort"}}"></i></a>
+        {{~/if}}
+        {{#if (cprHasTemplate item.type "stackable")}}(x{{item.system.amount}}){{/if}}
+      {{~/each}}
     {{~/if}}
   {{~/each}}
 </div>
