@@ -1,3 +1,10 @@
+# Version 0.81.5 (Hotfix) | Date: 2022-08-XX
+#467 - Fix shield ablation arrow in Fight Tab to be functional
+#461 - Throw an exception if someone enters a decimal point when modifying eurobucks.
+#477 - Autofire functionality is not working from the Fight Tab
+#468 - Actor image goes outside border over text
+- Item Upgrades & Cyberware which are weapons no longer get their item data corrupted when opening the item sheet
+
 # Version 0.81.4 (Hotfix) | Date: 2022-08-21
 #464 - Fix issue where containers corrupt eurobucks amount for non-stackable items
 

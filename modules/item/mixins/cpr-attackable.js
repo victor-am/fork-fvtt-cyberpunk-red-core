@@ -89,8 +89,8 @@ const Attackable = function Attackable() {
 
     const skillName = skillItem.data.name;
     // total up bonuses from skills and stats
-    const skillValue = actor.getSkillLevel(weaponData.weaponSkill);
-    const skillMod = actor.getSkillMod(weaponData.weaponSkill);
+    const skillValue = actor.getSkillLevel(skillName);
+    const skillMod = actor.getSkillMod(skillName);
     let cprRoll;
     let statName;
     if (weaponData.isRanged && this.data.data.weaponType !== "thrownWeapon") {
