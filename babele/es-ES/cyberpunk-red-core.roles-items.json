@@ -2,44 +2,44 @@
 	"label": "Roles",
 	"entries": {
 		"Exec": {
-			"name": "Exec",
-			"description": "<p>Business executives and fat-cat defenders ready to risk it all to rise the corporate ladder and realize the New American dream.</p>"
+			"name": "Ejecutivo",
+			"description": "<p>Ejecutivos de negocios y defensores de peces gordos dispuestos a arriesgarlo todo para trepar la escalera corporativa y realizar el nuevo sueño americano.</p>"
 		},
 		"Fixer": {
-			"name": "Fixer",
-			"description": "<p>They can get anyone anything, as long as the price is right. Using their charm and skills of trade, they make the deals that keep the economy of the Dark Future flowing.</p>"
+			"name": "Arreglador",
+			"description": "<p>Pueden conseguir cualquier cosa a cualquier persona, siempre y cuando el precio sea correcto. Utilizando su encanto y sus habilidades de comercio, hacen los tratos que mantienen la economía del futuro oscuro.</p>"
 		},
 		"Lawman": {
-			"name": "Lawman",
-			"description": "<p>Renegade defenders, corporate strike teams, or the last remnants of a government police force, they patrol the streets to enforce some order in an otherwise lawless world.</p>"
+			"name": "Policía",
+			"description": "<p>Renegados defensores, equipos de ataque corporativo o los últimos restos de una fuerza policial del gobierno. Patrullan las calles para imponer cierto orden en un mundo por lo demás sin ley.</p>"
 		},
 		"Media": {
-			"name": "Media",
-			"description": "<p>Newspeople, influencers, and cultural phenomena, they are ready to expose the truth by any means necessary.</p>"
+			"name": "Reportero",
+			"description": "<p>Gente de noticias, influencers y fenómenos del mundo cultural, están listos para exponer la verdad por cualquier medio necesario.</p>"
 		},
 		"Medtech": {
-			"name": "Medtech",
-			"description": "<p>Backalley doctors and mechanics of cyberware, using their skills to keep fellow edgerunners in good shape and cybered up, often at a price.</p>"
+			"name": "Tecnomédico",
+			"description": "<p>Médicos de callejón y mecánicos del cyberware, utilizando sus habilidades para mantener a sus compañeros en buena forma y a tope cibernético, a menudo a un precio.</p>"
 		},
 		"Netrunner": {
 			"name": "Netrunner",
-			"description": "<p>Master hackers who put themselves at risk as they jack into cyberspace to download secrets and infiltrate networks.</p>"
+			"description": "<p>Maestros hackers que se ponen en riesgo a medida que se conectan al ciberespacio para descargar secretos e infiltrar redes.</p>"
 		},
 		"Nomad": {
-			"name": "Nomad",
-			"description": "<p>Car people, truckers, transportation afficionados, air-pirates, they are the sole carriers of product across the world, maintaining the transport and supply chains in the time of the Red.</p>"
+			"name": "Nómada",
+			"description": "<p>Automovilistas, camioneros, aficionados del transporte, piratas aéreos, son los únicos transportistas de productos de todo el mundo, manteniendo las cadenas de transporte y suministro en los tiempos de RED.</p>"
 		},
 		"Rockerboy": {
-			"name": "Rockerboy",
-			"description": "<p>Rebellious performance artists who use their craft to influence fans/crowds and fight back.</p>"
+			"name": "Rockero",
+			"description": "<p>Rebeldes artistas que utilizan su arte para influir en los fans/multitudes y luchar contra el sistema.</p>"
 		},
 		"Solo": {
-			"name": "Solo",
-			"description": "<p>Experts in combat who use their fighting prowess to dominate in the lawless time of the Red.</p>"
+			"name": "Mercenario",
+			"description": "<p>Los expertos en el combate que utilizan su destreza para predominar en el tiempo sin ley del RED.</p>"
 		},
 		"Tech": {
-			"name": "Tech",
-			"description": "<p>Superior understanding of all-things tech allow them to invent, upgrade, and repair to keep the Dark Future functioning.</p>"
+			"name": "Técnico",
+			"description": "<p>La comprensión superior de la tecnología de todas las cosas les permite inventar, actualizar y reparar para mantener el futuro oscuro.</p>"
 		}
 	}
 }

@@ -49,9 +49,9 @@ export default class CPRSystemUtils {
     let tableList;
     if (useRegExp) {
       const searchString = new RegExp(tableName);
-      tableList = game.tables.filter((t) => t.data.name.match(searchString));
+      tableList = game.tables.filter((t) => t.name.match(searchString));
     } else {
-      tableList = game.tables.filter((t) => t.data.name === tableName);
+      tableList = game.tables.filter((t) => t.name === tableName);
     }
     return tableList;
   }
@@ -377,17 +377,20 @@ export default class CPRSystemUtils {
    * Note that "pin" is left out, it is hardcoded in the sheet code.
    * This is not used anywhere right now, but will be useful when associating actions with mixins.
    *
-   * @param {ItemData} itemData - the item data we will be inspecting
+   * V10 WARNING - I do not know the intent of this, but with V10, the item data model changed which would
+   *               break the original code.  This has been updated but when used, you need to pass item, not item.data
+   *
+   * @param {ItemData} item - the item we will be inspecting
    * @returns {String[]} - array of actions that can be taken
    */
-  static getActions(itemData) {
+  static getActions(item) {
     LOGGER.trace("getActions | CPRItem | Called.");
-    const mixins = CPRSystemUtils.getDataModelTemplates(itemData.type);
+    const mixins = CPRSystemUtils.getDataModelTemplates(item.type);
     const actions = ["delete"];
     for (let m = 0; m < mixins.length; m += 1) {
       switch (mixins[m]) {
         case "drug": {
-          if (itemData.data.amount > 0) actions.push("snort");
+          if (item.system.amount > 0) actions.push("snort");
           break;
         }
         case "equippable": {
@@ -395,7 +398,7 @@ export default class CPRSystemUtils {
           break;
         }
         case "installable": {
-          if (!itemData.data.isInstalled) actions.push("install");
+          if (!item.system.isInstalled) actions.push("install");
           else actions.push("uninstall");
           break;
         }
@@ -405,7 +408,7 @@ export default class CPRSystemUtils {
           break;
         }
         case "physical": {
-          if (itemData.data.concealable.concealable) actions.push("conceal");
+          if (item.system.concealable.concealable) actions.push("conceal");
           break;
         }
         case "spawner": {
@@ -413,7 +416,7 @@ export default class CPRSystemUtils {
           break;
         }
         case "stackable": {
-          if (itemData.data.amount > 1) actions.push("split");
+          if (item.system.amount > 1) actions.push("split");
           break;
         }
         default:

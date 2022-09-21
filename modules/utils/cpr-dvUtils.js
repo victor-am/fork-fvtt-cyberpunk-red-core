@@ -7,7 +7,7 @@ export default class DvUtils {
     LOGGER.trace("GetDvTables | DvUtils | called.");
     const tableNames = [];
     const tableList = SystemUtils.GetRollTables("^DV", true);
-    tableList.forEach((table) => tableNames.push(table.data.name));
+    tableList.forEach((table) => tableNames.push(table.name));
     return tableNames.sort();
   }
 
@@ -17,9 +17,9 @@ export default class DvUtils {
     let DV = null;
     if (dvTables.includes(tableName)) {
       const rollTable = (SystemUtils.GetRollTables(tableName, false))[0];
-      const tableResults = rollTable.getResultsForRoll(distance);
-      if (tableResults.length === 1) {
-        DV = tableResults[0].data.text;
+      const tableResult = rollTable.getResultsForRoll(distance);
+      if (tableResult.length === 1) {
+        DV = tableResult[0].text;
       }
     }
     return DV;

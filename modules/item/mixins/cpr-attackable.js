@@ -1,4 +1,4 @@
-/* global game */
+/* global */
 
 import * as CPRRolls from "../../rolls/cpr-rolls.js";
 import LOGGER from "../../utils/cpr-logger.js";
@@ -35,15 +35,15 @@ const Attackable = function Attackable() {
         this._loadItem();
         break;
       case "reload-ammo":
-        this._loadItem(this.data.data.magazine.ammoId);
+        this._loadItem(this.system.magazine.ammoId);
         break;
       case "measure-dv":
-        this._measureDv(actor, this.data.data.dvTable);
+        this._measureDv(actor, this.system.dvTable);
         break;
       default:
     }
     if (this.actor) {
-      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]);
     }
   };
 
@@ -57,8 +57,8 @@ const Attackable = function Attackable() {
     const discharged = this.bulletConsumption(cprRoll);
     LOGGER.debug(discharged);
     // don't go negative
-    this.data.data.magazine.value = Math.max(this.data.data.magazine.value - discharged, 0);
-    return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
+    this.system.magazine.value = Math.max(this.system.magazine.value - discharged, 0);
+    return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]);
   };
 
   /**
@@ -70,30 +70,27 @@ const Attackable = function Attackable() {
    */
   this._createAttackRoll = function _createAttackRoll(type, actor) {
     LOGGER.trace("_createAttackRoll | Attackable | Called.");
-    const weaponData = this.data.data;
+    const cprWeaponData = this.system;
     const weaponName = this.name;
-    const { weaponType } = weaponData;
-    let skillItem = actor.items.find((i) => i.name === weaponData.weaponSkill);
+    const { weaponType } = cprWeaponData;
+    let skillItem = actor.items.find((i) => i.name === cprWeaponData.weaponSkill);
 
     if (type === CPRRolls.rollTypes.SUPPRESSIVE || type === CPRRolls.rollTypes.AUTOFIRE) {
       skillItem = actor.items.find((i) => i.name === "Autofire");
-      if (!this.data.data.fireModes.suppressiveFire) {
-        if (this.data.data.weaponType !== "smg" && this.data.data.weaponType !== "heavySmg" && this.data.data.weaponType !== "assaultRifle") {
+      if (!cprWeaponData.fireModes.suppressiveFire) {
+        if (cprWeaponData.weaponType !== "smg" && cprWeaponData.weaponType !== "heavySmg" && cprWeaponData.weaponType !== "assaultRifle") {
           Rules.lawyer(false, "CPR.messages.weaponDoesntSupportAltMode");
         }
       }
     }
 
-    // Account for an upgrade that gives an attackmod bonus
-    const attackMod = this._getAttackMod();
-
-    const skillName = skillItem.data.name;
+    const skillName = skillItem.name;
     // total up bonuses from skills and stats
-    const skillValue = actor.getSkillLevel(skillName);
-    const skillMod = actor.getSkillMod(skillName);
+    const skillValue = actor.getSkillLevel(cprWeaponData.weaponSkill);
+    const skillMod = actor.getSkillMod(cprWeaponData.weaponSkill);
     let cprRoll;
     let statName;
-    if (weaponData.isRanged && this.data.data.weaponType !== "thrownWeapon") {
+    if (cprWeaponData.isRanged && cprWeaponData.weaponType !== "thrownWeapon") {
       statName = "ref";
     } else {
       statName = "dex";
@@ -104,7 +101,7 @@ const Attackable = function Attackable() {
     const statValue = actor.getStat(statName);
     let roleName;
     let roleValue = 0;
-    actor.data.filteredItems.role.forEach((r) => {
+    actor.itemTypes.role.forEach((r) => {
       const [rn, rv] = r.getSkillBonuses(skillName);
       if (rn) {
         if (roleName) {
@@ -118,11 +115,11 @@ const Attackable = function Attackable() {
 
     // total up attack bonuses directly from role abilities (not indirectly from skills)
     let universalBonusAttack = 0;
-    this.actor.data.filteredItems.role.forEach((r) => {
-      if (r.data.data.universalBonuses.includes("attack")) {
-        universalBonusAttack += Math.floor(r.data.data.rank / r.data.data.bonusRatio);
+    this.actor.itemTypes.role.forEach((r) => {
+      if (r.system.universalBonuses.includes("attack")) {
+        universalBonusAttack += Math.floor(r.system.rank / r.system.bonusRatio);
       }
-      const subroleUniversalBonuses = r.data.data.abilities.filter((a) => a.universalBonuses.includes("attack"));
+      const subroleUniversalBonuses = r.system.abilities.filter((a) => a.universalBonuses.includes("attack"));
       if (subroleUniversalBonuses.length > 0) {
         subroleUniversalBonuses.forEach((b) => {
           universalBonusAttack += Math.floor(b.rank / b.bonusRatio);
@@ -131,38 +128,38 @@ const Attackable = function Attackable() {
     });
 
     // finally, total up active effects improving attacks
-    universalBonusAttack += actor.data.bonuses.universalAttack;
+    universalBonusAttack += actor.bonuses.universalAttack;
 
     switch (type) {
       case CPRRolls.rollTypes.AIMED: {
         cprRoll = new CPRRolls.CPRAimedAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
-        cprRoll.addMod(actor.data.bonuses.aimedShot);
-        if (weaponData.isRanged) {
-          cprRoll.addMod(actor.data.bonuses.ranged);
+        cprRoll.addMod(actor.bonuses.aimedShot);
+        if (cprWeaponData.isRanged) {
+          cprRoll.addMod(actor.bonuses.ranged);
         } else {
-          cprRoll.addMod(actor.data.bonuses.melee);
+          cprRoll.addMod(actor.bonuses.melee);
         }
         break;
       }
       case CPRRolls.rollTypes.AUTOFIRE: {
         cprRoll = new CPRRolls.CPRAutofireRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
-        cprRoll.addMod(actor.data.bonuses.autofire);
-        cprRoll.addMod(actor.data.bonuses.ranged);
+        cprRoll.addMod(actor.bonuses.autofire);
+        cprRoll.addMod(actor.bonuses.ranged);
         break;
       }
       case CPRRolls.rollTypes.SUPPRESSIVE: {
         cprRoll = new CPRRolls.CPRSuppressiveFireRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
-        cprRoll.addMod(actor.data.bonuses.suppressive);
-        cprRoll.addMod(actor.data.bonuses.ranged);
+        cprRoll.addMod(actor.bonuses.suppressive);
+        cprRoll.addMod(actor.bonuses.ranged);
         break;
       }
       default:
         cprRoll = new CPRRolls.CPRAttackRoll(weaponName, niceStatName, statValue, skillName, skillValue, roleName, roleValue, weaponType, universalBonusAttack);
-        if (weaponData.isRanged) {
-          cprRoll.addMod(actor.data.bonuses.singleShot);
-          cprRoll.addMod(actor.data.bonuses.ranged);
+        if (cprWeaponData.isRanged) {
+          cprRoll.addMod(actor.bonuses.singleShot);
+          cprRoll.addMod(actor.bonuses.ranged);
         } else {
-          cprRoll.addMod(actor.data.bonuses.melee);
+          cprRoll.addMod(actor.bonuses.melee);
         }
     }
 
@@ -170,9 +167,9 @@ const Attackable = function Attackable() {
     cprRoll.addMod(actor.getArmorPenaltyMods(statName));
     cprRoll.addMod(actor.getWoundStateMods());
     cprRoll.addMod(skillMod);
-    cprRoll.addMod(attackMod);
+    cprRoll.addMod(cprWeaponData.attackmod);
 
-    if (cprRoll instanceof CPRRolls.CPRAttackRoll && weaponData.isRanged) {
+    if (cprRoll instanceof CPRRolls.CPRAttackRoll && cprWeaponData.isRanged) {
       Rules.lawyer(this.hasAmmo(cprRoll), "CPR.messages.weaponAttackOutOfBullets");
     }
     return cprRoll;
@@ -186,16 +183,18 @@ const Attackable = function Attackable() {
    */
   this._createDamageRoll = function _createDamageRoll(type) {
     LOGGER.trace("_createDamageRoll | Attackable | Called.");
-    const rollName = this.data.name;
-    const { weaponType } = this.data.data;
-    let { damage } = this.data.data;
+    const cprWeaponData = this.system;
+    const rollName = this.name;
+    const { weaponType } = cprWeaponData;
+    let { damage } = this.system;
     let universalBonusDamage = 0;
-    if ((weaponType === "unarmed" || weaponType === "martialArts") && this.data.data.unarmedAutomaticCalculation) {
+    if ((weaponType === "unarmed" || weaponType === "martialArts") && cprWeaponData.unarmedAutomaticCalculation) {
       // calculate damage based on BODY stat
-      const actorBodyStat = this.actor.data.data.stats.body.value;
+      const cprActorData = this.actor.system;
+      const actorBodyStat = cprActorData.stats.body.value;
       if (actorBodyStat <= 4) {
-        if (weaponType === "unarmed" && this.actor.data.filteredItems.cyberware.some((c) => (
-          (c.data.data.type === "cyberArm") && (c.data.data.isInstalled === true) && (c.data.data.isFoundational === true)))) {
+        if (weaponType === "unarmed" && this.actor.itemTypes.cyberware.some((c) => (
+          (c.system.type === "cyberArm") && (c.system.isInstalled === true) && (c.system.isFoundational === true)))) {
           // If the user has an installed Cyberarm, which is a foundational. This is only for unarmed damage, not martial arts damage.
           damage = "2d6";
         } else {
@@ -211,11 +210,11 @@ const Attackable = function Attackable() {
     }
 
     // consider damage bonuses coming from role abilties
-    this.actor.data.filteredItems.role.forEach((r) => {
-      if (r.data.data.universalBonuses.includes("damage")) {
-        universalBonusDamage += Math.floor(r.data.data.rank / r.data.data.bonusRatio);
+    this.actor.itemTypes.role.forEach((r) => {
+      if (r.system.universalBonuses.includes("damage")) {
+        universalBonusDamage += Math.floor(r.system.rank / r.system.bonusRatio);
       }
-      const subroleUniversalBonuses = r.data.data.abilities.filter((a) => a.universalBonuses.includes("damage"));
+      const subroleUniversalBonuses = r.system.abilities.filter((a) => a.universalBonuses.includes("damage"));
       if (subroleUniversalBonuses.length > 0) {
         subroleUniversalBonuses.forEach((b) => {
           universalBonusDamage += Math.floor(b.rank / b.bonusRatio);
@@ -224,15 +223,15 @@ const Attackable = function Attackable() {
     });
 
     // finally, total up active effects improving attacks
-    universalBonusDamage += this.actor.data.bonuses.universalDamage;
+    universalBonusDamage += this.actor.bonuses.universalDamage;
 
     const cprRoll = new CPRRolls.CPRDamageRoll(rollName, damage, weaponType, universalBonusDamage);
-    if (this.data.data.fireModes.autoFire === 0 && (
-      (this.data.data.weaponType === "smg" || this.data.data.weaponType === "heavySmg" || this.data.data.weaponType === "assaultRifle"))) {
-      this.data.data.fireModes.autoFire = this.data.data.weaponType === "assaultRifle" ? 4 : 3;
+    if (cprWeaponData.fireModes.autoFire === 0 && (
+      (cprWeaponData.weaponType === "smg" || cprWeaponData.weaponType === "heavySmg" || cprWeaponData.weaponType === "assaultRifle"))) {
+      cprWeaponData.fireModes.autoFire = cprWeaponData.weaponType === "assaultRifle" ? 4 : 3;
     }
 
-    cprRoll.configureAutofire(1, this.data.data.fireModes.autoFire);
+    cprRoll.configureAutofire(1, cprWeaponData.fireModes.autoFire);
 
     switch (type) {
       case CPRRolls.rollTypes.AIMED: {
@@ -245,7 +244,7 @@ const Attackable = function Attackable() {
       }
       default:
     }
-    if (this.data.data.isRanged) {
+    if (cprWeaponData.isRanged) {
       const ammoType = this._getLoadedAmmoType();
       if (ammoType !== "undefined") {
         cprRoll.rollCardExtraArgs.ammoType = ammoType;
@@ -282,9 +281,10 @@ const Attackable = function Attackable() {
    */
   this._getAttackMod = function _getAttackMod() {
     LOGGER.trace("_getAttackMod | Attackable | Called.");
+    const cprWeaponData = this.system;
     let returnValue = 0;
-    if (typeof this.data.data.attackmod !== "undefined") {
-      returnValue = this.data.data.attackmod;
+    if (typeof cprWeaponData.attackmod !== "undefined") {
+      returnValue = cprWeaponData.attackmod;
     }
     const upgradeValue = this.getAllUpgradesFor("attackmod");
     const upgradeType = this.getUpgradeTypeFor("attackmod");

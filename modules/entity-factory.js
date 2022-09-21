@@ -63,7 +63,7 @@ function factory(entities, baseClass) {
         case Symbol.hasInstance:
           // Applying the "instanceof" operator on the instance object
           return (instance) => {
-            const constr = entities[instance.data.type];
+            const constr = entities[instance.type];
             if (!constr) {
               return false;
             }

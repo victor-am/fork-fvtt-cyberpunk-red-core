@@ -22,7 +22,7 @@ export default class DiceSoNice {
         case "gmroll": { // GM + rolling player
           const gmList = game.users.filter((user) => user.isGM);
           const gmIDList = [];
-          gmList.forEach((gm) => gmIDList.push(gm.data._id));
+          gmList.forEach((gm) => gmIDList.push(gm._id));
           whisper = gmIDList;
           break;
         }
@@ -33,7 +33,7 @@ export default class DiceSoNice {
         case "roll": { // everybody
           const userList = game.users.filter((user) => user.active);
           const userIDList = [];
-          userList.forEach((user) => userIDList.push(user.data._id));
+          userList.forEach((user) => userIDList.push(user._id));
           whisper = userIDList;
           break;
         }

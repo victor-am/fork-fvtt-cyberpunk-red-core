@@ -22,7 +22,7 @@ const actorHooks = () => {
     LOGGER.trace("preCreateActor | actorHooks | Called.");
     if ((typeof createData.img === "undefined")) {
       const actorImage = SystemUtils.GetDefaultImage("Actor", createData.type);
-      doc.data.update({ img: actorImage });
+      doc.updateSource({ img: actorImage });
     }
   });
 
@@ -44,57 +44,57 @@ const actorHooks = () => {
    */
   Hooks.on("preUpdateActor", (doc, updatedData) => {
     LOGGER.trace("preUpdateActor | actorHooks | Called.");
-    if (updatedData.data && updatedData.data.externalData) {
-      Object.keys(updatedData.data.externalData).forEach(
+    if (updatedData.system && updatedData.system.externalData) {
+      Object.keys(updatedData.system.externalData).forEach(
         (itemType) => {
-          if (!updatedData.data.externalData[itemType].id) {
-            const itemId = doc.data.data.externalData[itemType].id;
+          if (!updatedData.system.externalData[itemType].id) {
+            const itemId = doc.system.externalData[itemType].id;
             const item = doc._getOwnedItem(itemId);
-            const currentValue = updatedData.data.externalData[itemType].value;
+            const currentValue = updatedData.system.externalData[itemType].value;
             if (item) {
-              switch (item.data.type) {
+              switch (item.type) {
                 case "armor": {
                   if (itemType === "currentArmorBody") {
                     const armorList = doc.getEquippedArmors("body");
                     const updateList = [];
-                    const diff = item.data.data.bodyLocation.sp - item.data.data.bodyLocation.ablation - currentValue;
+                    const diff = item.system.bodyLocation.sp - item.system.bodyLocation.ablation - currentValue;
                     armorList.forEach((a) => {
-                      const armorData = a.data;
+                      const armorData = a.system;
                       if (diff > 0) {
-                        armorData.data.bodyLocation.ablation = Math.min(
-                          armorData.data.bodyLocation.ablation + diff,
-                          armorData.data.bodyLocation.sp,
+                        armorData.bodyLocation.ablation = Math.min(
+                          armorData.bodyLocation.ablation + diff,
+                          armorData.bodyLocation.sp,
                         );
                       }
-                      if (diff < 0 && item.data._id === a.data._id) {
-                        armorData.data.bodyLocation.ablation = Math.max(armorData.data.bodyLocation.ablation + diff, 0);
+                      if (diff < 0 && item._id === a._id) {
+                        armorData.bodyLocation.ablation = Math.max(armorData.bodyLocation.ablation + diff, 0);
                       }
-                      updateList.push({ _id: a.id, data: armorData.data });
+                      updateList.push({ _id: a.id, system: armorData });
                     });
                     doc.updateEmbeddedDocuments("Item", updateList);
                   }
                   if (itemType === "currentArmorHead") {
                     const armorList = doc.getEquippedArmors("head");
                     const updateList = [];
-                    const diff = item.data.data.headLocation.sp - item.data.data.headLocation.ablation - currentValue;
+                    const diff = item.system.headLocation.sp - item.system.headLocation.ablation - currentValue;
                     armorList.forEach((a) => {
-                      const armorData = a.data;
+                      const armorData = a.system;
                       if (diff > 0) {
-                        armorData.data.headLocation.ablation = Math.min(
-                          armorData.data.headLocation.ablation + diff,
-                          armorData.data.headLocation.sp,
+                        armorData.headLocation.ablation = Math.min(
+                          armorData.headLocation.ablation + diff,
+                          armorData.headLocation.sp,
                         );
                       }
-                      if (diff < 0 && item.data._id === a.data._id) {
-                        armorData.data.headLocation.ablation = Math.max(armorData.data.headLocation.ablation + diff, 0);
+                      if (diff < 0 && item._id === a._id) {
+                        armorData.headLocation.ablation = Math.max(armorData.headLocation.ablation + diff, 0);
                       }
-                      updateList.push({ _id: a.id, data: armorData.data });
+                      updateList.push({ _id: a.id, system: armorData });
                     });
                     doc.updateEmbeddedDocuments("Item", updateList);
                   }
                   if (itemType === "currentArmorShield") {
-                    item.data.data.shieldHitPoints.value = currentValue;
-                    doc.updateEmbeddedDocuments("Item", [{ _id: item.id, data: item.data.data }]);
+                    item.system.shieldHitPoints.value = currentValue;
+                    doc.updateEmbeddedDocuments("Item", [{ _id: item.id, system: item.system }]);
                   }
                   break;
                 }
@@ -106,7 +106,7 @@ const actorHooks = () => {
       );
     }
 
-    if (doc.type === "blackIce" && doc.isToken && updatedData.data && updatedData.data.stats) {
+    if (doc.type === "blackIce" && doc.isToken && updatedData.system && updatedData.system.stats) {
       const biToken = doc.token;
 
       const netrunnerTokenId = biToken.getFlag("cyberpunk-red-core", "netrunnerTokenId");
@@ -121,9 +121,20 @@ const actorHooks = () => {
           const netrunnerToken = tokenList[0];
           const netrunner = netrunnerToken.actor;
           const cyberdeck = netrunner._getOwnedItem(cyberdeckId);
-          cyberdeck.updateRezzedProgram(programId, updatedData.data.stats);
-          netrunner.updateEmbeddedDocuments("Item", [{ _id: cyberdeck.id, data: cyberdeck.data.data }]);
+          cyberdeck.updateRezzedProgram(programId, updatedData.system.stats);
+          netrunner.updateEmbeddedDocuments("Item", [{ _id: cyberdeck.id, system: cyberdeck.system }]);
         }
+      }
+    }
+
+    if (updatedData.system && updatedData.system.stats && (updatedData.system.stats.emp || updatedData.system.stats.luck)) {
+      const updatedValue = (updatedData.system.stats.emp) ? updatedData.system.stats.emp.value : updatedData.system.stats.luck.value;
+      const updatedMax = (updatedData.system.stats.emp) ? updatedData.system.stats.emp.max : updatedData.system.stats.luck.max;
+      if (updatedValue && Number(updatedValue) > 9) {
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.doubleDigitStatValueWarn"));
+      }
+      if (updatedMax && Number(updatedMax) > 9) {
+        SystemUtils.DisplayMessage("warn", SystemUtils.Localize("CPR.messages.doubleDigitStatMaxWarn"));
       }
     }
   });

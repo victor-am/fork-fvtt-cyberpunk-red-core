@@ -1,12 +1,12 @@
-{{cprTrace "CPR-CLOTHING.HBS"}}
+{{cprTrace "START ITEM SETTINGS CPR-CLOTHING.HBS"}}
 {{!-- Clothing Style Settings--}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
         {{localize "CPR.global.itemTypes.clothing"}} {{localize "CPR.itemSheet.clothing.style"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        <select name="data.style" data-dtype="{{data.data.style}}">
-            {{#select data.data.style}}
+        <select name="system.style" data-dtype="{{item.system.style}}">
+            {{#select item.system.style}}
                 {{#each (cprFindConfigObj "clothingStyle") as |style s| }}
                     <option value="{{s}}">{{localize style}}</option>
                 {{/each}}
@@ -21,8 +21,8 @@
         {{localize "CPR.global.itemTypes.clothing"}} {{localize "CPR.global.generic.type"}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        <select name="data.type" data-dtype="{{data.data.type}}">
-            {{#select data.data.type}}
+        <select name="system.type" data-dtype="{{item.system.type}}">
+            {{#select item.system.type}}
                 {{#each (cprFindConfigObj "clothingType") as |type t| }}
                     <option value="{{t}}">{{localize type}}</option>
                 {{/each}}

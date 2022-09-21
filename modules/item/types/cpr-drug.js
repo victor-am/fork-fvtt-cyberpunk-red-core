@@ -22,20 +22,20 @@ export default class CPRDrugItem extends CPRItem {
    */
   async snort() {
     LOGGER.trace("snort | CPRDrugItem | called.");
-    Rules.lawyer(this.data.data.amount > 0, SystemUtils.Localize("CPR.messages.notEnoughDrugs"));
+    Rules.lawyer(this.system.amount > 0, SystemUtils.Localize("CPR.messages.notEnoughDrugs"));
     if (!await this._confirmSnort()) return;
-    this.data.data.amount = Math.max(0, this.data.data.amount - 1);
+    this.system.amount = Math.max(0, this.system.amount - 1);
     if (this.actor) {
       const originItem = `Item.${this.id}`;
-      const actorEffects = this.actor.data.effects.filter((ae) => ae.data.origin.endsWith(originItem) && ae.usage === "snorted");
+      const actorEffects = this.actor.effects.filter((ae) => ae.origin.endsWith(originItem) && ae.usage === "snorted");
       const effectUpdates = [];
       actorEffects.forEach((ae) => {
         effectUpdates.push({ _id: ae.id, disabled: false });
       });
       this.actor.updateEmbeddedDocuments("ActiveEffect", effectUpdates); // update AEs
-      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]); // update the amount
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]); // update the amount
     }
-    SystemUtils.DisplayMessage("notify", `${this.data.name} ${SystemUtils.Localize("CPR.messages.consumedDrug")}`);
+    SystemUtils.DisplayMessage("notify", `${this.name} ${SystemUtils.Localize("CPR.messages.consumedDrug")}`);
   }
 
   /**
@@ -46,7 +46,7 @@ export default class CPRDrugItem extends CPRItem {
    */
   async _confirmSnort() {
     LOGGER.trace("_confirmSnort | CPRDrugItem | called.");
-    const promptMessage = `${SystemUtils.Localize("CPR.dialog.snortConfirmation.message")} ${this.data.name}?`;
+    const promptMessage = `${SystemUtils.Localize("CPR.dialog.snortConfirmation.message")} ${this.name}?`;
     return ConfirmPrompt.RenderPrompt(
       SystemUtils.Localize("CPR.dialog.snortConfirmation.title"),
       promptMessage,

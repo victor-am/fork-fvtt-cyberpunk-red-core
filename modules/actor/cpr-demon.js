@@ -23,7 +23,7 @@ export default class CPRDemonActor extends Actor {
   static async create(data, options) {
     LOGGER.trace("create | CPRDemonActor | called.");
     const createData = data;
-    if (typeof data.data === "undefined") {
+    if (typeof data.system === "undefined") {
       LOGGER.trace("create | New Actor | CPRDemonActor | called.");
       createData.token = {
         bar1: { attribute: "rez" },
@@ -41,7 +41,7 @@ export default class CPRDemonActor extends Actor {
   createStatRoll(statName) {
     LOGGER.trace("createStatRoll | CPRDemonActor | called.");
     const niceStatName = SystemUtils.Localize(CPR.demonStatList[statName]);
-    const statValue = parseInt(this.data.data.stats[statName], 10);
+    const statValue = parseInt(this.system.stats[statName], 10);
     return new CPRRolls.CPRProgramStatRoll(niceStatName, statValue);
   }
 
@@ -53,8 +53,8 @@ export default class CPRDemonActor extends Actor {
   async _applyDamage(damage, bonusDamage) {
     LOGGER.trace("_applyDamage | CPRDemonActor | Called.");
     // As a deamon does not have any armor the damage will be simply subtracted from the REZ.
-    const currentRez = this.data.data.stats.rez.value;
-    await this.update({ "data.stats.rez.value": currentRez - damage - bonusDamage });
+    const currentRez = this.system.stats.rez.value;
+    await this.update({ "system.stats.rez.value": currentRez - damage - bonusDamage });
     CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: damage + bonusDamage, rezReduction: true });
   }
 
@@ -66,7 +66,7 @@ export default class CPRDemonActor extends Actor {
   */
   getStat(statName) {
     LOGGER.trace("getStat | CPRDemonActor | Called.");
-    const statValue = (statName === "rez") ? this.data.data.stats[statName].value : this.data.data.stats[statName];
+    const statValue = (statName === "rez") ? this.system.stats[statName].value : this.system.stats[statName];
     return parseInt(statValue, 10);
   }
 }

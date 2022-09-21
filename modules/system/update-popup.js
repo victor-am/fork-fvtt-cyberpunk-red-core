@@ -5,8 +5,8 @@ import SystemUtils from "../utils/cpr-systemUtils.js";
 export default class UpdateScreen extends Application {
   static get defaultOptions() {
     LOGGER.trace("defaultOptions | UpdateScreen | Called.");
-    const systemTitle = game.system.data.title;
-    const { version } = game.system.data;
+    const systemTitle = game.system.title;
+    const { version } = game.system;
     const title = SystemUtils.Format("CPR.system.update.popupTitle", { systemTitle, version });
     return mergeObject(super.defaultOptions, {
       template: `systems/cyberpunk-red-core/templates/dialog/cpr-update-announcement.hbs`,
@@ -19,9 +19,9 @@ export default class UpdateScreen extends Application {
 
   async getData(options = {}) {
     LOGGER.trace("getData | UpdateScreen | Called.");
-    const featureVideoLink = (typeof game.system.data.flags.featureVideoURL === "undefined") ? "" : game.system.data.flags.featureVideoURL;
+    const featureVideoLink = (typeof game.system.flags.featureVideoURL === "undefined") ? "" : game.system.flags.featureVideoURL;
 
-    const releaseSpecificInstructions = `systems/cyberpunk-red-core/lang/release-notes/v${game.system.data.version}`;
+    const releaseSpecificInstructions = `systems/cyberpunk-red-core/lang/release-notes/v${game.system.version}`;
 
     let { lang } = game.i18n;
     let response = await fetch(`${releaseSpecificInstructions}.${lang}`);
@@ -36,8 +36,8 @@ export default class UpdateScreen extends Application {
     // TODO: releaseInstructions is external html, should Handlebars.SafeString be called? It seems to
     //       always returns nothing though.
     const data = {
-      updateBanner: SystemUtils.Format("CPR.system.update.welcomeToSystem", { system: game.system.data.title }),
-      releaseVersion: game.system.data.version,
+      updateBanner: SystemUtils.Format("CPR.system.update.welcomeToSystem", { system: game.system.title }),
+      releaseVersion: game.system.version,
       changelogInformation: SystemUtils.Format("CPR.system.update.changelogInformation"),
       featureVideoTitle: SystemUtils.Format("CPR.system.update.videoInformationTitle"),
       featureVideoInformation: SystemUtils.Format("CPR.system.update.videoInformation"),

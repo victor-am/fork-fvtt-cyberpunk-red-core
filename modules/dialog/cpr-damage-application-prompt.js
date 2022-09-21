@@ -10,7 +10,7 @@ export default class DamageApplicationPrompt {
       renderTemplate(template, data).then((html) => {
         const _onCancel = () => {
           LOGGER.trace("_onCancel | Dialog DamageApplicationPrompt | called.");
-          resolve(false);
+          reject(new Error("Promise rejected: Window Closed"));
         };
         const _onConfirm = () => {
           LOGGER.trace("_onConfirm | Dialog DamageApplicationPrompt | called.");

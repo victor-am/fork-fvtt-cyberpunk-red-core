@@ -17,7 +17,7 @@ export default class CPRContainerActor extends Actor {
   static async create(data, options) {
     LOGGER.trace("create | CPRContainerActor | called.");
     const createData = data;
-    if (typeof data.data === "undefined") {
+    if (typeof data.system === "undefined") {
       LOGGER.trace("create | New Actor | CPRContainerActor | called.");
       createData.token = {
         disposition: 0,
@@ -34,8 +34,7 @@ export default class CPRContainerActor extends Actor {
     LOGGER.trace("prepareData | CPRContainerActor | Called.");
     super.prepareData();
     if (this.compendium === null || this.compendium === undefined) {
-      const actorData = this.data;
-      actorData.filteredItems = this.itemTypes;
+      const cprData = this.system;
     }
   }
 
@@ -50,18 +49,18 @@ export default class CPRContainerActor extends Actor {
    */
   automaticallyStackItems(newItem) {
     LOGGER.trace("automaticallyStackItems | CPRActor | Called.");
-    const itemTemplates = SystemUtils.getDataModelTemplates(newItem.data.type);
+    const itemTemplates = SystemUtils.getDataModelTemplates(newItem.type);
     if (itemTemplates.includes("stackable")) {
-      const itemMatch = this.items.find((i) => i.type === newItem.type && i.name === newItem.name);
+      const itemMatch = this.items.find((i) => i.type === newItem.type && i.name === newItem.name && i.system.upgrades.length === 0);
       if (itemMatch) {
-        const canStack = !(itemTemplates.includes("upgradable") && itemMatch.data.data.upgrades.length === 0);
+        const canStack = !(itemTemplates.includes("upgradable") && itemMatch.system.upgrades.length === 0);
         if (canStack) {
-          let oldAmount = parseInt(itemMatch.data.data.amount, 10);
-          let addedAmount = parseInt(newItem.data.data.amount, 10);
+          let oldAmount = parseInt(itemMatch.system.amount, 10);
+          let addedAmount = parseInt(newItem.system.amount, 10);
           if (Number.isNaN(oldAmount)) { oldAmount = 1; }
           if (Number.isNaN(addedAmount)) { addedAmount = 1; }
           const newAmount = oldAmount + addedAmount;
-          this.updateEmbeddedDocuments("Item", [{ _id: itemMatch.id, "data.amount": newAmount }]);
+          this.updateEmbeddedDocuments("Item", [{ _id: itemMatch._id, "system.amount": newAmount }]);
           return false;
         }
       }
@@ -147,7 +146,7 @@ export default class CPRContainerActor extends Actor {
   listRecords(prop) {
     LOGGER.trace("listRecords | CPRContainerActor | Called.");
     if (prop === "wealth") {
-      return getProperty(this.data.data, `${prop}.transactions`);
+      return getProperty(this.system, `${prop}.transactions`);
     }
     return null;
   }
@@ -160,7 +159,7 @@ export default class CPRContainerActor extends Actor {
     LOGGER.trace("showLedger | CPRContainerActor | Called.");
     const led = new CPRLedger();
     led.setActor(this);
-    led.setLedgerContent("wealth", getProperty(this.data.data, `wealth.transactions`));
+    led.setLedgerContent("wealth", getProperty(this.system, `wealth.transactions`));
     led.render(true);
   }
 
@@ -175,13 +174,13 @@ export default class CPRContainerActor extends Actor {
   recordTransaction(value, reason, seller = null) {
     LOGGER.trace("recordTransaction | CPRContainerActor | Called.");
     // update "value"; it may be negative
-    const actorData = duplicate(this.data);
-    let newValue = getProperty(actorData, "data.wealth.value") || 0;
+    const cprData = duplicate(this.system);
+    let newValue = getProperty(cprData, "wealth.value") || 0;
     let transactionSentence;
     let transactionType = "set";
 
     if (seller) {
-      if (seller.data._id === this.data._id) {
+      if (seller._id === this._id) {
         transactionType = "add";
       } else {
         transactionType = "subtract";
@@ -210,15 +209,15 @@ export default class CPRContainerActor extends Actor {
       default:
     }
 
-    setProperty(actorData, "data.wealth.value", newValue);
+    setProperty(cprData, "wealth.value", newValue);
     // update the ledger with the change
-    const ledger = getProperty(actorData, "data.wealth.transactions");
+    const ledger = getProperty(cprData, "wealth.transactions");
     ledger.push([
       SystemUtils.Format(transactionSentence, { property: "wealth", amount: value, total: newValue }),
       reason]);
-    setProperty(actorData, "data.wealth.transactions", ledger);
+    setProperty(cprData, "wealth.transactions", ledger);
     // update the actor and return the modified property
-    this.update(actorData);
-    return getProperty(this.data.data, "wealth");
+    this.update({ system: cprData });
+    return getProperty(this.system, "wealth");
   }
 }

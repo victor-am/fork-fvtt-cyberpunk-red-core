@@ -31,21 +31,21 @@ export default class CPRItem extends Item {
   update(data, options = {}) {
     LOGGER.trace("update | CPRItem | Called.");
     const cprData = data;
-    if (data["data.type"] === "cyberwareInternal" || data["data.type"] === "cyberwareExternal" || data["data.type"] === "fashionware") {
-      cprData["data.isFoundational"] = false;
+    if (data["system.type"] === "cyberwareInternal" || data["system.type"] === "cyberwareExternal" || data["system.type"] === "fashionware") {
+      cprData["system.isFoundational"] = false;
     }
-    if (this.data.type === "weapon") {
-      cprData["data.dvTable"] = data["data.dvTable"] === null ? "" : data["data.dvTable"];
+    if (this.type === "weapon") {
+      cprData["system.dvTable"] = data["system.dvTable"] === null ? "" : data["system.dvTable"];
     }
 
     // If an AE has a usage !== "toggled", then any active effects should not be disabled
     // (ie: Always On, Installed, etc) otherwise the disabled flag takes presentence when
     // determining if the effect is suppressed or not
-    if (data["data.usage"] !== "undefined" && data["data.usage"] !== this.data.data.usage) {
-      if (data["data.usage"] !== "toggled") {
+    if (data["system.usage"] !== "undefined" && data["system.usage"] !== this.system.usage) {
+      if (data["system.usage"] !== "toggled") {
         this.effects.forEach((e) => {
-          if (e.data.disabled) {
-            this.toggleEffect(e.data._id);
+          if (e.system.disabled) {
+            this.toggleEffect(e._id);
           }
         });
       }
@@ -91,7 +91,7 @@ export default class CPRItem extends Item {
   loadMixins() {
     LOGGER.trace("loadMixins | CPRItem | Called.");
     const mixins = SystemUtils.getDataModelTemplates(this.type);
-    const itemData = this.data.data;
+    const cprItemData = this.system;
     for (let m = 0; m < mixins.length; m += 1) {
       switch (mixins[m]) {
         case "attackable": {
@@ -100,7 +100,7 @@ export default class CPRItem extends Item {
         }
         case "effects": {
           Effects.call(CPRItem.prototype);
-          itemData.allowedUsage = this.getAllowedUsage();
+          cprItemData.allowedUsage = this.getAllowedUsage();
           // To Do: we could toggle on/off if there's exactly 1 effect enforced...
           break;
         }
@@ -129,7 +129,7 @@ export default class CPRItem extends Item {
           // Dynamically calculates the number of free upgrade slots on the item
           // by starting with the number of slots this item has and substacting
           // the slot size of each of the upgrades.
-          this.data.data.availableSlots = this.availableSlots();
+          this.system.availableSlots = this.availableSlots();
           break;
         }
         case "valuable": {
@@ -171,7 +171,7 @@ export default class CPRItem extends Item {
    */
   doAction(actor, actionAttributes) {
     LOGGER.trace("doAction | CPRItem | Called.");
-    const itemType = this.data.type;
+    const itemType = this.type;
     switch (itemType) {
       case "cyberware": {
         this._cyberwareAction(actor, actionAttributes);
@@ -202,9 +202,9 @@ export default class CPRItem extends Item {
    */
   _itemUpgradeAction(actor, actionAttributes) {
     LOGGER.trace("_itemUpgradeAction | CPRItem | Called.");
-    switch (this.data.data.type) {
+    switch (this.system.type) {
       case "weapon": {
-        if (this.data.data.modifiers.secondaryWeapon.configured) {
+        if (this.system.modifiers.secondaryWeapon.configured) {
           return this._weaponAction(actor, actionAttributes);
         }
         break;
@@ -224,13 +224,15 @@ export default class CPRItem extends Item {
    */
   confirmRoll(cprRoll) {
     LOGGER.trace("confirmRoll | CPRItem | Called.");
-    const itemType = this.data.type;
+    const itemType = this.type;
+    const cprItemData = this.system;
     const localCprRoll = cprRoll;
-    const actorData = this.actor.data;
+    const cprActorData = this.actor;
     const itemEntities = game.system.template.Item;
+
     if (itemEntities[itemType].templates.includes("loadable")) {
       if (localCprRoll instanceof CPRRolls.CPRAttackRoll) {
-        if (this.data.data.isRanged) {
+        if (cprItemData.isRanged) {
           this.dischargeItem(localCprRoll);
           const ammoType = this._getLoadedAmmoType();
           if (ammoType !== "undefined") {
@@ -245,7 +247,7 @@ export default class CPRItem extends Item {
       }
     }
     if (itemType === "role") {
-      const subRoleAbility = this.data.data.abilities.find((a) => a.name === localCprRoll.roleName);
+      const subRoleAbility = cprItemData.abilities.find((a) => a.name === localCprRoll.roleName);
       let subRoleSkill;
       let isSubRoleAbility = false;
       let isVarying = false;
@@ -253,17 +255,17 @@ export default class CPRItem extends Item {
         isSubRoleAbility = true;
         subRoleSkill = subRoleAbility.skill;
       }
-      if (!isSubRoleAbility && this.data.data.skill === "varying") {
+      if (!isSubRoleAbility && cprItemData.skill === "varying") {
         isVarying = true;
       } else if (isSubRoleAbility && subRoleSkill === "varying") {
         isVarying = true;
       }
       if (isVarying) {
-        const roleSkill = actorData.filteredItems.skill.find((s) => s.data.name === localCprRoll.skillName);
-        localCprRoll.skillValue = roleSkill.data.data.level;
-        localCprRoll.addMod(actorData.bonuses[SystemUtils.slugify(roleSkill.data.name)]); // add skill bonuses from Active Effects
+        const roleSkill = cprActorData.itemTypes.skill.find((s) => s.name === localCprRoll.skillName);
+        localCprRoll.skillValue = roleSkill.system.level;
+        localCprRoll.addMod(cprActorData.bonuses[SystemUtils.slugify(roleSkill.name)]); // add skill bonuses from Active Effects
         if (localCprRoll.statName === "--") {
-          localCprRoll.statName = roleSkill.data.data.stat;
+          localCprRoll.statName = roleSkill.system.stat;
           localCprRoll.statValue = this.actor.getStat(localCprRoll.statName);
         }
       }
@@ -276,7 +278,7 @@ export default class CPRItem extends Item {
    */
   toggleFavorite() {
     LOGGER.trace("toggleFavorite | CPRItem | Called.");
-    this.update({ "data.favorite": !this.data.data.favorite });
+    this.update({ "system.favorite": !this.system.favorite });
   }
 
   /**

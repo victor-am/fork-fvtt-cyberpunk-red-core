@@ -1,4 +1,4 @@
-{{cprTrace "CPR-UPGRADABLE.HBS"}}
+{{cprTrace "START ITEM SETTINGS MIXIN CPR-UPGRADABLE.HBS"}}
 {{!-- Upgrade Installed Setting --}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
@@ -6,18 +6,18 @@
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if this.editable}}
-            <input name="data.slots" class="" type="number" value="{{data.data.slots}}">
+            <input name="system.slots" class="" type="number" value="{{item.system.slots}}">
         {{else}}
-            <span class="text-flex-end">{{data.data.slots}}</span>
+            <span class="text-flex-end">{{item.system.slots}}</span>
         {{/if}}
     </div>
 </li>
 
 {{!-- listing out installed upgrades --}}
-{{#if (cprCompare this.item.type "===" "weapon")}}
+{{#if (cprCompare item.type "===" "weapon")}}
 <li class="item flexrow">
     <div class="item flexrow setting-name text-nowrap">
-        &nbsp;&nbsp;({{localize "CPR.itemSheet.itemUpgrade.unusedSlots"}}: {{data.data.availableSlots}})
+        &nbsp;&nbsp;({{localize "CPR.itemSheet.itemUpgrade.unusedSlots"}}: {{item.system.availableSlots}})
     </div>
 </li>
 {{/if}}
@@ -29,7 +29,7 @@
         {{/if}}
         <strong>
             {{localize "CPR.itemSheet.common.itemUpgrades"}}
-            {{#if (cprCompare data.type "===" "weapon")}} &#38; {{localize "CPR.itemSheet.weapon.attachments"}}{{/if}}
+            {{#if (cprCompare item.type "===" "weapon")}} &#38; {{localize "CPR.itemSheet.weapon.attachments"}}{{/if}}
         </strong>
         {{#if this.editable}}
             <i class="text-smallest text-super fas fa-wrench"></i>
@@ -39,9 +39,9 @@
     <div class="item flexrow setting-value text-nowrap item-end">
     </div>
 </li>
-{{#if data.data.isUpgraded}}
+{{#if item.system.isUpgraded}}
 <hr>
-{{#each data.data.upgrades as |upgrade|}}
+{{#each item.system.upgrades as |upgrade|}}
 <li class="item flexrow" data-item-id="{{upgrade._id}}" draggable="false">
     <div class="item-name flexrow setting-name text-nowrap">
         {{#if this.editable}}
@@ -51,7 +51,7 @@
         {{/if}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
-        {{localize "CPR.itemSheet.common.itemUpgradeSize"}}: {{upgrade.data.size}}
+        {{localize "CPR.itemSheet.common.itemUpgradeSize"}}: {{upgrade.system.size}}
     </div>
     <div class="item flexrow setting-value text-nowrap item-end">
         {{#if ../this.editable}}

@@ -1,4 +1,4 @@
-{{cprTrace "CPR-ROLE-ABILITY-PROMPT.HBS"}}
+{{cprTrace "START DIALOG CPR-ROLE-ABILITY-PROMPT.HBS"}}
 <form>
   <ol class="items-list">
     <li class="item flexrow">
@@ -69,7 +69,7 @@
           </optgroup>
           <optgroup label = "{{localize "CPR.dialog.createEditRoleAbility.skillList"}}">
             {{#each (cprSort skillOptions "name") as |option o|}}
-              <option value="{{option.data.name}}">{{option.data.name}}</option>
+              <option value="{{option.name}}">{{option.name}}</option>
             {{/each}}
           </optgroup>
           {{/select}}

@@ -495,9 +495,9 @@ export default class BaseMigration extends CPRMigration {
         Object.entries(roleSkills).forEach(([skillName, skillValue]) => {
           if (skillName !== "subSkills") {
             if (actorData.data.roleInfo.roles.includes(role)) {
-              const hasRoleObject = actorData.filteredItems.role.find((r) => r.data.name.toLowerCase() === role);
+              const hasRoleObject = actorDocument.itemTypes.role.find((r) => r.name.toLowerCase() === role);
               if (typeof hasRoleObject === "undefined") {
-                newRole = duplicate(content.find((c) => c.data.name.toLowerCase() === role).data);
+                newRole = duplicate(content.find((c) => c.name.toLowerCase() === role).data);
                 newRole.data.rank = skillValue;
               }
             }
@@ -546,7 +546,7 @@ export default class BaseMigration extends CPRMigration {
     // Previously we supported stackable programs, but with the upcoming Netrunning changes
     // programs should be handled like Cyberware as the Program ID gets correlated to the Cyberdeck
     // Item
-    const programList = actorData.filteredItems.program;
+    const programList = actorDocument.itemTypes.program;
     programList.forEach((p) => {
       const itemData = p.data;
       let quantity = itemData.data.amount;
@@ -575,8 +575,8 @@ export default class BaseMigration extends CPRMigration {
       if ((typeof i.data.isInstalled) !== "undefined") {
         isInstalled = i.data.isInstalled;
       }
-      if ((typeof i.data.data.isInstalled) !== "undefined") {
-        isInstalled = i.data.data.isInstalled;
+      if ((typeof i.system.isInstalled) !== "undefined") {
+        isInstalled = i.system.isInstalled;
       }
       return isInstalled;
     });

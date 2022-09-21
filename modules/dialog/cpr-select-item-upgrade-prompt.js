@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-/* global renderTemplate Dialog FormDataExtended */
+/* global renderTemplate Dialog FormDataExtended foundry */
 import LOGGER from "../utils/cpr-logger.js";
 import SystemUtils from "../utils/cpr-systemUtils.js";
 
@@ -17,7 +17,8 @@ export default class SelectItemUpgradePrompt {
           LOGGER.trace("_onConfirm | Dialog SelectItemUpgradePrompt | called.");
           const upgradeList = html.find("[name=\"selectedUpgrade\"");
           const selectedUpgrades = [];
-          const formData = new FormDataExtended(html.find("form")[0]).toObject();
+          const fd = new FormDataExtended(html.find("form")[0]);
+          const formData = foundry.utils.expandObject(fd.object);
           Object.keys(upgradeList).forEach((upgrade) => {
             if (upgradeList[upgrade].checked) {
               selectedUpgrades.push(upgradeList[upgrade].value);
