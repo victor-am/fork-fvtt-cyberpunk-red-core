@@ -1,4 +1,4 @@
-# Version DEV | Date: WIP
+# Version 0.82.0 | Date: WIP
 
 **New Features**
 - Foundry V10 Compatibility
