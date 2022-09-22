@@ -1,4 +1,4 @@
-# Version 0.82.0 | Date: WIP
+# Version 0.82.0 | Date: 2022-09-22
 
 **New Features**
 - Foundry V10 Compatibility
