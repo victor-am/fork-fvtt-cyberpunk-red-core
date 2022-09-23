@@ -25,10 +25,10 @@ const hotbarHooks = () => {
   Hooks.on("hotbarDrop", async (_, data, slot) => {
     LOGGER.trace("hotbarDrop | hotbarHooks | Called.");
     if (data.type === "Item") {
-      if (data.data === undefined || data.data._id === undefined) {
+      if (data.system === undefined || data._id === undefined) {
         return;
       }
-      const itemId = data.data._id;
+      const itemId = data._id;
       let item = game.items.find((i) => i.id === itemId);
 
       if (item === null || typeof item === "undefined") {
@@ -46,7 +46,7 @@ const hotbarHooks = () => {
       }
 
       // Create item macro if rollable item - weapon, cyberware weapon or skill
-      if (item.type !== "weapon" && !(item.type === "cyberware" && item.data.data.isWeapon) && item.type !== "skill") {
+      if (item.type !== "weapon" && !(item.type === "cyberware" && item.system.isWeapon) && item.type !== "skill") {
         return;
       }
       let command = "";
@@ -55,14 +55,14 @@ const hotbarHooks = () => {
       command += "const skipPrompt = false;\n";
       command += "\n";
       const itemName = item.name.replace(/\\/g, "\\\\").replace(/\\([\s\S])|(")/g, "\\$1$2");
-      if (item.type === "weapon" || (item.type === "cyberware" && item.data.data.isWeapon)) {
+      if (item.type === "weapon" || (item.type === "cyberware" && item.system.isWeapon)) {
         command += "// The roll type of the weapon for this macro is configurable.\n";
         command += "// By default, we do the standard attack, however the rollType,\n";
         command += "// may be configured by setting it to a different value:\n";
         command += "//\n";
         command += "// damage - Set the rollType to this to roll damage instead of an attack\n";
         command += "//\n";
-        if (item.data.data.isRanged) {
+        if (item.system.isRanged) {
           command += "// For ranged weapons, you can configure a number of alternate fire:\n";
           command += "// attacks:\n";
           command += "//\n";
@@ -102,9 +102,9 @@ const hotbarHooks = () => {
       let macro = game.macros.contents.find((m) => (m.name === actor.name) && (m.command === command));
       if (!macro) {
         macro = await Macro.create({
-          name: actor.data.name,
+          name: actor.name,
           type: "script",
-          img: actor.data.img,
+          img: actor.img,
           command,
         }, { displaySheet: false });
         game.user.assignHotbarMacro(macro, slot);
@@ -116,7 +116,7 @@ const hotbarHooks = () => {
       let macro = game.macros.contents.find((m) => (m.name === journal.name) && (m.command === command));
       if (!macro) {
         macro = await Macro.create({
-          name: journal.data.name,
+          name: journal.name,
           type: "script",
           img: "systems/cyberpunk-red-core/icons/memory-card.svg",
           command,

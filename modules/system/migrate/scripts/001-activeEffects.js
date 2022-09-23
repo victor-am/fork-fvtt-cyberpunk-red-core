@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop */
-/* global duplicate Item */
+/* global duplicate Item game */
 
 import CPR from "../../config.js";
 import CPRMigration from "../cpr-migration.js";
@@ -11,6 +11,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     LOGGER.trace("constructor | 1-activeEffects Migration");
     super();
     this.version = 1;
+    this.name = "Active Effects Migration";
   }
 
   /**
@@ -21,6 +22,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    */
   async preMigrate() {
     LOGGER.trace("preMigrate | 1-activeEffects Migration");
+    LOGGER.log(`Starting migration: ${this.name}`);
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.effects.beginMigration"));
     this.migrationFolder = await CPRSystemUtils.GetFolder("Item", "Active Effect Migration Workspace");
   }
@@ -40,8 +42,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
     return Item.create({
       name: item.name,
       type: item.type,
+      data: item.system,
       img: item.img,
-      data: item.data.data,
       folder: this.migrationFolder,
     }, {
       isMigrating: true,
@@ -56,10 +58,11 @@ export default class ActiveEffectsMigration extends CPRMigration {
   async postMigrate() {
     LOGGER.trace("postMigrate | 1-activeEffects Migration");
     CPRSystemUtils.DisplayMessage("notify", CPRSystemUtils.Localize("CPR.migration.effects.cleanUp"));
-    if (this.migrationFolder.content.length === 0) {
+    if (this.migrationFolder.contents.length === 0) {
       LOGGER.debug("would delete migration folder");
       this.migrationFolder.delete();
     }
+    LOGGER.log(`Finishing migration: ${this.name}`);
   }
 
   /**
@@ -73,24 +76,25 @@ export default class ActiveEffectsMigration extends CPRMigration {
    */
   async migrateActor(actor) {
     LOGGER.trace("migrateActor | 1-activeEffects Migration");
-    if (!(actor.data.type === "character" || actor.data.type === "mook")) return;
+
+    if (!(actor.type === "character" || actor.type === "mook")) return;
     let updateData = {};
-    if (actor.data.data.universalBonuses?.attack && actor.data.data.universalBonuses.attack !== 0) {
+    if (actor.system.universalBonuses?.attack && actor.system.universalBonuses.attack !== 0) {
       const name = CPRSystemUtils.Localize("CPR.migration.effects.attackName");
       const changes = [{
         key: "bonuses.universalAttack",
         mode: 2,
-        value: actor.data.data.universalBonuses.attack,
+        value: actor.system.universalBonuses.attack,
         priority: 0,
       }];
       await ActiveEffectsMigration.addActiveEffect(actor, name, changes);
     }
-    if (actor.data.data.universalBonuses?.damage && actor.data.data.universalBonuses.damage !== 0) {
+    if (actor.system.universalBonuses?.damage && actor.system.universalBonuses.damage !== 0) {
       const name = CPRSystemUtils.Localize("CPR.migration.effects.damageName");
       const changes = [{
         key: "bonuses.universalDamage",
         mode: 2,
-        value: actor.data.data.universalBonuses.damage,
+        value: actor.system.universalBonuses.damage,
         priority: 0,
       }];
       await ActiveEffectsMigration.addActiveEffect(actor, name, changes);
@@ -98,12 +102,12 @@ export default class ActiveEffectsMigration extends CPRMigration {
     // Skill mods are applied directly to the actor because core skill "items" cannot be accessed in
     // the UI. Nor do they have the AE data template.
     for (const skill of actor.items.filter((i) => i.type === "skill")) {
-      if (skill.data.data.skillmod && skill.data.data.skillmod !== 0) {
+      if (skill.system.skillmod && skill.system.skillmod !== 0) {
         const name = ` ${CPRSystemUtils.Localize("CPR.migration.effects.skill")} ${skill.name}`;
         const changes = [{
           key: `bonuses.${CPRSystemUtils.slugify(skill.name)}`,
           mode: 2,
-          value: skill.data.data.skillmod,
+          value: skill.system.skillmod,
           priority: 0,
         }];
         // Note this is the one place with force the change category to "skill". This is required
@@ -111,17 +115,17 @@ export default class ActiveEffectsMigration extends CPRMigration {
         await ActiveEffectsMigration.addActiveEffect(actor, name, changes, ["skill"]);
       }
     }
-    updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "data.skills") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "data.roleInfo.roles") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "data.roleInfo.roleskills") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "data.universalBonuses") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "system.skills") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "system.roleInfo.roles") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "system.roleInfo.roleskills") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "system.universalBonuses") };
 
     // Update derivedStats with walk/run values
-    updateData["data.derivedStats.walk"] = {
-      value: actor.data.data.stats.move.value * 2,
+    updateData["system.derivedStats.walk"] = {
+      value: actor.system.stats.move.value * 2,
     };
-    updateData["data.derivedStats.run"] = {
-      value: actor.data.data.stats.move.value * 4,
+    updateData["system.derivedStats.run"] = {
+      value: actor.system.stats.move.value * 4,
     };
 
     await actor.update(updateData);
@@ -133,7 +137,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     // They are applied to the actor instead for this migration (see earlier code)
     const ownedItems = actor.items.filter((i) => {
       if (i.type === "skill") return false;
-      if (i.type === "cyberware" && i.data.core) return false;
+      if (i.type === "cyberware" && i.system.core) return false;
       return true;
     });
     const createAeItemTypes = ["program", "weapon", "clothing", "gear"];
@@ -144,38 +148,39 @@ export default class ActiveEffectsMigration extends CPRMigration {
       // as a result of this migration, we must make an unowned copy first, and then copy that back to
       // the actor. Not all item types require this, and skills are filtered out earlier.
       let newItem = ownedItem;
-      if (createAeItemTypes.includes(ownedItem.data.type)) {
+      if (createAeItemTypes.includes(ownedItem.type)) {
         newItem = await this.backupOwnedItem(ownedItem);
-        if (ownedItem.data.type === "program") {
-          newItem.data.data.size = ownedItem.data.data.slots;
+        if (ownedItem.type === "program") {
+          newItem.system.size = ownedItem.system.slots;
         }
       }
       try {
         await ActiveEffectsMigration.migrateItem(newItem);
       } catch (err) {
-        throw new Error(`${ownedItem.data.name} (${ownedItem.data._id}) had a migration error: ${err.message}`);
+        throw new Error(`${ownedItem.name} (${ownedItem._id}) had a migration error: ${err.message}`);
       }
-      if (createAeItemTypes.includes(ownedItem.data.type)) {
-        const createdItem = await actor.createEmbeddedDocuments("Item", [newItem.data], { isMigrating: true });
-        remappedItems[ownedItem.data._id] = createdItem[0].data._id;
+      if (createAeItemTypes.includes(ownedItem.type)) {
+        const newData = duplicate(newItem.data);
+        const createdItem = await actor.createEmbeddedDocuments("Item", [newData], { isMigrating: true });
+        remappedItems[ownedItem._id] = createdItem[0]._id;
         await newItem.delete();
-        deleteItems.push(ownedItem.data._id);
+        deleteItems.push(ownedItem._id);
       }
     }
     // delete all of the owned items we have replaced with items that have AEs
     const deleteList = [];
     for (const delItem of deleteItems) {
-      if (actor.items.filter((i) => i.data._id === delItem).length > 0) {
+      if (actor.items.filter((i) => i._id === delItem).length > 0) {
         deleteList.push(delItem);
       }
     }
     // delete all clothing & gear item upgrades that were added as these have been replaced by Active Effects
     const itemUpgrades = actor.items.filter((i) => {
       if (i.type === "itemUpgrade") {
-        if (i.data.data.type === "clothing") {
+        if (i.system.type === "clothing") {
           return true;
         }
-        if (i.data.data.type === "gear") {
+        if (i.system.type === "gear") {
           return true;
         }
       }
@@ -183,7 +188,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     });
 
     for (const itemUpgrade of itemUpgrades) {
-      deleteList.push(itemUpgrade.data._id);
+      deleteList.push(itemUpgrade._id);
     }
 
     if (deleteList.length > 0) {
@@ -194,7 +199,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     if (Object.entries(remappedItems).length > 0) {
       const updateList = [];
       for (const deck of actor.items.filter((i) => i.type === "cyberdeck")) {
-        const oldPrograms = deck.data.data.programs;
+        const oldPrograms = deck.system.programs;
         const newPrograms = {};
         newPrograms.installed = [];
         newPrograms.rezzed = [];
@@ -204,27 +209,34 @@ export default class ActiveEffectsMigration extends CPRMigration {
             const newProgram = actor.items.filter((np) => np.id === newProgramId)[0];
             // eslint-disable-next-line no-undef
             const rezzedInstance = randomID();
-            newProgram.setFlag("cyberpunk-red-core", "rezInstanceId", rezzedInstance);
-            newProgram.setRezzed();
-            newPrograms.rezzed.push(newProgram.data);
+            newProgram.setRezzed(rezzedInstance);
+            const programInstallation = duplicate(newProgram.system);
+            programInstallation.isRezzed = true;
+            programInstallation._id = newProgram._id;
+            programInstallation.name = newProgram.name;
+            programInstallation.flags = newProgram.flags;
+            newPrograms.rezzed.push(programInstallation);
           }
         }
         for (const oldProgram of oldPrograms.installed) {
           if (typeof remappedItems[oldProgram._id] !== "undefined") {
             const newProgramId = remappedItems[oldProgram._id];
             const newProgram = actor.items.filter((np) => np.id === newProgramId)[0];
-            const newProgramData = duplicate(newProgram.data);
+            const newProgramData = duplicate(newProgram.system);
             const rezzedIndex = newPrograms.rezzed.findIndex((p) => p._id === newProgramId);
             if (rezzedIndex !== -1) {
-              newProgramData.data.isRezzed = true;
+              newProgramData.isRezzed = true;
             }
+            newProgramData._id = newProgram._id;
+            newProgramData.name = newProgram.name;
+            newProgramData.flags = newProgram.flags;
             newPrograms.installed.push(newProgramData);
           }
         }
 
-        updateList.push({ _id: deck.data._id, "data.programs": newPrograms });
+        updateList.push({ _id: deck._id, "system.programs": newPrograms });
         newPrograms.rezzed.forEach((program) => {
-          updateList.push({ _id: program._id, "data.isRezzed": true });
+          updateList.push({ _id: program._id, "system.isRezzed": true });
         });
       }
       await actor.updateEmbeddedDocuments("Item", updateList);
@@ -345,13 +357,13 @@ export default class ActiveEffectsMigration extends CPRMigration {
     LOGGER.trace("setPriceData | 1-activeEffects Migration");
     const updateData = {};
     // here we assume both values were never touched, and useless defaults still exist
-    if (item.data.data.price.market === 0 && item.data.data.price.category === "") {
-      updateData["data.price.market"] = price;
-      updateData["data.price.category"] = item.getPriceCategory(price);
+    if (item.system.price.market === 0 && item.system.price.category === "") {
+      updateData["system.price.market"] = price;
+      updateData["system.price.category"] = item.getPriceCategory(price);
     }
     // here we assume the price was updated but not the category, so we update to match
-    if (item.data.data.price.market !== 0 && item.data.data.price.category === "") {
-      updateData["data.price.category"] = item.getPriceCategory(item.data.data.price.market);
+    if (item.system.price.market !== 0 && item.system.price.category === "") {
+      updateData["system.price.category"] = item.getPriceCategory(item.system.price.market);
     }
     return updateData;
   }
@@ -369,7 +381,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     LOGGER.trace("dupeOwnedItems | 1-activeEffects Migration");
     if (item.isOwned && amount > 1) {
       // we assume the character is not actually wearing/wielding all of their (duplicate) items
-      if (dupeData.data.equipped === "equipped") dupeData.data.equipped = "carried";
+      if (dupeData.system.equipped === "equipped") dupeData.system.equipped = "carried";
       const dupeItems = [];
       let dupeAmount = amount - 1;
       if (dupeAmount > 50) {
@@ -397,16 +409,16 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateAmmo(ammo) {
     LOGGER.trace("updateAmmo | 1-activeEffects Migration");
     let updateData = {};
-    updateData = { ...updateData, ...CPRMigration.safeDelete(ammo, "data.quality") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(ammo, "data.isUpgraded") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(ammo, "data.upgrades") };
-    updateData["data.concealable"] = {
+    updateData = { ...updateData, ...CPRMigration.safeDelete(ammo, "system.quality") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(ammo, "system.isUpgraded") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(ammo, "system.upgrades") };
+    updateData["system.concealable"] = {
       concealable: true,
       isConcealed: false,
     };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(ammo, 100) };
-    if (ammo.data.data.variety === "") updateData["data.variety"] = "heavyPistol";
-    if (ammo.data.data.type === "") updateData["data.type"] = "basic";
+    if (ammo.system.variety === "") updateData["system.variety"] = "heavyPistol";
+    if (ammo.system.type === "") updateData["system.type"] = "basic";
     await ammo.update(updateData);
   }
 
@@ -422,13 +434,13 @@ export default class ActiveEffectsMigration extends CPRMigration {
    */
   static async updateArmor(armor) {
     LOGGER.trace("updateArmor | 1-activeEffects Migration");
-    const { amount } = armor.data.data;
+    const { amount } = armor.system;
     let updateData = {};
-    updateData = { ...updateData, ...CPRMigration.safeDelete(armor, "data.quality") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(armor, "data.amount") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(armor, "system.quality") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(armor, "system.amount") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(armor, 100) };
-    updateData["data.slots"] = 3;
-    updateData["data.usage"] = "equipped";
+    updateData["system.slots"] = 3;
+    updateData["system.usage"] = "equipped";
     await armor.update(updateData);
     const newItemData = duplicate(armor.data);
     await ActiveEffectsMigration.dupeOwnedItems(armor, amount, newItemData);
@@ -448,22 +460,22 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateClothing(clothing) {
     LOGGER.trace("updateClothing | 1-activeEffects Migration");
     let updateData = {};
-    updateData["data.slots"] = 3;
-    updateData["data.usage"] = "equipped";
+    updateData["system.slots"] = 3;
+    updateData["system.usage"] = "equipped";
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(clothing, 50) };
-    if (clothing.data.data.type === "") updateData["data.type"] = "jacket";
-    if (clothing.data.data.variety === "") updateData["data.variety"] = "genericChic";
+    if (clothing.system.type === "") updateData["system.type"] = "jacket";
+    if (clothing.system.variety === "") updateData["system.variety"] = "genericChic";
     // Clothing can only have itemUpgrades which affect either Cool or Wardrobe & BLAH
     // This should be replaced with an Active Effect
-    if (clothing.data.data.isUpgraded) {
+    if (clothing.system.isUpgraded) {
       const changes = [];
       let index = 0;
       const name = CPRSystemUtils.Localize("CPR.migration.effects.clothing");
-      clothing.data.data.upgrades.forEach((upgradeItem) => {
-        for (const [dataPoint, settings] of Object.entries(upgradeItem.data.modifiers)) {
+      clothing.system.upgrades.forEach((upgradeItem) => {
+        for (const [dataPoint, settings] of Object.entries(upgradeItem.system.modifiers)) {
           const { value } = settings;
           if (typeof value === "number") {
-            const key = (dataPoint === "cool") ? "data.stats.cool.value" : "bonuses.wardrobeAndStyle";
+            const key = (dataPoint === "cool") ? "system.stats.cool.value" : "bonuses.wardrobeAndStyle";
             const mode = (settings.type === "modifier") ? 2 : 1;
             changes.push({
               key,
@@ -478,8 +490,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
       if (changes.length > 0) {
         await ActiveEffectsMigration.addActiveEffect(clothing, name, changes);
       }
-      updateData["data.isUpgraded"] = false;
-      updateData["data.upgrades"] = [];
+      updateData["system.isUpgraded"] = false;
+      updateData["system.upgrades"] = [];
     }
     await clothing.update(updateData);
   }
@@ -492,7 +504,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
    */
   static async updateCriticalInjury(injury) {
     LOGGER.trace("updateCriticalInjury | 1-activeEffects Migration");
-    injury.update({ "data.usage": "toggled" });
+    injury.update({ "system.usage": "toggled" });
   }
 
   /**
@@ -510,20 +522,20 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateCyberware(cyberware) {
     LOGGER.trace("updateCyberware | 1-activeEffects Migration");
     let updateData = {};
-    updateData["data.usage"] = "installed";
-    updateData["data.slots"] = 3;
-    updateData["data.size"] = cyberware.data.data.slotSize;
-    updateData = { ...updateData, ...CPRMigration.safeDelete(cyberware, "data.charges") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(cyberware, "data.slotSize") };
+    updateData["system.usage"] = "installed";
+    updateData["system.slots"] = 3;
+    updateData["system.size"] = cyberware.system.slotSize;
+    updateData = { ...updateData, ...CPRMigration.safeDelete(cyberware, "system.charges") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(cyberware, "system.slotSize") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(cyberware, 500) };
 
     // Migrate cyberware to use booleans for `isWeapon`
     // some already are bools so check if we actually need to migrate first
-    if (typeof cyberware.data.data.isWeapon === "string") {
-      if (cyberware.data.data.isWeapon === "true") {
-        updateData["data.isWeapon"] = true;
+    if (typeof cyberware.system.isWeapon === "string") {
+      if (cyberware.system.isWeapon === "true") {
+        updateData["system.isWeapon"] = true;
       } else {
-        updateData["data.isWeapon"] = false;
+        updateData["system.isWeapon"] = false;
       }
     }
 
@@ -544,8 +556,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateCyberdeck(deck) {
     LOGGER.trace("updateCyberdeck | 1-activeEffects Migration");
     let updateData = {};
-    updateData = { ...updateData, ...CPRMigration.safeDelete(deck, "data.quality") };
-    updateData["data.usage"] = "toggled";
+    updateData = { ...updateData, ...CPRMigration.safeDelete(deck, "system.quality") };
+    updateData["system.usage"] = "toggled";
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(deck, 500) };
     await deck.update(updateData);
   }
@@ -563,23 +575,23 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateGear(gear) {
     LOGGER.trace("updateGear | 1-activeEffects Migration");
     let updateData = {};
-    updateData = { ...updateData, ...CPRMigration.safeDelete(gear, "data.quality") };
-    updateData["data.usage"] = "equipped";
-    updateData["data.slots"] = 3;
+    updateData = { ...updateData, ...CPRMigration.safeDelete(gear, "system.quality") };
+    updateData["system.usage"] = "equipped";
+    updateData["system.slots"] = 3;
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(gear, 100) };
-    if (gear.data.data.isUpgraded) {
+    if (gear.system.isUpgraded) {
       const changes = [];
       let index = 0;
       const name = CPRSystemUtils.Localize("CPR.migration.effects.gear");
-      gear.data.data.upgrades.forEach((upgradeItem) => {
-        for (const [dataPoint, settings] of Object.entries(upgradeItem.data.modifiers)) {
+      gear.system.upgrades.forEach((upgradeItem) => {
+        for (const [dataPoint, settings] of Object.entries(upgradeItem.system.modifiers)) {
           const { value } = settings;
           if (typeof value === "number") {
             let key;
             if (dataPoint === "luck" || dataPoint === "emp") {
-              key = `data.stats.${dataPoint}.max`;
+              key = `system.stats.${dataPoint}.max`;
             } else {
-              key = `data.stats.${dataPoint}.value`;
+              key = `system.stats.${dataPoint}.value`;
             }
             const mode = (settings.type === "modifier") ? 2 : 1;
             changes.push({
@@ -595,8 +607,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
       if (changes.length > 0) {
         await ActiveEffectsMigration.addActiveEffect(gear, name, changes);
       }
-      updateData["data.isUpgraded"] = false;
-      updateData["data.upgrades"] = [];
+      updateData["system.isUpgraded"] = false;
+      updateData["system.upgrades"] = [];
     }
     await gear.update(updateData);
   }
@@ -614,11 +626,11 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateItemUpgrade(upgrade) {
     LOGGER.trace("updateItemUpgrade | 1-activeEffects Migration");
     let updateData = {};
-    const { amount } = upgrade.data.data;
-    updateData = { ...updateData, ...CPRMigration.safeDelete(upgrade, "data.quality") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(upgrade, "data.charges") };
-    if (Object.keys(upgrade.data.data.modifiers).length === 0) {
-      updateData["data.modifiers"] = { secondaryWeapon: { configured: false } };
+    const { amount } = upgrade.system;
+    updateData = { ...updateData, ...CPRMigration.safeDelete(upgrade, "system.quality") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(upgrade, "system.charges") };
+    if (Object.keys(upgrade.system.modifiers).length === 0) {
+      updateData["system.modifiers"] = { secondaryWeapon: { configured: false } };
     }
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(upgrade, 500) };
     await upgrade.update(updateData);
@@ -637,8 +649,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateNetArch(netarch) {
     LOGGER.trace("updateNetArch | 1-activeEffects Migration");
     let updateData = {};
-    const { amount } = netarch.data.data;
-    updateData = { ...updateData, ...CPRMigration.safeDelete(netarch, "data.quality") };
+    const { amount } = netarch.system;
+    updateData = { ...updateData, ...CPRMigration.safeDelete(netarch, "system.quality") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(netarch, 5000) };
     await netarch.update(updateData);
     const newItemData = duplicate(netarch.data);
@@ -661,17 +673,17 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateProgram(program) {
     LOGGER.trace("updateProgram | 1-activeEffects Migration");
     let updateData = {};
-    const { amount } = program.data.data;
-    updateData = { ...updateData, ...CPRMigration.safeDelete(program, "data.quality") };
-    updateData["data.usage"] = "rezzed";
-    updateData = { ...updateData, ...CPRMigration.safeDelete(program, "data.slots") };
-    updateData = { ...updateData, ...CPRMigration.safeDelete(program, "data.isDemon") };
+    const { amount } = program.system;
+    updateData = { ...updateData, ...CPRMigration.safeDelete(program, "system.quality") };
+    updateData["system.usage"] = "rezzed";
+    updateData = { ...updateData, ...CPRMigration.safeDelete(program, "system.slots") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(program, "system.isDemon") };
     const changes = [];
     let index = 0;
     const name = CPRSystemUtils.Localize("CPR.migration.effects.program");
     // there's a rare case this is not defined for items that didn't complete previous migration(s)
-    if (typeof program.data.data.modifiers === "object" && Object.keys(program.data.data.modifiers).length > 0) {
-      for (const [key, value] of Object.entries(program.data.data.modifiers)) {
+    if (typeof program.system.modifiers === "object" && Object.keys(program.system.modifiers).length > 0) {
+      for (const [key, value] of Object.entries(program.system.modifiers)) {
         changes.push({
           key: `bonuses.${CPRSystemUtils.slugify(key)}`,
           value,
@@ -681,7 +693,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
         index += 1;
       }
       await ActiveEffectsMigration.addActiveEffect(program, name, changes);
-      updateData = { ...updateData, ...CPRMigration.safeDelete(program, "data.modifiers") };
+      updateData = { ...updateData, ...CPRMigration.safeDelete(program, "system.modifiers") };
     }
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(program, 100) };
     await program.update(updateData);
@@ -698,8 +710,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateRole(role) {
     LOGGER.trace("updateRole | 1-activeEffects Migration");
     let updateData = {};
-    updateData["data.bonuses"] = role.data.data.skillBonuses;
-    const roleAbilities = role.data.data.abilities;
+    updateData["system.bonuses"] = role.system.skillBonuses;
+    const roleAbilities = role.system.abilities;
     const updatedRoleAbilities = [];
     roleAbilities.forEach((ra) => {
       const newRoleAbility = ra;
@@ -707,8 +719,8 @@ export default class ActiveEffectsMigration extends CPRMigration {
       delete newRoleAbility.skillBonuses;
       updatedRoleAbilities.push(newRoleAbility);
     });
-    updateData["data.abilities"] = updatedRoleAbilities;
-    updateData = { ...updateData, ...CPRMigration.safeDelete(role, "data.quality") };
+    updateData["system.abilities"] = updatedRoleAbilities;
+    updateData = { ...updateData, ...CPRMigration.safeDelete(role, "system.quality") };
     await role.update(updateData);
   }
 
@@ -723,7 +735,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateSkill(skill) {
     LOGGER.trace("updateSkill | 1-activeEffects Migration");
     let updateData = {};
-    updateData = { ...updateData, ...CPRMigration.safeDelete(skill, "data.skillmod") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(skill, "system.skillmod") };
     await skill.update(updateData);
   }
 
@@ -739,9 +751,9 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateVehicle(vehicle) {
     LOGGER.trace("updateVehicle | 1-activeEffects Migration");
     let updateData = {};
-    const { amount } = vehicle.data.data;
-    updateData = { ...updateData, ...CPRMigration.safeDelete(vehicle, "data.quality") };
-    updateData["data.slots"] = 3;
+    const { amount } = vehicle.system;
+    updateData = { ...updateData, ...CPRMigration.safeDelete(vehicle, "system.quality") };
+    updateData["system.slots"] = 3;
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(vehicle, 10000) };
     await vehicle.update(updateData);
     const newItemData = duplicate(vehicle.data);
@@ -761,17 +773,17 @@ export default class ActiveEffectsMigration extends CPRMigration {
   static async updateWeapon(weapon) {
     LOGGER.trace("updateWeapon | 1-activeEffects Migration");
     let updateData = {};
-    const { amount } = weapon.data.data;
-    const { quality } = weapon.data.data;
-    const { attackmod } = weapon.data.data;
+    const { amount } = weapon.system;
+    const { quality } = weapon.system;
+    const { attackmod } = weapon.system;
 
-    updateData["data.usage"] = "equipped";
-    updateData = { ...updateData, ...CPRMigration.safeDelete(weapon, "data.charges") };
-    updateData["data.slots"] = 3;
+    updateData["system.usage"] = "equipped";
+    updateData = { ...updateData, ...CPRMigration.safeDelete(weapon, "system.charges") };
+    updateData["system.slots"] = 3;
     if (quality === "excellent") {
-      updateData["data.attackmod"] = attackmod + 1;
+      updateData["system.attackmod"] = attackmod + 1;
     }
-    updateData = { ...updateData, ...CPRMigration.safeDelete(weapon, "data.quality") };
+    updateData = { ...updateData, ...CPRMigration.safeDelete(weapon, "system.quality") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(weapon, 100) };
     await weapon.update(updateData);
     const newItemData = duplicate(weapon.data);

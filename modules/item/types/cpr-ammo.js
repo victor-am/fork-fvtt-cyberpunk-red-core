@@ -26,7 +26,7 @@ export default class CPRAmmoItem extends CPRItem {
 
     // If the actor, is updating his owned item, this logic should live within the actor.
     if (this.actor) {
-      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]);
     }
   }
 
@@ -38,11 +38,11 @@ export default class CPRAmmoItem extends CPRItem {
    */
   async _ammoDecrement(changeAmount) {
     LOGGER.trace("_ammoDecrement | CPRAmmoItem | Called.");
-    const currentValue = this.data.data.amount;
+    const currentValue = this.system.amount;
     const newValue = Math.max(0, Number(currentValue) - Number(changeAmount));
-    this.data.data.amount = newValue;
+    this.system.amount = newValue;
     if (this.actor) {
-      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
+      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]);
     }
     return null;
   }
@@ -55,11 +55,11 @@ export default class CPRAmmoItem extends CPRItem {
    */
   async _ammoIncrement(changeAmount) {
     LOGGER.trace("_ammoIncrement | CPRAmmoItem | Called.");
-    const currentValue = this.data.data.amount;
+    const currentValue = this.system.amount;
     const newValue = Number(currentValue) + Number(changeAmount);
-    this.data.data.amount = newValue;
+    this.system.amount = newValue;
     if (this.actor) {
-      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
+      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]);
     }
     return null;
   }

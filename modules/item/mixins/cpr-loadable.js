@@ -22,11 +22,11 @@ const Loadable = function Loadable() {
    */
   this.setCompatibleAmmo = async function setCompatibleAmmo(ammoList) {
     LOGGER.trace("setCompatibleAmmo | Loadable | Called.");
-    this.data.data.ammoVariety = ammoList;
+    this.system.ammoVariety = ammoList;
     if (this.actor) {
-      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
+      this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]);
     }
-    return this.update({ "data.ammoVariety": ammoList });
+    return this.update({ "system.ammoVariety": ammoList });
   };
 
   /**
@@ -41,7 +41,7 @@ const Loadable = function Loadable() {
     LOGGER.trace("_measureDv | Loadable | Called.");
     let newDvTable = dvTable;
     if (actor.sheet.token !== null) {
-      const flag = getProperty(actor.data, `flags.cyberpunk-red-core.firetype-${this.data._id}`);
+      const flag = getProperty(actor, `flags.cyberpunk-red-core.firetype-${this._id}`);
       if (flag === "autofire") {
         const afTable = (DvUtils.GetDvTables()).filter((name) => name.includes(dvTable) && name.includes("Autofire"));
         if (afTable.length > 0) {
@@ -62,21 +62,21 @@ const Loadable = function Loadable() {
     LOGGER.trace("_unloadItem | Loadable | Called.");
     if (this.actor) {
       // recover the ammo to the right object
-      const { ammoId } = this.data.data.magazine;
+      const { ammoId } = this.system.magazine;
       if (ammoId) {
-        const ammo = this.actor.items.find((i) => i.data._id === ammoId);
+        const ammo = this.actor.items.find((i) => i._id === ammoId);
 
         if (ammo !== null) {
-          if (this.data.data.magazine.value > 0) {
+          if (this.system.magazine.value > 0) {
             if (ammoId) {
-              await ammo._ammoIncrement(this.data.data.magazine.value);
+              await ammo._ammoIncrement(this.system.magazine.value);
             }
           }
         }
       }
-      this.data.data.magazine.value = 0;
-      this.data.data.magazine.ammoId = "";
-      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, data: this.data.data }]);
+      this.system.magazine.value = 0;
+      this.system.magazine.ammoId = "";
+      return this.actor.updateEmbeddedDocuments("Item", [{ _id: this.id, system: this.system }]);
     }
     return null;
   };
@@ -95,7 +95,7 @@ const Loadable = function Loadable() {
     const loadUpdate = [];
     if (this.actor) {
       if (!selectedAmmoId) {
-        const ownedAmmo = this.actor.data.filteredItems.ammo;
+        const ownedAmmo = this.actor.itemTypes.ammo;
         const validAmmo = [];
         Object.keys(ownedAmmo).forEach((index) => {
           const ammo = ownedAmmo[index];
@@ -121,16 +121,16 @@ const Loadable = function Loadable() {
         selectedAmmoId = formData.selectedAmmo;
       }
 
-      const loadedAmmo = this.data.data.magazine.ammoId;
+      const loadedAmmo = this.system.magazine.ammoId;
       if (loadedAmmo !== "" && loadedAmmo !== selectedAmmoId) {
         await this._unloadItem();
       }
 
       if (selectedAmmoId) {
-        const magazineData = this.data.data.magazine;
+        const magazineData = this.system.magazine;
         magazineData.ammoId = selectedAmmoId;
-        loadUpdate.push({ _id: this.data._id, "data.magazine.ammoId": selectedAmmoId });
-        const ammo = this.actor.items.find((i) => i.data._id === selectedAmmoId);
+        loadUpdate.push({ _id: this._id, "system.magazine.ammoId": selectedAmmoId });
+        const ammo = this.actor.items.find((i) => i._id === selectedAmmoId);
         if (ammo === null) {
           SystemUtils.DisplayMessage("warn", (SystemUtils.Localize("CPR.messages.ammoMissingFromGear")));
           return;
@@ -147,15 +147,15 @@ const Loadable = function Loadable() {
         const magazineSpace = (upgradeType === "override") ? upgradeValue - magazineData.value : magazineData.max - magazineData.value + upgradeValue;
 
         if (magazineSpace > 0) {
-          if (Number(ammo.data.data.amount) >= magazineSpace) {
+          if (Number(ammo.system.amount) >= magazineSpace) {
             magazineData.value += magazineSpace;
             await ammo._ammoDecrement(magazineSpace);
           } else {
-            magazineData.value = Number(this.data.data.magazine.value) + Number(ammo.data.data.amount);
-            await ammo._ammoDecrement(ammo.data.data.amount);
+            magazineData.value = Number(this.system.magazine.value) + Number(ammo.system.amount);
+            await ammo._ammoDecrement(ammo.system.amount);
           }
         }
-        loadUpdate.push({ _id: this.data._id, "data.magazine": magazineData });
+        loadUpdate.push({ _id: this._id, "system.magazine": magazineData });
       }
       this.actor.updateEmbeddedDocuments("Item", loadUpdate);
     }
@@ -183,7 +183,7 @@ const Loadable = function Loadable() {
    */
   this.hasAmmo = function hasAmmo(cprRoll) {
     LOGGER.trace("hasAmmo | Loadable | Called.");
-    return (this.data.data.magazine.value - this.bulletConsumption(cprRoll)) >= 0;
+    return (this.system.magazine.value - this.bulletConsumption(cprRoll)) >= 0;
   };
 
   /**
@@ -212,9 +212,9 @@ const Loadable = function Loadable() {
   this._getLoadedAmmoType = function _getLoadedAmmoType() {
     LOGGER.trace("_getLoadedAmmoType | Loadable | Called.");
     if (this.actor) {
-      const ammo = this.actor.items.find((i) => i.data._id === this.data.data.magazine.ammoId);
+      const ammo = this.actor.items.find((i) => i._id === this.system.magazine.ammoId);
       if (ammo) {
-        return ammo.data.data.type;
+        return ammo.system.type;
       }
     }
     return undefined;
@@ -229,8 +229,8 @@ const Loadable = function Loadable() {
   this.clearAmmo = function clearAmmo(data) {
     LOGGER.trace("clearAmmo | Loadable | Called.");
     const newData = data;
-    newData.data.magazine.ammoId = "";
-    newData.data.magazine.value = 0;
+    newData.system.magazine.ammoId = "";
+    newData.system.magazine.value = 0;
     return newData;
   };
 };

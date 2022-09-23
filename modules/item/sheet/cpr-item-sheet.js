@@ -65,28 +65,33 @@ export default class CPRItemSheet extends ItemSheet {
   /** @override */
   async getData() {
     LOGGER.trace("getData | CPRItemSheet | Called.");
-    const data = super.getData();
+    const foundryData = super.getData();
+    const cprData = foundryData.item.system;
     // data.isGM = game.user.isGM;
-    data.isGM = game.user.isGM;
-    data.isOwned = this.object.isOwned;
-    // data.filteredItems will be other items relevant to this one.
-    // For owned objects, the item list will come from the character owner
-    // For unowned objects, the item list will come from the core list of objects
-    data.filteredItems = {};
-    if (data.isOwned) {
-      data.filteredItems = this.object.actor.itemTypes;
-    } else if (data.item.type === "role") {
-      const coreSkills = await SystemUtils.GetCoreSkills();
-      const worldSkills = game.items.filter((i) => i.type === "skill");
-      data.filteredItems.skill = coreSkills.concat(worldSkills);
-    } else {
-      data.filteredItems.skill = await SystemUtils.GetCoreSkills();
+    cprData.isGM = game.user.isGM;
+    cprData.isOwned = this.object.isOwned;
+    const itemType = foundryData.item.type;
+    const mixins = SystemUtils.getDataModelTemplates(itemType);
+    if (itemType === "role" || mixins.includes("attackable")) {
+      // relativeSkills and relativeAmmo will be other items relevant to this one.
+      // For owned objects, the item list will come from the character owner
+      // For unowned objects, the item list will come from the core list of objects
+      if (cprData.isOwned) {
+        cprData.relativeSkills = this.object.actor.itemTypes.skill;
+        cprData.relativeAmmo = this.object.actor.itemTypes.ammo;
+      } else {
+        const coreSkills = await SystemUtils.GetCoreSkills();
+        const worldSkills = game.items.filter((i) => i.type === "skill");
+        cprData.relativeSkills = coreSkills.concat(worldSkills);
+      }
     }
+
     // if (["cyberdeck", "weapon", "armor", "cyberware", "clothing"].indexOf(data.item.type) > -1) {
-    //   data.data.data.availableSlots = this.object.availableSlots();
+    //   data.system.availableSlots = this.object.availableSlots();
     // }
-    data.dvTableNames = DvUtils.GetDvTables();
-    return data;
+    cprData.dvTableNames = DvUtils.GetDvTables();
+    foundryData.item.system = cprData;
+    return foundryData;
   }
 
   /* -------------------------------------------- */
@@ -164,14 +169,14 @@ export default class CPRItemSheet extends ItemSheet {
 
   _itemCheckboxToggle(event) {
     LOGGER.trace("_itemCheckboxToggle | CPRItemSheet | Called.");
-    const itemData = duplicate(this.item.data);
+    const cprItem = duplicate(this.item);
     const target = SystemUtils.GetEventDatum(event, "data-target");
-    const value = !getProperty(itemData, target);
-    if (target === "data.concealable.concealable") {
+    const value = !getProperty(cprItem, target);
+    if (target === "system.concealable.concealable") {
       this.item.setConcealable(value);
-    } else if (hasProperty(itemData, target)) {
-      setProperty(itemData, target, value);
-      this.item.update(itemData);
+    } else if (hasProperty(cprItem, target)) {
+      setProperty(cprItem, target, value);
+      this.item.update(cprItem);
       LOGGER.log(`Item ${this.item.id} ${target} set to ${value}`);
       this._automaticResize(); // Resize the sheet as length of settings list might have changed
     }
@@ -179,27 +184,27 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _itemMultiOption(event) {
     LOGGER.trace("_itemMultiOption | CPRItemSheet | Called.");
-    const itemData = duplicate(this.item.data);
+    const cprItem = duplicate(this.item);
     // the target the option wants to be put into
     const target = $(event.currentTarget).parents(".item-multi-select").attr("data-target");
     const value = SystemUtils.GetEventDatum(event, "data-value");
-    if (hasProperty(itemData, target)) {
-      const prop = getProperty(itemData, target);
+    if (hasProperty(cprItem, target)) {
+      const prop = getProperty(cprItem, target);
       if (prop.includes(value)) {
         prop.splice(prop.indexOf(value), 1);
       } else {
         prop.push(value);
       }
-      setProperty(itemData, target, prop);
-      this.item.update(itemData);
+      setProperty(cprItem, target, prop);
+      this.item.update(cprItem);
       this._automaticResize(); // Resize the sheet as length of settings list might have changed
     }
   }
 
   async _selectCompatibleAmmo() {
     LOGGER.trace("_selectCompatibleAmmo | CPRItemSheet | Called.");
-    const itemData = this.item.data.data;
-    let formData = { id: this.item.data._id, name: this.item.data.name, data: itemData };
+    const cprItemData = this.item.system;
+    let formData = { id: this.item._id, name: this.item.name, system: cprItemData };
     formData = await SelectCompatibleAmmo.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;
@@ -212,16 +217,16 @@ export default class CPRItemSheet extends ItemSheet {
 
   async _selectRoleBonuses() {
     LOGGER.trace("ItemSheet | _selectRoleBonuses | Called.");
-    const itemData = this.item.data.data;
+    const cprItemData = this.item.system;
     const roleType = "mainRole";
     const pack = game.packs.get("cyberpunk-red-core.skills");
     const coreSkills = await pack.getDocuments();
     const customSkills = game.items.filter((i) => i.type === "skill");
-    const allSkills = this.object.isOwned ? this.actor.data.filteredItems.skill
-      : coreSkills.concat(customSkills).sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+    const allSkills = this.object.isOwned ? this.actor.itemTypes.skill
+      : coreSkills.concat(customSkills).sort((a, b) => (a.name > b.name ? 1 : -1));
     const allSkillsData = [];
-    allSkills.forEach((a) => allSkillsData.push(a.data));
-    let formData = { skillList: allSkillsData, roleType, data: itemData };
+    allSkills.forEach((a) => allSkillsData.push({ name: a.name, core: a.system.core }));
+    let formData = { skillList: allSkillsData, roleType, system: cprItemData };
     formData = await SelectRoleBonuses.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
       return;
@@ -230,7 +235,7 @@ export default class CPRItemSheet extends ItemSheet {
       const skillBonusObjects = [];
       const universalBonusesList = [];
       formData.selectedSkills.forEach((s) => {
-        skillBonusObjects.push(allSkills.find((a) => a.data.name === s));
+        skillBonusObjects.push(allSkills.find((a) => a.name === s));
       });
       formData.selectedUniversalBonuses.forEach((b) => {
         universalBonusesList.push(b);
@@ -248,18 +253,19 @@ export default class CPRItemSheet extends ItemSheet {
   async _selectSubroleBonuses(event) {
     LOGGER.trace("ItemSheet | _selectSubroleBonuses | Called.");
     const subRoleName = SystemUtils.GetEventDatum(event, "data-item-name");
-    const itemData = duplicate(this.item.data);
+    const cprItemData = duplicate(this.item.system);
     const roleType = "subRole";
-    const subRole = itemData.data.abilities.find((a) => a.name === subRoleName);
+    const subRole = cprItemData.abilities.find((a) => a.name === subRoleName);
     const pack = game.packs.get("cyberpunk-red-core.skills");
     const coreSkills = await pack.getDocuments();
     const customSkills = game.items.filter((i) => i.type === "skill");
-    const allSkills = this.object.isOwned ? this.actor.data.filteredItems.skill
-      : coreSkills.concat(customSkills).sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+    const allSkills = this.object.isOwned ? this.actor.itemTypes.skill
+      : coreSkills.concat(customSkills).sort((a, b) => (a.name > b.name ? 1 : -1));
     const allSkillsData = [];
-    allSkills.forEach((a) => allSkillsData.push(a.data));
+    allSkills.forEach((a) => allSkillsData.push({ name: a.name, core: a.system.core }));
+
     let formData = {
-      skillList: allSkillsData, roleType, subRole, data: itemData.data,
+      skillList: allSkillsData, roleType, subRole, system: cprItemData,
     };
     formData = await SelectRoleBonuses.RenderPrompt(formData).catch((err) => LOGGER.debug(err));
     if (formData === undefined) {
@@ -269,7 +275,7 @@ export default class CPRItemSheet extends ItemSheet {
       const skillBonusObjects = [];
       const universalBonusesList = [];
       formData.selectedSkills.forEach((s) => {
-        skillBonusObjects.push(allSkills.find((a) => a.data.name === s));
+        skillBonusObjects.push(allSkills.find((a) => a.name === s));
       });
       formData.selectedUniversalBonuses.forEach((b) => {
         universalBonusesList.push(b);
@@ -277,9 +283,9 @@ export default class CPRItemSheet extends ItemSheet {
       setProperty(subRole, "bonuses", skillBonusObjects);
       setProperty(subRole, "universalBonuses", universalBonusesList);
       setProperty(subRole, "bonusRatio", formData.bonusRatio);
-      this.item.update(itemData);
+      this.item.update({ system: cprItemData });
       if (this.actor) {
-        await this.actor.updateEmbeddedDocuments("Item", [itemData]);
+        await this.actor.updateEmbeddedDocuments("Item", [{ _id: this.item.id, system: cprItemData }]);
       }
     }
   }
@@ -331,24 +337,24 @@ export default class CPRItemSheet extends ItemSheet {
     let branch = "a";
     floors.forEach((floor) => {
       let content = "CPR.global.programClass.blackice";
-      if (floor.results[0].data.text.match("^Password")) {
+      if (floor.results[0].text.match("^Password")) {
         content = "CPR.netArchitecture.floor.options.password";
       }
-      if (floor.results[0].data.text.match("^File")) {
+      if (floor.results[0].text.match("^File")) {
         content = "CPR.netArchitecture.floor.options.file";
       }
-      if (floor.results[0].data.text.match("^Control Node")) {
+      if (floor.results[0].text.match("^Control Node")) {
         content = "CPR.netArchitecture.floor.options.controlnode";
       }
       let dv = "N/A";
       const dvRegex = /DV([0-9]+)/g;
-      const match = dvRegex.exec(floor.results[0].data.text);
+      const match = dvRegex.exec(floor.results[0].text);
       if (match !== null && match.length > 1) {
         [, dv] = match;
       }
       let blackice = "--";
       if (content.match("blackice")) {
-        switch (floor.results[0].data.text) {
+        switch (floor.results[0].text) {
           case "Asp":
             blackice = "CPR.netArchitecture.floor.options.blackIce.asp";
             break;
@@ -402,14 +408,14 @@ export default class CPRItemSheet extends ItemSheet {
         dv,
         content,
         blackice,
-        description: "Roll ".concat(floor.roll.total.toString(), ": ", floor.results[0].data.text),
+        description: "Roll ".concat(floor.roll.total.toString(), ": ", floor.results[0].text),
       });
       index += 1;
       floorIndex += 1;
     });
-    const itemData = duplicate(this.item.data);
-    setProperty(itemData, "data.floors", prop);
-    this.item.update(itemData);
+    const cprItemData = duplicate(this.item.system);
+    setProperty(cprItemData, "floors", prop);
+    this.item.update({ system: cprItemData });
     this._automaticResize(); // Resize the sheet as length of settings list might have changed
   }
 
@@ -424,7 +430,7 @@ export default class CPRItemSheet extends ItemSheet {
       // eslint-disable-next-line no-await-in-loop
       const res = await table.draw({ displayChat: false });
       if (!drawnNumbers.includes(res.roll.total)) {
-        if (!res.results[0].data.text.match(drawDuplicatesRegex)) {
+        if (!res.results[0].text.match(drawDuplicatesRegex)) {
           drawnNumbers.push(res.roll.total);
         }
         drawnResults.push(res);
@@ -441,7 +447,7 @@ export default class CPRItemSheet extends ItemSheet {
     LOGGER.trace("_netarchLevelAction | CPRItemSheet | Called.");
     const target = Number(SystemUtils.GetEventDatum(event, "data-action-target"));
     const action = SystemUtils.GetEventDatum(event, "data-action-type");
-    const itemData = duplicate(this.item.data);
+    const cprItemData = duplicate(this.item.system);
 
     if (action === "delete") {
       const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
@@ -455,20 +461,20 @@ export default class CPRItemSheet extends ItemSheet {
           return;
         }
       }
-      if (hasProperty(itemData, "data.floors")) {
-        const prop = getProperty(itemData, "data.floors");
+      if (hasProperty(cprItemData, "floors")) {
+        const prop = getProperty(cprItemData, "floors");
         let deleteElement = null;
         prop.forEach((floor) => { if (floor.index === target) { deleteElement = floor; } });
         prop.splice(prop.indexOf(deleteElement), 1);
-        setProperty(itemData, "data.floors", prop);
-        this.item.update(itemData);
+        setProperty(cprItemData, "floors", prop);
+        this.item.update({ system: cprItemData });
         this._automaticResize(); // Resize the sheet as length of settings list might have changed
       }
     }
 
     if (action === "up" || action === "down") {
-      if (hasProperty(itemData, "data.floors")) {
-        const prop = getProperty(itemData, "data.floors");
+      if (hasProperty(cprItemData, "floors")) {
+        const prop = getProperty(cprItemData, "floors");
         const indices = [];
         prop.forEach((floor) => { indices.push(floor.index); });
         let swapPartner = null;
@@ -495,8 +501,8 @@ export default class CPRItemSheet extends ItemSheet {
           newElement2.index = target;
           prop.push(newElement1);
           prop.push(newElement2);
-          setProperty(itemData, "data.floors", prop);
-          this.item.update(itemData);
+          setProperty(cprItemData, "floors", prop);
+          this.item.update({ system: cprItemData });
         }
       }
     }
@@ -540,8 +546,8 @@ export default class CPRItemSheet extends ItemSheet {
         return;
       }
 
-      if (hasProperty(itemData, "data.floors")) {
-        const prop = getProperty(itemData, "data.floors");
+      if (hasProperty(cprItemData, "floors")) {
+        const prop = getProperty(cprItemData, "floors");
         let maxIndex = -1;
         prop.forEach((floor) => { if (floor.index > maxIndex) { maxIndex = floor.index; } });
         prop.push({
@@ -553,8 +559,8 @@ export default class CPRItemSheet extends ItemSheet {
           blackice: formData.blackice,
           description: formData.description,
         });
-        setProperty(itemData, "data.floors", prop);
-        this.item.update(itemData);
+        setProperty(cprItemData, "floors", prop);
+        this.item.update({ system: cprItemData });
         this._automaticResize(); // Resize the sheet as length of settings list might have changed
       } else {
         const prop = [{
@@ -566,15 +572,15 @@ export default class CPRItemSheet extends ItemSheet {
           blackice: formData.blackice,
           description: formData.description,
         }];
-        setProperty(itemData, "data.floors", prop);
-        this.item.update(itemData);
+        setProperty(cprItemData, "floors", prop);
+        this.item.update({ system: cprItemData });
         this._automaticResize(); // Resize the sheet as length of settings list might have changed
       }
     }
 
     if (action === "edit") {
-      if (hasProperty(itemData, "data.floors")) {
-        const prop = getProperty(itemData, "data.floors");
+      if (hasProperty(cprItemData, "floors")) {
+        const prop = getProperty(cprItemData, "floors");
         let editElement = null;
         prop.forEach((floor) => { if (floor.index === target) { editElement = floor; } });
         let formData = {
@@ -624,8 +630,8 @@ export default class CPRItemSheet extends ItemSheet {
           blackice: formData.blackice,
           description: formData.description,
         });
-        setProperty(itemData, "data.floors", prop);
-        this.item.update(itemData);
+        setProperty(cprItemData, "floors", prop);
+        this.item.update({ system: cprItemData });
         this._automaticResize(); // Resize the sheet as length of settings list might have changed
       }
     }
@@ -657,25 +663,25 @@ export default class CPRItemSheet extends ItemSheet {
       return;
     }
     if (formData) {
-      this.item.data.data.modifiers[formData.boosterType] = formData.modifierValue;
+      this.item.system.modifiers[formData.boosterType] = formData.modifierValue;
     }
     if (this.actor) {
-      await this.actor.updateEmbeddedDocuments("Item", [{ _id: this.item.id, "data.modifiers": this.item.data.data.modifiers }]);
+      await this.actor.updateEmbeddedDocuments("Item", [{ _id: this.item.id, "system.modifiers": this.item.system.modifiers }]);
     }
-    this.item.update({ "data.modifiers": this.item.data.data.modifiers });
+    this.item.update({ "data.modifiers": this.item.system.modifiers });
   }
 
   async _delBoosterModifier(event) {
     LOGGER.trace("_delBoosterModifier | CPRItemSheet | Called.");
     const boosterType = SystemUtils.GetEventDatum(event, "data-booster-type");
-    delete this.item.data.data.modifiers[boosterType];
+    delete this.item.system.modifiers[boosterType];
     if (this.actor) {
       const updatedObject = { _id: this.item.id };
       const objectKey = `data.modifiers.-=${boosterType}`;
       updatedObject[objectKey] = null;
       await this.actor.updateEmbeddedDocuments("Item", [updatedObject]);
     }
-    return this.item.update({ "data.modifiers": this.item.data.data.modifiers });
+    return this.item.update({ "data.modifiers": this.item.system.modifiers });
   }
 
   // Cyberdeck Code
@@ -683,7 +689,7 @@ export default class CPRItemSheet extends ItemSheet {
   async _cyberdeckSelectInstalledPrograms() {
     LOGGER.trace("_cyberdeckSelectInstalledPrograms | CPRItemSheet | Called.");
     const cyberdeck = this.item;
-    if (cyberdeck.data.type !== "cyberdeck") {
+    if (cyberdeck.type !== "cyberdeck") {
       return;
     }
 
@@ -703,17 +709,17 @@ export default class CPRItemSheet extends ItemSheet {
     let programList = [];
 
     // Start with the list of all programs owned by the actor
-    programList = actor.data.filteredItems.program;
+    programList = actor.itemTypes.program;
 
     // Remove all programs that are installed somewhere other than this deck
-    actor.data.filteredItems.programsInstalled.forEach((programId) => {
+    this.item.system.programs.installed.forEach((programId) => {
       const onDeck = installedPrograms.filter((p) => p._id === programId);
       if (onDeck.length === 0) {
         programList = programList.filter((p) => p.id !== programId);
       }
     });
 
-    programList = programList.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+    programList = programList.sort((a, b) => (a.name > b.name ? 1 : -1));
 
     let formData = {
       cyberdeck,
@@ -732,14 +738,14 @@ export default class CPRItemSheet extends ItemSheet {
     let storageRequired = 0;
 
     formData.selectedPrograms.forEach((pId) => {
-      const program = (programList.filter((p) => p.data._id === pId))[0];
-      storageRequired += program.data.data.slots;
+      const program = (programList.filter((p) => p._id === pId))[0];
+      storageRequired += program.system.size;
       selectedPrograms.push(program);
-      unselectedPrograms = unselectedPrograms.filter((p) => p.data._id !== program.data._id);
+      unselectedPrograms = unselectedPrograms.filter((p) => p._id !== program._id);
     });
 
-    selectedPrograms = selectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
-    unselectedPrograms = unselectedPrograms.sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+    selectedPrograms = selectedPrograms.sort((a, b) => (a.name > b.name ? 1 : -1));
+    unselectedPrograms = unselectedPrograms.sort((a, b) => (a.name > b.name ? 1 : -1));
 
     // Because the dialog could contain programs that were already installed,
     // we need to calculate the amount of slots available on the Cyberdeck for programs
@@ -748,11 +754,11 @@ export default class CPRItemSheet extends ItemSheet {
     const upgradeValue = cyberdeck.getAllUpgradesFor("slots");
     const upgradeType = cyberdeck.getUpgradeTypeFor("slots");
 
-    let cyberdeckSlots = (upgradeType === "override") ? upgradeValue : cyberdeck.data.data.slots + upgradeValue;
+    let cyberdeckSlots = (upgradeType === "override") ? upgradeValue : cyberdeck.system.slots + upgradeValue;
 
     // Adjust for installed upgrades/hardware
-    cyberdeck.data.data.upgrades.forEach((u) => {
-      cyberdeckSlots -= u.data.size;
+    cyberdeck.system.upgrades.forEach((u) => {
+      cyberdeckSlots -= u.system.size;
     });
 
     if (storageRequired > cyberdeckSlots) {
@@ -762,9 +768,9 @@ export default class CPRItemSheet extends ItemSheet {
     cyberdeck.uninstallPrograms(unselectedPrograms);
     cyberdeck.installPrograms(selectedPrograms);
 
-    const updateList = [{ _id: cyberdeck.id, data: cyberdeck.data.data }];
+    const updateList = [{ _id: cyberdeck.id, system: cyberdeck.system }];
     programList.forEach((program) => {
-      updateList.push({ _id: program.id, data: program.data.data });
+      updateList.push({ _id: program.id, system: program.system });
     });
     await actor.updateEmbeddedDocuments("Item", updateList);
   }
@@ -774,7 +780,7 @@ export default class CPRItemSheet extends ItemSheet {
     const programId = SystemUtils.GetEventDatum(event, "data-item-id");
 
     const cyberdeck = this.item;
-    if (cyberdeck.data.type !== "cyberdeck") {
+    if (cyberdeck.type !== "cyberdeck") {
       return;
     }
 
@@ -785,12 +791,12 @@ export default class CPRItemSheet extends ItemSheet {
       return;
     }
 
-    const program = (actor.data.filteredItems.program.filter((p) => p.data._id === programId))[0];
+    const program = (actor.itemTypes.program.filter((p) => p._id === programId))[0];
 
     cyberdeck.uninstallPrograms([program]);
 
-    const updateList = [{ _id: cyberdeck.data._id, data: cyberdeck.data.data }];
-    updateList.push({ _id: program.data._id, "data.isInstalled": false });
+    const updateList = [{ _id: cyberdeck._id, system: cyberdeck.system }];
+    updateList.push({ _id: program._id, "data.isInstalled": false });
     await actor.updateEmbeddedDocuments("Item", updateList);
   }
 
@@ -798,12 +804,12 @@ export default class CPRItemSheet extends ItemSheet {
     LOGGER.trace("ItemSheet | _roleAbilityAction | Called.");
     const target = Number(SystemUtils.GetEventDatum(event, "data-action-target"));
     const action = SystemUtils.GetEventDatum(event, "data-action-type");
-    const itemData = duplicate(this.item.data);
+    const cprItemData = duplicate(this.item.system);
     const pack = game.packs.get("cyberpunk-red-core.skills");
     const coreSkills = await pack.getDocuments();
     const customSkills = game.items.filter((i) => i.type === "skill");
-    const allSkills = this.object.isOwned ? this.actor.data.filteredItems.skill
-      : coreSkills.concat(customSkills).sort((a, b) => (a.data.name > b.data.name ? 1 : -1));
+    const allSkills = this.object.isOwned ? this.actor.itemTypes.skill
+      : coreSkills.concat(customSkills).sort((a, b) => (a.name > b.name ? 1 : -1));
     if (action === "create") {
       let formData = {
         name: "",
@@ -822,11 +828,11 @@ export default class CPRItemSheet extends ItemSheet {
         return;
       }
       // eslint-disable-next-line no-nested-ternary
-      const skillObject = (formData.skill !== "--") && (formData.skill !== "varying") ? allSkills.find((a) => a.data.name === formData.skill)
+      const skillObject = (formData.skill !== "--") && (formData.skill !== "varying") ? allSkills.find((a) => a.name === formData.skill)
         : (formData.skill === "varying") ? "varying"
           : "--";
-      if (hasProperty(itemData, "data.abilities")) {
-        const prop = getProperty(itemData, "data.abilities");
+      if (hasProperty(cprItemData, "abilities")) {
+        const prop = getProperty(cprItemData, "abilities");
         let maxIndex = -1;
         prop.forEach((ability) => { if (ability.index > maxIndex) { maxIndex = ability.index; } });
         prop.push({
@@ -841,8 +847,8 @@ export default class CPRItemSheet extends ItemSheet {
           bonusRatio: 1,
           hasRoll: formData.hasRoll,
         });
-        setProperty(itemData, "data.abilities", prop);
-        this.item.update(itemData);
+        setProperty(cprItemData, "abilities", prop);
+        this.item.update({ system: cprItemData });
         this._automaticResize(); // Resize the sheet as length of settings list might have changed
       } else {
         const prop = [{
@@ -857,8 +863,8 @@ export default class CPRItemSheet extends ItemSheet {
           bonusRatio: 1,
           hasRoll: formData.hasRoll,
         }];
-        setProperty(itemData, "data.abilities", prop);
-        this.item.update(itemData);
+        setProperty(cprItemData, "abilities", prop);
+        this.item.update({ system: cprItemData });
         this._automaticResize(); // Resize the sheet as length of settings list might have changed
       }
     }
@@ -875,20 +881,20 @@ export default class CPRItemSheet extends ItemSheet {
           return;
         }
       }
-      if (hasProperty(itemData, "data.abilities")) {
-        const prop = getProperty(itemData, "data.abilities");
+      if (hasProperty(cprItemData, "abilities")) {
+        const prop = getProperty(cprItemData, "abilities");
         let deleteElement = null;
         prop.forEach((ability) => { if (ability.index === target) { deleteElement = ability; } });
         prop.splice(prop.indexOf(deleteElement), 1);
-        setProperty(itemData, "data.abilities", prop);
-        this.item.update(itemData);
+        setProperty(cprItemData, "abilities", prop);
+        this.item.update({ system: cprItemData });
         this._automaticResize(); // Resize the sheet as length of settings list might have changed
       }
     }
 
     if (action === "edit") {
-      if (hasProperty(itemData, "data.abilities")) {
-        const prop = getProperty(itemData, "data.abilities");
+      if (hasProperty(cprItemData, "abilities")) {
+        const prop = getProperty(cprItemData, "abilities");
         let editElement = null;
         prop.forEach((ability) => { if (ability.index === target) { editElement = ability; } });
         const editElementSkill = (editElement.skill !== "--") && (editElement.skill !== "varying") ? editElement.skill.name : editElement.skill;
@@ -908,7 +914,7 @@ export default class CPRItemSheet extends ItemSheet {
           return;
         }
         // eslint-disable-next-line no-nested-ternary
-        const skillObject = (formData.skill !== "--") && (formData.skill !== "varying") ? allSkills.find((a) => a.data.name === formData.skill)
+        const skillObject = (formData.skill !== "--") && (formData.skill !== "varying") ? allSkills.find((a) => a.name === formData.skill)
           : (formData.skill === "varying") ? "varying"
             : "--";
         prop.splice(prop.indexOf(editElement), 1);
@@ -924,8 +930,8 @@ export default class CPRItemSheet extends ItemSheet {
           bonusRatio: editElement.bonusRatio,
           hasRoll: formData.hasRoll,
         });
-        setProperty(itemData, "data.abilities", prop);
-        this.item.update(itemData);
+        setProperty(cprItemData, "abilities", prop);
+        this.item.update({ system: cprItemData });
         this._automaticResize(); // Resize the sheet as length of settings list might have changed
       }
     }
@@ -944,9 +950,9 @@ export default class CPRItemSheet extends ItemSheet {
       return;
     }
 
-    const installedUpgrades = item.data.data.upgrades;
-    const ownedUpgrades = actor.data.filteredItems.itemUpgrade;
-    const availableUpgrades = ownedUpgrades.filter((u) => u.data.data.type === item.type && u.data.data.isInstalled === false);
+    const installedUpgrades = item.system.upgrades;
+    const ownedUpgrades = actor.itemTypes.itemUpgrade;
+    const availableUpgrades = ownedUpgrades.filter((u) => u.system.type === item.type && u.system.isInstalled === false);
     let uninstallList = [];
     installedUpgrades.forEach((u) => {
       const upgradeId = u._id;
@@ -986,7 +992,7 @@ export default class CPRItemSheet extends ItemSheet {
   async _removeItemUpgrade(event) {
     LOGGER.trace("_removeItemUpgrade | CPRItemSheet | Called.");
     const upgradeId = SystemUtils.GetEventDatum(event, "data-item-id");
-    const upgrade = this.actor.items.find((i) => i.data._id === upgradeId);
+    const upgrade = this.actor.items.find((i) => i._id === upgradeId);
     await this.item.uninstallUpgrades([upgrade]);
   }
 
@@ -1001,7 +1007,7 @@ export default class CPRItemSheet extends ItemSheet {
   _renderReadOnlyItemCard(event) {
     LOGGER.trace("_renderReadOnlyItemCard | CPRItemSheet | Called.");
     const itemId = SystemUtils.GetEventDatum(event, "data-item-id");
-    const item = this.actor.items.find((i) => i.data._id === itemId);
+    const item = this.actor.items.find((i) => i._id === itemId);
     item.sheet.render(true, { editable: false });
   }
 
@@ -1014,6 +1020,6 @@ export default class CPRItemSheet extends ItemSheet {
    */
   _createItemImageContextMenu(html) {
     LOGGER.trace("_createItemImageContextMenu | CPRItemSheet | Called.");
-    return createImageContextMenu(html, ".item-image-block", this.item.data);
+    return createImageContextMenu(html, ".item-image-block", this.item);
   }
 }

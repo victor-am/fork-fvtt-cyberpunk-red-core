@@ -1,4 +1,4 @@
-{{cprTrace "CPR-DEMON-SHEET.HBS"}}
+{{cprTrace "START ACTOR CPR-DEMON-SHEET.HBS"}}
 <form>
   {{#if (cprIsDebug)}}
     actor ID: {{actor.id}}
@@ -32,16 +32,16 @@
         <div class="block-data bg-red fg-black">
           <input name="name" type="text" value="{{actor.name}}"/>
         </div>
-        {{#each data.data.stats as |stat s|}}
+        {{#each actor.system.stats as |stat s|}}
           {{#if (cprCompare s "===" "rez")}}
             <div class="min-of-max-container">
-              <input class="text-center" name="data.stats.rez.value" type="number" value="{{this.value}}" />
+              <input class="text-center" name="system.stats.rez.value" type="number" value="{{this.value}}" />
               <div class="of bg-red fg-white text-normal text-bold">of</div>
-              <input class="text-center" name="data.stats.rez.max" type="number" value="{{this.max}}" />
+              <input class="text-center" name="system.stats.rez.max" type="number" value="{{this.max}}" />
             </div>
           {{else}}
             <div class="block-data text-large">
-              <input name="data.stats.{{s}}" type="number" value="{{this}}"/>
+              <input name="system.stats.{{s}}" type="number" value="{{this}}"/>
             </div>
           {{/if}}
         {{/each}}
@@ -53,7 +53,7 @@
       </div>
       <div class="demon-notes pad-thin fg-white bg-red">
         <div class="demon-edit-section fg-black text-padding-left">
-          {{editor content=data.data.notes target="data.notes" button=true owner=owner editable=editable}}
+          {{editor system.notes target="system.notes" button=true owner=owner editable=editable}}
         </div>
       </div>
     </div>

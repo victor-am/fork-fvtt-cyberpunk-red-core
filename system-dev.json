@@ -1,13 +1,20 @@
 {
-  "version": "0.81.0dev",
+  "version": "0.82.0dev",
   "flags": { "featureVideoURL": "https://www.youtube.com/watch?v=2EJoC5oNWII" },
-  "name": "cyberpunk-red-core",
+  "id": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
-  "minimumCoreVersion": "9",
-  "compatibleCoreVersion": "9",
-  "templateVersion": 2,
-  "author": "The Project Red Team",
+  "compatibility": {
+    "minimum": 10,
+    "verified": 10,
+    "maximum": 10
+  },
+  "authors": [
+    {
+      "name": "The Project Red Team",
+      "url":"https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core"
+    }
+  ],
   "esmodules": ["cpr.js"],
   "styles": ["main.css"],
   "packs": [
@@ -204,9 +211,9 @@
   "gridUnits": "m",
   "primaryTokenAttribute": "derivedStats.hp",
   "secondaryTokenAttribute": null,
-  "background" : "images/Header.jpg",
+  "background" : "systems/cyberpunk-red-core/images/Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
   "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/dev/system-dev.json",
-  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/dev/fvtt-cyberpunk-red-core-master.zip",
+  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/dev/fvtt-cyberpunk-red-core-dev.zip",
   "license": "Copyright 2020, The Project Red Team"
 }

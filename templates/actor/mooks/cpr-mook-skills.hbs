@@ -1,4 +1,4 @@
-{{cprTrace "CPR-MOOK-SKILLS.HBS"}}
+{{cprTrace "START ACTOR MOOKS CPR-MOOK-SKILLS.HBS"}}
 <div class="bg-red fg-white flexrow">
   <span class="text-nowrap text-padding-left">
     {{localize "CPR.mookSheet.skills.title"}}
@@ -10,28 +10,28 @@
     |
   </span>
   <span class="text-right">
-    {{localize "CPR.characterSheet.bottomPane.reputation"}}: {{data.data.reputation.value}} &nbsp;-&nbsp;
+    {{localize "CPR.characterSheet.bottomPane.reputation"}}: {{actor.system.reputation.value}} &nbsp;-&nbsp;
     <a class="rollable" title="{{localize "CPR.global.generic.facedown"}}" data-roll-type="facedown" data-roll-title="{{localize "CPR.global.generic.facedown"}}"><i class="far fa-angry"></i></a>
     <a class="reputation-edit-button" title="{{localize "CPR.characterSheet.bottomPane.reputationEdit"}}"><i class="fas fa-edit"></i></a> <a class="reputation-open-ledger" title="{{localize "CPR.ledger.ledgerOpen"}}"><i class="fas fa-sticky-note"></i></a>
   </span>
 </div>
 <div class="bg-white fg-black text-padding-left">
-  {{#each (cprSort (cprGetMookSkills actor.data.filteredItems.skill) "name") as |skill s|}}
-    {{#if (cprCompare skill.data.data.level ">" 0)}}
+  {{#each (cprSort (cprGetMookSkills actor.itemTypes.skill) "name") as |skill s|}}
+    {{#if (cprCompare skill.system.level ">" 0)}}
       <span class="item deletable changeable" data-item-id="{{skill.id}}" tabindex="0">
         <a class="rollable"  data-roll-type="skill" data-roll-title="{{skill.name}}" title="{{localize "CPR.mookSheet.skills.clickToRollThisSkill"}}, {{localize "CPR.mookSheet.skills.pressDeleteToReset"}}">
-          {{#if skill.data.data.core}}{{localize (cprSplitJoinCoreSkills skill)}}{{else}}{{skill.name}}{{/if}}
+          {{#if skill.system.core}}{{localize (cprSplitJoinCoreSkills skill)}}{{else}}{{skill.name}}{{/if}}
             {{#if (cprCompare (cprSystemConfig "mookSheetSkillDisplay") "===" "level")}}
-              (+{{skill.data.data.level}}){{#unless @last}},{{/unless}}
+              (+{{skill.system.level}}){{#unless @last}},{{/unless}}
             {{/if}}
             {{#if (cprCompare (cprSystemConfig "mookSheetSkillDisplay") "===" "base")}}
-              (+{{cprMath "sum" skill.data.data.level (cprGetSkillStat skill ../actor)}}){{#unless @last}},{{/unless}}
+              (+{{cprMath "sum" skill.system.level (cprGetSkillStat skill ../actor)}}){{#unless @last}},{{/unless}}
             {{/if}}
             {{#if (cprCompare (cprSystemConfig "mookSheetSkillDisplay") "===" "total")}}
-              (+{{cprMath "sum" skill.data.data.level (cprGetSkillStat skill ../actor) (cprGetSkillBonus skill.name ../actor)}}){{#unless @last}},{{/unless}}
+              (+{{cprMath "sum" skill.system.level (cprGetSkillStat skill ../actor) skill.system.skillmod}}){{#unless @last}},{{/unless}}
             {{/if}}
         </a>
-        {{#if (cprCompare skill.data.data.core "===" false)}}
+        {{#if (cprCompare skill.system.core "===" false)}}
           <a class="item-edit skill-custom" title="{{localize "CPR.actorSheets.commonActions.editCustomSkill"}}"><i class="fas fa-edit"></i></a>
         {{/if}}
       </span>

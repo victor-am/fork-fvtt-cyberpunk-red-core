@@ -1,11 +1,11 @@
-{{cprTrace "CPR-PROGRAM-DAMAGE-ROLLCARD.HBS"}}
+{{cprTrace "START CHAT CPR-PROGRAM-DAMAGE-ROLLCARD.HBS"}}
 <div class="rollcard">
     <div class="rollcard-top">
         <div class="cpr-block chat-rollTitle-stat">
             <div class="text-center text-padding-top text-normal">{{rollTitle}}</div>
             <div class="rollcard-subtitle">
-              {{#if (cprCompare (cprCompare rollCardExtraArgs.program.data.class "===" "antiprogramattacker") "&&" (cprCompare rollCardExtraArgs.program.data.damage.blackIce "!==" "")) }}
-                {{#if (cprCompare formula "===" rollCardExtraArgs.program.data.damage.standard)}}
+              {{#if (cprCompare (cprCompare rollCardExtraArgs.program.system.class "===" "antiprogramattacker") "&&" (cprCompare rollCardExtraArgs.program.system.damage.blackIce "!==" "")) }}
+                {{#if (cprCompare formula "===" rollCardExtraArgs.program.system.damage.standard)}}
                   <div class="rollcard-subtitle-center text-small">{{localize "CPR.itemSheet.program.damageTo"}} {{localize "CPR.itemSheet.program.nonBlackIce"}}</div>
                 {{else}}
                 <div class="rollcard-subtitle-center text-small">{{localize "CPR.itemSheet.program.damageTo"}} {{localize "CPR.global.programClass.blackice"}}</div>

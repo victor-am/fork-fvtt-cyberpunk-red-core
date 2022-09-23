@@ -31,7 +31,7 @@ export default class CPRCombat extends Combat {
    */
   static _getInitiativeFormula(combatant) {
     LOGGER.trace("_getInitiativeFormula | CPRCombat | Called.");
-    if (combatant.actor.data.type === "blackIce" || combatant.actor.data.type === "demon") {
+    if (combatant.actor.type === "blackIce" || combatant.actor.type === "demon") {
       const bestInit = CombatUtils.GetBestInit();
       if (!bestInit) return "30";
       if (bestInit !== combatant.initiative) {

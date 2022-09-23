@@ -10,8 +10,8 @@ export default function enablePauseAnimation() {
 
   if (setting) {
     LOGGER.log("Enabling pause animation");
-    $("#pause h3").attr("class", "pause-glitch");
-    $("#pause h3").attr("data-text", game.i18n.localize("GAME.Paused"));
-    $("#pause img").attr("class", "pause-image");
+    $("#pause figcaption").attr("class", "pause-glitch");
+    $("#pause figcaption").attr("data-text", game.i18n.localize("GAME.Paused"));
+    $("#pause img").attr("class", "fa-spin pause-image");
   }
 }

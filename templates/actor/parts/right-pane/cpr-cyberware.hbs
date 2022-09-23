@@ -1,4 +1,4 @@
-{{cprTrace "CPR-CYBERWARE-HBS"}}
+{{cprTrace "START ACTOR PARTS RIGHT-PANE CPR-CYBERWARE-HBS"}}
 <div class="cyberware-tab">
     <ol class="items-list cyberware-list">
         {{#each (cprFindConfigObj "cyberwareTypeList") as |type t|}}
@@ -9,7 +9,7 @@
                 <span class="item-detail gear-actions bg-black text-nowrap">{{localize "CPR.global.generic.actions"}}</span>
             </li>
             <ol class="items-list">
-                {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/cyberware/cpr-cyberware-content.hbs" (cprGetProp ../this.installedCyberware t)}}
+                {{> "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/cyberware/cpr-cyberware-content.hbs" (cprGetProp ../actor.system.installedCyberware t)}}
             </ol>
         </div>
         {{/each}}

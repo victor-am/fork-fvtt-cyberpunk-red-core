@@ -19,16 +19,18 @@ export default class CPRMookActor extends CPRActor {
   static async create(data, options) {
     LOGGER.trace("create | CPRMookActor | called.");
     const createData = data;
-    if (typeof data.data === "undefined") {
+    if (typeof data.system === "undefined") {
       LOGGER.trace("create | New Actor | CPRMookActor | called.");
       createData.items = [];
       const tmpItems = data.items.concat(await SystemUtils.GetCoreSkills(), await SystemUtils.GetCoreCyberware());
       tmpItems.forEach((item) => {
-        // With 0.8.8 a warning about effects not being an array was thrown,
-        // this converts it into an array for the creation.
-        // eslint-disable-next-line no-param-reassign
-        item.data.effects = item.data.effects.contents;
-        createData.items.push(item.data);
+        const cprItem = {
+          name: item.name,
+          img: item.img,
+          type: item.type,
+          system: item.system,
+        };
+        createData.items.push(cprItem);
       });
       createData.token = {
         vision: true,
@@ -55,21 +57,20 @@ export default class CPRMookActor extends CPRActor {
    */
   _calculateDerivedStats() {
     LOGGER.trace("_calculateDerivedStats | CPRMookActor | Called.");
-    const actorData = this.data;
-    actorData.filteredItems = this.itemTypes;
-    const { derivedStats } = actorData.data;
+    const cprData = this.system;
+    const { derivedStats } = cprData;
     derivedStats.seriouslyWounded = Math.ceil(derivedStats.hp.max / 2);
 
     // We need to always call this because if the actor was wounded and now is not, their
     // value would be equal to max, however their current wound state was never updated.
     this._setWoundState();
-    derivedStats.currentWoundState = this.data.data.derivedStats.currentWoundState;
+    derivedStats.currentWoundState = this.system.derivedStats.currentWoundState;
 
     // Death save
     let basePenalty = 0;
-    const critInjury = this.data.filteredItems.criticalInjury;
+    const critInjury = this.itemTypes.criticalInjury;
     critInjury.forEach((criticalInjury) => {
-      const { deathSaveIncrease } = criticalInjury.data.data;
+      const { deathSaveIncrease } = criticalInjury.system;
       if (deathSaveIncrease) {
         basePenalty += 1;
       }
@@ -89,7 +90,7 @@ export default class CPRMookActor extends CPRActor {
     }
     derivedStats.deathSave.basePenalty = basePenalty;
     derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
-    this.data.data.derivedStats = derivedStats;
+    this.system.derivedStats = derivedStats;
   }
 
   /**
@@ -101,17 +102,17 @@ export default class CPRMookActor extends CPRActor {
   handleMookDraggedItem(item) {
     LOGGER.trace("handleMookDraggedItem | CPRActor | Called.");
     LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
-    switch (item.data.type) {
+    switch (item.type) {
       case "clothing":
       case "weapon":
       case "gear":
       case "armor": {
         // chose change done for 0.8.x, and not the fix from dev, as it seems to work without it.
-        this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.equipped": "equipped" }]);
+        this.updateEmbeddedDocuments("Item", [{ _id: item._id, "system.equipped": "equipped" }]);
         break;
       }
       case "cyberware": {
-        this.addCyberware(item.id);
+        this.addCyberware(item._id);
         break;
       }
       default:

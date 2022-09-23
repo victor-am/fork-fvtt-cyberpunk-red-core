@@ -1,4 +1,4 @@
-/* global renderTemplate, Dialog, FormDataExtended */
+/* global renderTemplate, Dialog, FormDataExtended foundry */
 import SystemUtils from "../utils/cpr-systemUtils.js";
 import LOGGER from "../utils/cpr-logger.js";
 
@@ -16,7 +16,8 @@ export default class InitiativeTypePrompt {
         // eslint-disable-next-line no-shadow
         const _onConfirm = (html) => {
           LOGGER.trace("_onConfirm | Dialog InitiativeTypePrompt | called.");
-          const formData = new FormDataExtended(html.find("form")[0]).toObject();
+          const fd = new FormDataExtended(html.find("form")[0]);
+          const formData = foundry.utils.expandObject(fd.object);
           resolve(formData);
         };
         new Dialog({

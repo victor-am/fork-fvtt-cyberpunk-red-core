@@ -491,6 +491,18 @@ CPR.upgradableDataPoints = {
       localization: "CPR.itemSheet.itemUpgrade.shieldHp",
     },
   },
+  clothing: {
+    "Wardrobe & Style": {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.skills.wardrobeAndStyle",
+    },
+    cool: {
+      type: "modifier",
+      value: 0,
+      localization: "CPR.global.stats.cool",
+    },
+  },
 };
 
 CPR.activeEffectKeys = {
@@ -622,16 +634,16 @@ CPR.activeEffectKeys = {
     "bonuses.wildernessSurvival": "CPR.global.skills.wildernessSurvival",
   },
   stat: {
-    "data.stats.int.value": "CPR.global.stats.int",
-    "data.stats.ref.value": "CPR.global.stats.ref",
-    "data.stats.dex.value": "CPR.global.stats.dex",
-    "data.stats.tech.value": "CPR.global.stats.tech",
-    "data.stats.cool.value": "CPR.global.stats.cool",
-    "data.stats.will.value": "CPR.global.stats.will",
-    "data.stats.luck.max": "CPR.global.stats.luckMax",
-    "data.stats.move.value": "CPR.global.stats.move",
-    "data.stats.body.value": "CPR.global.stats.body",
-    "data.stats.emp.max": "CPR.global.stats.empMax",
+    "system.stats.int.value": "CPR.global.stats.int",
+    "system.stats.ref.value": "CPR.global.stats.ref",
+    "system.stats.dex.value": "CPR.global.stats.dex",
+    "system.stats.tech.value": "CPR.global.stats.tech",
+    "system.stats.cool.value": "CPR.global.stats.cool",
+    "system.stats.will.value": "CPR.global.stats.will",
+    "system.stats.luck.max": "CPR.global.stats.luckMax",
+    "system.stats.move.value": "CPR.global.stats.move",
+    "system.stats.body.value": "CPR.global.stats.body",
+    "system.stats.emp.max": "CPR.global.stats.empMax",
   },
 };
 

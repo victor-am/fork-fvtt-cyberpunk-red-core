@@ -1,4 +1,4 @@
-{{cprTrace "CPR-MOOK-WEAPONS.HBS"}}
+{{cprTrace "START ACTOR MOOKS CPR-MOOK-WEAPONS.HBS"}}
 <div class="weapon-section">
   <div class="weapon-content fg-black">
     <ol class="items-list weapons-grid">
@@ -15,19 +15,19 @@
           {{localize "CPR.global.generic.actions"}}
         </div>
       </li>
-      {{#each (cprSort actor.data.filteredItems.weapon "name") as |weapon|}}
-        {{#if (cprCompare weapon.data.data.equipped "===" "equipped")}}
+      {{#each (cprSort actor.itemTypes.weapon "name") as |weapon|}}
+        {{#if (cprCompare weapon.system.equipped "===" "equipped")}}
           <li class="item flexrow" data-item-id="{{weapon.id}}">
             <div class="mook-weapon">
               <div class="item-name mook-weapon-name text-pad-right text-nowrap">
                 <a class="name item-edit deletable changeable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
                   {{weapon.name}}
-                  {{#if weapon.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}
+                  {{#if weapon.system.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}
                 </a>
                 <br>
-                {{#if weapon.data.data.isRanged}}
-                  {{#if weapon.data.data.magazine.ammoId}}
-                    ({{localize "CPR.global.itemTypes.ammo"}}: {{weapon.data.data.magazine.value}}/{{cprApplyUpgrade weapon weapon.data.data.magazine.max "magazine"}})
+                {{#if weapon.system.isRanged}}
+                  {{#if weapon.system.magazine.ammoId}}
+                    ({{localize "CPR.global.itemTypes.ammo"}}: {{weapon.system.magazine.value}}/{{cprApplyUpgrade weapon weapon.system.magazine.max "magazine"}})
                   {{else}}
                     ({{localize "CPR.mookSheet.items.unloaded"}})
                   {{/if}}
@@ -35,10 +35,10 @@
                   {{>"systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs"}}
                   <!-- Use the if check for if the weapon is upgradable. If true, show the upgrade glpyh -->
                   {{#if (cprIsUpgradable type)}}
-                    {{#if weapon.data.data.isUpgraded}}
+                    {{#if weapon.system.isUpgraded}}
                       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
                     {{else}}
-                      {{#unless (cprIsEmpty (cprFilter (cprFilter actor.data.filteredItems.itemUpgrade "data.data.type" type) "data.data.isInstalled" false))}}
+                      {{#unless (cprIsEmpty (cprFilter (cprFilter actor.itemTypes.itemUpgrade "type" type) "system.isInstalled" false))}}
                         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
                       {{/unless}}
                     {{/if}}
@@ -57,7 +57,7 @@
                   {{/if}}
                 </a>
                 </div>
-                {{#if (cprCompare (cprListContains "assaultRifle,smg,heavySmg" weapon.data.data.weaponType) "||" weapon.data.data.fireModes.suppressiveFire)}}
+                {{#if (cprCompare (cprListContains "assaultRifle,smg,heavySmg" weapon.system.weaponType) "||" weapon.system.fireModes.suppressiveFire)}}
                   <div class="mook-weapon-auto text-center">
                   <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon.id}}">
                     {{#if (cprFireMode ../actor "autofire" weapon.id)}}
@@ -84,7 +84,7 @@
                 </a>
                 {{#if (cprCompare (cprFireFlag ../actor "suppressive" weapon.id) "!==" "checked")}}
                   <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}}
-                    data-damage="{{weapon.data.data.damage}}">
+                    data-damage="{{weapon.system.damage}}">
                     <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
                   </a>
                 {{/if}}
@@ -92,10 +92,10 @@
           </li>
         {{/if}}
         <!-- Support Weapon Upgrades on the Mook Sheet -->
-        {{#if weapon.data.data.isUpgraded}}
-          {{#each weapon.data.data.upgrades as |upgrade|}}
-              {{#if (cprCompare upgrade.data.modifiers.secondaryWeapon.configured "===" "true")}}
-                  {{#each (cprFilter ../actor.data.filteredItems.itemUpgrade "data._id" upgrade._id) as |weapon|}}
+        {{#if weapon.system.isUpgraded}}
+          {{#each weapon.system.upgrades as |upgrade|}}
+              {{#if (cprCompare upgrade.system.modifiers.secondaryWeapon.configured "===" "true")}}
+                  {{#each (cprFilter ../actor.itemTypes.itemUpgrade "_id" upgrade._id) as |weapon|}}
                     <li class="item flexrow">
                       <div class="mook-weapon">
                         <div class="item-name mook-weapon-name text-pad-right text-nowrap">
@@ -103,9 +103,9 @@
                             {{weapon.name}}
                           </a>
                           <br>
-                          {{#if weapon.data.data.isRanged}}
-                            {{#if weapon.data.data.magazine.ammoId}}
-                              ({{localize "CPR.global.itemTypes.ammo"}}: {{weapon.data.data.magazine.value}}/{{weapon.data.data.magazine.max}})
+                          {{#if weapon.system.isRanged}}
+                            {{#if weapon.system.magazine.ammoId}}
+                              ({{localize "CPR.global.itemTypes.ammo"}}: {{weapon.system.magazine.value}}/{{weapon.system.magazine.max}})
                             {{else}}
                               ({{localize "CPR.mookSheet.items.unloaded"}})
                             {{/if}}
@@ -125,7 +125,7 @@
                             {{/if}}
                           </a>
                           </div>
-                          {{#if (cprCompare (cprListContains "assaultRifle,smg,heavySmg" weapon.data.data.weaponType) "||" weapon.data.data.fireModes.suppressiveFire)}}
+                          {{#if (cprCompare (cprListContains "assaultRifle,smg,heavySmg" weapon.system.weaponType) "||" weapon.system.fireModes.suppressiveFire)}}
                             <div class="mook-weapon-auto text-center">
                             <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon.id}}">
                               {{#if (cprFireMode ../actor "autofire" weapon.id)}}
@@ -152,7 +152,7 @@
                           </a>
                           {{#if (cprCompare (cprFireFlag ../actor "suppressive" weapon.id) "!==" "checked")}}
                             <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}}
-                              data-damage="{{weapon.data.data.damage}}">
+                              data-damage="{{weapon.system.damage}}">
                               <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
                             </a>
                           {{/if}}
@@ -164,19 +164,19 @@
         {{/if}}
       {{/each}}
 
-      {{#each (cprSort (cprFilter actor.data.filteredItems.cyberware "data.data.isInstalled" true) "name") as |weapon|}}
-        {{#if (cprCompare data.data.isWeapon "===" true)}}
+      {{#each (cprSort (cprFilter actor.itemTypes.cyberware "system.isInstalled" true) "name") as |weapon|}}
+        {{#if (cprCompare system.isWeapon "===" true)}}
           <li class="item flexrow">
             <div class="mook-weapon">
               <div class="item-name mook-weapon-name text-pad-right text-nowrap">
                 <a class="name item-edit deletable changeable" tabindex="0" data-item-id="{{weapon.id}}" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}">
                   {{weapon.name}}
-                  {{#if weapon.data.data.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}
+                  {{#if weapon.system.isUpgraded}}<sup><i class="fab fa-uniregistry"></sup></i>{{/if}}
                 </a>
                 <br>
-                {{#if weapon.data.data.isRanged}}
-                  {{#if weapon.data.data.magazine.ammoId}}
-                    ({{localize "CPR.global.itemTypes.ammo"}}: {{weapon.data.data.magazine.value}}/{{weapon.data.data.magazine.max}})
+                {{#if weapon.system.isRanged}}
+                  {{#if weapon.system.magazine.ammoId}}
+                    ({{localize "CPR.global.itemTypes.ammo"}}: {{weapon.system.magazine.value}}/{{weapon.system.magazine.max}})
                   {{else}}
                     ({{localize "CPR.mookSheet.items.unloaded"}})
                   {{/if}}
@@ -184,10 +184,10 @@
                   {{>"systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-dv-glyph.hbs"}}
                   <!-- Use the if check for if the weapon is upgradable. If true, show the upgrade glpyh -->
                   {{#if (cprIsUpgradable type)}}
-                    {{#if weapon.data.data.isUpgraded}}
+                    {{#if weapon.system.isUpgraded}}
                       {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
                     {{else}}
-                      {{#unless (cprIsEmpty (cprFilter (cprFilter actor.data.filteredItems.itemUpgrade "data.data.type" type) "data.data.isInstalled" false))}}
+                      {{#unless (cprIsEmpty (cprFilter (cprFilter actor.itemTypes.itemUpgrade "type" type) "system.isInstalled" false))}}
                         {{> "systems/cyberpunk-red-core/templates/actor/parts/common/actions/cpr-upgrade-glyph.hbs"}}
                       {{/unless}}
                     {{/if}}
@@ -206,7 +206,7 @@
                   {{/if}}
                 </a>
                 </div>
-                {{#if (cprCompare (cprListContains "assaultRifle,smg,heavySmg" weapon.data.data.weaponType) "||" weapon.data.data.fireModes.suppressiveFire)}}
+                {{#if (cprCompare (cprListContains "assaultRifle,smg,heavySmg" weapon.system.weaponType) "||" weapon.system.fireModes.suppressiveFire)}}
                   <div class="mook-weapon-auto text-center">
                   <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon.id}}">
                     {{#if (cprFireMode ../actor "autofire" weapon.id)}}
@@ -233,7 +233,7 @@
                 </a>
                 {{#if (cprCompare (cprFireFlag ../actor "suppressive" weapon.id) "!==" "checked")}}
                   <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}}
-                    data-damage="{{weapon.data.data.damage}}">
+                    data-damage="{{weapon.system.damage}}">
                     <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
                   </a>
                 {{/if}}
@@ -241,10 +241,10 @@
           </li>
         {{/if}}
         <!-- Support Weapon Upgrades on the Mook Sheet -->
-        {{#if weapon.data.data.isUpgraded}}
-          {{#each weapon.data.data.upgrades as |upgrade|}}
-              {{#if (cprCompare upgrade.data.modifiers.secondaryWeapon.configured "===" "true")}}
-                  {{#each (cprFilter ../actor.data.filteredItems.itemUpgrade "data._id" upgrade._id) as |weapon|}}
+        {{#if weapon.system.isUpgraded}}
+          {{#each weapon.system.upgrades as |upgrade|}}
+              {{#if (cprCompare upgrade.system.modifiers.secondaryWeapon.configured "===" "true")}}
+                  {{#each (cprFilter ../actor.itemTypes.itemUpgrade "_id" upgrade._id) as |weapon|}}
                     <li class="item flexrow">
                       <div class="mook-weapon">
                         <div class="item-name mook-weapon-name text-pad-right text-nowrap">
@@ -252,9 +252,9 @@
                             {{weapon.name}}
                           </a>
                           <br>
-                          {{#if weapon.data.data.isRanged}}
-                            {{#if weapon.data.data.magazine.ammoId}}
-                              ({{localize "CPR.global.itemTypes.ammo"}}: {{weapon.data.data.magazine.value}}/{{weapon.data.data.magazine.max}})
+                          {{#if weapon.system.isRanged}}
+                            {{#if weapon.system.magazine.ammoId}}
+                              ({{localize "CPR.global.itemTypes.ammo"}}: {{weapon.system.magazine.value}}/{{weapon.system.magazine.max}})
                             {{else}}
                               ({{localize "CPR.mookSheet.items.unloaded"}})
                             {{/if}}
@@ -274,7 +274,7 @@
                             {{/if}}
                           </a>
                           </div>
-                          {{#if (cprCompare (cprListContains "assaultRifle,smg,heavySmg" weapon.data.data.weaponType) "||" weapon.data.data.fireModes.suppressiveFire)}}
+                          {{#if (cprCompare (cprListContains "assaultRifle,smg,heavySmg" weapon.system.weaponType) "||" weapon.system.fireModes.suppressiveFire)}}
                             <div class="mook-weapon-auto text-center">
                             <a class="fire-checkbox" data-fire-mode="autofire" data-item-id="{{weapon.id}}">
                               {{#if (cprFireMode ../actor "autofire" weapon.id)}}
@@ -301,7 +301,7 @@
                           </a>
                           {{#if (cprCompare (cprFireFlag ../actor "suppressive" weapon.id) "!==" "checked")}}
                             <a class="rollable damage-roll-{{weapon.id}}" data-roll-type="damage" data-item-id={{weapon.id}}
-                              data-damage="{{weapon.data.data.damage}}">
+                              data-damage="{{weapon.system.damage}}">
                               <i class="fas fa-tint red-fg" title="{{localize "CPR.actorSheets.commonActions.rollDamage"}}"></i>
                             </a>
                           {{/if}}

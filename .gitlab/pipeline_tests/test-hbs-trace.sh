@@ -27,16 +27,17 @@ do
       # Extract the name of the file and convert it to allcaps
       base=$(basename $file | tr a-z A-Z)
       # Create the expected trace statements
-      first="{{cprTrace \"${base}\"}}"
-      last="{{cprTrace \"END ${base}\"}}"
+      first="{{cprTrace \"START"
+
+      last="{{cprTrace \"END"
       # Look for the starting trace messages in the file
-      if [ $(grep "${first}" $file | wc -l) != 1 ]
+      if [ $(grep "${first}" $file | grep "${base}" | wc -l) != 1 ]
       then
         echo $first "missing/incorrect at the beginning of" $file
         let "i+=1"
       fi
       # Look for the end trace message in the file
-      if [ $(grep "${last}" $file | wc -l) != 1 ]
+      if [ $(grep "${last}" $file | grep "${base}" | wc -l) != 1 ]
       then
         echo $last "missing/incorrect at the end of" $file
         let "i+=1"

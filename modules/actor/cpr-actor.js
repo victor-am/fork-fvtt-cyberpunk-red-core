@@ -33,8 +33,7 @@ export default class CPRActor extends Actor {
       if (this.isOwner || game.user.isGM) {
         this._calculateDerivedStats();
       } else {
-        const actorData = this.data;
-        actorData.filteredItems = this.itemTypes;
+        const cprData = this.system;
       }
     }
   }
@@ -51,51 +50,52 @@ export default class CPRActor extends Actor {
   prepareBaseData() {
     LOGGER.trace("prepareBaseData | CPRActor | Called.");
     super.prepareBaseData();
-    this.data.bonuses = {};
-    const skills = this.data.items.filter((i) => i.type === "skill");
+    this.bonuses = {};
+    const skills = this.items.filter((i) => i.type === "skill");
     skills.forEach((skill) => {
-      this.data.bonuses[SystemUtils.slugify(skill.name)] = 0;
+      this.bonuses[SystemUtils.slugify(skill.name)] = 0;
     });
-    const roles = this.data.items.filter((i) => i.type === "role");
+    const roles = this.items.filter((i) => i.type === "role");
     roles.forEach((role) => {
-      this.data.bonuses[SystemUtils.slugify(role.data.data.mainRoleAbility)] = 0;
-      if (role.data.data.abilities.length > 0) {
-        for (const ability of role.data.data.abilities) {
-          this.data.bonuses[SystemUtils.slugify(ability.name)] = 0;
+      this.bonuses[SystemUtils.slugify(role.system.mainRoleAbility)] = 0;
+      if (role.system.abilities.length > 0) {
+        for (const ability of role.system.abilities) {
+          this.bonuses[SystemUtils.slugify(ability.name)] = 0;
         }
       }
     });
-    this.data.bonuses.run = 0;
-    this.data.bonuses.walk = 0;
-    this.data.bonuses.deathSavePenalty = 0;
-    this.data.bonuses.hands = 0;
-    this.data.bonuses.initiative = 0;
-    this.data.bonuses.maxHp = 0;
-    this.data.bonuses.maxHumanity = 0;
-    this.data.bonuses.universalAttack = 0;
-    this.data.bonuses.universalDamage = 0;
+    this.bonuses.run = 0;
+    this.bonuses.walk = 0;
+    this.bonuses.deathSavePenalty = 0;
+    this.bonuses.hands = 0;
+    this.bonuses.initiative = 0;
+    this.bonuses.maxHp = 0;
+    this.bonuses.maxHumanity = 0;
+    this.bonuses.universalAttack = 0;
+    this.bonuses.universalDamage = 0;
     // netrunning things
-    this.data.bonuses.speed = 0;
-    this.data.bonuses.perception_net = 0; // beware of hacks because "perception" is also a skill
-    this.data.bonuses.attack = 0;
-    this.data.bonuses.defense = 0;
-    this.data.bonuses.rez = 0;
+    this.bonuses.speed = 0;
+    this.bonuses.perception_net = 0; // beware of hacks because "perception" is also a skill
+    this.bonuses.attack = 0;
+    this.bonuses.defense = 0;
+    this.bonuses.rez = 0;
     // combat-related rolls
-    this.data.bonuses.aimedShot = 0;
-    this.data.bonuses.melee = 0;
-    this.data.bonuses.ranged = 0;
-    this.data.bonuses.autofire = 0;
-    this.data.bonuses.suppressive = 0;
-    this.data.bonuses.singleShot = 0;
+    this.bonuses.aimedShot = 0;
+    this.bonuses.melee = 0;
+    this.bonuses.ranged = 0;
+    this.bonuses.autofire = 0;
+    this.bonuses.suppressive = 0;
+    this.bonuses.singleShot = 0;
   }
 
   /**
    * Does mostly nothing. We should probably get rid of this.
+   * TO BE REMOVED
    * @return {Object} - a huge structured object representing actor data.
    */
   getData() {
     LOGGER.trace("getData | CPRActor | Called.");
-    return this.data.data;
+    return this;
   }
 
   /**
@@ -129,7 +129,7 @@ export default class CPRActor extends Actor {
       if (embeddedName === "Item") {
         let containsCoreItem = false;
         data.forEach((document) => {
-          if (document.data && document.data.core) {
+          if (document.system && document.system.core) {
             containsCoreItem = true;
           }
         });
@@ -162,10 +162,9 @@ export default class CPRActor extends Actor {
    */
   calcMaxHp() {
     LOGGER.trace("_calcMaxHp | CPRActor | Called.");
-    const actorData = this.data;
-    const { stats } = actorData.data;
+    const { stats } = this.system;
     let maxHp = 10 + 5 * Math.ceil((stats.will.value + stats.body.value) / 2);
-    maxHp += actorData.bonuses.maxHp; // from any active effects
+    maxHp += this.bonuses.maxHp; // from any active effects
     return maxHp;
   }
 
@@ -176,19 +175,19 @@ export default class CPRActor extends Actor {
    * @private
    */
   _calcMaxHumanity() {
-    LOGGER.trace("calcMaxHumanity | CPRActor | Called.");
-    const actorData = this.data;
-    const { stats } = actorData.data;
+    LOGGER.trace("_calcMaxHumanity | CPRActor | Called.");
+    const cprData = this.system;
+    const { stats } = cprData;
     let cyberwarePenalty = 0;
     this.getInstalledCyberware().forEach((cyberware) => {
-      if (cyberware.data.data.type === "borgware") {
+      if (cyberware.system.type === "borgware") {
         cyberwarePenalty += 4;
-      } else if (parseInt(cyberware.data.data.humanityLoss.static, 10) > 0) {
+      } else if (parseInt(cyberware.system.humanityLoss.static, 10) > 0) {
         cyberwarePenalty += 2;
       }
     });
     let maxHumanity = 10 * stats.emp.max - cyberwarePenalty; // minus sum of installed cyberware
-    maxHumanity += actorData.bonuses.maxHumanity; // from any active effects
+    maxHumanity += this.bonuses.maxHumanity; // from any active effects
     return maxHumanity;
   }
 
@@ -199,7 +198,7 @@ export default class CPRActor extends Actor {
    */
   getWoundState() {
     LOGGER.trace("getWoundState | CPRActor | Obtaining Wound State.");
-    return this.data.data.derivedStats.currentWoundState;
+    return this.system.derivedStats.currentWoundState;
   }
 
   /**
@@ -209,7 +208,7 @@ export default class CPRActor extends Actor {
    */
   _setWoundState() {
     LOGGER.trace("_setWoundState | CPRActor | Setting Wound State.");
-    const { derivedStats } = this.data.data;
+    const { derivedStats } = this.system;
     let newState = "invalidState";
     if (derivedStats.hp.value < 1) {
       newState = "mortallyWounded";
@@ -220,7 +219,7 @@ export default class CPRActor extends Actor {
     } else if (derivedStats.hp.value === derivedStats.hp.max) {
       newState = "notWounded";
     }
-    this.data.data.derivedStats.currentWoundState = newState;
+    this.system.derivedStats.currentWoundState = newState;
   }
 
   /**
@@ -247,7 +246,7 @@ export default class CPRActor extends Actor {
    */
   getInstalledCyberware() {
     LOGGER.trace("getInstalledCyberware | CPRActor | Called.");
-    return this.data.filteredItems.cyberware.filter((item) => item.data.data.isInstalled);
+    return this.itemTypes.cyberware.filter((item) => item.system.isInstalled);
   }
 
   /**
@@ -261,16 +260,16 @@ export default class CPRActor extends Actor {
     LOGGER.trace("getInstalledFoundationalCyberware | CPRActor | Called.");
     if (type) {
       if (type in CPR.cyberwareTypeList) {
-        return this.data.filteredItems.cyberware.filter(
-          (item) => item.data.data.isInstalled
-            && item.data.data.isFoundational
-            && item.data.data.type === type,
+        return this.itemTypes.cyberware.filter(
+          (item) => item.system.isInstalled
+            && item.system.isFoundational
+            && item.system.type === type,
         );
       }
       SystemUtils.DisplayMessage("error", "Invalid cyberware type!");
     }
-    return this.data.filteredItems.cyberware.filter(
-      (item) => item.data.data.isInstalled && item.data.data.isFoundational,
+    return this.itemTypes.cyberware.filter(
+      (item) => item.system.isInstalled && item.system.isFoundational,
     );
   }
 
@@ -285,30 +284,30 @@ export default class CPRActor extends Actor {
   async addCyberware(itemId) {
     LOGGER.trace("addCyberware | CPRActor | Called.");
     const item = this._getOwnedItem(itemId);
-    const compatibleFoundationalCyberware = this.getInstalledFoundationalCyberware(item.data.data.type);
+    const compatibleFoundationalCyberware = this.getInstalledFoundationalCyberware(item.system.type);
 
-    if (compatibleFoundationalCyberware.length < 1 && !item.data.data.isFoundational) {
+    if (compatibleFoundationalCyberware.length < 1 && !item.system.isFoundational) {
       Rules.lawyer(false, "CPR.messages.warnNoFoundationalCyberwareOfCorrectType");
-    } else {
-      let formData;
-      if (item.data.data.isFoundational) {
-        formData = await InstallCyberwarePrompt.RenderPrompt({ item: item.data }).catch((err) => LOGGER.debug(err));
-        if (formData === undefined) {
-          return;
-        }
-        await this._addFoundationalCyberware(item);
-      } else {
-        formData = await InstallCyberwarePrompt.RenderPrompt({
-          item: item.data,
-          foundationalCyberware: compatibleFoundationalCyberware,
-        }).catch((err) => LOGGER.debug(err));
-        if (formData === undefined) {
-          return;
-        }
-        await this._addOptionalCyberware(item, formData);
-      }
-      await this.loseHumanityValue(item, formData);
+      return;
     }
+    let formData;
+    if (item.system.isFoundational) {
+      formData = await InstallCyberwarePrompt.RenderPrompt({ item }).catch((err) => LOGGER.debug(err));
+      if (formData === undefined) {
+        return;
+      }
+      await this._addFoundationalCyberware(item, formData);
+    } else {
+      formData = await InstallCyberwarePrompt.RenderPrompt({
+        item,
+        foundationalCyberware: compatibleFoundationalCyberware,
+      }).catch((err) => LOGGER.debug(err));
+      if (formData === undefined) {
+        return;
+      }
+      await this._addOptionalCyberware(item, formData);
+    }
+    await this.loseHumanityValue(item, formData);
   }
 
   /**
@@ -320,7 +319,7 @@ export default class CPRActor extends Actor {
    */
   _addFoundationalCyberware(item) {
     LOGGER.debug("_addFoundationalCyberware | CPRActor | Applying foundational cyberware.");
-    return this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.isInstalled": true }]);
+    return this.updateEmbeddedDocuments("Item", [{ _id: item.id, "system.isInstalled": true }]);
   }
 
   /**
@@ -336,16 +335,16 @@ export default class CPRActor extends Actor {
     const tmpItem = item;
     LOGGER.trace(`_addOptionalCyberware | CPRActor | applying optional cyberware to item ${formData.foundationalId}.`);
     const foundationalCyberware = this._getOwnedItem(formData.foundationalId);
-    const newOptionalIds = foundationalCyberware.data.data.optionalIds.concat(item.data._id);
-    const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots + item.data.data.size;
-    tmpItem.data.data.isInstalled = true;
+    const newOptionalIds = foundationalCyberware.system.optionalIds.concat(item._id);
+    const newInstalledOptionSlots = foundationalCyberware.system.installedOptionSlots + item.system.size;
+    tmpItem.system.isInstalled = true;
     const allowedSlots = Number(foundationalCyberware.availableSlots());
-    Rules.lawyer((item.data.data.size <= allowedSlots), "CPR.messages.tooManyOptionalCyberwareInstalled");
+    Rules.lawyer((item.system.size <= allowedSlots), "CPR.messages.tooManyOptionalCyberwareInstalled");
     return this.updateEmbeddedDocuments("Item", [
-      { _id: item.id, "data.isInstalled": true }, {
+      { _id: item.id, "system.isInstalled": true }, {
         _id: foundationalCyberware.id,
-        "data.optionalIds": newOptionalIds,
-        "data.installedOptionSlots": newInstalledOptionSlots,
+        "system.optionalIds": newOptionalIds,
+        "system.installedOptionSlots": newInstalledOptionSlots,
       },
     ]);
   }
@@ -371,12 +370,12 @@ export default class CPRActor extends Actor {
       confirmRemove = true;
     }
     if (confirmRemove) {
-      if (item.data.data.isFoundational) {
+      if (item.system.isFoundational) {
         await this._removeFoundationalCyberware(item);
       } else {
         await this._removeOptionalCyberware(item, foundationalId);
       }
-      await this.updateEmbeddedDocuments("Item", [{ _id: item.id, "data.isInstalled": false }]);
+      await this.updateEmbeddedDocuments("Item", [{ _id: item.id, "system.isInstalled": false }]);
       return this.setMaxHumanity();
     }
     return this.updateEmbeddedDocuments("Item", []);
@@ -393,16 +392,16 @@ export default class CPRActor extends Actor {
   _removeOptionalCyberware(item, foundationalId) {
     LOGGER.trace("_removeOptionalCyberware | CPRActor | Called.");
     // If the cyberware item was not installed, don't process the removal from a non-existent foundational slot.
-    if (item.data.data.isInstalled) {
+    if (item.system.isInstalled) {
       const foundationalCyberware = this._getOwnedItem(foundationalId);
-      const newInstalledOptionSlots = foundationalCyberware.data.data.installedOptionSlots - item.data.data.size;
-      const newOptionalIds = foundationalCyberware.data.data.optionalIds.filter(
-        (optionId) => optionId !== item.data._id,
+      const newInstalledOptionSlots = foundationalCyberware.system.installedOptionSlots - item.system.size;
+      const newOptionalIds = foundationalCyberware.system.optionalIds.filter(
+        (optionId) => optionId !== item._id,
       );
       return this.updateEmbeddedDocuments("Item", [{
         _id: foundationalCyberware.id,
-        "data.optionalIds": newOptionalIds,
-        "data.installedOptionSlots": newInstalledOptionSlots,
+        "system.optionalIds": newOptionalIds,
+        "system.installedOptionSlots": newInstalledOptionSlots,
       }]);
     }
     return null;
@@ -418,12 +417,12 @@ export default class CPRActor extends Actor {
   _removeFoundationalCyberware(item) {
     LOGGER.trace("_removeFoundationalCyberware | CPRActor | Called.");
     const updateList = [];
-    if (item.data.data.optionalIds) {
-      item.data.data.optionalIds.forEach(async (optionalId) => {
+    if (item.system.optionalIds) {
+      item.system.optionalIds.forEach(async (optionalId) => {
         const optional = this._getOwnedItem(optionalId);
-        updateList.push({ _id: optional.id, "data.isInstalled": false });
+        updateList.push({ _id: optional.id, "system.isInstalled": false });
       });
-      updateList.push({ _id: item.id, "data.optionalIds": [], "data.installedOptionSlots": 0 });
+      updateList.push({ _id: item.id, "system.optionalIds": [], "system.installedOptionSlots": 0 });
       return this.updateEmbeddedDocuments("Item", updateList);
     }
     return PromiseRejectionEvent();
@@ -438,30 +437,31 @@ export default class CPRActor extends Actor {
    */
   _getOwnedItem(itemId) {
     LOGGER.trace("_getOwnedItem | CPRActor | Called.");
-    return this.items.find((i) => i.data._id === itemId);
+    return this.items.find((i) => i._id === itemId);
   }
 
   /**
    * Calculate the max humanity on this actor.
-   * If current humanity is full and the max changes, we should update the current and EMP to match.
+   * If current humanity is full and the max changes, we should update the current and EMP to match only
+   * if the new max is less than the old max.
    * We assume that to be preferred behavior more often than not, especially during character creation.
    *
    * @callback
    */
-  setMaxHumanity() {
+  async setMaxHumanity() {
     LOGGER.trace("setMaxHumanity | CPRActor | Called.");
     const maxHumanity = this._calcMaxHumanity();
-    const { humanity } = this.data.data.derivedStats;
-    if (humanity.max === humanity.value) {
-      this.update({
-        "data.derivedStats.humanity.max": maxHumanity,
-        "data.derivedStats.humanity.value": maxHumanity,
-        "data.stats.emp.value": Math.floor(humanity.value / 10),
+    const { humanity } = this.system.derivedStats;
+    if (humanity.max === humanity.value && maxHumanity < humanity.max) {
+      await this.update({
+        "system.derivedStats.humanity.max": maxHumanity,
+        "system.derivedStats.humanity.value": maxHumanity,
+        "system.stats.emp.value": Math.floor(humanity.value / 10),
       });
     } else {
-      this.update({
-        "data.derivedStats.humanity.max": maxHumanity,
-        "data.stats.emp.value": Math.floor(humanity.value / 10),
+      await this.update({
+        "system.derivedStats.humanity.max": maxHumanity,
+        "system.stats.emp.value": Math.floor(humanity.value / 10),
       });
     }
   }
@@ -486,10 +486,10 @@ export default class CPRActor extends Actor {
       await this.setMaxHumanity();
       return;
     }
-    const { humanity } = this.data.data.derivedStats;
+    const { humanity } = this.system.derivedStats;
     let value = Number.isInteger(humanity.value) ? humanity.value : humanity.max;
     if (amount.humanityLoss.match(/[0-9]+d[0-9]+/)) {
-      const humRoll = new CPRRolls.CPRHumanityLossRoll(item.data.name, amount.humanityLoss);
+      const humRoll = new CPRRolls.CPRHumanityLossRoll(item.name, amount.humanityLoss);
       await humRoll.roll();
       value -= humRoll.resultTotal;
       humRoll.entityData = { actor: this.id };
@@ -504,7 +504,7 @@ export default class CPRActor extends Actor {
       Rules.lawyer(false, "CPR.messages.youCyberpsycho");
     }
 
-    await this.update({ "data.derivedStats.humanity.value": value });
+    await this.update({ "system.derivedStats.humanity.value": value });
     await this.setMaxHumanity();
   }
 
@@ -539,10 +539,10 @@ export default class CPRActor extends Actor {
    */
   getSkillLevel(skillName) {
     LOGGER.trace("getSkillLevel | CPRActor | Called.");
-    const skillList = (this.data.filteredItems.skill).filter((s) => s.name === skillName);
+    const skillList = (this.itemTypes.skill).filter((s) => s.name === skillName);
     if (skillList.length > 0) {
       const relevantSkill = skillList[0];
-      return parseInt(relevantSkill.data.data.level, 10);
+      return parseInt(relevantSkill.system.level, 10);
     }
     return 0;
   }
@@ -556,7 +556,7 @@ export default class CPRActor extends Actor {
   getSkillMod(skillName) {
     LOGGER.trace("getSkillMod | CPRActor | Called.");
     const skillSlug = SystemUtils.slugify(skillName);
-    return this.data.bonuses[skillSlug];
+    return this.bonuses[skillSlug];
   }
 
   /**
@@ -570,13 +570,13 @@ export default class CPRActor extends Actor {
     LOGGER.trace("processDeathSave | CPRActor | Called.");
     const success = SystemUtils.Localize("CPR.rolls.success");
     const failed = SystemUtils.Localize("CPR.rolls.failed");
-    let saveResult = cprRoll.resultTotal < this.data.data.stats.body.value ? success : failed;
+    let saveResult = cprRoll.resultTotal < this.system.stats.body.value ? success : failed;
     if (cprRoll.initialRoll === 10) {
       saveResult = failed;
     }
     if (saveResult === success) {
-      const deathPenalty = this.data.data.derivedStats.deathSave.penalty + 1;
-      this.update({ "data.derivedStats.deathSave.penalty": deathPenalty });
+      const deathPenalty = this.system.derivedStats.deathSave.penalty + 1;
+      this.update({ "system.derivedStats.deathSave.penalty": deathPenalty });
     }
     return saveResult;
   }
@@ -587,8 +587,8 @@ export default class CPRActor extends Actor {
    */
   increaseDeathPenalty() {
     LOGGER.trace("increaseDeathPenalty | CPRActor | Called.");
-    const deathPenalty = this.data.data.derivedStats.deathSave.penalty + 1;
-    this.update({ "data.derivedStats.deathSave.penalty": deathPenalty });
+    const deathPenalty = this.system.derivedStats.deathSave.penalty + 1;
+    this.update({ "system.derivedStats.deathSave.penalty": deathPenalty });
   }
 
   /**
@@ -597,7 +597,7 @@ export default class CPRActor extends Actor {
    */
   resetDeathPenalty() {
     LOGGER.trace("resetDeathPenalty | CPRActor | Called.");
-    this.update({ "data.derivedStats.deathSave.penalty": 0 });
+    this.update({ "system.derivedStats.deathSave.penalty": 0 });
   }
 
   /**
@@ -608,7 +608,7 @@ export default class CPRActor extends Actor {
    */
   getStat(statName) {
     LOGGER.trace("getStat | CPRActor | Called.");
-    return parseInt(this.data.data.stats[statName].value, 10);
+    return parseInt(this.system.stats[statName].value, 10);
   }
 
   /**
@@ -627,7 +627,7 @@ export default class CPRActor extends Actor {
     let modType = "modifier";
 
     itemTypes.forEach((itemType) => {
-      const itemList = this.data.filteredItems[itemType].filter((i) => i.data.data.equipped === "equipped" && i.data.data.isUpgraded);
+      const itemList = this.itemTypes[itemType].filter((i) => i.system.equipped === "equipped" && i.system.isUpgraded);
       itemList.forEach((i) => {
         const upgradeValue = i.getAllUpgradesFor(baseName);
         const upgradeType = i.getUpgradeTypeFor(baseName);
@@ -655,13 +655,13 @@ export default class CPRActor extends Actor {
   clearLedger(prop) {
     LOGGER.trace("clearLedger | CPRActor | Called.");
     if (this.isLedgerProperty(prop)) {
-      const valProp = `data.${prop}.value`;
-      const ledgerProp = `data.${prop}.transactions`;
-      const actorData = duplicate(this.data);
-      setProperty(actorData, valProp, 0);
-      setProperty(actorData, ledgerProp, []);
-      this.update(actorData);
-      return getProperty(this.data.data, prop);
+      const valProp = `system.${prop}.value`;
+      const ledgerProp = `system.${prop}.transactions`;
+      const cprData = duplicate(this.system);
+      setProperty(cprData, valProp, 0);
+      setProperty(cprData, ledgerProp, []);
+      this.update(cprData);
+      return getProperty(this.system, prop);
     }
     return null;
   }
@@ -679,14 +679,14 @@ export default class CPRActor extends Actor {
     LOGGER.trace("deltaLedgerProperty | CPRActor | Called.");
     if (this.isLedgerProperty(prop)) {
       // update "value"; it may be negative
-      const valProp = `data.${prop}.value`;
-      const actorData = duplicate(this.data);
-      let newValue = getProperty(actorData, valProp);
+      const valProp = `${prop}.value`;
+      const cprData = duplicate(this.system);
+      let newValue = getProperty(cprData, valProp);
       newValue += value;
-      setProperty(actorData, valProp, newValue);
+      setProperty(cprData, valProp, newValue);
       // update the ledger with the change
-      const ledgerProp = `data.${prop}.transactions`;
-      const ledger = getProperty(actorData, ledgerProp);
+      const ledgerProp = `${prop}.transactions`;
+      const ledger = getProperty(cprData, ledgerProp);
       if (value > 0) {
         ledger.push([
           SystemUtils.Format("CPR.ledger.increaseSentence", { property: prop, amount: value, total: newValue }),
@@ -696,10 +696,10 @@ export default class CPRActor extends Actor {
           SystemUtils.Format("CPR.ledger.decreaseSentence", { property: prop, amount: (-1 * value), total: newValue }),
           reason]);
       }
-      setProperty(actorData, ledgerProp, ledger);
+      setProperty(cprData, ledgerProp, ledger);
       // update the actor and return the modified property
-      this.update(actorData);
-      return getProperty(this.data.data, prop);
+      this.update({ system: cprData });
+      return getProperty(this.system, prop);
     }
     return null;
   }
@@ -716,15 +716,15 @@ export default class CPRActor extends Actor {
   setLedgerProperty(prop, value, reason) {
     LOGGER.trace("setLedgerProperty | CPRActor | Called.");
     if (this.isLedgerProperty(prop)) {
-      const valProp = `data.${prop}.value`;
-      const ledgerProp = `data.${prop}.transactions`;
-      const actorData = duplicate(this.data);
-      setProperty(actorData, valProp, value);
-      const ledger = getProperty(actorData, ledgerProp);
+      const valProp = `${prop}.value`;
+      const ledgerProp = `${prop}.transactions`;
+      const cprData = duplicate(this.system);
+      setProperty(cprData, valProp, value);
+      const ledger = getProperty(cprData, ledgerProp);
       ledger.push([SystemUtils.Format("CPR.ledger.setSentence", { property: prop, total: value }), reason]);
-      setProperty(actorData, ledgerProp, ledger);
-      this.update(actorData);
-      return getProperty(this.data.data, prop);
+      setProperty(cprData, ledgerProp, ledger);
+      this.update({ system: cprData });
+      return getProperty(this.system, prop);
     }
     return null;
   }
@@ -738,7 +738,7 @@ export default class CPRActor extends Actor {
   listRecords(prop) {
     LOGGER.trace("listRecords | CPRActor | Called.");
     if (this.isLedgerProperty(prop)) {
-      return getProperty(this.data.data, `${prop}.transactions`);
+      return getProperty(this.system, `${prop}.transactions`);
     }
     return null;
   }
@@ -752,7 +752,7 @@ export default class CPRActor extends Actor {
    */
   isLedgerProperty(prop) {
     LOGGER.trace("isLedgerProperty | CPRActor | Called.");
-    const ledgerData = getProperty(this.data.data, prop);
+    const ledgerData = getProperty(this.system, prop);
     if (!hasProperty(ledgerData, "value")) {
       SystemUtils.DisplayMessage("error", SystemUtils.Format("CPR.ledger.errorMessage.missingValue", { prop }));
       return false;
@@ -819,11 +819,11 @@ export default class CPRActor extends Actor {
     let penalties;
 
     if (location === "body") {
-      sps = armors.map((a) => a.data.data.bodyLocation.sp);
+      sps = armors.map((a) => a.system.bodyLocation.sp);
     } else if (location === "head") {
-      sps = armors.map((a) => a.data.data.headLocation.sp);
+      sps = armors.map((a) => a.system.headLocation.sp);
     } // we assume getEquippedArmors will throw an error with a bad loc
-    penalties = armors.map((a) => a.data.data.penalty);
+    penalties = armors.map((a) => a.system.penalty);
     penalties = penalties.map(Math.abs);
 
     penalties.push(0);
@@ -847,17 +847,17 @@ export default class CPRActor extends Actor {
    */
   getEquippedArmors(location) {
     LOGGER.trace("getEquippedArmors | CPRActor | Called.");
-    const armors = this.data.filteredItems.armor;
-    const equipped = armors.filter((item) => item.data.data.equipped === "equipped");
+    const armors = this.itemTypes.armor;
+    const equipped = armors.filter((item) => item.system.equipped === "equipped");
 
     if (location === "body") {
-      return equipped.filter((item) => item.data.data.isBodyLocation);
+      return equipped.filter((item) => item.system.isBodyLocation);
     }
     if (location === "head") {
-      return equipped.filter((item) => item.data.data.isHeadLocation);
+      return equipped.filter((item) => item.system.isHeadLocation);
     }
     if (location === "shield") {
-      return equipped.filter((item) => item.data.data.isShield);
+      return equipped.filter((item) => item.system.isShield);
     }
     throw new Error(`Bad location given: ${location}`);
   }
@@ -872,30 +872,30 @@ export default class CPRActor extends Actor {
     LOGGER.trace("makeThisArmorCurrent | CPRActor | Called.");
     const currentArmor = this._getOwnedItem(id);
     if (location === "body") {
-      const currentArmorValue = currentArmor.data.data.bodyLocation.sp - currentArmor.data.data.bodyLocation.ablation;
-      const currentArmorMax = currentArmor.data.data.bodyLocation.sp;
+      const currentArmorValue = currentArmor.system.bodyLocation.sp - currentArmor.system.bodyLocation.ablation;
+      const currentArmorMax = currentArmor.system.bodyLocation.sp;
       return this.update({
-        "data.externalData.currentArmorBody.value": currentArmorValue,
-        "data.externalData.currentArmorBody.max": currentArmorMax,
-        "data.externalData.currentArmorBody.id": id,
+        "system.externalData.currentArmorBody.value": currentArmorValue,
+        "system.externalData.currentArmorBody.max": currentArmorMax,
+        "system.externalData.currentArmorBody.id": id,
       });
     }
     if (location === "head") {
-      const currentArmorValue = currentArmor.data.data.headLocation.sp - currentArmor.data.data.headLocation.ablation;
-      const currentArmorMax = currentArmor.data.data.headLocation.sp;
+      const currentArmorValue = currentArmor.system.headLocation.sp - currentArmor.system.headLocation.ablation;
+      const currentArmorMax = currentArmor.system.headLocation.sp;
       return this.update({
-        "data.externalData.currentArmorHead.value": currentArmorValue,
-        "data.externalData.currentArmorHead.max": currentArmorMax,
-        "data.externalData.currentArmorHead.id": id,
+        "system.externalData.currentArmorHead.value": currentArmorValue,
+        "system.externalData.currentArmorHead.max": currentArmorMax,
+        "system.externalData.currentArmorHead.id": id,
       });
     }
     if (location === "shield") {
-      const currentArmorValue = currentArmor.data.data.shieldHitPoints.value;
-      const currentArmorMax = currentArmor.data.data.shieldHitPoints.max;
+      const currentArmorValue = currentArmor.system.shieldHitPoints.value;
+      const currentArmorMax = currentArmor.system.shieldHitPoints.max;
       return this.update({
-        "data.externalData.currentArmorShield.value": currentArmorValue,
-        "data.externalData.currentArmorShield.max": currentArmorMax,
-        "data.externalData.currentArmorShield.id": id,
+        "system.externalData.currentArmorShield.value": currentArmorValue,
+        "system.externalData.currentArmorShield.max": currentArmorMax,
+        "system.externalData.currentArmorShield.id": id,
       });
     }
     return null;
@@ -955,7 +955,7 @@ export default class CPRActor extends Actor {
     const niceStatName = SystemUtils.Localize(CPR.statList[statName]);
     const statValue = this.getStat(statName);
     const cprRoll = new CPRRolls.CPRFacedownRoll(niceStatName, statValue);
-    cprRoll.addMod(this.data.data.reputation.value);
+    cprRoll.addMod(this.system.reputation.value);
     return cprRoll;
   }
 
@@ -967,9 +967,9 @@ export default class CPRActor extends Actor {
    */
   _createDeathSaveRoll() {
     LOGGER.trace("_createDeathSaveRoll | CPRActor | Called.");
-    const deathSavePenalty = this.data.data.derivedStats.deathSave.penalty;
-    const deathSaveBasePenalty = this.data.data.derivedStats.deathSave.basePenalty;
-    const bodyStat = this.data.data.stats.body.value;
+    const deathSavePenalty = this.system.derivedStats.deathSave.penalty;
+    const deathSaveBasePenalty = this.system.derivedStats.deathSave.basePenalty;
+    const bodyStat = this.system.stats.body.value;
     return new CPRRolls.CPRDeathSaveRoll(deathSavePenalty, deathSaveBasePenalty, bodyStat);
   }
 
@@ -977,11 +977,11 @@ export default class CPRActor extends Actor {
   // in case the ammo item is deleted or given to someone else.
   unloadAmmoFromAllOwnedWeapons(ammoId) {
     LOGGER.trace("unloadAmmoFromAllOwnedWeapons | CPRActor | Called.");
-    const weapons = this.data.filteredItems.weapon;
+    const weapons = this.itemTypes.weapon;
     weapons.forEach((weapon) => {
-      const weaponData = weapon.data.data;
-      if (weaponData.isRanged) {
-        if (weaponData.magazine.ammoId === ammoId) {
+      const cprWeaponData = weapon.system;
+      if (cprWeaponData.isRanged) {
+        if (cprWeaponData.magazine.ammoId === ammoId) {
           weapon._unloadItem();
         }
       }
@@ -998,10 +998,10 @@ export default class CPRActor extends Actor {
   hasItemTypeEquipped(itemType) {
     LOGGER.trace("hasItemTypeEquipped | CPRActor | Called.");
     let equipped = false;
-    if (this.data.filteredItems[itemType]) {
-      this.data.filteredItems[itemType].forEach((i) => {
-        if (i.data.data.equipped) {
-          if (i.data.data.equipped === "equipped") {
+    if (this.itemTypes[itemType]) {
+      this.itemTypes[itemType].forEach((i) => {
+        if (i.system.equipped) {
+          if (i.system.equipped === "equipped") {
             equipped = true;
           }
         }
@@ -1018,7 +1018,7 @@ export default class CPRActor extends Actor {
    */
   getRoles() {
     LOGGER.trace("getRoles | CPRActor | Called.");
-    return this.data.filteredItems.role;
+    return this.itemTypes.role;
   }
 
   /**
@@ -1030,7 +1030,7 @@ export default class CPRActor extends Actor {
    */
   _getHands() {
     LOGGER.trace("_getHands | CPRActor | Called.");
-    return 2 + this.data.bonuses.hands;
+    return 2 + this.bonuses.hands;
   }
 
   /**
@@ -1042,7 +1042,7 @@ export default class CPRActor extends Actor {
   _getFreeHands() {
     LOGGER.trace("_getFreeHands | CPRActor | Called.");
     const weapons = this._getEquippedWeapons();
-    const needed = weapons.map((w) => w.data.data.handsReq);
+    const needed = weapons.map((w) => w.system.handsReq);
     const freeHands = this._getHands() - needed.reduce((a, b) => a + b, 0);
     return freeHands;
   }
@@ -1055,8 +1055,8 @@ export default class CPRActor extends Actor {
    */
   _getEquippedWeapons() {
     LOGGER.trace("_getEquippedWeapons | CPRActor | Called.");
-    const weapons = this.data.filteredItems.weapon;
-    return weapons.filter((a) => a.data.data.equipped === "equipped");
+    const weapons = this.itemTypes.weapon;
+    return weapons.filter((a) => a.system.equipped === "equipped");
   }
 
   /**
@@ -1068,7 +1068,7 @@ export default class CPRActor extends Actor {
    */
   canHoldWeapon(weapon) {
     LOGGER.trace("canHoldWeapon | CPRActor | Called.");
-    const needed = weapon.data.data.handsReq;
+    const needed = weapon.system.handsReq;
     if (needed > this._getFreeHands()) {
       return false;
     }
@@ -1082,8 +1082,8 @@ export default class CPRActor extends Actor {
    */
   getEquippedCyberdeck() {
     LOGGER.trace("getEquippedCyberdeck | CPRActor | Called.");
-    const cyberdecks = this.data.filteredItems.cyberdeck;
-    const equipped = cyberdecks.filter((item) => item.data.data.equipped === "equipped");
+    const cyberdecks = this.itemTypes.cyberdeck;
+    const equipped = cyberdecks.filter((item) => item.system.equipped === "equipped");
     if (equipped) {
       return equipped[0];
     }
@@ -1136,18 +1136,18 @@ export default class CPRActor extends Actor {
    */
   automaticallyStackItems(newItem) {
     LOGGER.trace("automaticallyStackItems | CPRActor | Called.");
-    const itemTemplates = SystemUtils.getDataModelTemplates(newItem.data.type);
+    const itemTemplates = SystemUtils.getDataModelTemplates(newItem.type);
     if (itemTemplates.includes("stackable")) {
       const itemMatch = this.items.find((i) => i.type === newItem.type && i.name === newItem.name);
       if (itemMatch) {
-        const canStack = !(itemTemplates.includes("upgradable") && itemMatch.data.data.upgrades.length === 0);
+        const canStack = !(itemTemplates.includes("upgradable") && itemMatch.system.upgrades.length === 0);
         if (canStack) {
-          let oldAmount = parseInt(itemMatch.data.data.amount, 10);
-          let addedAmount = parseInt(newItem.data.data.amount, 10);
+          let oldAmount = parseInt(itemMatch.system.amount, 10);
+          let addedAmount = parseInt(newItem.system.amount, 10);
           if (Number.isNaN(oldAmount)) { oldAmount = 1; }
           if (Number.isNaN(addedAmount)) { addedAmount = 1; }
           const newAmount = oldAmount + addedAmount;
-          this.updateEmbeddedDocuments("Item", [{ _id: itemMatch.id, "data.amount": newAmount }]);
+          this.updateEmbeddedDocuments("Item", [{ _id: itemMatch.id, "system.amount": newAmount }]);
           return false;
         }
       }
@@ -1172,8 +1172,8 @@ export default class CPRActor extends Actor {
     let totalDamageDealt = 0;
     if (location === "brain") {
       // This is damage done in a netrun, which completely ignores armor
-      const currentHp = this.data.data.derivedStats.hp.value;
-      await this.update({ "data.derivedStats.hp.value": currentHp - damage - bonusDamage });
+      const currentHp = this.system.derivedStats.hp.value;
+      await this.update({ "system.derivedStats.hp.value": currentHp - damage - bonusDamage });
       CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: damage + bonusDamage, brainDamage: true });
       return;
     }
@@ -1183,9 +1183,9 @@ export default class CPRActor extends Actor {
     armors.forEach((a) => {
       let newValue;
       if (location === "head") {
-        newValue = a.data.data.headLocation.sp - a.data.data.headLocation.ablation;
+        newValue = a.system.headLocation.sp - a.system.headLocation.ablation;
       } else {
-        newValue = a.data.data.bodyLocation.sp - a.data.data.bodyLocation.ablation;
+        newValue = a.system.bodyLocation.sp - a.system.bodyLocation.ablation;
       }
       if (newValue > armorValue) {
         armorValue = newValue;
@@ -1196,8 +1196,8 @@ export default class CPRActor extends Actor {
     }
     // Apply the bonusDamage, which penetrates the armor
     if (bonusDamage !== 0) {
-      const currentHp = this.data.data.derivedStats.hp.value;
-      await this.update({ "data.derivedStats.hp.value": currentHp - bonusDamage });
+      const currentHp = this.system.derivedStats.hp.value;
+      await this.update({ "system.derivedStats.hp.value": currentHp - bonusDamage });
       totalDamageDealt += bonusDamage;
     }
     if (damage <= armorValue) {
@@ -1211,22 +1211,20 @@ export default class CPRActor extends Actor {
       // Damage taken against the head is doubled.
       takenDamage *= 2;
     }
-    const currentHp = this.data.data.derivedStats.hp.value;
+    const currentHp = this.system.derivedStats.hp.value;
     if (takenDamage >= currentHp && !damageLethal) {
       takenDamage = currentHp - 1;
     }
-    await this.update({ "data.derivedStats.hp.value": currentHp - takenDamage });
+    await this.update({ "system.derivedStats.hp.value": currentHp - takenDamage });
     totalDamageDealt += takenDamage;
 
     // Ablate the armor correctly if there's armor equipped
     if (armors.length > 0) {
       await this._ablateArmor(location, ablation);
-    } else {
-      // Set ablation to 0 to show properly on the card since there was no armor
-      ablation = 0;
     }
 
-    CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: totalDamageDealt, ablation });
+    const cardDisplayAblation = (armors.length > 0) ? ablation : 0;
+    CPRChat.RenderDamageApplicationCard({ name: this.name, hpReduction: totalDamageDealt, ablation: cardDisplayAblation });
   }
 
   /**
@@ -1243,50 +1241,50 @@ export default class CPRActor extends Actor {
     switch (location) {
       case "head": {
         armorList.forEach((a) => {
-          const armorData = a.data;
+          const cprArmorData = a.system;
           const upgradeValue = a.getAllUpgradesFor("headSp");
           const upgradeType = a.getUpgradeTypeFor("headSp");
-          armorData.data.headLocation.sp = Number(armorData.data.headLocation.sp);
-          armorData.data.headLocation.ablation = Number(armorData.data.headLocation.ablation);
-          const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.headLocation.sp + upgradeValue;
-          armorData.data.headLocation.ablation = Math.min((armorData.data.headLocation.ablation + ablation), armorSp);
-          updateList.push({ _id: a.id, data: armorData.data });
+          cprArmorData.headLocation.sp = Number(cprArmorData.headLocation.sp);
+          cprArmorData.headLocation.ablation = Number(cprArmorData.headLocation.ablation);
+          const armorSp = (upgradeType === "override") ? upgradeValue : cprArmorData.headLocation.sp + upgradeValue;
+          cprArmorData.headLocation.ablation = Math.min((cprArmorData.headLocation.ablation + ablation), armorSp);
+          updateList.push({ _id: a.id, system: cprArmorData });
         });
         await this.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as head armor is ablated:
-        currentArmorValue = Math.max((this.data.data.externalData.currentArmorHead.value - ablation), 0);
-        await this.update({ "data.externalData.currentArmorHead.value": currentArmorValue });
+        currentArmorValue = Math.max((this.system.externalData.currentArmorHead.value - ablation), 0);
+        await this.update({ "system.externalData.currentArmorHead.value": currentArmorValue });
         break;
       }
       case "body": {
         armorList.forEach((a) => {
-          const armorData = a.data;
-          armorData.data.bodyLocation.sp = Number(armorData.data.bodyLocation.sp);
-          armorData.data.bodyLocation.ablation = Number(armorData.data.bodyLocation.ablation);
+          const cprArmorData = a.system;
+          cprArmorData.bodyLocation.sp = Number(cprArmorData.bodyLocation.sp);
+          cprArmorData.bodyLocation.ablation = Number(cprArmorData.bodyLocation.ablation);
           const upgradeValue = a.getAllUpgradesFor("bodySp");
           const upgradeType = a.getUpgradeTypeFor("bodySp");
-          const armorSp = (upgradeType === "override") ? upgradeValue : armorData.data.bodyLocation.sp + upgradeValue;
-          armorData.data.bodyLocation.ablation = Math.min((armorData.data.bodyLocation.ablation + ablation), armorSp);
-          updateList.push({ _id: a.id, data: armorData.data });
+          const armorSp = (upgradeType === "override") ? upgradeValue : cprArmorData.bodyLocation.sp + upgradeValue;
+          cprArmorData.bodyLocation.ablation = Math.min((cprArmorData.bodyLocation.ablation + ablation), armorSp);
+          updateList.push({ _id: a.id, system: cprArmorData });
         });
         await this.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as body armor is ablated:
-        currentArmorValue = Math.max((this.data.data.externalData.currentArmorBody.value - ablation), 0);
-        await this.update({ "data.externalData.currentArmorBody.value": currentArmorValue });
+        currentArmorValue = Math.max((this.system.externalData.currentArmorBody.value - ablation), 0);
+        await this.update({ "system.externalData.currentArmorBody.value": currentArmorValue });
         break;
       }
       case "shield": {
         armorList.forEach((a) => {
-          const armorData = a.data;
-          armorData.data.shieldHitPoints.value = Number(armorData.data.shieldHitPoints.value);
-          armorData.data.shieldHitPoints.max = Number(armorData.data.shieldHitPoints.max);
-          armorData.data.shieldHitPoints.value = Math.max((armorData.data.shieldHitPoints.value - ablation), 0);
-          updateList.push({ _id: a.id, data: armorData.data });
+          const cprArmorData = a.system;
+          cprArmorData.shieldHitPoints.value = Number(cprArmorData.shieldHitPoints.value);
+          cprArmorData.shieldHitPoints.max = Number(cprArmorData.shieldHitPoints.max);
+          cprArmorData.shieldHitPoints.value = Math.max((a.system.shieldHitPoints.value - ablation), 0);
+          updateList.push({ _id: a.id, system: cprArmorData });
         });
         await this.updateEmbeddedDocuments("Item", updateList);
         // Update actor external data as shield is damaged:
-        currentArmorValue = Math.max((this.data.data.externalData.currentArmorShield.value - ablation), 0);
-        await this.update({ "data.externalData.currentArmorShield.value": currentArmorValue });
+        currentArmorValue = Math.max((this.system.externalData.currentArmorShield.value - ablation), 0);
+        await this.update({ "system.externalData.currentArmorShield.value": currentArmorValue });
         break;
       }
       default:
@@ -1319,7 +1317,7 @@ export default class CPRActor extends Actor {
     LOGGER.trace("deleteEffect | CPRCharacterActor | Called.");
     const setting = game.settings.get("cyberpunk-red-core", "deleteItemConfirmation");
     if (setting) {
-      const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${effect.data.label}?`;
+      const promptMessage = `${SystemUtils.Localize("CPR.dialog.deleteConfirmation.message")} ${effect.system.label}?`;
       const confirmDelete = await ConfirmPrompt.RenderPrompt(
         SystemUtils.Localize("CPR.dialog.deleteConfirmation.title"),
         promptMessage,

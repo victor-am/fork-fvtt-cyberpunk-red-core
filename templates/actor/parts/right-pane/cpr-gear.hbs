@@ -1,5 +1,5 @@
 
-{{cprTrace "CPR-GEAR.HBS"}}
+{{cprTrace "START ACTOR PARTS RIGHT-PANE CPR-GEAR.HBS"}}
 <div class="gear-tab-data">
     <div class="top-pane-gear">
         <ol class="items-list gear-list">
@@ -23,7 +23,7 @@
                     </span>
                 </li>
                 <ol class="items-list">
-                    {{#each (cprSort (cprGetProp ../actor.data.filteredItems c) "name") as |item i|}}
+                    {{#each (cprSort (cprGetProp ../actor.itemTypes c) "name") as |item i|}}
                     {{#if (cprSheetContentFilter ../../this.options.cprContentFilter item.name)}}
                     {{!-- Partial handles Name and Data columns --}}
                     {{> (cprGeneratePartial "systems/cyberpunk-red-core/templates/actor/parts/right-pane/parts/gear/cpr-VAR-content.hbs" c) (cprMergeForPartialArg "item,actor,sheet" this ../../this.actor ../../this)}}
@@ -37,10 +37,10 @@
     </div>
     <div class="bottom-pane-gear">
       <div class="eurobucks">
-        {{#if (cprCompare this.data.type "===" "character")}}
+        {{#if (cprCompare actor.type "===" "character")}}
         <div class="current-eurobucks flexrow">
           <div class="eurobucks-text">{{localize "CPR.characterSheet.rightPane.eurobucks.eurobucks"}}:</div>
-          <div class="eurobucks-value text-left">{{cprNumberFormat actor.data.data.wealth.value}}</div>
+          <div class="eurobucks-value text-left">{{cprNumberFormat actor.system.wealth.value}}</div>
           <a class="eurobucks-open-ledger" title="{{localize "CPR.ledger.ledgerOpen"}}"><i class="fas fa-sticky-note"></i></a>
         </div>
         <ol class="items-list">
@@ -62,4 +62,4 @@
       </div>
     </div>
 </div>
-{{cprTrace "END CPR-GEAR.HBS"}}
+{{cprTrace "END RIGHT-PANE CPR-GEAR.HBS"}}

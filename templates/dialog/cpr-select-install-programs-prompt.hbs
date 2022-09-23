@@ -1,4 +1,4 @@
-{{cprTrace "CPR-SELECT-INSTALL-PROGRAMS-PROMPT.HBS"}}
+{{cprTrace "START DIALOG CPR-SELECT-INSTALL-PROGRAMS-PROMPT.HBS"}}
 <form>
   {{localize "CPR.dialog.selectInstallPrograms.selectInstalledPrograms"}} "{{cyberdeck.name}}", Choomba!
   <ol class="items-list">
@@ -14,13 +14,13 @@
     {{#each this.programList as |program|}}
     <li class="item flexrow">
       <div class="item flexrow setting-name text-nowrap">
-        {{program.data.name}} ({{localize (cprFindConfigValue "programClassList" program.data.data.class)}})
+        {{program.name}} ({{localize (cprFindConfigValue "programClassList" program.system.class)}})
       </div>
       <div class="item flexrow setting-value text-nowrap text-space-around">
-        {{#if program.data.data.isInstalled}}
-        <span class="text-bold text-nowrap text-align-last-end text-space-around"><input type="checkbox" name="selectedPrograms" value="{{program.data._id}}" checked></span>
+        {{#if program.system.isInstalled}}
+        <span class="text-bold text-nowrap text-align-last-end text-space-around"><input type="checkbox" name="selectedPrograms" value="{{program._id}}" checked></span>
         {{else}}
-        <span class="text-bold text-nowrap text-align-last-end text-space-around"><input type="checkbox" name="selectedPrograms" value="{{program.data._id}}"></span>
+        <span class="text-bold text-nowrap text-align-last-end text-space-around"><input type="checkbox" name="selectedPrograms" value="{{program._id}}"></span>
         {{/if}}
       </div>
     </li>
