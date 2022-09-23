@@ -8,6 +8,7 @@
 
 **Bug Fixes**
 - Cyberware & Upgrade templates still had some references to .data causing the shim to fire.
+- #469 - Fixed icon display for Foreign Object Critical in Rollable Tables
 
 # Version 0.82.0 | Date: 2022-09-22
 
