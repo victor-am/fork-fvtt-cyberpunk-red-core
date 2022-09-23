@@ -129,6 +129,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     };
 
     await actor.update(updateData);
+
     // Finally, migrate their owned items by copying from the item directory to their inventory
     // on success, we delete the item from the directory, they should all be empty at the end.
     // Egregious violation of no-await-in-loop here, but not sure how else to approach.
@@ -159,7 +160,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
         throw new Error(`${ownedItem.name} (${ownedItem._id}) had a migration error: ${err.message}`);
       }
       if (createAeItemTypes.includes(ownedItem.type)) {
-        const newData = duplicate(newItem.system);
+        const newData = duplicate(newItem.data);
         const createdItem = await actor.createEmbeddedDocuments("Item", [newData], { isMigrating: true });
         remappedItems[ownedItem._id] = createdItem[0]._id;
         await newItem.delete();
@@ -208,9 +209,13 @@ export default class ActiveEffectsMigration extends CPRMigration {
             const newProgram = actor.items.filter((np) => np.id === newProgramId)[0];
             // eslint-disable-next-line no-undef
             const rezzedInstance = randomID();
-            newProgram.setFlag("cyberpunk-red-core", "rezInstanceId", rezzedInstance);
-            newProgram.setRezzed();
-            newPrograms.rezzed.push(newProgram.system);
+            newProgram.setRezzed(rezzedInstance);
+            const programInstallation = duplicate(newProgram.system);
+            programInstallation.isRezzed = true;
+            programInstallation._id = newProgram._id;
+            programInstallation.name = newProgram.name;
+            programInstallation.flags = newProgram.flags;
+            newPrograms.rezzed.push(programInstallation);
           }
         }
         for (const oldProgram of oldPrograms.installed) {
@@ -220,8 +225,11 @@ export default class ActiveEffectsMigration extends CPRMigration {
             const newProgramData = duplicate(newProgram.system);
             const rezzedIndex = newPrograms.rezzed.findIndex((p) => p._id === newProgramId);
             if (rezzedIndex !== -1) {
-              newProgramData.system.isRezzed = true;
+              newProgramData.isRezzed = true;
             }
+            newProgramData._id = newProgram._id;
+            newProgramData.name = newProgram.name;
+            newProgramData.flags = newProgram.flags;
             newPrograms.installed.push(newProgramData);
           }
         }
@@ -434,7 +442,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     updateData["system.slots"] = 3;
     updateData["system.usage"] = "equipped";
     await armor.update(updateData);
-    const newItemData = duplicate(armor.system);
+    const newItemData = duplicate(armor.data);
     await ActiveEffectsMigration.dupeOwnedItems(armor, amount, newItemData);
   }
 
@@ -626,7 +634,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     }
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(upgrade, 500) };
     await upgrade.update(updateData);
-    const newItemData = duplicate(upgrade.system);
+    const newItemData = duplicate(upgrade.data);
     await ActiveEffectsMigration.dupeOwnedItems(upgrade, amount, newItemData);
   }
 
@@ -645,7 +653,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     updateData = { ...updateData, ...CPRMigration.safeDelete(netarch, "system.quality") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(netarch, 5000) };
     await netarch.update(updateData);
-    const newItemData = duplicate(netarch.system);
+    const newItemData = duplicate(netarch.data);
     await ActiveEffectsMigration.dupeOwnedItems(netarch, amount, newItemData);
   }
 
@@ -689,7 +697,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     }
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(program, 100) };
     await program.update(updateData);
-    const newItemData = duplicate(program.system);
+    const newItemData = duplicate(program.data);
     await ActiveEffectsMigration.dupeOwnedItems(program, amount, newItemData);
   }
 
@@ -748,7 +756,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     updateData["system.slots"] = 3;
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(vehicle, 10000) };
     await vehicle.update(updateData);
-    const newItemData = duplicate(vehicle.system);
+    const newItemData = duplicate(vehicle.data);
     await ActiveEffectsMigration.dupeOwnedItems(vehicle, amount, newItemData);
   }
 
@@ -778,7 +786,7 @@ export default class ActiveEffectsMigration extends CPRMigration {
     updateData = { ...updateData, ...CPRMigration.safeDelete(weapon, "system.quality") };
     updateData = { ...updateData, ...ActiveEffectsMigration.setPriceData(weapon, 100) };
     await weapon.update(updateData);
-    const newItemData = duplicate(weapon.system);
+    const newItemData = duplicate(weapon.data);
     await ActiveEffectsMigration.dupeOwnedItems(weapon, amount, newItemData);
   }
 }
