@@ -8,9 +8,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "test": "echo are there tests??",
-    "build:css": "npx gulp css",
     "start": "npx gulp",
-    "lint": "npx eslint modules"
+    "lint": "npx eslint src/modules",
+    "build": "npx gulp build"
   },
   "devDependencies": {
     "eslint": "^8.15.0",

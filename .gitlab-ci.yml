@@ -7,8 +7,8 @@ cache:
 
 stages:
   - init
-  - build
   - test
+  - build
   - pre-release
   - release
 
@@ -16,13 +16,7 @@ init:
   stage: init
   script:
     - echo "Installing dependencies..."
-    - npm i
-
-build-css:
-  stage: build
-  script:
-    - echo "Building CSS..."
-    - npm run build:css
+    - npm install
 
 lint:
   stage: test
@@ -61,12 +55,6 @@ changelog-dev-test:
     - master
     - dev
 
-main-css-test:
-  stage: test
-  script:
-    - echo "Ensuring a compiled main.css exists if less files changed..."
-    - ./.gitlab/pipeline_tests/test-main-css.sh
-
 code-test 1/2:
   stage: test
   script:
@@ -94,6 +82,28 @@ pack-alpha-sort-test:
     - echo "Checking if packs are sorted alphabetically"
     - ./.gitlab/pipeline_tests/test-pack-alpha-sort.sh
 
+build:
+  stage: build
+  only:
+    - tags
+  before_script:
+    - apt-get update
+    - apt-get install zip
+  script:
+    - echo "Building cyberpunk-red-core..."
+    - echo CPR_JOB_ID=${CI_JOB_ID} >> build.env
+    - npm run build
+    - cp dist/system.json system.json
+    - mv dist cyberpunk-core-red-${CI_COMMIT_TAG}
+    - zip cpr.zip -r cyberpunk-core-red-${CI_COMMIT_TAG}
+  artifacts:
+    expire_in: never
+    reports:
+      dotenv: build.env
+    paths:
+      - cpr.zip
+      - system.json
+
 pre-release:
   stage: pre-release
   before_script:
@@ -109,10 +119,22 @@ pre-release:
 release:
   stage: release
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-      when: manual
+    - if: $CI_COMMIT_TAG
   script:
-    - echo "Running the release job"
-    - MASTER_VERSION=$(grep version system.json | awk '{print $2}' | sed 's/^.//;s/..$//')
-    - >
-      curl --header "Content-Type: application/json" --header "JOB-TOKEN: $CI_JOB_TOKEN" --data "{\"name\": \"v$MASTER_VERSION\", \"tag_name\": \"v$MASTER_VERSION\", \"description\": \"Automated release of v$MASTER_VERSION\", \"ref\": \"$CI_COMMIT_SHA\" }" --request POST "https://gitlab.com/api/v4/projects/22820629/releases"
+    - echo "Running Release Job..."
+  needs:
+    - job: build
+      artifacts: true
+  before_script:
+    - curl -L --output /usr/local/bin/release-cli "https://release-cli-downloads.s3.amazonaws.com/latest/release-cli-linux-amd64"
+    - chmod +x /usr/local/bin/release-cli
+  release:
+    name: "$CI_COMMIT_TAG"
+    description: "Automated release of $CI_COMMIT_TAG"
+    tag_name: $CI_COMMIT_TAG
+    assets:
+      links:
+        - name: "system.json"
+          url: https://gitlab.com/ryanwalder/cpr-test/-/jobs/${CPR_JOB_ID}/artifacts/file/system.json
+        - name: "cpr.zip"
+          url: https://gitlab.com/ryanwalder/cpr-test/-/jobs/${CPR_JOB_ID}/artifacts/file/cpr.zip

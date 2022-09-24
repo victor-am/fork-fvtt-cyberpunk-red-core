@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Specify the system.json file location
-systemfile=system.json
+systemfile=src/system.json
 # Extract the language expected language files from the system.json and remove some characters
 langfiles=$(cat $systemfile | jq '.languages | .[] | .path' | tr -d '"' | tr -d '\r')
 i=0

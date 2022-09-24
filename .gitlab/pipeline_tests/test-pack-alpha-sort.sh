@@ -13,7 +13,7 @@ errors=0
 # Create a sorted version of the .db file
 # Then check if the committed db file is the same as the sorted one
 # Print how to fix it and log an error if they don't match
-cd packs
+cd src/packs
 for db in *.db; do
   cat "${db}" | jq --sort-keys -c > foo.db
   if ! diff -s "${db}" foo.db >/dev/null; then

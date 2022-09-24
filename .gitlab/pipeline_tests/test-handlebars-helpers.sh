@@ -2,12 +2,12 @@
 # make sure we're using our handlebars helpers and that they start with "cpr"
 #
 
-helperfile=modules/system/register-helpers.js
+helperfile=src/modules/system/register-helpers.js
 helpers=$(grep registerHelper $helperfile | awk -F "\"" '{print $2}')
 i=0
 
 for helper in $helpers ; do
-    grep -rq $helper ./templates/*
+    grep -rq $helper src/templates/*
     if [ $? != 0 ] ; then
         if [ $helper == "cprDebug" ] || [ $helper == "cprIsDebug" ] ; then
             # it is ok if cprDebug and cprIsDebug are not used anywhere

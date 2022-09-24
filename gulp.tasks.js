@@ -28,10 +28,6 @@ const sourceFiles = [
     to: "",
   },
   {
-    from: "src/system.json",
-    to: "",
-  },
-  {
     from: "src/template.json",
     to: "",
   },
@@ -66,10 +62,11 @@ async function cleanDist() {
   for (const file of files) {
     results.push(del(path.resolve(destFolder, file)));
   }
+
   await Promise.all(results);
 }
 
-async function compileLess() {
+function compileLess() {
   return gulp.src("src/less/main.less")
     .pipe(less({ javascriptEnabled: true }))
     .pipe(gulp.dest(path.resolve(destFolder)));
@@ -79,6 +76,19 @@ async function copyAssets() {
   [...sourceFiles, ...sourceFolders].forEach((asset) => {
     gulp.src(asset.from).pipe(gulp.dest(path.resolve(destFolder, asset.to)));
   });
+}
+
+async function updateSystem() {
+  const version = process.env.CI_COMMIT_TAG ? process.env.CI_COMMIT_TAG : "0.0.0";
+  const project_path = process.env.CI_PROJECT_PATH ? process.env.CI_PROJECT_PATH : "dev";
+  const systemRaw = fs.readFileSync("src/system.json");
+  let system = JSON.parse(systemRaw);
+
+  system.version = version;
+  system.url = `https://gitlab.com/${project_path}`;
+  system.manifest = `https://gitlab.com/${project_path}/-/jobs/artifacts/${version}/raw/system.json?job=build`;
+  system.download = `https://gitlab.com/${project_path}/-/jobs/artifacts/${version}/raw/cpr.zip?job=build`;
+  fs.writeFileSync(path.resolve(destFolder, "system.json"), JSON.stringify(system, null, 2));
 }
 
 async function watch() {
@@ -97,5 +107,5 @@ exports.assets = copyAssets;
 exports.less = compileLess;
 
 exports.watch = gulp.series(watch);
-exports.build = gulp.series(compileLess, copyAssets);
+exports.build = gulp.series(compileLess, copyAssets, updateSystem);
 exports.rebuild = gulp.series(cleanDist, exports.build);

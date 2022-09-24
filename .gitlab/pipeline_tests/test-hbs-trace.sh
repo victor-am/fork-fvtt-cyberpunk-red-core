@@ -3,7 +3,7 @@
 handlebar_helpers="./modules/system/register-helpers.js"
 strings=$(grep "Handlebars.registerHelper" $handlebar_helpers | awk -F "\"" '{print $2}')
 
-hbs_location="./templates/"
+hbs_location="src/templates/"
 i=0
 
 all_files=$(find $hbs_location -type f -print)
