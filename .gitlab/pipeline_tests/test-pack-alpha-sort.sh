@@ -15,17 +15,17 @@ errors=0
 # Print how to fix it and log an error if they don't match
 cd src/packs
 for db in *.db; do
-  cat "${db}" | jq --sort-keys -c > foo.db
+  jq --sort-keys -c "${db}" > foo.db
   if ! diff -s "${db}" foo.db >/dev/null; then
     echo "${db} not sorted alphabetically"
-    echo "Please run: 'cat ${db} | jq --sort-keys -c > foo.db && cp foo.db ${db}' and recommit the file."
+    echo "Please run: 'jq --sort-keys -c ${db} > foo.db && cp foo.db ${db}' and recommit the file."
     ((errors=errors+1))
   fi
   rm -rf foo.db
 done
 
 # Check if we have any errors
-if [[ $errors -gt 0 ]]; then
+if [[ "${errors}" -gt 0 ]]; then
   echo "Some db packs are not sorted alphabetically, please see errors above."
   exit 1
 fi

@@ -1,5 +1,5 @@
 #!/bin/bash
-langfile=src/lang/en.json
+langfile="src/lang/en.json"
 # Load all localization identifiers from the English language file
 strings=$(grep CPR "${langfile}" | awk -F "\"" '{print $2}')
 i=0
