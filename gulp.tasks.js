@@ -7,8 +7,17 @@ const gulp = require("gulp");
 const less = require("gulp-less");
 
 // Config
-const distFolderPath = "dist";
-const destFolder = path.resolve(process.cwd(), distFolderPath);
+// Read foundryconfig.json if it exists, else use default vaules
+// This allows for devs to overwrite `dist/` as the build dir to
+// wherever they need it for their local Foundry install.
+const CONFIG_FILE = path.resolve("foundryconfig.json");
+const config = fs.existsSync(CONFIG_FILE) ?
+                 fs.readJSONSync(CONFIG_FILE) :
+                 {"dataPath": path.resolve(process.cwd(), "dist")}
+const destFolder = config.dataPath;
+
+console.log(destFolder);
+
 const sourceFiles = [
   {
     from: "src/cpr.js",
@@ -19,11 +28,11 @@ const sourceFiles = [
     to: "",
   },
   {
-    from: "system.json",
+    from: "src/system.json",
     to: "",
   },
   {
-    from: "template.json",
+    from: "src/template.json",
     to: "",
   },
 ];
@@ -51,6 +60,7 @@ const sourceFolders = [
 ];
 
 async function cleanDist() {
+
   const files = fs.readdirSync(destFolder);
   const results = [];
   for (const file of files) {
