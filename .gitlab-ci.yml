@@ -33,13 +33,13 @@ unit-test:
     - echo "Executing tests..."
     - npm test
 
-lang-test 1/2:
+language-unused-strings:
   stage: test
   script:
     - echo "Checking language file for unused strings..."
     - ./.gitlab/pipeline_tests/test-lang-file.sh
 
-lang-test 2/2:
+language-exists:
   stage: test
   before_script:
     - apt-get update
@@ -48,7 +48,7 @@ lang-test 2/2:
     - echo "Checking if all the language files specified in system.json exist..."
     - ./.gitlab/pipeline_tests/test-lang-existence.sh
 
-changelog-dev-test:
+changelog-has-changed:
   stage: test
   script:
     - echo "Checking if the CHANGELOG.md changed..."
@@ -58,25 +58,25 @@ changelog-dev-test:
     - master
     - dev
 
-code-test 1/2:
+trace-statements:
   stage: test
   script:
     - echo "Checking if there are proper trace statements in all hbs files..."
     - ./.gitlab/pipeline_tests/test-hbs-trace.sh
 
-code-test 2/2:
+code-localization:
   stage: test
   script:
     - echo "Checking if our own localization and notification code is used..."
     - ./.gitlab/pipeline_tests/test-misc.sh
 
-helper-test:
+handlebars-helpers:
   stage: test
   script:
   - echo "Checking use of handlebars helpers..."
   - ./.gitlab/pipeline_tests/test-handlebars-helpers.sh
 
-pack-alpha-sort-test:
+pack-alpha-sort:
   stage: test
   before_script:
     - apt-get update
