@@ -1,17 +1,37 @@
 #!/bin/bash
-# Get all the custom handlebar helper functions
-handlebar_helpers="src/modules/system/register-helpers.js"
-strings=$(grep "Handlebars.registerHelper" "${handlebar_helpers}" | awk -F "\"" '{print $2}')
 
+# Check the helperfile exists
+helperfile="src/modules/system/register-helpers.js"
+
+if [[ ! -f "${helperfile}" ]]; then
+  echo "Unable to find ${helperfile}"
+  exit 1
+fi
+
+# Check we have helpers in the helperfile
+helpers=$(grep "Handlebars.registerHelper" "${helperfile}" | awk -F "\"" '{print $2}')
+
+# Check hbs_location exits
 hbs_location="src/templates/"
-i=0
 
+if [[ ! -d "${hbs_location}" ]]; then
+  echo "Unable to find ${hbs_location}"
+  exit 1
+fi
+
+# Check we have files in hbs_location
 all_files=$(find "${hbs_location}" -type f -print)
 
+if [[ -z "${all_files}" ]]; then
+  echo "Unable to find any helper files in ${hbs_location}"
+  exit 1
+fi
+
+i=0
 for file in ${all_files}; do
     #Figure out if a custom handlebar helper is used in the file
     used=0
-    for str in ${strings}; do
+    for str in ${helpers}; do
       if ! grep -q "${str}" "${file}"; then
           used=1
           break
@@ -36,6 +56,7 @@ for file in ${all_files}; do
       fi
     fi
 done
+
 # If some trace messages are missing or incorrect fail this job
 if [[ "${i}" -gt 0 ]]; then
     echo "There are ${i} missing/incorrect trace statements in the hbs files, as listed above."
@@ -43,5 +64,3 @@ if [[ "${i}" -gt 0 ]]; then
     echo "Please add or correct the trace statements."
     exit 1
 fi
-
-exit 0
