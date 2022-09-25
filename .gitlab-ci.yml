@@ -5,6 +5,9 @@ cache:
   paths:
     - node_modules/
 
+variables:
+  SYSTEM_NAME: "cyberpunk-red-core"
+
 stages:
   - init
   - test
@@ -82,7 +85,17 @@ pack-alpha-sort-test:
     - echo "Checking if packs are sorted alphabetically"
     - ./.gitlab/pipeline_tests/test-pack-alpha-sort.sh
 
-build:
+# Build without artifacts when not tagging a release
+test-build:
+  stage: build
+  except:
+    - tags
+  script:
+    - echo "Building cyberpunk-red-core..."
+    - npm run build
+
+# Build with artifacts when tagging a release
+build-for-release:
   stage: build
   only:
     - tags
@@ -91,11 +104,7 @@ build:
     - apt-get install zip
   script:
     - echo "Building cyberpunk-red-core..."
-    - echo CPR_JOB_ID=${CI_JOB_ID} >> build.env
-    - npm run build
-    - cp dist/system.json system.json
-    - mv dist cyberpunk-core-red-${CI_COMMIT_TAG}
-    - zip cpr.zip -r cyberpunk-core-red-${CI_COMMIT_TAG}
+    - ./.gitlab/pipeline_utils/build.sh
   artifacts:
     expire_in: never
     reports:
@@ -123,7 +132,7 @@ release:
   script:
     - echo "Running Release Job..."
   needs:
-    - job: build
+    - job: build-for-release
       artifacts: true
   before_script:
     - curl -L --output /usr/local/bin/release-cli "https://release-cli-downloads.s3.amazonaws.com/latest/release-cli-linux-amd64"
