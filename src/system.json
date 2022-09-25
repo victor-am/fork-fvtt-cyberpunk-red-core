@@ -1,5 +1,5 @@
 {
-  "version": "0.83.0",
+  "version": "DUMMY_VALUE",
   "flags": { "featureVideoURL": "https://www.youtube.com/watch?v=OHK6czoghhU" },
   "id": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
@@ -224,7 +224,7 @@
   "secondaryTokenAttribute": null,
   "background" : "systems/cyberpunk-red-core/images/Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
-  "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/master/system.json",
-  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/v0.83.0/fvtt-cyberpunk-red-core-v0.83.0.zip",
+  "manifest": "DUMMY_VALUE",
+  "download": "DUMMY_VALUE",
   "license": "GPL v3"
 }
