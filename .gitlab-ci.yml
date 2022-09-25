@@ -52,6 +52,7 @@ changelog-has-changed:
   stage: test
   script:
     - echo "Checking if the CHANGELOG.md changed..."
+    - git fetch origin dev
     - ./.gitlab/pipeline_tests/test-changelog-dev-changed.sh
   allow_failure: true
   except:

@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
 
 # Check if the helper file exists
 helperfile="src/modules/system/register-helpers.js"
@@ -9,7 +11,8 @@ if [[ ! -f "${helperfile}" ]]; then
 fi
 
 # Check if the helper file contains helpers
-helpers=$(grep registerHelper "${helperfile}" | awk -F "\"" '{print $2}')
+# Shortcut to true as we test this after so we can give an error message
+helpers=$(grep registerHelper "${helperfile}" | awk -F "\"" '{print $2}' || true)
 
 if [[ -z "${helpers}" ]]; then
   echo "No helpers found in ${helperfile}"

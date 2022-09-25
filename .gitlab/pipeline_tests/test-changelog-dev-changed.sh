@@ -1,7 +1,6 @@
-#!/bin/bash
-
-# Fetch the dev branch
-git fetch origin dev >/dev/null 2>&1
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
 
 # Check that Gitlab has fetched the dev branch
 if ! git branch -a | grep -q 'remotes/origin/dev'; then

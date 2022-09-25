@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
 
 # Check the helperfile exists
 helperfile="src/modules/system/register-helpers.js"
@@ -9,7 +11,15 @@ if [[ ! -f "${helperfile}" ]]; then
 fi
 
 # Check we have helpers in the helperfile
-helpers=$(grep "Handlebars.registerHelper" "${helperfile}" | awk -F "\"" '{print $2}')
+# Shortcut to true as we test this after so we can give an error message
+helpers=$(grep "Handlebars.registerHelper" "${helperfile}" \
+            | awk -F "\"" '{print $2}' \
+            || true)
+
+if [[ -z "${helpers}" ]]; then
+  echo "Unable to find any helpers in ${helperfile}"
+  exit 1
+fi
 
 # Check hbs_location exits
 hbs_location="src/templates/"
