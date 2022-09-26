@@ -27,12 +27,25 @@ function resolveDestinationFolder() {
 
 const destFolder = resolveDestinationFolder();
 
-const assetsToCopy = [
-  {
-    from: "src/**/*",
-    to: "",
-  },
+const sourceFiles = [
+  { from: "src/cpr.js",         to: "", },
+  { from: "src/environment.js", to: "", },
+  { from: "src/template.json",  to: "", },
 ];
+
+const sourceFolders = [
+  { from: "src/assets/**/*",    to: "assets",    },
+  { from: "src/babele/**/*",    to: "babele",    },
+  { from: "src/fonts/**/*",     to: "fonts",     },
+  { from: "src/icons/**/*",     to: "icons",     },
+  { from: "src/images/**/*",    to: "images",    },
+  { from: "src/lang/**/*",      to: "lang",      },
+  { from: "src/maps/**/*",      to: "maps",      },
+  { from: "src/modules/**/*",   to: "modules",   },
+  { from: "src/templates/**/*", to: "templates", },
+  { from: "src/tiles/**/*",     to: "tiles",     },
+];
+
 
 async function cleanDist() {
   const files = fs.readdirSync(destFolder);
@@ -52,7 +65,7 @@ function compileLess() {
 }
 
 async function copyAssets() {
-  assetsToCopy.forEach((asset) => {
+  [...sourceFiles, ...sourceFolders].forEach((asset) => {
     gulp.src(asset.from).pipe(gulp.dest(path.resolve(destFolder, asset.to)));
   });
 }
@@ -74,10 +87,14 @@ async function updateSystem() {
 async function watch() {
   // Helper - watch the pattern, copy the output on change
   function watcher(pattern, out) {
-    gulp.watch(pattern).on("change", () => gulp.src(pattern).pipe(gulp.dest(path.resolve(destFolder, out))).on("end", () => log("CPR - Watch")));
+    gulp.watch(pattern)
+      .on("change", () => gulp.src(pattern)
+        .pipe(gulp.dest(path.resolve(destFolder, out)))
+        .on("end", () => log("CPR - Watch")));
   }
 
-  assetsToCopy.forEach((folder) => watcher(folder.from, folder.to));
+  sourceFiles.forEach((file) => watcher(file.from, file.to));
+  sourceFolders.forEach((folder) => watcher(folder.from, folder.to));
   gulp.watch("src/**/*.less").on("change", () => compileLess());
 }
 
