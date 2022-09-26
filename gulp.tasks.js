@@ -51,7 +51,7 @@ async function cleanDist() {
   const files = fs.readdirSync(destFolder);
   const results = [];
   for (const file of files) {
-    results.push(del(path.resolve(destFolder, file)));
+    results.push(del(path.resolve(destFolder, file), { force: true }));
   }
 
   await Promise.all(results);
@@ -103,5 +103,5 @@ exports.assets = copyAssets;
 exports.less = compileLess;
 
 exports.build = gulp.series(compileLess, copyAssets, updateSystem);
-exports.watch = gulp.series(exports.build, watch);
+exports.watch = gulp.series(exports.clean, exports.build, watch);
 exports.rebuild = gulp.series(cleanDist, exports.build);
