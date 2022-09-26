@@ -102,6 +102,6 @@ exports.clean = cleanDist;
 exports.assets = copyAssets;
 exports.less = compileLess;
 
-exports.watch = gulp.series(watch);
 exports.build = gulp.series(compileLess, copyAssets, updateSystem);
+exports.watch = gulp.series(exports.build, watch);
 exports.rebuild = gulp.series(cleanDist, exports.build);
