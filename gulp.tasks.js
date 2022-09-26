@@ -8,6 +8,7 @@ const gulp = require("gulp");
 const less = require("gulp-less");
 
 const DEFAULT_DESTINATION_FOLDER = "dist";
+const SYSTEM_NAME = "cyberpunk-red-core"
 
 // Config
 // Read foundryconfig.json if it exists, else use default vaules
@@ -18,7 +19,8 @@ function resolveDestinationFolder() {
   const localConfigExists = fs.existsSync(localConfigPath);
 
   if (localConfigExists) {
-    return fs.readJSONSync(localConfigPath).dataPath;
+    const localDataPath = fs.readJSONSync(localConfigPath).dataPath;
+    return path.resolve(path.join(localDataPath, "Data", "systems", SYSTEM_NAME));
   }
   return DEFAULT_DESTINATION_FOLDER;
 }

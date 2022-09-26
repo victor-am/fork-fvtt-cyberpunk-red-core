@@ -47,7 +47,7 @@ Note: The Gulpfile will automatically append `Data/systems/cyberpunk-red-core` t
       ```
 - Copy the `foundyconfig.json.example` file to `foundryconfig.json`
 - Edit the `foundryconfig.json` file and update `dataPath` to something similar to the below:
-    - `"dataPath": "/home/yourname/.local/share/FoundryVTT/Data/systems/cyberpunk-red-core"`
+    - `"dataPath": "/home/yourname/.local/share/FoundryVTT"`
     - IMPORTANT: make sure yo use the absolute path, not `~/.local/share/...` as Gulp will not expand the `~`
 - See the **Build System** section below
 
@@ -68,7 +68,7 @@ After installation, hit your Windows Key then find and run **Git CMD**.
   `git clone https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core.git`
 - Copy the `foundyconfig.json.example` file to `foundryconfig.json`
 - Edit the `foundryconfig.json` file and update `dataPath` to something similar to the below:
-    - `"dataPath": "C:\Users\youname\AppData\Local\FoundryVTT\Data\systems\cyberpunk-red-core"`
+    - `"dataPath": "C:\Users\youname\AppData\Local\FoundryVTT"`
     - IMPORTANT: make sure yo use the absolute path, not `%localappdata%\FoundryVTT...` as Gulp will not expand `%localappdata%`
 - See the **Build System** section below
 
@@ -102,7 +102,7 @@ We use a config file to point gulp at your foundry data folder so when running `
 **foundryconfig.json**
 ```json
 {
-  "dataPath": "/home/ryan/.local/share/FoundryVTT/Data/systems/cyberpunk-red-core"
+  "dataPath": "/home/ryan/.local/share/FoundryVTT"
 }
 ```
 
