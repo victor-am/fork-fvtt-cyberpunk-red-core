@@ -10,6 +10,7 @@ variables:
 
 stages:
   - init
+  - test-the-tests
   - test
   - build
   - pre-release
@@ -32,6 +33,18 @@ unit-test:
   script:
     - echo "Executing tests..."
     - npm test
+
+who-watches-the-watchmen:
+  stage: test-the-tests
+  before_script:
+    - apt-get update
+    - apt-get install shellcheck
+  script:
+    - echo "Yo Dawg I heard you like tests so I wrote a test to test your tests..."
+    - ./.gitlab/pipeline_tests/test-tests.sh
+  only:
+    changes:
+      - "**/*.sh"
 
 language-unused-strings:
   stage: test
