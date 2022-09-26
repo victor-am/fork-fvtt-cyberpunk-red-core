@@ -88,7 +88,7 @@ async function watch() {
   // Helper - watch the pattern, copy the output on change
   function watcher(pattern, out) {
     gulp.watch(pattern)
-      .on("change", () => gulp.src(pattern)
+      .on("all", () => gulp.src(pattern)
         .pipe(gulp.dest(path.resolve(destFolder, out)))
         .on("end", () => log("CPR - Watch")));
   }
