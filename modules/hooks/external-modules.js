@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* global Hooks dragRuler Babele */
+/* global Hooks dragRuler Babele game */
 import LOGGER from "../utils/cpr-logger.js";
 
 const externalHooks = () => {
@@ -37,7 +37,7 @@ const externalHooks = () => {
     dragRuler.registerSystem("cyberpunk-red-core", cprSpeedProvider);
   });
   Hooks.on("init", () => {
-    if (typeof Babele !== "undefined") {
+    if (game.modules.get("babele") !== undefined && game.modules.get("babele")?.active) {
       Babele.get().setSystemTranslationsDir("babele");
     }
   });
