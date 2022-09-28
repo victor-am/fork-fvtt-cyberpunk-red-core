@@ -71,17 +71,29 @@ async function copyAssets() {
 }
 
 async function updateSystem() {
-  const version = process.env.CI_COMMIT_TAG ? process.env.CI_COMMIT_TAG : "0.0.0";
-  const projectPath = process.env.CI_PROJECT_PATH ? process.env.CI_PROJECT_PATH : "dev";
+  // Read the template system.json from src/
   const systemRaw = fs.readFileSync("src/system.json");
   const system = JSON.parse(systemRaw);
+  // If we're in CI use $VERSION as the version, else use a dummy version
+  const version = process.env.CI ? process.env.VERSION : "0.0.0";
+  // Construct some URLs
+  const repoUrl = process.env.CI ? process.env.REPO_URL : "http://example.com"
+  const zipFile = process.env.CI ? process.env.ZIP_FILE : "cpr.zip"
+  const downloadUrl = `${repoUrl}/${version}/${zipFile}`
+  // If we're in the release stage of CI use the `latest` url for the manifest
+  // This will be used for the final release
+  const manifestUrl = process.env.CI_JOB_NAME === 'publish'
+    ? `${repoUrl}/latest/system.json`
+    : `${repoUrl}/${version}/system.json`;
 
   system.version = version;
-  system.url = `https://gitlab.com/${projectPath}`;
-  system.manifest = `https://gitlab.com/${projectPath}/-/jobs/artifacts/${version}/raw/system.json?job=build`;
-  system.download = `https://gitlab.com/${projectPath}/-/jobs/artifacts/${version}/raw/cpr.zip?job=build`;
+  system.manifest = manifestUrl;
+  system.download = downloadUrl;
 
-  fs.writeFileSync(path.resolve(destFolder, "system.json"), JSON.stringify(system, null, 2));
+  fs.writeFileSync(
+    path.resolve(
+      destFolder, "system.json"
+    ), JSON.stringify(system, null, 2));
 }
 
 async function watch() {
