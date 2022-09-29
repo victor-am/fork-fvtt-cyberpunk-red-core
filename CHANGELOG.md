@@ -4,7 +4,7 @@
 -
 
 **Changes**
--
+- Automatic babele folder configuration, so that it does not have to be set by the user.
 
 **Bug Fixes**
 - Cyberware & Upgrade templates still had some references to .data causing the shim to fire.
@@ -15,9 +15,6 @@
 **New Features**
 - Foundry V10 Compatibility
 - Spanish translation! Thank you ZRAAA78!
-
-**Changes**
--
 
 **Bug Fixes**
 - #473 - Fashionware foundational item not migrated to v10
