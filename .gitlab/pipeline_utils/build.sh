@@ -44,34 +44,40 @@ UPLOAD_FILES=(
 
 # Build the system
 if ! npm run build; then
-  echo "Failed to build system using npm build"
+  echo "❌ Failed to build system using npm build"
   exit 1
+else
+  echo "✅ Project sucessfully built!"
 fi
 
 # Copy the system.json so we can export it as an artifact
-if ! cp -v "dist/${SYSTEM_FILE}" "${SYSTEM_FILE}"; then
-  echo "Failed to copy 'dist/${SYSTEM_FILE}'"
+if ! cp "dist/${SYSTEM_FILE}" "${SYSTEM_FILE}"; then
+  echo "❌ Unable to copy 'dist/${SYSTEM_FILE}'"
   exit 1
+else
+  echo "✅ Copied dist/${SYSTEM_FILE}!"
 fi
 
 # Rename the dist dir so it's the correct name in the zip
-if ! mv -v dist "${RELEASE_NAME}"; then
-  echo "Unable to rename 'dist/' to '${RELEASE_NAME}'"
+if ! mv dist "${RELEASE_NAME}"; then
+  echo "❌ Unable to rename 'dist/' to '${RELEASE_NAME}'"
   exit 1
+else
+  echo "✅ Moved 'dist/' '${RELEASE_NAME}'!"
 fi
 
 # Zip up the system directory to create the system artifact
 if ! zip --quiet "${ZIP_FILE}" --recurse-paths "${RELEASE_NAME}"; then
-  echo "Unable to zip '${SYSTEM_NAME}'"
+  echo "❌ Unable to zip ${SYSTEM_NAME}"
   exit 1
+else
+  echo "✅ Successfully zipped ${SYSTEM_NAME}!"
 fi
 
 # Upload UPLOAD_FILES to generic repo
 # Available at: https://gitlab.com/api/v4/projects/39692371/packages/generic/fvtt-cyberpunk-red-core/${version}/${file}.json
 
 for file in "${UPLOAD_FILES[@]}"; do
-  echo "Uploading ${REPO_URL}/${VERSION}/${file}"
-
   # Upload the file and grab the response from the api
   response=$(curl \
     --silent \
@@ -81,10 +87,10 @@ for file in "${UPLOAD_FILES[@]}"; do
 
   # Check the response
   if [[ "$(echo "${response}" | jq -r .message)" != "201 Created" ]]; then
-    echo "Uploading ${file} failed, please see the message below"
-    echo "${response}"
+    echo "❌ Uploading ${file} failed, please see the message below"
+    echo "❌ ${response}"
     exit 1
   else
-    echo "Uploaded ${file} sucesfully"
+    echo "🎉 Uploaded ${file} sucesfully"
   fi
 done

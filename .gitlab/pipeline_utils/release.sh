@@ -18,5 +18,7 @@ if ! release-cli create \
       # TODO: We can probably parse CHANGELOG.md and publish the changelog
       # as part of the release as a file and as the description.
 
-  echo "Unable to create release for ${SYSTEM_NAME} ${VERSION}"
+  echo "❌ Unable to create release for ${SYSTEM_NAME} ${VERSION}"
+else
+  echo "🎉 Created ${SYSTEM_NAME} ${VERSION} release successfully!"
 fi

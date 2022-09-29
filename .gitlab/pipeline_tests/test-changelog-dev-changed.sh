@@ -10,9 +10,8 @@ fi
 
 # Test if the CHANGELOG has been updated
 if git diff --quiet HEAD remotes/origin/dev -- CHANGELOG.md; then
-  echo "Changelog not changed"
+  echo "❌ Changelog not changed"
   exit 1
 else
-  echo "Changelog changed"
-  exit 0
+  echo "✅ Changelog changed"
 fi
