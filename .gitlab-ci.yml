@@ -91,7 +91,7 @@ handlebars-helpers:
 
 # Build without artifacts when not tagging a release
 test-build:
-  stage: build
+  stage: test
   except:
     - tags
   script:
