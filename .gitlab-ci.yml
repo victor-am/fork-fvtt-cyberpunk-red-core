@@ -26,12 +26,16 @@ lint:
   script:
     - echo "Linting code..."
     - npm run lint
+  needs:
+    - job: init
 
 unit-test:
   stage: test
   script:
     - echo "Executing tests..."
     - npm test
+  needs:
+    - job: init
 
 test-the-tests:
   stage: test
@@ -43,12 +47,16 @@ test-the-tests:
   only:
     changes:
       - "**/*.sh"
+  needs:
+    - job: init
 
 language-unused-strings:
   stage: test
   script:
     - echo "Checking language file for unused strings..."
     - ./.gitlab/pipeline_tests/test-lang-file.sh
+  needs:
+    - job: init
 
 language-exists:
   stage: test
@@ -58,6 +66,8 @@ language-exists:
   script:
     - echo "Checking if all the language files specified in system.json exist..."
     - ./.gitlab/pipeline_tests/test-lang-existence.sh
+  needs:
+    - job: init
 
 changelog-has-changed:
   stage: test
@@ -69,24 +79,32 @@ changelog-has-changed:
   except:
     - master
     - dev
+  needs:
+    - job: init
 
 trace-statements:
   stage: test
   script:
     - echo "Checking if there are proper trace statements in all hbs files..."
     - ./.gitlab/pipeline_tests/test-hbs-trace.sh
+  needs:
+    - job: init
 
 code-localization:
   stage: test
   script:
     - echo "Checking if our own localization and notification code is used..."
     - ./.gitlab/pipeline_tests/test-misc.sh
+  needs:
+    - job: init
 
 handlebars-helpers:
   stage: test
   script:
   - echo "Checking use of handlebars helpers..."
   - ./.gitlab/pipeline_tests/test-handlebars-helpers.sh
+  needs:
+    - job: init
 
 # Build without artifacts when not tagging a release
 test-build:
@@ -96,6 +114,8 @@ test-build:
   script:
     - echo "Building cyberpunk-red-core..."
     - npm run build
+  needs:
+    - job: init
 
 # Builds and Uploads artifacts the gitlab generic repo
 build-artifacts:
@@ -112,15 +132,24 @@ build-artifacts:
     expire_in: 1h
     reports:
       dotenv: build.env
+  needs:
+    - job: unit-test
+    - job: test-the-tests
+      optional: true
+    - job: language-unused-strings
+    - job: language-exists
+    - job: changelog-has-changed
+    - job: trace-statements
+    - job: code-localization
+    - job: handlebars-helpers
+    - job: test-build
+      optional: true
 
 # Creates a GitLab release with the previously uploaded artifacts
 create-release:
   stage: build
   only:
     - tags
-  needs:
-    - job: build-artifacts
-      artifacts: true
   before_script:
     - apt-get update
     - apt-get install curl jq -y
@@ -129,6 +158,9 @@ create-release:
   script:
     - echo "Running Release Job..."
     - ./.gitlab/pipeline_utils/release.sh
+  needs:
+    - job: build-artifacts
+      artifacts: true
 
 # Pre-release tests
 pre-release:
@@ -152,13 +184,13 @@ publish:
   stage: release
   only:
     - tags
-  needs:
-    - job: create-release
-    - job: build-artifacts
-      artifacts: true
   before_script:
     - apt-get update
     - apt-get install curl jq -y
   script:
     - echo "Releasing cyberpunk-red-core..."
     - ./.gitlab/pipeline_utils/publish.sh
+  needs:
+    - job: build-artifacts
+      artifacts: true
+    - job: pre-release
