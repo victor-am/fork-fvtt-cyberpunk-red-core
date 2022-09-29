@@ -10,9 +10,9 @@ variables:
 
 stages:
   - init
-  - test-the-tests
   - test
   - build
+  - pre-release
   - release
 
 init:
@@ -108,7 +108,6 @@ build-artifacts:
     - apt-get install curl zip jq -y
   script:
     - echo "Building cyberpunk-red-core..."
-    #- ./.gitlab/pipeline_tests/pre-release-checks.sh
     - ./.gitlab/pipeline_utils/build.sh
   artifacts:
     expire_in: 1h
@@ -131,6 +130,22 @@ create-release:
   script:
     - echo "Running Release Job..."
     - ./.gitlab/pipeline_utils/release.sh
+
+# Pre-release tests
+pre-release:
+  stage: pre-release
+  only:
+    - tags
+  before_script:
+    - apt-get update
+    - apt-get install curl zip jq -y
+  script:
+    - echo "Running Pre Release Checks"
+    - ./.gitlab/pipeline_tests/pre-release-checks.sh
+  needs:
+    - job: build-artifacts
+      artifacts: true
+    - job: create-release
 
 # Build the `latest` system.json and upload to gitlab generic repo
 # This makes the release available in Foundry (I think?)
