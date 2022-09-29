@@ -33,13 +33,12 @@ unit-test:
     - echo "Executing tests..."
     - npm test
 
-who-watches-the-watchmen:
-  stage: test-the-tests
+test-the-tests:
+  stage: test
   before_script:
     - apt-get update
     - apt-get install shellcheck
   script:
-    - echo "Yo Dawg I heard you like tests so I wrote a test to test your tests..."
     - ./.gitlab/pipeline_tests/test-tests.sh
   only:
     changes:
