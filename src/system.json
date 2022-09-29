@@ -1,6 +1,6 @@
 {
-  "version": "0.82.0dev",
-  "flags": { "featureVideoURL": "https://www.youtube.com/watch?v=2EJoC5oNWII" },
+  "version": "DUMMY_VALUE",
+  "flags": { "featureVideoURL": "https://www.youtube.com/watch?v=OHK6czoghhU" },
   "id": "cyberpunk-red-core",
   "title": "Cyberpunk RED - CORE",
   "description": "Implementation of the Cyberpunk RED, Core Rules, for FVTT",
@@ -9,6 +9,7 @@
     "verified": 10,
     "maximum": 10
   },
+  "templateVersion": 2,
   "authors": [
     {
       "name": "The Project Red Team",
@@ -191,6 +192,11 @@
       "path": "lang/de-DE.json"
     },
     {
+      "lang": "es",
+      "name": "Spanish",
+      "path": "lang/es-ES.json"
+    },
+    {
       "lang": "fr",
       "name": "French",
       "path": "lang/fr.json"
@@ -199,6 +205,11 @@
       "lang": "it",
       "name": "Italian",
       "path": "lang/it.json"
+    },
+    {
+      "lang": "pl",
+      "name": "Polish",
+      "path": "lang/pl-PL.json"
     },
     {
       "lang": "pt-BR",
@@ -213,7 +224,7 @@
   "secondaryTokenAttribute": null,
   "background" : "systems/cyberpunk-red-core/images/Header.jpg",
   "url": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core",
-  "manifest": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/raw/dev/system-dev.json",
-  "download": "https://gitlab.com/JasonAlanTerry/fvtt-cyberpunk-red-core/-/archive/dev/fvtt-cyberpunk-red-core-dev.zip",
-  "license": "Copyright 2020, The Project Red Team"
+  "manifest": "DUMMY_VALUE",
+  "download": "DUMMY_VALUE",
+  "license": "GPL v3"
 }
