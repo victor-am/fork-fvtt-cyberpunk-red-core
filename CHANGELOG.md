@@ -4,7 +4,7 @@
 -
 
 **Changes**
--
+- Automatic babele folder configuration, so that it does not have to be set by the user.
 
 **Bug Fixes**
 - Cyberware & Upgrade templates still had some references to .data causing the shim to fire.
@@ -14,9 +14,6 @@
 
 **New Features**
 - New UI for modifying Mook skills on the Mook sheet
-
-**Changes**
--
 
 **Bug Fixes**
 - #473 - Fashionware foundational item not migrated to v10
