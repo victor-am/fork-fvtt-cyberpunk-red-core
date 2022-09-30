@@ -1,23 +1,20 @@
 # Version 0.83.0 | Date: WIP
 
 **New Features**
-- 
+-
 
 **Changes**
--
+- Automatic babele folder configuration, so that it does not have to be set by the user.
 
 **Bug Fixes**
 - #476 - Vehicles cost can now be edited
-
+- Cyberware & Upgrade templates still had some references to .data causing the shim to fire.
+- #469 - Fixed icon display for Foreign Object Critical in Rollable Tables
 
 # Version 0.82.0 | Date: 2022-09-22
 
 **New Features**
-- Foundry V10 Compatibility
-- Spanish translation! Thank you ZRAAA78!
-
-**Changes**
--
+- New UI for modifying Mook skills on the Mook sheet
 
 **Bug Fixes**
 - #473 - Fashionware foundational item not migrated to v10
