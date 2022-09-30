@@ -37,13 +37,13 @@ unit-test:
   needs:
     - job: init
 
-test-the-tests:
+test-shell-scripts:
   stage: test
   before_script:
     - apt-get update
     - apt-get install shellcheck
   script:
-    - ./.gitlab/pipeline_tests/test-tests.sh
+    - ./.gitlab/pipeline_tests/test-shell-scripts.sh
   only:
     changes:
       - "**/*.sh"
@@ -134,7 +134,7 @@ build-artifacts:
       dotenv: build.env
   needs:
     - job: unit-test
-    - job: test-the-tests
+    - job: test-shell-scripts
       optional: true
     - job: language-unused-strings
     - job: language-exists
