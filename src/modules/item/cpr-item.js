@@ -70,7 +70,6 @@ export default class CPRItem extends Item {
     LOGGER.trace("_onCreate | CPRItem | Called.");
     let newData = data;
     const cprMigrationRunning = options.isMigrating || false;
-    LOGGER.debugObject(options);
     if (!cprMigrationRunning) {
       if (SystemUtils.hasDataModelTemplate(data.type, "upgradable")) {
         newData = this.clearUpgrades(newData);

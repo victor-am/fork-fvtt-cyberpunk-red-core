@@ -13,8 +13,7 @@
 # Version 0.82.0 | Date: 2022-09-22
 
 **New Features**
-- Foundry V10 Compatibility
-- Spanish translation! Thank you ZRAAA78!
+- New UI for modifying Mook skills on the Mook sheet
 
 **Bug Fixes**
 - #473 - Fashionware foundational item not migrated to v10
