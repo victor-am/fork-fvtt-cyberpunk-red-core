@@ -20,6 +20,10 @@ init:
   script:
     - echo "Installing dependencies..."
     - npm install
+  only:
+    refs:
+      - merge_requests
+      - tags
 
 lint:
   stage: test
@@ -28,6 +32,10 @@ lint:
     - npm run lint
   needs:
     - job: init
+  only:
+    refs:
+      - merge_requests
+      - tags
 
 unit-test:
   stage: test
@@ -36,6 +44,10 @@ unit-test:
     - npm test
   needs:
     - job: init
+  only:
+    refs:
+      - merge_requests
+      - tags
 
 test-shell-scripts:
   stage: test
@@ -44,11 +56,14 @@ test-shell-scripts:
     - apt-get install shellcheck
   script:
     - ./.gitlab/pipeline_tests/test-shell-scripts.sh
-  only:
-    changes:
-      - "**/*.sh"
   needs:
     - job: init
+  only:
+    refs:
+      - merge_requests
+      - tags
+    changes:
+      - "**/*.sh"
 
 language-unused-strings:
   stage: test
@@ -57,6 +72,10 @@ language-unused-strings:
     - ./.gitlab/pipeline_tests/test-lang-file.sh
   needs:
     - job: init
+  only:
+    refs:
+      - merge_requests
+      - tags
 
 language-exists:
   stage: test
@@ -68,6 +87,10 @@ language-exists:
     - ./.gitlab/pipeline_tests/test-lang-existence.sh
   needs:
     - job: init
+  only:
+    refs:
+      - merge_requests
+      - tags
 
 changelog-has-changed:
   stage: test
@@ -76,11 +99,11 @@ changelog-has-changed:
     - git fetch origin dev
     - ./.gitlab/pipeline_tests/test-changelog-dev-changed.sh
   allow_failure: true
-  except:
-    - master
-    - dev
   needs:
     - job: init
+  only:
+    refs:
+      - merge_requests
 
 trace-statements:
   stage: test
@@ -89,6 +112,10 @@ trace-statements:
     - ./.gitlab/pipeline_tests/test-hbs-trace.sh
   needs:
     - job: init
+  only:
+    refs:
+      - merge_requests
+      - tags
 
 code-localization:
   stage: test
@@ -97,6 +124,10 @@ code-localization:
     - ./.gitlab/pipeline_tests/test-misc.sh
   needs:
     - job: init
+  only:
+    refs:
+      - merge_requests
+      - tags
 
 handlebars-helpers:
   stage: test
@@ -105,23 +136,26 @@ handlebars-helpers:
   - ./.gitlab/pipeline_tests/test-handlebars-helpers.sh
   needs:
     - job: init
+  only:
+    refs:
+      - merge_requests
+      - tags
 
 # Build without artifacts when not tagging a release
 test-build:
   stage: test
-  except:
-    - tags
   script:
     - echo "Building cyberpunk-red-core..."
     - npm run build
   needs:
     - job: init
+  only:
+    refs:
+      - merge_requests
 
 # Builds and Uploads artifacts the gitlab generic repo
 build-artifacts:
   stage: build
-  only:
-    - tags
   before_script:
     - apt-get update
     - apt-get install curl zip jq -y
@@ -144,12 +178,13 @@ build-artifacts:
     - job: handlebars-helpers
     - job: test-build
       optional: true
+  only:
+    refs:
+      - tags
 
 # Creates a GitLab release with the previously uploaded artifacts
 create-release:
   stage: build
-  only:
-    - tags
   before_script:
     - apt-get update
     - apt-get install curl jq -y
@@ -161,12 +196,13 @@ create-release:
   needs:
     - job: build-artifacts
       artifacts: true
+  only:
+    refs:
+      - tags
 
 # Pre-release tests
 pre-release:
   stage: pre-release
-  only:
-    - tags
   before_script:
     - apt-get update
     - apt-get install curl zip jq -y
@@ -177,13 +213,14 @@ pre-release:
     - job: build-artifacts
       artifacts: true
     - job: create-release
+  only:
+    refs:
+      - tags
 
 # Build the `latest` system.json and upload to gitlab generic repo
 # This makes the release available in Foundry (I think?)
 publish:
   stage: release
-  only:
-    - tags
   before_script:
     - apt-get update
     - apt-get install curl jq -y
@@ -194,3 +231,6 @@ publish:
     - job: build-artifacts
       artifacts: true
     - job: pre-release
+  only:
+    refs:
+      - tags
