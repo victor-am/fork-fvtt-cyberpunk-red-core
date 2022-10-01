@@ -62,8 +62,6 @@ export default class CPRActor extends Actor {
       // stat
       if (this.isOwner || game.user.isGM) {
         this._calculateDerivedStats();
-      } else {
-        const cprData = this.system;
       }
     }
   }
@@ -204,8 +202,6 @@ export default class CPRActor extends Actor {
     derivedStats.deathSave.value = derivedStats.deathSave.penalty + derivedStats.deathSave.basePenalty;
     this.system.derivedStats = derivedStats;
 
-    LOGGER.debug("dumping actor");
-    LOGGER.debugObject(this);
     if (typeof this.apps === "undefined") {
       // this happens when the actor is being created, we hardcode defaults here based on 6s in all stats
       derivedStats.hp.value = 40;
@@ -1392,25 +1388,17 @@ export default class CPRActor extends Actor {
    * Called by the createOwnedItem listener (hook) when a user drags an item on a mook sheet
    * It handles the automatic equipping of gear and installation of cyberware.
    *
-   * @param {CPRItem} item - the item that was dragged
+   * @param {CPRItem} item - the item document that was dragged
    */
   handleMookDraggedItem(item) {
     LOGGER.trace("handleMookDraggedItem | CPRActor | Called.");
-    LOGGER.debug("auto-equipping or installing a dragged item to the mook sheet");
-    switch (item.type) {
-      case "clothing":
-      case "weapon":
-      case "gear":
-      case "armor": {
-        // chose change done for 0.8.x, and not the fix from dev, as it seems to work without it.
-        this.updateEmbeddedDocuments("Item", [{ _id: item._id, "system.equipped": "equipped" }]);
-        break;
-      }
-      case "cyberware": {
-        this.addCyberware(item._id);
-        break;
-      }
-      default:
+    // auto-install this cyberware
+    if (item.type === "cyberware") {
+      this.addCyberware(item._id);
+    }
+    // auto-equip this item
+    if (SystemUtils.hasDataModelTemplate(item.type, "equippable")) {
+      this.updateEmbeddedDocuments("Item", [{ _id: item._id, "system.equipped": "equipped" }]);
     }
   }
 }
