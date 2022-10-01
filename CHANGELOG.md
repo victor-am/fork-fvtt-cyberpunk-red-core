@@ -1,4 +1,4 @@
-# Version 0.83.0 | Date: WIP
+# Version 0.83.0 | Date: 2022-10-02
 
 **New Features**
 - New UI for modifying Mook skills on the Mook sheet
