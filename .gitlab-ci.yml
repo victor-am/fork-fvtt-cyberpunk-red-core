@@ -173,6 +173,7 @@ build-artifacts:
     - job: language-unused-strings
     - job: language-exists
     - job: changelog-has-changed
+      optional: true
     - job: trace-statements
     - job: code-localization
     - job: handlebars-helpers
