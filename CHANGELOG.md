@@ -1,6 +1,27 @@
-# Version 0.82.1 (Hotfix) | Date: 2022-09-??
+# Version 0.83.0 | Date: 2022-10-02
+
+**New Features**
+- New UI for modifying Mook skills on the Mook sheet
+- Drugs can be used in the Mook sheet
+- Stackable items can be dragged to the Mook sheet and stacked properly
+
+**Changes**
+- Automatic babele folder configuration, so that it does not have to be set by the user.
+- Mook portrait is always shown
+- A few minor UI improvements to the Mook sheet
+
+**Bug Fixes**
+- #476 - Vehicles cost can now be edited
+- Cyberware & Upgrade templates still had some references to .data causing the shim to fire.
+- #469 - Fixed icon display for Foreign Object Critical in Rollable Tables
+- #507 - Black ICE Class does not appear to save
+- #520 - Splitting items works again
+
+
+# Version 0.82.1 (Hotfix) | Date: 2022-09-23
 - Fix an issue where the mook sheet notes were not writable
 - #494 - Cyberware weapons were corrupting data points
+
 
 # Version 0.82.0 | Date: 2022-09-22
 
@@ -21,8 +42,7 @@
 - #490 - Vehicles still using v10 data/system shim.
 - #486 - Autofire Skill correctly used when autofire toggle applied in fight tab
 
-
-**Maintenance items**
+**Maintenance Releases**
 
 # Version 0.81.5 (Hotfix) | Date: 2022-09-20
 #467 - Fix shield ablation arrow in Fight Tab to be functional
