@@ -15,6 +15,7 @@
 - Cyberware & Upgrade templates still had some references to .data causing the shim to fire.
 - #469 - Fixed icon display for Foreign Object Critical in Rollable Tables
 - #507 - Black ICE Class does not appear to save
+- #520 - Splitting items works again
 
 
 # Version 0.82.1 (Hotfix) | Date: 2022-09-23
