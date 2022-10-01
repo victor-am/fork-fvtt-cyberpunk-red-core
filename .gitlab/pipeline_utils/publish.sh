@@ -6,14 +6,6 @@ IFS=$'\n\t'
 # which is then loaded into the env by .gitlab-ci.yml
 # REPO_URL, SYSTEM_FILE, VERSION
 
-# NOTE:
-# When invoked in this stage of the build (publish) Gulp will overwrite the
-# `manifest` url to point to the `latest` url rather then the `version` url
-# EG: https://gitlab.com/api/v4/projects/22820629/packages/generic/fvtt-cyberpunk-red-core/latest/system.json
-# This allows us to have a permanant location for the system.json while allowing
-# per version manifests uploaded as part of the GitLab in release.sh
-# EG: https://gitlab.com/api/v4/projects/22820629/packages/generic/fvtt-cyberpunk-red-core/v1.0/system.json
-
 # Build so we can get the `latest` version of the `system.json` file
 # Build early to fail early before creating the release in Gitlab
 if ! npm run build; then

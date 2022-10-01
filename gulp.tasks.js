@@ -97,14 +97,8 @@ async function updateSystem() {
   const repoUrl = process.env.CI ? process.env.REPO_URL : "http://example.com"
   const zipFile = process.env.CI ? process.env.ZIP_FILE : "cpr.zip"
   const downloadUrl = `${repoUrl}/${version}/${zipFile}`
-  // If we're in the release stage of CI use the `latest` url for the manifest
-  // This will be used for the final release
-  const manifestUrl = process.env.CI_JOB_NAME === 'publish'
-    ? `${repoUrl}/latest/system.json`
-    : `${repoUrl}/${version}/system.json`;
 
   system.version = version;
-  system.manifest = manifestUrl;
   system.download = downloadUrl;
 
   fs.writeFileSync(
