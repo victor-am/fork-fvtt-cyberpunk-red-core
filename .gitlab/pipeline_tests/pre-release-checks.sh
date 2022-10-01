@@ -82,7 +82,7 @@ else
 fi
 
 # Check the `manifest` url is correct
-if [[ "${local_manifest}" != "${REPO_URL}/${VERSION}/${SYSTEM_FILE}" ]]; then
+if [[ "${local_manifest}" != "${REPO_URL}/latest/${SYSTEM_FILE}" ]]; then
   ((errors+=1))
   echo "❌ The 'manifest' url is incorrect in ${SYSTEM_FILE}"
 else
