@@ -1,5 +1,7 @@
 {{cprTrace "START ACTOR CPR-BLACK-ICE-SHEET.HBS"}}
 <form>
+  {{log actor}}
+  {{log this}}
   {{#if (cprIsDebug)}}
     actor ID: {{actor.id}}
   {{/if}}
@@ -41,8 +43,10 @@
         </div>
         <div class="width-long width-full">
           <select name="system.class">
-            {{#select system.class}}
+            {{#select actor.system.class}}
               {{#each (cprFindConfigObj "blackIceType") as |class c|}}
+                {{log class}}
+                {{log c}}
                 <option value="{{c}}">{{localize class}}</option>
               {{/each}}
             {{/select}}
