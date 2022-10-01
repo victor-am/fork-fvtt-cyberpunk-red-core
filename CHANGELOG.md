@@ -11,6 +11,7 @@
 - A few minor UI improvements to the Mook sheet
 
 **Bug Fixes**
+- #476 - Vehicles cost can now be edited
 - Cyberware & Upgrade templates still had some references to .data causing the shim to fire.
 - #469 - Fixed icon display for Foreign Object Critical in Rollable Tables
 
@@ -38,7 +39,6 @@
 - Removed the need for installedPrograms data to be stored on the actor which was noticed during the filteredItems cleanup.
 - #490 - Vehicles still using v10 data/system shim.
 - #486 - Autofire Skill correctly used when autofire toggle applied in fight tab
-
 
 **Maintenance Releases**
 

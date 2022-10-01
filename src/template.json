@@ -122,7 +122,6 @@
         "common",
         "ledgerWealth"
       ],
-      
       "lifepath": {
         "culturalOrigin": "",
         "personality": "",
@@ -505,7 +504,8 @@
       "templates": [
         "common",
         "physical",
-        "upgradable"
+        "upgradable",
+        "valuable"
       ],
       "sdp": 0,
       "seats": 0,
