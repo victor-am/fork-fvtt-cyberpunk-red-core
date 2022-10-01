@@ -3,4 +3,3 @@
 export { default as BaseMigration } from "./000-base.js";
 export { default as ActiveEffectsMigration } from "./001-activeEffects.js";
 export { default as FoundryV10Migration } from "./002-foundryV10.js";
-export { default as FixVehicleValue } from "./003-fixVehicleValue.js";
