@@ -43,9 +43,6 @@
   <!-- Display specific item types in the Gear section -->
   {{~#each actor.itemTypes as |items itemType|}}
     {{~#if (cprListContains "ammo,clothing,cyberdeck,drug,gear" itemType)}}
-      {{~#if (cprCompare items.length ">" 0)}}
-        {{~#unless @first}};{{~/unless}}
-      {{~/if}}
       {{~#each (cprSort items "name") as |item i|}}
         {{~#unless @first}},{{~/unless}}
         <a class="name item deletable changeable item-edit" tabindex="0" title="{{localize "CPR.mookSheet.items.clickToViewItem"}}, {{localize "CPR.mookSheet.items.ctrlClickToSendToChat"}}, {{localize "CPR.mookSheet.items.pressDeleteToDelete"}}" data-item-id="{{item.id}}">
@@ -54,8 +51,11 @@
         {{~#if (cprCompare item.type "===" "drug")}}
           <a class="item-action" data-item-id="{{item.id}}" data-action-type="snort"><i class="fas fa-pills" title="{{localize "CPR.global.generic.snort"}}"></i></a>
         {{~/if}}
-        {{#if (cprHasTemplate item.type "stackable")}}(x{{item.system.amount}}){{/if}}
+        {{#if (cprHasTemplate item.type "stackable")}}(x{{item.system.amount}}){{~/if}}
       {{~/each}}
+      {{~#if (cprCompare items.length ">" 0)}}
+        {{~#unless (cprCompare itemType "===" "gear")}},{{~/unless}}
+      {{~/if}}
     {{~/if}}
   {{~/each}}
 </div>
