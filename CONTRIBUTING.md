@@ -228,14 +228,16 @@ Once you have created your commit, you can then simply issue a **git push** to p
 
 After your commit gets merged into dev, or any other time you want to ensure your local copy of the dev branch matches the version on Gitlab, you can synchronize it with the following:<br>
 
-> `git checkout dev`<br> > `git pull origin dev`
+> `git checkout dev`<br>
+> `git pull origin dev`
 
 # Merging to the dev branch
 
 **Always do this before creating a merge request!**
 It's important you merge your work with dev locally before creating your merge request.
 
-> `git fetch` to get all latests info on the repo. <br> > `git merge origin/dev` to start a merge to your local work.
+> `git fetch` # to get all latests info on the repo.<br>
+> `git merge origin/dev` # to start a merge to your local work.
 
 Resolve any conflicts, (_feel free to ask for help with this_) and don't always assume YOUR work needs to be what stays, please take your time with this step.
 Regardless of which development environment you're using, at some point you're going to be happy with your code and you want to push it to the 'dev' branch. First, ensure you have pushed your changes on your personal branch to Gitlab. Once you have dont that, open your web browser and peruse the project branches here:
