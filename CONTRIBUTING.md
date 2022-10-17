@@ -85,7 +85,7 @@ Note: The Gulpfile will automatically append `Data\systems\cyberpunk-red-core` t
 - Build the system for the first time
     - `npx gulp build`
 - Watch for changes
-    - `npx gulp watch
+    - `npx gulp watch`
 
 At this point, you should be able to restart your FoundryVTT server and you should now see **Cyberpunk RED - CORE** listed in your game systems. You can now create a world using this game system to use for testing purposes. As you make changes to the code, you will want to hit ESC in your game world and select "Reload Application" to reload any changes you made to test them.
 
