@@ -2,6 +2,7 @@
 **Bug Fixes**
 - #529 - Fix non-shop containers having the wrong button
 - Fix rolling initiative before combat has started
+- Fix weapon upgrades that are secondary weapons to work correctly
 - Fix V10 migration for upgraded items: In some instances, where migration may have
   had to be restarted, it could leave worlds in a state where the V10 migration
   would never complete.  This would make future major system releases fail.
