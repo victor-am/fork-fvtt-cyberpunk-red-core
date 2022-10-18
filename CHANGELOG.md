@@ -1,6 +1,7 @@
-# Version 0.83.1 | Date: 2022-10-17
+# Version 0.83.1 | Date: 2022-10-18
 **Bug Fixes**
 - #529 - Fix non-shop containers having the wrong button
+- #536 - Spelling mistake: "Ememies" (English)
 - Fix rolling initiative before combat has started
 - Fix weapon upgrades that are secondary weapons to work correctly
 - Fix cyberdeck program installation where it was adding the item._id under item.system
