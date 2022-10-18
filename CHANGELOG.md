@@ -3,9 +3,15 @@
 - #529 - Fix non-shop containers having the wrong button
 - Fix rolling initiative before combat has started
 - Fix weapon upgrades that are secondary weapons to work correctly
-- Fix V10 migration for upgraded items: In some instances, where migration may have
-  had to be restarted, it could leave worlds in a state where the V10 migration
-  would never complete.  This would make future major system releases fail.
+- Fix cyberdeck program installation where it was adding the item._id under item.system
+- Fixed regression where filteredItems was re-introduced back into the system. This was replaced with actor.itemTypes in 0.82.0
+- Fixed a couple migration issues:
+  - When a migration failed for any reason, on the next run through it could corrupt
+    upgraded items
+  - When running migration through multiple levels of migration, it was possible that
+    the world data model version would be set incorrectly because the code did not await
+    the update of the world data model version.  This would cause migration to execute a
+    second time which may cause problems.
 
 # Version 0.83.0 | Date: 2022-10-02
 
