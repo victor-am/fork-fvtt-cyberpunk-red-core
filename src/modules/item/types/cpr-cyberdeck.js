@@ -79,7 +79,7 @@ export default class CPRCyberdeckItem extends CPRItem {
     programs.forEach((p) => {
       const onDeck = installed.filter((iProgram) => iProgram._id === p._id);
       if (onDeck.length === 0) {
-        const programInstallation = p.system;
+        const programInstallation = duplicate(p.system);
         programInstallation.isRezzed = false;
         programInstallation._id = p._id;
         programInstallation.name = p.name;
