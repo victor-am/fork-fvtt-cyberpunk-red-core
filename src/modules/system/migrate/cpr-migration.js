@@ -125,12 +125,15 @@ export default class CPRMigration {
   static safeDelete(doc, prop) {
     LOGGER.trace("safeDelete | CPRMigration");
     let key = prop;
-    const systemData = (this.foundryMajorVersion < 10) ? "data" : "system";
     if (this.foundryMajorVersion < 10) {
       if (key.includes("data.data")) key = key.slice(5); // should only be one data for v9
     }
 
-    if (hasProperty(doc[systemData], key)) {
+    const systemData = (this.foundryMajorVersion < 10) ? "data" : "system";
+    const regex = (this.foundryMajorVersion < 10) ? /^system./ : /^data./;
+    key = key.replace(regex, `${systemData}.`);
+
+    if (hasProperty(doc, key)) {
       key = prop.match(/.\../) ? prop.replace(/.([^.]*)$/, ".-=$1") : `-=${prop}`;
       return { [key]: null };
     }
