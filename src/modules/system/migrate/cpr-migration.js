@@ -164,6 +164,15 @@ export default class CPRMigration {
   }
 
   /**
+   * Does nothing and is meant to be over-ridden.
+   *
+   * @param {CPRItem} item
+   */
+  static async migrateItem(item) {
+    LOGGER.trace("migrateItem | CPRMigration");
+  }
+
+  /**
    * Migrate actors
    */
   async migrateActors() {
@@ -184,6 +193,15 @@ export default class CPRMigration {
       good = false;
     }
     return good;
+  }
+
+  /**
+   * Does nothing and is meant to be over-ridden.
+   *
+   * @param {CPRActor} actor
+   */
+  static async migrateActor(actor) {
+    LOGGER.trace("migrateActor | CPRMigration");
   }
 
   /**

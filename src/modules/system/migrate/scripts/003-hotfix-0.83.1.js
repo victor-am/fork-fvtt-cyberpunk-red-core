@@ -51,13 +51,4 @@ export default class HotfixEightyThreeDotOne extends CPRMigration {
     }
     return actor.update(updateData);
   }
-
-  /**
-   * No changes to items needed.
-   *
-   * @param {CPRItem} item
-   */
-  static async migrateItem(item) {
-    LOGGER.trace(`migrateItem | ${this.version}-${this.name}`);
-  }
 }
