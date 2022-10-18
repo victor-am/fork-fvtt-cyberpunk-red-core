@@ -1002,7 +1002,7 @@ export default class CPRActorSheet extends ActorSheet {
     LOGGER.trace("showLedger | CPRActor | Called.");
     if (this.actor.isLedgerProperty(prop)) {
       const led = new CPRLedger();
-      led.setActor(this);
+      led.setActor(this.actor);
       led.setLedgerContent(prop, this.actor.listRecords(prop));
       led.render(true);
     } else {

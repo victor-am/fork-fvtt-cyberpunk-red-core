@@ -5,6 +5,7 @@
 - Fix weapon upgrades that are secondary weapons to work correctly
 - Fix cyberdeck program installation where it was adding the item._id under item.system
 - Fixed regression where filteredItems was re-introduced back into the system. This was replaced with actor.itemTypes in 0.82.0
+- Fixed an issue where attempting to delete a ledger line would throw an error
 - Fixed a couple migration issues:
   - When a migration failed for any reason, on the next run through it could corrupt
     upgraded items
