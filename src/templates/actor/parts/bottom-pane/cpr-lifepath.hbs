@@ -10,7 +10,7 @@
         <div class="notes-details">
             <div class="notes-label section-name fg-white bg-black text-nowrap text-padding-left">{{localize "CPR.characterSheet.bottomPane.lifepath.playerNotes"}}</div>
             <div class="note-pad">
-            {{editor enrichedHTML.systemInformationNotes target="system.information.notes" button=true editable=editable engine="prosemirror" collaborate=false}}
+            {{editor enrichedHTML.systemInformationNotes target="system.information.notes" button=true owner=owner editable=editable}}
             </div>
         </div>
     </div>
