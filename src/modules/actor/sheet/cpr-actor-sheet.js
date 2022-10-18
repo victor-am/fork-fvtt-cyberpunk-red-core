@@ -97,7 +97,7 @@ export default class CPRActorSheet extends ActorSheet {
     if (this.actor.type === "character") {
       foundryData.enrichedHTML = [];
 
-      foundryData.enrichedHTML.systemInformationNotes = await TextEditor.enrichHTML(this.actor.system.information.notes, {async: true});
+      foundryData.enrichedHTML.systemInformationNotes = await TextEditor.enrichHTML(this.actor.system.information.notes, { async: true });
       foundryData.enrichedHTML.systemLifepathCulturalOrigin = await TextEditor.enrichHTML(this.actor.system.lifepath.culturalOrigin, { async: true });
       foundryData.enrichedHTML.systemLifepathLanguages = await TextEditor.enrichHTML(this.actor.system.lifepath.languages, { async: true });
       foundryData.enrichedHTML.systemLifepathPersonality = await TextEditor.enrichHTML(this.actor.system.lifepath.personality, { async: true });
@@ -109,7 +109,7 @@ export default class CPRActorSheet extends ActorSheet {
       foundryData.enrichedHTML.systemLifepathValuedPerson = await TextEditor.enrichHTML(this.actor.system.lifepath.valuedPerson, { async: true });
       foundryData.enrichedHTML.systemLifepathValuedPossession = await TextEditor.enrichHTML(this.actor.system.lifepath.valuedPossession, { async: true });
       foundryData.enrichedHTML.systemLifepathFamilyBackground = await TextEditor.enrichHTML(this.actor.system.lifepath.familyBackground, { async: true });
-      foundryData.enrichedHTML.systemLifepathChildhoodEnvironment = await TextEditor.enrichHTML(this.actor.system.lifepath.childhoodEnvironment , { async: true });
+      foundryData.enrichedHTML.systemLifepathChildhoodEnvironment = await TextEditor.enrichHTML(this.actor.system.lifepath.childhoodEnvironment, { async: true });
       foundryData.enrichedHTML.systemLifepathFamilyCrisis = await TextEditor.enrichHTML(this.actor.system.lifepath.familyCrisis, { async: true });
       foundryData.enrichedHTML.systemLifepathLifeGoals = await TextEditor.enrichHTML(this.actor.system.lifepath.lifeGoals, { async: true });
       foundryData.enrichedHTML.systemLifepathRoleLifepath = await TextEditor.enrichHTML(this.actor.system.lifepath.roleLifepath, { async: true });

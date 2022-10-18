@@ -39,13 +39,15 @@ export default class HotfixEightyThreeDotOne extends CPRMigration {
   async migrateActor(actor) {
     LOGGER.trace(`migrateActor | ${this.version}-${this.name}`);
     let updateData = [];
-    if (typeof actor.system.lifepath.lovers !== "undefined") {
-      updateData["system.lifepath.tragicLoveAffairs"] = actor.system.lifepath.lovers;
-      updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "system.lifepath.lovers") };
-    }
-    if (typeof actor.system.lifepath.affectation !== "undefined") {
-      updateData["system.lifepath.affectations"] = actor.system.lifepath.affectation;
-      updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "system.lifepath.affectation") };
+    if (actor.type === "character") {
+      if (typeof actor.system.lifepath.lovers !== "undefined") {
+        updateData["system.lifepath.tragicLoveAffairs"] = actor.system.lifepath.lovers;
+        updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "system.lifepath.lovers") };
+      }
+      if (typeof actor.system.lifepath.affectation !== "undefined") {
+        updateData["system.lifepath.affectations"] = actor.system.lifepath.affectation;
+        updateData = { ...updateData, ...CPRMigration.safeDelete(actor, "system.lifepath.affectation") };
+      }
     }
     return actor.update(updateData);
   }
