@@ -2,6 +2,8 @@
 **Bug Fixes**
 - #529 - Fix non-shop containers having the wrong button
 - #536 - Spelling mistake: "Ememies" (English)
+- #495 - Ability to use UUID links in Character sheets or Item sheets.
+- Fixed location of Lifestyle Data for Tragic Love Affairs and Affectations.
 - Fix rolling initiative before combat has started
 - Fix weapon upgrades that are secondary weapons to work correctly
 - Fix cyberdeck program installation where it was adding the item._id under item.system
