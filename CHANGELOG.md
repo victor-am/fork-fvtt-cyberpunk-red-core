@@ -1,4 +1,16 @@
-# Version 0.83.1 | Date: 2022-10-18
+# Version 0.84.0 | Date: WIP
+
+**New Features**
+- 
+
+**Changes**
+- 
+
+**Bug Fixes**
+- 
+
+
+# Version 0.83.1 | Date: 2022-10-23
 **Bug Fixes**
 - #529 - Fix non-shop containers having the wrong button
 - #536 - Spelling mistake: "Ememies" (English)
@@ -16,6 +28,7 @@
     the world data model version would be set incorrectly because the code did not await
     the update of the world data model version.  This would cause migration to execute a
     second time which may cause problems.
+
 
 # Version 0.83.0 | Date: 2022-10-02
 
