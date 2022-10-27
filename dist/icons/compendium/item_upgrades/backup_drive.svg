@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 512.00001 512.00001"
+   xml:space="preserve"
+   sodipodi:docname="backup_drive.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   width="512"
+   height="512"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs83"><filter
+     style="color-interpolation-filters:sRGB;"
+     inkscape:label="Drop Shadow"
+     id="filter922"
+     x="-0.12459016"
+     y="-0.087356322"
+     width="1.242623"
+     height="1.1701149"><feFlood
+       flood-opacity="1"
+       flood-color="rgb(58,63,94)"
+       result="flood"
+       id="feFlood912" /><feComposite
+       in="flood"
+       in2="SourceGraphic"
+       operator="out"
+       result="composite1"
+       id="feComposite914" /><feGaussianBlur
+       in="composite1"
+       stdDeviation="30"
+       result="blur"
+       id="feGaussianBlur916" /><feOffset
+       dx="-4"
+       dy="-4"
+       result="offset"
+       id="feOffset918" /><feComposite
+       in="offset"
+       in2="SourceGraphic"
+       operator="atop"
+       result="composite2"
+       id="feComposite920" /></filter></defs><sodipodi:namedview
+   id="namedview81"
+   pagecolor="#505050"
+   bordercolor="#eeeeee"
+   borderopacity="1"
+   inkscape:pageshadow="0"
+   inkscape:pageopacity="0"
+   inkscape:pagecheckerboard="0"
+   showgrid="false"
+   inkscape:zoom="1.7334946"
+   inkscape:cx="180.84856"
+   inkscape:cy="251.8035"
+   inkscape:window-width="1716"
+   inkscape:window-height="1414"
+   inkscape:window-x="3160"
+   inkscape:window-y="587"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="Layer_1"
+   width="512px" />
+<g
+   id="g992"
+   style="fill:#1b1f21;fill-opacity:1"><path
+     d="M 0,0 H 512 V 512 H 0 Z"
+     fill="#b90202"
+     fill-opacity="1"
+     id="path2-3"
+     style="fill:#1b1f21;fill-opacity:1" /><g
+     class=""
+     transform="matrix(0,1,1,0,8.0138389e-4,-7.9859129e-4)"
+     id="g6-6"
+     style="fill:#1b1f21;fill-opacity:1" /></g>
+
+
+
+
+
+
+
+<g
+   id="g50">
+</g>
+<g
+   id="g52">
+</g>
+<g
+   id="g54">
+</g>
+<g
+   id="g56">
+</g>
+<g
+   id="g58">
+</g>
+<g
+   id="g60">
+</g>
+<g
+   id="g62">
+</g>
+<g
+   id="g64">
+</g>
+<g
+   id="g66">
+</g>
+<g
+   id="g68">
+</g>
+<g
+   id="g70">
+</g>
+<g
+   id="g72">
+</g>
+<g
+   id="g74">
+</g>
+<g
+   id="g76">
+</g>
+<g
+   id="g78">
+</g>
+<g
+   id="g2807"
+   transform="matrix(0.50986118,0,0,0.50986118,34.210387,34.210387)"
+   style="fill:#e64539;fill-opacity:1;filter:url(#filter922)"><g
+     id="g2751"
+     style="fill:#e64539;fill-opacity:1">
+	<g
+   id="g2749"
+   style="fill:#e64539;fill-opacity:1">
+		<path
+   d="m 180,870 h 510 c 27.6,0 50,-22.4 50,-50 V 50 C 740,22.4 717.6,0 690,0 H 180 c -27.6,0 -50,22.4 -50,50 v 770 c 0,27.6 22.4,50 50,50 z m 473.9,-61.4 c -16.601,0 -30,-13.399 -30,-30 0,-16.6 13.399,-30 30,-30 16.6,0 30,13.4 30,30 0,16.6 -13.4,30 -30,30 z m 0,-740.6 c 16.6,0 30,13.4 30,30 0,16.6 -13.4,30 -30,30 -16.601,0 -30,-13.4 -30,-30 0,-16.6 13.4,-30 30,-30 z M 435,90.4 c 129.6,0 234.7,105.1 234.7,234.7 0,129.6 -105.1,234.7 -234.7,234.7 -20.4,0 -40.2,-2.6 -59.1,-7.5 L 420,477.5 c 13.1,-22.2 -12,-47.4 -34.2,-34.2 l -102.3,60.3 c -0.2,0.101 -0.3,0.2 -0.4,0.301 -50.6,-43 -82.7,-107.2 -82.7,-178.8 C 200.3,195.5 305.4,90.4 435,90.4 Z M 222.1,68 c 16.6,0 30,13.4 30,30 0,16.6 -13.399,30 -30,30 -16.601,0 -30,-13.4 -30,-30 0,-16.6 13.4,-30 30,-30 z m 0,680.6 c 16.6,0 30,13.4 30,30 0,16.601 -13.399,30 -30,30 -16.601,0 -30,-13.399 -30,-30 0,-16.5 13.4,-30 30,-30 z"
+   id="path2745"
+   style="fill:#e64539;fill-opacity:1" />
+		<circle
+   cx="435"
+   cy="325.10001"
+   r="62.700001"
+   id="circle2747"
+   style="fill:#e64539;fill-opacity:1" />
+	</g>
+</g><g
+     id="g2753"
+     style="fill:#e64539;fill-opacity:1">
+</g><g
+     id="g2755"
+     style="fill:#e64539;fill-opacity:1">
+</g><g
+     id="g2757"
+     style="fill:#e64539;fill-opacity:1">
+</g><g
+     id="g2759"
+     style="fill:#e64539;fill-opacity:1">
+</g><g
+     id="g2761"
+     style="fill:#e64539;fill-opacity:1">
+</g><g
+     id="g2763"
+     style="fill:#e64539;fill-opacity:1">
+</g><g
+     id="g2765"
+     style="fill:#e64539;fill-opacity:1">
+</g><g
+     id="g2767"
+     style="fill:#e64539;fill-opacity:1">
+</g><g
+     id="g2769"
+     style="fill:#e64539;fill-opacity:1">
+</g><g
+     id="g2771"
+     style="fill:#e64539;fill-opacity:1">
+</g><g
+     id="g2773"
+     style="fill:#e64539;fill-opacity:1">
+</g><g
+     id="g2775"
+     style="fill:#e64539;fill-opacity:1">
+</g><g
+     id="g2777"
+     style="fill:#e64539;fill-opacity:1">
+</g><g
+     id="g2779"
+     style="fill:#e64539;fill-opacity:1">
+</g><g
+     id="g2781"
+     style="fill:#e64539;fill-opacity:1">
+</g></g></svg>

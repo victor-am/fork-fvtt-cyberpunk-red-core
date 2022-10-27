@@ -16,4 +16,4 @@ node_modules
 foundryconfig.json
 
 # Build
-dist/
+#dist/
